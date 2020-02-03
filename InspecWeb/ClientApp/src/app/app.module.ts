@@ -17,6 +17,7 @@ import { DefaultLayoutComponent } from './default-layout/default-layout/default-
 import { CreateCentralPolicyComponent } from './main/create-central-policy/create-central-policy.component';
 import { CreateInspectionPlanComponent } from './main/create-inspection-plan/create-inspection-plan.component';
 import { EditInspectionPlanComponent } from './main/edit-inspection-plan/edit-inspection-plan.component';
+import { RegionComponent } from './region/region.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { EditInspectionPlanComponent } from './main/edit-inspection-plan/edit-in
     DefaultLayoutComponent,
     CreateCentralPolicyComponent,
     CreateInspectionPlanComponent,
-    EditInspectionPlanComponent
+    EditInspectionPlanComponent,
+    RegionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,6 +54,7 @@ import { EditInspectionPlanComponent } from './main/edit-inspection-plan/edit-in
           { path: 'main/createcentralpolicy', component: CreateCentralPolicyComponent },
           { path: 'main/createinspectionplan', component: CreateInspectionPlanComponent },
           { path: 'main/editinspectionplan/:id', component: EditInspectionPlanComponent },
+          { path: 'region',component: RegionComponent }
         ]
       }
     ])
