@@ -14,6 +14,8 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { MainComponent } from './main/main.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
+import { CreateCentralPolicyComponent } from './main/create-central-policy/create-central-policy.component';
+import { CreateInspectionPlanComponent } from './main/create-inspection-plan/create-inspection-plan.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { DefaultLayoutComponent } from './default-layout/default-layout/default-
     CounterComponent,
     FetchDataComponent,
     MainComponent,
-    DefaultLayoutComponent
+    DefaultLayoutComponent,
+    CreateCentralPolicyComponent,
+    CreateInspectionPlanComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -43,6 +47,8 @@ import { DefaultLayoutComponent } from './default-layout/default-layout/default-
         },
         children: [
           { path: 'main', component: MainComponent },
+          { path: 'main/createcentralpolicy', component: CreateCentralPolicyComponent },
+          { path: 'main/createinspectionplan', component: CreateInspectionPlanComponent },
         ]
       }
     ])
