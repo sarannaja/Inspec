@@ -12,6 +12,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { MainComponent } from './main/main.component';
+import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    MainComponent,
+    DefaultLayoutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,6 +34,17 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+
+      {
+        path: '',
+        component: DefaultLayoutComponent,
+        data: {
+          title: 'หน้าหลัก'
+        },
+        children: [
+          { path: 'main', component: MainComponent },
+        ]
+      }
     ])
   ],
   providers: [
