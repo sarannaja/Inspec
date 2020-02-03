@@ -15,4 +15,7 @@ export class MainComponent implements OnInit {
   CraateInspectionPlan(){
     this.router.navigate(['/main/createinspectionplan'])
   }
+  EditInspectionPlan(id:any){
+    this.router.navigate(['/main/editinspectionplan',id])
+  }
 }
