@@ -19,6 +19,7 @@ import { CreateInspectionPlanComponent } from './main/create-inspection-plan/cre
 import { EditInspectionPlanComponent } from './main/edit-inspection-plan/edit-inspection-plan.component';
 import { ProvinceComponent } from './province/province.component';
 import { RegionComponent } from './region/region.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { RegionComponent } from './region/region.component';
           { path: 'region',component: RegionComponent }
         ]
       }
-    ])
+    ]),
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
