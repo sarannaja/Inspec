@@ -20,6 +20,7 @@ import { EditInspectionPlanComponent } from './main/edit-inspection-plan/edit-in
 import { ProvinceComponent } from './province/province.component';
 import { RegionComponent } from './region/region.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     CreateInspectionPlanComponent,
     EditInspectionPlanComponent,
     ProvinceComponent,
-    RegionComponent
+    RegionComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -58,7 +60,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
           { path: 'main/createinspectionplan', component: CreateInspectionPlanComponent },
           { path: 'main/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'province', component: ProvinceComponent },
-          { path: 'region',component: RegionComponent }
+          { path: 'region', component: RegionComponent },
+          { path: 'user', component: UserComponent }
         ]
       }
     ]),

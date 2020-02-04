@@ -12,6 +12,9 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
   }
+  CreateCentralPolicy(){
+    this.router.navigate(['/main/createcentralpolicy'])
+  }
   CraateInspectionPlan(){
     this.router.navigate(['/main/createinspectionplan'])
   }

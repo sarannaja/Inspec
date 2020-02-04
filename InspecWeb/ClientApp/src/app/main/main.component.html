@@ -16,7 +16,8 @@
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">นโยบายกลาง</h5>
         <div class="float-right">
-          <button class="btn btn-primary" style="margin-top: -60px;">เพิ่มนโยบาลกลาง</button>
+          <button class="btn btn-primary" (click)="CreateCentralPolicy()"
+          style="margin-top: -60px;">เพิ่มนโยบาลกลาง</button>
         </div>
       </div>
       <div class="card-body">
@@ -31,7 +32,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>ตรวจ PM 2.5</td>
+              <td width="40%">ตรวจ PM 2.5</td>
               <td>2563</td>
               <td>01/01/2563 - 09/01/1563</td>
               <td>
@@ -51,8 +52,8 @@
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">แผนการตรวจ</h5>
         <div class="float-right">
-          <button class="btn btn-primary"
-          (click)="CraateInspectionPlan()" style="margin-top: -60px;">เพิ่มแผนการตรวจ</button>
+          <button class="btn btn-primary" (click)="CraateInspectionPlan()"
+            style="margin-top: -60px;">เพิ่มแผนการตรวจ</button>
         </div>
       </div>
       <div class="card-body">
@@ -67,7 +68,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>ตรวจน้ำเสียภายในจังหวัดกรุงเทพ</td>
+              <td width="40%">ตรวจน้ำเสียภายในจังหวัดกรุงเทพ</td>
               <td>2563</td>
               <td>01/01/2563 - 09/01/1563</td>
               <td>
