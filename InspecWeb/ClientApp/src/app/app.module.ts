@@ -17,6 +17,7 @@ import { DefaultLayoutComponent } from './default-layout/default-layout/default-
 import { CreateCentralPolicyComponent } from './main/create-central-policy/create-central-policy.component';
 import { CreateInspectionPlanComponent } from './main/create-inspection-plan/create-inspection-plan.component';
 import { EditInspectionPlanComponent } from './main/edit-inspection-plan/edit-inspection-plan.component';
+import { ProvinceComponent } from './province/province.component';
 import { RegionComponent } from './region/region.component';
 
 @NgModule({
@@ -31,6 +32,7 @@ import { RegionComponent } from './region/region.component';
     CreateCentralPolicyComponent,
     CreateInspectionPlanComponent,
     EditInspectionPlanComponent,
+    ProvinceComponent,
     RegionComponent
   ],
   imports: [
@@ -54,6 +56,7 @@ import { RegionComponent } from './region/region.component';
           { path: 'main/createcentralpolicy', component: CreateCentralPolicyComponent },
           { path: 'main/createinspectionplan', component: CreateInspectionPlanComponent },
           { path: 'main/editinspectionplan/:id', component: EditInspectionPlanComponent },
+          { path: 'province', component: ProvinceComponent },
           { path: 'region',component: RegionComponent }
         ]
       }
