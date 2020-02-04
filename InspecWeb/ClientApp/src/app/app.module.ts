@@ -21,6 +21,7 @@ import { ProvinceComponent } from './province/province.component';
 import { RegionComponent } from './region/region.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserComponent } from './user/user.component';
+import { FiscalyearComponent } from './fiscalyear/fiscalyear.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UserComponent } from './user/user.component';
     EditInspectionPlanComponent,
     ProvinceComponent,
     RegionComponent,
-    UserComponent
+    UserComponent,
+    FiscalyearComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -61,7 +63,8 @@ import { UserComponent } from './user/user.component';
           { path: 'main/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
-          { path: 'user', component: UserComponent }
+          { path: 'user', component: UserComponent },
+          { path: 'fiscalyear',component: FiscalyearComponent}
         ]
       }
     ]),
