@@ -21,6 +21,7 @@ import { RegionComponent } from './region/region.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserComponent } from './user/user.component';
 import { SelectModule } from 'ng-select'
+import { DetailCentralPolicyComponent } from './main/detail-central-policy/detail-central-policy.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { SelectModule } from 'ng-select'
     ProvinceComponent,
     RegionComponent,
     UserComponent,
+    DetailCentralPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -63,7 +65,8 @@ import { SelectModule } from 'ng-select'
           { path: 'main/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
-          { path: 'user', component: UserComponent }
+          { path: 'user', component: UserComponent },
+          { path: 'main/detailcentralpolicy/:id', component: DetailCentralPolicyComponent }
         ]
       }
     ]),
