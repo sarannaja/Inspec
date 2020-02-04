@@ -21,6 +21,7 @@ import { ProvinceComponent } from './province/province.component';
 import { RegionComponent } from './region/region.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserComponent } from './user/user.component';
+import {SelectModule } from 'ng-select'
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { UserComponent } from './user/user.component';
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
+    SelectModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
