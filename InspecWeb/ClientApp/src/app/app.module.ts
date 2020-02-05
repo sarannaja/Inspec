@@ -40,7 +40,7 @@ import { LoginComponent } from './login/login.component';
     ProvinceComponent,
     RegionComponent,
     UserComponent,
-    FiscalyearComponent
+    FiscalyearComponent,
     DetailCentralPolicyComponent,
     LoginComponent
   ],
