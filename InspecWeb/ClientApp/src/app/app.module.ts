@@ -22,6 +22,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserComponent } from './user/user.component';
 import { SelectModule } from 'ng-select'
 import { DetailCentralPolicyComponent } from './main/detail-central-policy/detail-central-policy.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { DetailCentralPolicyComponent } from './main/detail-central-policy/detai
     ProvinceComponent,
     RegionComponent,
     UserComponent,
-    DetailCentralPolicyComponent
+    DetailCentralPolicyComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -51,7 +53,7 @@ import { DetailCentralPolicyComponent } from './main/detail-central-policy/detai
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-
+      { path: 'login', component: LoginComponent },
       {
         path: '',
         component: DefaultLayoutComponent,
@@ -66,7 +68,7 @@ import { DetailCentralPolicyComponent } from './main/detail-central-policy/detai
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
           { path: 'user', component: UserComponent },
-          { path: 'main/detailcentralpolicy/:id', component: DetailCentralPolicyComponent }
+          { path: 'main/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
         ]
       }
     ]),

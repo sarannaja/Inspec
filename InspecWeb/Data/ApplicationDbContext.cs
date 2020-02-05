@@ -17,5 +17,7 @@ namespace InspecWeb.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        public DbSet<Province> Provinces { get; set;  }
     }
 }
