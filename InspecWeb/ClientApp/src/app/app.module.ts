@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -22,6 +21,9 @@ import { RegionComponent } from './region/region.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserComponent } from './user/user.component';
 import { FiscalyearComponent } from './fiscalyear/fiscalyear.component';
+import { SelectModule } from 'ng-select'
+import { DetailCentralPolicyComponent } from './main/detail-central-policy/detail-central-policy.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -39,17 +41,21 @@ import { FiscalyearComponent } from './fiscalyear/fiscalyear.component';
     RegionComponent,
     UserComponent,
     FiscalyearComponent
+    DetailCentralPolicyComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
+    SelectModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-
+      { path: 'login', component: LoginComponent },
       {
         path: '',
         component: DefaultLayoutComponent,
@@ -64,7 +70,8 @@ import { FiscalyearComponent } from './fiscalyear/fiscalyear.component';
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
           { path: 'user', component: UserComponent },
-          { path: 'fiscalyear',component: FiscalyearComponent}
+          { path: 'fiscalyear',component: FiscalyearComponent},
+          { path: 'main/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
         ]
       }
     ]),
