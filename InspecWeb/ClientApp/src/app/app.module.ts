@@ -20,6 +20,7 @@ import { ProvinceComponent } from './province/province.component';
 import { RegionComponent } from './region/region.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserComponent } from './user/user.component';
+import { FiscalyearComponent } from './fiscalyear/fiscalyear.component';
 import { SelectModule } from 'ng-select'
 import { DetailCentralPolicyComponent } from './main/detail-central-policy/detail-central-policy.component';
 import { LoginComponent } from './login/login.component';
@@ -39,6 +40,7 @@ import { LoginComponent } from './login/login.component';
     ProvinceComponent,
     RegionComponent,
     UserComponent,
+    FiscalyearComponent
     DetailCentralPolicyComponent,
     LoginComponent
   ],
@@ -68,6 +70,7 @@ import { LoginComponent } from './login/login.component';
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
           { path: 'user', component: UserComponent },
+          { path: 'fiscalyear',component: FiscalyearComponent},
           { path: 'main/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
         ]
       }
