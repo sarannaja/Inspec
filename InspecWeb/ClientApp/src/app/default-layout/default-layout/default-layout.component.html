@@ -14,7 +14,7 @@
 
           <ul class="sidebar-nav">
               <li class="sidebar-item active">
-                  <a class="sidebar-link"  href="">
+                  <a class="sidebar-link" [routerLink]="['/main']">
                       <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span
                           class="align-middle">หน้าหลัก</span>
                   </a>
@@ -26,18 +26,18 @@
                   </a>
                   <ul id="dashboards" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
                       <li class="sidebar-item"><a class="sidebar-link"
-                              href="dashboard-default.html">ปีงบประมาณ</a>
+                        [routerLink]="['/fiscalyear']">ปีงบประมาณ</a>
                       </li>
                       <li class="sidebar-item"><a class="sidebar-link"
-                              href="dashboard-analytics.html">เขตตรวจราชการ</a></li>
+                        [routerLink]="['/region']">เขตตรวจราชการ</a></li>
                       <li class="sidebar-item"><a class="sidebar-link"
-                              href="dashboard-e-commerce.html">จังหวัด</a></li>
+                        [routerLink]="['/province']">จังหวัด</a></li>
                       <li class="sidebar-item"><a class="sidebar-link"
                         [routerLink]="['/ministry']">กระทรวง/กรม</a></li>
                   </ul>
               </li>
               <li class="sidebar-item">
-                  <a class="sidebar-link" href="">
+                  <a class="sidebar-link" [routerLink]="['/user']">
                       <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
                           class="align-middle">จัดการผู้ใช้</span>
                   </a>
@@ -222,7 +222,7 @@
 <router-outlet></router-outlet>
           </div>
       </main>
-      <footer class="footer">
+      <!-- <footer class="footer">
           <div class="container-fluid">
               <div class="row text-muted">
                   <div class="col-8 text-left">
@@ -248,7 +248,7 @@
                   </div>
               </div>
           </div>
-      </footer>
+      </footer> -->
   </div>
 
 </div>

@@ -1,0 +1,112 @@
+<div class="header">
+  <h1 class="header-title">
+    เขตตรวจราชการ
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
+      <li class="breadcrumb-item"><a href="#">เขตตรวจราชการ</a></li>
+      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">เขตตรวจราชการ</h5>
+        <div class="float-right">
+          <button class="btn btn-primary" (click)="openModal(modalRegion)"
+            style="margin-top: -60px;">เพิ่มเขตตรวจราชการ</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <table id="datatables-basic" class="table table-striped" style="width:100%">
+          <thead>
+            <tr>
+              <th>ชื่อเขตตรวจราชการ</th>
+              <th>วันที่สร้าง</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>เขตตรวจที่ 1</td>
+              <td>01/01/2563</td>
+              <td>
+                <i class="align-middle mr-2 fas fa-fw fa-search"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: -40px;">
+          <h5 class="card-title">แผนการตรวจ</h5>
+          <div class="float-right">
+            <button class="btn btn-primary"
+            (click)="CraateInspectionPlan()" style="margin-top: -60px;">เพิ่มแผนการตรวจ</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table id="datatables-basic2" class="table table-striped" style="width:100%">
+            <thead>
+              <tr>
+                <th>ชื่อคำสั่งการ</th>
+                <th>ปี</th>
+                <th>ระยะเวลา</th>
+                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ตรวจน้ำเสียภายในจังหวัดกรุงเทพ</td>
+                <td>2563</td>
+                <td>01/01/2563 - 09/01/1563</td>
+                <td>
+                  <i class="align-middle mr-2 fas fa-fw fa-search"></i>
+                  <i (click)="EditInspectionPlan(1)" class="align-middle mr-2 fas fa-fw fa-pen"></i>
+                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> -->
+</div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalRegion class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="form" (ngSubmit)="storeRegion(form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการเขตตรวจราชการ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label class="form-label">เขตตรวจราชการ</label>
+          <input formControlName="regionname" type="text" class="form-control" placeholder="กรุณากรอกเขตตรวจราชการ">
+
+          <input formControlName="test" type="text" class="form-control" placeholder="กรุณากรอกเทส">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บักทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
