@@ -28,10 +28,10 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <!-- <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" /> -->
+    <!-- <None Include="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" /> -->
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
