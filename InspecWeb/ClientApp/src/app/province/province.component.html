@@ -16,26 +16,30 @@
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">จังหวัด</h5>
         <div class="float-right">
-          <button class="btn btn-primary" (click)="openModal(modalProvince)" style="margin-top: -60px;">เพิ่มจังหวัด</button>
+          <button class="btn btn-primary" (click)="openModal(modalProvince)"
+            style="margin-top: -60px;">เพิ่มจังหวัด</button>
         </div>
       </div>
       <div class="card-body">
         <table id="datatables-basic" class="table table-striped" style="width:100%">
           <thead>
             <tr>
+              <th>#</th>
               <th>ชื่อจังหวัด</th>
               <th>วันที่สร้าง</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>ขอนแก่น</td>
-              <td>09/01/1563</td>
+            <tr *ngFor="let item of resultprovince; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                  (click)="openModal(modaldeleteProvince, item.id)"></i>
               </td>
             </tr>
           </tbody>
@@ -47,7 +51,7 @@
   <!-- BEGIN primary modal -->
   <ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-      <form [formGroup]="Form" (ngSubmit)="storeProvince(Form.value)">
+    <form [formGroup]="Form" (ngSubmit)="storeProvince(Form.value)">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">จัดการจังหวัด</h5>
@@ -58,7 +62,7 @@
         <div class="modal-body m-3">
           <div class="form-group">
             <label for="test" class="form-label">ชื่อจังหวัด</label>
-            <input type="text" formControlName="test" class="form-control" placeholder="test">
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
             <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด">
           </div>
         </div>
@@ -69,5 +73,26 @@
       </div>
     </form>
     <!-- </div> -->
-  </ng-template >
+  </ng-template>
+  <!-- END primary modal -->
+
+
+  <!-- BEGIN primary modal -->
+  <ng-template #modaldeleteProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+      <i class="fa fa-info-circle delete-icon"></i>
+      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+        ลบข้อมูล
+      </p>
+      <p style="font-size: medium; color: #545454;">
+        คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+      </p>
+      <button type="button" class="btn btn-primary btnMargin" (click)="deleteProvince(delid)">
+        ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+        ไม่ใช่
+      </button>
+    </div>
+  </ng-template>
   <!-- END primary modal -->
