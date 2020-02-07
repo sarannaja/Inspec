@@ -18,6 +18,7 @@ namespace InspecWeb.Data
         {
         }
 
-        public DbSet<Province> Provinces { get; set;  }
+        public DbSet<Province> Provinces { get; set; }
+        public DbSet<Ministry> Ministries { get; set; }
     }
 }
