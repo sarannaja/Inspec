@@ -12,6 +12,7 @@ export class ProvinceComponent implements OnInit {
 
   resultprovince: any = []
   delid: any
+  name: any
   modalRef: BsModalRef;
   Form: FormGroup
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
@@ -35,9 +36,11 @@ export class ProvinceComponent implements OnInit {
 
     })
   }
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id, name) {
     this.delid = id;
-    console.log(id);
+    this.name = name;
+    console.log(this.delid);
+    console.log(this.name);
     
     this.modalRef = this.modalService.show(template);
   }
@@ -69,5 +72,18 @@ export class ProvinceComponent implements OnInit {
       })
     })
   }
-
+  editProvince(value,delid) {
+    console.clear();
+    console.log(value);
+    this.provinceservice.editProvince(value,delid).subscribe(response => {
+      this.Form.reset()
+      this.modalRef.hide()
+      this.provinceservice.getprovincedata().subscribe(result => {
+        this.resultprovince = result
+       
+        
+       
+      })
+    })
+  }
 }

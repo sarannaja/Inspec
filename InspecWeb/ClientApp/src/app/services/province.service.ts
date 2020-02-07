@@ -7,19 +7,28 @@ import { HttpClient } from '@angular/common/http';
 export class ProvinceService {
 
   count = 0
-  constructor( private http : HttpClient) { }
-  getprovincedata (){
-    return this.http.get("https://localhost:5001/api/province")
-  }
+  url = "https://localhost:5001/api/province/";
 
+
+  constructor(private http: HttpClient) { }
+  getprovincedata() {
+    return this.http.get(this.url)
+  }
   addProvince(provinceData) {
     const formData = new FormData();
     formData.append('name', provinceData.provincename);
-
     console.log('FORMDATA: ' + formData);
-    return this.http.post('https://localhost:5001/api/province', formData);
+    return this.http.post(this.url, formData);
   }
-  deleteProvince(id){
-    return this.http.delete('https://localhost:5001/api/province/' + id);
+  deleteProvince(id) {
+    return this.http.delete(this.url + id);
+  }
+  editProvince(provinceData,id) {
+    console.log(provinceData);
+    
+    const formData = new FormData();
+    formData.append('name', provinceData.provincename);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url+id, formData);
   }
 }

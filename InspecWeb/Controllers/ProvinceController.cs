@@ -56,8 +56,13 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(long id, string name)
         {
+            var province = _context.Provinces.Find(id);
+            province.Name = name;   
+            _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
         }
 
         // DELETE api/values/5
