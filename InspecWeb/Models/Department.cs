@@ -7,24 +7,27 @@ using System.Text;
 
 namespace InspecWeb.Models
 {
-    [Table("Ministries")]
-    [Description("ตารางกระทรวง")]
-    public class Ministry
+    [Table("Departments")]
+    [Description("ตารางกรม/หน่วยงาน")]
+    public class Department
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Description("PK")]
         public long Id { get; set; }
 
+        /* กระทรวง */
+        [ForeignKey("Ministry")]
+        [Description("FK: กระทรวง")]
+        public long MinistryId { get; set; }
+        public Ministry Ministry { get; set; }
+
         [Required]
-        [Description("ชื่อกระทรวง")]
+        [Description("ชื่อกรม/หน่วยงาน")]
         public string Name { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
-
-        /* กรม */
-        public ICollection<Department> Departments { get; set; }
     }
 }
