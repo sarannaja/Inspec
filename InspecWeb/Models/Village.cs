@@ -10,27 +10,27 @@ namespace InspecWeb.Models
     /// <summary>
     /// เนื้อหาของสื่อสิ่งพิมพ์
     /// </summary>
-    [Table("Districts")]
-    [Description("ตารางอำเภอ/เขต")]
-    public class District
+    [Table("Village")]
+    [Description("ตารางหมู่บ้าน")]
+    public class Village
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("Province")]
-        [Description("FK: จังหวัด")]
-        public long ProvinceId { get; set; }
+        [ForeignKey("Subdistrict")]
+        [Description("FK: ตำบล/แขวง")]
+        public long SubdistrictId { get; set; }
 
-        public virtual Province Province { get; set; }
+        public virtual Subdistrict Subdistrict { get; set; }
 
         [Required]
-        [Description("ชื่ออำเภอ/เขต")]
+        [Description("หมู่ที่")]
+        public string No { get; set; }
+
+        [Required]
+        [Description("ชื่อหมู่บ้าน")]
         public string Name { get; set; }
-
-        public ICollection<Subdistrict> Subdistricts { get; set; }
-
-
     }
 }

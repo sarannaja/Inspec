@@ -23,6 +23,9 @@ namespace InspecWeb.Data
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Ministry> Ministries { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<Subdistrict> Subdistricts { get; set; }
+        public DbSet<Village> Villages { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -32,6 +35,7 @@ namespace InspecWeb.Data
             // seed data
             builder.ApplyConfiguration(new MinistrySeeder());
             builder.ApplyConfiguration(new DepartmentSeeder());
+            builder.ApplyConfiguration(new ProvinceSeeder());
         }
     }
 }
