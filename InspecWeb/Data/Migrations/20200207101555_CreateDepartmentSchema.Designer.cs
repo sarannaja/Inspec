@@ -4,14 +4,16 @@ using InspecWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200207101555_CreateDepartmentSchema")]
+    partial class CreateDepartmentSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,7 +178,7 @@ namespace InspecWeb.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("MinistryId")
+                    b.Property<long?>("MinistryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -188,20 +190,6 @@ namespace InspecWeb.Data.Migrations
                     b.HasIndex("MinistryId");
 
                     b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            MinistryId = 1L,
-                            Name = "ทหารบก"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            MinistryId = 2L,
-                            Name = "อย."
-                        });
                 });
 
             modelBuilder.Entity("InspecWeb.Models.District", b =>
@@ -414,9 +402,7 @@ namespace InspecWeb.Data.Migrations
                 {
                     b.HasOne("InspecWeb.Models.Ministry", "Ministry")
                         .WithMany("Departments")
-                        .HasForeignKey("MinistryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MinistryId");
                 });
 
             modelBuilder.Entity("InspecWeb.Models.District", b =>

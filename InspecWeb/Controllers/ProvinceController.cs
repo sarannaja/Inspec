@@ -26,7 +26,13 @@ namespace InspecWeb.Controllers
         {
             var provincedata = from P in _context.Provinces
                                select P;
-            return provincedata;
+            return provincedata; 
+
+            //return 
+                //_context.Provinces
+                //   .Include(p => p.Districts)
+                //   .Where(p => p.Id == 1)
+                //   .ToList();
         }
 
         // GET api/values/5
