@@ -37,6 +37,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new MinistrySeeder());
             builder.ApplyConfiguration(new DepartmentSeeder());
             builder.ApplyConfiguration(new ProvinceSeeder());
+            builder.ApplyConfiguration(new RegionSeeder());
         }
     }
 }

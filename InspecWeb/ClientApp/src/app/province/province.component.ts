@@ -41,7 +41,7 @@ export class ProvinceComponent implements OnInit {
     this.name = name;
     console.log(this.delid);
     console.log(this.name);
-    
+
     this.modalRef = this.modalService.show(template);
   }
   forbiddenNames(control: FormControl): { [s: string]: boolean } {
@@ -80,9 +80,6 @@ export class ProvinceComponent implements OnInit {
       this.modalRef.hide()
       this.provinceservice.getprovincedata().subscribe(result => {
         this.resultprovince = result
-       
-        
-       
       })
     })
   }
