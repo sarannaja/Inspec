@@ -4,14 +4,16 @@ using InspecWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200208082744_ModifySeederProvince")]
+    partial class ModifySeederProvince
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,97 +249,12 @@ namespace InspecWeb.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            Name = "สำนักนายกรัฐมนตรี"
+                            Name = "มหาดไทย"
                         },
                         new
                         {
                             Id = 2L,
-                            Name = "กระทรวงกลาโหม"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Name = "กระทรวงการคลัง"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Name = "กระทรวงการต่างประเทศ"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            Name = "กระทรวงการท่องเที่ยวและกีฬา"
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            Name = "กระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์"
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            Name = "กระทรวงเกษตรและสหกรณ์"
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            Name = "กระทรวงคมนาคม"
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            Name = "กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม"
-                        },
-                        new
-                        {
-                            Id = 10L,
-                            Name = "กระทรวงดิจิทัลเพื่อเศรษฐกิจและสังคม"
-                        },
-                        new
-                        {
-                            Id = 11L,
-                            Name = "กระทรวงพลังงาน"
-                        },
-                        new
-                        {
-                            Id = 12L,
-                            Name = "กระทรวงพาณิชย์"
-                        },
-                        new
-                        {
-                            Id = 13L,
-                            Name = "กระทรวงมหาดไทย"
-                        },
-                        new
-                        {
-                            Id = 14L,
-                            Name = "กระทรวงยุติธรรม"
-                        },
-                        new
-                        {
-                            Id = 15L,
-                            Name = "กระทรวงแรงงาน"
-                        },
-                        new
-                        {
-                            Id = 16L,
-                            Name = "กระทรวงวัฒนธรรม"
-                        },
-                        new
-                        {
-                            Id = 17L,
-                            Name = "กระทรวงการอุดมศึกษา วิทยาศาสตร์ วิจัยและนวัตกรรม"
-                        },
-                        new
-                        {
-                            Id = 18L,
-                            Name = "กระทรวงสาธารณสุข"
-                        },
-                        new
-                        {
-                            Id = 19L,
-                            Name = "กระทรวงอุตสาหกรรม"
+                            Name = "สาธาระณะสุข"
                         });
                 });
 
@@ -747,71 +664,6 @@ namespace InspecWeb.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("InspecWeb.Models.Subdistrict", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("DistrictId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistrictId");
-
-                    b.ToTable("Subdistrict");
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.Village", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("No")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("SubdistrictId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubdistrictId");
-
-                    b.ToTable("Village");
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.Region", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Regions");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -961,24 +813,6 @@ namespace InspecWeb.Data.Migrations
                     b.HasOne("InspecWeb.Models.Province", "Province")
                         .WithMany("Districts")
                         .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.Subdistrict", b =>
-                {
-                    b.HasOne("InspecWeb.Models.District", "District")
-                        .WithMany("Subdistricts")
-                        .HasForeignKey("DistrictId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.Village", b =>
-                {
-                    b.HasOne("InspecWeb.Models.Subdistrict", "Subdistrict")
-                        .WithMany("Village")
-                        .HasForeignKey("SubdistrictId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

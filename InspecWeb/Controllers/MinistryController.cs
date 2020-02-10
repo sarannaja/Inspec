@@ -6,33 +6,26 @@ using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
 {
     [Route("api/[controller]")]
-    public class ProvinceController : Controller
+    public class MinistryController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProvinceController(ApplicationDbContext context)
+        public MinistryController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<Province> Get()
+        public IEnumerable<Ministry> Get()
         {
-            var provincedata = from P in _context.Provinces
+            var Ministrydata = from P in _context.Ministries
                                select P;
-            return provincedata; 
-
-            //return 
-                //_context.Provinces
-                //   .Include(p => p.Districts)
-                //   .Where(p => p.Id == 1)
-                //   .ToList();
+            return Ministrydata;
         }
 
         // GET api/values/5
@@ -44,29 +37,29 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public Province Post(string name)
+        public Ministry Post(string name)
         {
             var date = DateTime.Now;
 
-            var provincedata = new Province
+            var Ministrydata = new Ministry
             {
                 Name = name,
                 CreatedAt = date
             };
 
-            _context.Provinces.Add(provincedata);
+            _context.Ministries.Add(Ministrydata);
             _context.SaveChanges();
 
-            return provincedata;
+            return Ministrydata;
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(long id, string name)
         {
-            var province = _context.Provinces.Find(id);
-            province.Name = name;   
-            _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var Ministry = _context.Ministries.Find(id);
+            Ministry.Name = name;
+            _context.Entry(Ministry).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
         }
@@ -75,9 +68,9 @@ namespace InspecWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
-            var provincedata = _context.Provinces.Find(id);
+            var Ministrydata = _context.Ministries.Find(id);
 
-            _context.Provinces.Remove(provincedata);
+            _context.Ministries.Remove(Ministrydata);
             _context.SaveChanges();
         }
     }
