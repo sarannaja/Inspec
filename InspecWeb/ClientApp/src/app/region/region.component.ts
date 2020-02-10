@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { RegionService } from '../services/region.service';
 
 @Component({
   selector: 'app-region',
@@ -9,19 +10,29 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 })
 export class RegionComponent implements OnInit {
 
+  resultregion: any = []
+  delid: any
+  name: any
   modalRef: BsModalRef;
-  form: FormGroup;
+  Form: FormGroup
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
-  constructor(private modalService: BsModalService, private fb: FormBuilder) { }
+  constructor(private modalService: BsModalService, private fb: FormBuilder, private regionservice: RegionService,
+    public share: RegionService) { }
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.Form = this.fb.group({
       "regionname": new FormControl(null, [Validators.required]),
-      "test": new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)])
+     // "test": new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)])
     })
-    this.form.patchValue({
-      test: "test2"
+    this.Form.patchValue({
+     // test: "test2"
     })
+
+    
+    this.regionservice.getregiondata().subscribe(result => {
+      this.resultregion = result
+      console.log(this.resultregion);
+  })
   }
 
   openModal(template: TemplateRef<any>) {
@@ -37,7 +48,7 @@ export class RegionComponent implements OnInit {
 
   storeRegion(value){
     alert(JSON.stringify(value));
-    this.form.reset();
+    this.Form.reset();
     this.modalRef.hide();
   }
 

@@ -22,6 +22,7 @@ namespace InspecWeb.Data
         //ถ้าเพิ่มโมเดลใหม่
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Ministry> Ministries { get; set; }
+        public DbSet<Region> Regions { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<Subdistrict> Subdistricts { get; set; }

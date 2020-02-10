@@ -24,15 +24,17 @@
         <table id="datatables-basic" class="table table-striped" style="width:100%">
           <thead>
             <tr>
+              <th>#</th>
               <th>ชื่อเขตตรวจราชการ</th>
               <th>วันที่สร้าง</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>เขตตรวจที่ 1</td>
-              <td>01/01/2563</td>
+            <tr *ngFor="let item of resultregion; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
