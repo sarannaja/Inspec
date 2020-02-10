@@ -23,10 +23,10 @@ namespace InspecWeb.Models
         [Description("เขตตรวจราชการ")]
         public string Name { get; set; }
 
-        [Required]
         [Description("วันที่สร้าง")]
-        public DateTime CreatedAt { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? CreatedAt { get; set; }
 
-        
+
     }
 }

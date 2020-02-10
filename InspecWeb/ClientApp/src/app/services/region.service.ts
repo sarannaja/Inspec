@@ -25,7 +25,7 @@ export class RegionService {
   }
   editRegion(regionData,id) {
     console.log(regionData);
-    
+
     const formData = new FormData();
     formData.append('name', regionData.regionname);
     console.log('FORMDATA: ' + JSON.stringify(formData));
