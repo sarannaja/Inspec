@@ -13,7 +13,7 @@ namespace InspecWeb.Data.Seeders
         public void Configure(EntityTypeBuilder<Subdistrict> builder)
         {
             builder.HasData(
-                new Subdistrict { Id = 1, DistrictId = 1, Name = "พระบรมมหาราชวัง" }
+                new Village { Id = 1, SubdistrictId = 1, Name = "พระบรมมหาราชวัง" }
             );
         }
     }
