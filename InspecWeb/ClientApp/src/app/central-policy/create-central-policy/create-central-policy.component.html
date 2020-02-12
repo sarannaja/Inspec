@@ -17,84 +17,86 @@
         <h5 class="card-title">เพิ่มนโยบายกลาง</h5>
       </div>
       <div class="card-body">
-        <div class="row">
-          <div class="col-12 col-xl-12">
-            <br>
+        <form [formGroup]="Form" (ngSubmit)="storeCentralpolicy(Form.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <br>
 
-            <div class="form-group">
-              <label>เรื่อง</label>
-              <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง">
-              <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
+              <div class="form-group">
+                <label>เรื่อง</label>
+                <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง">
+                <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
+              </div>
             </div>
-          </div>
 
-          <div class="col-12 col-xl-12">
-            <label>กำหนดระยะเวลา</label>
-          </div>
-          <div class="col-12 col-xl-3">
-            <div class="form-group">
-              <div class="input-group date" id="datetimepicker-minimum" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker-minimum" />
-                <div class="input-group-append" data-target="#datetimepicker-minimum" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            <div class="col-12 col-xl-12">
+              <label>กำหนดระยะเวลา</label>
+            </div>
+            <div class="col-12 col-xl-3">
+              <div class="form-group">
+
+                  <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
+                  </my-date-picker-th>
+
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-1">
+              <div class="form-group" align="center">
+                ถึง
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-3">
+              <div class="form-group">
+
+                  <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+                  </my-date-picker-th>
+
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>ประเด็น</label>
+                <div class="row" *ngFor="let item of input; let i = index">
+                  <div class="col-1 text-center">
+                    {{ i + 1 }}.
+                  </div>
+                  <div class="col-10">
+                    <input type="text" class="form-control" placeholder="กรุณากรอกประเด็น" formControlName="subjects">
+                  </div>
+                  <div class="col-1" *ngIf="i == 0; else elseBlock">
+                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
+                  </div>
+                  <ng-template #elseBlock>
+                    <div class="col-1">
+                      <i class="align-middle mr-2 far fa-fw fa-minus-square"></i>
+                    </div>
+                  </ng-template>
+
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="col-12 col-xl-1">
-            <div class="form-group" align="center">
-              ถึง
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label class="form-label w-100">แนบไฟล์</label>
+                <input type="file" multiple="multiple" formControlName="files">
+                <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+              </div>
             </div>
-          </div>
-
-          <div class="col-12 col-xl-3">
-            <div class="form-group">
-              <div class="input-group date" id="datetimepicker-view-mode" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker-view-mode" />
-                <div class="input-group-append" data-target="#datetimepicker-view-mode" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                </div>
+            <hr>
+            <div class="form-group row">
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+              </div>
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="button" class="btn btn-danger">ยกเลิก</button>
               </div>
             </div>
           </div>
-
-          <div class="col-12 col-xl-12">
-            <div class="form-group">
-              <label>ประเด็น</label>
-              <div class="row" *ngFor="let item of input; let i = index">
-                <div class="col-1">
-                  <td>{{ i + 1 }}</td>
-                </div>
-                <div class="col-10">
-                  <input type="text" class="form-control" placeholder="กรุณากรอกประเด็น">
-                </div>
-                <div class="col-1">
-                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-xl-12">
-            <div class="form-group">
-              <label class="form-label w-100">แนบไฟล์</label>
-              <input type="file" multiple="multiple">
-              <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
-            </div>
-          </div>
-          <hr>
-          <div class="form-group row">
-            <div class="col-sm-5 ml-sm-auto">
-              <button type="submit" class="btn btn-primary">บันทึก</button>
-              <!-- <button type="submit" class="btn btn-danger">ยกเลิก</button> -->
-            </div>
-            <div class="col-sm-5 ml-sm-auto">
-              <button type="button" class="btn btn-danger">ยกเลิก</button>
-            </div>
-          </div>
-
-        </div>
+        </form>
       </div>
     </div>
   </div>

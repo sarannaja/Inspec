@@ -28,6 +28,7 @@ import { LoginComponent } from './login/login.component';
 import { SupportGovernmentComponent } from './support-government/support-government.component';
 import { CentralPolicyComponent } from './central-policy/central-policy.component';
 import { InspectionPlanComponent } from './inspection-plan/inspection-plan.component';
+import { MyDatePickerTHModule } from 'mydatepicker-th';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { InspectionPlanComponent } from './inspection-plan/inspection-plan.compo
     ApiAuthorizationModule,
     SelectModule,
     ReactiveFormsModule,
+    MyDatePickerTHModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
