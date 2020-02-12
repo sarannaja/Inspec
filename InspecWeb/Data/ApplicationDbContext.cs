@@ -27,6 +27,9 @@ namespace InspecWeb.Data
         public DbSet<District> Districts { get; set; }
         public DbSet<Subdistrict> Subdistricts { get; set; }
         public DbSet<Village> Villages { get; set; }
+        public DbSet<CentralPolicy> CentralPolicies { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<CentralPolicyFile> CentralPolicyFiles { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -25,6 +25,7 @@ import { FiscalyearComponent } from './fiscalyear/fiscalyear.component';
 import { SelectModule } from 'ng-select'
 import { DetailCentralPolicyComponent } from './main/detail-central-policy/detail-central-policy.component';
 import { LoginComponent } from './login/login.component';
+import { SupportGovernmentComponent } from './support-government/support-government.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { LoginComponent } from './login/login.component';
     UserComponent,
     FiscalyearComponent,
     DetailCentralPolicyComponent,
-    LoginComponent
+    LoginComponent,
+    SupportGovernmentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -75,6 +77,7 @@ import { LoginComponent } from './login/login.component';
           { path: 'user', component: UserComponent },
           { path: 'fiscalyear',component: FiscalyearComponent},
           { path: 'main/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
+          { path: 'supportgovernment', component: SupportGovernmentComponent },
         ]
       }
     ]),

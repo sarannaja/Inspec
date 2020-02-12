@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
-        <li class="breadcrumb-item"><a href="#">งบประมาณปี</a></li>
+        <li class="breadcrumb-item"><a href="#">ปีงบประมาณ</a></li>
         <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
       </ol>
     </nav>
@@ -16,21 +16,21 @@
         <div class="card-header" style="margin-bottom: -40px;">
           <h5 class="card-title">งบประมาณปี</h5>
           <div class="float-right">
-            <button class="btn btn-primary" (click)="openModal(modalProvince)" style="margin-top: -60px;">เพิ่มงบประมาณปี</button>
+            <button class="btn btn-primary" (click)="openModal(modalProvince)" style="margin-top: -60px;">เพิ่มปีงบประมาณ</button>
           </div>
         </div>
         <div class="card-body">
           <table id="datatables-basic" class="table table-striped" style="width:100%">
             <thead>
               <tr>
-                <th>ชื่องบประมาณ</th>
+                <th>ชื่อปีงบประมาณ</th>
                 <th>วันที่สร้าง</th>
                 <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>งบประมาณการป้องกันฝุ่น pm 2.5</td>
+                <td>ปีงบประมาณ 2563</td>
                 <td>09/01/2020</td>
                 <td>
                   <i class="align-middle mr-2 fas fa-fw fa-search"></i>
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- BEGIN primary modal -->
     <ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
@@ -68,4 +68,3 @@
       <!-- </div> -->
     </ng-template >
     <!-- END primary modal -->
-  
