@@ -30,7 +30,5 @@ namespace InspecWeb.Models
         public string Name { get; set; }
 
         public ICollection<Subdistrict> Subdistricts { get; set; }
-
-
     }
 }

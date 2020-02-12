@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateCentralPolicyComponent implements OnInit {
 
+  input:Array<any> = [
+    {
+      id:1
+    }
+  ]
   constructor() { }
 
   ngOnInit() {
   }
 
+  append()  {
+    this.input.push({
+      id:2
+    });
+  }
 }
