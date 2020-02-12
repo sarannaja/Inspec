@@ -30,6 +30,7 @@ namespace InspecWeb.Data
         public DbSet<CentralPolicy> CentralPolicies { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<CentralPolicyFile> CentralPolicyFiles { get; set; }
+        public DbSet<FiscalYear> FiscalYears { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -41,6 +42,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new DepartmentSeeder());
             builder.ApplyConfiguration(new ProvinceSeeder());
             builder.ApplyConfiguration(new RegionSeeder());
+            builder.ApplyConfiguration(new FiscalYearSeeder());
         }
     }
 }

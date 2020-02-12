@@ -13,9 +13,9 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { MainComponent } from './main/main.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
-import { CreateCentralPolicyComponent } from './main/create-central-policy/create-central-policy.component';
-import { CreateInspectionPlanComponent } from './main/create-inspection-plan/create-inspection-plan.component';
-import { EditInspectionPlanComponent } from './main/edit-inspection-plan/edit-inspection-plan.component';
+import { CreateCentralPolicyComponent } from './central-policy/create-central-policy/create-central-policy.component';
+import { CreateInspectionPlanComponent } from './inspection-plan/create-inspection-plan/create-inspection-plan.component';
+import { EditInspectionPlanComponent } from './inspection-plan/edit-inspection-plan/edit-inspection-plan.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { ProvinceComponent } from './province/province.component';
 import { RegionComponent } from './region/region.component';
@@ -23,9 +23,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserComponent } from './user/user.component';
 import { FiscalyearComponent } from './fiscalyear/fiscalyear.component';
 import { SelectModule } from 'ng-select'
-import { DetailCentralPolicyComponent } from './main/detail-central-policy/detail-central-policy.component';
+import { DetailCentralPolicyComponent } from './central-policy/detail-central-policy/detail-central-policy.component';
 import { LoginComponent } from './login/login.component';
 import { SupportGovernmentComponent } from './support-government/support-government.component';
+import { CentralPolicyComponent } from './central-policy/central-policy.component';
+import { InspectionPlanComponent } from './inspection-plan/inspection-plan.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { SupportGovernmentComponent } from './support-government/support-governm
     DetailCentralPolicyComponent,
     LoginComponent,
     SupportGovernmentComponent,
+    CentralPolicyComponent,
+    InspectionPlanComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -68,16 +72,18 @@ import { SupportGovernmentComponent } from './support-government/support-governm
         },
         children: [
           { path: 'main', component: MainComponent },
-          { path: 'main/createcentralpolicy', component: CreateCentralPolicyComponent },
-          { path: 'main/createinspectionplan', component: CreateInspectionPlanComponent },
-          { path: 'main/editinspectionplan/:id', component: EditInspectionPlanComponent },
+          { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
+          { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
+          { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'ministry', component: MinistryComponent },
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
           { path: 'user', component: UserComponent },
           { path: 'fiscalyear',component: FiscalyearComponent},
-          { path: 'main/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
+          { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
           { path: 'supportgovernment', component: SupportGovernmentComponent },
+          { path: 'centralpolicy', component: CentralPolicyComponent },
+          { path: 'inspectionplan', component: InspectionPlanComponent },
         ]
       }
     ]),
