@@ -33,7 +33,6 @@ export class ProvinceComponent implements OnInit {
     this.provinceservice.getprovincedata().subscribe(result => {
       this.resultprovince = result
       console.log(this.resultprovince);
-
     })
   }
   openModal(template: TemplateRef<any>, id, name) {

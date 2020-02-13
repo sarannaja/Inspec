@@ -48,7 +48,6 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
 
   storeCentralpolicy() {
-    this.addInput()
     // alert(JSON.stringify(value))
     // this.centralpolicyservice.addCentralpolicy(value).subscribe(response => {
     //   console.log(value);
@@ -58,6 +57,13 @@ export class CreateCentralPolicyComponent implements OnInit {
     //     console.log(this.resultcentralpolicy);
     //   })
     // })
+    const creds = this.Form.controls.subjects as FormArray;
+    this.input.forEach((item, index) => {
+      creds.push(this.fb.group(item))
+    })
+    console.log(this.Form.value);
+    // alert(JSON.stringify(this.Form.value))
+    this.centralpolicyservice.addCentralpolicy(this.Form.value)
   }
 
 
@@ -71,11 +77,8 @@ export class CreateCentralPolicyComponent implements OnInit {
 
   }
   addInput() {
-
     // this.Form.reset('subjects')
     const creds = this.Form.controls.subjects as FormArray;
-
-
     this.input.forEach((item, index) => {
       creds.push(this.fb.group(item))
     })
@@ -101,6 +104,4 @@ export class CreateCentralPolicyComponent implements OnInit {
     // })
     // this.input = obj
   }
-
-
 }

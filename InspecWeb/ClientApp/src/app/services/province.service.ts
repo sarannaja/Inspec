@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -7,10 +7,13 @@ import { HttpClient } from '@angular/common/http';
 export class ProvinceService {
 
   count = 0
-  url = "https://localhost:5001/api/province/";
+  url = "";
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string)
+  {
+    this.url = baseUrl + 'api/province';
+  }
   getprovincedata() {
     return this.http.get(this.url)
   }
@@ -25,7 +28,7 @@ export class ProvinceService {
   }
   editProvince(provinceData,id) {
     console.log(provinceData);
-    
+
     const formData = new FormData();
     formData.append('name', provinceData.provincename);
     console.log('FORMDATA: ' + JSON.stringify(formData));
