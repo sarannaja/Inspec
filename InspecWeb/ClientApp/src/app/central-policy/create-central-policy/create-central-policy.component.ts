@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { IMyOptions } from 'mydatepicker-th';
+
+interface addInput {
+  id: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-create-central-policy',
@@ -13,43 +18,38 @@ export class CreateCentralPolicyComponent implements OnInit {
   private myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
-};
+  };
 
   // Initialized to specific date (09.10.2018).
   // private model: Object = { date: { year: 2018, month: 10, day: 9 } };
 
   resultcentralpolicy: any = []
-  id: any
+  id: any = 1
   Form: FormGroup
-  start_date:Date
-  input:Array<any> = [
-    {
-      id:1
-    }
-  ]
+  start_date: Date
+  input: Array<addInput> = [{ id: 1, name: '' }]
+  name: string = ''
   constructor(private fb: FormBuilder, private centralpolicyservice: CentralpolicyService,
     public share: CentralpolicyService) { }
 
   ngOnInit() {
     this.Form = this.fb.group({
-      "title": new FormControl(null, [Validators.required]),
-      "start_date": new FormControl(null, [Validators.required]),
-      "end_date": new FormControl(null, [Validators.required]),
-      "subjects": new FormControl(null, [Validators.required]),
-      "files": new FormControl(null, [Validators.required]),
+      title: new FormControl(null, [Validators.required]),
+      start_date: new FormControl(null, [Validators.required]),
+      end_date: new FormControl(null, [Validators.required]),
+      subjects: this.fb.array([]),
+      files: new FormControl(null, [Validators.required]),
     })
 
     this.Form.patchValue({
       // กรณีจะแก้ไข
     })
-  }
-  Start_date(event){
-    console.log(event);
-
+    // this.addInput()
   }
 
-  storeCentralpolicy(value) {
-    alert(JSON.stringify(value))
+  storeCentralpolicy() {
+    this.addInput()
+    // alert(JSON.stringify(value))
     // this.centralpolicyservice.addCentralpolicy(value).subscribe(response => {
     //   console.log(value);
     //   this.Form.reset()
@@ -60,9 +60,47 @@ export class CreateCentralPolicyComponent implements OnInit {
     // })
   }
 
-  append()  {
+
+  append() {
+    let id = this.id + 1
+    this.id = id
     this.input.push({
-      id:2
+      id: id,
+      name: ''
     });
+
   }
+  addInput() {
+
+    // this.Form.reset('subjects')
+    const creds = this.Form.controls.subjects as FormArray;
+
+
+    this.input.forEach((item, index) => {
+      creds.push(this.fb.group(item))
+    })
+    console.log(this.Form.value);
+    alert(JSON.stringify(this.Form.value))
+
+    // for (let iii = 0; iii <= this.input.length; iii++) {
+    //   creds.push(this.fb.group({ id: this.input[iii].id, name: this.input[iii].name }));
+    // }
+    // console.log(this.Form.value);
+
+
+
+  }
+  toInput(event, index) {
+    this.input[index].name = event.target.value
+    console.log(this.input);
+    // var obj = this.input.filter((item, index) => {
+    //   if (item.id == id) {
+    //     item.name = event.target.value
+    //   }
+    //   return item
+    // })
+    // this.input = obj
+  }
+
+
 }

@@ -17,7 +17,7 @@
         <h5 class="card-title">เพิ่มนโยบายกลาง</h5>
       </div>
       <div class="card-body">
-        <form [formGroup]="Form" (ngSubmit)="storeCentralpolicy(Form.value)">
+        <form [formGroup]="Form" (ngSubmit)="storeCentralpolicy()">
           <div class="row">
             <div class="col-12 col-xl-12">
               <br>
@@ -35,8 +35,8 @@
             <div class="col-12 col-xl-3">
               <div class="form-group">
 
-                  <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
-                  </my-date-picker-th>
+                <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
+                </my-date-picker-th>
 
               </div>
             </div>
@@ -50,21 +50,21 @@
             <div class="col-12 col-xl-3">
               <div class="form-group">
 
-                  <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
-                  </my-date-picker-th>
+                <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+                </my-date-picker-th>
 
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
-              <div class="form-group">
+              <div  class="form-group">
                 <label>ประเด็น</label>
                 <div class="row" *ngFor="let item of input; let i = index">
                   <div class="col-1 text-center">
                     {{ i + 1 }}.
                   </div>
                   <div class="col-10">
-                    <input type="text" class="form-control" placeholder="กรุณากรอกประเด็น" formControlName="subjects">
+                    <input (keyup)="toInput($event,i)"  type="text" class="form-control" placeholder="กรุณากรอกประเด็น">
                   </div>
                   <div class="col-1" *ngIf="i == 0; else elseBlock">
                     <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>

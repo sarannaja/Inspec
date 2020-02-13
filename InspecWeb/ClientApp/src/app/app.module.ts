@@ -62,7 +62,7 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
     ReactiveFormsModule,
     MyDatePickerTHModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: LoginComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
