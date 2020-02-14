@@ -29,6 +29,8 @@ import { SupportGovernmentComponent } from './support-government/support-governm
 import { CentralPolicyComponent } from './central-policy/central-policy.component';
 import { InspectionPlanComponent } from './inspection-plan/inspection-plan.component';
 import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { DistrictComponent } from './district/district.component';
+import { SubdistrictComponent } from './subdistrict/subdistrict.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
     LoginComponent,
     SupportGovernmentComponent,
     CentralPolicyComponent,
-    InspectionPlanComponent
+    InspectionPlanComponent,
+    DistrictComponent,
+    SubdistrictComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -86,6 +90,8 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
           { path: 'supportgovernment', component: SupportGovernmentComponent },
           { path: 'centralpolicy', component: CentralPolicyComponent },
           { path: 'inspectionplan', component: InspectionPlanComponent },
+          { path: 'district/:id', component: DistrictComponent },
+          { path: 'subdistrict/:id', component: SubdistrictComponent },
         ]
       }
     ]),
