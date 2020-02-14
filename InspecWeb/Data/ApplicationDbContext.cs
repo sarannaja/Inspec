@@ -43,6 +43,8 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new ProvinceSeeder());
             builder.ApplyConfiguration(new RegionSeeder());
             builder.ApplyConfiguration(new FiscalYearSeeder());
+            builder.ApplyConfiguration(new DistrictSeeder());
+            builder.ApplyConfiguration(new SubdistrictSeeder());
         }
     }
 }

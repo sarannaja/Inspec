@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -7,9 +7,12 @@ import { HttpClient } from '@angular/common/http';
 export class FiscalyearService {
 
   count = 0
-  url = "https://localhost:5001/api/fiscalyear/";
+  url = "";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) 
+   {
+    this.url = baseUrl + 'api/fiscalyear/';
+   }
 
   getfiscalyeardata() {
     return this.http.get(this.url)

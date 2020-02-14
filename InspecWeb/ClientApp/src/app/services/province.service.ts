@@ -12,7 +12,7 @@ export class ProvinceService {
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string)
   {
-    this.url = baseUrl + 'api/province';
+    this.url = baseUrl + 'api/province/';
   }
   getprovincedata() {
     return this.http.get(this.url)
@@ -20,7 +20,8 @@ export class ProvinceService {
   addProvince(provinceData) {
     const formData = new FormData();
     formData.append('name', provinceData.provincename);
-    console.log('FORMDATA: ' + formData);
+    formData.append('link', provinceData.provincelink)
+    console.log('FORMDATA: ' + formData.get("name"));
     return this.http.post(this.url, formData);
   }
   deleteProvince(id) {
@@ -31,6 +32,7 @@ export class ProvinceService {
 
     const formData = new FormData();
     formData.append('name', provinceData.provincename);
+    formData.append('link', provinceData.provincelink)
     console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put(this.url+id, formData);
   }

@@ -10,7 +10,7 @@ namespace InspecWeb.Models
     /// <summary>
     /// เนื้อหาของสื่อสิ่งพิมพ์
     /// </summary>
-    [Table("Subdistrict")]
+    [Table("Subdistricts")]
     [Description("ตารางตำบล/แขวง")]
     public class Subdistrict
     {
