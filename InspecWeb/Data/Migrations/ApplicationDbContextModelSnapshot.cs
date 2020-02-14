@@ -180,7 +180,7 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndedDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDate")

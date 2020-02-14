@@ -26,7 +26,7 @@ namespace InspecWeb.Models
 
         [Description("วันที่สิ้นสุด")]
         [DataType(DataType.Date)]
-        public DateTime EndedDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
