@@ -30,6 +30,9 @@ import { CentralPolicyComponent } from './central-policy/central-policy.componen
 import { InspectionPlanComponent } from './inspection-plan/inspection-plan.component';
 import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { InstructionOrderComponent } from './instruction-order/instruction-order.component';
+import { DistrictComponent } from './district/district.component';
+import { SubdistrictComponent } from './subdistrict/subdistrict.component';
+
 
 @NgModule({
   declarations: [
@@ -54,6 +57,8 @@ import { InstructionOrderComponent } from './instruction-order/instruction-order
     CentralPolicyComponent,
     InspectionPlanComponent,
     InstructionOrderComponent,
+    DistrictComponent,
+    SubdistrictComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -64,7 +69,7 @@ import { InstructionOrderComponent } from './instruction-order/instruction-order
     ReactiveFormsModule,
     MyDatePickerTHModule,
     RouterModule.forRoot([
-      { path: '', component: LoginComponent, pathMatch: 'full' },
+      { path: '', redirectTo:'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
@@ -75,7 +80,7 @@ import { InstructionOrderComponent } from './instruction-order/instruction-order
           title: 'หน้าหลัก'
         },
         children: [
-          { path: 'main', component: MainComponent },
+          { path: 'main', component: MainComponent ,canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
           { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
@@ -89,7 +94,8 @@ import { InstructionOrderComponent } from './instruction-order/instruction-order
           { path: 'centralpolicy', component: CentralPolicyComponent },
           { path: 'inspectionplan', component: InspectionPlanComponent },
           { path: 'InstructionOrder', component: InstructionOrderComponent },
-
+          { path: 'district/:id', component: DistrictComponent },
+          { path: 'subdistrict/:id', component: SubdistrictComponent },
         ]
       }
     ]),

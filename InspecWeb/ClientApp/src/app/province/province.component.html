@@ -26,6 +26,7 @@
             <tr>
               <th>#</th>
               <th>ชื่อจังหวัด</th>
+              <th>ลิ้งค์</th>
               <th>วันที่สร้าง</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -33,12 +34,13 @@
           <tbody>
             <tr *ngFor="let item of resultprovince; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ item.name }}</td>
+              <td class="pointer" (click)="District(item.id)">{{ item.name }}</td>
+              <td><a href="https://www.google.co.th/" target="_blank">{{ item.link }}</a></td>
               <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
               <td>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openModal(modaleditProvince, item.id, item.name)"></i>
+                  (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteProvince, item.id)"></i>
               </td>
@@ -65,6 +67,9 @@
             <label for="test" class="form-label">ชื่อจังหวัด</label>
             <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
             <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด">
+            <br>
+            <label for="test" class="form-label">ลิ้งค์​</label>
+            <input type="text" formControlName="provincelink" class="form-control" placeholder="กรุณากรอกจังหวัดลิ้ง">
           </div>
         </div>
         <div class="modal-footer">
@@ -101,28 +106,32 @@
   <!-- BEGIN primary modal -->
   <ng-template #modaleditProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="Form" (ngSubmit)="editProvince(Form.value,delid)">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">จัดการจังหวัด</h5>
-        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body m-3">
-        <div class="form-group">
-          <label for="test" class="form-label">ชื่อจังหวัด</label>
-          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-          <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
-            placeholder="กรุณากรอกชื่อจังหวัด">
+    <form [formGroup]="EditForm" (ngSubmit)="editProvince(EditForm.value,delid)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการจังหวัด</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <div class="form-group">
+            <label for="test" class="form-label">ชื่อจังหวัด</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
+              placeholder="กรุณากรอกชื่อจังหวัด">
+            <br>
+            <label for="test" class="form-label">ลิ้งค์​</label>
+            <input type="text" value="{{link}}" formControlName="provincelink" class="form-control"
+              placeholder="กรุณากรอกจังหวัดลิ้ง">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">บันทึก</button>
-        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
-      </div>
-    </div>
-  </form>
-<!-- </div> -->
-</ng-template>
-<!-- END primary modal -->
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->

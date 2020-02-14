@@ -5,28 +5,29 @@ using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
 {
     [Route("api/[controller]")]
-    public class ProvinceController : Controller
+    public class DistrictController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProvinceController(ApplicationDbContext context)
+        public DistrictController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<Province> Get()
+        public IEnumerable<District> Get()
         {
-            var provincedata = from P in _context.Provinces
+            var districtdata = from P in _context.Districts
                                select P;
-            return provincedata;
+            return districtdata;
 
             //return 
             //_context.Provinces
@@ -37,38 +38,38 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(long id)
         {
-            return "value";
+            var districtdata = _context.Districts.Where(m=>m.ProvinceId==id);
+
+            return Ok(districtdata);
         }
 
         // POST api/values
         [HttpPost]
-        public Province Post(string name, string link)
+        public District Post(string name)
         {
-            var date = DateTime.Now;
+            //var date = DateTime.Now;
 
-            var provincedata = new Province
+            var districtdata = new District
             {
                 Name = name,
-                Link = link,
-                CreatedAt = date
+                //CreatedAt = date
             };
 
-            _context.Provinces.Add(provincedata);
+            _context.Districts.Add(districtdata);
             _context.SaveChanges();
 
-            return provincedata;
+            return districtdata;
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name, string link)
+        public void Put(long id, string name)
         {
-            var province = _context.Provinces.Find(id);
-            province.Name = name;
-            province.Link = link;
-            _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var districts = _context.Districts.Find(id);
+            districts.Name = name;
+            _context.Entry(districts).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
         }
@@ -77,9 +78,9 @@ namespace InspecWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
-            var provincedata = _context.Provinces.Find(id);
+            var districtdata = _context.Districts.Find(id);
 
-            _context.Provinces.Remove(provincedata);
+            _context.Districts.Remove(districtdata);
             _context.SaveChanges();
         }
     }

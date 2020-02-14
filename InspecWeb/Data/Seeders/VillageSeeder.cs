@@ -7,10 +7,10 @@ using System.Text;
 
 namespace InspecWeb.Data.Seeders
 {
-    public class SubdistrictSeeder : IEntityTypeConfiguration<Subdistrict>
+    public class VillageSeeder : IEntityTypeConfiguration<Village>
     {
 
-        public void Configure(EntityTypeBuilder<Subdistrict> builder)
+        public void Configure(EntityTypeBuilder<Village> builder)
         {
             builder.HasData(
                 new Village { Id = 1, SubdistrictId = 1, Name = "พระบรมมหาราชวัง" }

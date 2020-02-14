@@ -44,6 +44,9 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new RegionSeeder());
             builder.ApplyConfiguration(new FiscalYearSeeder());
             builder.ApplyConfiguration(new InstructionOrderSeeder());
+            builder.ApplyConfiguration(new DistrictSeeder());
+            builder.ApplyConfiguration(new SubdistrictSeeder());
+
         }
     }
 }
