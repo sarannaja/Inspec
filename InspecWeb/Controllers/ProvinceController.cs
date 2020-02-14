@@ -26,13 +26,13 @@ namespace InspecWeb.Controllers
         {
             var provincedata = from P in _context.Provinces
                                select P;
-            return provincedata; 
+            return provincedata;
 
             //return 
-                //_context.Provinces
-                //   .Include(p => p.Districts)
-                //   .Where(p => p.Id == 1)
-                //   .ToList();
+            //_context.Provinces
+            //   .Include(p => p.Districts)
+            //   .Where(p => p.Id == 1)
+            //   .ToList();
         }
 
         // GET api/values/5
@@ -44,13 +44,14 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public Province Post(string name)
+        public Province Post(string name, string link)
         {
             var date = DateTime.Now;
 
             var provincedata = new Province
             {
                 Name = name,
+                Link = link,
                 CreatedAt = date
             };
 
@@ -62,10 +63,11 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name)
+        public void Put(long id, string name, string link)
         {
             var province = _context.Provinces.Find(id);
-            province.Name = name;   
+            province.Name = name;
+            province.Link = link;
             _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

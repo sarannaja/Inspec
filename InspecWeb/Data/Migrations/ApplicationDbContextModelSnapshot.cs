@@ -273,6 +273,308 @@ namespace InspecWeb.Data.Migrations
                     b.HasIndex("ProvinceId");
 
                     b.ToTable("Districts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "เขตพระนคร",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Name = "เขตดุสิต",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Name = "เขตหนองจอก",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Name = "เขตบางรัก",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            Name = "เขตบางเขน",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            Name = "เขตบางกะปิ",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            Name = "เขตปทุมวัน",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            Name = "เขตป้อมปราบศัตรูพ่าย",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            Name = "เขตพระโขนง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            Name = "เขตมีนบุรี",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            Name = "เขตลาดกระบัง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            Name = "เขตยานนาวา",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            Name = "เขตสัมพันธวงศ์",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            Name = "เขตพญาไท",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            Name = "เขตธนบุรี",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 16L,
+                            Name = "เขตบางกอกใหญ่",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 17L,
+                            Name = "เขตห้วยขวาง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 18L,
+                            Name = "เขตคลองสาน",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 19L,
+                            Name = "เขตตลิ่งชัน",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 20L,
+                            Name = "เขตบางกอกน้อย",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 21L,
+                            Name = "เขตบางขุนเทียน",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 22L,
+                            Name = "เขตภาษีเจริญ",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 23L,
+                            Name = "เขตหนองแขม",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 24L,
+                            Name = "เขตราษฎร์บูรณะ",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 25L,
+                            Name = "เขตบางพลัด",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 26L,
+                            Name = "เขตดินแดง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 27L,
+                            Name = "เขตบึงกุ่ม",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 28L,
+                            Name = "เขตสาทร",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 29L,
+                            Name = "เขตบางซื่อ",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 30L,
+                            Name = "เขตจตุจักร",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 31L,
+                            Name = "เขตบางคอแหลม",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 32L,
+                            Name = "เขตประเวศ",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 33L,
+                            Name = "เขตคลองเตย",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 34L,
+                            Name = "เขตสวนหลวง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 35L,
+                            Name = "เขตจอมทอง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 36L,
+                            Name = "เขตดอนเมือง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 37L,
+                            Name = "เขตราชเทวี",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 38L,
+                            Name = "เขตลาดพร้าว",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 39L,
+                            Name = "เขตวัฒนา",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 40L,
+                            Name = "เขตบางแค",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 41L,
+                            Name = "เขตหลักสี่",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 42L,
+                            Name = "เขตสายไหม",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 43L,
+                            Name = "เขตคันนายาว",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 44L,
+                            Name = "เขตสะพานสูง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 45L,
+                            Name = "เขตวังทองหลาง",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 46L,
+                            Name = "เขตคลองสามวา",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 47L,
+                            Name = "เขตบางนา",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 48L,
+                            Name = "เขตทวีวัฒนา",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 49L,
+                            Name = "เขตทุ่งครุ",
+                            ProvinceId = 1L
+                        },
+                        new
+                        {
+                            Id = 50L,
+                            Name = "เขตบางบอน",
+                            ProvinceId = 1L
+                        });
                 });
 
             modelBuilder.Entity("InspecWeb.Models.FiscalYear", b =>
@@ -297,6 +599,300 @@ namespace InspecWeb.Data.Migrations
                         {
                             Id = 1L,
                             Year = 2563
+                        });
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.Governmentinspectionplan", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Governmentinspectionplans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            File = "inps_plan63.pdf",
+                            Title = "แผนการตรวจราชการแบบบบูรณาการของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2563",
+                            Year = "2563"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            File = "plan_61.pdf",
+                            Title = "แผนการตรวจราชการแบบบบูรณาการของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            File = "plan60.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            File = "plan59.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการประจำปีงบประมาณ พ.ศ. 2559",
+                            Year = "2559"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            File = "insp_plan58.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการประจำปีงบประมาณ พ.ศ. 2558",
+                            Year = "2558"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            File = "plan57.zip",
+                            Title = "แผนการตรวจราชการแบบบูรรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2557",
+                            Year = "2557"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            File = "plan56.zip",
+                            Title = "แผนการตรวจราชการแบบบูรรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2556",
+                            Year = "2556"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            File = "plan55.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2555",
+                            Year = "2555"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            File = "plan54.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ประจำปีงบประมาณ พ.ศ.2554",
+                            Year = "2554"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            File = "NULL",
+                            Title = "แผนการตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ.2553ของผู้ตรวจราชการ",
+                            Year = "2553"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            File = "plan52.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ. 2552",
+                            Year = "2552"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            File = "NULL",
+                            Title = "แผนยุทธศาสตร์การตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ. 2551",
+                            Year = "2551"
+                        });
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.InstructionOrder", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Detail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Order")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InstructionOrders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "พลเอก ชัยวัฒน์ โฆสิตาภา (เขตส่วนกลาง), นางสาวสุรุ่งลักษณ์ เมฆะอำนวยชัย (เขต1,12), นางสุมิตรา อติศัพท์ (เขต2,14.17), นายณรงค์ เชื้อบุญช่วย (เขต3,9), นายพีระ ทองโพธิ์ (เขต4,18), นายธสรณ์อัฑฒ์ ธนิทธิพันธ์ (เขต5,7,10), นางสาวปภัสมน อัมราลิขิต (เขต6,16), นายจิรายุ นันท์ธราธร (เขต8,13), นางสาวอรนุช ศรีนนท์ (เขต11,15)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง นร ที่ 313/2562 ลงวันที่ 28 ตุลาคม 2562",
+                            Year = "2562"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "พลเอก ชัยวัฒน์ โฆสิตาภา (เขตส่วนกลาง), นางสาวสุรุ่งลักษณ์ เมฆะอำนวยชัย (เขต1,12), นางสุมิตรา อติศัพท์ (เขต2,14.17), นายณรงค์ เชื้อบุญช่วย (เขต3,9), นายพีระ ทองโพธิ์ (เขต4,18), นายธสรณ์อัฑฒ์ ธนิทธิพันธ์ (เขต5,7,10), นางสาวปภัสมน อัมราลิขิต (เขต6,16), นายจิรายุ นันท์ธราธร (เขต8,13), นางสาวอรนุช ศรีนนท์ (เขต11,15)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง นร. ที่ 102/2562 ลงวันที่ 10 พฤษภาคม 2562",
+                            Year = "2562"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "พลเอก ชัยวัฒน์ โฆสิตาภา (เขตส่วนกลาง), นางสาวสุรุ่งลักษณ์ เมฆะอำนวยชัย (เขต1,12), นางสุมิตรา อติศัพท์ (เขต2,14.17), นายณรงค์ เชื้อบุญช่วย (เขต3,9), นายพีระ ทองโพธิ์ (เขต4,18), นายธสรณ์อัฑฒ์ ธนิทธิพันธ์ (เขต5,7,10), นางสาวปภัสมน อัมราลิขิต (เขต6,16), นายจิรายุ นันท์ธราธร (เขต8,13), นางสาวอรนุช ศรีนนท์ (เขต11,15)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง นร. ที่ 5/2562 ลงวันที่ 7 มกราคม 2562",
+                            Year = "2562"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "พลเอก ชัยวัฒน์ โฆสิตาภา (เขตส่วนกลาง), นางสาวสุรุ่งลักษณ์ เมฆะอำนวยชัย (เขต1,12), นางสุมิตรา อติศัพท์ (เขต2,14.17), นายณรงค์ เชื้อบุญช่วย (เขต3,9), นายพีระ ทองโพธิ์ (เขต4,18), นายธสรณ์อัฑฒ์ ธนิทธิพันธ์ (เขต5,7,10), นางสาวปภัสมน อัมราลิขิต (เขต6,16), นายจิรายุ นันท์ธราธร (เขต8,13), นางสาวอรนุช ศรีนนท์ (เขต11,15)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง สปน. ที่ 262/2561 ลงวันที่ 16 ตุลาคม 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขตส่วนกลาง,2,3),นายณรงค์ เชื้อบุญช่วย(เขต1,4,7),นางสาวปภัสมน อัมราลิขิต(เขต5,6),นายจิรายุ นันท์ธราธร(เขต8,9),นางสาวอรนุช ศรีนนท์(เขต10,11),นายกรีฑา สพโชค(เขต13,14),นางดวงตา ตันโช(เขต15,16),นายพีระ ทองโพธิ์(เขต15,16,17,18)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง นร. ที่ 255/2561 ลงวันที่ 5 ตุลาคม 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขตส่วนกลาง,2,3),นายณรงค์ เชื้อบุญช่วย(เขต1,4,7),นางสาวปภัสมน อัมราลิขิต(เขต5,6),นายจิรายุ นันท์ธราธร(เขต8,9),นางสาวอรนุช ศรีนนท์(เขต10,11),นายกรีฑา สพโชค(เขต13,14), นายพีระ ทองโพธิ์(เขต15,16,17,18)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง นร. ที่ 206/2561 ลงวันที่ 24 สิงหาคม 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "นายจิรายุ นันท์ธราธร(เขตส่วนกลาง,3,9,14),พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขต1,5),นายนริสชัย ป้อมเสือ(เขต2),นายโชคชัย เดชอมรธัญ(เขต4),นางสาวปภัสมน อัมราลิขิต(เขต6,7),นายณรงค์ เชื้อบุญช่วย(เขต8),นางสาวอรนุช ศรีนนท์(เขต10,11),นายศักดิ์ สมบุญโต(เขต12), นายกรีฑา สพโชค(เขต13), นายสุรศักดิ์ เรียงเครือ(เขต15,16,17,18)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง นร. ที่ 100/2561 ลงวันที่ 27 เมษายน 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "นายจิรายุ นันท์ธราธร(เขตส่วนกลาง,3,9,14),พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขต1,5),นายนริสชัย ป้อมเสือ(เขต2),นายโชคชัย เดชอมรธัญ(เขต4),นางสาวปภัสมน อัมราลิขิต(เขต6,7),นายพศิน โกมลวิชญ์(เขต8),นางสาวอรนุช ศรีนนท์(เขต10,11),นายศักดิ์ สมบุญโต(เขต12), นายกรีฑา สพโชค(เขต13), นายสุรศักดิ์ เรียงเครือ(เขต15,16,17,18)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง นร. ที่ 76/2561 ลงวันที่ 2 เมษายน 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "นายจิรายุ นันท์ธราธร(เขตส่วนกลาง,3,9,14),พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขต1,2,5),นายโชคชัย เดชอมรธัญ(เขต4),นางสาวปภัสมน อัมราลิขิต(เขต6,7),นายพศิน โกมลวิชญ์(เขต8),นางสาวอรนุช ศรีนนท์(เขต10,11),นายศักดิ์ สมบุญโต(เขต12), นายกรีฑา สพโชค(เขต13), นายสุรศักดิ์ เรียงเครือ(เขต15,16,17,18)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = "คำสั่ง นร. ที่ 76/2561 ลงวันที่ 2 เมษายน 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "นายจิรายุ นันท์ธราธร(เขตส่วนกลาง,3,9,14),นางสาวปภัสมน อัมราลิขิต(เขต1,6,7),นายสุรศักดิ์ เรียงเครือ(เขต2,15,16),นายโชคชัย เดชอมรธัญ(เขต4),พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขต5, 17, 18),นายพศิน โกมลวิชญ์(เขต8),นางสาวอรนุช ศรีนนท์(เขต10, 11, 13),นายศักดิ์ สมบุญโต(เขต12)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = " คำสั่ง นร. ที่ 336/2560 ลงวันที่ 13 ธันวาคม 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "นายจิรายุ นันท์ธราธร(เขตส่วนกลาง,3,9,14),พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขต1,2,5),นายโชคชัย เดชอมรธัญ(เขต4),นางสาวปภัสมน อัมราลิขิต(เขต6, 7, 18),นายพศิน โกมลวิชญ์(เขต8),นางสาวอรนุช ศรีนนท์(เขต10, 11, 13),นายศักดิ์ สมบุญโต(เขต12),นายสุรศักดิ์ เรียงเครือ(เขต15, 16, 17)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = " คำสั่ง นร. ที่ 306/2560 ลงวันที่ 20 พฤศจิกายน 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "นายจิรายุ นันท์ธราธร(เขตส่วนกลาง,18),พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขต1,2),นายไพโรจน์ อาจรักษา(เขต3,4),นายวรพันธ์ เย็นทรัพย์(เขต5,9),นางสาวปภัสมน อัมราลิขิต(เขต6),นางประภาศรี บุญวิเศษ(เขต7,15),พ.ต.ท.พงศ์พร พรามณ์เสน่ห์(เขต8),นายอิสระ ศิริวรภา(เขต10),นางอัจจิมา จันทร์สุวานิชย์(เขต11,14),นางภัทรภร ฐิติยาภรณ์(เขต12,17),นางสาวอรนุช ศรีนนท์(เขต13),นายสุรศักดิ์ เรียงเครือ(เขต16)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = " คำสั่ง นร. ที่ 215/2560 ลงวันที่ 6 กันยายน 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "นายจิรายุ นันท์ธราธร(เขตส่วนกลาง,18),พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขต1,2),นายไพโรจน์ อาจรักษา(เขต3,4),นายวรพันธ์ เย็นทรัพย์(เขต5,9),นางสาวปภัสมน อัมราลิขิต(เขต6),นางประภาศรี บุญวิเศษ(เขต7,15),นายสุรศักดิ์ เรียงเครือ(เขต8,16),นายอิสระ ศิริวรภา(เขต10),นางอัจจิมา จันทร์สุวานิชย์(เขต11,14),นางภัทรภร ฐิติยาภรณ์(เขต12,17),นางสาวอรนุช ศรีนนท์(เขต13)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = " คำสั่ง นร. ที่ 100/2560 ลงวันที่ 28 มีนาคม 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            Detail = "นายจิรายุ นันท์ธราธร(เขตส่วนกลาง,6,18),พันตำรวจโท เธียรรัตน์ วิเชียรสรรค์(เขต1,2),นายไพโรจน์ อาจรักษา(เขต3,4),นายวรพันธ์ เย็นทรัพย์(เขต5,9),นางประภาศรี บุญวิเศษ(เขต7, 15),นายสุรศักดิ์ เรียงเครือ(เขต8, 16),นายอิสระ ศิริวรภา(เขต10, 13),นางอัจจิมา จันทร์สุวานิชย์(เขต11, 14),นางภัทรภร ฐิติยาภรณ์(เขต12, 17)",
+                            File = "",
+                            Name = "มอบหมายผู้ตรวจราชการสำนักนายกรัฐมนตรีรับผิดชอบเขตตรวจราชการ",
+                            Order = " คำสั่ง นร.ที่ 3 / 2560 ลงวันที่ 5 มกราคม 2560",
+                            Year = "2560"
                         });
                 });
 
@@ -426,6 +1022,10 @@ namespace InspecWeb.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -438,386 +1038,463 @@ namespace InspecWeb.Data.Migrations
                         new
                         {
                             Id = 1L,
+                            Link = "https://www.google.co.th/",
                             Name = "กรุงเทพมหานคร"
                         },
                         new
                         {
                             Id = 2L,
+                            Link = "https://www.google.co.th/",
                             Name = "กระบี่"
                         },
                         new
                         {
                             Id = 3L,
+                            Link = "https://www.google.co.th/",
                             Name = "กาญจนบุรี"
                         },
                         new
                         {
                             Id = 4L,
+                            Link = "https://www.google.co.th/",
                             Name = "กาฬสินธุ์"
                         },
                         new
                         {
                             Id = 5L,
+                            Link = "https://www.google.co.th/",
                             Name = "กำแพงเพชร"
                         },
                         new
                         {
                             Id = 6L,
+                            Link = "https://www.google.co.th/",
                             Name = "ขอนแก่น"
                         },
                         new
                         {
                             Id = 7L,
+                            Link = "https://www.google.co.th/",
                             Name = "จันทบุรี"
                         },
                         new
                         {
                             Id = 8L,
+                            Link = "https://www.google.co.th/",
                             Name = "ฉะเชิงเทรา"
                         },
                         new
                         {
                             Id = 9L,
+                            Link = "https://www.google.co.th/",
                             Name = "ชลบุรี"
                         },
                         new
                         {
                             Id = 10L,
+                            Link = "https://www.google.co.th/",
                             Name = "ชัยนาท"
                         },
                         new
                         {
                             Id = 11L,
+                            Link = "https://www.google.co.th/",
                             Name = "ชัยภูมิ"
                         },
                         new
                         {
                             Id = 12L,
+                            Link = "https://www.google.co.th/",
                             Name = "ชุมพร"
                         },
                         new
                         {
                             Id = 13L,
+                            Link = "https://www.google.co.th/",
                             Name = "เชียงราย"
                         },
                         new
                         {
                             Id = 14L,
+                            Link = "https://www.google.co.th/",
                             Name = "เชียงใหม่"
                         },
                         new
                         {
                             Id = 15L,
+                            Link = "https://www.google.co.th/",
                             Name = "ตรัง"
                         },
                         new
                         {
                             Id = 16L,
+                            Link = "https://www.google.co.th/",
                             Name = "ตราด"
                         },
                         new
                         {
                             Id = 17L,
+                            Link = "https://www.google.co.th/",
                             Name = "ตาก"
                         },
                         new
                         {
                             Id = 18L,
+                            Link = "https://www.google.co.th/",
                             Name = "นครนายก"
                         },
                         new
                         {
                             Id = 19L,
+                            Link = "https://www.google.co.th/",
                             Name = "นครปฐม"
                         },
                         new
                         {
                             Id = 20L,
+                            Link = "https://www.google.co.th/",
                             Name = "นครพนม"
                         },
                         new
                         {
                             Id = 21L,
+                            Link = "https://www.google.co.th/",
                             Name = "นครราชสีมา"
                         },
                         new
                         {
                             Id = 22L,
+                            Link = "https://www.google.co.th/",
                             Name = "นครศรีธรรมราช"
                         },
                         new
                         {
                             Id = 23L,
+                            Link = "https://www.google.co.th/",
                             Name = "นครสวรรค์"
                         },
                         new
                         {
                             Id = 24L,
+                            Link = "https://www.google.co.th/",
                             Name = "นนทบุรี"
                         },
                         new
                         {
                             Id = 25L,
+                            Link = "https://www.google.co.th/",
                             Name = "นราธิวาส"
                         },
                         new
                         {
                             Id = 26L,
+                            Link = "https://www.google.co.th/",
                             Name = "น่าน"
                         },
                         new
                         {
                             Id = 27L,
+                            Link = "https://www.google.co.th/",
                             Name = "บึงกาฬ"
                         },
                         new
                         {
                             Id = 28L,
+                            Link = "https://www.google.co.th/",
                             Name = "บุรีรัมย์"
                         },
                         new
                         {
                             Id = 29L,
+                            Link = "https://www.google.co.th/",
                             Name = "ปทุมธานี"
                         },
                         new
                         {
                             Id = 30L,
+                            Link = "https://www.google.co.th/",
                             Name = "ประจวบคีรีขันธ์"
                         },
                         new
                         {
                             Id = 31L,
+                            Link = "https://www.google.co.th/",
                             Name = "ปราจีนบุรี"
                         },
                         new
                         {
                             Id = 32L,
+                            Link = "https://www.google.co.th/",
                             Name = "ปัตตานี"
                         },
                         new
                         {
                             Id = 33L,
+                            Link = "https://www.google.co.th/",
                             Name = "พระนครศรีอยุธยา"
                         },
                         new
                         {
                             Id = 34L,
+                            Link = "https://www.google.co.th/",
                             Name = "พะเยา"
                         },
                         new
                         {
                             Id = 35L,
+                            Link = "https://www.google.co.th/",
                             Name = "พังงา"
                         },
                         new
                         {
                             Id = 36L,
+                            Link = "https://www.google.co.th/",
                             Name = "พัทลุง"
                         },
                         new
                         {
                             Id = 37L,
+                            Link = "https://www.google.co.th/",
                             Name = "พิจิตร"
                         },
                         new
                         {
                             Id = 38L,
+                            Link = "https://www.google.co.th/",
                             Name = "พิษณุโลก"
                         },
                         new
                         {
                             Id = 39L,
+                            Link = "https://www.google.co.th/",
                             Name = "เพชรบุรี"
                         },
                         new
                         {
                             Id = 40L,
+                            Link = "https://www.google.co.th/",
                             Name = "เพชรบูรณ์"
                         },
                         new
                         {
                             Id = 41L,
+                            Link = "https://www.google.co.th/",
                             Name = "แพร่"
                         },
                         new
                         {
                             Id = 42L,
+                            Link = "https://www.google.co.th/",
                             Name = "ภูเก็ต"
                         },
                         new
                         {
                             Id = 43L,
+                            Link = "https://www.google.co.th/",
                             Name = "มหาสารคาม"
                         },
                         new
                         {
                             Id = 44L,
+                            Link = "https://www.google.co.th/",
                             Name = "มุกดาหาร"
                         },
                         new
                         {
                             Id = 45L,
+                            Link = "https://www.google.co.th/",
                             Name = "แม่ฮ่องสอน"
                         },
                         new
                         {
                             Id = 46L,
+                            Link = "https://www.google.co.th/",
                             Name = "ยโสธร"
                         },
                         new
                         {
                             Id = 47L,
+                            Link = "https://www.google.co.th/",
                             Name = "ยะลา"
                         },
                         new
                         {
                             Id = 48L,
+                            Link = "https://www.google.co.th/",
                             Name = "ร้อยเอ็ด"
                         },
                         new
                         {
                             Id = 49L,
+                            Link = "https://www.google.co.th/",
                             Name = "ระนอง"
                         },
                         new
                         {
                             Id = 50L,
+                            Link = "https://www.google.co.th/",
                             Name = "ระยอง"
                         },
                         new
                         {
                             Id = 51L,
+                            Link = "https://www.google.co.th/",
                             Name = "ราชบุรี"
                         },
                         new
                         {
                             Id = 52L,
+                            Link = "https://www.google.co.th/",
                             Name = "ลพบุรี"
                         },
                         new
                         {
                             Id = 53L,
+                            Link = "https://www.google.co.th/",
                             Name = "ลำปาง"
                         },
                         new
                         {
                             Id = 54L,
+                            Link = "https://www.google.co.th/",
                             Name = "ลำพูน"
                         },
                         new
                         {
                             Id = 55L,
+                            Link = "https://www.google.co.th/",
                             Name = "เลย"
                         },
                         new
                         {
                             Id = 56L,
+                            Link = "https://www.google.co.th/",
                             Name = "ศรีสะเกษ"
                         },
                         new
                         {
                             Id = 57L,
+                            Link = "https://www.google.co.th/",
                             Name = "สกลนคร"
                         },
                         new
                         {
                             Id = 58L,
+                            Link = "https://www.google.co.th/",
                             Name = "สงขลา"
                         },
                         new
                         {
                             Id = 59L,
+                            Link = "https://www.google.co.th/",
                             Name = "สตูล"
                         },
                         new
                         {
                             Id = 60L,
+                            Link = "https://www.google.co.th/",
                             Name = "สมุทรปราการ"
                         },
                         new
                         {
                             Id = 61L,
+                            Link = "https://www.google.co.th/",
                             Name = "สมุทรสงคราม"
                         },
                         new
                         {
                             Id = 62L,
+                            Link = "https://www.google.co.th/",
                             Name = "สมุทรสาคร"
                         },
                         new
                         {
                             Id = 63L,
+                            Link = "https://www.google.co.th/",
                             Name = "สระแก้ว"
                         },
                         new
                         {
                             Id = 64L,
+                            Link = "https://www.google.co.th/",
                             Name = "สระบุรี"
                         },
                         new
                         {
                             Id = 65L,
+                            Link = "https://www.google.co.th/",
                             Name = "สิงห์บุรี"
                         },
                         new
                         {
                             Id = 66L,
+                            Link = "https://www.google.co.th/",
                             Name = "สุโขทัย"
                         },
                         new
                         {
                             Id = 67L,
+                            Link = "https://www.google.co.th/",
                             Name = "สุพรรณบุรี"
                         },
                         new
                         {
                             Id = 68L,
+                            Link = "https://www.google.co.th/",
                             Name = "สุราษฎร์ธานี"
                         },
                         new
                         {
                             Id = 69L,
+                            Link = "https://www.google.co.th/",
                             Name = "สุรินทร์"
                         },
                         new
                         {
                             Id = 70L,
+                            Link = "https://www.google.co.th/",
                             Name = "หนองคาย"
                         },
                         new
                         {
                             Id = 71L,
+                            Link = "https://www.google.co.th/",
                             Name = "หนองบัวลำภู"
                         },
                         new
                         {
                             Id = 72L,
+                            Link = "https://www.google.co.th/",
                             Name = "อ่างทอง"
                         },
                         new
                         {
                             Id = 73L,
+                            Link = "https://www.google.co.th/",
                             Name = "อำนาจเจริญ"
                         },
                         new
                         {
                             Id = 74L,
+                            Link = "https://www.google.co.th/",
                             Name = "อุดรธานี"
                         },
                         new
                         {
                             Id = 75L,
+                            Link = "https://www.google.co.th/",
                             Name = "อุตรดิตถ์"
                         },
                         new
                         {
                             Id = 76L,
+                            Link = "https://www.google.co.th/",
                             Name = "อุทัยธานี"
                         },
                         new
                         {
                             Id = 77L,
+                            Link = "https://www.google.co.th/",
                             Name = "อุบลราชธานี"
                         });
                 });
@@ -961,7 +1638,729 @@ namespace InspecWeb.Data.Migrations
 
                     b.HasIndex("DistrictId");
 
-                    b.ToTable("Subdistrict");
+                    b.ToTable("Subdistricts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            DistrictId = 1L,
+                            Name = "พระบรมมหาราชวัง"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            DistrictId = 1L,
+                            Name = "วังบูรพาภิรมย์"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            DistrictId = 1L,
+                            Name = "วัดราชบพิธ"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            DistrictId = 1L,
+                            Name = "สำราญราษฎร์"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            DistrictId = 1L,
+                            Name = "ศาลเจ้าพ่อเสือ"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            DistrictId = 1L,
+                            Name = "เสาชิงช้า"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            DistrictId = 1L,
+                            Name = "บวรนิเวศ"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            DistrictId = 1L,
+                            Name = "ตลาดยอด"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            DistrictId = 1L,
+                            Name = "ชนะสงคราม"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            DistrictId = 1L,
+                            Name = "บ้านพานถม"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            DistrictId = 1L,
+                            Name = "บางขุนพรหม"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            DistrictId = 1L,
+                            Name = "วัดสามพระยา"
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            DistrictId = 2L,
+                            Name = "ดุสิต"
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            DistrictId = 2L,
+                            Name = "วชิรพยาบาล"
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            DistrictId = 2L,
+                            Name = "สวนจิตรลดา"
+                        },
+                        new
+                        {
+                            Id = 16L,
+                            DistrictId = 2L,
+                            Name = "สี่แยกมหานาค"
+                        },
+                        new
+                        {
+                            Id = 17L,
+                            DistrictId = 2L,
+                            Name = "ถนนนครไชยศรี"
+                        },
+                        new
+                        {
+                            Id = 18L,
+                            DistrictId = 3L,
+                            Name = "กระทุ่มราย"
+                        },
+                        new
+                        {
+                            Id = 19L,
+                            DistrictId = 3L,
+                            Name = "หนองจอก"
+                        },
+                        new
+                        {
+                            Id = 20L,
+                            DistrictId = 3L,
+                            Name = "คลองสิบ"
+                        },
+                        new
+                        {
+                            Id = 21L,
+                            DistrictId = 3L,
+                            Name = "คลองสิบสอง"
+                        },
+                        new
+                        {
+                            Id = 22L,
+                            DistrictId = 3L,
+                            Name = "โคกแฝด"
+                        },
+                        new
+                        {
+                            Id = 23L,
+                            DistrictId = 3L,
+                            Name = "คู้ฝั่งเหนือ"
+                        },
+                        new
+                        {
+                            Id = 24L,
+                            DistrictId = 3L,
+                            Name = "ลำผักชี"
+                        },
+                        new
+                        {
+                            Id = 25L,
+                            DistrictId = 3L,
+                            Name = "ลำต้อยติ่ง"
+                        },
+                        new
+                        {
+                            Id = 26L,
+                            DistrictId = 4L,
+                            Name = "มหาพฤฒาราม"
+                        },
+                        new
+                        {
+                            Id = 27L,
+                            DistrictId = 4L,
+                            Name = "สีลม"
+                        },
+                        new
+                        {
+                            Id = 28L,
+                            DistrictId = 4L,
+                            Name = "สุริยวงศ์"
+                        },
+                        new
+                        {
+                            Id = 29L,
+                            DistrictId = 4L,
+                            Name = "บางรัก"
+                        },
+                        new
+                        {
+                            Id = 30L,
+                            DistrictId = 4L,
+                            Name = "สี่พระยา"
+                        },
+                        new
+                        {
+                            Id = 31L,
+                            DistrictId = 5L,
+                            Name = "อนุสาวรีย์"
+                        },
+                        new
+                        {
+                            Id = 32L,
+                            DistrictId = 5L,
+                            Name = "ท่าแร้ง"
+                        },
+                        new
+                        {
+                            Id = 33L,
+                            DistrictId = 6L,
+                            Name = "คลองจั่น"
+                        },
+                        new
+                        {
+                            Id = 34L,
+                            DistrictId = 6L,
+                            Name = "หัวหมาก"
+                        },
+                        new
+                        {
+                            Id = 35L,
+                            DistrictId = 7L,
+                            Name = "รองเมือง"
+                        },
+                        new
+                        {
+                            Id = 36L,
+                            DistrictId = 7L,
+                            Name = "วังใหม่"
+                        },
+                        new
+                        {
+                            Id = 37L,
+                            DistrictId = 7L,
+                            Name = "ปทุมวัน"
+                        },
+                        new
+                        {
+                            Id = 38L,
+                            DistrictId = 7L,
+                            Name = "ลุมพินี"
+                        },
+                        new
+                        {
+                            Id = 39L,
+                            DistrictId = 8L,
+                            Name = "ป้อมปราบ"
+                        },
+                        new
+                        {
+                            Id = 40L,
+                            DistrictId = 8L,
+                            Name = "วัดเทพศิรินทร์"
+                        },
+                        new
+                        {
+                            Id = 41L,
+                            DistrictId = 8L,
+                            Name = "คลองมหานาค"
+                        },
+                        new
+                        {
+                            Id = 42L,
+                            DistrictId = 8L,
+                            Name = "บ้านบาตร"
+                        },
+                        new
+                        {
+                            Id = 43L,
+                            DistrictId = 8L,
+                            Name = "วัดโสมนัส"
+                        },
+                        new
+                        {
+                            Id = 44L,
+                            DistrictId = 9L,
+                            Name = "บางจาก"
+                        },
+                        new
+                        {
+                            Id = 45L,
+                            DistrictId = 10L,
+                            Name = "มีนบุรี"
+                        },
+                        new
+                        {
+                            Id = 46L,
+                            DistrictId = 10L,
+                            Name = "แสนแสบ"
+                        },
+                        new
+                        {
+                            Id = 47L,
+                            DistrictId = 11L,
+                            Name = "ลาดกระบัง"
+                        },
+                        new
+                        {
+                            Id = 48L,
+                            DistrictId = 11L,
+                            Name = "คลองสองต้นนุ่น"
+                        },
+                        new
+                        {
+                            Id = 49L,
+                            DistrictId = 11L,
+                            Name = "คลองสามประเวศ"
+                        },
+                        new
+                        {
+                            Id = 50L,
+                            DistrictId = 11L,
+                            Name = "ลำปลาทิว"
+                        },
+                        new
+                        {
+                            Id = 51L,
+                            DistrictId = 11L,
+                            Name = "ทับยาว"
+                        },
+                        new
+                        {
+                            Id = 52L,
+                            DistrictId = 11L,
+                            Name = "ขุมทอง"
+                        },
+                        new
+                        {
+                            Id = 53L,
+                            DistrictId = 12L,
+                            Name = "ช่องนนทรี"
+                        },
+                        new
+                        {
+                            Id = 54L,
+                            DistrictId = 12L,
+                            Name = "บางโพงพาง"
+                        },
+                        new
+                        {
+                            Id = 55L,
+                            DistrictId = 13L,
+                            Name = "จักรวรรดิ"
+                        },
+                        new
+                        {
+                            Id = 56L,
+                            DistrictId = 13L,
+                            Name = "สัมพันธวงศ์"
+                        },
+                        new
+                        {
+                            Id = 57L,
+                            DistrictId = 13L,
+                            Name = "ตลาดน้อย"
+                        },
+                        new
+                        {
+                            Id = 58L,
+                            DistrictId = 14L,
+                            Name = "สามเสนใน"
+                        },
+                        new
+                        {
+                            Id = 59L,
+                            DistrictId = 15L,
+                            Name = "วัดกัลยาณ์"
+                        },
+                        new
+                        {
+                            Id = 60L,
+                            DistrictId = 15L,
+                            Name = "หิรัญรูจี"
+                        },
+                        new
+                        {
+                            Id = 61L,
+                            DistrictId = 15L,
+                            Name = "บางยี่เรือ"
+                        },
+                        new
+                        {
+                            Id = 62L,
+                            DistrictId = 15L,
+                            Name = "บุคคโล"
+                        },
+                        new
+                        {
+                            Id = 63L,
+                            DistrictId = 15L,
+                            Name = "ตลาดพลู"
+                        },
+                        new
+                        {
+                            Id = 64L,
+                            DistrictId = 15L,
+                            Name = "ดาวคะนอง"
+                        },
+                        new
+                        {
+                            Id = 65L,
+                            DistrictId = 15L,
+                            Name = "สำเหร่"
+                        },
+                        new
+                        {
+                            Id = 66L,
+                            DistrictId = 16L,
+                            Name = "วัดอรุณ"
+                        },
+                        new
+                        {
+                            Id = 67L,
+                            DistrictId = 16L,
+                            Name = "วัดท่าพระ"
+                        },
+                        new
+                        {
+                            Id = 68L,
+                            DistrictId = 17L,
+                            Name = "ห้วยขวาง"
+                        },
+                        new
+                        {
+                            Id = 69L,
+                            DistrictId = 17L,
+                            Name = "บางกะปิ"
+                        },
+                        new
+                        {
+                            Id = 70L,
+                            DistrictId = 17L,
+                            Name = "สามเสนนอก"
+                        },
+                        new
+                        {
+                            Id = 71L,
+                            DistrictId = 18L,
+                            Name = "สมเด็จเจ้าพระยา"
+                        },
+                        new
+                        {
+                            Id = 72L,
+                            DistrictId = 18L,
+                            Name = "คลองสาน"
+                        },
+                        new
+                        {
+                            Id = 73L,
+                            DistrictId = 18L,
+                            Name = "บางลำภูล่าง"
+                        },
+                        new
+                        {
+                            Id = 74L,
+                            DistrictId = 18L,
+                            Name = "คลองต้นไทร"
+                        },
+                        new
+                        {
+                            Id = 75L,
+                            DistrictId = 19L,
+                            Name = "คลองชักพระ"
+                        },
+                        new
+                        {
+                            Id = 76L,
+                            DistrictId = 19L,
+                            Name = "ตลิ่งชัน"
+                        },
+                        new
+                        {
+                            Id = 77L,
+                            DistrictId = 19L,
+                            Name = "ฉิมพลี"
+                        },
+                        new
+                        {
+                            Id = 78L,
+                            DistrictId = 19L,
+                            Name = "บางพรม"
+                        },
+                        new
+                        {
+                            Id = 79L,
+                            DistrictId = 19L,
+                            Name = "บางระมาด"
+                        },
+                        new
+                        {
+                            Id = 80L,
+                            DistrictId = 19L,
+                            Name = "บางเชือกหนัง"
+                        },
+                        new
+                        {
+                            Id = 81L,
+                            DistrictId = 20L,
+                            Name = "ศิริราช"
+                        },
+                        new
+                        {
+                            Id = 82L,
+                            DistrictId = 20L,
+                            Name = "บ้านช่างหล่อ"
+                        },
+                        new
+                        {
+                            Id = 83L,
+                            DistrictId = 20L,
+                            Name = "บางขุนนนท์"
+                        },
+                        new
+                        {
+                            Id = 84L,
+                            DistrictId = 20L,
+                            Name = "บางขุนศรี"
+                        },
+                        new
+                        {
+                            Id = 85L,
+                            DistrictId = 20L,
+                            Name = "อรุณอมรินทร์"
+                        },
+                        new
+                        {
+                            Id = 86L,
+                            DistrictId = 21L,
+                            Name = "ท่าข้าม"
+                        },
+                        new
+                        {
+                            Id = 87L,
+                            DistrictId = 21L,
+                            Name = "แสมดำ"
+                        },
+                        new
+                        {
+                            Id = 88L,
+                            DistrictId = 22L,
+                            Name = "บางหว้า"
+                        },
+                        new
+                        {
+                            Id = 89L,
+                            DistrictId = 22L,
+                            Name = "บางด้วน"
+                        },
+                        new
+                        {
+                            Id = 90L,
+                            DistrictId = 22L,
+                            Name = "บางจาก"
+                        },
+                        new
+                        {
+                            Id = 91L,
+                            DistrictId = 22L,
+                            Name = "บางแวก"
+                        },
+                        new
+                        {
+                            Id = 92L,
+                            DistrictId = 22L,
+                            Name = "คลองขวาง"
+                        },
+                        new
+                        {
+                            Id = 93L,
+                            DistrictId = 22L,
+                            Name = "ปากคลองภาษีเจริญ"
+                        },
+                        new
+                        {
+                            Id = 94L,
+                            DistrictId = 22L,
+                            Name = "คูหาสวรรค์"
+                        },
+                        new
+                        {
+                            Id = 95L,
+                            DistrictId = 23L,
+                            Name = "หนองแขม"
+                        },
+                        new
+                        {
+                            Id = 96L,
+                            DistrictId = 23L,
+                            Name = "หนองค้างพลู"
+                        },
+                        new
+                        {
+                            Id = 97L,
+                            DistrictId = 24L,
+                            Name = "ราษฎร์บูรณะ"
+                        },
+                        new
+                        {
+                            Id = 98L,
+                            DistrictId = 24L,
+                            Name = "บางปะกอก"
+                        },
+                        new
+                        {
+                            Id = 99L,
+                            DistrictId = 25L,
+                            Name = "บางพลัด"
+                        },
+                        new
+                        {
+                            Id = 100L,
+                            DistrictId = 25L,
+                            Name = "บางอ้อ"
+                        },
+                        new
+                        {
+                            Id = 101L,
+                            DistrictId = 25L,
+                            Name = "บางอ้อ"
+                        },
+                        new
+                        {
+                            Id = 102L,
+                            DistrictId = 25L,
+                            Name = "บางยี่ขัน"
+                        },
+                        new
+                        {
+                            Id = 103L,
+                            DistrictId = 26L,
+                            Name = "ดินแดง"
+                        },
+                        new
+                        {
+                            Id = 104L,
+                            DistrictId = 27L,
+                            Name = "คลองกุ่ม"
+                        },
+                        new
+                        {
+                            Id = 105L,
+                            DistrictId = 27L,
+                            Name = "นวมินทร์"
+                        },
+                        new
+                        {
+                            Id = 106L,
+                            DistrictId = 27L,
+                            Name = "นวลจันทร์"
+                        },
+                        new
+                        {
+                            Id = 107L,
+                            DistrictId = 28L,
+                            Name = "ทุ่งวัดดอน"
+                        },
+                        new
+                        {
+                            Id = 108L,
+                            DistrictId = 28L,
+                            Name = "ยานนาวา"
+                        },
+                        new
+                        {
+                            Id = 109L,
+                            DistrictId = 28L,
+                            Name = "ทุ่งมหาเมฆ"
+                        },
+                        new
+                        {
+                            Id = 110L,
+                            DistrictId = 29L,
+                            Name = "บางซื่อ"
+                        },
+                        new
+                        {
+                            Id = 111L,
+                            DistrictId = 29L,
+                            Name = "วงศ์สว่าง"
+                        },
+                        new
+                        {
+                            Id = 112L,
+                            DistrictId = 30L,
+                            Name = "ลาดยาว"
+                        },
+                        new
+                        {
+                            Id = 113L,
+                            DistrictId = 30L,
+                            Name = "เสนานิคม"
+                        },
+                        new
+                        {
+                            Id = 114L,
+                            DistrictId = 30L,
+                            Name = "จันทรเกษม"
+                        },
+                        new
+                        {
+                            Id = 115L,
+                            DistrictId = 30L,
+                            Name = "จอมพล"
+                        },
+                        new
+                        {
+                            Id = 116L,
+                            DistrictId = 30L,
+                            Name = "จตุจักร"
+                        },
+                        new
+                        {
+                            Id = 117L,
+                            DistrictId = 31L,
+                            Name = "บางคอแหลม"
+                        },
+                        new
+                        {
+                            Id = 118L,
+                            DistrictId = 31L,
+                            Name = "วัดพระยาไกร"
+                        },
+                        new
+                        {
+                            Id = 119L,
+                            DistrictId = 31L,
+                            Name = "บางโคล่"
+                        },
+                        new
+                        {
+                            Id = 120L,
+                            DistrictId = 32L,
+                            Name = "ประเวศ"
+                        });
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Subject", b =>

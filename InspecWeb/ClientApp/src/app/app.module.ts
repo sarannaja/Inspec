@@ -29,6 +29,11 @@ import { SupportGovernmentComponent } from './support-government/support-governm
 import { CentralPolicyComponent } from './central-policy/central-policy.component';
 import { InspectionPlanComponent } from './inspection-plan/inspection-plan.component';
 import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { GovernmentinspectionplanComponent } from './governmentinspectionplan/governmentinspectionplan.component';
+import { InspectionorderComponent } from './inspectionorder/inspectionorder.component';
+import { InstructionOrderComponent } from './instruction-order/instruction-order.component';
+import { DistrictComponent } from './district/district.component';
+import { SubdistrictComponent } from './subdistrict/subdistrict.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +56,12 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
     LoginComponent,
     SupportGovernmentComponent,
     CentralPolicyComponent,
-    InspectionPlanComponent
+    InspectionPlanComponent,
+    GovernmentinspectionplanComponent,
+    InspectionorderComponent
+    InstructionOrderComponent,
+    DistrictComponent,
+    SubdistrictComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -62,7 +72,7 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
     ReactiveFormsModule,
     MyDatePickerTHModule,
     RouterModule.forRoot([
-      { path: '', component: LoginComponent, pathMatch: 'full' },
+      { path: '', redirectTo:'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
@@ -73,7 +83,7 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
           title: 'หน้าหลัก'
         },
         children: [
-          { path: 'main', component: MainComponent },
+          { path: 'main', component: MainComponent ,canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
           { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
@@ -86,6 +96,11 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
           { path: 'supportgovernment', component: SupportGovernmentComponent },
           { path: 'centralpolicy', component: CentralPolicyComponent },
           { path: 'inspectionplan', component: InspectionPlanComponent },
+          { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent },
+          { path: 'inspectionorder', component: InspectionorderComponent },
+          { path: 'InstructionOrder', component: InstructionOrderComponent },
+          { path: 'district/:id', component: DistrictComponent },
+          { path: 'subdistrict/:id', component: SubdistrictComponent },
         ]
       }
     ]),
