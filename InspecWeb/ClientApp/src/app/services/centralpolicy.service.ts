@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -6,9 +6,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CentralpolicyService {
 
-  url = "https://localhost:5001/api/centralpolicy/";
+  url = "";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) 
+   {
+    this.url = baseUrl + 'api/centralpolicy/';
+   }
 
   addCentralpolicy(centralpolicyData) {
     alert(JSON.stringify(centralpolicyData))
