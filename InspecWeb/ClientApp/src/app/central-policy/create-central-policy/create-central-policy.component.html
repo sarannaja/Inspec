@@ -82,7 +82,10 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label w-100">แนบไฟล์</label>
-                <input type="file" multiple="multiple" formControlName="files">
+                <input (chenge)="addFile($event)" type="file" multiple="multiple" formControlName="files">
+                <!-- <div class="col-sm-5 ml-sm-auto">
+                  <button type="button" (click)="onClick()" class="btn btn-primary">แนบไฟล์</button>
+                </div> -->
                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
             </div>

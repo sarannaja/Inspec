@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { IMyOptions } from 'mydatepicker-th';
 
 interface addInput {
   id: number;
-  name: string;
+  Name: string;
 }
 
 @Component({
@@ -14,7 +14,7 @@ interface addInput {
   styleUrls: ['./create-central-policy.component.css']
 })
 export class CreateCentralPolicyComponent implements OnInit {
-
+  @ViewChild("fileUpload", { static: true }) fileUpload: ElementRef
   private myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
@@ -22,16 +22,16 @@ export class CreateCentralPolicyComponent implements OnInit {
 
   // Initialized to specific date (09.10.2018).
   // private model: Object = { date: { year: 2018, month: 10, day: 9 } };
-
+  files: string[] = []
   resultcentralpolicy: any = []
   id: any = 1
   Form: FormGroup
   start_date: Date
-  input: Array<addInput> = [{ id: 1, name: '' }]
+  input: Array<addInput> = [{ id: 1, Name: '' }]
   name: string = ''
   constructor(private fb: FormBuilder, private centralpolicyservice: CentralpolicyService,
     public share: CentralpolicyService) { }
-
+  // files:FileList
   ngOnInit() {
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
@@ -57,13 +57,29 @@ export class CreateCentralPolicyComponent implements OnInit {
     //     console.log(this.resultcentralpolicy);
     //   })
     // })
+
     const creds = this.Form.controls.subjects as FormArray;
     this.input.forEach((item, index) => {
       creds.push(this.fb.group(item))
     })
+
+    const formData = new FormData();
+
+    formData.append('title', this.Form.value.title);
+    formData.append('start_date', this.Form.value.start_date.date.year + '-' + this.Form.value.start_date.date.month + '-' + this.Form.value.start_date.date.day);
+    formData.append('end_date', this.Form.value.end_date.date.year + '-' + this.Form.value.end_date.date.month + '-' + this.Form.value.end_date.date.day);
+    // formData.append('subjects', this.Form.value.subjects);
+
+    // for(let i = 0; i< this.files.length ; i++){
+    //   formData.append('files',this.files[i] );
+    // }
     console.log(this.Form.value);
     // alert(JSON.stringify(this.Form.value))
-    this.centralpolicyservice.addCentralpolicy(this.Form.value)
+    this.centralpolicyservice.addCentralpolicy(formData)
+      .subscribe(result => {
+        console.log(result);
+
+      })
   }
 
 
@@ -72,7 +88,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     this.id = id
     this.input.push({
       id: id,
-      name: ''
+      Name: ''
     });
 
   }
@@ -94,7 +110,7 @@ export class CreateCentralPolicyComponent implements OnInit {
 
   }
   toInput(event, index) {
-    this.input[index].name = event.target.value
+    this.input[index].Name = event.target.value
     console.log(this.input);
     // var obj = this.input.filter((item, index) => {
     //   if (item.id == id) {
@@ -104,4 +120,24 @@ export class CreateCentralPolicyComponent implements OnInit {
     // })
     // this.input = obj
   }
+  addFile(event) {
+    this.files = event.target.files
+    // console.log(event.target.files);
+
+  }
+  // onClick(){
+  //   const fileUpload = this.fileUpload.nativeElement
+
+  //   fileUpload.onchange = () => {
+  //     for(let i =0; i<=fileUpload.files.length; i++){
+  //       var reader = new FileReader();
+  //       const file = fileUpload.files[i]
+  //       reader.onload =(event)=>{
+  //         this.files.push({data:file,inProgress:false,progress:0,url:event.target.result})
+  //       }
+  //       reader.readAsDataURL(file)
+  //     }
+  //   }
+  //   fileUpload.click()
+  // }
 }
