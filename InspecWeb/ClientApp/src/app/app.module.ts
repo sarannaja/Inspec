@@ -29,11 +29,11 @@ import { SupportGovernmentComponent } from './support-government/support-governm
 import { CentralPolicyComponent } from './central-policy/central-policy.component';
 import { InspectionPlanComponent } from './inspection-plan/inspection-plan.component';
 import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { GovernmentinspectionplanComponent } from './governmentinspectionplan/governmentinspectionplan.component';
 import { InspectionorderComponent } from './inspectionorder/inspectionorder.component';
 import { InstructionOrderComponent } from './instruction-order/instruction-order.component';
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
-
 
 @NgModule({
   declarations: [
@@ -57,6 +57,7 @@ import { SubdistrictComponent } from './subdistrict/subdistrict.component';
     SupportGovernmentComponent,
     CentralPolicyComponent,
     InspectionPlanComponent,
+    GovernmentinspectionplanComponent,
     InspectionorderComponent
     InstructionOrderComponent,
     DistrictComponent,
@@ -95,6 +96,7 @@ import { SubdistrictComponent } from './subdistrict/subdistrict.component';
           { path: 'supportgovernment', component: SupportGovernmentComponent },
           { path: 'centralpolicy', component: CentralPolicyComponent },
           { path: 'inspectionplan', component: InspectionPlanComponent },
+          { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent },
           { path: 'inspectionorder', component: InspectionorderComponent },
           { path: 'InstructionOrder', component: InstructionOrderComponent },
           { path: 'district/:id', component: DistrictComponent },

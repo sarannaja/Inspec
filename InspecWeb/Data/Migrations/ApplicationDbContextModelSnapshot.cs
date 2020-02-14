@@ -602,6 +602,119 @@ namespace InspecWeb.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("InspecWeb.Models.Governmentinspectionplan", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Governmentinspectionplans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            File = "inps_plan63.pdf",
+                            Title = "แผนการตรวจราชการแบบบบูรณาการของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2563",
+                            Year = "2563"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            File = "plan_61.pdf",
+                            Title = "แผนการตรวจราชการแบบบบูรณาการของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            File = "plan60.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            File = "plan59.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการประจำปีงบประมาณ พ.ศ. 2559",
+                            Year = "2559"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            File = "insp_plan58.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการประจำปีงบประมาณ พ.ศ. 2558",
+                            Year = "2558"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            File = "plan57.zip",
+                            Title = "แผนการตรวจราชการแบบบูรรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2557",
+                            Year = "2557"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            File = "plan56.zip",
+                            Title = "แผนการตรวจราชการแบบบูรรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2556",
+                            Year = "2556"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            File = "plan55.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2555",
+                            Year = "2555"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            File = "plan54.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ประจำปีงบประมาณ พ.ศ.2554",
+                            Year = "2554"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            File = "NULL",
+                            Title = "แผนการตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ.2553ของผู้ตรวจราชการ",
+                            Year = "2553"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            File = "plan52.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ. 2552",
+                            Year = "2552"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            File = "NULL",
+                            Title = "แผนยุทธศาสตร์การตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ. 2551",
+                            Year = "2551"
+                        });
+                });
+
             modelBuilder.Entity("InspecWeb.Models.InstructionOrder", b =>
                 {
                     b.Property<long>("Id")
