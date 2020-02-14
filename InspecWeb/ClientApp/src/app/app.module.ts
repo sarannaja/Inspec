@@ -62,7 +62,7 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
     ReactiveFormsModule,
     MyDatePickerTHModule,
     RouterModule.forRoot([
-      { path: '', component: LoginComponent, pathMatch: 'full' },
+      { path: '', redirectTo:'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
@@ -73,7 +73,7 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
           title: 'หน้าหลัก'
         },
         children: [
-          { path: 'main', component: MainComponent },
+          { path: 'main', component: MainComponent ,canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
           { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
