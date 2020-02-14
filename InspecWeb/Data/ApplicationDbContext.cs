@@ -31,6 +31,7 @@ namespace InspecWeb.Data
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<CentralPolicyFile> CentralPolicyFiles { get; set; }
         public DbSet<FiscalYear> FiscalYears { get; set; }
+        public DbSet<InspectionOrder> InspectionOrders { get; set; } //fame ทำจ้า
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -43,10 +44,10 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new ProvinceSeeder());
             builder.ApplyConfiguration(new RegionSeeder());
             builder.ApplyConfiguration(new FiscalYearSeeder());
+            builder.ApplyConfiguration(new InspectionOrderSeeder());
             builder.ApplyConfiguration(new InstructionOrderSeeder());
             builder.ApplyConfiguration(new DistrictSeeder());
             builder.ApplyConfiguration(new SubdistrictSeeder());
-
         }
     }
 }
