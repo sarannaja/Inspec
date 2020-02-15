@@ -38,7 +38,7 @@ namespace InspecWeb.Models
 
         [Required]
         [Description("ไฟล์แนบ")]
-        public string? File { get; set; }
+        public string File { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
