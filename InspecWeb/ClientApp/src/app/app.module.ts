@@ -58,7 +58,7 @@ import { SubdistrictComponent } from './subdistrict/subdistrict.component';
     CentralPolicyComponent,
     InspectionPlanComponent,
     GovernmentinspectionplanComponent,
-    InspectionorderComponent
+    InspectionorderComponent,
     InstructionOrderComponent,
     DistrictComponent,
     SubdistrictComponent

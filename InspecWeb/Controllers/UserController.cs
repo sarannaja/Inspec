@@ -22,6 +22,8 @@ namespace InspecWeb.Controllers
             _userManager = userManager;
         }
 
+
+
         [Route("[controller]/[action]")]
         public async Task<string> Create()
         {
