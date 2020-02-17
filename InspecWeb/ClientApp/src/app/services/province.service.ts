@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class ProvinceService {
   {
     this.url = baseUrl + 'api/province/';
   }
-  getprovincedata() {
-    return this.http.get(this.url)
+  getprovincedata():Observable<any[]> {
+    return this.http.get<any[]>(this.url)
   }
   addProvince(provinceData) {
     const formData = new FormData();

@@ -8,21 +8,34 @@ import { Router } from '@angular/router';
   selector: 'app-province',
   templateUrl: './province.component.html',
   styleUrls: ['./province.component.css']
+
 })
 export class ProvinceComponent implements OnInit {
 
-  resultprovince: any = []
+  resultprovince: any[] = []
   delid: any
   name: any
   link: any
   modalRef: BsModalRef;
   Form: FormGroup;
   EditForm: FormGroup;
+  dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
   constructor(private modalService: BsModalService, private fb: FormBuilder, private provinceservice: ProvinceService,
-    public share: ProvinceService,private router:Router) { }
+    public share: ProvinceService, private router: Router) { }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columnDefs: [
+        {
+          targets: [4],
+          orderable: false
+        }
+      ]
+     
+    };
+
     this.Form = this.fb.group({
       "provincename": new FormControl(null, [Validators.required]),
       "provincelink": new FormControl(null, [Validators.required])
@@ -32,17 +45,18 @@ export class ProvinceComponent implements OnInit {
     //แก้ไข
 
 
-    this.provinceservice.getprovincedata().subscribe(result => {
-      this.resultprovince = result
-      console.log(this.resultprovince);
-    })
+    this.provinceservice.getprovincedata()
+      .subscribe(result => {
+        this.resultprovince = result
+        console.log(this.resultprovince);
+      })
     this.Form.patchValue({
       // test: "testest"
     })
   }
 
-  District(id){
-    this.router.navigate(['/district',id])
+  District(id) {
+    this.router.navigate(['/district', id])
   }
 
   openModal(template: TemplateRef<any>, id, name, link) {
@@ -102,7 +116,7 @@ export class ProvinceComponent implements OnInit {
   }
   editProvince(value, delid) {
     console.clear();
-    console.log("kkkk"+JSON.stringify(value));
+    console.log("kkkk" + JSON.stringify(value));
     this.provinceservice.editProvince(value, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
