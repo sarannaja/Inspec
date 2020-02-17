@@ -34,6 +34,7 @@ import { InspectionorderComponent } from './inspectionorder/inspectionorder.comp
 import { InstructionOrderComponent } from './instruction-order/instruction-order.component';
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,8 @@ import { SubdistrictComponent } from './subdistrict/subdistrict.component';
     SelectModule,
     ReactiveFormsModule,
     MyDatePickerTHModule,
+    BrowserModule,
+    DataTablesModule,
     RouterModule.forRoot([
       { path: '', redirectTo:'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
