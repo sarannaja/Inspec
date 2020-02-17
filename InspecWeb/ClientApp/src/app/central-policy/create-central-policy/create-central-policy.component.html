@@ -17,7 +17,7 @@
         <h5 class="card-title">เพิ่มนโยบายกลาง</h5>
       </div>
       <div class="card-body">
-        <form [formGroup]="Form" (ngSubmit)="storeCentralpolicy()">
+        <form [formGroup]="Form" (ngSubmit)="storeCentralpolicy(Form.value)">
           <div class="row">
             <div class="col-12 col-xl-12">
               <br>
@@ -56,7 +56,7 @@
               </div>
             </div>
 
-            <div class="col-12 col-xl-12">
+            <!-- <div class="col-12 col-xl-12">
               <div  class="form-group">
                 <label>ประเด็น</label>
                 <div class="row" *ngFor="let item of input; let i = index">
@@ -77,19 +77,23 @@
 
                 </div>
               </div>
-            </div>
+            </div> -->
 
+            <!-- <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label class="form-label w-100">แนบไฟล์</label>
+                <input type="file" multiple="multiple" formControlName="files">
+                <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+              </div>
+            </div> -->
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label w-100">แนบไฟล์</label>
-                <input (chenge)="addFile($event)" type="file" multiple="multiple" formControlName="files">
-                <!-- <div class="col-sm-5 ml-sm-auto">
-                  <button type="button" (click)="onClick()" class="btn btn-primary">แนบไฟล์</button>
-                </div> -->
+                <input type="file" multiple="multiple" formControlName="files">
                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
             </div>
-            <hr>
+            <!-- <hr> -->
             <div class="form-group row">
               <div class="col-sm-5 ml-sm-auto">
                 <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -98,6 +102,7 @@
                 <button type="button" class="btn btn-danger">ยกเลิก</button>
               </div>
             </div>
+
           </div>
         </form>
       </div>

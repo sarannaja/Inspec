@@ -1,15 +1,16 @@
-using IdentityServer4.EntityFramework.Entities;
-using InspecWeb.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
+using InspecWeb.Data;
+using InspecWeb.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
-//using ReflectionIT.Mvc.Paging;
 
 namespace InspecWeb
 {
@@ -18,22 +19,27 @@ namespace InspecWeb
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        [System.Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
-            
-
             services.AddDbContext<ApplicationDbContext>(options =>
-           options.UseSqlServer(
-               Configuration.GetConnectionString("DefaultConnection")));
-            
-            services.AddMvc()   
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityServer()
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+            services.AddAuthentication()
+                .AddIdentityServerJwt();
+
+            services.AddMvc()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -44,32 +50,30 @@ namespace InspecWeb
                 });
 
             services.AddControllersWithViews();
+            services.AddRazorPages();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
-
-
             });
-            //services.AddPaging();
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
@@ -78,11 +82,15 @@ namespace InspecWeb
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseIdentityServer();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
 
             app.UseSpa(spa =>
@@ -97,29 +105,6 @@ namespace InspecWeb
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-            //File Upload Configuration in the StartUp File
-            app.UseStaticFiles();
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Could Not Find Anything");
-            });
-            // End File Upload Configuration in the StartUp File
         }
-    }
-}
-
-internal class Clients
-{
-    public static List<Client> GetClients()
-    {
-        return new List<Client>
-     {
-       new Client
-        {
-          ClientId = "testWebClient",
-          ClientName = "testWebClient"
-         }
-       };
     }
 }
