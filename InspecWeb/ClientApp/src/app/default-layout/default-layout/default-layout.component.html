@@ -1,10 +1,10 @@
 <div class="wrapper">
   <nav id="sidebar" class="sidebar">
-      <a class="sidebar-brand" href="index.html">
+      <a class="sidebar-brand" [routerLink]="['/main']">
           <img src="assets/img/logo.png" class="img-fluid rounded-circle mb-2" height="42" width="42" />
           &nbsp;
           สตร.
-      </a>
+      </a> 
       <div class="sidebar-content">
           <div class="sidebar-user">
               <img src="assets/img/user.png" class="img-fluid rounded-circle mb-2" alt="Linda Miller" />
@@ -21,20 +21,20 @@
               </li>
               <li class="sidebar-item">
                 <a class="sidebar-link" [routerLink]="['/centralpolicy']">
-                    <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
+                    <i class="align-middle mr-2 fas fa-fw fa-archive"></i> <span
                         class="align-middle">นโยบายกลาง</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a class="sidebar-link" [routerLink]="['/inspectionplan']">
-                    <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
+                    <i class="align-middle mr-2 fas fa-fw fa-list"></i> <span
                         class="align-middle">แผนการตรวจ</span>
                 </a>
             </li>
               <li class="sidebar-item">
                   <a href="#dashboards" data-toggle="collapse" class="sidebar-link collapsed">
                       <i class="align-middle mr-2 fas fa-fw fa-database"></i> <span
-                          class="align-middle">จัดการข้อมูลพื้นฐาน</span>
+                          class="align-middle">ข้อมูลพื้นฐาน</span>
                   </a>
                   <ul id="dashboards" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
                       <li class="sidebar-item"><a class="sidebar-link"
