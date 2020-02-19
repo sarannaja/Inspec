@@ -53,5 +53,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new DistrictSeeder());
             builder.ApplyConfiguration(new SubdistrictSeeder());
         }
+
+     
     }
 }

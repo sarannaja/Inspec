@@ -4,9 +4,9 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="['/main']">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
-      <li class="breadcrumb-item"><a href="#">แผนการตรวจราชการประจำปี</a></li>
-      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+      <li class="breadcrumb-item active">แผนการตรวจราชการประจำปี</li>
     </ol>
   </nav>
 </div>
@@ -34,7 +34,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of resultgovernmentinspectionplan; let i = index">
-              <td>{{ i + 1 }}</td>
+              <td>{{ i + 1 }}.</td>
               <td>{{ item.year }}</td>
               <td>{{ item.title }}</td>
               <td><a href="/src/assets/GovernmentinspectionplanFile/plan59.pdf" download>{{ item.file }}</a></td>
