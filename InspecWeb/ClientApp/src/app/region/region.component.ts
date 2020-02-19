@@ -10,16 +10,29 @@ import { RegionService } from '../services/region.service';
 })
 export class RegionComponent implements OnInit {
 
-  resultregion: any = []
+  resultregion: any[] = []
   delid: any
   name: any
   modalRef: BsModalRef;
   Form: FormGroup
+  loading = false;
+  dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
   constructor(private modalService: BsModalService, private fb: FormBuilder, private regionservice: RegionService,
     public share: RegionService) { }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columnDefs: [
+        {
+          targets: [3],
+          orderable: false
+        }
+      ]
+     
+    };
+
     this.Form = this.fb.group({
       "regionname": new FormControl(null, [Validators.required]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
@@ -32,6 +45,7 @@ export class RegionComponent implements OnInit {
 
     this.regionservice.getregiondata().subscribe(result => {
       this.resultregion = result
+      this.loading = true;
       console.log(this.resultregion);
 
     })
@@ -56,8 +70,10 @@ export class RegionComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+      this.loading = false;
       this.regionservice.getregiondata().subscribe(result => {
         this.resultregion = result
+        this.loading = true;
         console.log(this.resultregion);
       })
     })
@@ -66,8 +82,10 @@ export class RegionComponent implements OnInit {
     this.regionservice.deleteRegion(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
+      this.loading = false;
       this.regionservice.getregiondata().subscribe(result => {
         this.resultregion = result
+        this.loading = true;
         console.log(this.resultregion);
       })
     })
@@ -78,8 +96,10 @@ export class RegionComponent implements OnInit {
     this.regionservice.editRegion(value,delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
+      this.loading = false;
       this.regionservice.getregiondata().subscribe(result => {
         this.resultregion = result
+        this.loading = true;
       })
     })
   }

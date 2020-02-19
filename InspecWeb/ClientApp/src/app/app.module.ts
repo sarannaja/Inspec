@@ -35,7 +35,11 @@ import { InstructionOrderComponent } from './instruction-order/instruction-order
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
 import { DataTablesModule } from 'angular-datatables';
-
+import { TrainingComponent } from './training/training.component';
+import { CreateTrainingComponent } from './training/create-training/create-training.component';
+import { ThaiDatePipe } from './services/Pipe/thaidate.service';
+import { SnotifyModule, ToastDefaults, SnotifyService } from 'ng-snotify';
+import { NotificationService } from './services/Pipe/alert.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +66,11 @@ import { DataTablesModule } from 'angular-datatables';
     InspectionorderComponent,
     InstructionOrderComponent,
     DistrictComponent,
-    SubdistrictComponent
+    SubdistrictComponent,
+    TrainingComponent,
+    CreateTrainingComponent,
+    ThaiDatePipe,
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -73,9 +81,11 @@ import { DataTablesModule } from 'angular-datatables';
     ReactiveFormsModule,
     MyDatePickerTHModule,
     BrowserModule,
+    SnotifyModule,
+
     DataTablesModule,
     RouterModule.forRoot([
-      { path: '', redirectTo:'main', pathMatch: 'full' },
+      { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
@@ -86,7 +96,7 @@ import { DataTablesModule } from 'angular-datatables';
           title: 'หน้าหลัก'
         },
         children: [
-          { path: 'main', component: MainComponent ,canActivate: [AuthorizeGuard] }, //ออเทน
+          { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
           { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
@@ -94,7 +104,7 @@ import { DataTablesModule } from 'angular-datatables';
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
           { path: 'user', component: UserComponent },
-          { path: 'fiscalyear',component: FiscalyearComponent},
+          { path: 'fiscalyear', component: FiscalyearComponent },
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
           { path: 'supportgovernment', component: SupportGovernmentComponent },
           { path: 'centralpolicy', component: CentralPolicyComponent },
@@ -104,14 +114,21 @@ import { DataTablesModule } from 'angular-datatables';
           { path: 'InstructionOrder', component: InstructionOrderComponent },
           { path: 'district/:id', component: DistrictComponent },
           { path: 'subdistrict/:id', component: SubdistrictComponent },
+          { path: 'training', component: TrainingComponent },
+          { path: 'training/createtraining', component: CreateTrainingComponent }
         ]
       }
     ]),
     ModalModule.forRoot()
-  ],
+  ], exports: [
+    ThaiDatePipe,],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
+    SnotifyService, NotificationService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
