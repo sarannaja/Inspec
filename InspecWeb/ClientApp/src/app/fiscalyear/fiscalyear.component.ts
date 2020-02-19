@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FiscalyearService } from '../services/fiscalyear.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-fiscalyear',
@@ -18,7 +19,7 @@ export class FiscalyearComponent implements OnInit {
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private fiscalyearservice: FiscalyearService,
-    public share: FiscalyearService) { }
+    public share: FiscalyearService, private router:Router) { }
 
   ngOnInit() {
     this.Form = this.fb.group({
@@ -76,5 +77,9 @@ export class FiscalyearComponent implements OnInit {
         this.resultfiscalyear = result
       })
     })
+  }
+
+  DetailFiscalYear(id:any){
+    this.router.navigate(['/fiscalyear/detailfiscalyear',id])
   }
 }

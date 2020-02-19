@@ -35,6 +35,11 @@ import { InstructionOrderComponent } from './instruction-order/instruction-order
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
 import { DataTablesModule } from 'angular-datatables';
+import { SubjectComponent } from './subject/subject.component';
+import { SubquestionComponent } from './subquestion/subquestion.component';
+import { DetailFiscalyearComponent } from './fiscalyear/detail-fiscalyear/detail-fiscalyear.component';
+import { InspectionPlanEventComponent } from './inspection-plan-event/inspection-plan-event.component';
+import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +67,12 @@ import { DataTablesModule } from 'angular-datatables';
     InspectionorderComponent,
     InstructionOrderComponent,
     DistrictComponent,
-    SubdistrictComponent
+    SubdistrictComponent,
+    SubjectComponent,
+    SubquestionComponent,
+    DetailFiscalyearComponent,
+    InspectionPlanEventComponent,
+    CreateInspectionPlanEventComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -104,6 +114,11 @@ import { DataTablesModule } from 'angular-datatables';
           { path: 'InstructionOrder', component: InstructionOrderComponent },
           { path: 'district/:id', component: DistrictComponent },
           { path: 'subdistrict/:id', component: SubdistrictComponent },
+          { path: 'subject/:id', component: SubjectComponent },
+          { path: 'subquestion/:id', component: SubquestionComponent },
+          { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
+          { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
+          { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
         ]
       }
     ]),
