@@ -36,6 +36,8 @@
               <td>{{ item.year }}</td>
               <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
               <td>
+                <i class="align-middle mr-2 fas fa-fw fa-map pointer"
+                (click)="DetailFiscalYear(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                 (click)="openModal(modaleditFiscalyear, item.id, item.year)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"

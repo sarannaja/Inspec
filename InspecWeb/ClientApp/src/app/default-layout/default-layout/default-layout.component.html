@@ -12,45 +12,54 @@
                 <small>ตำแหน่ง</small>
             </div>
 
-            <ul class="sidebar-nav">
-                <li class="sidebar-item active">
-                    <a class="sidebar-link" [routerLink]="['/main']">
-                        <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span class="align-middle">หน้าหลัก</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" [routerLink]="['/centralpolicy']">
-                        <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
-                            class="align-middle">นโยบายกลาง</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" [routerLink]="['/inspectionplan']">
-                        <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
-                            class="align-middle">แผนการตรวจ</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#dashboards" data-toggle="collapse" class="sidebar-link collapsed">
-                        <i class="align-middle mr-2 fas fa-fw fa-database"></i> <span
-                            class="align-middle">จัดการข้อมูลพื้นฐาน</span>
-                    </a>
-                    <ul id="dashboards" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" [routerLink]="['/fiscalyear']">ปีงบประมาณ</a>
-                        </li>
-                        <li class="sidebar-item"><a class="sidebar-link" [routerLink]="['/region']">เขตตรวจราชการ</a>
-                        </li>
-                        <li class="sidebar-item"><a class="sidebar-link" [routerLink]="['/province']">จังหวัด</a></li>
-                        <li class="sidebar-item"><a class="sidebar-link" [routerLink]="['/ministry']">กระทรวง/กรม</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" [routerLink]="['/user']">
-                        <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
-                            class="align-middle">จัดการผู้ใช้</span>
-                    </a>
-                </li>
+          <ul class="sidebar-nav">
+              <li class="sidebar-item active">
+                  <a class="sidebar-link" [routerLink]="['/main']">
+                      <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span
+                          class="align-middle">หน้าหลัก</span>
+                  </a>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link" [routerLink]="['/centralpolicy']">
+                    <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
+                        class="align-middle">นโยบายกลาง</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" [routerLink]="['/inspectionplanevent']">
+                  <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
+                      class="align-middle">แผนการตรวจ</span>
+              </a>
+          </li>
+            <!-- <li class="sidebar-item">
+                <a class="sidebar-link" [routerLink]="['/inspectionplan']">
+                    <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
+                        class="align-middle">แผนการตรวจ</span>
+                </a>
+            </li> -->
+              <li class="sidebar-item">
+                  <a href="#dashboards" data-toggle="collapse" class="sidebar-link collapsed">
+                      <i class="align-middle mr-2 fas fa-fw fa-database"></i> <span
+                          class="align-middle">จัดการข้อมูลพื้นฐาน</span>
+                  </a>
+                  <ul id="dashboards" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                      <li class="sidebar-item"><a class="sidebar-link"
+                        [routerLink]="['/fiscalyear']">ปีงบประมาณ</a>
+                      </li>
+                      <li class="sidebar-item"><a class="sidebar-link"
+                        [routerLink]="['/region']">เขตตรวจราชการ</a></li>
+                      <li class="sidebar-item"><a class="sidebar-link"
+                        [routerLink]="['/province']">จังหวัด</a></li>
+                      <li class="sidebar-item"><a class="sidebar-link"
+                        [routerLink]="['/ministry']">กระทรวง/กรม</a></li>
+                  </ul>
+              </li>
+              <li class="sidebar-item">
+                  <a class="sidebar-link" [routerLink]="['/user']">
+                      <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
+                          class="align-middle">จัดการผู้ใช้</span>
+                  </a>
+              </li>
 
                 <li class="sidebar-item">
                     <a class="sidebar-link" [routerLink]="['/supportgovernment']">

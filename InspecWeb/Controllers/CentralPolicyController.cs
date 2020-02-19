@@ -6,6 +6,7 @@ using InspecWeb.Data;
 using InspecWeb.Models;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -39,9 +40,12 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var centralpolicydata = _context.CentralPolicies.Include(x => x.Subjects).Where(m => m.Id == id).First();
+
+            return Ok(centralpolicydata);
+            //return "value";
         }
 
         // POST api/values
@@ -57,14 +61,24 @@ namespace InspecWeb.Controllers
                 EndDate = end_date,
                 CreatedBy = "นาย ศรัณญ์ สาพรหม",
                 CreatedAt = date,
-                //Status = "ร่างกำหนดการ",
-                //FiscalYearId = 1
+                Status = "ร่างกำหนดการ",
+                FiscalYearId = 1
             };
 
-            //_context.CentralPolicies.Add(centralpolicydata);
-            //_context.SaveChanges();
+            _context.CentralPolicies.Add(centralpolicydata);
+            _context.SaveChanges();
 
             return centralpolicydata;
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public void Delete(long id)
+        {
+            var centralpolicydata = _context.CentralPolicies.Find(id);
+
+            _context.CentralPolicies.Remove(centralpolicydata);
+            _context.SaveChanges();
         }
 
     }

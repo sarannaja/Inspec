@@ -7,29 +7,27 @@ using System.Text;
 
 namespace InspecWeb.Models
 {
-    [Table("Subjects")]
+    [Table("Subquestions")]
     [Description("ตารางประเด็น")]
-    public class Subject
+    public class Subquestion
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("CentralPolicy")]
-        [Description("FK: นโยบายกลาง")]
-        public long CentralPolicyId { get; set; }
+        [ForeignKey("Subject")]
+        [Description("FK: ประเด็น")]
+        public long SubjectId { get; set; }
 
-        public virtual CentralPolicy CentralPolicy { get; set; }
+        public virtual Subject Subject { get; set; }
 
         [Required]
-        [Description("ชื่อประเด็น")]
+        [Description("ชื่อคำถามย่อย")]
         public string Name { get; set; }
 
         [Required]
-        [Description("คำตอบของประเด็น")]
+        [Description("คำตอบของคำถามย่อย")]
         public string Answer { get; set; }
-
-        public ICollection<Subquestion> Subquestions { get; set; }
     }
 }

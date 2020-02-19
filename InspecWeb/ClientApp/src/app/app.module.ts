@@ -40,6 +40,12 @@ import { CreateTrainingComponent } from './training/create-training/create-train
 import { ThaiDatePipe } from './services/Pipe/thaidate.service';
 import { SnotifyModule, ToastDefaults, SnotifyService } from 'ng-snotify';
 import { NotificationService } from './services/Pipe/alert.service';
+import { SubjectComponent } from './subject/subject.component';
+import { SubquestionComponent } from './subquestion/subquestion.component';
+import { DetailFiscalyearComponent } from './fiscalyear/detail-fiscalyear/detail-fiscalyear.component';
+import { InspectionPlanEventComponent } from './inspection-plan-event/inspection-plan-event.component';
+import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,7 +76,11 @@ import { NotificationService } from './services/Pipe/alert.service';
     TrainingComponent,
     CreateTrainingComponent,
     ThaiDatePipe,
-
+    SubjectComponent,
+    SubquestionComponent,
+    DetailFiscalyearComponent,
+    InspectionPlanEventComponent,
+    CreateInspectionPlanEventComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -116,6 +126,11 @@ import { NotificationService } from './services/Pipe/alert.service';
           { path: 'subdistrict/:id', component: SubdistrictComponent },
           { path: 'training', component: TrainingComponent },
           { path: 'training/createtraining', component: CreateTrainingComponent }
+          { path: 'subject/:id', component: SubjectComponent },
+          { path: 'subquestion/:id', component: SubquestionComponent },
+          { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
+          { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
+          { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
         ]
       }
     ]),
