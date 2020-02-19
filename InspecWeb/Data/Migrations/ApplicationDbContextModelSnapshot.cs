@@ -2576,7 +2576,7 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LecturerName")
+                    b.Property<string>("LecturerName");
 
                     b.Property<string>("Answer")
 
@@ -2608,7 +2608,7 @@ namespace InspecWeb.Data.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Subquestions");
-                });
+                }));
 
             modelBuilder.Entity("InspecWeb.Models.Village", b =>
                 {
