@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200214070534_ModelsInspectionOrder")]
-    partial class ModelsInspectionOrder
+    [Migration("20200214030523_ModifyCentralPolicySchema")]
+    partial class ModifyCentralPolicySchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -182,7 +182,7 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndedDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDate")
@@ -299,160 +299,6 @@ namespace InspecWeb.Data.Migrations
                         {
                             Id = 1L,
                             Year = 2563
-                        });
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.InspectionOrder", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("File")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Order")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Year")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("InspectionOrders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com63.pdf",
-                            Name = "การตรวจราชการประจำปีงบประมาณ พ.ศ. 2563",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 361/2562",
-                            Year = "2563"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com62.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2562",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 343/2561",
-                            Year = "2562"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com61.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2561",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 15/2561",
-                            Year = "2561"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com60.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2560",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 264/2559",
-                            Year = "2560"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com59.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2559",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 396/2558",
-                            Year = "2559"
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com58.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2558",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 256/2557",
-                            Year = "2558"
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2557",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 328/2556 ",
-                            Year = "2557"
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com56.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2556",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 302/2555",
-                            Year = "2556"
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com55.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2555",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 19/2555",
-                            Year = "2555"
-                        },
-                        new
-                        {
-                            Id = 10L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com54.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2554",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 8/2554",
-                            Year = "2554"
-                        },
-                        new
-                        {
-                            Id = 11L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com53.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2553",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 8/2553",
-                            Year = "2553"
-                        },
-                        new
-                        {
-                            Id = 12L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com52.pdf",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2552",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 21/2552",
-                            Year = "2552"
-                        },
-                        new
-                        {
-                            Id = 13L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com52.tif",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2551",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 226/2550",
-                            Year = "2551"
                         });
                 });
 

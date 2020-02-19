@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200214082750_ModifySubdistrictSchema")]
-    partial class ModifySubdistrictSchema
+    [Migration("20200217082600_CreateTrainingSchema")]
+    partial class CreateTrainingSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -182,17 +182,26 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndedDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<long>("FiscalYearId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FiscalYearId");
 
                     b.ToTable("CentralPolicies");
                 });
@@ -601,6 +610,454 @@ namespace InspecWeb.Data.Migrations
                         {
                             Id = 1L,
                             Year = 2563
+                        });
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.Governmentinspectionplan", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Governmentinspectionplans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            File = "inps_plan63.pdf",
+                            Title = "แผนการตรวจราชการแบบบบูรณาการของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2563",
+                            Year = "2563"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            File = "plan_61.pdf",
+                            Title = "แผนการตรวจราชการแบบบบูรณาการของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            File = "plan60.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            File = "plan59.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการประจำปีงบประมาณ พ.ศ. 2559",
+                            Year = "2559"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            File = "insp_plan58.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการประจำปีงบประมาณ พ.ศ. 2558",
+                            Year = "2558"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            File = "plan57.zip",
+                            Title = "แผนการตรวจราชการแบบบูรรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2557",
+                            Year = "2557"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            File = "plan56.zip",
+                            Title = "แผนการตรวจราชการแบบบูรรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2556",
+                            Year = "2556"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            File = "plan55.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ของผู้ตรวจราชการ ประจำปีงบประมาณ พ.ศ. 2555",
+                            Year = "2555"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            File = "plan54.zip",
+                            Title = "แผนการตรวจราชการแบบบูรณาการ ประจำปีงบประมาณ พ.ศ.2554",
+                            Year = "2554"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            File = "NULL",
+                            Title = "แผนการตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ.2553ของผู้ตรวจราชการ",
+                            Year = "2553"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            File = "plan52.pdf",
+                            Title = "แผนการตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ. 2552",
+                            Year = "2552"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            File = "NULL",
+                            Title = "แผนยุทธศาสตร์การตรวจราชการแบบบูรณาการเพื่อมุ่งผลสัมฤทธิ์ตามนโยบายรัฐบาลประจำปีงบประมาณ พ.ศ. 2551",
+                            Year = "2551"
+                        });
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.InspectionOrder", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Order")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InspectionOrders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com63.pdf",
+                            Name = "การตรวจราชการประจำปีงบประมาณ พ.ศ. 2563",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 361/2562",
+                            Year = "2563"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com62.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2562",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 343/2561",
+                            Year = "2562"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com61.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2561",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 15/2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com60.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2560",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 264/2559",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com59.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2559",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 396/2558",
+                            Year = "2559"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com58.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2558",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 256/2557",
+                            Year = "2558"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2557",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 328/2556 ",
+                            Year = "2557"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com56.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2556",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 302/2555",
+                            Year = "2556"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com55.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2555",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 19/2555",
+                            Year = "2555"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com54.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2554",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 8/2554",
+                            Year = "2554"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com53.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2553",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 8/2553",
+                            Year = "2553"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com52.pdf",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2552",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 21/2552",
+                            Year = "2552"
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
+                            File = "insp_com52.tif",
+                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2551",
+                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 226/2550",
+                            Year = "2551"
+                        });
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.InstructionOrder", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Detail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Order")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InstructionOrders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "���͡ ����Ѳ�� ��Ե��� (ࢵ��ǹ��ҧ), �ҧ���������ѡɳ� �����ӹ�ª�� (ࢵ1,12), �ҧ���Ե�� ͵��Ѿ�� (ࢵ2,14.17), ��³ç�� ���ͺح���� (ࢵ3,9), ��¾��� �ͧ⾸�� (ࢵ4,18), ��¸�ó��ѱ�� ��Է�Ծѹ�� (ࢵ5,7,10), �ҧ��ǻ����� ������ԢԵ (ࢵ6,16), ��¨����� �ѹ���Ҹ� (ࢵ8,13), �ҧ����ùت ��չ��� (ࢵ11,15)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� �� ��� 313/2562 ŧ�ѹ��� 28 ���Ҥ� 2562",
+                            Year = "2562"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "���͡ ����Ѳ�� ��Ե��� (ࢵ��ǹ��ҧ), �ҧ���������ѡɳ� �����ӹ�ª�� (ࢵ1,12), �ҧ���Ե�� ͵��Ѿ�� (ࢵ2,14.17), ��³ç�� ���ͺح���� (ࢵ3,9), ��¾��� �ͧ⾸�� (ࢵ4,18), ��¸�ó��ѱ�� ��Է�Ծѹ�� (ࢵ5,7,10), �ҧ��ǻ����� ������ԢԵ (ࢵ6,16), ��¨����� �ѹ���Ҹ� (ࢵ8,13), �ҧ����ùت ��չ��� (ࢵ11,15)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� ��. ��� 102/2562 ŧ�ѹ��� 10 ����Ҥ� 2562",
+                            Year = "2562"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "���͡ ����Ѳ�� ��Ե��� (ࢵ��ǹ��ҧ), �ҧ���������ѡɳ� �����ӹ�ª�� (ࢵ1,12), �ҧ���Ե�� ͵��Ѿ�� (ࢵ2,14.17), ��³ç�� ���ͺح���� (ࢵ3,9), ��¾��� �ͧ⾸�� (ࢵ4,18), ��¸�ó��ѱ�� ��Է�Ծѹ�� (ࢵ5,7,10), �ҧ��ǻ����� ������ԢԵ (ࢵ6,16), ��¨����� �ѹ���Ҹ� (ࢵ8,13), �ҧ����ùت ��չ��� (ࢵ11,15)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� ��. ��� 5/2562 ŧ�ѹ��� 7 ���Ҥ� 2562",
+                            Year = "2562"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "���͡ ����Ѳ�� ��Ե��� (ࢵ��ǹ��ҧ), �ҧ���������ѡɳ� �����ӹ�ª�� (ࢵ1,12), �ҧ���Ե�� ͵��Ѿ�� (ࢵ2,14.17), ��³ç�� ���ͺح���� (ࢵ3,9), ��¾��� �ͧ⾸�� (ࢵ4,18), ��¸�ó��ѱ�� ��Է�Ծѹ�� (ࢵ5,7,10), �ҧ��ǻ����� ������ԢԵ (ࢵ6,16), ��¨����� �ѹ���Ҹ� (ࢵ8,13), �ҧ����ùت ��չ��� (ࢵ11,15)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� ʻ�. ��� 262/2561 ŧ�ѹ��� 16 ���Ҥ� 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ��ǹ��ҧ,2,3),��³ç�� ���ͺح����(ࢵ1,4,7),�ҧ��ǻ����� ������ԢԵ(ࢵ5,6),��¨����� �ѹ���Ҹ�(ࢵ8,9),�ҧ����ùت ��չ���(ࢵ10,11),��¡�ձ� ʾ⪤(ࢵ13,14),�ҧ�ǧ�� �ѹ�(ࢵ15,16),��¾��� �ͧ⾸��(ࢵ15,16,17,18)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� ��. ��� 255/2561 ŧ�ѹ��� 5 ���Ҥ� 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ��ǹ��ҧ,2,3),��³ç�� ���ͺح����(ࢵ1,4,7),�ҧ��ǻ����� ������ԢԵ(ࢵ5,6),��¨����� �ѹ���Ҹ�(ࢵ8,9),�ҧ����ùت ��չ���(ࢵ10,11),��¡�ձ� ʾ⪤(ࢵ13,14), ��¾��� �ͧ⾸��(ࢵ15,16,17,18)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� ��. ��� 206/2561 ŧ�ѹ��� 24 �ԧ�Ҥ� 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "��¨����� �ѹ���Ҹ�(ࢵ��ǹ��ҧ,3,9,14),�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ1,5),��¹��ʪ�� ��������(ࢵ2),���⪤��� പ��øѭ(ࢵ4),�ҧ��ǻ����� ������ԢԵ(ࢵ6,7),��³ç�� ���ͺح����(ࢵ8),�ҧ����ùت ��չ���(ࢵ10,11),����ѡ��� ���ح�(ࢵ12), ��¡�ձ� ʾ⪤(ࢵ13), �������ѡ��� ���§����(ࢵ15,16,17,18)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� ��. ��� 100/2561 ŧ�ѹ��� 27 ����¹ 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "��¨����� �ѹ���Ҹ�(ࢵ��ǹ��ҧ,3,9,14),�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ1,5),��¹��ʪ�� ��������(ࢵ2),���⪤��� പ��øѭ(ࢵ4),�ҧ��ǻ����� ������ԢԵ(ࢵ6,7),��¾�Թ ����Ԫ��(ࢵ8),�ҧ����ùت ��չ���(ࢵ10,11),����ѡ��� ���ح�(ࢵ12), ��¡�ձ� ʾ⪤(ࢵ13), �������ѡ��� ���§����(ࢵ15,16,17,18)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� ��. ��� 76/2561 ŧ�ѹ��� 2 ����¹ 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "��¨����� �ѹ���Ҹ�(ࢵ��ǹ��ҧ,3,9,14),�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ1,2,5),���⪤��� പ��øѭ(ࢵ4),�ҧ��ǻ����� ������ԢԵ(ࢵ6,7),��¾�Թ ����Ԫ��(ࢵ8),�ҧ����ùت ��չ���(ࢵ10,11),����ѡ��� ���ح�(ࢵ12), ��¡�ձ� ʾ⪤(ࢵ13), �������ѡ��� ���§����(ࢵ15,16,17,18)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = "����� ��. ��� 76/2561 ŧ�ѹ��� 2 ����¹ 2561",
+                            Year = "2561"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "��¨����� �ѹ���Ҹ�(ࢵ��ǹ��ҧ,3,9,14),�ҧ��ǻ����� ������ԢԵ(ࢵ1,6,7),�������ѡ��� ���§����(ࢵ2,15,16),���⪤��� പ��øѭ(ࢵ4),�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ5, 17, 18),��¾�Թ ����Ԫ��(ࢵ8),�ҧ����ùت ��չ���(ࢵ10, 11, 13),����ѡ��� ���ح�(ࢵ12)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = " ����� ��. ��� 336/2560 ŧ�ѹ��� 13 �ѹ�Ҥ� 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "��¨����� �ѹ���Ҹ�(ࢵ��ǹ��ҧ,3,9,14),�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ1,2,5),���⪤��� പ��øѭ(ࢵ4),�ҧ��ǻ����� ������ԢԵ(ࢵ6, 7, 18),��¾�Թ ����Ԫ��(ࢵ8),�ҧ����ùت ��չ���(ࢵ10, 11, 13),����ѡ��� ���ح�(ࢵ12),�������ѡ��� ���§����(ࢵ15, 16, 17)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = " ����� ��. ��� 306/2560 ŧ�ѹ��� 20 ��Ȩԡ�¹ 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "��¨����� �ѹ���Ҹ�(ࢵ��ǹ��ҧ,18),�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ1,2),�����è�� �Ҩ�ѡ��(ࢵ3,4),����þѹ�� ��繷�Ѿ��(ࢵ5,9),�ҧ��ǻ����� ������ԢԵ(ࢵ6),�ҧ�������� �ح�����(ࢵ7,15),�.�.�.����� �������ʹ���(ࢵ8),�������� ��������(ࢵ10),�ҧ�Ѩ���� �ѹ������ҹԪ��(ࢵ11,14),�ҧ�ѷ��� �Ե����ó�(ࢵ12,17),�ҧ����ùت ��չ���(ࢵ13),�������ѡ��� ���§����(ࢵ16)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = " ����� ��. ��� 215/2560 ŧ�ѹ��� 6 �ѹ��¹ 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "��¨����� �ѹ���Ҹ�(ࢵ��ǹ��ҧ,18),�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ1,2),�����è�� �Ҩ�ѡ��(ࢵ3,4),����þѹ�� ��繷�Ѿ��(ࢵ5,9),�ҧ��ǻ����� ������ԢԵ(ࢵ6),�ҧ�������� �ح�����(ࢵ7,15),�������ѡ��� ���§����(ࢵ8,16),�������� ��������(ࢵ10),�ҧ�Ѩ���� �ѹ������ҹԪ��(ࢵ11,14),�ҧ�ѷ��� �Ե����ó�(ࢵ12,17),�ҧ����ùت ��չ���(ࢵ13)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = " ����� ��. ��� 100/2560 ŧ�ѹ��� 28 �չҤ� 2560",
+                            Year = "2560"
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            CreateBy = "����Ǩ�Ҫ����ӹѡ��¡�Ѱ�����",
+                            Detail = "��¨����� �ѹ���Ҹ�(ࢵ��ǹ��ҧ,6,18),�ѹ���Ǩ� �����ѵ�� ��������ä�(ࢵ1,2),�����è�� �Ҩ�ѡ��(ࢵ3,4),����þѹ�� ��繷�Ѿ��(ࢵ5,9),�ҧ�������� �ح�����(ࢵ7, 15),�������ѡ��� ���§����(ࢵ8, 16),�������� ��������(ࢵ10, 13),�ҧ�Ѩ���� �ѹ������ҹԪ��(ࢵ11, 14),�ҧ�ѷ��� �Ե����ó�(ࢵ12, 17)",
+                            File = "",
+                            Name = "�ͺ���¼���Ǩ�Ҫ����ӹѡ��¡�Ѱ������Ѻ�Դ�ͺࢵ��Ǩ�Ҫ���",
+                            Order = " ����� ��.��� 3 / 2560 ŧ�ѹ��� 5 ���Ҥ� 2560",
+                            Year = "2560"
                         });
                 });
 
@@ -1347,6 +1804,728 @@ namespace InspecWeb.Data.Migrations
                     b.HasIndex("DistrictId");
 
                     b.ToTable("Subdistricts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            DistrictId = 1L,
+                            Name = "พระบรมมหาราชวัง"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            DistrictId = 1L,
+                            Name = "วังบูรพาภิรมย์"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            DistrictId = 1L,
+                            Name = "วัดราชบพิธ"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            DistrictId = 1L,
+                            Name = "สำราญราษฎร์"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            DistrictId = 1L,
+                            Name = "ศาลเจ้าพ่อเสือ"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            DistrictId = 1L,
+                            Name = "เสาชิงช้า"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            DistrictId = 1L,
+                            Name = "บวรนิเวศ"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            DistrictId = 1L,
+                            Name = "ตลาดยอด"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            DistrictId = 1L,
+                            Name = "ชนะสงคราม"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            DistrictId = 1L,
+                            Name = "บ้านพานถม"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            DistrictId = 1L,
+                            Name = "บางขุนพรหม"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            DistrictId = 1L,
+                            Name = "วัดสามพระยา"
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            DistrictId = 2L,
+                            Name = "ดุสิต"
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            DistrictId = 2L,
+                            Name = "วชิรพยาบาล"
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            DistrictId = 2L,
+                            Name = "สวนจิตรลดา"
+                        },
+                        new
+                        {
+                            Id = 16L,
+                            DistrictId = 2L,
+                            Name = "สี่แยกมหานาค"
+                        },
+                        new
+                        {
+                            Id = 17L,
+                            DistrictId = 2L,
+                            Name = "ถนนนครไชยศรี"
+                        },
+                        new
+                        {
+                            Id = 18L,
+                            DistrictId = 3L,
+                            Name = "กระทุ่มราย"
+                        },
+                        new
+                        {
+                            Id = 19L,
+                            DistrictId = 3L,
+                            Name = "หนองจอก"
+                        },
+                        new
+                        {
+                            Id = 20L,
+                            DistrictId = 3L,
+                            Name = "คลองสิบ"
+                        },
+                        new
+                        {
+                            Id = 21L,
+                            DistrictId = 3L,
+                            Name = "คลองสิบสอง"
+                        },
+                        new
+                        {
+                            Id = 22L,
+                            DistrictId = 3L,
+                            Name = "โคกแฝด"
+                        },
+                        new
+                        {
+                            Id = 23L,
+                            DistrictId = 3L,
+                            Name = "คู้ฝั่งเหนือ"
+                        },
+                        new
+                        {
+                            Id = 24L,
+                            DistrictId = 3L,
+                            Name = "ลำผักชี"
+                        },
+                        new
+                        {
+                            Id = 25L,
+                            DistrictId = 3L,
+                            Name = "ลำต้อยติ่ง"
+                        },
+                        new
+                        {
+                            Id = 26L,
+                            DistrictId = 4L,
+                            Name = "มหาพฤฒาราม"
+                        },
+                        new
+                        {
+                            Id = 27L,
+                            DistrictId = 4L,
+                            Name = "สีลม"
+                        },
+                        new
+                        {
+                            Id = 28L,
+                            DistrictId = 4L,
+                            Name = "สุริยวงศ์"
+                        },
+                        new
+                        {
+                            Id = 29L,
+                            DistrictId = 4L,
+                            Name = "บางรัก"
+                        },
+                        new
+                        {
+                            Id = 30L,
+                            DistrictId = 4L,
+                            Name = "สี่พระยา"
+                        },
+                        new
+                        {
+                            Id = 31L,
+                            DistrictId = 5L,
+                            Name = "อนุสาวรีย์"
+                        },
+                        new
+                        {
+                            Id = 32L,
+                            DistrictId = 5L,
+                            Name = "ท่าแร้ง"
+                        },
+                        new
+                        {
+                            Id = 33L,
+                            DistrictId = 6L,
+                            Name = "คลองจั่น"
+                        },
+                        new
+                        {
+                            Id = 34L,
+                            DistrictId = 6L,
+                            Name = "หัวหมาก"
+                        },
+                        new
+                        {
+                            Id = 35L,
+                            DistrictId = 7L,
+                            Name = "รองเมือง"
+                        },
+                        new
+                        {
+                            Id = 36L,
+                            DistrictId = 7L,
+                            Name = "วังใหม่"
+                        },
+                        new
+                        {
+                            Id = 37L,
+                            DistrictId = 7L,
+                            Name = "ปทุมวัน"
+                        },
+                        new
+                        {
+                            Id = 38L,
+                            DistrictId = 7L,
+                            Name = "ลุมพินี"
+                        },
+                        new
+                        {
+                            Id = 39L,
+                            DistrictId = 8L,
+                            Name = "ป้อมปราบ"
+                        },
+                        new
+                        {
+                            Id = 40L,
+                            DistrictId = 8L,
+                            Name = "วัดเทพศิรินทร์"
+                        },
+                        new
+                        {
+                            Id = 41L,
+                            DistrictId = 8L,
+                            Name = "คลองมหานาค"
+                        },
+                        new
+                        {
+                            Id = 42L,
+                            DistrictId = 8L,
+                            Name = "บ้านบาตร"
+                        },
+                        new
+                        {
+                            Id = 43L,
+                            DistrictId = 8L,
+                            Name = "วัดโสมนัส"
+                        },
+                        new
+                        {
+                            Id = 44L,
+                            DistrictId = 9L,
+                            Name = "บางจาก"
+                        },
+                        new
+                        {
+                            Id = 45L,
+                            DistrictId = 10L,
+                            Name = "มีนบุรี"
+                        },
+                        new
+                        {
+                            Id = 46L,
+                            DistrictId = 10L,
+                            Name = "แสนแสบ"
+                        },
+                        new
+                        {
+                            Id = 47L,
+                            DistrictId = 11L,
+                            Name = "ลาดกระบัง"
+                        },
+                        new
+                        {
+                            Id = 48L,
+                            DistrictId = 11L,
+                            Name = "คลองสองต้นนุ่น"
+                        },
+                        new
+                        {
+                            Id = 49L,
+                            DistrictId = 11L,
+                            Name = "คลองสามประเวศ"
+                        },
+                        new
+                        {
+                            Id = 50L,
+                            DistrictId = 11L,
+                            Name = "ลำปลาทิว"
+                        },
+                        new
+                        {
+                            Id = 51L,
+                            DistrictId = 11L,
+                            Name = "ทับยาว"
+                        },
+                        new
+                        {
+                            Id = 52L,
+                            DistrictId = 11L,
+                            Name = "ขุมทอง"
+                        },
+                        new
+                        {
+                            Id = 53L,
+                            DistrictId = 12L,
+                            Name = "ช่องนนทรี"
+                        },
+                        new
+                        {
+                            Id = 54L,
+                            DistrictId = 12L,
+                            Name = "บางโพงพาง"
+                        },
+                        new
+                        {
+                            Id = 55L,
+                            DistrictId = 13L,
+                            Name = "จักรวรรดิ"
+                        },
+                        new
+                        {
+                            Id = 56L,
+                            DistrictId = 13L,
+                            Name = "สัมพันธวงศ์"
+                        },
+                        new
+                        {
+                            Id = 57L,
+                            DistrictId = 13L,
+                            Name = "ตลาดน้อย"
+                        },
+                        new
+                        {
+                            Id = 58L,
+                            DistrictId = 14L,
+                            Name = "สามเสนใน"
+                        },
+                        new
+                        {
+                            Id = 59L,
+                            DistrictId = 15L,
+                            Name = "วัดกัลยาณ์"
+                        },
+                        new
+                        {
+                            Id = 60L,
+                            DistrictId = 15L,
+                            Name = "หิรัญรูจี"
+                        },
+                        new
+                        {
+                            Id = 61L,
+                            DistrictId = 15L,
+                            Name = "บางยี่เรือ"
+                        },
+                        new
+                        {
+                            Id = 62L,
+                            DistrictId = 15L,
+                            Name = "บุคคโล"
+                        },
+                        new
+                        {
+                            Id = 63L,
+                            DistrictId = 15L,
+                            Name = "ตลาดพลู"
+                        },
+                        new
+                        {
+                            Id = 64L,
+                            DistrictId = 15L,
+                            Name = "ดาวคะนอง"
+                        },
+                        new
+                        {
+                            Id = 65L,
+                            DistrictId = 15L,
+                            Name = "สำเหร่"
+                        },
+                        new
+                        {
+                            Id = 66L,
+                            DistrictId = 16L,
+                            Name = "วัดอรุณ"
+                        },
+                        new
+                        {
+                            Id = 67L,
+                            DistrictId = 16L,
+                            Name = "วัดท่าพระ"
+                        },
+                        new
+                        {
+                            Id = 68L,
+                            DistrictId = 17L,
+                            Name = "ห้วยขวาง"
+                        },
+                        new
+                        {
+                            Id = 69L,
+                            DistrictId = 17L,
+                            Name = "บางกะปิ"
+                        },
+                        new
+                        {
+                            Id = 70L,
+                            DistrictId = 17L,
+                            Name = "สามเสนนอก"
+                        },
+                        new
+                        {
+                            Id = 71L,
+                            DistrictId = 18L,
+                            Name = "สมเด็จเจ้าพระยา"
+                        },
+                        new
+                        {
+                            Id = 72L,
+                            DistrictId = 18L,
+                            Name = "คลองสาน"
+                        },
+                        new
+                        {
+                            Id = 73L,
+                            DistrictId = 18L,
+                            Name = "บางลำภูล่าง"
+                        },
+                        new
+                        {
+                            Id = 74L,
+                            DistrictId = 18L,
+                            Name = "คลองต้นไทร"
+                        },
+                        new
+                        {
+                            Id = 75L,
+                            DistrictId = 19L,
+                            Name = "คลองชักพระ"
+                        },
+                        new
+                        {
+                            Id = 76L,
+                            DistrictId = 19L,
+                            Name = "ตลิ่งชัน"
+                        },
+                        new
+                        {
+                            Id = 77L,
+                            DistrictId = 19L,
+                            Name = "ฉิมพลี"
+                        },
+                        new
+                        {
+                            Id = 78L,
+                            DistrictId = 19L,
+                            Name = "บางพรม"
+                        },
+                        new
+                        {
+                            Id = 79L,
+                            DistrictId = 19L,
+                            Name = "บางระมาด"
+                        },
+                        new
+                        {
+                            Id = 80L,
+                            DistrictId = 19L,
+                            Name = "บางเชือกหนัง"
+                        },
+                        new
+                        {
+                            Id = 81L,
+                            DistrictId = 20L,
+                            Name = "ศิริราช"
+                        },
+                        new
+                        {
+                            Id = 82L,
+                            DistrictId = 20L,
+                            Name = "บ้านช่างหล่อ"
+                        },
+                        new
+                        {
+                            Id = 83L,
+                            DistrictId = 20L,
+                            Name = "บางขุนนนท์"
+                        },
+                        new
+                        {
+                            Id = 84L,
+                            DistrictId = 20L,
+                            Name = "บางขุนศรี"
+                        },
+                        new
+                        {
+                            Id = 85L,
+                            DistrictId = 20L,
+                            Name = "อรุณอมรินทร์"
+                        },
+                        new
+                        {
+                            Id = 86L,
+                            DistrictId = 21L,
+                            Name = "ท่าข้าม"
+                        },
+                        new
+                        {
+                            Id = 87L,
+                            DistrictId = 21L,
+                            Name = "แสมดำ"
+                        },
+                        new
+                        {
+                            Id = 88L,
+                            DistrictId = 22L,
+                            Name = "บางหว้า"
+                        },
+                        new
+                        {
+                            Id = 89L,
+                            DistrictId = 22L,
+                            Name = "บางด้วน"
+                        },
+                        new
+                        {
+                            Id = 90L,
+                            DistrictId = 22L,
+                            Name = "บางจาก"
+                        },
+                        new
+                        {
+                            Id = 91L,
+                            DistrictId = 22L,
+                            Name = "บางแวก"
+                        },
+                        new
+                        {
+                            Id = 92L,
+                            DistrictId = 22L,
+                            Name = "คลองขวาง"
+                        },
+                        new
+                        {
+                            Id = 93L,
+                            DistrictId = 22L,
+                            Name = "ปากคลองภาษีเจริญ"
+                        },
+                        new
+                        {
+                            Id = 94L,
+                            DistrictId = 22L,
+                            Name = "คูหาสวรรค์"
+                        },
+                        new
+                        {
+                            Id = 95L,
+                            DistrictId = 23L,
+                            Name = "หนองแขม"
+                        },
+                        new
+                        {
+                            Id = 96L,
+                            DistrictId = 23L,
+                            Name = "หนองค้างพลู"
+                        },
+                        new
+                        {
+                            Id = 97L,
+                            DistrictId = 24L,
+                            Name = "ราษฎร์บูรณะ"
+                        },
+                        new
+                        {
+                            Id = 98L,
+                            DistrictId = 24L,
+                            Name = "บางปะกอก"
+                        },
+                        new
+                        {
+                            Id = 99L,
+                            DistrictId = 25L,
+                            Name = "บางพลัด"
+                        },
+                        new
+                        {
+                            Id = 100L,
+                            DistrictId = 25L,
+                            Name = "บางอ้อ"
+                        },
+                        new
+                        {
+                            Id = 101L,
+                            DistrictId = 25L,
+                            Name = "บางอ้อ"
+                        },
+                        new
+                        {
+                            Id = 102L,
+                            DistrictId = 25L,
+                            Name = "บางยี่ขัน"
+                        },
+                        new
+                        {
+                            Id = 103L,
+                            DistrictId = 26L,
+                            Name = "ดินแดง"
+                        },
+                        new
+                        {
+                            Id = 104L,
+                            DistrictId = 27L,
+                            Name = "คลองกุ่ม"
+                        },
+                        new
+                        {
+                            Id = 105L,
+                            DistrictId = 27L,
+                            Name = "นวมินทร์"
+                        },
+                        new
+                        {
+                            Id = 106L,
+                            DistrictId = 27L,
+                            Name = "นวลจันทร์"
+                        },
+                        new
+                        {
+                            Id = 107L,
+                            DistrictId = 28L,
+                            Name = "ทุ่งวัดดอน"
+                        },
+                        new
+                        {
+                            Id = 108L,
+                            DistrictId = 28L,
+                            Name = "ยานนาวา"
+                        },
+                        new
+                        {
+                            Id = 109L,
+                            DistrictId = 28L,
+                            Name = "ทุ่งมหาเมฆ"
+                        },
+                        new
+                        {
+                            Id = 110L,
+                            DistrictId = 29L,
+                            Name = "บางซื่อ"
+                        },
+                        new
+                        {
+                            Id = 111L,
+                            DistrictId = 29L,
+                            Name = "วงศ์สว่าง"
+                        },
+                        new
+                        {
+                            Id = 112L,
+                            DistrictId = 30L,
+                            Name = "ลาดยาว"
+                        },
+                        new
+                        {
+                            Id = 113L,
+                            DistrictId = 30L,
+                            Name = "เสนานิคม"
+                        },
+                        new
+                        {
+                            Id = 114L,
+                            DistrictId = 30L,
+                            Name = "จันทรเกษม"
+                        },
+                        new
+                        {
+                            Id = 115L,
+                            DistrictId = 30L,
+                            Name = "จอมพล"
+                        },
+                        new
+                        {
+                            Id = 116L,
+                            DistrictId = 30L,
+                            Name = "จตุจักร"
+                        },
+                        new
+                        {
+                            Id = 117L,
+                            DistrictId = 31L,
+                            Name = "บางคอแหลม"
+                        },
+                        new
+                        {
+                            Id = 118L,
+                            DistrictId = 31L,
+                            Name = "วัดพระยาไกร"
+                        },
+                        new
+                        {
+                            Id = 119L,
+                            DistrictId = 31L,
+                            Name = "บางโคล่"
+                        },
+                        new
+                        {
+                            Id = 120L,
+                            DistrictId = 32L,
+                            Name = "ประเวศ"
+                        });
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Subject", b =>
@@ -1372,6 +2551,49 @@ namespace InspecWeb.Data.Migrations
                     b.HasIndex("CentralPolicyId");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.Training", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Detail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LecturerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegisEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("RegisStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Trainings");
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Village", b =>
@@ -1532,6 +2754,15 @@ namespace InspecWeb.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.CentralPolicy", b =>
+                {
+                    b.HasOne("InspecWeb.Models.FiscalYear", null)
+                        .WithMany("CentralPolicies")
+                        .HasForeignKey("FiscalYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InspecWeb.Models.CentralPolicyFile", b =>

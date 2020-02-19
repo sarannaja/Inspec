@@ -13,6 +13,7 @@ export class DistrictComponent implements OnInit {
 
   resultdistrict: any = []
   id
+  name: any
   // router: any
 
   constructor(
@@ -23,9 +24,12 @@ export class DistrictComponent implements OnInit {
     private router:Router,
     public share: DistrictService) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.name = activatedRoute.snapshot.paramMap.get('name')
   }
 
   ngOnInit() {
+
+    // alert(this.name)
 
     this.districtservice.getdistrictdata(this.id).subscribe(result => {
       this.resultdistrict = result

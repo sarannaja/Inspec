@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,14 @@ export class RegionService {
   { 
     this.url = baseUrl + 'api/region/';
   }
-  getregiondata() {
-    return this.http.get(this.url)
+  getregiondata():Observable<any[]> {
+    return this.http.get<any[]>(this.url)
   }
-  addRegion(regionData) {
+  addRegion(regionData):Observable<any[]> {
     const formData = new FormData();
     formData.append('name', regionData.regionname);
     console.log('FORMDATA: ' + formData);
-    return this.http.post(this.url, formData);
+    return this.http.post<any[]>(this.url, formData);
   }
   deleteRegion(id) {
     return this.http.delete(this.url + id);

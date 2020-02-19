@@ -32,9 +32,10 @@ namespace InspecWeb.Data
         public DbSet<CentralPolicyFile> CentralPolicyFiles { get; set; }
         public DbSet<FiscalYear> FiscalYears { get; set; }
         public DbSet<Governmentinspectionplan> Governmentinspectionplans { get; set; }
-        public DbSet<InspectionOrder> InspectionOrders { get; set; } //fame ทำจ้า
+        public DbSet<InspectionOrder> InspectionOrders { get; set; }
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
-
+        public DbSet<Training> Trainings { get; set; }
+        public DbSet<Subquestion> Subquestions { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
