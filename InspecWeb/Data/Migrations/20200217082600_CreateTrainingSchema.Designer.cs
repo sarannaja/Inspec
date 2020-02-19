@@ -4,14 +4,16 @@ using InspecWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200217082600_CreateTrainingSchema")]
+    partial class CreateTrainingSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2552,15 +2554,11 @@ namespace InspecWeb.Data.Migrations
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Training", b =>
-
-            modelBuilder.Entity("InspecWeb.Models.Subquestion", b =>
-
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -2577,9 +2575,6 @@ namespace InspecWeb.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LecturerName")
-
-                    b.Property<string>("Answer")
-
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -2599,15 +2594,6 @@ namespace InspecWeb.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Trainings");
-                    
-                    b.Property<long>("SubjectId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("Subquestions");
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Village", b =>
@@ -2820,15 +2806,6 @@ namespace InspecWeb.Data.Migrations
                     b.HasOne("InspecWeb.Models.CentralPolicy", "CentralPolicy")
                         .WithMany("Subjects")
                         .HasForeignKey("CentralPolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.Subquestion", b =>
-                {
-                    b.HasOne("InspecWeb.Models.Subject", "Subject")
-                        .WithMany("Subquestions")
-                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

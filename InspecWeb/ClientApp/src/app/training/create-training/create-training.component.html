@@ -1,0 +1,118 @@
+<div class="header">
+    <h1 class="header-title">
+        เพิ่มหลักสูตรการอบรม
+    </h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="test02.html">จัดการหลักสูตรการอบรม</a></li>
+            <!-- <li class="breadcrumb-item"><a href="#">Tables</a></li> -->
+            <li class="breadcrumb-item active" aria-current="page">เพิ่มหลักสูตรการอบรม</li>
+        </ol>
+    </nav>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h5 class="card-title">เพิ่มหลักสูตรการอบรม</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+                    <div class="row">
+                        <div class="col-12 col-xl-12">
+                            <br>
+
+                            <div class="form-group">
+                                <label>ชื่อหลักสูตรการอบรม</label>
+                                <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อหลักสูตรการอบรม">
+                                <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
+                            </div>
+                            <div class="form-group">
+                                <label>คำอธิบายหลักสูตรการอบรม</label>
+                                <textarea type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอคำอธิบายหลักสูตรการอบรม" style="width: 100%; height:200px;"></textarea>
+                                <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
+                            </div>
+                            <div class="form-group">
+                                <label>วิทยากร</label>
+                                <input type="text" formControlName="lecturer_name" class="form-control" placeholder="กรุณากรอกชื่อวิทยากร" style="width: 50%;">
+                                <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-12">
+                            <label>กำหนดระยะเวลาอบรม</label>
+                        </div>
+                        <div class="col-12 col-xl-3">
+                            <div class="form-group">
+                                <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions"
+                                    required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-1">
+                            <div class="form-group" align="center">
+                                ถึง
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-3">
+                            <div class="form-group">
+
+                                <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-12">
+                            <label>กำหนดระยะรับสมัครเข้าอบรม</label>
+                        </div>
+                        <div class="col-12 col-xl-3">
+                            <div class="form-group">
+                                <my-date-picker-th formControlName="regis_start_date" [options]="myDatePickerOptions"
+                                    required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-1">
+                            <div class="form-group" align="center">
+                                ถึง
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-3">
+                            <div class="form-group">
+
+                                <my-date-picker-th formControlName="regis_end_date" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-12">
+                            <div class="form-group">
+                                <label class="form-label w-100">แนบไฟล์</label>
+                                <input type="file" multiple="multiple" formControlName="files">
+                                <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                            </div>
+                        </div>
+                        <!-- <hr> -->
+                        <div class="form-group row">
+                            <div class="col-sm-5 ml-sm-auto">
+                                <button type="submit" class="btn btn-primary">บันทึก</button>
+                            </div>
+                            <div class="col-sm-5 ml-sm-auto">
+                                <button type="button" class="btn btn-danger">ยกเลิก</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

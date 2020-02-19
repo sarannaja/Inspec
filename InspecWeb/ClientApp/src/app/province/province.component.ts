@@ -3,6 +3,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ProvinceService } from '../services/province.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../services/Pipe/alert.service';
+import { SnotifyService, SnotifyToastConfig, SnotifyPosition } from 'ng-snotify';
 
 @Component({
   selector: 'app-province',
@@ -19,12 +21,24 @@ export class ProvinceComponent implements OnInit {
   modalRef: BsModalRef;
   Form: FormGroup;
   EditForm: FormGroup;
+  loading = false;
   dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private provinceservice: ProvinceService,
-    public share: ProvinceService, private router: Router) { }
+  constructor(
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+    private provinceservice: ProvinceService,
+    public share: ProvinceService,
+    private router: Router,
+    private snotifyService: NotificationService,
+    private snotifyService2: SnotifyService,
+
+  ) { }
 
   ngOnInit() {
+    console.log("in");
+    // this.onSuccess()
+    // this.snotifyService.onSuccess("test")
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -33,7 +47,7 @@ export class ProvinceComponent implements OnInit {
           orderable: false
         }
       ]
-     
+
     };
 
     this.Form = this.fb.group({
@@ -47,13 +61,54 @@ export class ProvinceComponent implements OnInit {
 
     this.provinceservice.getprovincedata()
       .subscribe(result => {
+
         this.resultprovince = result
+        this.loading = true
         console.log(this.resultprovince);
       })
     this.Form.patchValue({
       // test: "testest"
     })
   }
+
+  // onSuccess() {
+  //   this.snotifyService2.success('ssssss', 'ssss', this.getConfig());
+  // }
+  // style = 'material';
+  // title = 'Snotify title!';
+  // body = 'Lorem ipsum dolor sit amet!';
+  // timeout = 3000;
+  // position: SnotifyPosition = SnotifyPosition.rightBottom;
+  // progressBar = true;
+  // closeClick = true;
+  // newTop = true;
+  // filterDuplicates = false;
+  // backdrop = -1;
+  // dockMax = 8;
+  // blockMax = 6;
+  // pauseHover = true;
+  // titleMaxLength = 15;
+  // bodyMaxLength = 80;
+  // getConfig(): SnotifyToastConfig {
+  //   this.snotifyService2.setDefaults({
+  //     global: {
+  //       newOnTop: this.newTop,
+  //       maxAtPosition: this.blockMax,
+  //       maxOnScreen: this.dockMax,
+  //       // filterDuplicates: this.filterDuplicates
+  //     }
+  //   });
+  //   return {
+  //     bodyMaxLength: this.bodyMaxLength,
+  //     titleMaxLength: this.titleMaxLength,
+  //     backdrop: this.backdrop,
+  //     position: this.position,
+  //     timeout: this.timeout,
+  //     showProgressBar: this.progressBar,
+  //     closeOnClick: this.closeClick,
+  //     pauseOnHover: this.pauseHover
+  //   };
+  // }
 
   District(id) {
     this.router.navigate(['/district', id])
@@ -77,11 +132,16 @@ export class ProvinceComponent implements OnInit {
 
   storeProvince(value) {
     this.provinceservice.addProvince(value).subscribe(response => {
+
       console.log(value);
+
       this.Form.reset()
       this.modalRef.hide()
+      this.loading = false
+
       this.provinceservice.getprovincedata().subscribe(result => {
         this.resultprovince = result
+        this.loading = true
         console.log(this.resultprovince);
       })
     })
@@ -90,8 +150,10 @@ export class ProvinceComponent implements OnInit {
     this.provinceservice.deleteProvince(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
+      this.loading = false
       this.provinceservice.getprovincedata().subscribe(result => {
         this.resultprovince = result
+        this.loading = true
         console.log(this.resultprovince);
       })
     })
@@ -120,8 +182,10 @@ export class ProvinceComponent implements OnInit {
     this.provinceservice.editProvince(value, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
+      this.loading = false
       this.provinceservice.getprovincedata().subscribe(result => {
         this.resultprovince = result
+        this.loading = true
       })
     })
   }
