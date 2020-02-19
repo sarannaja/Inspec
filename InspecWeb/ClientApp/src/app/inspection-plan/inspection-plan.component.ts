@@ -18,4 +18,7 @@ export class InspectionPlanComponent implements OnInit {
   EditInspectionPlan(id:any){
     this.router.navigate(['/inspectionplan/editinspectionplan',id])
   }
+  DetailCentralPolicy(id:any){
+    this.router.navigate(['/centralpolicy/detailcentralpolicy',id])
+  }
 }

@@ -34,7 +34,7 @@ namespace InspecWeb.Data
         public DbSet<Governmentinspectionplan> Governmentinspectionplans { get; set; }
         public DbSet<InspectionOrder> InspectionOrders { get; set; } //fame ทำจ้า
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
-
+        public DbSet<Subquestion> Subquestions { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

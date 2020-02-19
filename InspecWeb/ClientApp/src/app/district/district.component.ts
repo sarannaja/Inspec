@@ -29,7 +29,7 @@ export class DistrictComponent implements OnInit {
 
   ngOnInit() {
 
-    alert(this.name)
+    // alert(this.name)
 
     this.districtservice.getdistrictdata(this.id).subscribe(result => {
       this.resultdistrict = result

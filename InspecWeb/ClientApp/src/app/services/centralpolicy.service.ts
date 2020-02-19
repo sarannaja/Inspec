@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,13 @@ export class CentralpolicyService {
     this.url = baseUrl + 'api/centralpolicy/';
    }
 
+  getcentralpolicydata():Observable<any[]> {
+    return this.http.get<any[]>(this.url)
+  }
+  detailcentralpolicydata(id) {
+    console.log(id);
+    return this.http.get(this.url+id)
+  }
   addCentralpolicy(centralpolicyData) {
 
     // alert(JSON.stringify(centralpolicyData))
@@ -26,6 +34,10 @@ export class CentralpolicyService {
 
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url, formData);
+  }
+
+  deleteCentralPolicy(id) {
+    return this.http.delete(this.url + id);
   }
 
 }
