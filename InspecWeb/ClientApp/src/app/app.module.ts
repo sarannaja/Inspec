@@ -45,6 +45,8 @@ import { SubquestionComponent } from './subquestion/subquestion.component';
 import { DetailFiscalyearComponent } from './fiscalyear/detail-fiscalyear/detail-fiscalyear.component';
 import { InspectionPlanEventComponent } from './inspection-plan-event/inspection-plan-event.component';
 import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
+import { TrainComponent } from './train/train.component';
+import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +83,8 @@ import { CreateInspectionPlanEventComponent } from './inspection-plan-event/crea
     DetailFiscalyearComponent,
     InspectionPlanEventComponent,
     CreateInspectionPlanEventComponent,
+    TrainComponent,
+    DefaultLayoutTrainComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -125,12 +129,22 @@ import { CreateInspectionPlanEventComponent } from './inspection-plan-event/crea
           { path: 'district/:id', component: DistrictComponent },
           { path: 'subdistrict/:id', component: SubdistrictComponent },
           { path: 'training', component: TrainingComponent },
-          { path: 'training/createtraining', component: CreateTrainingComponent }
+          { path: 'training/createtraining', component: CreateTrainingComponent },
           { path: 'subject/:id', component: SubjectComponent },
           { path: 'subquestion/:id', component: SubquestionComponent },
           { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
+        ]
+      },
+      {
+        path: 'train',
+        component: DefaultLayoutTrainComponent,
+        data: {
+          title: 'หน้าหลัก'
+        },
+        children: [
+          { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
         ]
       }
     ]),

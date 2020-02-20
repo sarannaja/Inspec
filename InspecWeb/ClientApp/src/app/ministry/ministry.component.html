@@ -41,7 +41,7 @@
               <td>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openModal(modaleditMinistry, item.id, item.name)"></i>
+                  (click)="editModal(modaleditMinistry, item.id, item.name)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteMinistry, item.id)"></i>
               </td>
@@ -103,7 +103,7 @@
 <!-- BEGIN primary modal -->
 <ng-template #modaleditMinistry class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-  <form [formGroup]="Form" (ngSubmit)="editMinistry(Form.value,delid)">
+  <form [formGroup]="EditForm" (ngSubmit)="editMinistry(EditForm.value,delid)">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">จัดการกระทรวง</h5>
