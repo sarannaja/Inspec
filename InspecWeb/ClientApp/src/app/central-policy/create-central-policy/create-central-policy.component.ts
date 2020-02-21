@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@ang
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { IMyOptions } from 'mydatepicker-th';
 import { Router } from '@angular/router';
+import { FiscalyearService } from 'src/app/services/fiscalyear.service';
+import { ProvinceService } from 'src/app/services/province.service';
+import { IOption } from 'ng-select';
 
 interface addInput {
   id: number;
@@ -25,14 +28,18 @@ export class CreateCentralPolicyComponent implements OnInit {
   // private model: Object = { date: { year: 2018, month: 10, day: 9 } };
   files: string[] = []
   resultcentralpolicy: any = []
+  resultfiscalyear: any = []
+  resultprovince: any = []
   delid: any
   title: any
   start_date: any
   end_date: any
   Form: FormGroup;
+  selectdataprovince: Array<IOption>
 
   constructor(private fb: FormBuilder, private centralpolicyservice: CentralpolicyService,
-    public share: CentralpolicyService, private router: Router) { }
+    public share: CentralpolicyService, private router: Router, private fiscalyearservice: FiscalyearService,
+    private provinceservice: ProvinceService) { }
 
   ngOnInit() {
     this.Form = this.fb.group({
@@ -45,11 +52,21 @@ export class CreateCentralPolicyComponent implements OnInit {
 
     //แก้ไข
 
+    this.provinceservice.getprovincedata().subscribe(result => {
+      this.resultprovince = result
 
-    // this.centralpolicyservice.getprovincedata().subscribe(result => {
-    //   this.resultcentralpolicy = result
-    //   console.log(this.resultcentralpolicy);
-    // })
+      this.selectdataprovince = this.resultprovince.map((item,index)=>{
+        return { value:item.id , label:item.name }
+      })
+
+      console.log(this.resultprovince);
+    })
+
+    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      this.resultfiscalyear = result
+      console.log(this.resultcentralpolicy);
+    })
+
 
     this.Form.patchValue({
       // กรณีจะแก้ไข
