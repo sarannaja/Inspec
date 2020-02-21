@@ -18,11 +18,11 @@ export class RegionService {
   getregiondata():Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
-  addRegion(regionData):Observable<any[]> {
+  addRegion(regionData) {
     const formData = new FormData();
     formData.append('name', regionData.regionname);
     console.log('FORMDATA: ' + formData);
-    return this.http.post<any[]>(this.url, formData);
+    return this.http.post(this.url, formData);
   }
   deleteRegion(id) {
     return this.http.delete(this.url + id);

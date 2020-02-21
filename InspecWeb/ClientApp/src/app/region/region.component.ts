@@ -15,6 +15,7 @@ export class RegionComponent implements OnInit {
   name: any
   modalRef: BsModalRef;
   Form: FormGroup
+  EditForm: FormGroup;
   loading = false;
   dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
@@ -88,6 +89,21 @@ export class RegionComponent implements OnInit {
         this.loading = true;
         console.log(this.resultregion);
       })
+    })
+  }
+  editModal(template: TemplateRef<any>, id, name) {
+    this.delid = id;
+    this.name = name
+    console.log(this.delid);
+    console.log(this.name);
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm = this.fb.group({
+      "regionname": new FormControl(null, [Validators.required]),
+      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+    })
+    this.EditForm.patchValue({
+      "regionname": name
     })
   }
   editRegion(value,delid) {

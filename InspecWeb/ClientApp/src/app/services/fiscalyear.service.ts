@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,12 @@ export class FiscalyearService {
   count = 0
   url = "";
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) 
-   {
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/fiscalyear/';
-   }
+  }
 
-  getfiscalyeardata() {
-    return this.http.get(this.url)
+  getfiscalyeardata(): Observable<any[]> {
+    return this.http.get<any[]>(this.url)
   }
   addFiscalyear(fiscalyearData) {
     const formData = new FormData();
