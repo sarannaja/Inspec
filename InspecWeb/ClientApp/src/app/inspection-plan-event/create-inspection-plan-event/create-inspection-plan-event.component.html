@@ -20,44 +20,35 @@
                   </div> -->
       </div>
       <div class="card-body">
+        <form [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
         <div class="row">
           <div class="col-12 col-xl-12">
             <br>
 
             <div class="form-group">
               <label>Event *</label>
-              <input type="text" class="form-control" placeholder="กรุณากรอก Event">
+              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอก Event">
             </div>
           </div>
 
           <div class="col-12 col-xl-12">
-            <label>กำหนดระยะเวลา*</label>
+            <label>กำหนดระยะเวลา</label>
           </div>
           <div class="col-12 col-xl-3">
             <div class="form-group">
-              <div class="input-group date" id="datetimepicker-minimum" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker-minimum" />
-                <div class="input-group-append" data-target="#datetimepicker-minimum" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                </div>
-              </div>
+              <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
             </div>
           </div>
-
           <div class="col-12 col-xl-1">
             <div class="form-group" align="center">
               ถึง
             </div>
           </div>
-
           <div class="col-12 col-xl-3">
             <div class="form-group">
-              <div class="input-group date" id="datetimepicker-view-mode" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker-view-mode" />
-                <div class="input-group-append" data-target="#datetimepicker-view-mode" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                </div>
-              </div>
+              <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
             </div>
           </div>
 
@@ -88,6 +79,7 @@
           </div>
 
         </div>
+        </form>
       </div>
     </div>
   </div>

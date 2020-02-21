@@ -20,7 +20,7 @@ export class GovernmentinspectionplanComponent implements OnInit {
     public share: GorvermentinspectionplanService) { }
 
   ngOnInit() {
-    this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result=>{
+      this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result=>{
       this.resultgovernmentinspectionplan = result
     })
     this.Form = this.fb.group({

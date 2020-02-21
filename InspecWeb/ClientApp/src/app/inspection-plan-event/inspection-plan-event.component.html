@@ -25,22 +25,22 @@
             <tr>
               <th>#</th>
               <th>Event</th>
-              <th>ปี</th>
+              <!-- <th>ปี</th> -->
               <th>ระยะเวลา</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td width="40%">ตรวจน้ำเสียภายในจังหวัดกรุงเทพ</td>
-              <td>2563</td>
-              <td>01/01/2563 - 09/01/1563</td>
+            <tr *ngFor="let item of resultinspectionplanevent; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td width="40%">{{ item.name }}</td>
+              <!-- <td>2563</td> -->
+              <td>{{ item.startDate | date: 'dd/MM/yyyy' }} - {{ item.endDate | date: 'dd/MM/yyyy' }}</td>
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(1)"></i>
-                <i (click)="EditInspectionPlan(1)" class="pointer align-middle mr-2 fas fa-fw fa-pen"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                <i (click)="InspectionPlan()" class="align-middle mr-2 fas fa-fw fa-search pointer"></i>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(1)"></i> -->
+                <!-- <i (click)="EditInspectionPlan(1)" class="pointer align-middle mr-2 fas fa-fw fa-pen"></i> -->
+                <i (click)="openModal(modaldeleteInspectionPlanEvent, item.id)" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"></i>
               </td>
             </tr>
           </tbody>
@@ -49,3 +49,23 @@
     </div>
   </div>
 </div>
+
+  <!-- BEGIN primary modal -->
+  <ng-template #modaldeleteInspectionPlanEvent class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+      <i class="fa fa-info-circle delete-icon"></i>
+      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+        ลบข้อมูล
+      </p>
+      <p style="font-size: medium; color: #545454;">
+        คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+      </p>
+      <button type="button" class="btn btn-primary btnMargin" (click)="deleteInspectionPlanEvent(delid)">
+        ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+        ไม่ใช่
+      </button>
+    </div>
+  </ng-template>
+  <!-- END primary modal -->
