@@ -125,7 +125,7 @@ import { CreateInspectionPlanEventComponent } from './inspection-plan-event/crea
           { path: 'district/:id', component: DistrictComponent },
           { path: 'subdistrict/:id', component: SubdistrictComponent },
           { path: 'training', component: TrainingComponent },
-          { path: 'training/createtraining', component: CreateTrainingComponent }
+          { path: 'training/createtraining', component: CreateTrainingComponent },
           { path: 'subject/:id', component: SubjectComponent },
           { path: 'subquestion/:id', component: SubquestionComponent },
           { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
