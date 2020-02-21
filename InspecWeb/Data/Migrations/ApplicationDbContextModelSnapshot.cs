@@ -896,6 +896,40 @@ namespace InspecWeb.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("InspecWeb.Models.InspectionPlanEvent", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CentralPolicyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CentralPolicyId");
+
+                    b.ToTable("InspectionPlanEvents");
+                });
+
             modelBuilder.Entity("InspecWeb.Models.InstructionOrder", b =>
                 {
                     b.Property<long>("Id")
@@ -2829,6 +2863,15 @@ namespace InspecWeb.Data.Migrations
                     b.HasOne("InspecWeb.Models.Province", "Province")
                         .WithMany("Districts")
                         .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.InspectionPlanEvent", b =>
+                {
+                    b.HasOne("InspecWeb.Models.CentralPolicy", "CentralPolicy")
+                        .WithMany("InspectionPlanEvents")
+                        .HasForeignKey("CentralPolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

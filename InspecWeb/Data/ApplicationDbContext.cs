@@ -36,6 +36,7 @@ namespace InspecWeb.Data
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
         public DbSet<Training> Trainings { get; set; }
         public DbSet<Subquestion> Subquestions { get; set; }
+        public DbSet<InspectionPlanEvent> InspectionPlanEvents { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

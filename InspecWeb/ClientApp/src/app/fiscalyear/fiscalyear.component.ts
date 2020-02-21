@@ -11,17 +11,32 @@ import { Router } from '@angular/router';
 })
 export class FiscalyearComponent implements OnInit {
 
-  resultfiscalyear: any = []
+  resultfiscalyear: any[] = []
   delid: any
   year: any
   modalRef: BsModalRef;
   Form: FormGroup
+  EditForm: FormGroup;
+  loading = false;
+  dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private fiscalyearservice: FiscalyearService,
     public share: FiscalyearService, private router:Router) { }
 
   ngOnInit() {
+
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columnDefs: [
+        {
+          targets: [3],
+          orderable: false
+        }
+      ]
+    }
+     
+    
     this.Form = this.fb.group({
       "fiscalyear": new FormControl(null, [Validators.required]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
@@ -34,6 +49,7 @@ export class FiscalyearComponent implements OnInit {
 
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
+      this.loading = true;
       console.log(this.resultfiscalyear);
 
     })
@@ -51,8 +67,10 @@ export class FiscalyearComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+      this.loading = false;
       this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
         this.resultfiscalyear = result
+        this.loading = true;
         console.log(this.resultfiscalyear);
       })
     })
@@ -61,10 +79,27 @@ export class FiscalyearComponent implements OnInit {
     this.fiscalyearservice.deleteFiscalyear(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
+      this.loading = false;
       this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
         this.resultfiscalyear = result
+        this.loading = true;
         console.log(this.resultfiscalyear);
       })
+    })
+  }
+  editModal(template: TemplateRef<any>, id, year) {
+    this.delid = id;
+    this.year = year
+    console.log(this.delid);
+    console.log(this.year);
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm = this.fb.group({
+      "fiscalyear": new FormControl(null, [Validators.required]),
+      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+    })
+    this.EditForm.patchValue({
+      "fiscalyear": year
     })
   }
   editFiscalyear(value,delid) {
@@ -73,8 +108,10 @@ export class FiscalyearComponent implements OnInit {
     this.fiscalyearservice.editFiscalyear(value,delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
+      this.loading = false;
       this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
         this.resultfiscalyear = result
+        this.loading = true;
       })
     })
   }
