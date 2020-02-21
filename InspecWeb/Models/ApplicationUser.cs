@@ -29,6 +29,6 @@ namespace InspecWeb.Models
         public long Region_id { get; set; }
 
         [Description("รูปโปรไฟล์")]
-        public long Profile { get; set; }
+        public long Img { get; set; }
     }
 }
