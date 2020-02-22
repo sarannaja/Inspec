@@ -12,45 +12,52 @@ export class InspectionorderComponent implements OnInit {
 
   resultInspectionorder: any = []
   delid: any
+  year: any
+  order: any
   name: any
+  createBy: any
   modalRef: BsModalRef;
   Form: FormGroup
-  forbiddenUsernames = ['admin', 'test', 'xxxx'];
+  
   constructor(private modalService: BsModalService, private fb: FormBuilder, private inspectionorderservice: InspectionorderService,
     public share: InspectionorderService) { }
 
-  ngOnInit() {
-    this.Form = this.fb.group({
-      "provincename": new FormControl(null, [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
-    })
-
-    //แก้ไข
-    this.Form.patchValue({
-      // test: "testest"
-    })
-
-    this.inspectionorderservice.getinspectionorderdata().subscribe(result => {
+    ngOnInit() {
+      console.log(this.modalRef);
+      this.inspectionorderservice.getinspectionorderdata().subscribe(result=>{
       this.resultInspectionorder = result
-      console.log(this.resultInspectionorder);
+    })
+    
+    this.Form = this.fb.group({
+      "year": new FormControl(null, [Validators.required]),
+      "order": new FormControl(null, [Validators.required]),
+      "name": new FormControl(null, [Validators.required]),
+      "createBy": new FormControl(null, [Validators.required]),
     })
   }
-  openModal(template: TemplateRef<any>, id, name) {
-    this.delid = id;
-    this.name = name;
-    console.log(this.delid);
-    console.log(this.name);
-
+  openModal(template: TemplateRef<any>, modalType:string = 'edit') {
+    modalType != 'edit' ? this.Form.reset() : null;
     this.modalRef = this.modalService.show(template);
-  }
-  forbiddenNames(control: FormControl): { [s: string]: boolean } {
-    if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
-      return { 'forbiddenNames': true };
-    }
-    return null;
+    
   }
 
-  storeProvince(value) {
+  onEdit(modaleditInspectionorder,item){
+    this.openModal(modaleditInspectionorder)
+    this.delid = item.id;
+    this.year =item. year;
+    this.order =item. order
+    this.name =item. name
+    this.createBy =item. createBy
+    console.log(this.delid);
+    console.log(this.year);
+    console.log(this.order);
+    console.log(this.name);
+    console.log(this.createBy);
+    this.Form.patchValue(item)
+
+  }
+  storeInspectionorder(value) {
+    // alert(JSON.stringify(value));
     this.inspectionorderservice.addInspectionorder(value).subscribe(response => {
       console.log(value);
       this.Form.reset()
@@ -61,7 +68,7 @@ export class InspectionorderComponent implements OnInit {
       })
     })
   }
-  deleteProvince(value) {
+  deleteInspectionorder(value) {
     this.inspectionorderservice.deleteInspectionorder(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
@@ -71,7 +78,7 @@ export class InspectionorderComponent implements OnInit {
       })
     })
   }
-  editProvince(value,delid) {
+  editInspectionorder(value,delid) {
     console.clear();
     console.log(value);
     this.inspectionorderservice.editInspectionorder(value,delid).subscribe(response => {
@@ -79,7 +86,9 @@ export class InspectionorderComponent implements OnInit {
       this.modalRef.hide()
       this.inspectionorderservice.getinspectionorderdata().subscribe(result => {
         this.resultInspectionorder = result
+       
       })
     })
   }
+
 }
