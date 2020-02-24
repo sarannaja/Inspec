@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class MinistryService {
   {
     this.url = baseUrl + 'api/ministry/';
   }
-  getministry() {
-    return this.http.get(this.url)
+  getministry():Observable<any[]> {
+    return this.http.get<any[]>(this.url)
   }
   addMinistry(ministryData) {
     const formData = new FormData();

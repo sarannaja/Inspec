@@ -29,5 +29,7 @@ namespace InspecWeb.Models
         [Required]
         [Description("คำตอบของประเด็น")]
         public string Answer { get; set; }
+
+        public ICollection<Subquestion> Subquestions { get; set; }
     }
 }

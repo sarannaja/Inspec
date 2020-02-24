@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SupportGovernmentComponent implements OnInit {
 
+  loading = true;
+  dtOptions: DataTables.Settings = {};
+
   constructor() { }
 
   ngOnInit() {
+
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      // columnDefs: [
+      //   {
+      //     targets: [3],
+      //     orderable: false
+      //   }
+      // ]
+
+    };
   }
 
 }

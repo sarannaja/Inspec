@@ -9,7 +9,7 @@ namespace InspecWeb.Data.Seeders
 {
     public class DepartmentSeeder : IEntityTypeConfiguration<Department>
     {
-
+        //https://stackoverflow.com/questions/29841503/json-serialization-deserialization-in-asp-net-core
         public void Configure(EntityTypeBuilder<Department> builder)
         {
             builder.HasData(

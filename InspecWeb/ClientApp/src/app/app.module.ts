@@ -15,6 +15,7 @@ import { MainComponent } from './main/main.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
 import { CreateCentralPolicyComponent } from './central-policy/create-central-policy/create-central-policy.component';
 import { CreateInspectionPlanComponent } from './inspection-plan/create-inspection-plan/create-inspection-plan.component';
+import { CreateInstructionorderComponent } from './instruction-order/create-instructionorder/create-instructionorder.component';
 import { EditInspectionPlanComponent } from './inspection-plan/edit-inspection-plan/edit-inspection-plan.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { ProvinceComponent } from './province/province.component';
@@ -29,10 +30,24 @@ import { SupportGovernmentComponent } from './support-government/support-governm
 import { CentralPolicyComponent } from './central-policy/central-policy.component';
 import { InspectionPlanComponent } from './inspection-plan/inspection-plan.component';
 import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { GovernmentinspectionplanComponent } from './governmentinspectionplan/governmentinspectionplan.component';
+import { InspectionorderComponent } from './inspectionorder/inspectionorder.component';
 import { InstructionOrderComponent } from './instruction-order/instruction-order.component';
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
-
+import { DataTablesModule } from 'angular-datatables';
+import { TrainingComponent } from './training/training.component';
+import { CreateTrainingComponent } from './training/create-training/create-training.component';
+import { ThaiDatePipe } from './services/Pipe/thaidate.service';
+import { SnotifyModule, ToastDefaults, SnotifyService } from 'ng-snotify';
+import { NotificationService } from './services/Pipe/alert.service';
+import { SubjectComponent } from './subject/subject.component';
+import { SubquestionComponent } from './subquestion/subquestion.component';
+import { DetailFiscalyearComponent } from './fiscalyear/detail-fiscalyear/detail-fiscalyear.component';
+import { InspectionPlanEventComponent } from './inspection-plan-event/inspection-plan-event.component';
+import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
+import { TrainComponent } from './train/train.component';
+import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +60,7 @@ import { SubdistrictComponent } from './subdistrict/subdistrict.component';
     DefaultLayoutComponent,
     CreateCentralPolicyComponent,
     CreateInspectionPlanComponent,
+    CreateInstructionorderComponent,
     EditInspectionPlanComponent,
     MinistryComponent,
     ProvinceComponent,
@@ -56,9 +72,21 @@ import { SubdistrictComponent } from './subdistrict/subdistrict.component';
     SupportGovernmentComponent,
     CentralPolicyComponent,
     InspectionPlanComponent,
+    GovernmentinspectionplanComponent,
+    InspectionorderComponent,
     InstructionOrderComponent,
     DistrictComponent,
-    SubdistrictComponent
+    SubdistrictComponent,
+    TrainingComponent,
+    CreateTrainingComponent,
+    ThaiDatePipe,
+    SubjectComponent,
+    SubquestionComponent,
+    DetailFiscalyearComponent,
+    InspectionPlanEventComponent,
+    CreateInspectionPlanEventComponent,
+    TrainComponent,
+    DefaultLayoutTrainComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -68,8 +96,12 @@ import { SubdistrictComponent } from './subdistrict/subdistrict.component';
     SelectModule,
     ReactiveFormsModule,
     MyDatePickerTHModule,
+    BrowserModule,
+    SnotifyModule,
+
+    DataTablesModule,
     RouterModule.forRoot([
-      { path: '', redirectTo:'main', pathMatch: 'full' },
+      { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
@@ -80,30 +112,56 @@ import { SubdistrictComponent } from './subdistrict/subdistrict.component';
           title: 'หน้าหลัก'
         },
         children: [
-          { path: 'main', component: MainComponent ,canActivate: [AuthorizeGuard] }, //ออเทน
+          { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
           { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
+          { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'ministry', component: MinistryComponent },
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
           { path: 'user', component: UserComponent },
-          { path: 'fiscalyear',component: FiscalyearComponent},
+          { path: 'fiscalyear', component: FiscalyearComponent },
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
           { path: 'supportgovernment', component: SupportGovernmentComponent },
           { path: 'centralpolicy', component: CentralPolicyComponent },
           { path: 'inspectionplan', component: InspectionPlanComponent },
+          { path: 'instructionorder', component: InstructionOrderComponent },
+          { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent },
+          { path: 'inspectionorder', component: InspectionorderComponent },
           { path: 'InstructionOrder', component: InstructionOrderComponent },
           { path: 'district/:id', component: DistrictComponent },
           { path: 'subdistrict/:id', component: SubdistrictComponent },
+          { path: 'training', component: TrainingComponent },
+          { path: 'training/createtraining', component: CreateTrainingComponent },
+          { path: 'subject/:id', component: SubjectComponent },
+          { path: 'subquestion/:id', component: SubquestionComponent },
+          { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
+          { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
+          { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
+        ]
+      },
+      {
+        path: 'train',
+        component: DefaultLayoutTrainComponent,
+        data: {
+          title: 'หน้าหลัก'
+        },
+        children: [
+          { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
         ]
       }
     ]),
     ModalModule.forRoot()
-  ],
+  ], exports: [
+    ThaiDatePipe,],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
+    SnotifyService, NotificationService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

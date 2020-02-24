@@ -28,6 +28,8 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
+        public ICollection<CentralPolicy> CentralPolicies { get; set; }
+        public ICollection<FiscalYearRelation> FiscalYearRelations { get; set; }
         //public ICollection<District> Districts { get; set; }
     }
 }
