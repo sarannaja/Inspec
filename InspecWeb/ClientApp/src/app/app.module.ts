@@ -15,6 +15,7 @@ import { MainComponent } from './main/main.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
 import { CreateCentralPolicyComponent } from './central-policy/create-central-policy/create-central-policy.component';
 import { CreateInspectionPlanComponent } from './inspection-plan/create-inspection-plan/create-inspection-plan.component';
+import { CreateInstructionorderComponent } from './instruction-order/create-instructionorder/create-instructionorder.component';
 import { EditInspectionPlanComponent } from './inspection-plan/edit-inspection-plan/edit-inspection-plan.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { ProvinceComponent } from './province/province.component';
@@ -59,6 +60,7 @@ import { DefaultLayoutTrainComponent } from './default-layout-train/default-layo
     DefaultLayoutComponent,
     CreateCentralPolicyComponent,
     CreateInspectionPlanComponent,
+    CreateInstructionorderComponent,
     EditInspectionPlanComponent,
     MinistryComponent,
     ProvinceComponent,
@@ -113,6 +115,7 @@ import { DefaultLayoutTrainComponent } from './default-layout-train/default-layo
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
           { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
+          { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'ministry', component: MinistryComponent },
           { path: 'province', component: ProvinceComponent },
@@ -123,6 +126,7 @@ import { DefaultLayoutTrainComponent } from './default-layout-train/default-layo
           { path: 'supportgovernment', component: SupportGovernmentComponent },
           { path: 'centralpolicy', component: CentralPolicyComponent },
           { path: 'inspectionplan', component: InspectionPlanComponent },
+          { path: 'instructionorder', component: InstructionOrderComponent },
           { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent },
           { path: 'inspectionorder', component: InspectionorderComponent },
           { path: 'InstructionOrder', component: InstructionOrderComponent },
