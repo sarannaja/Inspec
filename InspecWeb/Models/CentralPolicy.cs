@@ -44,6 +44,10 @@ namespace InspecWeb.Models
         [Description("สถานะ")]
         public string Status { get; set; }
 
+        [Required]
+        [Description("ประเภท")]
+        public string Type { get; set; }
+
         public ICollection<Subject> Subjects { get; set; }
         public ICollection<CentralPolicyFile> CentralPolicyFiles { get; set; }
         //public ICollection<InspectionPlanEvent> InspectionPlanEvents { get; set; }

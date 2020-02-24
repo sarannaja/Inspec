@@ -10,9 +10,9 @@ namespace InspecWeb.Models
     /// <summary>
     /// เนื้อหาของสื่อสิ่งพิมพ์
     /// </summary>
-    [Table("Regions")]
-    [Description("ตารางเขตตรวจ")]
-    public class Region
+    [Table("Inspectors")]
+    [Description("ตารางรองนายกรัฐมนตรีและรัฐมนตรีประจำสำนักนายกรัฐมนตรีในการกำกับและติดตามการปฏฺบัติราชการในภูมิภาค")]
+    public class Inspector
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,14 +20,20 @@ namespace InspecWeb.Models
         public long Id { get; set; }
 
         [Required]
-        [Description("เขตตรวจราชการ")]
+        [Description("ชื่อ")]
         public string Name { get; set; }
+
+        [Required]
+        [Description("เบอร์")]
+        public string Phonenumber { get; set; }
+
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-        public ICollection<FiscalYearRelation> FiscalYearRelations { get; set; }
-        //public ICollection<MinistermonitoringRegion> MinistermonitoringRegions { get; set; }
+
+
+        public ICollection<InspectorRegion> InspectorRegions { get; set; }
     }
 }
