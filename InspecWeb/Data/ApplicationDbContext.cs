@@ -38,6 +38,13 @@ namespace InspecWeb.Data
         public DbSet<Training> Trainings { get; set; }
         public DbSet<Subquestion> Subquestions { get; set; }
         public DbSet<InspectionPlanEvent> InspectionPlanEvents { get; set; }
+        public DbSet<Cabine> Cabines { get; set; }
+        public DbSet<Ministermonitoring> Ministermonitorings { get; set; }
+        public DbSet<MinistermonitoringRegion> MinistermonitoringRegions { get; set; }
+        public DbSet<Inspector> Inspectors { get; set; }
+        public DbSet<InspectorRegion> InspectorRegions { get; set; }
+
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
