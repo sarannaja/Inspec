@@ -1,84 +1,24 @@
 <div class="header">
   <h1 class="header-title">
-    หน้าหลัก
+      ระบบตรวจราชการอิเล็กทรอนิกส์
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-      <!-- <li class="breadcrumb-item"><a href="#">Tables</a></li>
-          <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
     </ol>
   </nav>
 </div>
 <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">นโยบายกลาง</h5>
-        <div class="float-right">
-          <button class="btn btn-primary" (click)="CreateCentralPolicy()"
-          style="margin-top: -60px;">เพิ่มนโยบาลกลาง</button>
-        </div>
-      </div>
-      <div class="card-body">
-        <table id="datatables-basic" class="table table-striped" style="width:100%">
-          <thead>
-            <tr>
-              <th>ชื่อคำสั่งการ</th>
-              <th>ปี</th>
-              <th>ระยะเวลา</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td width="40%">ตรวจ PM 2.5</td>
-              <td>2563</td>
-              <td>01/01/2563 - 09/01/1563</td>
-              <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search" (click)="DetailCentralPolicy(1)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">แผนการตรวจ</h5>
-        <div class="float-right">
-          <button class="btn btn-primary" (click)="CraateInspectionPlan()"
-            style="margin-top: -60px;">เพิ่มแผนการตรวจ</button>
-        </div>
+        <h4 class="card-title">ระบบตรวจราชการอิเล็กทรอนิกส์</h4>
       </div>
       <div class="card-body">
-        <table id="datatables-basic2" class="table table-striped" style="width:100%">
-          <thead>
-            <tr>
-              <th>ชื่อคำสั่งการ</th>
-              <th>ปี</th>
-              <th>ระยะเวลา</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td width="40%">ตรวจน้ำเสียภายในจังหวัดกรุงเทพ</td>
-              <td>2563</td>
-              <td>01/01/2563 - 09/01/1563</td>
-              <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search"></i>
-                <i (click)="EditInspectionPlan(1)" class="pointer align-middle mr-2 fas fa-fw fa-pen"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <br>
+        <p>ระบบตรวจราชการอิเล็กทรอนิกส์สำหรับสนับสนุนการกำกับและติดตามการปฏิบัติราชการในภูมิภาค เป็นเครื่องของผู้ตรวจรชการสำนักนายกรัฐมนตรี รวมทั้งผู้ตรวจราชการกระทรวง </p>
+          <p>และผู้ตรวจราชการกรม ที่ยังไม่มีระบบตรวจราชการอิเล็กทรอนิกส์ ในการติดตามและประเมินผลการปฏิบัติราชการของหน่วยงานของรัฐในพื้นที่</p>
       </div>
     </div>
   </div>

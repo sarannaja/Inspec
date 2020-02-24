@@ -16,8 +16,12 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
+        [ForeignKey("FiscalYear")]
+        [Description("FK: ปีงบประมาณ")]
+        public long FiscalYearId { get; set; }
+
         [Required]
-        [Description("ชื่อจังหวัด")]
+        [Description("ชื่อนโยบายกลาง")]
         public string Title { get; set; }
 
         [Description("วันที่เริ่ม")]
@@ -26,7 +30,7 @@ namespace InspecWeb.Models
 
         [Description("วันที่สิ้นสุด")]
         [DataType(DataType.Date)]
-        public DateTime EndedDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
@@ -36,7 +40,12 @@ namespace InspecWeb.Models
         [Description("คนที่สร้างนโยบายกลาง")]
         public string CreatedBy { get; set; }
 
+        [Required]
+        [Description("สถานะ")]
+        public string Status { get; set; }
+
         public ICollection<Subject> Subjects { get; set; }
         public ICollection<CentralPolicyFile> CentralPolicyFiles { get; set; }
+        //public ICollection<InspectionPlanEvent> InspectionPlanEvents { get; set; }
     }
 }
