@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
-
+//using Newtonsoft.Json;
+using static InspecWeb.ViewModel.RegoinViewModel;
 
 namespace InspecWeb.Controllers
 {
@@ -43,8 +45,10 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public FiscalYear Post(int year)
+        public object Post(int year)
         {
+            
+
             var date = DateTime.Now;
 
             var fiscalyeardata = new FiscalYear
@@ -55,6 +59,43 @@ namespace InspecWeb.Controllers
 
             _context.FiscalYears.Add(fiscalyeardata);
             _context.SaveChanges();
+
+
+
+           var regoinTest =
+                 @" 'data': [" +
+                "{'name': 'เขตการปกครองพิเศษ', 'provinces': [ {'name':'กรุงเทพมหานคร' }] }," +
+                //"{'name':'เขตตรวจราชการที่ 1', 'provinces': [{'name': 'นนทบุรี'}, {'name':'ปทุมธานี'},{'name': 'พระนครศรีอยุธยา'}, {'name':'สระบุรี'}] }" +
+                "{'name':'เขตตรวจราชการที่ 1', 'provinces': [{'name': 'นนทบุรี'}, {'name':'ปทุมธานี'},{'name': 'พระนครศรีอยุธยา'}, {'name':'สระบุรี'}] }" +
+                //"{'name':'เขตตรวจราชการที่2','provinces':[{'name':'ชัยนาท'},{'name':'ลพบุรี'},{'name':'สิงห์บุรี'},{'name':'อ่างทอง'}] }"+
+                "]";
+
+            long[] provinceId1 = new long[] { 1, 3, 5, 7, 9 };
+            var des = (RegoinData)Newtonsoft.Json.JsonConvert.DeserializeObject(regoinTest, typeof(RegoinData));
+
+            //dynamic provinceId3 = JsonSerializer.Deserialize(regoinTest);
+            //JsonConvert.DeserializeObject<List<RegoinData>>(regoinTest);
+
+            //var regoin = (new RegoinData { name = "เขตการปกครองพิเศษ", provinces = (new {name = "กรุงเทพมหานคร" } } )   );
+
+            return des;
+            //{ 'name' = 'เขตการปกครองพิเศษ'};
+            long[] provinceId2 = new long[] { 1, 3, 5, 7, 9 };
+
+           
+                //new { RegionId = 1 , ProvinceId = provinceId1 };
+
+            var fiscalYearRelation = new FiscalYearRelation
+            {
+                FiscalYearId = fiscalyeardata.Id,
+                RegionId = 1,
+                ProvinceId = 1
+            };
+            _context.FiscalYearRelations.Add(fiscalYearRelation);
+
+
+
+
 
             return fiscalyeardata;
         }

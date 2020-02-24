@@ -16,11 +16,11 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("CentralPolicy")]
-        [Description("FK: นโยบายกลาง")]
-        public long CentralPolicyId { get; set; }
+        //[ForeignKey("CentralPolicy")]
+        //[Description("FK: นโยบายกลาง")]
+        //public long CentralPolicyId { get; set; }
 
-        public virtual CentralPolicy CentralPolicy { get; set; }
+        //public virtual CentralPolicy CentralPolicy { get; set; }
 
         [Required]
         [Description("ชื่อ Event")]
