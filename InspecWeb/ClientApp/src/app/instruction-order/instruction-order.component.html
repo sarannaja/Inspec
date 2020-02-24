@@ -17,7 +17,7 @@
         <h5 class="card-title">คำสั่งรับผิดชอบเขตตรวจราชการ</h5>
         <div class="float-right">
           <button class="btn btn-primary" (click)="openModal(modalInstructionorder)"
-            style="margin-top: -60px;">เพิ่มคำสั่ง</button>
+            style="margin-top: -60px;">เพิ่มคำสั่งรับผิดชอบเขตตรวจราชการ</button>
         </div>
       </div>
       <div class="card-body">
@@ -51,7 +51,7 @@
                   (click)="openModal(modaleditInstructionorder, item.id, item.name)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteInstructionorder, item.id)"></i>
-                  
+
               </td>
             </tr>
           </tbody>
@@ -119,94 +119,40 @@
   <ng-template #modaleditInstructionorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
     <form [formGroup]="Form" (ngSubmit)="editInstructionorder(Form.value,delid)">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">แก้ไข</h5>
-        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body m-3">
-        <div class="form-group">
-          <label for="test" class="form-label">คำสั่งรับผิดชอบเขตตรวจราชการ</label>
-          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-          <input type="text" value="{{title}}" formControlName="title" class="form-control"
-            placeholder="กรุณากรอกคำสั่ง"><br>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">แก้ไข</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <div class="form-group">
+            <label for="test" class="form-label">คำสั่งรับผิดชอบเขตตรวจราชการ</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" value="{{title}}" formControlName="title" class="form-control"
+              placeholder="กรุณากรอกคำสั่ง"><br>
             <label for="test" class="form-label">เรื่อง</label>
-          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-          <input type="text" value="{{title}}" formControlName="title" class="form-control"
-            placeholder="กรุณาระบุเรื่อง"><br>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" value="{{title}}" formControlName="title" class="form-control"
+              placeholder="กรุณาระบุเรื่อง"><br>
             <label for="test" class="form-label">ปี</label>
-          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-          <input type="text" value="{{title}}" formControlName="title" class="form-control"
-            placeholder="กรุณาระบุปี"><br>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" value="{{title}}" formControlName="title" class="form-control"
+              placeholder="กรุณาระบุปี"><br>
             <label for="test" class="form-label">รายละเอียด </label>
-            <input type="text" value="{{title}}"formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+            <input type="text" value="{{title}}" formControlName="title" class="form-control"
+              placeholder="กรุณากรอกรายละเอียด"><br>
             <label for="test" class="form-label">ไฟล์แนบ </label><br>
             <input type="file">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">บันทึก</button>
-        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
-      </div>
-    </div>
-  </form>
-<!-- </div> -->
-</ng-template>
-<!-- END primary modal -->
-    <h1 class="header-title">
-      ระบบตรวจราชการอิเล็กทรอนิกส์
-    </h1>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
-        <li class="breadcrumb-item"><a href="#">คำสั่งรับผิดชอบเขตตรวจราชการ</a></li>
-        <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
-      </ol>
-    </nav>
-  </div>
-  <form class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">จังหวัด</h5>
-          <div class="float-right">
-            <button class="btn btn-primary" (click)="CreateInstructionorder()"
-              style="margin-top: -60px;">เพิ่มแผนการตรวจ</button>
           </div>
         </div>
-        <div class="card-body">
-          <table id="datatables-basic" class="table table-striped" style="width:100%">
-            <thead>
-              <tr>4
-                <th>#</th>
-                <th>คำสั่ง</th>
-                <th>เรื่อง: </th>
-                <th>โดย: </th>
-                <th>รายละเอียด: </th>
-                <th>วันที่สร้าง</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of instruction-order.service; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ item.Order }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.CreateBy }}</td>
-                <td>{{ item.Detail }}</td>
-                <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
-                <td>
-                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="openModal(modalinstruction-order, item.id, item.name)"></i>
-                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                    (click)="openModal(modalinstruction-order, item.id)"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
         </div>
       </div>
-    </div>
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
