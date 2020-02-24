@@ -1,56 +1,157 @@
 <div class="header">
-    <h1 class="header-title">
-      คำสั่งรับผิดชอบเขตตรวจราชการ
-    </h1>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
-        <li class="breadcrumb-item"><a href="#">จังหวัด</a></li>
-        <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
-      </ol>
-    </nav>
-  </div>
-  <form class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">จังหวัด</h5>
-          <div class="float-right">
-            <button class="btn btn-primary" (click)="openModal(modalinstruction-order)"
-              style="margin-top: -60px;">เพิ่มจังหวัด</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <table id="datatables-basic" class="table table-striped" style="width:100%">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>คำสั่ง</th>
-                <th>เรื่อง: </th>
-                <th>โดย: </th>
-                <th>รายละเอียด: </th>
-                <th>วันที่สร้าง</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of instruction-order.service; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ item.Order }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.CreateBy }}</td>
-                <td>{{ item.Detail }}</td>
-                <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
-                <td>
-                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="openModal(modalinstruction-order, item.id, item.name)"></i>
-                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                    (click)="openModal(modalinstruction-order, item.id)"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+  <h1 class="header-title">
+    คำสั่งรับผิดชอบเขตตรวจราชการ
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการคำสั่ง</a></li>
+      <li class="breadcrumb-item"><a href="#">คำสั่งรับผิดชอบเขตตรวจราชการ</a></li>
+      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+    </ol>
+  </nav>
+</div>
+<form class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">คำสั่งรับผิดชอบเขตตรวจราชการ</h5>
+        <div class="float-right">
+          <button class="btn btn-primary" (click)="openModal(modalInstructionorder)"
+            style="margin-top: -60px;">เพิ่มคำสั่ง</button>
         </div>
       </div>
+      <div class="card-body">
+        <table id="datatables-basic" class="table table-striped" style="width:100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ปี</th>
+              <th>คำสั่ง</th>
+              <th>เรื่อง</th>
+              <th>ของ</th>
+              <th>รายละเอียด</th>
+              <th>ไฟล์แนบ</th>
+              <th>วันที่สร้าง</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultInstructionorder; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.year }}</td>
+              <td>{{ item.order }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.createBy }}</td>
+              <td>{{ item.detail }}</td>
+              <td>{{ item.file }}</td>
+              <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
+              <td>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
+                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                  (click)="openModal(modaleditInstructionorder, item.id, item.name)"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                  (click)="openModal(modaldeleteInstructionorder, item.id)"></i>
+                  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+
+  <ng-template #modalInstructionorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="Form" (ngSubmit)="storeInstructionorder(Form.value)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">เพิ่มคำสั่งรับผิดชอบเขตตรวจราชการ</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <div class="form-group">
+            <label for="test" class="form-label">คำสั่งรับผิดชอบเขตตรวจราชการ </label>
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ"><br>
+            <label for="test" class="form-label">เรื่อง </label>
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณาระบุชื่อเรื่อง"><br>
+            <label for="test" class="form-label">ปี </label>
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
+            <label for="test" class="form-label">รายละเอียด </label>
+            <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+            <label for="test" class="form-label">ไฟล์แนบ </label><br>
+            <input type="file">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+
+
+  <!-- BEGIN primary modal -->
+  <ng-template #modaldeleteInstructionorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+      <i class="fa fa-info-circle delete-icon"></i>
+      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+        ลบข้อมูล
+      </p>
+      <p style="font-size: medium; color: #545454;">
+        คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+      </p>
+      <button type="button" class="btn btn-primary btnMargin" (click)="deleteInstructionorder(delid)">
+        ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+        ไม่ใช่
+      </button>
+    </div>
+  </ng-template>
+  <!-- END primary modal -->
+
+  <!-- BEGIN primary modal -->
+  <ng-template #modaleditInstructionorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="Form" (ngSubmit)="editInstructionorder(Form.value,delid)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">แก้ไข</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำสั่งรับผิดชอบเขตตรวจราชการ</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" value="{{title}}" formControlName="title" class="form-control"
+            placeholder="กรุณากรอกคำสั่ง"><br>
+            <label for="test" class="form-label">เรื่อง</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" value="{{title}}" formControlName="title" class="form-control"
+            placeholder="กรุณาระบุเรื่อง"><br>
+            <label for="test" class="form-label">ปี</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" value="{{title}}" formControlName="title" class="form-control"
+            placeholder="กรุณาระบุปี"><br>
+            <label for="test" class="form-label">รายละเอียด </label>
+            <input type="text" value="{{title}}"formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+            <label for="test" class="form-label">ไฟล์แนบ </label><br>
+            <input type="file">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+<!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
