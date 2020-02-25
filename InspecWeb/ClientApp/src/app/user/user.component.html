@@ -1,11 +1,11 @@
 <div class="header">
     <h1 class="header-title">
-      ระบบตรวจราชการอิเล็กทรอนิกส์
+        ระบบตรวจราชการอิเล็กทรอนิกส์
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="#">จัดการผู้ใช้</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active">จัดการผู้ใช้</li>
         </ol>
     </nav>
 </div>
@@ -16,7 +16,7 @@
                 <h5 class="card-title">จัดการผู้ใช้</h5>
                 <div class="float-right">
                     <button class="btn btn-primary" (click)="openModal(modalUser)"
-                        style="margin-top: -60px;">เพิ่มจัดการผู้ใช้</button>
+                        style="margin-top: -60px;">เพิ่มผู้ใช้</button>
                 </div>
             </div>
             <div class="card-body">
@@ -26,7 +26,11 @@
                             <th>No.</th>
                             <th>สิทธิ์การใช้งาน</th>
                             <th>ชื่อ-นามสกุล</th>
+                            <th>เขตตรวจ</th>
                             <th>จังหวัด</th>
+                            <th>กระทรวง</th>
+                            <th>กรม/หน่วยงาน</th>
+                            <th>เบอร์โทร</th>
                             <th>สถานะ</th>
                             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
@@ -36,7 +40,11 @@
                             <td>1.</td>
                             <td>Super admin</td>
                             <td>นายพิทยา นวลชื่น</td>
+                            <td>-</td>
                             <td>กรุงเทพฯ</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>0833874177</td>
                             <td>ใช้งานปกติ</td>
                             <td>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
@@ -55,51 +63,57 @@
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">จัดการผู้ใช้</h5>
+            <h5 class="modal-title">เพิ่มผู้ใช้</h5>
             <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body m-3">
-            <div class="form-group">
 
+        <div class="modal-body m-3">
+
+            <div class="form-group">
                 <label>สิทธิ์การใช้งาน</label>
                 <ng-select placeholder="กรุณาเลือกสิทธิ์การใช้งาน" [options]="selectdatarole" [allowClear]="true">
                 </ng-select>
-
             </div>
-            <div class="form-group">
 
+            <div class="form-group">
+                <label>เขตตรวจราชการ</label>
+                <ng-select placeholder="กรุณาเลือกเขตตรวจราชการ" [options]="selectdataregion" [allowClear]="true">
+                </ng-select>
+            </div>
+
+            <div class="form-group">
+                <label>จังหวัด</label>
+                <ng-select placeholder="กรุณาเลือกจังหวัด" [options]="selectdataprovince" [allowClear]="true">
+                </ng-select>
+            </div>
+
+            <div class="form-group">
                 <label>กระทรวง</label>
                 <ng-select placeholder="กรุณาเลือกกระทรวง" [options]="selectdataministry" [allowClear]="true">
                 </ng-select>
-
             </div>
-            <div class="form-group">
 
+            <div class="form-group">
                 <label>หน่วยงาน</label>
                 <ng-select placeholder="กรุณาเลือกหน่วยงาน" [options]="selectdatadeparment" [allowClear]="true">
                 </ng-select>
-
             </div>
-            <div class="form-group">
-
-                <label>จังหวัด</label>
-                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="selectdataprovince" [allowClear]="true">
-                </ng-select>
-
-            </div>
+          
             <div class="form-group">
                 <label class="form-label">อีเมล</label>
                 <input type="email" class="form-control" placeholder="กรุณากรอกอีเมล">
             </div>
+
             <div class="form-group">
-                <label class="form-label">ชื่อ-นามสกุล</label>
-                <input type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล">
+                <label class="form-label">ชื่อ-นามสกุล(TH)</label>
+                <input type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล(TH)">
             </div>
+
             <div class="form-group">
                 <label class="form-label">เบอร์โทร</label>
-                <input type="tel" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล">
+                <input type="tel" class="form-control" placeholder="กรุณากรอกเบอร์โทร">
             </div>
 
         </div>
