@@ -31,12 +31,20 @@ namespace InspecWeb.Data
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<CentralPolicyFile> CentralPolicyFiles { get; set; }
         public DbSet<FiscalYear> FiscalYears { get; set; }
+        public DbSet<FiscalYearRelation> FiscalYearRelations { get; set; }
         public DbSet<Governmentinspectionplan> Governmentinspectionplans { get; set; }
         public DbSet<InspectionOrder> InspectionOrders { get; set; }
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
         public DbSet<Training> Trainings { get; set; }
         public DbSet<Subquestion> Subquestions { get; set; }
         public DbSet<InspectionPlanEvent> InspectionPlanEvents { get; set; }
+        public DbSet<Cabine> Cabines { get; set; }
+        public DbSet<Ministermonitoring> Ministermonitorings { get; set; }
+        public DbSet<MinistermonitoringRegion> MinistermonitoringRegions { get; set; }
+        public DbSet<Inspector> Inspectors { get; set; }
+        public DbSet<InspectorRegion> InspectorRegions { get; set; }
+
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

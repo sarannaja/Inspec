@@ -1,6 +1,6 @@
 <div class="header">
     <h1 class="header-title">
-        คำสั่งการตรวจราชการประจำปี
+      ระบบตรวจราชการอิเล็กทรอนิกส์
     </h1>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -16,7 +16,7 @@
         <div class="card-header" style="margin-bottom: -40px;">
           <h5 class="card-title">คำสั่งการตรวจราชการประจำปี</h5>
           <div class="float-right">
-            <button class="btn btn-primary" (click)="openModal(modalInspectionorder)"
+            <button class="btn btn-primary" (click)="openModal(modalInspectionorder,'create')"
               style="margin-top: -60px;">เพิ่มคำสั่งการตรวจราชการประจำปี</button>
           </div>
         </div>
@@ -46,7 +46,7 @@
                 <td>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
                   <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="openModal(modaleditInspectionorder, item.id, item.name)"></i>
+                    (click)="onEdit(modaleditInspectionorder, item )"></i>
                   <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                     (click)="openModal(modaldeleteInspectionorder, item.id)"></i>
                 </td>
@@ -56,23 +56,31 @@
         </div>
       </div>
     </div>
-  
+
     <!-- BEGIN primary modal -->
-    <ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <ng-template #modalInspectionorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
       <form [formGroup]="Form" (ngSubmit)="storeInspectionorder(Form.value)">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">จัดการ</h5>
+            <h5 class="modal-title">เพิ่มคำสั่งการตรวจราชการประจำปี</h5>
             <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body m-3">
             <div class="form-group">
-              <label for="test" class="form-label">ชื่อจังหวัด</label>
+              <label for="test" class="form-label">ปี</label>
               <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-              <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด">
+              <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
+              <label for="test" class="form-label">คำสั่ง</label>
+              <input type="text" formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง"><br>
+              <label for="test" class="form-label">เรื่อง</label>
+              <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกเรื่อง"><br>
+              <label for="test" class="form-label">ของใคร</label>
+              <input type="text" formControlName="createBy" class="form-control" placeholder="กรุณากรอก"><br>
+              <label for="test" class="form-label">ไฟล์แนบ </label>
+            <input type="file">
             </div>
           </div>
           <div class="modal-footer">
@@ -84,10 +92,10 @@
       <!-- </div> -->
     </ng-template>
     <!-- END primary modal -->
-  
-  
+
+
     <!-- BEGIN primary modal -->
-    <ng-template #modaldeleteProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <ng-template #modaldeleteInspectionorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
         <i class="fa fa-info-circle delete-icon"></i>
         <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
@@ -96,7 +104,7 @@
         <p style="font-size: medium; color: #545454;">
           คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
         </p>
-        <button type="button" class="btn btn-primary btnMargin" (click)="deleteProvince(delid)">
+        <button type="button" class="btn btn-primary btnMargin" (click)="deleteInspectionorder(delid)">
           ใช่
         </button>
         <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
@@ -105,24 +113,32 @@
       </div>
     </ng-template>
     <!-- END primary modal -->
-  
+
     <!-- BEGIN primary modal -->
-    <ng-template #modaleditProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <ng-template #modaleditInspectionorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-      <form [formGroup]="Form" (ngSubmit)="editProvince(Form.value,delid)">
+      <form [formGroup]="Form" (ngSubmit)="editInspectionorder(Form.value,delid)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">จัดการจังหวัด</h5>
+          <h5 class="modal-title">จัดการคำสั่งการตรวจราชการประจำปี</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ชื่อจังหวัด</label>
+            
+            <label for="test" class="form-label">ปี</label>
             <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
-              placeholder="กรุณากรอกชื่อจังหวัด">
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
+            <label for="test" class="form-label">คำสั่ง</label>
+            <input type="text" formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง"><br>
+            <label for="test" class="form-label">เรื่อง</label>
+            <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกเรื่อง"><br>
+            <label for="test" class="form-label">ของใคร</label>
+            <input type="text" formControlName="createBy" class="form-control" placeholder="กรุณากรอก"><br>
+              <label for="test" class="form-label">ไฟล์แนบ </label><br>
+            <input type="file">
           </div>
         </div>
         <div class="modal-footer">
@@ -134,4 +150,3 @@
   <!-- </div> -->
   </ng-template>
   <!-- END primary modal -->
-  

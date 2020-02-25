@@ -10,9 +10,9 @@ namespace InspecWeb.Models
     /// <summary>
     /// เนื้อหาของสื่อสิ่งพิมพ์
     /// </summary>
-    [Table("Provinces")]
-    [Description("ตารางจังหวัด")]
-    public class Province
+    [Table("Ministermonitorings")]
+    [Description("ตารางรองนายกรัฐมนตรีและรัฐมนตรีประจำสำนักนายกรัฐมนตรีในการกำกับและติดตามการปฏฺบัติราชการในภูมิภาค")]
+    public class Ministermonitoring
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,19 +20,24 @@ namespace InspecWeb.Models
         public long Id { get; set; }
 
         [Required]
-        [Description("ชื่อจังหวัด")]
+        [Description("ชื่อ")]
         public string Name { get; set; }
 
         [Required]
-        [Description("ลิ้งค์")]
-        public string Link { get; set; }
+        [Description("ตำแหน่ง")]
+        public string Position { get; set; }
+
+        [Required]
+        [Description("รูปภาพ")]
+        public string Image { get; set; }
 
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-        public ICollection<District> Districts { get; set; }
-        public ICollection<FiscalYearRelation> FiscalYearRelations { get; set; }
+
+
+        public ICollection<MinistermonitoringRegion> MinistermonitoringRegions { get; set; }
     }
 }

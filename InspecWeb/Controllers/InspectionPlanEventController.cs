@@ -59,7 +59,7 @@ namespace InspecWeb.Controllers
                 EndDate = end_date,
                 CreatedBy = "นาย ศรัณญ์ สาพรหม",
                 CreatedAt = date,
-                CentralPolicyId = 1,
+                //CentralPolicyId = 1,
                 //Status = "ร่างกำหนดการ",
                 //FiscalYearId = 1
             };

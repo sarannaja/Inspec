@@ -31,7 +31,7 @@ export class RegionComponent implements OnInit {
           orderable: false
         }
       ]
-     
+
     };
 
     this.Form = this.fb.group({
@@ -48,7 +48,6 @@ export class RegionComponent implements OnInit {
       this.resultregion = result
       this.loading = true;
       console.log(this.resultregion);
-
     })
   }
   openModal(template: TemplateRef<any>, id, name) {
