@@ -48,6 +48,7 @@ import { InspectionPlanEventComponent } from './inspection-plan-event/inspection
 import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
 import { TrainComponent } from './train/train.component';
 import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
+import { CabinetComponent } from './cabinet/cabinet.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { DefaultLayoutTrainComponent } from './default-layout-train/default-layo
     CreateInspectionPlanEventComponent,
     TrainComponent,
     DefaultLayoutTrainComponent,
+    CabinetComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -139,6 +141,7 @@ import { DefaultLayoutTrainComponent } from './default-layout-train/default-layo
           { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
+          { path: 'cabinet', component: CabinetComponent},
         ]
       },
       {
