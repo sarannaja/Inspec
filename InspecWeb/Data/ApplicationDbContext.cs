@@ -43,8 +43,8 @@ namespace InspecWeb.Data
         public DbSet<MinistermonitoringRegion> MinistermonitoringRegions { get; set; }
         public DbSet<Inspector> Inspectors { get; set; }
         public DbSet<InspectorRegion> InspectorRegions { get; set; }
-
-
+        public DbSet<CentralPolicyEvent> CentralPolicyEvents { get; set; }
+        
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

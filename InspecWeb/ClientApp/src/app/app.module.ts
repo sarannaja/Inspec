@@ -125,7 +125,7 @@ import { DefaultLayoutTrainComponent } from './default-layout-train/default-layo
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
           { path: 'supportgovernment', component: SupportGovernmentComponent },
           { path: 'centralpolicy', component: CentralPolicyComponent },
-          { path: 'inspectionplan', component: InspectionPlanComponent },
+          { path: 'inspectionplan/:id', component: InspectionPlanComponent },
           { path: 'instructionorder', component: InstructionOrderComponent },
           { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent },
           { path: 'inspectionorder', component: InspectionorderComponent },

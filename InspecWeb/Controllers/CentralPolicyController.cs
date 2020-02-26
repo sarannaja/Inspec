@@ -42,7 +42,7 @@ namespace InspecWeb.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var centralpolicydata = _context.CentralPolicies.Include(x => x.Subjects).Where(m => m.Id == id).First();
+            var centralpolicydata = _context.CentralPolicies.Include(m => m.Subjects).Where(m => m.Id == id).First();
 
             return Ok(centralpolicydata);
             //return "value";
@@ -62,7 +62,8 @@ namespace InspecWeb.Controllers
                 CreatedBy = "นาย ศรัณญ์ สาพรหม",
                 CreatedAt = date,
                 Status = "ร่างกำหนดการ",
-                FiscalYearId = 1
+                FiscalYearId = 1,
+                Type = "แผนตรวจราชการประจำปี",
             };
 
             _context.CentralPolicies.Add(centralpolicydata);

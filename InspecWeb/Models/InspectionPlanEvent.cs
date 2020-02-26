@@ -16,12 +16,6 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        //[ForeignKey("CentralPolicy")]
-        //[Description("FK: นโยบายกลาง")]
-        //public long CentralPolicyId { get; set; }
-
-        //public virtual CentralPolicy CentralPolicy { get; set; }
-
         [Required]
         [Description("ชื่อ Event")]
         public string Name { get; set; }
@@ -41,5 +35,8 @@ namespace InspecWeb.Models
         [Required]
         [Description("คนที่สร้าง Event")]
         public string CreatedBy { get; set; }
+
+        //public ICollection<CentralPolicy> CentralPolicies { get; set; }
+        public ICollection<CentralPolicyEvent> CentralPolicyEvents { get; set; }
     }
 }
