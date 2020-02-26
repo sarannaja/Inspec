@@ -2,6 +2,10 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { InspectionplaneventService } from '../services/inspectionplanevent.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 
 @Component({
   selector: 'app-inspection-plan-event',
@@ -11,6 +15,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class InspectionPlanEventComponent implements OnInit {
 
   resultinspectionplanevent: any = []
+  inspectionplancalendar: any = []
   delid: any
   modalRef: BsModalRef;
 
@@ -20,9 +25,45 @@ export class InspectionPlanEventComponent implements OnInit {
     this.inspectionplanservice.getinspectionplaneventdata()
     .subscribe(result => {
       this.resultinspectionplanevent = result
-      console.log(this.resultinspectionplanevent);
+
+      this.inspectionplancalendar = result
+      this.inspectionplancalendar = this.inspectionplancalendar.map((item , index) =>{
+        return {
+          title : item.name,
+          start : item.startDate,
+          end :  item.endDate,
+        }
+      })
+     this.getcalendar();
     })
   }
+
+  getdata() {
+    this.inspectionplanservice.getinspectionplaneventdata()
+    .subscribe(result => {
+      this.resultinspectionplanevent = result
+
+      this.inspectionplancalendar = result
+      this.inspectionplancalendar = this.inspectionplancalendar.map((item , index) =>{
+        return {
+          title : item.name,
+          start : item.startDate,
+          end :  item.endDate,
+        }
+      })
+     this.getcalendar();
+    })
+  }
+
+  getcalendar(){
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new Calendar(calendarEl, {
+      events:  this.inspectionplancalendar,
+    plugins: [ dayGridPlugin, timeGridPlugin, listPlugin ]
+     });
+     calendar.render();
+  }
+
   CraateInspectionPlanEvent(){
     this.router.navigate(['/inspectionplanevent/create'])
   }
@@ -36,15 +77,15 @@ export class InspectionPlanEventComponent implements OnInit {
     this.inspectionplanservice.deleteInspectionplanevent(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
-      this.inspectionplanservice.getinspectionplaneventdata().subscribe(result => {
-        this.resultinspectionplanevent = result
-        console.log(this.resultinspectionplanevent);
-      })
+      this.getdata();
+      // this.inspectionplanservice.getinspectionplaneventdata().subscribe(result => {
+      //   this.resultinspectionplanevent = result
+      //   console.log(this.resultinspectionplanevent);
+      // })
     })
   }
 
-  InspectionPlan(){
-    this.router.navigate(['/inspectionplan'])
+  InspectionPlan(id){
+    this.router.navigate(['/inspectionplan', id])
   }
-
 }

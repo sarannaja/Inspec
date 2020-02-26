@@ -20,6 +20,11 @@ namespace InspecWeb.Models
         [Description("FK: ปีงบประมาณ")]
         public long FiscalYearId { get; set; }
 
+        //[ForeignKey("InspectionPlanEvent")]
+        //[Description("FK: Event การตรวจ")]
+        //public long InspectionPlanEventId { get; set; }
+        //public virtual InspectionPlanEvent InspectionPlanEvent { get; set; }
+
         [Required]
         [Description("ชื่อนโยบายกลาง")]
         public string Title { get; set; }
