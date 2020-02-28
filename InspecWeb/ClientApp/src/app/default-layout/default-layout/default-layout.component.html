@@ -1,74 +1,139 @@
 <div class="wrapper">
 
-  <nav id="sidebar" class="sidebar">
-      <a class="sidebar-brand" [routerLink]="['/main']">
+    <nav id="sidebar" class="sidebar">
+        <a class="sidebar-brand" [routerLink]="['/main']">
           <img src="assets/img/logo.png" class="img-fluid rounded-circle mb-2" height="42" width="42" />
           &nbsp;
           สตร.
-      </a> 
-      <div class="sidebar-content">
-          <div class="sidebar-user">
-              <img src="assets/img/user.png" class="img-fluid rounded-circle mb-2" alt="Linda Miller" />
-              <div class="font-weight-bold">ชื่อ admin test</div>
-              <small>ตำแหน่ง xxx </small>
-          </div>
+        </a> 
+        <div class="sidebar-content">
+            <div class="sidebar-user">
+                <img src="assets/img/user.png" class="img-fluid rounded-circle mb-2" alt="Linda Miller" />
+                <div class="font-weight-bold">ชื่อ admin test</div>
+                <small>ตำแหน่ง xxx </small>
+            </div>
 
-
-          <ul class="sidebar-nav">
-              <li class="sidebar-item active">
-                  <a class="sidebar-link" [routerLink]="['/main']">
-                      <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span
-                          class="align-middle">หน้าหลัก</span>
-                  </a>
-              </li>
-              <li class="sidebar-item">
-                <a class="sidebar-link" [routerLink]="['/centralpolicy']">
-                    <i class="align-middle mr-2 fas fa-fw fa-archive"></i> <span
-                        class="align-middle">แผนการตรวจประจำปี</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" [routerLink]="['/inspectionplanevent']">
-                  <i class="align-middle mr-2 fas fa-fw fa-sticky-note"></i> <span
-                      class="align-middle">แผนการตรวจราชการ</span>
-              </a>
-          </li>
-            <!-- <li class="sidebar-item">
-                <a class="sidebar-link" [routerLink]="['/inspectionplan']">
-                    <i class="align-middle mr-2 fas fa-fw fa-list"></i> <span
-                        class="align-middle">แผนการตรวจ</span>
-                </a>
-            </li> -->
-              <li class="sidebar-item">
-                  <a href="#dashboards" data-toggle="collapse" class="sidebar-link collapsed">
-                      <i class="align-middle mr-2 fas fa-fw fa-database"></i> <span
-                          class="align-middle">ข้อมูลพื้นฐาน</span>
-                  </a>
-                  <ul id="dashboards" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-                      <li class="sidebar-item"><a class="sidebar-link"
-                        [routerLink]="['/fiscalyear']">ปีงบประมาณ</a>
-                      </li>
-                      <li class="sidebar-item"><a class="sidebar-link"
-                        [routerLink]="['/region']">เขตตรวจราชการ</a></li>
-                      <li class="sidebar-item"><a class="sidebar-link"
-                        [routerLink]="['/province']">จังหวัด</a></li>
-                      <li class="sidebar-item"><a class="sidebar-link"
-                        [routerLink]="['/ministry']">กระทรวง/กรม</a></li>
-                  </ul>
-              </li>
-              <li class="sidebar-item">
-                  <a class="sidebar-link" [routerLink]="['/user']">
-                      <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
-                          class="align-middle">จัดการผู้ใช้</span>
-                  </a>
-              </li>
-
+            <ul class="sidebar-nav">
+                <li class="sidebar-item active">
+                    <a class="sidebar-link" [routerLink]="['/main']">
+                        <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span
+                            class="align-middle">หน้าหลัก</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" [routerLink]="['/centralpolicy']">
+                        <i class="align-middle mr-2 fas fa-fw fa-archive"></i> <span
+                            class="align-middle">แผนการตรวจประจำปี</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" [routerLink]="['/inspectionplanevent']">
+                        <i class="align-middle mr-2 fas fa-fw fa-calendar"></i> <span
+                            class="align-middle">ปฏิทินการตรวจราชการ</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="#">
+                        <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span
+                            class="align-middle">สมุดตรวจราชการ</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="#">
+                        <i class="align-middle mr-2 fas fa-fw fa-hand-point-up"></i> <span
+                            class="align-middle">ข้อสั่งการผู้บริหาร</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="#">
+                        <i class="align-middle mr-2 fas fa-fw fa-hands"></i> <span
+                            class="align-middle">แจ้งคำร้องขอ</span>
+                    </a>
+                </li>
+                <li class="sidebar-header">________________________________</li>
+                <li class="sidebar-item">
+                    <a href="#dashboards" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-database"></i> <span
+                            class="align-middle">ข้อมูลพื้นฐาน</span>
+                    </a>
+                    <ul id="dashboards" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link"
+                            [routerLink]="['/fiscalyear']"><i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>ปีงบประมาณ</a>
+                        </li>
+                        <li class="sidebar-item"><a class="sidebar-link"
+                            [routerLink]="['/region']"><i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>เขตตรวจราชการ</a></li>
+                        <li class="sidebar-item"><a class="sidebar-link"
+                            [routerLink]="['/province']"><i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>จังหวัด</a></li>
+                        <li class="sidebar-item"><a class="sidebar-link"
+                            [routerLink]="['/ministry']"><i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>กระทรวง/กรม</a></li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" [routerLink]="['/user']">
+                        <i class="align-middle mr-2 fas fa-fw fa-user-friends"></i> <span
+                            class="align-middle">จัดการผู้ใช้</span>
+                    </a>
+                </li>
+                <li class="sidebar-header">________________________________</li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" [routerLink]="['/supportgovernment']">
                         <i class="align-middle mr-2 fas fa-fw fa-list-alt"></i> <span
                             class="align-middle">ข้อมูลสนับสนุน</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+                    <a href="#peple" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-user-tie"></i> <span
+                            class="align-middle">ข้อมูลการติดต่อบุคลากร</span>
+                    </a>
+                    <ul id="peple" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" target="_blank" href="http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1">
+                                <i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>
+                                คณะรัฐมนตรี
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" target="_blank" href="https://onedrive.live.com/view.aspx?resid=8EAF7F9F94B80BB1!5749&ithint=file%2cxlsx&authkey=!AFvIa097L3fAX68">
+                                <i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>
+                                ผู้ตรวจราชการ
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>
+                                เจ้าหน้าที่ประจำเขตตรวจราชการ
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>
+                                หน่วยงานในส่วนภูมิภาค
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" target="_blank" href="http://www.ggc.opm.go.th/index.php?page=index&language=th">
+                                <i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>
+                                คณะกรรมการธรรมมาภิบาลจังหวัด
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="#">
+                                <i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>
+                                เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" target="_blank" href="http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1">
+                                <i class="align-middle mr-2 fas fa-fw fa-long-arrow-alt-right"></i>
+                                ที่ปรึกษาผู้ตรวจราชการภาคประชาชน
+                            </a>
+                        </li>
+                    </ul>
+
+                </li>
+                <li class="sidebar-header">________________________________</li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" [routerLink]="['/training']">
                         <i class="align-middle mr-2 fas fa-fw fa-shekel-sign"></i> <span
@@ -256,33 +321,33 @@
                 <!-- <ng-snotify></ng-snotify> -->
             </div>
         </main>
-        <!-- <footer class="footer">
-          <div class="container-fluid">
-              <div class="row text-muted">
-                  <div class="col-8 text-left">
-                      <ul class="list-inline">
-                          <li class="list-inline-item">
-                              <a class="text-muted" href="#">Support</a>
-                          </li>
-                          <li class="list-inline-item">
-                              <a class="text-muted" href="#">Privacy</a>
-                          </li>
-                          <li class="list-inline-item">
-                              <a class="text-muted" href="#">Terms of Service</a>
-                          </li>
-                          <li class="list-inline-item">
-                              <a class="text-muted" href="#">Contact</a>
-                          </li>
-                      </ul>
-                  </div>
-                  <div class="col-4 text-right">
-                      <p class="mb-0">
-                          &copy; 2019 - <a href="dashboard-default.html" class="text-muted">Spark</a>
-                      </p>
-                  </div>
-              </div>
-          </div>
-      </footer> -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row text-muted">
+                    <div class="col-8 text-left">
+                        <ul class="list-inline">
+                            <!-- <li class="list-inline-item">
+                                <a class="text-muted" href="#">Support</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="text-muted" href="#">Privacy</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="text-muted" href="#">Terms of Service</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="text-muted" href="#">Contact</a>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="mb-0">
+                            &copy; 2019 - <a [routerLink]="['/main']" class="text-muted">ระบบตรวจราชการอิเล็กทรอนิกส์</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer> 
     </div>
 
 </div>
