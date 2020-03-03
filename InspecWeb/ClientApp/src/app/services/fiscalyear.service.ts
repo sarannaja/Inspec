@@ -10,7 +10,7 @@ export class FiscalyearService {
   count = 0
   url = "";
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     this.url = baseUrl + 'api/fiscalyear/';
   }
 
@@ -32,5 +32,25 @@ export class FiscalyearService {
     formData.append('year', fiscalyearData.fiscalyear);
     console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put(this.url + id, formData);
+  }
+
+  getDetailFiscalyear(id): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl = "api/fiscalyear/" + id)
+  }
+  addDetailFiscalyear(detailfiscalyearData, Id) {  
+    console.log("ARRAY: ", detailfiscalyearData.ProvinceId);
+    
+    const formData = {
+      
+      FiscalYearId: parseInt(Id)  ,
+      RegionId : detailfiscalyearData.RegionId,
+      ProvinceId : detailfiscalyearData.ProvinceId
+    }
+    // const formData = new FormData();
+    // formData.append('FiscalYearId', Id);
+    // formData.append('RegionId', detailfiscalyearData.RegionId);
+    // formData.append('ProvinceId', detailfiscalyearData.ProvinceId);
+    console.log('FORMDATA: ' , formData);
+    return this.http.post(this.url+"AddRelation", formData);
   }
 }

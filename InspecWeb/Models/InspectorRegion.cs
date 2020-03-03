@@ -11,7 +11,7 @@ namespace InspecWeb.Models
     /// เนื้อหาของสื่อสิ่งพิมพ์
     /// </summary>
     [Table("InspectorRegions")]
-    [Description("ตารางรองนายกรัฐมนตรีและรัฐมนตรีประจำสำนักนายกรัฐมนตรีในการกำกับและติดตามการปฏฺบัติราชการในภูมิภาคเขตตรวจราชการ")]
+    [Description("")]
     public class InspectorRegion
     {
         [Key]
