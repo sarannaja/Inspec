@@ -4,23 +4,136 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
       <li class="breadcrumb-item"><a href="#">ปีงบประมาณ</a></li>
       <li class="breadcrumb-item"><a href="#">จัดการความสัมพันธ์</a></li>
+      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
   </nav>
 </div>
 <div class="row">
-
-
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">จัดการความสัมพันธ์</h5>
+        <div class="float-right">
+          <button class="btn btn-primary" (click)="openModal(modalDetailFiscalyear)"
+            style="margin-top: -60px;">เพิ่มจัดการความสัมพันธ์</button>
+        </div>
       </div>
       <div class="card-body">
-
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>เขตตรวจราชการ</th>
+              <th>ประกอบด้วยจังหวัด</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let items of resultdetailfiscalyear; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ items.region.name }} </td>
+              <td><span *ngFor="let item of items.province; let i = index">{{ item.name }} </span></td>
+              <td>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-map pointer" (click)="DetailFiscalYear(item.id)"></i> -->
+                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                  (click)="editModal(modaleditFiscalyear, item.id, item.year)"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                  (click)="openModal(modaldeleteFiscalyear, item.id)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- BEGIN primary modal -->
+  <ng-template #modalDetailFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="Form" (ngSubmit)="AddRelation(Form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการความสัมพันธ์</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">เขตตรวจราชการ</label>
+          <!-- <select class="form-control select2" data-toggle="select2">
+            <option value=null>กรุณาเลือกเขตตรวจ</option>
+            <option [options]="regions" name="RegionId" formControlName="RegionId">{{label}}
+            </option>
+          </select> -->
+          <ng-select placeholder="กรุณาเลือกเขตตรวจ" [options]="regions" name="RegionId" formControlName="RegionId" [allowClear]="true">
+          </ng-select>
+        </div>
+        <div class="form-group">
+          <label for="test" class="form-label">จังหวัด</label>
+          <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="resultprovince" name="ProvinceId" formControlName="ProvinceId" [allowClear]="true">
+          </ng-select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+    <!-- </div> -->
+    </form>
+  </ng-template>
+  <!-- END primary modal -->
+
+  <!-- BEGIN primary modal -->
+  <ng-template #modaldeleteFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+      <i class="fa fa-info-circle delete-icon"></i>
+      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+        ลบข้อมูล
+      </p>
+      <p style="font-size: medium; color: #545454;">
+        คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+      </p>
+      <button type="button" class="btn btn-primary btnMargin" (click)="deleteFiscalyear(delid)">
+        ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+        ไม่ใช่
+      </button>
+    </div>
+  </ng-template>
+  <!-- END primary modal -->
+
+  <!-- BEGIN primary modal -->
+  <ng-template #modaleditFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="EditForm" (ngSubmit)="editFiscalyear(EditForm.value,delid)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการปีงบประมาณ</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <div class="form-group">
+            <label for="test" class="form-label">ปีงบประมาณ</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" value="{{year}}" formControlName="fiscalyear" class="form-control"
+              placeholder="กรุณากรอกชื่อจังหวัด">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->

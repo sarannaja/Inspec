@@ -5,9 +5,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-//using Newtonsoft.Json;
-using static InspecWeb.ViewModel.RegoinViewModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace InspecWeb.Controllers
 {
@@ -26,7 +26,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<FiscalYear> Get()
         {
             var fiscalyeardata = from P in _context.FiscalYears
-                               select P;
+                                 select P;
             return fiscalyeardata;
 
             //return 
@@ -38,67 +38,164 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IEnumerable<object> Get(long id)
         {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public object Post(int year)
-        {
-            
-
-            var date = DateTime.Now;
-
-            var fiscalyeardata = new FiscalYear
-            {
-                Year = year,
-                CreatedAt = date
-            };
-
-            _context.FiscalYears.Add(fiscalyeardata);
-            _context.SaveChanges();
-
-
-
-           var regoinTest =
-                 @" 'data': [" +
-                "{'name': 'เขตการปกครองพิเศษ', 'provinces': [ {'name':'กรุงเทพมหานคร' }] }," +
-                //"{'name':'เขตตรวจราชการที่ 1', 'provinces': [{'name': 'นนทบุรี'}, {'name':'ปทุมธานี'},{'name': 'พระนครศรีอยุธยา'}, {'name':'สระบุรี'}] }" +
-                "{'name':'เขตตรวจราชการที่ 1', 'provinces': [{'name': 'นนทบุรี'}, {'name':'ปทุมธานี'},{'name': 'พระนครศรีอยุธยา'}, {'name':'สระบุรี'}] }" +
-                //"{'name':'เขตตรวจราชการที่2','provinces':[{'name':'ชัยนาท'},{'name':'ลพบุรี'},{'name':'สิงห์บุรี'},{'name':'อ่างทอง'}] }"+
-                "]";
-
-            long[] provinceId1 = new long[] { 1, 3, 5, 7, 9 };
-            var des = (RegoinData)Newtonsoft.Json.JsonConvert.DeserializeObject(regoinTest, typeof(RegoinData));
-
-            //dynamic provinceId3 = JsonSerializer.Deserialize(regoinTest);
-            //JsonConvert.DeserializeObject<List<RegoinData>>(regoinTest);
-
-            //var regoin = (new RegoinData { name = "เขตการปกครองพิเศษ", provinces = (new {name = "กรุงเทพมหานคร" } } )   );
-
-            return des;
-            //{ 'name' = 'เขตการปกครองพิเศษ'};
-            long[] provinceId2 = new long[] { 1, 3, 5, 7, 9 };
-
-           
-                //new { RegionId = 1 , ProvinceId = provinceId1 };
-
-            var fiscalYearRelation = new FiscalYearRelation
-            {
-                FiscalYearId = fiscalyeardata.Id,
-                RegionId = 1,
-                ProvinceId = 1
-            };
-            _context.FiscalYearRelations.Add(fiscalYearRelation);
-
-
-
+            var fiscalyeardata = _context.FiscalYearRelations
+                                        .Include(m => m.FiscalYear)
+                                        .Include(m => m.Region)
+                                        .Include(m => m.Province);
 
 
             return fiscalyeardata;
+
+
+            //var fiscalyearprovince = new List<Array>();
+
+            //foreach(var fiscalyeardata in fiscalyeardatas)
+            //{
+            //    fiscalyearprovince.Add(new
+            //    {
+            //        Province = fiscalyeardata.Pro
+            //    });
+            //}
+
+            //return fiscalyeardata;
         }
+
+        //POST api/values
+       [HttpPost("AddRelation")]
+        public void Post([FromBody] FiscalYearRelationViewModel model)
+        {
+
+            foreach (var id in model.ProvinceId)
+            {
+                System.Console.WriteLine("LOOP: " + id);
+                var fiscalyearrelationdata = new FiscalYearRelation
+                {
+                    FiscalYearId = model.FiscalYearId,
+                    RegionId = model.RegionId,
+                    ProvinceId = id
+                };
+                _context.FiscalYearRelations.Add(fiscalyearrelationdata);
+            }
+
+
+            _context.SaveChanges();
+
+
+        }
+
+        //public IEnumerable<object> Get(long id)
+        //{
+        //    var fiscalyeardata = _context.FiscalYearRelations
+        //        .GroupBy(g => new { fiscalyear = g.FiscalYearId, region = g.RegionId })
+        //        .Select(g => new
+        //        {
+        //            g.Key.fiscalyear ,
+        //            g.Key.region
+        //        })
+        //        .ToList();
+
+        //    var fiscalyear = new List<object>();
+
+        //    foreach (var fiscalyeardatas in fiscalyeardata)
+        //    {
+        //        var fiscal = _context.FiscalYearRelations
+
+        //            .Where(p => p.FiscalYearId == fiscalyeardatas.fiscalyear)
+        //            .AsQueryable();
+
+        //        var regions = _context.FiscalYearRelations
+        //            .Where(g => g.RegionId == fiscalyeardatas.region)
+        //            .Include(x => x.Region)
+        //            .ToList();
+
+
+        //        fiscalyear.Add(new
+        //        {
+        //            fiscalyear = fiscal ,
+        //            regionsId = regions
+
+
+        //        });
+        //    }
+
+        //    return fiscalyear;
+
+
+
+
+
+
+        //    //var fiscalyearprovince = new List<Array>();
+
+        //    //foreach(var fiscalyeardata in fiscalyeardatas)
+        //    //{
+        //    //    fiscalyearprovince.Add(new
+        //    //    {
+        //    //        Province = fiscalyeardata.Pro
+        //    //    });
+        //    //}
+
+        //    return fiscalyeardata;
+        ////}
+
+        //POST api/values
+        //[HttpPost]
+        //public object Post(int year)
+        //{
+
+
+        //    var date = DateTime.Now;
+
+        //    var fiscalyeardata = new FiscalYear
+        //    {
+        //        Year = year,
+        //        CreatedAt = date
+        //    };
+
+        //    _context.FiscalYears.Add(fiscalyeardata);
+        //    _context.SaveChanges();
+
+
+
+        //    var regoinTest =
+        //          @" 'data': [" +
+        //         "{'name': 'เขตการปกครองพิเศษ', 'provinces': [ {'name':'กรุงเทพมหานคร' }] }," +
+        //         //"{'name':'เขตตรวจราชการที่ 1', 'provinces': [{'name': 'นนทบุรี'}, {'name':'ปทุมธานี'},{'name': 'พระนครศรีอยุธยา'}, {'name':'สระบุรี'}] }" +
+        //         "{'name':'เขตตรวจราชการที่ 1', 'provinces': [{'name': 'นนทบุรี'}, {'name':'ปทุมธานี'},{'name': 'พระนครศรีอยุธยา'}, {'name':'สระบุรี'}] }" +
+        //         //"{'name':'เขตตรวจราชการที่2','provinces':[{'name':'ชัยนาท'},{'name':'ลพบุรี'},{'name':'สิงห์บุรี'},{'name':'อ่างทอง'}] }"+
+        //         "]";
+
+        //    long[] provinceId1 = new long[] { 1, 3, 5, 7, 9 };
+        //    var des = (RegoinData)Newtonsoft.Json.JsonConvert.DeserializeObject(regoinTest, typeof(RegoinData));
+
+        //    //dynamic provinceId3 = JsonSerializer.Deserialize(regoinTest);
+        //    //JsonConvert.DeserializeObject<List<RegoinData>>(regoinTest);
+
+        //    //var regoin = (new RegoinData { name = "เขตการปกครองพิเศษ", provinces = (new {name = "กรุงเทพมหานคร" } } )   );
+
+        //    return des;
+        //    //{ 'name' = 'เขตการปกครองพิเศษ'};
+        //    long[] provinceId2 = new long[] { 1, 3, 5, 7, 9 };
+
+
+        //    //new { RegionId = 1 , ProvinceId = provinceId1 };
+
+        //    var fiscalYearRelation = new FiscalYearRelation
+        //    {
+        //        FiscalYearId = fiscalyeardata.Id,
+        //        RegionId = 1,
+        //        ProvinceId = 1
+        //    };
+        //    _context.FiscalYearRelations.Add(fiscalYearRelation);
+
+
+
+
+
+        //    return fiscalyeardata;
+        //}
 
         // PUT api/values/5
         [HttpPut("{id}")]
