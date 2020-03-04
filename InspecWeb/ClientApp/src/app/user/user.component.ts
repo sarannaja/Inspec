@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../services/Pipe/alert.service';
 import { ProvinceService } from '../services/province.service';
 import { RegionService } from '../services/region.service';
+import { MinistryService } from '../services/ministry.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -18,7 +19,8 @@ export class UserComponent implements OnInit {
   selectdatadeparment: Array<IOption>
   selectdataprovince: Array<IOption>
   selectdataregion: Array<IOption>
-
+  loading = true;
+  dtOptions: DataTables.Settings = {};
   datarole:any = [
     {
       id: 1,
@@ -62,12 +64,6 @@ export class UserComponent implements OnInit {
     },
     
   ]
-  dataministry:any = [
-    {
-      id: 1,
-      name: 'กองทัพไทย'
-    },
-  ]
   datadeparment:any = [
     {
       id: 1,
@@ -84,17 +80,29 @@ export class UserComponent implements OnInit {
     private router: Router,
     private provinceService:ProvinceService,
     private regionService : RegionService,
+    private ministryService : MinistryService,
     ) { }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      // columnDefs: [
+      //   {
+      //     targets: [9],
+      //     orderable: false
+      //   }
+      // ]
+    };
+
     this.getDataProvinces()
     this.getDataRegions()
+    this.getDataMinistries()
     this.selectdatarole = this.datarole.map((item,index)=>{
       return { value:item.id , label:item.name }
     })
-    this.selectdataministry = this.dataministry.map((item,index)=>{
-      return { value:item.id , label:item.name }
-    })
+    // this.selectdataministry = this.dataministry.map((item,index)=>{
+    //   return { value:item.id , label:item.name }
+    // })
     this.selectdatadeparment = this.datadeparment.map((item,index)=>{
       return { value:item.id , label:item.name }
     })
@@ -107,9 +115,7 @@ export class UserComponent implements OnInit {
 
   getDataProvinces(){
     this.provinceService.getprovincedata()
-    .subscribe(result=>{
-      //console.log(result);
-
+    .subscribe(result=>{    
       this.selectdataprovince = result.map((item,index)=>{
         return { value:item.id , label:item.name }
       })
@@ -126,5 +132,15 @@ export class UserComponent implements OnInit {
       
     })
   }
+  getDataMinistries(){
+    this.ministryService.getministry()
+    .subscribe(result=>{
+      this.selectdataministry = result.map((item,index)=>{
+        return { value:item.id , label:item.name }
+      })
+      
+    })
+  }
+
 
 }

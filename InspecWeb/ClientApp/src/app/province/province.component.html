@@ -7,7 +7,6 @@
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="#">จัดการฐานข้อมูล</a></li>
       <li class="breadcrumb-item active">จังหวัด</li>
-      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
   </nav>
 </div>
@@ -43,7 +42,6 @@
                 <td></td>
               </ng-template>
               <td>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
@@ -58,7 +56,6 @@
 
   <!-- BEGIN primary modal -->
   <ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
     <form [formGroup]="Form" (ngSubmit)="storeProvince(Form.value)">
       <div class="modal-content">
         <div class="modal-header">
@@ -70,7 +67,6 @@
         <div class="modal-body m-3">
           <div class="form-group">
             <label for="test" class="form-label">ชื่อจังหวัด</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
             <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด">
             <br>
             <label for="test" class="form-label">ลิ้งค์​</label>
@@ -110,7 +106,6 @@
 
   <!-- BEGIN primary modal -->
   <ng-template #modaleditProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
     <form [formGroup]="EditForm" (ngSubmit)="editProvince(EditForm.value,delid)">
       <div class="modal-content">
         <div class="modal-header">
@@ -121,8 +116,7 @@
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ชื่อจังหวัด</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <label for="test" class="form-label">ชื่อจังหวัด</label>       
             <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
               placeholder="กรุณากรอกชื่อจังหวัด">
             <br>
@@ -139,4 +133,4 @@
     </form>
     <!-- </div> -->
   </ng-template>
-  <ng-snotify class="{{style}}"></ng-snotify> <!-- END primary modal -->
+  <ng-snotify></ng-snotify> <!-- END primary modal -->
