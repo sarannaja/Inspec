@@ -28,9 +28,9 @@ namespace InspecWeb.Controllers
         public async Task<string> Create()
         {
             string result = "Null";
-
+            
             if (_context.Users.Count() == 0)
-            {
+            {   
                 var user = new ApplicationUser { UserName = "admin@inspec.go.th", Email = "admin@inpsec.go.th" };
                 var success = await _userManager.CreateAsync(user, "Admin@12345678").ConfigureAwait(false);
 
