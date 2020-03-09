@@ -61,6 +61,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new InstructionOrderSeeder());
             builder.ApplyConfiguration(new DistrictSeeder());
             builder.ApplyConfiguration(new SubdistrictSeeder());
+            builder.ApplyConfiguration(new RelationSeeder());
         }
 
      

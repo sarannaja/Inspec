@@ -37,20 +37,25 @@ export class FiscalyearService {
   getDetailFiscalyear(id): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl = "api/fiscalyear/" + id)
   }
-  addDetailFiscalyear(detailfiscalyearData, Id) {  
-    console.log("ARRAY: ", detailfiscalyearData.ProvinceId);
-    
+  getProvinceRecycled(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "getProvinceRecycled/" + id)
+  }
+  addDetailFiscalyear(detailfiscalyearData, Id) {
+    // console.log("ARRAY: ", detailfiscalyearData.ProvinceId);
+
     const formData = {
-      
-      FiscalYearId: parseInt(Id)  ,
-      RegionId : detailfiscalyearData.RegionId,
-      ProvinceId : detailfiscalyearData.ProvinceId
+
+      FiscalYearId: parseInt(Id),
+      RegionId: detailfiscalyearData.RegionId,
+      ProvinceId: detailfiscalyearData.ProvinceId
     }
-    // const formData = new FormData();
-    // formData.append('FiscalYearId', Id);
-    // formData.append('RegionId', detailfiscalyearData.RegionId);
-    // formData.append('ProvinceId', detailfiscalyearData.ProvinceId);
-    console.log('FORMDATA: ' , formData);
-    return this.http.post(this.url+"AddRelation", formData);
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post(this.url + "AddRelation", formData);
+  }
+  deleteDetailFiscalyear(id, fiscalyearid) {
+    // console.log("PPP: " + id);
+
+    return this.http.delete(this.url + "DeleteRelation/" + id + "/" + fiscalyearid);
   }
 }

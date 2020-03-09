@@ -20,13 +20,28 @@ export class DetailFiscalyearComponent implements OnInit {
   resultdetailfiscalyear: any[] = []
   resultregion: any[] = []
   resultprovince: any[] = []
+  resultprovincerecycled: any[] = []
   modalRef: BsModalRef;
+  config = {
+    keyboard: false,
+    ignoreBackdropClick: true
+  };
   Form: FormGroup;
   id: any
+  fiscalyearid2: any
+  fiscalyearid: any
+  regionId: Array<any> = []
+  provincerecycledId: Array<any> = []
   FiscalYearId: any
   RegionId: any
   ProvinceId: any;
-  public regions: Array<IOption>;
+  regions: IOption[] = [];
+  provinces: IOption[] = [];
+  activeModal: boolean = false
+  ascending: any = [];
+  valueRegionId: any
+  valueProvinceId: any
+  valuedeleteRegionId: any
   // results: Array<{
   //   id: number,
   //   fiscalYearId: number,
@@ -49,10 +64,11 @@ export class DetailFiscalyearComponent implements OnInit {
     private regionservice: RegionService,
     private provinceservice: ProvinceService,
     private fb: FormBuilder) {
-    this.id = activateRoute.snapshot.paramMap.get('id')
+    this.fiscalyearid = activateRoute.snapshot.paramMap.get('id')
   }
 
   ngOnInit() {
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -66,145 +82,138 @@ export class DetailFiscalyearComponent implements OnInit {
       RegionId: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null, [Validators.required])
     })
-
-
-
-    this.fiscalyearService.getDetailFiscalyear(this.id)
-      .subscribe(result => {
-
-        this.resultdetailfiscalyear = _.chain(result).groupBy('regionId').map(function (v, i) {
-          return {
-            regionId: _.get(_.find(v, 'regionId'), 'regionId'),
-            region: _.get(_.find(v, 'region'), 'region'),
-            province: _.map(v, 'province')
-          }
-        }).value();
-        this.loading = true;
-        console.log(this.resultdetailfiscalyear);
-
-
-        // this.results = 
-        // result.forEach((item, index) => {
-        //   console.log(index);
-        //   if (this.results.length == 0) {
-        //     this.results.push({
-        //       id: item.id,
-        //       fiscalYearId: item.fiscalYearId,
-        //       regionId: item.regionId,
-        //       region: [{ id: item.region.id, name: item.region.name }],
-        //       provinceId: item.provinceId,
-        //       province: [{ id: item.province.id, name: item.province.name }]
-        //     })
-        //     // return {...item}
-        //     // console.log(this.results);
-
-        //   } else if (item.regionId == this.results[index-1].regionId){
-        //      if(item.provinceId != this.results[index-1].provinceId){
-        //      this.results[index-1].province.push({id: item.province.id, name: item.province.name })
-        //      }else{
-        //       this.results.push({
-        //         id: item.id,
-        //         fiscalYearId: item.fiscalYearId,
-        //         regionId: item.regionId,
-        //         region: [{ id: item.region.id, name: item.region.name }],
-        //         provinceId: item.provinceId,
-        //         province: [{ id: item.province.id, name: item.province.name }]
-        //       })
-        //      }
-        //   } else if(item.regionId != this.results[index-1].regionId) {
-
-        //     this.results.push({
-        //       id: item.id,
-        //       fiscalYearId: item.fiscalYearId,
-        //       regionId: item.regionId,
-        //       region: [{ id: item.region.id, name: item.region.name }],
-        //       provinceId: item.provinceId,
-        //       province: [{ id: item.province.id, name: item.province.name }]
-        //     })
-
-        //   }else {
-
-        //   }
-
-        //     // this.results.forEach((element,index2) => {
-        //     //   if(element)
-        //     // });
-
-        //     // for (let i = 0; i < this.results.length; i++) {
-
-
-        //       // else{
-        //       //   this.results.push({
-        //       //     id: item.id,
-        //       //     fiscalYearId: item.fiscalYearId,
-        //       //     regionId: item.regionId,
-        //       //     region: [{ id: item.region.id, name: item.region.name }],
-        //       //     provinceId: item.provinceId,
-        //       //     province: [{ id: item.province.id, name: item.province.name }]
-        //       //   })
-        //       // }
-
-
-        //     // }
-
-        // })
-        // this.results = result
-
-        // console.log(this.results);
-      })
-
-    this.regionservice.getregiondata().subscribe(result => {
-      this.resultregion = result
-      this.loading = true;
-      console.log(this.resultregion);
-
-      this.regions = this.resultregion.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
-    })
-    this.provinceservice.getprovincedata().subscribe(result => {
-      this.resultprovince = result
-
-      this.resultprovince = this.resultprovince.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
-
-      console.log(this.resultprovince);
-    })
-
+    this.getProvinceRecycled()
+    this.getData()
 
   }
-  openModal(template: TemplateRef<any>, id) {
-    // this.id = id;
-    // alert(this.id)
+
+
+  openModal(template: TemplateRef<any>) {
+    if (this.regions.length == 0 && this.provinces.length == 0) {
+      alert("in")
+    } else {
+      this.modalRef = this.modalService.show(template, this.config);
+    }
+
+  }
+
+  closeModel() {
+    this.Form.reset()
+    this.modalRef.hide()
+  }
+
+  openModalDelete(template: TemplateRef<any>, id) {
+    // this.activeModal = true
+    this.id = id
+    console.log(this.id);
 
     this.modalRef = this.modalService.show(template);
   }
+  openModalEdit(template: TemplateRef<any>) {
+
+    this.modalRef = this.modalService.show(template);
+  }
+  getProvinceRecycled() {
+    this.fiscalyearService.getProvinceRecycled(this.fiscalyearid)
+      .subscribe(result => {
+        this.resultprovincerecycled = result
+      })
+  }
+  getData() {
+    // this.activeModal = false
+    this.fiscalyearService.getDetailFiscalyear(this.fiscalyearid)
+      .subscribe(result => {
+        this.resultdetailfiscalyear = _.chain(result)
+          .groupBy('regionId').map(function (v, i) {
+            return {
+              id: _.get(_.find(v, 'id'), 'id'),
+              regionId: _.get(_.find(v, 'regionId'), 'regionId'),
+              region: _.get(_.find(v, 'region'), 'region'),
+              province: _.map(v, 'province')
+            }
+          }).value();
+        this.loading = true;
+        // console.log(this.resultdetailfiscalyear);
+
+        this.regionId = this.resultdetailfiscalyear.map((item, index) => {
+          return item.regionId
+        })
+        this.provincerecycledId = this.resultprovincerecycled.map((item, index) => {
+          return item.provinceId
+        })
+        this.getProvinceRegion()
+
+
+      });
+  }
+  
+  getdataRelation() {
+    this.getData()
+    this.getProvinceRecycled()
+    this.getProvinceRegion()
+  }
+
+  getProvinceRegion() {
+    this.resultprovince = [];
+    this.regionservice.getregiondata()
+      .subscribe(result => {
+        console.log('region',this.regionId);
+        this.regions = []
+        this.valueRegionId
+        this.resultregion = result
+        for (var i = 0; i < this.resultregion.length; i++) {
+          if (this.resultregion[i].id != this.regionId[i] && this.resultregion[i].id != this.valueRegionId) {
+            console.log("id",this.resultregion[i].id,this.regionId[i]);
+            this.regions.push({ value: this.resultregion[i].id, label: this.resultregion[i].name })
+          }
+        }
+        // console.log(this.regions);
+        // console.log("eeee", this.regions);
+      });
+    this.provinceservice.getprovincedata()
+      .subscribe(result => {
+        this.provinces = []
+        this.resultprovince = result
+        // console.log("SSSS; ", this.resultprovince);
+        // console.log("CCCC: ", this.provincerecycledId);
+        for (var i = 0; i < this.resultprovince.length; i++) {
+          // console.log("eeeee:", this.resultprovince[i].id);
+          this.provincerecycledId.sort((a, b) => (a > b ? 1 : -1));
+          // console.log("ASSSS:", this.ascending[i]);
+          // console.log("DDDDDD:", this.ascending.length);
+          if (this.resultprovince[i].id != this.provincerecycledId[i]) {
+            this.provinces.push({ value: this.resultprovince[i].id.toString(), label: this.resultprovince[i].name })
+          }
+        }
+        // console.log("eeee", this.regions);
+      });
+
+  }
 
   AddRelation(value) {
-    this.fiscalyearService.addDetailFiscalyear(value, this.id).subscribe(response => {
+    this.fiscalyearService.addDetailFiscalyear(value, this.fiscalyearid).subscribe(response => {
 
-    // console.clear();
-    // console.log(value);
-    // console.log(this.Form.value);
-
-    this.Form.reset()
-    this.modalRef.hide()
-    this.loading = false
-      this.fiscalyearService.getDetailFiscalyear(this.id)
-      .subscribe(result => {
-
-        this.resultdetailfiscalyear = _.chain(result).groupBy('regionId').map(function (v, i) {
-          return {
-            regionId: _.get(_.find(v, 'regionId'), 'regionId'),
-            region: _.get(_.find(v, 'region'), 'region'),
-            province: _.map(v, 'province')
-          }
-        }).value();
-        this.loading = true;
-        console.log(this.resultdetailfiscalyear);
-      })
+      // console.clear();
+      // console.log(this.fiscalyearid);
+      // console.log("value",value.ProvinceId);
+      this.valueRegionId = value.RegionId
+      this.valueProvinceId = value.ProvinceId
+      this.Form.reset()
+      this.modalRef.hide()
+      this.loading = false
+      this.getdataRelation()
       
+    })
+  }
+  deleteRelation(value) {
+    this.fiscalyearService.deleteDetailFiscalyear(this.id, this.fiscalyearid).subscribe(response => {
+      console.log(this.id);
+      console.log("value",value);
+      this.valuedeleteRegionId = value
+      this.modalRef.hide()
+      this.loading = false
+      this.getdataRelation()
+      // location.reload()
     })
   }
 }
