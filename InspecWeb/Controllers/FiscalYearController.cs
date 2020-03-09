@@ -52,7 +52,7 @@ namespace InspecWeb.Controllers
             //var fiscalyearprovince = new List<Array>();
 
             //foreach(var fiscalyeardata in fiscalyeardatas)
-            //{
+            //{ 
             //    fiscalyearprovince.Add(new
             //    {
             //        Province = fiscalyeardata.Pro
@@ -62,8 +62,33 @@ namespace InspecWeb.Controllers
             //return fiscalyeardata;
         }
 
+        [HttpGet("getProvinceRecycled/{id}")]
+        public IEnumerable<object> GetProvince(long id)
+        {
+            var fiscalyeardata = _context.FiscalYearRelations
+                .Include(m => m.Province)
+                .Where(m => m.FiscalYearId == id);
+
+            //var province = _context.Provinces;
+           
+            //foreach(var eee in province)
+            //{
+            //    var pId = eee.Id;
+            //    System.Console.WriteLine("PID: " + pId);
+            //}
+           
+            //foreach (var ddd in fiscalyeardata)
+            //{
+            //    var fId = ddd.ProvinceId;
+            //    System.Console.WriteLine("FID: " + fId);
+            //}
+
+            return fiscalyeardata;
+
+        }
+
         //POST api/values
-       [HttpPost("AddRelation")]
+        [HttpPost("AddRelation")]
         public void Post([FromBody] FiscalYearRelationViewModel model)
         {
 
@@ -85,118 +110,6 @@ namespace InspecWeb.Controllers
 
         }
 
-        //public IEnumerable<object> Get(long id)
-        //{
-        //    var fiscalyeardata = _context.FiscalYearRelations
-        //        .GroupBy(g => new { fiscalyear = g.FiscalYearId, region = g.RegionId })
-        //        .Select(g => new
-        //        {
-        //            g.Key.fiscalyear ,
-        //            g.Key.region
-        //        })
-        //        .ToList();
-
-        //    var fiscalyear = new List<object>();
-
-        //    foreach (var fiscalyeardatas in fiscalyeardata)
-        //    {
-        //        var fiscal = _context.FiscalYearRelations
-
-        //            .Where(p => p.FiscalYearId == fiscalyeardatas.fiscalyear)
-        //            .AsQueryable();
-
-        //        var regions = _context.FiscalYearRelations
-        //            .Where(g => g.RegionId == fiscalyeardatas.region)
-        //            .Include(x => x.Region)
-        //            .ToList();
-
-
-        //        fiscalyear.Add(new
-        //        {
-        //            fiscalyear = fiscal ,
-        //            regionsId = regions
-
-
-        //        });
-        //    }
-
-        //    return fiscalyear;
-
-
-
-
-
-
-        //    //var fiscalyearprovince = new List<Array>();
-
-        //    //foreach(var fiscalyeardata in fiscalyeardatas)
-        //    //{
-        //    //    fiscalyearprovince.Add(new
-        //    //    {
-        //    //        Province = fiscalyeardata.Pro
-        //    //    });
-        //    //}
-
-        //    return fiscalyeardata;
-        ////}
-
-        //POST api/values
-        //[HttpPost]
-        //public object Post(int year)
-        //{
-
-
-        //    var date = DateTime.Now;
-
-        //    var fiscalyeardata = new FiscalYear
-        //    {
-        //        Year = year,
-        //        CreatedAt = date
-        //    };
-
-        //    _context.FiscalYears.Add(fiscalyeardata);
-        //    _context.SaveChanges();
-
-
-
-        //    var regoinTest =
-        //          @" 'data': [" +
-        //         "{'name': 'เขตการปกครองพิเศษ', 'provinces': [ {'name':'กรุงเทพมหานคร' }] }," +
-        //         //"{'name':'เขตตรวจราชการที่ 1', 'provinces': [{'name': 'นนทบุรี'}, {'name':'ปทุมธานี'},{'name': 'พระนครศรีอยุธยา'}, {'name':'สระบุรี'}] }" +
-        //         "{'name':'เขตตรวจราชการที่ 1', 'provinces': [{'name': 'นนทบุรี'}, {'name':'ปทุมธานี'},{'name': 'พระนครศรีอยุธยา'}, {'name':'สระบุรี'}] }" +
-        //         //"{'name':'เขตตรวจราชการที่2','provinces':[{'name':'ชัยนาท'},{'name':'ลพบุรี'},{'name':'สิงห์บุรี'},{'name':'อ่างทอง'}] }"+
-        //         "]";
-
-        //    long[] provinceId1 = new long[] { 1, 3, 5, 7, 9 };
-        //    var des = (RegoinData)Newtonsoft.Json.JsonConvert.DeserializeObject(regoinTest, typeof(RegoinData));
-
-        //    //dynamic provinceId3 = JsonSerializer.Deserialize(regoinTest);
-        //    //JsonConvert.DeserializeObject<List<RegoinData>>(regoinTest);
-
-        //    //var regoin = (new RegoinData { name = "เขตการปกครองพิเศษ", provinces = (new {name = "กรุงเทพมหานคร" } } )   );
-
-        //    return des;
-        //    //{ 'name' = 'เขตการปกครองพิเศษ'};
-        //    long[] provinceId2 = new long[] { 1, 3, 5, 7, 9 };
-
-
-        //    //new { RegionId = 1 , ProvinceId = provinceId1 };
-
-        //    var fiscalYearRelation = new FiscalYearRelation
-        //    {
-        //        FiscalYearId = fiscalyeardata.Id,
-        //        RegionId = 1,
-        //        ProvinceId = 1
-        //    };
-        //    _context.FiscalYearRelations.Add(fiscalYearRelation);
-
-
-
-
-
-        //    return fiscalyeardata;
-        //}
-
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(long id, int year)
@@ -209,12 +122,18 @@ namespace InspecWeb.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(long id)
-        {
-            var fiscalyeardata = _context.FiscalYears.Find(id);
+        [HttpDelete("DeleteRelation/{id}/{fiscalyearid}")]
+        public void Delete(long id, long fiscalyearid)
 
-            _context.FiscalYears.Remove(fiscalyeardata);
+        {
+            System.Console.WriteLine("LOOP: " + id + fiscalyearid);
+            var fiscalyearrelationdata = _context.FiscalYearRelations
+                .Where(x => x.RegionId == id && x.FiscalYearId == fiscalyearid);
+            foreach (var test in fiscalyearrelationdata)
+            {
+                _context.FiscalYearRelations.Remove(test);
+            }
+            
             _context.SaveChanges();
         }
     }

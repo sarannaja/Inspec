@@ -31,8 +31,7 @@ namespace InspecWeb.Data.Seeders
                 new Region { Id = 16, Name = "เขตตรวจราชการที่ 15" },
                 new Region { Id = 17, Name = "เขตตรวจราชการที่ 16" },
                 new Region { Id = 18, Name = "เขตตรวจราชการที่ 17" },
-                new Region { Id = 19, Name = "เขตตรวจราชการที่ 18" },
-                new Region { Id = 20, Name = "เขตตรวจราชการที่ 19" }
+                new Region { Id = 19, Name = "เขตตรวจราชการที่ 18" }
             );
         }
     }
