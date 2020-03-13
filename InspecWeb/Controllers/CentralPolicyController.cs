@@ -39,9 +39,12 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(long id)
         {
-            var centralpolicydata = _context.CentralPolicies.Include(m => m.Subjects).Where(m => m.Id == id).First();
+            var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.Subjects)
+                .ThenInclude(m => m.Subquestions)
+                .Where(m => m.Id == id).First();
 
             return Ok(centralpolicydata);
             //return "value";

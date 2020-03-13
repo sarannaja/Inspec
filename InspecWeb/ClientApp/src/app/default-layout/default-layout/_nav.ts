@@ -39,7 +39,7 @@ export const superAdmin:NavBar[] = [
     },
     {
         icon:'fa-hand-point-up',
-        url:"#",
+        url:"/executiveorder",
         name:"ข้อสั่งการผู้บริหาร"
     },
     {
