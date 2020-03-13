@@ -53,6 +53,10 @@ namespace InspecWeb.Models
         [Description("ประเภท")]
         public string Type { get; set; }
 
+        [Required]
+        [Description("ประเภทหลัก 1.CentralPolicy 2.Inspectionplan")]
+        public string Class { get; set; }
+
         public ICollection<Subject> Subjects { get; set; }
         public ICollection<CentralPolicyFile> CentralPolicyFiles { get; set; }
         //public ICollection<InspectionPlanEvent> InspectionPlanEvents { get; set; }

@@ -40,25 +40,27 @@
               <label>จังหวัด</label>
             </div>
 
-            <div class="col-12 col-xl-12" *ngFor="let item of input; let i = index">
-              <div class="form-group row">
-                <div class="col-12 col-xl-3">
-
-                  <my-date-picker-th formControlName="date" [(ngModel)] = "item.date" [options]="myDatePickerOptions" required>
-
-                  </my-date-picker-th>
-
-                </div>
-                <div class="col-12 col-xl-8">
-                  <div class="form-group">
-                    <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true"  [(ngModel)] = "item.name" [options]="selectdataprovince"
-                      [allowClear]="true" formControlName="name">
-                    </ng-select>
+            <div class="col-12 col-xl-12" [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
+              <!-- <div class="col-12 col-xl-12" *ngFor="let item of input; let i = index"> -->
+              <div class="form-group row" *ngFor="let item of t.controls; let i = index">
+                <form class="form-group row col-12" [formGroup]="item" >
+                  <div class="col-xl-3">
+                    <my-date-picker-th formControlName="date" [(ngModel)]="item.date" [options]="myDatePickerOptions"
+                      required>
+                    </my-date-picker-th>
                   </div>
-                </div>
-                <div class="col-1">
-                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
-                </div>
+                  <div class="col-xl-8">
+                    <div class="form-group">
+                      <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true"
+                        [options]="selectdataprovince" [allowClear]="true" formControlName="provinces">
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-1">
+                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
+                  </div>
+                </form>
+
               </div>
             </div>
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,19 +23,13 @@ namespace InspecWeb.Controllers
         }
 
         // GET: api/values
-        [HttpGet]
-        public IEnumerable<CentralPolicyEvent> Get()
-        {
-            var inspectionplandata = from P in _context.CentralPolicyEvents
-                               select P;
-            return inspectionplandata;
-
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
-        }
+        //[HttpGet]
+        //public IEnumerable<CentralPolicyEvent> Get()
+        //{
+        //    var inspectionplandata = from P in _context.CentralPolicyEvents
+        //                             select P;
+        //    return inspectionplandata;
+        //}
 
         // GET api/values/5
         [HttpGet("{id}")]
@@ -44,48 +39,70 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyEvents)
                 .ThenInclude(m => m.CentralPolicy)
                 .Where(m => m.Id == id);
+
                 //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
 
             return Ok(inspectionplandata);
         }
 
+
         // POST api/values
         [HttpPost]
-        public District Post(string name)
+        public void Post([FromBody] CentralPolicyProvinceViewModel model)
         {
-            //var date = DateTime.Now;
-
-            var districtdata = new District
+            var date = DateTime.Now;
+            var centralpolicydata = new CentralPolicy
             {
-                Name = name,
-                //CreatedAt = date
+                Title = model.Title,
+                Type = model.Type,
+                FiscalYearId = model.FiscalYearId,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                Status = "ร่างกำหนดการ",
+                CreatedAt = date,
+                CreatedBy = "NIK",
+                Class = "แผนการตรวจ",
             };
 
-            _context.Districts.Add(districtdata);
+            _context.CentralPolicies.Add(centralpolicydata);
             _context.SaveChanges();
 
-            return districtdata;
+            foreach (var id in model.ProvinceId)
+            {
+                var centralpolicyprovincedata = new CentralPolicyProvince
+                {
+                    ProvinceId = id,
+                    CentralPolicyId = centralpolicydata.Id,
+                };
+                _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
+            }
+            _context.SaveChanges();
+
+            var centralpolicyeventdata = new CentralPolicyEvent
+            {
+                CentralPolicyId = centralpolicydata.Id,
+                InspectionPlanEventId = model.InspectionPlanEventId
+            };
+            _context.CentralPolicyEvents.Add(centralpolicyeventdata);
+            _context.SaveChanges();
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(long id, string name)
+        // POST api/values
+        [HttpPost("AddCentralPolicyEvents")]
+        public void Post([FromBody] CentralPolicyEventViewModel model)
         {
-            var districts = _context.Districts.Find(id);
-            districts.Name = name;
-            _context.Entry(districts).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            foreach (var id in model.CentralPolicyId)
+            {
+                var centralpolicyeventdata = new CentralPolicyEvent
+                {
+                    CentralPolicyId = id,
+                    InspectionPlanEventId = model.InspectionPlanEventId
+                };
+                _context.CentralPolicyEvents.Add(centralpolicyeventdata);
+            }
             _context.SaveChanges();
 
         }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(long id)
-        {
-            var districtdata = _context.Districts.Find(id);
-
-            _context.Districts.Remove(districtdata);
-            _context.SaveChanges();
-        }
+      
     }
 }
