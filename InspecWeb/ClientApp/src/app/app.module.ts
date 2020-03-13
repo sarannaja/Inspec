@@ -118,7 +118,7 @@ import { InspectorComponent } from './inspector/inspector.component';
         children: [
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
-          { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
+          { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent },
           { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'ministry', component: MinistryComponent },
@@ -144,7 +144,7 @@ import { InspectorComponent } from './inspector/inspector.component';
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
           { path: 'inspector', component: InspectorComponent },
-       
+
         ]
       },
       {

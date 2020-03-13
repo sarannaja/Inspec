@@ -1,4 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
+import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
+import { IMyOptions } from 'mydatepicker-th';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FiscalyearService } from 'src/app/services/fiscalyear.service';
+import { ProvinceService } from 'src/app/services/province.service';
+import { IOption } from 'ng-select';
+import { InspectionplanService } from '../../services/inspectionplan.service';
+
+interface addInput {
+  id: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-create-inspection-plan',
@@ -6,32 +19,102 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-inspection-plan.component.css']
 })
 export class CreateInspectionPlanComponent implements OnInit {
-  input:Array<any> = [
-    {
-      id:1
-    }
-  ]
+  private myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+  };
 
-  input2:Array<any> = [
-    {
-      id:1
-    }
-  ]
+  // Initialized to specific date (09.10.2018).
+  // private model: Object = { date: { year: 2018, month: 10, day: 9 } };
+  files: string[] = []
+  resultcentralpolicy: any = []
+  resultfiscalyear: any = []
+  resultprovince: any = []
+  delid: any
+  title: any
+  start_date: any
+  end_date: any
+  Form: FormGroup;
+  ProvinceId: any;
+  selectdataprovince: Array<IOption>
+  input: any = [{ date: '', subject: '', questions: '' }]
+  id
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder,
+    private centralpolicyservice: CentralpolicyService,
+    public share: CentralpolicyService,
+    private router: Router,
+    private fiscalyearservice: FiscalyearService,
+    private provinceservice: ProvinceService,
+    private activatedRoute: ActivatedRoute,
+    private inspectionplanservice: InspectionplanService) {
+    this.id = activatedRoute.snapshot.paramMap.get('id')
+  }
 
   ngOnInit() {
+    this.Form = this.fb.group({
+      title: new FormControl(null, [Validators.required]),
+      start_date: new FormControl(null, [Validators.required]),
+      end_date: new FormControl(null, [Validators.required]),
+      year: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      files: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null, [Validators.required]),
+      input: new FormArray([])
+    })
+    this.t.push(this.fb.group({
+      date: '',
+      subject: '',
+      questions: []
+    }))
+    //แก้ไข
+
+    this.provinceservice.getprovincedata().subscribe(result => {
+      this.resultprovince = result
+
+      this.selectdataprovince = this.resultprovince.map((item, index) => {
+        return { value: item.id, label: item.name }
+      })
+
+      console.log(this.resultprovince);
+    })
+
+    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      this.resultfiscalyear = result
+      console.log(this.resultcentralpolicy);
+    })
+
+
+    this.Form.patchValue({
+      // กรณีจะแก้ไข
+    })
+    // this.addInput()
   }
 
-  append()  {
-    this.input.push({
-      id:2
-    });
+  storeInspectionPlan(value) {
+    this.inspectionplanservice.addInspectionPlan(value, this.id).subscribe(response => {
+      console.log(value);
+      this.Form.reset()
+      this.router.navigate(['inspectionplan', this.id])
+    })
   }
-  append2()  {
-    this.input2.push({
-      id:2
-    });
+
+  addFile(event) {
+    this.files = event.target.files
+  }
+
+  get f() { return this.Form.controls }
+  get t() { return this.f.input as FormArray }
+
+  append() {
+    this.t.push(this.fb.group({
+      date: '',
+      subject: '',
+      questions: []
+    }))
+  }
+  appendquestion() {
   }
 
 }
