@@ -90,7 +90,7 @@ export class DetailFiscalyearComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     if (this.regions.length == 0 && this.provinces.length == 0) {
-      alert("in")
+      alert("ความสัมพันธ์ครบแล้ว")
     } else {
       this.modalRef = this.modalService.show(template, this.config);
     }
