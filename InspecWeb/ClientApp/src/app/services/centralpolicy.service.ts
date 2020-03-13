@@ -9,17 +9,19 @@ export class CentralpolicyService {
 
   url = "";
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string)
-   {
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/centralpolicy/';
-   }
+  }
 
-  getcentralpolicydata():Observable<any[]> {
+  getcentralpolicydata(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
+  }
+  getdetailcentralpolicydata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + id)
   }
   detailcentralpolicydata(id) {
     console.log(id);
-    return this.http.get(this.url+id)
+    return this.http.get(this.url + id)
   }
   addCentralpolicy(centralpolicyData) {
 

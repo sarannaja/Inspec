@@ -49,6 +49,8 @@ import { CreateInspectionPlanEventComponent } from './inspection-plan-event/crea
 import { TrainComponent } from './train/train.component';
 import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
 import { InspectorComponent } from './inspector/inspector.component';
+import { ExecutiveOrderComponent } from './executive-order/executive-order.component';
+import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
 
 
 
@@ -91,6 +93,8 @@ import { InspectorComponent } from './inspector/inspector.component';
     TrainComponent,
     DefaultLayoutTrainComponent,
     InspectorComponent,
+    ExecutiveOrderComponent,
+    DetailExecutiveOrderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -144,7 +148,8 @@ import { InspectorComponent } from './inspector/inspector.component';
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
           { path: 'inspector', component: InspectorComponent },
-       
+          { path: 'executiveorder', component: ExecutiveOrderComponent },
+          { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
         ]
       },
       {

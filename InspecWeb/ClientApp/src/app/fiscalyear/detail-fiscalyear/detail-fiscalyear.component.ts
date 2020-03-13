@@ -161,31 +161,59 @@ export class DetailFiscalyearComponent implements OnInit {
         this.regions = []
         this.valueRegionId
         this.resultregion = result
-        for (var i = 0; i < this.resultregion.length; i++) {
-          if (this.resultregion[i].id != this.regionId[i] && this.resultregion[i].id != this.valueRegionId) {
-            console.log("id",this.resultregion[i].id,this.regionId[i]);
+
+        if(this.regionId.length == 0){
+          for(var i = 0; i < this.resultregion.length; i++){
             this.regions.push({ value: this.resultregion[i].id, label: this.resultregion[i].name })
           }
+        } else {
+          for (var i = 0; i < this.resultregion.length; i++){
+            var n = 0;
+            for(var ii = 0; ii < this.regionId.length; ii++){
+              if(this.resultregion[i].id == this.regionId[ii]){
+                n++;
+              }
+            }
+            if(n == 0){
+              this.regions.push({ value: this.resultregion[i].id, label: this.resultregion[i].name })
+            }
+          }
         }
-        // console.log(this.regions);
-        // console.log("eeee", this.regions);
       });
     this.provinceservice.getprovincedata()
       .subscribe(result => {
         this.provinces = []
         this.resultprovince = result
-        // console.log("SSSS; ", this.resultprovince);
-        // console.log("CCCC: ", this.provincerecycledId);
-        for (var i = 0; i < this.resultprovince.length; i++) {
-          // console.log("eeeee:", this.resultprovince[i].id);
-          this.provincerecycledId.sort((a, b) => (a > b ? 1 : -1));
-          // console.log("ASSSS:", this.ascending[i]);
-          // console.log("DDDDDD:", this.ascending.length);
-          if (this.resultprovince[i].id != this.provincerecycledId[i]) {
+
+        if(this.provincerecycledId.length == 0){
+          for(var i = 0; i < this.resultprovince.length; i++){
             this.provinces.push({ value: this.resultprovince[i].id.toString(), label: this.resultprovince[i].name })
           }
+        } else {
+          for (var i = 0; i < this.resultprovince.length; i++){
+            var n = 0;
+            for(var ii = 0; ii < this.provincerecycledId.length; ii++){
+              if(this.resultprovince[i].id == this.provincerecycledId[ii]){
+                n++;
+              }
+            }
+            if(n == 0){
+              this.provinces.push({ value: this.resultprovince[i].id.toString(), label: this.resultprovince[i].name })
+            }
+          }
         }
-        // console.log("eeee", this.regions);
+        // // console.log("SSSS; ", this.resultprovince);
+        // // console.log("CCCC: ", this.provincerecycledId);
+        // for (var i = 0; i < this.resultprovince.length; i++) {
+        //   // console.log("eeeee:", this.resultprovince[i].id);
+        //   this.provincerecycledId.sort((a, b) => (a > b ? 1 : -1));
+        //   // console.log("ASSSS:", this.ascending[i]);
+        //   // console.log("DDDDDD:", this.ascending.length);
+        //   if (this.resultprovince[i].id != this.provincerecycledId[i]) {
+        //     this.provinces.push({ value: this.resultprovince[i].id.toString(), label: this.resultprovince[i].name })
+        //   }
+        // }
+        // // console.log("eeee", this.regions);
       });
 
   }
