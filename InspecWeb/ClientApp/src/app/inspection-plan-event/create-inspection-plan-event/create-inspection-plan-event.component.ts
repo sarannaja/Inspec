@@ -33,10 +33,10 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   Form: FormGroup;
   selectdataprovince: Array<IOption>
   id: any = 1
-  input: any =  [{ date: '', name: '' }]
+  input: any = [{ date: '', province: '' }]
 
 
-  constructor(private fb: FormBuilder, private router: Router, private inspectionplanservice: InspectionplaneventService, private provinceservice: ProvinceService) { }
+  constructor(private fb: FormBuilder, private router: Router, private inspectionplaneventservice: InspectionplaneventService, private provinceservice: ProvinceService) { }
 
   ngOnInit() {
     this.Form = this.fb.group({
@@ -45,14 +45,15 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       // start_date: new FormControl(null, [Validators.required]),
       // end_date: new FormControl(null, [Validators.required]),
     });
-
-
-
+    this.t.push(this.fb.group({
+      date: '',
+      provinces: []
+    }))
     this.provinceservice.getprovincedata().subscribe(result => {
       this.resultprovince = result
 
-      this.selectdataprovince = this.resultprovince.map((item,index)=>{
-        return { value:item.id , label:item.name }
+      this.selectdataprovince = this.resultprovince.map((item, index) => {
+        return { value: item.id, label: item.name }
       })
 
       console.log(this.resultprovince);
@@ -60,48 +61,30 @@ export class CreateInspectionPlanEventComponent implements OnInit {
 
   }
 
-  get f() {return this.Form.controls}
-  get t() {return this.f.input as FormArray}
+  get f() { return this.Form.controls }
+  get t() { return this.f.input as FormArray }
 
-  addvalues(){
+  // get y(){return this.t.controls}
+  // get p(){return this.y.provinces as FormArray}
 
-
-
-        this.t.push(this.fb.group({
-          //  date: this.input[i].date,
-          //  name: this.input[i].name
-        }))
-
-  }
 
   storeInspectionPlanEvent(value) {
-    alert(JSON.stringify(value))
-    this.inspectionplanservice.addInspectionplanevent(value).subscribe(response => {
+    // alert(JSON.stringify(value))
+    this.inspectionplaneventservice.addInspectionplanevent(value).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.router.navigate(['inspectionplanevent'])
     })
   }
 
-    append() {
-
-    this.input.push({
+  append() {
+    this.t.push(this.fb.group({
       date: '',
-      name: ''
-    });
-  }
-  addInput() {
-    // this.Form.reset('subjects')
-    const creds = this.Form.controls.subjects as FormArray;
-    this.input.forEach((item, index) => {
-      creds.push(this.fb.group(item))
-    })
-    console.log(this.Form.value);
-    alert(JSON.stringify(this.Form.value))
-
-    // for (let iii = 0; iii <= this.input.length; iii++) {
-    //   creds.push(this.fb.group({ id: this.input[iii].id, name: this.input[iii].name }));
-    // }
-    // console.log(this.Form.value);
+      provinces: []
+    }))
+    // this.input.push({
+    //   date: '',
+    //   province: ''
+    // });
   }
 }

@@ -7,27 +7,23 @@ using System.Text;
 
 namespace InspecWeb.Models
 {
-    [Table("InspectionPlanEventProvinces")]
-    [Description("ตารางความสัมพันธ์กำหนดการตรวจราชการ")]
-    public class InspectionPlanEventProvince
+    [Table("CentralPolicyProvinces")]
+    [Description("ตารางความสัมพันธ์กำหนดการตรวจราชการประจำปี")]
+    public class CentralPolicyProvince
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("InspectionPlanEvent")]
+        [ForeignKey("CentralPolicy")]
         [Description("FK: แผนการตรวจ")]
-        public long InspectionPlanEventId { get; set; }
-        public virtual InspectionPlanEvent InspectionPlanEvent { get; set; }
+        public long CentralPolicyId { get; set; }
+        public virtual CentralPolicy CentralPolicy { get; set; }
 
         [ForeignKey("Province")]
         [Description("FK: จังหวัด")]
         public long ProvinceId { get; set; }
         public virtual Province Province { get; set; }
-
-        [Description("วันที่เริ่ม")]
-        [DataType(DataType.Date)]
-        public DateTime PlanDate { get; set; }
     }
 }

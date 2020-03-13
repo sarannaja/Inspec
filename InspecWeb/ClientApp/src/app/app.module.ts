@@ -122,7 +122,7 @@ import { DetailExecutiveOrderComponent } from './executive-order/detail-executiv
         children: [
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
-          { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
+          { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent },
           { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'ministry', component: MinistryComponent },
