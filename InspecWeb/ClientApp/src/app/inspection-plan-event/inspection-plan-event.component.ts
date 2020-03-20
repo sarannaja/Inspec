@@ -6,6 +6,7 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import * as moment from 'moment';
 declare var $: any;
 @Injectable({
   providedIn: 'root'
@@ -29,25 +30,23 @@ export class InspectionPlanEventComponent implements OnInit {
 
   ngOnInit() {
 
+
+
     this.inspectionplanservice.getinspectionplaneventdata()
       .subscribe(result => {
         this.resultinspectionplanevent = result
-
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
           return {
             id: item.id,
             title: item.name,
-            start: item.startDate,
-            end: item.endDate,
+            start: moment(item.startDate).format("YYYY-MM-DD"),
+            end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"),
           }
         })
+
         this.getcalendar();
       })
-
-
-
-
   }
 
   getdata() {
@@ -60,8 +59,8 @@ export class InspectionPlanEventComponent implements OnInit {
           return {
             id: item.id,
             title: item.name,
-            start: item.startDate,
-            end: item.endDate,
+            start: moment(item.startDate).format("YYYY-MM-DD"),
+            end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"),
           }
         })
         this.getcalendar();
@@ -94,9 +93,11 @@ export class InspectionPlanEventComponent implements OnInit {
         },
         navLinks: true,
         editable: true,
-        eventLimit: true,
+        eventLimit: false,
         eventClick: function (event) {
-          window.open(url_to_inspection + event.id);
+          window.location.href = url_to_inspection + event.id;
+          // window.location.replace(url_to_inspection + event.id);
+          // window.open(url_to_inspection + event.id);
         },
         eventRender: function (event, element, view) {
           console.log(element);
