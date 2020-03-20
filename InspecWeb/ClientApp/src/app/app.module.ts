@@ -51,6 +51,8 @@ import { DefaultLayoutTrainComponent } from './default-layout-train/default-layo
 import { InspectorComponent } from './inspector/inspector.component';
 import { ExecutiveOrderComponent } from './executive-order/executive-order.component';
 import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -106,8 +108,9 @@ import { DetailExecutiveOrderComponent } from './executive-order/detail-executiv
     MyDatePickerTHModule,
     BrowserModule,
     SnotifyModule,
-
+    NgxSpinnerModule,
     DataTablesModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },

@@ -5,6 +5,8 @@ import { ProvinceService } from '../services/province.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/Pipe/alert.service';
 import { SnotifyService, SnotifyToastConfig, SnotifyPosition } from 'ng-snotify';
+import { NgxSpinnerService } from "ngx-spinner";
+
 
 @Component({
   selector: 'app-province',
@@ -32,13 +34,19 @@ export class ProvinceComponent implements OnInit {
     private router: Router,
     private snotifyService: NotificationService,
     private snotifyService2: SnotifyService,
-
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
     console.log("in");
     // this.onSuccess()
     // this.snotifyService.onSuccess("test")
+    this.spinner.show();
+ 
+    // setTimeout(() => {
+    //   /** spinner ends after 5 seconds */
+    //   this.spinner.hide();
+    // }, 5000);
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -61,7 +69,7 @@ export class ProvinceComponent implements OnInit {
 
     this.provinceservice.getprovincedata()
       .subscribe(result => {
-
+        this.spinner.hide();
         this.resultprovince = result
         this.loading = true
         console.log(this.resultprovince);

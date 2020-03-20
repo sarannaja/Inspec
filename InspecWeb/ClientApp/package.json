@@ -42,7 +42,9 @@
     "ng-select": "^1.0.2",
     "ng-snotify": "^4.3.1",
     "ngx-bootstrap": "^5.3.2",
+    "ngx-spinner": "^9.0.1",
     "oidc-client": "^1.9.1",
+    "pnotify": "^4.0.1",
     "popper.js": "^1.16.1",
     "rxjs": "^6.5.4",
     "zone.js": "0.9.1"
