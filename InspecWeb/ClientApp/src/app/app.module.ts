@@ -49,6 +49,10 @@ import { CreateInspectionPlanEventComponent } from './inspection-plan-event/crea
 import { TrainComponent } from './train/train.component';
 import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
 import { InspectorComponent } from './inspector/inspector.component';
+import { ExecutiveOrderComponent } from './executive-order/executive-order.component';
+import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -91,6 +95,8 @@ import { InspectorComponent } from './inspector/inspector.component';
     TrainComponent,
     DefaultLayoutTrainComponent,
     InspectorComponent,
+    ExecutiveOrderComponent,
+    DetailExecutiveOrderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -102,8 +108,9 @@ import { InspectorComponent } from './inspector/inspector.component';
     MyDatePickerTHModule,
     BrowserModule,
     SnotifyModule,
-
+    NgxSpinnerModule,
     DataTablesModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -118,7 +125,7 @@ import { InspectorComponent } from './inspector/inspector.component';
         children: [
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
-          { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
+          { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent },
           { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'ministry', component: MinistryComponent },
@@ -144,7 +151,8 @@ import { InspectorComponent } from './inspector/inspector.component';
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
           { path: 'inspector', component: InspectorComponent },
-       
+          { path: 'executiveorder', component: ExecutiveOrderComponent },
+          { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
         ]
       },
       {

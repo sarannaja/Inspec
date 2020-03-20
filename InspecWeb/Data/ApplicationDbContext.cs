@@ -47,9 +47,9 @@ namespace InspecWeb.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; } //เพิ่มคอลัม user
         public DbSet<UserRegion> UserRegions { get; set; } //เชื่อม user กับ เขตตรวจ
         public DbSet<UserProvince> UserProvinces { get; set; } //เชื่อม user กับ จังหวัด
-
-
-
+        public DbSet<ExecutiveOrder> ExecutiveOrders { get; set; }
+        public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
+        public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -69,7 +69,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new InstructionOrderSeeder());
             builder.ApplyConfiguration(new DistrictSeeder());
             builder.ApplyConfiguration(new SubdistrictSeeder());
-          
+            builder.ApplyConfiguration(new RelationSeeder());
         }
 
      

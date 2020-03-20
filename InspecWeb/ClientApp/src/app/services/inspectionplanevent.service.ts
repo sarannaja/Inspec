@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -19,13 +19,18 @@ export class InspectionplaneventService {
   }
 
   addInspectionplanevent(inspectionplaneventData) {
-
-    const formData = new FormData();
-
-    formData.append('title', inspectionplaneventData.title);
-    formData.append('start_date', inspectionplaneventData.start_date.date.year + '-' + inspectionplaneventData.start_date.date.month + '-' + inspectionplaneventData.start_date.date.day);
-    formData.append('end_date', inspectionplaneventData.end_date.date.year + '-' + inspectionplaneventData.end_date.date.month + '-' + inspectionplaneventData.end_date.date.day);
-
+    // alert(JSON.stringify(inspectionplaneventData.input))
+    var input = inspectionplaneventData.input.map((item , index) => {
+      return {
+        PlanDate:item.date.date.year + '-' + item.date.date.month + '-' + item.date.date.day,
+        ProvinceId:item.provinces,
+      }
+    })
+    // alert(JSON.stringify(input))
+    const formData = {
+      Name: inspectionplaneventData.title,
+      input: input,
+    }
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url, formData);
   }

@@ -436,7 +436,7 @@ export const Adminprovince:NavBar[] = [ //แอดมินจังหวั�
     },
     {
         icon:'fa-hand-point-up',
-        url:"#",
+        url:"/executiveorder",
         name:"ข้อสั่งการผู้บริหาร"
     },
     {
