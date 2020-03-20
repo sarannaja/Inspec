@@ -4,14 +4,16 @@ using InspecWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200317045912_CreateUser")]
+    partial class CreateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,13 +111,13 @@ namespace InspecWeb.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<long>("Active")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Active")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Alley")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Birthday")
+                    b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -153,7 +155,7 @@ namespace InspecWeb.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("MinistryId")
+                    b.Property<long?>("MinistryId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -189,6 +191,9 @@ namespace InspecWeb.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("ProvinceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("RegionId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Rold")
@@ -234,6 +239,8 @@ namespace InspecWeb.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.HasIndex("ProvinceId");
+
+                    b.HasIndex("RegionId");
 
                     b.HasIndex("SubdistrictId");
 
@@ -2901,48 +2908,6 @@ namespace InspecWeb.Data.Migrations
                     b.ToTable("Trainings");
                 });
 
-            modelBuilder.Entity("InspecWeb.Models.UserProvince", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("ProvinceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProvinceId");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("UserProvinces");
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.UserRegion", b =>
-                {
-                    b.Property<string>("UserID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<long>("RegionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("UserID", "RegionId");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("UserRegions");
-                });
-
             modelBuilder.Entity("InspecWeb.Models.Village", b =>
                 {
                     b.Property<long>("Id")
@@ -3111,17 +3076,19 @@ namespace InspecWeb.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InspecWeb.Models.Ministry", "Ministries")
+                    b.HasOne("InspecWeb.Models.Ministry", null)
                         .WithMany("ApplicationUsers")
-                        .HasForeignKey("MinistryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MinistryId");
 
                     b.HasOne("InspecWeb.Models.Province", "Province")
                         .WithMany("ApplicationUsers")
                         .HasForeignKey("ProvinceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("InspecWeb.Models.Region", null)
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("RegionId");
 
                     b.HasOne("InspecWeb.Models.Subdistrict", "Subdistricts")
                         .WithMany()
@@ -3262,34 +3229,6 @@ namespace InspecWeb.Data.Migrations
                     b.HasOne("InspecWeb.Models.Subject", "Subject")
                         .WithMany("Subquestions")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.UserProvince", b =>
-                {
-                    b.HasOne("InspecWeb.Models.Province", "Province")
-                        .WithMany()
-                        .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InspecWeb.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID");
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.UserRegion", b =>
-                {
-                    b.HasOne("InspecWeb.Models.Region", "Region")
-                        .WithMany("UserRegion")
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InspecWeb.Models.ApplicationUser", "User")
-                        .WithMany("UserRegion")
-                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

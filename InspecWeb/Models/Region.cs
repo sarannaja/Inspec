@@ -29,6 +29,7 @@ namespace InspecWeb.Models
         public DateTime? CreatedAt { get; set; }
 
         public ICollection<Province> Provinces { get; set; }
+        public ICollection<UserRegion> UserRegion { get; set; }
         //public ICollection<MinistermonitoringRegion> MinistermonitoringRegions { get; set; }
     }
 }

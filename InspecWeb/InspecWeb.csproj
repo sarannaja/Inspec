@@ -37,11 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\img\logo.png" />
-    <Content Remove="wwwroot\img\user.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="ClientApp\src\assets\favicon.ico" />
   </ItemGroup>
 
@@ -50,11 +45,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\img\logo.png" />
-    <None Include="wwwroot\img\user.png" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
