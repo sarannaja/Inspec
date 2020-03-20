@@ -19,7 +19,7 @@
                         style="margin-top: -60px;">เพิ่มผู้ใช้</button>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" *ngIf="roleId == 3">
                 <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
                 [dtOptions]="dtOptions">
                     <thead>
@@ -27,25 +27,25 @@
                             <th>No.</th>
                             <th>สิทธิ์การใช้งาน</th>
                             <th>ชื่อ-นามสกุล</th>
+                            <th>อีเมลล์</th>
                             <th>เขตตรวจ</th>
                             <th>จังหวัด</th>
-                            <th>กระทรวง</th>
-                            <th>กรม/หน่วยงาน</th>
+                            <th>กระทรวง</th>                        
                             <th>เบอร์โทร</th>
                             <th>สถานะ</th>
                             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1.</td>
-                            <td>Super admin</td>
-                            <td>นายพิทยา นวลชื่น</td>
+                        <tr *ngFor="let item of resultuser; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>ผู้ตรวจราชการ</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.email}}</td>
                             <td>-</td>
-                            <td>กรุงเทพฯ</td>
                             <td>-</td>
                             <td>-</td>
-                            <td>0833874177</td>
+                            <td>{{item.phoneNumber}}</td>
                             <td>ใช้งานปกติ</td>
                             <td>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
@@ -54,7 +54,118 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div> <!-- END card-body -->
+
+            <div class="card-body" *ngIf="roleId == 4">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>สิทธิ์การใช้งาน</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>อีเมลล์</th>
+                            <th>เขตตรวจ</th>
+                            <th>จังหวัด</th>
+                            <th>กระทรวง</th>                        
+                            <th>เบอร์โทร</th>
+                            <th>สถานะ</th>
+                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultuser; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>ผู้ตรวจราชการ</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>ใช้งานปกติ</td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!-- END card-body -->
+
+            <div class="card-body" *ngIf="roleId == 5">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>สิทธิ์การใช้งาน</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>อีเมลล์</th>
+                            <th>เขตตรวจ</th>
+                            <th>จังหวัด</th>
+                            <th>กระทรวง</th>                        
+                            <th>เบอร์โทร</th>
+                            <th>สถานะ</th>
+                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultuser; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>ผู้ตรวจราชการ</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>ใช้งานปกติ</td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!-- END card-body -->
+
+            <div class="card-body" *ngIf="roleId == 6">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>สิทธิ์การใช้งาน</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>อีเมลล์</th>
+                            <th>เขตตรวจ</th>
+                            <th>จังหวัด</th>
+                            <th>กระทรวง</th>                        
+                            <th>เบอร์โทร</th>
+                            <th>สถานะ</th>
+                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultuser; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>ผู้ตรวจราชการ</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{{item.id}}</td>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>ใช้งานปกติ</td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!-- END card-body -->
         </div>
     </div>
 </div>

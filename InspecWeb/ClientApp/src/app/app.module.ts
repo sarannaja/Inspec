@@ -131,7 +131,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
           { path: 'ministry', component: MinistryComponent },
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
-          { path: 'user', component: UserComponent },
+          { path: 'user/:id', component: UserComponent },
           { path: 'fiscalyear', component: FiscalyearComponent },
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
           { path: 'supportgovernment', component: SupportGovernmentComponent },

@@ -39,6 +39,6 @@ namespace InspecWeb.Models
 
         public ICollection<CentralPolicy> CentralPolicies { get; set; }
         public ICollection<FiscalYearRelation> FiscalYearRelations { get; set; }
-        //public ICollection<District> Districts { get; set; }
+       
     }
 }

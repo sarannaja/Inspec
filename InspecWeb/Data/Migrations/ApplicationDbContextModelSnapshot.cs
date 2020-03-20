@@ -109,12 +109,27 @@ namespace InspecWeb.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<long>("Active")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Alley")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("Department_id")
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("DistrictId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Educational")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
@@ -123,8 +138,14 @@ namespace InspecWeb.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<long>("Img")
-                        .HasColumnType("bigint");
+                    b.Property<DateTime?>("Enddate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Housenumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Img")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -132,8 +153,11 @@ namespace InspecWeb.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("Ministry_id")
+                    b.Property<long>("MinistryId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -142,6 +166,9 @@ namespace InspecWeb.Data.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<string>("Officephonenumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -152,16 +179,37 @@ namespace InspecWeb.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<long>("Province_id")
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Postalcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prefix")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ProvinceId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("Region_id")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Rold")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("Role_id")
                         .HasColumnType("bigint");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Side")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Startdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("SubdistrictId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Telegraphnumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -173,6 +221,10 @@ namespace InspecWeb.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("MinistryId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -180,6 +232,10 @@ namespace InspecWeb.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.HasIndex("SubdistrictId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -42625,6 +42681,48 @@ namespace InspecWeb.Data.Migrations
                     b.ToTable("Trainings");
                 });
 
+            modelBuilder.Entity("InspecWeb.Models.UserProvince", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("ProvinceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserProvinces");
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.UserRegion", b =>
+                {
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("RegionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("UserID", "RegionId");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("UserRegions");
+                });
+
             modelBuilder.Entity("InspecWeb.Models.Village", b =>
                 {
                     b.Property<long>("Id")
@@ -42783,6 +42881,33 @@ namespace InspecWeb.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("InspecWeb.Models.District", "District")
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InspecWeb.Models.Ministry", "Ministries")
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("MinistryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InspecWeb.Models.Province", "Province")
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InspecWeb.Models.Subdistrict", "Subdistricts")
+                        .WithMany()
+                        .HasForeignKey("SubdistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InspecWeb.Models.CentralPolicy", b =>
@@ -42960,6 +43085,34 @@ namespace InspecWeb.Data.Migrations
                     b.HasOne("InspecWeb.Models.Subject", "Subject")
                         .WithMany("Subquestions")
                         .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.UserProvince", b =>
+                {
+                    b.HasOne("InspecWeb.Models.Province", "Province")
+                        .WithMany()
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InspecWeb.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.UserRegion", b =>
+                {
+                    b.HasOne("InspecWeb.Models.Region", "Region")
+                        .WithMany("UserRegion")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InspecWeb.Models.ApplicationUser", "User")
+                        .WithMany("UserRegion")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
