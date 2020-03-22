@@ -7,6 +7,7 @@ import { ProvinceService } from '../services/province.service';
 import { RegionService } from '../services/region.service';
 import { MinistryService } from '../services/ministry.service';
 import { UserService } from '../services/user.service'; // ผู้ใช้
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-user',
@@ -83,11 +84,13 @@ export class UserComponent implements OnInit {
     private ministryService: MinistryService,
     private route: ActivatedRoute,
     private userService: UserService,
+    private spinner: NgxSpinnerService
   ) {
   this.roleId =  this.route.snapshot.paramMap.get('id') //เลขที่ส่งมาจาก url 
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
      
@@ -112,8 +115,10 @@ export class UserComponent implements OnInit {
   getUser() {
     this.userService.getuserdata(this.roleId)
       .subscribe(result => {
+        //alert(this.roleId);
         this.resultuser = result;
         this.loading = true
+        this.spinner.hide();
         console.log(this.resultuser);
       })
   }
