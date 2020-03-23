@@ -14,6 +14,7 @@ export class MinistermonitoringComponent implements OnInit {
   delid: any
   name: any
   position: any
+  image: any
   createAt: any
   modalRef: BsModalRef;
   Form: FormGroup
