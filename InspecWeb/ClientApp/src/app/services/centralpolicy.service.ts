@@ -24,16 +24,6 @@ export class CentralpolicyService {
     return this.http.get(this.url + id)
   }
   addCentralpolicy(centralpolicyData) {
-
-    // alert(JSON.stringify(centralpolicyData))
-    // const formData = new FormData();
-
-    // formData.append('title', centralpolicyData.title);
-    // formData.append('start_date', centralpolicyData.start_date.date.year + '-' + centralpolicyData.start_date.date.month + '-' + centralpolicyData.start_date.date.day);
-    // formData.append('end_date', centralpolicyData.end_date.date.year + '-' + centralpolicyData.end_date.date.month + '-' + centralpolicyData.end_date.date.day);
-    // formData.append('subjects', centralpolicyData.subjects);
-    // formData.append('files', "filetest.pdf");
-
     const formData = {
       Title: centralpolicyData.title,
       StartDate: centralpolicyData.start_date.date.year + '-' + centralpolicyData.start_date.date.month + '-' + centralpolicyData.start_date.date.day,
@@ -52,4 +42,16 @@ export class CentralpolicyService {
     return this.http.delete(this.url + id);
   }
 
+  addCentralpolicyUser(data,id) {
+    const formData = {
+      CentralPolicyId: id,
+      UserId: data.UserPeopleId,
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "users" , formData);
+  }
+
+  getcentralpolicyuserdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "users/" + id)
+  }
 }

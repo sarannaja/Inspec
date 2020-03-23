@@ -93,5 +93,34 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
 
+        //POST api/values
+        [HttpPost("users")]
+        public void Post([FromBody] CentralPolicyUserModel model)
+        {
+
+            foreach (var id in model.UserId)
+            {
+                System.Console.WriteLine("LOOP: " + id);
+                var centralpolicyuserdata = new CentralPolicyUser
+                {
+                    CentralPolicyId = model.CentralPolicyId,
+                    UserId = id,
+                    Status = "0"
+                };
+                _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+            }
+            _context.SaveChanges();
+        }
+
+        // GET api/values/5
+        [HttpGet("users/{id}")]
+        public IActionResult GetUsers(long id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .Where(m => m.CentralPolicyId == id);
+
+            return Ok(centralpolicyuserdata);
+        }
     }
 }
