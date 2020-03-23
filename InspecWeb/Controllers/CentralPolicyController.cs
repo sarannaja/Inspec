@@ -105,7 +105,7 @@ namespace InspecWeb.Controllers
                 {
                     CentralPolicyId = model.CentralPolicyId,
                     UserId = id,
-                    Status = "0"
+                    Status = "รอการตอบรับ"
                 };
                 _context.CentralPolicyUsers.Add(centralpolicyuserdata);
             }
