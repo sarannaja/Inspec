@@ -59,6 +59,7 @@ namespace InspecWeb.Models
 
         public ICollection<Subject> Subjects { get; set; }
         public ICollection<CentralPolicyFile> CentralPolicyFiles { get; set; }
+        public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }
         //public ICollection<InspectionPlanEvent> InspectionPlanEvents { get; set; }
     }
 }
