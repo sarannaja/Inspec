@@ -54,8 +54,8 @@ import { ExecutiveOrderComponent } from './executive-order/executive-order.compo
 import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
 import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
-
 
 
 
@@ -101,6 +101,7 @@ import { AcceptCentralPolicyComponent } from './central-policy/accept-central-po
     InspectorComponent,
     ExecutiveOrderComponent,
     DetailExecutiveOrderComponent,
+    MinistermonitoringComponent,
     AcceptCentralPolicyComponent
   ],
   imports: [
@@ -159,6 +160,7 @@ import { AcceptCentralPolicyComponent } from './central-policy/accept-central-po
           { path: 'inspector', component: InspectorComponent },
           { path: 'executiveorder', component: ExecutiveOrderComponent },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
+          { path: 'ministermonitoring', component: MinistermonitoringComponent},
           { path: 'acceptcentralpolicy', component: AcceptCentralPolicyComponent},
         ]
       },

@@ -1,0 +1,55 @@
+<div class="header">
+    <h1 class="header-title">
+        รายชื่อรองนายกรัฐมนตรี และรัฐมนตรีประจำสำนักนายกรัฐมนตรีที่กำกับและติดตามการปฏิบัติราชการในภูมิภาค
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
+        <li class="breadcrumb-item"><a href="#">รายชื่อรองนายกรัฐมนตรี และรัฐมนตรีประจำสำนักนายกรัฐมนตรีที่กำกับและติดตามการปฏิบัติราชการในภูมิภาค</a></li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: -40px;">
+          <h5 class="card-title">รายชื่อรองนายกรัฐมนตรี และรัฐมนตรีประจำสำนักนายกรัฐมนตรีที่กำกับและติดตามการปฏิบัติราชการในภูมิภาค</h5>
+        </div>
+        <div class="card-body">
+          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+            [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ชื่อ</th>
+                <th>ตำแหน่ง</th>
+                <th>รูปภาพ</th>
+                <th>กำกับและติดตามการปฏิบัติราชการในพื้นที่</th>
+                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resultministermonitoring; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{item.name}}</td>
+                <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
+                <ng-template #elseBlock>
+                  <td></td>
+                </ng-template>
+                <td>
+                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
+                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                    (click)="editModal(modaleditMinistermonitoring, item.id, item.name)"></i>
+                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                    (click)="openModal(modaldeleteMinistermonitoring, item.id)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- BEGIN primary modal -->
+  <!-- END primary modal -->
+  
