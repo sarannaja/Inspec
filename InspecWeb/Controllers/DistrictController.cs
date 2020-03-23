@@ -40,7 +40,9 @@ namespace InspecWeb.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            var districtdata = _context.Districts.Where(m=>m.ProvinceId==id);
+            var districtdata = _context.Districts
+                .Include(m => m.Province)
+                .Where(m => m.ProvinceId == id);
 
             return Ok(districtdata);
         }

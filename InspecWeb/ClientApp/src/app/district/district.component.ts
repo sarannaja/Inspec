@@ -14,6 +14,7 @@ export class DistrictComponent implements OnInit {
   resultdistrict: any = []
   id
   name: any
+  titleprovince:[]
   // router: any
 
   constructor(
@@ -33,6 +34,7 @@ export class DistrictComponent implements OnInit {
 
     this.districtservice.getdistrictdata(this.id).subscribe(result => {
       this.resultdistrict = result
+      this.titleprovince = result[0].province.name
       console.log(this.resultdistrict);
     })
   }
