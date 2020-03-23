@@ -50,6 +50,7 @@ namespace InspecWeb.Data
         public DbSet<ExecutiveOrder> ExecutiveOrders { get; set; }
         public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
         public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
+        public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -57,6 +58,8 @@ namespace InspecWeb.Data
             builder.Entity<UserRegion>()
            .HasKey(m => new { m.UserID, m.RegionId });
 
+            builder.Entity<CentralPolicyUser>()
+            .HasKey(m => new { m.UserId, m.CentralPolicyId });
             base.OnModelCreating(builder);
             // seed data
             builder.ApplyConfiguration(new MinistrySeeder());

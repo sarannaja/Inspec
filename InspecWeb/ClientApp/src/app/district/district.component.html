@@ -4,8 +4,8 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
-      <li class="breadcrumb-item"><a href="#">จังหวัด</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="/province">จังหวัด</a></li>
       <li class="breadcrumb-item"><a href="#">อำเภอ</a></li>
       <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
@@ -15,7 +15,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">อำเภอ/เขต</h5>
+        <h4 class="card-title">จังหวัด : {{titleprovince}}</h4>
         <div class="float-right">
           <button class="btn btn-primary" (click)="openModal(modalProvince)"
             style="margin-top: -60px;">เพิ่มอำเภอ/เขต</button>

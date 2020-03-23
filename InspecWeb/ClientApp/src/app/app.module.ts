@@ -48,12 +48,14 @@ import { InspectionPlanEventComponent } from './inspection-plan-event/inspection
 import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
 import { TrainComponent } from './train/train.component';
 import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
+import { CabinetComponent } from './cabinet/cabinet.component';
 import { InspectorComponent } from './inspector/inspector.component';
 import { ExecutiveOrderComponent } from './executive-order/executive-order.component';
 import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
+import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
 
 
 
@@ -95,10 +97,12 @@ import { MinistermonitoringComponent } from './ministermonitoring/ministermonito
     CreateInspectionPlanEventComponent,
     TrainComponent,
     DefaultLayoutTrainComponent,
+    CabinetComponent,
     InspectorComponent,
     ExecutiveOrderComponent,
     DetailExecutiveOrderComponent,
     MinistermonitoringComponent,
+    AcceptCentralPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -152,10 +156,12 @@ import { MinistermonitoringComponent } from './ministermonitoring/ministermonito
           { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
+          { path: 'cabinet', component: CabinetComponent},
           { path: 'inspector', component: InspectorComponent },
           { path: 'executiveorder', component: ExecutiveOrderComponent },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
           { path: 'ministermonitoring', component: MinistermonitoringComponent},
+          { path: 'acceptcentralpolicy', component: AcceptCentralPolicyComponent},
         ]
       },
       {

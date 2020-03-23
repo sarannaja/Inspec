@@ -20,6 +20,9 @@ export class FiscalyearService {
   addFiscalyear(fiscalyearData) {
     const formData = new FormData();
     formData.append('year', fiscalyearData.fiscalyear);
+    
+    formData.append('startdate', fiscalyearData.startdate.date.year + '-' + fiscalyearData.startdate.date.month + '-' + fiscalyearData.startdate.date.day);
+    formData.append('enddate', fiscalyearData.enddate.date.year + '-' + fiscalyearData.enddate.date.month + '-' + fiscalyearData.enddate.date.day);
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url, formData);
   }
