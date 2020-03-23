@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,14 +25,13 @@ namespace InspecWeb.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<Models.Ministermonitoring> Get()
+        public IEnumerable<Ministermonitoring> Get()
         {
-            var centralpolicydata = from P in _context.Ministermonitorings
+            var ministermonitoringdata = from P in _context.Ministermonitorings
                                      .Include(m => m.MinistermonitoringRegions)
                                      .ThenInclude(m => m.Region)
-                                    select P;
-
-            return centralpolicydata;
+                                         select P;
+            return ministermonitoringdata;
 
         }
 
@@ -43,22 +44,35 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public Cabine Post(string name, string position, string image)
+        public Ministermonitoring Post([FromBody] MinistermonotoringViewModel model)
         {
             var date = DateTime.Now;
 
-            var cabinedata = new Cabine
+            var ministermonitoringdata = new Ministermonitoring
             {
-                Name = name,
-                Position = position,
-                Image = image,
+                Name = model.Name,
+                Position = model.Position,
+                Image = model.Image,
                 CreatedAt = date
             };
 
-            _context.Cabines.Add(cabinedata);
+            _context.Ministermonitorings.Add(ministermonitoringdata);
             _context.SaveChanges();
 
-            return cabinedata;
+            foreach (var id in model.RegionId)
+            {
+                var ministermonitoringregiondata = new MinistermonitoringRegion
+                {
+                    MinistermonitoringId = ministermonitoringdata.Id,
+                    RegionId = id
+                };
+                _context.MinistermonitoringRegions.Add(ministermonitoringregiondata);
+            }
+
+
+            _context.SaveChanges();
+
+            return ministermonitoringdata;
         }
 
         // PUT api/values/5
@@ -78,14 +92,10 @@ namespace InspecWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
-            var cabinedata = _context.Cabines.Find(id);
+            var ministermonitoringdata = _context.Ministermonitorings.Find(id);
 
-            _context.Cabines.Remove(cabinedata);
+            _context.Ministermonitorings.Remove(ministermonitoringdata);
             _context.SaveChanges();
         }
-    }
-
-    public class Ministermonitoring
-    {
     }
 }

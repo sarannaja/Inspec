@@ -20,6 +20,11 @@ namespace InspecWeb.Models
         [Description("FK: ปีงบประมาณ")]
         public long FiscalYearId { get; set; }
 
+        //[ForeignKey("InspectionPlanEvent")]
+        //[Description("FK: Event การตรวจ")]
+        //public long InspectionPlanEventId { get; set; }
+        //public virtual InspectionPlanEvent InspectionPlanEvent { get; set; }
+
         [Required]
         [Description("ชื่อนโยบายกลาง")]
         public string Title { get; set; }
@@ -48,8 +53,13 @@ namespace InspecWeb.Models
         [Description("ประเภท")]
         public string Type { get; set; }
 
+        [Required]
+        [Description("ประเภทหลัก 1.CentralPolicy 2.Inspectionplan")]
+        public string Class { get; set; }
+
         public ICollection<Subject> Subjects { get; set; }
         public ICollection<CentralPolicyFile> CentralPolicyFiles { get; set; }
+        public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }
         //public ICollection<InspectionPlanEvent> InspectionPlanEvents { get; set; }
     }
 }

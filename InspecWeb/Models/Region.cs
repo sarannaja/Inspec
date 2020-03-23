@@ -23,11 +23,13 @@ namespace InspecWeb.Models
         [Description("เขตตรวจราชการ")]
         public string Name { get; set; }
 
+
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-        public ICollection<FiscalYearRelation> FiscalYearRelations { get; set; }
+        public ICollection<Province> Provinces { get; set; }
+        //public ICollection<UserRegion> UserRegion { get; set; } //พี่ตังค์คอมเม้นตรงนี้ไป
         //public ICollection<MinistermonitoringRegion> MinistermonitoringRegions { get; set; }
     }
 }

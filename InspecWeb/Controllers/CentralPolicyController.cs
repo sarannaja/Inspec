@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,22 +28,23 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IEnumerable<CentralPolicy> Get()
         {
-            var centralpolicydata = from P in _context.CentralPolicies
-                                    select P;
-            return centralpolicydata;
+            //var centralpolicydata = from P in _context.CentralPolicies
+            //                        select P;
+            //return centralpolicydata;
 
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
+            return _context.CentralPolicies
+                   .Where(m => m.Class == "แผนการตรวจประจำปี")
+                   .ToList();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(long id)
         {
-            var centralpolicydata = _context.CentralPolicies.Include(x => x.Subjects).Where(m => m.Id == id).First();
+            var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.Subjects)
+                .ThenInclude(m => m.Subquestions)
+                .Where(m => m.Id == id).First();
 
             return Ok(centralpolicydata);
             //return "value";
@@ -50,25 +52,35 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public CentralPolicy Post(string title, DateTime start_date, DateTime end_date)
+        public void Post([FromBody] CentralPolicyProvinceViewModel model)
         {
             var date = DateTime.Now;
-
             var centralpolicydata = new CentralPolicy
             {
-                Title = title,
-                StartDate = start_date,
-                EndDate = end_date,
-                CreatedBy = "นาย ศรัณญ์ สาพรหม",
-                CreatedAt = date,
+                Title = model.Title,
+                Type = model.Type,
+                FiscalYearId = model.FiscalYearId,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
                 Status = "ร่างกำหนดการ",
-                FiscalYearId = 1
+                CreatedAt = date,
+                CreatedBy = "NIK",
+                Class = "แผนการตรวจประจำปี",
             };
 
             _context.CentralPolicies.Add(centralpolicydata);
             _context.SaveChanges();
 
-            return centralpolicydata;
+            foreach (var id in model.ProvinceId)
+            {
+                var centralpolicyprovincedata = new CentralPolicyProvince
+                {
+                    ProvinceId = id,
+                    CentralPolicyId = centralpolicydata.Id,
+                };
+                _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
+            }
+            _context.SaveChanges();
         }
 
         // DELETE api/values/5
@@ -81,5 +93,34 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
 
+        //POST api/values
+        [HttpPost("users")]
+        public void Post([FromBody] CentralPolicyUserModel model)
+        {
+
+            foreach (var id in model.UserId)
+            {
+                System.Console.WriteLine("LOOP: " + id);
+                var centralpolicyuserdata = new CentralPolicyUser
+                {
+                    CentralPolicyId = model.CentralPolicyId,
+                    UserId = id,
+                    Status = "รอการตอบรับ"
+                };
+                _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+            }
+            _context.SaveChanges();
+        }
+
+        // GET api/values/5
+        [HttpGet("users/{id}")]
+        public IActionResult GetUsers(long id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .Where(m => m.CentralPolicyId == id);
+
+            return Ok(centralpolicyuserdata);
+        }
     }
 }

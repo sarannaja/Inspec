@@ -5,8 +5,8 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="#">Event</a></li>
-      <li class="breadcrumb-item active" aria-current="page">เพิ่ม Event</li>
+      <li class="breadcrumb-item"><a href="#">กำหนดการตรวจราชการ</a></li>
+      <li class="breadcrumb-item active" aria-current="page">เพิ่มกำหนดการตรวจราชการ</li>
     </ol>
   </nav>
 </div>
@@ -14,33 +14,58 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">เพิ่ม Event</h5>
+        <h5 class="card-title">เพิ่มกำหนดการตรวจราชการ</h5>
         <!-- <div class="float-right">
                       <button class="btn btn-primary" style="margin-top: -60px;">เพิ่มนโยบายกลาง</button>
                   </div> -->
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
-        <div class="row">
-          <div class="col-12 col-xl-12">
-            <br>
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <br>
 
-            <div class="form-group">
-              <label>Event *</label>
-              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอก Event">
+              <div class="form-group">
+                <label>กำหนดการตรวจราชการ *</label>
+                <input type="text" formControlName="title" class="form-control"
+                  placeholder="กรุณากรอกกำหนดการตรวจราชการ">
+              </div>
             </div>
-          </div>
 
-          <div class="col-12 col-xl-12">
-            <label>กำหนดระยะเวลา</label>
-          </div>
-          <div class="col-12 col-xl-3">
-            <div class="form-group">
-              <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
-              </my-date-picker-th>
+
+            <div class="col-12 col-xl-3">
+              <label>วันที่ตรวจ</label>
             </div>
-          </div>
-          <div class="col-12 col-xl-1">
+            <div class="col-12 col-xl-8">
+              <label>จังหวัด</label>
+            </div>
+
+            <div class="col-12 col-xl-12" [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
+              <!-- <div class="col-12 col-xl-12" *ngFor="let item of input; let i = index"> -->
+              <div class="form-group row" *ngFor="let item of t.controls; let i = index">
+                <form class="form-group row col-12" [formGroup]="item" >
+                  <div class="col-xl-3">
+                    <my-date-picker-th formControlName="date" [(ngModel)]="item.date" [options]="myDatePickerOptions"
+                      required>
+                    </my-date-picker-th>
+                  </div>
+                  <div class="col-xl-8">
+                    <div class="form-group">
+                      <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true"
+                        [options]="selectdataprovince" [allowClear]="true" formControlName="provinces">
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-1">
+                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+
+
+            <!-- <div class="col-12 col-xl-1">
             <div class="form-group" align="center">
               ถึง
             </div>
@@ -50,9 +75,9 @@
               <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
-          </div>
+          </div> -->
 
-          <!-- <div class="col-12 col-xl-12">
+            <!-- <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>จังหวัด*</label>
               <div class="form-group col-md-3">
@@ -66,19 +91,19 @@
             </div>
           </div> -->
 
-          <div class="col-4"></div>
+            <!-- <div class="col-4"></div> -->
 
-          <div class="form-group row">
-            <div class="col-sm-5 ml-sm-auto">
-              <button type="submit" class="btn btn-primary">บันทึก</button>
-              <!-- <button type="submit" class="btn btn-danger">ยกเลิก</button> -->
+            <div class="form-group row">
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <!-- <button type="submit" class="btn btn-danger">ยกเลิก</button> -->
+              </div>
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="submit" class="btn btn-danger">ยกเลิก</button>
+              </div>
             </div>
-            <div class="col-sm-5 ml-sm-auto">
-              <button type="submit" class="btn btn-danger">ยกเลิก</button>
-            </div>
+
           </div>
-
-        </div>
         </form>
       </div>
     </div>

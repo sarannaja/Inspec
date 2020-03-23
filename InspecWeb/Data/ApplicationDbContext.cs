@@ -43,13 +43,24 @@ namespace InspecWeb.Data
         public DbSet<MinistermonitoringRegion> MinistermonitoringRegions { get; set; }
         public DbSet<Inspector> Inspectors { get; set; }
         public DbSet<InspectorRegion> InspectorRegions { get; set; }
-
-
+        public DbSet<CentralPolicyEvent> CentralPolicyEvents { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; } //เพิ่มคอลัม user
+        public DbSet<UserRegion> UserRegions { get; set; } //เชื่อม user กับ เขตตรวจ
+        public DbSet<UserProvince> UserProvinces { get; set; } //เชื่อม user กับ จังหวัด
+        public DbSet<ExecutiveOrder> ExecutiveOrders { get; set; }
+        public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
+        public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
+        public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
 
+            builder.Entity<UserRegion>()
+           .HasKey(m => new { m.UserID, m.RegionId });
+
+            builder.Entity<CentralPolicyUser>()
+            .HasKey(m => new { m.UserId, m.CentralPolicyId });
+            base.OnModelCreating(builder);
             // seed data
             builder.ApplyConfiguration(new MinistrySeeder());
             builder.ApplyConfiguration(new DepartmentSeeder());
@@ -61,6 +72,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new InstructionOrderSeeder());
             builder.ApplyConfiguration(new DistrictSeeder());
             builder.ApplyConfiguration(new SubdistrictSeeder());
+            builder.ApplyConfiguration(new RelationSeeder());
         }
 
      

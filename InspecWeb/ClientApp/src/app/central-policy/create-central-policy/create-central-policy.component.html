@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="#">Tables</a></li> -->
-      <li class="breadcrumb-item active" aria-current="page">เพิ่มนโยบายกลาง</li>
+      <li class="breadcrumb-item active" aria-current="page">เพิ่มแผนตรวจราชการประจำปี</li>
     </ol>
   </nav>
 </div>
@@ -14,7 +14,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">เพิ่มนโยบายกลาง</h5>
+        <h5 class="card-title">เพิ่มแผนตรวจราชการประจำปี</h5>
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeCentralpolicy(Form.value)">
@@ -34,7 +34,7 @@
                 <label>ปีงบประมาณ*</label>
                 <div class="form-group col-md-3">
                   <div class="mb-3">
-                    <select class="form-control select2" data-toggle="select2">
+                    <select class="form-control select2" data-toggle="select2" formControlName="year">
                       <option value=null>กรุณาเลือกปีงบประมาณ</option>
                       <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">{{item.year}}
                       </option>
@@ -49,7 +49,7 @@
                 <label>ประเภท*</label>
                 <div class="form-group col-md-3">
                   <div class="mb-3">
-                    <select class="form-control select2" data-toggle="select2">
+                    <select class="form-control select2" data-toggle="select2" formControlName="type">
                       <option value=null>กรุณาเลือกประเภท</option>
                       <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
                       <option value="มาตรา 34">มาตรา 34</option>
@@ -61,60 +61,92 @@
             </div>
 
             <div class="col-12 col-xl-12">
-              <div class="form-group">
-                <label>จังหวัด</label>
-                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="selectdataprovince" [allowClear]="true">
-                </ng-select>
-              </div>
-            </div>
-
-
-            <div class="col-12 col-xl-12">
               <label>กำหนดระยะเวลา</label>
             </div>
             <div class="col-12 col-xl-3">
               <div class="form-group">
-
                 <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
                 </my-date-picker-th>
-
               </div>
             </div>
-
             <div class="col-12 col-xl-1">
               <div class="form-group" align="center">
                 ถึง
               </div>
             </div>
-
             <div class="col-12 col-xl-3">
               <div class="form-group">
-
                 <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
                 </my-date-picker-th>
+              </div>
+            </div>
 
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>จังหวัด</label>
+                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="selectdataprovince" name="ProvinceId" formControlName="ProvinceId"
+                  [allowClear]="true">
+                </ng-select>
               </div>
             </div>
 
             <!-- <div class="col-12 col-xl-12">
-              <div  class="form-group">
+              <div class="form-group">
                 <label>ประเด็น</label>
-                <div class="row" *ngFor="let item of input; let i = index">
-                  <div class="col-1 text-center">
-                    {{ i + 1 }}.
-                  </div>
-                  <div class="col-10">
-                    <input (keyup)="toInput($event,i)"  type="text" class="form-control" placeholder="กรุณากรอกประเด็น">
-                  </div>
-                  <div class="col-1" *ngIf="i == 0; else elseBlock">
-                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
-                  </div>
-                  <ng-template #elseBlock>
-                    <div class="col-1">
-                      <i class="align-middle mr-2 far fa-fw fa-minus-square"></i>
+                <div class="row" *ngFor="let item of t.controls; let i = index">
+                  <form class="form-group row col-12" [formGroup]="item">
+                    <div class="col-1 text-center">
+                      {{ i + 1 }}.
                     </div>
-                  </ng-template>
+                    <div class="col-10">
+                      <input type="text" class="form-control" placeholder="กรุณากรอกประเด็น">
+                    </div>
+                    <div class="col-1" *ngIf="i == 0; else elseBlock">
+                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
+                    </div>
+                    <ng-template #elseBlock>
+                      <div class="col-1">
+                        <i class="align-middle mr-2 far fa-fw fa-minus-square"></i>
+                      </div>
+                    </ng-template>
 
+                    <div class="col-12 col-xl-12">
+                      <label>กำหนดระยะเวลา</label>
+                    </div>
+                    <div class="col-12 col-xl-3">
+                      <div class="form-group">
+                        <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
+                        </my-date-picker-th>
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-1">
+                      <div class="form-group" align="center">
+                        ถึง
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-3">
+                      <div class="form-group">
+                        <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+                        </my-date-picker-th>
+                      </div>
+                    </div>
+                    <div class="col-5"></div>
+
+                    <div class="form-group col-12">
+                      <label>คำถามย่อยของประเด็นที่ {{ i + 1 }}</label>
+                      <div class="row">
+                        <div class="col-1 text-center">
+                          1.
+                        </div>
+                        <div class="col-10">
+                          <input type="text" class="form-control" placeholder="กรุณคำถามย่อย">
+                        </div>
+                        <div class="col-1">
+                          <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appendquestion()"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div> -->

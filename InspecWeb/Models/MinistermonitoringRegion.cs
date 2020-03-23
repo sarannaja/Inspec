@@ -32,9 +32,5 @@ namespace InspecWeb.Models
         public long RegionId { get; set; }
 
         public virtual Region Region { get; set; }
-
-
-
-
     }
 }

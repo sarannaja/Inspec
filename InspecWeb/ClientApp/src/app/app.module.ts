@@ -49,6 +49,14 @@ import { CreateInspectionPlanEventComponent } from './inspection-plan-event/crea
 import { TrainComponent } from './train/train.component';
 import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
 import { CabinetComponent } from './cabinet/cabinet.component';
+import { InspectorComponent } from './inspector/inspector.component';
+import { ExecutiveOrderComponent } from './executive-order/executive-order.component';
+import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+
 
 @NgModule({
   declarations: [
@@ -89,6 +97,9 @@ import { CabinetComponent } from './cabinet/cabinet.component';
     TrainComponent,
     DefaultLayoutTrainComponent,
     CabinetComponent,
+    InspectorComponent,
+    ExecutiveOrderComponent,
+    DetailExecutiveOrderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -100,8 +111,9 @@ import { CabinetComponent } from './cabinet/cabinet.component';
     MyDatePickerTHModule,
     BrowserModule,
     SnotifyModule,
-
+    NgxSpinnerModule,
     DataTablesModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -116,18 +128,18 @@ import { CabinetComponent } from './cabinet/cabinet.component';
         children: [
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
-          { path: 'inspectionplan/createinspectionplan', component: CreateInspectionPlanComponent },
+          { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent },
           { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
           { path: 'ministry', component: MinistryComponent },
           { path: 'province', component: ProvinceComponent },
           { path: 'region', component: RegionComponent },
-          { path: 'user', component: UserComponent },
+          { path: 'user/:id', component: UserComponent },
           { path: 'fiscalyear', component: FiscalyearComponent },
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
           { path: 'supportgovernment', component: SupportGovernmentComponent },
           { path: 'centralpolicy', component: CentralPolicyComponent },
-          { path: 'inspectionplan', component: InspectionPlanComponent },
+          { path: 'inspectionplan/:id', component: InspectionPlanComponent },
           { path: 'instructionorder', component: InstructionOrderComponent },
           { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent },
           { path: 'inspectionorder', component: InspectionorderComponent },
@@ -142,6 +154,9 @@ import { CabinetComponent } from './cabinet/cabinet.component';
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
           { path: 'cabinet', component: CabinetComponent},
+          { path: 'inspector', component: InspectorComponent },
+          { path: 'executiveorder', component: ExecutiveOrderComponent },
+          { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
         ]
       },
       {

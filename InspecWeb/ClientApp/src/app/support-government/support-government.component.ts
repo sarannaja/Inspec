@@ -16,13 +16,6 @@ export class SupportGovernmentComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      // columnDefs: [
-      //   {
-      //     targets: [3],
-      //     orderable: false
-      //   }
-      // ]
-
     };
   }
 

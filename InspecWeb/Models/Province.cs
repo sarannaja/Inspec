@@ -32,7 +32,7 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-        public ICollection<District> Districts { get; set; }
-        public ICollection<FiscalYearRelation> FiscalYearRelations { get; set; }
+
+        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

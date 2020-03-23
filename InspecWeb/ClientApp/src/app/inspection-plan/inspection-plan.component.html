@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-        <li class="breadcrumb-item"><a href="#">Event</a></li>
+        <li class="breadcrumb-item"><a href="#">กำหนดการตรวจราชการ</a></li>
         <li class="breadcrumb-item"><a href="#">แผนการตรวจ</a></li>
       </ol>
     </nav>
@@ -16,8 +16,11 @@
         <div class="card-header" style="margin-bottom: -40px;">
           <h5 class="card-title">แผนการตรวจ</h5>
           <div class="float-right">
-            <button class="btn btn-primary" (click)="CraateInspectionPlan()"
-              style="margin-top: -60px;">เพิ่มแผนการตรวจ</button>
+            <button class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
+            style="margin-top: -60px;">เพิ่มแผนการตรวจราชการประจำปี</button>
+            &nbsp;&nbsp;
+            <button class="btn btn-primary" (click)="CraateInspectionPlan(id)"
+              style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button>
           </div>
         </div>
         <div class="card-body">
@@ -33,15 +36,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of resultcentralpolicy; let i = index">
+              <tr *ngFor="let item of resultinspectionplan; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td width="40%">{{ item.title }}</td>
+                <td width="40%">{{ item.centralPolicy.title }}</td>
                 <td>2563</td>
-                <td>{{ item.startDate | date: 'dd/MM/yyyy' }} - {{ item.endDate | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ item.status }}</td>
+                <td>{{ item.centralPolicy.startDate | date: 'dd/MM/yyyy' }} - {{ item.centralPolicy.endDate | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ item.centralPolicy.status }}</td>
                 <td>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                  <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(1)"></i>
+                  <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.centralPolicyId,item.title)"></i>
+                  <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.centralPolicyId)"></i>
                   <!-- <i (click)="EditInspectionPlan(1)" class="pointer align-middle mr-2 fas fa-fw fa-pen pointer"></i> -->
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i> -->
                 </td>
@@ -52,3 +56,31 @@
       </div>
     </div>
   </div>
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalCentralPolicyEventRelation class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="storeCentralPolicyEventRelation(Form.value)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">จัดการแผนการตรวจราชการประจำปี</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <div class="form-group">
+              <label class="form-label">แผนการตรวจราชการประจำปี</label>
+              <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true" [options]="selectdatacentralpolicy" name="CentralpolicyId" formControlName="CentralpolicyId" [allowClear]="true">
+              </ng-select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+        <!-- </div> -->
+      </form>
+    </ng-template>
+    <!-- END primary modal -->

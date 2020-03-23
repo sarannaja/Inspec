@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace InspecWeb.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -19,10 +20,12 @@ namespace InspecWeb.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IUserStore<WeatherForecastController> _store;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger , IUserStore<WeatherForecastController> store)
         {
             _logger = logger;
+            _store = store;
         }
 
         [HttpGet]
@@ -36,6 +39,12 @@ namespace InspecWeb.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("user")]
+        public object GetUser()
+        {
+            return User.Claims;
         }
     }
 }

@@ -27,7 +27,7 @@
             <tr>
               <th>#</th>
               <th>ชื่อปีงบประมาณ</th>
-              <th>วันที่สร้าง</th>
+              <th>ระยะเวลา</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -35,7 +35,8 @@
             <tr *ngFor="let item of resultfiscalyear; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ item.year }}</td>
-              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
+              <td *ngIf="item.startDate != null; else elseBlock">{{ item.startDate | thaidate:'year'}} -
+                {{ item.endDate | thaidate:'year'}}</td>
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>
@@ -68,6 +69,28 @@
           <div class="form-group">
             <label class="form-label">ปีงบประมาณ</label>
             <input type="text" formControlName="fiscalyear" class="form-control" placeholder="กรุณากรอกปีงบประมาณ">
+          </div>
+          <div class="form-group row">
+            <div class="col-12 col-xl-12">
+              <label>กำหนดระยะเวลา</label>
+            </div>
+            <div class="col-12 col-xl-5">
+              <div class="form-group">
+                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
+                </my-date-picker-th>
+              </div>
+            </div>
+            <div class="col-12 col-xl-2">
+              <div class="form-group" align="center">
+                ถึง
+              </div>
+            </div>
+            <div class="col-12 col-xl-5">
+              <div class="form-group">
+                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+                </my-date-picker-th>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
