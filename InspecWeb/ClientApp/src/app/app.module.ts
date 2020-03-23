@@ -48,11 +48,13 @@ import { InspectionPlanEventComponent } from './inspection-plan-event/inspection
 import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
 import { TrainComponent } from './train/train.component';
 import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
+import { CabinetComponent } from './cabinet/cabinet.component';
 import { InspectorComponent } from './inspector/inspector.component';
 import { ExecutiveOrderComponent } from './executive-order/executive-order.component';
 import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 
@@ -94,6 +96,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CreateInspectionPlanEventComponent,
     TrainComponent,
     DefaultLayoutTrainComponent,
+    CabinetComponent,
     InspectorComponent,
     ExecutiveOrderComponent,
     DetailExecutiveOrderComponent
@@ -150,6 +153,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
           { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
+          { path: 'cabinet', component: CabinetComponent},
           { path: 'inspector', component: InspectorComponent },
           { path: 'executiveorder', component: ExecutiveOrderComponent },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
