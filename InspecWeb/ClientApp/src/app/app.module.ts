@@ -53,6 +53,7 @@ import { ExecutiveOrderComponent } from './executive-order/executive-order.compo
 import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
 
 
 
@@ -96,7 +97,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DefaultLayoutTrainComponent,
     InspectorComponent,
     ExecutiveOrderComponent,
-    DetailExecutiveOrderComponent
+    DetailExecutiveOrderComponent,
+    AcceptCentralPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -153,6 +155,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
           { path: 'inspector', component: InspectorComponent },
           { path: 'executiveorder', component: ExecutiveOrderComponent },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
+          { path: 'acceptcentralpolicy', component: AcceptCentralPolicyComponent},
         ]
       },
       {
