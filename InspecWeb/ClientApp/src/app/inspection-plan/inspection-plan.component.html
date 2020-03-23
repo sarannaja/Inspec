@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-        <li class="breadcrumb-item"><a href="#">Event</a></li>
+        <li class="breadcrumb-item"><a href="#">กำหนดการตรวจราชการ</a></li>
         <li class="breadcrumb-item"><a href="#">แผนการตรวจ</a></li>
       </ol>
     </nav>
@@ -19,7 +19,7 @@
             <button class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
             style="margin-top: -60px;">เพิ่มแผนการตรวจราชการประจำปี</button>
             &nbsp;&nbsp;
-            <button class="btn btn-primary" (click)="CraateInspectionPlan()"
+            <button class="btn btn-primary" (click)="CraateInspectionPlan(id)"
               style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button>
           </div>
         </div>
@@ -44,6 +44,7 @@
                 <td>{{ item.centralPolicy.status }}</td>
                 <td>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
+                  <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.centralPolicyId,item.title)"></i>
                   <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.centralPolicyId)"></i>
                   <!-- <i (click)="EditInspectionPlan(1)" class="pointer align-middle mr-2 fas fa-fw fa-pen pointer"></i> -->
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i> -->
@@ -70,7 +71,7 @@
           <div class="modal-body m-3">
             <div class="form-group">
               <label class="form-label">แผนการตรวจราชการประจำปี</label>
-              <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true" [options]="selectdatacentralpolicy" [allowClear]="true">
+              <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true" [options]="selectdatacentralpolicy" name="CentralpolicyId" formControlName="CentralpolicyId" [allowClear]="true">
               </ng-select>
             </div>
           </div>

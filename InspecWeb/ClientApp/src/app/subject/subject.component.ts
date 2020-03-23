@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SubjectService } from '../services/subject.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IMyOptions } from 'mydatepicker-th';
 
 @Component({
   selector: 'app-subject',
@@ -11,10 +12,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SubjectComponent implements OnInit {
 
+  private myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+  };
+
   resultsubject: any = []
   id
   delid: any
   name: any
+  start_date: any
+  end_date: any
   modalRef: BsModalRef;
   // router: any
   Form: FormGroup;
@@ -32,7 +40,9 @@ export class SubjectComponent implements OnInit {
 
   ngOnInit() {
     this.Form = this.fb.group({
-      "name": new FormControl(null, [Validators.required]),
+      name: new FormControl(null, [Validators.required]),
+      start_date: new FormControl(null, [Validators.required]),
+      end_date: new FormControl(null, [Validators.required]),
     })
 
     // alert(this.name)

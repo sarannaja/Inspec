@@ -30,5 +30,6 @@ namespace InspecWeb.Models
         public string Name { get; set; }
 
         public ICollection<Village> Village { get; set; }
+
     }
 }

@@ -47,7 +47,7 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public Subject Post(string name, long centralpolicyid)
+        public Subject Post(string name, long centralpolicyid, DateTime start_date, DateTime end_date)
         {
             //var date = DateTime.Now;
 
@@ -55,6 +55,8 @@ namespace InspecWeb.Controllers
             {
                 Name = name,
                 CentralPolicyId = centralpolicyid,
+                StartDate = start_date,
+                EndDate = end_date,
                 Answer = "",
                 //CreatedAt = date
             };

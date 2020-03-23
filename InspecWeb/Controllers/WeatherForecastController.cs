@@ -44,7 +44,7 @@ namespace InspecWeb.Controllers
         [HttpGet("user")]
         public object GetUser()
         {
-            return User.Claims.Count();
+            return User.Claims;
         }
     }
 }

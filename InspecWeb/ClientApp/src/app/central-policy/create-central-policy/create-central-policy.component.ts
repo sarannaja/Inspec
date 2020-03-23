@@ -35,7 +35,9 @@ export class CreateCentralPolicyComponent implements OnInit {
   start_date: any
   end_date: any
   Form: FormGroup;
+  ProvinceId: any;
   selectdataprovince: Array<IOption>
+  input: any = [{ date: '', subject: '', questions: '' }]
 
   constructor(private fb: FormBuilder, private centralpolicyservice: CentralpolicyService,
     public share: CentralpolicyService, private router: Router, private fiscalyearservice: FiscalyearService,
@@ -46,10 +48,18 @@ export class CreateCentralPolicyComponent implements OnInit {
       title: new FormControl(null, [Validators.required]),
       start_date: new FormControl(null, [Validators.required]),
       end_date: new FormControl(null, [Validators.required]),
+      year: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null, [Validators.required]),
+      input: new FormArray([])
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
-
+    this.t.push(this.fb.group({
+      date: '',
+      subject: '',
+      questions: []
+    }))
     //แก้ไข
 
     this.provinceservice.getprovincedata().subscribe(result => {
@@ -91,42 +101,16 @@ export class CreateCentralPolicyComponent implements OnInit {
     this.files = event.target.files
   }
 
+  get f() { return this.Form.controls }
+  get t() { return this.f.input as FormArray }
 
-  // append() {
-  //   let id = this.id + 1
-  //   this.id = id
-  //   this.input.push({
-  //     id: id,
-  //     name: ''
-  //   });
-
-  // }
-  // addInput() {
-  //   // this.Form.reset('subjects')
-  //   const creds = this.Form.controls.subjects as FormArray;
-  //   this.input.forEach((item, index) => {
-  //     creds.push(this.fb.group(item))
-  //   })
-  //   console.log(this.Form.value);
-  //   alert(JSON.stringify(this.Form.value))
-
-  //   // for (let iii = 0; iii <= this.input.length; iii++) {
-  //   //   creds.push(this.fb.group({ id: this.input[iii].id, name: this.input[iii].name }));
-  //   // }
-  //   // console.log(this.Form.value);
-
-
-
-  // }
-  // toInput(event, index) {
-  //   this.input[index].name = event.target.value
-  //   console.log(this.input);
-  //   // var obj = this.input.filter((item, index) => {
-  //   //   if (item.id == id) {
-  //   //     item.name = event.target.value
-  //   //   }
-  //   //   return item
-  //   // })
-  //   // this.input = obj
-  // }
+  append() {
+    this.t.push(this.fb.group({
+      date: '',
+      subject: '',
+      questions: []
+    }))
+  }
+  appendquestion() {
+  }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 
 namespace InspecWeb.Controllers
 {
@@ -48,26 +48,63 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public InspectionPlanEvent Post(string title, DateTime start_date, DateTime end_date)
+        public void Post([FromBody] InspectionPlanEventViewModel model)
         {
+            //System.Console.WriteLine("LOOP: " + model.Name);
+            //System.Console.WriteLine("Input: " + model.input);
+
+            //return model.input;
             var date = DateTime.Now;
 
-            var inspectionPlanEventdata = new InspectionPlanEvent
+            var mindate = DateTime.Now;
+            var maxdate = DateTime.Now;
+            int index = 0;
+            foreach (var item1 in model.input)
             {
-                Name = title,
-                StartDate = start_date,
-                EndDate = end_date,
-                CreatedBy = "นาย ศรัณญ์ สาพรหม",
+                if (index == 0)
+                {
+                    mindate = item1.PlanDate;
+                    maxdate = item1.PlanDate;
+                }
+                if (item1.PlanDate > maxdate)
+                {
+                    maxdate = item1.PlanDate;
+                }
+                else if(item1.PlanDate < mindate)
+                {
+                    mindate = item1.PlanDate;
+                }
+                index++;
+            }
+ 
+            var inspectionplanevent = new InspectionPlanEvent
+            {
+                Name = model.Name,
+                StartDate = mindate,
+                EndDate = maxdate,
                 CreatedAt = date,
-                //CentralPolicyId = 1,
-                //Status = "ร่างกำหนดการ",
-                //FiscalYearId = 1
+                CreatedBy = "NIK"
             };
 
-            _context.InspectionPlanEvents.Add(inspectionPlanEventdata);
+            _context.InspectionPlanEvents.Add(inspectionplanevent);
             _context.SaveChanges();
 
-            return inspectionPlanEventdata;
+            foreach (var item2 in model.input)
+            {
+                foreach (var item3 in item2.ProvinceId)
+                {
+                    var inspectionplaneventprovince = new InspectionPlanEventProvince
+                    {
+                        InspectionPlanEventId = inspectionplanevent.Id,
+                        PlanDate = item2.PlanDate,
+                        ProvinceId = item3,
+                    };
+
+                    _context.InspectionPlanEventProvinces.Add(inspectionplaneventprovince);
+                    _context.SaveChanges();
+                }
+            }
+
         }
 
         // DELETE api/values/5

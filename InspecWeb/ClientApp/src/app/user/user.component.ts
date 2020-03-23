@@ -1,11 +1,14 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { IOption } from 'ng-select';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../services/Pipe/alert.service';
 import { ProvinceService } from '../services/province.service';
 import { RegionService } from '../services/region.service';
 import { MinistryService } from '../services/ministry.service';
+import { UserService } from '../services/user.service'; // ผู้ใช้
+import { NgxSpinnerService } from "ngx-spinner";
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -19,16 +22,18 @@ export class UserComponent implements OnInit {
   selectdatadeparment: Array<IOption>
   selectdataprovince: Array<IOption>
   selectdataregion: Array<IOption>
-  loading = true;
+  loading = false;
   dtOptions: DataTables.Settings = {};
-  datarole:any = [
+  roleId:any;
+  resultuser: any[] = [];
+  datarole: any = [
     {
       id: 1,
       name: 'Super Admin'
     },
     {
       id: 2,
-      name: 'Admin แผนการตรวจราชการประจำปี/นโยบายกลาง'
+      name: 'Admin แผนการตรวจราชการประจำปี'
     },
     {
       id: 3,
@@ -44,27 +49,23 @@ export class UserComponent implements OnInit {
     },
     {
       id: 6,
-      name: 'ผู้ตรวจกระทรวง'
+      name: 'ผู้ตรวจกระทรวง/ผู้ตรวจกรม/หน่วยงาน'
     },
     {
       id: 7,
-      name: 'ผู้ตรวจกรม/หน่วยงาน'
-    },
-    {
-      id: 8,
       name: 'ผู้ตรวจภาคประชาชน'
     },
     {
-      id: 9,
+      id: 8,
       name: 'นายก/รองนายก'
     },
     {
-      id: 10,
+      id: 9,
       name: 'User Trianning'
     },
-    
+
   ]
-  datadeparment:any = [
+  datadeparment: any = [
     {
       id: 1,
       name: 'กองทัพไทย'
@@ -74,73 +75,80 @@ export class UserComponent implements OnInit {
       name: 'สำนักงานรัฐมนตรีกระทรวงการคลัง'
     },
   ]
-  
+
   constructor(
-    private modalService: BsModalService ,
+    private modalService: BsModalService,
     private router: Router,
-    private provinceService:ProvinceService,
-    private regionService : RegionService,
-    private ministryService : MinistryService,
-    ) { }
+    private provinceService: ProvinceService,
+    private regionService: RegionService,
+    private ministryService: MinistryService,
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private spinner: NgxSpinnerService
+  ) {
+  this.roleId =  this.route.snapshot.paramMap.get('id') //เลขที่ส่งมาจาก url 
+  }
 
   ngOnInit() {
+    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
-      // columnDefs: [
-      //   {
-      //     targets: [9],
-      //     orderable: false
-      //   }
-      // ]
+     
     };
-
+    this.getUser()
     this.getDataProvinces()
     this.getDataRegions()
     this.getDataMinistries()
-    this.selectdatarole = this.datarole.map((item,index)=>{
-      return { value:item.id , label:item.name }
+    this.selectdatarole = this.datarole.map((item, index) => {
+      return { value: item.id, label: item.name }
     })
-    // this.selectdataministry = this.dataministry.map((item,index)=>{
-    //   return { value:item.id , label:item.name }
-    // })
-    this.selectdatadeparment = this.datadeparment.map((item,index)=>{
-      return { value:item.id , label:item.name }
+    this.selectdatadeparment = this.datadeparment.map((item, index) => {
+      return { value: item.id, label: item.name }
     })
-    
+
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  getDataProvinces(){
+  getUser() {
+    this.userService.getuserdata(this.roleId)
+      .subscribe(result => {
+        //alert(this.roleId);
+        this.resultuser = result;
+        this.loading = true
+        this.spinner.hide();
+        console.log(this.resultuser);
+      })
+  }
+
+  getDataProvinces() {
     this.provinceService.getprovincedata()
-    .subscribe(result=>{    
-      this.selectdataprovince = result.map((item,index)=>{
-        return { value:item.id , label:item.name }
+      .subscribe(result => {
+        this.selectdataprovince = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+
       })
-      
-    })
   }
 
-  getDataRegions(){
+  getDataRegions() {
     this.regionService.getregiondata()
-    .subscribe(result=>{
-      this.selectdataregion = result.map((item,index)=>{
-        return { value:item.id , label:item.name }
+      .subscribe(result => {
+        this.selectdataregion = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+
       })
-      
-    })
   }
-  getDataMinistries(){
+
+  getDataMinistries() {
     this.ministryService.getministry()
-    .subscribe(result=>{
-      this.selectdataministry = result.map((item,index)=>{
-        return { value:item.id , label:item.name }
+      .subscribe(result => {
+        this.selectdataministry = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
       })
-      
-    })
   }
-
-
 }
