@@ -24,10 +24,20 @@ export class FiscalyearComponent implements OnInit {
   private myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
+    showTodayBtn: true
+  };
+  private myDatePickerOptionsyear: IMyOptions = {
+    // other options...
+    dateFormat: 'YYYY',
+    
   };
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private fiscalyearservice: FiscalyearService,
-    public share: FiscalyearService, private router: Router) { }
+  constructor(
+    private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private fiscalyearservice: FiscalyearService,
+    public share: FiscalyearService, 
+    private router: Router) { }
 
   ngOnInit() {
 

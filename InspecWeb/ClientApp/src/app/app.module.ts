@@ -161,7 +161,7 @@ import { AcceptCentralPolicyComponent } from './central-policy/accept-central-po
           { path: 'executiveorder', component: ExecutiveOrderComponent },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
           { path: 'ministermonitoring', component: MinistermonitoringComponent},
-          { path: 'acceptcentralpolicy', component: AcceptCentralPolicyComponent},
+          { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent},
         ]
       },
       {
