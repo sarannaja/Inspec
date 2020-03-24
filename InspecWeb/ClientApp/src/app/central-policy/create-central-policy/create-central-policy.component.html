@@ -6,6 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="#">Tables</a></li> -->
+      <li class="breadcrumb-item"><a href="#">แผนตรวจราชการประจำปี</a></li>
       <li class="breadcrumb-item active" aria-current="page">เพิ่มแผนตรวจราชการประจำปี</li>
     </ol>
   </nav>
@@ -63,29 +64,45 @@
             <div class="col-12 col-xl-12">
               <label>กำหนดระยะเวลา</label>
             </div>
-            <div class="col-12 col-xl-3">
-              <div class="form-group">
-                <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
-                </my-date-picker-th>
-              </div>
-            </div>
-            <div class="col-12 col-xl-1">
-              <div class="form-group" align="center">
-                ถึง
-              </div>
-            </div>
-            <div class="col-12 col-xl-3">
-              <div class="form-group">
-                <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
-                </my-date-picker-th>
+            <div class="col-12" [formGroup]="Form" (ngSubmit)="storeCentralpolicy(Form.value)">
+              <div  class="form-group row" *ngFor="let item of d.controls; let i = index">
+                <form class="form-group row col-12" [formGroup]="item">
+                  <div class="col-12 col-xl-3">
+                    <div class="form-group">
+                      <!-- <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
+                      </my-date-picker-th> -->
+                      <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
+                        [options]="myDatePickerOptions" required>
+                      </my-date-picker-th>
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-1">
+                    <div class="form-group" align="center">
+                      ถึง
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-3">
+                    <div class="form-group">
+                      <!-- <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+                      </my-date-picker-th> -->
+                      <my-date-picker-th formControlName="end_date" [(ngModel)]="item.end_date"
+                        [options]="myDatePickerOptions" required>
+                      </my-date-picker-th>
+                    </div>
+                  </div>
+
+                  <div class="col-1">
+                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appenddate()"></i>
+                  </div>
+                </form>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>จังหวัด</label>
-                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="selectdataprovince" name="ProvinceId" formControlName="ProvinceId"
-                  [allowClear]="true">
+                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="selectdataprovince"
+                  name="ProvinceId" formControlName="ProvinceId" [allowClear]="true">
                 </ng-select>
               </div>
             </div>
@@ -171,7 +188,7 @@
                 <button type="submit" class="btn btn-primary">บันทึก</button>
               </div>
               <div class="col-sm-5 ml-sm-auto">
-                <button type="button" class="btn btn-danger">ยกเลิก</button>
+                <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
               </div>
             </div>
 

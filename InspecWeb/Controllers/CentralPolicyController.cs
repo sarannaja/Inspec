@@ -33,6 +33,7 @@ namespace InspecWeb.Controllers
             //return centralpolicydata;
 
             return _context.CentralPolicies
+                   .Include(m => m.CentralPolicyDates)
                    .Where(m => m.Class == "แผนการตรวจประจำปี")
                    .ToList();
         }
@@ -79,6 +80,18 @@ namespace InspecWeb.Controllers
                     CentralPolicyId = centralpolicydata.Id,
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
+            }
+            _context.SaveChanges();
+
+            foreach (var item in model.inputdate)
+            {
+                var CentralPolicyDate = new CentralPolicyDate
+                {
+                    CentralPolicyId = centralpolicydata.Id,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate,
+                };
+                _context.CentralPolicyDates.Add(CentralPolicyDate);
             }
             _context.SaveChanges();
         }

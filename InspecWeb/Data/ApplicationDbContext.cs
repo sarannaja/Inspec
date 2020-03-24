@@ -51,6 +51,8 @@ namespace InspecWeb.Data
         public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
         public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
         public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
+        public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }
+        
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
