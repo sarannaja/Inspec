@@ -24,14 +24,23 @@ export class CentralpolicyService {
     return this.http.get(this.url + id)
   }
   addCentralpolicy(centralpolicyData) {
+
+    var inputdate = centralpolicyData.inputdate.map((item , index) => {
+      return {
+        StartDate:item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
+        EndDate:item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
+      }
+    })
+
     const formData = {
       Title: centralpolicyData.title,
-      StartDate: centralpolicyData.start_date.date.year + '-' + centralpolicyData.start_date.date.month + '-' + centralpolicyData.start_date.date.day,
-      EndDate: centralpolicyData.end_date.date.year + '-' + centralpolicyData.end_date.date.month + '-' + centralpolicyData.end_date.date.day,
+      // StartDate: centralpolicyData.start_date.date.year + '-' + centralpolicyData.start_date.date.month + '-' + centralpolicyData.start_date.date.day,
+      // EndDate: centralpolicyData.end_date.date.year + '-' + centralpolicyData.end_date.date.month + '-' + centralpolicyData.end_date.date.day,
       Type: centralpolicyData.type,
       ProvinceId : centralpolicyData.ProvinceId,
       FiscalYearId: centralpolicyData.year,
       files: "CENTRALPOLICY.pdf",
+      inputdate: inputdate,
     }
 
     console.log('FORMDATA: ' + formData);

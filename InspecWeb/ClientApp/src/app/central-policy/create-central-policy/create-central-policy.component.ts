@@ -38,6 +38,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   ProvinceId: any;
   selectdataprovince: Array<IOption>
   input: any = [{ date: '', subject: '', questions: '' }]
+  inputdate: any = [{ start_date: '', end_date: '' }]
 
   constructor(private fb: FormBuilder, private centralpolicyservice: CentralpolicyService,
     public share: CentralpolicyService, private router: Router, private fiscalyearservice: FiscalyearService,
@@ -46,19 +47,25 @@ export class CreateCentralPolicyComponent implements OnInit {
   ngOnInit() {
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
-      start_date: new FormControl(null, [Validators.required]),
-      end_date: new FormControl(null, [Validators.required]),
+      // start_date: new FormControl(null, [Validators.required]),
+      // end_date: new FormControl(null, [Validators.required]),
       year: new FormControl(null, [Validators.required]),
       type: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null, [Validators.required]),
-      input: new FormArray([])
+      input: new FormArray([]),
+      inputdate: new FormArray([])
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
     this.t.push(this.fb.group({
       date: '',
       subject: '',
       questions: []
+    }))
+
+    this.d.push(this.fb.group({
+      start_date: '',
+      end_date: '',
     }))
     //แก้ไข
 
@@ -103,6 +110,7 @@ export class CreateCentralPolicyComponent implements OnInit {
 
   get f() { return this.Form.controls }
   get t() { return this.f.input as FormArray }
+  get d() { return this.f.inputdate as FormArray }
 
   append() {
     this.t.push(this.fb.group({
@@ -113,4 +121,16 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
   appendquestion() {
   }
+
+  back(){
+    window.history.back();
+  }
+
+  appenddate() {
+    this.d.push(this.fb.group({
+      start_date: '',
+      end_date: '',
+    }))
+  }
+
 }
