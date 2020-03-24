@@ -29,7 +29,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of resultministermonitoring; let i = index">
+              <tr *ngFor="let item of resultMinistermonitoring; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{item.name}}</td>
                 <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>

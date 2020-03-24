@@ -18,16 +18,18 @@ export class MinistermonitoringComponent implements OnInit {
   createAt: any
   modalRef: BsModalRef;
   Form: FormGroup
-  
+  loading = false
+
   constructor(private modalService: BsModalService, private fb: FormBuilder, private ministermonitoringservice: MinistermonitoringService,
     public share: MinistermonitoringService) { }
 
-    ngOnInit() {
-      console.log(this.modalRef);
-      this.ministermonitoringservice.getministermonitoringdata().subscribe(result=>{
+  ngOnInit() {
+    console.log(this.modalRef);
+    this.ministermonitoringservice.getministermonitoringdata().subscribe(result => {
       this.resultMinistermonitoring = result
+      this.loading = true
     })
-    
+
     this.Form = this.fb.group({
       "name": new FormControl(null, [Validators.required]),
       "position": new FormControl(null, [Validators.required]),
@@ -35,16 +37,16 @@ export class MinistermonitoringComponent implements OnInit {
       "createAt": new FormControl(null, [Validators.required]),
     })
   }
-  openModal(template: TemplateRef<any>, modalType:string = 'edit') {
+  openModal(template: TemplateRef<any>, modalType: string = 'edit') {
     modalType != 'edit' ? this.Form.reset() : null;
     this.modalRef = this.modalService.show(template);
-    
+
   }
 
-  onEdit(modaleditMinistermonitoring,item){
+  onEdit(modaleditMinistermonitoring, item) {
     this.openModal(modaleditMinistermonitoring)
     this.delid = item.id;
-    this.name =item. name
+    this.name = item.name
     console.log(this.delid);
     console.log(this.name);
     this.Form.patchValue(item)
@@ -72,15 +74,15 @@ export class MinistermonitoringComponent implements OnInit {
       })
     })
   }
-  editMinistermonitoring(value,delid) {
+  editMinistermonitoring(value, delid) {
     console.clear();
     console.log(value);
-    this.ministermonitoringservice.editMinistermonitoring(value,delid).subscribe(response => {
+    this.ministermonitoringservice.editMinistermonitoring(value, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.ministermonitoringservice.getministermonitoringdata().subscribe(result => {
         this.resultMinistermonitoring = result
-       
+
       })
     })
   }
