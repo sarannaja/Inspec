@@ -25,6 +25,7 @@ export class UserComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   roleId:any;
+  modelname:any;
   resultuser: any[] = [];
   datarole: any = [
     {

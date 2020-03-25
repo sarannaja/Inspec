@@ -97,6 +97,11 @@ namespace InspecWeb.Models
         public ICollection<UserRegion> UserRegion { get; set; }
         public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }
 
+        public ICollection<UserProvince> UserProvince { get; set; }
+
+
+
+
     }
 
     public class UserArray
