@@ -33,6 +33,6 @@ namespace InspecWeb.Models
         public DateTime? CreatedAt { get; set; }
 
 
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        //public ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

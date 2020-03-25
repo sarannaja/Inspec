@@ -55,7 +55,12 @@ namespace InspecWeb.Data
         {
 
             builder.Entity<UserRegion>()
-           .HasKey(m => new { m.UserID, m.RegionId });
+            .HasKey(m => new { m.UserID, m.RegionId });
+
+            builder.Entity<UserProvince>()
+            .HasKey(m => new { m.UserID, m.ProvinceId });
+
+            //builder.Entity<Ministry>();
 
             base.OnModelCreating(builder);
             // seed data

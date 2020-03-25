@@ -27,7 +27,7 @@ namespace InspecWeb.Models
         /* กรม */
         public ICollection<Department> Departments { get; set; }
 
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        //public ICollection<ApplicationUser> ApplicationUsers { get; set; }
         
     }
 }
