@@ -1,73 +1,77 @@
 <div class="header">
-    <h1 class="header-title">
-      ระบบตรวจราชการอิเล็กทรอนิกส์
-    </h1>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-        <li class="breadcrumb-item"><a href="#">แผนตรวจราชการประจำปี</a></li>
-      </ol>
-    </nav>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
-          <div class="float-right">
-            <button class="btn btn-primary" (click)="CreateCentralPolicy()"
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="#">แผนตรวจราชการประจำปี</a></li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
+        <div class="float-right">
+          <button class="btn btn-primary" (click)="CreateCentralPolicy()"
             style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
-          </div>
         </div>
-        <div class="card-body">
-          <table id="datatables-basic" class="table table-striped" style="width:100%">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>ชื่อแผนตรวจราชการประจำปี</th>
-                <th>ปี</th>
-                <th>ระยะเวลา</th>
-                <th>สถานะ</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of resultcentralpolicy; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td width="40%" (click)="Subject(item.id,item.title)" class="pointer">{{ item.title }}</td>
-                <td>2563</td>
-                <td><p *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} - {{ item2.endDate | thaidate: 'year' }}</p></td>
-                <td>{{ item.status }}</td>
-                <td>
-                  <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i>
-                  <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
-                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer" ></i>
-                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      </div>
+      <div class="card-body">
+        <table id="datatables-basic" class="table table-striped" style="width:100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อแผนตรวจราชการประจำปี</th>
+              <th>ปี</th>
+              <th>ระยะเวลา</th>
+              <th>สถานะ</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultcentralpolicy; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td width="40%" (click)="Subject(item.id,item.title)" class="pointer">{{ item.title }}</td>
+              <td>2563</td>
+              <td>
+                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
+                  {{ item2.endDate | thaidate: 'year' }}</div>
+              </td>
+              <td>{{ item.status }}</td>
+              <td>
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
+                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                  (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- BEGIN primary modal -->
-  <ng-template #modaldeleteCentralPolicy class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
-      <i class="fa fa-info-circle delete-icon"></i>
-      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
-        ลบข้อมูล
-      </p>
-      <p style="font-size: medium; color: #545454;">
-        คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
-      </p>
-      <button type="button" class="btn btn-primary btnMargin" (click)="deleteCentralPolicy(delid)">
-        ใช่
-      </button>
-      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
-        ไม่ใช่
-      </button>
-    </div>
-  </ng-template>
-  <!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaldeleteCentralPolicy class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="deleteCentralPolicy(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->

@@ -92,13 +92,18 @@ export class InspectionPlanEventComponent implements OnInit {
           right: 'month,agendaWeek,agendaDay'
         },
         navLinks: true,
-        editable: true,
+        editable: false,
         eventLimit: false,
         eventClick: function (event) {
           window.location.href = url_to_inspection + event.id;
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
         },
+
+        dayClick: function(event) {
+          alert("123")
+        },
+
         eventRender: function (event, element, view) {
           console.log(element);
 
