@@ -15,6 +15,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
 
   id
   resultdetailcentralpolicy: any = []
+  resultcentralpolicyuser: any = []
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -26,11 +27,20 @@ export class AcceptCentralPolicyComponent implements OnInit {
 
   ngOnInit() {
     this.getDetailCentralPolicy()
+    this.getCentralPolicyUser()
   }
   getDetailCentralPolicy(){
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
     .subscribe(result => {
       this.resultdetailcentralpolicy = result
     })
+  }
+  getCentralPolicyUser() {
+    this.centralpolicyservice.getcentralpolicyuserdata(this.id)
+      .subscribe(result => {
+        this.resultcentralpolicyuser = result
+        console.log("result" + result);
+      })
+
   }
 }

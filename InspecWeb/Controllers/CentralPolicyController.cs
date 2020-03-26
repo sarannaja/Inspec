@@ -135,5 +135,30 @@ namespace InspecWeb.Controllers
 
             return Ok(centralpolicyuserdata);
         }
+
+        // PUT api/values/5
+        [HttpPut("acceptcentralpolicy/{id}")]
+        public void PutStatus(long id, string status)
+
+        {
+            System.Console.WriteLine("ID: " + id);
+            System.Console.WriteLine("Status: " + status);
+
+
+            //var acaccept = _context.CentralPolicyUsers.Where(x => x.Id == id)
+            //               .First();
+            //System.Console.WriteLine("acaccept: " + acaccept.Id);
+
+
+            (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
+                ForEach(x => x.Status = status);
+
+            //var accept = _context.CentralPolicyUsers.Find(1);
+            //accept.Status = status;
+            //System.Console.WriteLine("Status: " + accept);
+            //_context.Entry(accept).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
     }
 }
