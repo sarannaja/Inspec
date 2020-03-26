@@ -18,7 +18,6 @@
           <h5 class="card-title mb-0">รายละเอียด</h5>
         </div>
         <div class="card-body">
-          <form [formGroup]="Form" (ngSubmit)="storeFiles(Form.value)">
             <div class="row">
               <div class="col-md-6">
                 ผู้สังการ : {{resultdetailcentralpolicy.createdBy}}
@@ -119,7 +118,6 @@
               &nbsp;&nbsp;
               <button type="submit" class="btn btn-danger">ปฏิเสธ</button>
             </div>
-          </form>
         </div>
       </div>
     </div>
@@ -178,113 +176,5 @@
   </ng-template>
   <!-- END primary modal -->
   
-  <!-- <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">เพิ่มผู้ตรวจ</h5>
-        </div>
-        <div class="card-body">
-          <form [formGroup]="Form" (ngSubmit)="storeUser(Form.value)">
-            <div class="row">
-              <div class="col-12 col-xl-12">
-                <br>
-  
-                <div class="form-group">
-                  <label>เรื่อง* </label>
-                  <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                    value="{{resultdetailcentralpolicy.title}}" readonly>
-                </div>
-              </div>
-              <div class="col-12 col-xl-12">
-                <label>กำหนดระยะเวลา*</label>
-              </div>
-              <div class="col-12 col-xl-3">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                    value="{{resultdetailcentralpolicy.startDate | date: 'dd/MM/yyyy' }}" readonly>
-                </div>
-              </div>
-  
-              <div class="col-12 col-xl-1">
-                <div class="form-group" align="center">
-                  ถึง
-                </div>
-              </div>
-  
-              <div class="col-12 col-xl-3">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                    value="{{resultdetailcentralpolicy.endDate | date: 'dd/MM/yyyy'}}" readonly>
-                </div>
-              </div>
-  
-              <div class="col-12 col-xl-12">
-                <label>เชิญ กระทรวง/กรม*</label>
-                <div class="form-row">
-                  <label class="form-group col-md-1 text-sm-center">
-                    1.
-                  </label>
-                  <div class="form-group col-md-4">
-                    <div class="mb-3">
-  
-                    </div>
-                  </div>
-                </div>
-  
-              </div>
-              <div class="col-12 col-xl-12">
-                <label>เชิญ ภาคประชาชน*</label>
-                <div class="form-row">
-                  <label class="form-group col-md-1 text-sm-center">
-                    1.
-                  </label>
-  
-                  <div class="form-group col-md-4">
-                    <div class="mb-3">
-                      <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectpeople"
-                        name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
-                      </ng-select>
-                    </div>
-  
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-xl-12">
-                <div class="form-group">
-                  <label>ประเด็น*</label>
-                  <div *ngFor="let item of resultdetailcentralpolicy.subjects; let i = index" class="row">
-                    <div class="col-1 text-center">
-                      {{ i + 1 }}.
-                    </div>
-                    <div class="col-11">
-                      <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง" value="{{item.name}}"
-                        readonly>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-              <div class="col-12 col-xl-12">
-                <div class="form-group">
-                  <label class="form-label w-100">แนบไฟล์</label>
-                  <input type="file">
-                  <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
-                </div>
-              </div>
-  
-              <div class="form-group row">
-                <div class="col-sm-5 ml-sm-auto">
-                  <button type="submit" class="btn btn-primary">บันทึก</button>
-                </div>
-                <div class="col-sm-5 ml-sm-auto">
-                  <button type="submit" class="btn btn-danger">ยกเลิก</button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div> -->
+ 
   

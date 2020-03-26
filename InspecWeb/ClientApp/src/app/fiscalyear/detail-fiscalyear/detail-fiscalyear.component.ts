@@ -7,6 +7,7 @@ import { RegionService } from 'src/app/services/region.service';
 import { ProvinceService } from 'src/app/services/province.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { IOption } from 'ng-select';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-detail-fiscalyear',
@@ -63,11 +64,13 @@ export class DetailFiscalyearComponent implements OnInit {
     activateRoute: ActivatedRoute,
     private regionservice: RegionService,
     private provinceservice: ProvinceService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService) {
     this.fiscalyearid = activateRoute.snapshot.paramMap.get('id')
   }
 
   ngOnInit() {
+    this.spinner.show();
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -143,7 +146,7 @@ export class DetailFiscalyearComponent implements OnInit {
         })
         this.getProvinceRegion()
 
-
+        this.spinner.hide();
       });
   }
   

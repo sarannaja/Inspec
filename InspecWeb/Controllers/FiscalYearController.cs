@@ -43,9 +43,8 @@ namespace InspecWeb.Controllers
             var fiscalyeardata = _context.FiscalYearRelations
                                         .Include(m => m.FiscalYear)
                                         .Include(m => m.Region)
-                                        .Include(m => m.Province);
-
-
+                                        .Include(m => m.Province)
+                                        .Where(m => m.FiscalYearId == id);
             return fiscalyeardata;
 
 

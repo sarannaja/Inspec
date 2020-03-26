@@ -16,18 +16,20 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
+        [Required]
+        [Description("สถานะ -> 1.ตอบรับ 2.ปฏิบัติ")]
+        public string Status { get; set; }
+
         [ForeignKey("CentralPolicy")]
         [Description("FK: แผนการตรวจ")]
         public long CentralPolicyId { get; set; }
+
         public virtual CentralPolicy CentralPolicy { get; set; }
 
         [ForeignKey("User")]
         [Description("FK: User")]
         public string UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
 
-        [Required]
-        [Description("สถานะ -> 1.ตอบรับ 2.ปฏิบัติ")]
-        public string Status { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }
