@@ -50,9 +50,8 @@ namespace InspecWeb.Data
         public DbSet<ExecutiveOrder> ExecutiveOrders { get; set; }
 
         public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; } 
-        public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
         public DbSet<ProvincialDepartment> ProvincialDepartment { get; set; } //หน่วยงานส่วนภูมิถาค
-        public DbSet<CentralPolicyProvince> ProvincialDepartmentProvince { get; set; } //เชื่อม หน่วยงานส่วนภูมิถาค กับ จังหวัด
+        public DbSet<ProvincialDepartmentProvince> ProvincialDepartmentProvince { get; set; } //เชื่อม หน่วยงานส่วนภูมิถาค กับ จังหวัด
         public DbSet<CentralDepartment> CentralDepartment { get; set; } //หน่วยงานราชการส่วนกลางภูมิภาค 
         public DbSet<CentralDepartmentProvince> CentralDepartmentProvince { get; set; } //เชื่อม หน่วยงานราชการส่วนกลางภูมิภาค กับ จังหวัด
 
