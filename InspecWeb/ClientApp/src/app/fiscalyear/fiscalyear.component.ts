@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { Router } from '@angular/router';
 import { IMyOptions } from 'mydatepicker-th';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-fiscalyear',
@@ -37,10 +38,11 @@ export class FiscalyearComponent implements OnInit {
     private fb: FormBuilder, 
     private fiscalyearservice: FiscalyearService,
     public share: FiscalyearService, 
-    private router: Router) { }
+    private router: Router,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-
+    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -67,6 +69,7 @@ export class FiscalyearComponent implements OnInit {
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
       this.loading = true;
+      this.spinner.hide();
       console.log(this.resultfiscalyear);
 
     })
