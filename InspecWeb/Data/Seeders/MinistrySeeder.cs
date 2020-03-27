@@ -13,8 +13,8 @@ namespace InspecWeb.Data.Seeders
         public void Configure(EntityTypeBuilder<Ministry> builder)
         {
             builder.HasData(
-                new Ministry {Id = 1,Name = "สำนักนายกรัฐมนตรี" },
-                new Ministry {Id = 2,Name = "กระทรวงกลาโหม" },
+                new Ministry { Id = 1,Name = "สำนักนายกรัฐมนตรี" },
+                new Ministry { Id = 2,Name = "กระทรวงกลาโหม" },
                 new Ministry { Id = 3, Name = "กระทรวงการคลัง" },
                 new Ministry { Id = 4, Name = "กระทรวงการต่างประเทศ" },
                 new Ministry { Id = 5, Name = "กระทรวงการท่องเที่ยวและกีฬา" },
