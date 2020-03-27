@@ -7,9 +7,9 @@ using System.Text;
 
 namespace InspecWeb.Models
 {
-    [Table("Departments")]
-    [Description("ตารางกรม/หน่วยงาน")]
-    public class Department
+    [Table("CentralDepartments")]
+    [Description("หน่วยงานราชการส่วนกลางภูมิภาค")]
+    public class CentralDepartment
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,17 +17,19 @@ namespace InspecWeb.Models
         public long Id { get; set; }
 
         /* กระทรวง */
-        [ForeignKey("Ministry")]
-        [Description("FK: กระทรวง")]
-        public long MinistryId { get; set; }
-        public virtual Ministry Ministries { get; set; }
+        [ForeignKey("Department")]
+        [Description("FK: กรม")]
+        public long DepartmentId { get; set; }
+        public virtual Department Department { get; set; }
 
         [Required]
-        [Description("ชื่อกรม/หน่วยงาน")]
+        [Description("หน่วยงานราชการส่วนกลางภูมิภาค")]
         public string Name { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
+
+        //public ICollection<ProvincialDepartmentProvince> ProvincialDepartmentProvince { get; set; }
     }
 }

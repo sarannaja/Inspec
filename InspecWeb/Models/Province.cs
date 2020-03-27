@@ -32,7 +32,5 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-
-        //public ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

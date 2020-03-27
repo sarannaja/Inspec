@@ -48,22 +48,35 @@ namespace InspecWeb.Data
         public DbSet<UserRegion> UserRegions { get; set; } //เชื่อม user กับ เขตตรวจ
         public DbSet<UserProvince> UserProvinces { get; set; } //เชื่อม user กับ จังหวัด
         public DbSet<ExecutiveOrder> ExecutiveOrders { get; set; }
+
+        public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; } 
+        public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
+        public DbSet<ProvincialDepartment> ProvincialDepartment { get; set; } //หน่วยงานส่วนภูมิถาค
+        public DbSet<CentralPolicyProvince> ProvincialDepartmentProvince { get; set; } //เชื่อม หน่วยงานส่วนภูมิถาค กับ จังหวัด
+        public DbSet<CentralDepartment> CentralDepartment { get; set; } //หน่วยงานราชการส่วนกลางภูมิภาค 
+        public DbSet<CentralDepartmentProvince> CentralDepartmentProvince { get; set; } //เชื่อม หน่วยงานราชการส่วนกลางภูมิภาค กับ จังหวัด
+
         //public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
         public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
         public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }
         
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
+           // ส่วนที่สำหรับเชื่อ model
             builder.Entity<UserRegion>()
             .HasKey(m => new { m.UserID, m.RegionId });
 
             builder.Entity<UserProvince>()
             .HasKey(m => new { m.UserID, m.ProvinceId });
 
-            //builder.Entity<Ministry>();
+            builder.Entity<ProvincialDepartmentProvince>() //หน่วยงานส่วนภูมิถาค
+            .HasKey(m => new { m.ProvincialDepartmentID, m.ProvinceId });
+
+            builder.Entity<CentralDepartmentProvince>() //หน่วยงานราชการส่วนกลางภูมิภาค
+           .HasKey(m => new { m.CentralDepartmentID, m.ProvinceId });
 
             builder.Entity<CentralPolicyUser>()
             .HasKey(m => new { m.UserId, m.CentralPolicyId });
