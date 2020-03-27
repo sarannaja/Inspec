@@ -48,7 +48,7 @@ namespace InspecWeb.Data
         public DbSet<UserRegion> UserRegions { get; set; } //เชื่อม user กับ เขตตรวจ
         public DbSet<UserProvince> UserProvinces { get; set; } //เชื่อม user กับ จังหวัด
         public DbSet<ExecutiveOrder> ExecutiveOrders { get; set; }
-
+        public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
         public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; } 
         public DbSet<ProvincialDepartment> ProvincialDepartment { get; set; } //หน่วยงานส่วนภูมิถาค
         public DbSet<ProvincialDepartmentProvince> ProvincialDepartmentProvince { get; set; } //เชื่อม หน่วยงานส่วนภูมิถาค กับ จังหวัด
@@ -56,7 +56,7 @@ namespace InspecWeb.Data
         public DbSet<CentralDepartmentProvince> CentralDepartmentProvince { get; set; } //เชื่อม หน่วยงานราชการส่วนกลางภูมิภาค กับ จังหวัด
 
         //public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
-        public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
+       
         public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }
         
@@ -78,8 +78,9 @@ namespace InspecWeb.Data
            .HasKey(m => new { m.CentralDepartmentID, m.ProvinceId });
 
             builder.Entity<CentralPolicyUser>()
-            .HasKey(m => new { m.UserId, m.CentralPolicyId });
+            .HasKey(m => new { m.UserId, m.CentralPolicyId });       
             base.OnModelCreating(builder);
+
             // seed data
             builder.ApplyConfiguration(new MinistrySeeder());
             builder.ApplyConfiguration(new DepartmentSeeder());
