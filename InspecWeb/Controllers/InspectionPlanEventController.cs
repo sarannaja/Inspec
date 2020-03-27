@@ -8,6 +8,7 @@ using InspecWeb.ViewModel;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace InspecWeb.Controllers
 {
@@ -24,11 +25,29 @@ namespace InspecWeb.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<InspectionPlanEvent> Get()
+        public IActionResult Get()
         {
-            var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
-                                          select P;
-            return inspectionPlanEventdata;
+            //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
+            //                              select P;
+            //return inspectionPlanEventdata;
+            var userprovince = _context.UserProvinces
+                               .Where(m => m.UserID == "94a38ce9-bd92-4022-8fd8-0889b9b639de")
+                               .ToList();
+            var inspectionplans = _context.InspectionPlanEvents
+                                .Include(m => m.Province)
+                                //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
+                                .ToList();
+            List<object> termsList = new List<object>();
+            foreach (var inspectionplan in inspectionplans)
+            {
+                for (int i = 0; i < userprovince.Count(); i++)
+                {
+                    if(inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                    termsList.Add(inspectionplan);
+                }
+            }
+
+            return Ok(termsList);
 
             //return 
             //_context.Provinces
@@ -56,53 +75,31 @@ namespace InspecWeb.Controllers
             //return model.input;
             var date = DateTime.Now;
 
-            var mindate = DateTime.Now;
-            var maxdate = DateTime.Now;
-            int index = 0;
-            foreach (var item1 in model.input)
-            {
-                if (index == 0)
-                {
-                    mindate = item1.PlanDate;
-                    maxdate = item1.PlanDate;
-                }
-                if (item1.PlanDate > maxdate)
-                {
-                    maxdate = item1.PlanDate;
-                }
-                else if(item1.PlanDate < mindate)
-                {
-                    mindate = item1.PlanDate;
-                }
-                index++;
-            }
- 
-            var inspectionplanevent = new InspectionPlanEvent
-            {
-                Name = model.Name,
-                StartDate = mindate,
-                EndDate = maxdate,
-                CreatedAt = date,
-                CreatedBy = "NIK"
-            };
 
-            _context.InspectionPlanEvents.Add(inspectionplanevent);
-            _context.SaveChanges();
+            //var inspectionplanevent = new InspectionPlanEvent
+            //{
+            //    CreatedAt = date,
+            //    CreatedBy = "NIK"
+            //};
+
+            //_context.InspectionPlanEvents.Add(inspectionplanevent);
+            //_context.SaveChanges();
 
             foreach (var item2 in model.input)
             {
-                foreach (var item3 in item2.ProvinceId)
-                {
-                    var inspectionplaneventprovince = new InspectionPlanEventProvince
+                //foreach (var item3 in item2.ProvinceId)
+                //{
+                    var inspectionplanevent = new InspectionPlanEvent
                     {
-                        InspectionPlanEventId = inspectionplanevent.Id,
-                        PlanDate = item2.PlanDate,
-                        ProvinceId = item3,
+                        StartDate = item2.StartPlanDate,
+                        EndDate = item2.EndPlanDate,
+                        ProvinceId = item2.ProvinceId,
+                        CreatedAt = date,
+                        CreatedBy = "NIK"
                     };
-
-                    _context.InspectionPlanEventProvinces.Add(inspectionplaneventprovince);
-                    _context.SaveChanges();
-                }
+                       _context.InspectionPlanEvents.Add(inspectionplanevent);
+                       _context.SaveChanges();
+                //}
             }
 
         }

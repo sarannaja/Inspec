@@ -18,7 +18,7 @@ export class MainComponent implements OnInit {
       this.email = result.name
       this.role_id = result.Role_id
       console.log(result);
-      
+
     })
   }
   // CreateCentralPolicy(){

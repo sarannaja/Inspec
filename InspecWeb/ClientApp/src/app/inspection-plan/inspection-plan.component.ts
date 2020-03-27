@@ -79,6 +79,7 @@ export class InspectionPlanComponent implements OnInit {
         .subscribe(result => {
           this.resultcentralpolicy = result //All
           this.getRecycled()
+          alert(JSON.stringify(this.resultcentralpolicy))
         })
     })
   }

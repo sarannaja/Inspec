@@ -39,7 +39,6 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyEvents)
                 .ThenInclude(m => m.CentralPolicy)
                 .Where(m => m.Id == id);
-
                 //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
 
             return Ok(inspectionplandata);
