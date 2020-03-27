@@ -3,6 +3,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { Router } from '@angular/router';
+import { IMyOptions } from 'mydatepicker-th';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-fiscalyear',
@@ -20,12 +22,27 @@ export class FiscalyearComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
+  private myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    showTodayBtn: true
+  };
+  private myDatePickerOptionsyear: IMyOptions = {
+    // other options...
+    dateFormat: 'YYYY',
+    
+  };
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private fiscalyearservice: FiscalyearService,
-    public share: FiscalyearService, private router:Router) { }
+  constructor(
+    private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private fiscalyearservice: FiscalyearService,
+    public share: FiscalyearService, 
+    private router: Router,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-
+    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -35,10 +52,12 @@ export class FiscalyearComponent implements OnInit {
         }
       ]
     }
-     
-    
+
+
     this.Form = this.fb.group({
       "fiscalyear": new FormControl(null, [Validators.required]),
+      "startdate": new FormControl(null, [Validators.required]),
+      "enddate": new FormControl(null, [Validators.required]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
 
@@ -50,6 +69,7 @@ export class FiscalyearComponent implements OnInit {
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
       this.loading = true;
+      this.spinner.hide();
       console.log(this.resultfiscalyear);
 
     })
@@ -102,10 +122,10 @@ export class FiscalyearComponent implements OnInit {
       "fiscalyear": year
     })
   }
-  editFiscalyear(value,delid) {
+  editFiscalyear(value, delid) {
     console.clear();
     console.log(value);
-    this.fiscalyearservice.editFiscalyear(value,delid).subscribe(response => {
+    this.fiscalyearservice.editFiscalyear(value, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -116,7 +136,7 @@ export class FiscalyearComponent implements OnInit {
     })
   }
 
-  DetailFiscalYear(id:any){
-    this.router.navigate(['/fiscalyear/detailfiscalyear',id])
+  DetailFiscalYear(id: any) {
+    this.router.navigate(['/fiscalyear/detailfiscalyear', id])
   }
 }

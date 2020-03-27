@@ -48,11 +48,14 @@ import { InspectionPlanEventComponent } from './inspection-plan-event/inspection
 import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
 import { TrainComponent } from './train/train.component';
 import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
+import { CabinetComponent } from './cabinet/cabinet.component';
 import { InspectorComponent } from './inspector/inspector.component';
 import { ExecutiveOrderComponent } from './executive-order/executive-order.component';
 import { DetailExecutiveOrderComponent } from './executive-order/detail-executive-order/detail-executive-order.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
+import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
 
 
 
@@ -94,9 +97,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CreateInspectionPlanEventComponent,
     TrainComponent,
     DefaultLayoutTrainComponent,
+    CabinetComponent,
     InspectorComponent,
     ExecutiveOrderComponent,
-    DetailExecutiveOrderComponent
+    DetailExecutiveOrderComponent,
+    MinistermonitoringComponent,
+    AcceptCentralPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -124,35 +130,38 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         },
         children: [
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
-          { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent },
-          { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent },
-          { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent },
-          { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent },
-          { path: 'ministry', component: MinistryComponent },
-          { path: 'province', component: ProvinceComponent },
-          { path: 'region', component: RegionComponent },
-          { path: 'user/:id', component: UserComponent },
-          { path: 'fiscalyear', component: FiscalyearComponent },
-          { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent },
-          { path: 'supportgovernment', component: SupportGovernmentComponent },
-          { path: 'centralpolicy', component: CentralPolicyComponent },
-          { path: 'inspectionplan/:id', component: InspectionPlanComponent },
-          { path: 'instructionorder', component: InstructionOrderComponent },
-          { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent },
-          { path: 'inspectionorder', component: InspectionorderComponent },
-          { path: 'InstructionOrder', component: InstructionOrderComponent },
-          { path: 'district/:id', component: DistrictComponent },
-          { path: 'subdistrict/:id', component: SubdistrictComponent },
-          { path: 'training', component: TrainingComponent },
-          { path: 'training/createtraining', component: CreateTrainingComponent },
-          { path: 'subject/:id', component: SubjectComponent },
-          { path: 'subquestion/:id', component: SubquestionComponent },
-          { path: 'fiscalyear/detailfiscalyear/:id',component: DetailFiscalyearComponent},
-          { path: 'inspectionplanevent', component: InspectionPlanEventComponent },
-          { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent },
-          { path: 'inspector', component: InspectorComponent },
-          { path: 'executiveorder', component: ExecutiveOrderComponent },
-          { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent},
+          { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'ministry', component: MinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'province', component: ProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'region', component: RegionComponent, canActivate: [AuthorizeGuard] },
+          { path: 'user/:id', component: UserComponent, canActivate: [AuthorizeGuard] },
+          { path: 'fiscalyear', component: FiscalyearComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/:id', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'instructionorder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'InstructionOrder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
+          { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplanevent', component: InspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'cabinet', component: CabinetComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspector', component: InspectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'executiveorder', component: ExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
+          { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

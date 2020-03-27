@@ -22,7 +22,7 @@
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
           <div class="row">
-            <div class="col-12 col-xl-12">
+            <!-- <div class="col-12 col-xl-12">
               <br>
 
               <div class="form-group">
@@ -30,37 +30,75 @@
                 <input type="text" formControlName="title" class="form-control"
                   placeholder="กรุณากรอกกำหนดการตรวจราชการ">
               </div>
-            </div>
+            </div> -->
 
+            <div class="col-12 col-xl-7">
+              <br>
+              <label>กำหนดระยะเวลา</label>
+            </div>
 
             <div class="col-12 col-xl-3">
-              <label>วันที่ตรวจ</label>
-            </div>
-            <div class="col-12 col-xl-8">
+              <br>
               <label>จังหวัด</label>
             </div>
 
             <div class="col-12 col-xl-12" [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
               <!-- <div class="col-12 col-xl-12" *ngFor="let item of input; let i = index"> -->
               <div class="form-group row" *ngFor="let item of t.controls; let i = index">
-                <form class="form-group row col-12" [formGroup]="item" >
+                <form class="form-group row col-12" [formGroup]="item">
                   <div class="col-xl-3">
-                    <my-date-picker-th formControlName="date" [(ngModel)]="item.date" [options]="myDatePickerOptions"
-                      required>
+                    <my-date-picker-th formControlName="start_date_plan" [(ngModel)]="item.start_date_plan"
+                      [options]="myDatePickerOptions" required>
                     </my-date-picker-th>
                   </div>
-                  <div class="col-xl-8">
+                  <div class="col-12 col-xl-1">
+                    <div class="form-group" align="center">
+                      ถึง
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-3">
                     <div class="form-group">
-                      <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true"
-                        [options]="selectdataprovince" [allowClear]="true" formControlName="provinces">
+                      <my-date-picker-th formControlName="end_date_plan" [(ngModel)]="item.end_date_plan"
+                        [options]="myDatePickerOptions" required>
+                      </my-date-picker-th>
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 col-xl-4">
+                    <div class="form-group">
+                      <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
+                        [allowClear]="true" formControlName="provinces" (selected)="selectedprovince($event,i,item)">
                       </ng-select>
                     </div>
                   </div>
                   <div class="col-1">
                     <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
                   </div>
-                </form>
 
+                  <div class="col-12 col-xl-4">
+                    <label>แผนการตรวจประจำปี</label>
+                  </div>
+
+                  <div class="col-12 col-xl-8">
+                    <div class="form-group">
+                      <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="false"
+                        formControlName="centralpolicies" [options]="t.value[i].resultcentralpolicy" [allowClear]="true"
+                        (selected)="selectedcentralpolicy($event, i)">
+                      </ng-select>
+                    </div>
+                  </div>
+
+                    <div class="col-12 col-xl-4" *ngIf="t.value[i].resultdetailcentralpolicy.title != null">
+                      <label>รายการแผนการตรวจประจำปีที่เลือก</label>
+                    </div>
+                    <div class="col-12 col-xl-8" *ngIf="t.value[i].resultdetailcentralpolicy.title != null">
+                      <div class="form-group">
+                      {{t.value[i].resultdetailcentralpolicy.title}} &nbsp;&nbsp;
+                        <button type="button" (click)="DetailCentralPolicy(t.value[i].resultdetailcentralpolicy.id)" class="btn btn-info">รายละเอียด</button>
+                      </div>
+                    </div>
+                </form>
               </div>
             </div>
 

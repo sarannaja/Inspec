@@ -39,9 +39,9 @@ export class InspectionPlanEventComponent implements OnInit {
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
           return {
             id: item.id,
-            title: item.name,
-            start: moment(item.startDate).format("YYYY-MM-DD"),
-            end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"),
+            title: item.province.name,
+            start: moment(item.startDate), //.format("YYYY-MM-DD"),
+            end: moment(item.endDate).add(1, 'days') //.format("YYYY-MM-DD"),
           }
         })
 
@@ -58,9 +58,9 @@ export class InspectionPlanEventComponent implements OnInit {
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
           return {
             id: item.id,
-            title: item.name,
-            start: moment(item.startDate).format("YYYY-MM-DD"),
-            end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"),
+            title: item.province.name,
+            start: moment(item.startDate), //.format("YYYY-MM-DD"),
+            end: moment(item.endDate).add(1, 'days') //.format("YYYY-MM-DD"),
           }
         })
         this.getcalendar();
@@ -92,13 +92,18 @@ export class InspectionPlanEventComponent implements OnInit {
           right: 'month,agendaWeek,agendaDay'
         },
         navLinks: true,
-        editable: true,
+        editable: false,
         eventLimit: false,
         eventClick: function (event) {
           window.location.href = url_to_inspection + event.id;
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
         },
+
+        // dayClick: function(event) {
+        //   alert("123")
+        // },
+
         eventRender: function (event, element, view) {
           console.log(element);
 
@@ -107,10 +112,11 @@ export class InspectionPlanEventComponent implements OnInit {
         },
         events: this.inspectionplancalendar,  // request to load current events
         // events: this.inspectionplancalendar  // request to load current events
-      }).on('click', '.fc-agendaWeek-button, .fc-month-button, .fc-agendaDay-button, .fc-prev-button, .fc-next-button', function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      });
-      $('[data-toggle="tooltip"]').tooltip();
+      })
+      // .on('click', '.fc-agendaWeek-button, .fc-month-button, .fc-agendaDay-button, .fc-prev-button, .fc-next-button', function () {
+      //   $('[data-toggle="tooltip"]').tooltip();
+      // });
+      // $('[data-toggle="tooltip"]').tooltip();
     }, 100);
   }
 

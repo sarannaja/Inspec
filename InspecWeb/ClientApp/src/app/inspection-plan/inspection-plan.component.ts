@@ -55,6 +55,9 @@ export class InspectionPlanComponent implements OnInit {
   DetailCentralPolicy(id: any) {
     this.router.navigate(['/centralpolicy/detailcentralpolicy', id])
   }
+  AcceptCentralPolicy(id: any){
+    this.router.navigate(['/acceptcentralpolicy',id])
+  }
   storeCentralPolicyEventRelation(value) {
     // alert(JSON.stringify(value))
     this.inspectionplanservice.addCentralPolicyEvent(value, this.id).subscribe(response => {
@@ -76,6 +79,7 @@ export class InspectionPlanComponent implements OnInit {
         .subscribe(result => {
           this.resultcentralpolicy = result //All
           this.getRecycled()
+          alert(JSON.stringify(this.resultcentralpolicy))
         })
     })
   }

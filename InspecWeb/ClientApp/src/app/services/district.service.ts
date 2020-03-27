@@ -13,7 +13,6 @@ export class DistrictService {
   }
   getdistrictdata(id) {
     console.log(id);
-    
     return this.http.get(this.url+id)
   }
 }

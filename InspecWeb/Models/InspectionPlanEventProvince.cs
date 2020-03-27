@@ -28,6 +28,10 @@ namespace InspecWeb.Models
 
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]
-        public DateTime PlanDate { get; set; }
+        public DateTime StartPlanDate { get; set; }
+
+        [Description("วันที่สิ้นสุด")]
+        [DataType(DataType.Date)]
+        public DateTime EndPlanDate { get; set; }
     }
 }

@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace InspecWeb.Controllers
 {
+    //[Authorize]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -238,6 +240,18 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Active == 1);
      
             return users;
+        }
+
+        [HttpGet("api/[controller]/province/{id}")]
+        public IEnumerable<UserProvince> getprovince(string id)
+        {
+
+            var provinces = _context.UserProvinces
+                .Include(m => m.Province)
+                .Where(m => m.UserID == id)
+                .ToList();
+
+            return provinces;
         }
     }
 }

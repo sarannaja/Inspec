@@ -95,6 +95,7 @@ namespace InspecWeb.Models
         public long Active { get; set; }
 
         public ICollection<UserRegion> UserRegion { get; set; }
+        public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }
 
         public ICollection<UserProvince> UserProvince { get; set; }
 

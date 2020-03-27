@@ -1,0 +1,180 @@
+<div class="header">
+    <h1 class="header-title">
+      ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a href="#">แผนการตรวจ</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ตอบรับการตรวจ</li>
+      </ol>
+    </nav>
+  </div>
+  
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">รายละเอียด</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                ผู้สังการ : {{resultdetailcentralpolicy.createdBy}}
+              </div>
+              <div class="col-md-6">
+                ตำแหน่ง : ผู้ตรวจการ
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-6">
+                เรื่อง : {{resultdetailcentralpolicy.title}}
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-6">
+                จังหวัด : ขอนแก่น
+              </div>
+            </div>
+  
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-6">
+                กำหนดลงพื่นที่ : {{resultdetailcentralpolicy.startDate | date: 'dd/MM/yyyy' }} -
+                {{resultdetailcentralpolicy.endDate | date: 'dd/MM/yyyy'}}
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-6">
+                  <u>กระทรวง/กรม</u>
+                </div>
+              </div>
+    
+              <div class="row" style="margin-top: 10px;">
+                <div class="col-12">
+                  <div class="row" *ngFor="let items of resultcentralpolicyuser;let i = index">
+                    <div class="col-3">
+                      {{i + 1}}. {{items.user.prefix}} {{items.user.name}}
+                    </div>
+                    <div class="col-2">
+                      <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
+                        disabled>{{items.status}}</button>
+                      <button *ngIf="items.status == 'ตกลง'" class="btn btn-sm btn-success"
+                        disabled>{{items.status}}</button>
+                      <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
+                        disabled>{{items.status}}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="row" style="margin-top: 10px;">
+                <div class="col-md-6">
+                  <u>ภาคประชาชน</u>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 10px;">
+                <div class="col-md-6">
+    
+                </div>
+              </div>
+  
+            <div class="row" style="margin-top: 10px; ">
+              <div class="col-md-6">
+                <u>เรื่องประเด็น</u>
+              </div>
+              <div class="col-md-6">
+                <u>คำถามย่อย</u>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-lg-12">
+                <table class="table table-default table-responsive-sm tableborder">
+                  <tbody *ngFor="let items of resultdetailcentralpolicy.subjects;let i = index">
+                    <tr>
+                      <td style="border-top: none;">{{i +1}}. {{items.name}}</td>
+                      <td style="border-top: none;" width="50%">
+                        <div *ngFor="let item of items.subquestions;let i = index">
+                          {{ i+1 }}. {{item.name}}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+  
+                </table>
+              </div>
+            </div>
+  
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-6">
+                <p>ไฟล์แนบ : <a href="#">ปัญหาฝุ่นpm2.5.pdf</a> </p>
+              </div>
+            </div>
+  
+            <div class="form-group row">
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="submit" class="btn btn-primary">ตอบรับ</button>
+              &nbsp;&nbsp;
+              <button type="submit" class="btn btn-danger">ปฏิเสธ</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- BEGIN primary modal -->
+  <ng-template #modalInvitePeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectpeople" name="UserPeopleId"
+            formControlName="UserPeopleId" [allowClear]="true">
+          </ng-select>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+  
+  <!-- BEGIN primary modal -->
+  <ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectministrypeople"
+            name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+          </ng-select>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+  
+ 
+  

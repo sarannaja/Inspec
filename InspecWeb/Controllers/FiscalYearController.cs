@@ -43,9 +43,8 @@ namespace InspecWeb.Controllers
             var fiscalyeardata = _context.FiscalYearRelations
                                         .Include(m => m.FiscalYear)
                                         .Include(m => m.Region)
-                                        .Include(m => m.Province);
-
-
+                                        .Include(m => m.Province)
+                                        .Where(m => m.FiscalYearId == id);
             return fiscalyeardata;
 
 
@@ -87,6 +86,26 @@ namespace InspecWeb.Controllers
 
         }
 
+        // POST api/values
+        [HttpPost]
+        public FiscalYear Post(int year, DateTime startdate,DateTime enddate)
+        {
+            var date = DateTime.Now;
+
+            var fiscalyeardata = new FiscalYear
+            {
+                Year = year,
+                StartDate = startdate,
+                EndDate = enddate,
+                CreatedAt = date
+            };
+
+            _context.FiscalYears.Add(fiscalyeardata);
+            _context.SaveChanges();
+
+            return fiscalyeardata;
+        }
+
         //POST api/values
         [HttpPost("AddRelation")]
         public void Post([FromBody] FiscalYearRelationViewModel model)
@@ -119,6 +138,16 @@ namespace InspecWeb.Controllers
             _context.Entry(fiscalyear).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public void Delete(long id)
+        {
+            var fiscalyeardata = _context.FiscalYears.Find(id);
+
+            _context.FiscalYears.Remove(fiscalyeardata);
+            _context.SaveChanges();
         }
 
         // DELETE api/values/5

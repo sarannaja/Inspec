@@ -33,6 +33,7 @@ namespace InspecWeb.Controllers
             //return centralpolicydata;
 
             return _context.CentralPolicies
+                   .Include(m => m.CentralPolicyDates)
                    .Where(m => m.Class == "แผนการตรวจประจำปี")
                    .ToList();
         }
@@ -81,6 +82,18 @@ namespace InspecWeb.Controllers
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
             }
             _context.SaveChanges();
+
+            foreach (var item in model.inputdate)
+            {
+                var CentralPolicyDate = new CentralPolicyDate
+                {
+                    CentralPolicyId = centralpolicydata.Id,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate,
+                };
+                _context.CentralPolicyDates.Add(CentralPolicyDate);
+            }
+            _context.SaveChanges();
         }
 
         // DELETE api/values/5
@@ -93,5 +106,72 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
 
+        //POST api/values
+        [HttpPost("users")]
+        public void Post([FromBody] CentralPolicyUserModel model)
+        {
+
+            foreach (var id in model.UserId)
+            {
+                System.Console.WriteLine("LOOP: " + id);
+                var centralpolicyuserdata = new CentralPolicyUser
+                {
+                    CentralPolicyId = model.CentralPolicyId,
+                    UserId = id,
+                    Status = "รอการตอบรับ"
+                };
+                _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+            }
+            _context.SaveChanges();
+        }
+
+        // GET api/values/5
+        [HttpGet("users/{id}")]
+        public IActionResult GetUsers(long id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .Where(m => m.CentralPolicyId == id);
+
+            return Ok(centralpolicyuserdata);
+        }
+
+
+        // GET api/values/5
+        [HttpGet("getcentralpolicyfromprovince/{id}")]
+        public IActionResult getcentralpolicyfromprovince(long id)
+        {
+            var centralpolicyprovincedata = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.ProvinceId == id)
+                .ToList();
+
+            return Ok(centralpolicyprovincedata);
+        }
+        // PUT api/values/5
+        [HttpPut("acceptcentralpolicy/{id}")]
+        public void PutStatus(long id, string status)
+
+        {
+            System.Console.WriteLine("ID: " + id);
+            System.Console.WriteLine("Status: " + status);
+
+
+            //var acaccept = _context.CentralPolicyUsers.Where(x => x.Id == id)
+            //               .First();
+            //System.Console.WriteLine("acaccept: " + acaccept.Id);
+
+
+            (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
+                ForEach(x => x.Status = status);
+
+            //var accept = _context.CentralPolicyUsers.Find(1);
+            //accept.Status = status;
+            //System.Console.WriteLine("Status: " + accept);
+            //_context.Entry(accept).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+
+        }
     }
 }

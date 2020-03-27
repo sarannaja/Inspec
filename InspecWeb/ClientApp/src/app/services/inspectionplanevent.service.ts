@@ -22,7 +22,8 @@ export class InspectionplaneventService {
     // alert(JSON.stringify(inspectionplaneventData.input))
     var input = inspectionplaneventData.input.map((item , index) => {
       return {
-        PlanDate:item.date.date.year + '-' + item.date.date.month + '-' + item.date.date.day,
+        StartPlanDate:item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
+        EndPlanDate:item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
         ProvinceId:item.provinces,
       }
     })

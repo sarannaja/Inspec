@@ -1,0 +1,141 @@
+<div class="header">
+    <h1 class="header-title">
+    รายชื่อคณะรัฐมนตรี
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
+        <li class="breadcrumb-item active">รายชื่อคณะรัฐมนตรี</li>
+      </ol>
+    </nav>
+  </div>
+  <form class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: -40px;">
+          <h5 class="card-title">รายชื่อคณะรัฐมนตรี</h5>
+          <div class="float-right">
+            <button class="btn btn-primary" (click)="openModal(modalCabine)"
+              style="margin-top: -60px;">เพิ่มรายชื่อคณะรัฐมนตรี</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table id="datatables-basic" class="table table-striped" style="width:100%">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>รูปภาพ</th>
+                <th>รายนาม</th>
+                <th>ตำแหน่ง</th>
+                <!-- <th>วันที่สร้าง</th> -->
+                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resultcabine; let i = index">
+                <td>{{ i + 1 }}.</td>
+                <td><img src="{{item.image}}" width="110" height="100"></td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.position }}</td>
+                <!-- <td><a href="/src/assets/GovernmentinspectionplanFile/plan59.pdf" download>{{ item.file }}</a></td> -->
+                <!-- <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td> -->
+                <td>
+                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
+                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                    (click)="openModal(modalCabine, item.id, item.name, item.position)"></i>
+                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                    (click)="openModal(modaldeleteCabine, item.id)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modalCabine class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="storeCabine(Form.value)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">เพิ่มรายชื่อคณะรัฐมนตรี</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <div class="form-group">
+              <label for="test" class="form-label">ชื่อ </label>
+              <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อ"><br>
+              <label for="test" class="form-label">ตำแหน่ง </label>
+              <input type="text" formControlName="position" class="form-control" placeholder="กรุณากรอกตำแหน่ง"><br>
+              <label for="test" class="form-label">รูปภาพ </label><br>
+              <input type="file">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </form>
+      <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+  
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modaldeleteCabine class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+        <i class="fa fa-info-circle delete-icon"></i>
+        <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+          ลบข้อมูล
+        </p>
+        <p style="font-size: medium; color: #545454;">
+          คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+        </p>
+        <button type="button" class="btn btn-primary btnMargin" (click)="deleteCabine(delid)">
+          ใช่
+        </button>
+        <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+          ไม่ใช่
+        </button>
+      </div>
+    </ng-template>
+    <!-- END primary modal -->
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modaleditCabine class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="editCabine(Form.value,delid)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการคณะรัฐมนตรี</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <div class="form-group">
+            <label for="test" class="form-label">ชื่อ</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" value="{{name}}" formControlName="name" class="form-control"
+              placeholder="กรุณากรอกชื่อ"><br>
+              <label for="test" class="form-label">ตำแหน่ง </label>
+              <input type="text" value="{{position}}"formControlName="position" class="form-control" placeholder="กรุณากรอกตำแหน่ง"><br>
+              <label for="test" class="form-label">รูปภาพ </label><br>
+              <input type="file">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+  <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+  

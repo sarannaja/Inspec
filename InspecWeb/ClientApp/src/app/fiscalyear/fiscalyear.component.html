@@ -68,7 +68,9 @@
         <div class="modal-body m-3">
           <div class="form-group">
             <label class="form-label">ปีงบประมาณ</label>
-            <input type="text" formControlName="fiscalyear" class="form-control" placeholder="กรุณากรอกปีงบประมาณ">
+            <input type="number"
+              onKeyPress="if(this.value.length==4) return false;if(this.value.which === 69) return event.preventDefault();;"
+              formControlName="fiscalyear" class="form-control" placeholder="กรุณากรอกปีงบประมาณ">
           </div>
           <div class="form-group row">
             <div class="col-12 col-xl-12">
@@ -76,7 +78,7 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
+                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
                 </my-date-picker-th>
               </div>
             </div>
@@ -87,7 +89,7 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
                 </my-date-picker-th>
               </div>
             </div>
@@ -151,3 +153,6 @@
     <!-- </div> -->
   </ng-template>
   <!-- END primary modal -->
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
