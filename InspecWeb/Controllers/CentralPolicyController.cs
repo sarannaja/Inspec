@@ -136,6 +136,18 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicyuserdata);
         }
 
+
+        // GET api/values/5
+        [HttpGet("getcentralpolicyfromprovince/{id}")]
+        public IActionResult getcentralpolicyfromprovince(long id)
+        {
+            var centralpolicyprovincedata = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.ProvinceId == id)
+                .ToList();
+
+            return Ok(centralpolicyprovincedata);
+
         // PUT api/values/5
         [HttpPut("acceptcentralpolicy/{id}")]
         public void PutStatus(long id, string status)
@@ -158,6 +170,7 @@ namespace InspecWeb.Controllers
             //System.Console.WriteLine("Status: " + accept);
             //_context.Entry(accept).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
 
         }
     }

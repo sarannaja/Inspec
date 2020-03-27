@@ -48,7 +48,7 @@ namespace InspecWeb.Data
         public DbSet<UserRegion> UserRegions { get; set; } //เชื่อม user กับ เขตตรวจ
         public DbSet<UserProvince> UserProvinces { get; set; } //เชื่อม user กับ จังหวัด
         public DbSet<ExecutiveOrder> ExecutiveOrders { get; set; }
-        public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
+        //public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
         public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
         public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }

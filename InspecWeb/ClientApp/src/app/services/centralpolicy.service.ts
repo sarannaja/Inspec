@@ -16,8 +16,8 @@ export class CentralpolicyService {
   getcentralpolicydata(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
-  getdetailcentralpolicydata(id): Observable<any[]> {
-    return this.http.get<any[]>(this.url + id)
+  getdetailcentralpolicydata(id): Observable<any> {
+    return this.http.get<any>(this.url + id)
   }
   detailcentralpolicydata(id) {
     console.log(id);
@@ -62,5 +62,9 @@ export class CentralpolicyService {
 
   getcentralpolicyuserdata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "users/" + id)
+  }
+
+  getcentralpolicyfromprovince(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "getcentralpolicyfromprovince/" + id)
   }
 }

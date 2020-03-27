@@ -16,9 +16,10 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [Required]
-        [Description("ชื่อ Event")]
-        public string Name { get; set; }
+        [ForeignKey("Province")]
+        [Description("FK: จังหวัด")]
+        public long ProvinceId { get; set; }
+        public virtual Province Province { get; set; }
 
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]

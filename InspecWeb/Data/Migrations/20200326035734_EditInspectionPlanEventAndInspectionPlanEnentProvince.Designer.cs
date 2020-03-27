@@ -4,14 +4,16 @@ using InspecWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200326035734_EditInspectionPlanEventAndInspectionPlanEnentProvince")]
+    partial class EditInspectionPlanEventAndInspectionPlanEnentProvince
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -6945,20 +6947,37 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
+                    b.HasKey("Id");
+
+                    b.ToTable("InspectionPlanEvents");
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.InspectionPlanEventProvince", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("EndPlanDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<long>("InspectionPlanEventId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("ProvinceId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime>("StartPlanDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("InspectionPlanEventId");
+
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("InspectionPlanEvents");
+                    b.ToTable("InspectionPlanEventProvinces");
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Inspector", b =>
@@ -43053,8 +43072,14 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("InspecWeb.Models.InspectionPlanEvent", b =>
+            modelBuilder.Entity("InspecWeb.Models.InspectionPlanEventProvince", b =>
                 {
+                    b.HasOne("InspecWeb.Models.InspectionPlanEvent", "InspectionPlanEvent")
+                        .WithMany()
+                        .HasForeignKey("InspectionPlanEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("InspecWeb.Models.Province", "Province")
                         .WithMany()
                         .HasForeignKey("ProvinceId")
