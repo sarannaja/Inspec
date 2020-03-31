@@ -24,14 +24,16 @@ namespace InspecWeb.Controllers
         }
 
         // GET: api/values
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("inspectionplan/{id}")]
+        public IActionResult GetData(string id)
         {
+            System.Console.WriteLine("DDDDD");
+            System.Console.WriteLine("USERID : " + id);
             //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
             //                              select P;
             //return inspectionPlanEventdata;
             var userprovince = _context.UserProvinces
-                               .Where(m => m.UserID == "94a38ce9-bd92-4022-8fd8-0889b9b639de")
+                               .Where(m => m.UserID == id)
                                .ToList();
             var inspectionplans = _context.InspectionPlanEvents
                                 .Include(m => m.Province)
@@ -98,6 +100,14 @@ namespace InspecWeb.Controllers
                         CreatedBy = "NIK"
                     };
                        _context.InspectionPlanEvents.Add(inspectionplanevent);
+                       _context.SaveChanges();
+
+                    var centralpolicyeventdata = new CentralPolicyEvent
+                    {
+                        CentralPolicyId = item2.CentralPolicyId,
+                        InspectionPlanEventId = inspectionplanevent.Id
+                    };
+                       _context.CentralPolicyEvents.Add(centralpolicyeventdata);
                        _context.SaveChanges();
                 //}
             }
