@@ -61,7 +61,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       })
 
     this.Form = this.fb.group({
-      title: new FormControl(null, [Validators.required]),
+      //title: new FormControl(null, [Validators.required]),
       input: new FormArray([])
       // start_date: new FormControl(null, [Validators.required]),
       // end_date: new FormControl(null, [Validators.required]),
@@ -100,6 +100,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   }
 
   storeInspectionPlanEvent(value) {
+    console.log("Store : " , value);
     // alert(JSON.stringify(value))
     this.inspectionplaneventservice.addInspectionplanevent(value).subscribe(response => {
       console.log(value);
@@ -157,4 +158,9 @@ export class CreateInspectionPlanEventComponent implements OnInit {
         console.log("t", this.t.value);
       })
   }
+
+  remove(index: number) {
+    this.t.removeAt(index);
+  }
+
 }

@@ -7,6 +7,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import * as moment from 'moment';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 declare var $: any;
 @Injectable({
   providedIn: 'root'
@@ -23,16 +24,23 @@ export class InspectionPlanEventComponent implements OnInit {
   inspectionplancalendar: any = []
   delid: any
   modalRef: BsModalRef;
+  userid: string
 
-  constructor(private router: Router, private inspectionplanservice: InspectionplaneventService, private modalService: BsModalService, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private router: Router, private inspectionplanservice: InspectionplaneventService,
+    private authorize: AuthorizeService,
+    private modalService: BsModalService, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'inspectionplan/';
   }
 
   ngOnInit() {
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+      })
 
-
-
-    this.inspectionplanservice.getinspectionplaneventdata()
+    this.inspectionplanservice.getinspectionplaneventdata(this.userid)
       .subscribe(result => {
         this.resultinspectionplanevent = result
         this.inspectionplancalendar = result
@@ -44,13 +52,13 @@ export class InspectionPlanEventComponent implements OnInit {
             end: moment(item.endDate).add(1, 'days') //.format("YYYY-MM-DD"),
           }
         })
-
+        // alert(JSON.stringify(this.inspectionplancalendar))
         this.getcalendar();
       })
   }
 
   getdata() {
-    this.inspectionplanservice.getinspectionplaneventdata()
+    this.inspectionplanservice.getinspectionplaneventdata(this.userid)
       .subscribe(result => {
         this.resultinspectionplanevent = result
 
