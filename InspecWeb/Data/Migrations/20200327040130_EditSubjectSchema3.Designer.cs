@@ -4,14 +4,16 @@ using InspecWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200327040130_EditSubjectSchema3")]
+    partial class EditSubjectSchema3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,50 +269,6 @@ namespace InspecWeb.Data.Migrations
                     b.ToTable("Cabines");
                 });
 
-            modelBuilder.Entity("InspecWeb.Models.CentralDepartment", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("DepartmentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("CentralDepartments");
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.CentralDepartmentProvince", b =>
-                {
-                    b.Property<long>("CentralDepartmentID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProvinceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("CentralDepartmentID", "ProvinceId");
-
-                    b.HasIndex("ProvinceId");
-
-                    b.ToTable("CentralDepartmentProvince");
-                });
-
             modelBuilder.Entity("InspecWeb.Models.CentralPolicy", b =>
                 {
                     b.Property<long>("Id")
@@ -329,13 +287,13 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<long>("FiscalYearId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
@@ -355,6 +313,29 @@ namespace InspecWeb.Data.Migrations
                     b.HasIndex("FiscalYearId");
 
                     b.ToTable("CentralPolicies");
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.CentralPolicyDate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CentralPolicyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CentralPolicyId");
+
+                    b.ToTable("CentralPolicyDates");
                 });
 
             modelBuilder.Entity("InspecWeb.Models.CentralPolicyEvent", b =>
@@ -420,6 +401,30 @@ namespace InspecWeb.Data.Migrations
                     b.HasIndex("ProvinceId");
 
                     b.ToTable("CentralPolicyProvinces");
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.CentralPolicyUser", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("CentralPolicyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "CentralPolicyId");
+
+                    b.HasIndex("CentralPolicyId");
+
+                    b.ToTable("CentralPolicyUsers");
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Department", b =>
@@ -6072,10 +6077,10 @@ namespace InspecWeb.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Year")
@@ -6089,8 +6094,6 @@ namespace InspecWeb.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Year = 2563
                         });
                 });
@@ -7865,50 +7868,6 @@ namespace InspecWeb.Data.Migrations
                             Link = "https://www.google.co.th/",
                             Name = "อุบลราชธานี"
                         });
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.ProvincialDepartment", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("DepartmentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("ProvincialDepartments");
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.ProvincialDepartmentProvince", b =>
-                {
-                    b.Property<long>("ProvincialDepartmentID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProvinceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("ProvincialDepartmentID", "ProvinceId");
-
-                    b.HasIndex("ProvinceId");
-
-                    b.ToTable("ProvincialDepartmentProvince");
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Region", b =>
@@ -43010,35 +42969,20 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("InspecWeb.Models.CentralDepartment", b =>
-                {
-                    b.HasOne("InspecWeb.Models.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.CentralDepartmentProvince", b =>
-                {
-                    b.HasOne("InspecWeb.Models.CentralDepartment", "CentralDepartment")
-                        .WithMany()
-                        .HasForeignKey("CentralDepartmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InspecWeb.Models.Province", "Province")
-                        .WithMany()
-                        .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("InspecWeb.Models.CentralPolicy", b =>
                 {
                     b.HasOne("InspecWeb.Models.FiscalYear", null)
                         .WithMany("CentralPolicies")
                         .HasForeignKey("FiscalYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("InspecWeb.Models.CentralPolicyDate", b =>
+                {
+                    b.HasOne("InspecWeb.Models.CentralPolicy", "CentralPolicy")
+                        .WithMany("CentralPolicyDates")
+                        .HasForeignKey("CentralPolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -43082,9 +43026,24 @@ namespace InspecWeb.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("InspecWeb.Models.CentralPolicyUser", b =>
+                {
+                    b.HasOne("InspecWeb.Models.CentralPolicy", "CentralPolicy")
+                        .WithMany("CentralPolicyUser")
+                        .HasForeignKey("CentralPolicyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InspecWeb.Models.ApplicationUser", "User")
+                        .WithMany("CentralPolicyUser")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("InspecWeb.Models.Department", b =>
                 {
-                    b.HasOne("InspecWeb.Models.Ministry", "Ministries")
+                    b.HasOne("InspecWeb.Models.Ministry", "Ministry")
                         .WithMany("Departments")
                         .HasForeignKey("MinistryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -43186,34 +43145,10 @@ namespace InspecWeb.Data.Migrations
                         .HasForeignKey("RegionId");
                 });
 
-            modelBuilder.Entity("InspecWeb.Models.ProvincialDepartment", b =>
-                {
-                    b.HasOne("InspecWeb.Models.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.ProvincialDepartmentProvince", b =>
-                {
-                    b.HasOne("InspecWeb.Models.Province", "Province")
-                        .WithMany()
-                        .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InspecWeb.Models.ProvincialDepartment", "ProvincialDepartment")
-                        .WithMany("ProvincialDepartmentProvince")
-                        .HasForeignKey("ProvincialDepartmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("InspecWeb.Models.Subdistrict", b =>
                 {
                     b.HasOne("InspecWeb.Models.District", "District")
-                        .WithMany("Subdistricts")
+                        .WithMany()
                         .HasForeignKey("DistrictId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

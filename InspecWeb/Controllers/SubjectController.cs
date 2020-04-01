@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,28 +41,39 @@ namespace InspecWeb.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            var subjectdata = _context.Subjects.Where(m => m.CentralPolicyId == id);
+            var subjectdata = _context.Subjects
+                .Include(m => m.SubjectDates)
+                .ThenInclude(m => m.CentralPolicyDate)
+                .Where(m => m.CentralPolicyId == id);
 
             return Ok(subjectdata);
         }
 
         // POST api/values
         [HttpPost]
-        public Subject Post(string name, long centralpolicyid, DateTime start_date, DateTime end_date)
+        public Subject Post([FromBody] SubjectViewModel model)
         {
-            //var date = DateTime.Now;
-
             var subjectdata = new Subject
             {
-                Name = name,
-                CentralPolicyId = centralpolicyid,
-                StartDate = start_date,
-                EndDate = end_date,
-                Answer = "",
-                //CreatedAt = date
-            };
+                Name = model.Name,
+                CentralPolicyId = model.CentralPolicyId,
+                Answer = model.Answer,
 
+            };
             _context.Subjects.Add(subjectdata);
+            _context.SaveChanges();
+
+            foreach (var id in model.CentralPolicyDateId)
+            {
+                var subjectdatedata = new SubjectDate
+                {
+                    SubjectId = subjectdata.Id,
+                    CentralPolicyDateId = id
+                };
+                _context.SubjectDates.Add(subjectdatedata);
+            }
+
+
             _context.SaveChanges();
 
             return subjectdata;

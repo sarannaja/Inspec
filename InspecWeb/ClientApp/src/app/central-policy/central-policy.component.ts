@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-central-policy',
@@ -13,14 +14,34 @@ export class CentralPolicyComponent implements OnInit {
   resultcentralpolicy: any = []
   delid: any
   modalRef: BsModalRef;
+  dtOptions: DataTables.Settings = {};
+  loading = false;
 
-  constructor(private router:Router, private centralpolicyservice: CentralpolicyService, private modalService: BsModalService) { }
+  constructor(
+    private router:Router, 
+    private centralpolicyservice: CentralpolicyService, 
+    private modalService: BsModalService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
+
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columnDefs: [
+        {
+          targets: [5],
+          orderable: false
+        }
+      ]
+
+    };
 
     this.centralpolicyservice.getcentralpolicydata()
     .subscribe(result => {
       this.resultcentralpolicy = result
+      this.loading = true;
+      this.spinner.hide();
       console.log(this.resultcentralpolicy);
     })
 

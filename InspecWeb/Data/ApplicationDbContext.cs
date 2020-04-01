@@ -59,7 +59,7 @@ namespace InspecWeb.Data
        
         public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }
-        
+        public DbSet<SubjectDate> SubjectDates { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -78,7 +78,11 @@ namespace InspecWeb.Data
            .HasKey(m => new { m.CentralDepartmentID, m.ProvinceId });
 
             builder.Entity<CentralPolicyUser>()
-            .HasKey(m => new { m.UserId, m.CentralPolicyId });       
+            .HasKey(m => new { m.UserId, m.CentralPolicyId });
+
+            builder.Entity<SubjectDate>()
+            .HasKey(m => new { m.SubjectId, m.CentralPolicyDateId });
+
             base.OnModelCreating(builder);
 
             // seed data
