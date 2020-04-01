@@ -4,14 +4,16 @@ using InspecWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200327035426_EditSubjectSchema2")]
+    partial class EditSubjectSchema2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42667,8 +42669,6 @@ namespace InspecWeb.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
-
                     b.ToTable("SubjectDates");
                 });
 
@@ -43157,15 +43157,6 @@ namespace InspecWeb.Data.Migrations
                     b.HasOne("InspecWeb.Models.CentralPolicy", "CentralPolicy")
                         .WithMany("Subjects")
                         .HasForeignKey("CentralPolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.SubjectDate", b =>
-                {
-                    b.HasOne("InspecWeb.Models.Subject", null)
-                        .WithMany("SubjectDates")
-                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

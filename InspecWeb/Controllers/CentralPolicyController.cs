@@ -43,8 +43,9 @@ namespace InspecWeb.Controllers
         public IActionResult Get(long id)
         {
             var centralpolicydata = _context.CentralPolicies
-                .Include(m => m.Subjects)
-                .ThenInclude(m => m.Subquestions)
+                .Include(m => m.CentralPolicyDates)
+                //.Include(m => m.Subjects)
+                //.ThenInclude(m => m.Subquestions)
                 .Where(m => m.Id == id).First();
 
             return Ok(centralpolicydata);
@@ -63,7 +64,7 @@ namespace InspecWeb.Controllers
                 FiscalYearId = model.FiscalYearId,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
-                Status = "ร่างกำหนดการ",
+                Status = model.Status,
                 CreatedAt = date,
                 CreatedBy = "NIK",
                 Class = "แผนการตรวจประจำปี",

@@ -20,6 +20,9 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "FiscalYearId")]
         public long FiscalYearId { get; set; }
 
+        [JsonProperty(PropertyName = "Status")]
+        public string Status { get; set; }
+
         [JsonProperty(PropertyName = "ProvinceId")]
         public long[] ProvinceId { get; set; }
 

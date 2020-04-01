@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class CentralpolicyService {
 
   url = "";
+  files: FileList
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/centralpolicy/';
@@ -23,7 +24,7 @@ export class CentralpolicyService {
     console.log(id);
     return this.http.get(this.url + id)
   }
-  addCentralpolicy(centralpolicyData) {
+  addCentralpolicy(centralpolicyData,file: FileList) {
 
     var inputdate = centralpolicyData.inputdate.map((item , index) => {
       return {
@@ -31,7 +32,9 @@ export class CentralpolicyService {
         EndDate:item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
       }
     })
-
+    // for (var i = 0; i < file.length; i++) {
+    //   // formData.append("files", file[i]);
+    // }
     const formData = {
       Title: centralpolicyData.title,
       // StartDate: centralpolicyData.start_date.date.year + '-' + centralpolicyData.start_date.date.month + '-' + centralpolicyData.start_date.date.day,
@@ -39,11 +42,12 @@ export class CentralpolicyService {
       Type: centralpolicyData.type,
       ProvinceId : centralpolicyData.ProvinceId,
       FiscalYearId: centralpolicyData.year,
-      files: "CENTRALPOLICY.pdf",
+      Status: centralpolicyData.status,
+      files: file,
       inputdate: inputdate,
     }
 
-    console.log('FORMDATA: ' + formData);
+    console.log('FORMDATA: ' , formData);
     return this.http.post(this.url, formData);
   }
 
