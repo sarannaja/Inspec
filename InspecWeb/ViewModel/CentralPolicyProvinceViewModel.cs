@@ -1,5 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using System.Collections;
 
 namespace InspecWeb.ViewModel
 {
@@ -30,12 +33,15 @@ namespace InspecWeb.ViewModel
         public long InspectionPlanEventId { get; set; }
         //[JsonProperty(PropertyName = "CentralPolicyId")]
         //public long CentralPolicyId { get; set; }
-        public inputdate[] inputdate { get; set; }
+        public DateTime[] StartDate2 { get; set; }
+        public DateTime[] EndDate2 { get; set; }
+        public List<IFormFile> files { get; set; }
+
     }
 
-    public class inputdate
-    {
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-    }
+    //public class inputdate
+    //{
+    //    public DateTime StartDate { get; set; }
+    //    public DateTime EndDate { get; set; }
+    //}
 }

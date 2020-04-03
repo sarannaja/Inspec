@@ -43,17 +43,17 @@ export class CreateCentralPolicyComponent implements OnInit {
   progress: number = 0;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private centralpolicyservice: CentralpolicyService,
-    public share: CentralpolicyService, 
-    private router: Router, 
+    public share: CentralpolicyService,
+    private router: Router,
     private fiscalyearservice: FiscalyearService,
-    private provinceservice: ProvinceService) { 
-      this.form = this.fb.group({
-        name: [''],
-        files: [null]
-      })
-    }
+    private provinceservice: ProvinceService) {
+    this.form = this.fb.group({
+      name: [''],
+      files: [null]
+    })
+  }
 
   ngOnInit() {
     this.Form = this.fb.group({
@@ -108,20 +108,21 @@ export class CreateCentralPolicyComponent implements OnInit {
       files: file
     });
     this.form.get('files').updateValueAndValidity()
-    
+
   }
   storeCentralpolicy(value) {
     // console.log(this.form.value.files);
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicy(value,this.form.value.files).subscribe(response => {
-      console.log(value);
-      this.Form.reset()
-      this.router.navigate(['centralpolicy'])
-      // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
-      //   this.centralpolicyservice = result
-      //   console.log(this.resultcentralpolicy);
-      // })
-    })
+    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files)
+      .subscribe(response => {
+        console.log(response);
+        this.Form.reset()
+        this.router.navigate(['centralpolicy'])
+        // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+        //   this.centralpolicyservice = result
+        //   console.log(this.resultcentralpolicy);
+        // })
+      })
   }
 
   addFile(event) {
