@@ -32,7 +32,7 @@
               </div>
 
               <div class="form-group">
-                <label for="test" class="form-label">กำหนดระยะเวลา</label>
+                <label>กำหนดระยะเวลา</label>
                 <ng-select multiple="true" placeholder="กรุณาเลือกระยะเวลา" [options]="times" name="ํTime"
                   formControlName="centralpolicydateid" [allowClear]="true">
                 </ng-select>
@@ -41,48 +41,71 @@
                 <label>คำถามย่อย</label>
                 <br>
                 <label>คำถามปลายเปิด</label>
-                <div [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
-                  <div class="form-group row" *ngFor="let item of d.controls; let i = index">
-                    <form class="form-group row col-12" [formGroup]="item">
-                      <div class="col-11 col-xl-11">
-                        <input type="text" formControlName="questionopen" class="form-control" placeholder="กรุณากรอกคำถาม">
+                <!-- <div [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)"> -->
+                <div class="form-group row" *ngFor="let item of d.controls; let i = index">
+                  <form class="form-group row col-12" [formGroup]="item">
+                    <div class="col-11 col-xl-11">
+                      <input type="text" formControlName="questionopen" class="form-control"
+                        placeholder="กรุณากรอกคำถาม">
+                    </div>
+                    <div class="col-1 margin-plus-icon" *ngIf="i == 0; else elseBlock">
+                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appendquestionopen()"></i>
+                    </div>
+                    <ng-template #elseBlock>
+                      <div class="col-1 margin-plus-icon">
+                        <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="remove(i)"></i>
                       </div>
-                      <div class="col-1" *ngIf="i == 0; else elseBlock">
-                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appendquestionopen()"></i>
-                      </div>
-                      <ng-template #elseBlock>
-                        <div class="col-1">
-                          <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="remove(i)"></i>
-                        </div>
-                      </ng-template>
-                      <!-- <div class="col-1">
+                    </ng-template>
+                    <!-- <div class="col-1">
                         <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appendquestionopen()"></i>
                       </div> -->
-                    </form>
-                  </div>
+                  </form>
                 </div>
+                <!-- </div> -->
                 <label>คำถามปลายปิด</label>
-                <div [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
-                  <div class="form-group row" *ngFor="let item of c.controls; let i = index">
-                    <form class="form-group row col-12" [formGroup]="item">
-                      <div class="col-11 col-xl-11">
-                        <input type="text" formControlName="questionclose" class="form-control" placeholder="กรุณากรอกคำถาม">
-                      </div>
-                      <div class="col-1">
-                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appendquestionclose()"></i>
-                      </div>
-                      <br><br>
-                      
-                      <!-- <div class="form-group row" *ngFor="let item of gg.controls; let i = index">
+                <div formArrayName="inputquestionclose">
+                  <div *ngFor="let X of Form['controls'].inputquestionclose['controls']; let ix=index">
+                    <div formGroupName="{{ix}}">
+                      <div class="row">
                         <div class="col-11 col-xl-11">
-                          <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำตอบให้เลือก">
+                          <input type="text" formControlName="questionclose" class="form-control"
+                            placeholder="กรุณากรอกคำถาม">
                         </div>
                         <div class="col-1">
-                          <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appendanswerclose()"></i>
+                          <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
+                            <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX()" value="Add X"></i>
+                          </div>
+                          <ng-template #elseBlock>
+                            <div class="col-1 margin-plus-icon">
+                              <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(ix)" value="Add X"></i>
+                            </div>
+                          </ng-template>
                         </div>
-                      </div> -->
-
-                    </form>
+                      </div>
+                      <div formArrayName="inputanswerclose">
+                        <div *ngFor="let Y of X['controls'].inputanswerclose['controls']; let iy=index">
+                          <div formGroupName="{{iy}}">
+                            <div class="row">
+                              <div class="col-9 col-xl-9">
+                                <input type="text" formControlName="answerclose" class="form-control"
+                                  placeholder="กรุณากรอกคำตอบให้เลือก">
+                              </div>
+                              <div class="col-1">
+                                  <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
+                                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(ix)"
+                                    value="Add Y"></i>
+                                  </div>
+                                  <ng-template #elseBlock>
+                                    <div class="col-1 margin-plus-icon">
+                                      <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeY(ix,iy)" value="Add Y"></i>
+                                    </div>
+                                  </ng-template>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -18,8 +18,8 @@ export class SubquestionComponent implements OnInit {
   private startDate: IMyDate = { year: 0, month: 0, day: 0 };
   private endDate: IMyDate = { year: 0, month: 0, day: 0 };
   inputquestionopen: any = [{ questionopen: '' }]
-  inputquestionclose: any = [{ questionclose: '', answerclose: [] }]
-  inputanswerclose: any = [{ answer: '' }]
+  // inputquestionclose: any = [{ questionclose: '', answercloselist: [] }]
+  // inputanswerclose: any = [{ answerclose: '' }]
   resultcentralpolicy: any = []
   id
   name: any
@@ -45,40 +45,41 @@ export class SubquestionComponent implements OnInit {
       name: new FormControl(null, [Validators.required]),
       centralpolicydateid: new FormControl(null, [Validators.required]),
       inputquestionopen: new FormArray([]),
-      inputquestionclose: new FormArray([
-        this.questionclose()
-        // new FormGroup({
-        //   inputanswerclose: new FormArray([]),
-        // })
-      ]),
-      //inputanswerclose: new FormArray([]),
+      inputquestionclose: this.fb.array([
+        this.initquestionclose()
+      ])
     })
     this.getTimeCentralPolicy()
     this.d.push(this.fb.group({
       questionopen: '',
     }))
-    // this.c.push(this.fb.group({
-    //   questionclose: '',
-    //   answerclose: []
-    // }))
-    // this.a.push(this.fb.group({
-    //   answer : []
-    // }))
 
     console.log("55555", this.Form.value);
   }
-  questionclose() {
-    return new FormGroup({
-      questionclose: new FormControl(null, [Validators.required]),
-      answercloselist: new FormArray([
-        this.answerclose()
+  get f() { return this.Form.controls }
+  get d() { return this.f.inputquestionopen as FormArray }
+  get x() { return this.initanswerclose()}
+
+  initquestionclose() {
+    return this.fb.group({
+      questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      inputanswerclose: this.fb.array([
+        this.initanswerclose()
       ])
+    });
+  }
+  initanswerclose() {
+    return this.fb.group({
+      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
     })
   }
-  answerclose() {
-    return new FormGroup({
-      answerclose: new FormControl("")
-    });
+  addX() {
+    const control = <FormArray>this.Form.controls['inputquestionclose'];
+    control.push(this.initquestionclose());
+  }
+  addY(ix) {
+    const control = (<FormArray>this.Form.controls['inputquestionclose']).at(ix).get('inputanswerclose') as FormArray;
+    control.push(this.initanswerclose());
   }
   back() {
     window.history.back();
@@ -118,33 +119,27 @@ export class SubquestionComponent implements OnInit {
   }
   storeSubject(value) {
     console.log(value);
-    // this.subjectservice.addSubject(value, this.id).subscribe(response => {
-    //   this.Form.reset()
-    //   window.history.back();
-    // })
+    this.subjectservice.addSubject(value, this.id).subscribe(response => {
+      this.Form.reset()
+      window.history.back();
+    })
   }
-  get f() { return this.Form.controls }
-  get d() { return this.f.inputquestionopen as FormArray }
-  get c() { return this.f.inputquestionclose as FormArray }
-  get a() { return this.f.inputanswerclose as FormArray }
-  get gg() { return this.f.answercloselist as FormArray }
+
 
   appendquestionopen() {
     this.d.push(this.fb.group({
       questionopen: ''
     }))
   }
-  appendquestionclose() {
-    this.c.push(this.fb.group({
-      questionclose: '',
-    }))
-  }
-  appendanswerclose() {
-    return new FormGroup({
-      answerclose: new FormControl("")
-    });
-  }
   remove(index: number) {
     this.d.removeAt(index);
+  }
+  removeX(index: number) {
+    const control = <FormArray>this.Form.controls['inputquestionclose'];
+    control.removeAt(index);
+  }
+  removeY(ix: number,iy: number) {
+    const control = (<FormArray>this.Form.controls['inputquestionclose']).at(ix).get('inputanswerclose') as FormArray;
+    control.removeAt(iy);
   }
 }
