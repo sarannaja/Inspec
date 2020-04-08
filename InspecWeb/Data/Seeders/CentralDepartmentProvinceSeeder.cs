@@ -7,13 +7,13 @@ using System.Text;
 
 namespace InspecWeb.Data.Seeders
 {
-    public class CentralDepartmentSeeder : IEntityTypeConfiguration<CentralDepartment>
+    public class CentralDepartmentProvinceSeeder : IEntityTypeConfiguration<CentralDepartmentProvince>
     {
         //https://stackoverflow.com/questions/29841503/json-serialization-deserialization-in-asp-net-core
-        public void Configure(EntityTypeBuilder<CentralDepartment> builder)
+        public void Configure(EntityTypeBuilder<CentralDepartmentProvince> builder)
         {
             builder.HasData(
-                new CentralDepartment { Id = 1, DepartmentId = 1, Name = "สำนักงานประชาสัมพันธ์" }
+                  new CentralDepartmentProvince { Id = 1, CentralDepartmentID = 1, ProvinceId = 2 }
             );
         }
     }
