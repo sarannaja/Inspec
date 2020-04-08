@@ -41,6 +41,5 @@ export class AcceptCentralPolicyComponent implements OnInit {
         this.resultcentralpolicyuser = result
         console.log("result" + result);
       })
-
   }
 }

@@ -49,7 +49,7 @@ namespace InspecWeb.Data
         public DbSet<UserProvince> UserProvinces { get; set; } //เชื่อม user กับ จังหวัด
         public DbSet<ExecutiveOrder> ExecutiveOrders { get; set; }
         public DbSet<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
-        public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; } 
+        //public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; } 
         public DbSet<ProvincialDepartment> ProvincialDepartment { get; set; } //หน่วยงานส่วนภูมิถาค
         public DbSet<ProvincialDepartmentProvince> ProvincialDepartmentProvince { get; set; } //เชื่อม หน่วยงานส่วนภูมิถาค กับ จังหวัด
         public DbSet<CentralDepartment> CentralDepartment { get; set; } //หน่วยงานราชการส่วนกลางภูมิภาค 
@@ -60,7 +60,7 @@ namespace InspecWeb.Data
         public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }
         public DbSet<SubjectDate> SubjectDates { get; set; }
-
+        public DbSet<SubquestionChoice> SubquestionChoices { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -78,7 +78,7 @@ namespace InspecWeb.Data
            .HasKey(m => new { m.CentralDepartmentID, m.ProvinceId });
 
             builder.Entity<CentralPolicyUser>()
-            .HasKey(m => new { m.UserId, m.CentralPolicyId });
+            .HasKey(m => new { m.CentralPolicyId, m.UserId });
 
             builder.Entity<SubjectDate>()
             .HasKey(m => new { m.SubjectId, m.CentralPolicyDateId });

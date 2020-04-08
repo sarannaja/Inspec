@@ -12,11 +12,11 @@
 <div class="row">
   <div class="col-12">
     <div class="card">
-      <div class="card-header" style="margin-bottom: -40px;">
+      <div class="card-header" style="margin-bottom: -20px;">
         <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
         <div class="float-right">
-          <button class="btn btn-primary" (click)="CreateCentralPolicy()"
-            style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
+          <!-- <button class="btn btn-primary" (click)="CreateCentralPolicy()"
+            style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button> -->
         </div>
       </div>
       <div class="card-body">
@@ -35,19 +35,20 @@
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
-              <td width="40%" (click)="Subject(item.id,item.title)" class="pointer">{{ item.title }}</td>
+              <td width="40%" class="pointer">{{ item.centralPolicy.title }}</td>
               <td>2563</td>
               <td>
-                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
+                <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
               </td>
               <td>{{ item.status }}</td>
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-check-circle pointer" (click)="AcceptCentralPolicy(item.centralPolicy.id)"></i>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i> -->
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                  (click)="openModal(modaldeleteCentralPolicy, item.id)"></i> -->
               </td>
             </tr>
           </tbody>

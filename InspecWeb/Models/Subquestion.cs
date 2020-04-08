@@ -27,7 +27,9 @@ namespace InspecWeb.Models
         public string Name { get; set; }
 
         [Required]
-        [Description("คำตอบของคำถามย่อย")]
-        public string Answer { get; set; }
+        [Description("ประเภทของคำถามย่อย")]
+        public string Type { get; set; }
+
+        public ICollection<SubquestionChoice> SubquestionChoices { get; set; }
     }
 }
