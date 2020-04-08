@@ -58,7 +58,7 @@ export class SubquestionComponent implements OnInit {
   }
   get f() { return this.Form.controls }
   get d() { return this.f.inputquestionopen as FormArray }
-  get x() { return this.initanswerclose()}
+  get x() { return this.initanswerclose() }
 
   initquestionclose() {
     return this.fb.group({
@@ -120,6 +120,8 @@ export class SubquestionComponent implements OnInit {
   storeSubject(value) {
     console.log(value);
     this.subjectservice.addSubject(value, this.id).subscribe(response => {
+      console.log("Response : ", response);
+
       this.Form.reset()
       window.history.back();
     })
@@ -138,7 +140,7 @@ export class SubquestionComponent implements OnInit {
     const control = <FormArray>this.Form.controls['inputquestionclose'];
     control.removeAt(index);
   }
-  removeY(ix: number,iy: number) {
+  removeY(ix: number, iy: number) {
     const control = (<FormArray>this.Form.controls['inputquestionclose']).at(ix).get('inputanswerclose') as FormArray;
     control.removeAt(iy);
   }

@@ -72,11 +72,45 @@ namespace InspecWeb.Controllers
                 };
                 _context.SubjectDates.Add(subjectdatedata);
             }
-
-
+            _context.SaveChanges();
+            
+            foreach (var questionopen in model.inputquestionopen)
+            {
+                var Subquestionopendata = new Subquestion
+                {
+                    SubjectId = subjectdata.Id,
+                    Name = questionopen.questionopen,
+                    Type = "คำถามปลายเปิด"
+                };
+                _context.Subquestions.Add(Subquestionopendata);
+            }
             _context.SaveChanges();
 
+            foreach (var questionclose in model.inputquestionclose)
+            {
+                var Subquestionclosedata = new Subquestion
+                {
+                    SubjectId = subjectdata.Id,
+                    Name = questionclose.questionclose,
+                    Type = "คำถามปลายปิด"
+                };
+                _context.Subquestions.Add(Subquestionclosedata);
+                _context.SaveChanges();
+
+                foreach (var questionclosechoice in questionclose.inputanswerclose)
+                {
+                    var Subquestionchoiceclosedata = new SubquestionChoice
+                    {
+                        SubquestionId = Subquestionclosedata.Id,
+                        Name = questionclosechoice.answerclose,
+                    };
+                    _context.SubquestionChoices.Add(Subquestionchoiceclosedata);
+                    _context.SaveChanges();
+                }
+            }
+
             return subjectdata;
+
         }
 
         // PUT api/values/5

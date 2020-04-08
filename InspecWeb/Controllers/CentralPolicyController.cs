@@ -85,7 +85,7 @@ namespace InspecWeb.Controllers
                 EndDate = model.EndDate,
                 Status = model.Status,
                 CreatedAt = date,
-                CreatedBy = "NIK",
+                CreatedBy = "Super Admin",
                 Class = "แผนการตรวจประจำปี",
             };
 
@@ -257,5 +257,18 @@ namespace InspecWeb.Controllers
 
 
         }
+
+        // GET api/values/5
+        [HttpGet("usersinvited/{id}")]
+        public IActionResult GetUsers2(string id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
+                .Where(m => m.UserId == id);
+
+            return Ok(centralpolicyuserdata);
+        }
+
     }
 }
