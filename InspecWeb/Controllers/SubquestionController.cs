@@ -53,7 +53,7 @@ namespace InspecWeb.Controllers
             {
                 Name = name,
                 SubjectId = subjectid,
-                Answer = "",
+                //Answer = "",
                 //CreatedAt = date
             };
 

@@ -22,22 +22,23 @@ namespace InspecWeb.Models
 
         public virtual CentralPolicy CentralPolicy { get; set; }
 
-        [Required]
+       
         [Description("ชื่อประเด็น")]
         public string Name { get; set; }
 
-        [Required]
+        
         [Description("คำตอบของประเด็น")]
         public string Answer { get; set; }
 
-        [Description("วันที่เริ่ม")]
-        [DataType(DataType.Date)]
-        public DateTime StartDate { get; set; }
+        //[Description("วันที่เริ่ม")]
+        //[DataType(DataType.Date)]
+        //public DateTime StartDate { get; set; }
 
-        [Description("วันที่สิ้นสุด")]
-        [DataType(DataType.Date)]
-        public DateTime EndDate { get; set; }
+        //[Description("วันที่สิ้นสุด")]
+        //[DataType(DataType.Date)]
+        //public DateTime EndDate { get; set; }
 
+        public ICollection<SubjectDate> SubjectDates { get; set; }
         public ICollection<Subquestion> Subquestions { get; set; }
     }
 }

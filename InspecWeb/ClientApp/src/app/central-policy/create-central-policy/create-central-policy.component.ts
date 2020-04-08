@@ -39,10 +39,21 @@ export class CreateCentralPolicyComponent implements OnInit {
   selectdataprovince: Array<IOption>
   input: any = [{ date: '', subject: '', questions: '' }]
   inputdate: any = [{ start_date: '', end_date: '' }]
+  form: FormGroup;
+  progress: number = 0;
 
-  constructor(private fb: FormBuilder, private centralpolicyservice: CentralpolicyService,
-    public share: CentralpolicyService, private router: Router, private fiscalyearservice: FiscalyearService,
-    private provinceservice: ProvinceService) { }
+  constructor(
+    private fb: FormBuilder,
+    private centralpolicyservice: CentralpolicyService,
+    public share: CentralpolicyService,
+    private router: Router,
+    private fiscalyearservice: FiscalyearService,
+    private provinceservice: ProvinceService) {
+    this.form = this.fb.group({
+      name: [''],
+      files: [null]
+    })
+  }
 
   ngOnInit() {
     this.Form = this.fb.group({
@@ -53,6 +64,7 @@ export class CreateCentralPolicyComponent implements OnInit {
       type: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null, [Validators.required]),
+      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       input: new FormArray([]),
       inputdate: new FormArray([])
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
@@ -72,8 +84,8 @@ export class CreateCentralPolicyComponent implements OnInit {
     this.provinceservice.getprovincedata().subscribe(result => {
       this.resultprovince = result
 
-      this.selectdataprovince = this.resultprovince.map((item,index)=>{
-        return { value:item.id , label:item.name }
+      this.selectdataprovince = this.resultprovince.map((item, index) => {
+        return { value: item.id, label: item.name }
       })
 
       console.log(this.resultprovince);
@@ -90,18 +102,27 @@ export class CreateCentralPolicyComponent implements OnInit {
     })
     // this.addInput()
   }
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.form.patchValue({
+      files: file
+    });
+    this.form.get('files').updateValueAndValidity()
 
+  }
   storeCentralpolicy(value) {
+    // console.log(this.form.value.files);
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicy(value).subscribe(response => {
-      console.log(value);
-      this.Form.reset()
-      this.router.navigate(['centralpolicy'])
-      // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
-      //   this.centralpolicyservice = result
-      //   console.log(this.resultcentralpolicy);
-      // })
-    })
+    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files)
+      .subscribe(response => {
+        console.log(response);
+        this.Form.reset()
+        this.router.navigate(['centralpolicy'])
+        // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+        //   this.centralpolicyservice = result
+        //   console.log(this.resultcentralpolicy);
+        // })
+      })
   }
 
   addFile(event) {
@@ -122,7 +143,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   appendquestion() {
   }
 
-  back(){
+  back() {
     window.history.back();
   }
 

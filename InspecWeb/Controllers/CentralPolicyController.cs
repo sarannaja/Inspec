@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Hosting;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,11 +20,23 @@ namespace InspecWeb.Controllers
     [ApiController]
     public class CentralPolicyController : Controller
     {
+        public static IWebHostEnvironment _environment;
+    
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private readonly ApplicationDbContext _context;
 
-        public CentralPolicyController(ApplicationDbContext context)
+        public CentralPolicyController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/values
@@ -43,8 +58,10 @@ namespace InspecWeb.Controllers
         public IActionResult Get(long id)
         {
             var centralpolicydata = _context.CentralPolicies
-                .Include(m => m.Subjects)
-                .ThenInclude(m => m.Subquestions)
+                .Include(m => m.CentralPolicyDates)
+                .Include(m => m.CentralPolicyFiles)
+                //.Include(m => m.Subjects)
+                //.ThenInclude(m => m.Subquestions)
                 .Where(m => m.Id == id).First();
 
             return Ok(centralpolicydata);
@@ -53,8 +70,11 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] CentralPolicyProvinceViewModel model)
+        public async Task<IActionResult> Post([FromForm] CentralPolicyProvinceViewModel model)
         {
+            //var eiei = model.StartDate;
+            //System.Console.WriteLine("test: " + eiei);
+            //return Ok(model);
             var date = DateTime.Now;
             var centralpolicydata = new CentralPolicy
             {
@@ -63,9 +83,9 @@ namespace InspecWeb.Controllers
                 FiscalYearId = model.FiscalYearId,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
-                Status = "ร่างกำหนดการ",
+                Status = model.Status,
                 CreatedAt = date,
-                CreatedBy = "NIK",
+                CreatedBy = "Super Admin",
                 Class = "แผนการตรวจประจำปี",
             };
 
@@ -83,17 +103,81 @@ namespace InspecWeb.Controllers
             }
             _context.SaveChanges();
 
-            foreach (var item in model.inputdate)
+            int index = 0;
+            int indexend = 0;
+            foreach (var item in model.StartDate2)
             {
+                
                 var CentralPolicyDate = new CentralPolicyDate
                 {
                     CentralPolicyId = centralpolicydata.Id,
-                    StartDate = item.StartDate,
-                    EndDate = item.EndDate,
+                    StartDate = item,
+                    //EndDate = item.EndDate,
                 };
                 _context.CentralPolicyDates.Add(CentralPolicyDate);
+                _context.SaveChanges();
+
+                var id = _context.CentralPolicyDates.Find(CentralPolicyDate.Id);
+
+                indexend = 0;
+
+                foreach (var itemend in model.EndDate2)
+                {
+                    if (index == indexend) { 
+                        id.EndDate = itemend;
+                        
+                        System.Console.WriteLine("END: " + indexend);
+                    }
+                    indexend++;
+                }
+               
+                index++;
+
+                System.Console.WriteLine("Start: " + index);
             }
-            _context.SaveChanges();
+
+            
+
+            //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
+            //var size = data.files.Sum(f => f.Length);
+            var random = RandomString(10);
+            //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            //foreach (var formFile in data.files)
+            {
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+
+                if (formFile.Value.Length > 0)
+                {
+                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    using (var stream = System.IO.File.Create(filePath + filename + random + ext))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+
+                    var CentralPolicyFile = new CentralPolicyFile
+                    {
+                        CentralPolicyId = centralpolicydata.Id,
+                        Name = filename + random + ext,
+                    };
+                    _context.CentralPolicyFiles.Add(CentralPolicyFile);
+                    _context.SaveChanges();
+                }
+            }
+            return Ok(new { status = true });
+
         }
 
         // DELETE api/values/5
@@ -173,5 +257,18 @@ namespace InspecWeb.Controllers
 
 
         }
+
+        // GET api/values/5
+        [HttpGet("usersinvited/{id}")]
+        public IActionResult GetUsers2(string id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
+                .Where(m => m.UserId == id);
+
+            return Ok(centralpolicyuserdata);
+        }
+
     }
 }

@@ -38,6 +38,7 @@ namespace InspecWeb.Controllers
             var inspectionplandata = _context.InspectionPlanEvents
                 .Include(m => m.CentralPolicyEvents)
                 .ThenInclude(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
                 .Where(m => m.Id == id);
                 //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
 

@@ -13,17 +13,26 @@ export class SubjectService {
   }
   getsubjectdata(id) {
     console.log(id);
-    return this.http.get(this.url+id)
+    return this.http.get(this.url + id)
   }
   addSubject(subjectData, centralpolicyid) {
-    const formData = new FormData();
 
-    formData.append('name', subjectData.name);
-    formData.append('start_date', subjectData.start_date.date.year + '-' + subjectData.start_date.date.month + '-' + subjectData.start_date.date.day);
-    formData.append('end_date', subjectData.end_date.date.year + '-' + subjectData.end_date.date.month + '-' + subjectData.end_date.date.day);
-    formData.append('centralpolicyid', centralpolicyid);
-
-    console.log('FORMDATA: ' + formData.get("name"));
+    console.log("ARRAY: ", subjectData.centralpolicydateid);
+    const formData = {
+      Name: subjectData.name,
+      Answer: subjectData.name,
+      CentralPolicyId: parseInt(centralpolicyid),
+      CentralPolicyDateId: subjectData.centralpolicydateid,
+      inputquestionopen: subjectData.inputquestionopen,
+      inputquestionclose: subjectData.inputquestionclose,
+      inputanswerclose: subjectData.inputanswerclose,
+    }
+    //     formData.append('Name', subjectData.name);
+    //     formData.append('Answer', subjectData.name);
+    //     formData.append('CentralPolicyId', centralpolicyid);
+    //     formData.append('CentralPolicyDateId', subjectData.centralpolicydateid);
+    // ``
+    console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);
   }
 

@@ -14,8 +14,12 @@ export class InspectionplaneventService {
     this.url = baseUrl + 'api/inspectionplanevent/';
    }
 
-   getinspectionplaneventdata():Observable<any[]> {
-    return this.http.get<any[]>(this.url)
+   getinspectionplaneventdata(id):Observable<any[]> {
+    //  alert(id)
+     let path = this.url + 'inspectionplan/' + id;
+     console.log("URL: ", path);
+
+    return this.http.get<any[]>(path)
   }
 
   addInspectionplanevent(inspectionplaneventData) {
@@ -25,6 +29,7 @@ export class InspectionplaneventService {
         StartPlanDate:item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
         EndPlanDate:item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
         ProvinceId:item.provinces,
+        CentralPolicyId:item.centralpolicies,
       }
     })
     // alert(JSON.stringify(input))
