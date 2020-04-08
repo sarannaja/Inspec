@@ -20,6 +20,10 @@ namespace InspecWeb.Models
         public long Id { get; set; }
 
         [Required]
+        [Description("คำนำหน้า")]
+        public string Prefix { get; set; }
+
+        [Required]
         [Description("ชื่อ")]
         public string Name { get; set; }
 
@@ -31,6 +35,9 @@ namespace InspecWeb.Models
         [Description("รูปภาพ")]
         public string Image { get; set; }
 
+        [Required]
+        [Description("รายละเอียด")]
+        public string Detail { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
