@@ -1,4 +1,6 @@
 <div class="header">
+  <button (click)="Logout()">test logout</button>
+  <button [routerLink]='["/authentication/logout"]' [state]='{ local: true }'>test logout2</button>
   <h1 class="header-title">
       ระบบตรวจราชการอิเล็กทรอนิกส์
   </h1>
