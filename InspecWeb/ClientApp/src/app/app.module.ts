@@ -57,6 +57,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
 import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
+import { UserManager } from 'oidc-client';
+import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 
 
 
@@ -165,6 +167,7 @@ import { UserCentralPolicyComponent } from './central-policy/user-central-policy
           { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'test/logout', component: LogoutComponent},
         ]
       },
       {
@@ -185,7 +188,7 @@ import { UserCentralPolicyComponent } from './central-policy/user-central-policy
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-
+    UserManager
   ],
 
   bootstrap: [AppComponent]
