@@ -12,27 +12,32 @@ export class DefaultLayoutComponent implements OnInit {
   classtap = 'sidebar-header'
   userid : any
   Role_id : any
-  //this.Role_id;
-    // if(this.Role_id == 1){
-     nav = superAdmin
-    //  }else if(){
-    //  }else if(){
-    //  }else if(){
-    //  }else if(){
-    //  }else if(){
-  
-    //  }else{
-  
-    //  }
-
+  nav : any
   // childClassIcon = "align-middle mr-2 fas fa-fw 
   constructor( private authorize: AuthorizeService) { }
   // 0C-54-15-66-C2-D6
   ngOnInit() {
     this.authorize.getUser()
     .subscribe(result => {
-      this.userid = result.sub,
-      this.Role_id = result.Role_id
+      this.userid = result.sub
+      this.Role_id = result.role_id
+
+      if(this.Role_id == 1){
+        this.nav = superAdmin
+      }else if(this.Role_id == 2 ){
+        this.nav = superAdmin
+      }else if(this.Role_id ==3){
+        this.nav = superAdmin
+      }else if(this.Role_id ==4){
+        this.nav = superAdmin
+      }else if(this.Role_id == 5){
+        this.nav = superAdmin
+      }else if(this.Role_id == 6){
+        this.nav = superAdmin
+   
+       }else{
+        this.nav = superAdmin
+       }
       console.log(result);
      // alert(this.Role_id)
     })
@@ -43,5 +48,7 @@ export class DefaultLayoutComponent implements OnInit {
     console.log('in');
     
   }
-
+ Logout(){
+    this.authorize.signOut({ local: true })
+  }
 }
