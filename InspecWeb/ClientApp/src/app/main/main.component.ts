@@ -20,6 +20,7 @@ export class MainComponent implements OnInit {
     .subscribe(result=>{
       this.email = result.name
       this.role_id = result.role_id
+      //alert(this.role_id);
       console.log("user",result);
     })
   }
