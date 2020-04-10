@@ -56,9 +56,10 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
 import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
-import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
+import { EditCentralPolicyComponent } from './central-policy/edit-central-policy/edit-central-policy.component';
 import { UserManager } from 'oidc-client';
 import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
+import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 
 
 
@@ -106,6 +107,7 @@ import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
     DetailExecutiveOrderComponent,
     MinistermonitoringComponent,
     AcceptCentralPolicyComponent,
+    EditCentralPolicyComponent,
     UserCentralPolicyComponent
   ],
   imports: [
@@ -168,6 +170,7 @@ import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'test/logout', component: LogoutComponent},
+          { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

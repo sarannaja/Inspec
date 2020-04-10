@@ -48,6 +48,9 @@ namespace InspecWeb.Controllers
             //return centralpolicydata;
 
             return _context.CentralPolicies
+                   .Include(m => m.FiscalYear)
+                   .Include(m => m.CentralPolicyProvinces)
+                   .ThenInclude(x => x.Province)
                    .Include(m => m.CentralPolicyDates)
                    .Where(m => m.Class == "แผนการตรวจประจำปี")
                    .ToList();
