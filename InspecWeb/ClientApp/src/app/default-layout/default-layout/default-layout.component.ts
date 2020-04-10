@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { superAdmin } from './_nav';
+import { Centraladmin } from './_nav';
+import { Inspector } from './_nav';
+import { Provincialgovernor } from './_nav';
+import { Adminprovince } from './_nav';
+import { InspectorMinistry } from './_nav';
+import { publicsector } from './_nav';
+import { president } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 @Component({
   selector: 'app-default-layout',
@@ -21,32 +28,33 @@ export class DefaultLayoutComponent implements OnInit {
     .subscribe(result => {
       this.userid = result.sub
       this.role_id = result.role_id
-
+      //alert(result.role_id);
       if(this.role_id == 1){
         this.nav = superAdmin
       }else if(this.role_id == 2 ){
-        this.nav = superAdmin
+        this.nav = Centraladmin
       }else if(this.role_id ==3){
-        this.nav = superAdmin
+        this.nav = Inspector
       }else if(this.role_id ==4){
-        this.nav = superAdmin
+        this.nav = Provincialgovernor
       }else if(this.role_id == 5){
-        this.nav = superAdmin
+        this.nav = Adminprovince
       }else if(this.role_id == 6){
-        this.nav = superAdmin
-   
+        this.nav = InspectorMinistry
+      }else if(this.role_id == 7){
+        this.nav = publicsector
        }else{
-        this.nav = superAdmin
+        this.nav = president
        }
-      console.log(result);
-     // alert(this.Role_id)
+      // console.log(result);
     })
-   this.urlActive = this.nav[0].url
+    this.checkactive(this.nav[0].url);
+  // this.urlActive = this.nav[0].url
   }
   checkactive(url){ 
     this.urlActive = url
-    console.log('in');
-    
+    // console.log('in');
+
   }
  Logout(){
     this.authorize.signOut({ local: true })
