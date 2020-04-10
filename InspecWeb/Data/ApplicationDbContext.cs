@@ -109,6 +109,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
             builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
             builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
+            builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
         }
 
      
