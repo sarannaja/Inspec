@@ -8,6 +8,7 @@ import { IOption } from 'ng-select';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
+import { SubjectService } from 'src/app/services/subject.service';
 
 interface addInput {
   id: number;
@@ -30,7 +31,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   resultinspectionplan: any = []
   resultprovince: any = []
   resultcentralpolicy: any = []
-  resultdetailcentralpolicy:any = []
+  resultdetailcentralpolicy: any = []
+  province: any = []
   delid: any
   title: any
   start_date: any
@@ -46,10 +48,11 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     private router: Router, private inspectionplaneventservice: InspectionplaneventService,
     private userservice: UserService,
     private centralpolicyservice: CentralpolicyService,
+    private subjectservice: SubjectService,
     private provinceservice: ProvinceService,
     @Inject('BASE_URL') baseUrl: string) {
-      this.url = baseUrl;
-    }
+    this.url = baseUrl;
+  }
 
   ngOnInit() {
 
@@ -93,14 +96,21 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   // get y(){return this.t.controls}
   // get p(){return this.y.provinces as FormArray}
 
-  DetailCentralPolicy(id: any) {
+  DetailCentralPolicy(id: any, i) {
+    // alert(this.province[i].value)
     // this.router.navigate(['/centralpolicy/detailcentralpolicy', id])
     // alert(this.url)
-    window.open(this.url + 'centralpolicy/detailcentralpolicy/' + id);
+
+    this.subjectservice.storesubjectprovince(id, this.province[i].value)
+      .subscribe(result => {
+        console.log("storesubjectprovince : " + result);
+        // window.open(this.url + 'centralpolicy/detailcentralpolicy/' + id);
+      })
+
   }
 
   storeInspectionPlanEvent(value) {
-    console.log("Store : " , value);
+    console.log("Store : ", value);
     // alert(JSON.stringify(value))
     this.inspectionplaneventservice.addInspectionplanevent(value).subscribe(response => {
       console.log(value);
@@ -125,6 +135,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   }
 
   selectedprovince(event, i, item) {
+    this.province[i] = event;
     // alert(JSON.stringify(event));
     console.log("item", item);
     this.t.at(i).get('resultcentralpolicy').patchValue([1, 2])
@@ -141,14 +152,14 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       })
   }
 
-  selectedcentralpolicy(event, i){
+  selectedcentralpolicy(event, i) {
     // this.t.at(i).get('resultdetailcentralpolicy').patchValue([1, 2])
     // alert(JSON.stringify(event.value))
     this.centralpolicyservice.getdetailcentralpolicydata(event.value)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result
         console.log(this.resultdetailcentralpolicy.title);
-        this.t.at(i).get('resultdetailcentralpolicy').patchValue({id:this.resultdetailcentralpolicy.id,title:this.resultdetailcentralpolicy.title})
+        this.t.at(i).get('resultdetailcentralpolicy').patchValue({ id: this.resultdetailcentralpolicy.id, title: this.resultdetailcentralpolicy.title })
         // alert(JSON.stringify(this.resultdetailcentralpolicy))
         // this.resultdetailcentralpolicy = this.resultdetailcentralpolicy.map((item, index) => {
         //   return { value: item.id, label: item.title }
@@ -162,5 +173,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   remove(index: number) {
     this.t.removeAt(index);
   }
-
+  back() {
+    window.history.back();
+  }
 }
