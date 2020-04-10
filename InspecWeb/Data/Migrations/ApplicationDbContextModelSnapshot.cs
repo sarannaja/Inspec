@@ -435,8 +435,6 @@ namespace InspecWeb.Data.Migrations
                     b.ToTable("CentralPolicyDates");
                 });
 
-<<<<<<< HEAD
-=======
             modelBuilder.Entity("InspecWeb.Models.CentralPolicyDateProvince", b =>
                 {
                     b.Property<long>("Id")
@@ -455,7 +453,6 @@ namespace InspecWeb.Data.Migrations
                     b.ToTable("CentralPolicyDateProvinces");
                 });
 
->>>>>>> af01a3118ae9656fd7149457b8c8a680ba893295
             modelBuilder.Entity("InspecWeb.Models.CentralPolicyEvent", b =>
                 {
                     b.Property<long>("Id")
@@ -522,7 +519,6 @@ namespace InspecWeb.Data.Migrations
                 });
 
             modelBuilder.Entity("InspecWeb.Models.CentralPolicyUser", b =>
-<<<<<<< HEAD
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -547,8 +543,6 @@ namespace InspecWeb.Data.Migrations
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Department", b =>
-=======
->>>>>>> af01a3118ae9656fd7149457b8c8a680ba893295
                 {
                     b.Property<long>("CentralPolicyId")
                         .HasColumnType("bigint");
@@ -7094,42 +7088,6 @@ namespace InspecWeb.Data.Migrations
                     b.ToTable("FiscalYear");
 
                     b.HasData(
-<<<<<<< HEAD
-                        new
-                        {
-                            Id = 1L,
-                            Year = 2563
-                        });
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.FiscalYearRelation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("FiscalYearId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProvinceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("RegionId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FiscalYearId");
-
-                    b.HasIndex("ProvinceId");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("FiscalYearRelations");
-
-                    b.HasData(
-=======
                         new
                         {
                             Id = 1L,
@@ -18933,7 +18891,6 @@ namespace InspecWeb.Data.Migrations
                             ProvinceId = 43L,
                             Id = 1639L
                         },
->>>>>>> af01a3118ae9656fd7149457b8c8a680ba893295
                         new
                         {
                             ProvincialDepartmentID = 25L,
@@ -19784,7 +19741,6 @@ namespace InspecWeb.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<long>("ProvinceId")
-<<<<<<< HEAD
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("StartDate")
@@ -19814,11 +19770,6 @@ namespace InspecWeb.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("StartPlanDate")
-=======
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("StartDate")
->>>>>>> af01a3118ae9656fd7149457b8c8a680ba893295
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -55470,10 +55421,6 @@ namespace InspecWeb.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-<<<<<<< HEAD
-
-                    b.HasKey("SubjectId", "CentralPolicyDateId");
-=======
 
                     b.HasKey("SubjectId", "CentralPolicyDateId");
 
@@ -55523,7 +55470,6 @@ namespace InspecWeb.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
->>>>>>> af01a3118ae9656fd7149457b8c8a680ba893295
 
                     b.HasIndex("CentralPolicyDateId");
 
@@ -56016,7 +55962,6 @@ namespace InspecWeb.Data.Migrations
                 });
 
             modelBuilder.Entity("InspecWeb.Models.InspectionPlanEvent", b =>
-<<<<<<< HEAD
                 {
                     b.HasOne("InspecWeb.Models.Province", "Province")
                         .WithMany()
@@ -56026,8 +55971,6 @@ namespace InspecWeb.Data.Migrations
                 });
 
             modelBuilder.Entity("InspecWeb.Models.InspectionPlanEventProvince", b =>
-=======
->>>>>>> af01a3118ae9656fd7149457b8c8a680ba893295
                 {
                     b.HasOne("InspecWeb.Models.Province", "Province")
                         .WithMany()
