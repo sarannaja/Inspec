@@ -11,7 +11,7 @@ export class DefaultLayoutComponent implements OnInit {
   urlActive = ""
   classtap = 'sidebar-header'
   userid : any
-  Role_id : any
+  role_id : any
   nav : any
   // childClassIcon = "align-middle mr-2 fas fa-fw 
   constructor( private authorize: AuthorizeService) { }
@@ -20,19 +20,19 @@ export class DefaultLayoutComponent implements OnInit {
     this.authorize.getUser()
     .subscribe(result => {
       this.userid = result.sub
-      this.Role_id = result.role_id
+      this.role_id = result.role_id
 
-      if(this.Role_id == 1){
+      if(this.role_id == 1){
         this.nav = superAdmin
-      }else if(this.Role_id == 2 ){
+      }else if(this.role_id == 2 ){
         this.nav = superAdmin
-      }else if(this.Role_id ==3){
+      }else if(this.role_id ==3){
         this.nav = superAdmin
-      }else if(this.Role_id ==4){
+      }else if(this.role_id ==4){
         this.nav = superAdmin
-      }else if(this.Role_id == 5){
+      }else if(this.role_id == 5){
         this.nav = superAdmin
-      }else if(this.Role_id == 6){
+      }else if(this.role_id == 6){
         this.nav = superAdmin
    
        }else{
