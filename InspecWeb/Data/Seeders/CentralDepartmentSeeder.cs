@@ -7,25 +7,14 @@ using System.Text;
 
 namespace InspecWeb.Data.Seeders
 {
-    //public class ProvincialDepartmentSeeder : IEntityTypeConfiguration<ProvincialDepartmentSeeder>
-    //{
-    //    //https://stackoverflow.com/questions/29841503/json-serialization-deserialization-in-asp-net-core
-    //   // public void Configure(EntityTypeBuilder<ProvincialDepartmentSeeder> builder)
-    //    //{
-    //        //builder.HasData(
-    //        //    new Department
-    //        //    {
-    //        //        Id = 1,
-    //        //        MinistryId = 1,
-    //        //        Name = "ทหารบก"
-    //        //    },
-    //        //    new Department
-    //        //    {
-    //        //        Id = 2,
-    //        //        MinistryId = 2,
-    //        //        Name = "อย."
-    //        //    }
-    //        //);
-    //   // }
-    //}
+    public class CentralDepartmentSeeder : IEntityTypeConfiguration<CentralDepartment>
+    {
+        //https://stackoverflow.com/questions/29841503/json-serialization-deserialization-in-asp-net-core
+        public void Configure(EntityTypeBuilder<CentralDepartment> builder)
+        {
+            builder.HasData(
+                new CentralDepartment { Id = 1, DepartmentId = 1, Name = "สำนักงานประชาสัมพันธ์" }
+            );
+        }
+    }
 }

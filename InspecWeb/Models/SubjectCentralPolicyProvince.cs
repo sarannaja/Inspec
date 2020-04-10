@@ -16,5 +16,17 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
+        [ForeignKey("CentralPolicyProvince")]
+        [Description("FK: นโยบายกลาง")]
+        public long CentralPolicyProvinceId { get; set; }
+
+        public virtual CentralPolicyProvince CentralPolicyProvince { get; set; }
+
+
+        [Description("ชื่อประเด็น")]
+        public string Name { get; set; }
+
+        public ICollection<SubjectDateCentralPolicyProvince> SubjectDateCentralPolicyProvinces { get; set; }
+        public ICollection<SubquestionCentralPolicyProvince> SubquestionCentralPolicyProvinces { get; set; }
     }
 }

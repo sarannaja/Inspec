@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="/centralpolicy">แผนตรวจราชการประจำปี</a></li>
-      <li class="breadcrumb-item"><a href="#">ประเด็นนโยบาย</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบาย</a></li>
       <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
   </nav>
@@ -36,7 +36,7 @@
         <tbody>
           <tr *ngFor="let item of resultsubject; let i = index">
             <td>{{ i + 1 }}</td>
-            <td class="pointer" (click)="Subquestion()">{{ item.name }}</td>
+            <td>{{ item.name }}</td> <!-- (click)="Subquestion()" -->
             <td>
               <div *ngFor="let item2 of item.subjectDates;">{{ item2.centralPolicyDate.startDate | thaidate: 'year' }} -
                 {{ item2.centralPolicyDate.endDate | thaidate: 'year' }}</div>
@@ -44,8 +44,8 @@
             <td>
               <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subquestion(item.id,item.title)"></i> -->
 
-              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                (click)="editModal(modaleditSubject, item.id, item.name)"></i>
+              <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                (click)="editModal(modaleditSubject, item.id, item.name)"></i> -->
               <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                 (click)="openModal(modaldeleteSubject, item.id)"></i>
             </td>

@@ -88,7 +88,7 @@ namespace InspecWeb.Controllers
                 EndDate = model.EndDate,
                 Status = model.Status,
                 CreatedAt = date,
-                CreatedBy = "NIK",
+                CreatedBy = "Super Admin",
                 Class = "แผนการตรวจประจำปี",
             };
 
@@ -252,7 +252,8 @@ namespace InspecWeb.Controllers
             (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
                 ForEach(x => x.Status = status);
 
-            //var accept = _context.CentralPolicyUsers.Find(1);
+            //var accept = _context.CentralPolicyUsers.Find(id);
+            //var accept = _context.CentralPolicyUsers.Where(m => m.Id == id).FirstOrDefault();
             //accept.Status = status;
             //System.Console.WriteLine("Status: " + accept);
             //_context.Entry(accept).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -260,5 +261,47 @@ namespace InspecWeb.Controllers
 
 
         }
+
+        // GET api/values/5
+        [HttpGet("usersinvited/{id}")]
+        public IActionResult GetUsers2(string id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
+                .Where(m => m.UserId == id);
+
+            return Ok(centralpolicyuserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("detailaccept/{id}")]
+        public IActionResult GetDetailAccpet(long id)
+        {
+            var accept = _context.CentralPolicyUsers.Where(m => m.Id == id).FirstOrDefault();
+
+            var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.CentralPolicyDates)
+                .Include(m => m.CentralPolicyFiles)
+                //.Include(m => m.Subjects)
+                //.ThenInclude(m => m.Subquestions)
+                .Where(m => m.Id == accept.CentralPolicyId).First();
+
+            return Ok(centralpolicydata);
+        }
+
+        // GET api/values/5
+        [HttpGet("detailaccept/users/{id}")]
+        public IActionResult GetUsersAccept(long id)
+        {
+            var accept = _context.CentralPolicyUsers.Where(m => m.Id == id).FirstOrDefault();
+
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .Where(m => m.CentralPolicyId == accept.CentralPolicyId);
+
+            return Ok(centralpolicyuserdata);
+        }
+
     }
 }

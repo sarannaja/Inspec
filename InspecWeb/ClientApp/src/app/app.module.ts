@@ -57,6 +57,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
 import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
 import { EditCentralPolicyComponent } from './central-policy/edit-central-policy/edit-central-policy.component';
+import { UserManager } from 'oidc-client';
+import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
+import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 
 
 
@@ -104,7 +107,8 @@ import { EditCentralPolicyComponent } from './central-policy/edit-central-policy
     DetailExecutiveOrderComponent,
     MinistermonitoringComponent,
     AcceptCentralPolicyComponent,
-    EditCentralPolicyComponent
+    EditCentralPolicyComponent,
+    UserCentralPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -164,6 +168,8 @@ import { EditCentralPolicyComponent } from './central-policy/edit-central-policy
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'test/logout', component: LogoutComponent},
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
@@ -185,7 +191,7 @@ import { EditCentralPolicyComponent } from './central-policy/edit-central-policy
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-
+    UserManager
   ],
 
   bootstrap: [AppComponent]
