@@ -26,7 +26,7 @@ export class CentralpolicyService {
   }
   addCentralpolicy(centralpolicyData, file: FileList) {
     // alert(JSON.stringify(file))
-    var inputdate:Array<any> = centralpolicyData.inputdate.map((item, index) => {
+    var inputdate: Array<any> = centralpolicyData.inputdate.map((item, index) => {
       return {
         StartDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
         EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
@@ -96,4 +96,21 @@ export class CentralpolicyService {
   getcentralpolicyuserinviteddata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "usersinvited/" + id)
   }
+
+  getdetailacceptcentralpolicydata(id): Observable<any> {
+    return this.http.get<any>(this.url + "detailaccept/" + id)
+  }
+  getdetailuseracceptcentralpolicydata(id): Observable<any> {
+    return this.http.get<any>(this.url + "detailaccept/users/" + id)
+  }
+  acceptCentralpolicy(value, answer, id) {
+    const formData = new FormData();
+
+    formData.append('status', answer);
+    formData.append('id', id);
+
+    return this.http.put(this.url + "acceptcentralpolicy/" + id, formData);
+  }
+
+
 }

@@ -7,9 +7,9 @@ using System.Text;
 
 namespace InspecWeb.Models
 {
-    [Table("SubquestionCentralPolicyProvinces")]
-    [Description("ตาราง")]
-    public class SubquestionCentralPolicyProvince
+    [Table("SubjectDateCentralPolicyProvinces")]
+    [Description("ตารางประเด็นเวลา")]
+    public class SubjectDateCentralPolicyProvince
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -22,15 +22,10 @@ namespace InspecWeb.Models
 
         public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
 
-        [Required]
-        [Description("ชื่อคำถามย่อย")]
-        public string Name { get; set; }
+        [ForeignKey("CentralPolicyDateProvince")]
+        [Description("FK: ปีงบประมาณ")]
+        public long CentralPolicyDateProvinceId { get; set; }
 
-        [Required]
-        [Description("ประเภทของคำถามย่อย")]
-        public string Type { get; set; }
-
-        public ICollection<SubquestionChoiceCentralPolicyProvince> SubquestionChoiceCentralPolicyProvinces { get; set; }
-
+        public virtual CentralPolicyDateProvince CentralPolicyDateProvince { get; set; }
     }
 }

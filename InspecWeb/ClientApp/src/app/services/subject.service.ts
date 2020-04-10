@@ -39,4 +39,13 @@ export class SubjectService {
   deleteSubject(id) {
     return this.http.delete(this.url + id);
   }
+
+  storesubjectprovince(centralpolicyid, provincevalue) {
+    // alert(JSON.stringify(provincevalue))
+    const formData = new FormData();
+    formData.append('centralpolicyid', centralpolicyid);
+    formData.append('provincevalue', provincevalue)
+    return this.http.post<any>(this.url + "subjectprovince/", formData)
+  }
 }
+

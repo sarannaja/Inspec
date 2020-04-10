@@ -25,5 +25,7 @@ namespace InspecWeb.Models
         [Description("FK: จังหวัด")]
         public long ProvinceId { get; set; }
         public virtual Province Province { get; set; }
+
+        public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
     }
 }
