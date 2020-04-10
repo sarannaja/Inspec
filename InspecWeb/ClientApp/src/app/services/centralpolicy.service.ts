@@ -112,5 +112,4 @@ export class CentralpolicyService {
     return this.http.put(this.url + "acceptcentralpolicy/" + id, formData);
   }
 
-
 }

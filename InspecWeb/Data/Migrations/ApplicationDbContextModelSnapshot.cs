@@ -19694,15 +19694,10 @@ namespace InspecWeb.Data.Migrations
                             ProvincialDepartmentID = 27L,
                             ProvinceId = 29L,
                             Id = 1777L
-                        },
-                            Id = 13L,
-                            CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
-                            File = "insp_com52.tif",
-                            Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2551",
-                            Order = "คำสั่งสำนักนายกรัฐมนตรี ที่ 226/2550",
-                            Year = "2551"
                         });
-                });
+                          
+                        });
+                //});
 
             modelBuilder.Entity("InspecWeb.Models.InspectionPlanEvent", b =>
                 {
