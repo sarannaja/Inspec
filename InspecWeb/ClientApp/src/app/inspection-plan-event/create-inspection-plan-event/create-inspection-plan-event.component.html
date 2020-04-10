@@ -101,7 +101,7 @@
                     <div class="col-12 col-xl-8" *ngIf="t.value[i].resultdetailcentralpolicy.title != null">
                       <div class="form-group">
                       {{t.value[i].resultdetailcentralpolicy.title}} &nbsp;&nbsp;
-                        <button type="button" (click)="DetailCentralPolicy(t.value[i].resultdetailcentralpolicy.id)" class="btn btn-info">รายละเอียด</button>
+                        <button type="button" (click)="DetailCentralPolicy(t.value[i].resultdetailcentralpolicy.id, i)" class="btn btn-info">รายละเอียด</button>
                       </div>
                     </div>
                 </form>
@@ -143,7 +143,7 @@
                 <!-- <button type="submit" class="btn btn-danger">ยกเลิก</button> -->
               </div>
               <div class="col-sm-5 ml-sm-auto">
-                <button type="submit" class="btn btn-danger">ยกเลิก</button>
+                <button type="submit" class="btn btn-danger" (click)="back()">ยกเลิก</button>
               </div>
             </div>
 

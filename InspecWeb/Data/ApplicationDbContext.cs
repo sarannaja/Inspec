@@ -61,6 +61,12 @@ namespace InspecWeb.Data
         public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }
         public DbSet<SubjectDate> SubjectDates { get; set; }
         public DbSet<SubquestionChoice> SubquestionChoices { get; set; }
+
+        public DbSet<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
+        public DbSet<SubquestionCentralPolicyProvince> SubquestionCentralPolicyProvinces { get; set; }
+        public DbSet<SubquestionChoiceCentralPolicyProvince> SubquestionChoiceCentralPolicyProvinces { get; set; }
+        public DbSet<SubjectDateCentralPolicyProvince> SubjectDateCentralPolicyProvinces { get; set; }
+        public DbSet<CentralPolicyDateProvince> CentralPolicyDateProvinces { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -82,6 +88,9 @@ namespace InspecWeb.Data
 
             builder.Entity<SubjectDate>()
             .HasKey(m => new { m.SubjectId, m.CentralPolicyDateId });
+
+            //builder.Entity<SubjectDateCentralPolicyProvince>()
+            //.HasKey(m => new { m.SubjectCentralPolicyProvinceId, m.CentralPolicyDateId });
 
             base.OnModelCreating(builder);
 

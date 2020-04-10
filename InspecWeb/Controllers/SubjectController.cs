@@ -133,5 +133,11 @@ namespace InspecWeb.Controllers
             _context.Subjects.Remove(subjectdata);
             _context.SaveChanges();
         }
+
+        [HttpPost("subjectprovince")]
+        public object Post(long centralpolicyid, int provincevalue)
+        {
+            return provincevalue;
+        }
     }
 }

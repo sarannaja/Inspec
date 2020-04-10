@@ -42,14 +42,19 @@
                   {{ item2.endDate | thaidate: 'year' }}</div>
               </td>
               <td>{{ item.status }}</td>
+
+
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-check-circle pointer" (click)="AcceptCentralPolicy(item.centralPolicy.id)"></i>
+                <i *ngIf="item.status == 'รอการตอบรับ'" class="align-middle mr-2 fas fa-fw fa-check-circle pointer" (click)="AcceptCentralPolicy(item.id)"></i>
+                <i *ngIf="item.status == 'ตกลง'" class="align-middle mr-2 fas fa-fw fa-book pointer"></i>
+                <i *ngIf="item.status == 'ปฏิเสธ'"></i>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i> -->
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i> -->
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteCentralPolicy, item.id)"></i> -->
               </td>
+
             </tr>
           </tbody>
         </table>
