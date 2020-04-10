@@ -73,4 +73,7 @@ export class CentralPolicyComponent implements OnInit {
   DetailCentralPolicy(id:any){
     this.router.navigate(['/centralpolicy/detailcentralpolicy',id])
   }
+  EditCentralPolicy(id:any){
+    this.router.navigate(['/centralpolicy/editcentralpolicy',id])
+  }
 }

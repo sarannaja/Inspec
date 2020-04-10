@@ -56,6 +56,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
 import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
+import { EditCentralPolicyComponent } from './central-policy/edit-central-policy/edit-central-policy.component';
 
 
 
@@ -102,7 +103,8 @@ import { AcceptCentralPolicyComponent } from './central-policy/accept-central-po
     ExecutiveOrderComponent,
     DetailExecutiveOrderComponent,
     MinistermonitoringComponent,
-    AcceptCentralPolicyComponent
+    AcceptCentralPolicyComponent,
+    EditCentralPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -162,6 +164,7 @@ import { AcceptCentralPolicyComponent } from './central-policy/accept-central-po
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

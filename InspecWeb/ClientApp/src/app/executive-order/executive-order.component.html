@@ -37,7 +37,10 @@
                 <td>{{ i + 1 }}</td>
                 <td width="30%" (click)="DetailExecutiveOrder()" class="pointer">{{ item.title }}</td>
                 <td>2563</td>
-                <td>{{ item.startDate | date: 'dd/MM/yyyy' }} - {{ item.endDate | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
+                  {{ item2.endDate | thaidate: 'year' }}</div>
+                </td>
                 <td>{{ item.status }}</td>
                 <td>
                   <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailExecutiveOrder(item.id)"></i>

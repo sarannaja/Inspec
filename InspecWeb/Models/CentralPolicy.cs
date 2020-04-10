@@ -20,6 +20,8 @@ namespace InspecWeb.Models
         [Description("FK: ปีงบประมาณ")]
         public long FiscalYearId { get; set; }
 
+        public virtual FiscalYear FiscalYear { get; set; }
+
         //[ForeignKey("InspectionPlanEvent")]
         //[Description("FK: Event การตรวจ")]
         //public long InspectionPlanEventId { get; set; }
@@ -61,6 +63,6 @@ namespace InspecWeb.Models
         public ICollection<CentralPolicyFile> CentralPolicyFiles { get; set; }
         public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }
         public ICollection<CentralPolicyDate> CentralPolicyDates { get; set; }
-        //public ICollection<InspectionPlanEvent> InspectionPlanEvents { get; set; }
+        public ICollection<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
     }
 }
