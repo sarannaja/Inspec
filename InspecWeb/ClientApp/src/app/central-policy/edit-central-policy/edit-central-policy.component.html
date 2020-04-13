@@ -2,7 +2,7 @@
   <h1 class="header-title">
     ระบบตรวจราชการอิเล็กทรอนิกส์
   </h1>
-  <nav aria-label="breadcrumb">
+  <nav aria-label="breadcrumb" *ngIf="loading">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="#">Tables</a></li> -->
@@ -26,10 +26,11 @@
                 <label>ปีงบประมาณ*</label>
                 <div class="form-group col-md-3">
                   <div class="mb-3">
-                    <select class="form-control select2" data-toggle="select2">
+                    <select class="form-control select2" data-toggle="select2" formControlName="year">
                       <!-- formControlName="year" -->
                       <option value=null>กรุณาเลือกปีงบประมาณ</option>
-                      <option *ngFor="let item of fiscalYearIdString; let i = index" value="{{item.id}}" [selected]="item.id == fiscalYearId">{{item.year}}
+                      <option *ngFor="let item of fiscalYearIdString; let i = index" value="{{item.id}}"
+                        [selected]="item.id == fiscalYearId">{{item.year}}
                       </option>
                     </select>
                   </div>
@@ -42,7 +43,7 @@
                 <label>ประเภท*</label>
                 <div class="form-group col-md-3">
                   <div class="mb-3">
-                    <select class="form-control select2" data-toggle="select2" [value]='resultdetailcentralpolicy.type'>
+                    <select class="form-control select2" data-toggle="select2" [value]='resultdetailcentralpolicy.type' formControlName="type">
                       <!-- formControlName="type" -->
                       <option value=null>กรุณาเลือกประเภท</option>
                       <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
@@ -65,14 +66,15 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <div class="form-group col-md-3">
-                  <div class="mb-3" *ngIf="resultdetailcentralpolicy.status == 'ร่างกำหนดการ' else elseBlock">
-                    <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
+                  <div class="mb-3">
+                    <input type="radio" name="status" value="ร่างกำหนดการ"
+                      [checked]="resultdetailcentralpolicy.status == 'ร่างกำหนดการ'" formControlName="status">
                     <label style="margin-left: 10px;">ร่างกำหนดการ</label>
                     <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
-                      formControlName="status">
+                      [checked]="resultdetailcentralpolicy.status == 'ใช้งานจริง'" formControlName="status">
                     <label style="margin-left: 10px;">ใช้งานจริง</label>
                   </div>
-                  <ng-template #elseBlock>
+                  <!-- <ng-template #elseBlock>
                     <div class="mb-3">
                       <input type="radio" name="status" value="ร่างกำหนดการ" formControlName="status">
                       <label style="margin-left: 10px;">ร่างกำหนดการ</label>
@@ -80,7 +82,7 @@
                         formControlName="status">
                       <label style="margin-left: 10px;">ใช้งานจริง</label>
                     </div>
-                  </ng-template>
+                  </ng-template> -->
                 </div>
               </div>
             </div>
@@ -88,41 +90,43 @@
             <div class="col-12 col-xl-12">
               <label>กำหนดระยะเวลา</label>
             </div>
-            <!-- <div class="col-12" [formGroup]="Form" (ngSubmit)="storeCentralpolicy(Form.value)">
-                <div class="form-group row" *ngFor="let item of d.controls; let i = index">
-                  <form class="form-group row col-12" [formGroup]="item">
-                    <div class="col-12 col-xl-3">
-                      <div class="form-group">
-                        <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
-                          [options]="myDatePickerOptions" required>
-                        </my-date-picker-th>
-                      </div>
+            <div class="col-12">
+              <div class="form-group row" *ngFor="let item of d.value; let i = index">
+                <form class="form-group row col-12" [formGroup]="item">
+                  <div class="col-12 col-xl-3">
+                    <div class="form-group">
+                      <my-date-picker-th [selDate]="item.start_date" (dateChanged)="onStartDateChanged($event, i)"
+                        [options]="myDatePickerOptions" required>
+                      </my-date-picker-th>
                     </div>
-                    <div class="col-12 col-xl-1">
-                      <div class="form-group" align="center">
-                        ถึง
-                      </div>
+                  </div>
+                  <div class="col-12 col-xl-1">
+                    <div class="form-group" style="text-align: center;">
+                      ถึง
                     </div>
-                    <div class="col-12 col-xl-3">
-                      <div class="form-group">
-                        <my-date-picker-th formControlName="end_date" [(ngModel)]="item.end_date"
-                          [options]="myDatePickerOptions" required>
-                        </my-date-picker-th>
-                      </div>
+                  </div>
+                  <div class="col-12 col-xl-3">
+                    <div class="form-group">
+                      <my-date-picker-th [selDate]="item.end_date" (dateChanged)="onEndDateChanged($event, i)"
+                        [options]="myDatePickerOptions" required>
+                      </my-date-picker-th>
                     </div>
-  
-                    <div class="col-1">
-                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appenddate()"></i>
-                    </div>
-                  </form>
-                </div>
-              </div> -->
+                  </div>
+
+                  <div class="col-1">
+                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appenddate()"></i>
+                    <!-- <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="deleteDate(i)"></i> -->
+                  </div>
+                </form>
+              </div>
+            </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>จังหวัด</label>
-                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="selectdataprovince"
-                  name="ProvinceId" formControlName="ProvinceId" [allowClear]="true">
+                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" id="selected"
+                  [options]="selectdataprovince" [(ngModel)]="selected" name="ProvinceId" formControlName="ProvinceId"
+                  [allowClear]="true">
                 </ng-select>
               </div>
             </div>
@@ -146,7 +150,7 @@
                           <i class="align-middle mr-2 far fa-fw fa-minus-square"></i>
                         </div>
                       </ng-template>
-  
+
                       <div class="col-12 col-xl-12">
                         <label>กำหนดระยะเวลา</label>
                       </div>
@@ -168,7 +172,7 @@
                         </div>
                       </div>
                       <div class="col-5"></div>
-  
+
                       <div class="form-group col-12">
                         <label>คำถามย่อยของประเด็นที่ {{ i + 1 }}</label>
                         <div class="row">
@@ -200,6 +204,14 @@
                 <label class="form-label w-100">แนบไฟล์</label>
                 <input type="file" multiple (change)="uploadFile($event)">
                 <!-- formControlName="files" -->
+                <!-- <small *ngIf="fileStatus == false" class="form-text text-muted">{{resultdetailcentralpolicy?.centralPolicyFiles[0]?.name}}</small> -->
+                <div class="row">
+                  <div class="col-md-6">
+                    <u>ไฟล์แนบ</u><br><span
+                      *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index">ไฟล์ที่ {{i+1}})
+                      {{ item2.name }}<br></span>
+                  </div>
+                </div>
                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
             </div>

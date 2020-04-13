@@ -61,6 +61,8 @@ namespace InspecWeb.Controllers
         public IActionResult Get(long id)
         {
             var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.CentralPolicyProvinces)
+                .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
                 //.Include(m => m.Subjects)
@@ -179,6 +181,163 @@ namespace InspecWeb.Controllers
                     _context.SaveChanges();
                 }
             }
+            return Ok(new { status = true });
+
+        }
+
+        [HttpPut("{editId}")]
+        public async Task<IActionResult> Put([FromForm] CentralPolicyProvinceViewModel model, long editId)
+        {
+            //var eiei = model.StartDate;
+            System.Console.WriteLine("test: " + editId);
+            //return Ok(model);
+            var date = DateTime.Now;
+            var centralpolicydata = _context.CentralPolicies.Find(editId);
+            {
+                centralpolicydata.Title = model.Title;
+                centralpolicydata.Type = model.Type;
+                centralpolicydata.FiscalYearId = model.FiscalYearId;
+                centralpolicydata.StartDate = model.StartDate;
+                centralpolicydata.EndDate = model.EndDate;
+                centralpolicydata.Status = model.Status;
+                centralpolicydata.CreatedAt = date;
+                centralpolicydata.CreatedBy = "Super Admin";
+                centralpolicydata.Class = "แผนการตรวจประจำปี";
+            };
+
+            //_context.CentralPolicies.Add(centralpolicydata);
+            _context.Entry(centralpolicydata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            var delData = _context.CentralPolicyProvinces
+                   .Where(x => x.CentralPolicyId == editId)
+                   .ToList();
+            foreach(var del in delData)
+            {
+                _context.CentralPolicyProvinces.Remove(del);
+            }
+            _context.SaveChanges();
+
+            foreach (var id in model.ProvinceId)
+            {
+                System.Console.WriteLine("in2");
+                var centralpolicyprovincedata = new CentralPolicyProvince
+                {
+                    ProvinceId = id,
+                    CentralPolicyId = editId,
+                };
+                _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
+                //_context.Entry(centralpolicyprovincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+            _context.SaveChanges();
+
+            var deleteDate = _context.CentralPolicyDates
+                    .Where(x => x.CentralPolicyId == editId)
+                    .ToList();
+
+            foreach (var delDate in deleteDate)
+            {
+                _context.CentralPolicyDates.Remove(delDate);
+            }
+            _context.SaveChanges();
+
+            int index = 0;
+            int indexend = 0;
+            foreach (var item in model.StartDate2)
+            {
+                var CentralPolicyDate = new CentralPolicyDate
+                {
+                    CentralPolicyId = centralpolicydata.Id,
+                    StartDate = item
+                    //EndDate = item.EndDate,
+                };
+                _context.CentralPolicyDates.Add(CentralPolicyDate);
+                //_context.Entry(CentralPolicyDate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+
+                var id = _context.CentralPolicyDates.Find(CentralPolicyDate.Id);
+
+                indexend = 0;
+
+                foreach (var itemend in model.EndDate2)
+                {
+                    if (index == indexend)
+                    {
+                        id.EndDate = itemend;
+
+                        System.Console.WriteLine("END: " + indexend);
+                    }
+                    indexend++;
+                }
+
+                index++;
+
+                System.Console.WriteLine("Start: " + index);
+            }
+
+            System.Console.WriteLine("FINISH");
+
+            //if (model.files != null) {
+
+            //    var delFile = _context.CentralPolicyFiles
+            //               .Where(x => x.CentralPolicyId == editId)
+            //               .ToList();
+
+            //    foreach (var del in delFile)
+            //    {
+            //        _context.CentralPolicyFiles.Remove(del);
+            //    }
+            //    _context.SaveChanges();
+            //    System.Console.WriteLine("in1");
+            //}
+
+            //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
+            //var size = data.files.Sum(f => f.Length);
+            var random = RandomString(10);
+            //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                System.Console.WriteLine("in2");
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+
+            System.Console.WriteLine("testJa: " + model.files);
+
+            if (model.files != null) {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    System.Console.WriteLine("in3");
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("in4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + filename + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var CentralPolicyFiledata = new CentralPolicyFile
+                        {
+                            CentralPolicyId = centralpolicydata.Id,
+                            Name = filename + random + ext
+                        };
+                        _context.CentralPolicyFiles.Add(CentralPolicyFiledata);
+                        System.Console.WriteLine("in5");
+                        _context.SaveChanges();
+                        System.Console.WriteLine("in6");
+                        //_context.Entry(CentralPolicyFile).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    }
+                } }
             return Ok(new { status = true });
 
         }
