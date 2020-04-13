@@ -28,7 +28,6 @@ export class DefaultLayoutComponent implements OnInit {
     .subscribe(result => {
       this.userid = result.sub
       this.role_id = result.role_id
-      //alert(result.role_id);
       if(this.role_id == 1){
         this.nav = superAdmin
       }else if(this.role_id == 2 ){
