@@ -61,8 +61,6 @@ import { UserManager } from 'oidc-client';
 import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
