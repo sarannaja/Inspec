@@ -165,5 +165,7 @@ export class CentralpolicyService {
 
     return this.http.put(this.url + "acceptcentralpolicy/" + id, formData);
   }
-
+  getdetailcentralpolicyprovincedata(id): Observable<any> {
+    return this.http.get<any>(this.url + "centralpolicyprovince/" + id)
+  }
 }

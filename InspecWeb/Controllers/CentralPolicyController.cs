@@ -65,8 +65,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-                //.Include(m => m.Subjects)
-                //.ThenInclude(m => m.Subquestions)
+                .Include(m => m.Subjects)
+                .ThenInclude(m => m.Subquestions)
                 .Where(m => m.Id == id).First();
 
             return Ok(centralpolicydata);
@@ -442,8 +442,8 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-                //.Include(m => m.Subjects)
-                //.ThenInclude(m => m.Subquestions)
+                .Include(m => m.Subjects)
+                .ThenInclude(m => m.Subquestions)
                 .Where(m => m.Id == accept.CentralPolicyId).First();
 
             return Ok(centralpolicydata);
@@ -460,6 +460,27 @@ namespace InspecWeb.Controllers
                 .Where(m => m.CentralPolicyId == accept.CentralPolicyId);
 
             return Ok(centralpolicyuserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("centralpolicyprovince/{id}")]
+        public IActionResult GetCentralPolicyProvince(long id)
+        {
+            var centralpolicyprovince = _context.CentralPolicyProvinces
+            .Where(m => m.Id == id).FirstOrDefault();
+
+            var centralpolicydata = _context.CentralPolicies
+            .Include(m => m.CentralPolicyDates)
+            .Include(m => m.CentralPolicyFiles)
+            .Where(m => m.Id == centralpolicyprovince.CentralPolicyId).First();
+
+            var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Where(m => m.CentralPolicyProvinceId == id).ToList();
+
+            return Ok( new { subjectcentralpolicyprovincedata , centralpolicydata });
+            //return "value";
         }
 
     }
