@@ -108,6 +108,9 @@ export class SubjectComponent implements OnInit {
   Subquestion() {
     this.router.navigate(['/subquestion', this.id])
   }
+  EditSubject(id) {
+    this.router.navigate(['/subject/editsubject', id])
+  }
 
   getTimeCentralPolicy() {
     this.centralpolicyservice.getdetailcentralpolicydata(this.id).subscribe(result => {

@@ -49,6 +49,40 @@ namespace InspecWeb.Controllers
             return Ok(subjectdata);
         }
 
+        [HttpGet("subjectdetail/{id}")]
+        public IActionResult Get2(long id)
+        {
+            var subjectdata = _context.Subjects
+                .Include(m => m.SubjectDates)
+                .ThenInclude(m => m.CentralPolicyDate)
+                .Include(m => m.Subquestions)
+                .ThenInclude(m => m.SubquestionChoices)
+                .Where(m => m.Id == id)
+                .First();
+
+            return Ok(subjectdata);
+        }
+
+        // POST api/values
+        [HttpPost("addsubquestion")]
+        public Subquestion Post2(long subjectId, string name)
+        {
+            System.Console.WriteLine("subjectId"+ subjectId);
+
+            var questionsopendata = new Subquestion
+            {
+                SubjectId = subjectId,
+                Name = name,
+                Type = "คำถามปลายเปิด"
+
+            };
+
+            _context.Subquestions.Add(questionsopendata);
+            _context.SaveChanges();
+
+            return questionsopendata;
+        }
+
         // POST api/values
         [HttpPost]
         public Subject Post([FromBody] SubjectViewModel model)

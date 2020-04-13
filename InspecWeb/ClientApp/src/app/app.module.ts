@@ -60,7 +60,9 @@ import { EditCentralPolicyComponent } from './central-policy/edit-central-policy
 import { UserManager } from 'oidc-client';
 import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
+import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-central-policy-province/detail-central-policy-province.component';
+
 
 @NgModule({
   declarations: [
@@ -108,7 +110,8 @@ import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-ce
     MinistermonitoringComponent,
     AcceptCentralPolicyComponent,
     EditCentralPolicyComponent,
-    UserCentralPolicyComponent
+    UserCentralPolicyComponent,
+    EditSubjectComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -172,6 +175,7 @@ import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-ce
           { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'test/logout', component: LogoutComponent},
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

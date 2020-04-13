@@ -1,0 +1,148 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
+      <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
+      <li class="breadcrumb-item"><a href="javascript:void(0)">นโยบายกลาง</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบาย</a></li>
+      <li class="breadcrumb-item active" aria-current="page">เพิ่มประเด็นนโยบาย</li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">จัดการประเด็นนโยบาย</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="EditForm" (ngSubmit)="EditSubject(EditForm.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <br>
+            </div>
+
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>ชื่อประเด็นนโยบาย</label>
+                <input type="text" value="{{resultsubjectdetail.name}}" formControlName="name" class="form-control"
+                  placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
+              </div>
+
+              <div class="form-group">
+                <label>กำหนดระยะเวลา</label>
+                <ng-select multiple="true" id="datetime" [(ngModel)]="datetime" placeholder="กรุณาเลือกระยะเวลา"
+                  [options]="times" name="ํTime" formControlName="centralpolicydateid" [allowClear]="true">
+                </ng-select>
+              </div>
+              <div class="form-group">
+                <label>คำถามย่อย</label>
+                <br>
+                <div class="colum">
+                  <label>คำถามปลายเปิด</label>
+                  &nbsp;&nbsp;
+                  <button class="btn btn-info" type="button"
+                  (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)">เพิ่มคำถามปลายเปิด</button>
+                  <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square"
+                    (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)"></i> -->                  
+                </div>
+                <div class="row" *ngFor="let item of questionsopen; let i = index">
+                  <div class="col-11 col-xl-11 form-group" *ngIf="item.type == 'คำถามปลายเปิด'">
+                    <input type="text" value="{{item.name}}" formControlName="questionopen" class="form-control"
+                      placeholder="กรุณากรอกคำถาม">
+                  </div>
+
+                </div>
+                <br>
+                <div class="colum">
+                  <label>คำถามปลายปิด</label>
+                  &nbsp;&nbsp;
+                  <button class="btn btn-info" type="button"
+                  (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)">เพิ่มคำถามปลายปิด</button>
+                  <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square"
+                    (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)"></i> -->
+                </div>
+                <div class="row" *ngFor="let item of questionsopen; let i = index">
+                  <div class="col-11 col-xl-11">
+                    <input type="text" *ngIf="item.type == 'คำถามปลายปิด'" value="{{item.name}}"
+                      formControlName="questionopen" class="form-control" placeholder="กรุณากรอกคำถาม">
+                    <div *ngFor="let items of item.subquestionChoices; let i = index">
+                      <input type="text" *ngIf="item.type == 'คำถามปลายปิด'" value="{{items.name}}"
+                        formControlName="questionopen" class="form-control" placeholder="กรุณากรอกคำถาม">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+              </div>
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- BEGIN primary modal -->
+<ng-template #modalQuestionsopen class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="FormAddQuestionsopen" (ngSubmit)="AddQuestionsopen(FormAddQuestionsopen.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เพิ่มคำถามปลายเปิด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำถามปลายเปิด</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modalQuestionsclose class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="FormAddQuestionsclose" (ngSubmit)="AddQuestionsclose(FormAddQuestionsclose.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เพิ่มคำถามปลายปิด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
+          <div class="colum">
+            <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำตอบ">
+            <i class="align-middle mr-2 far fa-fw fa-plus-square"
+              (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)"></i>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
