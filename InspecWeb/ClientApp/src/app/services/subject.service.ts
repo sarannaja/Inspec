@@ -12,8 +12,10 @@ export class SubjectService {
     this.url = baseUrl + 'api/subject/';
   }
   getsubjectdata(id) {
-    console.log(id);
     return this.http.get(this.url + id)
+  }
+  getsubjectdetaildata(id) {
+    return this.http.get(this.url + "subjectdetail/" + id)
   }
   addSubject(subjectData, centralpolicyid) {
 
@@ -34,6 +36,13 @@ export class SubjectService {
     // ``
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);
+  }
+  addSubquestionopen(Subquestionopendata) {
+    const formData = new FormData();
+    formData.append('subjectId', Subquestionopendata.subjectId);
+    formData.append('name', Subquestionopendata.name)
+    console.log('FORMDATA: ' + formData.get("name"));
+    return this.http.post(this.url + "addsubquestion", formData);
   }
 
   deleteSubject(id) {
