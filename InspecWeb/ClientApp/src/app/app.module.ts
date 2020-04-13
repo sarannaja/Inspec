@@ -60,6 +60,7 @@ import { EditCentralPolicyComponent } from './central-policy/edit-central-policy
 import { UserManager } from 'oidc-client';
 import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
+import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-central-policy-province/detail-central-policy-province.component';
 
 
 
@@ -82,6 +83,7 @@ import { UserCentralPolicyComponent } from './central-policy/user-central-policy
     UserComponent,
     FiscalyearComponent,
     DetailCentralPolicyComponent,
+    DetailCentralPolicyProvinceComponent,
     LoginComponent,
     SupportGovernmentComponent,
     CentralPolicyComponent,
@@ -146,6 +148,7 @@ import { UserCentralPolicyComponent } from './central-policy/user-central-policy
           { path: 'user/:id', component: UserComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear', component: FiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicy/detailcentralpolicyprovince/:result', component: DetailCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
