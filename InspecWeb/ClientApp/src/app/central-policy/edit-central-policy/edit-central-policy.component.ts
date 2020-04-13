@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { IOption } from 'ng-select';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
+import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-central-policy',
@@ -14,6 +16,11 @@ import { ProvinceService } from 'src/app/services/province.service';
   styleUrls: ['./edit-central-policy.component.css']
 })
 export class EditCentralPolicyComponent implements OnInit {
+
+  private myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+  };
 
   id: any;
   fiscalYearId: any;
@@ -25,6 +32,14 @@ export class EditCentralPolicyComponent implements OnInit {
   resultprovince: any = []
   EditForm: FormGroup;
   selectdataprovince: Array<IOption>
+  provinceId: any[];
+  form: FormGroup;
+  fileStatus = false;
+  loading = false;
+  startDate: any;
+  endDate: any;
+
+  selected: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -33,34 +48,116 @@ export class EditCentralPolicyComponent implements OnInit {
     private userservice: UserService,
     private activatedRoute: ActivatedRoute,
     private fiscalyearservice: FiscalyearService,
-    private provinceservice: ProvinceService
+    private provinceservice: ProvinceService,
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.form = this.fb.group({
+      name: [''],
+      files: [null]
+    })
   }
 
+  get f() { return this.EditForm.controls }
+  get t() { return this.f.input as FormArray }
+  get d() { return this.f.inputdate as FormArray }
+
   ngOnInit() {
+
+
+    this.EditForm = this.fb.group({
+      title: new FormControl(null),
+      year: new FormControl(null),
+      type: new FormControl(null),
+      files: new FormControl(null),
+      ProvinceId: new FormControl(null),
+      status: new FormControl(),
+      input: new FormArray([]),
+      inputdate: new FormArray([])
+    });
+
+
+    this.t.push(this.fb.group({
+      date: '',
+      subject: '',
+      questions: []
+    }))
+
+    // this.d.push(this.fb.group({
+    //   start_date: '',
+    //   end_date: '',
+    // }))
+
     this.getDetailCentralpolicy()
     this.getFiscalyear()
     this.getProvince()
+
   }
+
   getDetailCentralpolicy() {
+    this.spinner.show();
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
       .subscribe(result => {
-        this.resultdetailcentralpolicy = result
-        this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearId
-      })
+        this.resultdetailcentralpolicy = result;
+        console.log("RES: ", this.resultdetailcentralpolicy);
+
+        this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearId.toString();
+
+
+        this.resultdetailcentralpolicy.centralPolicyDates.forEach(element => {
+          console.log("element: ", element.startDate)
+          const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
+          let sDate: Date = new Date(element.startDate);
+          let eDate: Date = new Date(element.endDate)
+          console.log("EEE", sDate);
+
+
+
+          this.d.push(this.fb.group({
+            start_date: {
+              year: sDate.getFullYear(),
+              month: sDate.getMonth() + 1,
+              day: sDate.getDate()
+            },
+            end_date: {
+              year: eDate.getFullYear(),
+              month: eDate.getMonth() + 1,
+              day: eDate.getDate()
+            }
+          }))
+          // console.log("check: ", this.d.controls);
+        });
+
+        this.resultdetailcentralpolicy.centralPolicyProvinces.forEach(element => {
+          //  console.log("element: ", element.province.id);
+          this.selected.push(element.province.id)
+        });
+        console.log("SELECTED: ", this.selected);
+
+        console.log("year: ", this.resultdetailcentralpolicy.fiscalYearId,);
+
+
+        this.EditForm.patchValue({
+          title: this.resultdetailcentralpolicy.title,
+          year: this.resultdetailcentralpolicy.fiscalYearId.toString(),
+          type: this.resultdetailcentralpolicy.type,
+          status: this.resultdetailcentralpolicy.status
+        });
+        this.spinner.hide();
+      });
   }
+
   getFiscalyear() {
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
-
       this.fiscalYearIdString = this.resultfiscalyear.map((item, index) => {
         return {
           id: item.id.toString(),
-          year: item.year.toString()
+          year: item.year
         }
       })
-      console.log("TEST: ", this.fiscalYearIdString);
+      // console.log("fiscalyearString: ", this.fiscalYearIdString);
 
     })
   }
@@ -71,10 +168,79 @@ export class EditCentralPolicyComponent implements OnInit {
         return { value: item.id, label: item.name }
       })
     })
+    this.loading = true;
   }
 
 
   EditCentralpolicy(value) {
-    console.log(value);
+    console.log("SUBMIT: ", value);
+    console.log("files: ", this.form.value.files);
+
+    this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id)
+    .subscribe(response => {
+      console.log("res: ", response);
+      this.EditForm.reset()
+      this.router.navigate(['centralpolicy'])
+    })
+  }
+
+  appenddate() {
+    let date: Date = new Date();
+    this.d.push(this.fb.group({
+      start_date: {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
+      },
+      end_date: {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate()
+      }
+    }))
+  }
+
+  // deleteDate(i) {
+  //   let date: Date = new Date();
+  //   let dArray: any = [];
+  //   this.d.value = this.fb.group({
+  //     inputdate: this.fb.array([]),
+  //   });
+  //   this.d.value.forEach((element, index) => {
+  //     if (index != i) {
+
+  //       this.d.push(this.fb.group({
+  //        element
+  //       }))
+  //     }
+  //   });
+  // }
+
+  uploadFile(event) {
+    this.fileStatus = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      files: file
+    });
+    console.log("fff:", this.form.value.files)
+    this.form.get('files').updateValueAndValidity()
+  }
+
+  onStartDateChanged(event: IMyDateModel, index) {
+    this.startDate = event.date;
+    console.log("SS: ", this.startDate);
+
+    this.d.value[index].start_date = this.startDate;
+    console.log("check: ", this.d.value);
+  }
+
+  onEndDateChanged(event: IMyDateModel, index) {
+    this.endDate = event.date;
+    console.log("EE: ", this.endDate);
+
+    this.d.value[index].end_date = this.endDate;
+    console.log("check: ", this.d.value);
+
   }
 }

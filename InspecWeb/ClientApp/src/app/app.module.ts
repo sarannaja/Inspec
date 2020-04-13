@@ -61,7 +61,7 @@ import { UserManager } from 'oidc-client';
 import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
-
+import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-central-policy-province/detail-central-policy-province.component';
 
 
 @NgModule({
@@ -83,6 +83,7 @@ import { EditSubjectComponent } from './subject/edit-subject/edit-subject.compon
     UserComponent,
     FiscalyearComponent,
     DetailCentralPolicyComponent,
+    DetailCentralPolicyProvinceComponent,
     LoginComponent,
     SupportGovernmentComponent,
     CentralPolicyComponent,
@@ -148,6 +149,7 @@ import { EditSubjectComponent } from './subject/edit-subject/edit-subject.compon
           { path: 'user/:id', component: UserComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear', component: FiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicy/detailcentralpolicyprovince/:result', component: DetailCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },

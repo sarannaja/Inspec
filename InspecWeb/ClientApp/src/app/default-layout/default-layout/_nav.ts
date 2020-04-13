@@ -28,11 +28,6 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
         name:"แผนการตรวจประจำปี"
     },
     {
-      icon:'fa-archive',
-      url:"/usercentralpolicy",
-      name:"แผนการตรวจประจำปี"
-  },
-    {
         icon:'fa-calendar',
         url:"/inspectionplanevent",
         name:"ปฏิทินการตรวจราชการ"
@@ -588,7 +583,7 @@ export const publicsector:NavBar[] = [ //User ภาคประชาชน
     },
     {
         icon:'fa-archive',
-        url:"/centralpolicy",
+        url:"/usercentralpolicy",
         name:"แผนการตรวจประจำปี"
     },
     {

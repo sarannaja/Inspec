@@ -24,11 +24,11 @@ export class DefaultLayoutComponent implements OnInit {
   constructor( private authorize: AuthorizeService) { }
   // 0C-54-15-66-C2-D6
   ngOnInit() {
+    this.nav = superAdmin
     this.authorize.getUser()
     .subscribe(result => {
       this.userid = result.sub
       this.role_id = result.role_id
-      //alert(result.role_id);
       if(this.role_id == 1){
         this.nav = superAdmin
       }else if(this.role_id == 2 ){
@@ -43,7 +43,7 @@ export class DefaultLayoutComponent implements OnInit {
         this.nav = InspectorMinistry
       }else if(this.role_id == 7){
         this.nav = publicsector
-       }else{
+      }else if(this.role_id == 8){
         this.nav = president
        }
       // console.log(result);

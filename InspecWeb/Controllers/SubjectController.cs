@@ -107,7 +107,7 @@ namespace InspecWeb.Controllers
                 _context.SubjectDates.Add(subjectdatedata);
             }
             _context.SaveChanges();
-            
+
             foreach (var questionopen in model.inputquestionopen)
             {
                 var Subquestionopendata = new Subquestion
@@ -169,9 +169,101 @@ namespace InspecWeb.Controllers
         }
 
         [HttpPost("subjectprovince")]
-        public object Post(long centralpolicyid, int provincevalue)
+        public object Post(long centralpolicyid, long provincevalue)
         {
-            return provincevalue;
+
+            var centralpolicyprovince = _context.CentralPolicyProvinces
+                .Where(m => m.ProvinceId == provincevalue)
+                .Where(m => m.CentralPolicyId == centralpolicyid).FirstOrDefault();
+
+            var Subjectdatas = _context.Subjects
+            .Where(m => m.CentralPolicyId == centralpolicyid).ToList();
+
+            var SubjectCentralPolicyProvincescheck = _context.SubjectCentralPolicyProvinces
+            .Where(m => m.CentralPolicyProvinceId == centralpolicyprovince.Id).Count();
+
+            if (SubjectCentralPolicyProvincescheck > 0)
+            {
+                return centralpolicyprovince.Id;
+            }
+            else
+            {
+                foreach (var Subjectdata in Subjectdatas)
+                {
+                    Console.WriteLine("TEST: " + Subjectdata.Name);
+                    Console.WriteLine("TEST2: " + centralpolicyprovince.Id);
+                    var SubjectCentralPolicyProvinceData = new SubjectCentralPolicyProvince
+                    {
+                        CentralPolicyProvinceId = centralpolicyprovince.Id,
+                        Name = Subjectdata.Name
+                    };
+                    _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvinceData);
+                    _context.SaveChanges();
+
+                    Console.WriteLine("TEST3: " + Subjectdata.Id);
+
+                    var subjectdatedatas = _context.SubjectDates
+                        .Where(m => m.SubjectId == Subjectdata.Id).FirstOrDefault();
+
+                    Console.WriteLine("TEST4: " + subjectdatedatas.CentralPolicyDateId);
+
+                    var centralpolicydatedatas = _context.CentralPolicyDates
+                      .Where(m => m.Id == subjectdatedatas.CentralPolicyDateId).ToList();
+
+                    //Console.WriteLine("TEST5: " + centralpolicydatedatas.Id);
+                    Console.WriteLine("TEST6: " + SubjectCentralPolicyProvinceData.Id);
+
+                    foreach (var centralpolicydatedata in centralpolicydatedatas)
+                    {
+                        var CentralPolicyDateProvincedatas = new CentralPolicyDateProvince
+                        {
+                            StartDate = centralpolicydatedata.StartDate,
+                            EndDate = centralpolicydatedata.EndDate
+                        };
+                        _context.CentralPolicyDateProvinces.Add(CentralPolicyDateProvincedatas);
+                        _context.SaveChanges();
+
+                        var subjectdatecentralpolicyprovincedata = new SubjectDateCentralPolicyProvince
+                        {
+                            SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvinceData.Id,
+                            CentralPolicyDateProvinceId = CentralPolicyDateProvincedatas.Id
+                        };
+                        _context.SubjectDateCentralPolicyProvinces.Add(subjectdatecentralpolicyprovincedata);
+                        _context.SaveChanges();
+                    }
+
+                    var Subquestiondatas = _context.Subquestions
+                    .Where(m => m.SubjectId == Subjectdata.Id).ToList();
+
+                    foreach (var Subquestiondata in Subquestiondatas)
+                    {
+                        var SubquestionCentralPolicyProvincedata = new SubquestionCentralPolicyProvince
+                        {
+                            SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvinceData.Id,
+                            Name = Subquestiondata.Name,
+                            Type = Subquestiondata.Type
+                        };
+                        _context.SubquestionCentralPolicyProvinces.Add(SubquestionCentralPolicyProvincedata);
+                        _context.SaveChanges();
+
+                        var Subquestiondatachoices = _context.SubquestionChoices
+                        .Where(m => m.SubquestionId == Subquestiondata.Id).ToList();
+
+                        foreach (var Subquestiondatachoice in Subquestiondatachoices)
+                        {
+                            var SubquestionChoiceCentralPolicyProvincedata = new SubquestionChoiceCentralPolicyProvince
+                            {
+                                SubquestionCentralPolicyProvinceId = SubquestionCentralPolicyProvincedata.Id,
+                                Name = Subquestiondatachoice.Name,
+                            };
+                            _context.SubquestionChoiceCentralPolicyProvinces.Add(SubquestionChoiceCentralPolicyProvincedata);
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                return centralpolicyprovince.Id;
+            }
         }
     }
 }

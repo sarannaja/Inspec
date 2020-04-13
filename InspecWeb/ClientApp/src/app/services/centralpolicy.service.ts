@@ -72,6 +72,60 @@ export class CentralpolicyService {
     return this.http.post(this.url, formData)
   }
 
+  editCentralpolicy(centralpolicyData, file: FileList, id) {
+    console.log("test: ", centralpolicyData);
+    console.log("id", id);
+    console.log("ff: ", file);
+
+
+    var inputdate: Array<any> = centralpolicyData.inputdate.map((item, index) => {
+      return {
+        StartDate: item.start_date.year + '-' + item.start_date.month + '-' + item.start_date.day,
+        EndDate: item.end_date.year + '-' + item.end_date.month + '-' + item.end_date.day,
+      }
+    })
+    console.log("DDD", inputdate);
+
+    const formData = new FormData();
+    formData.append('Title', centralpolicyData.title);
+    formData.append('Type', centralpolicyData.type);
+    for (var i = 0; i < centralpolicyData.ProvinceId.length; i++) {
+      formData.append('ProvinceId', centralpolicyData.ProvinceId[i]);
+    }
+    formData.append('FiscalYearId', centralpolicyData.year);
+    formData.append('Status', centralpolicyData.status);
+    // formData.append('files',centralpolicyData.file);
+    for (var ii = 0; ii < inputdate.length; ii++) {
+      console.log("ii: ", ii);
+      // console.log("inputdateii: ", inputdate[ii].StartDate);
+      formData.append('StartDate2', inputdate[ii].StartDate);
+      formData.append('EndDate2', inputdate[ii].EndDate);
+    }
+
+    if (file != null) {
+      console.log('infile');
+
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+
+    console.log("formTitle: ", formData.getAll('Title'));
+    console.log("formType: ", formData.getAll('Type'));
+    console.log("formProvinceId: ", formData.getAll('ProvinceId'));
+    console.log("formFiscalYearId: ", formData.getAll('FiscalYearId'));
+    console.log("formStatus: ", formData.getAll('Status'));
+    console.log("formStartDate2: ", formData.getAll('StartDate2'));
+    console.log("formEndDate2: ", formData.getAll('EndDate2'));
+    console.log("formfiles: ", formData.getAll('files'));
+
+    let path = this.url + id;
+    console.log("path: ",  path);
+
+
+    return this.http.put(path, formData)
+  }
+
   deleteCentralPolicy(id) {
     return this.http.delete(this.url + id);
   }
@@ -111,5 +165,7 @@ export class CentralpolicyService {
 
     return this.http.put(this.url + "acceptcentralpolicy/" + id, formData);
   }
-
+  getdetailcentralpolicyprovincedata(id): Observable<any> {
+    return this.http.get<any>(this.url + "centralpolicyprovince/" + id)
+  }
 }

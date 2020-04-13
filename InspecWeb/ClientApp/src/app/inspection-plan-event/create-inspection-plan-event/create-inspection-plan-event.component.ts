@@ -104,7 +104,9 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.subjectservice.storesubjectprovince(id, this.province[i].value)
       .subscribe(result => {
         console.log("storesubjectprovince : " + result);
-        // window.open(this.url + 'centralpolicy/detailcentralpolicy/' + id);
+
+        // this.router.navigate([]).then(result => {  window.open(this.url + 'centralpolicy/detailcentralpolicyprovince/' + result, '_blank'); });
+        window.open(this.url + 'centralpolicy/detailcentralpolicyprovince/' + result);
       })
 
   }
