@@ -1,10 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { IOption } from 'ng-select';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { SubjectService } from 'src/app/services/subject.service';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -22,23 +23,38 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   // UserMinistryId: any;
   id
   Form: FormGroup;
+  EditForm: FormGroup;
+  EditForm2: FormGroup;
   selectpeople: Array<IOption>
   selectministrypeople: Array<IOption>
   modalRef: BsModalRef;
-
+  editid: any
+  subquestionclosename: any
+  subquestionclosechoicename: any
+  downloadUrl: any
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
     private userservice: UserService,
-    private activatedRoute: ActivatedRoute, ) {
+    private subjectservice: SubjectService,
+    private activatedRoute: ActivatedRoute,
+    @Inject('BASE_URL') baseUrl: string ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
+    this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {
-
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
+
+    this.EditForm = this.fb.group({
+      subquestionclose: new FormControl(),
+    })
+
+    this.EditForm2 = this.fb.group({
+      subquestionclosechoice: new FormControl(),
     })
 
     this.userservice.getuserdata(7).subscribe(result => {
@@ -65,6 +81,34 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  editModal(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subquestionclosename = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm = this.fb.group({
+      subquestionclose: new FormControl(),
+
+    })
+    this.EditForm.patchValue({
+      subquestionclose: name,
+    })
+  }
+
+  editModal2(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subquestionclosechoicename = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm2 = this.fb.group({
+      subquestionclosechoice: new FormControl(),
+
+    })
+    this.EditForm2.patchValue({
+      subquestionclosechoice: name,
+    })
   }
 
   getDetailCentralPolicy() {
@@ -110,5 +154,23 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storeMinistryPeople(value) {
     alert(JSON.stringify(value))
+  }
+
+  editsubquestionclose(value, id) {
+    this.subjectservice.editsubquestionprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editsubquestionclosechoice(value, id) {
+    this.subjectservice.editsubquestionchoiceprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm2.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
   }
 }

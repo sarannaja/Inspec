@@ -265,5 +265,30 @@ namespace InspecWeb.Controllers
                 return centralpolicyprovince.Id;
             }
         }
+
+        // PUT api/values/5
+        [HttpPut("editsunquestionprovince/{id}")]
+        public void PutSubquestionProvince(long id, string name)
+        {
+            var Subquestiondata = _context.SubquestionCentralPolicyProvinces.Find(id);
+            Subquestiondata.Name = name;
+
+            _context.Entry(Subquestiondata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        // PUT api/values/5
+        [HttpPut("editsunquestionchoiceprovince/{id}")]
+        public void PutSubquestionchoiceProvince(long id, string name)
+        {
+            var Subquestionchoicedata = _context.SubquestionChoiceCentralPolicyProvinces.Find(id);
+            Subquestionchoicedata.Name = name;
+
+            _context.Entry(Subquestionchoicedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
     }
 }
