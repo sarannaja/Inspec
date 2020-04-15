@@ -357,12 +357,19 @@ namespace InspecWeb.Controllers
         public void Post([FromBody] CentralPolicyUserModel model)
         {
 
+            var CentralPolicyGroupdata = new CentralPolicyGroup
+            {
+            };
+            _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
+            _context.SaveChanges();
+
             foreach (var id in model.UserId)
             {
                 System.Console.WriteLine("LOOP: " + id);
                 var centralpolicyuserdata = new CentralPolicyUser
                 {
                     CentralPolicyId = model.CentralPolicyId,
+                    CentralPolicyGroupId = CentralPolicyGroupdata.Id,
                     UserId = id,
                     Status = "รอการตอบรับ"
                 };

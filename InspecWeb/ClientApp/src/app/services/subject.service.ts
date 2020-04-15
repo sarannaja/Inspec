@@ -56,5 +56,22 @@ export class SubjectService {
     formData.append('provincevalue', provincevalue)
     return this.http.post<any>(this.url + "subjectprovince/", formData)
   }
+
+  editsubquestionprovince(data, id) {
+    // alert(JSON.stringify(data))
+    const formData = new FormData();
+    formData.append('name', data.subquestionclose);
+
+    return this.http.put(this.url + "editsunquestionprovince/" + id, formData);
+  }
+
+  editsubquestionchoiceprovince(data, id) {
+    // alert(JSON.stringify(data))
+    const formData = new FormData();
+    formData.append('name', data.subquestionclosechoice);
+
+    return this.http.put(this.url + "editsunquestionchoiceprovince/" + id, formData);
+  }
+
 }
 
