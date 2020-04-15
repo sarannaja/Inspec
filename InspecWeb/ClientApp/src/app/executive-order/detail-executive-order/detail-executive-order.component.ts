@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ActivatedRoute } from '@angular/router';
-import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
+import { DetailexecutiveorderService } from 'src/app/services/detailexecutiveorder.service';
 
 @Component({
   selector: 'app-detail-executive-order',
@@ -12,11 +12,11 @@ export class DetailExecutiveOrderComponent implements OnInit {
 
   modalRef: BsModalRef;
   id :any
-  resultdetailcentralpolicy: any = []
+  resultdetailexecutiveorder: any = []
 
   constructor(
     private modalService: BsModalService,
-    private centralpolicyservice: CentralpolicyService, 
+    private detailexecutiveorderService: DetailexecutiveorderService, 
     private activatedRoute : ActivatedRoute,
     ) 
     { 
@@ -25,16 +25,16 @@ export class DetailExecutiveOrderComponent implements OnInit {
 
   ngOnInit() {
     
-    this.getDetailCentralPolicy()
+    this.getDetailExecutiveOrder()
   }
   openModal(template: TemplateRef<any>) {
   
     this.modalRef = this.modalService.show(template);
   }
-  getDetailCentralPolicy(){
-    this.centralpolicyservice.getdetailcentralpolicydata(this.id)
+  getDetailExecutiveOrder(){
+    this.detailexecutiveorderService.getdetailExecutiveorderdata(this.id)
     .subscribe(result => {
-      this.resultdetailcentralpolicy = result
+      this.resultdetailexecutiveorder = result
     })
   }
 }

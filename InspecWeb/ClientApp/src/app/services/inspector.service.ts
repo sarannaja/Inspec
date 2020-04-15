@@ -1,16 +1,21 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class InspectorService {
-  url = "https://localhost:5001/api/inspector/";
+  url = "";
+  files: FileList
 
-  constructor(private http: HttpClient) {}
-  getinspectordata() {
-    return this.http.get(this.url)
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this.url = baseUrl + 'api/inspector/';
   }
+  
+  getinspectordata(): Observable<any[]> {
+    return this.http.get<any[]>(this.url)
+  }
+
   addInspector(inspectorData) {
     alert(JSON.stringify(inspectorData))
     const formData = new FormData();

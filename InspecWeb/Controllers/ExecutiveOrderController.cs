@@ -1,88 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Hosting;
+//using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
 {
-    [Route("api/[controller]")]
+   
     public class ExecutiveOrderController : Controller
     {
+        public static IWebHostEnvironment _environment;
+
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private readonly ApplicationDbContext _context;
 
-        public ExecutiveOrderController(ApplicationDbContext context)
+        public ExecutiveOrderController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<ExecutiveOrder> Get()
+        
+        [HttpGet("api/[controller]")]
+        public IEnumerable<CentralPolicy> Get()
         {
-            var executiveorderdata = from P in _context.ExecutiveOrders
-                                     .Include(m => m.CentralPolicy)
-                                     select P;
-            return executiveorderdata;
+           
+            var centralpolicydata = _context.CentralPolicies
+                   .Include(m => m.CentralPolicyDates)
+                   .Where(m => m.Class == "แผนการตรวจประจำปี")
+                   .ToList();
 
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
+            return centralpolicydata;
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(long id)
         {
-            return "value";
+            var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.CentralPolicyDates)
+                .Include(m => m.CentralPolicyFiles)
+                .Include(m => m.ExecutiveOrders)            
+                .Where(m => m.Id == id).First();
+
+            return Ok(centralpolicydata);
+            //return "value";
         }
 
-        // POST api/values
-        [HttpPost]
-        public Province Post(string name, string link)
-        {
-            var date = DateTime.Now;
 
-            var provincedata = new Province
-            {
-                Name = name,
-                Link = link,
-                CreatedAt = date
-            };
 
-            _context.Provinces.Add(provincedata);
-            _context.SaveChanges();
 
-            return provincedata;
-        }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(long id, string name, string link)
-        {
-            var province = _context.Provinces.Find(id);
-            province.Name = name;
-            province.Link = link;
-            _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
 
-        }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(long id)
-        {
-            var provincedata = _context.Provinces.Find(id);
-
-            _context.Provinces.Remove(provincedata);
-            _context.SaveChanges();
-        }
     }
 }

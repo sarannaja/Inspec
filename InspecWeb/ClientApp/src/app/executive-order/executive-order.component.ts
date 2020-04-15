@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CentralpolicyService } from '../services/centralpolicy.service';
+import { DetailexecutiveorderService } from 'src/app/services/detailexecutiveorder.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -10,14 +10,14 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class ExecutiveOrderComponent implements OnInit {
 
-  resultcentralpolicy: any = []
+  resultexecutiveorder: any = []
   modalRef: BsModalRef;
   dtOptions: DataTables.Settings = {};
   loading = false;
 
   constructor(
     private router:Router, 
-    private centralpolicyservice: CentralpolicyService, 
+    private detailexecutiveorderService: DetailexecutiveorderService,  
     private modalService: BsModalService) { }
 
   ngOnInit() {
@@ -33,9 +33,9 @@ export class ExecutiveOrderComponent implements OnInit {
 
     };
 
-    this.centralpolicyservice.getcentralpolicydata()
+    this.detailexecutiveorderService.getExecutiveorderdata()
     .subscribe(result => {
-      this.resultcentralpolicy = result
+      this.resultexecutiveorder = result
       this.loading = true
     })
   }
