@@ -28,7 +28,7 @@
                             </span>
                         </a>
                         <ul *ngFor="let childItem of item.children;" id="{{item.IDchildren}}" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-                            <li [ngClass]="childItem.url == urlActive ? 'sidebar-item active':'sidebar-item'">
+                            <li [ngClass]="childItem.url == urlActive ? 'sidebar-item active':'sidebar-item' ">
 
                                 <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url)"
                                     class="sidebar-link" href="{{childItem.url}}">

@@ -25,7 +25,6 @@ namespace InspecWeb.Models
 
         public virtual Subdistrict Subdistrict { get; set; }
 
-        [Required]
         [Description("หมู่ที่")]
         public string No { get; set; }
 
