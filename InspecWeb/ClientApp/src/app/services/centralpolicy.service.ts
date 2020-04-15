@@ -126,6 +126,10 @@ export class CentralpolicyService {
     return this.http.put(path, formData)
   }
 
+  deleteFile(id) {
+    return this.http.delete(this.url + 'deletefile/' + id);
+  }
+
   deleteCentralPolicy(id) {
     return this.http.delete(this.url + id);
   }
