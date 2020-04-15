@@ -4,14 +4,16 @@ using InspecWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InspecWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200413040736_UpdateCentralPolicy")]
+    partial class UpdateCentralPolicy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -496,18 +498,6 @@ namespace InspecWeb.Data.Migrations
                     b.ToTable("CentralPolicyFiles");
                 });
 
-            modelBuilder.Entity("InspecWeb.Models.CentralPolicyGroup", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CentralPolicyGroups");
-                });
-
             modelBuilder.Entity("InspecWeb.Models.CentralPolicyProvince", b =>
                 {
                     b.Property<long>("Id")
@@ -538,9 +528,6 @@ namespace InspecWeb.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<long>("CentralPolicyGroupId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
@@ -555,32 +542,9 @@ namespace InspecWeb.Data.Migrations
 
                     b.HasKey("CentralPolicyId", "UserId");
 
-                    b.HasIndex("CentralPolicyGroupId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("CentralPolicyUsers");
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.CentralPolicyUserFile", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("CentralPolicyGroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CentralPolicyGroupId");
-
-                    b.ToTable("CentralPolicyUserFiles");
                 });
 
             modelBuilder.Entity("InspecWeb.Models.Department", b =>
@@ -101174,12 +101138,6 @@ namespace InspecWeb.Data.Migrations
 
             modelBuilder.Entity("InspecWeb.Models.CentralPolicyUser", b =>
                 {
-                    b.HasOne("InspecWeb.Models.CentralPolicyGroup", "CentralPolicyGroup")
-                        .WithMany("CentralPolicyUsers")
-                        .HasForeignKey("CentralPolicyGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InspecWeb.Models.CentralPolicy", "CentralPolicy")
                         .WithMany("CentralPolicyUser")
                         .HasForeignKey("CentralPolicyId")
@@ -101189,15 +101147,6 @@ namespace InspecWeb.Data.Migrations
                     b.HasOne("InspecWeb.Models.ApplicationUser", "User")
                         .WithMany("CentralPolicyUser")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("InspecWeb.Models.CentralPolicyUserFile", b =>
-                {
-                    b.HasOne("InspecWeb.Models.CentralPolicyGroup", "CentralPolicyGroup")
-                        .WithMany("CentralPolicyUserFiles")
-                        .HasForeignKey("CentralPolicyGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
