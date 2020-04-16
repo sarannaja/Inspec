@@ -147,6 +147,10 @@ export class CentralpolicyService {
     return this.http.get<any[]>(this.url + "users/" + id)
   }
 
+  getcentralpolicyprovinceuserdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "usersprovince/" + id)
+  }
+
   getcentralpolicyfromprovince(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "getcentralpolicyfromprovince/" + id)
   }
