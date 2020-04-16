@@ -19,7 +19,7 @@
         <h5 class="card-title">จัดการประเด็นนโยบาย</h5>
       </div>
       <div class="card-body">
-        <form [formGroup]="EditForm" (ngSubmit)="EditSubject(EditForm.value)">
+        <form [formGroup]="EditForm" (ngSubmit)="EditSubject(EditForm.value,resultsubjectdetail.id)">
           <div class="row">
             <div class="col-12 col-xl-12">
               <br>
@@ -35,7 +35,7 @@
               <div class="form-group">
                 <label>กำหนดระยะเวลา</label>
                 <ng-select multiple="true" id="datetime" [(ngModel)]="datetime" placeholder="กรุณาเลือกระยะเวลา"
-                  [options]="times" name="ํTime" formControlName="centralpolicydateid" [allowClear]="true">
+                  [options]="times" name="ํTime" formControlName="centralPolicyDateId" [allowClear]="true">
                 </ng-select>
               </div>
               <div class="form-group">
@@ -45,14 +45,20 @@
                   <label>คำถามปลายเปิด</label>
                   &nbsp;&nbsp;
                   <button class="btn btn-info" type="button"
-                  (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)">เพิ่มคำถามปลายเปิด</button>
+                    (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)">เพิ่มคำถามปลายเปิด</button>
                   <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square"
-                    (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)"></i> -->                  
+                    (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)"></i> -->
                 </div>
+                <br>
                 <div class="row" *ngFor="let item of questionsopen; let i = index">
-                  <div class="col-11 col-xl-11 form-group" *ngIf="item.type == 'คำถามปลายเปิด'">
-                    <input type="text" value="{{item.name}}" formControlName="questionopen" class="form-control"
-                      placeholder="กรุณากรอกคำถาม">
+                  <div class="col-9 col-xl-9 form-group" *ngIf="item.type == 'คำถามปลายเปิด'">
+                    <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกคำถาม" readonly>
+                  </div>
+                  <div class="col-3" *ngIf="item.type == 'คำถามปลายเปิด'">
+                    <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                      (click)="openEditmodalQuestions(modaleditQuestions,item.id,item.name)"></i>
+                    <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                      (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
                   </div>
 
                 </div>
@@ -61,17 +67,40 @@
                   <label>คำถามปลายปิด</label>
                   &nbsp;&nbsp;
                   <button class="btn btn-info" type="button"
-                  (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)">เพิ่มคำถามปลายปิด</button>
+                    (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)">เพิ่มคำถามปลายปิด</button>
                   <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square"
                     (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)"></i> -->
                 </div>
+                <br>
                 <div class="row" *ngFor="let item of questionsopen; let i = index">
-                  <div class="col-11 col-xl-11">
-                    <input type="text" *ngIf="item.type == 'คำถามปลายปิด'" value="{{item.name}}"
-                      formControlName="questionopen" class="form-control" placeholder="กรุณากรอกคำถาม">
-                    <div *ngFor="let items of item.subquestionChoices; let i = index">
-                      <input type="text" *ngIf="item.type == 'คำถามปลายปิด'" value="{{items.name}}"
-                        formControlName="questionopen" class="form-control" placeholder="กรุณากรอกคำถาม">
+                  <div class="col-11 col-xl-11" *ngIf="item.type == 'คำถามปลายปิด'">
+                    <div class="row">
+                      <div class="col-9 col-xl-9">
+                        <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกคำถาม"
+                          readonly>
+                      </div>
+                      <div class="col-3">
+                        <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                          (click)="openEditmodalQuestions(modaleditQuestions,item.id,item.name)"></i>
+                        <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                          (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
+                        <button class="btn btn-info" type="button"
+                          (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มตอบปลายปิด</button>
+                      </div>
+                    </div>
+                    <div class="col-11 col-xl-11" *ngFor="let items of item.subquestionChoices; let i = index">
+                      <div class="row">
+                        <div class="col-9 col-xl-9">
+                          <input type="text" *ngIf="item.type == 'คำถามปลายปิด'" value="{{items.name}}"
+                            class="form-control" placeholder="กรุณากรอกคำถาม" readonly>
+                        </div>
+                        <div class="col-3">
+                          <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                            (click)="openEditmodalChoices(modaleditChoices,items.id,items.name)"></i>
+                          <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                            (click)="openModalDelete(modaldeleteChoices, items.id)"></i>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -130,10 +159,26 @@
         <div class="form-group">
           <label for="test" class="form-label">คำถามปลายปิด</label>
           <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
-          <div class="colum">
-            <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำตอบ">
-            <i class="align-middle mr-2 far fa-fw fa-plus-square"
-              (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)"></i>
+          <div formArrayName="inputanswerclose">
+            <div *ngFor="let X of FormAddQuestionsclose['controls'].inputanswerclose['controls']; let ix=index">
+              <div formGroupName="{{ix}}">
+                <div class="row">
+                  <div class="col-11 col-xl-11">
+                    <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำถาม">
+                  </div>
+                  <div class="col-1">
+                    <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
+                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX()" value="Add X"></i>
+                    </div>
+                    <ng-template #elseBlock>
+                      <div class="col-1 margin-plus-icon">
+                        <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(ix)" value="Add X"></i>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -144,5 +189,117 @@
     </div>
   </form>
   <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaldeleteQuestionsclose class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="DeleteQuestionsopen(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaldeleteChoices class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="DeleteChoices(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaleditQuestions class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="FormEditQuestions" (ngSubmit)="EditQuestions(FormEditQuestions.value,editid)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการคำถาม</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำถาม</label>
+          <input type="text" value="{{editname}}" formControlName="name" class="form-control"
+            placeholder="กรุณากรอกชื่อจังหวัด">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaladdChoices class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="FormAddChoices" (ngSubmit)="AddChoices(FormAddChoices.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการคำตอบ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำตอบ</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำตอบ">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaleditChoices class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="FormEditChoices" (ngSubmit)="EditChoices(FormEditChoices.value,editid)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการคำตอบ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำตอบ</label>
+          <input type="text" value="{{editname}}" formControlName="name" class="form-control"
+            placeholder="กรุณากรอกคำตอบ">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </div>
+  </form>
 </ng-template>
 <!-- END primary modal -->

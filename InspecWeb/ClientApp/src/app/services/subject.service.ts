@@ -42,9 +42,29 @@ export class SubjectService {
     formData.append('subjectId', Subquestionopendata.subjectId);
     formData.append('name', Subquestionopendata.name)
     console.log('FORMDATA: ' + formData.get("name"));
-    return this.http.post(this.url + "addsubquestion", formData);
+    return this.http.post(this.url + "addsubquestionopen", formData);
   }
-
+  addSubquestionclose(Subquestionclosedata) {
+    const formData = {
+      SubjectId: Subquestionclosedata.subjectId,
+      Name: Subquestionclosedata.name,
+      inputanswerclose2: Subquestionclosedata.inputanswerclose
+    }
+    return this.http.post(this.url + "addsubquestionclose", formData);
+  }
+  addChoices(Choicesdata) {
+    const formData = new FormData();
+    formData.append('subquestionid', Choicesdata.subquestionid);
+    formData.append('name', Choicesdata.name)
+    console.log('FORMDATA: ' + formData.get("name"));
+    return this.http.post(this.url + "addchoices", formData);
+  }
+  deleteSubquestionopen(id) {
+    return this.http.delete(this.url + "deletesubquestionopen/" + id);
+  }
+  deleteChoices(id) {
+    return this.http.delete(this.url + "deletechoices/" + id);
+  }
   deleteSubject(id) {
     return this.http.delete(this.url + id);
   }
@@ -55,6 +75,35 @@ export class SubjectService {
     formData.append('centralpolicyid', centralpolicyid);
     formData.append('provincevalue', provincevalue)
     return this.http.post<any>(this.url + "subjectprovince/", formData)
+  }
+  editSubject(Subjectdata,id){
+    console.log("TEST: ", Subjectdata);
+    
+    const formData = new FormData();
+    formData.append('Name', Subjectdata.name);
+
+    for (var i = 0; i < Subjectdata.centralPolicyDateId.length; i++) {
+      formData.append('CentralPolicyDateId', Subjectdata.centralPolicyDateId[i]);
+    }
+
+    // formData.append('CentralPolicyDateId', Subjectdata.centralPolicyDateId);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    console.log("CID: ", formData.getAll('CentralPolicyDateId'));
+    console.log("Name: ", formData.getAll('Name'));
+    
+    return this.http.put(this.url+"editsubject/"+id, formData);
+  }
+  editSubquestionopen(SubquestionopenData,id) {
+    const formData = new FormData();
+    formData.append(name, SubquestionopenData.name);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url+"editsubquestionopen/"+id, formData);
+  }
+  editChoices(ChoicesData,id) {
+    const formData = new FormData();
+    formData.append(name, ChoicesData.name);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url+"editchoices/"+id, formData);
   }
 }
 
