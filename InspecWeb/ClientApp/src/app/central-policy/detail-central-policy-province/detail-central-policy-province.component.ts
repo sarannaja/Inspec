@@ -84,7 +84,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.getDetailCentralPolicyProvince()
     setTimeout(() => {
       this.spinner.hide();
-    }, 1500);
+    }, 2000);
 
   }
 

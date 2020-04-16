@@ -378,6 +378,11 @@ namespace InspecWeb.Controllers
                 .Where(x => x.Id == model.CentralPolicyId)
                 .Select(x => x.CentralPolicyId)
                 .First();
+
+            var ProvinceId = _context.CentralPolicyProvinces
+            .Where(x => x.Id == model.CentralPolicyId)
+            .Select(x => x.ProvinceId)
+            .First();
             System.Console.WriteLine("CID: " + CentralPolicyId);
 
 
@@ -388,6 +393,7 @@ namespace InspecWeb.Controllers
                 var centralpolicyuserdata = new CentralPolicyUser
                 {
                     CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
                     CentralPolicyGroupId = CentralPolicyGroupdata.Id,
                     UserId = id,
                     Status = "รอการตอบรับ"
