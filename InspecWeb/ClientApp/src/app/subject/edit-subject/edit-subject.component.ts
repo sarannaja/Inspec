@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SubjectService } from 'src/app/services/subject.service';
@@ -20,7 +20,13 @@ export class EditSubjectComponent implements OnInit {
   EditForm: FormGroup;
   FormAddQuestionsopen: FormGroup
   FormAddQuestionsclose: FormGroup
+  FormEditQuestions: FormGroup
+  FormEditChoices: FormGroup
+  FormAddChoices: FormGroup
   id: any
+  delid: any
+  editid: any
+  editname: any
   resultsubjectdetail: any = []
   resultcentralpolicy: any = []
   datetime: any = []
@@ -44,15 +50,13 @@ export class EditSubjectComponent implements OnInit {
     this.getSubjectDetail()
     this.EditForm = this.fb.group({
       name: new FormControl(null, [Validators.required]),
-      centralpolicydateid: new FormControl(null, [Validators.required]),
-      questionopen: new FormControl(null, [Validators.required]),
-      questionclose: new FormControl(null, [Validators.required]),
-      answerclose: new FormControl(null, [Validators.required]),
+      centralPolicyDateId: new FormControl(null, [Validators.required]),
+      // questionopen: new FormControl(null, [Validators.required]),
+      // questionclose: new FormControl(null, [Validators.required]),
+      // answerclose: new FormControl(null, [Validators.required]),
       // "provincelink": new FormControl(null, [Validators.required])
     })
-  }
-  EditSubject() {
-    alert("test")
+
   }
   getSubjectDetail() {
     this.subjectservice.getsubjectdetaildata(this.id)
@@ -66,6 +70,9 @@ export class EditSubjectComponent implements OnInit {
           // console.log(element.centralPolicyDate.id);
           this.datetime.push(element.centralPolicyDate.id)
         });
+        this.EditForm.patchValue({
+          name: this.resultsubjectdetail.name
+        })
       })
   }
   getTimeCentralPolicy() {
@@ -100,7 +107,7 @@ export class EditSubjectComponent implements OnInit {
 
     })
   }
-  openAddModalQuestionsopen(template: TemplateRef<any>) {   
+  openAddModalQuestionsopen(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
     this.FormAddQuestionsopen = this.fb.group({
       subjectId: this.id,
@@ -112,8 +119,62 @@ export class EditSubjectComponent implements OnInit {
     this.FormAddQuestionsclose = this.fb.group({
       subjectId: this.id,
       name: new FormControl(null, [Validators.required]),
-      
+      inputanswerclose: this.fb.array([
+        this.initanswerclose()
+      ])
+
     })
+  }
+  openAddModalChoices(template: TemplateRef<any>, id ){
+    this.modalRef = this.modalService.show(template);
+    this.FormAddChoices = this.fb.group({
+      subquestionid: id,
+      name: new FormControl(null, [Validators.required]),
+    })
+  }
+  openEditmodalQuestions(template: TemplateRef<any>, id, name) {
+    console.log(id);
+    console.log(name);
+    this.editid = id
+    this.editname = name
+    this.modalRef = this.modalService.show(template);
+    this.FormEditQuestions = this.fb.group({
+      name: new FormControl(null, [Validators.required]),
+    })
+    this.FormEditQuestions.patchValue({
+      name: name
+    })
+  }
+  openEditmodalChoices(template: TemplateRef<any>, id, name) {
+    console.log(id);
+    console.log(name);
+    this.editid = id
+    this.editname = name
+    this.modalRef = this.modalService.show(template);
+    this.FormEditChoices = this.fb.group({
+      name: new FormControl(null, [Validators.required]),
+    })
+    this.FormEditChoices.patchValue({
+      name: name
+    })
+  }
+  openModalDelete(template: TemplateRef<any>, id) {
+    console.log(id);
+    this.delid = id
+    this.modalRef = this.modalService.show(template);
+  }
+  initanswerclose() {
+    return this.fb.group({
+      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+    })
+  }
+  addX() {
+    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
+    control.push(this.initanswerclose());
+  }
+  removeX(index: number) {
+    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
+    control.removeAt(index);
   }
   AddQuestionsopen(value) {
     console.log(value);
@@ -127,13 +188,66 @@ export class EditSubjectComponent implements OnInit {
   }
   AddQuestionsclose(value) {
     console.log(value);
-    // this.subjectservice.addSubquestionopen(value).subscribe(response => {
-
-    //   console.log(value);
-    //   this.FormAddQuestionsopen.reset()
-    //   this.modalRef.hide()
-    //   // this.loading = false
-    //   this.getSubjectDetail()
-    // })
+    this.subjectservice.addSubquestionclose(value).subscribe(response => {
+      console.log(value);
+      this.FormAddQuestionsclose.reset()
+      this.modalRef.hide()
+      // this.loading = false
+      this.getSubjectDetail()
+    })
+  }
+  AddChoices(value) {
+    console.log(value);
+    this.subjectservice.addChoices(value).subscribe(response => {
+      this.FormAddChoices.reset()
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
+  }
+  DeleteQuestionsopen(value) {
+    console.log(value);
+    this.subjectservice.deleteSubquestionopen(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
+  }
+  DeleteChoices(value) {
+    console.log(value);
+    this.subjectservice.deleteChoices(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
+  }
+  EditSubject(value, id) {
+    console.log(id);
+    console.log(value);
+    this.subjectservice.editSubject(value, id).subscribe(response => {
+      this.EditForm.reset()
+      // alert("test")
+      window.history.back()
+    })
+  }
+  EditQuestions(value, editid) {
+    console.log(editid);
+    console.log(value);
+    this.subjectservice.editSubquestionopen(value, editid).subscribe(response => {
+      this.FormEditQuestions.reset()
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
+  }
+  EditChoices(value, editid) {
+    console.log(editid);
+    console.log(value);
+    this.subjectservice.editChoices(value, editid).subscribe(response => {
+      this.FormEditChoices.reset()
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
+  }
+  back() {
+    window.history.back();
   }
 }
