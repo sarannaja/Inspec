@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -38,8 +38,11 @@ export class EditCentralPolicyComponent implements OnInit {
   loading = false;
   startDate: any;
   endDate: any;
+  delid: any;
+  modalRef: BsModalRef;
 
   selected: any = [];
+  downloadUrl: any;
 
   constructor(
     private fb: FormBuilder,
@@ -50,13 +53,15 @@ export class EditCentralPolicyComponent implements OnInit {
     private fiscalyearservice: FiscalyearService,
     private provinceservice: ProvinceService,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.form = this.fb.group({
       name: [''],
       files: [null]
     })
+    this.downloadUrl = baseUrl + '/Uploads';
   }
 
   get f() { return this.EditForm.controls }
@@ -241,6 +246,31 @@ export class EditCentralPolicyComponent implements OnInit {
 
     this.d.value[index].end_date = this.endDate;
     console.log("check: ", this.d.value);
+  }
 
+  openModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  deleteFile() {
+    // alert(this.delid);
+    this.centralpolicyservice.deleteFile(this.delid)
+    .subscribe(response => {
+      console.log("res: ", response);
+      this.modalRef.hide();
+      this.getDetailCentralpolicy();
+    })
+  }
+
+  removeY(iy: any) {
+    // this.d.removeAt(iy);
+    console.log("iy: ", iy);
+
+    this.d.removeAt(iy)
+  }
+
+  back() {
+    window.history.back();
   }
 }

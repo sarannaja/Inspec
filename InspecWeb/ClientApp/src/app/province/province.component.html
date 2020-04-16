@@ -35,7 +35,7 @@
           <tr *ngFor="let item of resultprovince; let i = index">
             <td>{{ i + 1 }}</td>
             <td class="pointer" (click)="District(item.id,item.name)">{{ item.name }}</td>
-            <td><a href="https://www.google.co.th/" target="_blank">{{ item.link }}</a></td>
+            <td><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></td>
             <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
             <ng-template #elseBlock>
               <td></td>

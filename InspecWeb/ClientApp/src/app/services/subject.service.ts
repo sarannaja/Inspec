@@ -105,5 +105,21 @@ export class SubjectService {
     console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put(this.url+"editchoices/"+id, formData);
   }
+
+  editsubquestionprovince(data, id) {
+    // alert(JSON.stringify(data))
+    const formData = new FormData();
+    formData.append('name', data.subquestionclose);
+
+    return this.http.put(this.url + "editsunquestionprovince/" + id, formData);
+  }
+
+  editsubquestionchoiceprovince(data, id) {
+    // alert(JSON.stringify(data))
+    const formData = new FormData();
+    formData.append('name', data.subquestionclosechoice);
+
+    return this.http.put(this.url + "editsunquestionchoiceprovince/" + id, formData);
+  }
 }
 

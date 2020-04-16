@@ -126,6 +126,10 @@ export class CentralpolicyService {
     return this.http.put(path, formData)
   }
 
+  deleteFile(id) {
+    return this.http.delete(this.url + 'deletefile/' + id);
+  }
+
   deleteCentralPolicy(id) {
     return this.http.delete(this.url + id);
   }
@@ -141,6 +145,10 @@ export class CentralpolicyService {
 
   getcentralpolicyuserdata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "users/" + id)
+  }
+
+  getcentralpolicyprovinceuserdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "usersprovince/" + id)
   }
 
   getcentralpolicyfromprovince(id): Observable<any[]> {

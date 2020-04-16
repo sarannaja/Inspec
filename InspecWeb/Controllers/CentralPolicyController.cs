@@ -145,7 +145,7 @@ namespace InspecWeb.Controllers
 
             //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
             //var size = data.files.Sum(f => f.Length);
-            var random = RandomString(10);
+            
             //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
@@ -160,6 +160,7 @@ namespace InspecWeb.Controllers
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
             //foreach (var formFile in data.files)
             {
+                var random = RandomString(10);
                 string filePath2 = formFile.Value.FileName;
                 string filename = Path.GetFileName(filePath2);
                 string ext = Path.GetExtension(filename);
@@ -167,7 +168,7 @@ namespace InspecWeb.Controllers
                 if (formFile.Value.Length > 0)
                 {
                     // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + filename + random + ext))
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
                     {
                         await formFile.Value.CopyToAsync(stream);
                     }
@@ -175,7 +176,7 @@ namespace InspecWeb.Controllers
                     var CentralPolicyFile = new CentralPolicyFile
                     {
                         CentralPolicyId = centralpolicydata.Id,
-                        Name = filename + random + ext,
+                        Name =  random + filename,
                     };
                     _context.CentralPolicyFiles.Add(CentralPolicyFile);
                     _context.SaveChanges();
@@ -271,7 +272,7 @@ namespace InspecWeb.Controllers
                 }
 
                 index++;
-
+                _context.SaveChanges();
                 System.Console.WriteLine("Start: " + index);
             }
 
@@ -293,7 +294,7 @@ namespace InspecWeb.Controllers
 
             //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
             //var size = data.files.Sum(f => f.Length);
-            var random = RandomString(10);
+            
             //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
@@ -312,6 +313,7 @@ namespace InspecWeb.Controllers
                 foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
                 //foreach (var formFile in data.files)
                 {
+                    var random = RandomString(10);
                     System.Console.WriteLine("in3");
                     string filePath2 = formFile.Value.FileName;
                     string filename = Path.GetFileName(filePath2);
@@ -321,7 +323,7 @@ namespace InspecWeb.Controllers
                     {
                         System.Console.WriteLine("in4");
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + filename + random + ext))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
                         {
                             await formFile.Value.CopyToAsync(stream);
                         }
@@ -329,7 +331,7 @@ namespace InspecWeb.Controllers
                         var CentralPolicyFiledata = new CentralPolicyFile
                         {
                             CentralPolicyId = centralpolicydata.Id,
-                            Name = filename + random + ext
+                            Name = random + filename,
                         };
                         _context.CentralPolicyFiles.Add(CentralPolicyFiledata);
                         System.Console.WriteLine("in5");
@@ -340,6 +342,15 @@ namespace InspecWeb.Controllers
                 } }
             return Ok(new { status = true });
 
+        }
+
+        [HttpDelete("deletefile/{id}")]
+        public void DeleteFile(long id)
+        {
+            var centralpolicyfiledata = _context.CentralPolicyFiles.Find(id);
+
+            _context.CentralPolicyFiles.Remove(centralpolicyfiledata);
+            _context.SaveChanges();
         }
 
         // DELETE api/values/5
@@ -357,12 +368,27 @@ namespace InspecWeb.Controllers
         public void Post([FromBody] CentralPolicyUserModel model)
         {
 
+            var CentralPolicyGroupdata = new CentralPolicyGroup
+            {
+            };
+            _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
+            _context.SaveChanges();
+
+            var CentralPolicyId = _context.CentralPolicyProvinces
+                .Where(x => x.Id == model.CentralPolicyId)
+                .Select(x => x.CentralPolicyId)
+                .First();
+            System.Console.WriteLine("CID: " + CentralPolicyId);
+
+
             foreach (var id in model.UserId)
             {
+                System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
                 System.Console.WriteLine("LOOP: " + id);
                 var centralpolicyuserdata = new CentralPolicyUser
                 {
-                    CentralPolicyId = model.CentralPolicyId,
+                    CentralPolicyId = CentralPolicyId,
+                    CentralPolicyGroupId = CentralPolicyGroupdata.Id,
                     UserId = id,
                     Status = "รอการตอบรับ"
                 };
@@ -382,6 +408,19 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicyuserdata);
         }
 
+        // GET api/values/5
+        [HttpGet("usersprovince/{id}")]
+        public IActionResult GetUserProvinces(long id)
+        {
+            var centralpolicyprovince = _context.CentralPolicyProvinces
+            .Where(m => m.Id == id).FirstOrDefault();
+
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId);
+
+            return Ok(centralpolicyuserdata);
+        }
 
         // GET api/values/5
         [HttpGet("getcentralpolicyfromprovince/{id}")]
