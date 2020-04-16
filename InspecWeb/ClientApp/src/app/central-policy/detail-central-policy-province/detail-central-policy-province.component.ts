@@ -6,6 +6,7 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { IOption } from 'ng-select';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubjectService } from 'src/app/services/subject.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -32,18 +33,22 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   subquestionclosename: any
   subquestionclosechoicename: any
   downloadUrl: any
+  loading = false;
+
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
     private userservice: UserService,
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
@@ -74,9 +79,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       })
     })
 
-    this.getDetailCentralPolicy()
-    this.getCentralPolicyUser()
+    // this.getDetailCentralPolicy()
+    this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1500);
+
   }
 
   openModal(template: TemplateRef<any>) {
@@ -128,8 +137,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       })
   }
 
-  getCentralPolicyUser() {
-    this.centralpolicyservice.getcentralpolicyuserdata(this.id)
+  getCentralPolicyProvinceUser() {
+    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
         console.log("result" + result);
@@ -148,7 +157,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
-      this.getCentralPolicyUser();
+      this.getCentralPolicyProvinceUser();
     })
   }
 

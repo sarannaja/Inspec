@@ -374,12 +374,20 @@ namespace InspecWeb.Controllers
             _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
             _context.SaveChanges();
 
+            var CentralPolicyId = _context.CentralPolicyProvinces
+                .Where(x => x.Id == model.CentralPolicyId)
+                .Select(x => x.CentralPolicyId)
+                .First();
+            System.Console.WriteLine("CID: " + CentralPolicyId);
+
+
             foreach (var id in model.UserId)
             {
+                System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
                 System.Console.WriteLine("LOOP: " + id);
                 var centralpolicyuserdata = new CentralPolicyUser
                 {
-                    CentralPolicyId = model.CentralPolicyId,
+                    CentralPolicyId = CentralPolicyId,
                     CentralPolicyGroupId = CentralPolicyGroupdata.Id,
                     UserId = id,
                     Status = "รอการตอบรับ"
@@ -400,6 +408,19 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicyuserdata);
         }
 
+        // GET api/values/5
+        [HttpGet("usersprovince/{id}")]
+        public IActionResult GetUserProvinces(long id)
+        {
+            var centralpolicyprovince = _context.CentralPolicyProvinces
+            .Where(m => m.Id == id).FirstOrDefault();
+
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId);
+
+            return Ok(centralpolicyuserdata);
+        }
 
         // GET api/values/5
         [HttpGet("getcentralpolicyfromprovince/{id}")]
