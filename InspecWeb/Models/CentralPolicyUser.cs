@@ -22,6 +22,11 @@ namespace InspecWeb.Models
 
         public virtual CentralPolicy CentralPolicy { get; set; }
 
+        [ForeignKey("Province")]
+        [Description("FK: จังหวัด")]
+        public long ProvinceId { get; set; }
+        public virtual Province Province { get; set; }
+
 
         [ForeignKey("CentralPolicyGroup")]
         [Description("FK: แผนการตรวจ")]
