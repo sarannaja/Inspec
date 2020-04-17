@@ -69,8 +69,7 @@ export class EditCentralPolicyComponent implements OnInit {
   get d() { return this.f.inputdate as FormArray }
 
   ngOnInit() {
-
-
+    this.spinner.show();
     this.EditForm = this.fb.group({
       title: new FormControl(null),
       year: new FormControl(null),
@@ -101,7 +100,6 @@ export class EditCentralPolicyComponent implements OnInit {
   }
 
   getDetailCentralpolicy() {
-    this.spinner.show();
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result;
@@ -149,7 +147,6 @@ export class EditCentralPolicyComponent implements OnInit {
           type: this.resultdetailcentralpolicy.type,
           status: this.resultdetailcentralpolicy.status
         });
-        this.spinner.hide();
       });
   }
 
@@ -172,6 +169,7 @@ export class EditCentralPolicyComponent implements OnInit {
       this.selectdataprovince = this.resultprovince.map((item, index) => {
         return { value: item.id, label: item.name }
       })
+      this.spinner.hide();
     })
     this.loading = true;
   }
