@@ -27,6 +27,10 @@ namespace InspecWeb.Models
         public long ProvinceId { get; set; }
         public virtual Province Province { get; set; }
 
+        [ForeignKey("ElectronicBook")]
+        [Description("FK: ElectronicBook")]
+        public long ElectronicBookId { get; set; }
+        public virtual ElectronicBook ElectronicBook { get; set; }
 
         [ForeignKey("CentralPolicyGroup")]
         [Description("FK: แผนการตรวจ")]
