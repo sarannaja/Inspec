@@ -8,6 +8,7 @@ import { RegionService } from '../services/region.service';
 import { MinistryService } from '../services/ministry.service';
 import { UserService } from '../services/user.service'; // ผู้ใช้
 import { NgxSpinnerService } from "ngx-spinner";
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-user',
@@ -24,9 +25,10 @@ export class UserComponent implements OnInit {
   selectdataregion: Array<IOption>
   loading = false;
   dtOptions: DataTables.Settings = {};
-  roleId:any;
-  modelname:any;
+  roleId: any;
+  modelname: any;
   resultuser: any[] = [];
+  subscription: Subscription;
   datarole: any = [
     {
       id: 1,
@@ -87,14 +89,32 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private spinner: NgxSpinnerService
   ) {
-  this.roleId =  this.route.snapshot.paramMap.get('id') //เลขที่ส่งมาจาก url 
+    this.subscription = this.userService.getUserNav()
+      .subscribe(
+        result => {
+          if (result.roleId != this.roleId) {
+            this.loading = false;
+            this.roleId = result.roleId
+            setTimeout(() => { this.getData() }, 200)
+          }
+        });
+    this.roleId = this.route.snapshot.paramMap.get('id')
+    //เลขที่ส่งมาจาก url 
+  }
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
+  }
+  ngOnInit() {
+
+    this.getData()
   }
 
-  ngOnInit() {
+  getData() {
     this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
-     
+
     };
     this.getUser()
     this.getDataProvinces()
@@ -106,7 +126,6 @@ export class UserComponent implements OnInit {
     this.selectdatadeparment = this.datadeparment.map((item, index) => {
       return { value: item.id, label: item.name }
     })
-
   }
 
   openModal(template: TemplateRef<any>) {
@@ -120,7 +139,7 @@ export class UserComponent implements OnInit {
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();
-        console.log(this.resultuser);
+        // console.log(this.resultuser);
       })
   }
 

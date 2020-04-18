@@ -8,6 +8,8 @@ import { InspectorMinistry } from './_nav';
 import { publicsector } from './_nav';
 import { president } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -21,7 +23,11 @@ export class DefaultLayoutComponent implements OnInit {
   role_id : any
   nav : any
   // childClassIcon = "align-middle mr-2 fas fa-fw 
-  constructor( private authorize: AuthorizeService) { }
+  constructor(
+     private authorize: AuthorizeService,
+     private userService: UserService,
+     private router:Router
+     ) { }
   // 0C-54-15-66-C2-D6
   ngOnInit() {
     this.nav = superAdmin
@@ -56,6 +62,11 @@ export class DefaultLayoutComponent implements OnInit {
     // console.log('in');
 
   }
+  userNav(url,id): void {
+    this.router.navigate([url])
+    // send message to subscribers via observable subject
+    this.userService.sendNav(id);
+}
  Logout(){
     this.authorize.signOut({ local: true })
   }
