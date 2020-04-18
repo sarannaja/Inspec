@@ -36,13 +36,14 @@
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
-                                <a *ngIf="childItem.ex_link != '0'&& childItem.ex_link!='user' "
+                                <a *ngIf="childItem.ex_link != '0' && childItem.ex_link!='user' "
                                     (click)="checkactive(childItem.url)" class="sidebar-link"
                                     [routerLink]="[childItem.url]">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
-                                <a *ngIf="childItem.ex_link == 'user'" (click)="userNav(childItem.url,childItem.id)" class="sidebar-link">
+                                <a *ngIf="childItem.ex_link == 'user'" (click)="userNav(childItem.url,childItem.id)"
+                                    class="sidebar-link">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
