@@ -8,6 +8,8 @@ namespace InspecWeb.ViewModel
 {
     public class CentralPolicyProvinceViewModel
     {
+        public string UserID { get; set; }
+
         [JsonProperty(PropertyName = "Title")]
         public string Title { get; set; }
 
