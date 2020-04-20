@@ -1,14 +1,16 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { IMyOptions } from 'mydatepicker-th';
-import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
-import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
-import { ProvinceService } from 'src/app/services/province.service';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { IOption } from 'ng-select';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { Router } from '@angular/router';
+import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
 import { UserService } from 'src/app/services/user.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { SubjectService } from 'src/app/services/subject.service';
+import { ProvinceService } from 'src/app/services/province.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 interface addInput {
   id: number;
@@ -16,11 +18,12 @@ interface addInput {
 }
 
 @Component({
-  selector: 'app-create-inspection-plan-event',
-  templateUrl: './create-inspection-plan-event.component.html',
-  styleUrls: ['./create-inspection-plan-event.component.css']
+  selector: 'app-create-electronic-book',
+  templateUrl: './create-electronic-book.component.html',
+  styleUrls: ['./create-electronic-book.component.css']
 })
-export class CreateInspectionPlanEventComponent implements OnInit {
+export class CreateElectronicBookComponent implements OnInit {
+
   url = "";
   private myDatePickerOptions: IMyOptions = {
     // other options...
@@ -42,7 +45,19 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   selectdatacentralpolicy: Array<IOption>
   id: any = 1
   input: any = [{ start_date_plan: '', end_date_plan: '', province: '' }]
+  resultdetailcentralpolicyprovince: any = [];
+  loading = false;
+  resultdetailcentralpolicyData: any = [];
+  resultdetailcentralpolicyprovinceData: any = [];
+  EditForm: FormGroup;
+  EditForm2: FormGroup;
+  modalRef: BsModalRef;
+  editid: any;
+  subquestionclosename: any
+  subquestionclosechoicename: any
 
+  get f() { return this.Form.controls }
+  get t() { return this.f.input as FormArray }
 
   constructor(
     private fb: FormBuilder, private authorize: AuthorizeService,
@@ -51,11 +66,23 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     private centralpolicyservice: CentralpolicyService,
     private subjectservice: SubjectService,
     private provinceservice: ProvinceService,
-    @Inject('BASE_URL') baseUrl: string) {
+    private spinner: NgxSpinnerService,
+    private modalService: BsModalService,
+    @Inject('BASE_URL') baseUrl: string
+  ) {
     this.url = baseUrl;
   }
 
   ngOnInit() {
+
+    this.EditForm = this.fb.group({
+      subquestionclose: new FormControl(),
+    })
+
+    this.EditForm2 = this.fb.group({
+      subquestionclosechoice: new FormControl(),
+    })
+
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -70,8 +97,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       // end_date: new FormControl(null, [Validators.required]),
     });
     this.t.push(this.fb.group({
-      start_date_plan: '',
-      end_date_plan: '',
+      // start_date_plan: '',
+      // end_date_plan: '',
       provinces: [],
       centralpolicies: [],
       resultcentralpolicy: [],
@@ -84,40 +111,26 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       this.selectdataprovince = this.resultprovince.map((item, index) => {
         return { value: item.province.id, label: item.province.name }
       })
-
       console.log(this.resultprovince);
     })
-
   }
 
-  get f() { return this.Form.controls }
-  get t() { return this.f.input as FormArray }
-
-  // get y(){return this.t.controls}
-  // get p(){return this.y.provinces as FormArray}
-
   DetailCentralPolicy(id: any, i) {
-    // alert(this.province[i].value)
-    // this.router.navigate(['/centralpolicy/detailcentralpolicy', id])
-    // alert(this.url)
-
     this.subjectservice.storesubjectprovince(id, this.province[i].value)
       .subscribe(result => {
         console.log("storesubjectprovince : " + result);
-
-        // this.router.navigate([]).then(result => {  window.open(this.url + 'centralpolicy/detailcentralpolicyprovince/' + result, '_blank'); });
-        window.open(this.url + 'centralpolicy/detailcentralpolicyprovince/' + result);
+        // window.open(this.url + 'centralpolicy/detailcentralpolicyprovince/' + result);
+        this.getDetailCentralPolicyProvince(result);
       })
-
   }
 
   storeInspectionPlanEvent(value) {
     console.log("Store : ", value);
-    // alert(JSON.stringify(value))
     this.inspectionplaneventservice.addInspectionplanevent(value).subscribe(response => {
       console.log(value);
       this.Form.reset()
-      this.router.navigate(['inspectionplanevent'])
+      // this.router.navigate(['inspectionplanevent'])
+      console.log("get");
     })
   }
 
@@ -129,11 +142,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       centralpolicies: [],
       resultcentralpolicy: [],
       resultdetailcentralpolicy: '',
-    }))
-    // this.input.push({
-    //   date: '',
-    //   province: ''
-    // });
+    }));
   }
 
   selectedprovince(event, i, item) {
@@ -155,19 +164,11 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   }
 
   selectedcentralpolicy(event, i) {
-    // this.t.at(i).get('resultdetailcentralpolicy').patchValue([1, 2])
-    // alert(JSON.stringify(event.value))
     this.centralpolicyservice.getdetailcentralpolicydata(event.value)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result
         console.log(this.resultdetailcentralpolicy.title);
         this.t.at(i).get('resultdetailcentralpolicy').patchValue({ id: this.resultdetailcentralpolicy.id, title: this.resultdetailcentralpolicy.title })
-        // alert(JSON.stringify(this.resultdetailcentralpolicy))
-        // this.resultdetailcentralpolicy = this.resultdetailcentralpolicy.map((item, index) => {
-        //   return { value: item.id, label: item.title }
-        // })
-
-        // this.t.at(i).get('resultdetailcentralpolicy').patchValue(this.resultdetailcentralpolicy)
         console.log("t", this.t.value);
       })
   }
@@ -178,4 +179,50 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   back() {
     window.history.back();
   }
+
+  getDetailCentralPolicyProvince(centralPolicyProvinceId) {
+    console.log("TESTID: ", this.id);
+    this.spinner.show();
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata(centralPolicyProvinceId)
+      .subscribe(result => {
+        console.log("getDetail" , result);
+        // alert(JSON.stringify(result))
+        this.resultdetailcentralpolicyData = result.centralpolicydata
+        this.resultdetailcentralpolicyprovinceData = result.subjectcentralpolicyprovincedata
+        setTimeout(() => {
+          this.spinner.hide();
+          this.loading = true;
+        }, 300);
+
+      })
+  }
+
+  editModal(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subquestionclosename = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm = this.fb.group({
+      subquestionclose: new FormControl(),
+
+    })
+    this.EditForm.patchValue({
+      subquestionclose: name,
+    })
+  }
+
+  editModal2(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subquestionclosechoicename = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm2 = this.fb.group({
+      subquestionclosechoice: new FormControl(),
+
+    })
+    this.EditForm2.patchValue({
+      subquestionclosechoice: name,
+    })
+  }
+
 }
