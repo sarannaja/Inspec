@@ -72,6 +72,8 @@ namespace InspecWeb.Data
         public DbSet<CentralPolicyUserFile> CentralPolicyUserFiles { get; set; }
 
         public DbSet<ElectronicBook> ElectronicBooks { get; set; }
+        public DbSet<ElectronicBookGroup> ElectronicBookGroups { get; set; }
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

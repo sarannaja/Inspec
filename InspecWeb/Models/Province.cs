@@ -32,5 +32,6 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
+        //public ICollection<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
     }
 }
