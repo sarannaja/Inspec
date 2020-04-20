@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { superAdmin } from './_nav';
 import { Centraladmin } from './_nav';
@@ -23,6 +24,7 @@ export class DefaultLayoutComponent implements OnInit {
   role_id: any
   nav: any
   // childClassIcon = "align-middle mr-2 fas fa-fw 
+
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -32,6 +34,7 @@ export class DefaultLayoutComponent implements OnInit {
   ngOnInit() {
     this.nav = superAdmin
     this.authorize.getUser()
+
       .subscribe(result => {
         this.userid = result.sub
         this.role_id = result.role_id
@@ -60,7 +63,6 @@ export class DefaultLayoutComponent implements OnInit {
   checkactive(url) {
     this.urlActive = url
     // console.log('in');
-
   }
   userNav(url, id): void {
     this.router.navigate([url])

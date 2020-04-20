@@ -138,6 +138,7 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
                 name:'ผู้ตรวจภาคประชาชน',
                 ex_link:'user',
                 id:'7'
+
             },
             {
                 icon:'fa-long-arrow-alt-right',
