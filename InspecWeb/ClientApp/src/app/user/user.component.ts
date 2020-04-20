@@ -91,6 +91,8 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.roleId);
+    
     this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',

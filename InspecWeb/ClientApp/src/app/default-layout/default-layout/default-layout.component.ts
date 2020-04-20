@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { superAdmin } from './_nav';
 import { Centraladmin } from './_nav';
@@ -21,7 +22,7 @@ export class DefaultLayoutComponent implements OnInit {
   role_id : any
   nav : any
   // childClassIcon = "align-middle mr-2 fas fa-fw 
-  constructor( private authorize: AuthorizeService) { }
+  constructor( private authorize: AuthorizeService,private router:Router) { }
   // 0C-54-15-66-C2-D6
   ngOnInit() {
     this.nav = superAdmin
@@ -48,14 +49,34 @@ export class DefaultLayoutComponent implements OnInit {
        }
       // console.log(result);
     })
-    this.checkactive(this.nav[0].url);
+    this.checkactive_init(this.nav[0].url);
   // this.urlActive = this.nav[0].url
   }
   checkactive(url){ 
+    // if(ext != "userdata"){
+    //   console.log("in != 1");
+      
+    //   window.location.assign("https://localhost:5001/"+url)
+    // }
+   
     this.urlActive = url
     // console.log('in');
 
   }
+
+  checkactive_init(url, ext?:any){ 
+    // if(ext != "1"){
+    //   console.log("in != 1");
+      
+    //   window.location.assign("https://localhost:5001"+url)
+    // }
+   
+    this.urlActive = url
+    // console.log('in');
+
+  }
+
+
  Logout(){
     this.authorize.signOut({ local: true })
   }

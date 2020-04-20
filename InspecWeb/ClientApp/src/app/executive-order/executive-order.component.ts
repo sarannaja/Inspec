@@ -17,7 +17,7 @@ export class ExecutiveOrderComponent implements OnInit {
 
   constructor(
     private router:Router, 
-    private centralpolicyservice: CentralpolicyService, 
+    private detailexecutiveorderService: CentralpolicyService, 
     private modalService: BsModalService) { }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class ExecutiveOrderComponent implements OnInit {
 
     };
 
-    this.centralpolicyservice.getcentralpolicydata()
+    this.detailexecutiveorderService.getcentralpolicydata()
     .subscribe(result => {
       this.resultcentralpolicy = result
       this.loading = true

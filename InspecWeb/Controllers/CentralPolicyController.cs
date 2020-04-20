@@ -67,7 +67,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyFiles)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id).First();
+                .Where(m => m.Id == id).FirstOrDefault();
 
             return Ok(centralpolicydata);
             //return "value";
