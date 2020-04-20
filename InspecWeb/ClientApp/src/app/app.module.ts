@@ -63,6 +63,8 @@ import { UserCentralPolicyComponent } from './central-policy/user-central-policy
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-central-policy-province/detail-central-policy-province.component';
 import { ReportCentralPolicyComponent } from './central-policy/accept-central-policy/report-central-policy/report-central-policy.component';
+import { ElectronicBookComponent } from './electronic-book/electronic-book.component';
+import { CreateElectronicBookComponent } from './electronic-book/create-electronic-book/create-electronic-book.component';
 
 
 @NgModule({
@@ -113,7 +115,9 @@ import { ReportCentralPolicyComponent } from './central-policy/accept-central-po
     EditCentralPolicyComponent,
     UserCentralPolicyComponent,
     EditSubjectComponent,
-    ReportCentralPolicyComponent
+    ReportCentralPolicyComponent,
+    ElectronicBookComponent,
+    CreateElectronicBookComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -179,6 +183,8 @@ import { ReportCentralPolicyComponent } from './central-policy/accept-central-po
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportcentralpolicy/:id', component: ReportCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook', component: ElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
