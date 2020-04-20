@@ -14,6 +14,7 @@ export interface Children{
     name?:string;
     url?:string;
     ex_link?:string;
+    id?:string;
 }
 
 export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิน
@@ -33,10 +34,10 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
         name:"ปฏิทินการตรวจราชการ"
     },
     {
-        icon:'fa-book',
-        url:"#1",
-        name:"สมุดตรวจราชการ"
-    },
+      icon:'fa-book',
+      url:"#1",
+      name:"สมุดตรวจอิเล็กทรอนิกส์"
+  },
     {
         icon:'fa-hand-point-up',
         url:"/executiveorder",
@@ -93,49 +94,58 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/1',
                 name:'ผู้ดูแลระบบ',
-                //ex_link:"userdata"
+                ex_link:'user',
+                id:'1'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/2',
                 name:'ผู้ดูแลแผนการตรวจราชการประจำปี',
-                //ex_link:"userdata"
+                ex_link:'user',
+                id:'2'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/3',
                 name:'ผู้ตรวจราชการ',
-                //ex_link:"userdata"
+                ex_link:'user',
+                id:'3'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/4',
                 name:'ผู้ว่าราชการจังหวัด',
-                //ex_link:"userdata"
+                ex_link:'user',
+                id:'4'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/5',
                 name:'ผู้ตรวจจังหวัด',
-                //ex_link:"userdata"
+                ex_link:'user',
+                id:'5'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/6',
                 name:'ผู้ตรวจกระทรวง/กรม',
-                //ex_link:"userdata"
+                ex_link:'user',
+                id:'6'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/7',
                 name:'ผู้ตรวจภาคประชาชน',
-                //ex_link:"userdata"
+                ex_link:'user',
+                id:'7'
+
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/8',
                 name:'นายก/รองนายก',
-                //ex_link:"userdata"
+                ex_link:'user',
+                id:'8'
             },
         ]
     } ,
@@ -278,10 +288,10 @@ export const Inspector:NavBar[] = [ //ผู้ตรวจ
         name:"ปฏิทินการตรวจราชการ"
     },
     {
-        icon:'fa-book',
-        url:"#",
-        name:"สมุดตรวจราชการ"
-    },
+      icon:'fa-book',
+      url:"#1",
+      name:"สมุดตรวจอิเล็กทรอนิกส์"
+  },
     {
         icon:'fa-hand-point-up',
         url:"#",
@@ -356,10 +366,10 @@ export const Provincialgovernor:NavBar[] = [ //ผู้ว่าราชกา
         name:"หน้าหลัก"
     },
     {
-        icon:'fa-book',
-        url:"#",
-        name:"สมุดตรวจราชการ"
-    },
+      icon:'fa-book',
+      url:"#1",
+      name:"สมุดตรวจอิเล็กทรอนิกส์"
+  },
     {
         icon:'fa-list-alt',
         url:"/supportgovernment",
@@ -432,10 +442,10 @@ export const Adminprovince:NavBar[] = [ //แอดมินจังหวั�
         name:"ปฏิทินการตรวจราชการ"
     },
     {
-        icon:'fa-book',
-        url:"#",
-        name:"สมุดตรวจราชการ"
-    },
+      icon:'fa-book',
+      url:"#1",
+      name:"สมุดตรวจอิเล็กทรอนิกส์"
+  },
     {
         icon:'fa-hands',
         url:"#",
@@ -514,7 +524,7 @@ export const InspectorMinistry:NavBar[] = [ //ผุ้ตรวจกระท�
     },
     {
         icon:'fa-archive',
-        url:"/centralpolicy",
+        url:"/usercentralpolicy",
         name:"แผนการตรวจประจำปี"
     },
     {
@@ -523,10 +533,10 @@ export const InspectorMinistry:NavBar[] = [ //ผุ้ตรวจกระท�
         name:"ปฏิทินการตรวจราชการ"
     },
     {
-        icon:'fa-book',
-        url:"#",
-        name:"สมุดตรวจราชการ"
-    },
+      icon:'fa-book',
+      url:"#1",
+      name:"สมุดตรวจอิเล็กทรอนิกส์"
+  },
     {
         icon:'fa-list-alt',
         url:"/supportgovernment",
@@ -580,7 +590,7 @@ export const InspectorMinistry:NavBar[] = [ //ผุ้ตรวจกระท�
                 name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
             },
         ]
-    } , 
+    } ,
 
 ]
 export const publicsector:NavBar[] = [ //User ภาคประชาชน
@@ -600,10 +610,10 @@ export const publicsector:NavBar[] = [ //User ภาคประชาชน
         name:"ปฏิทินการตรวจราชการ"
     },
     {
-        icon:'fa-book',
-        url:"#",
-        name:"สมุดตรวจราชการ"
-    },
+      icon:'fa-book',
+      url:"#1",
+      name:"สมุดตรวจอิเล็กทรอนิกส์"
+  },
     {
         icon:'fa-list-alt',
         url:"/supportgovernment",
@@ -657,7 +667,7 @@ export const publicsector:NavBar[] = [ //User ภาคประชาชน
                 name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
             },
         ]
-    } , 
+    } ,
 ]
 export const president:NavBar[] = [ //User นายก
         {
@@ -728,5 +738,5 @@ export const president:NavBar[] = [ //User นายก
                     name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
                 },
             ]
-        } , 
+        } ,
 ]

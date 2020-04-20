@@ -67,6 +67,11 @@ namespace InspecWeb.Data
         public DbSet<SubquestionChoiceCentralPolicyProvince> SubquestionChoiceCentralPolicyProvinces { get; set; }
         public DbSet<SubjectDateCentralPolicyProvince> SubjectDateCentralPolicyProvinces { get; set; }
         public DbSet<CentralPolicyDateProvince> CentralPolicyDateProvinces { get; set; }
+
+        public DbSet<CentralPolicyGroup> CentralPolicyGroups { get; set; }
+        public DbSet<CentralPolicyUserFile> CentralPolicyUserFiles { get; set; }
+
+        public DbSet<ElectronicBook> ElectronicBooks { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -64,7 +64,7 @@ namespace InspecWeb.Controllers
         }
 
         // POST api/values
-        [HttpPost("addsubquestion")]
+        [HttpPost("addsubquestionopen")]
         public Subquestion Post2(long subjectId, string name)
         {
             System.Console.WriteLine("subjectId"+ subjectId);
@@ -81,6 +81,57 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
             return questionsopendata;
+        }
+
+        // POST api/values
+        [HttpPost("addsubquestionclose")]
+        public Subquestion Post3([FromBody] QuestioncloseViewModel model)
+        {
+            //System.Console.WriteLine("subjectId" + subjectId);
+
+            var questionsclosedata = new Subquestion
+            {
+                SubjectId = model.SubjectId,
+                Name = model.Name,
+                Type = "คำถามปลายปิด"
+
+            };
+
+            _context.Subquestions.Add(questionsclosedata);
+            _context.SaveChanges();
+
+            foreach (var questionclosechoice in model.inputanswerclose2)
+            {
+                var Subquestionchoiceclosedata = new SubquestionChoice
+                {
+                    SubquestionId = questionsclosedata.Id,
+                    Name = questionclosechoice.answerclose
+                  
+                };
+                _context.SubquestionChoices.Add(Subquestionchoiceclosedata);
+                _context.SaveChanges();
+            }
+
+            return questionsclosedata;
+        }
+
+        // POST api/values
+        [HttpPost("addchoices")]
+        public SubquestionChoice Post4(long subquestionid, string name)
+        {
+            //System.Console.WriteLine("subjectId" + subjectId);
+
+            var subquestionchoicedata = new SubquestionChoice
+            {
+              SubquestionId = subquestionid,
+              Name = name
+
+            };
+
+            _context.SubquestionChoices.Add(subquestionchoicedata);
+            _context.SaveChanges();
+
+            return subquestionchoicedata;
         }
 
         // POST api/values
@@ -158,6 +209,79 @@ namespace InspecWeb.Controllers
 
         }
 
+        // PUT api/values/5
+        [HttpPut("editsubject/{id}")]
+        public void Put2([FromForm] SubjectViewModel model,long id)
+        {
+            var subjectDateId = _context.SubjectDates
+                .Where(x => x.SubjectId == id)
+                .ToList();
+
+            
+
+
+            var subjects = _context.Subjects.Find(id);
+            subjects.Name = model.Name;
+            _context.Entry(subjects).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            System.Console.WriteLine("in2");
+
+            foreach (var sjId in subjectDateId)
+            {
+                var delId = _context.SubjectDates
+                  .Where(x => x.Id == sjId.Id)
+                  .ToList();
+
+                foreach (var del in delId)
+                {
+                    _context.SubjectDates.Remove(del);
+                }
+                _context.SaveChanges();
+            }
+
+
+            System.Console.WriteLine("in3");
+
+
+            foreach (var add in model.CentralPolicyDateId)
+            {
+                System.Console.WriteLine("idddd: " + add);
+                System.Console.WriteLine("in4");
+                var subjectdatedata = new SubjectDate
+                {
+                    SubjectId = id,
+                    CentralPolicyDateId = add
+                };
+                _context.SubjectDates.Add(subjectdatedata);
+            }
+            _context.SaveChanges();
+        }
+
+        // PUT api/values/5
+        [HttpPut("editsubquestionopen/{id}")]
+        public void Put3(long id, string name)
+        {
+ 
+            var subquestionopendata = _context.Subquestions.Find(id);
+            subquestionopendata.Name = name;
+            _context.Entry(subquestionopendata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        // PUT api/values/5
+        [HttpPut("editchoices/{id}")]
+        public void Put4(long id, string name)
+        {
+
+            var subquestionopendata = _context.SubquestionChoices.Find(id);
+            subquestionopendata.Name = name;
+            _context.Entry(subquestionopendata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(long id)
@@ -165,6 +289,26 @@ namespace InspecWeb.Controllers
             var subjectdata = _context.Subjects.Find(id);
 
             _context.Subjects.Remove(subjectdata);
+            _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deletesubquestionopen/{id}")]
+        public void Delete2(long id)
+        {
+            var subquestionopendata = _context.Subquestions.Find(id);
+
+            _context.Subquestions.Remove(subquestionopendata);
+            _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deletechoices/{id}")]
+        public void Delete3(long id)
+        {
+            var subquestionchoicesdata = _context.SubquestionChoices.Find(id);
+
+            _context.SubquestionChoices.Remove(subquestionchoicesdata);
             _context.SaveChanges();
         }
 
@@ -265,5 +409,30 @@ namespace InspecWeb.Controllers
                 return centralpolicyprovince.Id;
             }
         }
+
+        // PUT api/values/5
+        [HttpPut("editsunquestionprovince/{id}")]
+        public void PutSubquestionProvince(long id, string name)
+        {
+            var Subquestiondata = _context.SubquestionCentralPolicyProvinces.Find(id);
+            Subquestiondata.Name = name;
+
+            _context.Entry(Subquestiondata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        // PUT api/values/5
+        [HttpPut("editsunquestionchoiceprovince/{id}")]
+        public void PutSubquestionchoiceProvince(long id, string name)
+        {
+            var Subquestionchoicedata = _context.SubquestionChoiceCentralPolicyProvinces.Find(id);
+            Subquestionchoicedata.Name = name;
+
+            _context.Entry(Subquestionchoicedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
     }
 }

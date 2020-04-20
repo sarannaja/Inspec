@@ -126,6 +126,10 @@ export class CentralpolicyService {
     return this.http.put(path, formData)
   }
 
+  deleteFile(id) {
+    return this.http.delete(this.url + 'deletefile/' + id);
+  }
+
   deleteCentralPolicy(id) {
     return this.http.delete(this.url + id);
   }
@@ -141,6 +145,10 @@ export class CentralpolicyService {
 
   getcentralpolicyuserdata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "users/" + id)
+  }
+
+  getcentralpolicyprovinceuserdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "usersprovince/" + id)
   }
 
   getcentralpolicyfromprovince(id): Observable<any[]> {
@@ -167,5 +175,29 @@ export class CentralpolicyService {
   }
   getdetailcentralpolicyprovincedata(id): Observable<any> {
     return this.http.get<any>(this.url + "centralpolicyprovince/" + id)
+  }
+
+  getSubjectCentralPolicyProvince(id): Observable<any> {
+    return this.http.get<any>(this.url + "subjectcentralpolicyprovince/" + id)
+  }
+
+  getUserFiles(userId) {
+    return this.http.get<any>(this.url + "userfile/" + userId)
+  }
+
+  sendReport(reportData, file: FileList, id) {
+    console.log("REPORTDATA: ", reportData);
+
+    const formData = new FormData();
+    formData.append('Report', reportData.report);
+    for (var i = 0; i < file.length; i++) {
+      formData.append("files", file[i]);
+    }
+
+    return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
+  }
+
+  deleteUserFile(id) {
+    return this.http.delete(this.url + 'deleteuserfile/' + id);
   }
 }

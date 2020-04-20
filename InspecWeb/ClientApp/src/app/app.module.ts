@@ -62,6 +62,7 @@ import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-central-policy-province/detail-central-policy-province.component';
+import { ReportCentralPolicyComponent } from './central-policy/accept-central-policy/report-central-policy/report-central-policy.component';
 
 
 @NgModule({
@@ -111,7 +112,8 @@ import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-ce
     AcceptCentralPolicyComponent,
     EditCentralPolicyComponent,
     UserCentralPolicyComponent,
-    EditSubjectComponent
+    EditSubjectComponent,
+    ReportCentralPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -176,6 +178,7 @@ import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-ce
           { path: 'test/logout', component: LogoutComponent},
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportcentralpolicy/:id', component: ReportCentralPolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
