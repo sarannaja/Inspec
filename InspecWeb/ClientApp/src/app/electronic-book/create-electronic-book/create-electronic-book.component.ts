@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { IMyOptions } from 'mydatepicker-th';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { IOption } from 'ng-select';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { SubjectService } from 'src/app/services/subject.service';
 import { ProvinceService } from 'src/app/services/province.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 
 interface addInput {
   id: number;
@@ -55,6 +56,12 @@ export class CreateElectronicBookComponent implements OnInit {
   editid: any;
   subquestionclosename: any
   subquestionclosechoicename: any
+  resultuser: any;
+  provinceId: any;
+  resultministrypeople: any = [];
+  selectministrypeople: any = [];
+  resultpeople: any = [];
+  selectpeople: any = [];
 
   get f() { return this.Form.controls }
   get t() { return this.f.input as FormArray }
@@ -68,6 +75,7 @@ export class CreateElectronicBookComponent implements OnInit {
     private provinceservice: ProvinceService,
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
+    private electronicBookService: ElectronicbookService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.url = baseUrl;
@@ -91,10 +99,11 @@ export class CreateElectronicBookComponent implements OnInit {
       })
 
     this.Form = this.fb.group({
-      //title: new FormControl(null, [Validators.required]),
-      input: new FormArray([])
-      // start_date: new FormControl(null, [Validators.required]),
-      // end_date: new FormControl(null, [Validators.required]),
+      input: new FormArray([]),
+      checkDetail: new FormControl(null, [Validators.required]),
+      UserMinistryId: new FormControl(null, [Validators.required]),
+      UserPeopleId: new FormControl(null, [Validators.required]),
+
     });
     this.t.push(this.fb.group({
       // start_date_plan: '',
@@ -113,6 +122,24 @@ export class CreateElectronicBookComponent implements OnInit {
       })
       console.log(this.resultprovince);
     })
+
+    this.userservice.getuserdata(6).subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.resultministrypeople = result
+      console.log(this.resultministrypeople);
+      this.selectministrypeople = this.resultministrypeople.map((item, index) => {
+        return { value: item.id, label: item.name }
+      })
+    })
+
+    this.userservice.getuserdata(7).subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.resultpeople = result
+      console.log(this.resultpeople);
+      this.selectpeople = this.resultpeople.map((item, index) => {
+        return { value: item.id, label: item.name }
+      })
+    })
   }
 
   DetailCentralPolicy(id: any, i) {
@@ -120,13 +147,15 @@ export class CreateElectronicBookComponent implements OnInit {
       .subscribe(result => {
         console.log("storesubjectprovince : " + result);
         // window.open(this.url + 'centralpolicy/detailcentralpolicyprovince/' + result);
+        this.provinceId = result;
         this.getDetailCentralPolicyProvince(result);
       })
   }
 
   storeInspectionPlanEvent(value) {
     console.log("Store : ", value);
-    this.inspectionplaneventservice.addInspectionplanevent(value).subscribe(response => {
+    alert("DATA: " + JSON.stringify(value));
+    this.electronicBookService.addElectronicBook(value).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
@@ -186,8 +215,11 @@ export class CreateElectronicBookComponent implements OnInit {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(centralPolicyProvinceId)
       .subscribe(result => {
         console.log("getDetail" , result);
-        // alert(JSON.stringify(result))
+
         this.resultdetailcentralpolicyData = result.centralpolicydata
+        console.log("DATA: ", this.resultdetailcentralpolicyData);
+
+        this.resultuser = result.userdata;
         this.resultdetailcentralpolicyprovinceData = result.subjectcentralpolicyprovincedata
         setTimeout(() => {
           this.spinner.hide();
@@ -222,6 +254,24 @@ export class CreateElectronicBookComponent implements OnInit {
     })
     this.EditForm2.patchValue({
       subquestionclosechoice: name,
+    })
+  }
+
+  editsubquestionclose(value, id) {
+    this.subjectservice.editsubquestionprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince(this.provinceId);
+    })
+  }
+
+  editsubquestionclosechoice(value, id) {
+    this.subjectservice.editsubquestionchoiceprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm2.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince(this.provinceId);
     })
   }
 

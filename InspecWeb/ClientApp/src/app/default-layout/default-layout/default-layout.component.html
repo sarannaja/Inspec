@@ -13,7 +13,6 @@
                 <small>ตำแหน่ง xxx </small>
             </div>
 
-
             <ul class="sidebar-nav">
                 <li *ngFor="let item of nav;" (click)="checkactive(item.url)"
                     [ngClass]="item.url == urlActive ? 'sidebar-item active':'sidebar-item'">
