@@ -10,7 +10,7 @@ import { publicsector } from './_nav';
 import { president } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -23,7 +23,7 @@ export class DefaultLayoutComponent implements OnInit {
   userid: any
   role_id: any
   nav: any
-  // childClassIcon = "align-middle mr-2 fas fa-fw 
+  // childClassIcon = "align-middle mr-2 fas fa-fw
 
   constructor(
     private authorize: AuthorizeService,
