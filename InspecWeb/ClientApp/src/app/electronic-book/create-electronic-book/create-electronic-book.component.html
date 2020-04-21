@@ -115,10 +115,10 @@
           <div *ngIf="loading">
             <div class="row">
               <div class="col-md-6">
-                ผู้สังการ : {{resultdetailcentralpolicyData.createdBy}}
+                ผู้สังการ : {{resultuser.name}}
               </div>
               <div class="col-md-6">
-                ตำแหน่ง : ผู้ตรวจการ
+                ตำแหน่ง : {{resultuser.position}}
               </div>
             </div>
             <div class="row" style="margin-top: 10px;">
@@ -128,10 +128,11 @@
             </div>
             <div class="row" style="margin-top: 10px;">
               <div class="col-md-6">
-                จังหวัด : ขอนแก่น
-                <!-- <u>จังหวัด</u><br><span
-                  *ngFor="let item3 of resultdetailcentralpolicyData.centralPolicyProvinces; let i = index">ช่วงที่ {{i+1}})
-                  {{ item3.province.name }}<br></span> -->
+                <!-- จังหวัด : ขอนแก่น -->
+                <u>จังหวัด</u><br><span
+                  *ngFor="let item3 of resultdetailcentralpolicyData.centralPolicyProvinces; let i = index">ช่วงที่
+                  {{i+1}})
+                  {{ item3.province.name }}<br></span>
               </div>
             </div>
 
@@ -152,7 +153,7 @@
                         <div class="row">
                           <u style="margin-left: 15px;">เรื่องประเด็น</u>
                           <div class="col-12">
-                            <input type="text" value="{{i +1}}. {{items.name}}" class="form-control"
+                            <input type="text" value="{{items.name}}" class="form-control"
                               placeholder="กรุณากรอกเรื่อง" readonly>
                           </div>
                           <!-- <div class="col-1">
@@ -166,7 +167,7 @@
                           <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
 
                             <div class="col-12">
-                              <input type="text" value="{{i +1}}.{{ii +1}} {{item.name}}" class="form-control"
+                              <input type="text" value="{{item.name}}" class="form-control"
                                 placeholder="กรุณากรอกเรื่อง" readonly>
                             </div>
                             <!-- <div class="col-1">
@@ -183,7 +184,7 @@
                         <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
                         <div class="row">
                           <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
-                            <input type="text" value="{{i +1}}.{{ii+1}} {{item.name}}" class="form-control"
+                            <input type="text" value="{{item.name}}" class="form-control"
                               placeholder="กรุณากรอกเรื่อง" readonly>
                           </div>
                           <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
@@ -201,7 +202,7 @@
                             <div class="row">
                               <div class="col-11"
                                 *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                                <input type="text" value="{{i +1}}.{{ii+1}}.{{iii+1}} {{item3.name}}"
+                                <input type="text" value="{{item3.name}}"
                                   class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
                               </div>
                               <div class="col-1"
@@ -221,10 +222,29 @@
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
-                <label>รายละเอียดการตรวจ</label>
-                <textarea cols="30" rows="5" formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียดการตรวจ">
+                <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
+                <textarea cols="30" rows="5" formControlName="checkDetail" class="form-control"
+                  placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์">
                 </textarea>
               </div>
+            </div>
+
+            <div class="col-lg-12">
+              <label>ผู้ตรวจการกรม</label>
+            </div>
+            <div class="col-lg-12">
+              <ng-select placeholder="กรุณาเลือกผู้ตรวจการ" [multiple]="true" [options]="selectministrypeople"
+                name="UserMinistryId" formControlName="UserMinistryId" [allowClear]="true">
+              </ng-select>
+            </div>
+
+            <div class="col-lg-12">
+              <label>ผู้ตรวจการภาคประชาชน</label>
+            </div>
+            <div class="col-lg-12">
+              <ng-select placeholder="กรุณาเลือกผู้ตรวจการ" [multiple]="true" [options]="selectpeople"
+                name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+              </ng-select>
             </div>
 
             <div class="form-group row col-lg-4" style="margin-top: 20px;">
@@ -236,10 +256,8 @@
                 <button type="submit" class="btn btn-danger" (click)="back()">ยกเลิก</button>
               </div>
             </div>
-
           </div>
         </form>
-
       </div>
     </div>
   </div>
