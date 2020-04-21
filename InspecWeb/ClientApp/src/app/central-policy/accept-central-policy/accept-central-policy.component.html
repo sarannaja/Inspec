@@ -118,7 +118,7 @@
                     <div class="row">
                       <u style="margin-left: 15px;">เรื่องประเด็น</u>
                       <div class="col-12">
-                        <input type="text" value="{{i +1}}. {{items.name}}" class="form-control"
+                        <input type="text" value="{{items.name}}" class="form-control"
                           placeholder="กรุณากรอกเรื่อง" readonly>
                       </div>
                     </div>
@@ -129,7 +129,7 @@
                       <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
 
                         <div class="col-12">
-                          <input type="text" value="{{i +1}}.{{ii +1}} {{item.name}}" class="form-control"
+                          <input type="text" value="{{item.name}}" class="form-control"
                             placeholder="กรุณากรอกเรื่อง" readonly>
                         </div>
                       </div>
@@ -143,7 +143,7 @@
                     <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
                       <div class="row">
                         <div class="col-12" *ngIf="item.type == 'คำถามปลายปิด'">
-                          <input type="text" value="{{i +1}}.{{ii+1}} {{item.name}}" class="form-control"
+                          <input type="text" value="{{item.name}}" class="form-control"
                             placeholder="กรุณากรอกเรื่อง" readonly>
                         </div>
                       </div>
@@ -156,7 +156,7 @@
                       <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
                         <div class="row">
                           <div class="col-12" *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                            <input type="text" value="{{i +1}}.{{ii+1}}.{{iii+1}} {{item3.name}}" class="form-control"
+                            <input type="text" value="{{item3.name}}" class="form-control"
                               placeholder="กรุณากรอกเรื่อง" readonly>
                           </div>
                         </div>

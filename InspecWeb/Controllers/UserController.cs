@@ -238,7 +238,7 @@ namespace InspecWeb.Controllers
         [HttpGet("api/[controller]/[action]/{id}")]
         public IEnumerable<ApplicationUser> getuser(long id)
         {
-            var users = _context.Users
+                 var users = _context.Users
                 .Include(s => s.UserRegion)
                 .ThenInclude(r => r.Region)
                 .Include(s => s.UserProvince)
@@ -247,8 +247,8 @@ namespace InspecWeb.Controllers
                 .Include(s => s.Ministries)
                 .Where(m => m.Role_id == id)
                 .Where(m => m.Active == 1);
-     
-            return users;
+
+                return users;
         }
 
         [HttpGet("api/[controller]/province/{id}")]

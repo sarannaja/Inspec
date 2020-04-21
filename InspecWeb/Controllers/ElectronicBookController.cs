@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,16 +31,70 @@ namespace InspecWeb.Controllers
 
         // POST: api/ElectronicBook
         [HttpPost]
-        public void Post(string id, string detail)
+        public void Post([FromBody] ElectronicBookViewModel model)
         {
             var ElectronicBookdata = new ElectronicBook
             {
-                UserId = id,
-                Detail = detail,
+                Detail = model.Detail,
             };
 
             _context.ElectronicBooks.Add(ElectronicBookdata);
             _context.SaveChanges();
+
+            var CentralPolicyId = model.Inputelectronicbook[0].CentralPolicyId;
+            var ProvinceId = model.Inputelectronicbook[0].ProvinceId;
+
+            var centralpolicyprovinceid = _context.CentralPolicyProvinces
+                .Where(m => m.CentralPolicyId == CentralPolicyId)
+                .Where(m => m.ProvinceId == ProvinceId)
+                .Select(m => m.Id).First();
+
+            var ElectronicBookgroupdata = new ElectronicBookGroup
+            {
+                ElectronicBookId = ElectronicBookdata.Id,
+                CentralPolicyProvinceId = centralpolicyprovinceid
+            };
+
+            foreach (var itemUserPeopleId in model.UserPeopleId)
+            {
+                var CentralPolicyGroupdata = new CentralPolicyGroup
+                {
+                };
+                _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
+                _context.SaveChanges();
+
+                    var CentralPolicyUserdata = new CentralPolicyUser
+                    {
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        ElectronicBookId = ElectronicBookdata.Id,
+                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                        UserId = itemUserPeopleId.Id,
+
+                    };
+                    _context.CentralPolicyUsers.Add(CentralPolicyUserdata);
+                    _context.SaveChanges();
+            }
+
+            foreach (var itemUserMinistryId in model.UserMinistryId)
+            {
+                var CentralPolicyGroupdata = new CentralPolicyGroup
+                {
+                };
+                _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
+                _context.SaveChanges();
+
+                var CentralPolicyUserdata = new CentralPolicyUser
+                {
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    ElectronicBookId = ElectronicBookdata.Id,
+                    CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                    UserId = itemUserMinistryId.Id,
+                };
+                _context.CentralPolicyUsers.Add(CentralPolicyUserdata);
+                _context.SaveChanges();
+            }
         }
 
         // PUT: api/ElectronicBook/5
