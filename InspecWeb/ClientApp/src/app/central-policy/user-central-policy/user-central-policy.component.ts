@@ -51,7 +51,7 @@ export class UserCentralPolicyComponent implements OnInit {
       this.resultcentralpolicy = result
       this.loading = true;
       this.spinner.hide();
-      console.log(this.resultcentralpolicy);
+      console.log("RES: ", this.resultcentralpolicy);
     })
 
   }
@@ -85,6 +85,10 @@ export class UserCentralPolicyComponent implements OnInit {
 
   AcceptCentralPolicy(id: any){
     this.router.navigate(['/acceptcentralpolicy',id])
+  }
+
+  gotoReport(id: any) {
+    this.router.navigate(['/reportcentralpolicy',id])
   }
 
 }

@@ -63,6 +63,9 @@ import { UserCentralPolicyComponent } from './central-policy/user-central-policy
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-central-policy-province/detail-central-policy-province.component';
 import { DetailSubjectComponent } from './subject/detail-subject/detail-subject.component';
+import { ReportCentralPolicyComponent } from './central-policy/accept-central-policy/report-central-policy/report-central-policy.component';
+import { ElectronicBookComponent } from './electronic-book/electronic-book.component';
+import { CreateElectronicBookComponent } from './electronic-book/create-electronic-book/create-electronic-book.component';
 
 
 @NgModule({
@@ -113,7 +116,10 @@ import { DetailSubjectComponent } from './subject/detail-subject/detail-subject.
     EditCentralPolicyComponent,
     UserCentralPolicyComponent,
     EditSubjectComponent,
-    DetailSubjectComponent
+    DetailSubjectComponent,
+    ReportCentralPolicyComponent,
+    ElectronicBookComponent,
+    CreateElectronicBookComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -179,6 +185,9 @@ import { DetailSubjectComponent } from './subject/detail-subject/detail-subject.
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/detailsubject/:id', component: DetailSubjectComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportcentralpolicy/:id', component: ReportCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook', component: ElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

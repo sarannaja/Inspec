@@ -37,6 +37,9 @@ namespace InspecWeb.Controllers
                                .ToList();
             var inspectionplans = _context.InspectionPlanEvents
                                 .Include(m => m.Province)
+                                .Include(m => m.CentralPolicyEvents)
+                                .ThenInclude(m => m.CentralPolicy)
+                                .ThenInclude(m => m.CentralPolicyProvinces)
                                 //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
                                 .ToList();
             List<object> termsList = new List<object>();

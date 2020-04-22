@@ -67,7 +67,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyFiles)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id).First();
+                .Where(m => m.Id == id).FirstOrDefault();
 
             return Ok(centralpolicydata);
             //return "value";
@@ -90,7 +90,7 @@ namespace InspecWeb.Controllers
                 EndDate = model.EndDate,
                 Status = model.Status,
                 CreatedAt = date,
-                CreatedBy = "Super Admin",
+                CreatedBy = model.UserID,
                 Class = "แผนการตรวจประจำปี",
             };
 
@@ -378,6 +378,11 @@ namespace InspecWeb.Controllers
                 .Where(x => x.Id == model.CentralPolicyId)
                 .Select(x => x.CentralPolicyId)
                 .First();
+
+            var ProvinceId = _context.CentralPolicyProvinces
+            .Where(x => x.Id == model.CentralPolicyId)
+            .Select(x => x.ProvinceId)
+            .First();
             System.Console.WriteLine("CID: " + CentralPolicyId);
 
 
@@ -388,6 +393,7 @@ namespace InspecWeb.Controllers
                 var centralpolicyuserdata = new CentralPolicyUser
                 {
                     CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
                     CentralPolicyGroupId = CentralPolicyGroupdata.Id,
                     UserId = id,
                     Status = "รอการตอบรับ"
@@ -481,11 +487,15 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-                .Include(m => m.Subjects)
-                .ThenInclude(m => m.Subquestions)
+                //.Include(m => m.Subjects)
+                //.ThenInclude(m => m.Subquestions)
+                .Include(m => m.CentralPolicyProvinces)
+                .ThenInclude(m => m.Province)
                 .Where(m => m.Id == accept.CentralPolicyId).First();
 
-            return Ok(centralpolicydata);
+            var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
+
+            return Ok(new { centralpolicydata , userdata } );
         }
 
         // GET api/values/5
@@ -511,14 +521,140 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
             .Include(m => m.CentralPolicyDates)
             .Include(m => m.CentralPolicyFiles)
+            .Include(m => m.CentralPolicyProvinces)
+            .ThenInclude(m => m.Province)
             .Where(m => m.Id == centralpolicyprovince.CentralPolicyId).First();
+
+            var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
 
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
-            return Ok( new { subjectcentralpolicyprovincedata , centralpolicydata });
+            return Ok( new { subjectcentralpolicyprovincedata , centralpolicydata , userdata });
+            //return "value";
+        }
+
+
+        [HttpGet("userfile/{userId}")]
+        public IActionResult GetUserFile(long userId)
+        {
+            var report = _context.CentralPolicyUsers
+               .Where(x => x.Id == userId)
+               .Select(x => x.Report)
+               .First();
+
+            var centralGroupId = _context.CentralPolicyUsers
+                .Where(x => x.Id == userId)
+                .Select(x => x.CentralPolicyGroupId)
+                .First();
+
+            var userFile = _context.CentralPolicyUserFiles
+                .Where(x => x.CentralPolicyGroupId == centralGroupId)
+                .ToList();
+
+            return Ok(new {report, userFile });
+        }
+
+
+        // POST api/values
+        [HttpPut("reportcentralpolicy/{id}")]
+        public async Task<IActionResult> PostReportCentralPolicy([FromForm]CentralPolicyProvinceViewModel model, CentralPolicyUserModel userModel, long id)
+        {
+            System.Console.WriteLine("UserID: " + id);
+            System.Console.WriteLine("Report: " + userModel.Report);
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Where(x => x.Id == id)
+                .First();
+
+            (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
+                ForEach(x => x.Report = userModel.Report);
+
+            System.Console.WriteLine("IN2");
+            _context.SaveChanges();
+
+            System.Console.WriteLine("IN3");
+
+            //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+            System.Console.WriteLine("IN4");
+
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            //foreach (var formFile in data.files)
+            {
+                System.Console.WriteLine("IN5");
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+
+                if (formFile.Value.Length > 0)
+                {
+                    System.Console.WriteLine("IN6");
+                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+
+                    var CentralPolicyUserFile = new CentralPolicyUserFile
+                    {
+                        CentralPolicyGroupId = centralpolicyuserdata.CentralPolicyGroupId,
+                        Name = random + filename,
+                    };
+                    _context.CentralPolicyUserFiles.Add(CentralPolicyUserFile);
+                    _context.SaveChanges();
+                    System.Console.WriteLine("IN7");
+                }
+                System.Console.WriteLine("IN8");
+            }
+            return Ok(new { status = true });
+
+        }
+
+        [HttpDelete("deleteuserfile/{id}")]
+        public void DeleteUserFile(long id)
+        {
+            System.Console.WriteLine("ID: ", id);
+            var centralpolicyuserfiledata = _context.CentralPolicyUserFiles.Find(id);
+
+            _context.CentralPolicyUserFiles.Remove(centralpolicyuserfiledata);
+            _context.SaveChanges();
+        }
+
+        // GET api/values/5
+        [HttpGet("subjectcentralpolicyprovince/{id}")]
+        public IActionResult GetSubjectCentralPolicyProvince(long id)
+        {
+            var centralpolicyuser = _context.CentralPolicyUsers
+            .Where(m => m.Id == id).FirstOrDefault();
+
+            System.Console.WriteLine("ID1: " + centralpolicyuser.CentralPolicyId);
+            System.Console.WriteLine("ID2: " + centralpolicyuser.ProvinceId);
+
+            var centralpolicyprovincedata = _context.CentralPolicyProvinces
+            .Where(m => m.CentralPolicyId == centralpolicyuser.CentralPolicyId)
+            .Where(m => m.ProvinceId == centralpolicyuser.ProvinceId)
+            .FirstOrDefault();
+
+            System.Console.WriteLine("ID3: " + centralpolicyprovincedata.Id);
+
+            var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Where(m => m.CentralPolicyProvinceId == centralpolicyprovincedata.Id)
+                .ToList();
+
+            return Ok(subjectcentralpolicyprovincedata);
             //return "value";
         }
 

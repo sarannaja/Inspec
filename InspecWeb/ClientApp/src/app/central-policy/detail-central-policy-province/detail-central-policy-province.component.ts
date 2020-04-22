@@ -15,6 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class DetailCentralPolicyProvinceComponent implements OnInit {
 
+  resultuser: any = []
   resultpeople: any = []
   resultministrypeople: any = []
   resultdetailcentralpolicy: any = []
@@ -84,7 +85,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.getDetailCentralPolicyProvince()
     setTimeout(() => {
       this.spinner.hide();
-    }, 1500);
+    }, 2000);
 
   }
 
@@ -134,6 +135,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.resultuser = result.userdata
       })
   }
 

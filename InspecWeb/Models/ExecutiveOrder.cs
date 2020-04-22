@@ -35,6 +35,8 @@ namespace InspecWeb.Models
 
         public virtual ApplicationUser User { get; set; }
 
+        [Description("FK: ผู้ตอบ")]
+        public string AnswerUserId { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]

@@ -151,3 +151,39 @@
     <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
+<form class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: -40px;">
+          <h5 class="card-title">ข้อสั่งการ</h5>
+        </div>
+        <div class="card-body">
+          <table id="datatables-basic" class="table table-striped" style="width:100%">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ชื่อข้อสั่งการ</th>
+                <th>ไฟล์แนบ</th>
+                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resultExecutiveorder; let i = index">
+                <td>{{ i + 1 }}.</td>
+                <td>{{ item.question }}</td>
+                <td><a href="" download>{{ item.file }}</a></td>
+                <td>
+                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
+                  <!--<i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                    (click)="openModal(modalAnswerExecutiveorder, item.id, item.question)"></i>
+                    <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                    (click)="openModal(modalViewExecutiveorder, item.id,)"></i>-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
