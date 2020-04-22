@@ -108,6 +108,9 @@ export class SubjectComponent implements OnInit {
   Subquestion() {
     this.router.navigate(['/subquestion', this.id])
   }
+  DetailSubject(id){
+    this.router.navigate(['/subject/detailsubject', id])
+  }
   EditSubject(id) {
     this.router.navigate(['/subject/editsubject', id])
   }
