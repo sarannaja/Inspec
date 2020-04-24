@@ -24,7 +24,7 @@ export class CentralpolicyService {
     console.log(id);
     return this.http.get(this.url + id)
   }
-  addCentralpolicy(centralpolicyData, file: FileList) {
+  addCentralpolicy(centralpolicyData, file: FileList, userid) {
     // alert(JSON.stringify(file))
     var inputdate: Array<any> = centralpolicyData.inputdate.map((item, index) => {
       return {
@@ -50,6 +50,7 @@ export class CentralpolicyService {
     // }
 
     const formData = new FormData();
+    formData.append('UserID', userid);
     formData.append('Title', centralpolicyData.title);
     formData.append('Type', centralpolicyData.type);
     for (var i = 0; i < centralpolicyData.ProvinceId.length; i++) {
@@ -120,7 +121,7 @@ export class CentralpolicyService {
     console.log("formfiles: ", formData.getAll('files'));
 
     let path = this.url + id;
-    console.log("path: ",  path);
+    console.log("path: ", path);
 
 
     return this.http.put(path, formData)

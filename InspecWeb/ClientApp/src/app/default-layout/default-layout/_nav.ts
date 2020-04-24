@@ -1,20 +1,20 @@
 
-export interface NavBar{
-    icon?:string;
-    name?:string;
-    url?:string;
-    ex_link?:string;
-    children?:Array<Children>
-    classtap?:string;
-    IDchildren?:string;
+export interface NavBar {
+  icon?: string;
+  name?: string;
+  url?: string;
+  ex_link?: string;
+  children?: Array<Children>
+  classtap?: string;
+  IDchildren?: string;
 }
 
-export interface Children{
-    icon?:string;
-    name?:string;
-    url?:string;
-    ex_link?:string;
-    id?:string;
+export interface Children {
+  icon?: string;
+  name?: string;
+  url?: string;
+  ex_link?: string;
+  id?: string;
 }
 
 export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิน
@@ -146,606 +146,606 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
                 ex_link:'user',
                 id:'7'
 
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/8',
-                name:'นายก/รองนายก',
-                ex_link:'user',
-                id:'8'
-            },
-        ]
-    } ,
-    {
-        icon:'fa-list-alt',
-        url:"/supportgovernment",
-        name:"ข้อมูลสนับสนุน"
-    },
-    {
-        IDchildren:'contactpersonnel',
-        icon:'fa-user-tie',
-        name:"ข้อมูลการติดต่อบุคลากร",
-        children:[
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
-                name:'คณะรัฐมนตรี'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'/inspector',
-                name:'ผู้ตรวจราชการ'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'/province',
-                name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'หน่วยงานในส่วนภูมิภาค'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
-                name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
-                name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-            },
-        ]
-    } ,
-    {
-        icon:'fa-shekel-sign',
-        url:"/training",
-        name:"จัดอบรมหลักสูตร"
-    },
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/8',
+        name: 'นายก/รองนายก',
+        ex_link: 'user',
+        id: '8'
+      },
+    ]
+  },
+  {
+    icon: 'fa-list-alt',
+    url: "/supportgovernment",
+    name: "ข้อมูลสนับสนุน"
+  },
+  {
+    IDchildren: 'contactpersonnel',
+    icon: 'fa-user-tie',
+    name: "ข้อมูลการติดต่อบุคลากร",
+    children: [
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspector',
+        name: 'ผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'หน่วยงานในส่วนภูมิภาค'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+    ]
+  },
+  {
+    icon: 'fa-shekel-sign',
+    url: "/training",
+    name: "จัดอบรมหลักสูตร"
+  },
 
 ]
-export const Centraladmin:NavBar[] = [ //แอดมินส่วนกลาง
-    {
-        icon:'fa-home',
-        url:"/main",
-        name:"หน้าหลัก"
-    },
-    {
-        icon:'fa-archive',
-        url:"/centralpolicy",
-        name:"แผนการตรวจประจำปี"
-    },
-    {
-        icon:'fa-list-alt',
-        url:"/supportgovernment",
-        name:"ข้อมูลสนับสนุน"
-    },
-    {
-        IDchildren:'contactpersonnel',
-        icon:'fa-user-tie',
-        name:"ข้อมูลการติดต่อบุคลากร",
-        children:[
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
-                name:'คณะรัฐมนตรี'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'/inspector',
-                name:'ผู้ตรวจราชการ'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'/province',
-                name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'หน่วยงานในส่วนภูมิภาค'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
-                name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
-                name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-            },
-        ]
-    } ,
-]
-export const Inspector:NavBar[] = [ //ผู้ตรวจ
-    {
-        icon:'fa-home',
-        url:"/main",
-        name:"หน้าหลัก"
-    },
-    {
-        icon:'fa-calendar',
-        url:"/inspectionplanevent",
-        name:"ปฏิทินการตรวจราชการ"
-    },
-    {
-      icon:'fa-book',
-      url:"#1",
-      name:"สมุดตรวจอิเล็กทรอนิกส์"
+export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
   },
-    {
-        icon:'fa-hand-point-up',
-        url:"#",
-        name:"ข้อสั่งการผู้บริหาร"
-    },
-    {
-        icon:'fa-hands',
-        url:"#",
-        name:"แจ้งคำร้องขอ"
-    },
-    {
-        icon:'fa-list-alt',
-        url:"/supportgovernment",
-        name:"ข้อมูลสนับสนุน"
-    },
-    {
-        IDchildren:'contactpersonnel',
-        icon:'fa-user-tie',
-        name:"ข้อมูลการติดต่อบุคลากร",
-        children:[
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
-                name:'คณะรัฐมนตรี'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'/inspector',
-                name:'ผู้ตรวจราชการ'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'/province',
-                name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'หน่วยงานในส่วนภูมิภาค'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
-                name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
-                name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-            },
-        ]
-    } ,
+  {
+    icon: 'fa-archive',
+    url: "/centralpolicy",
+    name: "แผนการตรวจประจำปี"
+  },
+  {
+    icon: 'fa-list-alt',
+    url: "/supportgovernment",
+    name: "ข้อมูลสนับสนุน"
+  },
+  {
+    IDchildren: 'contactpersonnel',
+    icon: 'fa-user-tie',
+    name: "ข้อมูลการติดต่อบุคลากร",
+    children: [
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspector',
+        name: 'ผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'หน่วยงานในส่วนภูมิภาค'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+    ]
+  },
+]
+export const Inspector: NavBar[] = [ //ผู้ตรวจ
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
+  },
+  {
+    icon: 'fa-calendar',
+    url: "/inspectionplanevent",
+    name: "ปฏิทินการตรวจราชการ"
+  },
+  {
+    icon: 'fa-book',
+    url: "#1",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
+  },
+  {
+    icon: 'fa-hand-point-up',
+    url: "#",
+    name: "ข้อสั่งการผู้บริหาร"
+  },
+  {
+    icon: 'fa-hands',
+    url: "#",
+    name: "แจ้งคำร้องขอ"
+  },
+  {
+    icon: 'fa-list-alt',
+    url: "/supportgovernment",
+    name: "ข้อมูลสนับสนุน"
+  },
+  {
+    IDchildren: 'contactpersonnel',
+    icon: 'fa-user-tie',
+    name: "ข้อมูลการติดต่อบุคลากร",
+    children: [
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspector',
+        name: 'ผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'หน่วยงานในส่วนภูมิภาค'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+    ]
+  },
 
 
 ]
-export const Provincialgovernor:NavBar[] = [ //ผู้ว่าราชการจังหวัด
-    {
-        icon:'fa-home',
-        url:"/main",
-        name:"หน้าหลัก"
-    },
-    {
-      icon:'fa-book',
-      url:"#1",
-      name:"สมุดตรวจอิเล็กทรอนิกส์"
+export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชการจังหวัด
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
   },
-    {
-        icon:'fa-list-alt',
-        url:"/supportgovernment",
-        name:"ข้อมูลสนับสนุน"
-    },
-    {
-        IDchildren:'contactpersonnel',
-        icon:'fa-user-tie',
-        name:"ข้อมูลการติดต่อบุคลากร",
-        children:[
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
-                name:'คณะรัฐมนตรี'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'/inspector',
-                name:'ผู้ตรวจราชการ'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'/province',
-                name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'หน่วยงานในส่วนภูมิภาค'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
-                name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
-                name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-            },
-        ]
-    } ,
+  {
+    icon: 'fa-book',
+    url: "#1",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
+  },
+  {
+    icon: 'fa-list-alt',
+    url: "/supportgovernment",
+    name: "ข้อมูลสนับสนุน"
+  },
+  {
+    IDchildren: 'contactpersonnel',
+    icon: 'fa-user-tie',
+    name: "ข้อมูลการติดต่อบุคลากร",
+    children: [
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspector',
+        name: 'ผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'หน่วยงานในส่วนภูมิภาค'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+    ]
+  },
 ]
-export const Adminprovince:NavBar[] = [ //แอดมินจังหวัด
-    {
-        icon:'fa-home',
-        url:"/main",
-        name:"หน้าหลัก"
-    },
-    {
-        icon:'fa-archive',
-        url:"/centralpolicy",
-        name:"แผนการตรวจประจำปี"
-    },
-    {
-        icon:'fa-calendar',
-        url:"/inspectionplanevent",
-        name:"ปฏิทินการตรวจราชการ"
-    },
-    {
-      icon:'fa-book',
-      url:"#1",
-      name:"สมุดตรวจอิเล็กทรอนิกส์"
+export const Adminprovince: NavBar[] = [ //แอดมินจังหวัด
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
   },
-    {
-        icon:'fa-hands',
-        url:"#",
-        name:"แจ้งคำร้องขอ"
-    },
-    // {
-    //     classtap:'sidebar-header',
-    //     url:"#",
-    //     name:"______________________"
-    // },
-    {
-        icon:'fa-list-alt',
-        url:"/supportgovernment",
-        name:"ข้อมูลสนับสนุน"
-    },
-    {
-        IDchildren:'contactpersonnel',
-        icon:'fa-user-tie',
-        name:"ข้อมูลการติดต่อบุคลากร",
-        children:[
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
-                name:'คณะรัฐมนตรี'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'/inspector',
-                name:'ผู้ตรวจราชการ'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'/province',
-                name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'หน่วยงานในส่วนภูมิภาค'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
-                name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
-                name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-            },
-        ]
-    } ,
-    {
-        icon:'fa-shekel-sign',
-        url:"/training",
-        name:"จัดอบรมหลักสูตร"
-    },
+  {
+    icon: 'fa-archive',
+    url: "/centralpolicy",
+    name: "แผนการตรวจประจำปี"
+  },
+  {
+    icon: 'fa-calendar',
+    url: "/inspectionplanevent",
+    name: "ปฏิทินการตรวจราชการ"
+  },
+  {
+    icon: 'fa-book',
+    url: "#1",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
+  },
+  {
+    icon: 'fa-hands',
+    url: "#",
+    name: "แจ้งคำร้องขอ"
+  },
+  // {
+  //     classtap:'sidebar-header',
+  //     url:"#",
+  //     name:"______________________"
+  // },
+  {
+    icon: 'fa-list-alt',
+    url: "/supportgovernment",
+    name: "ข้อมูลสนับสนุน"
+  },
+  {
+    IDchildren: 'contactpersonnel',
+    icon: 'fa-user-tie',
+    name: "ข้อมูลการติดต่อบุคลากร",
+    children: [
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspector',
+        name: 'ผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'หน่วยงานในส่วนภูมิภาค'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+    ]
+  },
+  {
+    icon: 'fa-shekel-sign',
+    url: "/training",
+    name: "จัดอบรมหลักสูตร"
+  },
 ]
-export const InspectorMinistry:NavBar[] = [ //ผุ้ตรวจกระทรวง
-    {
-        icon:'fa-home',
-        url:"/main",
-        name:"หน้าหลัก"
-    },
-    {
-        icon:'fa-archive',
-        url:"/usercentralpolicy",
-        name:"แผนการตรวจประจำปี"
-    },
-    {
-        icon:'fa-calendar',
-        url:"/inspectionplanevent",
-        name:"ปฏิทินการตรวจราชการ"
-    },
-    {
-      icon:'fa-book',
-      url:"#1",
-      name:"สมุดตรวจอิเล็กทรอนิกส์"
+export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระทรวง
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
   },
-    {
-        icon:'fa-list-alt',
-        url:"/supportgovernment",
-        name:"ข้อมูลสนับสนุน"
-    },
-    {
-        IDchildren:'contactpersonnel',
-        icon:'fa-user-tie',
-        name:"ข้อมูลการติดต่อบุคลากร",
-        children:[
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
-                name:'คณะรัฐมนตรี'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'/inspector',
-                name:'ผู้ตรวจราชการ'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'/province',
-                name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'หน่วยงานในส่วนภูมิภาค'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
-                name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
-                name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-            },
-        ]
-    } ,
+  {
+    icon: 'fa-archive',
+    url: "/usercentralpolicy",
+    name: "แผนการตรวจประจำปี"
+  },
+  {
+    icon: 'fa-calendar',
+    url: "/inspectionplanevent",
+    name: "ปฏิทินการตรวจราชการ"
+  },
+  {
+    icon: 'fa-book',
+    url: "#1",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
+  },
+  {
+    icon: 'fa-list-alt',
+    url: "/supportgovernment",
+    name: "ข้อมูลสนับสนุน"
+  },
+  {
+    IDchildren: 'contactpersonnel',
+    icon: 'fa-user-tie',
+    name: "ข้อมูลการติดต่อบุคลากร",
+    children: [
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspector',
+        name: 'ผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'หน่วยงานในส่วนภูมิภาค'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+    ]
+  },
 
 ]
-export const publicsector:NavBar[] = [ //User ภาคประชาชน
-    {
-        icon:'fa-home',
-        url:"/main",
-        name:"หน้าหลัก"
-    },
-    {
-        icon:'fa-archive',
-        url:"/usercentralpolicy",
-        name:"แผนการตรวจประจำปี"
-    },
-    {
-        icon:'fa-calendar',
-        url:"/inspectionplanevent",
-        name:"ปฏิทินการตรวจราชการ"
-    },
-    {
-      icon:'fa-book',
-      url:"#1",
-      name:"สมุดตรวจอิเล็กทรอนิกส์"
+export const publicsector: NavBar[] = [ //User ภาคประชาชน
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
   },
-    {
-        icon:'fa-list-alt',
-        url:"/supportgovernment",
-        name:"ข้อมูลสนับสนุน"
-    },
-    {
-        IDchildren:'contactpersonnel',
-        icon:'fa-user-tie',
-        name:"ข้อมูลการติดต่อบุคลากร",
-        children:[
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
-                name:'คณะรัฐมนตรี'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'/inspector',
-                name:'ผู้ตรวจราชการ'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'/province',
-                name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'หน่วยงานในส่วนภูมิภาค'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
-                name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '0',
-                icon:'fa-long-arrow-alt-right',
-                url:'#',
-                name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
-            },
-            {
-                ex_link: '1',
-                icon:'fa-long-arrow-alt-right',
-                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
-                name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-            },
-        ]
-    } ,
+  {
+    icon: 'fa-archive',
+    url: "/usercentralpolicy",
+    name: "แผนการตรวจประจำปี"
+  },
+  {
+    icon: 'fa-calendar',
+    url: "/inspectionplanevent",
+    name: "ปฏิทินการตรวจราชการ"
+  },
+  {
+    icon: 'fa-book',
+    url: "#1",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
+  },
+  {
+    icon: 'fa-list-alt',
+    url: "/supportgovernment",
+    name: "ข้อมูลสนับสนุน"
+  },
+  {
+    IDchildren: 'contactpersonnel',
+    icon: 'fa-user-tie',
+    name: "ข้อมูลการติดต่อบุคลากร",
+    children: [
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspector',
+        name: 'ผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'หน่วยงานในส่วนภูมิภาค'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+    ]
+  },
 ]
-export const president:NavBar[] = [ //User นายก
-        {
-            icon:'fa-home',
-            url:"/main",
-            name:"หน้าหลัก"
-        },
-        {
-            icon:'fa-archive',
-            url:"/centralpolicy",
-            name:"แผนการตรวจประจำปี"
-        },
-        {
-            icon:'fa-hand-point-up',
-            url:"/executiveorder",
-            name:"ข้อสั่งการผู้บริหาร"
-        },
-        {
-            icon:'fa-list-alt',
-            url:"/supportgovernment",
-            name:"ข้อมูลสนับสนุน"
-        },
-        {
-            IDchildren:'contactpersonnel',
-            icon:'fa-user-tie',
-            name:"ข้อมูลการติดต่อบุคลากร",
-            children:[
-                {
-                    ex_link: '1',
-                    icon:'fa-long-arrow-alt-right',
-                    url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
-                    name:'คณะรัฐมนตรี'
-                },
-                {
-                    ex_link: '0',
-                    icon:'fa-long-arrow-alt-right',
-                    url:'/inspector',
-                    name:'ผู้ตรวจราชการ'
-                },
-                {
-                    ex_link: '1',
-                    icon:'fa-long-arrow-alt-right',
-                    url:'/province',
-                    name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
-                },
-                {
-                    ex_link: '0',
-                    icon:'fa-long-arrow-alt-right',
-                    url:'#',
-                    name:'หน่วยงานในส่วนภูมิภาค'
-                },
-                {
-                    ex_link: '1',
-                    icon:'fa-long-arrow-alt-right',
-                    url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
-                    name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
-                },
-                {
-                    ex_link: '0',
-                    icon:'fa-long-arrow-alt-right',
-                    url:'#',
-                    name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
-                },
-                {
-                    ex_link: '1',
-                    icon:'fa-long-arrow-alt-right',
-                    url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
-                    name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-                },
-            ]
-        } ,
+export const president: NavBar[] = [ //User นายก
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
+  },
+  {
+    icon: 'fa-archive',
+    url: "/centralpolicy",
+    name: "แผนการตรวจประจำปี"
+  },
+  {
+    icon: 'fa-hand-point-up',
+    url: "/executiveorder",
+    name: "ข้อสั่งการผู้บริหาร"
+  },
+  {
+    icon: 'fa-list-alt',
+    url: "/supportgovernment",
+    name: "ข้อมูลสนับสนุน"
+  },
+  {
+    IDchildren: 'contactpersonnel',
+    icon: 'fa-user-tie',
+    name: "ข้อมูลการติดต่อบุคลากร",
+    children: [
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        name: 'คณะรัฐมนตรี'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspector',
+        name: 'ผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'หน่วยงานในส่วนภูมิภาค'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+    ]
+  },
 ]
 export const InspectorDepartment:NavBar[] = [ //ผู้ตรวจกรม/หน่วยงาน
     {

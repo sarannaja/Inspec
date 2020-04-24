@@ -37,9 +37,23 @@
                   formControlName="centralpolicydateid" [allowClear]="true">
                 </ng-select>
               </div>
+
+              <div class="form-group">
+                <label>เชิญหน่วยงาน</label>
+                <div class="col-12 col-xl-12"
+                  *ngFor="let item of resultcentralpolicy.centralPolicyProvinces; let i = index">
+                  <div>{{ i + 1 }}. หน่วยงาน : {{item.province.name}}</div>
+                  <div>
+                    <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true"
+                      [options]="resultdepartment[item.province.id]" [allowClear]="true">
+                    </ng-select>
+                  </div>
+                  <br>
+                </div>
+              </div>
+
               <div class="form-group">
                 <label>คำถามย่อย</label>
-
                 <br>
                 <label>คำถามปลายเปิด</label>
                 <!-- <div [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)"> -->
@@ -78,7 +92,8 @@
                           </div>
                           <ng-template #elseBlock>
                             <div class="col-1 margin-plus-icon">
-                              <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(ix)" value="Add X"></i>
+                              <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(ix)"
+                                value="Add X"></i>
                             </div>
                           </ng-template>
                         </div>
@@ -92,15 +107,16 @@
                                   placeholder="กรุณากรอกคำตอบให้เลือก">
                               </div>
                               <div class="col-1">
-                                  <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
-                                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(ix)"
+                                <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
+                                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(ix)"
                                     value="Add Y"></i>
+                                </div>
+                                <ng-template #elseBlock>
+                                  <div class="col-1 margin-plus-icon">
+                                    <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeY(ix,iy)"
+                                      value="Add Y"></i>
                                   </div>
-                                  <ng-template #elseBlock>
-                                    <div class="col-1 margin-plus-icon">
-                                      <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeY(ix,iy)" value="Add Y"></i>
-                                    </div>
-                                  </ng-template>
+                                </ng-template>
                               </div>
                             </div>
                           </div>

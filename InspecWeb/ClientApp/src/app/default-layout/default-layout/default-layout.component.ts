@@ -25,7 +25,7 @@ export class DefaultLayoutComponent implements OnInit {
   userid: any
   role_id: any
   nav: any
-  // childClassIcon = "align-middle mr-2 fas fa-fw 
+  // childClassIcon = "align-middle mr-2 fas fa-fw
 
   constructor(
     private authorize: AuthorizeService,

@@ -36,7 +36,7 @@
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
               <td width="40%" (click)="Subject(item.id,item.title)" class="pointer">{{ item.title }}</td>
-              <td>2563</td>
+              <td>{{item.fiscalYear.year}}</td>
               <td>
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
