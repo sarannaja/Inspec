@@ -86,74 +86,73 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
     //     name:"จัดการผู้ใช้"
     // },
     {
-        icon:'fa-user-friends',
-        name:"จัดการผู้ใช้",
-        IDchildren:'userdata',
-        children:[
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/1',
-                name:'ผู้ดูแลระบบ',
-                ex_link:'user',
-                id:'1'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/2',
-                name:'ผู้ดูแลแผนการตรวจราชการประจำปี',
-                ex_link:'user',
-                id:'2'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/3',
-                name:'ผู้ตรวจราชการ',
-                ex_link:'user',
-                id:'3'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/4',
-                name:'ผู้ว่าราชการจังหวัด',
-                ex_link:'user',
-                id:'4'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/5',
-                name:'ผู้ตรวจจังหวัด',
-                ex_link:'user',
-                id:'5'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/6',
-                name:'ผู้ตรวจกระทรวง',
-                ex_link:'user',
-                id:'6'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/9',
-                name:'ผู้ตรวจกรม',
-                ex_link:'user',
-                id:'9'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/user/7',
-                name:'ผู้ตรวจภาคประชาชน',
-                ex_link:'user',
-                id:'7'
-
-      },
-      {
-        icon: 'fa-long-arrow-alt-right',
-        url: '/user/8',
-        name: 'นายก/รองนายก',
-        ex_link: 'user',
-        id: '8'
-      },
+    icon:'fa-user-friends',
+    name:"จัดการผู้ใช้",
+    IDchildren:'userdata',
+    children:[
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/user/1',
+            name:'ผู้ดูแลระบบ',
+            ex_link:'user',
+            id:'1'
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/user/2',
+            name:'ผู้ดูแลแผนการตรวจราชการประจำปี',
+            ex_link:'user',
+            id:'2'
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/user/3',
+            name:'ผู้ตรวจราชการ',
+            ex_link:'user',
+            id:'3'
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/user/4',
+            name:'ผู้ว่าราชการจังหวัด',
+            ex_link:'user',
+            id:'4'
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/user/5',
+            name:'ผู้ตรวจจังหวัด',
+            ex_link:'user',
+            id:'5'
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/user/6',
+            name:'ผู้ตรวจกระทรวง',
+            ex_link:'user',
+            id:'6'
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/user/9',
+            name:'ผู้ตรวจกรม',
+            ex_link:'user',
+            id:'9'
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/user/7',
+            name:'ผู้ตรวจภาคประชาชน',
+            ex_link:'user',
+            id:'7'
+        },
+        {
+            icon: 'fa-long-arrow-alt-right',
+            url: '/user/8',
+            name: 'นายก/รองนายก',
+            ex_link: 'user',
+            id: '8'
+        },
     ]
   },
   {
