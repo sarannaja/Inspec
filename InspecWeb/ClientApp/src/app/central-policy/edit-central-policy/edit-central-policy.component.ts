@@ -271,4 +271,5 @@ export class EditCentralPolicyComponent implements OnInit {
   back() {
     window.history.back();
   }
+
 }

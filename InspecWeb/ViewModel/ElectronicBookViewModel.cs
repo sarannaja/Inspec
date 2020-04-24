@@ -5,10 +5,13 @@ namespace InspecWeb.ViewModel
 {
     public class ElectronicBookViewModel
     {
+        [JsonProperty(PropertyName = "Detail")]
         public string Detail { get; set; }
         public Inputelectronicbook[] Inputelectronicbook { get; set;}
         public UserPeopleId[] UserPeopleId { get; set; }
         public UserMinistryId[] UserMinistryId { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string id { get; set; }
     }
 
     public class Inputelectronicbook

@@ -16,10 +16,8 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("User")]
-        [Description("FK: User")]
-        public string UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public string CreatedBy { get; set; }
+        //public virtual ApplicationUser User { get; set; }
 
         [Required]
         [Description("รายละเอียด")]
