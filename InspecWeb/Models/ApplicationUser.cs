@@ -49,6 +49,11 @@ namespace InspecWeb.Models
         public long MinistryId { get; set; }
         public virtual Ministry Ministries { get; set; }
 
+        [ForeignKey("Department")]
+        [Description("FK: กรมหน่วยงาน")]
+        public long DepartmentId { get; set; }
+        public virtual Department Departments { get; set; }
+
         [ForeignKey("Province")]
         [Description("FK: จังหวัด")]
         public long ProvinceId { get; set; }

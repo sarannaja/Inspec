@@ -128,9 +128,16 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/user/6',
-                name:'ผู้ตรวจกระทรวง/กรม',
+                name:'ผู้ตรวจกระทรวง',
                 ex_link:'user',
                 id:'6'
+            },
+            {
+                icon:'fa-long-arrow-alt-right',
+                url:'/user/9',
+                name:'ผู้ตรวจกรม',
+                ex_link:'user',
+                id:'9'
             },
             {
                 icon:'fa-long-arrow-alt-right',
@@ -739,4 +746,81 @@ export const president:NavBar[] = [ //User นายก
                 },
             ]
         } ,
+]
+export const InspectorDepartment:NavBar[] = [ //ผู้ตรวจกรม/หน่วยงาน
+    {
+        icon:'fa-home',
+        url:"/main",
+        name:"หน้าหลัก"
+    },
+    {
+        icon:'fa-archive',
+        url:"/usercentralpolicy",
+        name:"แผนการตรวจประจำปี"
+    },
+    {
+        icon:'fa-calendar',
+        url:"/inspectionplanevent",
+        name:"ปฏิทินการตรวจราชการ"
+    },
+    {
+      icon:'fa-book',
+      url:"#1",
+      name:"สมุดตรวจอิเล็กทรอนิกส์"
+  },
+    {
+        icon:'fa-list-alt',
+        url:"/supportgovernment",
+        name:"ข้อมูลสนับสนุน"
+    },
+    {
+        IDchildren:'contactpersonnel',
+        icon:'fa-user-tie',
+        name:"ข้อมูลการติดต่อบุคลากร",
+        children:[
+            {
+                ex_link: '1',
+                icon:'fa-long-arrow-alt-right',
+                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+                name:'คณะรัฐมนตรี'
+            },
+            {
+                ex_link: '0',
+                icon:'fa-long-arrow-alt-right',
+                url:'/inspector',
+                name:'ผู้ตรวจราชการ'
+            },
+            {
+                ex_link: '1',
+                icon:'fa-long-arrow-alt-right',
+                url:'/province',
+                name:'เจ้าหน้าที่ประจำเขตตรวจราชการ'
+            },
+            {
+                ex_link: '0',
+                icon:'fa-long-arrow-alt-right',
+                url:'#',
+                name:'หน่วยงานในส่วนภูมิภาค'
+            },
+            {
+                ex_link: '1',
+                icon:'fa-long-arrow-alt-right',
+                url:'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+                name:'คณะกรรมการธรรมมาภิบาลจังหวัด'
+            },
+            {
+                ex_link: '0',
+                icon:'fa-long-arrow-alt-right',
+                url:'#',
+                name:'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
+            },
+            {
+                ex_link: '1',
+                icon:'fa-long-arrow-alt-right',
+                url:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+                name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+            },
+        ]
+    } ,
+
 ]

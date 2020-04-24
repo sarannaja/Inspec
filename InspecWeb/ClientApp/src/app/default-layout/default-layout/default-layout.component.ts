@@ -8,14 +8,16 @@ import { Adminprovince } from './_nav';
 import { InspectorMinistry } from './_nav';
 import { publicsector } from './_nav';
 import { president } from './_nav';
+import { InspectorDepartment } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.css']
 })
+
 export class DefaultLayoutComponent implements OnInit {
   classIcon = "align-middle mr-2 fas fa-fw "
   urlActive = ""
@@ -54,6 +56,8 @@ export class DefaultLayoutComponent implements OnInit {
           this.nav = publicsector
         } else if (this.role_id == 8) {
           this.nav = president
+        } else if (this.role_id == 9) {
+          this.nav = InspectorDepartment
         }
         // console.log(result);
       })
