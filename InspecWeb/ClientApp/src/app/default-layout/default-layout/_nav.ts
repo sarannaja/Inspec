@@ -530,20 +530,20 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     name: "หน้าหลัก"
   },
   {
-    icon: 'fa-archive',
+    icon: 'fa-book',
     url: "/usercentralpolicy",
-    name: "แผนการตรวจประจำปี"
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
   },
-  {
-    icon: 'fa-book',
-    url: "#1",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
-  },
+  // {
+  //   icon: 'fa-book',
+  //   url: "#1",
+  //   name: "สมุดตรวจอิเล็กทรอนิกส์"
+  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
@@ -607,20 +607,20 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
     name: "หน้าหลัก"
   },
   {
-    icon: 'fa-archive',
+    icon: 'fa-book',
     url: "/usercentralpolicy",
-    name: "แผนการตรวจประจำปี"
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
   },
-  {
-    icon: 'fa-book',
-    url: "#1",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
-  },
+  // {
+  //   icon: 'fa-book',
+  //   url: "#1",
+  //   name: "สมุดตรวจอิเล็กทรอนิกส์"
+  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",

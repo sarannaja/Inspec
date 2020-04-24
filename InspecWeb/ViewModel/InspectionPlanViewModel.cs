@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace InspecWeb.ViewModel
 {
-    public class CentralPolicyProvinceViewModel
+    public class InspectionPlanViewModel
     {
         public string UserID { get; set; }
 
@@ -29,22 +29,9 @@ namespace InspecWeb.ViewModel
         public string Status { get; set; }
 
         [JsonProperty(PropertyName = "ProvinceId")]
-        public long[] ProvinceId { get; set; }
-
-        [JsonProperty(PropertyName = "InspectionPlanEventId")]
-        public long InspectionPlanEventId { get; set; }
-
-        //[JsonProperty(PropertyName = "CentralPolicyId")]
-        //public long CentralPolicyId { get; set; }
-        public DateTime[] StartDate2 { get; set; }
-        public DateTime[] EndDate2 { get; set; }
-        public List<IFormFile> files { get; set; }
+        public long ProvinceId { get; set; }
+        //public List<IFormFile> files { get; set; }
 
     }
 
-    //public class inputdate
-    //{
-    //    public DateTime StartDate { get; set; }
-    //    public DateTime EndDate { get; set; }
-    //}
 }

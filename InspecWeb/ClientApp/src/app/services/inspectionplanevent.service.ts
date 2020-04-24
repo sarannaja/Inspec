@@ -22,7 +22,7 @@ export class InspectionplaneventService {
     return this.http.get<any[]>(path)
   }
 
-  addInspectionplanevent(inspectionplaneventData) {
+  addInspectionplanevent(inspectionplaneventData, userid) {
     // alert(JSON.stringify(inspectionplaneventData.input))
     var input = inspectionplaneventData.input.map((item , index) => {
       return {
@@ -36,6 +36,7 @@ export class InspectionplaneventService {
     const formData = {
       Name: inspectionplaneventData.title,
       input: input,
+      CreatedBy: userid,
     }
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url, formData);
