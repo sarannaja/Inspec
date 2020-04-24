@@ -44,7 +44,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   input: any = [{ start_date_plan: '', end_date_plan: '', province: '' }]
 
 
-  constructor(private fb: FormBuilder, private authorize: AuthorizeService,
+  constructor(
+    private fb: FormBuilder, private authorize: AuthorizeService,
     private router: Router, private inspectionplaneventservice: InspectionplaneventService,
     private userservice: UserService,
     private centralpolicyservice: CentralpolicyService,
@@ -55,7 +56,6 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub

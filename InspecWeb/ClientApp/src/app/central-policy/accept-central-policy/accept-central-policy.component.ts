@@ -13,7 +13,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
   styleUrls: ['./accept-central-policy.component.css']
 })
 export class AcceptCentralPolicyComponent implements OnInit {
-
+  resultuser: any = []
   id
   resultdetailcentralpolicy: any = []
   resultcentralpolicyuser: any = []
@@ -53,7 +53,8 @@ export class AcceptCentralPolicyComponent implements OnInit {
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
       .subscribe(result => {
-        this.resultdetailcentralpolicy = result
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultuser = result.userdata
       })
   }
   getCentralPolicyUser() {
