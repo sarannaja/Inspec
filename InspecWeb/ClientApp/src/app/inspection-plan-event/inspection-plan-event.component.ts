@@ -155,7 +155,7 @@ export class InspectionPlanEventComponent implements OnInit {
   InspectionPlan(id) {
     this.router.navigate(['/inspectionplan', id])
   }
-  CraateInspectionPlan() {
-    this.router.navigate(['/inspectionplan/createinspectionplan'])
-  }
+  // CraateInspectionPlan() {
+  //   this.router.navigate(['/inspectionplan/createinspectionplan'])
+  // }
 }

@@ -88,8 +88,13 @@
 
                   <div class="col-12 col-xl-12">
                     <div class="form-group">
-                      <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="false"
+                      <!-- <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="false"
                         formControlName="centralpolicies" [options]="t.value[i].resultcentralpolicy" [allowClear]="true"
+                        (selected)="selectedcentralpolicy($event, i)">
+                      </ng-select> -->
+
+                      <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="false"
+                        formControlName="centralpolicies" [options]="selectdatacentralpolicy" [allowClear]="true"
                         (selected)="selectedcentralpolicy($event, i)">
                       </ng-select>
                     </div>

@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SubjectService } from 'src/app/services/subject.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 
 @Component({
   selector: 'app-edit-electronic-book',
@@ -36,6 +37,9 @@ export class EditElectronicBookComponent implements OnInit {
   subquestionclosechoicename: any
   downloadUrl: any
   loading = false;
+  resultelectronicbookdetail: any = [];
+  centralPolicyUserId: any;
+  detailForm: FormGroup;
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -44,9 +48,11 @@ export class EditElectronicBookComponent implements OnInit {
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
+    private electronicBookService: ElectronicbookService,
     @Inject('BASE_URL') baseUrl: string ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
+    this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
     this.downloadUrl = baseUrl + '/Uploads';
   }
 
@@ -55,6 +61,10 @@ export class EditElectronicBookComponent implements OnInit {
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
+
+    this.detailForm = this.fb.group({
+      eBookDetail: new FormControl(null, [Validators.required])
     })
 
     this.EditForm = this.fb.group({
@@ -83,8 +93,9 @@ export class EditElectronicBookComponent implements OnInit {
     })
 
     // this.getDetailCentralPolicy()
-    this.getCentralPolicyProvinceUser()
-    this.getDetailCentralPolicyProvince()
+    this.getCentralPolicyProvinceUser();
+    this.getDetailCentralPolicyProvince();
+    this.getElectronicBookDetail();
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
@@ -184,6 +195,31 @@ export class EditElectronicBookComponent implements OnInit {
       this.EditForm2.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  getElectronicBookDetail() {
+    this.electronicBookService.getElectronicBookDetail(this.centralPolicyUserId).subscribe(result => {
+      console.log("EDIT ElectronicBookDetal: ", result);
+      // alert("EDIT: " + result);
+      this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
+
+      this.detailForm.patchValue({
+        eBookDetail: this.resultelectronicbookdetail,
+      })
+    })
+  }
+
+  editDetail(value) {
+    this.electronicBookService.editElectronicBookDetail(value, this.elecId).subscribe(result => {
+      console.log("res: ", result);
+
+      this.spinner.show();
+
+      setTimeout(() => {
+        this.getElectronicBookDetail();
+        this.spinner.hide();
+      }, 300);
     })
   }
 }

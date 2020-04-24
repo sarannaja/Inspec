@@ -62,6 +62,8 @@ export class CreateElectronicBookComponent implements OnInit {
   selectministrypeople: any = [];
   resultpeople: any = [];
   selectpeople: any = [];
+  inspectionplan: any = [];
+  provinceID: any;
 
   get f() { return this.Form.controls }
   get t() { return this.f.input as FormArray }
@@ -140,6 +142,7 @@ export class CreateElectronicBookComponent implements OnInit {
         return { value: item.id, label: item.name }
       })
     })
+
   }
 
   DetailCentralPolicy(id: any, i) {
@@ -179,6 +182,10 @@ export class CreateElectronicBookComponent implements OnInit {
     this.province[i] = event;
     // alert(JSON.stringify(event));
     console.log("item", item);
+
+    this.provinceID = item.provinces;
+    this.getinspectionplanservice(item.value.provinces);
+
     this.t.at(i).get('resultcentralpolicy').patchValue([1, 2])
 
     this.centralpolicyservice.getcentralpolicyfromprovince(event.value)
@@ -194,10 +201,11 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   selectedcentralpolicy(event, i) {
+    // alert(JSON.stringify(event))
     this.centralpolicyservice.getdetailcentralpolicydata(event.value)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result
-        console.log(this.resultdetailcentralpolicy.title);
+        console.log("jjjj", this.resultdetailcentralpolicy.title);
         this.t.at(i).get('resultdetailcentralpolicy').patchValue({ id: this.resultdetailcentralpolicy.id, title: this.resultdetailcentralpolicy.title })
         console.log("t", this.t.value);
       })
@@ -278,6 +286,46 @@ export class CreateElectronicBookComponent implements OnInit {
 
   goBack() {
     window.history.back();
+  }
+
+  getinspectionplanservice(pID) {
+    // alert("DD" + pID)
+    this.electronicBookService.getNotSelectedInspectionPlan(pID).subscribe(result => {
+      this.resultinspectionplan = result //Chose
+
+      console.log("selected: ", this.resultinspectionplan);
+      this.centralpolicyservice.getcentralpolicyfromprovince(pID)
+        .subscribe(result => {
+          this.resultcentralpolicy = result //All
+          console.log("all: ", this.resultcentralpolicy);
+
+          this.getRecycled();
+          // alert(JSON.stringify(this.resultcentralpolicy))
+        })
+    })
+  }
+  getRecycled() {
+    this.selectdatacentralpolicy = []
+    this.inspectionplan = this.resultinspectionplan
+
+    if (this.inspectionplan.length == 0) {
+      for (var i = 0; i < this.resultcentralpolicy.length; i++) {
+        this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].centralPolicyId, label: this.resultcentralpolicy[i].centralPolicy.title })
+      }
+    }
+    else {
+      for (var i = 0; i < this.resultcentralpolicy.length; i++) {
+        var n = 0;
+        for (var ii = 0; ii < this.inspectionplan.length; ii++) {
+          if (this.resultcentralpolicy[i].centralPolicyId == this.inspectionplan[ii].centralPolicyId) {
+            n++;
+          }
+        }
+        if(n == 0) {
+          this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].centralPolicyId, label: this.resultcentralpolicy[i].centralPolicy.title })
+        }
+      }
+    }
   }
 
 }

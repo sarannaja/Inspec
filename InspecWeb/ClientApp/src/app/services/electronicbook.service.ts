@@ -58,4 +58,17 @@ export class ElectronicbookService {
   getElectronicBookDetail(centralPolicyUserId): Observable <any> {
     return this.http.get<any>(this.url + 'getElectronicBookById/' + centralPolicyUserId);
   }
+
+  editElectronicBookDetail(value, electID) {
+    console.log("EDIT VALUE: ", value);
+    const formData = {
+      Detail: value.eBookDetail,
+    }
+    return this.http.put(this.url + 'editElectronicBookDetail/' + electID, formData)
+  }
+
+  getNotSelectedInspectionPlan(id) {
+    console.log(id);
+    return this.http.get(this.url + "getcentralpolicyfromprovince/" + id)
+  }
 }
