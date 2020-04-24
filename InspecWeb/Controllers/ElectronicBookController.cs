@@ -38,9 +38,30 @@ namespace InspecWeb.Controllers
             var ebook = _context.ElectronicBookGroups
                 .Include(x => x.CentralPolicyProvince)
                 .ThenInclude(x => x.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyUser)
                 .Include(x => x.ElectronicBook)
                 .Where(x => x.ElectronicBook.CreatedBy == userId);
             return Ok(ebook);
+        }
+
+        [HttpGet("getElectronicBookById/{centralPolicyUserId}")]
+        public IActionResult GetById(long centralPolicyUserId)
+        {
+
+            var accept = _context.CentralPolicyUsers.Where(m => m.Id == centralPolicyUserId).FirstOrDefault();
+
+            var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.CentralPolicyUser)
+                .ThenInclude(m => m.ElectronicBook)
+                .Include(m => m.CentralPolicyDates)
+                .Include(m => m.CentralPolicyFiles)
+                //.Include(m => m.Subjects)
+                //.ThenInclude(m => m.Subquestions)
+                .Include(m => m.CentralPolicyProvinces)
+                .ThenInclude(m => m.Province)
+                .Where(m => m.Id == accept.CentralPolicyId).First();
+
+            return Ok(centralpolicydata);
         }
 
         //// GET: api/ElectronicBook/5

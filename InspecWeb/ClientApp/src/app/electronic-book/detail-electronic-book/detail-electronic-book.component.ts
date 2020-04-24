@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { SubjectService } from 'src/app/services/subject.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 
 @Component({
   selector: 'app-detail-electronic-book',
@@ -25,6 +26,7 @@ export class DetailElectronicBookComponent implements OnInit {
   // UserMinistryId: any;
   id: any;
   elecId: any;
+  centralPolicyUserId: any;
   Form: FormGroup;
   EditForm: FormGroup;
   EditForm2: FormGroup;
@@ -36,6 +38,7 @@ export class DetailElectronicBookComponent implements OnInit {
   subquestionclosechoicename: any
   downloadUrl: any
   loading = false;
+  resultelectronicbookdetail: any = [];
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -44,13 +47,16 @@ export class DetailElectronicBookComponent implements OnInit {
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
+    private electronicBookService: ElectronicbookService,
     @Inject('BASE_URL') baseUrl: string ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
+    this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
     this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {
+    alert(this.centralPolicyUserId);
     this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
@@ -85,6 +91,7 @@ export class DetailElectronicBookComponent implements OnInit {
     // this.getDetailCentralPolicy()
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
+    this.getElectronicBookDetail();
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
@@ -147,7 +154,13 @@ export class DetailElectronicBookComponent implements OnInit {
         this.resultcentralpolicyuser = result
         console.log("result" + result);
       })
+  }
 
+  getElectronicBookDetail() {
+    this.electronicBookService.getElectronicBookDetail(this.centralPolicyUserId).subscribe(result => {
+      console.log("ElectronicBookDetal: ", result);
+      this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
+    })
   }
 
 
