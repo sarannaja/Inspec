@@ -62,6 +62,7 @@ import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-central-policy-province/detail-central-policy-province.component';
+import { DetailSubjectComponent } from './subject/detail-subject/detail-subject.component';
 import { ReportCentralPolicyComponent } from './central-policy/accept-central-policy/report-central-policy/report-central-policy.component';
 import { ElectronicBookComponent } from './electronic-book/electronic-book.component';
 import { CreateElectronicBookComponent } from './electronic-book/create-electronic-book/create-electronic-book.component';
@@ -117,11 +118,13 @@ import { DetailElectronicBookComponent } from './electronic-book/detail-electron
     EditCentralPolicyComponent,
     UserCentralPolicyComponent,
     EditSubjectComponent,
+    DetailSubjectComponent,
     ReportCentralPolicyComponent,
     ElectronicBookComponent,
     CreateElectronicBookComponent,
     EditElectronicBookComponent,
     DetailElectronicBookComponent
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -186,6 +189,7 @@ import { DetailElectronicBookComponent } from './electronic-book/detail-electron
           { path: 'test/logout', component: LogoutComponent},
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subject/detailsubject/:id', component: DetailSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportcentralpolicy/:id', component: ReportCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook', component: ElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
