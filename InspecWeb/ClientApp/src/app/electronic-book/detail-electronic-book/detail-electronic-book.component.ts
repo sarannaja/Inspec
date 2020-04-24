@@ -39,7 +39,7 @@ export class DetailElectronicBookComponent implements OnInit {
   downloadUrl: any
   loading = false;
   resultelectronicbookdetail: any = [];
-
+  resultreport: any = [];
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -160,6 +160,7 @@ export class DetailElectronicBookComponent implements OnInit {
     this.electronicBookService.getElectronicBookDetail(this.centralPolicyUserId).subscribe(result => {
       console.log("ElectronicBookDetal: ", result);
       this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
+      this.resultreport = result.centralPolicyUser
     })
   }
 
