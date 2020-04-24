@@ -105,8 +105,8 @@
                       <div class="row">
                         <u style="margin-left: 15px;">เรื่องประเด็น</u>
                         <div class="col-12">
-                          <input type="text" value="{{items.name}}" class="form-control"
-                            placeholder="กรุณากรอกเรื่อง" readonly>
+                          <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                            readonly>
                         </div>
                         <!-- <div class="col-1">
                           <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
@@ -119,8 +119,8 @@
                         <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
 
                           <div class="col-12">
-                            <input type="text" value="{{item.name}}" class="form-control"
-                              placeholder="กรุณากรอกเรื่อง" readonly>
+                            <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                              readonly>
                           </div>
                           <!-- <div class="col-1">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
@@ -134,16 +134,16 @@
                     <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
                       <u>คำถามปลายปิด</u>
                       <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
-                        <div class="row">
-                          <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
-                            <input type="text" value="{{item.name}}" class="form-control"
-                              placeholder="กรุณากรอกเรื่อง" readonly>
-                          </div>
-                          <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
-                            <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                              (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i> -->
-                          </div>
+                      <div class="row">
+                        <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
+                          <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                            readonly>
                         </div>
+                        <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
+                          <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                              (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i> -->
+                        </div>
+                      </div>
                       <!-- </div> -->
                     </td>
 
@@ -152,11 +152,13 @@
                       <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
                         <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
                           <div class="row">
-                            <div class="col-11" *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                            <div class="col-11"
+                              *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
                               <input type="text" value="{{item3.name}}" class="form-control"
                                 placeholder="กรุณากรอกเรื่อง" readonly>
                             </div>
-                            <div class="col-1" *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
+                            <div class="col-1"
+                              *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
                               <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                 (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i> -->
                             </div>
@@ -255,7 +257,6 @@
               </textarea>
             </div>
           </div>
-
           <div class="row">
             <div class="col-md-12">
               <u>ไฟล์แนบ</u><br>
@@ -292,6 +293,27 @@
   </div>
 </div>
 
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">รายงานผลการตรวจ</h5>
+      </div>
+      <div class="card-body">
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <!-- <label>รายงานผลการตรวจ</label> -->
+            <div *ngFor="let item3 of resultreport; let i = index">
+              <b><label *ngIf="item3.report != null">{{item3.user.name}} ตำแหน่ง {{item3.user.position}}</label></b>
+              <input *ngIf="item3.report != null" value="{{item3.report}}" class="form-control"
+                placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- BEGIN primary modal -->
 <ng-template #modalInvitePeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
