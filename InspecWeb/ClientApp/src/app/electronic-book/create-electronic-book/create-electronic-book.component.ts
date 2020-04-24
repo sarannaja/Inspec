@@ -154,12 +154,13 @@ export class CreateElectronicBookComponent implements OnInit {
 
   storeInspectionPlanEvent(value) {
     console.log("Store : ", value);
-    alert("DATA: " + JSON.stringify(value));
-    this.electronicBookService.addElectronicBook(value).subscribe(response => {
+    // alert("DATA: " + JSON.stringify(value));
+    this.electronicBookService.addElectronicBook(value, this.userid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
       console.log("get");
+      window.history.back();
     })
   }
 
@@ -273,6 +274,10 @@ export class CreateElectronicBookComponent implements OnInit {
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince(this.provinceId);
     })
+  }
+
+  goBack() {
+    window.history.back();
   }
 
 }

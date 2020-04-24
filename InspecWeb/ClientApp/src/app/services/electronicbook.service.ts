@@ -14,7 +14,11 @@ export class ElectronicbookService {
     this.url = baseUrl + 'api/electronicbook/';
   }
 
-  addElectronicBook(value) {
+  getElectronicBook(userId) {
+    return this.http.get(this.url + userId)
+  }
+
+  addElectronicBook(value, id) {
     // alert(JSON.stringify(inspectionplaneventData.input))
     var input = value.input.map((item , index) => {
       return {
@@ -24,30 +28,29 @@ export class ElectronicbookService {
         CentralPolicyId:item.centralpolicies,
       }
     })
-
-    var userMinistry = value.map((item , index) => {
+    var userMinistry = value.UserMinistryId.map((item , index) => {
       return {
-        // StartPlanDate:item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
-        // EndPlanDate:item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
-        Id:item.UserMinistryId,
+        Id:item
+      }
+    })
+    var userPeople = value.UserPeopleId.map((item , index) => {
+      return {
+        Id:item
       }
     })
 
-    var userPeople = value.map((item , index) => {
-      return {
-        // StartPlanDate:item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
-        // EndPlanDate:item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
-        Id:item.UserPeopleId,
-      }
-    })
-    // alert(JSON.stringify(input))
     const formData = {
       Detail: value.checkDetail,
       Inputelectronicbook: input,
-      UserMinistryId: value.userMinistry,
-      UserPeopleId: value.userPeople
+      UserMinistryId: userMinistry,
+      UserPeopleId: userPeople,
+      id: id
     }
-    console.log('FORMDATA: ' + formData);
+    console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);
+  }
+
+  deleteElectronicBook(id) {
+    return this.http.delete(this.url + id)
   }
 }
