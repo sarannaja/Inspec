@@ -94,14 +94,14 @@ namespace InspecWeb.Controllers
             {
                 //foreach (var item3 in item2.ProvinceId)
                 //{
-                    var inspectionplanevent = new InspectionPlanEvent
-                    {
-                        StartDate = item2.StartPlanDate,
-                        EndDate = item2.EndPlanDate,
-                        ProvinceId = item2.ProvinceId,
-                        CreatedAt = date,
-                        CreatedBy = "NIK"
-                    };
+                var inspectionplanevent = new InspectionPlanEvent
+                {
+                    StartDate = item2.StartPlanDate,
+                    EndDate = item2.EndPlanDate,
+                    ProvinceId = item2.ProvinceId,
+                    CreatedAt = date,
+                    CreatedBy = model.CreatedBy,
+                };
                        _context.InspectionPlanEvents.Add(inspectionplanevent);
                        _context.SaveChanges();
 

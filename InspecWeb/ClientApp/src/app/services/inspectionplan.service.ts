@@ -28,9 +28,9 @@ export class InspectionplanService {
     return this.http.post(this.url + "AddCentralPolicyEvents", formData);
   }
 
-  addInspectionPlan(InspectionPlanData, Id) {
+  addInspectionPlan(InspectionPlanData, userid) {
     const formData = {
-      InspectionPlanEventId: parseInt(Id),
+      // InspectionPlanEventId: parseInt(Id),
       Title: InspectionPlanData.title,
       StartDate: InspectionPlanData.start_date.date.year + '-' + InspectionPlanData.start_date.date.month + '-' + InspectionPlanData.start_date.date.day,
       EndDate: InspectionPlanData.end_date.date.year + '-' + InspectionPlanData.end_date.date.month + '-' + InspectionPlanData.end_date.date.day,
@@ -38,7 +38,10 @@ export class InspectionplanService {
       ProvinceId : InspectionPlanData.ProvinceId,
       FiscalYearId: InspectionPlanData.year,
       files: "INSPECTIONPLAN.pdf",
+      UserID: userid,
+      Status: InspectionPlanData.status
     }
+    console.log('FORMDATA POST: ', formData);
     return this.http.post(this.url , formData);
   }
 }

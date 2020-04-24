@@ -43,14 +43,13 @@ export class InspectionPlanEventComponent implements OnInit {
     this.inspectionplanservice.getinspectionplaneventdata(this.userid)
       .subscribe(result => {
         console.log(result);
-
         this.resultinspectionplanevent = result
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
 
           return {
             id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
-            title: item.province.name,
+            title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
             start: moment(item.startDate), //.format("YYYY-MM-DD"),
             end: moment(item.endDate).add(1, 'days') //.format("YYYY-MM-DD"),
           }
@@ -68,8 +67,8 @@ export class InspectionPlanEventComponent implements OnInit {
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
           return {
-            id: item.id,
-            title: item.province.name,
+            id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+            title: item.province.name + "," + item.centralPolicyEvents[0].centralPolicy.title,
             start: moment(item.startDate), //.format("YYYY-MM-DD"),
             end: moment(item.endDate).add(1, 'days') //.format("YYYY-MM-DD"),
           }
@@ -156,5 +155,7 @@ export class InspectionPlanEventComponent implements OnInit {
   InspectionPlan(id) {
     this.router.navigate(['/inspectionplan', id])
   }
-
+  CraateInspectionPlan() {
+    this.router.navigate(['/inspectionplan/createinspectionplan'])
+  }
 }

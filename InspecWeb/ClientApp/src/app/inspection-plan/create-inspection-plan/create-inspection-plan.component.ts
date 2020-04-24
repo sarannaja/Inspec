@@ -7,6 +7,8 @@ import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
 import { IOption } from 'ng-select';
 import { InspectionplanService } from '../../services/inspectionplan.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from 'src/app/services/user.service';
 
 interface addInput {
   id: number;
@@ -38,7 +40,8 @@ export class CreateInspectionPlanComponent implements OnInit {
   ProvinceId: any;
   selectdataprovince: Array<IOption>
   input: any = [{ date: '', subject: '', questions: '' }]
-  id
+  // id
+  userid: string
 
   constructor(
     private fb: FormBuilder,
@@ -48,11 +51,20 @@ export class CreateInspectionPlanComponent implements OnInit {
     private fiscalyearservice: FiscalyearService,
     private provinceservice: ProvinceService,
     private activatedRoute: ActivatedRoute,
+    private authorize: AuthorizeService,
+    private userservice: UserService,
     private inspectionplanservice: InspectionplanService) {
-    this.id = activatedRoute.snapshot.paramMap.get('id')
+    // this.id = activatedRoute.snapshot.paramMap.get('id')
   }
 
   ngOnInit() {
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+      })
+
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
       start_date: new FormControl(null, [Validators.required]),
@@ -61,6 +73,7 @@ export class CreateInspectionPlanComponent implements OnInit {
       type: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null, [Validators.required]),
+      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       input: new FormArray([])
     })
     this.t.push(this.fb.group({
@@ -70,11 +83,20 @@ export class CreateInspectionPlanComponent implements OnInit {
     }))
     //แก้ไข
 
-    this.provinceservice.getprovincedata().subscribe(result => {
+    // this.provinceservice.getprovincedata().subscribe(result => {
+    //   this.resultprovince = result
+
+    //   this.selectdataprovince = this.resultprovince.map((item, index) => {
+    //     return { value: item.id, label: item.name }
+    //   })
+
+    //   console.log(this.resultprovince);
+    // })
+    this.userservice.getprovincedata(this.userid).subscribe(result => {
       this.resultprovince = result
 
       this.selectdataprovince = this.resultprovince.map((item, index) => {
-        return { value: item.id, label: item.name }
+        return { value: item.province.id, label: item.province.name }
       })
 
       console.log(this.resultprovince);
@@ -93,10 +115,11 @@ export class CreateInspectionPlanComponent implements OnInit {
   }
 
   storeInspectionPlan(value) {
-    this.inspectionplanservice.addInspectionPlan(value, this.id).subscribe(response => {
+    this.inspectionplanservice.addInspectionPlan(value, this.userid).subscribe(response => {
       console.log(value);
       this.Form.reset()
-      this.router.navigate(['inspectionplan', this.id])
+      this.router.navigate(['inspectionplanevent'])
+      // this.router.navigate(['inspectionplan', this.id])
     })
   }
 

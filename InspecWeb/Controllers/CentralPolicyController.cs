@@ -487,6 +487,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
+         
                 //.Include(m => m.Subjects)
                 //.ThenInclude(m => m.Subquestions)
                 .Include(m => m.CentralPolicyProvinces)
