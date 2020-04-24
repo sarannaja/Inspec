@@ -53,6 +53,11 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyUser)
                 .ThenInclude(m => m.ElectronicBook)
+                .Include(m => m.CentralPolicyUser)
+                .ThenInclude(m => m.User)
+                .Include(m => m.CentralPolicyUser)
+                .ThenInclude(m => m.CentralPolicyGroup)
+                .ThenInclude(m => m.CentralPolicyUserFiles)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
                 //.Include(m => m.Subjects)
@@ -64,12 +69,44 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicydata);
         }
 
-        //// GET: api/ElectronicBook/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpPut("editElectronicBookDetail/{id}")]
+        public void Put([FromBody] ElectronicBookViewModel model, long id)
+        {
+            var test = model.Detail;
+            System.Console.WriteLine("detail ja: " + test);
+            var electronicBookDetail = _context.ElectronicBooks.Find(id);
+            {
+                electronicBookDetail.Detail = model.Detail;
+            }
+            _context.Entry(electronicBookDetail).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        // GET api/values/5
+        [HttpGet("getcentralpolicyfromprovince/{id}")]
+        public IActionResult getcentralpolicyfromprovince(long id)
+        {
+            var centralpolicyprovincedatas = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.ProvinceId == id)
+                .ToList(); //All
+
+            var electronicbookgroups = _context.ElectronicBookGroups
+              .ToList(); //Chose
+
+            List<object> termsList = new List<object>();
+
+            foreach (var centralpolicyprovincedata in centralpolicyprovincedatas)
+            {
+                for (int i = 0; i < electronicbookgroups.Count(); i++)
+                {
+                    if (centralpolicyprovincedata.Id == electronicbookgroups[i].CentralPolicyProvinceId)
+                        termsList.Add(centralpolicyprovincedata);
+                }
+            }
+
+            return Ok(termsList);
+        }
 
         // POST: api/ElectronicBook
         [HttpPost]

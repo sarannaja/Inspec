@@ -56,7 +56,7 @@ export class DetailElectronicBookComponent implements OnInit {
   }
 
   ngOnInit() {
-    alert(this.centralPolicyUserId);
+    // alert(this.centralPolicyUserId);
     this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
