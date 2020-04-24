@@ -438,7 +438,10 @@ namespace InspecWeb.Controllers
                 .ToList();
 
             return Ok(centralpolicyprovincedata);
+
+
         }
+
         // PUT api/values/5
         [HttpPut("acceptcentralpolicy/{id}")]
         public void PutStatus(long id, string status)

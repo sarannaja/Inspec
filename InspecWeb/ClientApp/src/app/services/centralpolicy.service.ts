@@ -18,6 +18,8 @@ export class CentralpolicyService {
     return this.http.get<any[]>(this.url)
   }
   getdetailcentralpolicydata(id): Observable<any> {
+    console.log("CentralID: ", id);
+
     return this.http.get<any>(this.url + id)
   }
   detailcentralpolicydata(id) {
