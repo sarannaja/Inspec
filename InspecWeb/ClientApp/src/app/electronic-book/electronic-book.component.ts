@@ -76,8 +76,8 @@ export class ElectronicBookComponent implements OnInit {
     this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId}])
   }
 
-  gotoDetail(id, elecId) {
-    this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId}])
+  gotoDetail(id, elecId, centralPolicyUserID) {
+    this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
   }
 
 }

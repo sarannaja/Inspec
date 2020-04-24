@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,9 @@ export class ElectronicbookService {
 
   deleteElectronicBook(id) {
     return this.http.delete(this.url + id)
+  }
+
+  getElectronicBookDetail(centralPolicyUserId): Observable <any> {
+    return this.http.get<any>(this.url + 'getElectronicBookById/' + centralPolicyUserId);
   }
 }
