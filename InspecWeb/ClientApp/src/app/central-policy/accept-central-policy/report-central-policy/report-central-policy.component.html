@@ -20,10 +20,10 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            ผู้สังการ : {{resultdetailcentralpolicy.createdBy}}
+            ผู้สังการ : {{resultuser.name}}
           </div>
           <div class="col-md-6">
-            ตำแหน่ง : ผู้ตรวจการ
+            ตำแหน่ง : {{resultuser.position}}
           </div>
         </div>
         <div class="row" style="margin-top: 10px;">
@@ -33,7 +33,9 @@
         </div>
         <div class="row" style="margin-top: 10px;">
           <div class="col-md-6">
-            จังหวัด : ขอนแก่น
+            <u>จังหวัด</u><br><span
+            *ngFor="let item3 of resultdetailcentralpolicy.centralPolicyProvinces; let i = index">ช่วงที่ {{i+1}})
+            {{ item3.province.name }}<br></span>
           </div>
         </div>
 
@@ -137,6 +139,15 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
+            <textarea cols="30" rows="5" value="{{resultelectronicbookdetail}}" class="form-control"
+              placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly>
+            </textarea>
           </div>
         </div>
 

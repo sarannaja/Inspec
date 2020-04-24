@@ -485,9 +485,10 @@ namespace InspecWeb.Controllers
             var accept = _context.CentralPolicyUsers.Where(m => m.Id == id).FirstOrDefault();
 
             var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.CentralPolicyUser)
+                .ThenInclude(m => m.ElectronicBook)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-         
                 //.Include(m => m.Subjects)
                 //.ThenInclude(m => m.Subquestions)
                 .Include(m => m.CentralPolicyProvinces)
