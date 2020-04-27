@@ -68,8 +68,14 @@ import { ElectronicBookComponent } from './electronic-book/electronic-book.compo
 import { CreateElectronicBookComponent } from './electronic-book/create-electronic-book/create-electronic-book.component';
 import { EditElectronicBookComponent } from './electronic-book/edit-electronic-book/edit-electronic-book.component';
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
+import { ExternalOrganizationModule } from './external-organization/external-organization.module';
+import { OtpsComponent } from './external-organization/otps/otps.component';
+import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
+import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
 
-
+const ExternalOrganization = [
+  GgcOpmComponent, Opm1111Component, OtpsComponent
+]
 @NgModule({
   declarations: [
     AppComponent,
@@ -123,7 +129,8 @@ import { DetailElectronicBookComponent } from './electronic-book/detail-electron
     ElectronicBookComponent,
     CreateElectronicBookComponent,
     EditElectronicBookComponent,
-    DetailElectronicBookComponent
+    DetailElectronicBookComponent,
+    // ...ExternalOrganization
 
   ],
   imports: [
@@ -186,7 +193,7 @@ import { DetailElectronicBookComponent } from './electronic-book/detail-electron
           { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'test/logout', component: LogoutComponent},
+          { path: 'test/logout', component: LogoutComponent },
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/detailsubject/:id', component: DetailSubjectComponent, canActivate: [AuthorizeGuard] },
@@ -195,6 +202,7 @@ import { DetailElectronicBookComponent } from './electronic-book/detail-electron
           { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'external-organization', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] }
         ]
       },
       {

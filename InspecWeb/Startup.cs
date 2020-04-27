@@ -27,6 +27,27 @@ namespace InspecWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Cors Origins
+            services.AddCors(options =>
+            {
+
+                options.AddPolicy("defaultcorspolicy",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    });
+
+            });
+            services.AddHsts(options =>
+   {
+       options.Preload = true;
+       options.IncludeSubDomains = true;
+       options.MaxAge = TimeSpan.FromDays(60);
+       options.ExcludedHosts.Add("http://203.113.14.20:3000");
+       options.ExcludedHosts.Add("www.example.com");
+   });
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -37,6 +58,7 @@ namespace InspecWeb
                 options.Lockout.AllowedForNewUsers = true;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
                 options.Lockout.MaxFailedAccessAttempts = 5;
+
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -54,24 +76,31 @@ namespace InspecWeb
                     options.SuppressInferBindingSourcesForParameters = true;
                     options.SuppressModelStateInvalidFilter = true;
                     options.SuppressMapClientErrors = true;
+
                 });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Core Origins
+
+            app.UseCors("defaultcorspolicy");
+            //end Cors
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                // app.UseDatabaseErrorPage();
             }
             else
             {
@@ -80,7 +109,8 @@ namespace InspecWeb
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
@@ -106,7 +136,7 @@ namespace InspecWeb
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
-
+                // spa.UseProxyToSpaDevelopmentServer("http://203.113.14.20:3000");
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
