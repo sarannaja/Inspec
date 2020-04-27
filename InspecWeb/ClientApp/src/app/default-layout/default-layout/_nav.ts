@@ -166,9 +166,9 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
     name: "ข้อมูลการติดต่อบุคลากร",
     children: [
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
+        url: '/cabinet',
         name: 'คณะรัฐมนตรี'
       },
       {
