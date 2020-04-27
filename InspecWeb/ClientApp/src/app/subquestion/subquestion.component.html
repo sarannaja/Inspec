@@ -42,16 +42,15 @@
                 <label>เชิญหน่วยงาน</label>
                 <div class="col-12 col-xl-12"
                   *ngFor="let item of resultcentralpolicy.centralPolicyProvinces; let i = index">
-                  <div>{{ i + 1 }}. หน่วยงาน : {{item.province.name}}</div>
+                  <div>{{ i + 1 }}. หน่วยงาน : {{item.province.name}} {{item.province.id}}</div>
                   <div>
-                    <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true"
-                      [options]="resultdepartment[item.province.id]" [allowClear]="true">
+                    <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp[i]"
+                      (selected)="addsubjectdepartment2($event,'add')"  (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
                     </ng-select>
                   </div>
                   <br>
                 </div>
               </div>
-
               <div class="form-group">
                 <label>คำถามย่อย</label>
                 <br>

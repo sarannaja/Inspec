@@ -22,8 +22,10 @@ export class SubquestionComponent implements OnInit {
   // inputquestionclose: any = [{ questionclose: '', answercloselist: [] }]
   // inputanswerclose: any = [{ answerclose: '' }]
   resultcentralpolicy: any = []
-  resultprovince: any = []
+  resultprovince: any[] = []
   resultdepartment = []
+  subjectdepartmentId: Array<any> = []
+  temp = []
   test = []
   id
   name: any
@@ -51,6 +53,7 @@ export class SubquestionComponent implements OnInit {
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       centralpolicydateid: new FormControl(null, [Validators.required]),
+      subjectdepartment: this.subjectdepartmentId,
       inputquestionopen: new FormArray([]),
       inputquestionclose: this.fb.array([
         this.initquestionclose()
@@ -80,6 +83,53 @@ export class SubquestionComponent implements OnInit {
       answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
     })
   }
+  // addsubjectdepartment(value) {
+  //   console.log(value.value);
+  //   if (this.subjectdepartmentId.length == 0) {
+  //     this.subjectdepartmentId.push(value.value)
+  //     console.log("in");
+  //   } else {
+  //     this.subjectdepartmentId.forEach((item, index) => {
+  //       if (item != value.value) {
+  //         this.subjectdepartmentId.push(value.value)
+  //         console.log("inpush" + index);
+
+  //       } else {
+  //         this.subjectdepartmentId.splice(index, 1)
+  //         console.log("insplice" + index);
+  //       }
+  //     })
+  //   }
+  //   // this.subjectdepartmentId.push(value.value)
+  //   console.log("value", this.subjectdepartmentId);
+  // }
+  addsubjectdepartment2(value, input) {
+    // var subject = value.vaule
+
+    if (input == 'add') {
+      this.subjectdepartmentId = this.addSubjectdepartments(this.subjectdepartmentId, value)
+      console.log(this.subjectdepartmentId);
+    } else {
+      this.subjectdepartmentId = this.removeSubjectdepartments(this.subjectdepartmentId, value)
+      console.log(this.subjectdepartmentId);
+
+    }
+
+
+  }
+
+  removeSubjectdepartments(array: any, value) {
+    var s = new Set(array);
+    s.delete(value);
+    return Array.from(s);
+  }
+
+  addSubjectdepartments(array: any, value) {
+    var s = new Set(array);
+    s.add(value);
+    return Array.from(s);
+  }
+
   addX() {
     const control = <FormArray>this.Form.controls['inputquestionclose'];
     control.push(this.initquestionclose());
@@ -134,73 +184,28 @@ export class SubquestionComponent implements OnInit {
   }
 
   getDepartmentdata() {
-    this.departmentservice.getdepartmentdata(this.id).subscribe(result => {
+    this.resultprovince.forEach((element, index) => {
+      console.log('element', element);
 
-      // for (var i = 0; i < result.length; i++) {
-      //   this.resultdepartment.push({ value: result[i].provinceDepartmentId, label: result[i].provinceName })
-      // }
-      // this.resultdepartment = result
-      // alert(this.resultprovince)
-
-
-      for (var i = 0; i < this.resultprovince.length; i++) {
-      
-        this.resultdepartment[this.resultprovince[i]] = result.map((item, index) => {
-
-          if (item.provinceId == this.resultprovince[i]) {
+      this.departmentservice.getdepartmentdata(element)
+        .subscribe(result => {
+          console.log("Result : " + index, result);
+          this.temp[index] = result.map((item, index) => {
             return {
-              value: item.provinceDepartmentId.toString(),
-              label: item.provinceName,
-              //id : item.provinceId
+              value: item.id,
+              label: item.provincialDepartment.name,
+              provincialDepartmentID: item.provincialDepartmentID,
+              provinceId: item.provinceId
             }
-          } else {
-            return {
-              
-            }
-  
-          }
-        }) 
-
-      }
-
-
-      console.log(this.resultdepartment);
-    })
-
-    // this.resultprovince.forEach(element => {
-    //   this.departmentservice.getdepartmentdata(element).subscribe(result => {
-    //     // console.log('doo' , result)
-    //     // for(var i = 0 ; i<result.length ; i++){
-    //     //   // console.log(result[i].provincialDepartment.name)
-    //     //   this.resultdepartment.push({value : result[i].provincialDepartment.id , label : result[i].provincialDepartment.name})
-    //     // }
-    //     // console.log('resultdepartment'  , this.resultdepartment)
-
-    //    this.resultdepartment.push(result)
-    //    for (var i = 0 ; i< this.resultcentralpolicy.centralPolicyProvinces.length ; i ++){
-    //     //  console.log('nick' , 'nick')
-    //     this.test.push([{value : this.resultdepartment[i][0].id , label:this.resultdepartment[i][1].id}])
-    //     // for(var j = 0 ; j < this.resultdepartment[i].length ; j++){
-    //     //           this.test.push([{value : this.resultdepartment[i][j].id , label : this.resultdepartment[i][j].provincialDepartment.name}])
-    //     // }
-    //    }
-    //    console.log("test",this.test);    
-    //   })
-
-    // })
-    // alert("FF: " + this.resultdepartment[0])
-
-
-
-    // for(var i = 0 ; i< this.resultdepartment[0].length  ;i++){
-    //           console.log('test')
-    // }
-    // console.log(this.resultdepartment)
-    // console.log("benz" , this.benz )
+          })
+          console.log(this.temp[index]);
+        })
+    });
   }
   storeSubject(value) {
     console.log(value);
     this.subjectservice.addSubject(value, this.id).subscribe(response => {
+      //this.subjectdepartmentId
       // console.log("Response : ", response);
 
       this.Form.reset()

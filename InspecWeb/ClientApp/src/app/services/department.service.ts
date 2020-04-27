@@ -13,12 +13,12 @@ export class DepartmentService {
     this.url = baseUrl + 'api/department/';
   }
   
+  getdepartmentdata(id): Observable<any[]> {
+    // alert(id)
+    return this.http.get<any[]>(this.url + id)
+  }
   // getdepartmentdata(id): Observable<any> {
   //   // alert(id)
-  //   return this.http.get<any>(this.url + id)
+  //   return this.http.get<any>(this.url+ "masteraof/" + id)
   // }
-  getdepartmentdata(id): Observable<any> {
-    // alert(id)
-    return this.http.get<any>(this.url+ "masteraof/" + id)
-  }
 }

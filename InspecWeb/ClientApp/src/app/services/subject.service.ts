@@ -18,8 +18,13 @@ export class SubjectService {
     return this.http.get(this.url + "subjectdetail/" + id)
   }
   addSubject(subjectData, centralpolicyid) {
-
-    console.log("ARRAY: ", subjectData.centralpolicydateid);
+   
+    // var subjectdepartment: Array<any> = subjectdepartmentId.map((item, index) => {
+    //   return {
+    //     provincialdepartmentprovinceid: item.value 
+    //   }
+    // })
+    // console.log("ARRAY: ", subjectdepartment);
     const formData = {
       Name: subjectData.name,
       Answer: subjectData.name,
@@ -28,6 +33,7 @@ export class SubjectService {
       inputquestionopen: subjectData.inputquestionopen,
       inputquestionclose: subjectData.inputquestionclose,
       inputanswerclose: subjectData.inputanswerclose,
+      // subjectdepartment: subjectdepartment
     }
     //     formData.append('Name', subjectData.name);
     //     formData.append('Answer', subjectData.name);
@@ -36,6 +42,7 @@ export class SubjectService {
     // ``
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);
+    
   }
   addSubquestionopen(Subquestionopendata) {
     const formData = new FormData();

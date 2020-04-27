@@ -12,6 +12,7 @@ export class DetailSubjectComponent implements OnInit {
   
   resultsubjectdetail: any = []
   questionsopen: any = []
+  departments: any = []
   id: any
 
   constructor(
@@ -29,7 +30,8 @@ export class DetailSubjectComponent implements OnInit {
       .subscribe(result => {
         this.resultsubjectdetail = result
         this.questionsopen = this.resultsubjectdetail.subquestions
-        console.log("res: ", this.resultsubjectdetail);
+        this.departments = this.resultsubjectdetail.subjectDepartments
+        console.log("res: ", this.departments);
 
       })
   }
