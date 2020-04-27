@@ -9,44 +9,84 @@ import { CabineService } from '../services/cabine.service';
   styleUrls: ['./cabinet.component.css']
 })
 export class CabinetComponent implements OnInit {
+  files: string[] = []
   resultcabine: any = []
   delid:any
   name:any
   position:any
-  image:any
+  image:string[] = []
+  prefix:any
+  detail:any
   modalRef:BsModalRef;
-  Form : FormGroup
+  Form : FormGroup;
+  loading = false;
+  dtOptions: DataTables.Settings = {};
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private cabineservice: CabineService,
-    public share: CabineService) { }
+  constructor(
+    private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private cabineservice: CabineService,
+    public share: CabineService,
+    ) { }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columnDefs: [
+        {
+          targets: [5],
+          orderable: false
+        }
+      ]
+
+    };
     this.cabineservice.getcabine().subscribe(result=>{
     this.resultcabine = result
+    this.loading = true
     })
+    
     this.Form = this.fb.group({
-      "name" : new FormControl(null, [Validators.required]),
-      "position": new FormControl(null, [Validators.required])
+      name : new FormControl(null, [Validators.required]),
+      position: new FormControl(null, [Validators.required]),
+      prefix : new FormControl(null, [Validators.required]),
+      detail : new FormControl(null, [Validators.required]),
+      files : new FormControl(null, [Validators.required])
     })
   }
-  openModal(template: TemplateRef<any>, id, name, position) {
+  openModal(template: TemplateRef<any>, id, name, position, prefix, detail) {
     this.delid = id;
     this.name = name;
-    this.position = position
+    this.position = position;
+    this.prefix = prefix;
+    this.detail = detail;
+    
     console.log(this.delid);
     console.log(this.name);
     console.log(this.position);
+    console.log(this.prefix);
+    console.log(this.detail);
+    
     
     this.modalRef = this.modalService.show(template);
   }
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Form.patchValue({
+      files: file
+    });
+    this.Form.get('files').updateValueAndValidity()
+
+  }
   storeCabine(value) {
-    // alert(JSON.stringify(value));
-    this.cabineservice.addCabine(value).subscribe(response => {
+     //alert("9999");
+    this.cabineservice.addCabine(value, this.Form.value.files).
+    subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.cabineservice.getcabine().subscribe(result => {
         this.resultcabine = result
+        //  alert("kklkmdasda");
         console.log(this.resultcabine);
       })
     })
