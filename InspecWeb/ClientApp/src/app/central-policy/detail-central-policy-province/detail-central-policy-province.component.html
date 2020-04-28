@@ -153,14 +153,14 @@
                       <u>คำถามปลายปิด</u>
                       <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
                         <div class="row">
-                          <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
+                          <div class="col-12" *ngIf="item.type == 'คำถามปลายปิด'">
                             <input type="text" value="{{item.name}}" class="form-control"
                               placeholder="กรุณากรอกเรื่อง" readonly>
                           </div>
-                          <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
+                          <!-- <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                               (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
-                          </div>
+                          </div> -->
                         </div>
                       <!-- </div> -->
                     </td>
@@ -170,14 +170,14 @@
                       <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
                         <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
                           <div class="row">
-                            <div class="col-11" *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                            <div class="col-12" *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
                               <input type="text" value="{{item3.name}}" class="form-control"
                                 placeholder="กรุณากรอกเรื่อง" readonly>
                             </div>
-                            <div class="col-1" *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
+                            <!-- <div class="col-1" *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                 (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                       </div>

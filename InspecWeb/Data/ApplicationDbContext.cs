@@ -74,6 +74,7 @@ namespace InspecWeb.Data
         public DbSet<ElectronicBook> ElectronicBooks { get; set; }
         public DbSet<ElectronicBookGroup> ElectronicBookGroups { get; set; }
 
+        public DbSet<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroup { get; set; }
         //public DbSet<SubquestionGroup> SubquestionGroups { get; set; }
 
         //method 
