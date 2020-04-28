@@ -225,6 +225,24 @@ namespace InspecWeb.Controllers
                 .Where(m => m.ProvinceId == ProvinceId)
                 .Select(m => m.Id).First();
 
+            var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.CentralPolicyProvinceId == centralpolicyprovinceid).ToList();
+
+            foreach (var itemProvincialDepartmentId in model.ProvincialDepartmentId)
+            {
+
+                foreach (var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
+                {
+                    var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                    {
+                        ProvincialDepartmentId = itemProvincialDepartmentId,
+                        SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvincesdata.Id
+                    };
+                    _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+                    _context.SaveChanges();
+                }
+            }
+
             System.Console.WriteLine("3.5" + centralpolicyprovinceid);
 
             var ElectronicBookgroupdata = new ElectronicBookGroup
