@@ -23,5 +23,11 @@ namespace InspecWeb.Models
         [Description("รายละเอียด")]
         public string Detail { get; set; }
         //public ICollection<CentralPolicyUser> CentralPolicyUsers { get; set; }
+
+        [Required]
+        [Description("สถานะ")]
+        public string Status { get; set; }
+
+        public ICollection<ElectronicBookFile> ElectronicBookFiles { get; set; }
     }
 }

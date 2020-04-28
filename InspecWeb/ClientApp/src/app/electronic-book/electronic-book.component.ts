@@ -56,6 +56,8 @@ export class ElectronicBookComponent implements OnInit {
     this.electronicBookService.getElectronicBook(this.userid).subscribe(results => {
       console.log("res: ", results);
       this.electronicBookData = results;
+      console.log("ELECTDATA: ", this.electronicBookData);
+
       this.loading = true;
     })
   }
@@ -73,6 +75,12 @@ export class ElectronicBookComponent implements OnInit {
   }
 
   gotoEdit(id, elecId, centralPolicyUserID) {
+    console.log("ID: ", id);
+    console.log("ELECID: ", elecId);
+    console.log("centralPolicyUserID", centralPolicyUserID);
+
+
+
     this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
   }
 

@@ -191,6 +191,8 @@ namespace InspecWeb.Controllers
         {
             //var eiei = model.StartDate;
             System.Console.WriteLine("test: " + editId);
+            var user = model.UserID;
+            System.Console.WriteLine("User: " + user);
             //return Ok(model);
             var date = DateTime.Now;
             var centralpolicydata = _context.CentralPolicies.Find(editId);
@@ -202,7 +204,7 @@ namespace InspecWeb.Controllers
                 centralpolicydata.EndDate = model.EndDate;
                 centralpolicydata.Status = model.Status;
                 centralpolicydata.CreatedAt = date;
-                centralpolicydata.CreatedBy = "Super Admin";
+                centralpolicydata.CreatedBy = model.UserID;
                 centralpolicydata.Class = "แผนการตรวจประจำปี";
             };
 
