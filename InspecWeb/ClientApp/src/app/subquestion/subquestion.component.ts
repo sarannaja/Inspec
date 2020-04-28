@@ -103,6 +103,7 @@ export class SubquestionComponent implements OnInit {
   //   // this.subjectdepartmentId.push(value.value)
   //   console.log("value", this.subjectdepartmentId);
   // }
+  
   addsubjectdepartment2(value, input) {
     // var subject = value.vaule
 

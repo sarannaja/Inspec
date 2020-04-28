@@ -68,6 +68,7 @@ import { ElectronicBookComponent } from './electronic-book/electronic-book.compo
 import { CreateElectronicBookComponent } from './electronic-book/create-electronic-book/create-electronic-book.component';
 import { EditElectronicBookComponent } from './electronic-book/edit-electronic-book/edit-electronic-book.component';
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
+import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
 
 
 @NgModule({
@@ -123,7 +124,8 @@ import { DetailElectronicBookComponent } from './electronic-book/detail-electron
     ElectronicBookComponent,
     CreateElectronicBookComponent,
     EditElectronicBookComponent,
-    DetailElectronicBookComponent
+    DetailElectronicBookComponent,
+    AnswerSubjectComponent
 
   ],
   imports: [
@@ -195,6 +197,8 @@ import { DetailElectronicBookComponent } from './electronic-book/detail-electron
           { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
+
         ]
       },
       {
