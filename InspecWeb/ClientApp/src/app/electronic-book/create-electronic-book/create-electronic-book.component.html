@@ -149,6 +149,15 @@
               </div>
             </div>
 
+            <br>
+            เลือกหน่วยงานที่อยู่ในจังหวัด {{provincename}}
+            <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
+
+              (selected)="addsubjectdepartment2($event,'add')" (deselected)="addsubjectdepartment2($event,'remove')"
+
+              [allowClear]="true">
+            </ng-select>
+
             <div class="row" style="margin-top: 10px;">
               <div class="col-lg-12">
                 <table class="table table-default table-responsive-sm tableborder">
@@ -251,6 +260,22 @@
                 name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
               </ng-select>
             </div>
+
+            <div class="col-12 col-xl-12" style="margin-top: 20px;">
+              <div class="form-group">
+                <div class="form-group col-md-3">
+                  <div class="mb-3">
+                    <input type="radio" name="Status" value="ร่างกำหนดการ" checked formControlName="Status">
+                    <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+                    <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง" formControlName="Status">
+                    <label style="margin-left: 10px;">ใช้งานจริง</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <label class="form-label w-100" style="margin-top: 10px;">แนบไฟล์</label>
+            <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
 
             <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
                 <button style="align-self: center;" type="submit" class="btn btn-primary" style="margin-right: 45px;">บันทึก</button>

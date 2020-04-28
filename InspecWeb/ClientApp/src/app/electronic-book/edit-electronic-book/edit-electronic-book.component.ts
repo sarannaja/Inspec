@@ -40,6 +40,10 @@ export class EditElectronicBookComponent implements OnInit {
   resultelectronicbookdetail: any = [];
   centralPolicyUserId: any;
   detailForm: FormGroup;
+  resultStatus: any = [];
+  form: FormGroup;
+  fileStatus = false;
+  resultElecFile: any = [];
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -54,9 +58,15 @@ export class EditElectronicBookComponent implements OnInit {
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
     this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
     this.downloadUrl = baseUrl + '/Uploads';
+
+    this.form = this.fb.group({
+      files: [null]
+    })
   }
 
   ngOnInit() {
+    console.log("ELECTID: ", this.id);
+
     this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
@@ -64,7 +74,8 @@ export class EditElectronicBookComponent implements OnInit {
     })
 
     this.detailForm = this.fb.group({
-      eBookDetail: new FormControl(null, [Validators.required])
+      eBookDetail: new FormControl(null, [Validators.required]),
+      Status: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -203,15 +214,17 @@ export class EditElectronicBookComponent implements OnInit {
       console.log("EDIT ElectronicBookDetal: ", result);
       // alert("EDIT: " + result);
       this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
-
+      this.resultStatus = result.centralPolicyUser[0].electronicBook.status;
+      this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
       this.detailForm.patchValue({
         eBookDetail: this.resultelectronicbookdetail,
+        Status: result.status
       })
     })
   }
 
   editDetail(value) {
-    this.electronicBookService.editElectronicBookDetail(value, this.elecId).subscribe(result => {
+    this.electronicBookService.editElectronicBookDetail(value, this.elecId, this.form.value.files).subscribe(result => {
       console.log("res: ", result);
 
       this.spinner.show();
@@ -221,5 +234,16 @@ export class EditElectronicBookComponent implements OnInit {
         this.spinner.hide();
       }, 300);
     })
+  }
+
+  uploadFile(event) {
+    this.fileStatus = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      files: file
+    });
+    console.log("fff:", this.form.value.files)
+    this.form.get('files').updateValueAndValidity()
   }
 }

@@ -18,7 +18,7 @@ export class ReportCentralPolicyComponent implements OnInit {
   userid: string
   resultdetailcentralpolicy: any = [];
   resultcentralpolicyuser: any = [];
-  userFiles: any [];
+  userFiles: any[];
   report: any;
   delid: any;
   modalRef: BsModalRef;
@@ -99,23 +99,23 @@ export class ReportCentralPolicyComponent implements OnInit {
     console.log("files: ", this.form.value.files);
 
     this.centralpolicyservice.sendReport(value, this.form.value.files, this.id)
-    .subscribe(response => {
-      console.log("res: ", response);
-      this.form.reset()
-      window.history.back();
-    })
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.form.reset()
+        window.history.back();
+      })
   }
 
   deleteUserFile() {
     // alert(this.delid);
     this.centralpolicyservice.deleteUserFile(this.delid)
-    .subscribe(response => {
-      console.log("res: ", response);
-      this.modalRef.hide();
-      this.getDetailCentralPolicy();
-    this.getCentralPolicyUser();
-    this.getUserFiles();
-    })
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.modalRef.hide();
+        this.getDetailCentralPolicy();
+        this.getCentralPolicyUser();
+        this.getUserFiles();
+      })
   }
 
   openModal(template: TemplateRef<any>, id) {

@@ -9,6 +9,7 @@ import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-edit-central-policy',
@@ -40,6 +41,7 @@ export class EditCentralPolicyComponent implements OnInit {
   endDate: any;
   delid: any;
   modalRef: BsModalRef;
+  userid: string
 
   selected: any = [];
   downloadUrl: any;
@@ -54,6 +56,7 @@ export class EditCentralPolicyComponent implements OnInit {
     private provinceservice: ProvinceService,
     private router: Router,
     private spinner: NgxSpinnerService,
+    private authorize: AuthorizeService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -92,6 +95,13 @@ export class EditCentralPolicyComponent implements OnInit {
     //   start_date: '',
     //   end_date: '',
     // }))
+
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+      })
 
     this.getDetailCentralpolicy()
     this.getFiscalyear()
@@ -179,7 +189,7 @@ export class EditCentralPolicyComponent implements OnInit {
     console.log("SUBMIT: ", value);
     console.log("files: ", this.form.value.files);
 
-    this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id)
+    this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id, this.userid)
     .subscribe(response => {
       console.log("res: ", response);
       this.EditForm.reset()
