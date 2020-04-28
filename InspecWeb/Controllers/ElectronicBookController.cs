@@ -386,5 +386,14 @@ namespace InspecWeb.Controllers
 
             return Ok(new { report, userFile });
         }
+
+        [HttpDelete("deletefile/{id}")]
+        public void DeleteFile(long id)
+        {
+            var electronicBookFileData = _context.ElectronicBookFiles.Find(id);
+
+            _context.ElectronicBookFiles.Remove(electronicBookFileData);
+            _context.SaveChanges();
+        }
     }
 }

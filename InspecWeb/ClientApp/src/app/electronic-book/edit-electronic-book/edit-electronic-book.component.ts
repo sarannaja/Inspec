@@ -44,6 +44,7 @@ export class EditElectronicBookComponent implements OnInit {
   form: FormGroup;
   fileStatus = false;
   resultElecFile: any = [];
+  delid: any;
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -115,6 +116,21 @@ export class EditElectronicBookComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  openDeleteModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  deleteFile() {
+    // alert(this.delid);
+    this.electronicBookService.deleteFile(this.delid)
+    .subscribe(response => {
+      console.log("res: ", response);
+      this.modalRef.hide();
+      this.getElectronicBookDetail();
+    })
   }
 
   editModal(template: TemplateRef<any>, id, name) {
@@ -245,5 +261,9 @@ export class EditElectronicBookComponent implements OnInit {
     });
     console.log("fff:", this.form.value.files)
     this.form.get('files').updateValueAndValidity()
+  }
+
+  back() {
+    window.history.back();
   }
 }

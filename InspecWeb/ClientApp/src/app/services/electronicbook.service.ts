@@ -132,4 +132,8 @@ export class ElectronicbookService {
     console.log(id);
     return this.http.get(this.url + "getcentralpolicyfromprovince/" + id)
   }
+
+  deleteFile(id) {
+    return this.http.delete(this.url + 'deletefile/' + id);
+  }
 }
