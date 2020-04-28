@@ -19,13 +19,23 @@ export class ElectronicbookService {
     return this.http.get(this.url + userId)
   }
 
-  addElectronicBook(value, id, file: FileList) {
+  addElectronicBook(value, id, file: FileList, subjectdepartmentId) {
     // alert(JSON.stringify(inspectionplaneventData.input))
     const formData = new FormData();
     formData.append('Detail', value.checkDetail);
     formData.append('id', id);
     formData.append('Status', value.Status);
 
+    var ProvincialDepartment: Array<any> = subjectdepartmentId.map((item , index) => {
+      return {
+        Id:item.provincialDepartmentID
+      }
+    })
+
+    for (var i = 0; i < ProvincialDepartment.length; i++) {
+      console.log("i: ", i);
+      formData.append('ProvincialDepartmentId', ProvincialDepartment[i].Id);
+    }
 
     var input: Array<any> = value.input.map((item , index) => {
       return {
@@ -84,6 +94,8 @@ export class ElectronicbookService {
     // }
 
     console.log("UserPeopleId", (formData.getAll("UserPeopleId")));
+
+    console.log("ProvincialDepartmentId", (formData.getAll("ProvincialDepartmentId")));
 
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);

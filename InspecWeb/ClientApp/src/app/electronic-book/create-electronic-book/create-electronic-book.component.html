@@ -149,6 +149,21 @@
               </div>
             </div>
 
+            <div class="row" style="margin-bottom: 30px; margin-top: 10px;">
+              <div class="col-md-12">
+                <u>ไฟล์แผนการตรวจราชการ</u><br>
+                <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
+                  style="margin-top: 10px;">
+                  <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
+                    <span>ไฟล์ที่
+                      {{i+1}})
+                      {{ item2.name }}<br>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
             <br>
             เลือกหน่วยงานที่อยู่ในจังหวัด {{provincename}}
             <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
@@ -244,7 +259,7 @@
             </div>
 
             <div class="col-lg-12">
-              <label>ผู้ตรวจการกรม</label>
+              <label>ผู้ตรวจการกระทรวง</label>
             </div>
             <div class="col-lg-12">
               <ng-select placeholder="กรุณาเลือกผู้ตรวจการ" [multiple]="true" [options]="selectministrypeople"

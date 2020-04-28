@@ -170,7 +170,7 @@ export class CreateElectronicBookComponent implements OnInit {
   storeInspectionPlanEvent(value) {
     console.log("Store : ", value);
     // alert("DATA: " + JSON.stringify(value));
-    this.electronicBookService.addElectronicBook(value, this.userid, this.form.value.files).subscribe(response => {
+    this.electronicBookService.addElectronicBook(value, this.userid, this.form.value.files, this.subjectdepartmentId).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
@@ -191,6 +191,8 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   selectedprovince(event, i, item) {
+    this.provincename = event.label;
+    this.provincetodepartmentId = event.value;
     this.province[i] = event;
     // alert(JSON.stringify(event));
     console.log("item", item);
@@ -213,8 +215,7 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   selectedcentralpolicy(event, i) {
-    this.provincename = event.label;
-    this.provincetodepartmentId = event.value;
+
     // alert(JSON.stringify(event))
     this.centralpolicyservice.getdetailcentralpolicydata(event.value)
       .subscribe(result => {
@@ -237,7 +238,7 @@ export class CreateElectronicBookComponent implements OnInit {
     this.spinner.show();
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(centralPolicyProvinceId)
       .subscribe(result => {
-        console.log("getDetail" , result);
+        console.log("getDetail", result);
 
         this.resultdetailcentralpolicyData = result.centralpolicydata
         console.log("DATA: ", this.resultdetailcentralpolicyData);
@@ -335,7 +336,7 @@ export class CreateElectronicBookComponent implements OnInit {
             n++;
           }
         }
-        if(n == 0) {
+        if (n == 0) {
           this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].centralPolicyId, label: this.resultcentralpolicy[i].centralPolicy.title })
         }
       }
@@ -356,21 +357,21 @@ export class CreateElectronicBookComponent implements OnInit {
   getDepartmentdata() {
     // this.resultprovince.forEach((element, index) => {
     //   console.log('element', element);
-    alert(this.provincetodepartmentId)
+    // alert(this.provincetodepartmentId)
 
-      this.departmentservice.getdepartmentdata(this.provincetodepartmentId)
-        .subscribe(result => {
-          console.log("Result : " , result);
-          this.temp = result.map((item, index) => {
-            return {
-              value: item.id,
-              label: item.provincialDepartment.name,
-              provincialDepartmentID: item.provincialDepartmentID,
-              provinceId: item.provinceId
-            }
-          })
-          console.log(this.temp);
+    this.departmentservice.getdepartmentdata(this.provincetodepartmentId)
+      .subscribe(result => {
+        console.log("Result : ", result);
+        this.temp = result.map((item, index) => {
+          return {
+            value: item.id,
+            label: item.provincialDepartment.name,
+            provincialDepartmentID: item.provincialDepartmentID,
+            provinceId: item.provinceId
+          }
         })
+        console.log("nik : ", this.temp);
+      })
     // });
   }
 

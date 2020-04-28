@@ -22,6 +22,7 @@ namespace InspecWeb.ViewModel
 
         public string[] UserPeopleId { get; set; }
         public string[] UserMinistryId { get; set; }
+        public long[] ProvincialDepartmentId { get; set; }
     }
 
     //public class Inputelectronicbook
