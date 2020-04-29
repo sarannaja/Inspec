@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,9 @@ namespace InspecWeb.ViewModel
         public DateTime? Startdate { get; set; }
         public DateTime? Enddate { get; set; }
         public long Active { get; set; }
-      
+
+        public List<IFormFile> files { get; set; }
+
         public List<int> UserRegion { get; set; } //สำหรับทำ array
 
         public List<int> UserProvince { get; set; } //สำหรับทำ array

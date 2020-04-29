@@ -15,7 +15,7 @@
             <div class="card-header" style="margin-bottom: -40px;">
                 <h5 class="card-title">จัดการผู้ใช้</h5>
                 <div class="float-right">
-                    <button class="btn btn-primary" (click)="openModal(modelname)"
+                    <button class="btn btn-primary" (click)="openModal(modalUser)"
                         style="margin-top: -60px;">เพิ่มผู้ใช้
                     </button>
                 </div>
@@ -43,15 +43,17 @@
                             <td>ผู้ดูแลระบบ</td>
                             <td>{{item.prefix +item.name}}</td>
                             <td>{{item.email}}</td>                           
-                            <td>-</td>
+                            <td>{{item.ministries.name}}</td>
                             <td>{{item.phoneNumber}}</td>
                             <td>
                                 <div *ngIf="item.active == 1;else elseBlock">ใช้งานปกติ</div>
                                 <ng-template #elseBlock>ยังไม่มีสิทธิ์เข้าใช้งาน</ng-template>
                             </td>
                             <td>
-                                <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
-                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" 
+                                (click)="openModal(modaldeleteuser, item.id)">
+                                </i>
                             </td>
                         </tr>
                     </tbody>
@@ -127,9 +129,10 @@
                                 </span>                            
                             </td>
                             <td>
-                                <span *ngFor="let item2 of item.userProvince">
+                                -
+                                <!-- <span *ngFor="let item2 of item.userProvince">
                                     <p>- {{item2.province.name}}</p>                               
-                                 </span>                              
+                                 </span> -->
                             </td>
                             <td>
                                 {{item.ministries.name}}
@@ -253,7 +256,7 @@
                     <tbody>
                         <tr *ngFor="let item of resultuser; let i = index">
                             <td>{{i + 1}}</td>
-                            <td>ผู้ตรวจกระทรวง/หน่วยงาน/กรม</td>
+                            <td>ผู้ตรวจกระทรวง</td>
                             <td>{{item.prefix +item.name}}</td>
                             <td>{{item.email}}</td>                       
                             <td>{{item.ministries.name}}</td>
@@ -283,8 +286,8 @@
                             <th>สิทธิ์การใช้งาน</th>
                             <th>ชื่อ-นามสกุล</th>
                             <th>อีเมลล์</th>
-                            <th>เขตตรวจ</th>                          
-                            <th>กระทรวง</th>
+                            <!-- <th>เขตตรวจ</th>                           -->
+                            <!-- <th>กระทรวง</th> -->
                             <th>ตำแหน่ง</th>                        
                             <th>เบอร์โทร</th>
                             <th>สถานะ</th>
@@ -297,8 +300,8 @@
                             <td>ผู้ตรวจภาคประชาชน</td>
                             <td>{{item.prefix +item.name}}</td>
                             <td>{{item.email}}</td>
-                            <td>-</td>
-                            <td>-</td>
+                            <!-- <td>-</td>
+                            <td>-</td> -->
                             <td>{{item.position}}</td>
                             <td>{{item.phoneNumber}}</td>
                             <td>
@@ -315,6 +318,44 @@
             </div> 
              <!--END ผู้ตรวจภาคประชาชน -->
 
+              <!-- นายก/รองนายยก -->
+            <div class="card-body" *ngIf="roleId == 8">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>สิทธิ์การใช้งาน</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>อีเมลล์</th>                      
+                            <th>ตำแหน่ง</th>                        
+                            <th>เบอร์โทร</th>
+                            <th>สถานะ</th>
+                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultuser; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>นายก/รองนายยก</td>
+                            <td>{{item.prefix +item.name}}</td>
+                            <td>{{item.email}}</td>                         
+                            <td>{{item.position}}</td>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>
+                                <div  *ngIf="item.active == 1;else elseBlock">ใช้งานปกติ</div>
+                                <ng-template #elseBlock>ยังไม่มีสิทธิ์เข้าใช้งาน</ng-template>
+                            </td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+             <!--END นายก/รองนายยก -->
+
               <!-- ผู้ตรวจหน่วยงาน/กรม -->
             <div class="card-body" *ngIf="roleId == 9">
                 <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
@@ -326,6 +367,7 @@
                             <th style="width: 15%;">ชื่อ-นามสกุล</th>
                             <th style="width: 15%;">อีเมลล์</th>                                           
                             <th style="width: 15%;">กระทรวง</th>
+                            <th style="width: 15%;">หน่วยงาน</th>
                             <th style="width: 15%;">ตำแหน่ง</th>                        
                             <th style="width: 10%;">เบอร์โทร</th>
                             <th style="width: 10%;">สถานะ</th>
@@ -339,6 +381,7 @@
                             <td>{{item.prefix +item.name}}</td>
                             <td>{{item.email}}</td>                       
                             <td>{{item.ministries.name}}</td>
+                            <td>-</td>
                             <td>{{item.position}}</td>
                             <td>{{item.phoneNumber}}</td>
                             <td>
@@ -360,72 +403,111 @@
 </div>
 
 <!-- BEGIN primary modal -->
-<ng-template #modalUser3 class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<ng-template #modalUser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">เพิ่มผู้ใช้</h5>
-            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <form [formGroup]="addForm" (ngSubmit)="adduser(addForm.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">เพิ่มผู้ใช้</h3>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                
+                <div class="form-group">
+                    <label>สิทธิ์การใช้งาน : {{rolename}}</label>             
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 3;">
+                    <label>เขตตรวจราชการ*</label>
+                    <ng-select placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true" [options]="selectdataregion"
+                        name="UserRegion" formControlName="UserRegion" [allowClear]="true">
+                    </ng-select>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 7;"><!-- จังหวัดที่อยู่ -->
+                    <label>จังหวัด*</label>
+                    <ng-select placeholder="กรุณาเลือกจังหวัด" formControlName="ProvinceId" [options]="selectdataprovince" [allowClear]="true">
+                    </ng-select>
+                </div>
+               
+                <div class="form-group" *ngIf="roleId == 1 || roleId == 2 ||roleId == 3 || roleId == 6 || roleId == 9;">
+                    <label>กระทรวง*</label>
+                    <ng-select placeholder="กรุณาเลือกกระทรวง" formControlName="MinistryId" [options]="selectdataministry" [allowClear]="true">
+                    </ng-select>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 9;">
+                    <label>หน่วยงาน</label>
+                    <ng-select placeholder="กรุณาเลือกหน่วยงาน" formControlName="DepartmentId" [options]="selectdatadeparment" [allowClear]="true">
+                    </ng-select>
+                </div>
+            
+                <div class="form-group">
+                    <label class="form-label">อีเมล*</label>
+                    <input type="email" formControlName="Email" class="form-control" placeholder="กรุณากรอกอีเมล">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">คำนำหน้า*</label>
+                    <input type="text" formControlName="Prefix" class="form-control" placeholder="กรุณากรอกคำนำหน้า">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">ชื่อ-นามสกุล(TH)*</label>
+                    <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล(TH)">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ตำแหน่ง*</label>
+                    <input type="text" formControlName="Position" class="form-control" placeholder="กรุณากรอกตำแหน่ง">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">เบอร์โทร*</label>
+                    <input type="tel" formControlName="PhoneNumber" class="form-control" placeholder="กรุณากรอกเบอร์โทร">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label w-100">รูปโปรไฟล์</label>
+                    <input type="file" (change)="uploadFile($event)" >
+                    <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
         </div>
-
-        <div class="modal-body m-3">
-
-            <div class="form-group">
-                <label>สิทธิ์การใช้งาน</label>
-                <ng-select placeholder="กรุณาเลือกสิทธิ์การใช้งาน" [options]="selectdatarole" [allowClear]="true">
-                </ng-select>
-            </div>
-
-            <div class="form-group">
-                <label>เขตตรวจราชการ</label>
-                <ng-select placeholder="กรุณาเลือกเขตตรวจราชการ" [options]="selectdataregion" [allowClear]="true">
-                </ng-select>
-            </div>
-
-            <div class="form-group">
-                <label>จังหวัด</label>
-                <ng-select placeholder="กรุณาเลือกจังหวัด" [options]="selectdataprovince" [allowClear]="true">
-                </ng-select>
-            </div>
-
-            <div class="form-group">
-                <label>กระทรวง</label>
-                <ng-select placeholder="กรุณาเลือกกระทรวง" [options]="selectdataministry" [allowClear]="true">
-                </ng-select>
-            </div>
-
-            <div class="form-group">
-                <label>หน่วยงาน</label>
-                <ng-select placeholder="กรุณาเลือกหน่วยงาน" [options]="selectdatadeparment" [allowClear]="true">
-                </ng-select>
-            </div>
-          
-            <div class="form-group">
-                <label class="form-label">อีเมล</label>
-                <input type="email" class="form-control" placeholder="กรุณากรอกอีเมล">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">ชื่อ-นามสกุล(TH)</label>
-                <input type="text" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล(TH)">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">เบอร์โทร</label>
-                <input type="tel" class="form-control" placeholder="กรุณากรอกเบอร์โทร">
-            </div>
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary">บันทึก</button>
-            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
-        </div>
-    </div>
-    <!-- </div> -->
+        <!-- </div> -->
+    </form>
 </ng-template>
 <!-- END primary modal -->
+
+
+
+<!-- BEGIN Delete modal -->
+<ng-template #modaldeleteuser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+        <i class="fa fa-info-circle delete-icon"></i>
+        <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+          ลบข้อมูล
+        </p>
+        <p style="font-size: medium; color: #545454;">
+          คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+        </p>
+        <button type="button" class="btn btn-primary btnMargin" (click)="deleteuser(id)">
+          ใช่
+        </button>
+        <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+          ไม่ใช่
+        </button>
+    </div> 
+</ng-template>
+<!-- END Delete modal -->
+
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
     <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>

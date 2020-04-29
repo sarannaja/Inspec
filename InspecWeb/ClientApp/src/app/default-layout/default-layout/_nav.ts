@@ -28,16 +28,16 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
         url:"/centralpolicy",
         name:"แผนการตรวจประจำปี"
     },
-    {
-        icon:'fa-calendar',
-        url:"/inspectionplanevent",
-        name:"ปฏิทินการตรวจราชการ"
-    },
-    {
-      icon:'fa-book',
-      url:"/electronicbook",
-      name:"สมุดตรวจอิเล็กทรอนิกส์"
-  },
+    // {
+    //     icon:'fa-calendar',
+    //     url:"/inspectionplanevent",
+    //     name:"ปฏิทินการตรวจราชการ"
+    // },
+    // {
+    //   icon:'fa-book',
+    //   url:"/electronicbook",
+    //   name:"สมุดตรวจอิเล็กทรอนิกส์"
+    // },
     {
         icon:'fa-hand-point-up',
         url:"/executiveorder",
@@ -61,22 +61,26 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/fiscalyear',
-                name:'ปีงบประมาณ'
+                name:'ปีงบประมาณ',
+                ex_link: '0'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/region',
-                name:'เขตตรวจราชการ'
+                name:'เขตตรวจราชการ',
+                ex_link: '0'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/province',
-                name:'จังหวัด'
+                name:'จังหวัด',
+                ex_link: '0'
             },
             {
                 icon:'fa-long-arrow-alt-right',
                 url:'/ministry',
-                name:'กระทรวง/กรม'
+                name:'กระทรวง/กรม',
+                ex_link: '0'
             },
         ]
     } ,

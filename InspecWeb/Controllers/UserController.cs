@@ -9,21 +9,35 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace InspecWeb.Controllers
 {
-    //[Authorize]
+   // [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
+        public static IWebHostEnvironment _environment;
+
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private static UserManager<ApplicationUser> _userManager;
         private static ApplicationDbContext _context;
 
         public UserController(ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
         {
             _context = context;
             _userManager = userManager;
+            _environment = environment;
         }
 
 
@@ -38,27 +52,122 @@ namespace InspecWeb.Controllers
                 .Include(s => s.Province)
                 .Include(s => s.Ministries)
                 .Where(m => m.Role_id == id)
-                .Where(m => m.Active == 1);
+                .Where(m => m.Active == 1)
+                .Where(m => m.Email != "admin@inspec.go.th");
 
                 return users;
         }
 
-        [HttpGet("api/[controller]/province/{id}")]
-        public IEnumerable<UserProvince> getprovince(string id)
+        // POST api/values
+        [Route("api/[controller]")]
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm] UserViewModel model)
         {
+            var date = DateTime.Now;
+            var mo = model.Email;
+            
+            //System.Console.WriteLine("testuser : " + mo);
 
-            var provinces = _context.UserProvinces
-                .Include(m => m.Province)
-                .Where(m => m.UserID == id)
-                .ToList();
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var success = await _userManager.CreateAsync(user, "Admin@12345678").ConfigureAwait(false);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
+            await _userManager.ConfirmEmailAsync(user, code).ConfigureAwait(false);
+            user.Img = model.Img;
 
-            return provinces;
+            if (!Directory.Exists(_environment.WebRootPath + "//imgprofile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//imgprofile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "//imgprofile//";
+
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            {
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+
+                System.Console.WriteLine("testuser1 : ");
+
+                if (formFile.Value.Length > 0)
+                {
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+
+                    user.Img = random + filename;
+                    System.Console.WriteLine("testuser2 : " + random + filename);
+                }
+            }
+
+            user.DistrictId = model.DistrictId;
+            user.ProvinceId = model.ProvinceId;
+            user.SubdistrictId = model.SubdistrictId;
+            user.MinistryId = model.MinistryId;
+            user.DepartmentId = model.DepartmentId;
+            user.Position = model.Position;
+            user.Prefix = model.Prefix;
+            user.Name = model.Name;
+            user.Role_id = model.Role_id;
+            user.Educational = model.Educational;
+            user.Birthday = DateTime.Now;
+            user.Officephonenumber = model.Officephonenumber;
+            user.PhoneNumber = model.PhoneNumber;
+            user.Telegraphnumber = model.Telegraphnumber;
+            user.Housenumber = model.Housenumber;
+            user.Rold = model.Rold;
+            user.Alley = model.Alley;
+            user.Postalcode = model.Postalcode;
+            user.Side = model.Side;
+           
+            user.CreatedAt = DateTime.Now;
+            user.Startdate = DateTime.Now;
+            user.Enddate = DateTime.Now;
+            user.Active = 1;
+
+            _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            //user ที่อยู่หลายเขต
+            foreach (var item in model.UserRegion)
+            {
+                var userregiondata = new UserRegion
+                {
+                    UserID = user.Id,
+                    RegionId = item
+                };
+                _context.UserRegions.Add(userregiondata);
+                _context.SaveChanges();
+            }
+
+            //user ที่อยู่หลายจังหวัด
+            foreach (var item2 in model.UserProvince)
+            {
+                var userprovincedata = new UserProvince
+                {
+                    UserID = user.Id,
+                    ProvinceId = item2
+                };
+                _context.UserProvinces.Add(userprovincedata);
+                _context.SaveChanges();
+            }
+
+
+            return Ok(new { status = true });
+
         }
 
-        [HttpGet("api/get_role/{id}")]
-        public IActionResult test(string id)
+        [Route("api/[controller]/{id}")]
+        [HttpDelete]
+        public void Delete(string id)
         {
-            return Ok(_userManager.Users.Where(m =>  m.Id == id).FirstOrDefault());
+            System.Console.WriteLine("userdelete : " + id);
+            var userdata = _context.ApplicationUsers.Find(id);
+
+            _context.ApplicationUsers.Remove(userdata);
+            _context.SaveChanges();
         }
 
         [Route("[controller]/[action]")]
