@@ -34,7 +34,9 @@
 
                             <!-- ปามทำไว้ --> <!-- <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,childItem.ex_link)"
                                     class="sidebar-link" href="{{childItem.url}}"> -->
+
                                 <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,childItem.ex_link)"
+
                                     class="sidebar-link" href="{{childItem.url}}">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>

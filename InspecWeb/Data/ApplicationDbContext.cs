@@ -73,7 +73,11 @@ namespace InspecWeb.Data
 
         public DbSet<ElectronicBook> ElectronicBooks { get; set; }
         public DbSet<ElectronicBookGroup> ElectronicBookGroups { get; set; }
+        public DbSet<ElectronicBookFile> ElectronicBookFiles { get; set; }
 
+        public DbSet<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
+        //public DbSet<SubquestionGroup> SubquestionGroups { get; set; }
+        
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -95,6 +99,9 @@ namespace InspecWeb.Data
 
             builder.Entity<SubjectDate>()
             .HasKey(m => new { m.SubjectId, m.CentralPolicyDateId });
+
+            //builder.Entity<SubquestionGroup>()
+            //.HasKey(m => new { m.SubquestionId, m.ProvincialDepartmentId });
 
             //builder.Entity<SubjectDateCentralPolicyProvince>()
             //.HasKey(m => new { m.SubjectCentralPolicyProvinceId, m.CentralPolicyDateId });

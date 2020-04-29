@@ -5,8 +5,8 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจ</a></li>
-      <li class="breadcrumb-item active" aria-current="page">รายละเอียดแผนการตรวจ</li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">สมุดตรวจอิเล็กทรอนิกส์</a></li>
+      <li class="breadcrumb-item active" aria-current="page">รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</li>
     </ol>
   </nav>
 </div>
@@ -59,10 +59,10 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-12">
               <div class="row" *ngFor="let items of resultcentralpolicyuser;let i = index">
-                <div class="col-3">
-                  {{i + 1}}. {{items.user.prefix}} {{items.user.name}}
+                <div class="col-3" *ngIf="items.user.role_id == 6">
+                  {{items.user.prefix}} {{items.user.name}}
                 </div>
-                <div class="col-2">
+                <div class="col-2" *ngIf="items.user.role_id == 6">
                   <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
                     disabled>{{items.status}}</button>
                   <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
@@ -79,6 +79,23 @@
               <u>ภาคประชาชน</u> &nbsp;&nbsp;
               <!-- <button class="btn btn-info"
                 (click)="openModal(modalInvitePeople)">เชิญภาคประชาชน</button> -->
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-12">
+              <div class="row" *ngFor="let items of resultcentralpolicyuser;let ii = index">
+                <div class="col-3" *ngIf="items.user.role_id == 7">
+                  {{items.user.prefix}} {{items.user.name}}
+                </div>
+                <div class="col-2" *ngIf="items.user.role_id == 7">
+                  <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
+                    disabled>{{items.status}}</button>
+                </div>
+              </div>
             </div>
           </div>
           <!-- <div class="row" style="margin-top: 10px;">
@@ -249,6 +266,21 @@
             </div>
           </div> -->
 
+          <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-12">
+              <u>ไฟล์แผนการตรวจราชการ</u><br>
+              <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
+                style="margin-top: 10px;">
+                <a download href="{{downloadUrl}}/{{item2.name}}">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item2.name }}<br>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
@@ -257,7 +289,8 @@
               </textarea>
             </div>
           </div>
-          <div class="row">
+
+          <!-- <div class="row">
             <div class="col-md-12">
               <u>ไฟล์แนบ</u><br>
               <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
@@ -269,6 +302,28 @@
                   </span>
                 </a>
               </div>
+            </div>
+          </div> -->
+
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <u>ไฟล์แนบ</u><br>
+                  <div class="row" *ngFor="let item2 of resultElecFile; let i = index"
+                    style="margin-top: 10px;">
+                    <a download href="{{downloadUrl}}/{{item2.name}}">
+                      <span>ไฟล์ที่
+                        {{i+1}})
+                        {{ item2.name }}<br>
+                      </span>
+                    </a>
+                    <!-- <i class="fas fa-fw fa-trash-alt pointer col-1" style="font-size: larger;"
+                      (click)="openModal(modaldeleteCentralPolicy, item2.id)"></i> -->
+                  </div>
+                </div>
+              </div>
+              <!-- <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small> -->
             </div>
           </div>
 
@@ -300,13 +355,27 @@
         <h5 class="card-title mb-0">รายงานผลการตรวจ</h5>
       </div>
       <div class="card-body">
-        <div class="col-12 col-xl-12">
+        <div *ngIf="resultreport.report == null">
+          <label style="color: gray;">ไม่มีข้อมูล</label>
+        </div>
+        <div class="col-12 col-xl-12" *ngIf="resultreport.report > 0">
           <div class="form-group">
             <!-- <label>รายงานผลการตรวจ</label> -->
             <div *ngFor="let item3 of resultreport; let i = index">
-              <b><label *ngIf="item3.report != null">{{item3.user.name}} ตำแหน่ง {{item3.user.position}}</label></b>
+              <b><label *ngIf="item3.report != null"> {{item3.user.name}} ตำแหน่ง {{item3.user.position}}</label></b>
               <input *ngIf="item3.report != null" value="{{item3.report}}" class="form-control"
                 placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly />
+
+                <div class="row" *ngFor="let item4 of item3.centralPolicyGroup.centralPolicyUserFiles; let ii = index"
+                style="margin-top: 10px;">
+                <a download href="{{downloadUrl}}/{{item4.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{ii+1}})
+                    {{ item4.name }}<br>
+                  </span>
+                </a>
+              </div>
+              <br>
             </div>
           </div>
         </div>

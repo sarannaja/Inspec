@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SubjectService } from 'src/app/services/subject.service';
 import { ActivatedRoute } from '@angular/router';
+import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 
 @Component({
   selector: 'app-detail-subject',
@@ -12,11 +13,15 @@ export class DetailSubjectComponent implements OnInit {
   
   resultsubjectdetail: any = []
   questionsopen: any = []
+  departments: any = []
+  resultprovince: any = []
   id: any
+  centralpolicyid: any
 
   constructor(
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
+    private centralpolicyservice: CentralpolicyService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
   }
@@ -29,8 +34,17 @@ export class DetailSubjectComponent implements OnInit {
       .subscribe(result => {
         this.resultsubjectdetail = result
         this.questionsopen = this.resultsubjectdetail.subquestions
-        console.log("res: ", this.resultsubjectdetail);
+        this.departments = this.resultsubjectdetail.subjectDepartments
+        this.centralpolicyid = this.resultsubjectdetail.centralPolicyId
+        console.log("res: ", this.centralpolicyid);
+        this.getCentralPolicyProvincesl()
 
+      })
+  }
+  getCentralPolicyProvincesl() {
+    this.centralpolicyservice.getdetailcentralpolicydata(this.centralpolicyid)
+      .subscribe(result => {
+        this.resultprovince = result
       })
   }
   back() {

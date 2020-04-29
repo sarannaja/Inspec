@@ -40,6 +40,8 @@ export class DetailElectronicBookComponent implements OnInit {
   loading = false;
   resultelectronicbookdetail: any = [];
   resultreport: any = [];
+  resultElecFile: any = [];
+
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -160,10 +162,11 @@ export class DetailElectronicBookComponent implements OnInit {
     this.electronicBookService.getElectronicBookDetail(this.centralPolicyUserId).subscribe(result => {
       console.log("ElectronicBookDetal: ", result);
       this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
+      this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
       this.resultreport = result.centralPolicyUser
+      console.log("resultreport", this.resultreport);
     })
   }
-
 
   storeFiles(value) {
 
@@ -199,6 +202,10 @@ export class DetailElectronicBookComponent implements OnInit {
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
     })
+  }
+
+  back() {
+    window.history.back();
   }
 
 }

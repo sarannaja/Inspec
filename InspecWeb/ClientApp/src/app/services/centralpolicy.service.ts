@@ -75,11 +75,11 @@ export class CentralpolicyService {
     return this.http.post(this.url, formData)
   }
 
-  editCentralpolicy(centralpolicyData, file: FileList, id) {
+  editCentralpolicy(centralpolicyData, file: FileList, id, userId) {
     console.log("test: ", centralpolicyData);
     console.log("id", id);
     console.log("ff: ", file);
-
+    console.log("userid: ", userId);
 
     var inputdate: Array<any> = centralpolicyData.inputdate.map((item, index) => {
       return {
@@ -97,7 +97,7 @@ export class CentralpolicyService {
     }
     formData.append('FiscalYearId', centralpolicyData.year);
     formData.append('Status', centralpolicyData.status);
-    // formData.append('files',centralpolicyData.file);
+    formData.append('UserID', userId);
     for (var ii = 0; ii < inputdate.length; ii++) {
       console.log("ii: ", ii);
       // console.log("inputdateii: ", inputdate[ii].StartDate);
