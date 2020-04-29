@@ -12,10 +12,12 @@ export class DepartmentService {
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this.url = baseUrl + 'api/department/';
   }
+
   
   getdepartmentdata(id): Observable<any[]> {
     // alert(id)
     return this.http.get<any[]>(this.url + id)
+
   }
   // getdepartmentdata(id): Observable<any> {
   //   // alert(id)
