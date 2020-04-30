@@ -302,7 +302,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   },
   {
     icon: 'fa-book',
-    url: "#1",
+    url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
@@ -380,7 +380,7 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
   },
   {
     icon: 'fa-book',
-    url: "#1",
+    url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
@@ -456,7 +456,7 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
   },
   {
     icon: 'fa-book',
-    url: "#1",
+    url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
@@ -536,20 +536,10 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     name: "หน้าหลัก"
   },
   {
-    icon: 'fa-book',
-    url: "/usercentralpolicy",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
-  },
-  {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
   },
-  // {
-  //   icon: 'fa-book',
-  //   url: "#1",
-  //   name: "สมุดตรวจอิเล็กทรอนิกส์"
-  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
@@ -622,11 +612,6 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
   },
-  // {
-  //   icon: 'fa-book',
-  //   url: "#1",
-  //   name: "สมุดตรวจอิเล็กทรอนิกส์"
-  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
@@ -765,19 +750,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     name: "Rold9Answer"
   },
   {
-    icon: 'fa-archive',
+    icon: 'fa-book',
     url: "/usercentralpolicy",
-    name: "แผนการตรวจประจำปี"
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
-  },
-  {
-    icon: 'fa-book',
-    url: "#1",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
     icon: 'fa-list-alt',
