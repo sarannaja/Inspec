@@ -191,13 +191,23 @@ export class CentralpolicyService {
   sendReport(reportData, file: FileList, id) {
     console.log("REPORTDATA: ", reportData);
 
-    const formData = new FormData();
-    formData.append('Report', reportData.report);
-    for (var i = 0; i < file.length; i++) {
-      formData.append("files", file[i]);
+    if (file != null) {
+      const formData = new FormData();
+      formData.append('Report', reportData.report);
+      formData.append('DraftStatus', reportData.Status);
+      for (var i = 0; i < file.length; i++) {
+        formData.append("files", file[i]);
+      }
+      return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
+    } else {
+      const formData = new FormData();
+      formData.append('Report', reportData.report);
+      formData.append('DraftStatus', reportData.Status);
+      formData.append("files", null);
+      return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
     }
 
-    return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
+
   }
 
   deleteUserFile(id) {
