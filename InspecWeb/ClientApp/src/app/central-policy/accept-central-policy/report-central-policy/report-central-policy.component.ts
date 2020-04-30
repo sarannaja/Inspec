@@ -24,6 +24,7 @@ export class ReportCentralPolicyComponent implements OnInit {
   modalRef: BsModalRef;
   resultdetailcentralpolicyprovince: any = [];
   resultelectronicbookdetail: any = [];
+  draftStatus: any;
   resultuser: any = []
   constructor(
     private fb: FormBuilder,
@@ -45,7 +46,8 @@ export class ReportCentralPolicyComponent implements OnInit {
 
     this.form = this.fb.group({
       report: new FormControl(null, [Validators.required]),
-      files: [null]
+      files: [null],
+      Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
     })
 
     this.getDetailCentralPolicy();
@@ -67,7 +69,7 @@ export class ReportCentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getdetailuseracceptcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
-        console.log("result" + result);
+        console.log("resultJA",  result);
       })
   }
 
@@ -76,9 +78,11 @@ export class ReportCentralPolicyComponent implements OnInit {
       this.userFiles = results;
       console.log("UserFiles: ", this.userFiles);
       this.report = results.report
+      this.draftStatus = results.status
       console.log("report:", this.report);
       this.form.patchValue({
-        report: this.report
+        report: this.report,
+        Status: this.draftStatus
       });
     })
   }

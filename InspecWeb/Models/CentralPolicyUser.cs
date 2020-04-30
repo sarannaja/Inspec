@@ -49,5 +49,9 @@ namespace InspecWeb.Models
         [Description("สถานะ -> 1.ตอบรับ 2.ปฏิเสธ")]
         public string Report { get; set; }
         public virtual ApplicationUser User { get; set; }
+
+        [Required]
+        [Description("สถานะ")]
+        public string DraftStatus { get; set; }
     }
 }
