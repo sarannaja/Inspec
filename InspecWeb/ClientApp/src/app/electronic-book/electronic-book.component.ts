@@ -78,14 +78,12 @@ export class ElectronicBookComponent implements OnInit {
     console.log("ID: ", id);
     console.log("ELECID: ", elecId);
     console.log("centralPolicyUserID", centralPolicyUserID);
-
-
-
     this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
   }
 
   gotoDetail(id, elecId, centralPolicyUserID) {
-    this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
+    // this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
+    this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
   }
 
 }

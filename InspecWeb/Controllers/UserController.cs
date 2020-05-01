@@ -522,5 +522,17 @@ namespace InspecWeb.Controllers
 
             return result;
         }
+
+        [HttpGet("api/[controller]/province/{id}")]
+        public IEnumerable<UserProvince> getprovince(string id)
+        {
+
+            var provinces = _context.UserProvinces
+                .Include(m => m.Province)
+                .Where(m => m.UserID == id)
+                .ToList();
+
+            return provinces;
+        }
     }
 }
