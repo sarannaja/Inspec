@@ -273,9 +273,10 @@ namespace InspecWeb.Controllers
                         ElectronicBookId = ElectronicBookdata.Id,
                         CentralPolicyGroupId = CentralPolicyGroupdata.Id,
                         UserId = itemUserPeopleId,
-                        Status = "รอการตอบรับ"
+                        Status = "รอการตอบรับ",
+                        DraftStatus = model.Status
 
-                    };
+                };
                     _context.CentralPolicyUsers.Add(CentralPolicyUserdata);
                     _context.SaveChanges();
             }
@@ -296,7 +297,8 @@ namespace InspecWeb.Controllers
                     ElectronicBookId = ElectronicBookdata.Id,
                     CentralPolicyGroupId = CentralPolicyGroupdata2.Id,
                     UserId = itemUserMinistryId,
-                    Status = "รอการตอบรับ"
+                    Status = "รอการตอบรับ",
+                    DraftStatus = model.Status
                 };
                 _context.CentralPolicyUsers.Add(CentralPolicyUserdata2);
                 _context.SaveChanges();

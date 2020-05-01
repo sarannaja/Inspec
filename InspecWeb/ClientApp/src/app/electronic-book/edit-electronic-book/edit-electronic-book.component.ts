@@ -45,6 +45,7 @@ export class EditElectronicBookComponent implements OnInit {
   fileStatus = false;
   resultElecFile: any = [];
   delid: any;
+  resultreport: any = [];
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -232,6 +233,8 @@ export class EditElectronicBookComponent implements OnInit {
       this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
       this.resultStatus = result.centralPolicyUser[0].electronicBook.status;
       this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
+
+      this.resultreport = result.centralPolicyUser
       this.detailForm.patchValue({
         eBookDetail: this.resultelectronicbookdetail,
         Status: result.status
