@@ -73,8 +73,9 @@ export class InspectionPlanComponent implements OnInit {
   }
   getinspectionplanservice() {
     this.inspectionplanservice.getinspectionplandata(this.id).subscribe(result => {
-      this.resultinspectionplan = result[0].centralPolicyEvents //Chose
+      console.log("result",result);
 
+      this.resultinspectionplan = result[0].centralPolicyEvents //Chose
       this.centralpolicyservice.getcentralpolicydata()
         .subscribe(result => {
           this.resultcentralpolicy = result //All

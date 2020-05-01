@@ -39,8 +39,8 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyEvents)
                 .ThenInclude(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyDates)
-                .Where(m => m.Id == id);
-                //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
+                .Where(m => m.Id == id).ToList();
+            //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
 
             return Ok(inspectionplandata);
         }
@@ -117,6 +117,26 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
         }
-      
+
+        // POST api/values
+        [HttpPost("inspectionprovince")]
+        public object Post(long provinceid, string userid, DateTime start_date_plan, DateTime end_date_plan)
+        {
+            var date = DateTime.Now;
+
+            var InspectionPlanEventdata = new InspectionPlanEvent
+            {
+                ProvinceId = provinceid,
+                CreatedAt = date,
+                CreatedBy = userid,
+                StartDate = start_date_plan,
+                EndDate = end_date_plan,
+            };
+
+            _context.InspectionPlanEvents.Add(InspectionPlanEventdata);
+            _context.SaveChanges();
+
+            return InspectionPlanEventdata.Id;
+        }
     }
 }

@@ -48,6 +48,12 @@ namespace InspecWeb.Models
 
         [Description("สถานะ -> 1.ตอบรับ 2.ปฏิเสธ")]
         public string Report { get; set; }
+
+        [Description("สถานะ -> 1.ตอบรับ 2.ปฏิเสธ")]
+        public string Forward { get; set; }
+
+        [Description("สถานะ -> 1.ตอบรับ 2.ปฏิเสธ")]
+        public string InvitedBy { get; set; }
         public virtual ApplicationUser User { get; set; }
 
         [Required]
