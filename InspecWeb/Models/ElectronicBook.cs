@@ -19,10 +19,16 @@ namespace InspecWeb.Models
         public string CreatedBy { get; set; }
         //public virtual ApplicationUser User { get; set; }
 
-        [Required]
         [Description("รายละเอียด")]
         public string Detail { get; set; }
         //public ICollection<CentralPolicyUser> CentralPolicyUsers { get; set; }
+
+        [Description("รายละเอียด")]
+        public string Problem { get; set; }
+
+
+        [Description("รายละเอียด")]
+        public string Suggestion { get; set; }
 
         [Required]
         [Description("สถานะ")]
