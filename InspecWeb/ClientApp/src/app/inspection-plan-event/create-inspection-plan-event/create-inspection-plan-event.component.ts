@@ -197,7 +197,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       .subscribe(result => {
         console.log("storesubjectprovince : " + result);
         var id = result
-        window.open(this.url + 'inspectionplan/' + id);
+        window.open(this.url + 'inspectionplan/' + id + '/' + provinceid);
       })
   }
 

@@ -35,7 +35,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   subquestionclosechoicename: any
   downloadUrl: any
   loading = false;
-
+  electronicbookid: any
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -136,6 +136,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
       })
   }
 
@@ -155,7 +156,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storePeople(value) {
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()

@@ -32,19 +32,37 @@ namespace InspecWeb.Controllers
         //}
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public IActionResult Get(long id)
+        [HttpGet("{id}/{provinceid}")]
+        public IActionResult Get(long id, long provinceid)
         {
             var inspectionplandata = _context.InspectionPlanEvents
                 .Include(m => m.CentralPolicyEvents)
                 .ThenInclude(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyDates)
+                .Where(m => m.ProvinceId == provinceid)
                 .Where(m => m.Id == id).ToList();
-            //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
+                //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
 
-            return Ok(inspectionplandata);
+            var test = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
+                .Include(m => m.InspectionPlanEvent)
+                .Where(m => m.InspectionPlanEvent.ProvinceId == provinceid).ToList();
+
+
+            return Ok( new { test , inspectionplandata });
         }
 
+        // GET api/values/5
+        [HttpGet("getcentralpolicydata/{provinceid}")]
+        public IEnumerable<CentralPolicy> Get2(long provinceid)
+        {
+            return _context.CentralPolicies
+                       .Include(m => m.CentralPolicyProvinces)
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
+                       //.ThenInclude(x => x.Province)
+                       //.ToList();
+        }
 
         // POST api/values
         [HttpPost]
@@ -107,15 +125,23 @@ namespace InspecWeb.Controllers
         {
             foreach (var id in model.CentralPolicyId)
             {
+                var ElectronicBookdata = new ElectronicBook
+                {
+                    CreatedBy = model.CreatedBy,
+                    Status = "ร่างกำหนดการ",
+                };
+                _context.ElectronicBooks.Add(ElectronicBookdata);
+                _context.SaveChanges();
+
                 var centralpolicyeventdata = new CentralPolicyEvent
                 {
                     CentralPolicyId = id,
-                    InspectionPlanEventId = model.InspectionPlanEventId
+                    InspectionPlanEventId = model.InspectionPlanEventId,
+                    ElectronicBookId = ElectronicBookdata.Id,
                 };
                 _context.CentralPolicyEvents.Add(centralpolicyeventdata);
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
-
         }
 
         // POST api/values
@@ -138,5 +164,20 @@ namespace InspecWeb.Controllers
 
             return InspectionPlanEventdata.Id;
         }
+
+        // GET api/values/5
+        [HttpGet("getcentralpolicyprovinceid/{centralpolicyid}/{provinceid}")]
+        public IActionResult GetCentralpolicyprovinceid(long centralpolicyid,long provinceid)
+        {
+            var CentralPolicyProvincesid = _context.CentralPolicyProvinces
+                .Where(m => m.CentralPolicyId == centralpolicyid)
+                .Where(m => m.ProvinceId == provinceid)
+                .Select(m => m.Id)
+                .FirstOrDefault();
+            //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
+
+            return Ok(CentralPolicyProvincesid);
+        }
+
     }
 }

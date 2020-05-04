@@ -296,6 +296,11 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     name: "หน้าหลัก"
   },
   {
+    icon: 'fa-archive',
+    url: "/centralpolicy",
+    name: "แผนการตรวจประจำปี"
+  },
+  {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
