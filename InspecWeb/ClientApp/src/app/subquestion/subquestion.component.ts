@@ -53,6 +53,7 @@ export class SubquestionComponent implements OnInit {
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       centralpolicydateid: new FormControl(null, [Validators.required]),
+      status: new FormControl(null, [Validators.required]),
       inputsubjectdepartment: this.fb.array([
         this.initdepartment()
       ]),
