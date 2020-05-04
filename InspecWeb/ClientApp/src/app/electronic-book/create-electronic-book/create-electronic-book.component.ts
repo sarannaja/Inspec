@@ -113,6 +113,8 @@ export class CreateElectronicBookComponent implements OnInit {
       UserMinistryId: new FormControl(null, [Validators.required]),
       UserPeopleId: new FormControl(null, [Validators.required]),
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      Problem: new FormControl(null, [Validators.required]),
+      Suggestion: new FormControl(null, [Validators.required]),
     });
     this.t.push(this.fb.group({
       // start_date_plan: '',

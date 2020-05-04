@@ -14,57 +14,19 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">เพิ่มกำหนดการตรวจราชการ</h5>
-        <!-- <div class="float-right">
-                      <button class="btn btn-primary" style="margin-top: -60px;">เพิ่มนโยบายกลาง</button>
-                  </div> -->
+        <h5 class="card-title">สร้างสมุดตรวจอิเล็กทรอนิกส์</h5>
       </div>
-      <div class="card-body">
+      <div class="card-body" style="margin-top: 30px;">
         <form [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
-          <div class="row">
-            <!-- <div class="col-12 col-xl-12">
-              <br>
-
-              <div class="form-group">
-                <label>กำหนดการตรวจราชการ *</label>
-                <input type="text" formControlName="title" class="form-control"
-                  placeholder="กรุณากรอกกำหนดการตรวจราชการ">
-              </div>
-            </div> -->
-
-            <!-- <div class="col-12 col-xl-7">
-              <br>
-              <label>กำหนดระยะเวลา</label>
-            </div> -->
-
+          <!-- <div class="row">
             <div class="col-12 col-xl-12">
               <br>
               <label>จังหวัด</label>
             </div>
 
             <div class="col-12 col-xl-12" [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
-              <!-- <div class="col-12 col-xl-12" *ngFor="let item of input; let i = index"> -->
               <div class="form-group row" *ngFor="let item of t.controls; let i = index">
                 <form class="form-group row col-12" [formGroup]="item">
-                  <!-- <div class="col-xl-3">
-                    <my-date-picker-th formControlName="start_date_plan" [(ngModel)]="item.start_date_plan"
-                      [options]="myDatePickerOptions" required>
-                    </my-date-picker-th>
-                  </div>
-                  <div class="col-12 col-xl-1">
-                    <div class="form-group" align="center">
-                      ถึง
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-3">
-                    <div class="form-group">
-                      <my-date-picker-th formControlName="end_date_plan" [(ngModel)]="item.end_date_plan"
-                        [options]="myDatePickerOptions" required>
-                      </my-date-picker-th>
-                    </div>
-                  </div> -->
-
-
                   <div class="col-12 col-xl-12">
                     <div class="form-group">
                       <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
@@ -72,27 +34,12 @@
                       </ng-select>
                     </div>
                   </div>
-                  <!-- <div class="col-1" *ngIf="i == 0; else elseBlock">
-                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="append()"></i>
-
-                  </div>
-                  <ng-template #elseBlock>
-                    <div class="col-1">
-                      <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="remove(i)"></i>
-                    </div>
-                  </ng-template> -->
-
                   <div class="col-12 col-xl-12">
                     <label>แผนการตรวจประจำปี</label>
                   </div>
 
                   <div class="col-12 col-xl-12">
                     <div class="form-group">
-                      <!-- <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="false"
-                        formControlName="centralpolicies" [options]="t.value[i].resultcentralpolicy" [allowClear]="true"
-                        (selected)="selectedcentralpolicy($event, i)">
-                      </ng-select> -->
-
                       <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="false"
                         formControlName="centralpolicies" [options]="selectdatacentralpolicy" [allowClear]="true"
                         (selected)="selectedcentralpolicy($event, i)">
@@ -114,11 +61,11 @@
                 </form>
               </div>
             </div>
-          </div>
+          </div> -->
 
 
-          <div *ngIf="loading">
-            <div class="row">
+          <div>
+            <!-- <div class="row">
               <div class="col-md-6">
                 ผู้สังการ : {{resultuser.name}}
               </div>
@@ -133,7 +80,6 @@
             </div>
             <div class="row" style="margin-top: 10px;">
               <div class="col-md-6">
-                <!-- จังหวัด : ขอนแก่น -->
                 <u>จังหวัด</u><br><span
                   *ngFor="let item3 of resultdetailcentralpolicyData.centralPolicyProvinces; let i = index">ช่วงที่
                   {{i+1}})
@@ -167,9 +113,7 @@
             <br>
             เลือกหน่วยงานที่อยู่ในจังหวัด {{provincename}}
             <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
-
               (selected)="addsubjectdepartment2($event,'add')" (deselected)="addsubjectdepartment2($event,'remove')"
-
               [allowClear]="true">
             </ng-select>
 
@@ -182,12 +126,10 @@
                         <div class="row">
                           <u style="margin-left: 15px;">เรื่องประเด็น</u>
                           <div class="col-12">
-                            <input type="text" value="{{items.name}}" class="form-control"
-                              placeholder="กรุณากรอกเรื่อง" readonly>
+                            <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                              readonly>
                           </div>
-                          <!-- <div class="col-1">
-                            <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
-                          </div> -->
+
                         </div>
                       </td>
                       <td style="border-top: none;" width="50%">
@@ -199,9 +141,6 @@
                               <input type="text" value="{{item.name}}" class="form-control"
                                 placeholder="กรุณากรอกเรื่อง" readonly>
                             </div>
-                            <!-- <div class="col-1">
-                              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
-                            </div> -->
                           </div>
                         </div>
                       </td>
@@ -210,18 +149,16 @@
                     <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
                       <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
                         <u>คำถามปลายปิด</u>
-                        <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
                         <div class="row">
                           <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
-                            <input type="text" value="{{item.name}}" class="form-control"
-                              placeholder="กรุณากรอกเรื่อง" readonly>
+                            <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                              readonly>
                           </div>
                           <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                               (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
                           </div>
                         </div>
-                        <!-- </div> -->
                       </td>
 
                       <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
@@ -231,8 +168,8 @@
                             <div class="row">
                               <div class="col-11"
                                 *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                                <input type="text" value="{{item3.name}}"
-                                  class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
+                                <input type="text" value="{{item3.name}}" class="form-control"
+                                  placeholder="กรุณากรอกเรื่อง" readonly>
                               </div>
                               <div class="col-1"
                                 *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
@@ -247,34 +184,52 @@
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
-                <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
+                <label>ผลการตรวจ</label>
                 <textarea cols="30" rows="5" formControlName="checkDetail" class="form-control"
-                  placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์">
+                  placeholder="กรุณากรอกผลการตรวจ">
                 </textarea>
               </div>
             </div>
 
-            <div class="col-lg-12">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>ปัญหาและอุปสรรค</label>
+                <textarea cols="30" rows="5" formControlName="Problem" class="form-control"
+                  placeholder="กรุณากรอกปัญหาและอุปสรรค">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>ข้อเสนอแนะ</label>
+                <textarea cols="30" rows="5" formControlName="Suggestion" class="form-control"
+                  placeholder="กรุณากรอกข้อเสนอแนะ">
+                </textarea>
+              </div>
+            </div>
+
+            <!-- <div class="col-lg-12">
               <label>ผู้ตรวจการกระทรวง</label>
             </div>
             <div class="col-lg-12">
               <ng-select placeholder="กรุณาเลือกผู้ตรวจการ" [multiple]="true" [options]="selectministrypeople"
                 name="UserMinistryId" formControlName="UserMinistryId" [allowClear]="true">
               </ng-select>
-            </div>
+            </div> -->
 
-            <div class="col-lg-12">
+            <!-- <div class="col-lg-12">
               <label>ผู้ตรวจการภาคประชาชน</label>
             </div>
             <div class="col-lg-12">
               <ng-select placeholder="กรุณาเลือกผู้ตรวจการ" [multiple]="true" [options]="selectpeople"
                 name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
               </ng-select>
-            </div>
+            </div> -->
 
             <div class="col-12 col-xl-12" style="margin-top: 20px;">
               <div class="form-group">
@@ -282,7 +237,8 @@
                   <div class="mb-3">
                     <input type="radio" name="Status" value="ร่างกำหนดการ" checked formControlName="Status">
                     <label style="margin-left: 10px;">ร่างกำหนดการ</label>
-                    <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง" formControlName="Status">
+                    <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
+                      formControlName="Status">
                     <label style="margin-left: 10px;">ใช้งานจริง</label>
                   </div>
                 </div>
@@ -293,9 +249,10 @@
             <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
 
             <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
-                <button style="align-self: center;" type="submit" class="btn btn-primary" style="margin-right: 45px;">บันทึก</button>
-                <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
-                <button type="submit" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+              <button style="align-self: center;" type="submit" class="btn btn-primary"
+                style="margin-right: 45px;">บันทึก</button>
+              <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
+              <button type="submit" class="btn btn-danger" (click)="back()">ยกเลิก</button>
             </div>
           </div>
         </form>
