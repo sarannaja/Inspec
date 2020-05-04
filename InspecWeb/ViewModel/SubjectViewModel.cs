@@ -20,8 +20,15 @@ namespace InspecWeb.ViewModel
         
         public long[] CentralPolicyDateId { get; set; }
 
-        public inputquestionopen[] inputquestionopen { get; set; }
+        public inputsubjectdepartment[] inputsubjectdepartment { get; set; }
 
+       
+    }
+
+    public class inputsubjectdepartment
+    {
+        public long departmentId { get; set; }
+        public inputquestionopen[] inputquestionopen { get; set; }
         public inputquestionclose[] inputquestionclose { get; set; }
     }
 
