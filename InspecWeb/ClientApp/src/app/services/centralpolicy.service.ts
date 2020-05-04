@@ -214,4 +214,14 @@ export class CentralpolicyService {
   deleteUserFile(id) {
     return this.http.delete(this.url + 'deleteuserfile/' + id);
   }
+
+  sendAssign(value, id) {
+    const formData = new FormData();
+    formData.append('assign', value.assign);
+    return this.http.put(this.url + 'sendassign/' + id, formData)
+  }
+
+  getAssign(id) {
+    return this.http.get<any>(this.url + 'getassign/' + id);
+  }
 }
