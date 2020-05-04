@@ -17,7 +17,8 @@ namespace InspecWeb.ViewModel
         
         public string Answer { get; set; }
 
-        
+        public string Status { get; set; }
+
         public long[] CentralPolicyDateId { get; set; }
 
         public inputsubjectdepartment[] inputsubjectdepartment { get; set; }

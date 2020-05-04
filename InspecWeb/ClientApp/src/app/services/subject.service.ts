@@ -54,7 +54,7 @@ export class SubjectService {
     //     formData.append('CentralPolicyDateId', subjectData.centralpolicydateid);
     // ``
     console.log('FORMDATA: ', formData);
-    return this.http.post(this.url + "test", formData);
+    return this.http.post(this.url, formData);
 
   }
   addSubquestionopen(Subquestionopendata) {
