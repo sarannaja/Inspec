@@ -202,6 +202,8 @@ namespace InspecWeb.Controllers
             var ElectronicBookdata = new ElectronicBook
             {
                 Detail = model.Detail,
+                Problem = model.Problem,
+                Suggestion = model.Suggestion,
                 CreatedBy = model.id,
                 Status = model.Status
             };
@@ -212,96 +214,98 @@ namespace InspecWeb.Controllers
 
             System.Console.WriteLine("2");
 
-            var CentralPolicyId = model.CentralPolicyId;
-            var ProvinceId = model.ProvinceId;
+            //var CentralPolicyId = model.CentralPolicyId;
+            //var ProvinceId = model.ProvinceId;
 
-            System.Console.WriteLine("CentralPolicyId" + CentralPolicyId);
-            System.Console.WriteLine("ProvinceId" + ProvinceId);
+            //System.Console.WriteLine("CentralPolicyId" + CentralPolicyId);
+            //System.Console.WriteLine("ProvinceId" + ProvinceId);
 
-            System.Console.WriteLine("3");
+            //System.Console.WriteLine("3");
 
-            var centralpolicyprovinceid = _context.CentralPolicyProvinces
-                .Where(m => m.CentralPolicyId == CentralPolicyId)
-                .Where(m => m.ProvinceId == ProvinceId)
-                .Select(m => m.Id).First();
+            //var centralpolicyprovinceid = _context.CentralPolicyProvinces
+            //    .Where(m => m.CentralPolicyId == CentralPolicyId)
+            //    .Where(m => m.ProvinceId == ProvinceId)
+            //    .Select(m => m.Id).First();
 
-            var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
-                .Where(m => m.CentralPolicyProvinceId == centralpolicyprovinceid).ToList();
+            //var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
+            //    .Where(m => m.CentralPolicyProvinceId == centralpolicyprovinceid).ToList();
 
-            foreach (var itemProvincialDepartmentId in model.ProvincialDepartmentId)
-            {
+            //foreach (var itemProvincialDepartmentId in model.ProvincialDepartmentId)
+            //{
 
-                foreach (var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
-                {
-                    var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
-                    {
-                        ProvincialDepartmentId = itemProvincialDepartmentId,
-                        SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvincesdata.Id
-                    };
-                    _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-                    _context.SaveChanges();
-                }
-            }
+            //    foreach (var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
+            //    {
+            //        var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+            //        {
+            //            ProvincialDepartmentId = itemProvincialDepartmentId,
+            //            SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvincesdata.Id
+            //        };
+            //        _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+            //        _context.SaveChanges();
+            //    }
+            //}
 
-            System.Console.WriteLine("3.5" + centralpolicyprovinceid);
+            //System.Console.WriteLine("3.5" + centralpolicyprovinceid);
 
             var ElectronicBookgroupdata = new ElectronicBookGroup
             {
                 ElectronicBookId = ElectronicBookdata.Id,
-                CentralPolicyProvinceId = centralpolicyprovinceid
+                //CentralPolicyProvinceId = centralpolicyprovinceid
             };
             _context.ElectronicBookGroups.Add(ElectronicBookgroupdata);
             _context.SaveChanges();
 
-            System.Console.WriteLine("3.8");
+            //System.Console.WriteLine("3.8");
 
-            foreach (var itemUserPeopleId in model.UserPeopleId)
-            {
-                var CentralPolicyGroupdata = new CentralPolicyGroup
-                {
-                };
-                _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
-                _context.SaveChanges();
+            //foreach (var itemUserPeopleId in model.UserPeopleId)
+            //{
+            //    var CentralPolicyGroupdata = new CentralPolicyGroup
+            //    {
+            //    };
+            //    _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
+            //    _context.SaveChanges();
 
-                System.Console.WriteLine("3.9");
-                System.Console.WriteLine("USERPeople: " + itemUserPeopleId);
+            //    System.Console.WriteLine("3.9");
+            //    System.Console.WriteLine("USERPeople: " + itemUserPeopleId);
 
-                var CentralPolicyUserdata = new CentralPolicyUser
-                    {
-                        CentralPolicyId = CentralPolicyId,
-                        ProvinceId = ProvinceId,
-                        ElectronicBookId = ElectronicBookdata.Id,
-                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
-                        UserId = itemUserPeopleId,
-                        Status = "รอการตอบรับ"
+            //    var CentralPolicyUserdata = new CentralPolicyUser
+            //        {
+            //            CentralPolicyId = CentralPolicyId,
+            //            ProvinceId = ProvinceId,
+            //            ElectronicBookId = ElectronicBookdata.Id,
+            //            CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+            //            UserId = itemUserPeopleId,
+            //            Status = "รอการตอบรับ",
+            //            DraftStatus = model.Status
 
-                    };
-                    _context.CentralPolicyUsers.Add(CentralPolicyUserdata);
-                    _context.SaveChanges();
-            }
-            System.Console.WriteLine("4");
+            //    };
+            //        _context.CentralPolicyUsers.Add(CentralPolicyUserdata);
+            //        _context.SaveChanges();
+            //}
+            //System.Console.WriteLine("4");
 
-            foreach (var itemUserMinistryId in model.UserMinistryId)
-            {
-                var CentralPolicyGroupdata2 = new CentralPolicyGroup
-                {
-                };
-                _context.CentralPolicyGroups.Add(CentralPolicyGroupdata2);
-                _context.SaveChanges();
-                System.Console.WriteLine("5");
-                var CentralPolicyUserdata2 = new CentralPolicyUser
-                {
-                    CentralPolicyId = CentralPolicyId,
-                    ProvinceId = ProvinceId,
-                    ElectronicBookId = ElectronicBookdata.Id,
-                    CentralPolicyGroupId = CentralPolicyGroupdata2.Id,
-                    UserId = itemUserMinistryId,
-                    Status = "รอการตอบรับ"
-                };
-                _context.CentralPolicyUsers.Add(CentralPolicyUserdata2);
-                _context.SaveChanges();
-                System.Console.WriteLine("6");
-            }
+            //foreach (var itemUserMinistryId in model.UserMinistryId)
+            //{
+            //    var CentralPolicyGroupdata2 = new CentralPolicyGroup
+            //    {
+            //    };
+            //    _context.CentralPolicyGroups.Add(CentralPolicyGroupdata2);
+            //    _context.SaveChanges();
+            //    System.Console.WriteLine("5");
+            //    var CentralPolicyUserdata2 = new CentralPolicyUser
+            //    {
+            //        CentralPolicyId = CentralPolicyId,
+            //        ProvinceId = ProvinceId,
+            //        ElectronicBookId = ElectronicBookdata.Id,
+            //        CentralPolicyGroupId = CentralPolicyGroupdata2.Id,
+            //        UserId = itemUserMinistryId,
+            //        Status = "รอการตอบรับ",
+            //        DraftStatus = model.Status
+            //    };
+            //    _context.CentralPolicyUsers.Add(CentralPolicyUserdata2);
+            //    _context.SaveChanges();
+            //    System.Console.WriteLine("6");
+            //}
 
             System.Console.WriteLine("Start Upload");
 

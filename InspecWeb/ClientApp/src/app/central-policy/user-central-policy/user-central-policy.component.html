@@ -29,6 +29,7 @@
               <th>ปี</th>
               <th>ระยะเวลา</th>
               <th>สถานะ</th>
+              <th>สถานะรายงานผล</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -42,8 +43,7 @@
                   {{ item2.endDate | thaidate: 'year' }}</div>
               </td>
               <td>{{ item.status }}</td>
-
-
+              <td>{{ item.draftStatus }}</td>
               <td>
                 <i *ngIf="item.status == 'รอการตอบรับ'" class="align-middle mr-2 fas fa-fw fa-check-circle pointer" (click)="AcceptCentralPolicy(item.id)"></i>
                 <i *ngIf="item.status == 'ตอบรับ'" class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="gotoReport(item.id)"></i>

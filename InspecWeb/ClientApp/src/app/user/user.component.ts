@@ -1,6 +1,7 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { IOption } from 'ng-select';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../services/Pipe/alert.service';
 import { ProvinceService } from '../services/province.service';
@@ -26,9 +27,26 @@ export class UserComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   roleId: any;
-  modelname: any;
+  rolename: any;
   resultuser: any[] = [];
   subscription: Subscription;
+  addForm: FormGroup;
+  id: any;
+  //name input
+  Prefix: any;
+  Name: any;
+  Position: any;
+  Role_id: any;
+  PhoneNumber: any;
+  Email: any;
+  ProvinceId: any;
+  DistrictId:any;
+  SubdistrictId: any;
+  MinistryId: any;
+  UserRegion:any;
+  files: string[] = [];
+  imgprofileUrl: any;
+  //END name input
   datarole: any = [
     {
       id: 1,
@@ -52,7 +70,7 @@ export class UserComponent implements OnInit {
     },
     {
       id: 6,
-      name: 'ผู้ตรวจกระทรวง/ผู้ตรวจกรม/หน่วยงาน'
+      name: 'ผู้ตรวจกระทรวง'
     },
     {
       id: 7,
@@ -64,7 +82,7 @@ export class UserComponent implements OnInit {
     },
     {
       id: 9,
-      name: 'User Trianning'
+      name: 'ผู้ตรวจกรม/หน่วยงาน'
     },
 
   ]
@@ -86,8 +104,10 @@ export class UserComponent implements OnInit {
     private regionService: RegionService,
     private ministryService: MinistryService,
     private route: ActivatedRoute,
+    private fb: FormBuilder,
     private userService: UserService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     this.subscription = this.userService.getUserNav()
       .subscribe(
@@ -99,6 +119,8 @@ export class UserComponent implements OnInit {
           }
         });
     this.roleId = this.route.snapshot.paramMap.get('id')
+    this.imgprofileUrl = baseUrl + '/imgprofile';
+   
     //เลขที่ส่งมาจาก url 
   }
   ngOnDestroy() {
@@ -106,9 +128,46 @@ export class UserComponent implements OnInit {
     this.subscription.unsubscribe();
   }
   ngOnInit() {
-
-
     this.getData()
+    this.addForm = this.fb.group({
+      Prefix: new FormControl(null, [Validators.required]),
+      Name: new FormControl(null, [Validators.required]),
+      Position: new FormControl(null, [Validators.required]),
+      Role_id: new FormControl(null, [Validators.required]),
+      PhoneNumber: new FormControl(null, [Validators.required]),
+      Email: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null, [Validators.required]),
+      MinistryId: new FormControl(null, [Validators.required]),
+      UserRegion: new FormControl(null, [Validators.required]),
+      SubdistrictId : new FormControl(null),
+      DistrictId: new FormControl(null),
+      files: new FormControl(null, [Validators.required]),
+    })
+
+    this.addForm.patchValue({
+      Role_id: this.roleId
+    })
+
+    if (this.roleId == 1) {
+      this.rolename = 'ผู้ดูแลระบบ'
+    } else if (this.roleId == 2) {
+      this.rolename = 'ผู้ดูแลแผนการตรวจราชการประจำปี'
+    } else if (this.roleId == 3) {
+      this.rolename = 'ผู้ตรวจราชการ'
+    } else if (this.roleId == 4) {
+      this.rolename = 'ผู้ว่าราชการจังหวัด'
+    } else if (this.roleId == 5) {
+      this.rolename = 'ผู้ตรวจจังหวัด'
+    } else if (this.roleId == 6) {
+      this.rolename = 'ผู้ตรวจกระทรวง'
+    } else if (this.roleId == 7) {
+      this.rolename = 'ผู้ตรวจภาคประชาชน'
+    } else if (this.roleId == 8) {
+      this.rolename = 'นายก/รองนายก'
+    } else if (this.roleId == 9) {
+      this.rolename = 'ผู้ตรวจกรม/หน่วยงาน'
+    }
+
   }
 
   getData() {
@@ -129,7 +188,8 @@ export class UserComponent implements OnInit {
     })
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>,IDdelete) {
+    this.id = IDdelete;//ID สำหรับลบ
     this.modalRef = this.modalService.show(template);
   }
 
@@ -171,5 +231,32 @@ export class UserComponent implements OnInit {
           return { value: item.id, label: item.name }
         })
       })
+  }
+  uploadFile(event) {
+    alert('uploadfile');
+    const file = (event.target as HTMLInputElement).files;
+    this.addForm.patchValue({
+      files: file
+    });
+    this.addForm.get('files').updateValueAndValidity()
+
+  }
+  //เพิ่ม user
+  adduser(value) {
+    this.userService.addUser(value,this.addForm.value.files).subscribe(response => {
+      this.addForm.reset()
+      this.modalRef.hide()
+      this.loading = false
+      this.getUser()
+    })
+  }
+
+  //ลบ user
+  deleteuser(value) {
+    this.userService.deleteUser(value).subscribe(response => {
+      this.modalRef.hide()
+      this.loading = false
+      this.getUser()
+    })
   }
 }

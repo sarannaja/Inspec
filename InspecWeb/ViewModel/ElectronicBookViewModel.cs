@@ -9,6 +9,10 @@ namespace InspecWeb.ViewModel
     {
         [JsonProperty(PropertyName = "Detail")]
         public string Detail { get; set; }
+        [JsonProperty(PropertyName = "Problem")]
+        public string Problem { get; set; }
+        [JsonProperty(PropertyName = "Suggestion")]
+        public string Suggestion { get; set; }
         //public Inputelectronicbook[] Inputelectronicbook { get; set;}
         public long CentralPolicyId { get; set; }
         public long ProvinceId { get; set; }

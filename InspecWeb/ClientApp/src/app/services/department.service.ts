@@ -19,6 +19,7 @@ export class DepartmentService {
   getdepartmentdata(id): Observable<any[]> {
     // alert(id)
     return this.http.get<any[]>(this.url + id)
+
   }
   // getdepartmentdata(id): Observable<any> {
   //   // alert(id)

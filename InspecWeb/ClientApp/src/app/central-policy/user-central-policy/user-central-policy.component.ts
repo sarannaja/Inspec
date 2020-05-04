@@ -51,7 +51,7 @@ export class UserCentralPolicyComponent implements OnInit {
       this.resultcentralpolicy = result
       this.loading = true;
       this.spinner.hide();
-      console.log("RES: ", this.resultcentralpolicy);
+      console.log("resultcentralpolicyDATA: ", this.resultcentralpolicy);
     })
 
   }
