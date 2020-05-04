@@ -51,6 +51,7 @@ export class InspectionPlanEventComponent implements OnInit {
           return {
             id: item.id,
             title: item.province.name,
+            provinceid: item.province.id,
             // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
             // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
             start: moment(item.startDate), //.format("YYYY-MM-DD"),
@@ -72,6 +73,7 @@ export class InspectionPlanEventComponent implements OnInit {
           return {
             id: item.id,
             title: item.province.name,
+            provinceid: item.province.id,
             // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
             // title: item.province.name + "," + item.centralPolicyEvents[0].centralPolicy.title,
             start: moment(item.startDate), //.format("YYYY-MM-DD"),
@@ -110,7 +112,7 @@ export class InspectionPlanEventComponent implements OnInit {
         editable: false,
         eventLimit: false,
         eventClick: function (event) {
-          window.location.href = url_to_inspection + event.id;
+          window.location.href = url_to_inspection + event.id + '/' + event.provinceid;
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
         },

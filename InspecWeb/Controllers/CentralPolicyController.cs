@@ -398,7 +398,9 @@ namespace InspecWeb.Controllers
                     ProvinceId = ProvinceId,
                     CentralPolicyGroupId = CentralPolicyGroupdata.Id,
                     UserId = id,
-                    Status = "รอการตอบรับ"
+                    Status = "รอการตอบรับ",
+                    DraftStatus = "ร่างกำหนดการ",
+                    ElectronicBookId = model.ElectronicBookId
                 };
                 _context.CentralPolicyUsers.Add(centralpolicyuserdata);
             }
@@ -539,7 +541,15 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
-            return Ok( new { subjectcentralpolicyprovincedata , centralpolicydata , userdata });
+            var InspectionPlanEventdata = _context.InspectionPlanEvents
+                .Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
+
+            var CentralPolicyEventdata = _context.CentralPolicyEvents
+                .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId)
+                .Where(m => m.InspectionPlanEventId == InspectionPlanEventdata.Id)
+                .FirstOrDefault();
+
+            return Ok( new { subjectcentralpolicyprovincedata , centralpolicydata , userdata , CentralPolicyEventdata });
             //return "value";
         }
 
@@ -676,5 +686,22 @@ namespace InspecWeb.Controllers
             //return "value";
         }
 
+        [HttpPut("sendassign/{id}")]
+        public void PutAssign(long id, string assign)
+        {
+            (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
+                ForEach(x => x.Forward = assign);
+            _context.SaveChanges();
+        }
+
+        [HttpGet("getassign/{id}")]
+        public IActionResult getassign(long id)
+        {
+            var centralPolicyUserData = _context.CentralPolicyUsers
+                .Where(m => m.Id == id)
+                .FirstOrDefault();
+
+            return Ok(centralPolicyUserData);
+        }
     }
 }

@@ -10,6 +10,9 @@ namespace InspecWeb.ViewModel
 
         [JsonProperty(PropertyName = "InspectionPlanEventId")]
         public long InspectionPlanEventId { get; set; }
+
+        public string CreatedBy { get; set; }
+        
     }
 
 }

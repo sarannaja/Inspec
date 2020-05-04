@@ -87,12 +87,12 @@ export class DetailCentralPolicyComponent implements OnInit {
 
   storePeople(value) {
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id).subscribe(response => {
-      console.log(value);
-      this.Form.reset()
-      this.modalRef.hide()
-      this.getCentralPolicyUser();
-    })
+    // this.centralpolicyservice.addCentralpolicyUser(value, this.id).subscribe(response => {
+    //   console.log(value);
+    //   this.Form.reset()
+    //   this.modalRef.hide()
+    //   this.getCentralPolicyUser();
+    // })
   }
 
   storeMinistryPeople(value) {

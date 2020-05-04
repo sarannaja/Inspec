@@ -167,7 +167,7 @@ import { AnswerSubjectComponent } from './answer-subject/answer-subject.componen
           { path: 'centralpolicy/detailcentralpolicyprovince/:result', component: DetailCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'inspectionplan/:id', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
