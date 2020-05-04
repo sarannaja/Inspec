@@ -138,6 +138,11 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public Subject Post([FromBody] SubjectViewModel model)
         {
+            //var provincialdepartmentprovicedata = _context.ProvincialDepartmentProvince
+            //    .Where(m => m.ProvincialDepartmentID == model.)
+
+ 
+
             var subjectdata = new Subject
             {
                 Name = model.Name,
@@ -159,38 +164,60 @@ namespace InspecWeb.Controllers
             }
             _context.SaveChanges();
 
-            foreach (var questionopen in model.inputquestionopen)
-            {
-                var Subquestionopendata = new Subquestion
-                {
-                    SubjectId = subjectdata.Id,
-                    Name = questionopen.questionopen,
-                    Type = "คำถามปลายเปิด"
-                };
-                _context.Subquestions.Add(Subquestionopendata);
-            }
-            _context.SaveChanges();
+            //foreach (var questionopen in model.inputquestionopen)
+            //{
+            //    var Subquestionopendata = new Subquestion
+            //    {
+            //        SubjectId = subjectdata.Id,
+            //        Name = questionopen.questionopen,
+            //        Type = "คำถามปลายเปิด"
+            //    };
+            //    _context.Subquestions.Add(Subquestionopendata);
+            //}
+            //_context.SaveChanges();
 
-            foreach (var questionclose in model.inputquestionclose)
-            {
-                var Subquestionclosedata = new Subquestion
-                {
-                    SubjectId = subjectdata.Id,
-                    Name = questionclose.questionclose,
-                    Type = "คำถามปลายปิด"
-                };
-                _context.Subquestions.Add(Subquestionclosedata);
-                _context.SaveChanges();
+            //foreach (var questionclose in model.inputquestionclose)
+            //{
+            //    var Subquestionclosedata = new Subquestion
+            //    {
+            //        SubjectId = subjectdata.Id,
+            //        Name = questionclose.questionclose,
+            //        Type = "คำถามปลายปิด"
+            //    };
+            //    _context.Subquestions.Add(Subquestionclosedata);
+            //    _context.SaveChanges();
 
-                foreach (var questionclosechoice in questionclose.inputanswerclose)
+            //    foreach (var questionclosechoice in questionclose.inputanswerclose)
+            //    {
+            //        var Subquestionchoiceclosedata = new SubquestionChoice
+            //        {
+            //            SubquestionId = Subquestionclosedata.Id,
+            //            Name = questionclosechoice.answerclose,
+            //        };
+            //        _context.SubquestionChoices.Add(Subquestionchoiceclosedata);
+            //        _context.SaveChanges();
+            //    }
+            //}
+
+            foreach (var departmentId in model.inputsubjectdepartment)
+            {
+
+                var provincialdepartmentprovicedata = _context.ProvincialDepartmentProvince
+                    .Where(m => m.ProvincialDepartmentID == departmentId.departmentId)
+                    .Select(x => x.ProvinceId)
+                    .ToList();
+
+
+
+                //var centralpolicyprovincedata = _context.CentralPolicyProvinces
+                //    .Where(m => m.CentralPolicyId)
+
+
+                foreach (var provinceId in provincialdepartmentprovicedata)
                 {
-                    var Subquestionchoiceclosedata = new SubquestionChoice
-                    {
-                        SubquestionId = Subquestionclosedata.Id,
-                        Name = questionclosechoice.answerclose,
-                    };
-                    _context.SubquestionChoices.Add(Subquestionchoiceclosedata);
-                    _context.SaveChanges();
+                    var provinceData = _context.CentralPolicyProvinces
+                            .Where(x => x.ProvinceId == provinceId && x.CentralPolicyId == model.CentralPolicyId)
+                            .FirstOrDefault();
                 }
             }
 

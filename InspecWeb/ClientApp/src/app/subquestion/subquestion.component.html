@@ -24,60 +24,123 @@
             <div class="col-12 col-xl-12">
               <br>
             </div>
-
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ชื่อประเด็นนโยบาย</label>
                 <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
               </div>
-
               <div class="form-group">
                 <label>กำหนดระยะเวลา</label>
                 <ng-select multiple="true" placeholder="กรุณาเลือกระยะเวลา" [options]="times" name="ํTime"
                   formControlName="centralpolicydateid" [allowClear]="true">
                 </ng-select>
               </div>
-
               <div class="form-group">
                 <label>พื้นที่ดำเนินการ</label>
-                <div class="col-12 col-xl-12"
-                  *ngFor="let item of resultcentralpolicy.centralPolicyProvinces; let i = index">
-                  <span>{{ i + 1 }}. {{item.province.name}}</span>
-                  <!-- <div>
-                    <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp[i]"
-                      (selected)="addsubjectdepartment2($event,'add')"  (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
-                    </ng-select>
-                  </div> -->
-                  <br>
-                </div>
-              </div>
-              <div class="form-group">
-                <label>คำถามย่อย</label>
-                <br>
-                <label>คำถามปลายเปิด</label>
-                <!-- <div [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)"> -->
-                <div class="form-group row" *ngFor="let item of d.controls; let i = index">
-                  <form class="form-group row col-12" [formGroup]="item">
-                    <div class="col-11 col-xl-11">
-                      <input type="text" formControlName="questionopen" class="form-control"
-                        placeholder="กรุณากรอกคำถาม">
-                    </div>
-                    <div class="col-1 margin-plus-icon" *ngIf="i == 0; else elseBlock">
-                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appendquestionopen()"></i>
-                    </div>
-                    <ng-template #elseBlock>
-                      <div class="col-1 margin-plus-icon">
-                        <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="remove(i)"></i>
+                <div formArrayName="inputsubjectdepartment">
+                  <div *ngFor="let V of Form['controls'].inputsubjectdepartment['controls']; let iv=index">
+                    <div formGroupName="{{iv}}">
+                      <div class="row">
+                        <label>หน่วยงาน</label>
+                        <div class="col-1 margin-plus-icon" *ngIf="iv == 0; else elseBlock">
+                          <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i>
+                        </div>
+                        <ng-template #elseBlock>
+                          <div class="col-1 margin-plus-icon">
+                            <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeV(iv)"
+                              value="Add V"></i>
+                          </div>
+                        </ng-template>
                       </div>
-                    </ng-template>
-                    <!-- <div class="col-1">
-                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appendquestionopen()"></i>
-                      </div> -->
-                  </form>
+                      <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
+                        formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
+                        (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
+                      </ng-select>
+                      <br>
+                      <label>คำถามย่อย</label>
+                      <br>
+                      <label>คำถามปลายเปิด</label>
+                      <div formArrayName="inputquestionopen">
+                        <!-- <div *ngFor="let W of Form['controls'].inputquestionopen['controls']; let iw=index"> -->
+                        <div *ngFor="let W of V['controls'].inputquestionopen['controls']; let iw=index">
+                          <div formGroupName="{{iw}}">
+                            <div class="row">
+                              <div class="col-11 col-xl-11">
+                                <input type="text" formControlName="questionopen" class="form-control"
+                                  placeholder="กรุณากรอกคำถาม">
+                              </div>
+                              <div class="col-1">
+                                <div class="col-1 margin-plus-icon" *ngIf="iw == 0; else elseBlock">
+                                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addW(iv)"
+                                    value="Add W"></i>
+                                </div>
+                                <ng-template #elseBlock>
+                                  <div class="col-1 margin-plus-icon">
+                                    <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeW(iv,iw)"
+                                      value="Add X"></i>
+                                  </div>
+                                </ng-template>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <label>คำถามปลายปิด</label>
+                      <div formArrayName="inputquestionclose">
+                        <div *ngFor="let X of V['controls'].inputquestionclose['controls']; let ix=index">
+                          <div formGroupName="{{ix}}">
+                            <div class="row">
+                              <div class="col-11 col-xl-11">
+                                <input type="text" formControlName="questionclose" class="form-control"
+                                  placeholder="กรุณากรอกคำถาม">
+                              </div>
+                              <div class="col-1">
+                                <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
+                                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX(iv)"
+                                    value="Add X"></i>
+                                </div>
+                                <ng-template #elseBlock>
+                                  <div class="col-1 margin-plus-icon">
+                                    <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(iv,ix)"
+                                      value="Add X"></i>
+                                  </div>
+                                </ng-template>
+                              </div>
+                            </div>
+                            <div formArrayName="inputanswerclose">
+                              <div *ngFor="let Y of X['controls'].inputanswerclose['controls']; let iy=index">
+                                <div formGroupName="{{iy}}">
+                                  <div class="row">
+                                    <div class="col-9 col-xl-9">
+                                      <input type="text" formControlName="answerclose" class="form-control"
+                                        placeholder="กรุณากรอกคำตอบให้เลือก">
+                                    </div>
+                                    <div class="col-1">
+                                      <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
+                                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(iv,ix)"
+                                          value="Add Y"></i>
+                                      </div>
+                                      <ng-template #elseBlock>
+                                        <div class="col-1 margin-plus-icon">
+                                          <i class="align-middle mr-2 far fa-fw fa-minus-square"
+                                            (click)="removeY(iv,ix,iy)" value="Add Y"></i>
+                                        </div>
+                                      </ng-template>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                  </div>
                 </div>
-                <!-- </div> -->
-                <label>คำถามปลายปิด</label>
-                <div formArrayName="inputquestionclose">
+
+                <!-- <label>คำถามปลายปิด</label> -->
+                <!-- <div formArrayName="inputquestionclose">
                   <div *ngFor="let X of Form['controls'].inputquestionclose['controls']; let ix=index">
                     <div formGroupName="{{ix}}">
                       <div class="row">
@@ -123,7 +186,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
 
