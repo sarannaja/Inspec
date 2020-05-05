@@ -24,7 +24,10 @@ export class InspectionPlanComponent implements OnInit {
   selectdatacentralpolicy: IOption[] = []
   Form: FormGroup
   CentralpolicyId: any
+  loading = false;
+  data: any = [];
   userid: string
+  dtOptions: DataTables.Settings = {};
   centralpolicyprovinceid: any
   constructor(private modalService: BsModalService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -41,6 +44,15 @@ export class InspectionPlanComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
       })
+
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        columnDefs: [
+          {
+            targets: [5],
+            orderable: false
+          }
+        ]};
 
     this.Form = this.fb.group({
       CentralpolicyId: new FormControl(null, [Validators.required])
@@ -87,6 +99,8 @@ export class InspectionPlanComponent implements OnInit {
       //   this.resultinspectionplan = result[0].centralPolicyEvents //Chose
       //   console.log(this.resultinspectionplan[0].centralPolicyEvents.centralPolicy);
       // })
+      this.loading = false;
+      this.data = [];
       this.getinspectionplanservice()
     })
   }
@@ -95,7 +109,35 @@ export class InspectionPlanComponent implements OnInit {
     this.inspectionplanservice.getinspectionplandata(this.id, this.provinceid).subscribe(result => {
       console.log("result", result);
 
-      this.resultinspectionplan = result.test //Chose
+      this.resultinspectionplan = result //Chose
+      let test1 = result.test;
+      let test2 = result.inspectionplandata;
+
+      let data1: any = [];
+      let data2: any = [];
+
+      test1.forEach(element => {
+          data1.push(element)
+      });
+      console.log("Data 1: ", data1);
+
+      test2.forEach(element => {
+        element.centralPolicyEvents.forEach(element2 => {
+          data2.push(element2)
+        });
+      });
+      console.log("Data 2: ", data2);
+
+      data1.forEach(element => {
+        data2.forEach(element2 => {
+          if (element2.centralPolicyId == element.centralPolicyId) {
+            this.data.push(element)
+          }
+        });
+      });
+      // this.loading = true;
+      console.log("RESULTS: ", this.data);
+
       this.inspectionplanservice.getcentralpolicydata(this.provinceid)
         .subscribe(result => {
           this.resultcentralpolicy = result //All
@@ -104,9 +146,10 @@ export class InspectionPlanComponent implements OnInit {
         })
     })
   }
+
   getRecycled() {
     this.selectdatacentralpolicy = []
-    this.inspectionplan = this.resultinspectionplan
+    this.inspectionplan = this.resultinspectionplan.test
 
     if (this.inspectionplan.length == 0) {
       for (var i = 0; i < this.resultcentralpolicy.length; i++) {
@@ -126,6 +169,7 @@ export class InspectionPlanComponent implements OnInit {
         }
       }
     }
+    this.loading = true;
   }
 }
 
