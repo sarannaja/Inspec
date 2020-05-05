@@ -49,12 +49,18 @@ namespace InspecWeb.Controllers
             //    .First();
             //System.Console.WriteLine("Name: " + user);
 
-            var ebook = _context.ElectronicBookGroups
-                .Include(x => x.CentralPolicyProvince)
-                .ThenInclude(x => x.CentralPolicy)
-                .ThenInclude(x => x.CentralPolicyUser)
-                .Include(x => x.ElectronicBook)
-                .Where(x => x.ElectronicBook.CreatedBy == userId);
+            //var ebook = _context.ElectronicBookGroups
+            //    .Include(x => x.CentralPolicyProvince)
+            //    .ThenInclude(x => x.CentralPolicy)
+            //    .ThenInclude(x => x.CentralPolicyUser)
+            //    .Include(x => x.ElectronicBook)
+            //    .Where(x => x.ElectronicBook.CreatedBy == userId);
+
+            var ebook = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.ElectronicBook)
+                .Where(m => m.ElectronicBook.CreatedBy == userId);
+
             return Ok(ebook);
         }
 

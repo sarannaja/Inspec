@@ -35,12 +35,13 @@
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
               <td (click)="Subject(item.id,item.title)" class="pointer">
-                {{ item.centralPolicyProvince.centralPolicy.title }}</td>
+                {{ item.centralPolicy.title }}</td>
               <td>{{ item.electronicBook.detail }}</td>
               <td>{{ item.electronicBook.status }}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                  (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId, item.centralPolicyProvince.centralPolicy.centralPolicyUser[0].id)"></i>
+                  (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId,
+                  item.centralPolicyProvince.centralPolicy.centralPolicyUser[0].id)"></i>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="gotoEdit(item.centralPolicyProvinceId, item.electronicBookId, item.centralPolicyProvince.centralPolicy.centralPolicyUser[0].id)"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
