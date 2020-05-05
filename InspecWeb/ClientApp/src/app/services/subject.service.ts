@@ -23,7 +23,7 @@ export class SubjectService {
 
     // var subjectdepartment: Array<any> = subjectdepartmentId.map((item, index) => {
     //   return {
-    //     provincialdepartmentprovinceid: item.value 
+    //     provincialdepartmentprovinceid: item.value
     //   }
     // })
     // console.log("ARRAY: ", subjectdepartment);
@@ -35,6 +35,17 @@ export class SubjectService {
 
     }
     console.log("test", departmentId);
+
+    // const formData = new FormData();
+    // formData.append('Name', subjectData.name);
+    // formData.append('Answer', subjectData.name);
+    // formData.append('CentralPolicyId', parseInt(centralpolicyid));
+    // formData.append('CentralPolicyDateId', subjectData.centralpolicydateid);
+    // for (var i = 0; i < subjectdepartment.length; i++) {
+    //   for (var j = 0; j < subjectdepartment[i].departmentId.length; j++) {
+    //     departmentId.push({ departmentId: subjectdepartment[i].departmentId[j], inputsubjectdepartment: subjectdepartment[i] })
+    //   }
+    // formData.append('inputsubjectdepartment', departmentId);
 
     const formData = {
       Name: subjectData.name,
@@ -55,7 +66,6 @@ export class SubjectService {
     // ``
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);
-
   }
   addSubquestionopen(Subquestionopendata) {
     const formData = new FormData();
