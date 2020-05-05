@@ -35,28 +35,29 @@
                   formControlName="centralpolicydateid" [allowClear]="true">
                 </ng-select>
               </div>
-                <div class="form-group">
-                  <!-- <div class="form-group col-md-3"></div> -->
-                    <div class="mb-3">
-                      <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
-                      <label style="margin-left: 10px;">ร่างกำหนดการ</label>
-                      <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" formControlName="status">
-                      <label style="margin-left: 10px;">ใช้งานจริง</label>
-                    </div>
-                  <!-- </div> -->
+              <div class="form-group">
+                <div class="mb-3">
+                  <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
+                  <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+                  <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
+                    formControlName="status">
+                  <label style="margin-left: 10px;">ใช้งานจริง</label>
                 </div>
+              </div>
               <div class="form-group">
                 <label>พื้นที่ดำเนินการ</label>
                 <div formArrayName="inputsubjectdepartment">
                   <div *ngFor="let V of Form['controls'].inputsubjectdepartment['controls']; let iv=index">
                     <div formGroupName="{{iv}}">
                       <div class="row">
-                        <label>หน่วยงาน</label>
-                        <div class="col-1 margin-plus-icon" *ngIf="iv == 0; else elseBlock">
+                        <div class="col-2">
+                          <label>หน่วยงานที่เกี่ยวข้อง</label>
+                        </div>
+                        <div class="col-1" *ngIf="iv == 0; else elseBlock">
                           <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i>
                         </div>
                         <ng-template #elseBlock>
-                          <div class="col-1 margin-plus-icon">
+                          <div class="col-1">
                             <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeV(iv)"
                               value="Add V"></i>
                           </div>
@@ -66,6 +67,7 @@
                         formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
                         (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
                       </ng-select>
+                      <br>
                       <br>
                       <label>คำถามย่อย</label>
                       <br>
