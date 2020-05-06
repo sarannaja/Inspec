@@ -57,7 +57,10 @@ namespace InspecWeb.Controllers
             //    .Where(x => x.ElectronicBook.CreatedBy == userId);
 
             var ebook = _context.CentralPolicyEvents
+                .Include(m => m.InspectionPlanEvent.Province)
+                //.ThenInclude(m => m.Province)
                 .Include(m => m.CentralPolicy)
+                //.ThenInclude(m => m.CentralPolicyProvinces)
                 .Include(m => m.ElectronicBook)
                 .Where(m => m.ElectronicBook.CreatedBy == userId);
 
@@ -68,7 +71,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetById(long centralPolicyUserId)
         {
 
-            var accept = _context.CentralPolicyUsers.Where(m => m.Id == centralPolicyUserId).FirstOrDefault();
+            //var accept = _context.CentralPolicyUsers.Where(m => m.Id == centralPolicyUserId).FirstOrDefault();
 
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyUser)
@@ -85,7 +88,7 @@ namespace InspecWeb.Controllers
                 //.ThenInclude(m => m.Subquestions)
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(m => m.Province)
-                .Where(m => m.Id == accept.CentralPolicyId).First();
+                .Where(m => m.Id == centralPolicyUserId).First();
 
             return Ok(centralpolicydata);
         }

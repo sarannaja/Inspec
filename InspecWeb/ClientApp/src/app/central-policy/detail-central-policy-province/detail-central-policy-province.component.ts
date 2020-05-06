@@ -43,7 +43,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    @Inject('BASE_URL') baseUrl: string ) {
+    @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
   }
@@ -131,7 +131,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
       .subscribe(result => {
-        console.log(result);
+        console.log("123", result);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata

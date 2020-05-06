@@ -169,13 +169,15 @@ namespace InspecWeb.Controllers
         [HttpGet("getcentralpolicyprovinceid/{centralpolicyid}/{provinceid}")]
         public IActionResult GetCentralpolicyprovinceid(long centralpolicyid,long provinceid)
         {
+            System.Console.WriteLine("cenID: " + centralpolicyid);
+            System.Console.WriteLine("proID: " + provinceid);
             var CentralPolicyProvincesid = _context.CentralPolicyProvinces
-                .Where(m => m.CentralPolicyId == centralpolicyid)
-                .Where(m => m.ProvinceId == provinceid)
+                .Where(m => m.CentralPolicyId == centralpolicyid && m.ProvinceId == provinceid)
                 .Select(m => m.Id)
                 .FirstOrDefault();
             //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
 
+            System.Console.WriteLine("re ID: " + CentralPolicyProvincesid);
             return Ok(CentralPolicyProvincesid);
         }
 
