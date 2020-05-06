@@ -27,6 +27,7 @@
               <th>#</th>
               <th>ชื่อแผนตรวจราชการประจำปี</th>
               <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th>
+              <th>จังหวัด</th>
               <th>สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -37,11 +38,11 @@
               <td (click)="Subject(item.id,item.title)" class="pointer">
                 {{ item.centralPolicy.title }}</td>
               <td>{{ item.electronicBook.detail }}</td>
+              <td>{{ item.inspectionPlanEvent.province.name }}</td>
               <td>{{ item.electronicBook.status }}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                  (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId,
-                  item.centralPolicyProvince.centralPolicy.centralPolicyUser[0].id)"></i>
+                  (click)="gotoDetail(item.centralPolicyId,item.inspectionPlanEvent.province.id, item.electronicBookId)"></i>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="gotoEdit(item.centralPolicyProvinceId, item.electronicBookId, item.centralPolicyProvince.centralPolicy.centralPolicyUser[0].id)"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"

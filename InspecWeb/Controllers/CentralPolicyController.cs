@@ -542,11 +542,17 @@ namespace InspecWeb.Controllers
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
             var InspectionPlanEventdata = _context.InspectionPlanEvents
+                .Include(m => m.CentralPolicyEvents)
+                .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicyId == centralpolicyprovince.CentralPolicyId))
                 .Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
+            System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
+            System.Console.WriteLine("InspectionPlanEventId" + InspectionPlanEventdata.Id);
+
             var CentralPolicyEventdata = _context.CentralPolicyEvents
-                .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId)
-                .Where(m => m.InspectionPlanEventId == InspectionPlanEventdata.Id)
+                .Include(m => m.ElectronicBook)
+                .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId && m.InspectionPlanEventId == InspectionPlanEventdata.Id)
+                //.Where(m => m.InspectionPlanEventId == InspectionPlanEventdata.Id)
                 .FirstOrDefault();
 
             return Ok( new { subjectcentralpolicyprovincedata , centralpolicydata , userdata , CentralPolicyEventdata });
