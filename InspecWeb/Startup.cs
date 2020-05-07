@@ -11,6 +11,8 @@ using InspecWeb.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using InspecWeb.ViewModel;
 
 namespace InspecWeb
 {
@@ -39,6 +41,15 @@ namespace InspecWeb
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddHttpClient("testlo", c =>
+            {
+                c.BaseAddress = new Uri("http://127.0.0.1:3000/");
+                // Github API versioning
+                c.DefaultRequestHeaders.Add("Content-Type", "application/json");
+                // Github requires a user-agent
+                // c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+            });
+
             services.AddMvc()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .ConfigureApiBehaviorOptions(options =>
@@ -56,6 +67,9 @@ namespace InspecWeb
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+           
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
