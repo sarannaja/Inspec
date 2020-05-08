@@ -29,6 +29,7 @@ export class UserComponent implements OnInit {
   roleId: any;
   rolename: any;
   resultuser: any[] = [];
+  resultfirstuser:any[] = [];
   subscription: Subscription;
   addForm: FormGroup;
   id: any;
@@ -129,24 +130,13 @@ export class UserComponent implements OnInit {
   }
   ngOnInit() {
     this.getData()
-    this.addForm = this.fb.group({
-      Prefix: new FormControl(null, [Validators.required]),
-      Name: new FormControl(null, [Validators.required]),
-      Position: new FormControl(null, [Validators.required]),
-      Role_id: new FormControl(null, [Validators.required]),
-      PhoneNumber: new FormControl(null, [Validators.required]),
-      Email: new FormControl(null, [Validators.required]),
-      ProvinceId: new FormControl(null, [Validators.required]),
-      MinistryId: new FormControl(null, [Validators.required]),
-      UserRegion: new FormControl(null, [Validators.required]),
-      SubdistrictId : new FormControl(null),
-      DistrictId: new FormControl(null),
-      files: new FormControl(null, [Validators.required]),
-    })
-
+    this.userform()
     this.addForm.patchValue({
       Role_id: this.roleId
     })
+
+    
+    // alert(this.resultfirstuser.Name);
 
     if (this.roleId == 1) {
       this.rolename = 'ผู้ดูแลระบบ'
@@ -233,7 +223,7 @@ export class UserComponent implements OnInit {
       })
   }
   uploadFile(event) {
-    alert('uploadfile');
+    //alert('uploadfile');
     const file = (event.target as HTMLInputElement).files;
     this.addForm.patchValue({
       files: file
@@ -259,4 +249,22 @@ export class UserComponent implements OnInit {
       this.getUser()
     })
   }
+
+  userform(){
+    this.addForm = this.fb.group({
+      Prefix: new FormControl(null, [Validators.required]),
+      Name: new FormControl(null, [Validators.required]),
+      Position: new FormControl(null, [Validators.required]),
+      Role_id: new FormControl(null, [Validators.required]),
+      PhoneNumber: new FormControl(null, [Validators.required]),
+      Email: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null, [Validators.required]),
+      MinistryId: new FormControl(null, [Validators.required]),
+      UserRegion: new FormControl(null, [Validators.required]),
+      SubdistrictId : new FormControl(null),
+      DistrictId: new FormControl(null),
+      files: new FormControl(null, [Validators.required]),
+    })
+  }
+
 }

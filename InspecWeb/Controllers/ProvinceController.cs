@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +15,22 @@ namespace InspecWeb.Controllers
     public class ProvinceController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public ProvinceController(ApplicationDbContext context)
+        public ProvinceController(ApplicationDbContext context, IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 
         // GET: api/values
         [HttpGet]
         public IEnumerable<Province> Get()
         {
+
+            //var message = new Message(new string[] { "mrbuctico@gmail.com" }, "Test email", "This is the content from our email.");
+            //_emailSender.SendEmail(message);
+
             var provincedata = from P in _context.Provinces
                                select P;
             return provincedata;

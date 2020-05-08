@@ -10,19 +10,28 @@ export class UserService {
   count = 0
   url = "";
   base = "";
+  urlfirst="";
+  urllist="";
   //files: FileList
 
   private subject = new Subject<any>();
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/user/getuser/';
+    this.urllist = baseUrl + 'api/user/getuserlist/';
     this.base = baseUrl  + 'api/user/';
   }
 
-  getuserdata(id: any): Observable<any[]> {
+  getuserdata(id: any): Observable<any[]> { //role
     return this.http.get<any[]>(this.url + id)
   }
   getprovincedata(id): Observable<any[]> {
     return this.http.get<any[]>(this.base + 'province/' + id)
+  }
+  getuserlistdata(id: any): Observable<any[]> {
+    return this.http.get<any[]>(this.urllist + id)
+  }
+  getuserfirstdata(id: any): Observable<any> {
+    return this.http.get<any>(this.base +'getuserfirst/'+ id)
   }
     sendNav(roleId: string) {
         this.subject.next({ roleId: roleId });
@@ -37,7 +46,7 @@ export class UserService {
 
     addUser(userData,file: FileList) {
       //alert('service : '+userData.Role_id);
-      console.log("servicelog: ", userData);
+      //console.log("servicelog: ", userData);
       const formData = new FormData();
       formData.append('Email', userData.Email); //role   
       formData.append('Role_id', userData.Role_id); //role
@@ -113,7 +122,23 @@ export class UserService {
       return this.http.post(this.base, formData);
     }
 
+    editprofile(userData, file: FileList, userId){
+      const formData = new FormData();
+      formData.append('Prefix', userData.Prefix);
+      formData.append('Name', userData.Name);
+      formData.append('Position', userData.Position);
+      formData.append('PhoneNumber', userData.PhoneNumber);
+      formData.append('Formprofile', userData.Formprofile);
+      // for (var iii = 0; iii < file.length; iii++) {
+      //   formData.append("files", file[iii]);
+      // }
+      alert(userData.Formprofile);
+      let path = this.base + userId;
+      return this.http.put(path, formData)
+    }
+
     deleteUser(id) {
       return this.http.delete(this.base + id);
     }
+    
 }
