@@ -35,7 +35,7 @@ namespace InspecWeb.ViewModel
         public DateTime? Startdate { get; set; }
         public DateTime? Enddate { get; set; }
         public long Active { get; set; }
-
+        public long Formprofile { get; set; }
         public List<IFormFile> files { get; set; }
 
         public List<int> UserRegion { get; set; } //สำหรับทำ array

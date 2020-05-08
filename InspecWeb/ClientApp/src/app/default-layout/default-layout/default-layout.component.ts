@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject,TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { superAdmin } from './_nav';
 import { Centraladmin } from './_nav';
 import { Inspector } from './_nav';
@@ -11,6 +12,7 @@ import { president } from './_nav';
 import { InspectorDepartment } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-default-layout',
@@ -25,21 +27,109 @@ export class DefaultLayoutComponent implements OnInit {
   userid: any
   role_id: any
   nav: any
+  imgprofileUrl: any;
+  resultuser :any [];
+  resultfirstuser:any[] = [];
+  modalRef: BsModalRef;
+  Form: FormGroup;
+  Prefix: any;
+  Name: any;
+  Position: any;
+  PhoneNumber: any;
+  Email: any;
+  files: any;
+  Img:any;
+  Formprofile:any;
+  
   // childClassIcon = "align-middle mr-2 fas fa-fw
 
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+    @Inject('BASE_URL') baseUrl: string
+  ) { 
+    this.imgprofileUrl = baseUrl + '/imgprofile';
+  }
   // 0C-54-15-66-C2-D6
   ngOnInit() {
-    this.nav = superAdmin
-    this.authorize.getUser()
+    this.nav = superAdmin;
+    this.profileform();
+    this.getuserinfo();
+    this.checkactive(this.nav[0].url);
+    // this.urlActive = this.nav[0].url
+  }
 
-      .subscribe(result => {
-        this.userid = result.sub
-        this.role_id = result.role_id
+  checkactive(url) {
+    this.urlActive = url
+  }
+
+  userNav(url, id): void {
+    this.router.navigate([url])
+    // send message to subscribers via observable subject
+    this.userService.sendNav(id);  
+  }
+
+  Logout() {
+    this.authorize.signOut({ local: true })
+  }
+
+  openModal(template: TemplateRef<any>,IDdelete) {
+      this.modalRef = this.modalService.show(template);
+  }
+
+  uploadFile(event) {
+    alert('uploadfile');
+    const file = (event.target as HTMLInputElement).files;
+    this.Form.patchValue({
+      files: file
+    });
+    this.Form.get('files').updateValueAndValidity()
+  }
+
+  profileform(){
+    this.Form = this.fb.group({
+      Prefix: new FormControl(null, [Validators.required]),
+      Name: new FormControl(null, [Validators.required]),
+      Position: new FormControl(null, [Validators.required]),
+      PhoneNumber: new FormControl(null, [Validators.required]),
+      Email: new FormControl(null, [Validators.required]),
+      files: new FormControl(null, [Validators.required]),
+      Formprofile: new FormControl(null, [Validators.required]),
+    })
+  }
+
+  //start getuser
+  getuserinfo(){
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub  
+
+      this.userService.getuserfirstdata(this.userid)      
+      .subscribe(result => { 
+        this.resultuser = result;
+        //console.log("test" , this.resultuser);
+        this.role_id = result[0].role_id
+       
+        this.Prefix = result[0].prefix
+        this.Name = result[0].name
+        this.Position = result[0].position
+        this.PhoneNumber = result[0].phoneNumber
+        this.Email = result[0].email
+        this.Img = result[0].img
+       
+        this.Form.patchValue({
+          Prefix: this.Prefix,
+          Name: this.Name,
+          Position: this.Position,
+          PhoneNumber: this.PhoneNumber,
+          Email: this.Email,
+          Formprofile:1,
+          files: this.files,
+        });
+
         if (this.role_id == 1) {
           this.nav = superAdmin
         } else if (this.role_id == 2) {
@@ -59,21 +149,17 @@ export class DefaultLayoutComponent implements OnInit {
         } else if (this.role_id == 9) {
           this.nav = InspectorDepartment
         }
-        // console.log(result);
       })
-    this.checkactive(this.nav[0].url);
-    // this.urlActive = this.nav[0].url
+    })
+
   }
-  checkactive(url) {
-    this.urlActive = url
-    // console.log('in');
-  }
-  userNav(url, id): void {
-    this.router.navigate([url])
-    // send message to subscribers via observable subject
-    this.userService.sendNav(id);
-  }
-  Logout() {
-    this.authorize.signOut({ local: true })
-  }
+  //End getuser
+
+    editprofile(value) {
+      this.userService.editprofile(value,this.Form.value.files,this.userid).subscribe(response => {
+        this.Form.reset()
+        this.modalRef.hide()
+        this.getuserinfo();
+      })
+    }
 }
