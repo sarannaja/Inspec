@@ -15,17 +15,32 @@ export class GovernmentinspectionplanComponent implements OnInit {
   title:any
   modalRef:BsModalRef;
   Form : FormGroup
+  files: string[] = []
+  loading = false;
+  dtOptions: DataTables.Settings = {};
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private governmentinspectionplanservice: GorvermentinspectionplanService,
     public share: GorvermentinspectionplanService) { }
 
   ngOnInit() {
-      this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result=>{
-      this.resultgovernmentinspectionplan = result
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columnDefs: [
+        {
+          targets: [5],
+          orderable: false
+        }
+      ]
+
+    };
+    this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result=>{
+    this.resultgovernmentinspectionplan = result
+    this.loading = true
     })
     this.Form = this.fb.group({
-      "year": new FormControl(null, [Validators.required]),
-      "title": new FormControl(null, [Validators.required])
+      year: new FormControl(null, [Validators.required]),
+      title: new FormControl(null, [Validators.required]),
+      files : new FormControl(null, [Validators.required])
     })
   }
   openModal(template: TemplateRef<any>, id, year,title) {
@@ -38,9 +53,18 @@ export class GovernmentinspectionplanComponent implements OnInit {
     
     this.modalRef = this.modalService.show(template);
   }
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Form.patchValue({
+      files: file
+    });
+    this.Form.get('files').updateValueAndValidity()
+
+  }
+
   storeGovernmentinspectionplan(value) {
     // alert(JSON.stringify(value));
-    this.governmentinspectionplanservice.addGovernmentinspectionplan(value).subscribe(response => {
+    this.governmentinspectionplanservice.addGovernmentinspectionplan(value, this.Form.value.files).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()

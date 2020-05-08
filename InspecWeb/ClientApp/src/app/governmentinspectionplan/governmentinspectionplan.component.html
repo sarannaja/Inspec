@@ -37,12 +37,12 @@
               <td>{{ i + 1 }}.</td>
               <td>{{ item.year }}</td>
               <td>{{ item.title }}</td>
-              <td><a href="/src/assets/GovernmentinspectionplanFile/plan59.pdf" download>{{ item.file }}</a></td>
+              <td><a href="assets/GovernmentinspectionplanFile/{{item.file}}" download>{{ item.file }}</a></td>
               <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
               <td>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openModal(modaleditGovernmentinspectionplan, item.id, item.year, item.title)"></i>
+                  (click)="openModal(modaleditGovernmentinspectionplan, item.id, item.year, item.title, item.file)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteGovernmentinspectionplan, item.id)"></i>
               </td>
@@ -71,7 +71,7 @@
             <label for="test" class="form-label">รายละเอียด </label>
             <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
             <label for="test" class="form-label">ไฟล์แนบ </label><br>
-            <input type="file">
+            <input type="file"multiple (change)="uploadFile($event)">
           </div>
         </div>
         <div class="modal-footer">
