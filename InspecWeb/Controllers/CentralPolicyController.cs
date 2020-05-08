@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
@@ -474,12 +475,13 @@ namespace InspecWeb.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("usersinvited/{id}")]
-        public IActionResult GetUsers2(string id)
+        [HttpGet("usersinvited/{id}/{planid}")]
+        public IActionResult GetUsers2(string id, long planid)
         {
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyDates)
+                .Where(m => m.CentralPolicy.CentralPolicyEvents.Any(m => m.InspectionPlanEventId == planid))
                 .Where(m => m.UserId == id);
 
             return Ok(centralpolicyuserdata);
@@ -697,6 +699,8 @@ namespace InspecWeb.Controllers
         {
             (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
                 ForEach(x => x.Forward = assign);
+            (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
+               ForEach(x => x.Status = "มอบหมาย");
             _context.SaveChanges();
         }
 

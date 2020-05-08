@@ -159,8 +159,8 @@ export class CentralpolicyService {
     return this.http.get<any[]>(this.url + "getcentralpolicyfromprovince/" + id)
   }
 
-  getcentralpolicyuserinviteddata(id): Observable<any[]> {
-    return this.http.get<any[]>(this.url + "usersinvited/" + id)
+  getcentralpolicyuserinviteddata(id, planid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "usersinvited/" + id + "/" + planid)
   }
 
   getdetailacceptcentralpolicydata(id): Observable<any> {
