@@ -20,6 +20,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   resultministrypeople: any = []
   resultdetailcentralpolicy: any = []
   resultcentralpolicyuser: any = []
+  allMinistryPeople: any = [];
+  allUserPeople: any = [];
   resultdetailcentralpolicyprovince: any = []
   UserPeopleId: any;
   // UserMinistryId: any;
@@ -36,6 +38,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   downloadUrl: any
   loading = false;
   electronicbookid: any
+  selectdataministrypeople: Array<IOption>
+  ministryPeople: any = [];
+  selectdatapeople: Array<IOption>
+  userPeople: any = [];
+
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -63,34 +70,37 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       subquestionclosechoice: new FormControl(),
     })
 
-    this.userservice.getuserdata(7).subscribe(result => {
-      // alert(JSON.stringify(result))
-      this.resultpeople = result
-      console.log(this.resultpeople);
-      this.selectpeople = this.resultpeople.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
-    })
-    this.userservice.getuserdata(6).subscribe(result => {
-      // alert(JSON.stringify(result))
-      this.resultministrypeople = result
-      console.log(this.resultministrypeople);
-      this.selectministrypeople = this.resultministrypeople.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
-    })
+    // this.userservice.getuserdata(7).subscribe(result => {
+    //   // alert(JSON.stringify(result))
+    //   this.resultpeople = result
+    //   console.log(this.resultpeople);
+    //   this.selectpeople = this.resultpeople.map((item, index) => {
+    //     return { value: item.id, label: item.name }
+    //   })
+    // })
+    // this.userservice.getuserdata(6).subscribe(result => {
+    //   // alert(JSON.stringify(result))
+    //   this.resultministrypeople = result
+    //   console.log(this.resultministrypeople);
+    //   this.selectministrypeople = this.resultministrypeople.map((item, index) => {
+    //     return { value: item.id, label: item.name }
+    //   })
+    // })
+
 
     // this.getDetailCentralPolicy()
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
+
     setTimeout(() => {
       this.spinner.hide();
     }, 2000);
-
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+    this.getMinistryPeople();
+    this.getUserPeople();
   }
 
   editModal(template: TemplateRef<any>, id, name) {
@@ -144,7 +154,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
-        console.log("result" + result);
+        // console.log("result" + result);
       })
 
   }
@@ -184,5 +194,90 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
     })
+  }
+
+  getMinistryPeople() {
+    this.userservice.getuserdata(6).subscribe(result => {
+      this.resultministrypeople = result // All
+    })
+
+    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(result => {
+      result.forEach(element => {
+        if (element.user.role_id == 6) {
+          this.allMinistryPeople.push(element.user)
+        }
+      }); // Selected
+      // console.log("selectedMinistry: ", this.allMinistryPeople);
+      this.getRecycledMinistryPeople();
+    })
+  }
+
+  getRecycledMinistryPeople() {
+    this.selectdataministrypeople = []
+    this.ministryPeople = this.allMinistryPeople
+    // console.log("MINISTRY: ", this.ministryPeople);
+    // console.log("allMinistry: ", this.resultministrypeople);
+    if (this.ministryPeople.length == 0) {
+      for (var i = 0; i < this.resultministrypeople.length; i++) {
+        this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+      }
+    }
+    else {
+      for (var i = 0; i < this.resultministrypeople.length; i++) {
+        var n = 0;
+        for (var ii = 0; ii < this.ministryPeople.length; ii++) {
+          if (this.resultministrypeople[i].id == this.ministryPeople[ii].id) {
+            n++;
+          }
+        }
+        if (n == 0) {
+          this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+        }
+      }
+    }
+    // console.log("TEST: ", this.selectdataministrypeople);
+  }
+
+  getUserPeople() {
+    this.userservice.getuserdata(7).subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.resultpeople = result
+    })
+    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(result => {
+      result.forEach(element => {
+        if (element.user.role_id == 7) {
+          this.allUserPeople.push(element.user)
+        }
+      }); // Selected
+      console.log("selectedUser: ", this.allUserPeople);
+      this.getRecycledUserPeople();
+    })
+  }
+
+  getRecycledUserPeople() {
+    this.selectdatapeople = []
+    this.userPeople = this.allUserPeople
+    console.log("MINISTRY: ", this.userPeople);
+    console.log("allMinistry: ", this.resultpeople);
+
+    if (this.userPeople.length == 0) {
+      for (var i = 0; i < this.resultpeople.length; i++) {
+        this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+      }
+    }
+    else {
+      for (var i = 0; i < this.resultpeople.length; i++) {
+        var n = 0;
+        for (var ii = 0; ii < this.userPeople.length; ii++) {
+          if (this.resultpeople[i].id == this.userPeople[ii].id) {
+            n++;
+          }
+        }
+        if (n == 0) {
+          this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+        }
+      }
+    }
+    console.log("TEST: ", this.selectdatapeople);
   }
 }
