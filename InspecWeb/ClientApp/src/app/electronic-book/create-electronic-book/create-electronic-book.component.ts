@@ -315,12 +315,12 @@ export class CreateElectronicBookComponent implements OnInit {
         .subscribe(result => {
           this.resultcentralpolicy = result //All
           console.log("all: ", this.resultcentralpolicy);
-
           this.getRecycled();
           // alert(JSON.stringify(this.resultcentralpolicy))
         })
     })
   }
+
   getRecycled() {
     this.selectdatacentralpolicy = []
     this.inspectionplan = this.resultinspectionplan
