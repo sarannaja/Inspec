@@ -73,6 +73,8 @@ namespace InspecWeb.Data
 
         public DbSet<ElectronicBook> ElectronicBooks { get; set; }
         public DbSet<ElectronicBookGroup> ElectronicBookGroups { get; set; }
+        public DbSet<ExecutiveOrderFile> ExecutiveFiles { get; set; }
+       
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)

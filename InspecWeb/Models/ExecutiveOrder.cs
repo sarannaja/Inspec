@@ -38,10 +38,17 @@ namespace InspecWeb.Models
         [Description("FK: ผู้ตอบ")]
         public string AnswerUserId { get; set; }
 
+        [ForeignKey("Province")]
+        [Description("FK: จังหวัด")]
+        public long ProvinceId { get; set; }
+        public virtual Province Province { get; set; }
+
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-       
+        public ICollection<ExecutiveOrderFile> ExecutiveOrderFiles { get; set; }
+        
+
     }
 }

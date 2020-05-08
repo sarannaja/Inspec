@@ -10,7 +10,7 @@
         </ol>
     </nav>
 </div>
-<div class="row">
+<!-- <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header" style="margin-bottom: -20px;">
@@ -27,16 +27,16 @@
                         จังหวัด : ขอนแก่น
                     </div>
                 </div>
-                <!-- <div class="row" style="margin-top: 10px;">
+                <div class="row" style="margin-top: 10px;">
                 <div class="col-md-6">
                     กระทรวง : ชื่อกระทรวง
                 </div>
-            </div> -->
-                <!-- <div class="row" style="margin-top: 10px;">
+            </div>
+                 <div class="row" style="margin-top: 10px;">
                 <div class="col-md-6">
                     กรม : ชื่อกรม
                 </div>
-            </div> -->
+            </div>
                 <div class="row" style="margin-top: 10px;">
                     <div class="col-md-6">
                         กำหนดลงพื่นที่ : <span
@@ -98,28 +98,58 @@
                     </div>
                 </div>
 
-                <!-- <div class="row" style="margin-top: 10px;"
+                <div class="row" style="margin-top: 10px;"
                     *ngFor="let items of resultdetailcentralpolicy.subjects;let i = index">
                     <div class="col-md-6">{{i + 1}}. {{items.name}}</div>
                     <div class="col-md-6" *ngFor="let item of items.subquestions;let i = index">  
                         <div>{{i + 1}}. {{item.name}}</div>
                     </div>
-                </div> -->
-
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary"
-                            (click)="openModal(modalAddExecutiveorder)">เพิ่มข้อสั่งการ</button>
-                    </div>
                 </div>
+
+              
             </div>
         </div>
     </div>
-</div>
-
-<!-- BEGIN primary modal -->
+</div> -->
+<form class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h5 class="card-title">ข้อสั่งการ</h5>
+                <div class="float-right">
+                    <button class="btn btn-primary" (click)="openModal(modalAddExecutiveorder)"
+                        style="margin-top: -60px;">เพิ่มข้อสั่งการ</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatables-basic" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ชื่อข้อสั่งการ</th>
+                            <th>ไฟล์แนบ</th>
+                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultdetailexecutiveorder; let i = index">
+                            <td>{{ i + 1 }}.</td>
+                            <td>{{item.detailExecutiveOrder }}</td>
+                            <td><a href="" download>{{ item.file }}</a></td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                    (click)="openModal(AnswerExecutiveorder, item.id, item.question)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- BEGIN primary modal -->
+    
 <ng-template #modalAddExecutiveorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <form [formGroup]="Form" (ngSubmit)="storeProvince(Form.value)">
+    <form [formGroup]="Form" (ngSubmit)="storedetailexecutiveorder(Form.value)">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">เพิ่มข้อสั่งการ</h5>
@@ -128,8 +158,49 @@
                 </button>
             </div>
             <div class="modal-body m-3">
+                <div class="col-12 col-xl-12">
+                    <div class="form-group">
+                        <label>จังหวัด</label>
+                        <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
+                            name="provinceId" formControlName="provinceId" [allowClear]="true">
+                        </ng-select>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="test" class="form-label">คำสั่งการ</label>
+                    <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำสั่งการ">
+                    <br>
+                    <!-- <div class="col-12 col-xl-12"> 
+                        <div class="form-group">
+                            <label class="form-label w-100">แนบไฟล์</label>
+                            <input type="file" multiple="multiple" formControlName="files">
+                            <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                        </div>
+                     </div>  -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </form>
+    <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+<ng-template #AnswermodalExecutiveorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="Form" (ngSubmit)="answerdetailexecutiveorder(Form.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ตอบข้อสั่งการ</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <div class="form-group">
+                    <label for="test" class="form-label">คำตอบ</label>
                     <input type="text" formControlName="provincename" class="form-control"
                         placeholder="กรุณากรอกคำสั่งการ">
                     <br>
@@ -144,46 +215,11 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">บันทึก</button>
-                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                    data-dismiss="modal">ปิด</button>
             </div>
         </div>
     </form>
     <!-- </div> -->
 </ng-template>
-<!-- END primary modal -->
-<form class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">ข้อสั่งการ</h5>
-        </div>
-        <div class="card-body">
-          <table id="datatables-basic" class="table table-striped" style="width:100%">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>ชื่อข้อสั่งการ</th>
-                <th>ไฟล์แนบ</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of resultExecutiveorder; let i = index">
-                <td>{{ i + 1 }}.</td>
-                <td>{{ item.question }}</td>
-                <td><a href="" download>{{ item.file }}</a></td>
-                <td>
-                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                  <!--<i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="openModal(modalAnswerExecutiveorder, item.id, item.question)"></i>
-                    <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                    (click)="openModal(modalViewExecutiveorder, item.id,)"></i>-->
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-
+<!-- BEGIN primary modal -->
