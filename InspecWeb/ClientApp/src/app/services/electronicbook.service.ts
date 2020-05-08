@@ -23,61 +23,63 @@ export class ElectronicbookService {
     // alert(JSON.stringify(inspectionplaneventData.input))
     const formData = new FormData();
     formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
     formData.append('id', id);
     formData.append('Status', value.Status);
 
-    var ProvincialDepartment: Array<any> = subjectdepartmentId.map((item , index) => {
-      return {
-        Id:item.provincialDepartmentID
-      }
-    })
+    // var ProvincialDepartment: Array<any> = subjectdepartmentId.map((item , index) => {
+    //   return {
+    //     Id:item.provincialDepartmentID
+    //   }
+    // })
 
-    for (var i = 0; i < ProvincialDepartment.length; i++) {
-      console.log("i: ", i);
-      formData.append('ProvincialDepartmentId', ProvincialDepartment[i].Id);
-    }
+    // for (var i = 0; i < ProvincialDepartment.length; i++) {
+    //   console.log("i: ", i);
+    //   formData.append('ProvincialDepartmentId', ProvincialDepartment[i].Id);
+    // }
 
-    var input: Array<any> = value.input.map((item , index) => {
-      return {
-        // StartPlanDate:item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
-        // EndPlanDate:item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
-        ProvinceId:item.provinces,
-        CentralPolicyId:item.centralpolicies,
-      }
-    })
+    // var input: Array<any> = value.input.map((item , index) => {
+    //   return {
+    //     // StartPlanDate:item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
+    //     // EndPlanDate:item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
+    //     ProvinceId:item.provinces,
+    //     CentralPolicyId:item.centralpolicies,
+    //   }
+    // })
 
-    for (var i = 0; i < input.length; i++) {
-      console.log("input: ", input[i]);
-      // console.log("inputdateii: ", inputdate[ii].StartDate);
-      // formData.append('Inputelectronicbook', input[i]);
-    }
+    // for (var i = 0; i < input.length; i++) {
+    //   console.log("input: ", input[i]);
+    //   // console.log("inputdateii: ", inputdate[ii].StartDate);
+    //   // formData.append('Inputelectronicbook', input[i]);
+    // }
 
-    formData.append('CentralPolicyId', input[0].CentralPolicyId);
-    formData.append('ProvinceId', input[0].ProvinceId);
+    // formData.append('CentralPolicyId', input[0].CentralPolicyId);
+    // formData.append('ProvinceId', input[0].ProvinceId);
 
-    var userMinistry: Array<any> = value.UserMinistryId.map((item , index) => {
-      return {
-        Id:item
-      }
-    })
+    // var userMinistry: Array<any> = value.UserMinistryId.map((item , index) => {
+    //   return {
+    //     Id:item
+    //   }
+    // })
 
-    for (var i = 0; i < userMinistry.length; i++) {
-      console.log("i: ", i);
-      // console.log("inputdateii: ", inputdate[ii].StartDate);
-      formData.append('UserMinistryId', userMinistry[i].Id);
-    }
+    // for (var i = 0; i < userMinistry.length; i++) {
+    //   console.log("i: ", i);
+    //   // console.log("inputdateii: ", inputdate[ii].StartDate);
+    //   formData.append('UserMinistryId', userMinistry[i].Id);
+    // }
 
-    var userPeople: Array<any> = value.UserPeopleId.map((item , index) => {
-      return {
-        Id:item
-      }
-    })
+    // var userPeople: Array<any> = value.UserPeopleId.map((item , index) => {
+    //   return {
+    //     Id:item
+    //   }
+    // })
 
-    for (var i = 0; i < userPeople.length; i++) {
-      console.log("i: ", i);
-      // console.log("inputdateii: ", inputdate[ii].StartDate);
-      formData.append('UserPeopleId', userPeople[i].Id);
-    }
+    // for (var i = 0; i < userPeople.length; i++) {
+    //   console.log("i: ", i);
+    //   // console.log("inputdateii: ", inputdate[ii].StartDate);
+    //   formData.append('UserPeopleId', userPeople[i].Id);
+    // }
 
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
@@ -93,9 +95,9 @@ export class ElectronicbookService {
     //   files: file
     // }
 
-    console.log("UserPeopleId", (formData.getAll("UserPeopleId")));
+    // console.log("UserPeopleId", (formData.getAll("UserPeopleId")));
 
-    console.log("ProvincialDepartmentId", (formData.getAll("ProvincialDepartmentId")));
+    // console.log("ProvincialDepartmentId", (formData.getAll("ProvincialDepartmentId")));
 
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);

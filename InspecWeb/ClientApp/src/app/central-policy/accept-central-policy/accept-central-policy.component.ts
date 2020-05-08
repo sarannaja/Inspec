@@ -19,10 +19,14 @@ export class AcceptCentralPolicyComponent implements OnInit {
   resultcentralpolicyuser: any = []
   resultdetailcentralpolicyprovince: any = []
   Form: FormGroup;
+  assignForm: FormGroup;
   userid: string
   answer
   resultelectronicbookdetail: any = []
-  downloadUrl: any
+  downloadUrl: any;
+  modalRef: BsModalRef;
+  assignDetail: any;
+
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -46,10 +50,14 @@ export class AcceptCentralPolicyComponent implements OnInit {
     this.Form = this.fb.group({
       answer: new FormControl(null, [Validators.required]),
     })
+    this.assignForm = this.fb.group({
+      assign: new FormControl(null, [Validators.required]),
+    })
 
     this.getDetailCentralPolicy()
     this.getCentralPolicyUser()
     this.getSubjectCentralPolicyProvince()
+    this.getAssign();
   }
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
@@ -83,7 +91,29 @@ export class AcceptCentralPolicyComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
         this.Form.reset()
-        this.router.navigate(['usercentralpolicy'])
+        // this.router.navigate(['usercentralpolicy'])
+        this.router.navigate(['calendaruser'])
       })
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  sendAssign(value) {
+    this.centralpolicyservice.sendAssign(value, this.id).subscribe(response => {
+      console.log(response);
+      this.modalRef.hide();
+    })
+  }
+
+  getAssign() {
+    this.centralpolicyservice.getAssign(this.id).subscribe(res => {
+      this.assignDetail = res.forward;
+      console.log("ASSIGN: ", this.assignDetail);
+      this.assignForm.patchValue({
+        assign: this.assignDetail
+      })
+    })
   }
 }

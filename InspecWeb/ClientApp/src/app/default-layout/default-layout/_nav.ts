@@ -29,16 +29,16 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
         url:"/centralpolicy",
         name:"แผนการตรวจประจำปี"
     },
-    // {
-    //     icon:'fa-calendar',
-    //     url:"/inspectionplanevent",
-    //     name:"ปฏิทินการตรวจราชการ"
-    // },
-    // {
-    //   icon:'fa-book',
-    //   url:"/electronicbook",
-    //   name:"สมุดตรวจอิเล็กทรอนิกส์"
-    // },
+    {
+        icon:'fa-calendar',
+        url:"/inspectionplanevent",
+        name:"ปฏิทินการตรวจราชการ"
+    },
+    {
+      icon:'fa-book',
+      url:"/electronicbook",
+      name:"สมุดตรวจอิเล็กทรอนิกส์"
+    },
     {
         icon:'fa-hand-point-up',
         url:"/executiveorder",
@@ -235,6 +235,11 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     name: "แผนการตรวจประจำปี"
   },
   {
+    icon: 'fa-calendar',
+    url: "/inspectionplanevent",
+    name: "ปฏิทินการตรวจราชการ"
+  },
+  {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน"
@@ -294,6 +299,11 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-home',
     url: "/main",
     name: "หน้าหลัก"
+  },
+  {
+    icon: 'fa-archive',
+    url: "/centralpolicy",
+    name: "แผนการตรวจประจำปี"
   },
   {
     icon: 'fa-calendar',
@@ -535,11 +545,21 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     url: "/main",
     name: "หน้าหลัก"
   },
+  // {
+  //   icon: 'fa-calendar',
+  //   url: "/inspectionplanevent",
+  //   name: "ปฏิทินการตรวจราชการ"
+  // },
   {
-    icon: 'fa-calendar',
-    url: "/inspectionplanevent",
+    icon: 'fa-archive',
+    url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ"
   },
+  // {
+  //   icon: 'fa-book',
+  //   url: "/usercentralpolicy",
+  //   name: "Accept"
+  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
@@ -602,14 +622,14 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
     url: "/main",
     name: "หน้าหลัก"
   },
+  // {
+  //   icon: 'fa-book',
+  //   url: "/usercentralpolicy",
+  //   name: "สมุดตรวจอิเล็กทรอนิกส์"
+  // },
   {
-    icon: 'fa-book',
-    url: "/usercentralpolicy",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
-  },
-  {
-    icon: 'fa-calendar',
-    url: "/inspectionplanevent",
+    icon: 'fa-archive',
+    url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ"
   },
   {

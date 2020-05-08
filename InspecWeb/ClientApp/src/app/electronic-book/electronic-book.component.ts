@@ -4,6 +4,7 @@ import { ElectronicbookService } from '../services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { InspectionplanService } from '../services/inspectionplan.service';
 
 @Component({
   selector: 'app-electronic-book',
@@ -18,12 +19,13 @@ export class ElectronicBookComponent implements OnInit {
   userid: string;
   delid: any;
   modalRef: BsModalRef;
-
+  centralpolicyprovinceid: any;
   constructor(
     private router: Router,
     private electronicBookService: ElectronicbookService,
     private authorize: AuthorizeService,
     private modalService: BsModalService,
+    private inspectionplanservice: InspectionplanService,
     private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string
   ) { }
@@ -31,11 +33,11 @@ export class ElectronicBookComponent implements OnInit {
   ngOnInit() {
 
     this.authorize.getUser()
-    .subscribe(result => {
-      this.userid = result.sub
-      console.log(result);
-      // alert(this.userid)
-    })
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+      })
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -43,7 +45,8 @@ export class ElectronicBookComponent implements OnInit {
           targets: [3],
           orderable: false
         }
-      ]};
+      ]
+    };
     this.getElectronicBook();
   }
 
@@ -78,14 +81,18 @@ export class ElectronicBookComponent implements OnInit {
     console.log("ID: ", id);
     console.log("ELECID: ", elecId);
     console.log("centralPolicyUserID", centralPolicyUserID);
-
-
-
-    this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
+    this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID }])
   }
 
-  gotoDetail(id, elecId, centralPolicyUserID) {
-    this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
-  }
+  gotoDetail(cenid, proid, elecId) {
+    alert(cenid)
+    alert(proid)
+    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+      // this.centralpolicyprovinceid = result
+      this.router.navigate(['/electronicbook/edit/' + result, { electronicBookId: elecId, centralPolicyUserId: cenid }])
+    })
+    // alert(this.centralpolicyprovinceid)
+    // this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
 
+  }
 }

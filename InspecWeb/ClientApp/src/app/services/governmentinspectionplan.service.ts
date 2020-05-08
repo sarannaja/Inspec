@@ -11,11 +11,14 @@ export class GorvermentinspectionplanService {
   getgovernmentinspectionplan(){
     return this.http.get(this.url)
   }
-  addGovernmentinspectionplan(governmentinspectionplanData){
+  addGovernmentinspectionplan(governmentinspectionplanData, file: FileList){
      alert(JSON.stringify(governmentinspectionplanData))
     const formData = new FormData();
     formData.append('year',governmentinspectionplanData.year);
     formData.append('title',governmentinspectionplanData.title);
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }
     return this.http.post(this.url, formData);
   }
   deleteGovernmentinspectionplan(id) {

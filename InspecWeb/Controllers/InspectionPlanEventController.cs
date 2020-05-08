@@ -61,6 +61,68 @@ namespace InspecWeb.Controllers
             //   .ToList();
         }
 
+        // GET: api/values
+        [HttpGet("inspectionplanuser/{id}")]
+        public IActionResult GetData2(string id)
+        {
+            System.Console.WriteLine("DDDDD");
+            System.Console.WriteLine("USERID : " + id);
+            //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
+            //                              select P;
+            //return inspectionPlanEventdata;
+            var userprovince = _context.UserProvinces
+                               .Where(m => m.UserID == id)
+                               .ToList();
+
+            var inspectionplans = _context.InspectionPlanEvents
+                                .Include(m => m.Province)
+                                .Include(m => m.CentralPolicyEvents)
+                                .ThenInclude(m => m.CentralPolicy.CentralPolicyProvinces)
+                                //.ThenInclude(m => m.CentralPolicyProvinces)
+
+                                //.Include(m => m.CentralPolicyEvents)
+                                .ThenInclude(m => m.CentralPolicy.CentralPolicyUser)
+                                 //.ThenInclude(m => m.CentralPolicyUser)
+                                 //.Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicy.CentralPolicyUser.Any(x => x.UserId == id))
+
+                                .ToList();
+
+
+            ////var mediaList = model.ToList();
+            //foreach (var media in inspectionplans)
+            //{
+            //    media.MediaContents = media.MediaContents.OrderBy(c => c.ContentNo).ToList();
+            //}
+
+            List<object> termsList = new List<object>();
+            foreach (var inspectionplan in inspectionplans)
+            {
+                System.Console.WriteLine("1");
+                for (int i = 0; i < userprovince.Count(); i++)
+                {
+                    System.Console.WriteLine("2");
+                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                        foreach (var CentralPolicyEvent in inspectionplan.CentralPolicyEvents) {
+                            System.Console.WriteLine("3");
+                            foreach (var User in CentralPolicyEvent.CentralPolicy.CentralPolicyUser)
+                            {
+                                System.Console.WriteLine("4");
+                                System.Console.WriteLine("USER ID: " + User.UserId);
+                                System.Console.WriteLine("CHECK USER: " + id);
+                                if (User.UserId == id)
+                                {
+                                    termsList.Add(inspectionplan);
+                                    break;
+                                }
+                                
+                            }
+                        }
+                }
+            }
+
+            return Ok(termsList);
+        }
+
         // GET api/values/5
         //[HttpGet("{id}")]
         //public IActionResult Get(int id)
@@ -105,13 +167,13 @@ namespace InspecWeb.Controllers
                        _context.InspectionPlanEvents.Add(inspectionplanevent);
                        _context.SaveChanges();
 
-                    var centralpolicyeventdata = new CentralPolicyEvent
-                    {
-                        CentralPolicyId = item2.CentralPolicyId,
-                        InspectionPlanEventId = inspectionplanevent.Id
-                    };
-                       _context.CentralPolicyEvents.Add(centralpolicyeventdata);
-                       _context.SaveChanges();
+                    //var centralpolicyeventdata = new CentralPolicyEvent
+                    //{
+                    //    CentralPolicyId = item2.CentralPolicyId,
+                    //    InspectionPlanEventId = inspectionplanevent.Id
+                    //};
+                    //   _context.CentralPolicyEvents.Add(centralpolicyeventdata);
+                    //   _context.SaveChanges();
                 //}
             }
 

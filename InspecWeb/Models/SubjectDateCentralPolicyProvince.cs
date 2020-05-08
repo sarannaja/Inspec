@@ -27,5 +27,6 @@ namespace InspecWeb.Models
         public long CentralPolicyDateProvinceId { get; set; }
 
         public virtual CentralPolicyDateProvince CentralPolicyDateProvince { get; set; }
+
     }
 }

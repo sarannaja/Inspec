@@ -136,66 +136,164 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public Subject Post([FromBody] SubjectViewModel model)
+        public void Post([FromBody] SubjectViewModel model)
         {
-            var subjectdata = new Subject
+
+            //var subjectdata = new Subject
+            //{
+            //    Name = model.Name,
+            //    CentralPolicyId = model.CentralPolicyId,
+            //    Answer = model.Answer,
+
+            //};
+            //_context.Subjects.Add(subjectdata);
+            //_context.SaveChanges();
+
+            //foreach (var id in model.CentralPolicyDateId)
+            //{
+            //    var subjectdatedata = new SubjectDate
+            //    {
+            //        SubjectId = subjectdata.Id,
+            //        CentralPolicyDateId = id
+            //    };
+            //    _context.SubjectDates.Add(subjectdatedata);
+            //}
+            //_context.SaveChanges();
+
+            //foreach (var questionopen in model.inputquestionopen)
+            //{
+            //    var Subquestionopendata = new Subquestion
+            //    {
+            //        SubjectId = subjectdata.Id,
+            //        Name = questionopen.questionopen,
+            //        Type = "คำถามปลายเปิด"
+            //    };
+            //    _context.Subquestions.Add(Subquestionopendata);
+            //}
+            //_context.SaveChanges();
+
+            //foreach (var questionclose in model.inputquestionclose)
+            //{
+            //    var Subquestionclosedata = new Subquestion
+            //    {
+            //        SubjectId = subjectdata.Id,
+            //        Name = questionclose.questionclose,
+            //        Type = "คำถามปลายปิด"
+            //    };
+            //    _context.Subquestions.Add(Subquestionclosedata);
+            //    _context.SaveChanges();
+
+            //    foreach (var questionclosechoice in questionclose.inputanswerclose)
+            //    {
+            //        var Subquestionchoiceclosedata = new SubquestionChoice
+            //        {
+            //            SubquestionId = Subquestionclosedata.Id,
+            //            Name = questionclosechoice.answerclose,
+            //        };
+            //        _context.SubquestionChoices.Add(Subquestionchoiceclosedata);
+            //        _context.SaveChanges();
+            //    }
+            //}
+
+            foreach (var departmentId in model.inputsubjectdepartment)
             {
-                Name = model.Name,
-                CentralPolicyId = model.CentralPolicyId,
-                Answer = model.Answer,
+                var provincialdepartmentprovicedata = _context.ProvincialDepartmentProvince
+                    .Where(m => m.ProvincialDepartmentID == departmentId.departmentId)
+                    .Select(x => x.ProvinceId)
+                    .ToList();
 
-            };
-            _context.Subjects.Add(subjectdata);
-            _context.SaveChanges();
-
-            foreach (var id in model.CentralPolicyDateId)
-            {
-                var subjectdatedata = new SubjectDate
+                foreach (var provinceId in provincialdepartmentprovicedata)
                 {
-                    SubjectId = subjectdata.Id,
-                    CentralPolicyDateId = id
-                };
-                _context.SubjectDates.Add(subjectdatedata);
-            }
-            _context.SaveChanges();
+                    var centralpolicyprovinceData = _context.CentralPolicyProvinces
+                            .Where(x => x.ProvinceId == provinceId && x.CentralPolicyId == model.CentralPolicyId)
+                            .FirstOrDefault();
 
-            foreach (var questionopen in model.inputquestionopen)
-            {
-                var Subquestionopendata = new Subquestion
-                {
-                    SubjectId = subjectdata.Id,
-                    Name = questionopen.questionopen,
-                    Type = "คำถามปลายเปิด"
-                };
-                _context.Subquestions.Add(Subquestionopendata);
-            }
-            _context.SaveChanges();
-
-            foreach (var questionclose in model.inputquestionclose)
-            {
-                var Subquestionclosedata = new Subquestion
-                {
-                    SubjectId = subjectdata.Id,
-                    Name = questionclose.questionclose,
-                    Type = "คำถามปลายปิด"
-                };
-                _context.Subquestions.Add(Subquestionclosedata);
-                _context.SaveChanges();
-
-                foreach (var questionclosechoice in questionclose.inputanswerclose)
-                {
-                    var Subquestionchoiceclosedata = new SubquestionChoice
+                    var subjectdata = new SubjectCentralPolicyProvince
                     {
-                        SubquestionId = Subquestionclosedata.Id,
-                        Name = questionclosechoice.answerclose,
+                        Name = model.Name,
+                        CentralPolicyProvinceId = centralpolicyprovinceData.Id,
+                        Type = "Master",
+                        Status = "ใช้งานจริง"
                     };
-                    _context.SubquestionChoices.Add(Subquestionchoiceclosedata);
+                    _context.SubjectCentralPolicyProvinces.Add(subjectdata);
                     _context.SaveChanges();
+
+                    var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                    {
+                        ProvincialDepartmentId = departmentId.departmentId,
+                        SubjectCentralPolicyProvinceId = subjectdata.Id,
+                    };
+                    _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+                    _context.SaveChanges();
+
+                    foreach (var id in model.CentralPolicyDateId)
+                    {
+                        var CentralPolicyDatedata = _context.CentralPolicyDates
+                            .Where(m => m.Id == id).FirstOrDefault();
+
+                        var CentralPolicyDateProvincedata = new CentralPolicyDateProvince
+                        {
+                            StartDate = CentralPolicyDatedata.StartDate,
+                            EndDate = CentralPolicyDatedata.EndDate
+                        };
+                        _context.CentralPolicyDateProvinces.Add(CentralPolicyDateProvincedata);
+                        _context.SaveChanges();
+
+                        var subjectdatedata = new SubjectDateCentralPolicyProvince
+                        {
+                            SubjectCentralPolicyProvinceId = subjectdata.Id,
+                            CentralPolicyDateProvinceId = CentralPolicyDateProvincedata.Id,
+                        };
+                        _context.SubjectDateCentralPolicyProvinces.Add(subjectdatedata);
+                    }
+                    _context.SaveChanges();
+
+                    //var test = departmentId.inputquestionopen;
+                    //foreach(var data in model.inputsubjectdepartment)
+                    //{
+                    //    System.Console.WriteLine("TEST: " + data.inputquestionopen);
+                    //}
+
+                    foreach (var questionopen in departmentId.inputquestionopen)
+                    {
+                        System.Console.WriteLine("TEST: " + questionopen.questionopen);
+                        var Subquestionopendata = new SubquestionCentralPolicyProvince
+                        {
+                            SubjectCentralPolicyProvinceId = subjectdata.Id,
+                            Name = questionopen.questionopen,
+                            Type = "คำถามปลายเปิด"
+                        };
+                        _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
+                        _context.SaveChanges();
+
+                        foreach (var questionclose in departmentId.inputquestionclose)
+                        {
+                            var Subquestionclosedata = new SubquestionCentralPolicyProvince
+                            {
+                                SubjectCentralPolicyProvinceId = subjectdata.Id,
+                                Name = questionclose.questionclose,
+                                Type = "คำถามปลายปิด"
+                            };
+                            _context.SubquestionCentralPolicyProvinces.Add(Subquestionclosedata);
+                            _context.SaveChanges();
+
+                            foreach (var questionclosechoice in questionclose.inputanswerclose)
+                            {
+                                var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                                {
+                                    SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+                                    Name = questionclosechoice.answerclose,
+                                };
+                                _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+                                _context.SaveChanges();
+                            }
+                        }
+
+                    }
                 }
+
+                // return subjectdata;
             }
-
-            return subjectdata;
-
         }
 
         // PUT api/values/5

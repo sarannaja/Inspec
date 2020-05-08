@@ -53,16 +53,21 @@ export class SubquestionComponent implements OnInit {
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       centralpolicydateid: new FormControl(null, [Validators.required]),
-      subjectdepartment: this.subjectdepartmentId,
-      inputquestionopen: new FormArray([]),
-      inputquestionclose: this.fb.array([
-        this.initquestionclose()
-      ])
+      status: new FormControl(null, [Validators.required]),
+      inputsubjectdepartment: this.fb.array([
+        this.initdepartment()
+      ]),
+      // inputquestionopen: this.fb.array([
+      //   this.initquestionopen()
+      // ]),
+      // inputquestionclose: this.fb.array([
+      //   this.initquestionclose()
+      // ])
     })
     this.getTimeCentralPolicy()
-    this.d.push(this.fb.group({
-      questionopen: '',
-    }))
+    // this.d.push(this.fb.group({
+    //   questionopen: '',
+    // }))
 
     console.log("55555", this.Form.value);
   }
@@ -70,6 +75,23 @@ export class SubquestionComponent implements OnInit {
   get d() { return this.f.inputquestionopen as FormArray }
   get x() { return this.initanswerclose() }
 
+  initdepartment() {
+    return this.fb.group({
+      departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      inputquestionopen: this.fb.array([
+        this.initquestionopen()
+      ]),
+      inputquestionclose: this.fb.array([
+        this.initquestionclose()
+      ])
+    })
+  }
+  initquestionopen() {
+    return this.fb.group({
+      questionopen: [null, [Validators.required, Validators.pattern('[0-9]{3}')]]
+      
+    })
+  }
   initquestionclose() {
     return this.fb.group({
       questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
@@ -103,7 +125,7 @@ export class SubquestionComponent implements OnInit {
   //   // this.subjectdepartmentId.push(value.value)
   //   console.log("value", this.subjectdepartmentId);
   // }
-  
+
   addsubjectdepartment2(value, input) {
     // var subject = value.vaule
 
@@ -131,17 +153,7 @@ export class SubquestionComponent implements OnInit {
     return Array.from(s);
   }
 
-  addX() {
-    const control = <FormArray>this.Form.controls['inputquestionclose'];
-    control.push(this.initquestionclose());
-  }
-  addY(ix) {
-    const control = (<FormArray>this.Form.controls['inputquestionclose']).at(ix).get('inputanswerclose') as FormArray;
-    control.push(this.initanswerclose());
-  }
-  back() {
-    window.history.back();
-  }
+
 
   getTimeCentralPolicy() {
     this.centralpolicyservice.getdetailcentralpolicydata(this.id).subscribe(result => {
@@ -185,23 +197,20 @@ export class SubquestionComponent implements OnInit {
   }
 
   getDepartmentdata() {
-    this.resultprovince.forEach((element, index) => {
-      console.log('element', element);
+    // this.resultprovince.forEach((element, index) => {
+    //   console.log('element', element);
 
-      this.departmentservice.getdepartmentdata(element)
-        .subscribe(result => {
-          console.log("Result : " + index, result);
-          this.temp[index] = result.map((item, index) => {
-            return {
-              value: item.id,
-              label: item.provincialDepartment.name,
-              provincialDepartmentID: item.provincialDepartmentID,
-              provinceId: item.provinceId
-            }
-          })
-          console.log(this.temp[index]);
+    this.departmentservice.getalldepartdata()
+      .subscribe(result => {
+        this.temp = result.map((item, index) => {
+          return {
+            value: item.id,
+            label: item.name,
+          }
         })
-    });
+        console.log(result);
+      })
+    // });
   }
   storeSubject(value) {
     console.log(value);
@@ -214,20 +223,47 @@ export class SubquestionComponent implements OnInit {
     })
   }
 
-  appendquestionopen() {
-    this.d.push(this.fb.group({
-      questionopen: ''
-    }))
+  // appendquestionopen() {
+  //   this.d.push(this.fb.group({
+  //     questionopen: ''
+  //   }))
+  // }
+  addV() {
+    const control = <FormArray>this.Form.controls['inputsubjectdepartment'];
+    control.push(this.initdepartment());
   }
-  remove(index: number) {
-    this.d.removeAt(index);
+  addW(iv) {
+    const control = (<FormArray>this.Form.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.push(this.initquestionopen());
   }
-  removeX(index: number) {
-    const control = <FormArray>this.Form.controls['inputquestionclose'];
+  addX(iv) {
+    const control = (<FormArray>this.Form.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.push(this.initquestionclose());
+  }
+  addY(iv, ix) {
+    const control = ((<FormArray>this.Form.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+    control.push(this.initanswerclose());
+  }
+  // remove(index: number) {
+  //   this.d.removeAt(index);
+  // }
+  removeV(index: number) {
+    const control = <FormArray>this.Form.controls['inputsubjectdepartment'];
     control.removeAt(index);
   }
-  removeY(ix: number, iy: number) {
-    const control = (<FormArray>this.Form.controls['inputquestionclose']).at(ix).get('inputanswerclose') as FormArray;
+  removeW(iv: number, iw: number) {
+    const control = (<FormArray>this.Form.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.removeAt(iw);
+  }
+  removeX(iv: number, ix: number) {
+    const control = (<FormArray>this.Form.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.removeAt(ix);
+  }
+  removeY(iv: number, ix: number, iy: number) {
+    const control = ((<FormArray>this.Form.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
     control.removeAt(iy);
+  }
+  back() {
+    window.history.back();
   }
 }

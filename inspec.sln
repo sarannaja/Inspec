@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InspecWeb", "InspecWeb\InspecWeb.csproj", "{FC678256-1DB2-4C57-BA1A-19B46E9E0027}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InspecWeb", "InspecWeb\InspecWeb.csproj", "{FC678256-1DB2-4C57-BA1A-19B46E9E0027}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailService\EmailService.csproj", "{084812E8-7C19-4F4F-8636-AEEAC730F40A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FC678256-1DB2-4C57-BA1A-19B46E9E0027}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC678256-1DB2-4C57-BA1A-19B46E9E0027}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC678256-1DB2-4C57-BA1A-19B46E9E0027}.Release|Any CPU.Build.0 = Release|Any CPU
+		{084812E8-7C19-4F4F-8636-AEEAC730F40A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084812E8-7C19-4F4F-8636-AEEAC730F40A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084812E8-7C19-4F4F-8636-AEEAC730F40A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084812E8-7C19-4F4F-8636-AEEAC730F40A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
