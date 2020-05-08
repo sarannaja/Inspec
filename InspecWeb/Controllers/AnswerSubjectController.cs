@@ -52,8 +52,8 @@ namespace InspecWeb.Controllers
             var subjectcentralpolicyprovincegroupsdata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinces)
-                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
-                .ThenInclude(m => m.ProvincialDepartment)
+                //.ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                //.ThenInclude(m => m.ProvincialDepartment)
                 .ToList();
 
             //var subjectcentralpolicyprovincegroupsdata = _context.SubjectCentralPolicyProvinceGroups
@@ -80,13 +80,13 @@ namespace InspecWeb.Controllers
                 .Where(x => x.ProvincialDepartmentId == provincialdepartment.Id)
                 .GroupBy(g => new
                 {
-                    subjectPolicyProvinceId = g.SubjectCentralPolicyProvinceId,
+                    //subjectPolicyProvinceId = g.SubjectCentralPolicyProvinceId,
                     SubjectCentralPolicyProvinceGroupId = g.Id
                 })
                 .Select(g => new
                 {
                     g.Key.SubjectCentralPolicyProvinceGroupId,
-                    g.Key.subjectPolicyProvinceId,
+                    //g.Key.subjectPolicyProvinceId,
                    
                 })
                 .ToList();
@@ -94,7 +94,7 @@ namespace InspecWeb.Controllers
             foreach(var data in test)
             {
                 var test2 = _context.SubjectCentralPolicyProvinces
-                    .Where(x => x.Id == data.subjectPolicyProvinceId)
+                    //.Where(x => x.Id == data.subjectPolicyProvinceId)
                     .GroupBy(g => new
                     {
                         CentralPolicyProvinceID = g.CentralPolicyProvinceId
