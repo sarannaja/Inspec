@@ -77,7 +77,8 @@ namespace InspecWeb.Data
 
         public DbSet<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
         //public DbSet<SubquestionGroup> SubquestionGroups { get; set; }
-        
+        public DbSet<ExecutiveOrderFile> ExecutiveFiles { get; set; }
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

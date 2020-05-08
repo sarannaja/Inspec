@@ -39,20 +39,16 @@ namespace InspecWeb.Controllers
 
 
         [HttpGet]
-        public IEnumerable<CentralPolicy> Get()
+        public IEnumerable<ExecutiveOrder> Get()
         {
 
-            var centralpolicydata = _context.CentralPolicies
-                   .Include(m => m.CentralPolicyDates)
-                   .Where(m => m.Class == "แผนการตรวจประจำปี")
-                   .ToList();
-
-            return centralpolicydata;
+            var executivedata = _context.ExecutiveOrders.ToList();
+            return executivedata;
         }
 
         [HttpGet("{id}")]
         public object Get(long id)
-        {       
+        {
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
@@ -66,7 +62,63 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicydata);
             //return "value";
         }
-                    
+        [HttpPost]
+        public object Post([FromForm] string name, long centralpolicyid, long provinceid)
+        {
+            System.Console.WriteLine("centralpolicy: " + centralpolicyid);
+            System.Console.WriteLine("provinceid: " + provinceid);
+            var cabinedata = new ExecutiveOrder
+            {
+
+                DetailExecutiveOrder = name,
+                CentralPolicyId = centralpolicyid,
+                ProvinceId = provinceid
+
+            };
+
+            var data = _context.ExecutiveOrders.Add(cabinedata);
+            _context.SaveChanges();
+
+            return Ok(new { data });
+        }
+
+        [HttpGet("province/{id}")]
+        public object Getprovince(long id)
+        {
+            var result = new List<object>();
+
+
+            var centralpolicyprovincedata = _context.CentralPolicyProvinces
+                .Include(m => m.Province)
+                .Where(m => m.CentralPolicyId == id)
+                .ToList();
+
+            //foreach (var provinceid in centralpolicyprovincedata)
+            //{
+            //    var provincename = _context.Provinces
+            //        .Where(x => x.Id == provinceid)
+            //        .ToList();
+
+            //    result.Add(
+
+            //        provincename
+            //    );
+            //}
+
+            return Ok(centralpolicyprovincedata);
+            //return "value";
+        }
+        [HttpGet("detail/{id}")]//new///
+        public IActionResult Getexecutive(long id)
+        {
+            var executiveOrderdata = _context.ExecutiveOrders
+                /*.Include(m => m.DetailExecutiveOrder)*/
+                .Include(m => m.Province)
+                .Where(m => m.CentralPolicyId == id);
+
+            return Ok(executiveOrderdata);
+            //return "value";
         }
     }
+}
 

@@ -6,3 +6,11 @@ C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\bi
 C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
 C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb
 C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.csprojAssemblyReference.cache
+C:\Users\Tanac\Desktop\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.deps.json
+C:\Users\Tanac\Desktop\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.dll
+C:\Users\Tanac\Desktop\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.pdb
+C:\Users\Tanac\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.csprojAssemblyReference.cache
+C:\Users\Tanac\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfoInputs.cache
+C:\Users\Tanac\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfo.cs
+C:\Users\Tanac\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
+C:\Users\Tanac\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb
