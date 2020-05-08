@@ -28,13 +28,24 @@ export class SubjectService {
     // })
     // console.log("ARRAY: ", subjectdepartment);
     var departmentId = []
+    var test = []
     for (var i = 0; i < subjectdepartment.length; i++) {
       for (var j = 0; j < subjectdepartment[i].departmentId.length; j++) {
         departmentId.push({ departmentId: subjectdepartment[i].departmentId[j], inputsubjectdepartment: subjectdepartment[i] })
       }
-
     }
-    console.log("test", departmentId);
+    console.log("departmentId",departmentId);
+    
+    test = departmentId.map((item, index) => {
+      return {
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
+        inputquestionclose: item.inputsubjectdepartment.inputquestionclose
+      }
+    })
+    console.log("test", test);
+
+
 
     // const formData = new FormData();
     // formData.append('Name', subjectData.name);
@@ -50,9 +61,10 @@ export class SubjectService {
     const formData = {
       Name: subjectData.name,
       Answer: subjectData.name,
+      Status: subjectData.status,
       CentralPolicyId: parseInt(centralpolicyid),
       CentralPolicyDateId: subjectData.centralpolicydateid,
-      inputsubjectdepartment: departmentId,
+      inputsubjectdepartment: test,
       // test: departmentId
       // inputquestionopen: subjectdepartment.inputquestionopen,
       // inputquestionclose: subjectdepartment.inputquestionclose,

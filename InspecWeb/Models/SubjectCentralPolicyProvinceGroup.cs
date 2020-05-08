@@ -18,8 +18,8 @@ namespace InspecWeb.Models
 
         [ForeignKey("SubjectCentralPolicyProvince")]
         [Description("FK: ประเด็น")]
-        public long SubjectCentralPolicyProvinceId { get; set; }
-        public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
+        public long SubquestionCentralPolicyProvinceId { get; set; }
+        public virtual SubquestionCentralPolicyProvince SubquestionCentralPolicyProvince { get; set; }
 
         [ForeignKey("ProvincialDepartment")]
         [Description("FK: ประเด็น")]

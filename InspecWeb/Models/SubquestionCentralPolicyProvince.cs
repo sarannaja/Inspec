@@ -31,6 +31,7 @@ namespace InspecWeb.Models
         public string Type { get; set; }
 
         public ICollection<SubquestionChoiceCentralPolicyProvince> SubquestionChoiceCentralPolicyProvinces { get; set; }
+        public ICollection<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
 
     }
 }
