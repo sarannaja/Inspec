@@ -16,6 +16,6 @@ namespace InspecWeb.ViewModel
         public long ProvinceId { get; set; }
         public DateTime StartPlanDate { get; set; }
         public DateTime EndPlanDate { get; set; }
-        public long CentralPolicyId { get; set; }
+        //public long CentralPolicyId { get; set; }
     }
 }

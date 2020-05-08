@@ -69,6 +69,7 @@ import { CreateElectronicBookComponent } from './electronic-book/create-electron
 import { EditElectronicBookComponent } from './electronic-book/edit-electronic-book/edit-electronic-book.component';
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
 import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
+import { CalendarUserComponent } from './calendar-user/calendar-user.component';
 
 
 @NgModule({
@@ -125,8 +126,8 @@ import { AnswerSubjectComponent } from './answer-subject/answer-subject.componen
     CreateElectronicBookComponent,
     EditElectronicBookComponent,
     DetailElectronicBookComponent,
-    AnswerSubjectComponent
-
+    AnswerSubjectComponent,
+    CalendarUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -187,7 +188,7 @@ import { AnswerSubjectComponent } from './answer-subject/answer-subject.componen
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'usercentralpolicy/:id', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'test/logout', component: LogoutComponent},
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
@@ -198,7 +199,7 @@ import { AnswerSubjectComponent } from './answer-subject/answer-subject.componen
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
-
+          { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

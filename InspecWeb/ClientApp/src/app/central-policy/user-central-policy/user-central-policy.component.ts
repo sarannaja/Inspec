@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CentralpolicyService } from '../../services/centralpolicy.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -18,13 +18,16 @@ export class UserCentralPolicyComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   loading = false;
   userid: string
-
+  id
   constructor(
-    private router:Router,
+    private router: Router,
     private centralpolicyservice: CentralpolicyService,
     private modalService: BsModalService,
     private authorize: AuthorizeService,
-    private spinner: NgxSpinnerService) { }
+    private activatedRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService) {
+    this.id = activatedRoute.snapshot.paramMap.get('id')
+  }
 
   ngOnInit() {
     this.authorize.getUser()
@@ -46,13 +49,13 @@ export class UserCentralPolicyComponent implements OnInit {
 
     };
 
-    this.centralpolicyservice.getcentralpolicyuserinviteddata(this.userid)
-    .subscribe(result => {
-      this.resultcentralpolicy = result
-      this.loading = true;
-      this.spinner.hide();
-      console.log("resultcentralpolicyDATA: ", this.resultcentralpolicy);
-    })
+    this.centralpolicyservice.getcentralpolicyuserinviteddata(this.userid, this.id)
+      .subscribe(result => {
+        this.resultcentralpolicy = result
+        this.loading = true;
+        this.spinner.hide();
+        console.log("resultcentralpolicyDATA: ", this.resultcentralpolicy);
+      })
 
   }
 
@@ -76,19 +79,19 @@ export class UserCentralPolicyComponent implements OnInit {
     })
   }
 
-  CreateCentralPolicy(){
+  CreateCentralPolicy() {
     this.router.navigate(['/centralpolicy/createcentralpolicy'])
   }
-  DetailCentralPolicy(id:any){
-    this.router.navigate(['/centralpolicy/detailcentralpolicy',id])
+  DetailCentralPolicy(id: any) {
+    this.router.navigate(['/centralpolicy/detailcentralpolicy', id])
   }
 
-  AcceptCentralPolicy(id: any){
-    this.router.navigate(['/acceptcentralpolicy',id])
+  AcceptCentralPolicy(id: any) {
+    this.router.navigate(['/acceptcentralpolicy', id])
   }
 
   gotoReport(id: any) {
-    this.router.navigate(['/reportcentralpolicy',id])
+    this.router.navigate(['/reportcentralpolicy', id])
   }
 
 }
