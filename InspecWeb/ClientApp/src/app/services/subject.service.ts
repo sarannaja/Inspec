@@ -35,7 +35,7 @@ export class SubjectService {
       }
     }
     console.log("departmentId",departmentId);
-    
+
     test = departmentId.map((item, index) => {
       return {
         departmentId: item.departmentId,
@@ -162,6 +162,24 @@ export class SubjectService {
     formData.append('name', data.subquestionclosechoice);
 
     return this.http.put(this.url + "editsunquestionchoiceprovince/" + id, formData);
+  }
+
+  editsubjectchoiceprovince(data, id) {
+    console.log("subject: ", data);
+
+    const formData = new FormData();
+    formData.append('name', data.subject);
+
+    return this.http.put(this.url + "editsubjectchoiceprovince/" + id, formData);
+  }
+
+  editsubjectquestionopenchoiceprovince(data, id) {
+    console.log("subjectquestionopen: ", data);
+
+    const formData = new FormData();
+    formData.append('name', data.subjectquestionopen);
+
+    return this.http.put(this.url + "editsubjectquestionopenchoiceprovince/" + id, formData);
   }
 }
 

@@ -703,5 +703,28 @@ namespace InspecWeb.Controllers
 
         }
 
+        [HttpPut("editsubjectchoiceprovince/{id}")]
+        public void PutSubjectchoiceProvince(long id, string name)
+        {
+            System.Console.WriteLine("NAME: " + name);
+            var Subjectchoicedata = _context.SubjectCentralPolicyProvinces.Find(id);
+            Subjectchoicedata.Name = name;
+
+            _context.Entry(Subjectchoicedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        [HttpPut("editsubjectquestionopenchoiceprovince/{id}")]
+        public void PutSubjectquestionopenchoiceProvince(long id, string name)
+        {
+            var SubjectQuestionOpenchoicedata = _context.SubquestionCentralPolicyProvinces.Find(id);
+            SubjectQuestionOpenchoicedata.Name = name;
+
+            _context.Entry(SubjectQuestionOpenchoicedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
     }
 }
