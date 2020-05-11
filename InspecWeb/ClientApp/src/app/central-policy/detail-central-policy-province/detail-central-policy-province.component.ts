@@ -30,12 +30,16 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   EditForm2: FormGroup;
+  EditForm3: FormGroup;
+  EditForm4: FormGroup;
   selectpeople: Array<IOption>
   selectministrypeople: Array<IOption>
   modalRef: BsModalRef;
   editid: any
   subquestionclosename: any
   subquestionclosechoicename: any
+  subject: any;
+  subjectquestionopen: any;
   downloadUrl: any
   loading = false;
   electronicbookid: any
@@ -71,6 +75,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     this.EditForm2 = this.fb.group({
       subquestionclosechoice: new FormControl(),
+    })
+
+    this.EditForm3 = this.fb.group({
+      subject: new FormControl(),
+    })
+
+    this.EditForm4 = this.fb.group({
+      subjectquestionopen: new FormControl(),
     })
 
     // this.userservice.getuserdata(7).subscribe(result => {
@@ -135,6 +147,34 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
+  editModal3(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subject = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm3 = this.fb.group({
+      subject: new FormControl(),
+
+    })
+    this.EditForm3.patchValue({
+      subject: name,
+    })
+  }
+
+  editModal4(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subjectquestionopen = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm4 = this.fb.group({
+      subjectquestionopen: new FormControl(),
+
+    })
+    this.EditForm4.patchValue({
+      subjectquestionopen: name,
+    })
+  }
+
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
       .subscribe(result => {
@@ -195,6 +235,24 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.subjectservice.editsubquestionchoiceprovince(value, id).subscribe(response => {
       console.log(value);
       this.EditForm2.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editsubject(value, id) {
+    this.subjectservice.editsubjectchoiceprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm3.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editsubjectquestionopen(value, id) {
+    this.subjectservice.editsubjectquestionopenchoiceprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm4.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
     })
