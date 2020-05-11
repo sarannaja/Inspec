@@ -7,6 +7,7 @@ import { IOption } from 'ng-select';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubjectService } from 'src/app/services/subject.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -55,7 +56,9 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.downloadUrl = baseUrl + '/Uploads';
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    console.log("ID: ", this.id);
+
     this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
@@ -89,18 +92,19 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
 
     // this.getDetailCentralPolicy()
-    this.getCentralPolicyProvinceUser()
-    this.getDetailCentralPolicyProvince()
+    await this.getCentralPolicyProvinceUser()
+    await this.getDetailCentralPolicyProvince()
+
+    await this.getMinistryPeople();
+    await this.getUserPeople();
 
     setTimeout(() => {
       this.spinner.hide();
-    }, 2000);
+    }, 800);
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-    this.getMinistryPeople();
-    this.getUserPeople();
   }
 
   editModal(template: TemplateRef<any>, id, name) {
@@ -196,15 +200,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
-  getMinistryPeople() {
-    this.userservice.getuserdata(6).subscribe(result => {
+  async getMinistryPeople() {
+    await this.userservice.getuserdata(6).subscribe(result => {
       this.resultministrypeople = result // All
     })
 
-    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(result => {
-      result.forEach(element => {
+    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(async result => {
+      await result.forEach(async element => {
         if (element.user.role_id == 6) {
-          this.allMinistryPeople.push(element.user)
+          await this.allMinistryPeople.push(element.user)
         }
       }); // Selected
       // console.log("selectedMinistry: ", this.allMinistryPeople);
@@ -212,14 +216,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
-  getRecycledMinistryPeople() {
+  async getRecycledMinistryPeople() {
     this.selectdataministrypeople = []
     this.ministryPeople = this.allMinistryPeople
-    // console.log("MINISTRY: ", this.ministryPeople);
-    // console.log("allMinistry: ", this.resultministrypeople);
+    console.log("MINISTRY: ", this.ministryPeople);
+    console.log("allMinistry: ", this.resultministrypeople);
     if (this.ministryPeople.length == 0) {
       for (var i = 0; i < this.resultministrypeople.length; i++) {
-        this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
       }
     }
     else {
@@ -227,26 +231,26 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         var n = 0;
         for (var ii = 0; ii < this.ministryPeople.length; ii++) {
           if (this.resultministrypeople[i].id == this.ministryPeople[ii].id) {
-            n++;
+            await n++;
           }
         }
         if (n == 0) {
-          this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
         }
       }
     }
     // console.log("TEST: ", this.selectdataministrypeople);
   }
 
-  getUserPeople() {
-    this.userservice.getuserdata(7).subscribe(result => {
+  async getUserPeople() {
+    await this.userservice.getuserdata(7).subscribe(result => {
       // alert(JSON.stringify(result))
       this.resultpeople = result
     })
-    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(result => {
-      result.forEach(element => {
+    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(async result => {
+      await result.forEach(async element => {
         if (element.user.role_id == 7) {
-          this.allUserPeople.push(element.user)
+          await this.allUserPeople.push(element.user)
         }
       }); // Selected
       console.log("selectedUser: ", this.allUserPeople);
@@ -254,15 +258,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
-  getRecycledUserPeople() {
+  async getRecycledUserPeople() {
     this.selectdatapeople = []
     this.userPeople = this.allUserPeople
-    console.log("MINISTRY: ", this.userPeople);
-    console.log("allMinistry: ", this.resultpeople);
+    console.log("user: ", this.userPeople);
+    console.log("allUser: ", this.resultpeople);
 
     if (this.userPeople.length == 0) {
       for (var i = 0; i < this.resultpeople.length; i++) {
-        this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
       }
     }
     else {
@@ -270,11 +274,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         var n = 0;
         for (var ii = 0; ii < this.userPeople.length; ii++) {
           if (this.resultpeople[i].id == this.userPeople[ii].id) {
-            n++;
+            await n++;
           }
         }
         if (n == 0) {
-          this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
         }
       }
     }
