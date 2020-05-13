@@ -133,6 +133,14 @@ namespace InspecWeb.Controllers
                 _context.ElectronicBooks.Add(ElectronicBookdata);
                 _context.SaveChanges();
 
+                var ElectronicBookGroupdata = new ElectronicBookGroup
+                {
+                    CentralPolicyProvinceId = model.ProvinceId,
+                    ElectronicBookId = ElectronicBookdata.Id,
+                };
+                _context.ElectronicBookGroups.Add(ElectronicBookGroupdata);
+                _context.SaveChanges();
+
                 var centralpolicyeventdata = new CentralPolicyEvent
                 {
                     CentralPolicyId = id,

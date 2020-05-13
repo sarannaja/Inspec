@@ -103,15 +103,28 @@ export class ElectronicbookService {
     return this.http.post(this.url, formData);
   }
 
+
+  addElectronicBookFileFromCalendar(value, file: FileList, electronicbookid) {
+    const formData = new FormData();
+    formData.append('ElectronicBookId', electronicbookid);
+
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post(this.url + "calendarfile", formData);
+  }
+
   deleteElectronicBook(id) {
     return this.http.delete(this.url + id)
   }
 
-  getElectronicBookDetail(centralPolicyUserId): Observable <any> {
+  getElectronicBookDetail(centralPolicyUserId): Observable<any> {
     return this.http.get<any>(this.url + 'getElectronicBookById/' + centralPolicyUserId);
   }
 
-  editElectronicBookDetail(value, electID, file: FileList,) {
+  editElectronicBookDetail(value, electID, file: FileList, ) {
     console.log("EDIT VALUE: ", value);
     console.log("EDIT FILE: ", file);
     // const formData = {
@@ -137,5 +150,11 @@ export class ElectronicbookService {
 
   deleteFile(id) {
     return this.http.delete(this.url + 'deletefile/' + id);
+  }
+
+  getCalendarFile(electID) {
+    console.log("SERVICE EID: ", electID);
+
+    return this.http.get(this.url + "getCalendarFile/" + electID)
   }
 }
