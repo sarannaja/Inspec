@@ -26,6 +26,8 @@ export class ReportCentralPolicyComponent implements OnInit {
   resultelectronicbookdetail: any = [];
   draftStatus: any;
   resultuser: any = []
+  centralpolicyproviceid
+  electronicbookid
   constructor(
     private fb: FormBuilder,
     private authorize: AuthorizeService,
@@ -34,6 +36,7 @@ export class ReportCentralPolicyComponent implements OnInit {
     private modalService: BsModalService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
   }
 
   ngOnInit() {
@@ -53,7 +56,7 @@ export class ReportCentralPolicyComponent implements OnInit {
     this.getDetailCentralPolicy();
     this.getCentralPolicyUser();
     this.getUserFiles();
-    this.getSubjectCentralPolicyProvince();
+    this.getDetailCentralPolicyProvince();
   }
 
   getDetailCentralPolicy() {
@@ -129,11 +132,22 @@ export class ReportCentralPolicyComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  getSubjectCentralPolicyProvince() {
-    this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  // getSubjectCentralPolicyProvince() {
+  //   this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  //     .subscribe(result => {
+  //       this.resultdetailcentralpolicyprovince = result
+  //       console.log("resultdetailcentralpolicyprovince : ", result);
+  //     })
+  // }
+  getDetailCentralPolicyProvince() {
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.centralpolicyproviceid)
       .subscribe(result => {
-        this.resultdetailcentralpolicyprovince = result
-        console.log("resultdetailcentralpolicyprovince : ", result);
+        console.log("123", result);
+        // alert(JSON.stringify(result))
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
       })
   }
 

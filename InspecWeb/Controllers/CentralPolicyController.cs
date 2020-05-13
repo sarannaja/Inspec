@@ -541,6 +541,12 @@ namespace InspecWeb.Controllers
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(m => m.ProvincialDepartment)
+
+                .Where(m => m.Type == "NoMaster")
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
             var InspectionPlanEventdata = _context.InspectionPlanEvents

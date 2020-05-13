@@ -12,7 +12,7 @@ namespace InspecWeb.ViewModel
         public long InspectionPlanEventId { get; set; }
 
         public string CreatedBy { get; set; }
-        
-    }
 
+        public long ProvinceId { get; set; }
+    }
 }
