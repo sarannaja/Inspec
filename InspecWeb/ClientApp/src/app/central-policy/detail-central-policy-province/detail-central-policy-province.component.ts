@@ -8,6 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubjectService } from 'src/app/services/subject.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { async } from '@angular/core/testing';
+import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -47,6 +48,9 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   ministryPeople: any = [];
   selectdatapeople: Array<IOption>
   userPeople: any = [];
+  fileStatus = false;
+  form: FormGroup;
+  carlendarFile: any = [];
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -55,6 +59,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
+    private electronicBookService: ElectronicbookService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
@@ -66,6 +71,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
+      // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
+
+    this.form = this.fb.group({
+      files: [null]
       // UserMinistryId: new FormControl(null, [Validators.required]),
     })
 
@@ -191,6 +201,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+
+        this.getCalendarFile();
       })
   }
 
@@ -205,7 +217,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
 
   storeFiles(value) {
-
+    // alert(JSON.stringify(value))
+    this.electronicBookService.addElectronicBookFileFromCalendar(value, this.form.value.files, this.electronicbookid).subscribe(response => {
+      console.log(value);
+      this.Form.reset()
+      // this.router.navigate(['inspectionplanevent'])
+      console.log("get");
+      window.history.back();
+    })
   }
 
   storePeople(value) {
@@ -342,4 +361,24 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     }
     console.log("TEST: ", this.selectdatapeople);
   }
+
+  uploadFile(event) {
+    this.fileStatus = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      files: file
+    });
+    console.log("fff:", this.form.value.files)
+    this.form.get('files').updateValueAndValidity()
+  }
+
+  getCalendarFile() {
+    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+      this.carlendarFile = res;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+
 }
