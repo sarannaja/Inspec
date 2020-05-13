@@ -30,6 +30,10 @@ namespace InspecWeb.Models
         [Description("ประเภทของคำถามย่อย")]
         public string Type { get; set; }
 
+        [Required]
+        [Description("กล่อง")]
+        public long Box { get; set; }
+
         public ICollection<SubquestionChoiceCentralPolicyProvince> SubquestionChoiceCentralPolicyProvinces { get; set; }
         public ICollection<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
 
