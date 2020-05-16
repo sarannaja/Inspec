@@ -166,18 +166,18 @@ export class SubjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  storeSubject(value) {
-    console.log(value);
-    this.subjectservice.addSubject(value, this.id).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.getSubject()
-      // this.subjectservice.getsubjectdata(this.id).subscribe(result => {
-      //   this.resultsubject = result
-      //   console.log(this.resultsubject);
-      // })
-    })
-  }
+  // storeSubject(value) {
+  //   console.log(value);
+  //   this.subjectservice.addSubject(value, this.id).subscribe(response => {
+  //     this.Form.reset()
+  //     this.modalRef.hide()
+  //     this.getSubject()
+  //     // this.subjectservice.getsubjectdata(this.id).subscribe(result => {
+  //     //   this.resultsubject = result
+  //     //   console.log(this.resultsubject);
+  //     // })
+  //   })
+  // }
   deleteSubject(value) {
     this.subjectservice.deleteSubject(value).subscribe(response => {
       console.log(value);

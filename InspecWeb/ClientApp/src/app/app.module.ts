@@ -70,6 +70,8 @@ import { EditElectronicBookComponent } from './electronic-book/edit-electronic-b
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
 import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
 import { CalendarUserComponent } from './calendar-user/calendar-user.component';
+import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
+import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
 
 
 @NgModule({
@@ -127,7 +129,9 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
     EditElectronicBookComponent,
     DetailElectronicBookComponent,
     AnswerSubjectComponent,
-    CalendarUserComponent
+    CalendarUserComponent,
+    AnswerSubjectListComponent,
+    AnswerSubjectDetailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -200,6 +204,8 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

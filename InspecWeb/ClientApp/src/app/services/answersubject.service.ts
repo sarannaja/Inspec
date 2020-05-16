@@ -14,6 +14,12 @@ export class AnswersubjectService {
     this.url = baseUrl + 'api/answersubject/';
   }
   getuseredata(id):Observable<any[]> {
-    return this.http.get<any[]>(this.url + id)
+    return this.http.get<any[]>(this.url+"nik/" + id)
+  }
+  getsubjectlistdata(id):Observable<any[]>{
+    return this.http.get<any[]>(this.url+"subjectlist/" + id)
+  }
+  getsubjectdetaildata(id):Observable<any[]>{
+    return this.http.get<any[]>(this.url+"subjectdetail/" + id)
   }
 }
