@@ -26,6 +26,20 @@ namespace InspecWeb.ViewModel
         public string phonenumber { get; set; }
     }
 
+
+    public class OtpsMinisters
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Photo { get; set; }
+        public string Position { get; set; }
+        public string PositionShort { get; set; }
+        public OtpsCabinets Cabinet { get; set; }
+        public List<OtpsFiscalYearMinisters> FiscalYears { get; set; }
+
+    }
+
+
     public class OtpsRegions
     {
         public int Id { get; set; }
@@ -47,13 +61,40 @@ namespace InspecWeb.ViewModel
     {
         public int Count { get; set; }
         public int Completed { get; set; }
-        public int TotalBudget { get; set; }
+        public double TotalBudget { get; set; }
         public double TotalAmount { get; set; }
         public double TotalSpent { get; set; }
         public double TotalPercent { get; set; }
 
     }
     public class OtpsProvinces
+    {
+
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+    }
+
+    public class OtpsCabinets
+    {
+
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+    }
+
+     public class OtpsFiscalYearMinisters
+    {
+
+        public int Year { get; set; }
+        public string Name { get; set; }
+        public OtpsProjects Projects { get; set; }
+
+        public List<OtpsRegionMinisters> Regions { get; set; }
+
+    }
+
+     public class OtpsRegionMinisters
     {
 
         public int Id { get; set; }
