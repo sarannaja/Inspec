@@ -157,4 +157,10 @@ export class ElectronicbookService {
 
     return this.http.get(this.url + "getCalendarFile/" + electID)
   }
+
+  getElectronicbookFile(electID) {
+    console.log("SERVICE EID: ", electID);
+
+    return this.http.get(this.url + "getElectronicbookFile/" + electID)
+  }
 }

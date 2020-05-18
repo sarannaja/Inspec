@@ -57,11 +57,17 @@ namespace InspecWeb.Controllers
         [HttpGet("getcentralpolicydata/{provinceid}")]
         public IEnumerable<CentralPolicy> Get2(long provinceid)
         {
+            //return _context.CentralPolicies
+            //           .Include(m => m.CentralPolicyProvinces)
+            //           //.ThenInclude(m => m.SubjectCentralPolicyProvinces)
+            //           .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
+
             return _context.CentralPolicies
                        .Include(m => m.CentralPolicyProvinces)
-                       .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
-                       //.ThenInclude(x => x.Province)
-                       //.ToList();
+                       .ThenInclude(m => m.SubjectCentralPolicyProvinces)
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")))
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
+                       .ToList();
         }
 
         // POST api/values

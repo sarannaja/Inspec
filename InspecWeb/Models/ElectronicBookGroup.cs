@@ -26,6 +26,11 @@ namespace InspecWeb.Models
         public long CentralPolicyProvinceId { get; set; }
         public virtual CentralPolicyProvince CentralPolicyProvince { get; set; }
 
+        //[ForeignKey("SubjectCentralPolicyProvince")]
+        //[Description("FK: SubjectCentralPolicyProvince")]
+        //public long SubjectCentralPolicyProvinceId { get; set; }
+        //public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
+
         //public ICollection<CentralPolicyUser> CentralPolicyUsers { get; set; }
         //public ICollection<CentralPolicyUserFile> CentralPolicyUserFiles { get; set; }
     }
