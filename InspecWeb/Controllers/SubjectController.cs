@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +17,23 @@ namespace InspecWeb.Controllers
     [Route("api/[controller]")]
     public class SubjectController : Controller
     {
+        public static IWebHostEnvironment _environment;
+
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private readonly ApplicationDbContext _context;
 
-        public SubjectController(ApplicationDbContext context)
+        public SubjectController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/values
@@ -144,8 +158,11 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] SubjectViewModel model)
+        public IActionResult Post([FromBody] SubjectViewModel model)
         {
+
+            long GetSubjectID = 0;
+            List<object> termsList = new List<object>();
 
             //var subjectdata = new Subject
             //{
@@ -241,9 +258,11 @@ namespace InspecWeb.Controllers
                             _context.SaveChanges();
 
                             subjectid = subjectdata.Id;
-
+                            GetSubjectID = subjectid;
                             //file
-                            
+
+
+
                         }
 
                         //var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
@@ -302,17 +321,18 @@ namespace InspecWeb.Controllers
                                 };
                                 _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
                                 _context.SaveChanges();
-                 
+
                                 foreach (var box2 in model.inputsubjectdepartment)
                                 {
-                                    if(box2.box == departmentId.box) { 
-                                    var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                                    if (box2.box == departmentId.box)
                                     {
-                                        ProvincialDepartmentId = box2.departmentId,
-                                        SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
-                                    };
-                                    _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-                                    _context.SaveChanges();
+                                        var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                                        {
+                                            ProvincialDepartmentId = box2.departmentId,
+                                            SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                                        };
+                                        _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+                                        _context.SaveChanges();
                                     }
                                 }
                             }
@@ -394,6 +414,12 @@ namespace InspecWeb.Controllers
                             };
                             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
                             _context.SaveChanges();
+
+
+                            termsList.Add(subjectdata.Id);
+                            //long test2 = subjectdata.Id;
+
+                            //GetSubjectID = test2;
 
                             //var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
                             //{
@@ -485,11 +511,117 @@ namespace InspecWeb.Controllers
                             }
                         }
                     }
-                    // return subjectdata;
+                    //return subjectdata;
                 }
-            }
-        }
 
+            }
+            return Ok(new { GetSubjectID, termsList });
+        }
+        // POST: api/
+        [HttpPost("addfiles")]
+        public async Task<IActionResult> Post5([FromForm] SubjectFileViewModel model)
+        {
+
+
+            System.Console.WriteLine("Start Upload");
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                System.Console.WriteLine("in2");
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "//Uploads//";
+            System.Console.WriteLine("Start Upload 2");
+
+            foreach (var id in model.SubjectCentralPolicyProvinceId)
+            {
+
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    //foreach (var formFile in data.files)
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+                    if (formFile.Value.Length > 0)
+                    {
+
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+
+
+                    }
+                    System.Console.WriteLine("Start Upload 4.1");
+                    {
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var SubjectFile = new SubjectCentralPolicyProvinceFile
+                        {
+
+                            SubjectCentralPolicyProvinceId = id,
+                            Name = random + filename,
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.SubjectCentralPolicyProvinceFiles.Add(SubjectFile);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
+
+
+                        System.Console.WriteLine("Start Upload 5");
+                    }
+                    //foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                    ////foreach (var formFile in data.files)
+                    //{
+
+                    //    System.Console.WriteLine("Start Upload 3");
+                    //    var random = RandomString(10);
+                    //    string filePath2 = formFile.Value.FileName;
+                    //    string filename = Path.GetFileName(filePath2);
+                    //    string ext = Path.GetExtension(filename);
+
+                    //    if (formFile.Value.Length > 0)
+                    //    {
+
+                    //        System.Console.WriteLine("Start Upload 4");
+                    //        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    //        using (var stream = System.IO.File.Create(filePath + random + filename))
+                    //        {
+                    //            await formFile.Value.CopyToAsync(stream);
+                    //        }
+
+
+
+                    //    }
+                    //    System.Console.WriteLine("Start Upload 4.1");
+                    //    var SubjectFile = new SubjectCentralPolicyProvinceFile
+                    //    {
+
+                    //        SubjectCentralPolicyProvinceId = id,
+                    //        Name = random + filename,
+                    //    };
+
+                    //    System.Console.WriteLine("Start Upload 4.2");
+                    //    _context.SubjectCentralPolicyProvinceFiles.Add(SubjectFile);
+                    //    _context.SaveChanges();
+
+                    //    System.Console.WriteLine("Start Upload 4.3");
+
+
+                    //    System.Console.WriteLine("Start Upload 5");
+
+                    //}
+                }
+
+
+            }
+            return Ok(new { status = true });
+        }
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(long id, string name)
