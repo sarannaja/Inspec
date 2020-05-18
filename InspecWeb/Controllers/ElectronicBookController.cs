@@ -106,7 +106,18 @@ namespace InspecWeb.Controllers
             return Ok(carlendarFile);
         }
 
+        [HttpGet("getElectronicbookFile/{electID}")]
+        public IActionResult getElectronicbookFile(long electID)
+        {
+            System.Console.WriteLine("ELECT ID: " + electID);
+            //var accept = _context.CentralPolicyUsers.Where(m => m.Id == centralPolicyUserId).FirstOrDefault();
 
+            var electronicFile = _context.ElectronicBookFiles
+                .Where(x => x.ElectronicBookId == electID && x.Type == "ElectronicBook File")
+                .ToList();
+
+            return Ok(electronicFile);
+        }
 
         [HttpPut("editElectronicBookDetail/{id}")]
         public async Task<IActionResult> Put([FromForm] ElectronicBookViewModel model, long id)
@@ -174,6 +185,7 @@ namespace InspecWeb.Controllers
                         {
                             ElectronicBookId = id,
                             Name = random + filename,
+                            Type = "ElectronicBook File"
                         };
                         _context.ElectronicBookFiles.Add(ElectronicBookFileData);
                         System.Console.WriteLine("in5");

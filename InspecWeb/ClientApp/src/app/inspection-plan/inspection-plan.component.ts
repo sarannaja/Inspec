@@ -137,7 +137,6 @@ export class InspectionPlanComponent implements OnInit {
       });
       // this.loading = true;
       console.log("RESULTS: ", this.data);
-
       this.inspectionplanservice.getcentralpolicydata(this.provinceid)
         .subscribe(result => {
           this.resultcentralpolicy = result //All

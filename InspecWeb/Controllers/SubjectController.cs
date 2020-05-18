@@ -881,5 +881,15 @@ namespace InspecWeb.Controllers
 
         }
 
+        // DELETE api/values/5
+        [HttpDelete("deleteprovincial/{id}")]
+        public void DeleteProvinceial(long id)
+        {
+            var subjectcentralpolicyprovincegroup = _context.SubjectCentralPolicyProvinceGroups.Find(id);
+
+            _context.SubjectCentralPolicyProvinceGroups.Remove(subjectcentralpolicyprovincegroup);
+            _context.SaveChanges();
+        }
+
     }
 }

@@ -46,7 +46,12 @@ export class EditElectronicBookComponent implements OnInit {
   resultElecFile: any = [];
   delid: any;
   resultreport: any = [];
-
+  provincename
+  provinceid
+  resultdate: any = []
+  electronicbookid
+  carlendarFile: any = [];
+  electronikbookFile: any = [];
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -177,6 +182,13 @@ export class EditElectronicBookComponent implements OnInit {
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        this.provincename = result.provincedata.name
+        this.provinceid = result.provincedata.id
+
+        this.getCalendarFile();
+        this.getElectronikbookFile();
       })
   }
 
@@ -232,7 +244,7 @@ export class EditElectronicBookComponent implements OnInit {
       // alert("EDIT: " + result);
       this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
       this.resultStatus = result.centralPolicyUser[0].electronicBook.status;
-      this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
+      // this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
 
       this.resultreport = result.centralPolicyUser
       this.detailForm.patchValue({
@@ -268,5 +280,20 @@ export class EditElectronicBookComponent implements OnInit {
 
   back() {
     window.history.back();
+  }
+
+  getCalendarFile() {
+    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+      this.carlendarFile = res;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+  getElectronikbookFile() {
+    this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {
+      this.resultElecFile = res;
+      console.log("calendarFile: ", res);
+
+    })
   }
 }
