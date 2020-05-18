@@ -36,6 +36,6 @@ namespace InspecWeb.Models
 
         public ICollection<SubquestionChoiceCentralPolicyProvince> SubquestionChoiceCentralPolicyProvinces { get; set; }
         public ICollection<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
-
+        public ICollection<SubjectCentralPolicyProvinceUserGroup> SubjectCentralPolicyProvinceUserGroups { get; set; }
     }
 }
