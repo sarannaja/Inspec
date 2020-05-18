@@ -13,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 
 interface addInput {
   id: number;
@@ -71,8 +72,15 @@ export class CreateElectronicBookComponent implements OnInit {
   temp = []
   subjectdepartmentId: Array<any> = []
   provincetodepartmentId: any;
+  resultfiscalyear: any = [];
+  showDetail = false;
+
+  // get f() { return this.Form.controls }
+  // get t() { return this.f.input as FormArray }
+
   get f() { return this.Form.controls }
   get t() { return this.f.input as FormArray }
+  get d() { return this.f.inputdate as FormArray }
 
   constructor(
     private fb: FormBuilder, private authorize: AuthorizeService,
@@ -85,6 +93,7 @@ export class CreateElectronicBookComponent implements OnInit {
     private modalService: BsModalService,
     private electronicBookService: ElectronicbookService,
     private departmentservice: DepartmentService,
+    private fiscalyearservice: FiscalyearService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.url = baseUrl;
@@ -154,6 +163,58 @@ export class CreateElectronicBookComponent implements OnInit {
       this.selectpeople = this.resultpeople.map((item, index) => {
         return { value: item.id, label: item.name }
       })
+    })
+
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      console.log(result);
+      // alert(this.userid)
+    })
+
+    this.Form = this.fb.group({
+      title: new FormControl(null, [Validators.required]),
+      // start_date: new FormControl(null, [Validators.required]),
+      // end_date: new FormControl(null, [Validators.required]),
+      year: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      files: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null, [Validators.required]),
+      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      input: new FormArray([]),
+      inputdate: new FormArray([])
+      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+    })
+    this.t.push(this.fb.group({
+      date: '',
+      subject: '',
+      questions: []
+    }))
+
+    this.d.push(this.fb.group({
+      start_date: '',
+      end_date: '',
+    }))
+    //แก้ไข
+
+    this.provinceservice.getprovincedata().subscribe(result => {
+      this.resultprovince = result
+
+      this.selectdataprovince = this.resultprovince.map((item, index) => {
+        return { value: item.id, label: item.name }
+      })
+
+      console.log(this.resultprovince);
+    })
+
+    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      this.resultfiscalyear = result
+      console.log(this.resultcentralpolicy);
+    })
+
+
+    this.Form.patchValue({
+      // กรณีจะแก้ไข
     })
 
   }
@@ -400,5 +461,21 @@ export class CreateElectronicBookComponent implements OnInit {
     var s = new Set(array);
     s.add(value);
     return Array.from(s);
+  }
+
+  storeCentralpolicy(value) {
+    // console.log(this.form.value.files);
+    // alert(JSON.stringify(value))
+    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files,this.userid)
+      .subscribe(response => {
+        console.log(response);
+        // this.Form.reset()
+        // this.router.navigate(['centralpolicy'])
+        this.showDetail = true
+        // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+        //   this.centralpolicyservice = result
+        //   console.log(this.resultcentralpolicy);
+        // })
+      })
   }
 }
