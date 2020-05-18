@@ -548,6 +548,10 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
 
+                 .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
+                .ThenInclude(m => m.User)
+
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                 .ThenInclude(m => m.ProvincialDepartment)
@@ -749,7 +753,32 @@ namespace InspecWeb.Controllers
                     _context.SaveChanges();
                 }
             }
-
         }
+
+        //POST api/values
+        [HttpPost("addpeopleanswer")]
+        public void Post3([FromBody] SubjectCentralPolicyProvinceUserGroupModel model)
+        {
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.Id == model.SubjectCentralPolicyProvinceId).FirstOrDefault();
+
+            var subquestdatas = _context.SubquestionCentralPolicyProvinces
+                .Where(m => m.SubjectCentralPolicyProvinceId == subjectdata.Id).ToList();
+
+            foreach (var subquestdata in subquestdatas)
+            {
+                foreach (var DepartmentIddata in model.UserId)
+                {
+                    var SubjectCentralPolicyProvinceGroup = new SubjectCentralPolicyProvinceUserGroup
+                    {
+                        SubquestionCentralPolicyProvinceId = subquestdata.Id,
+                        UserId = DepartmentIddata
+                    };
+                    _context.SubjectCentralPolicyProvinceUserGroups.Add(SubjectCentralPolicyProvinceGroup);
+                    _context.SaveChanges();
+                }
+            }
+        }
+
     }
 }
