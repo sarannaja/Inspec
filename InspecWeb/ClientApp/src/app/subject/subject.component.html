@@ -28,7 +28,7 @@
             <th>#</th>
             <th>ชื่อประเด็นนโยบาย</th>
             <th>ระยะเวลา</th>
-            <!-- <th>วันที่สร้าง</th> -->
+            <th>สถานะ</th>
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
         </thead>
@@ -37,9 +37,10 @@
             <td>{{ i + 1 }}</td>
             <td>{{ item.name }}</td> <!-- (click)="Subquestion()" -->
             <td>
-              <div *ngFor="let item2 of item.subjectDates;">{{ item2.centralPolicyDate.startDate | thaidate: 'year' }} -
-                {{ item2.centralPolicyDate.endDate | thaidate: 'year' }}</div>
+              <div *ngFor="let item2 of item.subjectDateCentralPolicyProvinces;">{{ item2.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
+                {{ item2.centralPolicyDateProvince.endDate | thaidate: 'year' }}</div>
             </td>
+            <td>{{item.status}}</td>
             <td>
               <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i>
               <i class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditSubject(item.id)"></i>

@@ -10,14 +10,15 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 })
 export class DetailSubjectComponent implements OnInit {
 
-  
+
   resultsubjectdetail: any = []
-  questionsopen: any = []
+  question: any = []
   departments: any = []
+  filterboxdepartments: any = []
   resultprovince: any = []
   id: any
   centralpolicyid: any
-
+  boxcount = 0
   constructor(
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
@@ -33,12 +34,12 @@ export class DetailSubjectComponent implements OnInit {
     this.subjectservice.getsubjectdetaildata(this.id)
       .subscribe(result => {
         this.resultsubjectdetail = result
-        this.questionsopen = this.resultsubjectdetail.subquestions
-        this.departments = this.resultsubjectdetail.subjectDepartments
-        this.centralpolicyid = this.resultsubjectdetail.centralPolicyId
-        console.log("res: ", this.centralpolicyid);
+        this.question = this.resultsubjectdetail.subquestionCentralPolicyProvinces
+        this.departments = this.resultsubjectdetail.subquestionCentralPolicyProvinces
+        this.centralpolicyid = this.resultsubjectdetail.centralPolicyProvince.centralPolicyId
+        console.log("res: ", this.question);
         this.getCentralPolicyProvincesl()
-
+        this.getboxsubquestion()
       })
   }
   getCentralPolicyProvincesl() {
@@ -46,6 +47,49 @@ export class DetailSubjectComponent implements OnInit {
       .subscribe(result => {
         this.resultprovince = result
       })
+  }
+  getboxsubquestion() {
+    var departments = this.departments
+    console.log("aaaaa: ", this.departments);
+    var question = this.question
+    this.filterboxdepartments = departments.filter(
+      (thing, i, arr) => arr.findIndex(t => t.box === thing.box) === i
+    ); //song
+    console.log("CCCCCCC: ", this.filterboxdepartments);
+
+    var test: any = [];
+
+    this.departments.forEach(element => {
+      element.subjectCentralPolicyProvinceGroups.forEach(element2 => {
+
+        if (element.id == element2.subquestionCentralPolicyProvinceId) {
+          test.push({
+            departmentID: element2.provincialDepartment.id,
+            departmentName: element2.provincialDepartment.name,
+            question: element.name,
+            type: element.type,
+            subquestionChoice: element.subquestionChoiceCentralPolicyProvinces,
+            box: element.box
+          })
+        }
+      });
+    });
+    console.log("TEST: ", test);
+
+
+
+    // for (var i = 0; i < departments.length; i++) {
+    //   if (departments[i].box == departments[i].box) {
+    //     test.push({
+    //       departments: departments[i].subjectCentralPolicyProvinceGroups
+    //     })
+    //   }
+    //   console.log("CCCCCCCC", departments[i].subjectCentralPolicyProvinceGroups);
+    // }
+  }
+
+  test(){
+    this.boxcount + 1
   }
   back() {
     window.history.back();

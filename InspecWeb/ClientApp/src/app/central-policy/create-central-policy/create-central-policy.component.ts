@@ -163,5 +163,7 @@ export class CreateCentralPolicyComponent implements OnInit {
       end_date: '',
     }))
   }
-
+  remove(index: number) {
+    this.d.removeAt(index);
+  }
 }

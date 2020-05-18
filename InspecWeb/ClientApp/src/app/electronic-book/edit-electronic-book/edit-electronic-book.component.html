@@ -19,14 +19,6 @@
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeFiles(Form.value)">
-          <div class="row">
-            <div class="col-md-6">
-              ผู้สังการ : {{resultuser.name}}
-            </div>
-            <div class="col-md-6">
-              ตำแหน่ง : {{resultuser.position}}
-            </div>
-          </div>
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               เรื่อง : {{resultdetailcentralpolicy.title}}
@@ -34,18 +26,15 @@
           </div>
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
-              <!-- จังหวัด : ขอนแก่น -->
-              <u>จังหวัด</u><br><span
-                *ngFor="let item3 of resultdetailcentralpolicy.centralPolicyProvinces; let i = index">ช่วงที่ {{i+1}})
-                {{ item3.province.name }}<br></span>
+              <u>จังหวัด</u><br>
+              <span>{{provincename}}</span>
             </div>
           </div>
 
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
-              <u>กำหนดลงพื่นที่</u><br><span
-                *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyDates; let i = index">ช่วงที่ {{i+1}})
-                {{ item2.startDate | thaidate: 'year' }} - {{ item2.endDate | thaidate: 'year' }}<br></span>
+              <u>กำหนดลงพื่นที่</u><br>
+              <span> {{ resultdate.startDate | thaidate: 'year' }} - {{ resultdate.endDate | thaidate: 'year' }}</span>
             </div>
           </div>
 
@@ -115,6 +104,14 @@
             <div class="col-lg-12">
               <table class="table table-default table-responsive-sm tableborder">
                 <tbody *ngFor="let items of resultdetailcentralpolicyprovince;let i = index">
+
+                  <div style="margin-top:30px; margin-bottom: 15px;">
+                    หน่วยงานที่เกี่ยวข้อง
+                  </div>
+                  <div class="row" *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
+                    <span class="col-6">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
+                  </div>
+
                   <tr>
                     <td style="border-top: none;">
                       <div class="row">
@@ -150,14 +147,14 @@
                       <u>คำถามปลายปิด</u>
                       <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
                       <div class="row">
-                        <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
+                        <div class="col-12" *ngIf="item.type == 'คำถามปลายปิด'">
                           <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
                             readonly>
                         </div>
-                        <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
+                        <!-- <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
                           <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                             (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
-                        </div>
+                        </div> -->
                       </div>
                       <!-- </div> -->
                     </td>
@@ -167,16 +164,16 @@
                       <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
                         <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
                           <div class="row">
-                            <div class="col-11"
+                            <div class="col-12"
                               *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
                               <input type="text" value="{{item3.name}}" class="form-control"
                                 placeholder="กรุณากรอกเรื่อง" readonly>
                             </div>
-                            <div class="col-1"
+                            <!-- <div class="col-1"
                               *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                 (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                       </div>
@@ -278,6 +275,19 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-12" style="margin-top: 10px;">
+              <u>ไฟล์แนบกำหนดการตรวจ</u><br>
+              <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
+                <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item.name }}<br>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
 
           <form [formGroup]="detailForm" (ngSubmit)="editDetail(detailForm.value)">
             <div class="col-12 col-xl-12" style="margin-top: 30px;">
@@ -292,11 +302,11 @@
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
-                <label class="form-label w-100">แนบไฟล์</label>
+                <label class="form-label w-100">แนบไฟล์สมุดตรวจอิเล็กทรอนิกส์</label>
                 <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
                 <div class="row">
                   <div class="col-md-12">
-                    <u>ไฟล์แนบ</u><br>
+                    <u>ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</u><br>
                     <div class="row" *ngFor="let item2 of resultElecFile; let i = index"
                       style="margin-top: 10px;">
                       <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">

@@ -74,6 +74,8 @@ import { OfficerInspectionComponent } from './officer-inspection/officer-inspect
 import { InfomationProvinceComponent } from './infomation-province/infomation-province.component';
 import { InfoDistrictComponent } from './info-district/info-district.component';
 import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
+import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
+import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
 
 
 @NgModule({
@@ -136,6 +138,8 @@ import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.co
     InfomationProvinceComponent,
     InfoDistrictComponent,
     InfoSubdistrictComponent,
+    AnswerSubjectListComponent,
+    AnswerSubjectDetailComponent
   ],
   
   imports: [
@@ -213,6 +217,8 @@ import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.co
           { path: 'informationprovince', component: InfomationProvinceComponent, canActivate: [AuthorizeGuard]},
           { path: 'infodistrict/:id', component: InfoDistrictComponent, canActivate: [AuthorizeGuard]},
           { path: 'infosubdistrict/:id', component: InfoSubdistrictComponent, canActivate: [AuthorizeGuard]},
+          { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

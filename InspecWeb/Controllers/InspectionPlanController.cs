@@ -57,11 +57,17 @@ namespace InspecWeb.Controllers
         [HttpGet("getcentralpolicydata/{provinceid}")]
         public IEnumerable<CentralPolicy> Get2(long provinceid)
         {
+            //return _context.CentralPolicies
+            //           .Include(m => m.CentralPolicyProvinces)
+            //           //.ThenInclude(m => m.SubjectCentralPolicyProvinces)
+            //           .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
+
             return _context.CentralPolicies
                        .Include(m => m.CentralPolicyProvinces)
-                       .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
-                       //.ThenInclude(x => x.Province)
-                       //.ToList();
+                       .ThenInclude(m => m.SubjectCentralPolicyProvinces)
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")))
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
+                       .ToList();
         }
 
         // POST api/values
@@ -131,6 +137,14 @@ namespace InspecWeb.Controllers
                     Status = "ร่างกำหนดการ",
                 };
                 _context.ElectronicBooks.Add(ElectronicBookdata);
+                _context.SaveChanges();
+
+                var ElectronicBookGroupdata = new ElectronicBookGroup
+                {
+                    CentralPolicyProvinceId = model.ProvinceId,
+                    ElectronicBookId = ElectronicBookdata.Id,
+                };
+                _context.ElectronicBookGroups.Add(ElectronicBookGroupdata);
                 _context.SaveChanges();
 
                 var centralpolicyeventdata = new CentralPolicyEvent

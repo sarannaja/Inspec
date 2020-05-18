@@ -91,7 +91,7 @@ export class InspectionPlanComponent implements OnInit {
   }
   storeCentralPolicyEventRelation(value) {
     // alert(JSON.stringify(value))
-    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid).subscribe(response => {
+    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid,this.provinceid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       // this.loading = false
@@ -137,7 +137,6 @@ export class InspectionPlanComponent implements OnInit {
       });
       // this.loading = true;
       console.log("RESULTS: ", this.data);
-
       this.inspectionplanservice.getcentralpolicydata(this.provinceid)
         .subscribe(result => {
           this.resultcentralpolicy = result //All

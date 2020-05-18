@@ -4,6 +4,7 @@ import { CentralpolicyService } from '../../services/centralpolicy.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 
 @Component({
   selector: 'app-user-central-policy',
@@ -18,6 +19,7 @@ export class UserCentralPolicyComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   loading = false;
   userid: string
+  centralpolicyprovinceid: any
   id
   constructor(
     private router: Router,
@@ -25,6 +27,7 @@ export class UserCentralPolicyComponent implements OnInit {
     private modalService: BsModalService,
     private authorize: AuthorizeService,
     private activatedRoute: ActivatedRoute,
+    private inspectionplanservice: InspectionplanService,
     private spinner: NgxSpinnerService) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
   }
@@ -86,12 +89,22 @@ export class UserCentralPolicyComponent implements OnInit {
     this.router.navigate(['/centralpolicy/detailcentralpolicy', id])
   }
 
-  AcceptCentralPolicy(id: any) {
-    this.router.navigate(['/acceptcentralpolicy', id])
+  AcceptCentralPolicy(id: any, proid) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(id, proid).subscribe(result => {
+      console.log("result123", result);
+      this.centralpolicyprovinceid = result
+      this.router.navigate(['/acceptcentralpolicy', id, { centralpolicyproviceid: result }])
+    })
   }
 
-  gotoReport(id: any) {
-    this.router.navigate(['/reportcentralpolicy', id])
+  gotoReport(id: any, proid) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(id, proid).subscribe(result => {
+      console.log("result123", result);
+      this.centralpolicyprovinceid = result
+
+      this.router.navigate(['/reportcentralpolicy', id, { centralpolicyproviceid: result }])
+
+    })
   }
 
 }

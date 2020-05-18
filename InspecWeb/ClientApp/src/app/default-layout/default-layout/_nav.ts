@@ -628,7 +628,7 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
   //   name: "สมุดตรวจอิเล็กทรอนิกส์"
   // },
   {
-    icon: 'fa-archive',
+    icon: 'fa-calendar',
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ"
   },
