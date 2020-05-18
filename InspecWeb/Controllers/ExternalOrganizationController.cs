@@ -55,8 +55,6 @@ namespace InspecWeb.Controllers
                 var jsonString = response.Content.ReadAsStringAsync();
                 jsonString.Wait();
                 model = JsonConvert.DeserializeObject<List<OtpsRegions>>(jsonString.Result);
-
-
             });
             task.Wait();
             return Ok(model);
@@ -78,8 +76,6 @@ namespace InspecWeb.Controllers
                 var jsonString = response.Content.ReadAsStringAsync();
                 jsonString.Wait();
                 model = JsonConvert.DeserializeObject<List<OtpsMinisters>>(jsonString.Result);
-
-
             });
             task.Wait();
             return Ok(model);

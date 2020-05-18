@@ -5541,7 +5541,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\k12cl\\.nuget\\packages\\": {}
+    "C:\\Users\\Palm\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -5549,11 +5549,11 @@
       "projectUniqueName": "C:\\projects\\Inspec\\EmailService\\EmailService.csproj",
       "projectName": "EmailService",
       "projectPath": "C:\\projects\\Inspec\\EmailService\\EmailService.csproj",
-      "packagesPath": "C:\\Users\\k12cl\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Palm\\.nuget\\packages\\",
       "outputPath": "C:\\projects\\Inspec\\EmailService\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\k12cl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Palm\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
