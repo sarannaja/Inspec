@@ -30,6 +30,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   // UserMinistryId: any;
   id
   Form2: FormGroup;
+  Form3: FormGroup;
   Form: FormGroup;
   EditForm: FormGroup;
   EditForm2: FormGroup;
@@ -57,6 +58,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   provinceid
   resultdate: any = []
   department: any = []
+  peopleanswer: any = []
   subjectid
   delid
   constructor(private fb: FormBuilder,
@@ -85,7 +87,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       DepartmentId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
     })
-
+    this.Form3 = this.fb.group({
+      peopleanswer: new FormControl(null, [Validators.required]),
+      // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
     this.form = this.fb.group({
       files: [null],
       status: new FormControl("มอบหมายให้จังหวัด", [Validators.required]),
@@ -156,6 +161,22 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       })
   }
 
+  openModal3(template: TemplateRef<any>, subjectid) {
+    this.subjectid = subjectid
+
+    this.userservice.getuserdata(7).subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.peopleanswer = result.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      this.modalRef = this.modalService.show(template);
+    })
+
+  }
+
   editModal(template: TemplateRef<any>, id, name) {
     this.editid = id;
     this.subquestionclosename = name;
@@ -213,6 +234,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
 
   DelModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  DelModal2(template: TemplateRef<any>, id) {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
   }
@@ -277,6 +303,16 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
       console.log(value);
       this.Form2.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  storepeopleanswer(value) {
+    // alert(this.subjectid)
+    this.centralpolicyservice.addPeopleAnswer(value, this.subjectid).subscribe(response => {
+      console.log(value);
+      this.Form3.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
     })
@@ -441,4 +477,16 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     })
   }
+
+  deletepeopleanswer(value) {
+    this.subjectservice.deletePeopleanswer(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+
+      this.getDetailCentralPolicyProvince();
+
+    })
+  }
+
 }
