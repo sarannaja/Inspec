@@ -70,6 +70,10 @@ import { EditElectronicBookComponent } from './electronic-book/edit-electronic-b
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
 import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
 import { CalendarUserComponent } from './calendar-user/calendar-user.component';
+import { OfficerInspectionComponent } from './officer-inspection/officer-inspection.component';
+import { InfomationProvinceComponent } from './infomation-province/infomation-province.component';
+import { InfoDistrictComponent } from './info-district/info-district.component';
+import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
 import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
 import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
 
@@ -130,9 +134,14 @@ import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-de
     DetailElectronicBookComponent,
     AnswerSubjectComponent,
     CalendarUserComponent,
+    OfficerInspectionComponent,
+    InfomationProvinceComponent,
+    InfoDistrictComponent,
+    InfoSubdistrictComponent,
     AnswerSubjectListComponent,
     AnswerSubjectDetailComponent
   ],
+  
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -204,6 +213,10 @@ import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-de
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
+          { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard]},
+          { path: 'informationprovince', component: InfomationProvinceComponent, canActivate: [AuthorizeGuard]},
+          { path: 'infodistrict/:id', component: InfoDistrictComponent, canActivate: [AuthorizeGuard]},
+          { path: 'infosubdistrict/:id', component: InfoSubdistrictComponent, canActivate: [AuthorizeGuard]},
           { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
         ]
