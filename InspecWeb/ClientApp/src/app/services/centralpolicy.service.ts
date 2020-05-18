@@ -224,4 +224,14 @@ export class CentralpolicyService {
   getAssign(id) {
     return this.http.get<any>(this.url + 'getassign/' + id);
   }
+
+  addDepartment(data, subjectid) {
+    const formData = {
+      DepartmentId: data.DepartmentId,
+      SubjectCentralPolicyProvinceId: subjectid,
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "adddepartment", formData);
+  }
+
 }

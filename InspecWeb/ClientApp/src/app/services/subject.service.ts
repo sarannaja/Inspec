@@ -186,5 +186,9 @@ export class SubjectService {
 
     return this.http.put(this.url + "editsubjectquestionopenchoiceprovince/" + id, formData);
   }
+
+  deleteProvincial(id) {
+    return this.http.delete(this.url + "deleteprovincial/" + id);
+  }
 }
 
