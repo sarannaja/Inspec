@@ -37,6 +37,9 @@ namespace InspecWeb.Controllers
                                .ToList();
             var inspectionplans = _context.InspectionPlanEvents
                                 .Include(m => m.Province)
+                                .Include(m => m.CentralPolicyEvents)
+                                .ThenInclude(m => m.CentralPolicy)
+                                .ThenInclude(m => m.CentralPolicyProvinces)
                                 //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
                                 .ToList();
             List<object> termsList = new List<object>();
@@ -91,14 +94,14 @@ namespace InspecWeb.Controllers
             {
                 //foreach (var item3 in item2.ProvinceId)
                 //{
-                    var inspectionplanevent = new InspectionPlanEvent
-                    {
-                        StartDate = item2.StartPlanDate,
-                        EndDate = item2.EndPlanDate,
-                        ProvinceId = item2.ProvinceId,
-                        CreatedAt = date,
-                        CreatedBy = "NIK"
-                    };
+                var inspectionplanevent = new InspectionPlanEvent
+                {
+                    StartDate = item2.StartPlanDate,
+                    EndDate = item2.EndPlanDate,
+                    ProvinceId = item2.ProvinceId,
+                    CreatedAt = date,
+                    CreatedBy = model.CreatedBy,
+                };
                        _context.InspectionPlanEvents.Add(inspectionplanevent);
                        _context.SaveChanges();
 

@@ -48,8 +48,11 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] CentralPolicyProvinceViewModel model)
+        public void Post([FromBody] InspectionPlanViewModel model)
         {
+            var test = model.UserID;
+            System.Console.WriteLine(test);
+
             var date = DateTime.Now;
             var centralpolicydata = new CentralPolicy
             {
@@ -58,33 +61,44 @@ namespace InspecWeb.Controllers
                 FiscalYearId = model.FiscalYearId,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
-                Status = "ร่างกำหนดการ",
+                Status = model.Status,
                 CreatedAt = date,
-                CreatedBy = "NIK",
+                CreatedBy = model.UserID,
                 Class = "แผนการตรวจ",
             };
 
             _context.CentralPolicies.Add(centralpolicydata);
             _context.SaveChanges();
 
-            foreach (var id in model.ProvinceId)
-            {
+            //foreach (var id in model.ProvinceId)
+            //{
                 var centralpolicyprovincedata = new CentralPolicyProvince
                 {
-                    ProvinceId = id,
+                    ProvinceId = model.ProvinceId,
                     CentralPolicyId = centralpolicydata.Id,
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
-            }
-            _context.SaveChanges();
+                _context.SaveChanges();
 
-            var centralpolicyeventdata = new CentralPolicyEvent
-            {
-                CentralPolicyId = centralpolicydata.Id,
-                InspectionPlanEventId = model.InspectionPlanEventId
-            };
-            _context.CentralPolicyEvents.Add(centralpolicyeventdata);
-            _context.SaveChanges();
+                var inspectionplaneventdata = new InspectionPlanEvent
+                {
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    ProvinceId = model.ProvinceId,
+                    CreatedAt = date,
+                    CreatedBy = model.UserID,
+                };
+                _context.InspectionPlanEvents.Add(inspectionplaneventdata);
+                _context.SaveChanges();
+
+                var centralpolicyeventdata = new CentralPolicyEvent
+                {
+                    CentralPolicyId = centralpolicydata.Id,
+                    InspectionPlanEventId = inspectionplaneventdata.Id,
+                };
+                _context.CentralPolicyEvents.Add(centralpolicyeventdata);
+                _context.SaveChanges();
+            //}
         }
 
         // POST api/values

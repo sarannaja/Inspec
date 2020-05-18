@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
 import { IOption } from 'ng-select';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 interface addInput {
   id: number;
@@ -41,14 +42,15 @@ export class CreateCentralPolicyComponent implements OnInit {
   inputdate: any = [{ start_date: '', end_date: '' }]
   form: FormGroup;
   progress: number = 0;
-
+  userid: string
   constructor(
     private fb: FormBuilder,
     private centralpolicyservice: CentralpolicyService,
     public share: CentralpolicyService,
     private router: Router,
     private fiscalyearservice: FiscalyearService,
-    private provinceservice: ProvinceService) {
+    private provinceservice: ProvinceService,
+    private authorize: AuthorizeService,) {
     this.form = this.fb.group({
       name: [''],
       files: [null]
@@ -56,6 +58,14 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      console.log(result);
+      // alert(this.userid)
+    })
+
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
       // start_date: new FormControl(null, [Validators.required]),
@@ -113,7 +123,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   storeCentralpolicy(value) {
     // console.log(this.form.value.files);
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files)
+    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files,this.userid)
       .subscribe(response => {
         console.log(response);
         this.Form.reset()

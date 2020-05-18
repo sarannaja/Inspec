@@ -62,9 +62,20 @@ import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
 import { DetailCentralPolicyProvinceComponent } from './central-policy/detail-central-policy-province/detail-central-policy-province.component';
+import { DetailSubjectComponent } from './subject/detail-subject/detail-subject.component';
 import { ReportCentralPolicyComponent } from './central-policy/accept-central-policy/report-central-policy/report-central-policy.component';
+import { ElectronicBookComponent } from './electronic-book/electronic-book.component';
+import { CreateElectronicBookComponent } from './electronic-book/create-electronic-book/create-electronic-book.component';
+import { EditElectronicBookComponent } from './electronic-book/edit-electronic-book/edit-electronic-book.component';
+import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
+import { ExternalOrganizationModule } from './external-organization/external-organization.module';
+import { OtpsComponent } from './external-organization/otps/otps.component';
+import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
+import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
 
-
+const ExternalOrganization = [
+  GgcOpmComponent, Opm1111Component, OtpsComponent
+]
 @NgModule({
   declarations: [
     AppComponent,
@@ -113,7 +124,14 @@ import { ReportCentralPolicyComponent } from './central-policy/accept-central-po
     EditCentralPolicyComponent,
     UserCentralPolicyComponent,
     EditSubjectComponent,
-    ReportCentralPolicyComponent
+    DetailSubjectComponent,
+    ReportCentralPolicyComponent,
+    ElectronicBookComponent,
+    CreateElectronicBookComponent,
+    EditElectronicBookComponent,
+    DetailElectronicBookComponent,
+    // ...ExternalOrganization
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -175,10 +193,16 @@ import { ReportCentralPolicyComponent } from './central-policy/accept-central-po
           { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'test/logout', component: LogoutComponent},
+          { path: 'test/logout', component: LogoutComponent },
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subject/detailsubject/:id', component: DetailSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportcentralpolicy/:id', component: ReportCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook', component: ElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'external-organization', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] }
         ]
       },
       {

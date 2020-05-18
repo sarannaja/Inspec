@@ -80,7 +80,8 @@ namespace InspecWeb.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+               // var result = await _signInManager.PasswordSignInAsync(userModel.Email, userModel.Password, userModel.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -92,8 +93,17 @@ namespace InspecWeb.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
+                    //var forgotPassLink = Url.Action(nameof(ForgotPassword), "Account", new { }, Request.Scheme);
+                    //var content = string.Format("Your account is locked out, to reset your password, please click this link: {0}", forgotPassLink);
+
+                    //var message = new Message(new string[] { userModel.Email }, „Locked out account information“, content, null);
+                    //await _emailSender.SendEmailAsync(message);
+
+                    ModelState.AddModelError("", "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 2 นาที");
+                    return Page();
+
+                    //_logger.LogWarning("User account locked out.");
+                    //return RedirectToPage("./Lockout");
                 }
                 else
                 {

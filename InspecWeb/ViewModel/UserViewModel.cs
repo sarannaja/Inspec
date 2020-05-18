@@ -13,6 +13,7 @@ namespace InspecWeb.ViewModel
         public string Position { get; set; }
         public string Email { get; set; }
         public long MinistryId { get; set; }
+        public long DepartmentId { get; set; }
         public long DistrictId { get; set; }
         public long ProvinceId { get; set; }
         public long SubdistrictId { get; set; }

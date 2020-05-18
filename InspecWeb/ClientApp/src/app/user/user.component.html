@@ -233,7 +233,7 @@
             </div> 
             <!--END ผู้ตรวจจังหวัด -->
 
-            <!-- ผู้ตรวจกระทรวง/หน่วยงาน/กรม -->
+            <!-- ผู้ตรวจกระทรวง -->
             <div class="card-body" *ngIf="roleId == 6">
                 <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
                 [dtOptions]="dtOptions">
@@ -271,7 +271,7 @@
                     </tbody>
                 </table>
             </div> 
-             <!--END ผู้ตรวจกระทรวง/หน่วยงาน/กรม -->
+             <!--END ผู้ตรวจกระทรวง -->
 
             <!-- ผู้ตรวจภาคประชาชน -->
             <div class="card-body" *ngIf="roleId == 7">
@@ -314,6 +314,46 @@
                 </table>
             </div> 
              <!--END ผู้ตรวจภาคประชาชน -->
+
+              <!-- ผู้ตรวจหน่วยงาน/กรม -->
+            <div class="card-body" *ngIf="roleId == 9">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">No.</th>
+                            <th style="width: 10%;">สิทธิ์การใช้งาน</th>
+                            <th style="width: 15%;">ชื่อ-นามสกุล</th>
+                            <th style="width: 15%;">อีเมลล์</th>                                           
+                            <th style="width: 15%;">กระทรวง</th>
+                            <th style="width: 15%;">ตำแหน่ง</th>                        
+                            <th style="width: 10%;">เบอร์โทร</th>
+                            <th style="width: 10%;">สถานะ</th>
+                            <th style="width: 5%;"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultuser; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>ผู้ตรวจกระทรวง/หน่วยงาน/กรม</td>
+                            <td>{{item.prefix +item.name}}</td>
+                            <td>{{item.email}}</td>                       
+                            <td>{{item.ministries.name}}</td>
+                            <td>{{item.position}}</td>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>
+                                <div  *ngIf="item.active == 1;else elseBlock">ใช้งานปกติ</div>
+                                <ng-template #elseBlock>ยังไม่มีสิทธิ์เข้าใช้งาน</ng-template>
+                            </td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+             <!--END ผู้ตรวจหน่วยงาน/กรม -->
 
         </div>
     </div>

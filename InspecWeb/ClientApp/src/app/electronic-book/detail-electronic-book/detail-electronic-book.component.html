@@ -1,0 +1,559 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจ</a></li>
+      <li class="breadcrumb-item active" aria-current="page">รายละเอียดแผนการตรวจ</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">รายละเอียด</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="Form" (ngSubmit)="storeFiles(Form.value)">
+          <div class="row">
+            <div class="col-md-6">
+              ผู้สังการ : {{resultuser.name}}
+            </div>
+            <div class="col-md-6">
+              ตำแหน่ง : {{resultuser.position}}
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              เรื่อง : {{resultdetailcentralpolicy.title}}
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              <!-- จังหวัด : ขอนแก่น -->
+              <u>จังหวัด</u><br><span
+                *ngFor="let item3 of resultdetailcentralpolicy.centralPolicyProvinces; let i = index">ช่วงที่ {{i+1}})
+                {{ item3.province.name }}<br></span>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              <u>กำหนดลงพื่นที่</u><br><span
+                *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyDates; let i = index">ช่วงที่ {{i+1}})
+                {{ item2.startDate | thaidate: 'year' }} - {{ item2.endDate | thaidate: 'year' }}<br></span>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              <u>กระทรวง/กรม</u> &nbsp;&nbsp;
+              <!-- <button (click)="openModal(modalInviteMinistryPeople)"
+                class="btn btn-info">เชิญกระทรวง/กรม</button> -->
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-12">
+              <div class="row" *ngFor="let items of resultcentralpolicyuser;let i = index">
+                <div class="col-3" *ngIf="items.user.role_id == 6">
+                  {{items.user.prefix}} {{items.user.name}}
+                </div>
+                <div class="col-2" *ngIf="items.user.role_id == 6">
+                  <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
+                    disabled>{{items.status}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              <u>ภาคประชาชน</u> &nbsp;&nbsp;
+              <!-- <button class="btn btn-info"
+                (click)="openModal(modalInvitePeople)">เชิญภาคประชาชน</button> -->
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-12">
+              <div class="row" *ngFor="let items of resultcentralpolicyuser;let ii = index">
+                <div class="col-3" *ngIf="items.user.role_id == 7">
+                  {{items.user.prefix}} {{items.user.name}}
+                </div>
+                <div class="col-2" *ngIf="items.user.role_id == 7">
+                  <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
+                    disabled>{{items.status}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px; ">
+            <div class="col-md-6">
+
+            </div>
+            <div class="col-md-6">
+
+            </div>
+          </div> -->
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-lg-12">
+              <table class="table table-default table-responsive-sm tableborder">
+                <tbody *ngFor="let items of resultdetailcentralpolicyprovince;let i = index">
+                  <tr>
+                    <td style="border-top: none;">
+                      <div class="row">
+                        <u style="margin-left: 15px;">เรื่องประเด็น</u>
+                        <div class="col-12">
+                          <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                            readonly>
+                        </div>
+                        <!-- <div class="col-1">
+                          <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+                        </div> -->
+                      </div>
+                    </td>
+                    <td style="border-top: none;" width="50%">
+                      <u>คำถามปลายเปิด</u>
+                      <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
+                        <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
+
+                          <div class="col-12">
+                            <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                              readonly>
+                          </div>
+                          <!-- <div class="col-1">
+                            <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+                          </div> -->
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
+                    <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
+                      <u>คำถามปลายปิด</u>
+                      <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
+                      <div class="row">
+                        <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
+                          <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                            readonly>
+                        </div>
+                        <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
+                          <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                              (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i> -->
+                        </div>
+                      </div>
+                      <!-- </div> -->
+                    </td>
+
+                    <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
+                      <u>ตัวเลือกคำถามปลายปิด</u>
+                      <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
+                        <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
+                          <div class="row">
+                            <div class="col-11"
+                              *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                              <input type="text" value="{{item3.name}}" class="form-control"
+                                placeholder="กรุณากรอกเรื่อง" readonly>
+                            </div>
+                            <div class="col-1"
+                              *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
+                              <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index" class="row col-12">
+                    <tr style="margin-top: -20px;">
+                      <td style="border-top: none;">
+                        <div class="row" *ngIf="item.type == 'คำถามปลายปิด'">
+                          <u style="margin-left: 15px;">คำถามปลายปิด</u>
+                          <div class="col-11">
+                            <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                              readonly>
+                          </div>
+                          <div class="col-1">
+                            <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td style="border-top: none;" >
+                        <div *ngFor="let item2 of item.subquestionChoiceCentralPolicyProvinces;let ii = index">
+                          <div class="row" *ngIf="item.type == 'คำถามปลายปิด'">
+                            <u style="margin-left: 15px;">ตัวเลือกคำถามปลายปิด</u>
+                            <div class="col-11">
+                              <input type="text" value="{{item2.name}}" class="form-control"
+                                placeholder="กรุณากรอกเรื่อง" readonly>
+                            </div>
+                            <div class="col-1">
+                              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </div> -->
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-6">
+              <u>เรื่องประเด็น</u>
+            </div>
+            <div class="col-6">
+              <u>คำถามปลายเปิด</u>
+            </div>
+          </div>
+
+          <div *ngFor="let items of resultdetailcentralpolicyprovince;let i = index">
+            <div class="row">
+              <div class="col-5">
+                <input type="text" value="{{i +1}}. {{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                  readonly>
+              </div>
+              <div class="col-1">
+                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+              </div>
+
+              <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
+
+                <div class="col-5" *ngIf="item.type == 'คำถามปลายเปิด'">
+                  <input type="text" value="{{i +1}}.{{ii +1}} {{item.name}}" class="form-control"
+                    placeholder="กรุณากรอกเรื่อง" readonly>
+                </div>
+                <div class="col-1" *ngIf="item.type == 'คำถามปลายเปิด'">
+                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+                </div>
+
+              </div>
+            </div>
+          </div> -->
+
+
+          <!-- <div class="row">
+            <div class="col-md-6">
+              <u>ไฟล์แนบ</u><br>
+              <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6"></a>
+              <span
+                *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index">ไฟล์ที่ {{i+1}})
+                {{ item2.name }}<br></span>
+              </a>
+            </div>
+          </div> -->
+
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
+              <textarea cols="30" rows="5" value="{{resultelectronicbookdetail}}" class="form-control"
+                placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly>
+              </textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <u>ไฟล์แนบ</u><br>
+              <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
+                style="margin-top: 10px;">
+                <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item2.name }}<br>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <br>
+          <!-- <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label class="form-label w-100">แนบไฟล์เพิ่มเติม</label>
+              <input type="file">
+              <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+            </div>
+          </div> -->
+
+          <!-- <div class="form-group row">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-danger">ยกเลิก</button>
+          </div> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">รายงานผลการตรวจ</h5>
+      </div>
+      <div class="card-body">
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <!-- <label>รายงานผลการตรวจ</label> -->
+            <div *ngFor="let item3 of resultreport; let i = index">
+              <b><label *ngIf="item3.report != null"> {{item3.user.name}} ตำแหน่ง {{item3.user.position}}</label></b>
+              <input *ngIf="item3.report != null" value="{{item3.report}}" class="form-control"
+                placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly />
+
+                <div class="row" *ngFor="let item4 of item3.centralPolicyGroup.centralPolicyUserFiles; let ii = index"
+                style="margin-top: 10px;">
+                <a download href="{{downloadUrl}}/{{item4.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{ii+1}})
+                    {{ item4.name }}<br>
+                  </span>
+                </a>
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalInvitePeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectpeople" name="UserPeopleId"
+          formControlName="UserPeopleId" [allowClear]="true">
+        </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectministrypeople"
+          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<!-- <div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">เพิ่มผู้ตรวจ</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="Form" (ngSubmit)="storeUser(Form.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <br>
+
+              <div class="form-group">
+                <label>เรื่อง* </label>
+                <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                  value="{{resultdetailcentralpolicy.title}}" readonly>
+              </div>
+            </div>
+            <div class="col-12 col-xl-12">
+              <label>กำหนดระยะเวลา*</label>
+            </div>
+            <div class="col-12 col-xl-3">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                  value="{{resultdetailcentralpolicy.startDate | date: 'dd/MM/yyyy' }}" readonly>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-1">
+              <div class="form-group" align="center">
+                ถึง
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-3">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                  value="{{resultdetailcentralpolicy.endDate | date: 'dd/MM/yyyy'}}" readonly>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-12">
+              <label>เชิญ กระทรวง/กรม*</label>
+              <div class="form-row">
+                <label class="form-group col-md-1 text-sm-center">
+                  1.
+                </label>
+                <div class="form-group col-md-4">
+                  <div class="mb-3">
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-12 col-xl-12">
+              <label>เชิญ ภาคประชาชน*</label>
+              <div class="form-row">
+                <label class="form-group col-md-1 text-sm-center">
+                  1.
+                </label>
+
+                <div class="form-group col-md-4">
+                  <div class="mb-3">
+                    <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectpeople"
+                      name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+                    </ng-select>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>ประเด็น*</label>
+                <div *ngFor="let item of resultdetailcentralpolicy.subjects; let i = index" class="row">
+                  <div class="col-1 text-center">
+                    {{ i + 1 }}.
+                  </div>
+                  <div class="col-11">
+                    <input type="text" class="form-control" placeholder="กรุณากรอกเรื่อง" value="{{item.name}}"
+                      readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label class="form-label w-100">แนบไฟล์</label>
+                <input type="file">
+                <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+              </div>
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="submit" class="btn btn-danger">ยกเลิก</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modaleditsubquestionclose class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="EditForm" (ngSubmit)="editsubquestionclose(EditForm.value,editid)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการคำถามปลายปิด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <input type="text" value="{{subquestionclosename}}" formControlName="subquestionclose" class="form-control"
+            placeholder="กรุณากรอกคำถามปลายปิด">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #modaleditsubquestionclosechoice class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="EditForm2" (ngSubmit)="editsubquestionclosechoice(EditForm2.value,editid)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการคำถามปลายปิด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <input type="text" value="{{subquestionclosechoicename}}" formControlName="subquestionclosechoice"
+            class="form-control" placeholder="กรุณากรอกคำถามปลายปิด">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

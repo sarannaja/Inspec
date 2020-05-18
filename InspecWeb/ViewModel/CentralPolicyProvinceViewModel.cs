@@ -8,6 +8,8 @@ namespace InspecWeb.ViewModel
 {
     public class CentralPolicyProvinceViewModel
     {
+        public string UserID { get; set; }
+
         [JsonProperty(PropertyName = "Title")]
         public string Title { get; set; }
 
@@ -31,6 +33,7 @@ namespace InspecWeb.ViewModel
 
         [JsonProperty(PropertyName = "InspectionPlanEventId")]
         public long InspectionPlanEventId { get; set; }
+
         //[JsonProperty(PropertyName = "CentralPolicyId")]
         //public long CentralPolicyId { get; set; }
         public DateTime[] StartDate2 { get; set; }

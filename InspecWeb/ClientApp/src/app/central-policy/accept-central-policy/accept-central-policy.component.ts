@@ -13,7 +13,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
   styleUrls: ['./accept-central-policy.component.css']
 })
 export class AcceptCentralPolicyComponent implements OnInit {
-
+  resultuser: any = []
   id
   resultdetailcentralpolicy: any = []
   resultcentralpolicyuser: any = []
@@ -21,6 +21,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
   Form: FormGroup;
   userid: string
   answer
+  resultelectronicbookdetail: any = []
   downloadUrl: any
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -53,7 +54,12 @@ export class AcceptCentralPolicyComponent implements OnInit {
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
       .subscribe(result => {
-        this.resultdetailcentralpolicy = result
+        console.log("elec",result);
+
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultuser = result.userdata
+        this.resultelectronicbookdetail = result.centralpolicydata.centralPolicyUser[0].electronicBook.detail
+        // alert(JSON.stringify(this.resultelectronicbookdetail))
       })
   }
   getCentralPolicyUser() {

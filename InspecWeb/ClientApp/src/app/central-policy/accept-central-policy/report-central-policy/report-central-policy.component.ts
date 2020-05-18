@@ -23,7 +23,8 @@ export class ReportCentralPolicyComponent implements OnInit {
   delid: any;
   modalRef: BsModalRef;
   resultdetailcentralpolicyprovince: any = [];
-
+  resultelectronicbookdetail: any = [];
+  resultuser: any = []
   constructor(
     private fb: FormBuilder,
     private authorize: AuthorizeService,
@@ -56,7 +57,9 @@ export class ReportCentralPolicyComponent implements OnInit {
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
       .subscribe(result => {
-        this.resultdetailcentralpolicy = result
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultelectronicbookdetail = result.centralpolicydata.centralPolicyUser[0].electronicBook.detail
+        this.resultuser = result.userdata
       })
   }
 

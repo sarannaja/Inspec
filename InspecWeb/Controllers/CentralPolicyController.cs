@@ -67,7 +67,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyFiles)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id).First();
+                .Where(m => m.Id == id).FirstOrDefault();
 
             return Ok(centralpolicydata);
             //return "value";
@@ -90,7 +90,7 @@ namespace InspecWeb.Controllers
                 EndDate = model.EndDate,
                 Status = model.Status,
                 CreatedAt = date,
-                CreatedBy = "Super Admin",
+                CreatedBy = model.UserID,
                 Class = "แผนการตรวจประจำปี",
             };
 
@@ -438,7 +438,10 @@ namespace InspecWeb.Controllers
                 .ToList();
 
             return Ok(centralpolicyprovincedata);
+
+
         }
+
         // PUT api/values/5
         [HttpPut("acceptcentralpolicy/{id}")]
         public void PutStatus(long id, string status)
@@ -485,13 +488,19 @@ namespace InspecWeb.Controllers
             var accept = _context.CentralPolicyUsers.Where(m => m.Id == id).FirstOrDefault();
 
             var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.CentralPolicyUser)
+                .ThenInclude(m => m.ElectronicBook)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-                .Include(m => m.Subjects)
-                .ThenInclude(m => m.Subquestions)
+                //.Include(m => m.Subjects)
+                //.ThenInclude(m => m.Subquestions)
+                .Include(m => m.CentralPolicyProvinces)
+                .ThenInclude(m => m.Province)
                 .Where(m => m.Id == accept.CentralPolicyId).First();
 
-            return Ok(centralpolicydata);
+            var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
+
+            return Ok(new { centralpolicydata , userdata } );
         }
 
         // GET api/values/5
@@ -517,14 +526,18 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
             .Include(m => m.CentralPolicyDates)
             .Include(m => m.CentralPolicyFiles)
+            .Include(m => m.CentralPolicyProvinces)
+            .ThenInclude(m => m.Province)
             .Where(m => m.Id == centralpolicyprovince.CentralPolicyId).First();
+
+            var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
 
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
-            return Ok( new { subjectcentralpolicyprovincedata , centralpolicydata });
+            return Ok( new { subjectcentralpolicyprovincedata , centralpolicydata , userdata });
             //return "value";
         }
 

@@ -16,6 +16,7 @@
             <ul class="sidebar-nav">
                 <li *ngFor="let item of nav;" (click)="checkactive(item.url)"
                     [ngClass]="item.url == urlActive ? 'sidebar-item active':'sidebar-item'">
+
                     <a *ngIf="item.children == null;" class="sidebar-link" [routerLink]="[item.url]">
                         <i [ngClass]="classIcon+item.icon"></i>
                         <span class="align-middle">{{item.name}}</span>
@@ -31,10 +32,13 @@
                             class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
                             <li [ngClass]="childItem.url == urlActive ? 'sidebar-item active':'sidebar-item' ">
 
-                                <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url)"
+                            <!-- ปามทำไว้ --> <!-- <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,childItem.ex_link)"
+                                    class="sidebar-link" href="{{childItem.url}}"> -->
+                                    <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,childItem.ex_link)"
                                     class="sidebar-link" href="{{childItem.url}}">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
+
 
                                 <a *ngIf="childItem.ex_link != '0' && childItem.ex_link!='user' "
                                     (click)="checkactive(childItem.url)" class="sidebar-link"

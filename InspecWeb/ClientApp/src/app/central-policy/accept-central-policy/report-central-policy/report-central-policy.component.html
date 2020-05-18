@@ -20,10 +20,10 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            ผู้สังการ : {{resultdetailcentralpolicy.createdBy}}
+            ผู้สังการ : {{resultuser.name}}
           </div>
           <div class="col-md-6">
-            ตำแหน่ง : ผู้ตรวจการ
+            ตำแหน่ง : {{resultuser.position}}
           </div>
         </div>
         <div class="row" style="margin-top: 10px;">
@@ -33,7 +33,9 @@
         </div>
         <div class="row" style="margin-top: 10px;">
           <div class="col-md-6">
-            จังหวัด : ขอนแก่น
+            <u>จังหวัด</u><br><span
+            *ngFor="let item3 of resultdetailcentralpolicy.centralPolicyProvinces; let i = index">ช่วงที่ {{i+1}})
+            {{ item3.province.name }}<br></span>
           </div>
         </div>
 
@@ -54,10 +56,10 @@
         <div class="row" style="margin-top: 10px;">
           <div class="col-12">
             <div class="row" *ngFor="let items of resultcentralpolicyuser;let i = index">
-              <div class="col-3">
-                {{i + 1}}. {{items.user.prefix}} {{items.user.name}}
+              <div class="col-3" *ngIf="items.user.role_id == 6">
+                {{items.user.prefix}} {{items.user.name}}
               </div>
-              <div class="col-2">
+              <div class="col-2" *ngIf="items.user.role_id == 6">
                 <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
                   disabled>{{items.status}}</button>
                 <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
@@ -75,8 +77,20 @@
           </div>
         </div>
         <div class="row" style="margin-top: 10px;">
-          <div class="col-md-6">
-
+          <div class="col-12">
+            <div class="row" *ngFor="let items of resultcentralpolicyuser;let ii = index">
+              <div class="col-3" *ngIf="items.user.role_id == 7">
+                {{items.user.prefix}} {{items.user.name}}
+              </div>
+              <div class="col-2" *ngIf="items.user.role_id == 7">
+                <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
+                  disabled>{{items.status}}</button>
+                <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
+                  disabled>{{items.status}}</button>
+                <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
+                  disabled>{{items.status}}</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -89,7 +103,7 @@
                     <div class="row">
                       <u style="margin-left: 15px;">เรื่องประเด็น</u>
                       <div class="col-12">
-                        <input type="text" value="{{i +1}}. {{items.name}}" class="form-control"
+                        <input type="text" value="{{items.name}}" class="form-control"
                           placeholder="กรุณากรอกเรื่อง" readonly>
                       </div>
                     </div>
@@ -100,7 +114,7 @@
                       <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
 
                         <div class="col-12">
-                          <input type="text" value="{{i +1}}.{{ii +1}} {{item.name}}" class="form-control"
+                          <input type="text" value="{{item.name}}" class="form-control"
                             placeholder="กรุณากรอกเรื่อง" readonly>
                         </div>
                       </div>
@@ -114,7 +128,7 @@
                     <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
                       <div class="row">
                         <div class="col-12" *ngIf="item.type == 'คำถามปลายปิด'">
-                          <input type="text" value="{{i +1}}.{{ii+1}} {{item.name}}" class="form-control"
+                          <input type="text" value="{{item.name}}" class="form-control"
                             placeholder="กรุณากรอกเรื่อง" readonly>
                         </div>
                       </div>
@@ -127,7 +141,7 @@
                       <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
                         <div class="row">
                           <div class="col-12" *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                            <input type="text" value="{{i +1}}.{{ii+1}}.{{iii+1}} {{item3.name}}" class="form-control"
+                            <input type="text" value="{{item3.name}}" class="form-control"
                               placeholder="กรุณากรอกเรื่อง" readonly>
                           </div>
                         </div>
@@ -137,6 +151,15 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
+            <textarea cols="30" rows="5" value="{{resultelectronicbookdetail}}" class="form-control"
+              placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly>
+            </textarea>
           </div>
         </div>
 
