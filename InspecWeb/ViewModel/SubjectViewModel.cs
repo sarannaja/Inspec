@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace InspecWeb.ViewModel
@@ -17,11 +19,22 @@ namespace InspecWeb.ViewModel
         
         public string Answer { get; set; }
 
-        
+        public string Status { get; set; }
+
+        public List<IFormFile> files { get; set; }
+
         public long[] CentralPolicyDateId { get; set; }
 
-        public inputquestionopen[] inputquestionopen { get; set; }
+        public inputsubjectdepartment[] inputsubjectdepartment { get; set; }
 
+       
+    }
+
+    public class inputsubjectdepartment
+    {
+        public long box { get; set; }
+        public long departmentId { get; set; }
+        public inputquestionopen[] inputquestionopen { get; set; }
         public inputquestionclose[] inputquestionclose { get; set; }
     }
 

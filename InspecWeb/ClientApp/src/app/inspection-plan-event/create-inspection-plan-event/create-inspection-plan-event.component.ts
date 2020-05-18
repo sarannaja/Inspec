@@ -9,6 +9,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { SubjectService } from 'src/app/services/subject.service';
+import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 
 interface addInput {
   id: number;
@@ -41,8 +42,11 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   selectdataprovince: Array<IOption>
   selectdatacentralpolicy: Array<IOption>
   id: any = 1
+  provincename: any = []
+  provinceid: any = []
   input: any = [{ start_date_plan: '', end_date_plan: '', province: '' }]
-
+  start_date_plan_i: any = []
+  end_date_plan_i: any = []
 
   constructor(
     private fb: FormBuilder, private authorize: AuthorizeService,
@@ -51,6 +55,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     private centralpolicyservice: CentralpolicyService,
     private subjectservice: SubjectService,
     private provinceservice: ProvinceService,
+    private inspectionplanservice: InspectionplanService,
     @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl;
   }
@@ -138,6 +143,9 @@ export class CreateInspectionPlanEventComponent implements OnInit {
 
   selectedprovince(event, i, item) {
     this.province[i] = event;
+    this.provincename[i] = event.label;
+    this.provinceid[i] = event.value;
+
     // alert(JSON.stringify(event));
     console.log("item", item);
     this.t.at(i).get('resultcentralpolicy').patchValue([1, 2])
@@ -177,5 +185,29 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   }
   back() {
     window.history.back();
+  }
+
+  Gotoinspecplan(provinceid, i) {
+
+    // alert(this.start_date_plan[i])
+    // alert(this.end_date_plan[i])
+    // alert(provinceid)
+
+    this.inspectionplanservice.inspectionplansprovince(provinceid, this.userid, this.start_date_plan_i[i], this.end_date_plan_i[i])
+      .subscribe(result => {
+        console.log("storesubjectprovince : " + result);
+        var id = result
+        window.open(this.url + 'inspectionplan/' + id + '/' + provinceid);
+      })
+  }
+
+  startdate(event, i) {
+    this.start_date_plan_i[i] = event.date.year + '-' + event.date.month + '-' + event.date.day;
+    // alert(JSON.stringify(event))
+  }
+  enddate(event, i) {
+    // this.start_date_plan_i[i] = event;
+    this.end_date_plan_i[i] = event.date.year + '-' + event.date.month + '-' + event.date.day;
+    // alert(JSON.stringify(event))
   }
 }

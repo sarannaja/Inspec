@@ -19,10 +19,15 @@ export class AcceptCentralPolicyComponent implements OnInit {
   resultcentralpolicyuser: any = []
   resultdetailcentralpolicyprovince: any = []
   Form: FormGroup;
+  assignForm: FormGroup;
   userid: string
   answer
   resultelectronicbookdetail: any = []
-  downloadUrl: any
+  downloadUrl: any;
+  modalRef: BsModalRef;
+  assignDetail: any;
+  centralpolicyproviceid
+  electronicbookid
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -32,6 +37,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string  ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
     this.downloadUrl = baseUrl + '/Uploads';
   }
 
@@ -46,10 +52,14 @@ export class AcceptCentralPolicyComponent implements OnInit {
     this.Form = this.fb.group({
       answer: new FormControl(null, [Validators.required]),
     })
+    this.assignForm = this.fb.group({
+      assign: new FormControl(null, [Validators.required]),
+    })
 
     this.getDetailCentralPolicy()
     this.getCentralPolicyUser()
-    this.getSubjectCentralPolicyProvince()
+    this.getDetailCentralPolicyProvince()
+    this.getAssign();
   }
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
@@ -70,20 +80,55 @@ export class AcceptCentralPolicyComponent implements OnInit {
       })
   }
 
-  getSubjectCentralPolicyProvince() {
-    this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  // getSubjectCentralPolicyProvince() {
+  //   this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  //     .subscribe(result => {
+  //       this.resultdetailcentralpolicyprovince = result
+  //       console.log("resultdetailcentralpolicyprovince : ", result);
+  //     })
+  // }
+
+  getDetailCentralPolicyProvince() {
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.centralpolicyproviceid)
       .subscribe(result => {
-        this.resultdetailcentralpolicyprovince = result
-        console.log("resultdetailcentralpolicyprovince : ", result);
+        console.log("123", result);
+        // alert(JSON.stringify(result))
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
       })
   }
+
 
   storeAccept(value, answer) {
     this.centralpolicyservice.acceptCentralpolicy(value, answer, this.id)
       .subscribe(response => {
         console.log(response);
         this.Form.reset()
-        this.router.navigate(['usercentralpolicy'])
+        // this.router.navigate(['usercentralpolicy'])
+        this.router.navigate(['calendaruser'])
       })
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  sendAssign(value) {
+    this.centralpolicyservice.sendAssign(value, this.id).subscribe(response => {
+      console.log(response);
+      this.modalRef.hide();
+    })
+  }
+
+  getAssign() {
+    this.centralpolicyservice.getAssign(this.id).subscribe(res => {
+      this.assignDetail = res.forward;
+      console.log("ASSIGN: ", this.assignDetail);
+      this.assignForm.patchValue({
+        assign: this.assignDetail
+      })
+    })
   }
 }

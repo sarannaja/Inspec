@@ -13,5 +13,10 @@ namespace InspecWeb.ViewModel
 
         [JsonProperty(PropertyName = "Report")]
         public string Report { get; set; }
+
+        [JsonProperty(PropertyName = "DraftStatus")]
+        public string DraftStatus { get; set; }
+
+        public long ElectronicBookId { get; set; }
     }
 }

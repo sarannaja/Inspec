@@ -35,6 +35,10 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <Content Remove="wwwroot\Uploads\4SSEYBRSAWScreen Shot 2563-04-23 at 10.27.52.png" />
+    <Content Remove="wwwroot\Uploads\TBG487JZSLScreen Shot 2563-04-23 at 10.27.52.png" />
+    <Content Remove="wwwroot\Uploads\EKOKWXE4M6Screen Shot 2563-04-23 at 10.27.10.png" />
+    <Content Remove="wwwroot\Uploads\LQN3MIJQ5DScreen Shot 2563-04-23 at 10.27.10.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +50,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmailService\EmailService.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

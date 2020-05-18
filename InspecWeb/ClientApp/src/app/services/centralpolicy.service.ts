@@ -75,11 +75,11 @@ export class CentralpolicyService {
     return this.http.post(this.url, formData)
   }
 
-  editCentralpolicy(centralpolicyData, file: FileList, id) {
+  editCentralpolicy(centralpolicyData, file: FileList, id, userId) {
     console.log("test: ", centralpolicyData);
     console.log("id", id);
     console.log("ff: ", file);
-
+    console.log("userid: ", userId);
 
     var inputdate: Array<any> = centralpolicyData.inputdate.map((item, index) => {
       return {
@@ -97,7 +97,7 @@ export class CentralpolicyService {
     }
     formData.append('FiscalYearId', centralpolicyData.year);
     formData.append('Status', centralpolicyData.status);
-    // formData.append('files',centralpolicyData.file);
+    formData.append('UserID', userId);
     for (var ii = 0; ii < inputdate.length; ii++) {
       console.log("ii: ", ii);
       // console.log("inputdateii: ", inputdate[ii].StartDate);
@@ -137,10 +137,11 @@ export class CentralpolicyService {
     return this.http.delete(this.url + id);
   }
 
-  addCentralpolicyUser(data, id) {
+  addCentralpolicyUser(data, id, electronicbookid) {
     const formData = {
       CentralPolicyId: id,
       UserId: data.UserPeopleId,
+      ElectronicBookId: electronicbookid,
     }
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + "users", formData);
@@ -158,8 +159,8 @@ export class CentralpolicyService {
     return this.http.get<any[]>(this.url + "getcentralpolicyfromprovince/" + id)
   }
 
-  getcentralpolicyuserinviteddata(id): Observable<any[]> {
-    return this.http.get<any[]>(this.url + "usersinvited/" + id)
+  getcentralpolicyuserinviteddata(id, planid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "usersinvited/" + id + "/" + planid)
   }
 
   getdetailacceptcentralpolicydata(id): Observable<any> {
@@ -191,16 +192,46 @@ export class CentralpolicyService {
   sendReport(reportData, file: FileList, id) {
     console.log("REPORTDATA: ", reportData);
 
-    const formData = new FormData();
-    formData.append('Report', reportData.report);
-    for (var i = 0; i < file.length; i++) {
-      formData.append("files", file[i]);
+    if (file != null) {
+      const formData = new FormData();
+      formData.append('Report', reportData.report);
+      formData.append('DraftStatus', reportData.Status);
+      for (var i = 0; i < file.length; i++) {
+        formData.append("files", file[i]);
+      }
+      return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
+    } else {
+      const formData = new FormData();
+      formData.append('Report', reportData.report);
+      formData.append('DraftStatus', reportData.Status);
+      formData.append("files", null);
+      return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
     }
 
-    return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
+
   }
 
   deleteUserFile(id) {
     return this.http.delete(this.url + 'deleteuserfile/' + id);
   }
+
+  sendAssign(value, id) {
+    const formData = new FormData();
+    formData.append('assign', value.assign);
+    return this.http.put(this.url + 'sendassign/' + id, formData)
+  }
+
+  getAssign(id) {
+    return this.http.get<any>(this.url + 'getassign/' + id);
+  }
+
+  addDepartment(data, subjectid) {
+    const formData = {
+      DepartmentId: data.DepartmentId,
+      SubjectCentralPolicyProvinceId: subjectid,
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "adddepartment", formData);
+  }
+
 }

@@ -212,6 +212,8 @@
             <button (click)="storeAccept(Form.value,'ตอบรับ')" value="ตอบรับ" class="btn btn-primary">ตอบรับ</button>
             &nbsp;&nbsp;
             <button (click)="storeAccept(Form.value,'ปฏิเสธ')" value="ปฏิเสธ" class="btn btn-danger">ปฏิเสธ</button>
+            &nbsp;&nbsp;
+            <button (click)="openModal(assignModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
           </div>
         </form>
 
@@ -262,6 +264,32 @@
         <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectministrypeople"
           name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
         </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #assignModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="assignForm" (ngSubmit)="sendAssign(assignForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">มอบหมาย</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+            <textarea cols="30" rows="5" class="form-control"
+              placeholder="กรุณากรอกรายละเอียดมอบหมาย" formControlName="assign">
+            </textarea>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>

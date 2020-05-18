@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CentralpolicyService } from '../../services/centralpolicy.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 
 @Component({
   selector: 'app-user-central-policy',
@@ -18,13 +19,18 @@ export class UserCentralPolicyComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   loading = false;
   userid: string
-
+  centralpolicyprovinceid: any
+  id
   constructor(
-    private router:Router,
+    private router: Router,
     private centralpolicyservice: CentralpolicyService,
     private modalService: BsModalService,
     private authorize: AuthorizeService,
-    private spinner: NgxSpinnerService) { }
+    private activatedRoute: ActivatedRoute,
+    private inspectionplanservice: InspectionplanService,
+    private spinner: NgxSpinnerService) {
+    this.id = activatedRoute.snapshot.paramMap.get('id')
+  }
 
   ngOnInit() {
     this.authorize.getUser()
@@ -46,13 +52,13 @@ export class UserCentralPolicyComponent implements OnInit {
 
     };
 
-    this.centralpolicyservice.getcentralpolicyuserinviteddata(this.userid)
-    .subscribe(result => {
-      this.resultcentralpolicy = result
-      this.loading = true;
-      this.spinner.hide();
-      console.log("RES: ", this.resultcentralpolicy);
-    })
+    this.centralpolicyservice.getcentralpolicyuserinviteddata(this.userid, this.id)
+      .subscribe(result => {
+        this.resultcentralpolicy = result
+        this.loading = true;
+        this.spinner.hide();
+        console.log("resultcentralpolicyDATA: ", this.resultcentralpolicy);
+      })
 
   }
 
@@ -76,19 +82,29 @@ export class UserCentralPolicyComponent implements OnInit {
     })
   }
 
-  CreateCentralPolicy(){
+  CreateCentralPolicy() {
     this.router.navigate(['/centralpolicy/createcentralpolicy'])
   }
-  DetailCentralPolicy(id:any){
-    this.router.navigate(['/centralpolicy/detailcentralpolicy',id])
+  DetailCentralPolicy(id: any) {
+    this.router.navigate(['/centralpolicy/detailcentralpolicy', id])
   }
 
-  AcceptCentralPolicy(id: any){
-    this.router.navigate(['/acceptcentralpolicy',id])
+  AcceptCentralPolicy(id: any, proid) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(id, proid).subscribe(result => {
+      console.log("result123", result);
+      this.centralpolicyprovinceid = result
+      this.router.navigate(['/acceptcentralpolicy', id, { centralpolicyproviceid: result }])
+    })
   }
 
-  gotoReport(id: any) {
-    this.router.navigate(['/reportcentralpolicy',id])
+  gotoReport(id: any, proid) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(id, proid).subscribe(result => {
+      console.log("result123", result);
+      this.centralpolicyprovinceid = result
+
+      this.router.navigate(['/reportcentralpolicy', id, { centralpolicyproviceid: result }])
+
+    })
   }
 
 }

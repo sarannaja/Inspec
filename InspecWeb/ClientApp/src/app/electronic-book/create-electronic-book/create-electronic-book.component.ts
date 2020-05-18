@@ -12,6 +12,8 @@ import { ProvinceService } from 'src/app/services/province.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
+import { DepartmentService } from 'src/app/services/department.service';
+import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 
 interface addInput {
   id: number;
@@ -64,9 +66,21 @@ export class CreateElectronicBookComponent implements OnInit {
   selectpeople: any = [];
   inspectionplan: any = [];
   provinceID: any;
+  fileStatus = false;
+  form: FormGroup;
+  provincename: string;
+  temp = []
+  subjectdepartmentId: Array<any> = []
+  provincetodepartmentId: any;
+  resultfiscalyear: any = [];
+  showDetail = false;
+
+  // get f() { return this.Form.controls }
+  // get t() { return this.f.input as FormArray }
 
   get f() { return this.Form.controls }
   get t() { return this.f.input as FormArray }
+  get d() { return this.f.inputdate as FormArray }
 
   constructor(
     private fb: FormBuilder, private authorize: AuthorizeService,
@@ -78,6 +92,8 @@ export class CreateElectronicBookComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
     private electronicBookService: ElectronicbookService,
+    private departmentservice: DepartmentService,
+    private fiscalyearservice: FiscalyearService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.url = baseUrl;
@@ -105,7 +121,9 @@ export class CreateElectronicBookComponent implements OnInit {
       checkDetail: new FormControl(null, [Validators.required]),
       UserMinistryId: new FormControl(null, [Validators.required]),
       UserPeopleId: new FormControl(null, [Validators.required]),
-
+      Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      Problem: new FormControl(null, [Validators.required]),
+      Suggestion: new FormControl(null, [Validators.required]),
     });
     this.t.push(this.fb.group({
       // start_date_plan: '',
@@ -115,6 +133,10 @@ export class CreateElectronicBookComponent implements OnInit {
       resultcentralpolicy: [],
       resultdetailcentralpolicy: ''
     }))
+
+    this.form = this.fb.group({
+      files: [null]
+    })
 
     this.userservice.getprovincedata(this.userid).subscribe(result => {
       this.resultprovince = result
@@ -143,9 +165,62 @@ export class CreateElectronicBookComponent implements OnInit {
       })
     })
 
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      console.log(result);
+      // alert(this.userid)
+    })
+
+    this.Form = this.fb.group({
+      title: new FormControl(null, [Validators.required]),
+      // start_date: new FormControl(null, [Validators.required]),
+      // end_date: new FormControl(null, [Validators.required]),
+      year: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      files: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null, [Validators.required]),
+      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      input: new FormArray([]),
+      inputdate: new FormArray([])
+      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+    })
+    this.t.push(this.fb.group({
+      date: '',
+      subject: '',
+      questions: []
+    }))
+
+    this.d.push(this.fb.group({
+      start_date: '',
+      end_date: '',
+    }))
+    //แก้ไข
+
+    this.provinceservice.getprovincedata().subscribe(result => {
+      this.resultprovince = result
+
+      this.selectdataprovince = this.resultprovince.map((item, index) => {
+        return { value: item.id, label: item.name }
+      })
+
+      console.log(this.resultprovince);
+    })
+
+    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      this.resultfiscalyear = result
+      console.log(this.resultcentralpolicy);
+    })
+
+
+    this.Form.patchValue({
+      // กรณีจะแก้ไข
+    })
+
   }
 
   DetailCentralPolicy(id: any, i) {
+    this.getDepartmentdata();
     this.subjectservice.storesubjectprovince(id, this.province[i].value)
       .subscribe(result => {
         console.log("storesubjectprovince : " + result);
@@ -158,7 +233,7 @@ export class CreateElectronicBookComponent implements OnInit {
   storeInspectionPlanEvent(value) {
     console.log("Store : ", value);
     // alert("DATA: " + JSON.stringify(value));
-    this.electronicBookService.addElectronicBook(value, this.userid).subscribe(response => {
+    this.electronicBookService.addElectronicBook(value, this.userid, this.form.value.files, this.subjectdepartmentId).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
@@ -179,6 +254,8 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   selectedprovince(event, i, item) {
+    this.provincename = event.label;
+    this.provincetodepartmentId = event.value;
     this.province[i] = event;
     // alert(JSON.stringify(event));
     console.log("item", item);
@@ -201,6 +278,7 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   selectedcentralpolicy(event, i) {
+
     // alert(JSON.stringify(event))
     this.centralpolicyservice.getdetailcentralpolicydata(event.value)
       .subscribe(result => {
@@ -223,7 +301,7 @@ export class CreateElectronicBookComponent implements OnInit {
     this.spinner.show();
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(centralPolicyProvinceId)
       .subscribe(result => {
-        console.log("getDetail" , result);
+        console.log("getDetail", result);
 
         this.resultdetailcentralpolicyData = result.centralpolicydata
         console.log("DATA: ", this.resultdetailcentralpolicyData);
@@ -298,12 +376,12 @@ export class CreateElectronicBookComponent implements OnInit {
         .subscribe(result => {
           this.resultcentralpolicy = result //All
           console.log("all: ", this.resultcentralpolicy);
-
           this.getRecycled();
           // alert(JSON.stringify(this.resultcentralpolicy))
         })
     })
   }
+
   getRecycled() {
     this.selectdatacentralpolicy = []
     this.inspectionplan = this.resultinspectionplan
@@ -321,11 +399,83 @@ export class CreateElectronicBookComponent implements OnInit {
             n++;
           }
         }
-        if(n == 0) {
+        if (n == 0) {
           this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].centralPolicyId, label: this.resultcentralpolicy[i].centralPolicy.title })
         }
       }
     }
   }
 
+  uploadFile(event) {
+    this.fileStatus = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      files: file
+    });
+    console.log("fff:", this.form.value.files)
+    this.form.get('files').updateValueAndValidity()
+  }
+
+  getDepartmentdata() {
+    // this.resultprovince.forEach((element, index) => {
+    //   console.log('element', element);
+    // alert(this.provincetodepartmentId)
+
+    this.departmentservice.getdepartmentdata(this.provincetodepartmentId)
+      .subscribe(result => {
+        console.log("Result : ", result);
+        this.temp = result.map((item, index) => {
+          return {
+            value: item.id,
+            label: item.provincialDepartment.name,
+            provincialDepartmentID: item.provincialDepartmentID,
+            provinceId: item.provinceId
+          }
+        })
+        console.log("nik : ", this.temp);
+      })
+    // });
+  }
+
+  addsubjectdepartment2(value, input) {
+    // var subject = value.vaule
+
+    if (input == 'add') {
+      this.subjectdepartmentId = this.addSubjectdepartments(this.subjectdepartmentId, value)
+      console.log(this.subjectdepartmentId);
+    } else {
+      this.subjectdepartmentId = this.removeSubjectdepartments(this.subjectdepartmentId, value)
+      console.log(this.subjectdepartmentId);
+
+    }
+  }
+
+  removeSubjectdepartments(array: any, value) {
+    var s = new Set(array);
+    s.delete(value);
+    return Array.from(s);
+  }
+
+  addSubjectdepartments(array: any, value) {
+    var s = new Set(array);
+    s.add(value);
+    return Array.from(s);
+  }
+
+  storeCentralpolicy(value) {
+    // console.log(this.form.value.files);
+    // alert(JSON.stringify(value))
+    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files,this.userid)
+      .subscribe(response => {
+        console.log(response);
+        // this.Form.reset()
+        // this.router.navigate(['centralpolicy'])
+        this.showDetail = true
+        // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+        //   this.centralpolicyservice = result
+        //   console.log(this.resultcentralpolicy);
+        // })
+      })
+  }
 }

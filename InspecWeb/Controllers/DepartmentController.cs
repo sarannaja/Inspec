@@ -22,11 +22,11 @@ namespace InspecWeb.Controllers
         }
         // GET: api/values
         [HttpGet]
-        public IEnumerable<ProvincialDepartmentProvince> Get()
+        public IEnumerable<ProvincialDepartment> Get()
         {
-            var provincialdepartmentprovincedata = from P in _context.ProvincialDepartmentProvince
+            var provincialdepartmentdata = from P in _context.ProvincialDepartment
                                select P;
-            return provincialdepartmentprovincedata;
+            return provincialdepartmentdata;
         }
         // GET api/values/5
         [HttpGet("{id}")]

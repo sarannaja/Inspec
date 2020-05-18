@@ -9,27 +9,34 @@ export class InspectionplaneventService {
 
   url = "";
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string)
-   {
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/inspectionplanevent/';
-   }
+  }
 
-   getinspectionplaneventdata(id):Observable<any[]> {
+  getinspectionplaneventdata(id): Observable<any[]> {
     //  alert(id)
-     let path = this.url + 'inspectionplan/' + id;
-     console.log("URL: ", path);
+    let path = this.url + 'inspectionplan/' + id;
+    console.log("URL: ", path);
 
     return this.http.get<any[]>(path)
   }
 
+  getinspectionplaneventuserdata(id): Observable<any> {
+    //  alert(id)
+    let path = this.url + 'inspectionplanuser/' + id;
+    console.log("URL: ", path);
+
+    return this.http.get<any>(path)
+  }
+
   addInspectionplanevent(inspectionplaneventData, userid) {
     // alert(JSON.stringify(inspectionplaneventData.input))
-    var input = inspectionplaneventData.input.map((item , index) => {
+    var input = inspectionplaneventData.input.map((item, index) => {
       return {
-        StartPlanDate:item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
-        EndPlanDate:item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
-        ProvinceId:item.provinces,
-        CentralPolicyId:item.centralpolicies,
+        StartPlanDate: item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
+        EndPlanDate: item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
+        ProvinceId: item.provinces,
+        // CentralPolicyId: item.centralpolicies,
       }
     })
     // alert(JSON.stringify(input))

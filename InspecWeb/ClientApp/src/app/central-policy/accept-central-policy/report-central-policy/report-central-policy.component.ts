@@ -18,13 +18,16 @@ export class ReportCentralPolicyComponent implements OnInit {
   userid: string
   resultdetailcentralpolicy: any = [];
   resultcentralpolicyuser: any = [];
-  userFiles: any [];
+  userFiles: any[];
   report: any;
   delid: any;
   modalRef: BsModalRef;
   resultdetailcentralpolicyprovince: any = [];
   resultelectronicbookdetail: any = [];
+  draftStatus: any;
   resultuser: any = []
+  centralpolicyproviceid
+  electronicbookid
   constructor(
     private fb: FormBuilder,
     private authorize: AuthorizeService,
@@ -33,6 +36,7 @@ export class ReportCentralPolicyComponent implements OnInit {
     private modalService: BsModalService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
   }
 
   ngOnInit() {
@@ -45,13 +49,14 @@ export class ReportCentralPolicyComponent implements OnInit {
 
     this.form = this.fb.group({
       report: new FormControl(null, [Validators.required]),
-      files: [null]
+      files: [null],
+      Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
     })
 
     this.getDetailCentralPolicy();
     this.getCentralPolicyUser();
     this.getUserFiles();
-    this.getSubjectCentralPolicyProvince();
+    this.getDetailCentralPolicyProvince();
   }
 
   getDetailCentralPolicy() {
@@ -67,7 +72,7 @@ export class ReportCentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getdetailuseracceptcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
-        console.log("result" + result);
+        console.log("resultJA",  result);
       })
   }
 
@@ -76,9 +81,11 @@ export class ReportCentralPolicyComponent implements OnInit {
       this.userFiles = results;
       console.log("UserFiles: ", this.userFiles);
       this.report = results.report
+      this.draftStatus = results.status
       console.log("report:", this.report);
       this.form.patchValue({
-        report: this.report
+        report: this.report,
+        Status: this.draftStatus
       });
     })
   }
@@ -99,23 +106,23 @@ export class ReportCentralPolicyComponent implements OnInit {
     console.log("files: ", this.form.value.files);
 
     this.centralpolicyservice.sendReport(value, this.form.value.files, this.id)
-    .subscribe(response => {
-      console.log("res: ", response);
-      this.form.reset()
-      window.history.back();
-    })
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.form.reset()
+        window.history.back();
+      })
   }
 
   deleteUserFile() {
     // alert(this.delid);
     this.centralpolicyservice.deleteUserFile(this.delid)
-    .subscribe(response => {
-      console.log("res: ", response);
-      this.modalRef.hide();
-      this.getDetailCentralPolicy();
-    this.getCentralPolicyUser();
-    this.getUserFiles();
-    })
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.modalRef.hide();
+        this.getDetailCentralPolicy();
+        this.getCentralPolicyUser();
+        this.getUserFiles();
+      })
   }
 
   openModal(template: TemplateRef<any>, id) {
@@ -125,11 +132,22 @@ export class ReportCentralPolicyComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  getSubjectCentralPolicyProvince() {
-    this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  // getSubjectCentralPolicyProvince() {
+  //   this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  //     .subscribe(result => {
+  //       this.resultdetailcentralpolicyprovince = result
+  //       console.log("resultdetailcentralpolicyprovince : ", result);
+  //     })
+  // }
+  getDetailCentralPolicyProvince() {
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.centralpolicyproviceid)
       .subscribe(result => {
-        this.resultdetailcentralpolicyprovince = result
-        console.log("resultdetailcentralpolicyprovince : ", result);
+        console.log("123", result);
+        // alert(JSON.stringify(result))
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
       })
   }
 

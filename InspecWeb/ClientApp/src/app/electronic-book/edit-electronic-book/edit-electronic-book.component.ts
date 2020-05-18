@@ -40,7 +40,18 @@ export class EditElectronicBookComponent implements OnInit {
   resultelectronicbookdetail: any = [];
   centralPolicyUserId: any;
   detailForm: FormGroup;
-
+  resultStatus: any = [];
+  form: FormGroup;
+  fileStatus = false;
+  resultElecFile: any = [];
+  delid: any;
+  resultreport: any = [];
+  provincename
+  provinceid
+  resultdate: any = []
+  electronicbookid
+  carlendarFile: any = [];
+  electronikbookFile: any = [];
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -54,9 +65,15 @@ export class EditElectronicBookComponent implements OnInit {
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
     this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
     this.downloadUrl = baseUrl + '/Uploads';
+
+    this.form = this.fb.group({
+      files: [null]
+    })
   }
 
   ngOnInit() {
+    console.log("ELECTID: ", this.id);
+
     this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
@@ -64,7 +81,8 @@ export class EditElectronicBookComponent implements OnInit {
     })
 
     this.detailForm = this.fb.group({
-      eBookDetail: new FormControl(null, [Validators.required])
+      eBookDetail: new FormControl(null, [Validators.required]),
+      Status: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -104,6 +122,21 @@ export class EditElectronicBookComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  openDeleteModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  deleteFile() {
+    // alert(this.delid);
+    this.electronicBookService.deleteFile(this.delid)
+    .subscribe(response => {
+      console.log("res: ", response);
+      this.modalRef.hide();
+      this.getElectronicBookDetail();
+    })
   }
 
   editModal(template: TemplateRef<any>, id, name) {
@@ -149,6 +182,13 @@ export class EditElectronicBookComponent implements OnInit {
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        this.provincename = result.provincedata.name
+        this.provinceid = result.provincedata.id
+
+        this.getCalendarFile();
+        this.getElectronikbookFile();
       })
   }
 
@@ -168,12 +208,12 @@ export class EditElectronicBookComponent implements OnInit {
 
   storePeople(value) {
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id).subscribe(response => {
-      console.log(value);
-      this.Form.reset()
-      this.modalRef.hide()
-      this.getCentralPolicyProvinceUser();
-    })
+    // this.centralpolicyservice.addCentralpolicyUser(value, this.id).subscribe(response => {
+    //   console.log(value);
+    //   this.Form.reset()
+    //   this.modalRef.hide()
+    //   this.getCentralPolicyProvinceUser();
+    // })
   }
 
   storeMinistryPeople(value) {
@@ -203,15 +243,19 @@ export class EditElectronicBookComponent implements OnInit {
       console.log("EDIT ElectronicBookDetal: ", result);
       // alert("EDIT: " + result);
       this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
+      this.resultStatus = result.centralPolicyUser[0].electronicBook.status;
+      // this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
 
+      this.resultreport = result.centralPolicyUser
       this.detailForm.patchValue({
         eBookDetail: this.resultelectronicbookdetail,
+        Status: result.status
       })
     })
   }
 
   editDetail(value) {
-    this.electronicBookService.editElectronicBookDetail(value, this.elecId).subscribe(result => {
+    this.electronicBookService.editElectronicBookDetail(value, this.elecId, this.form.value.files).subscribe(result => {
       console.log("res: ", result);
 
       this.spinner.show();
@@ -220,6 +264,36 @@ export class EditElectronicBookComponent implements OnInit {
         this.getElectronicBookDetail();
         this.spinner.hide();
       }, 300);
+    })
+  }
+
+  uploadFile(event) {
+    this.fileStatus = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      files: file
+    });
+    console.log("fff:", this.form.value.files)
+    this.form.get('files').updateValueAndValidity()
+  }
+
+  back() {
+    window.history.back();
+  }
+
+  getCalendarFile() {
+    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+      this.carlendarFile = res;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+  getElectronikbookFile() {
+    this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {
+      this.resultElecFile = res;
+      console.log("calendarFile: ", res);
+
     })
   }
 }

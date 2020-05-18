@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using InspecWeb.ViewModel;
+using EmailService;
 
 namespace InspecWeb
 {
@@ -59,6 +59,14 @@ namespace InspecWeb
                     options.SuppressModelStateInvalidFilter = true;
                     options.SuppressMapClientErrors = true;
                 });
+
+            //mail
+             var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddTransient<IEmailSender, EmailSender>();
+            //end mail
 
             services.AddControllersWithViews();
             services.AddRazorPages();
