@@ -24,6 +24,17 @@ namespace InspecWeb.Models
         [ForeignKey("SubjectCentralPolicyProvince")]
         [Description("FK: SubjectCentralPolicyProvince")]
         public long SubjectCentralPolicyProvinceId { get; set; }
+
+        [Description("ผลการจตรวจ")]
+        public string Detail { get; set; }
+
+        [Description("ปัญหา")]
+        public string Problem { get; set; }
+
+
+        [Description("คำแนะนำ")]
+        public string Suggestion { get; set; }
+
         public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
     }
 }
