@@ -466,7 +466,7 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
   },
   {
     icon: 'fa-book',
-    url: "/electronicbook",
+    url: "/electronicbookprovince",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {

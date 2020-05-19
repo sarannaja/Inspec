@@ -163,4 +163,8 @@ export class ElectronicbookService {
 
     return this.http.get(this.url + "getElectronicbookFile/" + electID)
   }
+
+  getElectronicBookProvince(userId) {
+    return this.http.get(this.url + "province/" + userId)
+  }
 }

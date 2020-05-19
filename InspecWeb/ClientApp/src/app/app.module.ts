@@ -76,6 +76,7 @@ import { InfoDistrictComponent } from './info-district/info-district.component';
 import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
 import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
 import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
+import { ElectronicBookProvinceComponent } from './electronic-book-province/electronic-book-province.component';
 import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer-outsider.component';
 
 
@@ -141,9 +142,10 @@ import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer
     InfoSubdistrictComponent,
     AnswerSubjectListComponent,
     AnswerSubjectDetailComponent,
+    ElectronicBookProvinceComponent,
     AnswerOutsiderComponent
   ],
-  
+
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -222,6 +224,7 @@ import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer
           { path: 'infosubdistrict/:id', component: InfoSubdistrictComponent, canActivate: [AuthorizeGuard]},
           { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbookprovince', component: ElectronicBookProvinceComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
