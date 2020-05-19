@@ -16,7 +16,8 @@
       <div class="card-header" style="margin-bottom: -20px;">
         <h5 class="card-title">แผนการตรวจ</h5>
         <div class="float-right">
-          <button class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
+
+          <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
             style="margin-top: -60px;">เพิ่มแผนการตรวจราชการประจำปี</button>
           <!-- &nbsp;&nbsp;
             <button class="btn btn-primary" (click)="CraateInspectionPlan(id)"

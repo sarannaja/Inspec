@@ -24,15 +24,14 @@ export class SubjectService {
     var test = []
     var testsubjectdepartment = []
     testsubjectdepartment = subjectdepartment.map((item, index) => {
-      return{
-        box : index,
-        departmentId : item.departmentId,
-        inputquestionopen : item.inputquestionopen,
+      return {
+        box: index,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputquestionopen,
         inputquestionclose: item.inputquestionclose
       }
     })
     console.log("testsubjectdepartment", testsubjectdepartment);
-
     for (var i = 0; i < testsubjectdepartment.length; i++) {
       for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
         departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
@@ -82,7 +81,22 @@ export class SubjectService {
     //     formData.append('CentralPolicyDateId', subjectData.centralpolicydateid);
     // ``
     console.log('FORMDATA: ', formData);
-    return this.http.post(this.url , formData);
+    return this.http.post<any>(this.url, formData);
+  }
+  addFiles(subjectid, file: FileList) {
+    // alert(subjectid)
+    // alert(JSON.stringify(file))
+    // console.log("subjectid",subjectid);
+    console.log("file", file);
+
+    const formData = new FormData();
+    for (var i = 0; i < subjectid.length; i++) {
+      formData.append('SubjectCentralPolicyProvinceId', subjectid[i]);
+    }
+    for (var ii = 0; ii < file.length; ii++) {
+      formData.append("files", file[ii]);
+    }
+    return this.http.post(this.url + "addfiles", formData);
   }
   addSubquestionopen(Subquestionopendata) {
     const formData = new FormData();
@@ -114,6 +128,9 @@ export class SubjectService {
   }
   deleteSubject(id) {
     return this.http.delete(this.url + id);
+  }
+  deletePeopleanswer(id) {
+    return this.http.delete(this.url + "deletepeopleanswer/" + id);
   }
 
   storesubjectprovince(centralpolicyid, provincevalue) {
@@ -186,6 +203,7 @@ export class SubjectService {
 
     return this.http.put(this.url + "editsubjectquestionopenchoiceprovince/" + id, formData);
   }
+
 
   deleteProvincial(id) {
     return this.http.delete(this.url + "deleteprovincial/" + id);

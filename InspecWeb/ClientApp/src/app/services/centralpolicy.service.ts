@@ -273,4 +273,12 @@ export class CentralpolicyService {
     return this.http.post(this.url + "adddepartment", formData);
   }
 
+  addPeopleAnswer(data, subjectid) {
+    const formData = {
+      UserId: data.peopleanswer,
+      SubjectCentralPolicyProvinceId: subjectid,
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "addpeopleanswer", formData);
+  }
 }

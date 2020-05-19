@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { async } from '@angular/core/testing';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -30,6 +31,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   // UserMinistryId: any;
   id
   Form2: FormGroup;
+  Form3: FormGroup;
   Form: FormGroup;
   EditForm: FormGroup;
   EditForm2: FormGroup;
@@ -44,6 +46,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   subject: any;
   subjectquestionopen: any;
   downloadUrl: any
+  urllink
   loading = false;
   electronicbookid: any
   selectdataministrypeople: Array<IOption>
@@ -57,8 +60,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   provinceid
   resultdate: any = []
   department: any = []
+  peopleanswer: any = []
   subjectid
   delid
+  userid
+  role_id
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -68,12 +74,32 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private departmentService: DepartmentService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
+    this.urllink = baseUrl + 'answersubject/outsider/';
   }
 
   async ngOnInit() {
+
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      // this.role_id = result.role_id
+      // console.log(result);
+      // alert(this.role_id)
+
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+          // this.resultuser = result;
+          //console.log("test" , this.resultuser);
+          this.role_id = result[0].role_id
+          // alert(this.role_id)
+        })
+    })
+
     console.log("ID: ", this.id);
 
     this.spinner.show();
@@ -85,7 +111,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       DepartmentId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
     })
-
+    this.Form3 = this.fb.group({
+      peopleanswer: new FormControl(null, [Validators.required]),
+      // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
     this.form = this.fb.group({
       files: [null],
       status: new FormControl("มอบหมายให้จังหวัด", [Validators.required]),
@@ -156,6 +185,22 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       })
   }
 
+  openModal3(template: TemplateRef<any>, subjectid) {
+    this.subjectid = subjectid
+
+    this.userservice.getuserdata(7).subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.peopleanswer = result.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      this.modalRef = this.modalService.show(template);
+    })
+
+  }
+
   editModal(template: TemplateRef<any>, id, name) {
     this.editid = id;
     this.subquestionclosename = name;
@@ -213,6 +258,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
 
   DelModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  DelModal2(template: TemplateRef<any>, id) {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
   }
@@ -277,6 +327,16 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
       console.log(value);
       this.Form2.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  storepeopleanswer(value) {
+    // alert(this.subjectid)
+    this.centralpolicyservice.addPeopleAnswer(value, this.subjectid).subscribe(response => {
+      console.log(value);
+      this.Form3.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
     })
@@ -440,5 +500,19 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.getDetailCentralPolicyProvince();
 
     })
+  }
+
+  deletepeopleanswer(value) {
+    this.subjectservice.deletePeopleanswer(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+
+      this.getDetailCentralPolicyProvince();
+
+    })
+  }
+  back(){
+    window.history.back();
   }
 }

@@ -1,0 +1,55 @@
+<div class="header">
+  <h1 class="header-title">
+      ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item active">ข้อมูลผู้ติดต่อบุคลากร</li>
+          <li class="breadcrumb-item active">เจ้าหน้าที่ประจำเขตตรวจราชการ</li>
+      </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+      <div class="card">
+          
+         <!-- ผู้ตรวจราชการ -->
+            <div class="card-body">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">No.</th>                           
+                            <th style="width: 18%;">ชื่อ-นามสกุล</th>
+                            <th style="width: 20%;">E-mail</th>
+                            <th style="width: 20%;">เขตตรวจ</th>
+                            <th style="width: 20%;">กระทรวง</th>                        
+                            <th style="width: 17%;">เบอร์โทร</th>                   
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultuser; let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>{{item.prefix+item.name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>
+                                <span *ngFor="let item2 of item.userRegion">
+                                   <p>- {{item2.region.name}}</p>                               
+                                </span>                            
+                            </td>
+                            <td>
+                                {{item.ministries.name}}
+                            </td>
+                            <td>{{item.phoneNumber}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+            <!--END ผู้ตรวจราชการ -->
+      </div> 
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
