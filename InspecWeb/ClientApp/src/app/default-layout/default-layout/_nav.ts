@@ -185,9 +185,9 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
@@ -466,7 +466,7 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
   },
   {
     icon: 'fa-book',
-    url: "/electronicbook",
+    url: "/electronicbookprovince",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
@@ -628,7 +628,7 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
   //   name: "สมุดตรวจอิเล็กทรอนิกส์"
   // },
   {
-    icon: 'fa-archive',
+    icon: 'fa-calendar',
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ"
   },

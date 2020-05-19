@@ -142,7 +142,6 @@ namespace InspecWeb.Controllers
             //return model.input;
             var date = DateTime.Now;
 
-
             //var inspectionplanevent = new InspectionPlanEvent
             //{
             //    CreatedAt = date,
@@ -156,24 +155,41 @@ namespace InspecWeb.Controllers
             {
                 //foreach (var item3 in item2.ProvinceId)
                 //{
-                var inspectionplanevent = new InspectionPlanEvent
-                {
-                    StartDate = item2.StartPlanDate,
-                    EndDate = item2.EndPlanDate,
-                    ProvinceId = item2.ProvinceId,
-                    CreatedAt = date,
-                    CreatedBy = model.CreatedBy,
-                };
-                       _context.InspectionPlanEvents.Add(inspectionplanevent);
-                       _context.SaveChanges();
+                var check = _context.InspectionPlanEvents
+               .Where(x => x.CreatedBy == model.CreatedBy
+               && x.StartDate == item2.StartPlanDate
+               && x.EndDate == item2.EndPlanDate
+               && x.ProvinceId == item2.ProvinceId)
+               .Select(x => x.CreatedBy)
+               .FirstOrDefault();
 
-                    //var centralpolicyeventdata = new CentralPolicyEvent
-                    //{
-                    //    CentralPolicyId = item2.CentralPolicyId,
-                    //    InspectionPlanEventId = inspectionplanevent.Id
-                    //};
-                    //   _context.CentralPolicyEvents.Add(centralpolicyeventdata);
-                    //   _context.SaveChanges();
+                System.Console.WriteLine("check: " + check);
+
+                if (check == null) {
+                    System.Console.WriteLine("no inspectionplanevent, create new");
+                    var inspectionplanevent = new InspectionPlanEvent
+                    {
+                        StartDate = item2.StartPlanDate,
+                        EndDate = item2.EndPlanDate,
+                        ProvinceId = item2.ProvinceId,
+                        CreatedAt = date,
+                        CreatedBy = model.CreatedBy,
+                    };
+                    _context.InspectionPlanEvents.Add(inspectionplanevent);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    System.Console.WriteLine("already have inspectionplanevent, don't create");
+                }
+
+                //var centralpolicyeventdata = new CentralPolicyEvent
+                //{
+                //    CentralPolicyId = item2.CentralPolicyId,
+                //    InspectionPlanEventId = inspectionplanevent.Id
+                //};
+                //   _context.CentralPolicyEvents.Add(centralpolicyeventdata);
+                //   _context.SaveChanges();
                 //}
             }
 

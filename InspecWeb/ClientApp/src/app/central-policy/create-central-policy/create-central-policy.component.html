@@ -102,10 +102,14 @@
                       </my-date-picker-th>
                     </div>
                   </div>
-
-                  <div class="col-1">
+                  <div class="col-1" *ngIf="i == 0; else elseBlock">
                     <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appenddate()"></i>
                   </div>
+                  <ng-template #elseBlock>
+                    <div class="col-1">
+                      <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="remove(i)"></i>
+                    </div>
+                  </ng-template>
                 </form>
               </div>
             </div>

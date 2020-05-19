@@ -26,7 +26,8 @@ export class AcceptCentralPolicyComponent implements OnInit {
   downloadUrl: any;
   modalRef: BsModalRef;
   assignDetail: any;
-
+  centralpolicyproviceid
+  electronicbookid
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -36,6 +37,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string  ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
     this.downloadUrl = baseUrl + '/Uploads';
   }
 
@@ -56,7 +58,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
 
     this.getDetailCentralPolicy()
     this.getCentralPolicyUser()
-    this.getSubjectCentralPolicyProvince()
+    this.getDetailCentralPolicyProvince()
     this.getAssign();
   }
   getDetailCentralPolicy() {
@@ -78,13 +80,26 @@ export class AcceptCentralPolicyComponent implements OnInit {
       })
   }
 
-  getSubjectCentralPolicyProvince() {
-    this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  // getSubjectCentralPolicyProvince() {
+  //   this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  //     .subscribe(result => {
+  //       this.resultdetailcentralpolicyprovince = result
+  //       console.log("resultdetailcentralpolicyprovince : ", result);
+  //     })
+  // }
+
+  getDetailCentralPolicyProvince() {
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.centralpolicyproviceid)
       .subscribe(result => {
-        this.resultdetailcentralpolicyprovince = result
-        console.log("resultdetailcentralpolicyprovince : ", result);
+        console.log("123", result);
+        // alert(JSON.stringify(result))
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
       })
   }
+
 
   storeAccept(value, answer) {
     this.centralpolicyservice.acceptCentralpolicy(value, answer, this.id)

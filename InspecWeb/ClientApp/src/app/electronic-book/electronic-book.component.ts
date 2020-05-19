@@ -5,6 +5,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InspectionplanService } from '../services/inspectionplan.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-electronic-book',
@@ -20,6 +21,7 @@ export class ElectronicBookComponent implements OnInit {
   delid: any;
   modalRef: BsModalRef;
   centralpolicyprovinceid: any;
+  role_id
   constructor(
     private router: Router,
     private electronicBookService: ElectronicbookService,
@@ -27,6 +29,7 @@ export class ElectronicBookComponent implements OnInit {
     private modalService: BsModalService,
     private inspectionplanservice: InspectionplanService,
     private spinner: NgxSpinnerService,
+    private userService: UserService,
     @Inject('BASE_URL') baseUrl: string
   ) { }
 
@@ -37,6 +40,13 @@ export class ElectronicBookComponent implements OnInit {
         this.userid = result.sub
         console.log(result);
         // alert(this.userid)
+        this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+          // this.resultuser = result;
+          //console.log("test" , this.resultuser);
+          this.role_id = result[0].role_id
+          // alert(this.role_id)
+        })
       })
     this.dtOptions = {
       pagingType: 'full_numbers',

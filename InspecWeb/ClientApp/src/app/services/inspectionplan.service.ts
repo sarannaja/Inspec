@@ -22,12 +22,13 @@ export class InspectionplanService {
     return this.http.get(this.url + 'getcentralpolicyprovinceid/' + centralpolicyid + '/' + provinceid)
   }
 
-  addCentralPolicyEvent(CentralPolicyEventData, Id, userid) {
+  addCentralPolicyEvent(CentralPolicyEventData, Id, userid,proid) {
     // alert(JSON.stringify(CentralPolicyEventData))
     // alert(JSON.stringify(Id))
     const formData = {
       InspectionPlanEventId: parseInt(Id),
       CentralPolicyId: CentralPolicyEventData.CentralpolicyId,
+      ProvinceId: proid,
       CreatedBy: userid,
     }
     // alert(JSON.stringify(formData));

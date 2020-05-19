@@ -57,11 +57,17 @@ namespace InspecWeb.Controllers
         [HttpGet("getcentralpolicydata/{provinceid}")]
         public IEnumerable<CentralPolicy> Get2(long provinceid)
         {
+            //return _context.CentralPolicies
+            //           .Include(m => m.CentralPolicyProvinces)
+            //           //.ThenInclude(m => m.SubjectCentralPolicyProvinces)
+            //           .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
+
             return _context.CentralPolicies
                        .Include(m => m.CentralPolicyProvinces)
-                       .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
-                       //.ThenInclude(x => x.Province)
-                       //.ToList();
+                       .ThenInclude(m => m.SubjectCentralPolicyProvinces)
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")))
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
+                       .ToList();
         }
 
         // POST api/values
@@ -123,8 +129,14 @@ namespace InspecWeb.Controllers
         [HttpPost("AddCentralPolicyEvents")]
         public void Post([FromBody] CentralPolicyEventViewModel model)
         {
+
+            System.Console.WriteLine("1");
             foreach (var id in model.CentralPolicyId)
             {
+                var centralpolicyprovince = _context.CentralPolicyProvinces
+                    .Where(m => m.CentralPolicyId == id && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                System.Console.WriteLine("2");
                 var ElectronicBookdata = new ElectronicBook
                 {
                     CreatedBy = model.CreatedBy,
@@ -132,7 +144,15 @@ namespace InspecWeb.Controllers
                 };
                 _context.ElectronicBooks.Add(ElectronicBookdata);
                 _context.SaveChanges();
-
+                System.Console.WriteLine("3");
+                var ElectronicBookGroupdata = new ElectronicBookGroup
+                {
+                    CentralPolicyProvinceId = centralpolicyprovince.Id,
+                    ElectronicBookId = ElectronicBookdata.Id,
+                };
+                _context.ElectronicBookGroups.Add(ElectronicBookGroupdata);
+                _context.SaveChanges();
+                System.Console.WriteLine("4");
                 var centralpolicyeventdata = new CentralPolicyEvent
                 {
                     CentralPolicyId = id,
@@ -141,6 +161,7 @@ namespace InspecWeb.Controllers
                 };
                 _context.CentralPolicyEvents.Add(centralpolicyeventdata);
                 _context.SaveChanges();
+                System.Console.WriteLine("5");
             }
         }
 

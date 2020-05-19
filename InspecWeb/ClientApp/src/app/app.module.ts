@@ -70,6 +70,14 @@ import { EditElectronicBookComponent } from './electronic-book/edit-electronic-b
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
 import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
 import { CalendarUserComponent } from './calendar-user/calendar-user.component';
+import { OfficerInspectionComponent } from './officer-inspection/officer-inspection.component';
+import { InfomationProvinceComponent } from './infomation-province/infomation-province.component';
+import { InfoDistrictComponent } from './info-district/info-district.component';
+import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
+import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
+import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
+import { ElectronicBookProvinceComponent } from './electronic-book-province/electronic-book-province.component';
+import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer-outsider.component';
 
 
 @NgModule({
@@ -127,8 +135,17 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
     EditElectronicBookComponent,
     DetailElectronicBookComponent,
     AnswerSubjectComponent,
-    CalendarUserComponent
+    CalendarUserComponent,
+    OfficerInspectionComponent,
+    InfomationProvinceComponent,
+    InfoDistrictComponent,
+    InfoSubdistrictComponent,
+    AnswerSubjectListComponent,
+    AnswerSubjectDetailComponent,
+    ElectronicBookProvinceComponent,
+    AnswerOutsiderComponent
   ],
+
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -147,6 +164,7 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
+      { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent},
       {
         path: '',
         component: DefaultLayoutComponent,
@@ -200,6 +218,13 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
+          { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard]},
+          { path: 'informationprovince', component: InfomationProvinceComponent, canActivate: [AuthorizeGuard]},
+          { path: 'infodistrict/:id', component: InfoDistrictComponent, canActivate: [AuthorizeGuard]},
+          { path: 'infosubdistrict/:id', component: InfoSubdistrictComponent, canActivate: [AuthorizeGuard]},
+          { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbookprovince', component: ElectronicBookProvinceComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

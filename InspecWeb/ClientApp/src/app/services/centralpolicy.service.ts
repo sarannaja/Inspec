@@ -70,7 +70,46 @@ export class CentralpolicyService {
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
+    formData.append('Class', centralpolicyData.Class);
     console.log('FORMDATA: ', formData.get("inputdate"));
+    console.log('FORMDATA: ', formData.get("ProvinceId"));
+    return this.http.post(this.url, formData)
+  }
+
+  addCentralpolicyEbook(centralpolicyData, file: FileList, userid) {
+    // alert(JSON.stringify(file))
+    console.log("FNAJA: ", centralpolicyData);
+
+    var inputdate: Array<any> = centralpolicyData.inputdate.map((item, index) => {
+      return {
+        StartDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
+        EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
+      }
+    })
+    console.log("DDD", inputdate);
+
+    const formData = new FormData();
+    formData.append('UserID', userid);
+    formData.append('Title', centralpolicyData.title);
+    formData.append('Type', centralpolicyData.type);
+    // for (var i = 0; i < centralpolicyData.ProvinceId.length; i++) {
+    //   formData.append('ProvinceId', centralpolicyData.ProvinceId[i]);
+    // }
+    formData.append('ProvinceId', centralpolicyData.ProvinceId);
+    formData.append('FiscalYearId', centralpolicyData.year);
+    formData.append('Status', centralpolicyData.status);
+    // formData.append('files',centralpolicyData.file);
+    for (var ii = 0; ii < inputdate.length; ii++) {
+      console.log("ii: ", ii);
+      // console.log("inputdateii: ", inputdate[ii].StartDate);
+      formData.append('StartDate2', inputdate[ii].StartDate);
+      formData.append('EndDate2', inputdate[ii].EndDate);
+    }
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }
+    formData.append('Class', centralpolicyData.Class);
+    console.log('Class: ', formData.get("Class"));
     console.log('FORMDATA: ', formData.get("ProvinceId"));
     return this.http.post(this.url, formData)
   }
@@ -223,5 +262,23 @@ export class CentralpolicyService {
 
   getAssign(id) {
     return this.http.get<any>(this.url + 'getassign/' + id);
+  }
+
+  addDepartment(data, subjectid) {
+    const formData = {
+      DepartmentId: data.DepartmentId,
+      SubjectCentralPolicyProvinceId: subjectid,
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "adddepartment", formData);
+  }
+
+  addPeopleAnswer(data, subjectid) {
+    const formData = {
+      UserId: data.peopleanswer,
+      SubjectCentralPolicyProvinceId: subjectid,
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "addpeopleanswer", formData);
   }
 }
