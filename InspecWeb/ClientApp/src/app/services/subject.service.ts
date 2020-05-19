@@ -84,7 +84,7 @@ export class SubjectService {
     return this.http.post<any>(this.url, formData);
   }
   addFiles(subjectid, file: FileList) {
-    alert(subjectid)
+    // alert(subjectid)
     // alert(JSON.stringify(file))
     // console.log("subjectid",subjectid);
     console.log("file", file);

@@ -77,6 +77,7 @@ import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.co
 import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
 import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
 import { ElectronicBookProvinceComponent } from './electronic-book-province/electronic-book-province.component';
+import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer-outsider.component';
 
 
 @NgModule({
@@ -142,6 +143,7 @@ import { ElectronicBookProvinceComponent } from './electronic-book-province/elec
     AnswerSubjectListComponent,
     AnswerSubjectDetailComponent,
     ElectronicBookProvinceComponent,
+    AnswerOutsiderComponent
   ],
 
   imports: [
@@ -162,6 +164,7 @@ import { ElectronicBookProvinceComponent } from './electronic-book-province/elec
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
+      { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent},
       {
         path: '',
         component: DefaultLayoutComponent,
