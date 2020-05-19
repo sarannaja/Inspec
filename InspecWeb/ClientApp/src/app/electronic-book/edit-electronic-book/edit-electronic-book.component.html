@@ -178,6 +178,9 @@
                         </div>
                       </div>
                     </td>
+                    <td>
+                      <button class="btn btn-success">เพิ่มรายละเอียดสมุดตรวจอิเล็กทรอนิกส์</button>
+                    </td>
                   </tr>
                   <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index" class="row col-12">
                     <tr style="margin-top: -20px;">
@@ -292,11 +295,46 @@
           <form [formGroup]="detailForm" (ngSubmit)="editDetail(detailForm.value)">
             <div class="col-12 col-xl-12" style="margin-top: 30px;">
               <div class="form-group">
-                <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
+                <!-- <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
                 <textarea cols="30" rows="5" value="{{resultelectronicbookdetail}}" class="form-control"
                   placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" formControlName="eBookDetail"
                   name="eBookDetail">
-              </textarea>
+              </textarea> -->
+              <div class="col-12 col-xl-12" style="margin-top: 50px;">
+                <div class="form-group">
+                  <label>เลือกประเด็น</label>
+                  <ng-select placeholder="กรุณาเลือกประเด็น" [multiple]="false" [options]="policyDropdown"
+                    name="PolicyIssue" formControlName="PolicyIssue" [allowClear]="true">
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="col-12 col-xl-12">
+                <div class="form-group">
+                  <label>ผลการตรวจ</label>
+                  <textarea cols="30" rows="5" formControlName="checkDetail" class="form-control"
+                    placeholder="กรุณากรอกผลการตรวจ">
+                  </textarea>
+                </div>
+              </div>
+
+              <div class="col-12 col-xl-12">
+                <div class="form-group">
+                  <label>ปัญหาและอุปสรรค</label>
+                  <textarea cols="30" rows="5" formControlName="Problem" class="form-control"
+                    placeholder="กรุณากรอกปัญหาและอุปสรรค">
+                  </textarea>
+                </div>
+              </div>
+
+              <div class="col-12 col-xl-12">
+                <div class="form-group">
+                  <label>ข้อเสนอแนะ</label>
+                  <textarea cols="30" rows="5" formControlName="Suggestion" class="form-control"
+                    placeholder="กรุณากรอกข้อเสนอแนะ">
+                  </textarea>
+                </div>
+              </div>
               </div>
             </div>
 
@@ -533,12 +571,11 @@
         <h5 class="card-title mb-0">รายงานผลการตรวจ</h5>
       </div>
       <div class="card-body">
-        <div *ngIf="resultreport.report == null">
+        <!-- <div *ngIf="resultreport.report == null">
           <label style="color: gray;">ไม่มีข้อมูล</label>
         </div>
         <div class="col-12 col-xl-12" *ngIf="resultreport.report > 0">
           <div class="form-group">
-            <!-- <label>รายงานผลการตรวจ</label> -->
             <div *ngFor="let item3 of resultreport; let i = index">
               <b><label *ngIf="item3.report != null"> {{item3.user.name}} ตำแหน่ง {{item3.user.position}}</label></b>
               <input *ngIf="item3.report != null" value="{{item3.report}}" class="form-control"
@@ -556,7 +593,7 @@
               <br>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

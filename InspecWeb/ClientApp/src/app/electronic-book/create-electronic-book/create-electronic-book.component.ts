@@ -44,6 +44,7 @@ export class CreateElectronicBookComponent implements OnInit {
   start_date: any
   end_date: any
   Form: FormGroup;
+  EbookForm: FormGroup;
   selectdataprovince: Array<IOption>
   selectdatacentralpolicy: Array<IOption>
   id: any = 1
@@ -74,6 +75,8 @@ export class CreateElectronicBookComponent implements OnInit {
   provincetodepartmentId: any;
   resultfiscalyear: any = [];
   showDetail = false;
+  CentralPolicyId: any;
+
 
   // get f() { return this.Form.controls }
   // get t() { return this.f.input as FormArray }
@@ -121,9 +124,10 @@ export class CreateElectronicBookComponent implements OnInit {
       checkDetail: new FormControl(null, [Validators.required]),
       UserMinistryId: new FormControl(null, [Validators.required]),
       UserPeopleId: new FormControl(null, [Validators.required]),
-      Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      Status: new FormControl("ใช้งานจริง", [Validators.required]),
       Problem: new FormControl(null, [Validators.required]),
       Suggestion: new FormControl(null, [Validators.required]),
+      Class: new FormControl("สมุดตรวจอิเล็กทรอนิกส์", [Validators.required]),
     });
     this.t.push(this.fb.group({
       // start_date_plan: '',
@@ -136,6 +140,12 @@ export class CreateElectronicBookComponent implements OnInit {
 
     this.form = this.fb.group({
       files: [null]
+    })
+
+    this.EbookForm = this.fb.group({
+      checkDetail: new FormControl(null, [Validators.required]),
+      Problem: new FormControl(null, [Validators.required]),
+      Suggestion: new FormControl(null, [Validators.required]),
     })
 
     this.userservice.getprovincedata(this.userid).subscribe(result => {
@@ -180,7 +190,8 @@ export class CreateElectronicBookComponent implements OnInit {
       type: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null, [Validators.required]),
-      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      status: new FormControl("ใช้งานจริง", [Validators.required]),
+      Class: new FormControl("สมุดตรวจอิเล็กทรอนิกส์", [Validators.required]),
       input: new FormArray([]),
       inputdate: new FormArray([])
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
@@ -233,7 +244,7 @@ export class CreateElectronicBookComponent implements OnInit {
   storeInspectionPlanEvent(value) {
     console.log("Store : ", value);
     // alert("DATA: " + JSON.stringify(value));
-    this.electronicBookService.addElectronicBook(value, this.userid, this.form.value.files, this.subjectdepartmentId).subscribe(response => {
+    this.electronicBookService.addElectronicBook(value, this.userid, this.form.value.files, this.CentralPolicyId).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
@@ -466,9 +477,10 @@ export class CreateElectronicBookComponent implements OnInit {
   storeCentralpolicy(value) {
     // console.log(this.form.value.files);
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files,this.userid)
+    this.centralpolicyservice.addCentralpolicyEbook(value, this.form.value.files,this.userid)
       .subscribe(response => {
-        console.log(response);
+        console.log("return: ", response);
+        this.CentralPolicyId = response;
         // this.Form.reset()
         // this.router.navigate(['centralpolicy'])
         this.showDetail = true

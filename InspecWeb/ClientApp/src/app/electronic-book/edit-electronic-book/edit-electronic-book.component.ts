@@ -52,6 +52,8 @@ export class EditElectronicBookComponent implements OnInit {
   electronicbookid
   carlendarFile: any = [];
   electronikbookFile: any = [];
+  policyDropdown: Array<IOption>
+
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -83,6 +85,10 @@ export class EditElectronicBookComponent implements OnInit {
     this.detailForm = this.fb.group({
       eBookDetail: new FormControl(null, [Validators.required]),
       Status: new FormControl(null, [Validators.required]),
+      checkDetail: new FormControl(null, [Validators.required]),
+      Problem: new FormControl(null, [Validators.required]),
+      Suggestion: new FormControl(null, [Validators.required]),
+      PolicyIssue: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -177,7 +183,7 @@ export class EditElectronicBookComponent implements OnInit {
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
       .subscribe(result => {
-        console.log(result);
+        console.log("EiEi: ", result.subjectcentralpolicyprovincedata);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
@@ -186,6 +192,10 @@ export class EditElectronicBookComponent implements OnInit {
         this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
         this.provincename = result.provincedata.name
         this.provinceid = result.provincedata.id
+
+        this.policyDropdown = result.subjectcentralpolicyprovincedata.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
 
         this.getCalendarFile();
         this.getElectronikbookFile();
@@ -239,14 +249,15 @@ export class EditElectronicBookComponent implements OnInit {
   }
 
   getElectronicBookDetail() {
-    this.electronicBookService.getElectronicBookDetail(this.centralPolicyUserId).subscribe(result => {
+    this.electronicBookService.getElectronicBookDetail(this.elecId).subscribe(result => {
       console.log("EDIT ElectronicBookDetal: ", result);
       // alert("EDIT: " + result);
-      this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
-      this.resultStatus = result.centralPolicyUser[0].electronicBook.status;
+      this.resultelectronicbookdetail = result.detail;
+      this.resultStatus = result.status;
       // this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
 
       this.resultreport = result.centralPolicyUser
+      this.resultreport = null
       this.detailForm.patchValue({
         eBookDetail: this.resultelectronicbookdetail,
         Status: result.status

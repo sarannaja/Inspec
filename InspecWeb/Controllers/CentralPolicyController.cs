@@ -92,7 +92,7 @@ namespace InspecWeb.Controllers
                 Status = model.Status,
                 CreatedAt = date,
                 CreatedBy = model.UserID,
-                Class = "แผนการตรวจประจำปี",
+                Class = model.Class,
             };
 
             _context.CentralPolicies.Add(centralpolicydata);
@@ -184,7 +184,7 @@ namespace InspecWeb.Controllers
                     _context.SaveChanges();
                 }
             }
-            return Ok(new { status = true });
+            return Ok(centralpolicydata.Id);
 
         }
 
@@ -699,6 +699,7 @@ namespace InspecWeb.Controllers
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Include(x => x.ElectronicBookSuggestGroups)
                 .Where(m => m.CentralPolicyProvinceId == centralpolicyprovincedata.Id)
                 .ToList();
 

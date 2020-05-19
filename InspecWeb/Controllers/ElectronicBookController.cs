@@ -49,48 +49,58 @@ namespace InspecWeb.Controllers
             //    .First();
             //System.Console.WriteLine("Name: " + user);
 
-            //var ebook = _context.ElectronicBookGroups
-            //    .Include(x => x.CentralPolicyProvince)
-            //    .ThenInclude(x => x.CentralPolicy)
-            //    .ThenInclude(x => x.CentralPolicyUser)
-            //    .Include(x => x.ElectronicBook)
-            //    .Where(x => x.ElectronicBook.CreatedBy == userId);
+            var ebook = _context.ElectronicBookGroups
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.Province)
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyUser)
+                .Include(x => x.ElectronicBook)
+                .Where(x => x.ElectronicBook.CreatedBy == userId)
+                .ToList();
 
-            var ebook = _context.CentralPolicyEvents
-                .Include(m => m.InspectionPlanEvent.Province)
-                //.ThenInclude(m => m.Province)
-                .Include(m => m.CentralPolicy)
-                //.ThenInclude(m => m.CentralPolicyProvinces)
-                .Include(m => m.ElectronicBook)
-                .Where(m => m.ElectronicBook.CreatedBy == userId);
+
+
+
+            //var ebook = _context.CentralPolicyEvents
+            //    .Include(m => m.InspectionPlanEvent.Province)
+            //    //.ThenInclude(m => m.Province)
+            //    .Include(m => m.CentralPolicy)
+            //    //.ThenInclude(m => m.CentralPolicyProvinces)
+            //    .Include(m => m.ElectronicBook)
+            //    .Where(m => m.ElectronicBook.CreatedBy == userId);
 
             return Ok(ebook);
         }
 
-        [HttpGet("getElectronicBookById/{centralPolicyUserId}")]
-        public IActionResult GetById(long centralPolicyUserId)
+        [HttpGet("getElectronicBookById/{electID}")]
+        public IActionResult GetById(long electID)
         {
 
             //var accept = _context.CentralPolicyUsers.Where(m => m.Id == centralPolicyUserId).FirstOrDefault();
 
-            var centralpolicydata = _context.CentralPolicies
-                .Include(m => m.CentralPolicyUser)
-                .ThenInclude(m => m.ElectronicBook)
-                .ThenInclude(x => x.ElectronicBookFiles)
-                .Include(m => m.CentralPolicyUser)
-                .ThenInclude(m => m.User)
-                .Include(m => m.CentralPolicyUser)
-                .ThenInclude(m => m.CentralPolicyGroup)
-                .ThenInclude(m => m.CentralPolicyUserFiles)
-                .Include(m => m.CentralPolicyDates)
-                .Include(m => m.CentralPolicyFiles)
-                //.Include(m => m.Subjects)
-                //.ThenInclude(m => m.Subquestions)
-                .Include(m => m.CentralPolicyProvinces)
-                .ThenInclude(m => m.Province)
-                .Where(m => m.Id == centralPolicyUserId).First();
+            //var centralpolicydata = _context.CentralPolicies
+            //    .Include(m => m.CentralPolicyUser)
+            //    .ThenInclude(m => m.ElectronicBook)
+            //    .ThenInclude(x => x.ElectronicBookFiles)
+            //    .Include(m => m.CentralPolicyUser)
+            //    .ThenInclude(m => m.User)
+            //    .Include(m => m.CentralPolicyUser)
+            //    .ThenInclude(m => m.CentralPolicyGroup)
+            //    .ThenInclude(m => m.CentralPolicyUserFiles)
+            //    .Include(m => m.CentralPolicyDates)
+            //    .Include(m => m.CentralPolicyFiles)
+            //    //.Include(m => m.Subjects)
+            //    //.ThenInclude(m => m.Subquestions)
+            //    .Include(m => m.CentralPolicyProvinces)
+            //    .ThenInclude(m => m.Province)
+            //    .Where(m => m.Id == centralPolicyUserId).First();
 
-            return Ok(centralpolicydata);
+            var electData = _context.ElectronicBooks
+                .Where(x => x.Id == electID)
+                .FirstOrDefault();
+
+            return Ok(electData);
         }
 
         [HttpGet("getCalendarFile/{electID}")]
@@ -144,6 +154,8 @@ namespace InspecWeb.Controllers
                 .Where(x => x.Id == provinceId)
                 .Select(x => x.CentralPolicyId)
                 .First();
+
+
 
             System.Console.WriteLine("3: ");
 
@@ -235,6 +247,8 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("Detail: " + test1);
             //System.Console.WriteLine("UserId: " + test2);
 
+
+
             var ElectronicBookdata = new ElectronicBook
             {
                 Detail = model.Detail,
@@ -283,10 +297,19 @@ namespace InspecWeb.Controllers
 
             //System.Console.WriteLine("3.5" + centralpolicyprovinceid);
 
+
+
+            var centralPolicyID = _context.CentralPolicyProvinces
+                .Where(x => x.CentralPolicyId == model.CentralPolicyId)
+                .Select(x => x.Id)
+                .FirstOrDefault();
+
+            System.Console.WriteLine("CentralPolicyProvince: " + centralPolicyID);
+
             var ElectronicBookgroupdata = new ElectronicBookGroup
             {
                 ElectronicBookId = ElectronicBookdata.Id,
-                //CentralPolicyProvinceId = centralpolicyprovinceid
+                CentralPolicyProvinceId = centralPolicyID
             };
             _context.ElectronicBookGroups.Add(ElectronicBookgroupdata);
             _context.SaveChanges();
@@ -489,5 +512,30 @@ namespace InspecWeb.Controllers
             }
             return Ok(new { status = true });
         }
+
+        // GET: api/ElectronicBook
+        [HttpGet("province/{userId}")]
+        public IActionResult Get2(string userId)
+        {
+            var user = _context.Users
+                .Where(m => m.Id == userId).FirstOrDefault();
+
+            var provinceuser = _context.UserProvinces
+                .Where(m => m.UserID == user.Id).FirstOrDefault();
+
+            var ebook = _context.ElectronicBookGroups
+                            .Include(x => x.CentralPolicyProvince)
+                            .ThenInclude(x => x.Province)
+                            .Include(x => x.CentralPolicyProvince)
+                            .ThenInclude(x => x.CentralPolicy)
+                            .ThenInclude(x => x.CentralPolicyUser)
+                            .Include(x => x.ElectronicBook)
+                            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง")
+                            .Where(x => x.CentralPolicyProvince.Province.Id == provinceuser.Id)
+                            .ToList();
+
+            return Ok(ebook);
+        }
+
     }
 }
