@@ -129,8 +129,14 @@ namespace InspecWeb.Controllers
         [HttpPost("AddCentralPolicyEvents")]
         public void Post([FromBody] CentralPolicyEventViewModel model)
         {
+
+            System.Console.WriteLine("1");
             foreach (var id in model.CentralPolicyId)
             {
+                var centralpolicyprovince = _context.CentralPolicyProvinces
+                    .Where(m => m.CentralPolicyId == id && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                System.Console.WriteLine("2");
                 var ElectronicBookdata = new ElectronicBook
                 {
                     CreatedBy = model.CreatedBy,
@@ -138,15 +144,15 @@ namespace InspecWeb.Controllers
                 };
                 _context.ElectronicBooks.Add(ElectronicBookdata);
                 _context.SaveChanges();
-
+                System.Console.WriteLine("3");
                 var ElectronicBookGroupdata = new ElectronicBookGroup
                 {
-                    CentralPolicyProvinceId = model.ProvinceId,
+                    CentralPolicyProvinceId = centralpolicyprovince.Id,
                     ElectronicBookId = ElectronicBookdata.Id,
                 };
                 _context.ElectronicBookGroups.Add(ElectronicBookGroupdata);
                 _context.SaveChanges();
-
+                System.Console.WriteLine("4");
                 var centralpolicyeventdata = new CentralPolicyEvent
                 {
                     CentralPolicyId = id,
@@ -155,6 +161,7 @@ namespace InspecWeb.Controllers
                 };
                 _context.CentralPolicyEvents.Add(centralpolicyeventdata);
                 _context.SaveChanges();
+                System.Console.WriteLine("5");
             }
         }
 

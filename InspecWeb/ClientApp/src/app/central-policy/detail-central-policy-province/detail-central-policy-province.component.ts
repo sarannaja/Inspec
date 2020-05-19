@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { async } from '@angular/core/testing';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -45,6 +46,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   subject: any;
   subjectquestionopen: any;
   downloadUrl: any
+  urllink
   loading = false;
   electronicbookid: any
   selectdataministrypeople: Array<IOption>
@@ -61,6 +63,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   peopleanswer: any = []
   subjectid
   delid
+  userid
+  role_id
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -70,12 +74,32 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private departmentService: DepartmentService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
+    this.urllink = baseUrl + 'answersubject/outsider/';
   }
 
   async ngOnInit() {
+
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      // this.role_id = result.role_id
+      // console.log(result);
+      // alert(this.role_id)
+
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+          // this.resultuser = result;
+          //console.log("test" , this.resultuser);
+          this.role_id = result[0].role_id
+          // alert(this.role_id)
+        })
+    })
+
     console.log("ID: ", this.id);
 
     this.spinner.show();
@@ -488,5 +512,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     })
   }
-
+  back(){
+    window.history.back();
+  }
 }

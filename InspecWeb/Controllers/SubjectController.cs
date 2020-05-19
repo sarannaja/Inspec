@@ -79,6 +79,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                 .ThenInclude(m => m.ProvincialDepartment)
+                .Include(m => m.SubjectCentralPolicyProvinceFiles)
                 .Where(m => m.Id == id)
                 .First();
 
@@ -410,7 +411,9 @@ namespace InspecWeb.Controllers
                                 Name = model.Name,
                                 CentralPolicyProvinceId = centralpolicyprovinceData.Id,
                                 Type = "NoMaster",
-                                Status = model.Status
+                                Status = model.Status,
+                                Step = "หมอบหมายให้เขต",
+                                link = "https://localhost:5001/answersubject/outsider/"
                             };
                             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
                             _context.SaveChanges();
@@ -883,13 +886,21 @@ namespace InspecWeb.Controllers
 
         // DELETE api/values/5
         [HttpDelete("deleteprovincial/{id}")]
-        public void DeleteProvinceial(long id)
+        public void DeleteProvincial(long id)
         {
             var subjectcentralpolicyprovincegroup = _context.SubjectCentralPolicyProvinceGroups.Find(id);
 
             _context.SubjectCentralPolicyProvinceGroups.Remove(subjectcentralpolicyprovincegroup);
             _context.SaveChanges();
         }
+        // DELETE api/values/5
+        [HttpDelete("deletepeopleanswer/{id}")]
+        public void deletepeopleanswer(long id)
+        {
+            var subjectcentralpolicyprovincegroup = _context.SubjectCentralPolicyProvinceUserGroups.Find(id);
 
+            _context.SubjectCentralPolicyProvinceUserGroups.Remove(subjectcentralpolicyprovincegroup);
+            _context.SaveChanges();
+        }
     }
 }
