@@ -240,6 +240,7 @@ export class SubquestionComponent implements OnInit {
       this.Form.reset();
       this.Formfile.reset();
       this.spinner.hide();
+      window.history.back();
     })
   }
   // appendquestionopen() {
