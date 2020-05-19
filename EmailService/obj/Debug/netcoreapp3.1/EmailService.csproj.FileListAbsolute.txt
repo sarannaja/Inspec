@@ -5,7 +5,6 @@ C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\ob
 C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.pdb
 C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
 C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb
-C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.csprojAssemblyReference.cache
 C:\Users\SARAN\Desktop\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.deps.json
 C:\Users\SARAN\Desktop\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.dll
 C:\Users\SARAN\Desktop\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.pdb
@@ -15,3 +14,4 @@ C:\Users\SARAN\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.
 C:\Users\SARAN\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfo.cs
 C:\Users\SARAN\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
 C:\Users\SARAN\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb
+C:\Users\TOT\Desktop\OfficialInspectionBureau2019\INS2019\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.csprojAssemblyReference.cache
