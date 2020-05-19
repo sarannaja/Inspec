@@ -76,6 +76,7 @@ import { InfoDistrictComponent } from './info-district/info-district.component';
 import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
 import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
 import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
+import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer-outsider.component';
 
 
 @NgModule({
@@ -139,7 +140,8 @@ import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-de
     InfoDistrictComponent,
     InfoSubdistrictComponent,
     AnswerSubjectListComponent,
-    AnswerSubjectDetailComponent
+    AnswerSubjectDetailComponent,
+    AnswerOutsiderComponent
   ],
   
   imports: [
@@ -160,6 +162,7 @@ import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-de
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
+      { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent},
       {
         path: '',
         component: DefaultLayoutComponent,
