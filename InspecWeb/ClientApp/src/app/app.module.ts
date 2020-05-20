@@ -76,10 +76,19 @@ import { InfoDistrictComponent } from './info-district/info-district.component';
 import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
 import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
 import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
+<<<<<<< HEAD
 import { ElectronicBookProvinceComponent } from './electronic-book-province/electronic-book-province.component';
 import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer-outsider.component';
+=======
+import { ExternalOrganizationModule } from './external-organization/external-organization.module';
+import { OtpsComponent } from './external-organization/otps/otps.component';
+import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
+import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
+>>>>>>> palm
 
-
+const ExternalOrganization = [
+  GgcOpmComponent, Opm1111Component, OtpsComponent
+]
 @NgModule({
   declarations: [
     AppComponent,
@@ -206,6 +215,8 @@ import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'test/logout', component: LogoutComponent },
           { path: 'usercentralpolicy/:id', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'test/logout', component: LogoutComponent},
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
@@ -216,6 +227,7 @@ import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer
           { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'external-organization', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
           { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard]},

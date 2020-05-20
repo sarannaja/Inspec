@@ -5541,23 +5541,39 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\TOT\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+=======
+    "C:\\Users\\k12cl\\.nuget\\packages\\": {}
+>>>>>>> palm
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj",
       "projectName": "EmailService",
       "projectPath": "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj",
       "packagesPath": "C:\\Users\\TOT\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\obj\\",
+=======
+      "projectUniqueName": "C:\\projects\\Inspec\\EmailService\\EmailService.csproj",
+      "projectName": "EmailService",
+      "projectPath": "C:\\projects\\Inspec\\EmailService\\EmailService.csproj",
+      "packagesPath": "C:\\Users\\k12cl\\.nuget\\packages\\",
+      "outputPath": "C:\\projects\\Inspec\\EmailService\\obj\\",
+>>>>>>> palm
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\TOT\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\k12cl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> palm
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
