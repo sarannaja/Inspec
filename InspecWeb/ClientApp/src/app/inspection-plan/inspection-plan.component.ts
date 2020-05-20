@@ -60,7 +60,7 @@ export class InspectionPlanComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [5],
+          targets: [4],
           orderable: false
         }
       ]

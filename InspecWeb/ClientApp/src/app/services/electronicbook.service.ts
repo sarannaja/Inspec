@@ -46,11 +46,11 @@ export class ElectronicbookService {
   }
 
 
-  addElectronicBookFileFromCalendar(value, file: FileList, electronicbookid) {
+  addElectronicBookFileFromCalendar(value, file: FileList, electronicbookid,centralproid) {
     const formData = new FormData();
     formData.append('ElectronicBookId', electronicbookid);
-
-
+    formData.append('Step', value.step);
+    formData.append('CentralPolicyProvinceId', centralproid);
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
@@ -150,5 +150,21 @@ export class ElectronicbookService {
 
   getElectOwnCreate(electID) {
     return this.http.get<any>(this.url + "getElectronicBookOwn/" + electID)
+  }
+
+  getSignatureFile(electID) {
+    return this.http.get(this.url + "getSignatureFile/" + electID)
+  }
+
+  addSignatureFile(electID, file: FileList) {
+
+    const formData = new FormData();
+    if (file != null) {
+      for (var i = 0; i < file.length; i++) {
+        formData.append("files", file[i]);
+      }
+    }
+    formData.append("ElectID", electID)
+    return this.http.post(this.url + "addSignature", formData)
   }
 }
