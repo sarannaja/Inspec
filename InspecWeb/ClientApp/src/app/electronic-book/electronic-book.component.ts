@@ -95,6 +95,10 @@ export class ElectronicBookComponent implements OnInit {
   }
 
   gotoDetail(id, elecId) {
+    this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId}])
+  }
+
+  gotoEdit2(id, elecId) {
     // alert(id)
     // alert(elecId)
     // this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {

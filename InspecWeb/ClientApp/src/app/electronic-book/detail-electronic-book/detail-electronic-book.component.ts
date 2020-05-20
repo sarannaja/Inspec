@@ -26,7 +26,6 @@ export class DetailElectronicBookComponent implements OnInit {
   // UserMinistryId: any;
   id: any;
   elecId: any;
-  centralPolicyUserId: any;
   Form: FormGroup;
   EditForm: FormGroup;
   EditForm2: FormGroup;
@@ -39,10 +38,27 @@ export class DetailElectronicBookComponent implements OnInit {
   downloadUrl: any
   loading = false;
   resultelectronicbookdetail: any = [];
-  resultreport: any = [];
+  centralPolicyUserId: any;
+  detailForm: FormGroup;
+  resultStatus: any = [];
+  form: FormGroup;
+  fileStatus = false;
   resultElecFile: any = [];
+  delid: any;
+  resultreport: any = [];
+  provincename
+  provinceid
+  resultdate: any = []
+  electronicbookid
+  carlendarFile: any = [];
+  electronikbookFile: any = [];
+  policyDropdown: Array<IOption>
+  urllink: any;
+  subjectCentralPolicyID: any;
+  editSuggestionForm: FormGroup;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
     private userservice: UserService,
@@ -50,19 +66,40 @@ export class DetailElectronicBookComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
-    @Inject('BASE_URL') baseUrl: string ) {
+    @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
-    this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
+    // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
     this.downloadUrl = baseUrl + '/Uploads';
+    this.urllink = baseUrl + 'answersubject/outsider/';
+
+    this.form = this.fb.group({
+      files: [null]
+    })
   }
 
   ngOnInit() {
-    // alert(this.centralPolicyUserId);
+    console.log("ELECTID: ", this.id);
+
     this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
+
+    this.detailForm = this.fb.group({
+      eBookDetail: new FormControl(null, [Validators.required]),
+      Status: new FormControl(null, [Validators.required]),
+      checkDetail: new FormControl(null, [Validators.required]),
+      Problem: new FormControl(null, [Validators.required]),
+      Suggestion: new FormControl(null, [Validators.required]),
+      PolicyIssue: new FormControl(null, [Validators.required]),
+    })
+
+    this.editSuggestionForm = this.fb.group({
+      checkDetail: new FormControl(null, [Validators.required]),
+      Problem: new FormControl(null, [Validators.required]),
+      Suggestion: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -91,9 +128,10 @@ export class DetailElectronicBookComponent implements OnInit {
     })
 
     // this.getDetailCentralPolicy()
-    this.getCentralPolicyProvinceUser()
-    this.getDetailCentralPolicyProvince()
+    this.getCentralPolicyProvinceUser();
+    this.getDetailCentralPolicyProvince();
     this.getElectronicBookDetail();
+    this.getElectOwnCreate();
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
@@ -102,6 +140,43 @@ export class DetailElectronicBookComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  openDeleteModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  openEbookDetailModal(template: TemplateRef<any>, subjectCenID) {
+    this.modalRef = this.modalService.show(template);
+    this.subjectCentralPolicyID = subjectCenID;
+    // alert(subjectID);
+  }
+
+  openEditSuggestionModal(template: TemplateRef<any>, subjectID) {
+    this.modalRef = this.modalService.show(template);
+    // alert(subjectID);
+    this.subjectCentralPolicyID = subjectID;
+    this.electronicBookService.getSuggestionDetailById(subjectID, this.elecId).subscribe(result => {
+      console.log("SUGGEST: ", result);
+      this.editSuggestionForm.patchValue({
+        checkDetail: result.detail,
+        Problem: result.problem,
+        Suggestion: result.suggestion,
+      })
+    })
+
+
+  }
+
+  deleteFile() {
+    // alert(this.delid);
+    this.electronicBookService.deleteFile(this.delid)
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.modalRef.hide();
+        this.getElectronicBookDetail();
+      })
   }
 
   editModal(template: TemplateRef<any>, id, name) {
@@ -142,11 +217,26 @@ export class DetailElectronicBookComponent implements OnInit {
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
       .subscribe(result => {
-        console.log(result);
+        console.log("EiEi: ", result.subjectcentralpolicyprovincedata);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
+
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        console.log("RES DATE: ", this.resultdate);
+
+
+        this.provincename = result.provincedata.name
+        this.provinceid = result.provincedata.id
+
+        this.policyDropdown = result.subjectcentralpolicyprovincedata.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+
+        this.getCalendarFile();
+        this.getElectronikbookFile();
       })
   }
 
@@ -154,19 +244,11 @@ export class DetailElectronicBookComponent implements OnInit {
     this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
-        console.log("result" + result);
+        console.log("resultCenUser", result);
       })
+
   }
 
-  getElectronicBookDetail() {
-    this.electronicBookService.getElectronicBookDetail(this.centralPolicyUserId).subscribe(result => {
-      console.log("ElectronicBookDetal: ", result);
-      this.resultelectronicbookdetail = result.centralPolicyUser[0].electronicBook.detail
-      this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
-      this.resultreport = result.centralPolicyUser
-      console.log("resultreport", this.resultreport);
-    })
-  }
 
   storeFiles(value) {
 
@@ -183,7 +265,7 @@ export class DetailElectronicBookComponent implements OnInit {
   }
 
   storeMinistryPeople(value) {
-    alert(JSON.stringify(value))
+    // alert(JSON.stringify(value))
   }
 
   editsubquestionclose(value, id) {
@@ -204,8 +286,100 @@ export class DetailElectronicBookComponent implements OnInit {
     })
   }
 
+  getElectronicBookDetail() {
+    this.electronicBookService.getElectronicBookDetail(this.elecId).subscribe(result => {
+      console.log("EDIT ElectronicBookDetal: ", result);
+      // alert("EDIT: " + result);
+      // this.resultelectronicbookdetail = result.electData.detail;
+      this.resultStatus = result.electData.status;
+      // this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
+
+      // this.resultreport = result.centralPolicyUser
+      this.resultreport = result.report
+      this.detailForm.patchValue({
+        eBookDetail: this.resultelectronicbookdetail,
+        Status: result.status
+      })
+    })
+  }
+
+  editDetail(value) {
+    this.electronicBookService.editElectronicBookDetail(value, this.elecId, this.form.value.files).subscribe(result => {
+      console.log("res: ", result);
+
+      this.spinner.show();
+
+      setTimeout(() => {
+        this.getElectronicBookDetail();
+        this.spinner.hide();
+      }, 300);
+    })
+  }
+
+  addSugestionDetail(value) {
+    console.log("Detail Form: ", value);
+
+    this.electronicBookService.addSuggestion(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
+      console.log("res: ", result);
+
+      this.modalRef.hide();
+      this.getDetailCentralPolicyProvince();
+
+    })
+  }
+
+  editSugestionDetail(value) {
+    console.log("Detail Form: ", value);
+
+    this.electronicBookService.editSuggestion(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
+      console.log("res Edit Suggestion: ", result);
+
+      this.modalRef.hide();
+      this.getDetailCentralPolicyProvince();
+
+    })
+  }
+
+  uploadFile(event) {
+    this.fileStatus = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      files: file
+    });
+    console.log("fff:", this.form.value.files)
+    this.form.get('files').updateValueAndValidity()
+  }
+
   back() {
     window.history.back();
+  }
+
+  getCalendarFile() {
+    // alert(this.electronicbookid)
+    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+      this.carlendarFile = res;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+  getElectronikbookFile() {
+    this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {
+      this.resultElecFile = res;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+  getElectOwnCreate() {
+    this.electronicBookService.getElectOwnCreate(this.elecId).subscribe(res => {
+      console.log("Own Elect: ", res);
+      // alert(res);
+      this.editSuggestionForm.patchValue({
+        checkDetail: res.detail,
+        Problem: res.problem,
+        Suggestion: res.suggestion,
+      })
+    })
   }
 
 }
