@@ -412,8 +412,8 @@ namespace InspecWeb.Controllers
                                 CentralPolicyProvinceId = centralpolicyprovinceData.Id,
                                 Type = "NoMaster",
                                 Status = model.Status,
-                                Step = "หมอบหมายให้เขต",
-                                link = "https://localhost:5001/answersubject/outsider/"
+                                //Step = "หมอบหมายให้เขต",
+                                //link = "https://localhost:5001/answersubject/outsider/"
                             };
                             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
                             _context.SaveChanges();
@@ -713,9 +713,9 @@ namespace InspecWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
-            var subjectdata = _context.Subjects.Find(id);
+            var subjectdata = _context.SubjectCentralPolicyProvinces.Find(id);
 
-            _context.Subjects.Remove(subjectdata);
+            _context.SubjectCentralPolicyProvinces.Remove(subjectdata);
             _context.SaveChanges();
         }
 

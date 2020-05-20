@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -6,7 +5,7 @@
                 <h5 class="card-title mb-0">รายละเอียด</h5>
             </div>
             <div class="card-body">
-                <form [formGroup]="Form" (ngSubmit)="store(Form.value)">
+                <form [formGroup]="Form" (ngSubmit)="storeanswer()">
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-6">
                             เรื่อง : {{resultsubjectdetail.name}}
@@ -32,60 +31,74 @@
                         <div class="col-lg-12">
                             <table class="table table-default table-responsive-sm tableborder">
                                 <tbody>
-                                    <tr *ngFor="let item of resultsubquestion;let i = index">
-                                        <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายเปิด'">
-                                            <u>คำถามปลายเปิด</u>
-                                            <div class="row">
-                                                <div class="col-11" *ngIf="item.type == 'คำถามปลายเปิด'">
-                                                    <input type="text" value="{{item.name}}" class="form-control"
-                                                        placeholder="กรุณากรอกเรื่อง" readonly>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายเปิด'">
-                                            <u>ตอบคำถาม</u>
-                                            <div>
-                                                <div>
-                                                    <div class="row">
-                                                        <div class="col-11" *ngIf="item.type == 'คำถามปลายเปิด'">
-                                                            <input type="text" class="form-control"
-                                                               [ngModel]= "answar" placeholder="กรุณาตอบคำถาม">
-                                                        </div>
+                                    <tr *ngFor="let item of t.controls; let i = index">
+                                        <td style="border-top: none;">
+                                            <u>คำถามที่ {{i + 1}}</u>
+                                            <div [formGroup]="item">
+                                                <div class="row">
+                                                    <div class="col-11">
+                                                        <input type="text" value="{{item.value.question}}"
+                                                            class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
-
-                                    </tr>
-                                    <tr *ngFor="let item of resultsubquestion;let i = index">
-                                        <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
-                                            <u>คำถามปลายปิด</u>
-                                            <div class="row">
-                                                <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
-                                                    <input type="text" value="{{item.name}}" class="form-control"
-                                                        placeholder="กรุณากรอกเรื่อง" readonly>
+                                        <td style="border-top: none;"
+                                            *ngIf="item.value.type == 'คำถามปลายเปิด'else elseBlock">
+                                            <u>คำตอบ</u>
+                                            <div [formGroup]="item">
+                                                <div class="row">
+                                                    <div class="col-11">
+                                                        <input type="text" class="form-control" formControlName="answer"
+                                                            placeholder="กรุณาตอบคำถาม">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
-                                            <u>ตัวเลือกคำถามปลายปิด</u>
-                                            <div
-                                                *ngFor="let items of item.subquestionChoiceCentralPolicyProvinces;let ii = index">
-                                                <div>
+                                        <ng-template #elseBlock>
+                                            <td style="border-top: none;">
+                                                <u>คำตอบtest</u>
+                                                <div [formGroup]="item">
                                                     <div class="row">
-                                                        <div class="col-11"
-                                                            *ngIf="item.type == 'คำถามปลายปิด' && item.id == items.subquestionCentralPolicyProvinceId">
-                                                            <input type="radio" name="answer" value="{{items.name}}"
-                                                                formControlName="answer">
+                                                        <div class="col-11" *ngFor="let items of item.value.choice">
                                                             <input type="text" value="{{items.name}}"
-                                                                class="form-control" readonly>
+                                                            class="form-control" placeholder="กรุณากรอกเรื่อง"
+                                                            readonly>
+                                                            <input type="text" value="{{items.name}}"
+                                                                class="form-control" placeholder="กรุณากรอกเรื่อง"
+                                                                readonly>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-template>
+                                    </tr>
+                                    <!-- <tr *ngFor="let item of t.controls; let i = index">
+                                        <td style="border-top: none;" *ngIf="item.value.type == 'คำถามปลายปิด'">
+                                            <u>คำถามปลายปิด</u>
+                                            <div [formGroup]="item">
+                                                <div class="row">
+                                                    <div class="col-11">
+                                                        <input  type="text"
+                                                            value="{{item.value.question}}" class="form-control"
+                                                            placeholder="กรุณากรอกเรื่อง" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
-
-                                    </tr>
+                                        <td style="border-top: none;" *ngIf="item.value.type == 'คำถามปลายเปิด'">
+                                            <u>ตัวเลือกคำตอบ</u>
+                                            <div [formGroup]="item">
+                                                <div class="row">
+                                                    <div class="col-11">
+                                                        <input  type="text"
+                                                            class="form-control" formControlName="answer"
+                                                            placeholder="กรุณาตอบคำถาม">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr> -->
                                 </tbody>
 
                             </table>
@@ -112,8 +125,6 @@
                     <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
                         <button style="align-self: center;" type="submit" class="btn btn-primary"
                             style="margin-right: 45px;">บันทึก</button>
-                        <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
-                        <!-- <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button> -->
                     </div>
                 </form>
             </div>

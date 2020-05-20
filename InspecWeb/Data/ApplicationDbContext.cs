@@ -80,6 +80,8 @@ namespace InspecWeb.Data
         public DbSet<SubjectCentralPolicyProvinceFile> SubjectCentralPolicyProvinceFiles { get; set; }
         public DbSet<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
         public DbSet<SubjectCentralPolicyProvinceUserGroup> SubjectCentralPolicyProvinceUserGroups { get; set; }
+        public DbSet<AnswerSubquestion> AnswerSubquestions { get; set; }
+        public DbSet<AnswerSubquestionOutsider> AnswerSubquestionOutsiders { get; set; }
         
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
