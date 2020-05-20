@@ -54,7 +54,7 @@
                   (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i>
                   <i *ngIf="item.electronicBook.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="gotoEdit2(item.centralPolicyProvinceId, item.electronicBookId)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                <i *ngIf="item.centralPolicyProvince.centralPolicy.class == 'สมุดตรวจอิเล็กทรอนิกส์'" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteCentralPolicy, item.electronicBook.id)"></i>
               </td>
             </tr>

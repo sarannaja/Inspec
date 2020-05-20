@@ -159,29 +159,32 @@ namespace InspecWeb.Controllers
             var filePath = _environment.WebRootPath + "//Uploads//";
 
 
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+            if (model.files != null)
             {
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
                 {
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
-                    {
-                        await formFile.Value.CopyToAsync(stream);
-                    }
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                    var CentralPolicyFile = new CentralPolicyFile
+                    if (formFile.Value.Length > 0)
                     {
-                        CentralPolicyId = centralpolicydata.Id,
-                        Name = random + filename,
-                    };
-                    _context.CentralPolicyFiles.Add(CentralPolicyFile);
-                    _context.SaveChanges();
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var CentralPolicyFile = new CentralPolicyFile
+                        {
+                            CentralPolicyId = centralpolicydata.Id,
+                            Name = random + filename,
+                        };
+                        _context.CentralPolicyFiles.Add(CentralPolicyFile);
+                        _context.SaveChanges();
+                    }
                 }
             }
             return Ok(centralpolicydata.Id);

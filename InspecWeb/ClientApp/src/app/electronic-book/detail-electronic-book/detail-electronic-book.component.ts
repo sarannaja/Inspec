@@ -44,6 +44,7 @@ export class DetailElectronicBookComponent implements OnInit {
   form: FormGroup;
   fileStatus = false;
   resultElecFile: any = [];
+  resultElecFile2: any = [];
   delid: any;
   resultreport: any = [];
   provincename
@@ -292,7 +293,9 @@ export class DetailElectronicBookComponent implements OnInit {
       // alert("EDIT: " + result);
       // this.resultelectronicbookdetail = result.electData.detail;
       this.resultStatus = result.electData.status;
-      // this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
+      this.resultElecFile2 = result.electData.electronicBookFiles;
+      console.log("res file: ", this.resultElecFile2);
+
 
       // this.resultreport = result.centralPolicyUser
       this.resultreport = result.report

@@ -19,6 +19,16 @@
       </div>
       <div *ngIf="resultdate != undefined" class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeFiles(Form.value)">
+
+          <div class="row">
+            <div class="col-md-6">
+              ผู้มอบหมาย : {{resultuser.name}}
+            </div>
+            <div class="col-md-6">
+              ตำแหน่ง : {{resultuser.position}}
+            </div>
+          </div>
+
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               เรื่อง : {{resultdetailcentralpolicy.title}}
@@ -501,7 +511,7 @@
         </form>
       </div>
       <div *ngIf="resultdate == undefined" class="card-body">
-        <form [formGroup]="editSuggestionForm" (ngSubmit)="editSugestionDetail(editSuggestionForm.value)">
+        <form [formGroup]="editSuggestionForm" (ngSubmit)="editSugestionDetailOwn(editSuggestionForm.value)">
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               เรื่อง : {{resultdetailcentralpolicy.title}}
@@ -513,7 +523,7 @@
                 <div class="form-group">
                   <label>ผลการตรวจ</label>
                   <textarea cols="30" rows="5" formControlName="checkDetail" class="form-control"
-                    placeholder="กรุณากรอกผลการตรวจ" readonly>
+                    placeholder="กรุณากรอกผลการตรวจ">
                 </textarea>
                 </div>
               </div>
@@ -522,7 +532,7 @@
                 <div class="form-group">
                   <label>ปัญหาและอุปสรรค</label>
                   <textarea cols="30" rows="5" formControlName="Problem" class="form-control"
-                    placeholder="กรุณากรอกปัญหาและอุปสรรค" readonly>
+                    placeholder="กรุณากรอกปัญหาและอุปสรรค">
                 </textarea>
                 </div>
               </div>
@@ -531,11 +541,28 @@
                 <div class="form-group">
                   <label>ข้อเสนอแนะ</label>
                   <textarea cols="30" rows="5" formControlName="Suggestion" class="form-control"
-                    placeholder="กรุณากรอกข้อเสนอแนะ" readonly>
+                    placeholder="กรุณากรอกข้อเสนอแนะ">
                 </textarea>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="form-group col-md-3" style="margin-left: 20px;">
+            <div class="mb-3">
+              <input type="radio" name="Status" value="ร่างกำหนดการ" [checked]="resultStatus == 'ร่างกำหนดการ'"
+                formControlName="Status">
+              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
+                [checked]="resultStatus == 'ใช้งานจริง'" formControlName="Status">
+              <label style="margin-left: 10px;">ใช้งานจริง</label>
+            </div>
+          </div>
+
+          <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+            <button style="align-self: center;" type="submit" class="btn btn-primary"
+              style="margin-right: 45px;">บันทึก</button>
+            <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
+            <button type="button" class="btn btn-danger" (click)="goBack()">ยกเลิก</button>
           </div>
         </form>
 
