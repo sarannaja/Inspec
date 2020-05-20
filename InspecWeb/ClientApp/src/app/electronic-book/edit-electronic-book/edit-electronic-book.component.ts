@@ -57,7 +57,8 @@ export class EditElectronicBookComponent implements OnInit {
   subjectCentralPolicyID: any;
   editSuggestionForm: FormGroup;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
     private userservice: UserService,
@@ -289,12 +290,11 @@ export class EditElectronicBookComponent implements OnInit {
     this.electronicBookService.getElectronicBookDetail(this.elecId).subscribe(result => {
       console.log("EDIT ElectronicBookDetal: ", result);
       // alert("EDIT: " + result);
-      this.resultelectronicbookdetail = result.detail;
-      this.resultStatus = result.status;
+      // this.resultelectronicbookdetail = result.detail;
+      this.resultStatus = result.electData.status;
       // this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
 
-      this.resultreport = result.centralPolicyUser
-      this.resultreport = null
+      this.resultreport = result.report
       this.detailForm.patchValue({
         eBookDetail: this.resultelectronicbookdetail,
         Status: result.status

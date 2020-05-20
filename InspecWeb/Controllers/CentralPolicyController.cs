@@ -103,8 +103,7 @@ namespace InspecWeb.Controllers
                 var centralpolicyprovincedata = new CentralPolicyProvince
                 {
                     ProvinceId = id,
-                    CentralPolicyId = centralpolicydata.Id,
-                    Step = "มอบหมายเขต"
+                    CentralPolicyId = centralpolicydata.Id
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
             }

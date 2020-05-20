@@ -480,7 +480,7 @@
               <button style="align-self: center;" type="submit" class="btn btn-primary"
                 style="margin-right: 45px;">บันทึก</button>
               <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
-              <button type="submit" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+              <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
             </div>
           </form>
           <br>
@@ -714,7 +714,7 @@
         <h5 class="card-title mb-0">รายงานผลการตรวจ</h5>
       </div>
       <div class="card-body">
-        <!-- <div *ngIf="resultreport.report == null">
+        <div *ngIf="resultreport.report == null">
           <label style="color: gray;">ไม่มีข้อมูล</label>
         </div>
         <div class="col-12 col-xl-12" *ngIf="resultreport.report > 0">
@@ -736,7 +736,7 @@
               <br>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>

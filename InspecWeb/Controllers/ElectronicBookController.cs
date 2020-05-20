@@ -100,7 +100,13 @@ namespace InspecWeb.Controllers
                 .Where(x => x.Id == electID)
                 .FirstOrDefault();
 
-            return Ok(electData);
+            var report = _context.CentralPolicyUsers
+                .Include(x => x.CentralPolicyGroup)
+                .ThenInclude(x => x.CentralPolicyUserFiles)
+                .Where(x => x.ElectronicBookId == electID)
+                .ToList();
+
+            return Ok(new { electData, report });
         }
 
         [HttpGet("getCalendarFile/{electID}")]
