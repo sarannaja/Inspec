@@ -22,7 +22,7 @@ export class InspectionplanService {
     return this.http.get(this.url + 'getcentralpolicyprovinceid/' + centralpolicyid + '/' + provinceid)
   }
 
-  addCentralPolicyEvent(CentralPolicyEventData, Id, userid,proid) {
+  addCentralPolicyEvent(CentralPolicyEventData, Id, userid, proid) {
     // alert(JSON.stringify(CentralPolicyEventData))
     // alert(JSON.stringify(Id))
     const formData = {
@@ -36,18 +36,19 @@ export class InspectionplanService {
     return this.http.post(this.url + "AddCentralPolicyEvents", formData);
   }
 
-  addInspectionPlan(InspectionPlanData, userid) {
+  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid) {
+    // alert(JSON.stringify(InspectionPlanData))
     const formData = {
-      // InspectionPlanEventId: parseInt(Id),
+      InspectionPlanEventId: parseInt(inspectionplaneventid),
       Title: InspectionPlanData.title,
-      StartDate: InspectionPlanData.start_date.date.year + '-' + InspectionPlanData.start_date.date.month + '-' + InspectionPlanData.start_date.date.day,
-      EndDate: InspectionPlanData.end_date.date.year + '-' + InspectionPlanData.end_date.date.month + '-' + InspectionPlanData.end_date.date.day,
+      StartDate: InspectionPlanData.start_date,
+      EndDate: InspectionPlanData.end_date,
       Type: InspectionPlanData.type,
       ProvinceId: InspectionPlanData.ProvinceId,
       FiscalYearId: InspectionPlanData.year,
-      files: "INSPECTIONPLAN.pdf",
+      // files: "INSPECTIONPLAN.pdf",
       UserID: userid,
-      Status: InspectionPlanData.status
+      Status: "ใช้งานจริง"
     }
     console.log('FORMDATA POST: ', formData);
     return this.http.post(this.url, formData);
