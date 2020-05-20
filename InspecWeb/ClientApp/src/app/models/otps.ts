@@ -49,7 +49,7 @@ export interface MinisterfiscalYears {
 
     year: number,
     name: string,
-    Projects: {
+    projects: {
         Count: number,
         Completed: number,
         TotalBudget: number,
@@ -60,6 +60,32 @@ export interface MinisterfiscalYears {
     regions: Array<MinisterRegions>
 
 }
+
+export interface Cabinets {
+    id: number,
+    name: string
+    ministers: Array<{
+        year: string,
+        name: string,
+        position: string,
+        positionShort: string,
+    }>,
+    fiscalYears: Array<{
+        year: number,
+        name: string,
+        projects: {
+            Count: number,
+            Completed: number,
+            TotalBudget: number,
+            TotalAmount: number,
+            TotalSpent: number,
+            TotalPercent: number
+        }
+    }>
+
+
+}
+
 
 
 

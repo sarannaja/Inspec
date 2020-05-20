@@ -83,7 +83,7 @@ namespace InspecWeb.ViewModel
 
     }
 
-     public class OtpsFiscalYearMinisters
+    public class OtpsFiscalYearMinisters
     {
 
         public int Year { get; set; }
@@ -94,11 +94,41 @@ namespace InspecWeb.ViewModel
 
     }
 
-     public class OtpsRegionMinisters
+    public class OtpsRegionMinisters
     {
 
         public int Id { get; set; }
         public string Name { get; set; }
+
+    }
+
+    public class Cabinets
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<OtpsCabinetFiscalYears> FiscalYears {get;set;}
+        public List<OtpsCabinetMinisters> Ministers   {get;set;}
+    }
+
+    public class OtpsCabinetFiscalYears
+    {
+        public int Year { get; set; }
+        public string Name { get; set; }
+        public OtpsProjects Projects { get; set; }
+
+        // public List<OtpsProvinces> Provinces { get; set; }
+
+    }
+
+    public class OtpsCabinetMinisters
+    {
+        public int Year { get; set; }
+        public string Name { get; set; }
+        public string Position { get; set; }
+        public string PositionShort { get; set; }
+        // public OtpsProjects Projects { get; set; }
+
+        // public List<OtpsProvinces> Provinces { get; set; }
 
     }
 

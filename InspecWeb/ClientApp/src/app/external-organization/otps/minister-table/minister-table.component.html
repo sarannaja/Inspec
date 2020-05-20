@@ -1,19 +1,24 @@
+
+<select (change)="ChangeYear($event)" class="form-control select2" data-toggle="select2">
+    <option >ทั้งหมด</option>
+    <option *ngFor="let item of fiscalyear" [value]="item.year">{{item.name}}</option>
+</select>
 <table *ngIf="loading" class="table table-striped table-bordered table-sm row-border hover" datatable
     [dtOptions]="dtOptions">
     <thead>
         <tr>
             <th>#</th>
-            <th>ชื่อ</th>
             <th>รูป</th>
+            <th>ชื่อ</th>
             <th>ตำแหน่ง</th>
             <th>เขตตรวจ</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let item of ministers; let i = index">
+        <tr *ngFor="let item of dataindata; let i = index">
             <td>{{i+1}}</td>
-            <td>{{item.name}}</td>
             <td><img onmouseover="" [src]="item.photo" alt=""></td>
+            <td> <a href="javascript:void(0)"> {{item.name}}</a></td>
             <td>{{item.position}}</td>
             <td style="cursor: pointer;">
                 <span class="badge badge-primary"

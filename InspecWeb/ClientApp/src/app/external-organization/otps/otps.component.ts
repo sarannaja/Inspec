@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
-import { Regions, Ministers } from 'src/app/models/otps';
+import { Regions, Ministers, Cabinets } from 'src/app/models/otps';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class OtpsComponent implements OnInit {
   region: Array<Regions>
   ministers: Array<Ministers>
+  cabinets: Array<Cabinets>
   loading: boolean = false
   constructor(http: HttpClient,
     @Inject('BASE_URL') baseUrl: string,
@@ -21,13 +22,9 @@ export class OtpsComponent implements OnInit {
   }
   ngOnInit() {
     this.spinner.show();
-    this.externalOrganizationService.getMinisters()
-      .subscribe(results => {
-        console.log(results);
-        this.ministers = results
-        this.spinner.hide();
-        this.loading = true
-      })
+    
+
+  
     // this.external.getRegions()
     //   .subscribe(result => {
     //     this.region = result

@@ -9,11 +9,12 @@ import { ExternalOrganizationRoutingModule } from './external-organization-routi
 import { MinisterTableComponent } from './otps/minister-table/minister-table.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CabinetTableComponent } from './otps/cabinet-table/cabinet-table.component';
 
 
 
 @NgModule({
-  declarations: [GgcOpmComponent, Opm1111Component, OtpsComponent, MinisterTableComponent],
+  declarations: [GgcOpmComponent, Opm1111Component, OtpsComponent, MinisterTableComponent, CabinetTableComponent],
   imports: [
     CommonModule,
     ExternalOrganizationRoutingModule,

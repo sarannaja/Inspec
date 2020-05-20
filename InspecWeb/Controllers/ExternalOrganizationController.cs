@@ -85,5 +85,26 @@ namespace InspecWeb.Controllers
         }
 
 
+         [HttpGet("otps/cabinets")]
+        public IActionResult OnGetOtpsCabinets()
+        {
+            List<Cabinets> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Cabinets")
+            .ContinueWith((taskwithresponse) =>
+            {
+                var response = taskwithresponse.Result;
+                var jsonString = response.Content.ReadAsStringAsync();
+                jsonString.Wait();
+                model = JsonConvert.DeserializeObject<List<Cabinets>>(jsonString.Result);
+            });
+            task.Wait();
+            return Ok(model);
+
+
+
+        }
+
+
     }
 }

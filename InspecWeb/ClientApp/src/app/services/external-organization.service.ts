@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Regions, Ministers } from '../models/otps';
+import { Regions, Ministers, Cabinets } from '../models/otps';
 // [assembly: RegisterModule(typeof(SSLRequestModule))]                                                                                                                                                                                                                                                                                                                                             
 
 @Injectable({
@@ -21,4 +21,10 @@ export class ExternalOrganizationService {
   getMinisters(): Observable<Ministers[]> {
     return this.http.get<Ministers[]>(this.baseUrl + 'api/ExternalOrganization/otps/ministers', this.httpOptions)
   }
+
+  getCabinets(): Observable<Cabinets[]> {
+    return this.http.get<Cabinets[]>(this.baseUrl + 'api/ExternalOrganization/otps/cabinets', this.httpOptions)
+  }
+
+  
 }
