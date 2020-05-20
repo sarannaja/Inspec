@@ -119,6 +119,19 @@ export class ElectronicbookService {
     return this.http.put(this.url + 'editSuggestion', formData)
   }
 
+  editSuggestionOwn(value, electID, subjectCentralpolicyID) {
+    console.log("EDIT VALUE Own: ", value);
+
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('Status', value.Status);
+
+    return this.http.put(this.url + 'editSuggestionown', formData)
+  }
+
   getNotSelectedInspectionPlan(id) {
     console.log(id);
     return this.http.get(this.url + "getcentralpolicyfromprovince/" + id)

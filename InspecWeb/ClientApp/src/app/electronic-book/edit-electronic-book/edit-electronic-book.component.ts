@@ -100,6 +100,7 @@ export class EditElectronicBookComponent implements OnInit {
       checkDetail: new FormControl(null, [Validators.required]),
       Problem: new FormControl(null, [Validators.required]),
       Suggestion: new FormControl(null, [Validators.required]),
+      Status: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -337,6 +338,25 @@ export class EditElectronicBookComponent implements OnInit {
       this.getDetailCentralPolicyProvince();
 
     })
+  }
+
+  editSugestionDetailOwn(value) {
+    console.log("Detail Form Own: ", value);
+
+    this.electronicBookService.editSuggestionOwn(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
+      console.log("res Edit Suggestion ja: ", result);
+
+      this.spinner.show();
+      setTimeout(() => {
+        window.history.back();
+        this.spinner.hide();
+      }, 300);
+
+    })
+  }
+
+  goBack() {
+    window.history.back();
   }
 
   uploadFile(event) {

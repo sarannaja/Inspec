@@ -97,6 +97,7 @@ namespace InspecWeb.Controllers
             //    .Where(m => m.Id == centralPolicyUserId).First();
 
             var electData = _context.ElectronicBooks
+                .Include(x => x.ElectronicBookFiles)
                 .Where(x => x.Id == electID)
                 .FirstOrDefault();
 
@@ -609,6 +610,32 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
             System.Console.WriteLine("Finish Update Suggestion");
+        }
+
+        [HttpPut("editSuggestionown")]
+        public void PutSuggestionOwn([FromForm] ElectronicBookViewModel model)
+        {
+            System.Console.WriteLine("Edit ja");
+            System.Console.WriteLine("Detail: " + model.Detail);
+            System.Console.WriteLine("Problem: " + model.Problem);
+            System.Console.WriteLine("Suggestion: " + model.Suggestion);
+            System.Console.WriteLine("SubjectCentralPolicyProvinceId: " + model.SubjectCentralPolicyProvinceId);
+            System.Console.WriteLine("ElectID: " + model.ElectID);
+
+            var ElectSuggestionData = _context.ElectronicBooks
+                .Where(x => x.Id == model.ElectID)
+                .FirstOrDefault();
+
+            {
+                ElectSuggestionData.Detail = model.Detail;
+                ElectSuggestionData.Problem = model.Problem;
+                ElectSuggestionData.Suggestion = model.Suggestion;
+                ElectSuggestionData.Status = model.Status;
+            }
+            _context.Entry(ElectSuggestionData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            System.Console.WriteLine("Finish Update Own Suggestion");
         }
 
 
