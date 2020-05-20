@@ -76,15 +76,13 @@ import { InfoDistrictComponent } from './info-district/info-district.component';
 import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
 import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
 import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
-<<<<<<< HEAD
 import { ElectronicBookProvinceComponent } from './electronic-book-province/electronic-book-province.component';
 import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer-outsider.component';
-=======
 import { ExternalOrganizationModule } from './external-organization/external-organization.module';
 import { OtpsComponent } from './external-organization/otps/otps.component';
 import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
 import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
->>>>>>> palm
+
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
