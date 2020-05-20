@@ -104,6 +104,7 @@ namespace InspecWeb.Controllers
                 {
                     ProvinceId = id,
                     CentralPolicyId = centralpolicydata.Id,
+                    Step = "มอบหมายเขต"
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
             }
@@ -542,7 +543,7 @@ namespace InspecWeb.Controllers
             .ThenInclude(m => m.Province)
             .Where(m => m.Id == centralpolicyprovince.CentralPolicyId).First();
 
-            var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
+            //var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
 
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
@@ -555,6 +556,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                 .ThenInclude(m => m.ProvincialDepartment)
+                .Include(x => x.ElectronicBookSuggestGroups)
 
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
@@ -564,16 +566,29 @@ namespace InspecWeb.Controllers
                 .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicyId == centralpolicyprovince.CentralPolicyId))
                 .Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
-            System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
-            System.Console.WriteLine("InspectionPlanEventId" + InspectionPlanEventdata.Id);
+            
+            //System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
+            //System.Console.WriteLine("InspectionPlanEventId" + InspectionPlanEventdata.Id);
 
-            var CentralPolicyEventdata = _context.CentralPolicyEvents
+
+            if (InspectionPlanEventdata != null)
+            {
+                var CentralPolicyEventdata = _context.CentralPolicyEvents
                 .Include(m => m.ElectronicBook)
                 .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId && m.InspectionPlanEventId == InspectionPlanEventdata.Id)
                 //.Where(m => m.InspectionPlanEventId == InspectionPlanEventdata.Id)
                 .FirstOrDefault();
 
-            return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata });
+                var userdata = _context.Users.Where(m => m.Id == CentralPolicyEventdata.InspectionPlanEvent.CreatedBy).First();
+                return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata });
+            } else
+            {
+                var userdata = "";
+                var CentralPolicyEventdata = "";
+                return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata });
+            }
+
+            
             //return "value";
         }
 
@@ -780,6 +795,5 @@ namespace InspecWeb.Controllers
                 }
             }
         }
-
     }
 }

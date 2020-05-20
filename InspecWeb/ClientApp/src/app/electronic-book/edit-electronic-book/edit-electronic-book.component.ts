@@ -53,6 +53,9 @@ export class EditElectronicBookComponent implements OnInit {
   carlendarFile: any = [];
   electronikbookFile: any = [];
   policyDropdown: Array<IOption>
+  urllink: any;
+  subjectCentralPolicyID: any;
+  editSuggestionForm: FormGroup;
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -62,11 +65,12 @@ export class EditElectronicBookComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
-    @Inject('BASE_URL') baseUrl: string ) {
+    @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
-    this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
+    // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
     this.downloadUrl = baseUrl + '/Uploads';
+    this.urllink = baseUrl + 'answersubject/outsider/';
 
     this.form = this.fb.group({
       files: [null]
@@ -89,6 +93,12 @@ export class EditElectronicBookComponent implements OnInit {
       Problem: new FormControl(null, [Validators.required]),
       Suggestion: new FormControl(null, [Validators.required]),
       PolicyIssue: new FormControl(null, [Validators.required]),
+    })
+
+    this.editSuggestionForm = this.fb.group({
+      checkDetail: new FormControl(null, [Validators.required]),
+      Problem: new FormControl(null, [Validators.required]),
+      Suggestion: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -120,6 +130,7 @@ export class EditElectronicBookComponent implements OnInit {
     this.getCentralPolicyProvinceUser();
     this.getDetailCentralPolicyProvince();
     this.getElectronicBookDetail();
+    this.getElectOwnCreate();
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
@@ -135,14 +146,36 @@ export class EditElectronicBookComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  openEbookDetailModal(template: TemplateRef<any>, subjectCenID) {
+    this.modalRef = this.modalService.show(template);
+    this.subjectCentralPolicyID = subjectCenID;
+    // alert(subjectID);
+  }
+
+  openEditSuggestionModal(template: TemplateRef<any>, subjectID) {
+    this.modalRef = this.modalService.show(template);
+    // alert(subjectID);
+    this.subjectCentralPolicyID = subjectID;
+    this.electronicBookService.getSuggestionDetailById(subjectID, this.elecId).subscribe(result => {
+      console.log("SUGGEST: ", result);
+      this.editSuggestionForm.patchValue({
+        checkDetail: result.detail,
+        Problem: result.problem,
+        Suggestion: result.suggestion,
+      })
+    })
+
+
+  }
+
   deleteFile() {
     // alert(this.delid);
     this.electronicBookService.deleteFile(this.delid)
-    .subscribe(response => {
-      console.log("res: ", response);
-      this.modalRef.hide();
-      this.getElectronicBookDetail();
-    })
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.modalRef.hide();
+        this.getElectronicBookDetail();
+      })
   }
 
   editModal(template: TemplateRef<any>, id, name) {
@@ -188,8 +221,12 @@ export class EditElectronicBookComponent implements OnInit {
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
+
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId
         this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        console.log("RES DATE: ", this.resultdate);
+
+
         this.provincename = result.provincedata.name
         this.provinceid = result.provincedata.id
 
@@ -206,7 +243,7 @@ export class EditElectronicBookComponent implements OnInit {
     this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
-        console.log("result" + result);
+        console.log("resultCenUser", result);
       })
 
   }
@@ -227,7 +264,7 @@ export class EditElectronicBookComponent implements OnInit {
   }
 
   storeMinistryPeople(value) {
-    alert(JSON.stringify(value))
+    // alert(JSON.stringify(value))
   }
 
   editsubquestionclose(value, id) {
@@ -278,6 +315,30 @@ export class EditElectronicBookComponent implements OnInit {
     })
   }
 
+  addSugestionDetail(value) {
+    console.log("Detail Form: ", value);
+
+    this.electronicBookService.addSuggestion(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
+      console.log("res: ", result);
+
+      this.modalRef.hide();
+      this.getDetailCentralPolicyProvince();
+
+    })
+  }
+
+  editSugestionDetail(value) {
+    console.log("Detail Form: ", value);
+
+    this.electronicBookService.editSuggestion(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
+      console.log("res Edit Suggestion: ", result);
+
+      this.modalRef.hide();
+      this.getDetailCentralPolicyProvince();
+
+    })
+  }
+
   uploadFile(event) {
     this.fileStatus = true;
     const file = (event.target as HTMLInputElement).files;
@@ -294,6 +355,7 @@ export class EditElectronicBookComponent implements OnInit {
   }
 
   getCalendarFile() {
+    // alert(this.electronicbookid)
     this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
       this.carlendarFile = res;
       console.log("calendarFile: ", res);
@@ -305,6 +367,17 @@ export class EditElectronicBookComponent implements OnInit {
       this.resultElecFile = res;
       console.log("calendarFile: ", res);
 
+    })
+  }
+  getElectOwnCreate() {
+    this.electronicBookService.getElectOwnCreate(this.elecId).subscribe(res => {
+      console.log("Own Elect: ", res);
+      // alert(res);
+      this.editSuggestionForm.patchValue({
+        checkDetail: res.detail,
+        Problem: res.problem,
+        Suggestion: res.suggestion,
+      })
     })
   }
 }

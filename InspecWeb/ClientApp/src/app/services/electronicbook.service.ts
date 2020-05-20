@@ -21,6 +21,8 @@ export class ElectronicbookService {
 
   addElectronicBook(value, id, file: FileList, CentralPolicyId) {
     // alert(JSON.stringify(inspectionplaneventData.input))
+    console.log("Add EBook: ", value);
+
     const formData = new FormData();
     formData.append('Detail', value.checkDetail);
     formData.append('Problem', value.Problem);
@@ -73,14 +75,48 @@ export class ElectronicbookService {
     // }
 
     const formData = new FormData();
-    formData.append('Detail', value.eBookDetail);
+    // formData.append('Detail', value.eBookDetail);
     formData.append('Status', value.Status);
 
-    for (var i = 0; i < file.length; i++) {
-      formData.append("files", file[i]);
+    if (file != null) {
+      for (var i = 0; i < file.length; i++) {
+        formData.append("files", file[i]);
+      }
     }
 
     return this.http.put(this.url + 'editElectronicBookDetail/' + electID, formData)
+  }
+
+  addSuggestion(value, electID, subjectCentralpolicyID) {
+    console.log("EDIT VALUE: ", value);
+    console.log("SubjectCentralPolicyID: ", subjectCentralpolicyID);
+
+    // const formData = {
+    //   Detail: value.eBookDetail,
+    //   Status: value.Status
+    // }
+
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('SubjectCentralPolicyProvinceId', subjectCentralpolicyID);
+
+    return this.http.post(this.url + 'addSuggestion', formData)
+  }
+
+  editSuggestion(value, electID, subjectCentralpolicyID) {
+    console.log("EDIT VALUE: ", value);
+
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('SubjectCentralPolicyProvinceId', subjectCentralpolicyID);
+
+    return this.http.put(this.url + 'editSuggestion', formData)
   }
 
   getNotSelectedInspectionPlan(id) {
@@ -106,5 +142,13 @@ export class ElectronicbookService {
 
   getElectronicBookProvince(userId) {
     return this.http.get(this.url + "province/" + userId)
+  }
+
+  getSuggestionDetailById(subjectCentralPolicyProvinceID, electID) {
+    return this.http.get<any>(this.url + "suggestiondetail/" + subjectCentralPolicyProvinceID + "/" + electID)
+  }
+
+  getElectOwnCreate(electID) {
+    return this.http.get<any>(this.url + "getElectronicBookOwn/" + electID)
   }
 }

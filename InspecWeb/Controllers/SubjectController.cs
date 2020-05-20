@@ -713,9 +713,9 @@ namespace InspecWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
-            var subjectdata = _context.Subjects.Find(id);
+            var subjectdata = _context.SubjectCentralPolicyProvinces.Find(id);
 
-            _context.Subjects.Remove(subjectdata);
+            _context.SubjectCentralPolicyProvinces.Remove(subjectdata);
             _context.SaveChanges();
         }
 
