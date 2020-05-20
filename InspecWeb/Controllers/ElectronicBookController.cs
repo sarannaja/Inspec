@@ -473,6 +473,14 @@ namespace InspecWeb.Controllers
         public async Task<IActionResult> Post2([FromForm] CalendarFileViewModel model)
         {
 
+            //var CentralPolicyProvincedata = _context.CentralPolicyProvinces
+            //    .Where(m => m.Id == model.CentralPolicyProvinceId).FirstOrDefault();
+
+            var CentralPolicyProvincedata = _context.CentralPolicyProvinces.Find(model.CentralPolicyProvinceId);
+            CentralPolicyProvincedata.Step = model.Step;
+            _context.Entry(CentralPolicyProvincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
@@ -661,5 +669,70 @@ namespace InspecWeb.Controllers
             return Ok(electData);
         }
 
+        [HttpPost("addSignature")]
+        public async Task<IActionResult> PostSignature([FromForm] ElectronicBookViewModel model)
+        {
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+            System.Console.WriteLine("Start Upload 2");
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            //foreach (var formFile in data.files)
+            {
+
+                System.Console.WriteLine("Start Upload 3");
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+
+                if (formFile.Value.Length > 0)
+                {
+
+                    System.Console.WriteLine("Start Upload 4");
+                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+
+                    System.Console.WriteLine("Start Upload 4.1");
+                    var ElectronicBookFile = new ElectronicBookFile
+                    {
+                        ElectronicBookId = model.ElectID,
+                        Name = random + filename,
+                        Type = "SignatureProvince File"
+                    };
+
+                    System.Console.WriteLine("Start Upload 4.2");
+                    _context.ElectronicBookFiles.Add(ElectronicBookFile);
+                    _context.SaveChanges();
+
+                    System.Console.WriteLine("Start Upload 4.3");
+                }
+
+                System.Console.WriteLine("Start Upload 5");
+            }
+            return Ok(new { status = true });
+        }
+
+        [HttpGet("getSignatureFile/{electID}")]
+        public IActionResult GetSignatureFile(long electID)
+        {
+            System.Console.WriteLine("ELECT ID Sign: " + electID);
+            //var accept = _context.CentralPolicyUsers.Where(m => m.Id == centralPolicyUserId).FirstOrDefault();
+
+            var carlendarFile = _context.ElectronicBookFiles
+                .Where(x => x.ElectronicBookId == electID && x.Type == "SignatureProvince File")
+                .ToList();
+
+            return Ok(carlendarFile);
+        }
     }
 }
