@@ -19,14 +19,14 @@
       </div>
       <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="storeFiles(form.value)">
-          <!-- <div class="row">
+          <div class="row">
             <div class="col-md-6">
-              ผู้สังการ : {{resultuser.name}}
+              ผู้มอบหมาย : {{resultuser.name}}
             </div>
             <div class="col-md-6">
               ตำแหน่ง : {{resultuser.position}}
             </div>
-          </div> -->
+          </div>
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               เรื่อง : {{resultdetailcentralpolicy.title}}
@@ -182,7 +182,7 @@
                   </tr>
                   <div class="row" style="margin-top: 10px;">
                     <div class="col-md-9">
-                      ลิ้งบุคคลภายนอก : {{urllink}}{{items.id}}
+                      ลิ้งค์บุคคลภายนอก : {{urllink}}{{items.id}}
                     </div>
                   </div>
                   <tr>
@@ -344,7 +344,8 @@
 
           <div class="form-group col-12">
             <div class="mb-3">
-              <input type="radio" name="status" value="มอบหมายให้จังหวัด" checked formControlName="status">
+              <input type="radio" name="status" value="มอบหมายให้จังหวัด" checked
+               formControlName="status">
               <label style="margin-left: 10px;">มอบหมายให้จังหวัด</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ไม่มอบหมายให้จังหวัด"
                 formControlName="status">
@@ -366,7 +367,6 @@
               </div>
             </div>
           </div>
-
 
           <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
           <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">

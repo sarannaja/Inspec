@@ -31,6 +31,7 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "ProvinceId")]
         public long ProvinceId { get; set; }
         //public List<IFormFile> files { get; set; }
+        public long InspectionPlanEventId { get; set; }
 
     }
 

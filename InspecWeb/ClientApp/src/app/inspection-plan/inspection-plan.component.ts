@@ -81,8 +81,8 @@ export class InspectionPlanComponent implements OnInit {
     this.router.navigate(['/subject', id])
   }
 
-  CraateInspectionPlan(id) {
-    this.router.navigate(['/inspectionplan/createinspectionplan', id])
+  CrateInspectionPlan(id) {
+    this.router.navigate(['/inspectionplan/createinspectionplan', id, { proid: this.provinceid }])
   }
   EditInspectionPlan(id: any) {
     this.router.navigate(['/inspectionplan/editinspectionplan', id])

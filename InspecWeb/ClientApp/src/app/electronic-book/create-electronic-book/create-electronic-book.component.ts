@@ -146,6 +146,7 @@ export class CreateElectronicBookComponent implements OnInit {
       checkDetail: new FormControl(null, [Validators.required]),
       Problem: new FormControl(null, [Validators.required]),
       Suggestion: new FormControl(null, [Validators.required]),
+      Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
     })
 
     this.userservice.getprovincedata(this.userid).subscribe(result => {

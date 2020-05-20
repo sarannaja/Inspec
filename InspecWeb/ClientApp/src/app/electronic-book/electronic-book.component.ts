@@ -94,15 +94,15 @@ export class ElectronicBookComponent implements OnInit {
     this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID }])
   }
 
-  gotoDetail(cenid, proid, elecId) {
-    // alert(cenid)
-    // alert(proid)
-    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
-      // this.centralpolicyprovinceid = result
-      this.router.navigate(['/electronicbook/edit/' + result, { electronicBookId: elecId, centralPolicyUserId: cenid }])
-    })
+  gotoDetail(id, elecId) {
+    // alert(id)
+    // alert(elecId)
+    // this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+    //   // this.centralpolicyprovinceid = result
+    //   this.router.navigate(['/electronicbook/edit/' + result, { electronicBookId: elecId, centralPolicyUserId: cenid }])
+    // })
     // alert(this.centralpolicyprovinceid)
-    // this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID}])
 
+    this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId}])
   }
 }
