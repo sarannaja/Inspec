@@ -147,8 +147,11 @@
                     <td style="border-top: none;">
                       <div class="row">
                         <span style="margin-left: 15px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
-                          <button type="button" (click)="openModal2(modalInviteDepartment, items.id)"
-                            class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button></span>
+                          <button *ngIf="role_id == 3" type="button" (click)="openModal2(modalInviteDepartment, items.id)"
+                            class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
+                            <button *ngIf="role_id == 5 && resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'" type="button" (click)="openModal2(modalInviteDepartment, items.id)"
+                            class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
+                          </span>
                         <div class="col-12"
                           *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
                           <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
@@ -160,7 +163,7 @@
                     <td style="border-top: none;" width="50%">
                       <div class="row">
                         <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;
-                          <button type="button" (click)="openModal3(modalInvitePeopleAnswer, items.id)"
+                          <button *ngIf="role_id == 3" type="button" (click)="openModal3(modalInvitePeopleAnswer, items.id)"
                             class="btn btn-primary">เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</button></span>
 
                         <div class="col-12"
@@ -342,13 +345,15 @@
           </div> -->
 
 
-          <div class="form-group col-12">
+          <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
-              <input type="radio" name="status" value="มอบหมายให้จังหวัด" checked
-               formControlName="status">
+
+              <input type="radio" name="step" value="มอบหมายจังหวัด" checked
+              [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'" formControlName="step">
               <label style="margin-left: 10px;">มอบหมายให้จังหวัด</label>
-              <input style="margin-left: 10px;" type="radio" name="status" value="ไม่มอบหมายให้จังหวัด"
-                formControlName="status">
+
+              <input style="margin-left: 10px;" type="radio" name="step" value="มอบหมายหน่วยงาน"
+              [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายหน่วยงาน'" formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
           </div>

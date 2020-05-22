@@ -103,7 +103,8 @@ namespace InspecWeb.Controllers
                 var centralpolicyprovincedata = new CentralPolicyProvince
                 {
                     ProvinceId = id,
-                    CentralPolicyId = centralpolicydata.Id
+                    CentralPolicyId = centralpolicydata.Id,
+                    Step = "มอบหมายเขต"
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
             }
@@ -159,29 +160,32 @@ namespace InspecWeb.Controllers
             var filePath = _environment.WebRootPath + "//Uploads//";
 
 
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+            if (model.files != null)
             {
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
                 {
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
-                    {
-                        await formFile.Value.CopyToAsync(stream);
-                    }
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                    var CentralPolicyFile = new CentralPolicyFile
+                    if (formFile.Value.Length > 0)
                     {
-                        CentralPolicyId = centralpolicydata.Id,
-                        Name = random + filename,
-                    };
-                    _context.CentralPolicyFiles.Add(CentralPolicyFile);
-                    _context.SaveChanges();
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var CentralPolicyFile = new CentralPolicyFile
+                        {
+                            CentralPolicyId = centralpolicydata.Id,
+                            Name = random + filename,
+                        };
+                        _context.CentralPolicyFiles.Add(CentralPolicyFile);
+                        _context.SaveChanges();
+                    }
                 }
             }
             return Ok(centralpolicydata.Id);
@@ -499,6 +503,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyUser)
                 .ThenInclude(m => m.ElectronicBook)
+                .ThenInclude(x => x.ElectronicBookSuggestGroups)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
                 //.Include(m => m.Subjects)
@@ -560,10 +565,14 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
+            System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
+            System.Console.WriteLine("InspectionPlanEventId" + centralpolicyprovince.ProvinceId);
+
             var InspectionPlanEventdata = _context.InspectionPlanEvents
                 .Include(m => m.CentralPolicyEvents)
-                .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicyId == centralpolicyprovince.CentralPolicyId))
-                .Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
+                .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicyId == centralpolicyprovince.CentralPolicyId) && m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
+
+                //.Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
             
             //System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);

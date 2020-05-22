@@ -119,7 +119,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
     this.form = this.fb.group({
       files: [null],
-      status: new FormControl("มอบหมายให้จังหวัด", [Validators.required]),
+      step: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -282,6 +282,17 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+
+        if (this.role_id == 3) {
+          if (this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายเขต') {
+            this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step = "มอบหมายจังหวัด"
+          }
+          this.form.patchValue({
+
+            step: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step
+          })
+        }
+
         this.resultuser = result.userdata
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId
 
@@ -305,7 +316,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storeFiles(value) {
     // alert(JSON.stringify(value))
-    this.electronicBookService.addElectronicBookFileFromCalendar(value, this.form.value.files, this.electronicbookid).subscribe(response => {
+    this.electronicBookService.addElectronicBookFileFromCalendar(value, this.form.value.files, this.electronicbookid, this.id).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
