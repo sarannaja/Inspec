@@ -82,6 +82,8 @@ import { ExternalOrganizationModule } from './external-organization/external-org
 import { OtpsComponent } from './external-organization/otps/otps.component';
 import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
 import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
+import { ReportImportComponent } from './report-import/report-import.component';
+import { ReportExportComponent } from './report-export/report-export.component';
 
 
 const ExternalOrganization = [
@@ -150,7 +152,9 @@ const ExternalOrganization = [
     AnswerSubjectListComponent,
     AnswerSubjectDetailComponent,
     ElectronicBookProvinceComponent,
-    AnswerOutsiderComponent
+    AnswerOutsiderComponent,
+    ReportImportComponent,
+    ReportExportComponent,
   ],
 
   imports: [
@@ -235,6 +239,8 @@ const ExternalOrganization = [
           { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbookprovince', component: ElectronicBookProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportimport', component: ReportImportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportexport', component: ReportExportComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
