@@ -102,6 +102,7 @@ namespace InspecWeb.Controllers
                 .FirstOrDefault();
 
             var report = _context.CentralPolicyUsers
+                .Include(x => x.User)
                 .Include(x => x.CentralPolicyGroup)
                 .ThenInclude(x => x.CentralPolicyUserFiles)
                 .Where(x => x.ElectronicBookId == electID)
