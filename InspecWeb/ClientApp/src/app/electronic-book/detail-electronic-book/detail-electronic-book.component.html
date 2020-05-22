@@ -274,7 +274,7 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].detail != 'null'" class="col-12" style="padding-left: 0;">
                             <div class="form-group">
                               <label>ผลการตรวจ</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
@@ -290,7 +290,7 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].problem != 'null'" class="col-12" style="padding-left: 0;">
                             <div class="form-group">
                               <label>ปัญหาและอุปสรรค</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
@@ -306,7 +306,7 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12" style="padding-left: 0;">
                             <div class="form-group">
                               <label>ข้อเสนอแนะ</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
