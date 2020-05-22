@@ -90,7 +90,7 @@ namespace InspecWeb.Data
         public DbSet<SubjectCentralPolicyProvinceUserGroup> SubjectCentralPolicyProvinceUserGroups { get; set; }
         public DbSet<AnswerSubquestion> AnswerSubquestions { get; set; }
         public DbSet<AnswerSubquestionOutsider> AnswerSubquestionOutsiders { get; set; }
-        
+        public DbSet<AnswerSubquestionFile> AnswerSubquestionFiles { get; set; }
 
 
         //method 
