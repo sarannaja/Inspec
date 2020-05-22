@@ -65,5 +65,9 @@ export class ElectronicBookProvinceComponent implements OnInit {
     })
   }
 
+  gotoDetail(id, elecId) {
+    this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId}])
+  }
+
 }
 

@@ -8,6 +8,7 @@ import { SubjectService } from 'src/app/services/subject.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-detail-electronic-book',
@@ -44,6 +45,7 @@ export class DetailElectronicBookComponent implements OnInit {
   form: FormGroup;
   fileStatus = false;
   resultElecFile: any = [];
+  resultElecFile2: any = [];
   delid: any;
   resultreport: any = [];
   provincename
@@ -51,11 +53,14 @@ export class DetailElectronicBookComponent implements OnInit {
   resultdate: any = []
   electronicbookid
   carlendarFile: any = [];
+  signatureFile: any = [];
   electronikbookFile: any = [];
   policyDropdown: Array<IOption>
   urllink: any;
   subjectCentralPolicyID: any;
   editSuggestionForm: FormGroup;
+  userid
+  role_id
 
   constructor(
     private fb: FormBuilder,
@@ -66,6 +71,7 @@ export class DetailElectronicBookComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
+    private authorize: AuthorizeService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
@@ -82,6 +88,21 @@ export class DetailElectronicBookComponent implements OnInit {
     console.log("ELECTID: ", this.id);
 
     this.spinner.show();
+
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      console.log(result);
+      // alert(this.userid)
+      this.userservice.getuserfirstdata(this.userid)
+      .subscribe(result => {
+        // this.resultuser = result;
+        //console.log("test" , this.resultuser);
+        this.role_id = result[0].role_id
+        // alert(this.role_id)
+      })
+    })
+
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
@@ -237,6 +258,7 @@ export class DetailElectronicBookComponent implements OnInit {
 
         this.getCalendarFile();
         this.getElectronikbookFile();
+        this.getSignatureProvince();
       })
   }
 
@@ -292,7 +314,9 @@ export class DetailElectronicBookComponent implements OnInit {
       // alert("EDIT: " + result);
       // this.resultelectronicbookdetail = result.electData.detail;
       this.resultStatus = result.electData.status;
-      // this.resultElecFile = result.centralPolicyUser[0].electronicBook.electronicBookFiles
+      this.resultElecFile2 = result.electData.electronicBookFiles;
+      console.log("res file: ", this.resultElecFile2);
+
 
       // this.resultreport = result.centralPolicyUser
       this.resultreport = result.report
@@ -379,6 +403,27 @@ export class DetailElectronicBookComponent implements OnInit {
         Problem: res.problem,
         Suggestion: res.suggestion,
       })
+    })
+  }
+
+  getSignatureProvince() {
+    // alert(this.electronicbookid)
+    this.electronicBookService.getSignatureFile(this.elecId).subscribe(res => {
+      this.signatureFile = res;
+      console.log("signatureFile: ", this.signatureFile);
+
+    })
+  }
+
+  addSignatureFile() {
+    this.electronicBookService.addSignatureFile(this.elecId, this.form.value.files).subscribe(res => {
+      console.log("signatureFile: ", res);
+
+      this.spinner.show();
+      setTimeout(() => {
+        this.getSignatureProvince();
+        this.spinner.hide();
+      }, 300);
     })
   }
 

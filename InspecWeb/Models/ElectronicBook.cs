@@ -40,5 +40,6 @@ namespace InspecWeb.Models
         public string Status { get; set; }
 
         public ICollection<ElectronicBookFile> ElectronicBookFiles { get; set; }
+        public ICollection<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
     }
 }
