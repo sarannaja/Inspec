@@ -499,6 +499,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyUser)
                 .ThenInclude(m => m.ElectronicBook)
+                .ThenInclude(x => x.ElectronicBookSuggestGroups)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
                 //.Include(m => m.Subjects)
@@ -560,10 +561,14 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
+            System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
+            System.Console.WriteLine("InspectionPlanEventId" + centralpolicyprovince.ProvinceId);
+
             var InspectionPlanEventdata = _context.InspectionPlanEvents
                 .Include(m => m.CentralPolicyEvents)
-                .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicyId == centralpolicyprovince.CentralPolicyId))
-                .Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
+                .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicyId == centralpolicyprovince.CentralPolicyId) && m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
+
+                //.Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
             
             //System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
