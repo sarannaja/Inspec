@@ -106,7 +106,13 @@ export class AcceptCentralPolicyComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
         this.Form.reset()
-        // this.router.navigate(['usercentralpolicy'])
+
+        // this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 2)
+        // .subscribe(response => {
+        //   console.log(response);
+          
+        // })
+
         this.router.navigate(['calendaruser'])
       })
   }

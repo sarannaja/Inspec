@@ -11,6 +11,7 @@ import { async } from '@angular/core/testing';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -74,6 +75,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private departmentService: DepartmentService,
+    private notificationService: NotificationService,
     private authorize: AuthorizeService,
     private userService: UserService,
     @Inject('BASE_URL') baseUrl: string) {
@@ -85,20 +87,20 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   async ngOnInit() {
 
     this.authorize.getUser()
-    .subscribe(result => {
-      this.userid = result.sub
-      // this.role_id = result.role_id
-      // console.log(result);
-      // alert(this.role_id)
+      .subscribe(result => {
+        this.userid = result.sub
+        // this.role_id = result.role_id
+        // console.log(result);
+        // alert(this.role_id)
 
-      this.userService.getuserfirstdata(this.userid)
-        .subscribe(result => {
-          // this.resultuser = result;
-          //console.log("test" , this.resultuser);
-          this.role_id = result[0].role_id
-          // alert(this.role_id)
-        })
-    })
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
+      })
 
     console.log("ID: ", this.id);
 
@@ -174,15 +176,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
   openModal2(template: TemplateRef<any>, subjectid) {
     this.subjectid = subjectid
-      this.departmentService.getalldepartdata().subscribe(res => {
-        this.department = res.map((item, index) => {
-          return {
-            value: item.id,
-            label: item.name
-          }
-        })
-        this.modalRef = this.modalService.show(template);
+    this.departmentService.getalldepartdata().subscribe(res => {
+      this.department = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
       })
+      this.modalRef = this.modalService.show(template);
+    })
   }
 
   openModal3(template: TemplateRef<any>, subjectid) {
@@ -312,15 +314,26 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
-  storePeople(value) {
+  storePeople(value: any) {
+    let UserPeopleId: any[] = value.UserPeopleId
     // alert(JSON.stringify(value))
     this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+
+      for (let i = 0; i < UserPeopleId.length; i++) {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1)
+          .subscribe(response => {
+            console.log(response);
+            
+          })
+      }
+   
       this.getCentralPolicyProvinceUser();
     })
   }
+
 
   storeDepartment(value) {
     // alert(this.subjectid)
@@ -435,7 +448,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(async result => {
       await result.forEach(async element => {
         if (element.user.role_id == 7) {
-           this.allUserPeople.push(element.user)
+          this.allUserPeople.push(element.user)
         }
       }); // Selected
       console.log("selectedUser: ", this.allUserPeople);
@@ -512,7 +525,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     })
   }
-  back(){
+  back() {
     window.history.back();
   }
 }
