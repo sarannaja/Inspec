@@ -23,6 +23,15 @@ namespace InspecWeb.Models
         [Description("คำสั่ง")]
         public string DetailExecutiveOrder { get; set; }
 
+        [Description("รายละเอียด")]
+        public string AnswerDetail { get; set; }
+
+        [Description("ปัญหา/อุปสรรค")]
+        public string AnswerProblem { get; set; }
+
+        [Description("ข้อเสนอแนะ")]
+        public string AnswerCounsel { get; set; }
+
         [ForeignKey("CentralPolicy")]
         [Description("FK: แผนการตรวจ")]
         public long CentralPolicyId { get; set; }
@@ -48,6 +57,7 @@ namespace InspecWeb.Models
         public DateTime? CreatedAt { get; set; }
 
         public ICollection<ExecutiveOrderFile> ExecutiveOrderFiles { get; set; }
+        public ICollection<AnswerExecutiveOrderFile> AnswerExecutiveOrderFiles { get; set; }
 
 
     }

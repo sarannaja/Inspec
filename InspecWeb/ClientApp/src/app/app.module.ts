@@ -70,6 +70,9 @@ import { EditElectronicBookComponent } from './electronic-book/edit-electronic-b
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
 import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
 import { CalendarUserComponent } from './calendar-user/calendar-user.component';
+import { AdviserCivilSectorComponent } from './adviser-civil-sector/adviser-civil-sector.component';
+import { RequestOrderComponent} from './request-order/request-order.component';
+import { DetailRequestOrderComponent } from './request-order/detail-request-order/detail-request-order.component';
 
 
 @NgModule({
@@ -127,7 +130,10 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
     EditElectronicBookComponent,
     DetailElectronicBookComponent,
     AnswerSubjectComponent,
-    CalendarUserComponent
+    CalendarUserComponent,
+    AdviserCivilSectorComponent,
+    RequestOrderComponent,
+    DetailRequestOrderComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -200,6 +206,9 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
+          { path: 'advisercivilsector', component: AdviserCivilSectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'requestorder', component: RequestOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard]},
         ]
       },
       {

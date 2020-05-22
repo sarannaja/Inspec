@@ -63,23 +63,57 @@ namespace InspecWeb.Controllers
             //return "value";
         }
         [HttpPost]
-        public object Post([FromForm] string name, long centralpolicyid, long provinceid)
+        public async Task<IActionResult> Post([FromForm] ExecutiveViewModel model)
         {
-            System.Console.WriteLine("centralpolicy: " + centralpolicyid);
-            System.Console.WriteLine("provinceid: " + provinceid);
+            System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
+            System.Console.WriteLine("provinceid: " + model.ProvinceId);
+            System.Console.WriteLine("Name: " + model.Name);
             var cabinedata = new ExecutiveOrder
             {
 
-                DetailExecutiveOrder = name,
-                CentralPolicyId = centralpolicyid,
-                ProvinceId = provinceid
-
+                DetailExecutiveOrder = model.Name,
+                CentralPolicyId = model.CentralpolicyId,
+                ProvinceId = model.ProvinceId,
             };
 
-            var data = _context.ExecutiveOrders.Add(cabinedata);
+            _context.ExecutiveOrders.Add(cabinedata);
             _context.SaveChanges();
 
-            return Ok(new { data });
+            if (!Directory.Exists(_environment.WebRootPath + "//upload//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            //foreach (var formFile in data.files)
+            {
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+
+                if (formFile.Value.Length > 0)
+                {
+                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+
+                    var ExecutiveOrderFile = new ExecutiveOrderFile
+                    {
+                        ExecutiveOrderId = cabinedata.Id,
+                        Name = random + filename,
+                    };
+                    _context.ExecutiveFiles.Add(ExecutiveOrderFile);
+                    _context.SaveChanges();
+                }
+            }
+            return Ok(new { status = true });
         }
 
         [HttpGet("province/{id}")]
@@ -114,11 +148,129 @@ namespace InspecWeb.Controllers
             var executiveOrderdata = _context.ExecutiveOrders
                 /*.Include(m => m.DetailExecutiveOrder)*/
                 .Include(m => m.Province)
+                .Include(m => m.ExecutiveOrderFiles)
                 .Where(m => m.CentralPolicyId == id);
 
             return Ok(executiveOrderdata);
             //return "value";
         }
+
+        [HttpGet("detailrole3/{id}/{userid}")]
+        public IActionResult Getexecutiverole3(long id,string userid)
+        {
+            var provinceId = _context.UserProvinces
+                .Where(x => x.UserID == userid)
+                .Select(x => x.ProvinceId)
+                .FirstOrDefault();
+
+            var executiveOrderdata = _context.ExecutiveOrders
+                /*.Include(m => m.DetailExecutiveOrder)*/
+                .Include(m => m.Province)
+                .Include(m => m.ExecutiveOrderFiles)
+                .Where(m => m.CentralPolicyId == id && m.ProvinceId == provinceId);
+
+            return Ok(executiveOrderdata);
+            //return "value";
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromForm] ExecutiveViewModel model)
+        {
+            System.Console.WriteLine("detailexecutiveorder: " + model.id);
+            System.Console.WriteLine("AnswerDetail: " + model.AnswerDetail);
+            System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
+            System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
+            System.Console.WriteLine("AnswerExecutiveorder: " + model.files);
+            var cabinedata = _context.ExecutiveOrders.Find(model.id);
+            {
+                cabinedata.AnswerDetail = model.AnswerDetail;
+                cabinedata.AnswerProblem = model.AnswerProblem;
+                cabinedata.AnswerCounsel = model.AnswerCounsel;
+
+            };
+
+            _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            if (!Directory.Exists(_environment.WebRootPath + "//upload//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            //foreach (var formFile in data.files)
+            {
+                
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+
+                if (formFile.Value.Length > 0)
+                {
+
+                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+                    var AnswerExecutiveOrderFile = new AnswerExecutiveOrderFile
+                    {
+                        ExecutiveOrderId = model.id,
+                        Name = random + filename
+                    };
+                    _context.AnswerExecutiveOrderFiles.Add(AnswerExecutiveOrderFile);
+                    _context.SaveChanges();
+                    System.Console.WriteLine("Sucess");
+                }
+            }
+            return Ok(new { status = true });
+        }
+
+        [HttpGet("ex/{id}")]
+        public IActionResult GetData(string id)
+        {
+            System.Console.WriteLine("DDDDD");
+            System.Console.WriteLine("USERID : " + id);
+            //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
+            //                              select P;
+            //return inspectionPlanEventdata;
+            var userprovince = _context.UserProvinces
+                               .Where(m => m.UserID == id)
+                               .ToList();
+
+            //var inspectionplans = _context.InspectionPlanEvents
+            //                    .Include(m => m.Province)
+            //                    .Include(m => m.CentralPolicyEvents)
+            //                    .ThenInclude(m => m.CentralPolicy)
+            //                    .ThenInclude(m => m.CentralPolicyProvinces)
+            //                    .ToList();
+
+            //var inspectionplans = _context.CentralPolicies
+            //                    .Include(m => m.CentralPolicyProvinces)
+            //                    .ThenInclude(x => x.Province).ToList();
+
+            var inspectionplans = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(x => x.FiscalYear)
+                .ToList();
+
+            List<object> termsList = new List<object>();
+            foreach (var inspectionplan in inspectionplans)
+            {
+                for (int i = 0; i < userprovince.Count(); i++)
+                {
+                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                        termsList.Add(inspectionplan);
+                }
+            }
+
+            return Ok(termsList);
+
+        
+        }
     }
 }
+
 
