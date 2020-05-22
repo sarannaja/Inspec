@@ -28,6 +28,27 @@
                         </div>
                     </div>
                     <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-3" >
+                            <label class="form-label">ชื่อ-นามสกุล*</label>
+                            <input type="text" class="form-control"
+                                placeholder="กรุณากรอกชื่อ-นามสกุล(TH)"[(ngModel)]="Username" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-3" >
+                            <label class="form-label">ตำแหน่ง*</label>
+                            <input type="text" class="form-control"
+                                placeholder="กรุณากรอกตำแหน่ง" [(ngModel)]="Userposition" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-3">
+                            <label class="form-label">เบอร์​โทร*</label>
+                            <input type="tel" class="form-control"
+                                placeholder="กรุณากรอกเบอร์โทร" [(ngModel)]="Userphonenumber" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
                         <div class="col-lg-12">
                             <table class="table table-default table-responsive-sm tableborder">
                                 <tbody>
@@ -36,20 +57,20 @@
                                             <u>คำถามที่ {{i + 1}}</u>
                                             <div [formGroup]="item">
                                                 <div class="row">
-                                                    <div class="col-11">
-                                                        <input type="text" value="{{item.value.question}}"
+                                                    <div class="col-12">
+                                                        <input type="text" value="{{item.value.Question}}"
                                                             class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td style="border-top: none;"
-                                            *ngIf="item.value.type == 'คำถามปลายเปิด'else elseBlock">
+                                            *ngIf="item.value.Type == 'คำถามปลายเปิด'else elseBlock">
                                             <u>คำตอบ</u>
                                             <div [formGroup]="item">
-                                                <div class="row">
-                                                    <div class="col-11">
-                                                        <input type="text" class="form-control" formControlName="answer"
+                                                <div>
+                                                    <div class="col-12">
+                                                        <input type="text" class="form-control" formControlName="Answer"
                                                             placeholder="กรุณาตอบคำถาม">
                                                     </div>
                                                 </div>
@@ -57,48 +78,29 @@
                                         </td>
                                         <ng-template #elseBlock>
                                             <td style="border-top: none;">
-                                                <u>คำตอบtest</u>
+                                                <u>คำตอบ</u>
                                                 <div [formGroup]="item">
-                                                    <div class="row">
-                                                        <div class="col-11" *ngFor="let items of item.value.choice">
-                                                            <input type="text" value="{{items.name}}"
-                                                            class="form-control" placeholder="กรุณากรอกเรื่อง"
-                                                            readonly>
-                                                            <input type="text" value="{{items.name}}"
-                                                                class="form-control" placeholder="กรุณากรอกเรื่อง"
-                                                                readonly>
+                                                    <div>
+                                                        <div class="col-12 " *ngFor="let items of item.value.Choice">
+                                                            <div class="test-test">
+                                                                <input style="margin: 5px;" type="checkbox"
+                                                                    [checked]="items.name == item.value.Answer ? true:false "
+                                                                    value="{{items.name}}"
+                                                                    (change)="Test(i,$event.target.value)" readonly>
+
+                                                                <input
+                                                                    [ngStyle]="{'color':items.name == item.value.Answer ? 'red':''  }"
+                                                                    type="text" value="{{items.name}}"
+                                                                    (click)="Test(i,items.name)" class="form-control"
+                                                                    readonly>
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
                                         </ng-template>
                                     </tr>
-                                    <!-- <tr *ngFor="let item of t.controls; let i = index">
-                                        <td style="border-top: none;" *ngIf="item.value.type == 'คำถามปลายปิด'">
-                                            <u>คำถามปลายปิด</u>
-                                            <div [formGroup]="item">
-                                                <div class="row">
-                                                    <div class="col-11">
-                                                        <input  type="text"
-                                                            value="{{item.value.question}}" class="form-control"
-                                                            placeholder="กรุณากรอกเรื่อง" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="border-top: none;" *ngIf="item.value.type == 'คำถามปลายเปิด'">
-                                            <u>ตัวเลือกคำตอบ</u>
-                                            <div [formGroup]="item">
-                                                <div class="row">
-                                                    <div class="col-11">
-                                                        <input  type="text"
-                                                            class="form-control" formControlName="answer"
-                                                            placeholder="กรุณาตอบคำถาม">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr> -->
                                 </tbody>
 
                             </table>

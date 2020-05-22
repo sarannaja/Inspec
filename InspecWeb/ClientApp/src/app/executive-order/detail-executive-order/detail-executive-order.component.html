@@ -10,116 +10,80 @@
         </ol>
     </nav>
 </div>
-<div class="row">
+
+<form class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header" style="margin-bottom: -20px;">
-                <h5 class="card-title">รายละเอียด</h5>
-            </div>
-            <div class="card-body">
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        เรื่อง : {{ resultdetailcentralpolicy.title }}
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        จังหวัด : ขอนแก่น
-                    </div>
-                </div>
-                <!-- <div class="row" style="margin-top: 10px;">
-                <div class="col-md-6">
-                    กระทรวง : ชื่อกระทรวง
-                </div>
-            </div> -->
-                <!-- <div class="row" style="margin-top: 10px;">
-                <div class="col-md-6">
-                    กรม : ชื่อกรม
-                </div>
-            </div> -->
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        กำหนดลงพื่นที่ : <span
-                            *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyDates; let i = index">
-                            {{ item2.startDate | thaidate:'year'}} -
-                            {{item2.endDate | thaidate:'year'}}
-                        </span>
-                    </div>
-                </div>
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h5 class="card-title">ข้อสั่งการ</h5>
+                <div class="float-right">
 
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        <u>กระทรวง/กรม</u>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        1. นาย ธนพล ศรีม่วง<br>
-                        2. นาย ธนกร รุ่งเรือง<br>
-                    </div>
-                </div>
+                    <button *ngIf="role_id !=3" class="btn btn-primary" (click)="openModal(modalAddExecutiveorder)"
+                        style="margin-top: -60px;">เพิ่มข้อสั่งการ
+                    </button>
 
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        <u>ภายประชาชน</u>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        1. นาย มนตรี มนใจ<br>
-                        2. นาย สมใจ สมจริง<br>
-                    </div>
-                </div>
-
-                <div class="row" style="margin-top: 10px; ">
-                    <div class="col-md-6">
-                        <u>เรื่องประเด็น</u>
-                    </div>
-                    <div class="col-md-6">
-                        <u>คำถามย่อย</u>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <table class="table table-default table-responsive-sm tableborder">
-                            <tbody *ngFor="let items of resultdetailcentralpolicy.subjects;let i = index">
-                                <tr>
-                                    <td style="border-top: none;"><strong>{{i +1}}. {{items.name}}</strong></td>
-                                    <td style="border-top: none;" width="50%">
-                                        <div *ngFor="let item of items.subquestions;let i = index">
-                                            {{ i+1 }}. {{item.name}}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
-                </div>
-
-                <!-- <div class="row" style="margin-top: 10px;"
-                    *ngFor="let items of resultdetailcentralpolicy.subjects;let i = index">
-                    <div class="col-md-6">{{i + 1}}. {{items.name}}</div>
-                    <div class="col-md-6" *ngFor="let item of items.subquestions;let i = index">  
-                        <div>{{i + 1}}. {{item.name}}</div>
-                    </div>
-                </div> -->
-
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-md-6">
-                        <button class="btn btn-primary"
-                            (click)="openModal(modalAddExecutiveorder)">เพิ่มข้อสั่งการ</button>
-                    </div>
                 </div>
             </div>
+            <div *ngIf="role_id !=3" class="card-body">
+                <table id="datatables-basic" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 35%;">รายละเอียด</th>
+                            <th style="width: 30%;">จังหวัด</th>
+                            <th style="width: 30%;"><i class="align-middle mr-2 fas fa-fw fa-cog "></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultdetailexecutiveorder; let i = index">
+                            <td>{{ i + 1 }}.</td>
+                            <td>{{item.detailExecutiveOrder }}</td>
+                            <td>{{item.province.name}}</td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-envelope pointer"
+                                    (click)="editModal(AnswerExecutiveorder,item.id)"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-search  pointer"
+                                    (click)="openModal(ViewExecutiveorder,item.centralPolicyId)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div *ngIf="role_id == 3" class="card-body">
+                <table id="datatables-basic" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 35%;">รายละเอียด</th>
+                            <th style="width: 30%;">จังหวัด</th>
+                            <th style="width: 30%;"><i class="align-middle mr-2 fas fa-fw fa-cog "></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultdetailexecutiveorder; let i = index">
+                            <td>{{ i + 1 }}.</td>
+                            <td>{{item.detailExecutiveOrder }}</td>
+                            <td>{{item.province.name}}</td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-envelope pointer"
+                                    (click)="editModal(AnswerExecutiveorder,item.id)">
+                                </i>
+                                <i class="align-middle mr-2 fas fa-fw fa-search  pointer"></i>
+                               <!-- <i class="align-middle mr-2 fas fa-fw fa-search  pointer"
+                                    --(click)="DetailCentralPolicy(item.centralPolicyId,provinceId)">
+                                </i>-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
-</div>
-
-<!-- BEGIN primary modal -->
+    <!-- BEGIN primary modal -->
 <ng-template #modalAddExecutiveorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <form [formGroup]="Form" (ngSubmit)="storeProvince(Form.value)">
+    <form [formGroup]="Form" (ngSubmit)="storedetailexecutiveorder(Form.value)">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">เพิ่มข้อสั่งการ</h5>
@@ -129,17 +93,20 @@
             </div>
             <div class="modal-body m-3">
                 <div class="form-group">
-                    <label for="test" class="form-label">คำสั่งการ</label>
-                    <input type="text" formControlName="provincename" class="form-control"
-                        placeholder="กรุณากรอกคำสั่งการ">
+                    <label>จังหวัด</label>
+                        <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
+                            name="provinceId" formControlName="provinceId" [allowClear]="true">
+                        </ng-select>
+                    <label for="test" class="form-label">รายละเอียดคำสั่งการ</label>
+                    <textarea input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกลายละเอียด"></textarea>
                     <br>
-                    <div class="col-12 col-xl-12">
+                    <div class="col-12 col-xl-12"> 
                         <div class="form-group">
                             <label class="form-label w-100">แนบไฟล์</label>
-                            <input type="file" multiple="multiple" formControlName="files">
+                            <input type="file" multiple (change)="uploadFile($event)" >
                             <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
                         </div>
-                    </div>
+                     </div> 
                 </div>
             </div>
             <div class="modal-footer">
@@ -151,39 +118,68 @@
     <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
-<form class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">ข้อสั่งการ</h5>
+<ng-template #AnswerExecutiveorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="Form" (ngSubmit)="storeanswerexecutiveorder(Form.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">บันทึกการดำเนินการตามข้อสั่งการ</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <div class="form-group">
+                    <label for="test" class="form-label">รายละเอียด</label>
+                    <textarea input type="text" formControlName="AnswerDetail" class="form-control"
+                        placeholder="กรุณากรอกรายละเอียด"></textarea>
+                    <br>
+                    <label for="test" class="form-label">ปัญหา/อุปสรรค</label>
+                    <textarea input type="text" formControlName="AnswerProblem" class="form-control"
+                        placeholder="กรุณากรอกปัญหา/อุปสรรค"></textarea>
+                    <br>
+                    <label for="test" class="form-label">ข้อเสนอแนะ</label>
+                    <textarea input type="text" formControlName="AnswerCounsel" class="form-control"
+                        placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
+                    <br>
+                    <div class="col-12 col-xl-12">
+                        <div class="form-group">
+                            <label class="form-label w-100">แนบไฟล์</label>
+                            <input type="file" multiple (change)="uploadFile($event)">
+                            <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                    data-dismiss="modal">ปิด</button>
+            </div>
         </div>
-        <div class="card-body">
-          <table id="datatables-basic" class="table table-striped" style="width:100%">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>ชื่อข้อสั่งการ</th>
-                <th>ไฟล์แนบ</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of resultExecutiveorder; let i = index">
-                <td>{{ i + 1 }}.</td>
-                <td>{{ item.question }}</td>
-                <td><a href="" download>{{ item.file }}</a></td>
-                <td>
-                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                  <!--<i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="openModal(modalAnswerExecutiveorder, item.id, item.question)"></i>
-                    <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                    (click)="openModal(modalViewExecutiveorder, item.id,)"></i>-->
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    </form>
+    <!-- </div> -->
+</ng-template>
+<!-- BEGIN primary modal -->
+<ng-template #ViewExecutiveorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="Form" (ngSubmit)="storedetailexecutiveorder(Form.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ข้อสั่งการและการตอบกลับ</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <div class="form-group">
+                    <label>ชิ่อแผนตรวจราชการประจำปี : </label><br>
+                    <label>ปี : </label><br>
+                    <label>จังหวัด : </label><br>
+                   
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-
-
+    </form>
+    <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->

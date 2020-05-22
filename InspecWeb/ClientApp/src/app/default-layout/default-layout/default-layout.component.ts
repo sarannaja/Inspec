@@ -1,15 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit,Inject,TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { superAdmin } from './_nav';
-import { Centraladmin } from './_nav';
-import { Inspector } from './_nav';
-import { Provincialgovernor } from './_nav';
-import { Adminprovince } from './_nav';
-import { InspectorMinistry } from './_nav';
-import { publicsector } from './_nav';
-import { president } from './_nav';
-import { InspectorDepartment } from './_nav';
+import { superAdmin,Centraladmin,Inspector,Provincialgovernor,Adminprovince,InspectorMinistry,publicsector,president,InspectorDepartment } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -106,7 +98,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.authorize.getUser()
     .subscribe(result => {
       this.userid = result.sub  
-
+      //alert(this.userid);
       this.userService.getuserfirstdata(this.userid)      
       .subscribe(result => { 
         this.resultuser = result;
@@ -119,6 +111,8 @@ export class DefaultLayoutComponent implements OnInit {
         this.PhoneNumber = result[0].phoneNumber
         this.Email = result[0].email
         this.Img = result[0].img
+
+        //alert(this.Img);
        
         this.Form.patchValue({
           Prefix: this.Prefix,

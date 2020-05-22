@@ -43,8 +43,8 @@
             <td>{{item.status}}</td>
             <td>
               <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i>
-              <i class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditSubject(item.id)"></i>
-              <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+              <i *ngIf="role_id == 1 || role_id == 2;" class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditSubject(item.id)"></i>
+              <i *ngIf="role_id == 1 || role_id == 2;" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                 (click)="openModal(modaldeleteSubject, item.id)"></i>
             </td>
           </tr>

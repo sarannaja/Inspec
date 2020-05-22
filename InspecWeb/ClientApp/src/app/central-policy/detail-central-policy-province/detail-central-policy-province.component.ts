@@ -11,6 +11,7 @@ import { async } from '@angular/core/testing';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -74,6 +75,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private departmentService: DepartmentService,
+    private notificationService: NotificationService,
     private authorize: AuthorizeService,
     private userService: UserService,
     @Inject('BASE_URL') baseUrl: string) {
@@ -323,15 +325,26 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
-  storePeople(value) {
+  storePeople(value: any) {
+    let UserPeopleId: any[] = value.UserPeopleId
     // alert(JSON.stringify(value))
     this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+
+      for (let i = 0; i < UserPeopleId.length; i++) {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1)
+          .subscribe(response => {
+            console.log(response);
+            
+          })
+      }
+   
       this.getCentralPolicyProvinceUser();
     })
   }
+
 
   storeDepartment(value) {
     // alert(this.subjectid)
