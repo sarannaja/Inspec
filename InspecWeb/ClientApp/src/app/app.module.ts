@@ -70,11 +70,29 @@ import { EditElectronicBookComponent } from './electronic-book/edit-electronic-b
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
 import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
 import { CalendarUserComponent } from './calendar-user/calendar-user.component';
+<<<<<<< HEAD
 import { AdviserCivilSectorComponent } from './adviser-civil-sector/adviser-civil-sector.component';
 import { RequestOrderComponent} from './request-order/request-order.component';
 import { DetailRequestOrderComponent } from './request-order/detail-request-order/detail-request-order.component';
+=======
+import { OfficerInspectionComponent } from './officer-inspection/officer-inspection.component';
+import { InfomationProvinceComponent } from './infomation-province/infomation-province.component';
+import { InfoDistrictComponent } from './info-district/info-district.component';
+import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
+import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
+import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
+import { ElectronicBookProvinceComponent } from './electronic-book-province/electronic-book-province.component';
+import { AnswerOutsiderComponent } from './answer-subject/answer-outsider/answer-outsider.component';
+import { ExternalOrganizationModule } from './external-organization/external-organization.module';
+import { OtpsComponent } from './external-organization/otps/otps.component';
+import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
+import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
+>>>>>>> master
 
 
+const ExternalOrganization = [
+  GgcOpmComponent, Opm1111Component, OtpsComponent
+]
 @NgModule({
   declarations: [
     AppComponent,
@@ -131,10 +149,22 @@ import { DetailRequestOrderComponent } from './request-order/detail-request-orde
     DetailElectronicBookComponent,
     AnswerSubjectComponent,
     CalendarUserComponent,
+<<<<<<< HEAD
     AdviserCivilSectorComponent,
     RequestOrderComponent,
     DetailRequestOrderComponent,
+=======
+    OfficerInspectionComponent,
+    InfomationProvinceComponent,
+    InfoDistrictComponent,
+    InfoSubdistrictComponent,
+    AnswerSubjectListComponent,
+    AnswerSubjectDetailComponent,
+    ElectronicBookProvinceComponent,
+    AnswerOutsiderComponent
+>>>>>>> master
   ],
+
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -153,6 +183,7 @@ import { DetailRequestOrderComponent } from './request-order/detail-request-orde
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
+      { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent},
       {
         path: '',
         component: DefaultLayoutComponent,
@@ -194,6 +225,8 @@ import { DetailRequestOrderComponent } from './request-order/detail-request-orde
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministermonitoring', component: MinistermonitoringComponent, canActivate: [AuthorizeGuard] },
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'test/logout', component: LogoutComponent },
           { path: 'usercentralpolicy/:id', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'test/logout', component: LogoutComponent},
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
@@ -204,11 +237,22 @@ import { DetailRequestOrderComponent } from './request-order/detail-request-orde
           { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'external-organization', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
+<<<<<<< HEAD
           { path: 'advisercivilsector', component: AdviserCivilSectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'requestorder', component: RequestOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard]},
+=======
+          { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard]},
+          { path: 'informationprovince', component: InfomationProvinceComponent, canActivate: [AuthorizeGuard]},
+          { path: 'infodistrict/:id', component: InfoDistrictComponent, canActivate: [AuthorizeGuard]},
+          { path: 'infosubdistrict/:id', component: InfoSubdistrictComponent, canActivate: [AuthorizeGuard]},
+          { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbookprovince', component: ElectronicBookProvinceComponent, canActivate: [AuthorizeGuard] },
+>>>>>>> master
         ]
       },
       {

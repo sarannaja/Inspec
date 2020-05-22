@@ -104,7 +104,7 @@ namespace InspecWeb.Models
 
         public ICollection<UserProvince> UserProvince { get; set; }
 
-
+        public ICollection<Notification> notification { get; set; } // tb แจ้งเตือน
 
 
     }

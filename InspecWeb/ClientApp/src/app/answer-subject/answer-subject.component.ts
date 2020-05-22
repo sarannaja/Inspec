@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { AnswersubjectService } from '../services/answersubject.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-answer-subject',
@@ -18,11 +19,12 @@ export class AnswerSubjectComponent implements OnInit {
   constructor(
     private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router:Router, 
   ) { }
 
   ngOnInit() {
-    this.spinner.show();
+    // this.spinner.show();
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -49,7 +51,10 @@ export class AnswerSubjectComponent implements OnInit {
         this.resultuserdetail = result
         this.spinner.hide();
         this.loading = true
-        //console.log(this.userdetail);
+        console.log("test",this.resultuserdetail);
       })
+  }
+  Subjectlist(id) {
+    this.router.navigate(['/answersubject/list', id])
   }
 }
