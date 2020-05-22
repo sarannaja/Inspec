@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +17,23 @@ namespace InspecWeb.Controllers
     [Route("api/[controller]")]
     public class AnswerSubjectController : Controller
     {
+        public static IWebHostEnvironment _environment;
+
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private readonly ApplicationDbContext _context;
 
-        public AnswerSubjectController(ApplicationDbContext context)
+        public AnswerSubjectController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/values
@@ -191,7 +206,7 @@ namespace InspecWeb.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("nik/{userid}")]
+        [HttpGet("user/{userid}")]
         public IActionResult Get2(string userid)
         {
             var userdata = _context.Users
@@ -253,26 +268,115 @@ namespace InspecWeb.Controllers
                 .First();
             return Ok(subjectdata);
         }
-
         // POST api/values
         [HttpPost]
-        public Province Post(string name, string link)
+        public IActionResult Post([FromBody] AnswerSubquestionOutsiderViewModel model)
         {
             var date = DateTime.Now;
 
-            var provincedata = new Province
+            foreach (var answer in model.inputanswer)
             {
-                Name = name,
-                Link = link,
-                CreatedAt = date
-            };
+                var Answerdata = new AnswerSubquestion
+                {
+                    SubquestionCentralPolicyProvinceId = answer.SubquestionCentralPolicyProvinceId,
+                    UserId = answer.UserId,
+                    Answer = answer.Answer,
+                    CreatedAt = date
 
-            _context.Provinces.Add(provincedata);
-            _context.SaveChanges();
+                };
+                _context.AnswerSubquestions.Add(Answerdata);
+                _context.SaveChanges();
+            }
 
-            return provincedata;
+            return Ok(new { status = true });
         }
+        // POST api/values
+        [HttpPost("outsider")]
+        public IActionResult Post2([FromBody] AnswerSubquestionOutsiderViewModel model)
+        {
+            var date = DateTime.Now;
 
+            foreach (var answeroutsider in model.inputansweroutsider)
+            {
+                var Answeroutsiderdata = new AnswerSubquestionOutsider
+                {
+                    SubquestionCentralPolicyProvinceId = answeroutsider.SubquestionCentralPolicyProvinceId,
+                    Name = answeroutsider.Name,
+                    Position = answeroutsider.Position,
+                    Phonenumber = answeroutsider.Phonenumber,
+                    Answer = answeroutsider.Answer,
+                    CreatedAt = date
+
+                };
+                _context.AnswerSubquestionOutsiders.Add(Answeroutsiderdata);
+                _context.SaveChanges();
+            }
+
+            return Ok(new { status = true });
+        }
+        // POST: api/
+        [HttpPost("addfiles")]
+        public async Task<IActionResult> Post3([FromForm] AnswerSubquestionOutsiderViewModel model)
+        {
+
+            System.Console.WriteLine("Start Upload");
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                System.Console.WriteLine("in2");
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "//Uploads//";
+            System.Console.WriteLine("Start Upload 2");
+
+            //var answerfile = model.inputanswerfile[0];
+            //foreach (var answerfile in model.inputanswerfile)
+            //{
+                foreach (var formFile in  model.files.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    //foreach (var formFile in data.files)
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+                    if (formFile.Value.Length > 0)
+                    {
+
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+
+
+                    }
+                    System.Console.WriteLine("Start Upload 4.1");
+                    {
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var AnswerFile = new AnswerSubquestionFile
+                        {
+
+                            SubjectCentralPolicyProvinceId = model.SubjectCentralPolicyProvinceId,
+                            Name = random + filename,
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.AnswerSubquestionFiles.Add(AnswerFile);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
+
+
+                        System.Console.WriteLine("Start Upload 5");
+                    }
+
+                //}
+
+            }
+            return Ok(new { status = true });
+        }
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(long id, string name, string link)

@@ -82,6 +82,7 @@ import { ExternalOrganizationModule } from './external-organization/external-org
 import { OtpsComponent } from './external-organization/otps/otps.component';
 import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
 import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
+import { AnswerOutsideThankComponent } from './answer-subject/answer-outside-thank/answer-outside-thank.component';
 
 
 const ExternalOrganization = [
@@ -150,7 +151,8 @@ const ExternalOrganization = [
     AnswerSubjectListComponent,
     AnswerSubjectDetailComponent,
     ElectronicBookProvinceComponent,
-    AnswerOutsiderComponent
+    AnswerOutsiderComponent,
+    AnswerOutsideThankComponent,
   ],
 
   imports: [
@@ -172,6 +174,7 @@ const ExternalOrganization = [
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
       { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent},
+      { path: 'ty', component: AnswerOutsideThankComponent},
       {
         path: '',
         component: DefaultLayoutComponent,
