@@ -192,7 +192,7 @@ const ExternalOrganization = [
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
-          { path: 'cabinet', component: CabinetComponent, canActivate: [AuthorizeGuard] },
+          { path: 'cabinet', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]  },
           { path: 'inspector', component: InspectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorder', component: ExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },

@@ -50,12 +50,12 @@ export interface MinisterfiscalYears {
     year: number,
     name: string,
     projects: {
-        Count: number,
-        Completed: number,
-        TotalBudget: number,
-        TotalAmount: number,
-        TotalSpent: number,
-        TotalPercent: number
+        count: number,
+        completed: number,
+        totalBudget: number,
+        totalAmount: number,
+        totalSpent: number,
+        totalPercent: number
     },
     regions: Array<MinisterRegions>
 
