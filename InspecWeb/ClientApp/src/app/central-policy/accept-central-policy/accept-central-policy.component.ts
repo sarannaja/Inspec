@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 
 @Component({
   selector: 'app-accept-central-policy',
@@ -23,9 +24,19 @@ export class AcceptCentralPolicyComponent implements OnInit {
   userid: string
   answer
   resultelectronicbookdetail: any = []
+  resultelectronicbookproblem: any = []
+  resultelectronicbooksuggestion: any = []
   downloadUrl: any;
   modalRef: BsModalRef;
   assignDetail: any;
+  centralpolicyproviceid
+  electronicbookid
+  provincename
+  provinceid
+  resultdate: any = []
+  carlendarFile: any = [];
+  cenid
+  SuggestionForm: FormGroup;
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -34,8 +45,11 @@ export class AcceptCentralPolicyComponent implements OnInit {
     private router: Router,
     private authorize: AuthorizeService,
     private activatedRoute: ActivatedRoute,
+    private electronicBookService: ElectronicbookService,
     @Inject('BASE_URL') baseUrl: string  ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
+    this.cenid = activatedRoute.snapshot.paramMap.get('cenid')
     this.downloadUrl = baseUrl + '/Uploads';
   }
 
@@ -54,37 +68,71 @@ export class AcceptCentralPolicyComponent implements OnInit {
       assign: new FormControl(null, [Validators.required]),
     })
 
+    this.SuggestionForm = this.fb.group({
+      checkDetail: new FormControl(null, [Validators.required]),
+      Problem: new FormControl(null, [Validators.required]),
+      Suggestion: new FormControl(null, [Validators.required]),
+    })
+
     this.getDetailCentralPolicy()
     this.getCentralPolicyUser()
-    this.getSubjectCentralPolicyProvince()
+    this.getDetailCentralPolicyProvince()
     this.getAssign();
   }
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
       .subscribe(result => {
-        console.log("elec",result);
+        console.log("elec Detail: ",result);
 
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultuser = result.userdata
-        this.resultelectronicbookdetail = result.centralpolicydata.centralPolicyUser[0].electronicBook.detail
+        this.resultelectronicbookdetail = result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].detail
         // alert(JSON.stringify(this.resultelectronicbookdetail))
+
+        this.resultelectronicbookproblem =  result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].problem
+        this.resultelectronicbooksuggestion = result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].suggestion
+
+        this.SuggestionForm.patchValue({
+          checkDetail: result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].detail,
+          Problem: result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].problem,
+          Suggestion: result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].suggestion
+        })
       })
   }
   getCentralPolicyUser() {
     this.centralpolicyservice.getdetailuseracceptcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
-        console.log("result" + result);
+        console.log("result" , result);
       })
   }
 
-  getSubjectCentralPolicyProvince() {
-    this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  // getSubjectCentralPolicyProvince() {
+  //   this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  //     .subscribe(result => {
+  //       this.resultdetailcentralpolicyprovince = result
+  //       console.log("resultdetailcentralpolicyprovince : ", result);
+  //     })
+  // }
+
+  getDetailCentralPolicyProvince() {
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.centralpolicyproviceid)
       .subscribe(result => {
-        this.resultdetailcentralpolicyprovince = result
-        console.log("resultdetailcentralpolicyprovince : ", result);
+        console.log("123", result);
+        // alert(JSON.stringify(result))
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+
+        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        this.provincename = result.provincedata.name
+        this.provinceid = result.provincedata.id
+
+        this.getCalendarFile();
       })
   }
+
 
   storeAccept(value, answer) {
     this.centralpolicyservice.acceptCentralpolicy(value, answer, this.id)
@@ -104,6 +152,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
     this.centralpolicyservice.sendAssign(value, this.id).subscribe(response => {
       console.log(response);
       this.modalRef.hide();
+      this.router.navigate(['calendaruser'])
     })
   }
 
@@ -116,4 +165,12 @@ export class AcceptCentralPolicyComponent implements OnInit {
       })
     })
   }
+  getCalendarFile() {
+    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+      this.carlendarFile = res;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+
 }

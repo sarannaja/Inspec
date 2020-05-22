@@ -76,7 +76,8 @@ export class CreateCentralPolicyComponent implements OnInit {
       ProvinceId: new FormControl(null, [Validators.required]),
       status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       input: new FormArray([]),
-      inputdate: new FormArray([])
+      inputdate: new FormArray([]),
+      Class: new FormControl("แผนการตรวจประจำปี", [Validators.required]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
     this.t.push(this.fb.group({
@@ -163,5 +164,7 @@ export class CreateCentralPolicyComponent implements OnInit {
       end_date: '',
     }))
   }
-
+  remove(index: number) {
+    this.d.removeAt(index);
+  }
 }

@@ -52,8 +52,8 @@ namespace InspecWeb.Controllers
             var subjectcentralpolicyprovincegroupsdata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinces)
-                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
-                .ThenInclude(m => m.ProvincialDepartment)
+                //.ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                //.ThenInclude(m => m.ProvincialDepartment)
                 .ToList();
 
             //var subjectcentralpolicyprovincegroupsdata = _context.SubjectCentralPolicyProvinceGroups
@@ -80,21 +80,21 @@ namespace InspecWeb.Controllers
                 .Where(x => x.ProvincialDepartmentId == provincialdepartment.Id)
                 .GroupBy(g => new
                 {
-                    subjectPolicyProvinceId = g.SubjectCentralPolicyProvinceId,
+                    //subjectPolicyProvinceId = g.SubjectCentralPolicyProvinceId,
                     SubjectCentralPolicyProvinceGroupId = g.Id
                 })
                 .Select(g => new
                 {
                     g.Key.SubjectCentralPolicyProvinceGroupId,
-                    g.Key.subjectPolicyProvinceId,
-                   
+                    //g.Key.subjectPolicyProvinceId,
+
                 })
                 .ToList();
 
-            foreach(var data in test)
+            foreach (var data in test)
             {
                 var test2 = _context.SubjectCentralPolicyProvinces
-                    .Where(x => x.Id == data.subjectPolicyProvinceId)
+                    //.Where(x => x.Id == data.subjectPolicyProvinceId)
                     .GroupBy(g => new
                     {
                         CentralPolicyProvinceID = g.CentralPolicyProvinceId
@@ -106,14 +106,15 @@ namespace InspecWeb.Controllers
                     .ToList();
 
 
-                foreach(var gg in test2)
+                foreach (var gg in test2)
                 {
                     long id = gg.CentralPolicyProvinceID;
                     termsList2.Add(id);
                 }
             }
 
-            foreach (long id in termsList2) {
+            foreach (long id in termsList2)
+            {
 
                 var test3 = _context.CentralPolicyProvinces
                     .Where(x => x.Id == id)
@@ -134,7 +135,7 @@ namespace InspecWeb.Controllers
                 }
             }
 
-            foreach( long idTest in termsList3)
+            foreach (long idTest in termsList3)
             {
                 var test4 = _context.CentralPolicies
                    .Where(x => x.Id == idTest)
@@ -187,6 +188,70 @@ namespace InspecWeb.Controllers
 
             return Ok(termsList);
 
+        }
+
+        // GET api/values/5
+        [HttpGet("nik/{userid}")]
+        public IActionResult Get2(string userid)
+        {
+            var userdata = _context.Users
+                .Where(m => m.Id == userid).First();
+
+            var provincialdepartment = _context.ProvincialDepartment
+               .Where(m => m.DepartmentId == userdata.DepartmentId).First();
+
+            var centralpolicyprovincedata = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.SubjectCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(m => m.ProvincialDepartment)
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id))))
+                .ToList();
+            return Ok(centralpolicyprovincedata);
+        }
+
+        // GET api/values/5
+        [HttpGet("subjectlist/{id}")]
+        public IActionResult Get3(long id)
+        {
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster");
+            //var userdata = _context.Users
+            //    .Where(m => m.Id == userid).First();
+
+            //var provincialdepartment = _context.ProvincialDepartment
+            //   .Where(m => m.DepartmentId == userdata.DepartmentId).First();
+
+            //var centralpolicyprovincedata = _context.CentralPolicyProvinces
+            //    .Include(m => m.CentralPolicy)
+            //    .Include(m => m.SubjectCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+            //    .ThenInclude(m => m.ProvincialDepartment)
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id))))
+            //    .ToList();
+            return Ok(subjectdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("subjectdetail/{id}")]
+        public IActionResult Get4(long id)
+        {
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                .Include(m => m.CentralPolicyProvince)
+                .ThenInclude(m => m.Province)
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                .Include(m => m.SubjectDateCentralPolicyProvinces)
+                .ThenInclude(m => m.CentralPolicyDateProvince)
+                .Where(m => m.Id == id && m.Type == "NoMaster")
+                .First();
+            return Ok(subjectdata);
         }
 
         // POST api/values

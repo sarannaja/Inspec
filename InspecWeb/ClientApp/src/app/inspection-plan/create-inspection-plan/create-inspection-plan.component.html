@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-      <li class="breadcrumb-item active" aria-current="page">เพิ่มแผนตรวจราชการประจำปี</li>
+      <li class="breadcrumb-item active" aria-current="page">เพิ่มแผนตรวจราชการ</li>
     </ol>
   </nav>
 </div>
@@ -14,7 +14,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">เพิ่มแผนตรวจราชการประจำปี</h5>
+        <h5 class="card-title">เพิ่มแผนตรวจราชการ</h5>
       </div>
       <br>
       <div class="card-body">
@@ -26,8 +26,8 @@
             </div>
             <div class="col-12 col-xl-3">
               <div class="form-group">
-                <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
-                </my-date-picker-th>
+                <input type="text" value="{{ resultinspectionplan[0].startDate | thaidate: 'year' }}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                formControlName="start_date" readonly>
               </div>
             </div>
             <div class="col-12 col-xl-1">
@@ -37,8 +37,16 @@
             </div>
             <div class="col-12 col-xl-3">
               <div class="form-group">
-                <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
-                </my-date-picker-th>
+                <input type="text" value="{{ resultinspectionplan[0].endDate | thaidate: 'year' }}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                readonly>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>จังหวัด</label>
+                <input type="text" value="{{resultinspectionplan[0].province.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                readonly>
               </div>
             </div>
 
@@ -51,7 +59,7 @@
             </div>
 
 
-            <div class="col-12 col-xl-12">
+            <!-- <div class="col-12 col-xl-12">
               <div class="form-group">
                 <div class="form-group col-md-3">
                   <div class="mb-3">
@@ -62,7 +70,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
@@ -116,14 +124,14 @@
               </div>
             </div> -->
 
-            <div class="col-12 col-xl-12">
+            <!-- <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>จังหวัด</label>
                 <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince" name="ProvinceId" formControlName="ProvinceId"
                   [allowClear]="true">
                 </ng-select>
               </div>
-            </div>
+            </div> -->
 
             <!-- <div class="col-12 col-xl-12">
               <div class="form-group">
@@ -193,13 +201,13 @@
                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
             </div> -->
-            <div class="col-12 col-xl-12">
+            <!-- <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label w-100">แนบไฟล์</label>
                 <input type="file" multiple="multiple" formControlName="files">
                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
-            </div>
+            </div> -->
             <!-- <hr> -->
             <div class="form-group row">
               <div class="col-sm-5 ml-sm-auto">

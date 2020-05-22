@@ -31,6 +31,9 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "ProvinceId")]
         public long[] ProvinceId { get; set; }
 
+        [JsonProperty(PropertyName = "Class")]
+        public string Class { get; set; }
+
         [JsonProperty(PropertyName = "InspectionPlanEventId")]
         public long InspectionPlanEventId { get; set; }
 
