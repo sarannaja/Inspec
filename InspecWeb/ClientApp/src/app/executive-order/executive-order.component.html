@@ -18,72 +18,8 @@
             <button class="btn btn-primary" (click)="CreateCentralPolicy()"
             style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
           </div> -->
-<<<<<<< HEAD
-        </div>
-        <div class="card-body" *ngIf="role_id !=3">
-          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>ชื่อแผนตรวจราชการประจำปี</th>
-                <th>ปี</th>
-                <th>ระยะเวลา</th>
-                <th>สถานะ</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of resultcentralpolicy; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td width="30%" (click)="DetailExecutiveOrder()" class="pointer">{{ item.id }}</td>
-                <td>2563</td>
-                <td>
-                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
-                  {{ item2.endDate | thaidate: 'year' }}</div>
-                </td>
-                <td>{{ item.status }}</td>
-                <td>
-                  <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailExecutiveOrder(item.id)"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          </div>
-
-          <div class="card-body" *ngIf="role_id ==3">
-          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>ชื่อแผนตรวจราชการประจำปี</th>
-                <th>ปี</th>
-                <th>ระยะเวลา</th>
-                <th>สถานะ</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>             
-            </thead>
-            <tbody>
-             <tr *ngFor="let item of resultcentralpolicy; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td width="30%" (click)="DetailExecutiveOrder(item.centralPolicyId)" class="pointer">{{ item.centralPolicy.title }}</td>
-                <td>{{item.centralPolicy.fiscalYear.year}}</td>
-                <td>
-                    {{ item.centralPolicy.startDate | thaidate: 'year' }} - {{ item.centralPolicy.endDate | thaidate: 'year' }}
-                </td>
-                <td>{{ item.centralPolicy.status }}</td>
-                <td>
-                  <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailExecutiveOrder(item.centralPolicyId)"></i>
-                </td>
-             </tr>
-            </tbody>
-          </table>
-
-        </div>
-=======
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="role_id !=3">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
           [dtOptions]="dtOptions">
           <thead>
@@ -99,7 +35,7 @@
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
-              <td width="30%" (click)="DetailExecutiveOrder()" class="pointer">{{ item.title }}</td>
+              <td width="30%" (click)="DetailExecutiveOrder()" class="pointer">{{ item.id }}</td>
               <td>2563</td>
               <td>
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
@@ -112,7 +48,40 @@
             </tr>
           </tbody>
         </table>
->>>>>>> master
+      </div>
+
+      <div class="card-body" *ngIf="role_id ==3">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อแผนตรวจราชการประจำปี</th>
+              <th>ปี</th>
+              <th>ระยะเวลา</th>
+              <th>สถานะ</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultcentralpolicy; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td width="30%" (click)="DetailExecutiveOrder(item.centralPolicyId)" class="pointer">
+                {{ item.centralPolicy.title }}</td>
+              <td>{{item.centralPolicy.fiscalYear.year}}</td>
+              <td>
+                {{ item.centralPolicy.startDate | thaidate: 'year' }} -
+                {{ item.centralPolicy.endDate | thaidate: 'year' }}
+              </td>
+              <td>{{ item.centralPolicy.status }}</td>
+              <td>
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  (click)="DetailExecutiveOrder(item.centralPolicyId)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
     </div>
   </div>
