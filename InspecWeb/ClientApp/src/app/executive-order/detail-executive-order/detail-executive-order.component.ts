@@ -10,6 +10,7 @@ import { IOption } from 'ng-select';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';//yo
 import { UserService } from 'src/app/services/user.service';//yo
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 
 @Component({
@@ -40,12 +41,14 @@ export class DetailExecutiveOrderComponent implements OnInit {
   idAnswer: Number;
   userid:any;
   role_id:any;
+  executive_id:any;
   centralpolicyprovinceid:any;
 
 
   constructor(
     private authorize: AuthorizeService,//yo
     private userService: UserService,//yo
+    private notificationService:NotificationService,//yo
     private modalService: BsModalService,
     private detailexecutiveorderService: DetailexecutiveorderService,
     private activatedRoute: ActivatedRoute,
@@ -140,12 +143,18 @@ export class DetailExecutiveOrderComponent implements OnInit {
     this.Form.get('files').updateValueAndValidity()
   }
   storedetailexecutiveorder(value) {
-     //alert(JSON.stringify(value))
-    console.log("value", this.Form.value.files)
+   
       this.detailexecutiveorderService.adddetailexecutiveorder(value, this.Form.value.files, this.id)
         .subscribe(result => {
+            
+        // this.notificationService.addNotification(this.id,value.provinceId,1,10,result.Id)
+        // .subscribe(result => {   
+        //   })
 
-          console.log("RES: ", result);
+        this.notificationService.addNotification(1,1,1,1,1)
+        .subscribe(result => {   
+          })
+
           this.modalRef.hide();
           this.Form.reset();
           this.getuserinfo()

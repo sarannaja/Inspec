@@ -43,7 +43,7 @@ export class DetailexecutiveorderService {
     console.log('CentralpolicyId: ' + formData.get("CentralpolicyId"));
     console.log('ProvinceId: ' + formData.get("ProvinceId"));
     console.log('files: ' , formData.get("files"));
-    return this.http.post( this.url, formData);
+    return this.http.post<any>( this.url, formData);
   }
   answerexecutiveorder(detailexecutiveorderData, file: FileList , id) {
      

@@ -334,7 +334,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.modalRef.hide()
 
       for (let i = 0; i < UserPeopleId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1,1)
           .subscribe(response => {
             console.log(response);
             
