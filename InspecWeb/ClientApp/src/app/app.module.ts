@@ -163,7 +163,7 @@ const ExternalOrganization = [
     AnswerSubjectDetailComponent,
     ElectronicBookProvinceComponent,
     AnswerOutsiderComponent,
-    TemplateElectronicComponent
+    TemplateElectronicComponent,
     ReportImportComponent,
     ReportExportComponent,
     AnswerOutsiderComponent,
