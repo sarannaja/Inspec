@@ -336,8 +336,6 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
       },
     ]
   },
-
-
   {
     icon:'fa-hand-point-up',
     url:"/executiveorder",

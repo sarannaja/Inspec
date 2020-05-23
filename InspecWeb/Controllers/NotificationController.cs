@@ -48,7 +48,7 @@ namespace InspecWeb.Controllers
 
             var users = _context.UserProvinces
                 .Include(m => m.User)
-                .Where(m => m.ProvinceId == 17 && m.User.Role_id == 5);
+                .Where(m => m.ProvinceId == 1 && m.User.Role_id == 3);
 
             return users;
         }
@@ -68,6 +68,7 @@ namespace InspecWeb.Controllers
                 notificationdata.status = Status;
                 notificationdata.noti = 1;
                 notificationdata.CreatedAt = date;
+                notificationdata.xe = xe;
                 _context.Notifications.Add(notificationdata);
                 _context.SaveChanges();
    
@@ -87,6 +88,7 @@ namespace InspecWeb.Controllers
                 notificationdata.status = Status;
                 notificationdata.noti = 1;
                 notificationdata.CreatedAt = date;
+                notificationdata.xe = xe;
                 _context.Notifications.Add(notificationdata);
                 _context.SaveChanges();
             }
@@ -104,19 +106,61 @@ namespace InspecWeb.Controllers
                     notificationdata.status = Status;
                     notificationdata.noti = 1;
                     notificationdata.CreatedAt = date;
+                    notificationdata.xe = xe;
                     _context.Notifications.Add(notificationdata);
                     _context.SaveChanges();
                 }
             }
 
+            if (Status == 7)
+            {
+
+            }
+
             if (Status == 10)
             {
-             
-            }
-            //if (Status == 11)
-            //{
+                System.Console.WriteLine("st10 : " + CentralPolicyId + " : "+ ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
+                var users = _context.UserProvinces
+                .Include(m => m.User)
+               .Where(m => m.ProvinceId == ProvinceId && m.User.Role_id == 3);
 
-            //}
+                foreach (var item in users)
+                {
+                    System.Console.WriteLine("USERID : " + item.UserID);
+                    notificationdata.UserID = item.UserID;
+                    notificationdata.CentralPolicyId = CentralPolicyId;
+                    notificationdata.ProvinceId = ProvinceId;
+                    notificationdata.status = Status;
+                    notificationdata.noti = 1;
+                    notificationdata.CreatedAt = date;
+                    notificationdata.xe = xe;
+                    //System.Console.WriteLine("1");
+                    _context.Notifications.Add(notificationdata);
+                    //System.Console.WriteLine("2");
+
+                    _context.SaveChanges();
+                    //System.Console.WriteLine("3");
+                }
+               
+               
+            }
+            if (Status == 11)
+            {
+                var ExecutiveOrders = _context.ExecutiveOrders 
+                .Where(m => m.Id == xe)
+                .FirstOrDefault();
+
+                notificationdata.UserID = ExecutiveOrders.UserId;
+                notificationdata.CentralPolicyId = CentralPolicyId;
+                notificationdata.ProvinceId = ProvinceId;
+                notificationdata.status = Status;
+                notificationdata.noti = 1;
+                notificationdata.CreatedAt = date;
+                notificationdata.xe = xe;
+                _context.Notifications.Add(notificationdata);
+                _context.SaveChanges();
+
+            }
             //if (Status == 12)
             //{
             //    //2 
@@ -125,7 +169,7 @@ namespace InspecWeb.Controllers
             //{
             //   //3
             //}
-
+           
             return notificationdata;
         }
 

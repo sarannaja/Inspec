@@ -43,6 +43,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
   role_id:any;
   executive_id:any;
   centralpolicyprovinceid:any;
+  provincefornotirole3 : any;
 
 
   constructor(
@@ -68,8 +69,11 @@ export class DetailExecutiveOrderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getuserinfo(); 
+    this.getProvine();
 
     this.Form = this.fb.group({
+      "byuserid": new FormControl(null, [Validators.required]),
       "name": new FormControl(null, [Validators.required]),
       "AnswerDetail": new FormControl(null, [Validators.required]),
       "AnswerProblem": new FormControl(null, [Validators.required]),
@@ -78,10 +82,6 @@ export class DetailExecutiveOrderComponent implements OnInit {
       files: new FormControl(null, [Validators.required]),
       files2: new FormControl(null, [Validators.required]),
     })
-
-    this.getuserinfo();
-    
-    this.getProvine()
 
   }
   openModal(template: TemplateRef<any> ) {
@@ -118,15 +118,10 @@ export class DetailExecutiveOrderComponent implements OnInit {
     this.id = id;
     this.text = name;
     this.centralpolicyid = id;
-    this.provinceid = id;
-    console.log(this.id);
-    console.log(this.text);
-    console.log(this.id);
-    console.log(this.id);
+    this.provinceid = id; 
     this.modalRef = this.modalService.show(template);
     this.EditForm = this.fb.group({
       "detailexecutiveordername": new FormControl(null, [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
     this.EditForm.patchValue({
       "detailexecutiveordername": name
@@ -134,8 +129,6 @@ export class DetailExecutiveOrderComponent implements OnInit {
   }
 
   uploadFile(event) {
-    console.log("event", event);
-
     const file = (event.target as HTMLInputElement).files;
     this.Form.patchValue({
       files: file
@@ -143,17 +136,15 @@ export class DetailExecutiveOrderComponent implements OnInit {
     this.Form.get('files').updateValueAndValidity()
   }
   storedetailexecutiveorder(value) {
-   
+  
       this.detailexecutiveorderService.adddetailexecutiveorder(value, this.Form.value.files, this.id)
         .subscribe(result => {
-            
-        // this.notificationService.addNotification(this.id,value.provinceId,1,10,result.Id)
-        // .subscribe(result => {   
-        //   })
-
-        this.notificationService.addNotification(1,1,1,1,1)
+         
+         this.executive_id = result.id;
+       
+        this.notificationService.addNotification(this.id,value.provinceId,1,10,this.executive_id)
         .subscribe(result => {   
-          })
+        })
 
           this.modalRef.hide();
           this.Form.reset();
@@ -167,13 +158,9 @@ export class DetailExecutiveOrderComponent implements OnInit {
     this.answerdetail = name;
     this.answerproblem = name;
     this.answercounsel = name;
-    console.log(this.answerdetail);
-    console.log(this.answerproblem);
-    console.log(this.answercounsel);
     this.modalRef = this.modalService.show(template);
     this.EditForm = this.fb.group({
       "detailexecutiveordername": new FormControl(null, [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
     this.EditForm.patchValue({
       "detailexecutiveordername": name
@@ -189,17 +176,15 @@ export class DetailExecutiveOrderComponent implements OnInit {
     this.Form.get('files2').updateValueAndValidity()
   }
   storeanswerexecutiveorder(value) {
-    //alert(this.idAnswer)
-    // alert(JSON.stringify(value))
-    console.log("value", this.Form.value.files)
-
+ 
     this.detailexecutiveorderService.answerexecutiveorder(value, this.Form.value.files , this.idAnswer)
       .subscribe(result => {
-        console.log("RES: ", result);
+       //alert(result.id);
+        this.notificationService.addNotification(this.id,this.provincefornotirole3,1,11,result.id)
+        .subscribe(result => {   
+        })
 
       })
-    // console.log("test: ", value);
-    // alert(JSON.stringify(value))
     this.modalRef.hide();
     this.Form.reset();
   }
@@ -209,6 +194,9 @@ export class DetailExecutiveOrderComponent implements OnInit {
         this.authorize.getUser()
         .subscribe(result => {
           this.userid = result.sub  
+          this.Form.patchValue({
+            byuserid: this.userid
+          })
           this.userService.getuserfirstdata(this.userid)      
           .subscribe(result => {  
             this.role_id = result[0].role_id
@@ -217,14 +205,15 @@ export class DetailExecutiveOrderComponent implements OnInit {
                 this.detailexecutiveorderService.getdetailexecutiveorderdata(this.id)
                 .subscribe(result => {
                   this.resultdetailexecutiveorder = result
-                  console.log(this.resultdetailexecutiveorder);
+                  //console.log(this.resultdetailexecutiveorder);
                   this.loading = true
                 })
               }else{
                 this.detailexecutiveorderService.getdetailexecutiveorderdatarole3(this.id,this.userid)
                 .subscribe(result => {
                   this.resultdetailexecutiveorder = result
-                  console.log(this.resultdetailexecutiveorder);
+                   this.provincefornotirole3 = result[0].provinceId
+                 // console.log('momo : ',this.resultdetailexecutiveorder);
                   this.loading = true
                 })
               }
