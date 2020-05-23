@@ -46,7 +46,7 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
     },
     {
         icon:'fa-hands',
-        url:"#3",
+        url:"/requestorder",
         name:"แจ้งคำร้องขอ"
     },
     // {
@@ -185,9 +185,9 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
         name: 'ผู้ตรวจราชการ'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/province',
+        url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
@@ -209,9 +209,10 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
+        url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
@@ -315,10 +316,30 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
+
   {
-    icon: 'fa-hand-point-up',
-    url: "#",
-    name: "ข้อสั่งการผู้บริหาร"
+    IDchildren: 'report',
+    icon: 'fa-user-tie',
+    name: "รายงานผลการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportexport',
+        name: 'Export'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportimport',
+        name: 'Import'
+      },
+    ]
+  },
+  {
+    icon:'fa-hand-point-up',
+    url:"/executiveorder",
+    name:"ข้อสั่งการผู้บริหาร"
   },
   {
     icon: 'fa-hands',
@@ -466,7 +487,7 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
   },
   {
     icon: 'fa-book',
-    url: "/electronicbook",
+    url: "/electronicbookprovince",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
@@ -628,7 +649,12 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
   //   name: "สมุดตรวจอิเล็กทรอนิกส์"
   // },
   {
-    icon: 'fa-archive',
+    icon: 'fa-book',
+    url: "/answerpeople",
+    name: "Userrole 5"
+  },
+  {
+    icon: 'fa-calendar',
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ"
   },

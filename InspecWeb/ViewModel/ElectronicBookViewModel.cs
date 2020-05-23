@@ -13,6 +13,17 @@ namespace InspecWeb.ViewModel
         public string Problem { get; set; }
         [JsonProperty(PropertyName = "Suggestion")]
         public string Suggestion { get; set; }
+        [JsonProperty(PropertyName = "PolicyIssue")]
+        public long PolicyIssue { get; set; }
+        [JsonProperty(PropertyName = "ElectID")]
+        public long ElectID { get; set; }
+
+        [JsonProperty(PropertyName = "SubjectCentralPolicyProvinceId")]
+        public long SubjectCentralPolicyProvinceId { get; set; }
+
+        //[JsonProperty(PropertyName = "CentralPolicyID")]
+        //public string CentralPolicyID { get; set; }
+
         //public Inputelectronicbook[] Inputelectronicbook { get; set;}
         public long CentralPolicyId { get; set; }
         public long ProvinceId { get; set; }

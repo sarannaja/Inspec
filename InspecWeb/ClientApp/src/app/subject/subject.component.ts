@@ -8,6 +8,8 @@ import { IOption } from 'ng-select';
 import * as moment from 'moment';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-subject',
@@ -27,6 +29,8 @@ export class SubjectComponent implements OnInit {
   resultsubject: any = []
   resultcentralpolicy: any = []
   id
+  userid
+  role_id
   delid: any
   name: any
   start_date: any
@@ -46,7 +50,9 @@ export class SubjectComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public share: SubjectService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private authorize: AuthorizeService,
+    private userService: UserService) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.name = activatedRoute.snapshot.paramMap.get('name')
   }
@@ -59,7 +65,7 @@ export class SubjectComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [3],
+          targets: [4],
           orderable: false
         }
       ]
@@ -73,6 +79,20 @@ export class SubjectComponent implements OnInit {
 
     this.getTimeCentralPolicy()
     this.getSubject()
+
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+        this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+          // this.resultuser = result;
+          //console.log("test" , this.resultuser);
+          this.role_id = result[0].role_id
+          // alert(this.role_id)
+        })
+      })
 
     // this.subjectservice.getsubjectdata(this.id).subscribe(result => {
     //   this.resultsubject = result
@@ -166,18 +186,18 @@ export class SubjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  storeSubject(value) {
-    console.log(value);
-    this.subjectservice.addSubject(value, this.id).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.getSubject()
-      // this.subjectservice.getsubjectdata(this.id).subscribe(result => {
-      //   this.resultsubject = result
-      //   console.log(this.resultsubject);
-      // })
-    })
-  }
+  // storeSubject(value) {
+  //   console.log(value);
+  //   this.subjectservice.addSubject(value, this.id).subscribe(response => {
+  //     this.Form.reset()
+  //     this.modalRef.hide()
+  //     this.getSubject()
+  //     // this.subjectservice.getsubjectdata(this.id).subscribe(result => {
+  //     //   this.resultsubject = result
+  //     //   console.log(this.resultsubject);
+  //     // })
+  //   })
+  // }
   deleteSubject(value) {
     this.subjectservice.deleteSubject(value).subscribe(response => {
       console.log(value);

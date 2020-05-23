@@ -8,6 +8,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import * as moment from 'moment';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
 declare var $: any;
 @Injectable({
   providedIn: 'root'
@@ -25,10 +26,12 @@ export class InspectionPlanEventComponent implements OnInit {
   delid: any
   modalRef: BsModalRef;
   userid: string
-
+  role_id
   constructor(private router: Router, private inspectionplanservice: InspectionplaneventService,
     private authorize: AuthorizeService,
-    private modalService: BsModalService, @Inject('BASE_URL') baseUrl: string) {
+    private modalService: BsModalService,
+    private userService: UserService,
+     @Inject('BASE_URL') baseUrl: string) {
     // this.url = baseUrl + 'centralpolicy/detailcentralpolicyprovince/';
     this.url = baseUrl + 'inspectionplan/';
   }
@@ -37,6 +40,13 @@ export class InspectionPlanEventComponent implements OnInit {
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
+        this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+          // this.resultuser = result;
+          //console.log("test" , this.resultuser);
+          this.role_id = result[0].role_id
+          // alert(this.role_id)
+        })
         console.log(result);
         // alert(this.userid)
       })

@@ -8,6 +8,7 @@ import { IOption } from 'ng-select';
 import { IMyDate } from 'mydatepicker-th';
 import { SubjectService } from '../services/subject.service';
 import { DepartmentService } from '../services/department.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-subquestion',
@@ -24,6 +25,7 @@ export class SubquestionComponent implements OnInit {
   resultcentralpolicy: any = []
   resultprovince: any[] = []
   resultdepartment = []
+  resultdsubjectid: any = []
   subjectdepartmentId: Array<any> = []
   temp = []
   test = []
@@ -31,6 +33,7 @@ export class SubquestionComponent implements OnInit {
   name: any
   modalRef: BsModalRef;
   Form: FormGroup;
+  Formfile: FormGroup;
   times: IOption[] = [];
   selectdatacentralpolicy: Array<IOption>
   benz = [{ value: '1212', label: 'benz' }, { value: '1212', label: 'Songnew' }];
@@ -43,7 +46,8 @@ export class SubquestionComponent implements OnInit {
     private departmentservice: DepartmentService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public share: SubquestionService) {
+    public share: SubquestionService,
+    private spinner: NgxSpinnerService) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.name = activatedRoute.snapshot.paramMap.get('name')
   }
@@ -57,12 +61,10 @@ export class SubquestionComponent implements OnInit {
       inputsubjectdepartment: this.fb.array([
         this.initdepartment()
       ]),
-      // inputquestionopen: this.fb.array([
-      //   this.initquestionopen()
-      // ]),
-      // inputquestionclose: this.fb.array([
-      //   this.initquestionclose()
-      // ])
+    })
+    this.Formfile = this.fb.group({
+      centralpolicydateid: new FormControl(null, [Validators.required]),
+      files: [null]
     })
     this.getTimeCentralPolicy()
     // this.d.push(this.fb.group({
@@ -89,7 +91,7 @@ export class SubquestionComponent implements OnInit {
   initquestionopen() {
     return this.fb.group({
       questionopen: [null, [Validators.required, Validators.pattern('[0-9]{3}')]]
-      
+
     })
   }
   initquestionclose() {
@@ -213,16 +215,34 @@ export class SubquestionComponent implements OnInit {
     // });
   }
   storeSubject(value) {
+    this.spinner.show();
     console.log(value);
     this.subjectservice.addSubject(value, this.id).subscribe(response => {
-      //this.subjectdepartmentId
-      // console.log("Response : ", response);
+      console.log("Response : ", response);
+      this.resultdsubjectid.push(response.getSubjectID)
+      response.termsList.forEach(element => {
+        this.resultdsubjectid.push(element)
+      });
+      console.log("Response2 : ", this.resultdsubjectid);
+      this.storefiles();
+    })
+  }
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Formfile.patchValue({
+      files: file
+    });
+    this.Formfile.get('files').updateValueAndValidity()
 
-      this.Form.reset()
+  }
+  storefiles() {
+    this.subjectservice.addFiles(this.resultdsubjectid, this.Formfile.value.files).subscribe(response => {
+      this.Form.reset();
+      this.Formfile.reset();
+      this.spinner.hide();
       window.history.back();
     })
   }
-
   // appendquestionopen() {
   //   this.d.push(this.fb.group({
   //     questionopen: ''

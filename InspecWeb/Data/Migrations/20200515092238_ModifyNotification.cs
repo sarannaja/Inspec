@@ -1,0 +1,22 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace InspecWeb.Data.Migrations
+{
+    public partial class ModifyNotification : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<DateTime>(
+                name: "ActiveDate",
+                table: "Notification",
+                nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "CreatedAt",
+                table: "Notification",
+                nullable: true);
+
+        } 
+    }
+}
