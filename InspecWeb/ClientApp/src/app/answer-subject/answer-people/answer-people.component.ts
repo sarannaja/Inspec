@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { AnswersubjectService } from '../services/answersubject.service';
+import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-answer-subject',
-  templateUrl: './answer-subject.component.html',
-  styleUrls: ['./answer-subject.component.css']
+  selector: 'app-answer-people',
+  templateUrl: './answer-people.component.html',
+  styleUrls: ['./answer-people.component.css']
 })
-export class AnswerSubjectComponent implements OnInit {
+export class AnswerPeopleComponent implements OnInit {
 
   userid: string
   resultuserdetail: any = []
@@ -20,7 +20,7 @@ export class AnswerSubjectComponent implements OnInit {
     private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,
     private spinner: NgxSpinnerService,
-    private router:Router, 
+    private router:Router
   ) { }
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class AnswerSubjectComponent implements OnInit {
     this.getUserDetail()
   }
   getUserDetail() {
-    this.answersubjectservice.getuseredata(this.userid)
+    this.answersubjectservice.getuserpeopleedata(this.userid)
       .subscribe(result => {
         this.resultuserdetail = result
         this.spinner.hide();
@@ -55,6 +55,6 @@ export class AnswerSubjectComponent implements OnInit {
       })
   }
   Subjectlist(id) {
-    this.router.navigate(['/answersubject/list', id])
+    this.router.navigate(['/answerpeople/list', id])
   }
 }

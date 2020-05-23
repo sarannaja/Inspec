@@ -16,6 +16,9 @@ export class AnswersubjectService {
   getuseredata(id):Observable<any[]> {
     return this.http.get<any[]>(this.url+"user/" + id)
   }
+  getuserpeopleedata(id):Observable<any[]> {
+    return this.http.get<any[]>(this.url+"userpeople/" + id)
+  }
   getsubjectlistdata(id):Observable<any[]>{
     return this.http.get<any[]>(this.url+"subjectlist/" + id)
   }

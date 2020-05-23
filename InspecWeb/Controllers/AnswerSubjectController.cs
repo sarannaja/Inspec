@@ -232,6 +232,8 @@ namespace InspecWeb.Controllers
         public IActionResult Get3(long id)
         {
             var subjectdata = _context.SubjectCentralPolicyProvinces
+                .Include(m => m.CentralPolicyProvince)
+                .ThenInclude(m => m.CentralPolicy)
                 .Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster");
             //var userdata = _context.Users
             //    .Where(m => m.Id == userid).First();
@@ -268,6 +270,28 @@ namespace InspecWeb.Controllers
                 .First();
             return Ok(subjectdata);
         }
+
+        // GET api/values/5
+        [HttpGet("userpeople/{userid}")]
+        public IActionResult Get5(string userid)
+        {
+            var subjectcentralpolicyprovinceusergroupsdata = _context.SubjectCentralPolicyProvinceUserGroups
+                .Where(m => m.UserId == userid);
+
+
+            var centralpolicyprovincedata = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.SubjectCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
+                //.ThenInclude(m => m.ProvincialDepartment)
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceUserGroups.Any(m => m.UserId == userid))))
+                .ToList();
+            return Ok(centralpolicyprovincedata);
+        }
+
+
         // POST api/values
         [HttpPost]
         public IActionResult Post([FromBody] AnswerSubquestionOutsiderViewModel model)
@@ -331,46 +355,46 @@ namespace InspecWeb.Controllers
             //var answerfile = model.inputanswerfile[0];
             //foreach (var answerfile in model.inputanswerfile)
             //{
-                foreach (var formFile in  model.files.Select((value, index) => new { Value = value, Index = index }))
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            {
+                //foreach (var formFile in data.files)
+                System.Console.WriteLine("Start Upload 3");
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+                if (formFile.Value.Length > 0)
                 {
-                    //foreach (var formFile in data.files)
-                    System.Console.WriteLine("Start Upload 3");
-                    var random = RandomString(10);
-                    string filePath2 = formFile.Value.FileName;
-                    string filename = Path.GetFileName(filePath2);
-                    string ext = Path.GetExtension(filename);
-                    if (formFile.Value.Length > 0)
+
+                    System.Console.WriteLine("Start Upload 4");
+                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
                     {
-
-                        System.Console.WriteLine("Start Upload 4");
-                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
-                        {
-                            await formFile.Value.CopyToAsync(stream);
-                        }
-
-
-
+                        await formFile.Value.CopyToAsync(stream);
                     }
+
+
+
+                }
+                System.Console.WriteLine("Start Upload 4.1");
+                {
                     System.Console.WriteLine("Start Upload 4.1");
+                    var AnswerFile = new AnswerSubquestionFile
                     {
-                        System.Console.WriteLine("Start Upload 4.1");
-                        var AnswerFile = new AnswerSubquestionFile
-                        {
 
-                            SubjectCentralPolicyProvinceId = model.SubjectCentralPolicyProvinceId,
-                            Name = random + filename,
-                        };
+                        SubjectCentralPolicyProvinceId = model.SubjectCentralPolicyProvinceId,
+                        Name = random + filename,
+                    };
 
-                        System.Console.WriteLine("Start Upload 4.2");
-                        _context.AnswerSubquestionFiles.Add(AnswerFile);
-                        _context.SaveChanges();
+                    System.Console.WriteLine("Start Upload 4.2");
+                    _context.AnswerSubquestionFiles.Add(AnswerFile);
+                    _context.SaveChanges();
 
-                        System.Console.WriteLine("Start Upload 4.3");
+                    System.Console.WriteLine("Start Upload 4.3");
 
 
-                        System.Console.WriteLine("Start Upload 5");
-                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
 
                 //}
 
