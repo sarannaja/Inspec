@@ -268,6 +268,20 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
   }
+
+  delsubjectModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  delquestionModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+  deloptionModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
   // getDetailCentralPolicy() {
   //   this.centralpolicyservice.getdetailcentralpolicydata(this.id)
   //     .subscribe(result => {
@@ -334,13 +348,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.modalRef.hide()
 
       for (let i = 0; i < UserPeopleId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1,1)
           .subscribe(response => {
             console.log(response);
-            
+
           })
       }
-   
+
       this.getCentralPolicyProvinceUser();
     })
   }
@@ -538,5 +552,30 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
   back() {
     window.history.back();
+  }
+
+  deletesubject(value) {
+    this.subjectservice.deletesubjectrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+  deletequestion(value) {
+    this.subjectservice.deletequestionrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+  deleteoption(value) {
+    this.subjectservice.deleteoptionrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
   }
 }

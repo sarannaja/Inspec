@@ -316,6 +316,28 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
+
+  {
+    IDchildren: 'report',
+    icon: 'fa-user-tie',
+    name: "รายงานผลการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportexport',
+        name: 'Export'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportimport',
+        name: 'Import'
+      },
+    ]
+  },
+
+
   {
     icon:'fa-hand-point-up',
     url:"/executiveorder",

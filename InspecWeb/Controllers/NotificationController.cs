@@ -56,7 +56,7 @@ namespace InspecWeb.Controllers
         // POST api/values
         [Route("api/[controller]")]
         [HttpPost]
-        public Notification Post(long CentralPolicyId, long ProvinceId,string UserId, long Status)
+        public Notification Post(long CentralPolicyId, long ProvinceId,string UserId, long Status,long xe)
         {
             var date = DateTime.Now;
             var notificationdata = new Notification(); //save ลง base แจ้งเตือน
@@ -108,24 +108,23 @@ namespace InspecWeb.Controllers
                     _context.SaveChanges();
                 }
             }
-          
-      
+
             if (Status == 10)
             {
-                //2 
+             
             }
-            if (Status == 11)
-            {
+            //if (Status == 11)
+            //{
 
-            }
-            if (Status == 12)
-            {
-                //2 
-            }
-            if (Status == 13)
-            {
-               //3
-            }
+            //}
+            //if (Status == 12)
+            //{
+            //    //2 
+            //}
+            //if (Status == 13)
+            //{
+            //   //3
+            //}
 
             return notificationdata;
         }
