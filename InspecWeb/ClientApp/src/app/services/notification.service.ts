@@ -16,7 +16,7 @@ export class NotificationService {
     this.url = baseUrl + 'api/notification/';
   }
 
-  addNotification(CentralPolicyId,ProvinceId,UserId,status) {
+  addNotification(CentralPolicyId,ProvinceId,UserId,status, xe) {
 
     const formData = new FormData();
     
@@ -24,6 +24,7 @@ export class NotificationService {
     formData.append('ProvinceId',ProvinceId);
     formData.append('UserId',UserId);
     formData.append('Status',status);
+    formData.append('xe',xe);
 
     return this.http.post(this.url, formData);
   }

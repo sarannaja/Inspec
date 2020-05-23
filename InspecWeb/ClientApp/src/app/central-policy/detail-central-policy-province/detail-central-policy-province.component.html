@@ -147,11 +147,14 @@
                     <td style="border-top: none;">
                       <div class="row">
                         <span style="margin-left: 15px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
-                          <button *ngIf="role_id == 3" type="button" (click)="openModal2(modalInviteDepartment, items.id)"
+                          <button *ngIf="role_id == 3" type="button"
+                            (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
-                            <button *ngIf="role_id == 5 && resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'" type="button" (click)="openModal2(modalInviteDepartment, items.id)"
+                          <button
+                            *ngIf="role_id == 5 && resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'"
+                            type="button" (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
-                          </span>
+                        </span>
                         <div class="col-12"
                           *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
                           <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
@@ -163,7 +166,8 @@
                     <td style="border-top: none;" width="50%">
                       <div class="row">
                         <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;
-                          <button *ngIf="role_id == 3" type="button" (click)="openModal3(modalInvitePeopleAnswer, items.id)"
+                          <button *ngIf="role_id == 3" type="button"
+                            (click)="openModal3(modalInvitePeopleAnswer, items.id)"
                             class="btn btn-primary">เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</button></span>
 
                         <div class="col-12"
@@ -190,15 +194,19 @@
                   </div>
                   <tr>
                     <td style="border-top: none;">
+                      <u style="margin-left: 15px;">เรื่องประเด็น</u>
                       <div class="row">
-                        <u style="margin-left: 15px;">เรื่องประเด็น</u>
-                        <div class="col-11">
+                        <div class="col-10">
                           <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
                             readonly>
                         </div>
                         <div class="col-1" *ngIf="role_id == 3">
                           <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                             (click)="editModal3(modaleditsubject, items.id, items.name)"></i>
+                        </div>
+                        <div class="col-1" *ngIf="role_id == 3 && i != 0">
+                          <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                            (click)="delsubjectModal(modaldelsubject, items.id)"></i>
                         </div>
                       </div>
                     </td>
@@ -215,13 +223,17 @@
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                               (click)="editModal4(modaleditsubjectquestionopen, item.id, item.name)"></i>
                           </div>
+                          <!-- <div class="col-1" *ngIf="role_id == 3  && i != 0">
+                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                            (click)="delquestionModal(modaldelquestion, item.id)"></i>
+                          </div> -->
                         </div>
                       </div>
                     </td>
                   </tr>
 
 
-                  <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
+                  <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
                     <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
                       <u>คำถามปลายปิด</u>
                       <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
@@ -234,6 +246,10 @@
                           <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                             (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
                         </div>
+                        <!-- <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3  && i != 0">
+                          <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                            (click)="delquestionModal(modaldelquestion, item.id)"></i>
+                        </div> -->
                       </div>
                       <!-- </div> -->
                     </td>
@@ -241,7 +257,7 @@
                     <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
                       <u>ตัวเลือกคำถามปลายปิด</u>
                       <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
-                        <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
+                        <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iiii = index">
                           <div class="row">
                             <div class="col-11"
                               *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
@@ -253,6 +269,11 @@
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                 (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i>
                             </div>
+                            <!-- <div class="col-1"
+                            *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId && role_id == 3 && i != 0">
+                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                            (click)="deloptionModal(modaldeloption, item.id)"></i>
+                          </div> -->
                           </div>
                         </div>
                       </div>
@@ -351,15 +372,18 @@
             </div>
           </div>
           <br>
+
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
 
               <input type="radio" name="step" value="มอบหมายจังหวัด" checked
-              [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'" formControlName="step">
+                [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'"
+                formControlName="step">
               <label style="margin-left: 10px;">มอบหมายให้จังหวัด</label>
 
               <input style="margin-left: 10px;" type="radio" name="step" value="มอบหมายหน่วยงาน"
-              [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายหน่วยงาน'" formControlName="step">
+                [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายหน่วยงาน'"
+                formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
           </div>
@@ -425,6 +449,63 @@
   </div>
 </div>
 
+<!-- BEGIN primary modal -->
+<ng-template #modaldelsubject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="deletesubject(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaldelquestion class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="deletequestion(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaldeloption class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="deleteoption(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
 <!-- BEGIN primary modal -->
 <ng-template #modalInvitePeopleAnswer class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->

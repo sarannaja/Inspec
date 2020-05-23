@@ -65,9 +65,9 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] ExecutiveViewModel model)
         {
-            System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
-            System.Console.WriteLine("provinceid: " + model.ProvinceId);
-            System.Console.WriteLine("Name: " + model.Name);
+            //System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
+            //System.Console.WriteLine("provinceid: " + model.ProvinceId);
+            //System.Console.WriteLine("Name: " + model.Name);
             var cabinedata = new ExecutiveOrder
             {
 
@@ -113,7 +113,7 @@ namespace InspecWeb.Controllers
                     _context.SaveChanges();
                 }
             }
-            return Ok(new { status = true });
+            return Ok(new { Id = cabinedata.Id });
         }
 
         [HttpGet("province/{id}")]
