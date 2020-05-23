@@ -98,6 +98,10 @@ export class ElectronicBookComponent implements OnInit {
     this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId}])
   }
 
+  gotoTheme(id, elecId) {
+    this.router.navigate(['/electronicbook/theme/' + id ,{electronicBookId: elecId}])
+  }
+
   gotoEdit2(id, elecId) {
     // alert(id)
     // alert(elecId)
