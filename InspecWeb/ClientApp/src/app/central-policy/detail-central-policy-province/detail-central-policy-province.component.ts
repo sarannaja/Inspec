@@ -373,7 +373,12 @@ initdepartment() {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
-      console.log("get");
+      // console.log("get");
+      this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
+        .subscribe(response => {
+          console.log(response);
+        })
+
       window.history.back();
     })
   }
@@ -387,7 +392,7 @@ initdepartment() {
       this.modalRef.hide()
 
       for (let i = 0; i < UserPeopleId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1,1)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
           .subscribe(response => {
             console.log(response);
 
@@ -410,11 +415,22 @@ initdepartment() {
   }
 
   storepeopleanswer(value) {
+    let UserPeopleanswerId: any[] = value.peopleanswer
     // alert(this.subjectid)
     this.centralpolicyservice.addPeopleAnswer(value, this.subjectid).subscribe(response => {
       console.log(value);
       this.Form3.reset()
       this.modalRef.hide()
+
+
+      for (let i = 0; i < UserPeopleanswerId.length; i++) {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1)
+          .subscribe(response => {
+            console.log(response);
+
+          })
+      }
+
       this.getDetailCentralPolicyProvince();
     })
   }
