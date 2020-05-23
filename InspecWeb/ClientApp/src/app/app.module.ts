@@ -82,6 +82,7 @@ import { ExternalOrganizationModule } from './external-organization/external-org
 import { OtpsComponent } from './external-organization/otps/otps.component';
 import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
 import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
+import { TemplateElectronicComponent } from './template-electronic/template-electronic.component';
 
 
 const ExternalOrganization = [
@@ -150,7 +151,8 @@ const ExternalOrganization = [
     AnswerSubjectListComponent,
     AnswerSubjectDetailComponent,
     ElectronicBookProvinceComponent,
-    AnswerOutsiderComponent
+    AnswerOutsiderComponent,
+    TemplateElectronicComponent
   ],
 
   imports: [
@@ -225,6 +227,7 @@ const ExternalOrganization = [
           { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/theme/:id' , component: TemplateElectronicComponent , canActivate: [AuthorizeGuard] },
           { path: 'external-organization', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },

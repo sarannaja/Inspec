@@ -50,6 +50,8 @@
               <td>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                   (click)="gotoDetail(item.centralPolicyId,item.inspectionPlanEvent.province.id, item.electronicBookId)"></i> -->
+                  <i class="align-middle mr-2 fas fa-fw fa fa-book pointer"
+                  (click)="gotoTheme(item.centralPolicyProvinceId, item.electronicBookId)"></i>
                   <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                   (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i>
                   <i *ngIf="item.electronicBook.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
