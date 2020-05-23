@@ -461,7 +461,7 @@ namespace InspecWeb.Controllers
                                 System.Console.WriteLine("TEST: " + data.inputquestionopen);
                             }
 
-                            foreach (var questionopen in model.inputsubjectdepartment[0].inputquestionopen)
+                            foreach (var questionopen in departmentId.inputquestionopen)
                             {
                                 System.Console.WriteLine("TEST: " + questionopen.questionopen);
                                 var Subquestionopendata = new SubquestionCentralPolicyProvince
@@ -900,6 +900,36 @@ namespace InspecWeb.Controllers
             var subjectcentralpolicyprovincegroup = _context.SubjectCentralPolicyProvinceUserGroups.Find(id);
 
             _context.SubjectCentralPolicyProvinceUserGroups.Remove(subjectcentralpolicyprovincegroup);
+            _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deletesubjectrole3/{id}")]
+        public void Deletesubjectrole3(long id)
+        {
+            var subjectcentralpolicyprovincegroup = _context.SubjectCentralPolicyProvinces.Find(id);
+
+            _context.SubjectCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);
+            _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deletequestionrole3/{id}")]
+        public void Deletequestrole3(long id)
+        {
+            var subjectcentralpolicyprovincegroup = _context.SubquestionCentralPolicyProvinces.Find(id);
+
+            _context.SubquestionCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);
+            _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deleteoptionrole3/{id}")]
+        public void Deleteoptionrole3(long id)
+        {
+            var subjectcentralpolicyprovincegroup = _context.SubquestionChoiceCentralPolicyProvinces.Find(id);
+
+            _context.SubquestionChoiceCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);
             _context.SaveChanges();
         }
     }

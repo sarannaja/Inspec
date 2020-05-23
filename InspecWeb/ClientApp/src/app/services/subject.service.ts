@@ -208,5 +208,17 @@ export class SubjectService {
   deleteProvincial(id) {
     return this.http.delete(this.url + "deleteprovincial/" + id);
   }
+
+  deletesubjectrole3(id) {
+    return this.http.delete(this.url + "deletesubjectrole3/" + id);
+  }
+
+  deletequestionrole3(id) {
+    return this.http.delete(this.url + "deletequestionrole3/" + id);
+  }
+
+  deleteoptionrole3(id) {
+    return this.http.delete(this.url + "deleteoptionrole3/" + id);
+  }
 }
 
