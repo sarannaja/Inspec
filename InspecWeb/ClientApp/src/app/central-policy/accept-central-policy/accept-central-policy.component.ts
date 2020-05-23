@@ -7,6 +7,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-accept-central-policy',
@@ -46,7 +47,8 @@ export class AcceptCentralPolicyComponent implements OnInit {
     private authorize: AuthorizeService,
     private activatedRoute: ActivatedRoute,
     private electronicBookService: ElectronicbookService,
-    @Inject('BASE_URL') baseUrl: string  ) {
+    private notificationService: NotificationService,
+    @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
     this.cenid = activatedRoute.snapshot.paramMap.get('cenid')
@@ -82,14 +84,14 @@ export class AcceptCentralPolicyComponent implements OnInit {
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
       .subscribe(result => {
-        console.log("elec Detail: ",result);
+        console.log("elec Detail: ", result);
 
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultuser = result.userdata
         this.resultelectronicbookdetail = result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].detail
         // alert(JSON.stringify(this.resultelectronicbookdetail))
 
-        this.resultelectronicbookproblem =  result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].problem
+        this.resultelectronicbookproblem = result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].problem
         this.resultelectronicbooksuggestion = result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].suggestion
 
         this.SuggestionForm.patchValue({
@@ -103,7 +105,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getdetailuseracceptcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
-        console.log("result" , result);
+        console.log("result", result);
       })
   }
 
@@ -140,11 +142,10 @@ export class AcceptCentralPolicyComponent implements OnInit {
         console.log(response);
         this.Form.reset()
 
-        // this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 2)
-        // .subscribe(response => {
-        //   console.log(response);
-          
-        // })
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 2, 1)
+          .subscribe(response => {
+            console.log(response);
+          })
 
         this.router.navigate(['calendaruser'])
       })

@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-detail-electronic-book',
@@ -72,6 +73,7 @@ export class DetailElectronicBookComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private authorize: AuthorizeService,
+    private notificationService: NotificationService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
@@ -420,6 +422,13 @@ export class DetailElectronicBookComponent implements OnInit {
       console.log("signatureFile: ", res);
 
       this.spinner.show();
+
+      this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 8, 1)
+      .subscribe(response => {
+        console.log(response);
+      })
+
+
       setTimeout(() => {
         this.getSignatureProvince();
         this.spinner.hide();
