@@ -45,6 +45,6 @@ export class MainComponent implements OnInit {
     this.authorize.signOut({ local: true })
   }
   exportAsXLSX():void {
-    this.excelService.exportAsExcelFile(this.data, 'sample');
+   // this.excelService.exportAsExcelFile(this.data, 'sample');
   }
 }
