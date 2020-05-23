@@ -734,7 +734,7 @@
   </div>
 </div> -->
 
-<div class="row" *ngIf="resultdate != undefined">
+<!-- <div class="row" *ngIf="resultdate != undefined">
   <div class="col-12">
     <div class="card">
       <div class="card-header">
@@ -761,6 +761,44 @@
                 </a>
               </div>
               <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="row" *ngIf="resultdate != undefined">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">รายงานผลการตรวจ</h5>
+      </div>
+      <div class="card-body">
+        <div *ngIf="resultreport[0].report == null">
+          <label style="color: gray;">ไม่มีข้อมูล</label>
+        </div>
+        <div class="col-12 col-xl-12" *ngIf="resultreport[0].report != null">
+          <div class="form-group">
+            <div *ngFor="let item3 of resultreport; let i = index">
+              <div *ngIf="item3.draftStatus == 'ใช้งานจริง'" class="card" style="padding: 10px;">
+                <b><label *ngIf="item3.report != null"> {{item3.user.prefix}} {{item3.user.name}} ตำแหน่ง
+                    {{item3.user.position}}</label></b>
+                <input *ngIf="item3.report != null" value="{{item3.report}}" class="form-control"
+                  placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly />
+
+                <div class="row" *ngFor="let item4 of item3.centralPolicyGroup.centralPolicyUserFiles; let ii = index"
+                  style="margin-top: 10px;">
+                  <a download href="{{downloadUrl}}/{{item4.name}}" class="col-6">
+                    <span>ไฟล์ที่
+                      {{ii+1}})
+                      {{ item4.name }}<br>
+                    </span>
+                  </a>
+                </div>
+                <br>
+              </div>
             </div>
           </div>
         </div>

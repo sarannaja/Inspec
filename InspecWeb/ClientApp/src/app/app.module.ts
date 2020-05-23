@@ -70,6 +70,9 @@ import { EditElectronicBookComponent } from './electronic-book/edit-electronic-b
 import { DetailElectronicBookComponent } from './electronic-book/detail-electronic-book/detail-electronic-book.component';
 import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
 import { CalendarUserComponent } from './calendar-user/calendar-user.component';
+import { AdviserCivilSectorComponent } from './adviser-civil-sector/adviser-civil-sector.component';
+import { RequestOrderComponent} from './request-order/request-order.component';
+import { DetailRequestOrderComponent } from './request-order/detail-request-order/detail-request-order.component';
 import { OfficerInspectionComponent } from './officer-inspection/officer-inspection.component';
 import { InfomationProvinceComponent } from './infomation-province/infomation-province.component';
 import { InfoDistrictComponent } from './info-district/info-district.component';
@@ -83,6 +86,9 @@ import { OtpsComponent } from './external-organization/otps/otps.component';
 import { Opm1111Component } from './external-organization/opm1111/opm1111.component';
 import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.component';
 import { TemplateElectronicComponent } from './template-electronic/template-electronic.component';
+import { ReportImportComponent } from './report-import/report-import.component';
+import { ReportExportComponent } from './report-export/report-export.component';
+import { AnswerOutsideThankComponent } from './answer-subject/answer-outside-thank/answer-outside-thank.component';
 
 
 const ExternalOrganization = [
@@ -144,6 +150,9 @@ const ExternalOrganization = [
     DetailElectronicBookComponent,
     AnswerSubjectComponent,
     CalendarUserComponent,
+    AdviserCivilSectorComponent,
+    RequestOrderComponent,
+    DetailRequestOrderComponent,
     OfficerInspectionComponent,
     InfomationProvinceComponent,
     InfoDistrictComponent,
@@ -153,6 +162,10 @@ const ExternalOrganization = [
     ElectronicBookProvinceComponent,
     AnswerOutsiderComponent,
     TemplateElectronicComponent
+    ReportImportComponent,
+    ReportExportComponent,
+    AnswerOutsiderComponent,
+    AnswerOutsideThankComponent,
   ],
 
   imports: [
@@ -174,6 +187,7 @@ const ExternalOrganization = [
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
       { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent},
+      { path: 'ty', component: AnswerOutsideThankComponent},
       {
         path: '',
         component: DefaultLayoutComponent,
@@ -238,6 +252,11 @@ const ExternalOrganization = [
           { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbookprovince', component: ElectronicBookProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportimport', component: ReportImportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportexport', component: ReportExportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'advisercivilsector', component: AdviserCivilSectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'requestorder', component: RequestOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard]},
         ]
       },
       {

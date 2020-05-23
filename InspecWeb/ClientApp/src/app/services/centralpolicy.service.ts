@@ -285,4 +285,8 @@ export class CentralpolicyService {
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + "addpeopleanswer", formData);
   }
+
+  getcentralidandprovinceid(centralpolicyprovinceid){
+    return this.http.get<any>(this.url + 'getcentralidandprovinceid/' + centralpolicyprovinceid);
+  }
 }

@@ -89,16 +89,16 @@ export class UserCentralPolicyComponent implements OnInit {
     this.router.navigate(['/centralpolicy/detailcentralpolicy', id])
   }
 
-  AcceptCentralPolicy(id: any, proid) {
-    this.inspectionplanservice.getcentralpolicyprovinceid(id, proid).subscribe(result => {
+  AcceptCentralPolicy(id: any, cenid, proid) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
-      this.router.navigate(['/acceptcentralpolicy', id, { centralpolicyproviceid: result }])
+      this.router.navigate(['/acceptcentralpolicy', id, { centralpolicyproviceid: result, cenid: cenid }])
     })
   }
 
-  gotoReport(id: any, proid) {
-    this.inspectionplanservice.getcentralpolicyprovinceid(id, proid).subscribe(result => {
+  gotoReport(id: any, cenid, proid) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
 

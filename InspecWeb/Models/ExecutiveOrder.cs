@@ -23,6 +23,15 @@ namespace InspecWeb.Models
         [Description("คำสั่ง")]
         public string DetailExecutiveOrder { get; set; }
 
+        [Description("รายละเอียด")]
+        public string AnswerDetail { get; set; }
+
+        [Description("ปัญหา/อุปสรรค")]
+        public string AnswerProblem { get; set; }
+
+        [Description("ข้อเสนอแนะ")]
+        public string AnswerCounsel { get; set; }
+
         [ForeignKey("CentralPolicy")]
         [Description("FK: แผนการตรวจ")]
         public long CentralPolicyId { get; set; }
@@ -38,10 +47,18 @@ namespace InspecWeb.Models
         [Description("FK: ผู้ตอบ")]
         public string AnswerUserId { get; set; }
 
+        [ForeignKey("Province")]
+        [Description("FK: จังหวัด")]
+        public long ProvinceId { get; set; }
+        public virtual Province Province { get; set; }
+
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-       
+        public ICollection<ExecutiveOrderFile> ExecutiveOrderFiles { get; set; }
+        public ICollection<AnswerExecutiveOrderFile> AnswerExecutiveOrderFiles { get; set; }
+
+
     }
 }

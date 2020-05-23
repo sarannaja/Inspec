@@ -33,17 +33,22 @@
         </div>
         <div class="row" style="margin-top: 10px;">
           <div class="col-md-6">
-            <u>จังหวัด</u><br><span
+            <!-- จังหวัด : ขอนแก่น -->
+            <u>จังหวัด</u><br>
+            <span>{{provincename}}</span>
+            <!-- <span
               *ngFor="let item3 of resultdetailcentralpolicy.centralPolicyProvinces; let i = index">ช่วงที่ {{i+1}})
-              {{ item3.province.name }}<br></span>
+              {{ item3.province.name }}<br></span> -->
           </div>
         </div>
-
         <div class="row" style="margin-top: 10px;">
           <div class="col-md-6">
-            <u>กำหนดลงพื่นที่</u><br><span
-              *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyDates; let i = index">ช่วงที่ {{i+1}})
-              {{ item2.startDate | thaidate: 'year' }} - {{ item2.endDate | thaidate: 'year' }}<br></span>
+            <u>กำหนดลงพื่นที่</u><br>
+            <!-- {{resultdate.id}} -->
+            <span> {{ resultdate.startDate | thaidate: 'year' }} - {{ resultdate.endDate | thaidate: 'year' }}</span>
+            <!-- <span
+              *ngFor="let item2 of ; let i = index">ช่วงที่ {{i+1}})
+              {{ item2.startDate | thaidate: 'year' }} - {{ item2.endDate | thaidate: 'year' }}<br></span> -->
           </div>
         </div>
 
@@ -98,9 +103,35 @@
           <div class="col-lg-12">
             <table class="table table-default table-responsive-sm tableborder">
               <tbody *ngFor="let items of resultdetailcentralpolicyprovince;let i = index">
-                <div style="margin-top:30px">
-                  {{items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups[0].provincialDepartment.name}}
-                </div>
+                <tr>
+                  <td style="border-top: none;">
+                    <div class="row">
+                      <span style="margin-left: 15px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;</span>
+                      <div class="col-12"
+                        *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
+                        <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="border-top: none;" width="50%">
+                    <div class="row">
+                      <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;</span>
+
+                      <div class="col-12"
+                        *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceUserGroups;let ii = index">
+                        <span class="col-11">{{ii + 1}}. {{itemss.user.name}}</span>
+                      </div>
+
+                      <!-- <div class="col-12"
+                          *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
+                          <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
+                          <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
+                            (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
+                        </div> -->
+                    </div>
+
+                  </td>
+                </tr>
                 <tr>
                   <td style="border-top: none;">
                     <div class="row">
@@ -153,17 +184,115 @@
                     </div>
                   </td>
                 </tr>
+
+                <div *ngIf="items.electronicBookSuggestGroups.length > 0" class="col-12 col-xl-12"
+                  style="margin-top: 10px; margin-bottom: 20px;">
+                  <div class="form-group">
+
+                    <div class="col-12">
+                      <div class="row">
+                        <div *ngIf="items.electronicBookSuggestGroups[0].detail != 'null'" class="col-12" style="padding-left: 0;">
+                          <div class="form-group">
+                            <label>ผลการตรวจ</label>
+                            <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
+                              class="form-control" placeholder="กรุณากรอกผลการตรวจ" readonly>
+                          </div>
+                        </div>
+                        <!-- <div class="col-1">
+                          <i class="align-middle mr-1 fas fa-fw fa-pen pointer" style="margin-top: 35px;"
+                            (click)="openEditSuggestionModal(modalEditSuggestion, items.id)"></i>
+                        </div> -->
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="row">
+                        <div *ngIf="items.electronicBookSuggestGroups[0].problem != 'null'" class="col-12" style="padding-left: 0;">
+                          <div class="form-group">
+                            <label>ปัญหาและอุปสรรค</label>
+                            <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
+                              class="form-control" placeholder="กรุณากรอกปัญหาและอุปสรรค" readonly>
+                          </div>
+                        </div>
+                        <!-- <div class="col-1">
+                          <i class="align-middle mr-1 fas fa-fw fa-pen pointer" style="margin-top: 35px;"
+                            (click)="openEditSuggestionModal(modalEditSuggestion, items.id)"></i>
+                        </div> -->
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="row">
+                        <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12" style="padding-left: 0;">
+                          <div class="form-group">
+                            <label>ข้อเสนอแนะ</label>
+                            <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
+                              class="form-control" placeholder="กรุณากรอกข้อเสนอแนะ" readonly>
+                          </div>
+                        </div>
+                        <!-- <div class="col-1">
+                          <i class="align-middle mr-1 fas fa-fw fa-pen pointer" style="margin-top: 35px;"
+                            (click)="openEditSuggestionModal(modalEditSuggestion, items.id)"></i>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </tbody>
             </table>
           </div>
         </div>
 
-        <div class="col-12 col-xl-12">
+        <!-- <div class="col-12 col-xl-12">
           <div class="form-group">
             <label>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</label>
             <textarea cols="30" rows="5" value="{{resultelectronicbookdetail}}" class="form-control"
               placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly>
             </textarea>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <u>ไฟล์แนบแผนการตรวจราชการ</u><br>
+            <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
+              style="margin-top: 10px;">
+              <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
+                <span>ไฟล์ที่
+                  {{i+1}})
+                  {{ item2.name }}<br>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12" style="margin-top: 10px;">
+            <u>ไฟล์แนบกำหนดการตรวจ</u><br>
+            <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
+              <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                <span>ไฟล์ที่
+                  {{i+1}})
+                  {{ item.name }}<br>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12" style="margin-top: 10px;">
+            <u>ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</u><br>
+            <div class="row" *ngFor="let item of resultElecFile; let i = index" style="margin-top: 10px;">
+              <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                <span>ไฟล์ที่
+                  {{i+1}})
+                  {{ item.name }}<br>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -210,6 +339,8 @@
                 </div>
               </div>
 
+
+
               <div class="row">
                 <div class="col-md-12">
                   <u>ไฟล์แนบของคุณ</u><br>
@@ -226,7 +357,7 @@
                 </div>
               </div>
 
-              <div class="row" style="margin-top: 20px;">
+              <!-- <div class="row" style="margin-top: 20px;">
                 <div class="col-md-12">
                   <u>ไฟล์แนบ</u><br>
                   <div class="row" *ngFor="let item of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
@@ -237,12 +368,12 @@
                         {{ item.name }}<br>
                       </span>
                     </a>
-                    <!-- <i class="fas fa-fw fa-trash-alt pointer col-1" style="font-size: larger;"
-                      (click)="openModal(modaldeleteCentralPolicy, item2.id)"></i> -->
+
                   </div>
                 </div>
-              </div>
-              <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+              </div> -->
+
+              <!-- <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small> -->
             </div>
           </div>
           <div class="form-group row">

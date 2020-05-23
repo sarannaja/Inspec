@@ -4,6 +4,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 
 @Component({
   selector: 'app-report-central-policy',
@@ -28,12 +29,19 @@ export class ReportCentralPolicyComponent implements OnInit {
   resultuser: any = []
   centralpolicyproviceid
   electronicbookid
+  provincename
+  provinceid
+  resultdate: any = []
+  carlendarFile: any = [];
+  resultElecFile: any= [];
+
   constructor(
     private fb: FormBuilder,
     private authorize: AuthorizeService,
     private centralpolicyservice: CentralpolicyService,
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
+    private electronicBookService: ElectronicbookService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
@@ -57,6 +65,7 @@ export class ReportCentralPolicyComponent implements OnInit {
     this.getCentralPolicyUser();
     this.getUserFiles();
     this.getDetailCentralPolicyProvince();
+
   }
 
   getDetailCentralPolicy() {
@@ -148,7 +157,30 @@ export class ReportCentralPolicyComponent implements OnInit {
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+
+        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        this.provincename = result.provincedata.name
+        this.provinceid = result.provincedata.id
+
+        this.getCalendarFile();
+        this.getElectronikbookFile();
       })
+  }
+
+  getCalendarFile() {
+    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+      this.carlendarFile = res;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+
+  getElectronikbookFile() {
+    this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {
+      this.resultElecFile = res;
+      console.log("resultElecFile: ", res);
+
+    })
   }
 
 }

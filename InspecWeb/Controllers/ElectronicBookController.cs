@@ -102,6 +102,7 @@ namespace InspecWeb.Controllers
                 .FirstOrDefault();
 
             var report = _context.CentralPolicyUsers
+                .Include(x => x.User)
                 .Include(x => x.CentralPolicyGroup)
                 .ThenInclude(x => x.CentralPolicyUserFiles)
                 .Where(x => x.ElectronicBookId == electID)
@@ -734,5 +735,41 @@ namespace InspecWeb.Controllers
 
             return Ok(carlendarFile);
         }
+
+        // GET: api/ElectronicBook
+        [HttpGet("export/{userId}")]
+        public IActionResult Get3(string userId)
+        {
+            //var user = _context.Users
+            //    .Where(m => m.Id == userId).FirstOrDefault();
+
+            //var provinceuser = _context.UserProvinces
+            //    .Where(m => m.UserID == user.Id).FirstOrDefault();
+
+
+            var ebook = _context.ElectronicBookGroups
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.Province)
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyUser)
+                .Include(x => x.ElectronicBook)
+                .Where(x => x.ElectronicBook.CreatedBy == userId && x.ElectronicBook.ElectronicBookFiles.Any(x => x.Type == "SignatureProvince File"))
+                .ToList();
+
+            //var ebook = _context.ElectronicBookGroups
+            //                .Include(x => x.CentralPolicyProvince)
+            //                .ThenInclude(x => x.Province)
+            //                .Include(x => x.CentralPolicyProvince)
+            //                .ThenInclude(x => x.CentralPolicy)
+            //                .ThenInclude(x => x.CentralPolicyUser)
+            //                .Include(x => x.ElectronicBook)
+            //                .Where(x => x.ElectronicBook.Status == "ใช้งานจริง")
+            //                .Where(x => x.CentralPolicyProvince.Province.Id == provinceuser.ProvinceId)
+            //                .ToList();
+
+            return Ok(ebook);
+        }
+
     }
 }

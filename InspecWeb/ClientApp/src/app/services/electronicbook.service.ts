@@ -180,4 +180,8 @@ export class ElectronicbookService {
     formData.append("ElectID", electID)
     return this.http.post(this.url + "addSignature", formData)
   }
+
+  getexportport(userId) {
+    return this.http.get(this.url + "export/" + userId)
+  }
 }

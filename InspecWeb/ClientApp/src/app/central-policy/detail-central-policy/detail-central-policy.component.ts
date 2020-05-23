@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { IOption } from 'ng-select';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-detail-central-policy',
@@ -28,6 +29,7 @@ export class DetailCentralPolicyComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
+    private notificationService:NotificationService,
     private userservice: UserService,
     private activatedRoute: ActivatedRoute, ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -55,11 +57,9 @@ export class DetailCentralPolicyComponent implements OnInit {
         return { value: item.id, label: item.name }
       })
     })
-
     this.getDetailCentralPolicy()
     this.getCentralPolicyUser()
   }
-
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
@@ -70,21 +70,16 @@ export class DetailCentralPolicyComponent implements OnInit {
         this.resultdetailcentralpolicy = result
       })
   }
-
   getCentralPolicyUser() {
     this.centralpolicyservice.getcentralpolicyuserdata(this.id)
       .subscribe(result => {
         this.resultcentralpolicyuser = result
         console.log("result" + result);
       })
-
   }
-
-
   storeFiles(value) {
 
   }
-
   storePeople(value) {
     // alert(JSON.stringify(value))
     // this.centralpolicyservice.addCentralpolicyUser(value, this.id).subscribe(response => {
@@ -94,7 +89,6 @@ export class DetailCentralPolicyComponent implements OnInit {
     //   this.getCentralPolicyUser();
     // })
   }
-
   storeMinistryPeople(value) {
     alert(JSON.stringify(value))
   }

@@ -274,7 +274,7 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].detail != 'null'" class="col-12" style="padding-left: 0;">
                             <div class="form-group">
                               <label>ผลการตรวจ</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
@@ -290,7 +290,7 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].problem != 'null'" class="col-12" style="padding-left: 0;">
                             <div class="form-group">
                               <label>ปัญหาและอุปสรรค</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
@@ -306,7 +306,7 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12" style="padding-left: 0;">
                             <div class="form-group">
                               <label>ข้อเสนอแนะ</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
@@ -784,7 +784,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+      <div *ngIf="signatureFile.length <= 0" class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
         <button style="align-self: center;" type="submit" class="btn btn-primary" style="margin-right: 45px;"
           (click)="addSignatureFile()">บันทึก</button>
         <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
@@ -802,26 +802,29 @@
         <h5 class="card-title mb-0">รายงานผลการตรวจ</h5>
       </div>
       <div class="card-body">
-        <div *ngIf="resultreport.report == null">
+        <div *ngIf="resultreport[0].report == null">
           <label style="color: gray;">ไม่มีข้อมูล</label>
         </div>
-        <div class="col-12 col-xl-12" *ngIf="resultreport.report > 0">
+        <div class="col-12 col-xl-12" *ngIf="resultreport[0].report != null">
           <div class="form-group">
             <div *ngFor="let item3 of resultreport; let i = index">
-              <b><label *ngIf="item3.report != null"> {{item3.user.name}} ตำแหน่ง {{item3.user.position}}</label></b>
-              <input *ngIf="item3.report != null" value="{{item3.report}}" class="form-control"
-                placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly />
+              <div *ngIf="item3.draftStatus == 'ใช้งานจริง'" class="card" style="padding: 10px;">
+                <b><label *ngIf="item3.report != null"> {{item3.user.prefix}} {{item3.user.name}} ตำแหน่ง
+                    {{item3.user.position}}</label></b>
+                <input *ngIf="item3.report != null" value="{{item3.report}}" class="form-control"
+                  placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly />
 
-              <div class="row" *ngFor="let item4 of item3.centralPolicyGroup.centralPolicyUserFiles; let ii = index"
-                style="margin-top: 10px;">
-                <a download href="{{downloadUrl}}/{{item4.name}}" class="col-6">
-                  <span>ไฟล์ที่
-                    {{ii+1}})
-                    {{ item4.name }}<br>
-                  </span>
-                </a>
+                <div class="row" *ngFor="let item4 of item3.centralPolicyGroup.centralPolicyUserFiles; let ii = index"
+                  style="margin-top: 10px;">
+                  <a download href="{{downloadUrl}}/{{item4.name}}" class="col-6">
+                    <span>ไฟล์ที่
+                      {{ii+1}})
+                      {{ item4.name }}<br>
+                    </span>
+                  </a>
+                </div>
+                <br>
               </div>
-              <br>
             </div>
           </div>
         </div>
