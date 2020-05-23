@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { IOption } from 'ng-select';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubjectService } from 'src/app/services/subject.service';
@@ -38,6 +38,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   EditForm2: FormGroup;
   EditForm3: FormGroup;
   EditForm4: FormGroup;
+  AddForm: FormGroup;
   selectpeople: Array<IOption>
   selectministrypeople: Array<IOption>
   modalRef: BsModalRef;
@@ -138,6 +139,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       subjectquestionopen: new FormControl(),
     })
 
+    this.AddForm = this.fb.group({
+      name: new FormControl(null, [Validators.required]),
+      centralpolicydateid: new FormControl(null, [Validators.required]),
+      status: new FormControl(null, [Validators.required]),
+      inputsubjectdepartment: this.fb.array([
+        this.initdepartment()
+      ]),
+    })
+
     // this.userservice.getuserdata(7).subscribe(result => {
     //   // alert(JSON.stringify(result))
     //   this.resultpeople = result
@@ -168,7 +178,36 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.spinner.hide();
     }, 800);
   }
+initdepartment() {
+    return this.fb.group({
+      departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      inputquestionopen: this.fb.array([
+        this.initquestionopen()
+      ]),
+      inputquestionclose: this.fb.array([
+        this.initquestionclose()
+      ])
+    })
+  }
+  initquestionopen() {
+    return this.fb.group({
+      questionopen: [null, [Validators.required, Validators.pattern('[0-9]{3}')]]
 
+    })
+  }
+  initquestionclose() {
+    return this.fb.group({
+      questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      inputanswerclose: this.fb.array([
+        this.initanswerclose()
+      ])
+    });
+  }
+  initanswerclose() {
+    return this.fb.group({
+      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+    })
+  }
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
     await this.getMinistryPeople();
@@ -535,6 +574,41 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.getDetailCentralPolicyProvince();
 
     })
+  }
+  addV() {
+    const control = <FormArray>this.AddForm.controls['inputsubjectdepartment'];
+    control.push(this.initdepartment());
+  }
+  addW(iv) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.push(this.initquestionopen());
+  }
+  addX(iv) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.push(this.initquestionclose());
+  }
+  addY(iv, ix) {
+    const control = ((<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+    control.push(this.initanswerclose());
+  }
+  // remove(index: number) {
+  //   this.d.removeAt(index);
+  // }
+  removeV(index: number) {
+    const control = <FormArray>this.AddForm.controls['inputsubjectdepartment'];
+    control.removeAt(index);
+  }
+  removeW(iv: number, iw: number) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.removeAt(iw);
+  }
+  removeX(iv: number, ix: number) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.removeAt(ix);
+  }
+  removeY(iv: number, ix: number, iy: number) {
+    const control = ((<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+    control.removeAt(iy);
   }
   back() {
     window.history.back();

@@ -88,6 +88,8 @@ import { GgcOpmComponent } from './external-organization/ggc-opm/ggc-opm.compone
 import { ReportImportComponent } from './report-import/report-import.component';
 import { ReportExportComponent } from './report-export/report-export.component';
 import { AnswerOutsideThankComponent } from './answer-subject/answer-outside-thank/answer-outside-thank.component';
+import { AnswerPeopleComponent } from './answer-subject/answer-people/answer-people.component';
+import { AnswerPeopleListComponent } from './answer-subject/answer-people-list/answer-people-list.component';
 
 
 const ExternalOrganization = [
@@ -164,6 +166,8 @@ const ExternalOrganization = [
     ReportExportComponent,
     AnswerOutsiderComponent,
     AnswerOutsideThankComponent,
+    AnswerPeopleComponent,
+    AnswerPeopleListComponent,
   ],
 
   imports: [
@@ -254,6 +258,8 @@ const ExternalOrganization = [
           { path: 'advisercivilsector', component: AdviserCivilSectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'requestorder', component: RequestOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard]},
+          { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
