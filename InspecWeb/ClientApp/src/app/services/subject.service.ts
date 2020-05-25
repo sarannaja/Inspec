@@ -220,5 +220,52 @@ export class SubjectService {
   deleteoptionrole3(id) {
     return this.http.delete(this.url + "deleteoptionrole3/" + id);
   }
+
+  addSubjectRole3(subjectData, centralpolicyid) {
+    var subjectdepartment = subjectData.inputsubjectdepartment
+    console.log('subjectData: ', subjectdepartment);
+    var departmentId = []
+    var test = []
+    var testsubjectdepartment = []
+    testsubjectdepartment = subjectdepartment.map((item, index) => {
+      return {
+        box: index,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputquestionopen,
+        inputquestionclose: item.inputquestionclose
+      }
+    })
+    console.log("testsubjectdepartment", testsubjectdepartment);
+    for (var i = 0; i < testsubjectdepartment.length; i++) {
+      for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
+        departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
+      }
+    }
+
+    console.log("departmentId", departmentId);
+
+
+    test = departmentId.map((item, index) => {
+      return {
+        box: item.box,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
+        inputquestionclose: item.inputsubjectdepartment.inputquestionclose
+      }
+    })
+    console.log("test", test);
+
+    const formData = {
+      Name: subjectData.name,
+      Answer: subjectData.name,
+      Status: subjectData.status,
+      CentralPolicyId: parseInt(centralpolicyid),
+      inputsubjectdepartment: test,
+    }
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url + 'addsubjectrole3', formData);
+  }
+
 }
 

@@ -860,7 +860,7 @@
 <!-- BEGIN primary modal -->
 <ng-template #modalcreatesuject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-body" style="background-color: white; border-radius: 5px;"> -->
-  <form [formGroup]="AddForm" (ngSubmit)="storeSubject(Form.value)">
+  <form [formGroup]="AddForm" (ngSubmit)="storeSubject(AddForm.value)">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">จัดการประเด็น</h5>
@@ -870,9 +870,6 @@
       </div>
       <div class="modal-body m-3">
     <div class="row">
-      <div class="col-12 col-xl-12">
-        <br>
-      </div>
       <div class="col-12 col-xl-12">
         <div class="form-group">
           <label>ชื่อประเด็นนโยบาย</label>
