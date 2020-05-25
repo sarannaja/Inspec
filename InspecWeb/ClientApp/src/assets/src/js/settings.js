@@ -54,13 +54,10 @@ function getCurrentTheme() {
 }
 // document.getElementsByTagName('base')[0].href;
 // Append theme style-tag to <head>
-const link = document.getElementsByTagName('base')[0];
+// const link = document.getElementsByTagName('base')[0].href;
 
-// const link = document.createElement("link");
+const link = document.createElement("link");
 link.href = "css/" + getCurrentTheme() + ".css";
 link.type = "text/css";
 link.rel = "stylesheet";
-console.log('link',link);
-
-// document.getElementsByTagName("head")[0].appendChild(link);
-link.appendChild(link);
+document.getElementsByTagName("head")[0].appendChild(link);
