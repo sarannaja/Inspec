@@ -932,5 +932,160 @@ namespace InspecWeb.Controllers
             _context.SubquestionChoiceCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);
             _context.SaveChanges();
         }
+
+        // POST api/values
+        [HttpPost("addsubjectrole3")]
+        public IActionResult Post5([FromBody] SubjectViewModel model)
+        {
+
+            long GetSubjectID = 0;
+            List<object> termsList = new List<object>();
+
+            long subjectid = 0;
+            var n = 0;
+            long box = -1;
+
+            foreach (var departmentId in model.inputsubjectdepartment)
+            {
+                var provincialdepartmentprovicedata = _context.ProvincialDepartmentProvince
+                    .Where(m => m.ProvincialDepartmentID == departmentId.departmentId)
+                    .Select(x => x.ProvinceId)
+                    .ToList();
+
+                foreach (var provinceId in provincialdepartmentprovicedata)
+                {
+
+                    System.Console.WriteLine("all" + provinceId);
+                    var centralpolicyprovinceData = _context.CentralPolicyProvinces
+                            //.Where(x => x.ProvinceId == provinceId && x.CentralPolicyId == model.CentralPolicyId)
+                            .Where(x => x.Id == model.CentralPolicyId && x.ProvinceId == provinceId)
+                            .FirstOrDefault();
+
+                    if (centralpolicyprovinceData != null)
+                    {
+                        System.Console.WriteLine("have" + centralpolicyprovinceData.ProvinceId);
+
+                        if (n == 0)
+                        {
+                            var subjectdata = new SubjectCentralPolicyProvince
+                            {
+                                Name = model.Name,
+                                CentralPolicyProvinceId = centralpolicyprovinceData.Id,
+                                Type = "NoMaster",
+                                Status = model.Status
+                            };
+                            _context.SubjectCentralPolicyProvinces.Add(subjectdata);
+                            _context.SaveChanges();
+
+                            subjectid = subjectdata.Id;
+                            GetSubjectID = subjectid;
+
+                        }
+
+                        //if (n == 0)
+                        //{
+                        //    foreach (var id in model.CentralPolicyDateId)
+                        //    {
+                        //        var CentralPolicyDatedata = _context.CentralPolicyDates
+                        //            .Where(m => m.Id == id).FirstOrDefault();
+
+                        //        var CentralPolicyDateProvincedata = new CentralPolicyDateProvince
+                        //        {
+                        //            StartDate = CentralPolicyDatedata.StartDate,
+                        //            EndDate = CentralPolicyDatedata.EndDate
+                        //        };
+                        //        _context.CentralPolicyDateProvinces.Add(CentralPolicyDateProvincedata);
+                        //        _context.SaveChanges();
+
+                        //        var subjectdatedata = new SubjectDateCentralPolicyProvince
+                        //        {
+                        //            SubjectCentralPolicyProvinceId = subjectid,
+                        //            CentralPolicyDateProvinceId = CentralPolicyDateProvincedata.Id,
+                        //        };
+                        //        _context.SubjectDateCentralPolicyProvinces.Add(subjectdatedata);
+                        //    }
+                        //    _context.SaveChanges();
+                        //}
+
+                        var test = departmentId.inputquestionopen;
+                        foreach (var data in model.inputsubjectdepartment)
+                        {
+                            System.Console.WriteLine("TEST: " + data.inputquestionopen);
+                        }
+
+                        if (box != departmentId.box)
+                        {
+                            foreach (var questionopen in departmentId.inputquestionopen)
+                            {
+                                System.Console.WriteLine("TEST: " + questionopen.questionopen);
+                                var Subquestionopendata = new SubquestionCentralPolicyProvince
+                                {
+                                    SubjectCentralPolicyProvinceId = subjectid,
+                                    Name = questionopen.questionopen,
+                                    Type = "คำถามปลายเปิด",
+                                    Box = departmentId.box
+                                };
+                                _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
+                                _context.SaveChanges();
+
+                                foreach (var box2 in model.inputsubjectdepartment)
+                                {
+                                    if (box2.box == departmentId.box)
+                                    {
+                                        var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                                        {
+                                            ProvincialDepartmentId = box2.departmentId,
+                                            SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                                        };
+                                        _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+                                        _context.SaveChanges();
+                                    }
+                                }
+                            }
+
+                            foreach (var questionclose in departmentId.inputquestionclose)
+                            {
+                                var Subquestionclosedata = new SubquestionCentralPolicyProvince
+                                {
+                                    SubjectCentralPolicyProvinceId = subjectid,
+                                    Name = questionclose.questionclose,
+                                    Type = "คำถามปลายปิด",
+                                    Box = departmentId.box
+                                };
+                                _context.SubquestionCentralPolicyProvinces.Add(Subquestionclosedata);
+                                _context.SaveChanges();
+
+                                foreach (var box2 in model.inputsubjectdepartment)
+                                {
+                                    if (box2.box == departmentId.box)
+                                    {
+                                        var SubjectCentralPolicyProvinceGroupdata2 = new SubjectCentralPolicyProvinceGroup
+                                        {
+                                            ProvincialDepartmentId = box2.departmentId,
+                                            SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+                                        };
+                                        _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata2);
+                                        _context.SaveChanges();
+                                    }
+                                }
+                                foreach (var questionclosechoice in questionclose.inputanswerclose)
+                                {
+                                    var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                                    {
+                                        SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+                                        Name = questionclosechoice.answerclose,
+                                    };
+                                    _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+                                    _context.SaveChanges();
+                                }
+                            }
+                        }
+                        box = departmentId.box;
+                        n++;
+                    }
+                }
+            }
+            return Ok(new { GetSubjectID, termsList });
+        }
     }
 }
