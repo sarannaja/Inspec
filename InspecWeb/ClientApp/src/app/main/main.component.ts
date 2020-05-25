@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { UserManager } from 'oidc-client';
+// import { UserManager } from 'oidc-client';
 import { ExcelService } from '../services/excel.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class MainComponent implements OnInit {
     ename: 'rajesh',
     esal: 3000
   }];
-  constructor(private router:Router , private authorize:AuthorizeService, private userManager: UserManager,private excelService:ExcelService) { }
+  constructor(private router:Router , private authorize:AuthorizeService,private excelService:ExcelService) { }
 
   ngOnInit() {
 

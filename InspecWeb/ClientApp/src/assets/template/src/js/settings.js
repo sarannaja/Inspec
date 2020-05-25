@@ -54,7 +54,8 @@ function getCurrentTheme() {
 }
 
 // Append theme style-tag to <head>
-const link = document.createElement("link");
+// const link = document.createElement("link");
+const link = document.getElementsByTagName('base')[0].href;
 link.href = "css/" + getCurrentTheme() + ".css";
 link.type = "text/css";
 link.rel = "stylesheet";
