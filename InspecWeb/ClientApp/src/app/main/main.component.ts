@@ -10,8 +10,8 @@ import { ExcelService } from '../services/excel.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  email:string =''
-  role_id:any;
+  email: string = ''
+  role_id: any;
   name = 'Angular 6';
   data: any = [{
     eid: 'e101',
@@ -34,17 +34,17 @@ export class MainComponent implements OnInit {
 
 
     this.authorize.getUser()
-    .subscribe(result=>{
-      this.email = result.name
-      this.role_id = result.role_id
-      //alert(this.role_id);
-      console.log("user",result);
-    })
+      .subscribe(result => {
+        this.email = result.name
+        this.role_id = result.role_id
+        //alert(this.role_id);
+        console.log("user", result);
+      })
   }
-  Logout(){
+  Logout() {
     this.authorize.signOut({ local: true })
   }
-  exportAsXLSX():void {
-   // this.excelService.exportAsExcelFile(this.data, 'sample');
+  exportAsXLSX(): void {
+    // this.excelService.exportAsExcelFile(this.data, 'sample');
   }
 }
