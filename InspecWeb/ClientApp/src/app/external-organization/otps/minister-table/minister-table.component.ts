@@ -87,8 +87,10 @@ export class MinisterTableComponent implements OnInit {
       initialState: {
         title: minister.name+" ("+minister.fiscalYears[0].name+")",
         minister:minister,
-        data: {}
-      }
+        data: {},
+       
+      },
+      class: 'modal-dialog-centered'
     });
   }
 }
