@@ -35,7 +35,17 @@ namespace InspecWeb.Data
         public DbSet<Governmentinspectionplan> Governmentinspectionplans { get; set; }
         public DbSet<InspectionOrder> InspectionOrders { get; set; }
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
+
+
+        //---------Trainings-----------
         public DbSet<Training> Trainings { get; set; }
+        public DbSet<TrainingRegister> TrainingRegisters { get; set; }
+        public DbSet<TrainingSurvey> TrainingSurveys { get; set; }
+        public DbSet<TrainingProgram> TrainingPrograms { get; set; }
+        public DbSet<TrainingDocument> TrainingDocuments { get; set; }
+        public DbSet<TrainingSurveyAnswer> TrainingSurveyAnswers { get; set; }
+        //------------------------------
+
         public DbSet<Subquestion> Subquestions { get; set; }
         public DbSet<InspectionPlanEvent> InspectionPlanEvents { get; set; }
         public DbSet<Cabine> Cabines { get; set; }

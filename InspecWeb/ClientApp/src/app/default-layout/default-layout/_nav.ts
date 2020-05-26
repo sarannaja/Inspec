@@ -275,9 +275,48 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
   },
   {
     icon: 'fa-shekel-sign',
-    url: "/training",
+    url: "/train",
     name: "จัดอบรมหลักสูตร"
   },
+  {
+    IDchildren: 'training',
+    icon: 'fa-shekel-sign',
+    name: "ข้อมูลจัดอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'จัดอบรมหลักสูตร'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/document',
+        name: 'เอกสารประกอบการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/register',
+        name: 'ผู้สมัครเข้าร่วมอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/survey',
+        name: 'ประเมินผลการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/trainingreport',
+        name: 'รายงาน'
+      },
+      
+    ]
+  },
+  
 
 ]
 export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
@@ -348,6 +387,49 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
+    ]
+  },
+  {
+    icon: 'fa-shekel-sign',
+    url: "/train",
+    name: "จัดอบรมหลักสูตร"
+  },
+  {
+    IDchildren: 'training',
+    icon: 'fa-shekel-sign',
+    name: "ข้อมูลจัดอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'จัดอบรมหลักสูตร'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/document',
+        name: 'เอกสารประกอบการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/trainingregister',
+        name: 'ผู้สมัครเข้าร่วมอบรม'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/trainingsurvey',
+        name: 'ประเมินผลการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/trainingreport',
+        name: 'รายงาน'
+      },
+      
     ]
   },
 ]

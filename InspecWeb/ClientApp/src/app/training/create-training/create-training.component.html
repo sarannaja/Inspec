@@ -38,9 +38,10 @@
                                 <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
                             </div>
                         </div>
+                        
 
                         <div class="col-12 col-xl-12">
-                            <label>กำหนดระยะเวลาอบรม</label>
+                            <label>กำหนดระยะรับสมัครเข้าอบรม</label>
                         </div>
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
@@ -67,7 +68,7 @@
                         </div>
 
                         <div class="col-12 col-xl-12">
-                            <label>กำหนดระยะรับสมัครเข้าอบรม</label>
+                            <label>กำหนดระยะเวลาอบรม</label>
                         </div>
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
@@ -96,10 +97,18 @@
                         <div class="col-12 col-xl-12">
                             <div class="form-group">
                                 <label class="form-label w-100">แนบไฟล์</label>
-                                <input type="file" multiple="multiple" formControlName="files">
+                                <input type="file" multiple (change)="uploadFile($event)">
                                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
                             </div>
                         </div>
+
+
+                        
+                        
+
+                        
+
+                        
                         <!-- <hr> -->
                         <div class="form-group row">
                             <div class="col-sm-5 ml-sm-auto">
