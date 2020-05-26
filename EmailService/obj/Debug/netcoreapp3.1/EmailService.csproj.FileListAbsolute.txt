@@ -15,3 +15,12 @@ C:\Users\SARAN\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.
 C:\Users\SARAN\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfo.cs
 C:\Users\SARAN\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
 C:\Users\SARAN\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb
+D:\Projects\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.deps.json
+D:\Projects\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.dll
+D:\Projects\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.pdb
+D:\Projects\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.csprojAssemblyReference.cache
+D:\Projects\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.csproj.CoreCompileInputs.cache
+D:\Projects\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfoInputs.cache
+D:\Projects\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfo.cs
+D:\Projects\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
+D:\Projects\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb

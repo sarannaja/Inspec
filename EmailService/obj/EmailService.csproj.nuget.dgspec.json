@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SARAN\\Desktop\\Inspec\\EmailService\\EmailService.csproj": {}
+    "D:\\Projects\\Inspec\\EmailService\\EmailService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SARAN\\Desktop\\Inspec\\EmailService\\EmailService.csproj": {
+    "D:\\Projects\\Inspec\\EmailService\\EmailService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SARAN\\Desktop\\Inspec\\EmailService\\EmailService.csproj",
+        "projectUniqueName": "D:\\Projects\\Inspec\\EmailService\\EmailService.csproj",
         "projectName": "EmailService",
-        "projectPath": "C:\\Users\\SARAN\\Desktop\\Inspec\\EmailService\\EmailService.csproj",
-        "packagesPath": "C:\\Users\\SARAN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SARAN\\Desktop\\Inspec\\EmailService\\obj\\",
+        "projectPath": "D:\\Projects\\Inspec\\EmailService\\EmailService.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\Inspec\\EmailService\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\SARAN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
