@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { IOption } from 'ng-select';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-inspection-plan',
@@ -29,7 +30,8 @@ export class InspectionPlanComponent implements OnInit {
   userid: string
   dtOptions: DataTables.Settings = {};
   centralpolicyprovinceid: any
-  constructor(private modalService: BsModalService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, ) {
+  role_id
+  constructor(private modalService: BsModalService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService, ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
@@ -41,18 +43,28 @@ export class InspectionPlanComponent implements OnInit {
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
-        console.log(result);
-        // alert(this.userid)
+        // this.role_id = result.role_id
+        // console.log(result);
+        // alert(this.role_id)
+
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
       })
 
-      this.dtOptions = {
-        pagingType: 'full_numbers',
-        columnDefs: [
-          {
-            targets: [5],
-            orderable: false
-          }
-        ]};
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columnDefs: [
+        {
+          targets: [4],
+          orderable: false
+        }
+      ]
+    };
 
     this.Form = this.fb.group({
       CentralpolicyId: new FormControl(null, [Validators.required])
@@ -69,8 +81,8 @@ export class InspectionPlanComponent implements OnInit {
     this.router.navigate(['/subject', id])
   }
 
-  CraateInspectionPlan(id) {
-    this.router.navigate(['/inspectionplan/createinspectionplan', id])
+  CrateInspectionPlan(id) {
+    this.router.navigate(['/inspectionplan/createinspectionplan', id, { proid: this.provinceid }])
   }
   EditInspectionPlan(id: any) {
     this.router.navigate(['/inspectionplan/editinspectionplan', id])
@@ -91,7 +103,9 @@ export class InspectionPlanComponent implements OnInit {
   }
   storeCentralPolicyEventRelation(value) {
     // alert(JSON.stringify(value))
-    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid,this.provinceid).subscribe(response => {
+    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid).subscribe(response => {
+
+
       this.Form.reset()
       this.modalRef.hide()
       // this.loading = false
@@ -117,7 +131,7 @@ export class InspectionPlanComponent implements OnInit {
       let data2: any = [];
 
       test1.forEach(element => {
-          data1.push(element)
+        data1.push(element)
       });
       console.log("Data 1: ", data1);
 

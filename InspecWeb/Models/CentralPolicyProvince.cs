@@ -26,6 +26,9 @@ namespace InspecWeb.Models
         public long ProvinceId { get; set; }
         public virtual Province Province { get; set; }
 
+        [Description("มอบหมายเขต , มอบหมายจังหวัด , มอบหมายหน่วยงาน")]
+        public string Step { get; set; }
+
         public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
     }
 }

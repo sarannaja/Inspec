@@ -31,7 +31,7 @@ function getQueryParameter(name) {
   location.search
     .substr(1)
     .split("&")
-    .some(function(item) {
+    .some(function (item) {
       // returns first occurence and stops
       return (
         item.split("=")[0] == name && (queryParameter = item.split("=")[1])
@@ -52,8 +52,10 @@ function getCurrentTheme() {
 
   return cookie ? cookie : "modern";
 }
-
+// document.getElementsByTagName('base')[0].href;
 // Append theme style-tag to <head>
+// const link = document.getElementsByTagName('base')[0].href;
+
 const link = document.createElement("link");
 link.href = "css/" + getCurrentTheme() + ".css";
 link.type = "text/css";

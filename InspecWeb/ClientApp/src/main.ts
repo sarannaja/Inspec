@@ -6,6 +6,10 @@ import { environment } from './environments/environment';
 
 export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
+   // return "https://sso.ipthailand.go.th/"
+  //  let baseurl = document.getElementsByTagName('base')[0].href;
+  //  console.log(baseurl)
+  //  return baseurl.replace('https:', 'http:');
 }
 
 const providers = [

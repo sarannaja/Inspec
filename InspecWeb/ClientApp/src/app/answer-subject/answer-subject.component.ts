@@ -24,7 +24,7 @@ export class AnswerSubjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.spinner.show();
+    this.spinner.show();
 
     this.dtOptions = {
       pagingType: 'full_numbers',

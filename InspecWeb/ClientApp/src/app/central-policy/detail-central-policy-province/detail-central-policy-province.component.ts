@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { IOption } from 'ng-select';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubjectService } from 'src/app/services/subject.service';
@@ -10,6 +10,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { async } from '@angular/core/testing';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-detail-central-policy-province',
@@ -30,11 +32,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   // UserMinistryId: any;
   id
   Form2: FormGroup;
+  Form3: FormGroup;
   Form: FormGroup;
   EditForm: FormGroup;
   EditForm2: FormGroup;
   EditForm3: FormGroup;
   EditForm4: FormGroup;
+  AddForm: FormGroup;
   selectpeople: Array<IOption>
   selectministrypeople: Array<IOption>
   modalRef: BsModalRef;
@@ -44,6 +48,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   subject: any;
   subjectquestionopen: any;
   downloadUrl: any
+  urllink
   loading = false;
   electronicbookid: any
   selectdataministrypeople: Array<IOption>
@@ -57,8 +62,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   provinceid
   resultdate: any = []
   department: any = []
+  peopleanswer: any = []
   subjectid
   delid
+  userid
+  role_id
+  temp = []
+  resultdsubjectid: any = []
+
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -68,12 +79,33 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private departmentService: DepartmentService,
+    private notificationService: NotificationService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
+    this.urllink = baseUrl + 'answersubject/outsider/';
   }
 
   async ngOnInit() {
+
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        // this.role_id = result.role_id
+        // console.log(result);
+        // alert(this.role_id)
+
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
+      })
+
     console.log("ID: ", this.id);
 
     this.spinner.show();
@@ -85,10 +117,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       DepartmentId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
     })
-
+    this.Form3 = this.fb.group({
+      peopleanswer: new FormControl(null, [Validators.required]),
+      // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
     this.form = this.fb.group({
       files: [null],
-      status: new FormControl("มอบหมายให้จังหวัด", [Validators.required]),
+      step: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -105,6 +140,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     this.EditForm4 = this.fb.group({
       subjectquestionopen: new FormControl(),
+    })
+
+    this.AddForm = this.fb.group({
+      name: new FormControl(null, [Validators.required]),
+      // centralpolicydateid: new FormControl(null, [Validators.required]),
+      status: new FormControl("ใช้งานจริง่", [Validators.required]),
+      inputsubjectdepartment: this.fb.array([
+        this.initdepartment()
+      ]),
     })
 
     // this.userservice.getuserdata(7).subscribe(result => {
@@ -137,23 +181,69 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.spinner.hide();
     }, 800);
   }
+initdepartment() {
+    return this.fb.group({
+      departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      inputquestionopen: this.fb.array([
+        this.initquestionopen()
+      ]),
+      inputquestionclose: this.fb.array([
+        this.initquestionclose()
+      ])
+    })
+  }
+  initquestionopen() {
+    return this.fb.group({
+      questionopen: [null, [Validators.required, Validators.pattern('[0-9]{3}')]]
 
+    })
+  }
+  initquestionclose() {
+    return this.fb.group({
+      questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      inputanswerclose: this.fb.array([
+        this.initanswerclose()
+      ])
+    });
+  }
+  initanswerclose() {
+    return this.fb.group({
+      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+    })
+  }
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
     await this.getMinistryPeople();
     await this.getUserPeople();
+    this.getDepartmentdata();
   }
   openModal2(template: TemplateRef<any>, subjectid) {
     this.subjectid = subjectid
-      this.departmentService.getalldepartdata().subscribe(res => {
-        this.department = res.map((item, index) => {
-          return {
-            value: item.id,
-            label: item.name
-          }
-        })
-        this.modalRef = this.modalService.show(template);
+    this.departmentService.getalldepartdata().subscribe(res => {
+      this.department = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
       })
+      this.modalRef = this.modalService.show(template);
+    })
+  }
+
+  openModal3(template: TemplateRef<any>, subjectid) {
+    this.subjectid = subjectid
+
+    this.userservice.getuserdata(7).subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.peopleanswer = result.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      this.modalRef = this.modalService.show(template);
+    })
+
   }
 
   editModal(template: TemplateRef<any>, id, name) {
@@ -216,6 +306,25 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
   }
+
+  DelModal2(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  delsubjectModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  delquestionModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+  deloptionModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
   // getDetailCentralPolicy() {
   //   this.centralpolicyservice.getdetailcentralpolicydata(this.id)
   //     .subscribe(result => {
@@ -230,6 +339,17 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+
+        if (this.role_id == 3) {
+          if (this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายเขต') {
+            this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step = "มอบหมายจังหวัด"
+          }
+          this.form.patchValue({
+
+            step: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step
+          })
+        }
+
         this.resultuser = result.userdata
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId
 
@@ -253,24 +373,40 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storeFiles(value) {
     // alert(JSON.stringify(value))
-    this.electronicBookService.addElectronicBookFileFromCalendar(value, this.form.value.files, this.electronicbookid).subscribe(response => {
+    this.electronicBookService.addElectronicBookFileFromCalendar(value, this.form.value.files, this.electronicbookid, this.id).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
-      console.log("get");
+      // console.log("get");
+      this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
+        .subscribe(response => {
+          console.log(response);
+        })
+
       window.history.back();
     })
   }
 
-  storePeople(value) {
+  storePeople(value: any) {
+    let UserPeopleId: any[] = value.UserPeopleId
     // alert(JSON.stringify(value))
     this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+
+      for (let i = 0; i < UserPeopleId.length; i++) {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
+          .subscribe(response => {
+            console.log(response);
+
+          })
+      }
+
       this.getCentralPolicyProvinceUser();
     })
   }
+
 
   storeDepartment(value) {
     // alert(this.subjectid)
@@ -278,6 +414,27 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       console.log(value);
       this.Form2.reset()
       this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  storepeopleanswer(value) {
+    let UserPeopleanswerId: any[] = value.peopleanswer
+    // alert(this.subjectid)
+    this.centralpolicyservice.addPeopleAnswer(value, this.subjectid).subscribe(response => {
+      console.log(value);
+      this.Form3.reset()
+      this.modalRef.hide()
+
+
+      for (let i = 0; i < UserPeopleanswerId.length; i++) {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1)
+          .subscribe(response => {
+            console.log(response);
+
+          })
+      }
+
       this.getDetailCentralPolicyProvince();
     })
   }
@@ -375,7 +532,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(async result => {
       await result.forEach(async element => {
         if (element.user.role_id == 7) {
-           this.allUserPeople.push(element.user)
+          this.allUserPeople.push(element.user)
         }
       }); // Selected
       console.log("selectedUser: ", this.allUserPeople);
@@ -441,4 +598,114 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     })
   }
+
+  deletepeopleanswer(value) {
+    this.subjectservice.deletePeopleanswer(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+
+      this.getDetailCentralPolicyProvince();
+
+    })
+  }
+  addV() {
+    const control = <FormArray>this.AddForm.controls['inputsubjectdepartment'];
+    control.push(this.initdepartment());
+  }
+  addW(iv) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.push(this.initquestionopen());
+  }
+  addX(iv) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.push(this.initquestionclose());
+  }
+  addY(iv, ix) {
+    const control = ((<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+    control.push(this.initanswerclose());
+  }
+  // remove(index: number) {
+  //   this.d.removeAt(index);
+  // }
+  removeV(index: number) {
+    const control = <FormArray>this.AddForm.controls['inputsubjectdepartment'];
+    control.removeAt(index);
+  }
+  removeW(iv: number, iw: number) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.removeAt(iw);
+  }
+  removeX(iv: number, ix: number) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.removeAt(ix);
+  }
+  removeY(iv: number, ix: number, iy: number) {
+    const control = ((<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+    control.removeAt(iy);
+  }
+  back() {
+    window.history.back();
+  }
+
+  deletesubject(value) {
+    this.subjectservice.deletesubjectrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+  deletequestion(value) {
+    this.subjectservice.deletequestionrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+  deleteoption(value) {
+    this.subjectservice.deleteoptionrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  getDepartmentdata() {
+    // this.resultprovince.forEach((element, index) => {
+    //   console.log('element', element);
+
+    this.departmentService.getalldepartdata()
+      .subscribe(result => {
+        this.temp = result.map((item, index) => {
+          return {
+            value: item.id,
+            label: item.name,
+          }
+        })
+        console.log(result);
+      })
+    // });
+  }
+
+  storeSubject(value) {
+    this.spinner.show();
+    console.log(value);
+    this.subjectservice.addSubjectRole3(value, this.id).subscribe(response => {
+      console.log("Response : ", response);
+      this.resultdsubjectid.push(response.getSubjectID)
+      response.termsList.forEach(element => {
+        this.resultdsubjectid.push(element)
+      });
+      console.log("Response2 : ", this.resultdsubjectid);
+      // this.storefiles();
+      this.AddForm.reset();
+      this.modalRef.hide();
+      this.spinner.hide();
+      this.getDetailCentralPolicyProvince()
+    })
+  }
+
 }

@@ -14,12 +14,49 @@ export class AnswersubjectService {
     this.url = baseUrl + 'api/answersubject/';
   }
   getuseredata(id):Observable<any[]> {
-    return this.http.get<any[]>(this.url+"nik/" + id)
+    return this.http.get<any[]>(this.url+"user/" + id)
+  }
+  getuserpeopleedata(id):Observable<any[]> {
+    return this.http.get<any[]>(this.url+"userpeople/" + id)
   }
   getsubjectlistdata(id):Observable<any[]>{
     return this.http.get<any[]>(this.url+"subjectlist/" + id)
   }
   getsubjectdetaildata(id):Observable<any[]>{
     return this.http.get<any[]>(this.url+"subjectdetail/" + id)
+  }
+  addAnswer(answersubjectdata) {
+    console.log('answersubjectdata: ', answersubjectdata);
+    const formData = {
+      inputanswer: answersubjectdata,
+     
+    }
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url, formData);
+  }
+  addAnsweroutsider(answersubjectdata) {
+    console.log('answersubjectdata: ', answersubjectdata);
+    const formData = {
+      inputansweroutsider: answersubjectdata,
+     
+    }
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url+"outsider", formData);
+  }
+  addFiles(subjectid, file: FileList) {
+    // alert(subjectid)
+    // alert(JSON.stringify(file))
+    // console.log("subjectid",subjectid);
+    console.log("file", file);
+    console.log("subjectid", subjectid);
+
+    const formData = new FormData();
+    // for (var i = 0; i < subjectid.length; i++) {
+      formData.append('SubjectCentralPolicyProvinceId', subjectid);
+    // }
+    for (var i = 0; i < file.length; i++) {
+      formData.append("files", file[i]);
+    }
+    return this.http.post(this.url + "addfiles", formData);
   }
 }

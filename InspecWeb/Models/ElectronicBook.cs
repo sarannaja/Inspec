@@ -24,15 +24,15 @@ namespace InspecWeb.Models
         public string CreatedBy { get; set; }
         //public virtual ApplicationUser User { get; set; }
 
-        [Description("รายละเอียด")]
+        [Description("ผลการจตรวจ")]
         public string Detail { get; set; }
         //public ICollection<CentralPolicyUser> CentralPolicyUsers { get; set; }
 
-        [Description("รายละเอียด")]
+        [Description("ปัญหา")]
         public string Problem { get; set; }
 
 
-        [Description("รายละเอียด")]
+        [Description("คำแนะนำ")]
         public string Suggestion { get; set; }
 
         [Required]
@@ -40,5 +40,6 @@ namespace InspecWeb.Models
         public string Status { get; set; }
 
         public ICollection<ElectronicBookFile> ElectronicBookFiles { get; set; }
+        public ICollection<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
     }
 }

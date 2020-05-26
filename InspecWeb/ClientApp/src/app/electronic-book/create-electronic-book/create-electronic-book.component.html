@@ -60,7 +60,7 @@
               </div>
             </div>
 
-            <div class="col-12 col-xl-12">
+            <!-- <div class="col-12 col-xl-12">
               <div class="form-group">
                 <div class="form-group col-md-3">
                   <div class="mb-3">
@@ -71,7 +71,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-12 col-xl-12">
               <label>กำหนดระยะเวลา</label>
@@ -117,7 +117,7 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>จังหวัด</label>
-                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="selectdataprovince"
+                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
                   name="ProvinceId" formControlName="ProvinceId" [allowClear]="true">
                 </ng-select>
               </div>
@@ -191,14 +191,15 @@
                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
             </div> -->
-            <div class="col-12 col-xl-12">
+
+            <!-- <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label w-100">แนบไฟล์</label>
                 <input type="file" multiple (change)="uploadFile($event)" >
-                <!-- formControlName="files" -->
                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
-            </div>
+            </div> -->
+
             <!-- <hr> -->
             <!-- <div class="form-group row"> -->
               <div class="col-sm-12 ml-sm-auto" style="margin-left: 30px; margin-top: 10px;">
@@ -214,7 +215,7 @@
       </div>
 
       <div class="card-body" style="margin-top: 30px;" *ngIf="showDetail">
-        <form [formGroup]="Form" (ngSubmit)="storeInspectionPlanEvent(Form.value)">
+        <form [formGroup]="EbookForm" (ngSubmit)="storeInspectionPlanEvent(EbookForm.value)">
           <!-- <div class="row">
             <div class="col-12 col-xl-12">
               <br>

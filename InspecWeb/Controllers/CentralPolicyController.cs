@@ -92,7 +92,7 @@ namespace InspecWeb.Controllers
                 Status = model.Status,
                 CreatedAt = date,
                 CreatedBy = model.UserID,
-                Class = "แผนการตรวจประจำปี",
+                Class = model.Class,
             };
 
             _context.CentralPolicies.Add(centralpolicydata);
@@ -104,6 +104,7 @@ namespace InspecWeb.Controllers
                 {
                     ProvinceId = id,
                     CentralPolicyId = centralpolicydata.Id,
+                    Step = "มอบหมายเขต"
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
             }
@@ -159,32 +160,35 @@ namespace InspecWeb.Controllers
             var filePath = _environment.WebRootPath + "//Uploads//";
 
 
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+            if (model.files != null)
             {
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
                 {
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
-                    {
-                        await formFile.Value.CopyToAsync(stream);
-                    }
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                    var CentralPolicyFile = new CentralPolicyFile
+                    if (formFile.Value.Length > 0)
                     {
-                        CentralPolicyId = centralpolicydata.Id,
-                        Name = random + filename,
-                    };
-                    _context.CentralPolicyFiles.Add(CentralPolicyFile);
-                    _context.SaveChanges();
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var CentralPolicyFile = new CentralPolicyFile
+                        {
+                            CentralPolicyId = centralpolicydata.Id,
+                            Name = random + filename,
+                        };
+                        _context.CentralPolicyFiles.Add(CentralPolicyFile);
+                        _context.SaveChanges();
+                    }
                 }
             }
-            return Ok(new { status = true });
+            return Ok(centralpolicydata.Id);
 
         }
 
@@ -499,6 +503,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyUser)
                 .ThenInclude(m => m.ElectronicBook)
+                .ThenInclude(x => x.ElectronicBookSuggestGroups)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
                 //.Include(m => m.Subjects)
@@ -542,34 +547,56 @@ namespace InspecWeb.Controllers
             .ThenInclude(m => m.Province)
             .Where(m => m.Id == centralpolicyprovince.CentralPolicyId).First();
 
-            var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
+            //var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
 
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
 
+                 .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
+                .ThenInclude(m => m.User)
+
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                 .ThenInclude(m => m.ProvincialDepartment)
+                .Include(x => x.ElectronicBookSuggestGroups)
 
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
+            System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
+            System.Console.WriteLine("InspectionPlanEventId" + centralpolicyprovince.ProvinceId);
+
             var InspectionPlanEventdata = _context.InspectionPlanEvents
                 .Include(m => m.CentralPolicyEvents)
-                .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicyId == centralpolicyprovince.CentralPolicyId))
-                .Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
+                .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicyId == centralpolicyprovince.CentralPolicyId) && m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
-            System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
-            System.Console.WriteLine("InspectionPlanEventId" + InspectionPlanEventdata.Id);
+                //.Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
-            var CentralPolicyEventdata = _context.CentralPolicyEvents
+            
+            //System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
+            //System.Console.WriteLine("InspectionPlanEventId" + InspectionPlanEventdata.Id);
+
+
+            if (InspectionPlanEventdata != null)
+            {
+                var CentralPolicyEventdata = _context.CentralPolicyEvents
                 .Include(m => m.ElectronicBook)
                 .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId && m.InspectionPlanEventId == InspectionPlanEventdata.Id)
                 //.Where(m => m.InspectionPlanEventId == InspectionPlanEventdata.Id)
                 .FirstOrDefault();
 
-            return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata });
+                var userdata = _context.Users.Where(m => m.Id == CentralPolicyEventdata.InspectionPlanEvent.CreatedBy).First();
+                return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata });
+            } else
+            {
+                var userdata = "";
+                var CentralPolicyEventdata = "";
+                return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata });
+            }
+
+            
             //return "value";
         }
 
@@ -699,6 +726,7 @@ namespace InspecWeb.Controllers
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Include(x => x.ElectronicBookSuggestGroups)
                 .Where(m => m.CentralPolicyProvinceId == centralpolicyprovincedata.Id)
                 .ToList();
 
@@ -749,7 +777,31 @@ namespace InspecWeb.Controllers
                     _context.SaveChanges();
                 }
             }
+        }
 
+        //POST api/values
+        [HttpPost("addpeopleanswer")]
+        public void Post3([FromBody] SubjectCentralPolicyProvinceUserGroupModel model)
+        {
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.Id == model.SubjectCentralPolicyProvinceId).FirstOrDefault();
+
+            var subquestdatas = _context.SubquestionCentralPolicyProvinces
+                .Where(m => m.SubjectCentralPolicyProvinceId == subjectdata.Id).ToList();
+
+            foreach (var subquestdata in subquestdatas)
+            {
+                foreach (var DepartmentIddata in model.UserId)
+                {
+                    var SubjectCentralPolicyProvinceGroup = new SubjectCentralPolicyProvinceUserGroup
+                    {
+                        SubquestionCentralPolicyProvinceId = subquestdata.Id,
+                        UserId = DepartmentIddata
+                    };
+                    _context.SubjectCentralPolicyProvinceUserGroups.Add(SubjectCentralPolicyProvinceGroup);
+                    _context.SaveChanges();
+                }
+            }
         }
     }
 }
