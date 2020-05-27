@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GorvermentinspectionplanService {
-  url = "https://localhost:5001/api/governmentinspectionplan/";
+  // url = "https://localhost:5001/api/governmentinspectionplan/";
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,@Inject('BASE_URL') private url: string) { }
   getgovernmentinspectionplan(){
     return this.http.get(this.url)
   }

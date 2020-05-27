@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class InspectionorderService {
-  url = "https://localhost:5001/api/inspectionorder/";
+  // url = "https://localhost:5001/api/inspectionorder/";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,@Inject('BASE_URL') private url: string) {}
   getinspectionorderdata() {
     return this.http.get(this.url)
   }

@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-instructionorder.component.css']
 })
 export class CreateInstructionorderComponent implements OnInit {
-
+  input:[]
+  input2:[]
   constructor() { }
 
   ngOnInit() {
