@@ -172,14 +172,14 @@ import { ExcelService } from './services/excel.service';
   ],
 
   imports: [
-    // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
     SelectModule,
     ReactiveFormsModule,
     MyDatePickerTHModule,
-    BrowserModule,
+    // BrowserModule,
     SnotifyModule,
     NgxSpinnerModule,
     DataTablesModule,
@@ -280,9 +280,9 @@ import { ExcelService } from './services/excel.service';
     ThaiDatePipe,],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
-    SnotifyService, NotificationService,
+    SnotifyService, NotificationService,ExcelService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-    ExcelService
+    
 
     // UserManager
   ],

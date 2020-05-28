@@ -30,7 +30,7 @@ import { UserManager } from 'oidc-client';
   exports: [LoginMenuComponent, LoginComponent, LogoutComponent],
   providers:[
     AuthorizeService,
-    // UserManager
+    UserManager
   ]
 })
 export class ApiAuthorizationModule { }

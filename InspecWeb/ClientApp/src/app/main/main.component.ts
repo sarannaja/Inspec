@@ -49,8 +49,8 @@ export class MainComponent implements OnInit {
         //alert(this.role_id);
         console.log("user", result);
       })
-    this.exportExcel();
-
+    // this.exportExcel();
+      this.userManager.getUser
   }
   Logout() {
     this.authorize.signOut({ local: true })
