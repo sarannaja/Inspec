@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-detail-electronic-book',
@@ -61,6 +62,7 @@ export class DetailElectronicBookComponent implements OnInit {
   editSuggestionForm: FormGroup;
   userid
   role_id
+  reportBody: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -72,6 +74,7 @@ export class DetailElectronicBookComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private authorize: AuthorizeService,
+    private notificationService: NotificationService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
@@ -241,6 +244,8 @@ export class DetailElectronicBookComponent implements OnInit {
         console.log("EiEi: ", result.subjectcentralpolicyprovincedata);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
+        console.log("res ja", this.resultdetailcentralpolicy);
+
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
 
@@ -320,6 +325,8 @@ export class DetailElectronicBookComponent implements OnInit {
 
       // this.resultreport = result.centralPolicyUser
       this.resultreport = result.report
+      console.log("results report: ", this.resultreport);
+
       this.detailForm.patchValue({
         eBookDetail: this.resultelectronicbookdetail,
         Status: result.status
@@ -416,14 +423,30 @@ export class DetailElectronicBookComponent implements OnInit {
   }
 
   addSignatureFile() {
+    this.addReportTable();
     this.electronicBookService.addSignatureFile(this.elecId, this.form.value.files).subscribe(res => {
       console.log("signatureFile: ", res);
 
       this.spinner.show();
+
+      this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 8, 1)
+      .subscribe(response => {
+        console.log(response);
+      })
+
+
       setTimeout(() => {
         this.getSignatureProvince();
         this.spinner.hide();
       }, 300);
+    })
+
+  }
+
+  addReportTable() {
+    this.electronicBookService.addReportTable(this.resultdetailcentralpolicy, this.editSuggestionForm.value, this.resultdetailcentralpolicy.id).subscribe(res => {
+      console.log("res: ", res);
+
     })
   }
 

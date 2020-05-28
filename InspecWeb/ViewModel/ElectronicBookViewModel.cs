@@ -38,6 +38,22 @@ namespace InspecWeb.ViewModel
         public string[] UserPeopleId { get; set; }
         public string[] UserMinistryId { get; set; }
         public long[] ProvincialDepartmentId { get; set; }
+
+        public long ReportProvinceId { get; set; }
+        public string ReportTitle { get; set; }
+        public string ReportYear { get; set; }
+        public string ReportMinistry { get; set; }
+        public string ReportStatus { get; set; }
+        public string ReportUserId { get; set; }
+
+        public string ReportBodySubject { get; set; }
+        public string ReportBodyProblem { get; set; }
+        public string ReportBodyDepartment { get; set; }
+        public string ReportBodySuggestion { get; set; }
+        public string ReportBodyReport { get; set; }
+        public string ReportBodyFile { get; set; }
+        public string ReportBodyComment { get; set; }
+        public long ReportCentralPolicyId { get; set; }
     }
 
     //public class Inputelectronicbook

@@ -283,7 +283,7 @@ const ExternalOrganization = [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-    UserManager
+    // UserManager
   ],
 
   bootstrap: [AppComponent]

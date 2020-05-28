@@ -541,6 +541,7 @@ namespace InspecWeb.Controllers
             .Where(m => m.Id == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
             var centralpolicydata = _context.CentralPolicies
+            .Include(x => x.FiscalYear)
             .Include(m => m.CentralPolicyDates)
             .Include(m => m.CentralPolicyFiles)
             .Include(m => m.CentralPolicyProvinces)

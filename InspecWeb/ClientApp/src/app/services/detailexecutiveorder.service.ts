@@ -35,6 +35,7 @@ export class DetailexecutiveorderService {
     formData.append('Name', detailexecutiveorderData.name);
     formData.append('CentralpolicyId', centralpolicyid);
     formData.append('ProvinceId', detailexecutiveorderData.provinceId);
+    formData.append('Userid', detailexecutiveorderData.byuserid);
     for (var iii = 0;  iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
@@ -61,7 +62,7 @@ export class DetailexecutiveorderService {
     console.log('AnswerProblem: ' + formData.get("AnswerProblem"));
     console.log('AnswerCounsel: ' + formData.get("AnswerCounsel"));
     console.log('files: ' , formData.get("files"));
-    return this.http.put( this.url, formData);
+    return this.http.put<any>( this.url, formData);
   }
 
 }

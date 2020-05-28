@@ -68,12 +68,16 @@ namespace InspecWeb.Controllers
             //System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
             //System.Console.WriteLine("provinceid: " + model.ProvinceId);
             //System.Console.WriteLine("Name: " + model.Name);
+            var date = DateTime.Now;
             var cabinedata = new ExecutiveOrder
             {
 
                 DetailExecutiveOrder = model.Name,
                 CentralPolicyId = model.CentralpolicyId,
                 ProvinceId = model.ProvinceId,
+                UserId = model.UserId,
+                CreatedAt = date
+
             };
 
             _context.ExecutiveOrders.Add(cabinedata);
@@ -113,6 +117,7 @@ namespace InspecWeb.Controllers
                     _context.SaveChanges();
                 }
             }
+            //System.Console.WriteLine("Return ID: " + cabinedata.Id);
             return Ok(new { Id = cabinedata.Id });
         }
 
@@ -225,7 +230,7 @@ namespace InspecWeb.Controllers
                     System.Console.WriteLine("Sucess");
                 }
             }
-            return Ok(new { status = true });
+            return Ok(new { Id = model.id }); 
         }
 
         [HttpGet("ex/{id}")]
