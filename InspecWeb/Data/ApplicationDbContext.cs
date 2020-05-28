@@ -91,8 +91,9 @@ namespace InspecWeb.Data
         public DbSet<AnswerSubquestion> AnswerSubquestions { get; set; }
         public DbSet<AnswerSubquestionOutsider> AnswerSubquestionOutsiders { get; set; }
         public DbSet<AnswerSubquestionFile> AnswerSubquestionFiles { get; set; }
-
-
+        public DbSet<ExportRegistration> ExportRegistrations { get; set; }
+        public DbSet<ExportReportHead> ExportReportHeads { get; set; }
+        public DbSet<ExportReportBody> ExportReportBodies { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

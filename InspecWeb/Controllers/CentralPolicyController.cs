@@ -234,6 +234,7 @@ namespace InspecWeb.Controllers
                 {
                     ProvinceId = id,
                     CentralPolicyId = editId,
+                    Step = "มอบหมายเขต"
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
                 //_context.Entry(centralpolicyprovincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -541,6 +542,7 @@ namespace InspecWeb.Controllers
             .Where(m => m.Id == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
             var centralpolicydata = _context.CentralPolicies
+            .Include(x => x.FiscalYear)
             .Include(m => m.CentralPolicyDates)
             .Include(m => m.CentralPolicyFiles)
             .Include(m => m.CentralPolicyProvinces)
@@ -789,19 +791,19 @@ namespace InspecWeb.Controllers
             var subquestdatas = _context.SubquestionCentralPolicyProvinces
                 .Where(m => m.SubjectCentralPolicyProvinceId == subjectdata.Id).ToList();
 
-            foreach (var subquestdata in subquestdatas)
-            {
-                foreach (var DepartmentIddata in model.UserId)
-                {
-                    var SubjectCentralPolicyProvinceGroup = new SubjectCentralPolicyProvinceUserGroup
-                    {
-                        SubquestionCentralPolicyProvinceId = subquestdata.Id,
-                        UserId = DepartmentIddata
-                    };
-                    _context.SubjectCentralPolicyProvinceUserGroups.Add(SubjectCentralPolicyProvinceGroup);
-                    _context.SaveChanges();
-                }
-            }
+            //foreach (var subquestdata in subquestdatas)
+            //{
+            //    foreach (var DepartmentIddata in model.UserId)
+            //    {
+            //        var SubjectCentralPolicyProvinceGroup = new SubjectCentralPolicyProvinceUserGroup
+            //        {
+            //            SubquestionCentralPolicyProvinceId = subquestdata.Id,
+            //            UserId = DepartmentIddata
+            //        };
+            //        _context.SubjectCentralPolicyProvinceUserGroups.Add(SubjectCentralPolicyProvinceGroup);
+            //        _context.SaveChanges();
+            //    }
+            //}
         }
     }
 }
