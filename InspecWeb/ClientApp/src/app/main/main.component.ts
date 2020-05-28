@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-// import { UserManager } from 'oidc-client';
+import { UserManager } from 'oidc-client';
 import { ExcelService } from '../services/excel.service';
 import { WordService } from '../services/word.service';
 
@@ -31,8 +31,6 @@ export class MainComponent implements OnInit {
     ename: 'rajesh',
     esal: 3000
   }];
-  
-  constructor(private router:Router , private authorize:AuthorizeService,private excelService:ExcelService) { }
 
   constructor(private router: Router,
     private authorize: AuthorizeService,
@@ -41,7 +39,6 @@ export class MainComponent implements OnInit {
     private excelService: ExcelService) { }
 
   ngOnInit() {
-
     this.authorize.getUser()
       .subscribe(result => {
         this.email = result.name
@@ -60,14 +57,11 @@ export class MainComponent implements OnInit {
   }
 
   exportExcel(){
-
     this.wordService.exportExcel().subscribe(results => {
       // alert("1" + JSON.stringify(results))
       this.exportregistration = results
       // alert("2" + JSON.stringify(this.exportregistration))
       console.log("res: ", this.exportregistration);
-
-
     })
   }
 }
