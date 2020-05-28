@@ -29,6 +29,8 @@ namespace InspecWeb.Models
         [Description("มอบหมายเขต , มอบหมายจังหวัด , มอบหมายหน่วยงาน")]
         public string Step { get; set; }
 
+        [Description("ร่าง , ใช้งาน")]
+        public string Status { get; set; }
         public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
     }
 }
