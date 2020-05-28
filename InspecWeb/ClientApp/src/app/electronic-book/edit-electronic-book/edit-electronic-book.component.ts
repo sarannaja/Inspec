@@ -321,10 +321,10 @@ export class EditElectronicBookComponent implements OnInit {
 
     this.electronicBookService.addSuggestion(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
       console.log("res: ", result);
-
       this.modalRef.hide();
-      this.getDetailCentralPolicyProvince();
 
+      this.detailForm.reset();
+      this.getDetailCentralPolicyProvince();
     })
   }
 

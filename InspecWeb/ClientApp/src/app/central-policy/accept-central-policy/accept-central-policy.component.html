@@ -318,7 +318,7 @@
             &nbsp;&nbsp;
             <button (click)="storeAccept(Form.value,'ปฏิเสธ')" value="ปฏิเสธ" class="btn btn-danger">ปฏิเสธ</button>
             &nbsp;&nbsp;
-            <button (click)="openModal(assignModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
+            <button *ngIf="role_id != 7" (click)="openModal(assignModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
           </div>
         </form>
 

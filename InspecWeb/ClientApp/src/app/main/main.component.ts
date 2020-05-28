@@ -32,7 +32,6 @@ export class MainComponent implements OnInit {
     esal: 3000
   }];
 
-  // constructor(private router:Router , private authorize:AuthorizeService,private excelService:ExcelService) { }
 
   constructor(private router: Router,
     private authorize: AuthorizeService,
@@ -41,7 +40,6 @@ export class MainComponent implements OnInit {
     private excelService: ExcelService) { }
 
   ngOnInit() {
-
     this.authorize.getUser()
       .subscribe(result => {
         this.email = result.name
@@ -60,7 +58,6 @@ export class MainComponent implements OnInit {
   }
 
   exportExcel(){
-
     this.wordService.exportExcel().subscribe(results => {
       // alert("1" + JSON.stringify(results))
       this.exportregistration = results
