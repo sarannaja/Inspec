@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
@@ -784,7 +785,7 @@ namespace InspecWeb.Controllers
         }
 
         [HttpPost("addReport")]
-        public void PostReport([FromBody] ElectronicBookViewModel model)
+        public IActionResult PostReport([FromBody] ElectronicBookViewModel model)
         {
             System.Console.WriteLine("ProviceId: " + model.ReportProvinceId);
             System.Console.WriteLine("ReportTitle: " + model.ReportTitle);
@@ -848,15 +849,21 @@ namespace InspecWeb.Controllers
                     {
                         foreach(var test4 in test3.SubjectCentralPolicyProvinceGroups)
                         {
+
+                            //return Ok(test4);
+                            System.Console.WriteLine(" test4.ProvincialDepartment.Name" + test4.ProvincialDepartment.Name);
+
                             var ExportBodyData2 = _context.ExportReportBodies.Find(ExportBodyData.Id);
                             {
                                 if(ExportBodyData2.Department == null)
                                 {
+                                    System.Console.WriteLine(" test4 ja 1" + test4.ProvincialDepartment.Name);
                                     ExportBodyData2.Department = test4.ProvincialDepartment.Name;
                                 } 
                                 else 
-                                { 
-                                    ExportBodyData2.Department = ExportBodyData2.Department + "," + test4.ProvincialDepartment.Name;
+                                {
+                                    System.Console.WriteLine(" test4 ja 2" + test4.ProvincialDepartment.Name);
+                                    ExportBodyData2.Department = ExportBodyData2.Department + ", " + test4.ProvincialDepartment.Name;
                                 }
                             }
                             _context.Entry(ExportBodyData2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -866,8 +873,8 @@ namespace InspecWeb.Controllers
                 }
             }
 
-       
 
+            return Ok("eiei");
             System.Console.WriteLine("Finish Add Suggestion");
         }
 

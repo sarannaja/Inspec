@@ -181,7 +181,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.spinner.hide();
     }, 800);
   }
-initdepartment() {
+  initdepartment() {
     return this.fb.group({
       departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
       inputquestionopen: this.fb.array([
@@ -439,8 +439,20 @@ initdepartment() {
     })
   }
 
-  storeMinistryPeople(value) {
-    alert(JSON.stringify(value))
+  storeMinistryPeople(value: any) {
+    let UserPeopleId: any[] = value.UserPeopleId
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
+      console.log(value);
+      this.Form.reset()
+      this.modalRef.hide()
+      for (let i = 0; i < UserPeopleId.length; i++) {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
+          .subscribe(response => {
+            console.log(response);
+          })
+      }
+      this.getCentralPolicyProvinceUser();
+    })
   }
 
   editsubquestionclose(value, id) {

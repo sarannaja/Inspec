@@ -165,17 +165,17 @@
                     </td>
                     <td style="border-top: none;" width="50%">
                       <div class="row">
-                        <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;
+
+                        <!-- <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;
                           <button *ngIf="role_id == 3" type="button"
                             (click)="openModal3(modalInvitePeopleAnswer, items.id)"
                             class="btn btn-primary">เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</button></span>
-
                         <div class="col-12"
                           *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceUserGroups;let ii = index">
                           <span class="col-11">{{ii + 1}}. {{itemss.user.name}}</span>
                           <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
                             (click)="DelModal2(modaldeletepeopleanswer, itemss.id)"></i>
-                        </div>
+                        </div> -->
 
                         <!-- <div class="col-12"
                             *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
@@ -375,16 +375,25 @@
 
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
-
               <input type="radio" name="step" value="มอบหมายจังหวัด" checked
                 [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'"
                 formControlName="step">
               <label style="margin-left: 10px;">มอบหมายให้จังหวัด</label>
-
               <input style="margin-left: 10px;" type="radio" name="step" value="มอบหมายหน่วยงาน"
                 [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายหน่วยงาน'"
                 formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
+            </div>
+          </div>
+
+          <div class="form-group col-12" *ngIf="role_id == 3">
+            <div class="mb-3">
+              <input type="radio" name="status" value="ร่างกำหนดการ" checked
+                formControlName="status">
+              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
+                formControlName="status">
+              <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>
           </div>
 
@@ -588,7 +597,7 @@
 <!-- BEGIN primary modal -->
 <ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-  <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
+  <form [formGroup]="Form" (ngSubmit)="storeMinistryPeople(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
@@ -869,107 +878,109 @@
         </button>
       </div>
       <div class="modal-body m-3">
-    <div class="row">
-      <div class="col-12 col-xl-12">
-        <div class="form-group">
-          <label>ชื่อประเด็นนโยบาย</label>
-          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
-        </div>
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>ชื่อประเด็นนโยบาย</label>
+              <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
+            </div>
 
-        <div class="form-group">
-          <label>พื้นที่ดำเนินการ</label>
-          <div formArrayName="inputsubjectdepartment">
-            <div *ngFor="let V of AddForm['controls'].inputsubjectdepartment['controls']; let iv=index">
-              <div formGroupName="{{iv}}">
-                <div class="row">
-                  <div class="col-2">
-                    <label>หน่วยงานที่เกี่ยวข้อง</label>
-                  </div>
-                  <div class="col-1" *ngIf="iv == 0; else elseBlock">
-                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i>
-                  </div>
-                  <ng-template #elseBlock>
-                    <div class="col-1">
-                      <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeV(iv)"
-                        value="Add V"></i>
-                    </div>
-                  </ng-template>
-                </div>
-                <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
-                  formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
-                  (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
-                </ng-select>
-                <br>
-                <br>
-                <label>คำถามย่อย</label>
-                <br>
-                <label>คำถามปลายเปิด</label>
-                <div formArrayName="inputquestionopen">
-                  <!-- <div *ngFor="let W of Form['controls'].inputquestionopen['controls']; let iw=index"> -->
-                  <div *ngFor="let W of V['controls'].inputquestionopen['controls']; let iw=index">
-                    <div formGroupName="{{iw}}">
-                      <div class="row">
-                        <div class="col-11 col-xl-11">
-                          <input type="text" formControlName="questionopen" class="form-control"
-                            placeholder="กรุณากรอกคำถาม">
-                        </div>
-                        <div class="col-1">
-                          <div class="col-1 margin-plus-icon" *ngIf="iw == 0; else elseBlock">
-                            <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addW(iv)"
-                              value="Add W"></i>
-                          </div>
-                          <ng-template #elseBlock>
-                            <div class="col-1 margin-plus-icon">
-                              <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeW(iv,iw)"
-                                value="Add X"></i>
-                            </div>
-                          </ng-template>
-                        </div>
+            <div class="form-group">
+              <label>พื้นที่ดำเนินการ</label>
+              <div formArrayName="inputsubjectdepartment">
+                <div *ngFor="let V of AddForm['controls'].inputsubjectdepartment['controls']; let iv=index">
+                  <div formGroupName="{{iv}}">
+                    <div class="row">
+                      <div class="col-2">
+                        <label>หน่วยงานที่เกี่ยวข้อง</label>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <label>คำถามปลายปิด</label>
-                <div formArrayName="inputquestionclose">
-                  <div *ngFor="let X of V['controls'].inputquestionclose['controls']; let ix=index">
-                    <div formGroupName="{{ix}}">
-                      <div class="row">
-                        <div class="col-11 col-xl-11">
-                          <input type="text" formControlName="questionclose" class="form-control"
-                            placeholder="กรุณากรอกคำถาม">
-                        </div>
-                        <div class="col-1">
-                          <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
-                            <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX(iv)"
-                              value="Add X"></i>
-                          </div>
-                          <ng-template #elseBlock>
-                            <div class="col-1 margin-plus-icon">
-                              <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(iv,ix)"
-                                value="Add X"></i>
-                            </div>
-                          </ng-template>
-                        </div>
+                      <div class="col-1" *ngIf="iv == 0; else elseBlock">
+                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i>
                       </div>
-                      <div formArrayName="inputanswerclose">
-                        <div *ngFor="let Y of X['controls'].inputanswerclose['controls']; let iy=index">
-                          <div formGroupName="{{iy}}">
-                            <div class="row">
-                              <div class="col-9 col-xl-9">
-                                <input type="text" formControlName="answerclose" class="form-control"
-                                  placeholder="กรุณากรอกคำตอบให้เลือก">
+                      <ng-template #elseBlock>
+                        <div class="col-1">
+                          <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeV(iv)"
+                            value="Add V"></i>
+                        </div>
+                      </ng-template>
+                    </div>
+                    <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
+                      formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
+                      (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
+                    </ng-select>
+                    <br>
+                    <br>
+                    <label>คำถามย่อย</label>
+                    <br>
+                    <label>คำถามปลายเปิด</label>
+                    <div formArrayName="inputquestionopen">
+                      <!-- <div *ngFor="let W of Form['controls'].inputquestionopen['controls']; let iw=index"> -->
+                      <div *ngFor="let W of V['controls'].inputquestionopen['controls']; let iw=index">
+                        <div formGroupName="{{iw}}">
+                          <div class="row">
+                            <div class="col-11 col-xl-11">
+                              <input type="text" formControlName="questionopen" class="form-control"
+                                placeholder="กรุณากรอกคำถาม">
+                            </div>
+                            <div class="col-1">
+                              <div class="col-1 margin-plus-icon" *ngIf="iw == 0; else elseBlock">
+                                <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addW(iv)"
+                                  value="Add W"></i>
                               </div>
-                              <div class="col-1">
-                                <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
-                                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(iv,ix)"
-                                    value="Add Y"></i>
+                              <ng-template #elseBlock>
+                                <div class="col-1 margin-plus-icon">
+                                  <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeW(iv,iw)"
+                                    value="Add X"></i>
                                 </div>
-                                <ng-template #elseBlock>
-                                  <div class="col-1 margin-plus-icon">
-                                    <i class="align-middle mr-2 far fa-fw fa-minus-square"
-                                      (click)="removeY(iv,ix,iy)" value="Add Y"></i>
+                              </ng-template>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <label>คำถามปลายปิด</label>
+                    <div formArrayName="inputquestionclose">
+                      <div *ngFor="let X of V['controls'].inputquestionclose['controls']; let ix=index">
+                        <div formGroupName="{{ix}}">
+                          <div class="row">
+                            <div class="col-11 col-xl-11">
+                              <input type="text" formControlName="questionclose" class="form-control"
+                                placeholder="กรุณากรอกคำถาม">
+                            </div>
+                            <div class="col-1">
+                              <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
+                                <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX(iv)"
+                                  value="Add X"></i>
+                              </div>
+                              <ng-template #elseBlock>
+                                <div class="col-1 margin-plus-icon">
+                                  <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(iv,ix)"
+                                    value="Add X"></i>
+                                </div>
+                              </ng-template>
+                            </div>
+                          </div>
+                          <div formArrayName="inputanswerclose">
+                            <div *ngFor="let Y of X['controls'].inputanswerclose['controls']; let iy=index">
+                              <div formGroupName="{{iy}}">
+                                <div class="row">
+                                  <div class="col-9 col-xl-9">
+                                    <input type="text" formControlName="answerclose" class="form-control"
+                                      placeholder="กรุณากรอกคำตอบให้เลือก">
                                   </div>
-                                </ng-template>
+                                  <div class="col-1">
+                                    <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
+                                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(iv,ix)"
+                                        value="Add Y"></i>
+                                    </div>
+                                    <ng-template #elseBlock>
+                                      <div class="col-1 margin-plus-icon">
+                                        <i class="align-middle mr-2 far fa-fw fa-minus-square"
+                                          (click)="removeY(iv,ix,iy)" value="Add Y"></i>
+                                      </div>
+                                    </ng-template>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -977,27 +988,25 @@
                       </div>
                     </div>
                   </div>
+                  <hr>
                 </div>
               </div>
-              <hr>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-5 ml-sm-auto">
+              <button type="submit" class="btn btn-primary">บันทึก</button>
+            </div>
+            <div class="col-sm-5 ml-sm-auto">
+              <button type="button" class="btn btn-danger" (click)="modalRef.hide()">ยกเลิก</button>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="form-group row">
-        <div class="col-sm-5 ml-sm-auto">
-          <button type="submit" class="btn btn-primary">บันทึก</button>
-        </div>
-        <div class="col-sm-5 ml-sm-auto">
-          <button type="button" class="btn btn-danger" (click)="modalRef.hide()">ยกเลิก</button>
-        </div>
-      </div>
     </div>
-    </div>
-  </div>
   </form>
-<!-- </div> -->
+  <!-- </div> -->
 </ng-template>
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">

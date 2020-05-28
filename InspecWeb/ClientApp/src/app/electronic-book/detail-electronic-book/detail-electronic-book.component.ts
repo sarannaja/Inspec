@@ -445,7 +445,7 @@ export class DetailElectronicBookComponent implements OnInit {
 
   addReportTable() {
     this.electronicBookService.addReportTable(this.resultdetailcentralpolicy, this.editSuggestionForm.value, this.resultdetailcentralpolicy.id).subscribe(res => {
-      console.log("res: ", res);
+      console.log("resReportTable: ", res);
 
     })
   }
