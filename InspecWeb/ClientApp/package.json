@@ -84,6 +84,7 @@
     "@angular/compiler-cli": "8.2.12",
     "@angular/language-service": "8.2.12",
     "@types/datatables.net": "^1.10.18",
+    "@types/file-saver": "^2.0.1",
     "@types/jasmine": "^3.4.6",
     "@types/jasminewd2": "~2.0.8",
     "@types/jquery": "^3.3.33",

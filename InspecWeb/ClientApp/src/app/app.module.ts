@@ -11,7 +11,6 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
-import { MainComponent } from './main/main.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
 import { CreateCentralPolicyComponent } from './central-policy/create-central-policy/create-central-policy.component';
 import { CreateInspectionPlanComponent } from './inspection-plan/create-inspection-plan/create-inspection-plan.component';
@@ -57,7 +56,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
 import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
 import { EditCentralPolicyComponent } from './central-policy/edit-central-policy/edit-central-policy.component';
-import { UserManager } from 'oidc-client';
+// import { UserManager } from 'oidc-client';
 import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
@@ -71,7 +70,7 @@ import { DetailElectronicBookComponent } from './electronic-book/detail-electron
 import { AnswerSubjectComponent } from './answer-subject/answer-subject.component';
 import { CalendarUserComponent } from './calendar-user/calendar-user.component';
 import { AdviserCivilSectorComponent } from './adviser-civil-sector/adviser-civil-sector.component';
-import { RequestOrderComponent} from './request-order/request-order.component';
+import { RequestOrderComponent } from './request-order/request-order.component';
 import { DetailRequestOrderComponent } from './request-order/detail-request-order/detail-request-order.component';
 import { OfficerInspectionComponent } from './officer-inspection/officer-inspection.component';
 import { InfomationProvinceComponent } from './infomation-province/infomation-province.component';
@@ -91,11 +90,11 @@ import { ReportExportComponent } from './report-export/report-export.component';
 import { AnswerOutsideThankComponent } from './answer-subject/answer-outside-thank/answer-outside-thank.component';
 import { AnswerPeopleComponent } from './answer-subject/answer-people/answer-people.component';
 import { AnswerPeopleListComponent } from './answer-subject/answer-people-list/answer-people-list.component';
+import { MainComponent } from './main/main.component';
+import { ExcelService } from './services/excel.service';
 
 
-const ExternalOrganization = [
-  GgcOpmComponent, Opm1111Component, OtpsComponent
-]
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -173,7 +172,7 @@ const ExternalOrganization = [
   ],
 
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
@@ -190,8 +189,8 @@ const ExternalOrganization = [
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
-      { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent},
-      { path: 'ty', component: AnswerOutsideThankComponent},
+      { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent },
+      { path: 'ty', component: AnswerOutsideThankComponent },
       {
         path: '',
         component: DefaultLayoutComponent,
@@ -227,7 +226,7 @@ const ExternalOrganization = [
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
-          { path: 'cabinet', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]  },
+          { path: 'cabinet', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
           { path: 'inspector', component: InspectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorder', component: ExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
@@ -236,7 +235,7 @@ const ExternalOrganization = [
           { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'test/logout', component: LogoutComponent },
           { path: 'usercentralpolicy/:id', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'test/logout', component: LogoutComponent},
+          { path: 'test/logout', component: LogoutComponent },
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/detailsubject/:id', component: DetailSubjectComponent, canActivate: [AuthorizeGuard] },
@@ -245,14 +244,14 @@ const ExternalOrganization = [
           { path: 'electronicbook/create', component: CreateElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
-          { path: 'electronicbook/theme/:id' , component: TemplateElectronicComponent , canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/theme/:id', component: TemplateElectronicComponent, canActivate: [AuthorizeGuard] },
           { path: 'external-organization', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
-          { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard]},
-          { path: 'informationprovince', component: InfomationProvinceComponent, canActivate: [AuthorizeGuard]},
-          { path: 'infodistrict/:id', component: InfoDistrictComponent, canActivate: [AuthorizeGuard]},
-          { path: 'infosubdistrict/:id', component: InfoSubdistrictComponent, canActivate: [AuthorizeGuard]},
+          { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard] },
+          { path: 'informationprovince', component: InfomationProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infodistrict/:id', component: InfoDistrictComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infosubdistrict/:id', component: InfoSubdistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbookprovince', component: ElectronicBookProvinceComponent, canActivate: [AuthorizeGuard] },
@@ -260,7 +259,7 @@ const ExternalOrganization = [
           { path: 'reportexport', component: ReportExportComponent, canActivate: [AuthorizeGuard] },
           { path: 'advisercivilsector', component: AdviserCivilSectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'requestorder', component: RequestOrderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard]},
+          { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
         ]
@@ -276,13 +275,15 @@ const ExternalOrganization = [
         ]
       }
     ]),
-    ModalModule.forRoot()
-  ], exports: [
+    ModalModule.forRoot(),
+  ], exports: [ 
     ThaiDatePipe,],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    ExcelService
+
     // UserManager
   ],
 
