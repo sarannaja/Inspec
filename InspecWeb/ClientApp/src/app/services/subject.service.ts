@@ -98,6 +98,10 @@ export class SubjectService {
     }
     return this.http.post(this.url + "addfiles", formData);
   }
+  // addDate(Datadata){
+
+  //   return this.http.post(this.url + "test", null);
+  // }
   addSubquestionopen(Subquestionopendata) {
     const formData = new FormData();
     formData.append('subjectId', Subquestionopendata.subjectId);
@@ -218,7 +222,31 @@ export class SubjectService {
   }
 
   deleteoptionrole3(id) {
-    return this.http.delete(this.url + "deleteoptionrole3/" + id);
+    console.log()
+
+    return this.http.delete(this.url + "test" + null);
+  }
+  adddeleteDate(datedata, centralPolicyDateId, subjectid) {
+    console.log(centralPolicyDateId);
+    
+    // var centralPolicyDateIddata = []
+    // for (var i = 0; i < centralPolicyDateId.length; i++) {
+    //   centralPolicyDateIddata.push(centralPolicyDateId[i])
+    // }
+    // console.log("test", centralPolicyDateIddata);
+
+    const formData = new FormData();
+    for (var i = 0; i < datedata.length; i++) {
+      formData.append('id', datedata[i].value);
+    }
+    for (var ii = 0; ii < centralPolicyDateId.centralPolicyDateId.length; ii++) {
+      formData.append('CentralPolicyDateId', centralPolicyDateId.centralPolicyDateId[ii]);
+      // console.log(centralPolicyDateId[i]);
+
+    }
+    formData.append('subjectid', subjectid);
+    // console.log(formData);
+    return this.http.post(this.url + "deletedate", formData);
   }
 }
 

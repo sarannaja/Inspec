@@ -556,8 +556,6 @@ namespace InspecWeb.Controllers
                             await formFile.Value.CopyToAsync(stream);
                         }
 
-
-
                     }
                     System.Console.WriteLine("Start Upload 4.1");
                     {
@@ -578,47 +576,6 @@ namespace InspecWeb.Controllers
 
                         System.Console.WriteLine("Start Upload 5");
                     }
-                    //foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-                    ////foreach (var formFile in data.files)
-                    //{
-
-                    //    System.Console.WriteLine("Start Upload 3");
-                    //    var random = RandomString(10);
-                    //    string filePath2 = formFile.Value.FileName;
-                    //    string filename = Path.GetFileName(filePath2);
-                    //    string ext = Path.GetExtension(filename);
-
-                    //    if (formFile.Value.Length > 0)
-                    //    {
-
-                    //        System.Console.WriteLine("Start Upload 4");
-                    //        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    //        using (var stream = System.IO.File.Create(filePath + random + filename))
-                    //        {
-                    //            await formFile.Value.CopyToAsync(stream);
-                    //        }
-
-
-
-                    //    }
-                    //    System.Console.WriteLine("Start Upload 4.1");
-                    //    var SubjectFile = new SubjectCentralPolicyProvinceFile
-                    //    {
-
-                    //        SubjectCentralPolicyProvinceId = id,
-                    //        Name = random + filename,
-                    //    };
-
-                    //    System.Console.WriteLine("Start Upload 4.2");
-                    //    _context.SubjectCentralPolicyProvinceFiles.Add(SubjectFile);
-                    //    _context.SaveChanges();
-
-                    //    System.Console.WriteLine("Start Upload 4.3");
-
-
-                    //    System.Console.WriteLine("Start Upload 5");
-
-                    //}
                 }
 
 
@@ -930,6 +887,65 @@ namespace InspecWeb.Controllers
             var subjectcentralpolicyprovincegroup = _context.SubquestionChoiceCentralPolicyProvinces.Find(id);
 
             _context.SubquestionChoiceCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);
+            _context.SaveChanges();
+        }
+        // DELETE api/values/5
+        [HttpDelete("delet/{id}")]
+        public void DeleteSubjectDate(long[] id)
+        {
+            foreach (var iddata in id)
+            {
+                var subjectdatedata = _context.SubjectDateCentralPolicyProvinces.Find(iddata);
+
+                _context.SubjectDateCentralPolicyProvinces.Remove(subjectdatedata);
+                _context.SaveChanges();
+            }
+        }
+        // POST api/values
+        [HttpPost("deletedate")]
+        public void Delete(long[] id, long[] CentralPolicyDateId, long subjectid)
+        {
+
+            System.Console.WriteLine("CentralPolicyDateId" + CentralPolicyDateId);
+            System.Console.WriteLine("login1");
+            if (id != null)
+            {
+                foreach (var iddata in id)
+                {
+                    System.Console.WriteLine("login2");
+                    System.Console.WriteLine("id" + iddata);
+                    var subjectdatedata = _context.SubjectDateCentralPolicyProvinces.Find(iddata);
+
+                    _context.SubjectDateCentralPolicyProvinces.Remove(subjectdatedata);
+                    _context.SaveChanges();
+                }
+            }
+
+            System.Console.WriteLine("login2.2");
+
+            foreach (var CentralPolicyDateIdata in CentralPolicyDateId)
+            {
+                System.Console.WriteLine("login3");
+                System.Console.WriteLine("CentralPolicyDateId" + CentralPolicyDateId);
+                var CentralPolicyDatedata = _context.CentralPolicyDates
+                    .Where(m => m.Id == CentralPolicyDateIdata).FirstOrDefault();
+                System.Console.WriteLine("login4");
+                var CentralPolicyDateProvincedata = new CentralPolicyDateProvince
+                {
+                    StartDate = CentralPolicyDatedata.StartDate,
+                    EndDate = CentralPolicyDatedata.EndDate
+                };
+                _context.CentralPolicyDateProvinces.Add(CentralPolicyDateProvincedata);
+                _context.SaveChanges();
+                System.Console.WriteLine("login5");
+                var subjectdatedata = new SubjectDateCentralPolicyProvince
+                {
+                    SubjectCentralPolicyProvinceId = subjectid,
+                    CentralPolicyDateProvinceId = CentralPolicyDateProvincedata.Id,
+                };
+                System.Console.WriteLine("login6");
+                _context.SubjectDateCentralPolicyProvinces.Add(subjectdatedata);
+            }
             _context.SaveChanges();
         }
     }
