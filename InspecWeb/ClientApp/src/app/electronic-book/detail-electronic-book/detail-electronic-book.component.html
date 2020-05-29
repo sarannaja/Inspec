@@ -137,29 +137,6 @@
                         </div>
                       </div>
                     </td>
-                    <td style="border-top: none;" width="50%">
-                      <div class="row">
-                        <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;
-                          <!-- <button type="button" (click)="openModal3(modalInvitePeopleAnswer, items.id)"
-                            class="btn btn-primary">เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</button> -->
-                        </span>
-
-                        <div class="col-12"
-                          *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceUserGroups;let ii = index">
-                          <span class="col-11">{{ii + 1}}. {{itemss.user.name}}</span>
-                          <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                            (click)="DelModal2(modaldeletepeopleanswer, itemss.id)"></i>
-                        </div>
-
-                        <!-- <div class="col-12"
-                            *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
-                            <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
-                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                              (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
-                          </div> -->
-                      </div>
-
-                    </td>
                   </tr>
 
                   <div class="row" style="margin-top: 10px;">
@@ -185,14 +162,27 @@
                       <u>คำถามปลายเปิด</u>
                       <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
                         <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
-
                           <div class="col-12">
-                            <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                            <input type="text" value="{{item.name}}" class="form-control" placeholder="ไม่มีข้อมูล"
                               readonly>
                           </div>
                           <!-- <div class="col-1">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
                           </div> -->
+                        </div>
+                      </div>
+
+                    <button class="btn btn-success" (click)="showAnswer(i)" style="margin-left: 15px; margin-top: 8px;">คำตอบปลายเปิด
+                      <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
+                    </button>
+                      <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
+                        <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
+                          <div *ngFor="let items2 of item.answerSubquestions">
+                            <div *ngIf="show == true && showIndex == i" class="col-12" style="margin-left: 20px; margin-top: 5px;">
+                              <input type="text" value="{{items2.answer}}" class="form-control"
+                                placeholder="ไม่มีข้อมูล" readonly>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -274,7 +264,8 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div *ngIf="items.electronicBookSuggestGroups[0].detail != 'null'" class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].detail != 'null'" class="col-12"
+                            style="padding-left: 0;">
                             <div class="form-group">
                               <label>ผลการตรวจ</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
@@ -290,7 +281,8 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div *ngIf="items.electronicBookSuggestGroups[0].problem != 'null'" class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].problem != 'null'" class="col-12"
+                            style="padding-left: 0;">
                             <div class="form-group">
                               <label>ปัญหาและอุปสรรค</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
@@ -306,7 +298,8 @@
 
                       <div class="col-12">
                         <div class="row">
-                          <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12" style="padding-left: 0;">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12"
+                            style="padding-left: 0;">
                             <div class="form-group">
                               <label>ข้อเสนอแนะ</label>
                               <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
@@ -763,7 +756,8 @@
           <div class="col-12 col-xl-12" style="margin-top: 20px;">
             <div class="form-group">
               <label *ngIf="signatureFile.length <= 0" class="form-label w-100">แนบไฟล์ลายมือชื่อ</label>
-              <input *ngIf="signatureFile.length <= 0" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+              <input *ngIf="signatureFile.length <= 0" type="file" multiple (change)="uploadFile($event)"
+                style="margin-bottom: 10px;">
               <div class="row">
                 <div class="col-md-12" style="margin-top: 10px;">
                   <u>ไฟล์แนบลายมือชื่อ</u><br>
@@ -784,7 +778,8 @@
           </div>
         </div>
       </div>
-      <div *ngIf="signatureFile.length <= 0" class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+      <div *ngIf="signatureFile.length <= 0" class="form-group col col-lg-12"
+        style="margin-top: 20px; text-align: center;">
         <button style="align-self: center;" type="submit" class="btn btn-primary" style="margin-right: 45px;"
           (click)="addSignatureFile()">บันทึก</button>
         <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->

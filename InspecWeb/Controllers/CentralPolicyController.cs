@@ -234,7 +234,8 @@ namespace InspecWeb.Controllers
                 {
                     ProvinceId = id,
                     CentralPolicyId = editId,
-                    Step = "มอบหมายเขต"
+                    Step = "มอบหมายเขต",
+                    Status = "ร่างกำหนดการ"
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
                 //_context.Entry(centralpolicyprovincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -563,6 +564,9 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                 .ThenInclude(m => m.ProvincialDepartment)
                 .Include(x => x.ElectronicBookSuggestGroups)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.AnswerSubquestions)
 
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
