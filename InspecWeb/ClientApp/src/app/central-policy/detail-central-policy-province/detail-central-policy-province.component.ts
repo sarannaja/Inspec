@@ -124,6 +124,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.form = this.fb.group({
       files: [null],
       step: new FormControl(null, [Validators.required]),
+      status: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
