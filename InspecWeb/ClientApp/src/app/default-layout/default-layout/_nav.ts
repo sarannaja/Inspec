@@ -651,7 +651,7 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
   {
     icon: 'fa-book',
     url: "/answerpeople",
-    name: "Userrole 5"
+    name: "Userrole 7 แสดงความคิดเห็น"
   },
   {
     icon: 'fa-calendar',
