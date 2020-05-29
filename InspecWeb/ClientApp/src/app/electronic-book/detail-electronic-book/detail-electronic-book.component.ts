@@ -63,6 +63,9 @@ export class DetailElectronicBookComponent implements OnInit {
   userid
   role_id
   reportBody: any = [];
+  show = false;
+  showIndex: any;
+
 
   constructor(
     private fb: FormBuilder,
@@ -448,6 +451,16 @@ export class DetailElectronicBookComponent implements OnInit {
       console.log("resReportTable: ", res);
 
     })
+  }
+
+  showAnswer(index) {
+    if (this.show == true) {
+      this.show = false;
+      this.showIndex = index
+    } else {
+      this.show = true;
+      this.showIndex = index
+    }
   }
 
 }
