@@ -12,7 +12,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        // redirectTo: 'otps',
+        redirectTo: 'otps',
       },
       {
         path: 'ggc-opm',

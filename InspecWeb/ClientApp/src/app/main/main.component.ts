@@ -33,11 +33,13 @@ export class MainComponent implements OnInit {
   }];
 
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private authorize: AuthorizeService,
     private userManager: UserManager,
     private wordService: WordService,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService
+  ) { }
 
   ngOnInit() {
     this.authorize.getUser()
@@ -49,6 +51,7 @@ export class MainComponent implements OnInit {
       })
     this.exportExcel();
 
+      this.userManager.getUser
   }
   Logout() {
     this.authorize.signOut({ local: true })
