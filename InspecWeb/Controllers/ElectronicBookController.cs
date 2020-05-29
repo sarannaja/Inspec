@@ -480,6 +480,7 @@ namespace InspecWeb.Controllers
 
             var CentralPolicyProvincedata = _context.CentralPolicyProvinces.Find(model.CentralPolicyProvinceId);
             CentralPolicyProvincedata.Step = model.Step;
+            CentralPolicyProvincedata.Status = model.Status;
             _context.Entry(CentralPolicyProvincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

@@ -444,9 +444,11 @@
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" checked
+              [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.status == 'ร่างกำหนดการ'"
                 formControlName="status">
               <label style="margin-left: 10px;">ร่างกำหนดการ</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
+              [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.status == 'ใช้งานจริง'"
                 formControlName="status">
               <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>

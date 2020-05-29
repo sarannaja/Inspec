@@ -47,7 +47,7 @@ export class MainComponent implements OnInit {
         //alert(this.role_id);
         console.log("user", result);
       })
-      this.exportExcel();
+    this.exportExcel();
 
   }
   Logout() {
@@ -57,7 +57,7 @@ export class MainComponent implements OnInit {
     this.excelService.exportAsExcelFile(this.exportregistration, 'sample');
   }
 
-  exportExcel(){
+  exportExcel() {
     this.wordService.exportExcel().subscribe(results => {
       // alert("1" + JSON.stringify(results))
       this.exportregistration = results

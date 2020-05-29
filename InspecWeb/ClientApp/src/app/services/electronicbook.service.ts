@@ -50,6 +50,7 @@ export class ElectronicbookService {
     const formData = new FormData();
     formData.append('ElectronicBookId', electronicbookid);
     formData.append('Step', value.step);
+    formData.append('Status', value.status);
     formData.append('CentralPolicyProvinceId', centralproid);
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
