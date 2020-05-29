@@ -33,11 +33,13 @@ export class MainComponent implements OnInit {
   }];
 
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private authorize: AuthorizeService,
     private userManager: UserManager,
     private wordService: WordService,
-    private excelService: ExcelService) { }
+    private excelService: ExcelService
+  ) { }
 
   ngOnInit() {
     this.authorize.getUser()
@@ -47,8 +49,8 @@ export class MainComponent implements OnInit {
         //alert(this.role_id);
         console.log("user", result);
       })
-      this.exportExcel();
-
+    // this.exportExcel();
+      this.userManager.getUser
   }
   Logout() {
     this.authorize.signOut({ local: true })
@@ -57,7 +59,7 @@ export class MainComponent implements OnInit {
     this.excelService.exportAsExcelFile(this.exportregistration, 'sample');
   }
 
-  exportExcel(){
+  exportExcel() {
     this.wordService.exportExcel().subscribe(results => {
       // alert("1" + JSON.stringify(results))
       this.exportregistration = results

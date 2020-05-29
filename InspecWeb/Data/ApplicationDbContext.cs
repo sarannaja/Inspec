@@ -94,6 +94,7 @@ namespace InspecWeb.Data
         public DbSet<ExportRegistration> ExportRegistrations { get; set; }
         public DbSet<ExportReportHead> ExportReportHeads { get; set; }
         public DbSet<ExportReportBody> ExportReportBodies { get; set; }
+        public DbSet<SuggestionSubject>SuggestionSubjects { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

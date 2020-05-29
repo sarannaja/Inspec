@@ -53,135 +53,96 @@
                   <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
                     formControlName="status">
                   <label style="margin-left: 10px;">ใช้งานจริง</label>
-                  <label>คำถามย่อย</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
+                  <label>หน่วยงานที่เกี่ยวข้อง</label>
+                  &nbsp;&nbsp;
+                  <button type="button" (click)="openAddDepartmentModal(modalInviteDepartment,item.id)"
+                    class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
+                  <div *ngFor="let items of item.subjectCentralPolicyProvinceGroups; let i = index">
+                    <span class="col-11">{{ i + 1 }}. {{items.provincialDepartment.name}}</span>
+                    <i *ngIf="i != 0" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
+                      (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
+                  </div>
                   <br>
+                  <label>คำถามย่อย</label>
                   <div class="colum">
                     <label>คำถามปลายเปิด</label>
                     &nbsp;&nbsp;
-                    <!-- <button class="btn btn-info" type="button"
-                    (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)">เพิ่มคำถามปลายเปิด</button> -->
-                    <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square"
-                    (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)"></i> -->
+                    <button class="btn btn-info" type="button"
+                      (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)">เพิ่มคำถามปลายเปิด</button>
                   </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
-                    <label>หน่วยงานที่เกี่ยวข้อง</label>
+                  <div class="row" *ngFor="let item of question; let i = index">
+                    <div class="col-9 col-xl-9 form-group" *ngIf="item.box == i2 && item.type == 'คำถามปลายเปิด' ">
+                      <input type="text" value="{{item.name }}" class="form-control" placeholder="กรุณากรอกคำถาม"
+                        readonly>
+                    </div>
+                    <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายเปิด' ">
+                      <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                        (click)="openEditmodalQuestions(modaleditQuestions,item.id,item.name)"></i>
+                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                        (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="colum">
+                    <label>คำถามปลายปิด</label>
                     &nbsp;&nbsp;
-                    <button type="button" (click)="openAddDepartmentModal(modalInviteDepartment,item.id)"
-                      class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
-                    <div *ngFor="let items of item.subjectCentralPolicyProvinceGroups; let i = index">
-                      <span class="col-11">{{ i + 1 }}. {{items.provincialDepartment.name}}</span>
-                      <i *ngIf="i != 0" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                        (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
-                    </div>
-                    <br>
-                    <label>คำถามย่อย</label>
-                    <div class="colum">
-                      <label>คำถามปลายเปิด</label>
-                      &nbsp;&nbsp;
-                      <button class="btn btn-info" type="button"
-                        (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)">เพิ่มคำถามปลายเปิด</button>
-                    </div>
-                    <div class="row" *ngFor="let item of question; let i = index">
-                      <div class="col-9 col-xl-9 form-group" *ngIf="item.box == i2 && item.type == 'คำถามปลายเปิด' ">
-                        <input type="text" value="{{item.name }}" class="form-control" placeholder="กรุณากรอกคำถาม"
-                          readonly>
-
-                      </div>
-                      <br>
-                      <div class="colum">
-                        <label>คำถามปลายปิด</label>
-                        &nbsp;&nbsp;
-                        <!-- <button class="btn btn-info" type="button"
-                    (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)">เพิ่มคำถามปลายปิด</button> -->
-                        <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square"
-                    (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)"></i> -->
-                      </div>
-                      <br>
-                      <div class="row" *ngFor="let item of questionsopen; let i = index">
-                        <div class="col-11 col-xl-11" *ngIf="item.type == 'คำถามปลายปิด'">
-                          <div class="row">
-                            <div class="col-9 col-xl-9">
-                              <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกคำถาม"
-                                readonly>
-                            </div>
-                            <div class="col-3">
-                              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                (click)="openEditmodalQuestions(modaleditQuestions,item.id,item.name)"></i>
-                              <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                                (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
-                              <button class="btn btn-info" type="button"
-                                (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มตอบปลายปิด</button>
-                            </div>
-                          </div>
-                          <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายเปิด' ">
-                            <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                              (click)="openEditmodalQuestions(modaleditQuestions,item.id,item.name)"></i>
-                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                              (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
-                          </div>
+                    <button class="btn btn-info" type="button"
+                      (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)">เพิ่มคำถามปลายปิด</button>
+                  </div>
+                  <div class="row" *ngFor="let item of question; let i = index">
+                    <div class="col-11 col-xl-11" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
+                      <div class="row">
+                        <div class="col-9 col-xl-9">
+                          <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกคำถาม"
+                            readonly>
                         </div>
-                        <br>
-                        <div class="colum">
-                          <label>คำถามปลายปิด</label>
-                          &nbsp;&nbsp;
+                        <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
+                          <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                            (click)="openEditmodalQuestions(modaleditQuestions,item.id,item.name)"></i>
+                          <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                            (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
                           <button class="btn btn-info" type="button"
-                            (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)">เพิ่มคำถามปลายปิด</button>
+                            (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มตอบปลายปิด</button>
                         </div>
-                        <div class="row" *ngFor="let item of question; let i = index">
-                          <div class="col-11 col-xl-11" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
-                            <div class="row">
-                              <div class="col-9 col-xl-9">
-                                <input type="text" value="{{item.name}}" class="form-control"
-                                  placeholder="กรุณากรอกคำถาม" readonly>
-                              </div>
-                              <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
-                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                  (click)="openEditmodalQuestions(modaleditQuestions,item.id,item.name)"></i>
-                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                                  (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
-                                <button class="btn btn-info" type="button"
-                                  (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มตอบปลายปิด</button>
-                              </div>
-                            </div>
-                            <div class="col-11 col-xl-11"
-                              *ngFor="let items of item.subquestionChoiceCentralPolicyProvinces; let i = index">
-                              <div class="row">
-                                <div class="col-9 col-xl-9">
-                                  <input type="text" *ngIf="item.type == 'คำถามปลายปิด'" value="{{items.name}}"
-                                    class="form-control" placeholder="กรุณากรอกคำถาม" readonly>
-                                </div>
-                                <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
-                                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                    (click)="openEditmodalChoices(modaleditChoices,items.id,items.name)"></i>
-                                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                                    (click)="openModalDelete(modaldeleteChoices, items.id)"></i>
-                                </div>
-                              </div>
-                            </div>
+                      </div>
+                      <div class="col-11 col-xl-11"
+                        *ngFor="let items of item.subquestionChoiceCentralPolicyProvinces; let i = index">
+                        <div class="row">
+                          <div class="col-9 col-xl-9">
+                            <input type="text" *ngIf="item.type == 'คำถามปลายปิด'" value="{{items.name}}"
+                              class="form-control" placeholder="กรุณากรอกคำถาม" readonly>
+                          </div>
+                          <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
+                            <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                              (click)="openEditmodalChoices(modaleditChoices,items.id,items.name)"></i>
+                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                              (click)="openModalDelete(modaldeleteChoices, items.id)"></i>
                           </div>
                         </div>
-                        <hr>
                       </div>
                     </div>
-                    <div class="row" style="margin-top: 10px;">
-                      <div class="col-md-6">
-                        <button type="button" class="btn btn-info"
-                          (click)="openModal(modalcreatesuject)">เพิ่มประเด็น</button>
-                      </div>
-                    </div>
-                    <br>
                   </div>
-                  <div class="form-group row">
-                    <div class="col-sm-5 ml-sm-auto">
-                      <button type="submit" class="btn btn-primary">บันทึก</button>
-                    </div>
-                    <div class="col-sm-5 ml-sm-auto">
-                      <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
-                    </div>
-                  </div>
+                  <hr>
                 </div>
+              </div>
+              <div class="row" style="margin-top: 10px;">
+                <div class="col-md-6">
+                  <button type="button" class="btn btn-info"
+                    (click)="openModal(modalcreatesuject)">เพิ่มประเด็น</button>
+                </div>
+              </div>
+              <br>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+              </div>
+              <div class="col-sm-5 ml-sm-auto">
+                <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
               </div>
             </div>
           </div>
