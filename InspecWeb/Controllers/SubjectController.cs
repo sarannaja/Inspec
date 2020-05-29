@@ -947,6 +947,7 @@ namespace InspecWeb.Controllers
                 _context.SubjectDateCentralPolicyProvinces.Add(subjectdatedata);
             }
             _context.SaveChanges();
+        }
 
         // POST api/values
         [HttpPost("addsubjectrole3")]

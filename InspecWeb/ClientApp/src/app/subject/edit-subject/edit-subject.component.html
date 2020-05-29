@@ -53,15 +53,6 @@
                   <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
                     formControlName="status">
                   <label style="margin-left: 10px;">ใช้งานจริง</label>
-                <label>คำถามย่อย</label>
-                <br>
-                <div class="colum">
-                  <label>คำถามปลายเปิด</label>
-                  &nbsp;&nbsp;
-                  <!-- <button class="btn btn-info" type="button"
-                    (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)">เพิ่มคำถามปลายเปิด</button> -->
-                  <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square"
-                    (click)="openAddModalQuestionsopen(modalQuestionsopen,resultsubjectdetail.id)"></i> -->
                 </div>
               </div>
               <div class="form-group">
@@ -87,33 +78,6 @@
                     <div class="col-9 col-xl-9 form-group" *ngIf="item.box == i2 && item.type == 'คำถามปลายเปิด' ">
                       <input type="text" value="{{item.name }}" class="form-control" placeholder="กรุณากรอกคำถาม"
                         readonly>
-
-                </div>
-                <br>
-                <div class="colum">
-                  <label>คำถามปลายปิด</label>
-                  &nbsp;&nbsp;
-                  <!-- <button class="btn btn-info" type="button"
-                    (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)">เพิ่มคำถามปลายปิด</button> -->
-                  <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square"
-                    (click)="openAddModalQuestionsclose(modalQuestionsclose,resultsubjectdetail.id)"></i> -->
-                </div>
-                <br>
-                <div class="row" *ngFor="let item of questionsopen; let i = index">
-                  <div class="col-11 col-xl-11" *ngIf="item.type == 'คำถามปลายปิด'">
-                    <div class="row">
-                      <div class="col-9 col-xl-9">
-                        <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกคำถาม"
-                          readonly>
-                      </div>
-                      <div class="col-3">
-                        <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                          (click)="openEditmodalQuestions(modaleditQuestions,item.id,item.name)"></i>
-                        <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                          (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
-                        <button class="btn btn-info" type="button"
-                          (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มตอบปลายปิด</button>
-                      </div>
                     </div>
                     <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายเปิด' ">
                       <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
