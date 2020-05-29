@@ -654,5 +654,11 @@ namespace InspecWeb.Controllers
 
             return provinces;
         }
+         [HttpGet("api/get_role/{id}")]
+        public IActionResult test(string id)
+        {
+           
+            return Ok(_userManager.Users.Where(m =>  m.Id == id).FirstOrDefault());
+        }
     }
 }

@@ -45,27 +45,27 @@ export interface IUser {
 export class AuthorizeService {
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
-  constructor( private http:HttpClient,@Inject('BASE_URL') private baseUrl: string){
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
 
   }
   private popUpDisabled = true;
   private userManager: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(null);
- 
-  
+
+
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
   }
 
   public getUser(): Observable<IUser | null> {
-   let user =  concat(
+    return concat(
       this.userSubject.pipe(take(1), filter(u => !!u)),
       this.getUserFromStorage().pipe(filter(u => !!u),
         tap(u => this.userSubject.next(u))),
       this.userSubject.asObservable(),
     );
-    
-    return user;
+
+    //  user;
   }
 
 
@@ -92,7 +92,7 @@ export class AuthorizeService {
 
       user = await this.userManager.signinSilent(this.createArguments());
       await this.role(user.profile)
-      this.userSubject.next( Object.assign(user.profile,JSON.parse(localStorage.getItem('data'))));
+      this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
       return this.success(state);
     } catch (silentError) {
       // User might not be authenticated, fallback to popup authentication
@@ -104,7 +104,7 @@ export class AuthorizeService {
         }
         user = await this.userManager.signinPopup(this.createArguments());
         await this.role(user.profile)
-        this.userSubject.next( Object.assign(user.profile,JSON.parse(localStorage.getItem('data'))));
+        this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
         return this.success(state);
       } catch (popupError) {
         if (popupError.message === 'Popup window closed') {
@@ -132,8 +132,8 @@ export class AuthorizeService {
       const user = await this.userManager.signinCallback(url);
 
       await this.role(user.profile)
-      
-      this.userSubject.next(user &&  Object.assign(user.profile,JSON.parse(localStorage.getItem('data'))) );
+
+      this.userSubject.next(user && Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
       // console.log('test', user);
       return this.success(user && user.state);
     } catch (error) {
@@ -141,12 +141,12 @@ export class AuthorizeService {
       return this.error('There was an error signing in.');
     }
   }
-  role(profile:any){
-    this.http.get<any>(this.baseUrl+'api/get_role/'+profile.sub)
-      .subscribe(result=>{
+  role(profile: any) {
+    this.http.get<any>(this.baseUrl + 'api/get_role/' + profile.sub)
+      .subscribe(result => {
         // console.log("result",result);
-        
-         localStorage.setItem('data', JSON.stringify(result));
+
+        localStorage.setItem('data', JSON.stringify(result));
       })
   }
   public async signOut(state: any): Promise<IAuthenticationResult> {
@@ -191,8 +191,8 @@ export class AuthorizeService {
     return { status: AuthenticationResultStatus.Fail, message };
   }
 
-  private success(state: any): IAuthenticationResult {
-    console.log('state', state);
+  private success(state: any, data: any = null): IAuthenticationResult {
+    console.log(JSON.stringify(state));
 
     return { status: AuthenticationResultStatus.Success, state };
   }
@@ -218,20 +218,20 @@ export class AuthorizeService {
 
     this.userManager.events.addUserSignedOut(async () => {
       console.log('in removeUser');
-      
+
       await this.userManager.removeUser();
       this.userSubject.next(null);
     });
   }
 
-  private  getUserFromStorage() :  Observable<IUser> {
-  //  let data =  JSON.parse(localStorage.getItem('data'))
-  //   console.log(data);
-    
+  private getUserFromStorage(): Observable<IUser> {
+    //  let data =  JSON.parse(localStorage.getItem('data'))
+    //   console.log(data);
+
     return from(this.ensureUserManagerInitialized())
       .pipe(
         mergeMap(() => this.userManager.getUser()),
-        map(u => u &&Object.assign(u.profile,JSON.parse(localStorage.getItem('data'))))
+        map(u => u && Object.assign(u.profile, JSON.parse(localStorage.getItem('data'))))
       );
   }
 }

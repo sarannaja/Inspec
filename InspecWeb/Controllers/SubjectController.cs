@@ -948,8 +948,6 @@ namespace InspecWeb.Controllers
             }
             _context.SaveChanges();
         }
-
-        // POST api/values
         [HttpPost("addsubjectrole3")]
         public IActionResult Post5([FromBody] SubjectViewModel model)
         {
