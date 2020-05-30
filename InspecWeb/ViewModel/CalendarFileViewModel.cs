@@ -11,6 +11,7 @@ namespace InspecWeb.ViewModel
         public long CentralPolicyProvinceId { get; set; }
         public string Step { get; set; }
         public string Status { get; set; }
+        public string QuestionPeople { get; set; }
         public List<IFormFile> files { get; set; }
     }
 }

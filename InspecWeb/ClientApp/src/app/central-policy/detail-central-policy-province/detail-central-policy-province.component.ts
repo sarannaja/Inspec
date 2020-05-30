@@ -125,6 +125,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       files: [null],
       step: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
+      questionPeople: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -346,10 +347,21 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step = "มอบหมายจังหวัด"
           }
           this.form.patchValue({
-
+            step: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step
+          })
+        } else if (this.role_id == 5) {
+          if (this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายเขต') {
+            this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step = "มอบหมายเขต"
+          }
+          this.form.patchValue({
             step: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step
           })
         }
+
+        this.form.patchValue({
+          questionPeople: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.questionPeople,
+          status: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.status
+        })
 
         this.resultuser = result.userdata
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId

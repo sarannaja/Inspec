@@ -125,10 +125,10 @@
                   <tr>
                     <td style="border-top: none;">
                       <div class="row">
-                        <span style="margin-left: 15px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
+                        <h4 style="margin-top: 20px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
                           <!-- <button type="button" (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button> -->
-                        </span>
+                          </h4>
                         <div class="col-12"
                           *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
                           <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
@@ -139,92 +139,111 @@
                     </td>
                   </tr>
 
-                  <div class="row" style="margin-top: 10px;">
+                  <div class="row" style="margin-top: 10px; margin-left: 3px;">
                     <div class="col-md-9">
-                      ลิ้งค์บุคคลภายนอก : {{urllink}}{{items.id}}
+                      ลิ้งค์บุคคลภายนอก : <label class="text-primary">{{urllink}}{{items.id}}</label>
                     </div>
                   </div>
 
                   <tr>
-                    <td style="border-top: none;">
-                      <div class="row">
-                        <u style="margin-left: 15px;">เรื่องประเด็น</u>
-                        <div class="col-12">
-                          <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                            readonly>
-                        </div>
-                        <!-- <div class="col-1">
-                          <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
-                        </div> -->
-                      </div>
-                    </td>
-                    <td style="border-top: none;" width="50%">
-                      <u>คำถามปลายเปิด</u>
-                      <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
-                        <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
+                    <div class="card">
+                      <td style="border-top: none; width: 75%;">
+                        <div class="row">
+                          <u style="margin-left: 15px;">เรื่องประเด็น</u>
                           <div class="col-12">
-                            <input type="text" value="{{item.name}}" class="form-control" placeholder="ไม่มีข้อมูล"
+                            <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
                               readonly>
                           </div>
                           <!-- <div class="col-1">
+                          <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+                        </div> -->
+                        </div>
+                      </td>
+
+                      <td style="border-top: none;" width="75%">
+                        <u>คำถามปลายเปิด</u>
+                        <button class="btn btn-success" id="collapseAsk{{i}}" data-toggle="collapse"
+                          [attr.data-target]="'#collapseExample' + i" aria-expanded="false"
+                          aria-controls="collapseExample" style="margin-left: 20px; font-size: small;">คำตอบปลายเปิด
+                          <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
+                        </button>
+                        <label *ngIf="!items.subquestionCentralPolicyProvinces.length" type="text" class="form-control">ไม่มีข้อมูล</label>
+                        <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"
+                          style="margin-top: 5px;">
+                          <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
+                            <div class="col-12">
+                              <input type="text" value="{{item.name}}" class="form-control" placeholder="ไม่มีข้อมูล"
+                                readonly>
+                              <div *ngIf="item.type == 'คำถามปลายเปิด'">
+                                <div *ngFor="let items2 of item.answerSubquestions; let index = index">
+                                  <div class="collapse col-12" id="collapseExample{{i}}"
+                                    style="margin-left: 10px; margin-top: 5px;">
+                                    <label type="text" class="form-control">{{items2.answer}}</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <div class="col-1">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
                           </div> -->
-                        </div>
-                      </div>
-
-                    <button class="btn btn-success" (click)="showAnswer(i)" style="margin-left: 15px; margin-top: 8px;">คำตอบปลายเปิด
-                      <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
-                    </button>
-                      <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
-                        <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
-                          <div *ngFor="let items2 of item.answerSubquestions">
-                            <div *ngIf="show == true && showIndex == i" class="col-12" style="margin-left: 20px; margin-top: 5px;">
-                              <input type="text" value="{{items2.answer}}" class="form-control"
-                                placeholder="ไม่มีข้อมูล" readonly>
-                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
+                      </td>
+                    </div>
                   </tr>
 
                   <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
-                    <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
-                      <u>คำถามปลายปิด</u>
-                      <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
-                      <div class="row">
-                        <div class="col-12" *ngIf="item.type == 'คำถามปลายปิด'">
-                          <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                            readonly>
-                        </div>
-                        <!-- <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
+                    <div class="card" *ngIf="item.type == 'คำถามปลายปิด'">
+                      <td style="border-top: none; width: 75%;">
+                        <u>คำถามปลายปิด</u>
+                        <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
+                        <div class="row">
+                          <div class="col-12" *ngIf="item.type == 'คำถามปลายปิด'">
+                            <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                              readonly>
+                          </div>
+                          <!-- <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด'">
                           <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                             (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
                         </div> -->
-                      </div>
-                      <!-- </div> -->
-                    </td>
+                        </div>
+                        <!-- </div> -->
+                      </td>
 
-                    <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
-                      <u>ตัวเลือกคำถามปลายปิด</u>
-                      <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
-                        <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
-                          <div class="row">
-                            <div class="col-12"
-                              *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                              <input type="text" value="{{item3.name}}" class="form-control"
-                                placeholder="กรุณากรอกเรื่อง" readonly>
-                            </div>
-                            <!-- <div class="col-1"
+                      <td style="border-top: none; width: 75%;" *ngIf="item.type == 'คำถามปลายปิด'">
+                        <u>ตัวเลือกคำถามปลายปิด</u>
+                        <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
+                          <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
+                            <div class="row">
+                              <div class="col-12"
+                                *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                                <div class="row" style="border: 1px solid #ced4da;
+                                margin: 0px;
+                                border-radius: 4px;
+                                background-color: #e9ecef;
+                                padding-top: 4px;
+                                height: 32px;
+                                margin-top: 5px;">
+                                  <div class="col-8">{{item3.name}}</div>
+                                  <div class="col-4" style="text-align: right;">
+                                    <label style="margin-left: 10px; color: #27A844; ">
+                                      คนตอบทั้งหมด {{item2.answerSubquestions.length}}
+                                    </label>
+                                  </div>
+                                </div>
+
+
+                              </div>
+                              <!-- <div class="col-1"
                               *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                 (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i>
                             </div> -->
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-
+                      </td>
+                    </div>
                   </tr>
                   <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index" class="row col-12">
                     <tr style="margin-top: -20px;">
@@ -314,14 +333,13 @@
                       </div>
                     </div>
                   </div>
-
+                  <br>
                   <!-- <td *ngIf="items.electronicBookSuggestGroups.length <= 0"
                     style="border-top: none; margin-top: 10px; padding-left: 40px;">
                     <button class="btn btn-success"
                       (click)="openEbookDetailModal(modalEbookDetail, items.id)">เพิ่มรายละเอียดสมุดตรวจอิเล็กทรอนิกส์</button>
                   </td> -->
                 </tbody>
-
               </table>
             </div>
           </div>

@@ -94,6 +94,7 @@ import { MainComponent } from './main/main.component';
 import { ExcelService } from './services/excel.service';
 import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-detail/answer-people-detail.component';
 import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
+import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 
 
 
@@ -173,6 +174,7 @@ import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-ce
     AnswerPeopleListComponent,
     AnswerPeopleDetailComponent,
     AnswerCentralPolicyProvinceComponent,
+    InvitedElectronicBookComponent,
   ],
 
   imports: [
@@ -268,6 +270,7 @@ import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-ce
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
@@ -282,13 +285,13 @@ import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-ce
       }
     ]),
     ModalModule.forRoot(),
-  ], exports: [ 
+  ], exports: [
     ThaiDatePipe,],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,ExcelService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-    
+
 
     // UserManager
   ],
