@@ -90,6 +90,7 @@ import { ReportExportComponent } from './report-export/report-export.component';
 import { AnswerOutsideThankComponent } from './answer-subject/answer-outside-thank/answer-outside-thank.component';
 import { AnswerPeopleComponent } from './answer-subject/answer-people/answer-people.component';
 import { AnswerPeopleListComponent } from './answer-subject/answer-people-list/answer-people-list.component';
+import { InformationoperationComponent } from './informationoperation/informationoperation.component';
 
 
 const ExternalOrganization = [
@@ -168,6 +169,7 @@ const ExternalOrganization = [
     AnswerOutsideThankComponent,
     AnswerPeopleComponent,
     AnswerPeopleListComponent,
+    InformationoperationComponent,
   ],
 
   imports: [
@@ -259,6 +261,7 @@ const ExternalOrganization = [
           { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard]},
           { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'informationoperation', component: InformationoperationComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
