@@ -196,9 +196,9 @@
                           aria-controls="collapseExample" style="margin-left: 20px; font-size: small;">คำตอบปลายเปิด
                           <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                         </button>
+
                         <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
                           <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
-
                             <div class="col-10">
                               <input type="text" value="{{item.name}}" class="form-control"
                                 placeholder="กรุณากรอกเรื่อง" readonly>
@@ -213,10 +213,15 @@
                           </div> -->
 
                             <div *ngIf="item.type == 'คำถามปลายเปิด'" class="col-12">
-                              <div *ngFor="let items2 of item.answerSubquestions; let index = index">
-                                <div class="collapse col-10" id="collapseExample{{i}}"
+                              <div *ngFor="let items2 of item.answerSubquestions; let index = index" class="row">
+                                <div class="collapse col-9" id="collapseExample{{i}}"
                                   style="margin-left: 10px; margin-top: 5px;">
                                   <label type="text" class="form-control">{{items2.answer}}</label>
+                                </div>
+                                <div class="collapse col-1" id="collapseExample{{i}}" *ngIf="role_id == 3">
+                                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                    (click)="editModal5(modalEditAnswer, items2.id, items2.answer)"
+                                    style="padding-top: 10px;"></i>
                                 </div>
                               </div>
                             </div>
@@ -265,11 +270,11 @@
                                 height: 32px;
                                 margin-top: 5px;">
                                   <div class="col-8">{{item3.name}}</div>
-                                  <div class="col-4" style="text-align: right;">
+                                  <!-- <div class="col-4" style="text-align: right;">
                                     <label style="margin-left: 10px; color: #27A844; ">
                                       คนตอบทั้งหมด {{item2.answerSubquestions.length}}
                                     </label>
-                                  </div>
+                                  </div> -->
                                 </div>
 
 
@@ -1080,6 +1085,30 @@
     </div>
   </form>
   <!-- </div> -->
+</ng-template>
+
+<ng-template #modalEditAnswer class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="editAnswerForm" (ngSubmit)="editAnswer(editAnswerForm.value,editid)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการคำตอบปลายเปิด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำตอบปลายเปิด</label>
+          <input type="text" value="{{answer}}" formControlName="answer" class="form-control"
+            placeholder="กรุณากรอกคำถามปลายเปิด">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
 </ng-template>
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
