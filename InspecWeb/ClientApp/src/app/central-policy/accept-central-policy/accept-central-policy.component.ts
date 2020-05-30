@@ -38,6 +38,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
   carlendarFile: any = [];
   cenid
   SuggestionForm: FormGroup;
+  role_id: any
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -48,6 +49,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private electronicBookService: ElectronicbookService,
     private notificationService: NotificationService,
+    private userService: UserService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
@@ -59,9 +61,17 @@ export class AcceptCentralPolicyComponent implements OnInit {
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
-        console.log(result);
+        console.log("UserData: ", result);
         // alert(this.userid)
       })
+
+      this.userService.getuserfirstdata(this.userid)
+      .subscribe(result => {
+        this.resultuser = result;
+        //console.log("test" , this.resultuser);
+        this.role_id = result[0].role_id
+        console.log("User Role: ", this.role_id);
+      });
 
     this.Form = this.fb.group({
       answer: new FormControl(null, [Validators.required]),

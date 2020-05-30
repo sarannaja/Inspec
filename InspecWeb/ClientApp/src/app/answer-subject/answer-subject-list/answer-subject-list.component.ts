@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-answer-subject-list',
@@ -10,11 +11,13 @@ import { AnswersubjectService } from 'src/app/services/answersubject.service';
 export class AnswerSubjectListComponent implements OnInit {
 
   id: any
+  userid: string
   resultsubjectlist: any[]
   loading = false;
   dtOptions: DataTables.Settings = {};
 
   constructor(
+    private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,
     private activatedRoute: ActivatedRoute,
     private router:Router, 
@@ -33,10 +36,15 @@ export class AnswerSubjectListComponent implements OnInit {
       ]
 
     };
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+      })
     this.getSubjectlist()
   }
   getSubjectlist() {
-    this.answersubjectservice.getsubjectlistdata(this.id).subscribe(result => {
+    this.answersubjectservice.getsubjectlistdata(this.id,this.userid).subscribe(result => {
       this.resultsubjectlist = result
       this.loading = true
       console.log(this.resultsubjectlist);

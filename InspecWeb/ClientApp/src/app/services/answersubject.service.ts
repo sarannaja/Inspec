@@ -9,27 +9,26 @@ export class AnswersubjectService {
 
   url = "";
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) 
-  {   
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/answersubject/';
   }
-  getuseredata(id):Observable<any[]> {
-    return this.http.get<any[]>(this.url+"user/" + id)
+  getuseredata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "user/" + id)
   }
-  getuserpeopleedata(id):Observable<any[]> {
-    return this.http.get<any[]>(this.url+"userpeople/" + id)
+  getuserpeopleedata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "userpeople/" + id)
   }
-  getsubjectlistdata(id):Observable<any[]>{
-    return this.http.get<any[]>(this.url+"subjectlist/" + id)
+  getsubjectlistdata(id, userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "subjectlist/" + id + "/" + userid)
   }
-  getsubjectdetaildata(id):Observable<any[]>{
-    return this.http.get<any[]>(this.url+"subjectdetail/" + id)
+  getsubjectdetaildata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "subjectdetail/" + id)
   }
   addAnswer(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
       inputanswer: answersubjectdata,
-     
+
     }
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url, formData);
@@ -38,10 +37,10 @@ export class AnswersubjectService {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
       inputansweroutsider: answersubjectdata,
-     
+
     }
     console.log('FORMDATA: ', formData);
-    return this.http.post<any>(this.url+"outsider", formData);
+    return this.http.post<any>(this.url + "outsider", formData);
   }
   addFiles(subjectid, file: FileList) {
     // alert(subjectid)
@@ -52,7 +51,7 @@ export class AnswersubjectService {
 
     const formData = new FormData();
     // for (var i = 0; i < subjectid.length; i++) {
-      formData.append('SubjectCentralPolicyProvinceId', subjectid);
+    formData.append('SubjectCentralPolicyProvinceId', subjectid);
     // }
     for (var i = 0; i < file.length; i++) {
       formData.append("files", file[i]);

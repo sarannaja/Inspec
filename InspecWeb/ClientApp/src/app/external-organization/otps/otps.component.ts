@@ -22,17 +22,7 @@ export class OtpsComponent implements OnInit {
   }
   ngOnInit() {
     this.spinner.show();
-    
-
-  
-    // this.external.getRegions()
-    //   .subscribe(result => {
-    //     this.region = result
-    //     console.log('result',result);
-
-    //   })
     console.log("/external-organization/otps");
-
   }
 }
 

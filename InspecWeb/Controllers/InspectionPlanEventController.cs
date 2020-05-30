@@ -84,7 +84,7 @@ namespace InspecWeb.Controllers
                                 .ThenInclude(m => m.CentralPolicy.CentralPolicyUser)
                                  //.ThenInclude(m => m.CentralPolicyUser)
                                  //.Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicy.CentralPolicyUser.Any(x => x.UserId == id))
-
+                                 //.Where(m => m.CentralPolicyEvents.Any(m => m.CentralPolicy.CentralPolicyProvinces.Any(m => m.Status == "ใช้งานจริง")))
                                 .ToList();
 
 
