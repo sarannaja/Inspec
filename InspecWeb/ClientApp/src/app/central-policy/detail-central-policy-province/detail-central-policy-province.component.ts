@@ -69,6 +69,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   role_id
   temp = []
   resultdsubjectid: any = []
+  editAnswerForm: FormGroup;
+  answer: any;
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -304,6 +306,22 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
+  editModal5(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.answer = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.editAnswerForm = this.fb.group({
+      answer: new FormControl(),
+      answerId: new FormControl(),
+
+    })
+    this.editAnswerForm.patchValue({
+      answer: name,
+      answerId: id
+    })
+  }
+
   DelModal(template: TemplateRef<any>, id) {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
@@ -499,6 +517,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.subjectservice.editsubjectquestionopenchoiceprovince(value, id).subscribe(response => {
       console.log(value);
       this.EditForm4.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editAnswer(value, id) {
+    this.subjectservice.editAnswer(value, id).subscribe(response => {
+      console.log(value);
+      this.editAnswerForm.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
     })
