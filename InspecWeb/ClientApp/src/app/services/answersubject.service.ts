@@ -24,6 +24,9 @@ export class AnswersubjectService {
   getsubjectdetaildata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "subjectdetail/" + id)
   }
+  getcentralpolicyprovinc(id): Observable<any> {
+    return this.http.get<any>(this.url + "centralpolicyprovinc/" + id)
+  }
   addAnswer(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
@@ -32,6 +35,21 @@ export class AnswersubjectService {
     }
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url, formData);
+  }
+  addAnswercentralpolicyprovince(answerdata, centralpolicyprovinceId, userid) {
+    console.log("answerdata", answerdata);
+    // const formData = {
+    //   CentralPolicyProvinceId: parseInt(centralpolicyprovinceId),
+    //   UserId: userid,
+    //   Answer: answerdata.AnswerPeople
+    // }
+    const formData = new FormData();
+    formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
+    formData.append('UserId', userid);
+    formData.append('Answer', answerdata.AnswerPeople);
+    
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url + "answercentralpolicyprovince", formData);
   }
   addAnsweroutsider(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);

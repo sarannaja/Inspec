@@ -92,6 +92,8 @@ import { AnswerPeopleComponent } from './answer-subject/answer-people/answer-peo
 import { AnswerPeopleListComponent } from './answer-subject/answer-people-list/answer-people-list.component';
 import { MainComponent } from './main/main.component';
 import { ExcelService } from './services/excel.service';
+import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-detail/answer-people-detail.component';
+import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 
 
@@ -170,6 +172,8 @@ import { InvitedElectronicBookComponent } from './electronic-book/invited-electr
     AnswerOutsideThankComponent,
     AnswerPeopleComponent,
     AnswerPeopleListComponent,
+    AnswerPeopleDetailComponent,
+    AnswerCentralPolicyProvinceComponent,
     InvitedElectronicBookComponent,
   ],
 
@@ -264,6 +268,8 @@ import { InvitedElectronicBookComponent } from './electronic-book/invited-electr
           { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
         ]
       },
