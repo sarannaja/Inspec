@@ -19,6 +19,10 @@ export class ElectronicbookService {
     return this.http.get(this.url + userId)
   }
 
+  getElectronicBookInvited(userId) {
+    return this.http.get(this.url + "invited/" + userId)
+  }
+
   addElectronicBook(value, id, file: FileList, CentralPolicyId) {
     // alert(JSON.stringify(inspectionplaneventData.input))
     console.log("Add EBook: ", value);
@@ -51,6 +55,7 @@ export class ElectronicbookService {
     formData.append('ElectronicBookId', electronicbookid);
     formData.append('Step', value.step);
     formData.append('Status', value.status);
+    formData.append('QuestionPeople', value.questionPeople);
     formData.append('CentralPolicyProvinceId', centralproid);
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
