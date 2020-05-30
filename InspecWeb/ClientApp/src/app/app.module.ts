@@ -15,7 +15,6 @@ import { MainComponent } from './main/main.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
 import { CreateCentralPolicyComponent } from './central-policy/create-central-policy/create-central-policy.component';
 import { CreateInspectionPlanComponent } from './inspection-plan/create-inspection-plan/create-inspection-plan.component';
-import { CreateInstructionorderComponent } from './instruction-order/create-instructionorder/create-instructionorder.component';
 import { EditInspectionPlanComponent } from './inspection-plan/edit-inspection-plan/edit-inspection-plan.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { ProvinceComponent } from './province/province.component';
@@ -32,7 +31,7 @@ import { InspectionPlanComponent } from './inspection-plan/inspection-plan.compo
 import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { GovernmentinspectionplanComponent } from './governmentinspectionplan/governmentinspectionplan.component';
 import { InspectionorderComponent } from './inspectionorder/inspectionorder.component';
-import { InstructionOrderComponent } from './instruction-order/instruction-order.component';
+import { InstructionorderComponent } from './instructionorder/instructionorder.component';
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
 import { DataTablesModule } from 'angular-datatables';
@@ -107,7 +106,6 @@ const ExternalOrganization = [
     DefaultLayoutComponent,
     CreateCentralPolicyComponent,
     CreateInspectionPlanComponent,
-    CreateInstructionorderComponent,
     EditInspectionPlanComponent,
     MinistryComponent,
     ProvinceComponent,
@@ -122,7 +120,7 @@ const ExternalOrganization = [
     InspectionPlanComponent,
     GovernmentinspectionplanComponent,
     InspectionorderComponent,
-    InstructionOrderComponent,
+    InstructionorderComponent,
     DistrictComponent,
     SubdistrictComponent,
     TrainingComponent,
@@ -202,7 +200,6 @@ const ExternalOrganization = [
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent, canActivate: [AuthorizeGuard] },
-          { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministry', component: MinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'province', component: ProvinceComponent, canActivate: [AuthorizeGuard] },
@@ -214,10 +211,9 @@ const ExternalOrganization = [
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
-          { path: 'instructionorder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'InstructionOrder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
