@@ -92,6 +92,7 @@ import { AnswerPeopleComponent } from './answer-subject/answer-people/answer-peo
 import { AnswerPeopleListComponent } from './answer-subject/answer-people-list/answer-people-list.component';
 import { MainComponent } from './main/main.component';
 import { ExcelService } from './services/excel.service';
+import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 
 
 
@@ -169,6 +170,7 @@ import { ExcelService } from './services/excel.service';
     AnswerOutsideThankComponent,
     AnswerPeopleComponent,
     AnswerPeopleListComponent,
+    InvitedElectronicBookComponent,
   ],
 
   imports: [
@@ -262,6 +264,7 @@ import { ExcelService } from './services/excel.service';
           { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
@@ -276,13 +279,13 @@ import { ExcelService } from './services/excel.service';
       }
     ]),
     ModalModule.forRoot(),
-  ], exports: [ 
+  ], exports: [
     ThaiDatePipe,],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,ExcelService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-    
+
 
     // UserManager
   ],

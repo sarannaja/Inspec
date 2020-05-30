@@ -576,6 +576,25 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ"
   },
+  {
+    IDchildren: 'electronicbook',
+    icon: 'fa-book',
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook',
+        name: 'สร้างเอง'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook/invited',
+        name: 'ถูกเชิญ'
+      },
+    ]
+  },
   // {
   //   icon: 'fa-book',
   //   url: "/usercentralpolicy",
