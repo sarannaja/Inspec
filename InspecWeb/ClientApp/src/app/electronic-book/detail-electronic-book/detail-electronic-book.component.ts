@@ -453,14 +453,22 @@ export class DetailElectronicBookComponent implements OnInit {
     })
   }
 
-  showAnswer(index) {
-    if (this.show == true) {
-      this.show = false;
-      this.showIndex = index
-    } else {
-      this.show = true;
-      this.showIndex = index
-    }
-  }
+  // checkBtn(index) {
+  //   let value = document.getElementById('collapseAsk'+index).getAttribute('aria-expanded')
+
+  //   console.log(value);
+
+  //   if(value == "false"){
+
+  //     $('#collapseAsk'+index).addClass('btn-askhide');
+  //     $('.far fa-fw fa-plus-square').addClass('none');
+  //     $('.far fa-fw fa-minus-square').addClass('block');
+  //   }else{
+  //     $('#collapseAsk'+index).removeClass('btn-askhide');
+  //     $('.far fa-fw fa-plus-square').addClass('block');
+  //     $('.far fa-fw fa-minus-square').addClass('none');
+  //   }
+
+  // }
 
 }
