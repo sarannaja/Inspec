@@ -730,6 +730,25 @@ export const president: NavBar[] = [ //User นายก
     name: "ข้อสั่งการผู้บริหาร"
   },
   {
+    IDchildren: 'report',
+    icon: 'fa-user-tie',
+    name: "รายงานผลการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportexport',
+        name: 'Export'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportimport',
+        name: 'Import'
+      },
+    ]
+  },
+  {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน"
