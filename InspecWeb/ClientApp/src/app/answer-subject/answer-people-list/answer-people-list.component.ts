@@ -56,6 +56,6 @@ export class AnswerPeopleListComponent implements OnInit {
     )
   }
   Subjectdetail(id) {
-    this.router.navigate(['/answersubject/detail', id])
+    this.router.navigate(['/answerpeople/detail', id])
   }
 }

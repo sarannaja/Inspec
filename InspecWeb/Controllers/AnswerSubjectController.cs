@@ -331,6 +331,18 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicydata);
         }
 
+        // GET api/values/5
+        [HttpGet("centralpolicyprovinc/{id}")]
+        public IActionResult Get6(long id)
+        {
+            var centralpolicyprovincdata = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.Province)
+                .Where(m => m.Id == id)
+                .First();
+
+            return Ok(centralpolicyprovincdata);
+        }
 
         // POST api/values
         [HttpPost]
@@ -439,6 +451,25 @@ namespace InspecWeb.Controllers
                 //}
 
             }
+            return Ok(new { status = true });
+        }
+        // POST api/values
+        [HttpPost("answercentralpolicyprovince")]
+        public IActionResult Post4(long CentralPolicyProvinceId, string UserId, string Answer)
+        {
+            System.Console.WriteLine("in", Answer);
+            var date = DateTime.Now;
+            var Answerdata = new AnswerCentralPolicyProvince
+            {
+                CentralPolicyProvinceId = CentralPolicyProvinceId,
+                UserId = UserId,
+                Answer = Answer,
+                CreatedAt = date
+            };
+            System.Console.WriteLine("in2");
+            _context.AnswerCentralPolicyProvinces.Add(Answerdata);
+            _context.SaveChanges();
+
             return Ok(new { status = true });
         }
         // PUT api/values/5
