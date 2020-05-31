@@ -26,7 +26,7 @@ namespace InspecWeb.Controllers
         {
             List<Ggc> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("http://localhost:3000/ggcservice")
+            var task = client.GetAsync("http://203.113.14.20:3000/ggcservice")
             .ContinueWith((taskwithresponse) =>
             {
                 var response = taskwithresponse.Result;
@@ -111,7 +111,7 @@ namespace InspecWeb.Controllers
         {
             List<GgcService> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("http://localhost:3000/ggcservice/withimage/"+provinceId+'/'+representId)
+            var task = client.GetAsync("http://203.113.14.20:3000/ggcservice/withimage/"+provinceId+'/'+representId)
             .ContinueWith((taskwithresponse) =>
             {
                 var response = taskwithresponse.Result;
@@ -129,7 +129,7 @@ namespace InspecWeb.Controllers
         {
             List<GgcProvince> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("http://localhost:3000/ggcservice/getprovince")
+            var task = client.GetAsync("http://203.113.14.20:3000/ggcservice/getprovince")
             .ContinueWith((taskwithresponse) =>
             {
                 var response = taskwithresponse.Result;
@@ -147,7 +147,7 @@ namespace InspecWeb.Controllers
         {
             List<GgcWara> model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("http://localhost:3000/ggcservice/wara")
+            var task = client.GetAsync("http://203.113.14.20:3000/ggcservice/wara")
             .ContinueWith((taskwithresponse) =>
             {
                 var response = taskwithresponse.Result;
