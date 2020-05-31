@@ -21,8 +21,8 @@ namespace InspecWeb.Controllers
         }
 
         // GET api/values/5
-        [HttpGet]
-        public async Task<IActionResult> OnGet()
+        [HttpGet("gcc")]
+        public IActionResult OnGet()
         {
             List<Ggc> model = null;
             var client = new HttpClient();
@@ -36,6 +36,7 @@ namespace InspecWeb.Controllers
 
 
             });
+            
             task.Wait();
 
             return Ok(model);
