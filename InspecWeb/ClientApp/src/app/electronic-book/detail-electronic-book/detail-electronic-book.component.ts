@@ -65,7 +65,7 @@ export class DetailElectronicBookComponent implements OnInit {
   reportBody: any = [];
   show = false;
   showIndex: any;
-
+  resultreportnum = 0
 
   constructor(
     private fb: FormBuilder,
@@ -96,18 +96,18 @@ export class DetailElectronicBookComponent implements OnInit {
     this.spinner.show();
 
     this.authorize.getUser()
-    .subscribe(result => {
-      this.userid = result.sub
-      console.log(result);
-      // alert(this.userid)
-      this.userservice.getuserfirstdata(this.userid)
       .subscribe(result => {
-        // this.resultuser = result;
-        //console.log("test" , this.resultuser);
-        this.role_id = result[0].role_id
-        // alert(this.role_id)
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+        this.userservice.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
       })
-    })
 
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
@@ -328,6 +328,14 @@ export class DetailElectronicBookComponent implements OnInit {
 
       // this.resultreport = result.centralPolicyUser
       this.resultreport = result.report
+
+      this.resultreport.forEach(element => {
+        // alert(JSON.stringify(element))
+        if (element.report != null) {
+          this.resultreportnum = 1;
+        }
+      });
+
       console.log("results report: ", this.resultreport);
 
       this.detailForm.patchValue({
@@ -433,9 +441,9 @@ export class DetailElectronicBookComponent implements OnInit {
       this.spinner.show();
 
       this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 8, 1)
-      .subscribe(response => {
-        console.log(response);
-      })
+        .subscribe(response => {
+          console.log(response);
+        })
 
 
       setTimeout(() => {

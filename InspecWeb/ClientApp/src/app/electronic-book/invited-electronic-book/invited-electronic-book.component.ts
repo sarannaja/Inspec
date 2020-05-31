@@ -94,16 +94,26 @@ export class InvitedElectronicBookComponent implements OnInit {
     this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID }])
   }
 
-  gotoDetail(id, elecId) {
-    this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
+  gotoDetail(cenid, proid, elecId) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+      // this.centralpolicyprovinceid = result
+      // this.router.navigate(['/electronicbook/edit/' + result, { electronicBookId: elecId }])
+      var id = result
+      this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
+    })
+
+
   }
 
-  gotoTheme(id, elecId) {
-    this.router.navigate(['/electronicbook/theme/' + id, { electronicBookId: elecId }])
-  }
+  gotoTheme(cenid, proid, elecId) {
+    // this.router.navigate(['/electronicbook/theme/' + id, { electronicBookId: elecId }])
 
-  gotoEdit2(id, elecId) {
-    this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId }])
+    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+      // this.centralpolicyprovinceid = result
+      // this.router.navigate(['/electronicbook/edit/' + result, { electronicBookId: elecId }])
+      var id = result
+      this.router.navigate(['/electronicbook/theme/' + id, { electronicBookId: elecId }])
+    })
   }
 }
 
