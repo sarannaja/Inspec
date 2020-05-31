@@ -17,7 +17,11 @@ export class MinisterTableComponent implements OnInit {
   loading: boolean = false
   dataindata: Array<Ministers>
   fiscalyear: any = []
-  constructor(private externalOrganizationService: ExternalOrganizationService, private spinner: NgxSpinnerService,private modalService: BsModalService) { }
+  constructor(
+    private externalOrganizationService: ExternalOrganizationService,
+    private spinner: NgxSpinnerService,
+    private modalService: BsModalService
+  ) { }
 
   ngOnInit() {
 
@@ -82,13 +86,13 @@ export class MinisterTableComponent implements OnInit {
 
   }
   modalRef: BsModalRef;
-  openModal(minister:Ministers) {
-    this.modalRef = this.modalService.show(MinisterModalComponent,  {
+  openModal(minister: Ministers) {
+    this.modalRef = this.modalService.show(MinisterModalComponent, {
       initialState: {
-        title: minister.name+" ("+minister.fiscalYears[0].name+")",
-        minister:minister,
+        title: minister.name + " (" + minister.fiscalYears[0].name + ")",
+        minister: minister,
         data: {},
-       
+
       },
       class: 'modal-dialog-centered'
     });

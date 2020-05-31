@@ -36,7 +36,7 @@ namespace InspecWeb.Controllers
 
 
             });
-            
+
             task.Wait();
 
             return Ok(model);
@@ -64,7 +64,7 @@ namespace InspecWeb.Controllers
 
         }
 
-          // GET api/values/5
+        // GET api/values/5
         [HttpGet("otps/ministers")]
         public IActionResult OnGetOtpsMinisters()
         {
@@ -86,7 +86,7 @@ namespace InspecWeb.Controllers
         }
 
 
-         [HttpGet("otps/cabinets")]
+        [HttpGet("otps/cabinets")]
         public IActionResult OnGetOtpsCabinets()
         {
             List<Cabinets> model = null;
@@ -103,6 +103,60 @@ namespace InspecWeb.Controllers
             return Ok(model);
 
 
+
+        }
+
+        [HttpGet("gcc-opm/{provinceId}/{representId}")]
+        public IActionResult OnGetGccOpm(int provinceId, int representId)
+        {
+            List<GgcService> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("http://localhost:3000/ggcservice/withimage/"+provinceId+'/'+representId)
+            .ContinueWith((taskwithresponse) =>
+            {
+                var response = taskwithresponse.Result;
+                var jsonString = response.Content.ReadAsStringAsync();
+                jsonString.Wait();
+                model = JsonConvert.DeserializeObject<List<GgcService>>(jsonString.Result);
+            });
+            task.Wait();
+            return Ok(model);
+
+        }
+
+        [HttpGet("gcc/provinces")]
+        public IActionResult OnGetGccProvice()
+        {
+            List<GgcProvince> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("http://localhost:3000/ggcservice/getprovince")
+            .ContinueWith((taskwithresponse) =>
+            {
+                var response = taskwithresponse.Result;
+                var jsonString = response.Content.ReadAsStringAsync();
+                jsonString.Wait();
+                model = JsonConvert.DeserializeObject<List<GgcProvince>>(jsonString.Result);
+            });
+            task.Wait();
+            return Ok(model);
+
+        }
+
+        [HttpGet("gcc/wara")]
+        public IActionResult OnGetGccWara()
+        {
+            List<GgcWara> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("http://localhost:3000/ggcservice/wara")
+            .ContinueWith((taskwithresponse) =>
+            {
+                var response = taskwithresponse.Result;
+                var jsonString = response.Content.ReadAsStringAsync();
+                jsonString.Wait();
+                model = JsonConvert.DeserializeObject<List<GgcWara>>(jsonString.Result);
+            });
+            task.Wait();
+            return Ok(model);
 
         }
 

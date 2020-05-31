@@ -13,6 +13,8 @@ import { CabinetTableComponent } from './otps/cabinet-table/cabinet-table.compon
 import { MinisterModalComponent } from './otps/modals/minister-modal/minister-modal.component';
 import { TitleModalComponent } from './otps/modals/title-modal/title-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { GccOpmTableComponent } from './ggc-opm/gcc-opm-table/gcc-opm-table.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -25,6 +27,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     CabinetTableComponent,
     MinisterModalComponent,
     TitleModalComponent,
+    GccOpmTableComponent,
     
   ],
   imports: [
@@ -32,7 +35,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ExternalOrganizationRoutingModule,
     DataTablesModule,
     NgxSpinnerModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    FormsModule
   ],
   exports:[MinisterModalComponent],
   providers: [ExternalOrganizationService],

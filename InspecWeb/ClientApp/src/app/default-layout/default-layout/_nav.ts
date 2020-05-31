@@ -175,7 +175,7 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/cabinet',
+        url: '/external/otps',
         name: 'คณะรัฐมนตรี'
       },
       {
@@ -197,9 +197,9 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -275,9 +275,9 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -381,9 +381,9 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -449,9 +449,9 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -535,9 +535,9 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -616,9 +616,9 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -693,9 +693,9 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -764,9 +764,9 @@ export const president: NavBar[] = [ //User นายก
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
@@ -840,9 +840,9 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
-        ex_link: '1',
+        ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: 'http://www.ggc.opm.go.th/index.php?page=index&language=th',
+        url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {

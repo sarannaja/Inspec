@@ -132,4 +132,34 @@ namespace InspecWeb.ViewModel
 
     }
 
+     public class GgcService
+    {
+        public int no { get; set; }
+        public string position { get; set; }
+        public string fullname { get; set; }
+        public string appointment { get; set; }
+        public string address { get; set; }
+        public string phonenumber { get; set; }
+        // public OtpsProjects Projects { get; set; }
+
+        // public List<OtpsProvinces> Provinces { get; set; }
+
+    }
+
+    public class GgcProvince
+    {
+        public int value { get; set; }
+        public string is_active { get; set; }
+        public string name { get; set; }
+      
+    }
+
+    public class GgcWara
+    {
+        public int value { get; set; }
+        public string name { get; set; }
+      
+    }
+
+
 }
