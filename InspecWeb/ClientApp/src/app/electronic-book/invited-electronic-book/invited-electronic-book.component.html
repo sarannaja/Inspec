@@ -13,9 +13,9 @@
   <div class="col-12">
     <div class="card">
 
-        <div class="card-header">
-          <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
-        </div>
+      <div class="card-header">
+        <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
+      </div>
 
       <div class="card-body">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
@@ -41,11 +41,11 @@
               <td>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                   (click)="gotoDetail(item.centralPolicyId,item.inspectionPlanEvent.province.id, item.electronicBookId)"></i> -->
-                  <i class="align-middle mr-2 fas fa-fw fa fa-book pointer"
-                  (click)="gotoTheme(item.centralPolicyProvinceId, item.electronicBookId)"></i>
-                  <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                  (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i>
-                  <!-- <i *ngIf="item.electronicBook.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                <i class="align-middle mr-2 fas fa-fw fa fa-book pointer"
+                  (click)="gotoTheme(item.centralPolicyId,item.provinceId, item.electronicBookId)"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  (click)="gotoDetail(item.centralPolicyId,item.provinceId, item.electronicBookId)"></i>
+                <!-- <i *ngIf="item.electronicBook.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="gotoEdit2(item.centralPolicyProvinceId, item.electronicBookId)"></i> -->
               </td>
             </tr>
