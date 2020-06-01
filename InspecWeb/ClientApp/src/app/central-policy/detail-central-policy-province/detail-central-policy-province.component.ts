@@ -69,6 +69,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   role_id
   temp = []
   resultdsubjectid: any = []
+  editAnswerForm: FormGroup;
+  answer: any;
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -125,6 +127,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       files: [null],
       step: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
+      questionPeople: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -303,6 +306,22 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
+  editModal5(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.answer = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.editAnswerForm = this.fb.group({
+      answer: new FormControl(),
+      answerId: new FormControl(),
+
+    })
+    this.editAnswerForm.patchValue({
+      answer: name,
+      answerId: id
+    })
+  }
+
   DelModal(template: TemplateRef<any>, id) {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
@@ -346,10 +365,21 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step = "มอบหมายจังหวัด"
           }
           this.form.patchValue({
-
+            step: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step
+          })
+        } else if (this.role_id == 5) {
+          if (this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายเขต') {
+            this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step = "มอบหมายเขต"
+          }
+          this.form.patchValue({
             step: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step
           })
         }
+
+        this.form.patchValue({
+          questionPeople: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.questionPeople,
+          status: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.status
+        })
 
         this.resultuser = result.userdata
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId
@@ -487,6 +517,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.subjectservice.editsubjectquestionopenchoiceprovince(value, id).subscribe(response => {
       console.log(value);
       this.EditForm4.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editAnswer(value, id) {
+    this.subjectservice.editAnswer(value, id).subscribe(response => {
+      console.log(value);
+      this.editAnswerForm.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
     })

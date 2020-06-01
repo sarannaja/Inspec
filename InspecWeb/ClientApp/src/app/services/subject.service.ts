@@ -208,6 +208,17 @@ export class SubjectService {
     return this.http.put(this.url + "editsubjectquestionopenchoiceprovince/" + id, formData);
   }
 
+  editAnswer(data, id) {
+    console.log("answerData: ", data);
+    console.log("answerID: ", id);
+
+    const formData = new FormData();
+    formData.append('answer', data.answer);
+    // formData.append('id', id);
+
+    return this.http.put(this.url + "editAnswer/" + id, formData);
+  }
+
 
   deleteProvincial(id) {
     return this.http.delete(this.url + "deleteprovincial/" + id);
@@ -228,7 +239,7 @@ export class SubjectService {
   }
   adddeleteDate(datedata, centralPolicyDateId, subjectid) {
     console.log(centralPolicyDateId);
-    
+
     // var centralPolicyDateIddata = []
     // for (var i = 0; i < centralPolicyDateId.length; i++) {
     //   centralPolicyDateIddata.push(centralPolicyDateId[i])

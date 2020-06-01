@@ -93,6 +93,9 @@ import { AnswerPeopleListComponent } from './answer-subject/answer-people-list/a
 import { NationalstrategyComponent } from './nationalstrategy/nationalstrategy.component';
 import { MainComponent } from './main/main.component';
 import { ExcelService } from './services/excel.service';
+import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-detail/answer-people-detail.component';
+import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
+import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 
 
 
@@ -170,7 +173,10 @@ import { ExcelService } from './services/excel.service';
     AnswerOutsideThankComponent,
     AnswerPeopleComponent,
     AnswerPeopleListComponent,
-    NationalstrategyComponent
+    NationalstrategyComponent,
+    AnswerPeopleDetailComponent,
+    AnswerCentralPolicyProvinceComponent,
+    InvitedElectronicBookComponent,
   ],
 
   imports: [
@@ -228,7 +234,10 @@ import { ExcelService } from './services/excel.service';
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
-          { path: 'cabinet', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
+          {
+            path: 'cabinet', loadChildren: () => import('./external-organization/external-organization.module')
+              .then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]
+          },
           { path: 'inspector', component: InspectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorder', component: ExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
@@ -247,7 +256,10 @@ import { ExcelService } from './services/excel.service';
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/theme/:id', component: TemplateElectronicComponent, canActivate: [AuthorizeGuard] },
-          { path: 'external-organization', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
+          {
+            path: 'external', loadChildren: () => import('./external-organization/external-organization.module')
+              .then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]
+          },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
           { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard] },
@@ -265,6 +277,9 @@ import { ExcelService } from './services/excel.service';
           { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
           { path: 'nationalstrategy', component: NationalstrategyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
@@ -279,13 +294,13 @@ import { ExcelService } from './services/excel.service';
       }
     ]),
     ModalModule.forRoot(),
-  ], exports: [ 
+  ], exports: [
     ThaiDatePipe,],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
-    SnotifyService, NotificationService,ExcelService,
+    SnotifyService, NotificationService, ExcelService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-    
+
 
     // UserManager
   ],

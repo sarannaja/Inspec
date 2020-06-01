@@ -841,6 +841,17 @@ namespace InspecWeb.Controllers
 
         }
 
+        [HttpPut("editAnswer/{id}")]
+        public void PutAnswer(long id, string answer)
+        {
+            var answerData = _context.AnswerSubquestions.Find(id);
+            answerData.Answer = answer;
+
+            _context.Entry(answerData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
         // DELETE api/values/5
         [HttpDelete("deleteprovincial/{id}")]
         public void DeleteProvincial(long id)

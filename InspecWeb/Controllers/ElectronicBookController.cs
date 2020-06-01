@@ -73,6 +73,30 @@ namespace InspecWeb.Controllers
 
             return Ok(ebook);
         }
+        // GET: api/ElectronicBook
+        [HttpGet("invited/{userId}")]
+        public IActionResult Get4(string userId)
+        {
+
+            //var ebook = _context.ElectronicBookGroups
+            //    .Include(x => x.CentralPolicyProvince)
+            //    .ThenInclude(x => x.Province)
+            //    .Include(x => x.CentralPolicyProvince)
+            //    .ThenInclude(x => x.CentralPolicy)
+            //    .ThenInclude(x => x.CentralPolicyUser)
+            //    .Include(x => x.ElectronicBook)
+            //    .Where(x => x.ElectronicBook.CreatedBy == userId)
+            //    .ToList();
+
+            var ebook = _context.CentralPolicyUsers
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.Province)
+                .Include(m => m.ElectronicBook)
+                .Where(m => m.UserId == userId)
+                .ToList();
+
+            return Ok(ebook);
+        }
 
         [HttpGet("getElectronicBookById/{electID}")]
         public IActionResult GetById(long electID)
@@ -481,6 +505,7 @@ namespace InspecWeb.Controllers
             var CentralPolicyProvincedata = _context.CentralPolicyProvinces.Find(model.CentralPolicyProvinceId);
             CentralPolicyProvincedata.Step = model.Step;
             CentralPolicyProvincedata.Status = model.Status;
+            CentralPolicyProvincedata.QuestionPeople = model.QuestionPeople;
             _context.Entry(CentralPolicyProvincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

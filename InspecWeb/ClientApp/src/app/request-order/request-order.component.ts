@@ -3,6 +3,11 @@ import { Router } from '@angular/router';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from 'src/app/services/user.service';
+//import { RequestorderService} from '../services/requestorder.service';
+import { RequestorderrService } from '../services/requestorderr.service';
+
 @Component({
   selector: 'app-request-order',
   templateUrl: './request-order.component.html',
@@ -14,10 +19,15 @@ export class RequestOrderComponent implements OnInit {
   modalRef: BsModalRef;
   dtOptions: DataTables.Settings = {};
   loading = false;
+  userid: any;
+  role_id:any;
 
   constructor(
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private requestOrderService: RequestorderrService,
     private router:Router, 
-    private requestorderService: CentralpolicyService, 
+    private detailrequestOrderService: CentralpolicyService,
     private modalService: BsModalService) { }
 
   ngOnInit() {
@@ -31,14 +41,48 @@ export class RequestOrderComponent implements OnInit {
       ]
 
     };
-
-    this.requestorderService.getcentralpolicydata()
-    .subscribe(result => {
-      this.resultcentralpolicy = result
-      this.loading = true
-    })
+    this.getuserinfo();
   }
   DetailRequestOrder(id:any){
     this.router.navigate(['requestorder/detailrequestorder', id])
   }
+
+  //start getuser
+  getuserinfo(){
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub  
+      this.userService.getuserfirstdata(this.userid)      
+      .subscribe(result => {  
+        //alert(result[0].role_id)   
+        //console.log("test" , result);      
+        this.role_id = result[0].role_id
+
+          if(this.role_id != 3){
+            this.detailrequestOrderService.getcentralpolicydata()
+            .subscribe(result => {
+              // console.log("role8" , result); 
+              this.resultcentralpolicy = result
+              this.loading = true
+            })
+          }else{
+            // this.detailrequestOrderService.getcentralpolicydata()
+            // .subscribe(result => {
+              
+            //   this.resultcentralpolicy = result
+            //   this.loading = true
+            // })
+            //this.requestOrderService.getcentralpolicydata()
+           this.requestOrderService.getCentralpolicydata(this.userid)
+           .subscribe(result => {
+            //  console.log("role3" , result); 
+             this.resultcentralpolicy = result
+             this.loading = true
+           })
+          }
+      })
+    })
+  }
+  //End getuser
+
 }
