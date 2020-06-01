@@ -56,6 +56,8 @@ export class GccOpmTableComponent implements OnInit {
   }
   ngOnInit() {
     this.getProviceWara()
+    this.spinner.show();
+
     // this.getData()
   }
 
