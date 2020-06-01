@@ -6,6 +6,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthorizeService } from './authorize.service';
+import { UserManager } from 'oidc-client';
 
 @NgModule({
   imports: [
@@ -25,6 +27,10 @@ import { HttpClientModule } from '@angular/common/http';
     )
   ],
   declarations: [LoginMenuComponent, LoginComponent, LogoutComponent],
-  exports: [LoginMenuComponent, LoginComponent, LogoutComponent]
+  exports: [LoginMenuComponent, LoginComponent, LogoutComponent],
+  providers:[
+    AuthorizeService,
+    UserManager
+  ]
 })
 export class ApiAuthorizationModule { }

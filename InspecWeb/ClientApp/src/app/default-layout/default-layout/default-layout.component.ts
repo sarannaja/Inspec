@@ -5,6 +5,7 @@ import { superAdmin,Centraladmin,Inspector,Provincialgovernor,Adminprovince,Insp
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-default-layout',
@@ -32,12 +33,14 @@ export class DefaultLayoutComponent implements OnInit {
   files: any;
   Img:any;
   Formprofile:any;
-  
+  resultnotifications :any[] = [];
+  resultnotificationscount:any[] = [];
   // childClassIcon = "align-middle mr-2 fas fa-fw
 
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
+    private notificationService: NotificationService,
     private router: Router,
     private modalService: BsModalService,
     private fb: FormBuilder,
@@ -50,6 +53,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.nav = superAdmin;
     this.profileform();
     this.getuserinfo();
+    this.getnotifications();
     this.checkactive(this.nav[0].url);
     // this.urlActive = this.nav[0].url
   }
@@ -68,7 +72,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.authorize.signOut({ local: true })
   }
 
-  openModal(template: TemplateRef<any>,IDdelete) {
+  openModal(template: TemplateRef<any>) {
       this.modalRef = this.modalService.show(template);
   }
 
@@ -90,6 +94,31 @@ export class DefaultLayoutComponent implements OnInit {
       Email: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
       Formprofile: new FormControl(null, [Validators.required]),
+    })
+  }
+
+  getnotifications(){
+    this.notificationService.getnotificationsdata(this.userid)      
+    .subscribe(result => { 
+      this.resultnotifications = result;
+    })
+
+    this.notificationService.getnotificationscountdata(this.userid)      
+    .subscribe(result => { 
+      this.resultnotificationscount = result;
+    })
+  }
+
+  detailnotifications(id){
+    this.notificationService.updateNotification(id)      
+    .subscribe(result => { 
+
+      this.nav = superAdmin;
+      this.profileform();
+      this.getuserinfo();
+      this.getnotifications();
+      this.checkactive(this.nav[0].url);
+      
     })
   }
 

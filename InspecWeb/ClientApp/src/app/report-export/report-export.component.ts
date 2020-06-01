@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { UserService } from '../services/user.service';
+import { ExportReportService } from '../services/export-report.service';
 
 @Component({
   selector: 'app-report-export',
@@ -20,6 +21,7 @@ export class ReportExportComponent implements OnInit {
   delid: any;
   modalRef: BsModalRef;
   centralpolicyprovinceid: any;
+  reportData: any = [];
   role_id
   constructor(
     private router: Router,
@@ -29,6 +31,7 @@ export class ReportExportComponent implements OnInit {
     private inspectionplanservice: InspectionplanService,
     private spinner: NgxSpinnerService,
     private userService: UserService,
+    private exportReportService: ExportReportService,
     @Inject('BASE_URL') baseUrl: string
   ) { }
 
@@ -61,12 +64,40 @@ export class ReportExportComponent implements OnInit {
       this.electronicBookData = results;
       console.log("ELECTDATA: ", this.electronicBookData);
 
+      var test: any = [];
+
+      this.electronicBookData.forEach(element => {
+        test.push({
+          centralPolicyName: element.centralPolicyProvince.centralPolicy.title
+        })
+      });
+
+      this.electronicBookData.forEach(element => {
+        element.centralPolicyProvince.subjectCentralPolicyProvinces
+      });
+
+      this.reportData = this.electronicBookData.map((item, index) => {
+        return {
+          centralPolicyName: item.centralPolicyProvince.centralPolicy
+        }
+      })
+      console.log("test: ", test);
+      console.log("report: ", this.reportData);
+
       this.loading = true;
     })
   }
 
   gotoDetail(id, elecId) {
-    this.router.navigate(['/electronicbook/detail/' + id ,{electronicBookId: elecId}])
+    this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
+  }
+
+  exportReport() {
+    alert("eiei");
+    this.exportReportService.exportReport(this.userid).subscribe(res => {
+      console.log("export: ", res);
+      this.getexportport();
+    })
   }
 
 

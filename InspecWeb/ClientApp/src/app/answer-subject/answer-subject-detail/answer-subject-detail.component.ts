@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.service';
 
 @Component({
   selector: 'app-answer-subject-detail',
@@ -23,6 +24,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
 
   constructor(
     private answersubjectservice: AnswersubjectService,
+    private suggestionservice: SuggestionsubjectService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private authorize: AuthorizeService,
@@ -44,7 +46,8 @@ export class AnswerSubjectDetailComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.Form = this.fb.group({
-      result: new FormArray([])
+      result: new FormArray([]),
+      Suggestion: new FormControl(null, [Validators.required]),
     })
     this.Formfile = this.fb.group({
       files: [null]
@@ -86,6 +89,9 @@ export class AnswerSubjectDetailComponent implements OnInit {
     console.log(this.t.value);
 
   }
+  addsuggestion(){
+    
+  }
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
     this.Formfile.patchValue({
@@ -94,12 +100,11 @@ export class AnswerSubjectDetailComponent implements OnInit {
     this.Formfile.get('files').updateValueAndValidity()
 
   }
-  storeanswer(){
-    // console.log(value);
+  storeanswer(value){
     this.spinner.show();
-    this.storeansweruser()
+    this.storeansweruser(value)
   }
-  storeansweruser(){
+  storeansweruser(value){
     console.log(this.userid);
     
     for(let i = 0; i < this.t.value.length; i++){
@@ -111,9 +116,14 @@ export class AnswerSubjectDetailComponent implements OnInit {
     console.log(this.t.value);
     this.answersubjectservice.addAnswer(this.t.value).subscribe(result => {
       console.log("result",result);
+      this.storesuggestion(value)
       this.storefile()
       // this.Form.reset();
       // window.history.back();
+    })
+  }
+  storesuggestion(value){
+    this.suggestionservice.addSuggestion(value,this.id, this.userid).subscribe(result => {
     })
   }
   storefile(){

@@ -62,6 +62,10 @@ export class DetailElectronicBookComponent implements OnInit {
   editSuggestionForm: FormGroup;
   userid
   role_id
+  reportBody: any = [];
+  show = false;
+  showIndex: any;
+  resultreportnum = 0
 
   constructor(
     private fb: FormBuilder,
@@ -92,18 +96,18 @@ export class DetailElectronicBookComponent implements OnInit {
     this.spinner.show();
 
     this.authorize.getUser()
-    .subscribe(result => {
-      this.userid = result.sub
-      console.log(result);
-      // alert(this.userid)
-      this.userservice.getuserfirstdata(this.userid)
       .subscribe(result => {
-        // this.resultuser = result;
-        //console.log("test" , this.resultuser);
-        this.role_id = result[0].role_id
-        // alert(this.role_id)
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+        this.userservice.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
       })
-    })
 
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
@@ -243,6 +247,8 @@ export class DetailElectronicBookComponent implements OnInit {
         console.log("EiEi: ", result.subjectcentralpolicyprovincedata);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
+        console.log("res ja", this.resultdetailcentralpolicy);
+
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
 
@@ -322,6 +328,16 @@ export class DetailElectronicBookComponent implements OnInit {
 
       // this.resultreport = result.centralPolicyUser
       this.resultreport = result.report
+
+      this.resultreport.forEach(element => {
+        // alert(JSON.stringify(element))
+        if (element.report != null) {
+          this.resultreportnum = 1;
+        }
+      });
+
+      console.log("results report: ", this.resultreport);
+
       this.detailForm.patchValue({
         eBookDetail: this.resultelectronicbookdetail,
         Status: result.status
@@ -418,15 +434,16 @@ export class DetailElectronicBookComponent implements OnInit {
   }
 
   addSignatureFile() {
+    this.addReportTable();
     this.electronicBookService.addSignatureFile(this.elecId, this.form.value.files).subscribe(res => {
       console.log("signatureFile: ", res);
 
       this.spinner.show();
 
       this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 8, 1)
-      .subscribe(response => {
-        console.log(response);
-      })
+        .subscribe(response => {
+          console.log(response);
+        })
 
 
       setTimeout(() => {
@@ -434,6 +451,32 @@ export class DetailElectronicBookComponent implements OnInit {
         this.spinner.hide();
       }, 300);
     })
+
   }
+
+  addReportTable() {
+    this.electronicBookService.addReportTable(this.resultdetailcentralpolicy, this.editSuggestionForm.value, this.resultdetailcentralpolicy.id).subscribe(res => {
+      console.log("resReportTable: ", res);
+
+    })
+  }
+
+  // checkBtn(index) {
+  //   let value = document.getElementById('collapseAsk'+index).getAttribute('aria-expanded')
+
+  //   console.log(value);
+
+  //   if(value == "false"){
+
+  //     $('#collapseAsk'+index).addClass('btn-askhide');
+  //     $('.far fa-fw fa-plus-square').addClass('none');
+  //     $('.far fa-fw fa-minus-square').addClass('block');
+  //   }else{
+  //     $('#collapseAsk'+index).removeClass('btn-askhide');
+  //     $('.far fa-fw fa-plus-square').addClass('block');
+  //     $('.far fa-fw fa-minus-square').addClass('none');
+  //   }
+
+  // }
 
 }

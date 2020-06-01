@@ -11,3 +11,16 @@
 .pointer {
   cursor:pointer;
 }
+
+.btn-askhide{
+  background-color: #ec4f4f;
+    border: none;
+}
+
+.none{
+  display: none;
+}
+
+.block{
+  display: block;
+}

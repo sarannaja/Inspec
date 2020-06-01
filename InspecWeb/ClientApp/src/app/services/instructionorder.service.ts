@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InstructionorderService {
-  url = "https://localhost:5001/api/instructionorder/";
+export class MinistryService {
+  // url = "https://localhost:5001/api/InstructionOrder/";
 
-  constructor(private http:HttpClient) { }
-  getinstructionorder(){
+  constructor(private http:HttpClient,@Inject('BASE_URL') private url: string) { }
+  getInstructionOrder(){
     return this.http.get(this.url)
   }
   addInstructionorder(instructionorderData, file: FileList){

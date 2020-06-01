@@ -19,7 +19,7 @@
                 <h5 class="card-title mb-0">รายละเอียด</h5>
             </div>
             <div class="card-body">
-                <form [formGroup]="Form" (ngSubmit)="storeanswer()">
+                <form [formGroup]="Form" (ngSubmit)="storeanswer(Form.value)">
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-6">
                             เรื่อง : {{resultsubjectdetail.name}}
@@ -99,6 +99,10 @@
                             </table>
                         </div>
                     </div>
+                    <label class="form-label w-100" style="margin-top: 30px;">แสดงความคิดเห็น</label>
+                    <textarea cols="30" rows="5" class="form-control"
+                        placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" formControlName="Suggestion"
+                        name="Suggestion"></textarea>
                     <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์</label>
                     <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-answer-people-list',
@@ -10,12 +11,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AnswerPeopleListComponent implements OnInit {
 
   id: any
+  userid: string
   resultsubjectlist: any[]
   resultcentralpolicy: any[]
   loading = false;
   dtOptions: DataTables.Settings = {};
 
   constructor(
+    private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,
     private activatedRoute: ActivatedRoute,
     private router:Router, 
@@ -34,10 +37,15 @@ export class AnswerPeopleListComponent implements OnInit {
       ]
 
     };
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+      })
     this.getSubjectlist()
   }
   getSubjectlist() {
-    this.answersubjectservice.getsubjectlistdata(this.id).subscribe(result => {
+    this.answersubjectservice.getsubjectlistdata(this.id,this.userid).subscribe(result => {
       this.resultsubjectlist = result
       this.resultcentralpolicy = result[0].centralPolicyProvince.centralPolicy.title
       this.loading = true
@@ -48,6 +56,6 @@ export class AnswerPeopleListComponent implements OnInit {
     )
   }
   Subjectdetail(id) {
-    this.router.navigate(['/answersubject/detail', id])
+    this.router.navigate(['/answerpeople/detail', id])
   }
 }

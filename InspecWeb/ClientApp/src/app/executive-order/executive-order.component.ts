@@ -7,7 +7,6 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { DetailexecutiveorderService } from '../services/detailexecutiveorder.service';
 
-
 @Component({
   selector: 'app-executive-order',
   templateUrl: './executive-order.component.html',
@@ -21,6 +20,7 @@ export class ExecutiveOrderComponent implements OnInit {
   loading = false;
   userid: any;
   role_id:any;
+  
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -45,6 +45,7 @@ export class ExecutiveOrderComponent implements OnInit {
   }
   DetailExecutiveOrder(id:any){
     this.router.navigate(['executiveorder/detailexecutiveorder', id])
+    // console.log(id)
   }
 
     //start getuser
@@ -68,7 +69,7 @@ export class ExecutiveOrderComponent implements OnInit {
             }else{
               this.executiveOrderService.getCentralpolicydata(this.userid)
               .subscribe(result => {
-                console.log("role3" , result); 
+                // console.log("role3" , result); 
                 this.resultcentralpolicy = result
                 this.loading = true
               })
