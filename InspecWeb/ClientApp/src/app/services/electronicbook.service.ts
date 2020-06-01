@@ -50,6 +50,7 @@ export class ElectronicbookService {
     const formData = new FormData();
     formData.append('ElectronicBookId', electronicbookid);
     formData.append('Step', value.step);
+    formData.append('Status', value.status);
     formData.append('CentralPolicyProvinceId', centralproid);
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
@@ -184,4 +185,24 @@ export class ElectronicbookService {
   getexportport(userId) {
     return this.http.get(this.url + "export/" + userId)
   }
+
+  addReportTable(reportData, suggestionForm, centralPolicyId) {
+    console.log("ProvinceId: ",  reportData.centralPolicyProvinces[0].provinceId);
+    console.log("ReportTitle: ", reportData.title);
+    console.log("ReportYear: ",  reportData.fiscalYear.year);
+    console.log("ReportUserId: ", reportData.createdBy);
+    console.log("ReportStatus: ",  reportData.status);
+    console.log("suggestionForm: ",  suggestionForm);
+
+    const formData = {
+      ReportProvinceId: reportData.centralPolicyProvinces[0].provinceId,
+      ReportTitle: reportData.title,
+      ReportYear: reportData.fiscalYear.year,
+      ReportUserId: reportData.createdBy,
+      ReportStatus: reportData.status,
+      ReportCentralPolicyId: centralPolicyId
+    }
+    return this.http.post(this.url + "addReport",  formData)
+  }
 }
+

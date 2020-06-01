@@ -48,7 +48,11 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyDates)
                 .Include(m => m.InspectionPlanEvent)
-                .Where(m => m.InspectionPlanEvent.ProvinceId == provinceid).ToList();
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyProvinces)
+                .Where(m => m.InspectionPlanEvent.ProvinceId == provinceid)
+                .Where(m => m.CentralPolicy.CentralPolicyProvinces.Any(m => m.ProvinceId == provinceid))
+                .ToList();
 
 
             return Ok(new { test, inspectionplandata });

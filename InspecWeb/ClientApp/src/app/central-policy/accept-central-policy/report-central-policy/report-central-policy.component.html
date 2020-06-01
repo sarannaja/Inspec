@@ -113,7 +113,7 @@
                       </div>
                     </div>
                   </td>
-                  <td style="border-top: none;" width="50%">
+                  <!-- <td style="border-top: none;" width="50%">
                     <div class="row">
                       <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;</span>
 
@@ -122,15 +122,9 @@
                         <span class="col-11">{{ii + 1}}. {{itemss.user.name}}</span>
                       </div>
 
-                      <!-- <div class="col-12"
-                          *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
-                          <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
-                          <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                            (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
-                        </div> -->
                     </div>
 
-                  </td>
+                  </td> -->
                 </tr>
                 <tr>
                   <td style="border-top: none;">
@@ -344,7 +338,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <u>ไฟล์แนบของคุณ</u><br>
-                  <div class="row" *ngFor="let item of userFiles.userFile; let i = index" style="margin-top: 10px;">
+                  <!-- <div class="row" *ngFor="let item of userFiles.userFile; let i = index" style="margin-top: 10px;">
                     <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
                       <span>ไฟล์ที่
                         {{i+1}})
@@ -353,7 +347,7 @@
                     </a>
                     <i class="fas fa-fw fa-trash-alt pointer col-1" style="font-size: larger;"
                       (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
-                  </div>
+                  </div> -->
                 </div>
               </div>
 

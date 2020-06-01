@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
@@ -479,6 +480,7 @@ namespace InspecWeb.Controllers
 
             var CentralPolicyProvincedata = _context.CentralPolicyProvinces.Find(model.CentralPolicyProvinceId);
             CentralPolicyProvincedata.Step = model.Step;
+            CentralPolicyProvincedata.Status = model.Status;
             _context.Entry(CentralPolicyProvincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
@@ -720,6 +722,18 @@ namespace InspecWeb.Controllers
 
                 System.Console.WriteLine("Start Upload 5");
             }
+
+            //var date = DateTime.Now;
+            //var provincedata = new ExportRegistration
+            //{
+            //    Date = date,
+            //    ProvinceId = 1,
+            //    Subject
+            //};
+
+            //_context.ExportRegistrations.Add(provincedata);
+            //_context.SaveChanges();
+
             return Ok(new { status = true });
         }
 
@@ -769,6 +783,100 @@ namespace InspecWeb.Controllers
             //                .ToList();
 
             return Ok(ebook);
+        }
+
+        [HttpPost("addReport")]
+        public IActionResult PostReport([FromBody] ElectronicBookViewModel model)
+        {
+            System.Console.WriteLine("ProviceId: " + model.ReportProvinceId);
+            System.Console.WriteLine("ReportTitle: " + model.ReportTitle);
+            System.Console.WriteLine("ReportYear: " + model.ReportYear);
+            System.Console.WriteLine("ReportUserId: " + model.ReportUserId);
+            System.Console.WriteLine("ReportStatus: " + model.ReportStatus);
+
+            var misnistryData = _context.Users
+                .Where(x => x.Id == model.ReportUserId)
+                .Select(x => x.MinistryId)
+                .FirstOrDefault();
+
+            var ministryName = _context.Ministries
+                .Where(x => x.Id == misnistryData)
+                .Select(x => x.Name)
+                .FirstOrDefault();
+            System.Console.WriteLine("department: " + ministryName);
+            var ExportData = new ExportReportHead
+            {
+                ProvinceId = model.ReportProvinceId,
+                Title = model.ReportTitle,
+                Year = model.ReportYear,
+                Ministry = ministryName,
+                Status = model.ReportStatus
+
+            };
+            System.Console.WriteLine("1");
+
+            _context.ExportReportHeads.Add(ExportData);
+            _context.SaveChanges();
+
+            var centralPolicyProvinceData = _context.CentralPolicyProvinces
+                .Where(x => x.CentralPolicyId == model.ReportCentralPolicyId && x.ProvinceId == model.ReportProvinceId)
+                .FirstOrDefault();
+
+            System.Console.WriteLine("centralPolicyProvinceData" + centralPolicyProvinceData.Id);
+
+            var subjectCentralPolicyProvince = _context.SubjectCentralPolicyProvinces
+                .Include(x => x.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(x => x.ProvincialDepartment)
+                .Include(x => x.ElectronicBookSuggestGroups)
+                .Where(x => x.CentralPolicyProvinceId == centralPolicyProvinceData.Id)
+                .ToList();
+
+            foreach(var test in subjectCentralPolicyProvince)
+            {
+              foreach(var test2 in test.ElectronicBookSuggestGroups)
+                {
+                    var ExportBodyData = new ExportReportBody
+                    {
+                        ExportReportHeadId = ExportData.Id,
+                        Subject = test.Name,
+                        Problem = test2.Detail + " / " + test2.Problem,
+                        Suggestion = test2.Suggestion,
+                    };
+                    _context.ExportReportBodies.Add(ExportBodyData);
+                    _context.SaveChanges();
+
+                    foreach (var test3 in test.SubquestionCentralPolicyProvinces)
+                    {
+                        foreach(var test4 in test3.SubjectCentralPolicyProvinceGroups)
+                        {
+
+                            //return Ok(test4);
+                            System.Console.WriteLine(" test4.ProvincialDepartment.Name" + test4.ProvincialDepartment.Name);
+
+                            var ExportBodyData2 = _context.ExportReportBodies.Find(ExportBodyData.Id);
+                            {
+                                if(ExportBodyData2.Department == null)
+                                {
+                                    System.Console.WriteLine(" test4 ja 1" + test4.ProvincialDepartment.Name);
+                                    ExportBodyData2.Department = test4.ProvincialDepartment.Name;
+                                } 
+                                else 
+                                {
+                                    System.Console.WriteLine(" test4 ja 2" + test4.ProvincialDepartment.Name);
+                                    ExportBodyData2.Department = ExportBodyData2.Department + ", " + test4.ProvincialDepartment.Name;
+                                }
+                            }
+                            _context.Entry(ExportBodyData2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        }
+                        _context.SaveChanges();
+                    }
+                }
+            }
+
+
+            return Ok("eiei");
+            System.Console.WriteLine("Finish Add Suggestion");
         }
 
     }

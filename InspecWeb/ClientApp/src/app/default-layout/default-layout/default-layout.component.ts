@@ -68,7 +68,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.authorize.signOut({ local: true })
   }
 
-  openModal(template: TemplateRef<any>,IDdelete) {
+  openModal(template: TemplateRef<any>) {
       this.modalRef = this.modalService.show(template);
   }
 

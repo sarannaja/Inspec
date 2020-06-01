@@ -137,29 +137,6 @@
                         </div>
                       </div>
                     </td>
-                    <td style="border-top: none;" width="50%">
-                      <div class="row">
-                        <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;
-                          <!-- <button type="button" (click)="openModal3(modalInvitePeopleAnswer, items.id)"
-                            class="btn btn-primary">เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</button> -->
-                        </span>
-
-                        <div class="col-12"
-                          *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceUserGroups;let ii = index">
-                          <span class="col-11">{{ii + 1}}. {{itemss.user.name}}</span>
-                          <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                            (click)="DelModal2(modaldeletepeopleanswer, itemss.id)"></i>
-                        </div>
-
-                        <!-- <div class="col-12"
-                            *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
-                            <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
-                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                              (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
-                          </div> -->
-                      </div>
-
-                    </td>
                   </tr>
 
                   <div class="row" style="margin-top: 10px;">
@@ -776,10 +753,10 @@
         <h5 class="card-title mb-0">รายงานผลการตรวจ</h5>
       </div>
       <div class="card-body">
-        <div *ngIf="resultreport[0].report == null">
+        <div *ngIf="resultreport.length <= 0">
           <label style="color: gray;">ไม่มีข้อมูล</label>
         </div>
-        <div class="col-12 col-xl-12" *ngIf="resultreport[0].report != null">
+        <div class="col-12 col-xl-12" *ngIf="resultreport.length > 0">
           <div class="form-group">
             <div *ngFor="let item3 of resultreport; let i = index">
               <div *ngIf="item3.draftStatus == 'ใช้งานจริง'" class="card" style="padding: 10px;">

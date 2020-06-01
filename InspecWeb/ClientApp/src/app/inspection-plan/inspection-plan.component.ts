@@ -166,7 +166,9 @@ export class InspectionPlanComponent implements OnInit {
 
     if (this.inspectionplan.length == 0) {
       for (var i = 0; i < this.resultcentralpolicy.length; i++) {
-        this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
+        if (this.resultcentralpolicy[i].status == "ใช้งานจริง") {
+          this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
+        }
       }
     }
     else {
@@ -178,7 +180,9 @@ export class InspectionPlanComponent implements OnInit {
           }
         }
         if (n == 0) {
-          this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
+          if (this.resultcentralpolicy[i].status == "ใช้งานจริง") {
+            this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
+          }
         }
       }
     }

@@ -62,6 +62,10 @@ export class DetailElectronicBookComponent implements OnInit {
   editSuggestionForm: FormGroup;
   userid
   role_id
+  reportBody: any = [];
+  show = false;
+  showIndex: any;
+
 
   constructor(
     private fb: FormBuilder,
@@ -243,6 +247,8 @@ export class DetailElectronicBookComponent implements OnInit {
         console.log("EiEi: ", result.subjectcentralpolicyprovincedata);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
+        console.log("res ja", this.resultdetailcentralpolicy);
+
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
 
@@ -322,6 +328,8 @@ export class DetailElectronicBookComponent implements OnInit {
 
       // this.resultreport = result.centralPolicyUser
       this.resultreport = result.report
+      console.log("results report: ", this.resultreport);
+
       this.detailForm.patchValue({
         eBookDetail: this.resultelectronicbookdetail,
         Status: result.status
@@ -418,6 +426,7 @@ export class DetailElectronicBookComponent implements OnInit {
   }
 
   addSignatureFile() {
+    this.addReportTable();
     this.electronicBookService.addSignatureFile(this.elecId, this.form.value.files).subscribe(res => {
       console.log("signatureFile: ", res);
 
@@ -434,6 +443,24 @@ export class DetailElectronicBookComponent implements OnInit {
         this.spinner.hide();
       }, 300);
     })
+
+  }
+
+  addReportTable() {
+    this.electronicBookService.addReportTable(this.resultdetailcentralpolicy, this.editSuggestionForm.value, this.resultdetailcentralpolicy.id).subscribe(res => {
+      console.log("resReportTable: ", res);
+
+    })
+  }
+
+  showAnswer(index) {
+    if (this.show == true) {
+      this.show = false;
+      this.showIndex = index
+    } else {
+      this.show = true;
+      this.showIndex = index
+    }
   }
 
 }
