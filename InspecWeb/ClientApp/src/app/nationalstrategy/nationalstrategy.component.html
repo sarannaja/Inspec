@@ -37,7 +37,7 @@
                 <td>{{ i + 1 }}.</td>
                 <td> {{ item.title }}</td>
                 <td style="text-align:right"><a *ngIf="item.file != 'NULL' " href="assets/NationalstrategyFile/{{item.file}}" download>download</a></td>
-                <td style="text-align:right"><a *ngIf="item.file != 'NULL' " href="assets/NationalstrategyFile/{{item.file}}" download>{{ item.file }}</a></td>
+                <td style="text-align:right"><a target="_blank" *ngIf="item.file != 'NULL' " href="assets/NationalstrategyFile/{{item.file}}">{{ item.file }}</a></td>
                 <td style="text-align:right">{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
                 <!-- <td>
                    <i class="align-middle mr-2 fas fa-fw fa-search"></i> 
@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-  
+  </form>
     <!-- BEGIN primary modal -->
     <ng-template #modalNationalstrategy class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
@@ -131,4 +131,3 @@
    </div> 
   </ng-template>
    END primary modal -->
-  
