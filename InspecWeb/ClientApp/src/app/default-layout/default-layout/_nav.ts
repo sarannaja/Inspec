@@ -343,7 +343,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   },
   {
     icon: 'fa-hands',
-    url: "#",
+    url: "/requestorder",
     name: "แจ้งคำร้องขอ"
   },
   {
@@ -492,7 +492,7 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
   },
   {
     icon: 'fa-hands',
-    url: "#",
+    url: "/requestorder",
     name: "แจ้งคำร้องขอ"
   },
   // {
