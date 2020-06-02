@@ -297,7 +297,7 @@ import { InvitedElectronicBookComponent } from './electronic-book/invited-electr
     ThaiDatePipe,],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
-    SnotifyService, NotificationService, ExceldService,
+    SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
 
 
