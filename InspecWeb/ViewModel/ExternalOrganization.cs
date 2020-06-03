@@ -106,8 +106,8 @@ namespace InspecWeb.ViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<OtpsCabinetFiscalYears> FiscalYears {get;set;}
-        public List<OtpsCabinetMinisters> Ministers   {get;set;}
+        public List<OtpsCabinetFiscalYears> FiscalYears { get; set; }
+        public List<OtpsCabinetMinisters> Ministers { get; set; }
     }
 
     public class OtpsCabinetFiscalYears
@@ -132,7 +132,7 @@ namespace InspecWeb.ViewModel
 
     }
 
-     public class GgcService
+    public class GgcService
     {
         public int no { get; set; }
         public string position { get; set; }
@@ -151,14 +151,29 @@ namespace InspecWeb.ViewModel
         public int value { get; set; }
         public string is_active { get; set; }
         public string name { get; set; }
-      
+
     }
 
     public class GgcWara
     {
         public int value { get; set; }
         public string name { get; set; }
-      
+
+    }
+
+    public class Opm1111
+    {
+        public string case_id { get; set; }
+        public string case_code { get; set; }
+        public string objective_id { get; set; }
+        public string objective_text { get; set; }
+        public string type_text { get; set; }
+        public string status_id { get; set; }
+        public string type_id { get; set; }
+        public string status_text { get; set; }
+        public string date_opened { get; set; }
+        public string summary { get; set; }
+
     }
 
 

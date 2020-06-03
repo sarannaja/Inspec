@@ -38,4 +38,8 @@ export class ExternalOrganizationService {
     return this.http.get<any[]>(this.baseUrl + 'api/ExternalOrganization/gcc/wara', this.httpOptions)
   }
 
+  getGcc1111(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'api/ExternalOrganization/opm-1111', this.httpOptions)
+  }
+
 }

@@ -15,6 +15,8 @@ import { TitleModalComponent } from './otps/modals/title-modal/title-modal.compo
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { GccOpmTableComponent } from './ggc-opm/gcc-opm-table/gcc-opm-table.component';
 import { FormsModule } from '@angular/forms';
+import { Gcc1111TableComponent } from './opm1111/gcc1111-table/gcc1111-table.component';
+import { ThaiDatePipe } from '../services/Pipe/thaidate.service';
 
 
 
@@ -28,6 +30,7 @@ import { FormsModule } from '@angular/forms';
     MinisterModalComponent,
     TitleModalComponent,
     GccOpmTableComponent,
+    Gcc1111TableComponent,
     
   ],
   imports: [
@@ -36,7 +39,7 @@ import { FormsModule } from '@angular/forms';
     DataTablesModule,
     NgxSpinnerModule,
     ModalModule.forRoot(),
-    FormsModule
+    FormsModule,
   ],
   exports:[MinisterModalComponent],
   providers: [ExternalOrganizationService],

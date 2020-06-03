@@ -135,5 +135,21 @@ namespace InspecWeb.Controllers {
 
         }
 
+         [HttpGet ("opm-1111")]
+        public IActionResult OnGetOpm () {
+            List<Opm1111> model = null;
+            var client = new HttpClient ();
+            var task = client.GetAsync ("http://203.113.14.20:3000/testservice2/opm")
+                .ContinueWith ((taskwithresponse) => {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync ();
+                    jsonString.Wait ();
+                    model = JsonConvert.DeserializeObject<List<Opm1111>> (jsonString.Result);
+                });
+            task.Wait ();
+            return Ok (model);
+
+        }
+
     }
 }
