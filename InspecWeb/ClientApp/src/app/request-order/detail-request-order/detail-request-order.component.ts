@@ -28,7 +28,7 @@ export class DetailRequestOrderComponent implements OnInit {
   answercounsel: any
   centralpolicyid: any
   provinceid: any
-  resultrequestorder: any = []  //
+  resultrequestorder: any = []  
   resultdetailrequestorder: any = []
   resultprovince: any = []
   file: string[] = []
@@ -50,6 +50,7 @@ export class DetailRequestOrderComponent implements OnInit {
   createdat:any;
   requestfile:any;
   answerfile:any;
+  provincename: any;
 
   constructor(
     private authorize: AuthorizeService,
@@ -92,7 +93,18 @@ export class DetailRequestOrderComponent implements OnInit {
     this.getDetailRequestOrder()
 
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>,userid) {
+    //console.log(this.userid);
+    this.userService.getuserfirstdata(userid)
+    .subscribe(result => {
+      this.provinceId= result[0].province.id
+      this.provincename = result[0].province.name
+      // console.log(this.provincename);
+      // console.log(this.provinceId);
+      
+      
+    })
+    
     this.modalRef = this.modalService.show(template);
   }
   editModal(template: TemplateRef<any>, id) {
@@ -139,7 +151,13 @@ export class DetailRequestOrderComponent implements OnInit {
         // console.log("in2", this.selectdataprovince);
       })
   }
-  addModal(template: TemplateRef<any>, id, name) {
+  addModal(template: TemplateRef<any>, id, name,userid) {
+    this.userService.getuserfirstdata(userid)
+    .subscribe(result => {
+      
+      this.provincename = result[0].province.id
+      
+    })
     this.id = id;
     this.text = name;
     this.centralpolicyid = id;
@@ -176,7 +194,9 @@ export class DetailRequestOrderComponent implements OnInit {
 
   }
   storedetailrequestorder(value) {
-    //  console.log("value", this.Form.value.files)
+    console.log(this.provinceId);
+    
+      console.log("value", this.Form.value.files)
     this.requestorderrService.adddetailrequestorder(value, this.Form.value.files, this.id)
       .subscribe(result => {
 

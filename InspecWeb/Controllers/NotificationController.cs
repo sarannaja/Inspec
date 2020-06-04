@@ -159,50 +159,14 @@ namespace InspecWeb.Controllers
                 _context.SaveChanges();
 
             }
-            if (Status == 12)
-            {
-                System.Console.WriteLine("st12 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
-                var users = _context.UserProvinces
-                .Include(m => m.User)
-               .Where(m => m.ProvinceId == ProvinceId && m.User.Role_id == 3);
-
-                foreach (var item in users)
-                {
-                    System.Console.WriteLine("USERID : " + item.UserID);
-                    notificationdata.UserID = item.UserID;
-                    notificationdata.CentralPolicyId = CentralPolicyId;
-                    notificationdata.ProvinceId = ProvinceId;
-                    notificationdata.status = Status;
-                    notificationdata.noti = 1;
-                    notificationdata.CreatedAt = date;
-                    notificationdata.xe = xe;
-                    //System.Console.WriteLine("1");
-                    _context.Notifications.Add(notificationdata);
-                    //System.Console.WriteLine("2");
-
-                    _context.SaveChanges();
-                    //System.Console.WriteLine("3");
-                }
-
-
-            }
-            if (Status == 13)
-            {
-                var RequestOrders = _context.RequestOrders
-               .Where(m => m.Id == xe)
-               .FirstOrDefault();
-
-                notificationdata.UserID = RequestOrders.UserId;
-                notificationdata.CentralPolicyId = CentralPolicyId;
-                notificationdata.ProvinceId = ProvinceId;
-                notificationdata.status = Status;
-                notificationdata.noti = 1;
-                notificationdata.CreatedAt = date;
-                notificationdata.xe = xe;
-                _context.Notifications.Add(notificationdata);
-                _context.SaveChanges();
-                //3
-            }
+            //if (Status == 12)
+            //{
+              
+            //}
+            //if (Status == 13)
+            //{
+              
+            //}
 
             return notificationdata;
         }

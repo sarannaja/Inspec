@@ -27,7 +27,7 @@ export class RequestorderService {
     // console.log('AnswerProblem: ' + formData.get("AnswerProblem"));
     // console.log('AnswerCounsel: ' + formData.get("AnswerCounsel"));
     // console.log('files: ', formData.get("files"));
-    return this.http.put(this.url + 'test', formData);
+    return this.http.put(this.url + 'edit', formData);
   }
 }
 
