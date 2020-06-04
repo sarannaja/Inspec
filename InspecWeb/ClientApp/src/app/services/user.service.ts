@@ -67,6 +67,8 @@ export class UserService {
       //formData.append('CreatedAt',''); 
       //formData.append('Startdate',''); 
       //formData.append('Enddate',''); 
+      formData.append('startdate', userData.startdate.date.year + '-' + userData.startdate.date.month + '-' + userData.startdate.date.day);
+    formData.append('enddate', userData.enddate.date.year + '-' + userData.enddate.date.month + '-' + userData.enddate.date.day);
    
       if(userData.UserRegion != null){
         for (var i = 0; i < userData.UserRegion.length; i++) {
