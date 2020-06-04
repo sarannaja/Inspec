@@ -103,6 +103,7 @@ import { DatePipe } from '@angular/common';
 import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
 import { InfoDepartmentComponent } from './info-department/info-department.component';
 import { InfoVillageComponent } from './info-village/info-village.component';
+import { StatepolicyComponent } from './statepolicy/statepolicy.component';
 
 
 
@@ -196,6 +197,7 @@ const ExternalOrganization = [
     // DatePipe
     InfoDepartmentComponent,
     InfoVillageComponent,
+    StatepolicyComponent,
   ],
 
   imports: [
@@ -240,7 +242,7 @@ const ExternalOrganization = [
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
@@ -303,6 +305,7 @@ const ExternalOrganization = [
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

@@ -100,6 +100,7 @@ namespace InspecWeb.Data
         public DbSet<ReportCommander> ReportCommanders { get; set; }
         public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
         public DbSet<ElectronicBookProceed> ElectronicBookProceeds { get; set; }
+        public DbSet<StatePolicy> StatePolicys { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
