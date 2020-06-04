@@ -98,6 +98,7 @@ import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-ce
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 import { InfoVillageComponent } from './info-village/info-village.component';
+import { StatepolicyComponent } from './statepolicy/statepolicy.component';
 
 
 
@@ -181,6 +182,7 @@ import { InfoVillageComponent } from './info-village/info-village.component';
     InvitedElectronicBookComponent,
     InfoMinistryComponent,
     InfoVillageComponent,
+    StatepolicyComponent,
   ],
 
   imports: [
@@ -225,7 +227,7 @@ import { InfoVillageComponent } from './info-village/info-village.component';
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
@@ -285,6 +287,7 @@ import { InfoVillageComponent } from './info-village/info-village.component';
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
