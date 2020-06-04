@@ -96,7 +96,7 @@ import { ExcelService } from './services/excel.service';
 import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-detail/answer-people-detail.component';
 import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
-
+import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 
 
 @NgModule({
@@ -177,6 +177,7 @@ import { InvitedElectronicBookComponent } from './electronic-book/invited-electr
     AnswerPeopleDetailComponent,
     AnswerCentralPolicyProvinceComponent,
     InvitedElectronicBookComponent,
+    InfoMinistryComponent,
   ],
 
   imports: [
@@ -279,6 +280,7 @@ import { InvitedElectronicBookComponent } from './electronic-book/invited-electr
           { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
@@ -297,7 +299,7 @@ import { InvitedElectronicBookComponent } from './electronic-book/invited-electr
     ThaiDatePipe,],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
-    SnotifyService, NotificationService, ExceldService,
+    SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
 
 
