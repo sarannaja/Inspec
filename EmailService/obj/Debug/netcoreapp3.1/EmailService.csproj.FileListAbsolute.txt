@@ -23,3 +23,11 @@ C:\Users\HP\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.Ass
 C:\Users\HP\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfo.cs
 C:\Users\HP\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
 C:\Users\HP\Desktop\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb
+C:\Users\Tanac\Desktop\work\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.deps.json
+C:\Users\Tanac\Desktop\work\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.dll
+C:\Users\Tanac\Desktop\work\Inspec\EmailService\bin\Debug\netcoreapp3.1\EmailService.pdb
+C:\Users\Tanac\Desktop\work\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.csprojAssemblyReference.cache
+C:\Users\Tanac\Desktop\work\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfoInputs.cache
+C:\Users\Tanac\Desktop\work\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfo.cs
+C:\Users\Tanac\Desktop\work\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
+C:\Users\Tanac\Desktop\work\Inspec\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb

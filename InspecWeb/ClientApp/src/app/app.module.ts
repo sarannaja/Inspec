@@ -76,6 +76,9 @@ import { InfoDistrictComponent } from './info-district/info-district.component';
 import { InfoSubdistrictComponent } from './info-subdistrict/info-subdistrict.component';
 import { AnswerSubjectListComponent } from './answer-subject/answer-subject-list/answer-subject-list.component';
 import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-detail/answer-subject-detail.component';
+import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
+import { InfoVillageComponent } from './info-village/info-village.component';
+import { StatepolicyComponent } from './statepolicy/statepolicy.component';
 
 
 @NgModule({
@@ -139,7 +142,10 @@ import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-de
     InfoDistrictComponent,
     InfoSubdistrictComponent,
     AnswerSubjectListComponent,
-    AnswerSubjectDetailComponent
+    AnswerSubjectDetailComponent,
+    InfoMinistryComponent,
+    InfoVillageComponent,
+    StatepolicyComponent
   ],
   
   imports: [
@@ -219,6 +225,9 @@ import { AnswerSubjectDetailComponent } from './answer-subject/answer-subject-de
           { path: 'infosubdistrict/:id', component: InfoSubdistrictComponent, canActivate: [AuthorizeGuard]},
           { path: 'answersubject/list/:id', component: AnswerSubjectListComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/detail/:id', component: AnswerSubjectDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
