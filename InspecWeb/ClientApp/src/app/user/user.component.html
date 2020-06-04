@@ -491,6 +491,20 @@
                     <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label">วันที่เริ่มต้น*</label>
+                    <my-date-picker-th formControlName="Startdate"
+                        [options]="myDatePickerOptions" required>
+                    </my-date-picker-th>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">วันที่สิ้นสุด*</label>
+                    <my-date-picker-th formControlName="Enddate"
+                        [options]="myDatePickerOptions" required>
+                    </my-date-picker-th>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">บันทึก</button>

@@ -10,6 +10,7 @@ import { MinistryService } from '../services/ministry.service';
 import { UserService } from '../services/user.service'; // ผู้ใช้
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from 'rxjs/internal/Subscription';
+import { IMyOptions } from 'mydatepicker-th';
 
 @Component({
   selector: 'app-user',
@@ -18,6 +19,11 @@ import { Subscription } from 'rxjs/internal/Subscription';
 })
 export class UserComponent implements OnInit {
 
+  private myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+  };
+  
   modalRef: BsModalRef;
   selectdatarole: Array<IOption>
   selectdataministry: Array<IOption>
