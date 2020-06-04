@@ -1,6 +1,6 @@
 <div class="header">
     <h1 class="header-title">
-      ระบบตรวจราชการอิเล็กทรอนิกส์
+        ระบบตรวจราชการอิเล็กทรอนิกส์
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -16,27 +16,30 @@
 <form class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header" style="margin-bottom: -40px;">
+            <div *ngIf="titleprovince != null" class="card-header" style="margin-bottom: -40px;">
                 <h4 class="card-title">จังหวัด : {{titleprovince}}</h4>
-                <h5 class="card-title">อำเภอ/เขต : {{titledistrict}}</h5><br>
+                <h5 class="card-title">อำเภอ/เขต : {{titledistrict}}</h5>
+                <h6 class="card-title">ตำบล/แขวง : {{titlesubdistrict}}</h6><br>
+            </div>
+            <div *ngIf="titleprovince == null" class="card-header" style="margin-bottom: -40px;">
+                <h1 class="card-title" style="color:red; font-size: 160%; ">ไม่มีข้อมูลหมู่บ้าน</h1>
             </div>
             <div class="card-body">
                 <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
+                    [dtOptions]="dtOptions">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>ชื่อตำบล/แขวง</th>
+                            <th>ชื่อหมู่บ้าน</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of resultsubdistrict; let i = index">
+                        <tr *ngFor="let item of resultvillage; let i = index">
                             <td>{{ i + 1 }}</td>
-                            <td class="pointer" (click)="Village(item.id)">{{ item.name }}</td>
+                            <td>{{ item.name }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
