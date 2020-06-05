@@ -14,7 +14,6 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
 import { CreateCentralPolicyComponent } from './central-policy/create-central-policy/create-central-policy.component';
 import { CreateInspectionPlanComponent } from './inspection-plan/create-inspection-plan/create-inspection-plan.component';
-import { CreateInstructionorderComponent } from './instruction-order/create-instructionorder/create-instructionorder.component';
 import { EditInspectionPlanComponent } from './inspection-plan/edit-inspection-plan/edit-inspection-plan.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { ProvinceComponent } from './province/province.component';
@@ -31,7 +30,7 @@ import { InspectionPlanComponent } from './inspection-plan/inspection-plan.compo
 import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { GovernmentinspectionplanComponent } from './governmentinspectionplan/governmentinspectionplan.component';
 import { InspectionorderComponent } from './inspectionorder/inspectionorder.component';
-import { InstructionOrderComponent } from './instruction-order/instruction-order.component';
+import { InstructionorderComponent } from './instructionorder/instructionorder.component';
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
 import { DataTablesModule } from 'angular-datatables';
@@ -90,12 +89,16 @@ import { ReportExportComponent } from './report-export/report-export.component';
 import { AnswerOutsideThankComponent } from './answer-subject/answer-outside-thank/answer-outside-thank.component';
 import { AnswerPeopleComponent } from './answer-subject/answer-people/answer-people.component';
 import { AnswerPeopleListComponent } from './answer-subject/answer-people-list/answer-people-list.component';
+import { InformationoperationComponent } from './informationoperation/informationoperation.component';
+import { NationalstrategyComponent } from './nationalstrategy/nationalstrategy.component';
 import { MainComponent } from './main/main.component';
 import { ExcelService } from './services/excel.service';
 import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-detail/answer-people-detail.component';
 import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/inspection-plan-event-province/inspection-plan-event-province.component';
+import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
+
 
 @NgModule({
   declarations: [
@@ -108,7 +111,6 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
     DefaultLayoutComponent,
     CreateCentralPolicyComponent,
     CreateInspectionPlanComponent,
-    CreateInstructionorderComponent,
     EditInspectionPlanComponent,
     MinistryComponent,
     ProvinceComponent,
@@ -123,7 +125,7 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
     InspectionPlanComponent,
     GovernmentinspectionplanComponent,
     InspectionorderComponent,
-    InstructionOrderComponent,
+    InstructionorderComponent,
     DistrictComponent,
     SubdistrictComponent,
     TrainingComponent,
@@ -171,10 +173,13 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
     AnswerOutsideThankComponent,
     AnswerPeopleComponent,
     AnswerPeopleListComponent,
+    InformationoperationComponent,
+    NationalstrategyComponent,
     AnswerPeopleDetailComponent,
     AnswerCentralPolicyProvinceComponent,
     InvitedElectronicBookComponent,
     InspectionPlanEventProvinceComponent,
+    InfoMinistryComponent,
   ],
 
   imports: [
@@ -207,7 +212,6 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent, canActivate: [AuthorizeGuard] },
-          { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministry', component: MinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'province', component: ProvinceComponent, canActivate: [AuthorizeGuard] },
@@ -219,10 +223,9 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
-          { path: 'instructionorder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'InstructionOrder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
@@ -232,7 +235,10 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
-          { path: 'cabinet', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
+          {
+            path: 'cabinet', loadChildren: () => import('./external-organization/external-organization.module')
+              .then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]
+          },
           { path: 'inspector', component: InspectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorder', component: ExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorder/detailexecutiveorder/:id', component: DetailExecutiveOrderComponent, canActivate: [AuthorizeGuard] },
@@ -251,7 +257,10 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
           { path: 'electronicbook/edit/:id', component: EditElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/detail/:id', component: DetailElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/theme/:id', component: TemplateElectronicComponent, canActivate: [AuthorizeGuard] },
-          { path: 'external-organization', loadChildren: () => import('./external-organization/external-organization.module').then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard] },
+          {
+            path: 'external', loadChildren: () => import('./external-organization/external-organization.module')
+              .then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]
+          },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
           { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard] },
@@ -268,10 +277,13 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
           { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'informationoperation', component: InformationoperationComponent, canActivate: [AuthorizeGuard] },
+          { path: 'nationalstrategy', component: NationalstrategyComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
@@ -290,7 +302,7 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
     ThaiDatePipe,],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
-    SnotifyService, NotificationService,ExcelService,
+    SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
 
     // UserManager

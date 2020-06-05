@@ -44,29 +44,40 @@ export class UserService {
     return this.subject.asObservable();
   }
 
-  addUser(userData, file: FileList) {
-    //alert('service : '+userData.Role_id);
-    //console.log("servicelog: ", userData);
-    const formData = new FormData();
-    formData.append('Email', userData.Email); //role
-    formData.append('Role_id', userData.Role_id); //role
-    formData.append('Prefix', userData.Prefix); //คำนำหน้า
-    formData.append('Name', userData.Name); //ชื่อ
-    formData.append('Position', userData.Position);//ตำแหน่ง
-    formData.append('Educational', '');
-    //formData.append('Birthday','');
-    formData.append('Officephonenumber', '');
-    formData.append('PhoneNumber', userData.PhoneNumber);
-    formData.append('Telegraphnumber', '');
-    formData.append('Housenumber', '');
-    formData.append('Rold', '');
-    formData.append('Alley', '');
-    formData.append('Postalcode', '');
-    formData.append('Side', '');
-    formData.append('Img', '');
-    //formData.append('CreatedAt','');
-    //formData.append('Startdate','');
-    //formData.append('Enddate','');
+    addUser(userData,file: FileList) {
+      //alert('service : '+userData.Role_id);
+      //console.log("servicelog: ", userData);
+      const formData = new FormData();
+      formData.append('Email', userData.Email); //role   
+      formData.append('Role_id', userData.Role_id); //role
+      formData.append('Prefix', userData.Prefix); //คำนำหน้า
+      formData.append('Name', userData.Name); //ชื่อ
+      formData.append('Position', userData.Position);//ตำแหน่ง
+      formData.append('Educational','');
+      //formData.append('Birthday',''); 
+      formData.append('Officephonenumber',''); 
+      formData.append('PhoneNumber',userData.PhoneNumber); 
+      formData.append('Telegraphnumber',''); 
+      formData.append('Housenumber',''); 
+      formData.append('Rold',''); 
+      formData.append('Alley',''); 
+      formData.append('Postalcode',''); 
+      formData.append('Side',''); 
+      formData.append('Img',''); 
+      //formData.append('CreatedAt',''); 
+      //formData.append('Startdate',''); 
+      //formData.append('Enddate',''); 
+      formData.append('startdate', userData.startdate.date.year + '-' + userData.startdate.date.month + '-' + userData.startdate.date.day);
+    formData.append('enddate', userData.enddate.date.year + '-' + userData.enddate.date.month + '-' + userData.enddate.date.day);
+   
+      if(userData.UserRegion != null){
+        for (var i = 0; i < userData.UserRegion.length; i++) {
+          formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน  
+         
+        }
+      }else{
+        formData.append('UserRegion', '1');
+      }
 
     if (userData.UserRegion != null) {
       for (var i = 0; i < userData.UserRegion.length; i++) {

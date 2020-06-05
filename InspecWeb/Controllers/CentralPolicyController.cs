@@ -591,6 +591,9 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(x => x.AnswerSubquestions)
 
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.AnswerSubquestionOutsiders)
+
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
@@ -607,6 +610,14 @@ namespace InspecWeb.Controllers
             //System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
             //System.Console.WriteLine("InspectionPlanEventId" + InspectionPlanEventdata.Id);
 
+
+            var answerPeople = _context.SubjectCentralPolicyProvinces
+                .Include(x => x.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.AnswerSubquestionOutsiders)
+                .Where(x => x.Type == "NoMaster")
+                .Where(x => x.CentralPolicyProvinceId == id)
+                .ToList();
+
             if (InspectionPlanEventdata != null)
             {
                 var CentralPolicyEventdata = _context.CentralPolicyEvents
@@ -622,7 +633,7 @@ namespace InspecWeb.Controllers
             {
                 var userdata = "";
                 var CentralPolicyEventdata = "";
-                return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince });
+                return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince,answerPeople });
             }
 
 
