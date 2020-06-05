@@ -8,6 +8,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { IOption } from 'ng-select';
 import { IMyDate } from 'mydatepicker-th';
 import { DepartmentService } from 'src/app/services/department.service';
+import { SubquestionService } from 'src/app/services/subquestion.service';
 
 @Component({
   selector: 'app-edit-subject',
@@ -25,6 +26,8 @@ export class EditSubjectComponent implements OnInit {
   FormEditQuestions: FormGroup
   FormEditChoices: FormGroup
   FormAddChoices: FormGroup
+  FormAddEditDepartment: FormGroup;
+  FormAddDepartmentQuestion: FormGroup;
   id: any
   delid: any
   editid: any
@@ -46,15 +49,21 @@ export class EditSubjectComponent implements OnInit {
   timesselect: IOption[] = [];
   modalRef: BsModalRef;
 
+  get f() { return this.FormAddQuestionsopen.controls; }
+  get t() { return this.f.ProvincialDepartmentId as FormArray; }
+  get ff() { return this.FormAddQuestionsclose.controls; }
+  get tt() { return this.ff.ProvincialDepartmentId as FormArray; }
+
   constructor(
     private modalService: BsModalService,
     private fb: FormBuilder,
     private subjectservice: SubjectService,
+    private subquestionservice: SubquestionService,
     private centralpolicyservice: CentralpolicyService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private departmentservice: DepartmentService,) {
+    private departmentservice: DepartmentService, ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
   }
 
@@ -68,7 +77,41 @@ export class EditSubjectComponent implements OnInit {
       // answerclose: new FormControl(null, [Validators.required]),
       // "provincelink": new FormControl(null, [Validators.required])
     })
+    this.FormAddDepartmentQuestion = this.fb.group({
+      inputsubjectdepartment: this.fb.array([
+        this.initdepartment()
+      ]),
+    })
+  }
+  initdepartment() {
+    return this.fb.group({
+      departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      inputquestionopen: this.fb.array([
+        this.initquestionopen()
+      ]),
+      inputquestionclose: this.fb.array([
+        this.initquestionclose()
+      ])
+    })
+  }
+  initquestionopen() {
+    return this.fb.group({
+      questionopen: [null, [Validators.required, Validators.pattern('[0-9]{3}')]]
 
+    })
+  }
+  initquestionclose() {
+    return this.fb.group({
+      questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      inputanswerclose: this.fb.array([
+        this.initanswerclose()
+      ])
+    });
+  }
+  initanswerclose() {
+    return this.fb.group({
+      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+    })
   }
   getSubjectDetail() {
     this.subjectservice.getsubjectdetaildata(this.id)
@@ -201,10 +244,14 @@ export class EditSubjectComponent implements OnInit {
       centralPolicyDateId: new FormControl(null, [Validators.required])
     })
   }
-  openAddDepartmentModal(template: TemplateRef<any>, subquestionCentralPolicyProvincesId) {
+  openAddDepartmentModal(template: TemplateRef<any>, subquestionCentralPolicyProvincesId, inputbox) {
     this.subquestionCentralPolicyProvincesId = subquestionCentralPolicyProvincesId
     console.log(this.subquestionCentralPolicyProvincesId);
-    
+    console.log((inputbox));
+    this.FormAddEditDepartment = this.fb.group({
+      DepartmentId: new FormControl(null, [Validators.required]),
+      Box: inputbox
+    })
     this.departmentservice.getalldepartdata().subscribe(res => {
       this.department = res.map((item, index) => {
         return {
@@ -215,23 +262,54 @@ export class EditSubjectComponent implements OnInit {
       this.modalRef = this.modalService.show(template);
     })
   }
-  openAddModalQuestionsopen(template: TemplateRef<any>) {
+  openAddModalQuestionsopen(template: TemplateRef<any>, inputbox) {
+    console.log("box:", inputbox);
+    console.log("filterboxdepartments:", this.filterboxdepartments);
     this.modalRef = this.modalService.show(template);
     this.FormAddQuestionsopen = this.fb.group({
       subjectId: this.id,
+      box: inputbox,
+      type: "คำถามปลายเปิด",
       name: new FormControl(null, [Validators.required]),
+      ProvincialDepartmentId: new FormArray([])
     })
+    this.filterboxdepartments.forEach(element => {
+      element.subjectCentralPolicyProvinceGroups.forEach(element2 => {
+        if (element.box == inputbox) {
+          console.log("testbenz", element2.provincialDepartmentId)
+          this.t.push(this.fb.group({ ProvincialDepartmentId: element2.provincialDepartmentId }))
+        }
+        console.log("element2", element2);
+      })
+      console.log("element", element);
+    })
+    console.log(this.FormAddQuestionsopen.value);
   }
-  openAddModalQuestionsclose(template: TemplateRef<any>) {
+
+  openAddModalQuestionsclose(template: TemplateRef<any>, inputbox) {
+    console.log("box:", inputbox);
     this.modalRef = this.modalService.show(template);
     this.FormAddQuestionsclose = this.fb.group({
       subjectId: this.id,
+      box: inputbox,
+      type: "คำถามปลายปิด",
       name: new FormControl(null, [Validators.required]),
+      ProvincialDepartmentId: new FormArray([]),
       inputanswerclose: this.fb.array([
         this.initanswerclose()
       ])
-
     })
+    this.filterboxdepartments.forEach(element => {
+      element.subjectCentralPolicyProvinceGroups.forEach(element2 => {
+        if (element.box == inputbox) {
+          console.log("testbenz", element2.provincialDepartmentId)
+          this.tt.push(this.fb.group({ ProvincialDepartmentId: element2.provincialDepartmentId }))
+        }
+        console.log("element2", element2);
+      })
+      console.log("element", element);
+    })
+    console.log(this.FormAddQuestionsclose.value);
   }
   openAddModalChoices(template: TemplateRef<any>, id) {
     this.modalRef = this.modalService.show(template);
@@ -271,46 +349,57 @@ export class EditSubjectComponent implements OnInit {
     this.delid = id
     this.modalRef = this.modalService.show(template);
   }
-  initanswerclose() {
-    return this.fb.group({
-      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+  openModal(template: TemplateRef<any>) {
+    // this.modalRef = this.modalService.show(template);
+    // await this.getMinistryPeople();
+    // await this.getUserPeople();
+    // this.getDepartmentdata();
+    this.departmentservice.getalldepartdata().subscribe(res => {
+      this.department = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      this.modalRef = this.modalService.show(template);
     })
   }
-  addX() {
-    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
-    control.push(this.initanswerclose());
-  }
-  removeX(index: number) {
-    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
-    control.removeAt(index);
-  }
+
+
   AddDate(value) {
     console.log(value);
     console.log(this.resultsubjectdetail.id);
-    console.log("del",this.times);
-    this.subjectservice.adddeleteDate(this.times,value,this.resultsubjectdetail.id).subscribe(result => {
+    console.log("del", this.times);
+    this.subjectservice.adddeleteDate(this.times, value, this.resultsubjectdetail.id).subscribe(result => {
       this.FormAddDate.reset()
       this.modalRef.hide()
       this.getSubjectDetail()
     })
   }
+  AddDepartment(value) {
+    console.log(value);
+    this.centralpolicyservice.addeditDepartment(value, this.id).subscribe(response => {
+      console.log(value);
+      this.FormAddEditDepartment.reset()
+      this.modalRef.hide()
+      this.getSubjectDetail();
+    })
+  }
   AddQuestionsopen(value) {
     console.log(value);
-    this.subjectservice.addSubquestionopen(value).subscribe(response => {
-      console.log(value);
+    this.subquestionservice.addSubquestionopen(value).subscribe(result => {
+      console.log(result);
       this.FormAddQuestionsopen.reset()
       this.modalRef.hide()
-      // this.loading = false
       this.getSubjectDetail()
     })
   }
   AddQuestionsclose(value) {
     console.log(value);
-    this.subjectservice.addSubquestionclose(value).subscribe(response => {
-      console.log(value);
+    this.subquestionservice.addSubquestionclose(value).subscribe(result => {
+      console.log(result);
       this.FormAddQuestionsclose.reset()
       this.modalRef.hide()
-      // this.loading = false
       this.getSubjectDetail()
     })
   }
@@ -322,6 +411,19 @@ export class EditSubjectComponent implements OnInit {
       this.getSubjectDetail()
     })
   }
+  AddDepartmentQuestion(value) {
+    var Boxcount
+    for (var i = 0; i < this.filterboxdepartments.length; i++) {
+      Boxcount = this.filterboxdepartments[i].box + 1
+    }
+    console.log("Boxcount", Boxcount);
+    console.log(value);
+    this.subjectservice.AddDepartmentQuestion(value, Boxcount, this.id).subscribe(result => {
+      console.log(result);
+
+    })
+  }
+
   DeleteQuestionsopen(value) {
     console.log(value);
     this.subjectservice.deleteSubquestionopen(value).subscribe(response => {
@@ -338,6 +440,8 @@ export class EditSubjectComponent implements OnInit {
       this.getSubjectDetail()
     })
   }
+
+
   EditSubject(value, id) {
     console.log(id);
     console.log(value);
@@ -364,6 +468,39 @@ export class EditSubjectComponent implements OnInit {
       this.modalRef.hide()
       this.getSubjectDetail()
     })
+  }
+
+  addX() {
+    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
+    control.push(this.initanswerclose());
+  }
+  addWW(iv) {
+    const control = (<FormArray>this.FormAddDepartmentQuestion.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.push(this.initquestionopen());
+  }
+  addXX(iv) {
+    const control = (<FormArray>this.FormAddDepartmentQuestion.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.push(this.initquestionclose());
+  }
+  addYY(iv, ix) {
+    const control = ((<FormArray>this.FormAddDepartmentQuestion.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+    control.push(this.initanswerclose());
+  }
+  removeX(index: number) {
+    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
+    control.removeAt(index);
+  }
+  removeWW(iv: number, iw: number) {
+    const control = (<FormArray>this.FormAddDepartmentQuestion.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.removeAt(iw);
+  }
+  removeXX(iv: number, ix: number) {
+    const control = (<FormArray>this.FormAddDepartmentQuestion.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.removeAt(ix);
+  }
+  removeYY(iv: number, ix: number, iy: number) {
+    const control = ((<FormArray>this.FormAddDepartmentQuestion.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+    control.removeAt(iy);
   }
   back() {
     window.history.back();
