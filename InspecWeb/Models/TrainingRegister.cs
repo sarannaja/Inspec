@@ -36,10 +36,19 @@ namespace InspecWeb.Models
         [Description("ตำแหน่ง")]
         public string Position { get; set; }
 
+        [Description("หน่วยงาน/สังกัด")]
+        public string Department { get; set; }
+
+        [Description("เลขประจำตัวประชาชน")]
+        public string CardId { get; set; }
+
         [Description("เบอร์โทรศัพท์")]
         public string Phone { get; set; }
 
-        [Description("เบอร์โทรศัพท์")]
+        [Description("Email")]
+        public string Email { get; set; }
+        
+        [Description("สถานะ")]
         public long Status { get; set; }
 
         public virtual Training Training { get; set; }

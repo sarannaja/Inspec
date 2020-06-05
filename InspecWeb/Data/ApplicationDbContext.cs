@@ -44,6 +44,7 @@ namespace InspecWeb.Data
         public DbSet<TrainingProgram> TrainingPrograms { get; set; }
         public DbSet<TrainingDocument> TrainingDocuments { get; set; }
         public DbSet<TrainingSurveyAnswer> TrainingSurveyAnswers { get; set; }
+        public DbSet<TrainingLecturer> TrainingLecturers { get; set; }
         //------------------------------
 
         public DbSet<Subquestion> Subquestions { get; set; }

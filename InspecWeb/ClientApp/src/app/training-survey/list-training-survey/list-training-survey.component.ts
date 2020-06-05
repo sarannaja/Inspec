@@ -61,15 +61,6 @@ export class ListTrainingSurveyComponent implements OnInit {
       //console.log(this.resulttraining);
     })
     
-
-    // this.trainingservice.gettrainingdata2(id)
-    // .subscribe(result => {
-    //   this.resulttraining = result
-    //   this.loading = true;
-    //   console.log(this.resulttraining);
-    // })
-
-    //this.gettrainingdata2()
   }
 
   openModal(template: TemplateRef<any>, id) {
@@ -127,14 +118,22 @@ export class ListTrainingSurveyComponent implements OnInit {
     })
   }
 
-  // gettrainingdata2() {
-  //   this.trainingservice.gettrainingdata2(1)
-  //   .subscribe(result => {
-  //     this.resulttraining = result
-  //     this.loading = true
-  //     //console.log(this.resulttraining);
-  //   })
-  // }
+  editTrainingSurvey(value, delid) {
+    // alert(JSON.stringify(value));
+    // console.clear();
+    // console.log("kkkk" + JSON.stringify(value));
+    this.trainingservice.editTrainingSurvey(value, delid).subscribe(response => {
+      this.Form.reset()
+      this.modalRef.hide()
+      this.loading = false
+      this.trainingservice.getlisttrainingsurveydata(this.trainingid)
+      .subscribe(result => {
+        this.resulttraining = result
+        this.loading = true
+        //console.log(this.resulttraining);
+      })
+    })
+  }
 
 
 }

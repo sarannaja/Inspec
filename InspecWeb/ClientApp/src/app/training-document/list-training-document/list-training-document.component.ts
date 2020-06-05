@@ -77,7 +77,7 @@ export class ListTrainingDocumentComponent implements OnInit {
   storeTraining(value ) {
     //alert(JSON.stringify(value))   
     //alert(this.form.value.files)
-    this.trainingservice.addTrainingDocument(value ,this.form.value.files).subscribe(response => {
+    this.trainingservice.addTrainingDocument(value ,this.form.value.files, this.trainingid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()

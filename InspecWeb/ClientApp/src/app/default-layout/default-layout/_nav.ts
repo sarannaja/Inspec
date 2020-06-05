@@ -229,6 +229,12 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
+        url: '/training/lecturer',
+        name: 'วิทยากรอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
         url: '/training',
         name: 'จัดอบรมหลักสูตร'
       },
@@ -253,7 +259,7 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/trainingreport',
+        url: '/training/report',
         name: 'รายงาน'
       },
       
@@ -345,6 +351,12 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
+        url: '/training/lecturer',
+        name: 'วิทยากรอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
         url: '/training',
         name: 'จัดอบรมหลักสูตร'
       },
@@ -357,19 +369,19 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/trainingregister',
+        url: '/training/register',
         name: 'ผู้สมัครเข้าร่วมอบรม'
       },
       {
         ex_link: '1',
         icon: 'fa-long-arrow-alt-right',
-        url: '/trainingsurvey',
+        url: '/training/survey',
         name: 'ประเมินผลการฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/trainingreport',
+        url: '/training/report',
         name: 'รายงาน'
       },
       

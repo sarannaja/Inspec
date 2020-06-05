@@ -43,8 +43,8 @@
             <div class="row pt-5">
                 <div class="col-12 text-center">
                     <!-- <a class="sidebar-brand" href="index1.html"> -->
-                    <a href="{{ mainUrl }}train"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
-                        width="100" /></a>
+                    <a href="{{ mainUrl }}train"><img src="assets/fontend/images/logo.png"
+                            class="img-fluid rounded-circle mb-2" height="70" width="100" /></a>
                     <h1>จัดอบรมหลักสูตร</h1>
                     <!-- </a> -->
                 </div>
@@ -103,61 +103,77 @@
     <!-- END header -->
 
 
-            <!-- <router-outlet></router-outlet> -->
-    
+    <!-- <router-outlet></router-outlet> -->
+
     <div class="container" style="height:1000px;">
         <div class="row">
-        <div class="col-12">
-            <div class="">
-                <!-- <label *ngFor="let item of resulttraining; let i = index">{{ item.name }}</label> -->
-                <h1><label >{{ name }}</label></h1>
-                <label >{{ createdAt | thaidate:'year'}}</label>
-                <h2>แบบสอบถามการฝึกอบรม</h2>
-                <br>
-                <label>ชื่อ-นามสกุล : </label>
-                <input type="text" value="{{ Prefix }} {{ Name }}" formControlName="name" class="form-control" readonly placeholder="กรุณากรอกชื่อ-นามสกุล">
-                <br>
-                <label>ตำแหน่ง : </label>
-                <input type="text" value="{{ Position }}" formControlName="Position" class="form-control" readonly placeholder="กรุณากรอกชื่อ-นามสกุล">
-                
+            <div class="col-12">
+                <form [formGroup]="FormAnswer" (ngSubmit)="onSubmit(FormAnswer.value)" class="">
+                    <!-- <label *ngFor="let item of resulttraining; let i = index">{{ item.name }}</label> -->
+                    <h1><label>{{ name }}</label></h1>
+                    <label>{{ createdAt | thaidate:'year'}}</label>
+                    <h2>แบบสอบถามการฝึกอบรม</h2>
+                    <br>
+                    <label>ชื่อ-นามสกุล : </label>
+                    <input type="text" value="{{ Prefix }} {{ Name }}" formControlName="name" class="form-control"
+                        readonly placeholder="กรุณากรอกชื่อ-นามสกุล">
+                    <br>
+                    <label>ตำแหน่ง : </label>
+                    <input type="text" value="{{ Position }}" formControlName="Position" class="form-control" readonly
+                        placeholder="กรุณากรอกชื่อ-นามสกุล">
 
-                <table *ngIf="loading" class="table table-responsive-lg">
-                    <thead>
-                        <tr>
-                            <th width="5%"></th>
-                            <th width="55%" class="text-center">หัวข้อวัดผลประเมิน</th>
-                            <th width="10%" class="text-center">ดีเยี่ยม</th>
-                            <th width="10%" class="text-center">ดีมาก</th>
-                            <th width="10%" class="text-center">ดี</th>
-                            <th width="10%" class="text-center">พอใช้</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of resulttraining; let i = index">
-                            <td>{{ i + 1 }}</td>
-                            <td class="ellipsis">{{ item.name }}</td>
-                            <td class="ellipsis text-center"><input type="checkbox" /></td>
-                            <td class="ellipsis text-center"><input type="checkbox" /></td>
-                            <td class="ellipsis text-center"><input type="checkbox" /></td>
-                            <td class="ellipsis text-center"><input type="checkbox" /></td>
-                            
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
-                <label>ข้อเสนอแนะ</label>
-                <br>
-                <textarea class="form-control"></textarea>
-                <br>
-                <br>
-                <div  class="text-center">
-                    <button type="submit" class="btn btn-primary">ส่งแบบสอบถาม</button>
-                </div>
-                <br>
-                <br>
+
+                    <table *ngIf="loading" class="table table-responsive-lg">
+                        <thead>
+                            <tr>
+                                <th width="5%"></th>
+                                <th width="55%" class="text-center">หัวข้อวัดผลประเมิน</th>
+                                <th width="10%" class="text-center">ดีเยี่ยม</th>
+                                <th width="10%" class="text-center">ดีมาก</th>
+                                <th width="10%" class="text-center">ดี</th>
+                                <th width="10%" class="text-center">พอใช้</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr *ngFor="let item of resulttraining; let i = index"> -->
+                            <tr *ngFor="let item of t.controls; let i = index">
+                                <!-- <form [formGroup]="item"> -->
+                                <td>{{ i + 1 }}</td>
+                                <td class="ellipsis">{{ item.value.AnsName }}</td>
+                                <td *ngFor="let score of addScore" class="ellipsis text-center">
+                                    <input [checked]="item.value.score == score" type="checkbox"
+                                        (change)="formSelected(i,$event.target.value)" value="{{score}}">
+                                </td>
+                                <!-- <td class="ellipsis text-center">
+                                        <input type="checkbox" value="3" />
+                                    </td>
+                                    <td class="ellipsis text-center">
+                                        <input type="checkbox" [checked]=""
+                                            (change)="formSelected(i,$event.target.value)" value="2" />
+                                    </td>
+                                    <td class="ellipsis text-center">
+                                        <input type="checkbox" value="1" />
+                                    </td> -->
+                                <!-- </form> -->
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <label>ข้อเสนอแนะ</label>
+                    <br>
+                    <textarea class="form-control"></textarea>
+                    <br>
+                    <br>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">ส่งแบบสอบถาม</button>
+                    </div>
+                    <br>
+                    <br>
+                </form>
             </div>
-        </div>
-       
+
         </div>
     </div>
 

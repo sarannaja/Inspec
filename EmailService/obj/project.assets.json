@@ -5540,11 +5540,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\Inspec\\EmailService\\EmailService.csproj",
+      "projectUniqueName": "C:\\Inspec\\EmailService\\EmailService.csproj",
       "projectName": "EmailService",
-      "projectPath": "D:\\Projects\\Inspec\\EmailService\\EmailService.csproj",
+      "projectPath": "C:\\Inspec\\EmailService\\EmailService.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\Inspec\\EmailService\\obj\\",
+      "outputPath": "C:\\Inspec\\EmailService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

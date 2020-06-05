@@ -96,6 +96,7 @@ export class ListTrainingRegisterComponent implements OnInit {
       this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(result => {
         this.resulttraining = result
         this.loading = true
+        this.modalRef.hide()
       })
     })
   }

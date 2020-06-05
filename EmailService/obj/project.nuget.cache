@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/2Vt/j5/G3fUy/BpBUSenihHtWrvsWQ/tJxL9GFPOZ5mltIuKhmUNnGlrj2mXIbhcrGRJJPfR2jyGW/tHfRVYw==",
+  "dgSpecHash": "8ghe+s4/VKxAbM15FULI1mcQculzbGhy0MJiDTZQjTr6sYYSUk6V7Z+VVh1iUqWcK6Ut4I2tvOTY3NJTJ/yayQ==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Inspec\\EmailService\\EmailService.csproj",
+  "projectFilePath": "C:\\Inspec\\EmailService\\EmailService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\mailkit\\2.0.1\\mailkit.2.0.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\2.0.0\\microsoft.extensions.dependencyinjection.2.0.0.nupkg.sha512",

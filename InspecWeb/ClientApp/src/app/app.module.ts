@@ -53,7 +53,13 @@ import { TrainingDocumentComponent } from './training-document/training-document
 import { ListTrainingDocumentComponent } from './training-document/list-training-document/list-training-document.component';
 import { RegisterDefaultLayoutTrainComponent } from './default-layout-train/register-default-layout-train/register-default-layout-train.component';
 import { SurveyDefaultLayoutTrainComponent } from './default-layout-train/survey-default-layout-train/survey-default-layout-train.component';
-
+import { SuccessDefaultLayoutTrainComponent } from './default-layout-train/success-default-layout-train/success-default-layout-train.component';
+import { TrainingReportComponent } from './training-report/training-report.component';
+import { ListTrainingReportComponent } from './training-report/list-training-report/list-training-report.component';
+import { ListRegisterTrainingReportComponent } from './training-report/list-training-report/list-register-training-report/list-register-training-report.component';
+import { HistoryTrainingReportComponent } from './training-report/history-training-report/history-training-report.component';
+import { ProgramTrainingComponent } from './training/program-training/program-training.component';
+import { LecturerTrainingComponent } from './training/lecturer-training/lecturer-training.component';
 
 //----------------
 
@@ -134,6 +140,13 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
     ListTrainingDocumentComponent,
     RegisterDefaultLayoutTrainComponent,
     SurveyDefaultLayoutTrainComponent,
+    SuccessDefaultLayoutTrainComponent,
+    TrainingReportComponent,
+    ListTrainingReportComponent,
+    ListRegisterTrainingReportComponent,
+    HistoryTrainingReportComponent,
+    ProgramTrainingComponent,
+    LecturerTrainingComponent,
     //---------------
     ThaiDatePipe,
     SubjectComponent,
@@ -215,6 +228,13 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
           { path: 'training/survey/preview/:id', component: PreviewTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/document', component: TrainingDocumentComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/documentlist/:id', component: ListTrainingDocumentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report', component: TrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/list', component: ListTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/list/:id', component: ListRegisterTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/program/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
+          
           //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
@@ -246,6 +266,7 @@ import { CalendarUserComponent } from './calendar-user/calendar-user.component';
       { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },
       { path: 'train/list/:id', component: ListDefaultLayoutTrainComponent },
       { path: 'train/survey/:id', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
+      { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'train', component: DefaultLayoutTrainComponent,
         data: {title: 'หน้าหลัก'},

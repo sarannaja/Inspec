@@ -41,23 +41,26 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
   role_id: any
   Prefix: any;
   Name: any;
+  CardId: any;
   Position: any;
   PhoneNumber: any;
   Email: any;
   Img: any;
   Form: FormGroup;
+  mainUrl: string;
   // constructor() { }
   constructor(private modalService: BsModalService, 
     private authorize: AuthorizeService,
+    private UserService: UserService,
     private fb: FormBuilder, 
     private trainingservice: TrainingService,
-    private UserService: UserService,
     public share: TrainingService, 
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.trainingid = activatedRoute.snapshot.paramMap.get('id')
       this.downloadUrl = baseUrl + 'Uploads'
+      this.mainUrl = baseUrl
     }
 
   ngOnInit() {
@@ -91,9 +94,6 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
       email: new FormControl(null, [Validators.required]),
       
     })
-
-
-    
 
     // this.userservice.getuserfirstdata(0).subscribe(result => {
     //    alert(JSON.stringify(result))
@@ -130,7 +130,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
     })
   }
 
-  //start getuser
+//start getuser
 getuserinfo(){
   this.authorize.getUser()
   .subscribe(result => {
@@ -152,9 +152,10 @@ getuserinfo(){
       this.Form.patchValue({
         Prefix: this.Prefix,
         name: this.Name,
-        Position: this.Position,
-        PhoneNumber: this.PhoneNumber,
-        Email: this.Email,
+        cardid: this.CardId,
+        position: this.Position,
+        phone: this.PhoneNumber,
+        email: this.Email,
         Formprofile:1,
         //files: this.files,
       });
@@ -176,21 +177,13 @@ getuserinfo(){
   }
 
   storeTraining(value) {
-    alert(JSON.stringify(value))
+    //alert(JSON.stringify(value))
     this.trainingservice.addTrainingRegister(value, this.trainingid).subscribe(response => {
       console.log(value);
       this.Form.reset()
-      //this.modalRef.hide()
       this.loading = false;
+      this.router.navigate(['/train/register-success/', this.trainingid])
       //this.router.navigate(['/training/surveylist/',trainingid])
-      //this.router.navigate(['training'])
-      // this.trainingservice.getlisttrainingsurveydata(this.trainingid)
-      // .subscribe(result => {
-      //   this.resulttraining = result
-      //   this.loading = true
-        //console.log(this.resulttraining);
-      // })
-
     })
   }
 
