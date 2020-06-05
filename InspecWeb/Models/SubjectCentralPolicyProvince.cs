@@ -42,5 +42,6 @@ namespace InspecWeb.Models
         //public ICollection<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
         public ICollection<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
         public ICollection<SubjectCentralPolicyProvinceFile> SubjectCentralPolicyProvinceFiles { get; set; }
+        public ICollection<SuggestionSubject> SuggestionSubjects { get; set; }
     }
 }

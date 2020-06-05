@@ -151,7 +151,7 @@
                             (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
                           <button
-                            *ngIf="role_id == 5 && resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'"
+                            *ngIf="role_id == 5 && rcentralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
                             type="button" (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
                         </h4>
@@ -335,8 +335,9 @@
                             style="padding-left: 0;">
                             <div class="form-group">
                               <label>ผลการตรวจ</label>
-                              <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
                                 class="form-control" placeholder="กรุณากรอกผลการตรวจ" readonly>
+                              </textarea>
                             </div>
                           </div>
                           <!-- <div class="col-1">
@@ -352,8 +353,9 @@
                             style="padding-left: 0;">
                             <div class="form-group">
                               <label>ปัญหาและอุปสรรค</label>
-                              <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
                                 class="form-control" placeholder="กรุณากรอกปัญหาและอุปสรรค" readonly>
+                              </textarea>
                             </div>
                           </div>
                           <!-- <div class="col-1">
@@ -369,8 +371,9 @@
                             style="padding-left: 0;">
                             <div class="form-group">
                               <label>ข้อเสนอแนะ</label>
-                              <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
                                 class="form-control" placeholder="กรุณากรอกข้อเสนอแนะ" readonly>
+                              </textarea>
                             </div>
                           </div>
                           <!-- <div class="col-1">
@@ -444,11 +447,11 @@
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="step" value="มอบหมายจังหวัด" checked
-                [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'"
+                [checked]="rcentralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
                 formControlName="step">
               <label style="margin-left: 10px;">มอบหมายให้จังหวัด</label>
               <input style="margin-left: 10px;" type="radio" name="step" value="มอบหมายหน่วยงาน"
-                [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายหน่วยงาน'"
+                [checked]="rcentralpolicyprovincedata.step == 'มอบหมายหน่วยงาน'"
                 formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
@@ -457,17 +460,23 @@
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" checked
-                [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.status == 'ร่างกำหนดการ'"
+                [checked]="rcentralpolicyprovincedata.status == 'ร่างกำหนดการ'"
                 formControlName="status">
               <label style="margin-left: 10px;">ร่างกำหนดการ</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
-                [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.status == 'ใช้งานจริง'"
+                [checked]="rcentralpolicyprovincedata.status == 'ใช้งานจริง'"
                 formControlName="status">
               <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>
           </div>
 
-          <label>คำถามภาคประชาชน</label>
+          <br>
+
+          <div class="row">
+            <h4 style="margin-left: 10px;">คำถามภาคประชาชน</h4>
+            <button class="btn btn-success" style="margin-top: -5px; margin-left: 10px; margin-bottom: 10px;"
+              (click)="openAnswerModal(answerPeopleModal)">ดูคำตอบ</button>
+          </div>
           <textarea cols="30" rows="5" class="form-control" *ngIf="role_id == 3" placeholder="คำถามภาคประชาชน"
             formControlName="questionPeople" name="questionPeople"></textarea>
 
@@ -490,13 +499,43 @@
             </div>
           </div>
 
-          <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
-          <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+          <div class="col-12">
+            <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
+            <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+            <div class="col-4">
+              <select class="selectpicker form-control" data-live-search="true"
+                (change)="checkType($event.target.value)" formControlName="fileType">
+                <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
+                <option value="Calendar Image File">รูปภาพ</option>
+                <option value="Calendar File">ไฟล์เอกสาร</option>
+              </select>
+            </div>
+            <div class="col-8">
+              <textarea *ngIf="fileType == 'Calendar Image File'" cols="30" rows="5" class="form-control"
+                placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;" formControlName="description"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12" style="margin-top: 20px;">
+              <u>ไฟล์แนบกำหนดการตรวจ</u><br>
+              <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
+                <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item.name }}<br>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
+          <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)" style="margin-bottom: 10px;">
 
           <div class="row">
             <div class="col-md-12" style="margin-top: 10px;">
-              <u>ไฟล์แนบกำหนดการตรวจ</u><br>
-              <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
+              <u>ไฟล์แนบลายมือชื่อ</u><br>
+              <div class="row" *ngFor="let item of signatureFile; let i = index" style="margin-top: 10px;">
                 <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
                   <span>ไฟล์ที่
                     {{i+1}})
@@ -1109,6 +1148,43 @@
       </div>
     </div>
   </form>
+</ng-template>
+
+<ng-template #answerPeopleModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">คำตอบภาคประชาชน</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body xl-12">
+      <div class="col-12 col-xl-12">
+        <div class="form-group">
+          <div class="row" *ngFor="let items of answerData; let i = index" style="margin-bottom: 15px; width: 100%;">
+            <!-- <div class="col-1">
+              <i class="fa fa-user-circle" style="font-size: 45px;padding: 0px 10px;"></i>
+            </div> -->
+            <div class="col-12" style="padding: 10px 20px 20px 20px;
+                  background-color: #f4f4f4;
+                  border-radius: 15px;">
+              <u>คำตอบ</u>
+              <label style="margin-left: 5px;">#{{i+1}}</label>
+              <br>
+              <label style="word-break: break-all;">{{items.answer}}</label><br>
+              <small style="color:gray; position: relative;
+                  bottom: -9px;">ชื่อ : {{items.user.name}} ตำแหน่ง : {{items.user.position}} เบอร์ติดต่อ :
+                {{items.user.phoneNumber}}</small><br>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+    </div>
+  </div>
 </ng-template>
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
