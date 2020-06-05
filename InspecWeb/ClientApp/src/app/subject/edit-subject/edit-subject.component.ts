@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,13 +28,16 @@ export class EditSubjectComponent implements OnInit {
   FormAddChoices: FormGroup
   FormAddEditDepartment: FormGroup;
   FormAddDepartmentQuestion: FormGroup;
+  Formfile: FormGroup;
   id: any
   delid: any
   editid: any
   editname: any
+  downloadUrl: any
   resultsubjectdetail: any = []
   resultcentralpolicy: any = []
   resultprovince: any = []
+  resultdsubjectid: any = []
   datetime: any = []
   question: any = []
   departments: any = []
@@ -63,7 +66,9 @@ export class EditSubjectComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private departmentservice: DepartmentService, ) {
+    private departmentservice: DepartmentService,
+    @Inject('BASE_URL') baseUrl: string) {
+    this.downloadUrl = baseUrl + '/Uploads';
     this.id = activatedRoute.snapshot.paramMap.get('id')
   }
 
@@ -81,6 +86,10 @@ export class EditSubjectComponent implements OnInit {
       inputsubjectdepartment: this.fb.array([
         this.initdepartment()
       ]),
+    })
+    this.Formfile = this.fb.group({
+      centralpolicydateid: new FormControl(null, [Validators.required]),
+      files: [null]
     })
   }
   initdepartment() {
@@ -191,17 +200,6 @@ export class EditSubjectComponent implements OnInit {
       });
     });
     console.log("TEST: ", test);
-
-
-
-    // for (var i = 0; i < departments.length; i++) {
-    //   if (departments[i].box == departments[i].box) {
-    //     test.push({
-    //       departments: departments[i].subjectCentralPolicyProvinceGroups
-    //     })
-    //   }
-    //   console.log("CCCCCCCC", departments[i].subjectCentralPolicyProvinceGroups);
-    // }
   }
 
   getTimeCentralPolicy() {
@@ -318,6 +316,12 @@ export class EditSubjectComponent implements OnInit {
       name: new FormControl(null, [Validators.required]),
     })
   }
+  openAddFile(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+    // this.FormAddDate = this.fb.group({
+    //   centralPolicyDateId: new FormControl(null, [Validators.required])
+    // })
+  }
   openEditmodalQuestions(template: TemplateRef<any>, id, name) {
     console.log(id);
     console.log(name);
@@ -365,6 +369,14 @@ export class EditSubjectComponent implements OnInit {
     })
   }
 
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Formfile.patchValue({
+      files: file
+    });
+    this.Formfile.get('files').updateValueAndValidity()
+
+  }
 
   AddDate(value) {
     console.log(value);
@@ -420,14 +432,26 @@ export class EditSubjectComponent implements OnInit {
     console.log(value);
     this.subjectservice.AddDepartmentQuestion(value, Boxcount, this.id).subscribe(result => {
       console.log(result);
-
+      this.FormAddDepartmentQuestion.reset()
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
+  }
+  AddFile() {
+    this.resultdsubjectid = []
+    this.resultdsubjectid.push(this.id)
+    //  alert(this.resultdsubjectid)
+    this.subjectservice.addFiles(this.resultdsubjectid, this.Formfile.value.files).subscribe(result => {
+      console.log(result);
+      this.Formfile.reset();
+      this.modalRef.hide()
+      this.getSubjectDetail()
     })
   }
 
   DeleteQuestionsopen(value) {
     console.log(value);
     this.subjectservice.deleteSubquestionopen(value).subscribe(response => {
-      console.log(value);
       this.modalRef.hide()
       this.getSubjectDetail()
     })
@@ -435,12 +459,17 @@ export class EditSubjectComponent implements OnInit {
   DeleteChoices(value) {
     console.log(value);
     this.subjectservice.deleteChoices(value).subscribe(response => {
-      console.log(value);
       this.modalRef.hide()
       this.getSubjectDetail()
     })
   }
-
+  DeleteFile(value) {
+    console.log(value);
+    this.subjectservice.deleteFile(value).subscribe(response => {
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
+  }
 
   EditSubject(value, id) {
     console.log(id);

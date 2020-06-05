@@ -86,7 +86,7 @@ export class SubjectService {
   addFiles(subjectid, file: FileList) {
     // alert(subjectid)
     // alert(JSON.stringify(file))
-    // console.log("subjectid",subjectid);
+    console.log("subjectid",subjectid);
     console.log("file", file);
 
     const formData = new FormData();
@@ -176,7 +176,9 @@ export class SubjectService {
   deletePeopleanswer(id) {
     return this.http.delete(this.url + "deletepeopleanswer/" + id);
   }
-
+  deleteFile(id) {
+    return this.http.delete(this.url + "deletefile/" + id);
+  }
   storesubjectprovince(centralpolicyid, provincevalue) {
     // alert(JSON.stringify(provincevalue))
     const formData = new FormData();
