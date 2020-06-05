@@ -19,8 +19,13 @@ export class ElectronicbookService {
     return this.http.get(this.url + userId)
   }
 
-  addElectronicBook(value, id, file: FileList, CentralPolicyId) {
-    // alert(JSON.stringify(inspectionplaneventData.input))
+  getElectronicBookInvited(userId) {
+    return this.http.get(this.url + "invited/" + userId)
+  }
+
+  addElectronicBook(value, id, file: FileList, CentralPolicyId, provinceId) {
+    alert(value.description);
+    alert( value.fileType)
     console.log("Add EBook: ", value);
 
     const formData = new FormData();
@@ -30,6 +35,16 @@ export class ElectronicbookService {
     formData.append('id', id);
     formData.append('Status', value.Status);
     formData.append('CentralPolicyId', CentralPolicyId);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
+    formData.append('ProvinceId', provinceId);
+
+    for (var i = 0; i < value.UserMinistryId.length; i++) {
+      formData.append('UserMinistryId', value.UserMinistryId[i]);
+    }
+    for (var i = 0; i < value.UserPeopleId.length; i++) {
+      formData.append('UserPeopleId', value.UserPeopleId[i]);
+    }
 
     console.log("detail", formData.getAll("Detail"));
     console.log("Problem", formData.getAll("Problem"));
@@ -46,14 +61,31 @@ export class ElectronicbookService {
   }
 
 
-  addElectronicBookFileFromCalendar(value, file: FileList, electronicbookid,centralproid) {
+  addElectronicBookFileFromCalendar(value, file: FileList, electronicbookid, centralproid, signatureFiles: FileList) {
+    console.log("Description: ", value.description);
+    console.log("File Type: ", value.fileType);
     const formData = new FormData();
     formData.append('ElectronicBookId', electronicbookid);
     formData.append('Step', value.step);
+    formData.append('Status', value.status);
+    formData.append('QuestionPeople', value.questionPeople);
     formData.append('CentralPolicyProvinceId', centralproid);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
+
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
+
+    if (signatureFiles != null) {
+      for (var index = 0; index < signatureFiles.length; index++) {
+        formData.append("signatureFiles", file[index]);
+      }
+    }
+
 
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url + "calendarfile", formData);
@@ -77,6 +109,8 @@ export class ElectronicbookService {
     const formData = new FormData();
     // formData.append('Detail', value.eBookDetail);
     formData.append('Status', value.Status);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
 
     if (file != null) {
       for (var i = 0; i < file.length; i++) {
@@ -144,13 +178,13 @@ export class ElectronicbookService {
   getCalendarFile(electID) {
     console.log("SERVICE EID: ", electID);
 
-    return this.http.get(this.url + "getCalendarFile/" + electID)
+    return this.http.get<any>(this.url + "getCalendarFile/" + electID)
   }
 
   getElectronicbookFile(electID) {
     console.log("SERVICE EID: ", electID);
 
-    return this.http.get(this.url + "getElectronicbookFile/" + electID)
+    return this.http.get<any>(this.url + "getElectronicbookFile/" + electID)
   }
 
   getElectronicBookProvince(userId) {
@@ -165,23 +199,48 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + "getElectronicBookOwn/" + electID)
   }
 
+  getElectOwnDetail(centralPolicyProvinceId) {
+    return this.http.get<any>(this.url + "getelectronicbookdetailown/" + centralPolicyProvinceId)
+  }
+
   getSignatureFile(electID) {
     return this.http.get(this.url + "getSignatureFile/" + electID)
   }
 
-  addSignatureFile(electID, file: FileList) {
-
+  addSignatureFile(electID, file: FileList, provinceData) {
+    alert(provinceData.provinceSuggestion);
     const formData = new FormData();
     if (file != null) {
       for (var i = 0; i < file.length; i++) {
         formData.append("files", file[i]);
       }
     }
-    formData.append("ElectID", electID)
+    formData.append("ElectID", electID);
+    formData.append("Description", provinceData.provinceSuggestion)
     return this.http.post(this.url + "addSignature", formData)
   }
 
   getexportport(userId) {
     return this.http.get(this.url + "export/" + userId)
   }
+
+  addReportTable(reportData, suggestionForm, centralPolicyId) {
+    console.log("ProvinceId: ", reportData.centralPolicyProvinces[0].provinceId);
+    console.log("ReportTitle: ", reportData.title);
+    console.log("ReportYear: ", reportData.fiscalYear.year);
+    console.log("ReportUserId: ", reportData.createdBy);
+    console.log("ReportStatus: ", reportData.status);
+    console.log("suggestionForm: ", suggestionForm);
+
+    const formData = {
+      ReportProvinceId: reportData.centralPolicyProvinces[0].provinceId,
+      ReportTitle: reportData.title,
+      ReportYear: reportData.fiscalYear.year,
+      ReportUserId: reportData.createdBy,
+      ReportStatus: reportData.status,
+      ReportCentralPolicyId: centralPolicyId
+    }
+    return this.http.post(this.url + "addReport", formData)
+  }
 }
+

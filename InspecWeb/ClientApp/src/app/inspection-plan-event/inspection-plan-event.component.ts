@@ -23,6 +23,7 @@ export class InspectionPlanEventComponent implements OnInit {
   url = "";
   resultinspectionplanevent: any = []
   inspectionplancalendar: any = []
+  resultuserregion: any = []
   delid: any
   modalRef: BsModalRef;
   userid: string
@@ -31,7 +32,7 @@ export class InspectionPlanEventComponent implements OnInit {
     private authorize: AuthorizeService,
     private modalService: BsModalService,
     private userService: UserService,
-     @Inject('BASE_URL') baseUrl: string) {
+    @Inject('BASE_URL') baseUrl: string) {
     // this.url = baseUrl + 'centralpolicy/detailcentralpolicyprovince/';
     this.url = baseUrl + 'inspectionplan/';
   }
@@ -41,14 +42,20 @@ export class InspectionPlanEventComponent implements OnInit {
       .subscribe(result => {
         this.userid = result.sub
         this.userService.getuserfirstdata(this.userid)
-        .subscribe(result => {
-          // this.resultuser = result;
-          //console.log("test" , this.resultuser);
-          this.role_id = result[0].role_id
-          // alert(this.role_id)
-        })
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
         console.log(result);
         // alert(this.userid)
+      })
+
+    this.inspectionplanservice.getuserregion(this.userid)
+      .subscribe(result => {
+        console.log("this.resultuserregion", result);
+        this.resultuserregion = result
       })
 
     this.inspectionplanservice.getinspectionplaneventdata(this.userid)
@@ -175,4 +182,12 @@ export class InspectionPlanEventComponent implements OnInit {
   // CraateInspectionPlan() {
   //   this.router.navigate(['/inspectionplan/createinspectionplan'])
   // }
+  selectprovince(value) {
+    if(value == "allprovince"){
+      window.location.reload();
+    } else {
+      var id = value
+      this.router.navigate(['/inspectionplaneventprovince/' + id])
+    }
+  }
 }

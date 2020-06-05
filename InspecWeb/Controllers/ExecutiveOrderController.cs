@@ -47,7 +47,7 @@ namespace InspecWeb.Controllers
         }
 
         [HttpGet("{id}")]
-        public object Get(long id)
+        public IActionResult Get(long id)
         {
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyProvinces)
@@ -68,24 +68,28 @@ namespace InspecWeb.Controllers
             //System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
             //System.Console.WriteLine("provinceid: " + model.ProvinceId);
             //System.Console.WriteLine("Name: " + model.Name);
+            var date = DateTime.Now;
             var cabinedata = new ExecutiveOrder
             {
 
                 DetailExecutiveOrder = model.Name,
                 CentralPolicyId = model.CentralpolicyId,
                 ProvinceId = model.ProvinceId,
+                UserId = model.UserId,
+                CreatedAt = date
+
             };
 
             _context.ExecutiveOrders.Add(cabinedata);
             _context.SaveChanges();
 
-            if (!Directory.Exists(_environment.WebRootPath + "//upload//"))
+            if (!Directory.Exists(_environment.WebRootPath + "//executivefile//"))
             {
-                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+                Directory.CreateDirectory(_environment.WebRootPath + "//executivefile//"); //สร้าง Folder Upload ใน wwwroot
             }
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
-            var filePath = _environment.WebRootPath + "//Uploads//";
+            var filePath = _environment.WebRootPath + "//executivefile//";
 
 
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
@@ -113,6 +117,7 @@ namespace InspecWeb.Controllers
                     _context.SaveChanges();
                 }
             }
+            //System.Console.WriteLine("Return ID: " + cabinedata.Id);
             return Ok(new { Id = cabinedata.Id });
         }
 
@@ -149,11 +154,31 @@ namespace InspecWeb.Controllers
                 /*.Include(m => m.DetailExecutiveOrder)*/
                 .Include(m => m.Province)
                 .Include(m => m.ExecutiveOrderFiles)
+                .Include(m => m.AnswerExecutiveOrderFiles)
+                .Include(m => m.CentralPolicy)
                 .Where(m => m.CentralPolicyId == id);
 
             return Ok(executiveOrderdata);
             //return "value";
         }
+        [HttpGet("view/{id}")]//new///
+        public IActionResult Getviewexecutive(long id)
+        {
+            var executiveOrderdata = _context.ExecutiveOrders
+                /*.Include(m => m.DetailExecutiveOrder)*/
+                .Include(m => m.Province)
+                .Include(m => m.UserId)
+                .Include(m => m.CreatedAt)
+                .Include(m => m.ExecutiveOrderFiles)
+                .Include(m => m.AnswerUserId)
+                .Include(m => m.AnswerExecutiveOrderFiles)
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.CentralPolicyId == id);
+
+            return Ok(executiveOrderdata);
+            //return "value";
+        }
+
 
         [HttpGet("detailrole3/{id}/{userid}")]
         public IActionResult Getexecutiverole3(long id,string userid)
@@ -176,28 +201,29 @@ namespace InspecWeb.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromForm] ExecutiveViewModel model)
         {
-            System.Console.WriteLine("detailexecutiveorder: " + model.id);
+            /*System.Console.WriteLine("detailexecutiveorder: " + model.id);
             System.Console.WriteLine("AnswerDetail: " + model.AnswerDetail);
             System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
             System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
-            System.Console.WriteLine("AnswerExecutiveorder: " + model.files);
+            System.Console.WriteLine("AnswerExecutiveorder: " + model.files);*/
             var cabinedata = _context.ExecutiveOrders.Find(model.id);
             {
                 cabinedata.AnswerDetail = model.AnswerDetail;
                 cabinedata.AnswerProblem = model.AnswerProblem;
                 cabinedata.AnswerCounsel = model.AnswerCounsel;
+                cabinedata.AnswerUserId = model.AnswerUserId;
 
             };
 
             _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-            if (!Directory.Exists(_environment.WebRootPath + "//upload//"))
+            if (!Directory.Exists(_environment.WebRootPath + "//executivefile//"))
             {
-                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+                Directory.CreateDirectory(_environment.WebRootPath + "//executivefile//"); //สร้าง Folder Upload ใน wwwroot
             }
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
-            var filePath = _environment.WebRootPath + "//Uploads//";
+            var filePath = _environment.WebRootPath + "//executivefile//";
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
             //foreach (var formFile in data.files)
             {
@@ -222,17 +248,17 @@ namespace InspecWeb.Controllers
                     };
                     _context.AnswerExecutiveOrderFiles.Add(AnswerExecutiveOrderFile);
                     _context.SaveChanges();
-                    System.Console.WriteLine("Sucess");
+                  /*  System.Console.WriteLine("Sucess");*/
                 }
             }
-            return Ok(new { status = true });
+            return Ok(new { Id = model.id }); 
         }
 
         [HttpGet("ex/{id}")]
         public IActionResult GetData(string id)
         {
-            System.Console.WriteLine("DDDDD");
-            System.Console.WriteLine("USERID : " + id);
+           /* System.Console.WriteLine("DDDDD");
+            System.Console.WriteLine("USERID : " + id);*/
             //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
             //                              select P;
             //return inspectionPlanEventdata;
@@ -252,6 +278,8 @@ namespace InspecWeb.Controllers
             //                    .ThenInclude(x => x.Province).ToList();
 
             var inspectionplans = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(x => x.FiscalYear)
                 .ToList();

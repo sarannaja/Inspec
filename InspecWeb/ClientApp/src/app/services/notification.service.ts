@@ -16,9 +16,20 @@ export class NotificationService {
     this.url = baseUrl + 'api/notification/';
   }
 
+  getnotificationsdata(id: any): Observable<any> {
+    return this.http.get<any>(this.url +'getnotifications/'+ id)
+  }
+  getnotificationscountdata(id: any): Observable<any> {
+    return this.http.get<any>(this.url +'getnotificationscount/'+ id)
+  }
+
+  getnotificationsforexecutiveorderdata(id: any): Observable<any> {
+    return this.http.get<any>(this.url +'getnotificationsforexecutiveorder/'+ id)
+  }
+
   addNotification(CentralPolicyId,ProvinceId,UserId,status, xe) {
 
-    const formData = new FormData();
+    var formData = new FormData();
     
     formData.append('CentralPolicyId',CentralPolicyId);
     formData.append('ProvinceId',ProvinceId);
@@ -27,6 +38,12 @@ export class NotificationService {
     formData.append('xe',xe);
 
     return this.http.post(this.url, formData);
+  }
+
+  updateNotification(id) {
+    const formData = new FormData();
+    formData.append('update', 'update');
+    return this.http.put(this.url+id, formData);
   }
 
 

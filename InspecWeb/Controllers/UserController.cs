@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using ClosedXML.Excel;
 
 namespace InspecWeb.Controllers
 {
@@ -19,7 +20,6 @@ namespace InspecWeb.Controllers
     public class UserController : ControllerBase
     {
         public static IWebHostEnvironment _environment;
-
 
         private static Random random = new Random();
         public static string RandomString(int length)
@@ -31,13 +31,52 @@ namespace InspecWeb.Controllers
 
         private static UserManager<ApplicationUser> _userManager;
         private static ApplicationDbContext _context;
-
+      
         public UserController(ApplicationDbContext context,
             UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
         {
             _context = context;
             _userManager = userManager;
             _environment = environment;
+         
+        }
+
+        
+
+        [HttpGet("api/[controller]/[action]")]
+        public IActionResult momomo()
+        {
+            UserViewModel[] Momos = 
+            {      
+                new UserViewModel { UserName ="admin1@inspec.go.th", Email = "admin1@inspec.go.th" },
+                new UserViewModel { UserName ="admin2@inspec.go.th", Email = "admin2@inspec.go.th" },
+                new UserViewModel { UserName ="admin3@inspec.go.th", Email = "admin3@inspec.go.th" },
+                new UserViewModel { UserName ="admin4@inspec.go.th", Email = "admin4@inspec.go.th" },
+            };
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Momos");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Username";
+                foreach (var momo in Momos)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = momo.Email;
+                    worksheet.Cell(currentRow, 2).Value = momo.UserName;
+                }
+                System.Console.WriteLine("momomo : " + "789");
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "momomo.xlsx");
+                }
+            }
         }
 
 
@@ -654,5 +693,17 @@ namespace InspecWeb.Controllers
 
             return provinces;
         }
+         [HttpGet("api/get_role/{id}")]
+        public IActionResult test(string id)
+        {
+           
+            return Ok(_userManager.Users.Where(m =>  m.Id == id).FirstOrDefault());
+        }
+    }
+
+    internal class Momo
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
     }
 }

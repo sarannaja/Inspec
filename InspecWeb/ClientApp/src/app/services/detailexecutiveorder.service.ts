@@ -15,15 +15,15 @@ export class DetailexecutiveorderService {
   getexecutiveorderdata(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
-  
   getdetailexecutiveorderdata(id): Observable<any> {
     return this.http.get<any>(this.url +"detail/"+ id)
   }
-
+  getviewexecutiveorderdata(id): Observable<any> {
+    return this.http.get<any>(this.url +"view/"+ id)
+  }
   getdetailexecutiveorderdatarole3(id,userid): Observable<any> {
     return this.http.get<any>(this.url +"detailrole3/"+ id+"/"+userid)
   }
-
   getCentralpolicydata(id): Observable<any> {
     return this.http.get<any>(this.url +"ex/"+ id)
   }
@@ -35,19 +35,20 @@ export class DetailexecutiveorderService {
     formData.append('Name', detailexecutiveorderData.name);
     formData.append('CentralpolicyId', centralpolicyid);
     formData.append('ProvinceId', detailexecutiveorderData.provinceId);
+    formData.append('Userid', detailexecutiveorderData.byuserid);
     for (var iii = 0;  iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
 
-    console.log('Name: ' + formData.get("Name"));
-    console.log('CentralpolicyId: ' + formData.get("CentralpolicyId"));
-    console.log('ProvinceId: ' + formData.get("ProvinceId"));
-    console.log('files: ' , formData.get("files"));
+    // console.log('Name: ' + formData.get("Name"));
+    // console.log('CentralpolicyId: ' + formData.get("CentralpolicyId"));
+    // console.log('ProvinceId: ' + formData.get("ProvinceId"));
+    // console.log('files: ' , formData.get("files"));
     return this.http.post<any>( this.url, formData);
   }
   answerexecutiveorder(detailexecutiveorderData, file: FileList , id) {
      
-    console.log(detailexecutiveorderData)
+    // console.log(detailexecutiveorderData)
     const formData = new FormData();
     formData.append('id', id);
     formData.append('AnswerDetail', detailexecutiveorderData.AnswerDetail);
@@ -56,12 +57,12 @@ export class DetailexecutiveorderService {
     for (var iii = 0;  iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
-    console.log('FORMDATA: ' , formData);
-    console.log('AnswerDetail: ' + formData.get("AnswerDetail"));
-    console.log('AnswerProblem: ' + formData.get("AnswerProblem"));
-    console.log('AnswerCounsel: ' + formData.get("AnswerCounsel"));
-    console.log('files: ' , formData.get("files"));
-    return this.http.put( this.url, formData);
+    // console.log('FORMDATA: ' , formData);
+    // console.log('AnswerDetail: ' + formData.get("AnswerDetail"));
+    // console.log('AnswerProblem: ' + formData.get("AnswerProblem"));
+    // console.log('AnswerCounsel: ' + formData.get("AnswerCounsel"));
+    // console.log('files: ' , formData.get("files"));
+    return this.http.put<any>( this.url, formData);
   }
 
 }

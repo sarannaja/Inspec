@@ -15,7 +15,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">ข้อสั่งการ</h5>
+                <h5 class="card-title">ข้อสั่งการของผู้บริหาร</h5>
                 <div class="float-right">
 
                     <button *ngIf="role_id !=3" class="btn btn-primary" (click)="openModal(modalAddExecutiveorder)"
@@ -29,7 +29,7 @@
                     <thead>
                         <tr>
                             <th style="width: 5%;">#</th>
-                            <th style="width: 35%;">รายละเอียด</th>
+                            <th style="width: 35%;">รายละเอียดข้อสั่งการ</th>
                             <th style="width: 30%;">จังหวัด</th>
                             <th style="width: 30%;"><i class="align-middle mr-2 fas fa-fw fa-cog "></i></th>
                         </tr>
@@ -40,8 +40,11 @@
                             <td>{{item.detailExecutiveOrder }}</td>
                             <td>{{item.province.name}}</td>
                             <td>
-                                <!-- <i class="align-middle mr-2 fas fa-fw fa-search  pointer"
-                                    (click)="openModal(ViewExecutiveorder,item.centralPolicyId)"></i> -->
+                                <i class="align-middle mr-2 fas fa-fw fa-search  pointer" 
+                                (click)="viewModal(ViewExecutiveorder,item.id,item.createdAt,item.userId
+                                ,item.centralPolicy.title,item.detailExecutiveOrder,item.executiveOrderFiles
+                                ,item.answerDetail,item.answerProblem,item.answerCounsel,item.answerExecutiveOrderFiles
+                                )"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -65,12 +68,8 @@
                             <td>{{item.province.name}}</td>
                             <td>
                                 <i class="align-middle mr-2 fas fa-fw fa-envelope pointer"
-                                    (click)="editModal(AnswerExecutiveorder,item.id)">
+                                    (click)="editModal(AnswerExecutiveorder,item.id, item.text)">
                                 </i>
-                                <i class="align-middle mr-2 fas fa-fw fa-search  pointer"></i>
-                               <!-- <i class="align-middle mr-2 fas fa-fw fa-search  pointer"
-                                    --(click)="DetailCentralPolicy(item.centralPolicyId,provinceId)">
-                                </i>-->
                             </td>
                         </tr>
                     </tbody>
@@ -91,6 +90,7 @@
             </div>
             <div class="modal-body m-3">
                 <div class="form-group">
+                 
                     <label>จังหวัด</label>
                         <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
                             name="provinceId" formControlName="provinceId" [allowClear]="true">
@@ -158,26 +158,41 @@
     </form>
     <!-- </div> -->
 </ng-template>
-<!-- BEGIN primary modal -->
+<!--BEGIN primary modal -->
 <ng-template #ViewExecutiveorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <form [formGroup]="Form" (ngSubmit)="storedetailexecutiveorder(Form.value)">
+    <!-- <form [formGroup]="detailForm"> -->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">ข้อสั่งการและการตอบกลับ</h5>
+                <h4 class="modal-title">ข้อสั่งการและการตอบกลับ</h4>
                 <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body m-3">
-                <div class="form-group">
-                    <label>ชิ่อแผนตรวจราชการประจำปี : </label><br>
-                    <label>ปี : </label><br>
-                    <label>จังหวัด : </label><br>
-                   
-                </div>
+            <div class="modal-body" >
+                    <label >ผู้สั่งข้อสั่งการ : {{UsercreateName}} </label><br>
+                    <label >วันที่สร้างข้อสั่งการ : {{createdAt | thaidate: 'year'}} </label><br>
+                    <label >ชื่อแผนตรวจราชการประจำปี : {{centralpolicy}} </label><br>
+                    <label >รายละเอียดคำสั่งการ : {{text}} </label><br>
+                    <label >ไฟล์รายละเอียดคำสั่งการ :
+                        <a *ngFor="let item of executivefile let i = index" href="{{imgprofileUrl}}/{{item.name}}" download>
+                            <br> <td>{{i + 1}}.</td>{{item.name}}
+                        </a>
+                    </label><br>
+                
+                    <hr>
+                        <h4 class="font-weight">ความเห็นผู้ตรวจเขต</h4>
+                    <hr>
+                    <label >รายละเอียด : {{answerdetail}} </label><br>
+                    <label >ปัญหา/อุปสรรค : {{answerproblem}} </label><br>
+                    <label >ข้อเสนอแนะ : {{answercounsel}} </label><br>
+                    <label >ไฟล์การดำเนินการตามข้อสั่งการ :
+                        <a *ngFor="let item of answerfile let i = index" href="{{imgprofileUrl}}/{{item.name}}" download>
+                            <br> <td>{{i + 1}}.</td>{{item.name}}
+                        </a>
+                    </label><br>
             </div>
         </div>
-    </form>
-    <!-- </div> -->
+    <!-- </form> -->
+ <!-- </div> -->
 </ng-template>
-<!-- END primary modal -->
+ <!-- END primary modal -->

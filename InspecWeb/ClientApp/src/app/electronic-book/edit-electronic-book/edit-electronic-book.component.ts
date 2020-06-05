@@ -8,6 +8,7 @@ import { SubjectService } from 'src/app/services/subject.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-edit-electronic-book',
@@ -56,6 +57,15 @@ export class EditElectronicBookComponent implements OnInit {
   urllink: any;
   subjectCentralPolicyID: any;
   editSuggestionForm: FormGroup;
+  resultreportnum = 0;
+  answerPeople: any = [];
+  commentData: any = [];
+  answerData: any = [];
+  userid;
+  role_id;
+
+  signatureFile: any = [];
+  fileType: any;
 
   constructor(
     private fb: FormBuilder,
@@ -66,6 +76,7 @@ export class EditElectronicBookComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
+    private authorize: AuthorizeService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
@@ -82,8 +93,24 @@ export class EditElectronicBookComponent implements OnInit {
     console.log("ELECTID: ", this.id);
 
     this.spinner.show();
+
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+        this.userservice.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
+      })
+
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
+      questionPeople: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
     })
 
@@ -94,6 +121,9 @@ export class EditElectronicBookComponent implements OnInit {
       Problem: new FormControl(null, [Validators.required]),
       Suggestion: new FormControl(null, [Validators.required]),
       PolicyIssue: new FormControl(null, [Validators.required]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
+      signatureFiles: [null],
+      description: new FormControl(null, [Validators.required]),
     })
 
     this.editSuggestionForm = this.fb.group({
@@ -133,6 +163,8 @@ export class EditElectronicBookComponent implements OnInit {
     this.getDetailCentralPolicyProvince();
     this.getElectronicBookDetail();
     this.getElectOwnCreate();
+    this.getCommentData();
+    this.getAnswer();
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
@@ -219,6 +251,7 @@ export class EditElectronicBookComponent implements OnInit {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
       .subscribe(result => {
         console.log("EiEi: ", result.subjectcentralpolicyprovincedata);
+        this.answerPeople = result.answerPeople;
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
@@ -234,6 +267,10 @@ export class EditElectronicBookComponent implements OnInit {
 
         this.policyDropdown = result.subjectcentralpolicyprovincedata.map((item, index) => {
           return { value: item.id, label: item.name }
+        })
+
+        this.Form.patchValue({
+          questionPeople: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.questionPeople,
         })
 
         this.getCalendarFile();
@@ -300,6 +337,13 @@ export class EditElectronicBookComponent implements OnInit {
         eBookDetail: this.resultelectronicbookdetail,
         Status: result.status
       })
+
+      this.resultreport.forEach(element => {
+        // alert(JSON.stringify(element))
+        if (element.report != null) {
+          this.resultreportnum = 1;
+        }
+      });
     })
   }
 
@@ -311,6 +355,7 @@ export class EditElectronicBookComponent implements OnInit {
 
       setTimeout(() => {
         this.getElectronicBookDetail();
+        this.getElectronikbookFile();
         this.spinner.hide();
       }, 300);
     })
@@ -321,10 +366,10 @@ export class EditElectronicBookComponent implements OnInit {
 
     this.electronicBookService.addSuggestion(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
       console.log("res: ", result);
-
       this.modalRef.hide();
-      this.getDetailCentralPolicyProvince();
 
+      this.detailForm.reset();
+      this.getDetailCentralPolicyProvince();
     })
   }
 
@@ -377,14 +422,15 @@ export class EditElectronicBookComponent implements OnInit {
   getCalendarFile() {
     // alert(this.electronicbookid)
     this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
-      this.carlendarFile = res;
+      this.carlendarFile = res.carlendarFile;
+      this.signatureFile = res.signatureFile;
       console.log("calendarFile: ", res);
 
     })
   }
   getElectronikbookFile() {
     this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {
-      this.resultElecFile = res;
+      this.resultElecFile = res.electronicFile;
       console.log("calendarFile: ", res);
 
     })
@@ -399,5 +445,28 @@ export class EditElectronicBookComponent implements OnInit {
         Suggestion: res.suggestion,
       })
     })
+  }
+
+  getCommentData() {
+    this.centralpolicyservice.getComment(this.id).subscribe(res => {
+      this.commentData = res;
+      console.log("comment: ", this.commentData);
+    })
+  }
+
+  getAnswer() {
+    this.centralpolicyservice.getAnswer(this.id).subscribe(res => {
+      this.answerData = res;
+      console.log("answer: ", this.answerData);
+    })
+  }
+
+  async openAnswerModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  checkType(type) {
+    // alert(type)
+    this.fileType = type;
   }
 }

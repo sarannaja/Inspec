@@ -113,7 +113,7 @@
                       </div>
                     </div>
                   </td>
-                  <td style="border-top: none;" width="50%">
+                  <!-- <td style="border-top: none;" width="50%">
                     <div class="row">
                       <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;</span>
 
@@ -122,15 +122,9 @@
                         <span class="col-11">{{ii + 1}}. {{itemss.user.name}}</span>
                       </div>
 
-                      <!-- <div class="col-12"
-                          *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
-                          <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
-                          <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                            (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
-                        </div> -->
                     </div>
 
-                  </td>
+                  </td> -->
                 </tr>
                 <tr>
                   <td style="border-top: none;">
@@ -191,7 +185,8 @@
 
                     <div class="col-12">
                       <div class="row">
-                        <div *ngIf="items.electronicBookSuggestGroups[0].detail != 'null'" class="col-12" style="padding-left: 0;">
+                        <div *ngIf="items.electronicBookSuggestGroups[0].detail != 'null'" class="col-12"
+                          style="padding-left: 0;">
                           <div class="form-group">
                             <label>ผลการตรวจ</label>
                             <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
@@ -207,7 +202,8 @@
 
                     <div class="col-12">
                       <div class="row">
-                        <div *ngIf="items.electronicBookSuggestGroups[0].problem != 'null'" class="col-12" style="padding-left: 0;">
+                        <div *ngIf="items.electronicBookSuggestGroups[0].problem != 'null'" class="col-12"
+                          style="padding-left: 0;">
                           <div class="form-group">
                             <label>ปัญหาและอุปสรรค</label>
                             <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
@@ -223,7 +219,8 @@
 
                     <div class="col-12">
                       <div class="row">
-                        <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12" style="padding-left: 0;">
+                        <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12"
+                          style="padding-left: 0;">
                           <div class="form-group">
                             <label>ข้อเสนอแนะ</label>
                             <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
@@ -299,15 +296,34 @@
         <form [formGroup]="form" (ngSubmit)="sendReport(form.value)">
           <div class="col-12 col-xl-12" style="margin-top: 30px;">
             <div class="form-group">
-              <label>รายงาน</label>
+              <label>ความเห็น/ข้อเสนอแนะเพิ่มเติม</label>
               <!-- <input style="height: 100px;" type="text" name="report" formControlName="report" class="form-control"
-                placeholder="กรุณากรอกรายงาน"> -->
+                placeholder="กรุณากรอกความเห็น/ข้อเสนอแนะเพิ่มเติม"> -->
               <textarea cols="30" rows="5" formControlName="report" name="report" class="form-control"
-                placeholder="กรุณากรอกรายงาน">
+                placeholder="กรุณากรอกความเห็น/ข้อเสนอแนะเพิ่มเติม">
               </textarea>
 
-              <label class="form-label w-100" style="margin-top: 10px;">แนบไฟล์</label>
-              <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+              <!-- <label class="form-label w-100" style="margin-top: 10px;">แนบไฟล์</label>
+              <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;"> -->
+
+              <div class="col-12">
+                <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์</label>
+                <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+                <div class="col-4">
+                  <select class="selectpicker form-control" data-live-search="true"
+                    (change)="checkType2($event.target.value)" formControlName="fileType">
+                    <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
+                    <option value="CentralPolicyUser Image File">รูปภาพ</option>
+                    <option value="CentralPolicyUser File">ไฟล์เอกสาร</option>
+                  </select>
+                </div>
+                <div class="col-8">
+                  <textarea *ngIf="fileType2 == 'CentralPolicyUser Image File'" cols="30" rows="5" class="form-control"
+                    placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;"
+                    formControlName="description"></textarea>
+                </div>
+              </div>
+
               <!-- formControlName="files" -->
               <!-- <small *ngIf="fileStatus == false" class="form-text text-muted">{{resultdetailcentralpolicy?.centralPolicyFiles[0]?.name}}</small> -->
 
@@ -324,7 +340,7 @@
                 </div>
               </div> -->
 
-              <div class="col-12 col-xl-12">
+              <div class="col-12 col-xl-12" style="margin-top: 20px;">
                 <div class="form-group">
                   <div class="form-group col-md-3">
                     <div class="mb-3">
@@ -344,7 +360,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <u>ไฟล์แนบของคุณ</u><br>
-                  <div class="row" *ngFor="let item of userFiles.userFile; let i = index" style="margin-top: 10px;">
+                  <!-- <div class="row" *ngFor="let item of userFiles.userFile; let i = index" style="margin-top: 10px;">
                     <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
                       <span>ไฟล์ที่
                         {{i+1}})
@@ -353,7 +369,7 @@
                     </a>
                     <i class="fas fa-fw fa-trash-alt pointer col-1" style="font-size: larger;"
                       (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
-                  </div>
+                  </div> -->
                 </div>
               </div>
 

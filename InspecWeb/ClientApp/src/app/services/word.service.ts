@@ -25,4 +25,8 @@ export class WordService {
     console.log("formData" , formData);
     return this.http.post<any>(this.url , formData)
   }
+
+  exportExcel() {
+    return this.http.get(this.url + "/Excel")
+  }
 }

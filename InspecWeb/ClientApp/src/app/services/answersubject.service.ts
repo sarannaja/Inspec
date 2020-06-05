@@ -8,49 +8,72 @@ import { Observable } from 'rxjs';
 export class AnswersubjectService {
 
   url = "";
+  // file: FileList
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) 
-  {   
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/answersubject/';
   }
-  getuseredata(id):Observable<any[]> {
-    return this.http.get<any[]>(this.url+"user/" + id)
+  getuseredata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "user/" + id)
   }
-  getsubjectlistdata(id):Observable<any[]>{
-    return this.http.get<any[]>(this.url+"subjectlist/" + id)
+  getuserpeopleedata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "userpeople/" + id)
   }
-  getsubjectdetaildata(id):Observable<any[]>{
-    return this.http.get<any[]>(this.url+"subjectdetail/" + id)
+  getsubjectlistdata(id, userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "subjectlist/" + id + "/" + userid)
+  }
+  getsubjectdetaildata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "subjectdetail/" + id)
+  }
+  getcentralpolicyprovinc(id): Observable<any> {
+    return this.http.get<any>(this.url + "centralpolicyprovinc/" + id)
   }
   addAnswer(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
       inputanswer: answersubjectdata,
-     
+
     }
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url, formData);
+  }
+  addAnswercentralpolicyprovince(answerdata, centralpolicyprovinceId, userid) {
+    console.log("answerdata", answerdata);
+    // const formData = {
+    //   CentralPolicyProvinceId: parseInt(centralpolicyprovinceId),
+    //   UserId: userid,
+    //   Answer: answerdata.AnswerPeople
+    // }
+    const formData = new FormData();
+    formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
+    formData.append('UserId', userid);
+    formData.append('Answer', answerdata.AnswerPeople);
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url + "answercentralpolicyprovince", formData);
   }
   addAnsweroutsider(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
       inputansweroutsider: answersubjectdata,
-     
+
     }
     console.log('FORMDATA: ', formData);
-    return this.http.post<any>(this.url+"outsider", formData);
+    return this.http.post<any>(this.url + "outsider", formData);
   }
-  addFiles(subjectid, file: FileList) {
-    // alert(subjectid)
-    // alert(JSON.stringify(file))
-    // console.log("subjectid",subjectid);
-    console.log("file", file);
+  addFiles(subjectid, filedata) {
+    var file: FileList
+    console.log("filedata", filedata);
     console.log("subjectid", subjectid);
 
+    file = filedata.files
+    var Type = filedata.Type
+    console.log("file", file);
+    console.log("type", Type);
+
     const formData = new FormData();
-    // for (var i = 0; i < subjectid.length; i++) {
-      formData.append('SubjectCentralPolicyProvinceId', subjectid);
-    // }
+    formData.append('SubjectCentralPolicyProvinceId', subjectid);
+    formData.append('Type', Type);
     for (var i = 0; i < file.length; i++) {
       formData.append("files", file[i]);
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -1076,6 +1075,15 @@ namespace InspecWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        // GET: api/values
+        [HttpGet("Excel")]
+        public IEnumerable<ExportRegistration> Get2()
+        {
+            var data = _context.ExportRegistrations.ToList();
+
+            return data;
         }
     }
 }

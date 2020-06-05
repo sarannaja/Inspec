@@ -24,33 +24,31 @@ namespace InspecWeb.Controllers
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]
-        public IQueryable<UserProvince> getnotifications(string id)
+        public IActionResult getnotifications(string id)
         {
-            //// var Notifications = _context.Notifications.Include(m => m.CentralPolicy).Where(m => m.UserID == id);
-            //var centraPolicy = _context.CentralPolicies
-            //       .Include(m => m.CentralPolicyUser)
-            //       .Where(m => m.Id == 1);
-            //// return Notifications;
-            //return centraPolicy;
-            //var inspectionplans = _context.InspectionPlanEvents
+             var Notifications = _context.Notifications
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.UserID == id);
+             return Ok(Notifications); 
+        }
 
-            //                   .Include(m => m.CentralPolicyEvents)
-            //                   .ThenInclude(m => m.CentralPolicy)
-            //                   .Where(m => m.ProvinceId == 1)
-            //                   .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicy.Id == 1)).FirstOrDefault();
-            //return inspectionplans;
+        [HttpGet("api/[controller]/[action]/{id}")]
+        public IActionResult getnotificationscount(string id)
+        {
+            var Notifications = _context.Notifications
+               .Include(m => m.CentralPolicy)
+               .Where(m => m.UserID == id)
+               .Where(m => m.noti == 1);
+            return Ok(Notifications);
+        }
 
-            //var centraPolicy = _context.CentralPolicyProvinces
-            //       .Include(m => m.CentralPolicy)
-            //       .Where(m => m.CentralPolicyId == 1)
-            //       .Where(m => m.ProvinceId == 1)
-            //       .FirstOrDefault();
+        [HttpGet("api/[controller]/[action]/{id}")]
+        public IActionResult getnotificationsforexecutiveorder(long id)
+        {
+            var executiveorder = _context.ExecutiveOrders       
+               .Where(m => m.Id == id);
+            return Ok(executiveorder);
 
-            var users = _context.UserProvinces
-                .Include(m => m.User)
-                .Where(m => m.ProvinceId == 17 && m.User.Role_id == 5);
-
-            return users;
         }
 
         // POST api/values
@@ -68,6 +66,7 @@ namespace InspecWeb.Controllers
                 notificationdata.status = Status;
                 notificationdata.noti = 1;
                 notificationdata.CreatedAt = date;
+                notificationdata.xe = xe;
                 _context.Notifications.Add(notificationdata);
                 _context.SaveChanges();
    
@@ -87,6 +86,7 @@ namespace InspecWeb.Controllers
                 notificationdata.status = Status;
                 notificationdata.noti = 1;
                 notificationdata.CreatedAt = date;
+                notificationdata.xe = xe;
                 _context.Notifications.Add(notificationdata);
                 _context.SaveChanges();
             }
@@ -104,26 +104,68 @@ namespace InspecWeb.Controllers
                     notificationdata.status = Status;
                     notificationdata.noti = 1;
                     notificationdata.CreatedAt = date;
+                    notificationdata.xe = xe;
                     _context.Notifications.Add(notificationdata);
                     _context.SaveChanges();
                 }
             }
 
+            if (Status == 7)
+            {
+
+            }
+
             if (Status == 10)
             {
-             
-            }
-            //if (Status == 11)
-            //{
+                System.Console.WriteLine("st10 : " + CentralPolicyId + " : "+ ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
+                var users = _context.UserProvinces
+                .Include(m => m.User)
+               .Where(m => m.ProvinceId == ProvinceId && m.User.Role_id == 3);
 
-            //}
+                foreach (var item in users)
+                {
+                    System.Console.WriteLine("USERID : " + item.UserID);
+                    notificationdata.UserID = item.UserID;
+                    notificationdata.CentralPolicyId = CentralPolicyId;
+                    notificationdata.ProvinceId = ProvinceId;
+                    notificationdata.status = Status;
+                    notificationdata.noti = 1;
+                    notificationdata.CreatedAt = date;
+                    notificationdata.xe = xe;
+                    //System.Console.WriteLine("1");
+                    _context.Notifications.Add(notificationdata);
+                    //System.Console.WriteLine("2");
+
+                    _context.SaveChanges();
+                    //System.Console.WriteLine("3");
+                }
+               
+               
+            }
+            if (Status == 11)
+            {
+                var ExecutiveOrders = _context.ExecutiveOrders 
+                .Where(m => m.Id == xe)
+                .FirstOrDefault();
+
+                notificationdata.UserID = ExecutiveOrders.UserId;
+                notificationdata.CentralPolicyId = CentralPolicyId;
+                notificationdata.ProvinceId = ProvinceId;
+                notificationdata.status = Status;
+                notificationdata.noti = 1;
+                notificationdata.CreatedAt = date;
+                notificationdata.xe = xe;
+                _context.Notifications.Add(notificationdata);
+                _context.SaveChanges();
+
+            }
             //if (Status == 12)
             //{
-            //    //2 
+              
             //}
             //if (Status == 13)
             //{
-            //   //3
+              
             //}
 
             return notificationdata;
@@ -132,10 +174,10 @@ namespace InspecWeb.Controllers
         // 
         [Route("api/[controller]/{id}")]
         [HttpPut]
-        public void Put(long id) 
+        public void Put(long id,string update) 
         {
             var Notification = _context.Notifications.Find(id);
-                Notification.noti = 1;
+                Notification.noti = 0;
                 _context.Entry(Notification).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.SaveChanges();
 

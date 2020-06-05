@@ -1,0 +1,47 @@
+<app-title-modal [title]="title"></app-title-modal>
+
+<div class="modal-body">
+    <div class="col-md-12">
+        <div class="table-responsive" id="summaryTable">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td>โครงการทั้งหมด:</td>
+                        <td class="text-right">{{minister.fiscalYears[0].projects.count}} โครงการ</td>
+                    </tr>
+                    <!-- <hr> -->
+                    <tr>
+                        <td>โครงการที่เบิกจ่ายแล้วเสร็จ:</td>
+                        <td id="complete-count" class="text-right">{{minister.fiscalYears[0].projects.completed}} โครงการ</td>
+                    </tr>
+                    <tr>
+                        <td>โครงการกำลังดำเนินงาน:</td>
+                        <td class="text-right">{{minister.fiscalYears[0].projects.count - minister.fiscalYears[0].projects.completed }} โครงการ</td>
+                    </tr>
+                    <tr>
+                        <td>งบประมาณ:</td>
+                        <td  class="text-right">{{minister.fiscalYears[0].projects.totalBudget}} บาท</td>
+                    </tr>
+                    <tr>
+                        <td>งบประมาณที่ใช้จริง:</td>
+                        <td  class="text-right">{{minister.fiscalYears[0].projects.totalAmount}} บาท</td>
+                        <!-- <td  class="text-right">197,202,372.00 บาท</td> -->
+                    </tr>
+                    <tr>
+                        <td>งบประมาณที่เบิกจ่ายไปแล้ว:</td>
+                        <td class="text-right">{{minister.fiscalYears[0].projects.totalBudget - minister.fiscalYears[0].projects.totalAmount}} บาท</td>
+                    </tr>
+                    <tr>
+                        <td>งบประมาณที่ยังไม่ได้เบิกจ่าย:</td>
+                        <td  class="text-right">{{minister.fiscalYears[0].projects.totalBudget-(minister.fiscalYears[0].projects.totalBudget - minister.fiscalYears[0].projects.totalAmount)}} บาท</td>
+                    </tr>
+                    <tr>
+                        <td>ร้อยละความสำเร็จ:</td>
+                        <td class="text-right">{{minister.fiscalYears[0].projects.totalPercent}}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

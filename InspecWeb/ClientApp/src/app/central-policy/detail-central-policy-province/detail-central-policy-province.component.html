@@ -146,15 +146,15 @@
                   <tr>
                     <td style="border-top: none;">
                       <div class="row">
-                        <span style="margin-left: 15px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
+                        <h4 style="margin-top: 20px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
                           <button *ngIf="role_id == 3" type="button"
                             (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
                           <button
-                            *ngIf="role_id == 5 && resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'"
+                            *ngIf="role_id == 5 && rcentralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
                             type="button" (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
-                        </span>
+                        </h4>
                         <div class="col-12"
                           *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
                           <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
@@ -163,122 +163,132 @@
                         </div>
                       </div>
                     </td>
-                    <td style="border-top: none;" width="50%">
-                      <div class="row">
-                        <span style="margin-left: 15px;">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน &nbsp;&nbsp;
-                          <button *ngIf="role_id == 3" type="button"
-                            (click)="openModal3(modalInvitePeopleAnswer, items.id)"
-                            class="btn btn-primary">เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</button></span>
 
-                        <div class="col-12"
-                          *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceUserGroups;let ii = index">
-                          <span class="col-11">{{ii + 1}}. {{itemss.user.name}}</span>
-                          <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                            (click)="DelModal2(modaldeletepeopleanswer, itemss.id)"></i>
-                        </div>
-
-                        <!-- <div class="col-12"
-                            *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
-                            <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
-                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                              (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
-                          </div> -->
-                      </div>
-
-                    </td>
                   </tr>
-                  <div class="row" style="margin-top: 10px;">
+                  <div class="row" style="margin-top: 10px; margin-left: 3px;">
                     <div class="col-md-9">
                       ลิ้งค์บุคคลภายนอก : {{urllink}}{{items.id}}
                     </div>
                   </div>
                   <tr>
-                    <td style="border-top: none;">
-                      <u style="margin-left: 15px;">เรื่องประเด็น</u>
-                      <div class="row">
-                        <div class="col-10">
-                          <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                            readonly>
-                        </div>
-                        <div class="col-1" *ngIf="role_id == 3">
-                          <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                            (click)="editModal3(modaleditsubject, items.id, items.name)"></i>
-                        </div>
-                        <div class="col-1" *ngIf="role_id == 3 && i != 0">
-                          <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                            (click)="delsubjectModal(modaldelsubject, items.id)"></i>
-                        </div>
-                      </div>
-                    </td>
-                    <td style="border-top: none;" width="50%">
-                      <u>คำถามปลายเปิด</u>
-                      <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
-                        <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
-
-                          <div class="col-11">
-                            <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                    <div class="card">
+                      <td style="border-top: none; width: 85%;">
+                        <u style="margin-left: 15px;">เรื่องประเด็น</u>
+                        <div class="row">
+                          <div class="col-10">
+                            <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
                               readonly>
                           </div>
                           <div class="col-1" *ngIf="role_id == 3">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                              (click)="editModal4(modaleditsubjectquestionopen, item.id, item.name)"></i>
+                              (click)="editModal3(modaleditsubject, items.id, items.name)"></i>
                           </div>
-                          <!-- <div class="col-1" *ngIf="role_id == 3  && i != 0">
+                          <div class="col-1" *ngIf="role_id == 3 && i != 0">
+                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                              (click)="delsubjectModal(modaldelsubject, items.id)"></i>
+                          </div>
+                        </div>
+                      </td>
+                      <td style="border-top: none;" width="85%">
+                        <u>คำถามปลายเปิด</u>
+                        <button class="btn btn-success" id="collapseAsk{{i}}" data-toggle="collapse"
+                          [attr.data-target]="'#collapseExample' + i" aria-expanded="false"
+                          aria-controls="collapseExample" style="margin-left: 20px; font-size: small;">คำตอบปลายเปิด
+                          <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
+                        </button>
+
+                        <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index">
+                          <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
+                            <div class="col-10">
+                              <input type="text" value="{{item.name}}" class="form-control"
+                                placeholder="กรุณากรอกเรื่อง" readonly>
+                            </div>
+                            <div class="col-1" *ngIf="role_id == 3">
+                              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                (click)="editModal4(modaleditsubjectquestionopen, item.id, item.name)"></i>
+                            </div>
+                            <!-- <div class="col-1" *ngIf="role_id == 3  && i != 0">
                             <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                             (click)="delquestionModal(modaldelquestion, item.id)"></i>
                           </div> -->
+
+                            <div *ngIf="item.type == 'คำถามปลายเปิด'" class="col-12">
+                              <div *ngFor="let items2 of item.answerSubquestions; let index = index" class="row">
+                                <div class="collapse col-9" id="collapseExample{{i}}"
+                                  style="margin-left: 10px; margin-top: 5px;">
+                                  <label type="text" class="form-control">{{items2.answer}}</label>
+                                </div>
+                                <div class="collapse col-1" id="collapseExample{{i}}" *ngIf="role_id == 3">
+                                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                    (click)="editModal5(modalEditAnswer, items2.id, items2.answer)"
+                                    style="padding-top: 10px;"></i>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
                         </div>
-                      </div>
-                    </td>
+                      </td>
+                    </div>
                   </tr>
 
 
                   <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
-                    <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
-                      <u>คำถามปลายปิด</u>
-                      <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
-                      <div class="row">
-                        <div class="col-11" *ngIf="item.type == 'คำถามปลายปิด'">
-                          <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                            readonly>
-                        </div>
-                        <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3">
-                          <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                            (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
-                        </div>
-                        <!-- <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3  && i != 0">
+                    <div class="card" *ngIf="item.type == 'คำถามปลายปิด'">
+                      <td style="border-top: none; width: 85%;">
+                        <u>คำถามปลายปิด</u>
+                        <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
+                        <div class="row">
+                          <div class="col-10" *ngIf="item.type == 'คำถามปลายปิด'">
+                            <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                              readonly>
+                          </div>
+                          <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3">
+                            <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                              (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
+                          </div>
+                          <!-- <div class="col-1" *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3  && i != 0">
                           <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                             (click)="delquestionModal(modaldelquestion, item.id)"></i>
                         </div> -->
-                      </div>
-                      <!-- </div> -->
-                    </td>
+                        </div>
+                        <!-- </div> -->
+                      </td>
 
-                    <td style="border-top: none;" *ngIf="item.type == 'คำถามปลายปิด'">
-                      <u>ตัวเลือกคำถามปลายปิด</u>
-                      <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
-                        <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iiii = index">
-                          <div class="row">
-                            <div class="col-11"
-                              *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                              <input type="text" value="{{item3.name}}" class="form-control"
-                                placeholder="กรุณากรอกเรื่อง" readonly>
-                            </div>
-                            <div class="col-1"
-                              *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId && role_id == 3">
+                      <td style="border-top: none; width: 85%;" *ngIf="item.type == 'คำถามปลายปิด'">
+                        <u>ตัวเลือกคำถามปลายปิด</u>
+                        <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
+                          <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
+                            <div class="row">
+                              <div class="col-10"
+                                *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                                <div class="row" style="border: 1px solid #ced4da;
+                                margin: 0px;
+                                border-radius: 4px;
+                                background-color: #e9ecef;
+                                padding-top: 4px;
+                                height: 32px;
+                                margin-top: 5px;">
+                                  <div class="col-8">{{item3.name}}</div>
+                                  <!-- <div class="col-4" style="text-align: right;">
+                                    <label style="margin-left: 10px; color: #27A844; ">
+                                      คนตอบทั้งหมด {{item2.answerSubquestions.length}}
+                                    </label>
+                                  </div> -->
+                                </div>
+
+
+                              </div>
+                              <!-- <div class="col-1"
+                              *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                 (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i>
+                            </div> -->
                             </div>
-                            <!-- <div class="col-1"
-                            *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId && role_id == 3 && i != 0">
-                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                            (click)="deloptionModal(modaldeloption, item.id)"></i>
-                          </div> -->
                           </div>
                         </div>
-                      </div>
-                    </td>
-
+                      </td>
+                    </div>
                   </tr>
 
                   <!-- <div style="margin-top:20px;"></div> -->
@@ -314,6 +324,67 @@
                       </td>
                     </tr>
                   </div> -->
+
+                  <div *ngIf="items.electronicBookSuggestGroups.length > 0" class="col-12 col-xl-12"
+                    style="margin-top: 10px; margin-bottom: 20px;">
+                    <div class="form-group">
+
+                      <div class="col-12">
+                        <div class="row">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].detail != 'null'" class="col-12"
+                            style="padding-left: 0;">
+                            <div class="form-group">
+                              <label>ผลการตรวจ</label>
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
+                                class="form-control" placeholder="กรุณากรอกผลการตรวจ" readonly>
+                              </textarea>
+                            </div>
+                          </div>
+                          <!-- <div class="col-1">
+                            <i class="align-middle mr-1 fas fa-fw fa-pen pointer" style="margin-top: 35px;"
+                              (click)="openEditSuggestionModal(modalEditSuggestion, items.id)"></i>
+                          </div> -->
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="row">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].problem != 'null'" class="col-12"
+                            style="padding-left: 0;">
+                            <div class="form-group">
+                              <label>ปัญหาและอุปสรรค</label>
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
+                                class="form-control" placeholder="กรุณากรอกปัญหาและอุปสรรค" readonly>
+                              </textarea>
+                            </div>
+                          </div>
+                          <!-- <div class="col-1">
+                            <i class="align-middle mr-1 fas fa-fw fa-pen pointer" style="margin-top: 35px;"
+                              (click)="openEditSuggestionModal(modalEditSuggestion, items.id)"></i>
+                          </div> -->
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="row">
+                          <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12"
+                            style="padding-left: 0;">
+                            <div class="form-group">
+                              <label>ข้อเสนอแนะ</label>
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
+                                class="form-control" placeholder="กรุณากรอกข้อเสนอแนะ" readonly>
+                              </textarea>
+                            </div>
+                          </div>
+                          <!-- <div class="col-1">
+                            <i class="align-middle mr-1 fas fa-fw fa-pen pointer" style="margin-top: 35px;"
+                              (click)="openEditSuggestionModal(modalEditSuggestion, items.id)"></i>
+                          </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </tbody>
 
               </table>
@@ -365,25 +436,54 @@
             </div>
           </div> -->
 
-          <button *ngIf="role_id == 3" type="button"
-          class="btn btn-primary">เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</button>
-
+          <div class="row" style="margin-top: -30px;">
+            <div class="col-md-6">
+              <button *ngIf="role_id == 3" type="button" class="btn btn-info"
+                (click)="openModal(modalcreatesuject)">เพิ่มประเด็น</button>
+            </div>
+          </div>
+          <br>
 
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
-
               <input type="radio" name="step" value="มอบหมายจังหวัด" checked
-                [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายจังหวัด'"
+                [checked]="rcentralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
                 formControlName="step">
               <label style="margin-left: 10px;">มอบหมายให้จังหวัด</label>
-
               <input style="margin-left: 10px;" type="radio" name="step" value="มอบหมายหน่วยงาน"
-                [checked]="resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายหน่วยงาน'"
+                [checked]="rcentralpolicyprovincedata.step == 'มอบหมายหน่วยงาน'"
                 formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
           </div>
 
+          <div class="form-group col-12" *ngIf="role_id == 3">
+            <div class="mb-3">
+              <input type="radio" name="status" value="ร่างกำหนดการ" checked
+                [checked]="rcentralpolicyprovincedata.status == 'ร่างกำหนดการ'"
+                formControlName="status">
+              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
+                [checked]="rcentralpolicyprovincedata.status == 'ใช้งานจริง'"
+                formControlName="status">
+              <label style="margin-left: 10px;">ใช้งานจริง</label>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+            <h4 style="margin-left: 10px;">คำถามภาคประชาชน</h4>
+            <button class="btn btn-success" style="margin-top: -5px; margin-left: 10px; margin-bottom: 10px;"
+              (click)="openAnswerModal(answerPeopleModal)">ดูคำตอบ</button>
+          </div>
+          <textarea cols="30" rows="5" class="form-control" *ngIf="role_id == 3" placeholder="คำถามภาคประชาชน"
+            formControlName="questionPeople" name="questionPeople"></textarea>
+
+          <textarea cols="30" rows="5" class="form-control" *ngIf="role_id == 5" disabled placeholder="คำถามภาคประชาชน"
+            formControlName="questionPeople" name="questionPeople"></textarea>
+
+          <br>
           <div class="row">
             <div class="col-md-12">
               <u>ไฟล์แนบแผนการตรวจราชการ</u><br>
@@ -399,13 +499,43 @@
             </div>
           </div>
 
-          <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
-          <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+          <div class="col-12">
+            <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
+            <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+            <div class="col-4">
+              <select class="selectpicker form-control" data-live-search="true"
+                (change)="checkType($event.target.value)" formControlName="fileType">
+                <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
+                <option value="Calendar Image File">รูปภาพ</option>
+                <option value="Calendar File">ไฟล์เอกสาร</option>
+              </select>
+            </div>
+            <div class="col-8">
+              <textarea *ngIf="fileType == 'Calendar Image File'" cols="30" rows="5" class="form-control"
+                placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;" formControlName="description"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12" style="margin-top: 20px;">
+              <u>ไฟล์แนบกำหนดการตรวจ</u><br>
+              <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
+                <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item.name }}<br>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
+          <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)" style="margin-bottom: 10px;">
 
           <div class="row">
             <div class="col-md-12" style="margin-top: 10px;">
-              <u>ไฟล์แนบกำหนดการตรวจ</u><br>
-              <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
+              <u>ไฟล์แนบลายมือชื่อ</u><br>
+              <div class="row" *ngFor="let item of signatureFile; let i = index" style="margin-top: 10px;">
                 <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
                   <span>ไฟล์ที่
                     {{i+1}})
@@ -584,7 +714,7 @@
 <!-- BEGIN primary modal -->
 <ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-  <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
+  <form [formGroup]="Form" (ngSubmit)="storeMinistryPeople(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
@@ -853,6 +983,209 @@
   </div>
 </ng-template>
 <!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modalcreatesuject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-body" style="background-color: white; border-radius: 5px;"> -->
+  <form [formGroup]="AddForm" (ngSubmit)="storeSubject(AddForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการประเด็น</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>ชื่อประเด็นนโยบาย</label>
+              <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
+            </div>
+
+            <div class="form-group">
+              <label>พื้นที่ดำเนินการ</label>
+              <div formArrayName="inputsubjectdepartment">
+                <div *ngFor="let V of AddForm['controls'].inputsubjectdepartment['controls']; let iv=index">
+                  <div formGroupName="{{iv}}">
+                    <div class="row">
+                      <div class="col-2">
+                        <label>หน่วยงานที่เกี่ยวข้อง</label>
+                      </div>
+                      <div class="col-1" *ngIf="iv == 0; else elseBlock">
+                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i>
+                      </div>
+                      <ng-template #elseBlock>
+                        <div class="col-1">
+                          <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeV(iv)"
+                            value="Add V"></i>
+                        </div>
+                      </ng-template>
+                    </div>
+                    <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
+                      formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
+                      (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
+                    </ng-select>
+                    <br>
+                    <br>
+                    <label>คำถามย่อย</label>
+                    <br>
+                    <label>คำถามปลายเปิด</label>
+                    <div formArrayName="inputquestionopen">
+                      <!-- <div *ngFor="let W of Form['controls'].inputquestionopen['controls']; let iw=index"> -->
+                      <div *ngFor="let W of V['controls'].inputquestionopen['controls']; let iw=index">
+                        <div formGroupName="{{iw}}">
+                          <div class="row">
+                            <div class="col-11 col-xl-11">
+                              <input type="text" formControlName="questionopen" class="form-control"
+                                placeholder="กรุณากรอกคำถาม">
+                            </div>
+                            <div class="col-1">
+                              <div class="col-1 margin-plus-icon" *ngIf="iw == 0; else elseBlock">
+                                <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addW(iv)"
+                                  value="Add W"></i>
+                              </div>
+                              <ng-template #elseBlock>
+                                <div class="col-1 margin-plus-icon">
+                                  <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeW(iv,iw)"
+                                    value="Add X"></i>
+                                </div>
+                              </ng-template>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <label>คำถามปลายปิด</label>
+                    <div formArrayName="inputquestionclose">
+                      <div *ngFor="let X of V['controls'].inputquestionclose['controls']; let ix=index">
+                        <div formGroupName="{{ix}}">
+                          <div class="row">
+                            <div class="col-11 col-xl-11">
+                              <input type="text" formControlName="questionclose" class="form-control"
+                                placeholder="กรุณากรอกคำถาม">
+                            </div>
+                            <div class="col-1">
+                              <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
+                                <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX(iv)"
+                                  value="Add X"></i>
+                              </div>
+                              <ng-template #elseBlock>
+                                <div class="col-1 margin-plus-icon">
+                                  <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(iv,ix)"
+                                    value="Add X"></i>
+                                </div>
+                              </ng-template>
+                            </div>
+                          </div>
+                          <div formArrayName="inputanswerclose">
+                            <div *ngFor="let Y of X['controls'].inputanswerclose['controls']; let iy=index">
+                              <div formGroupName="{{iy}}">
+                                <div class="row">
+                                  <div class="col-9 col-xl-9">
+                                    <input type="text" formControlName="answerclose" class="form-control"
+                                      placeholder="กรุณากรอกคำตอบให้เลือก">
+                                  </div>
+                                  <div class="col-1">
+                                    <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
+                                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(iv,ix)"
+                                        value="Add Y"></i>
+                                    </div>
+                                    <ng-template #elseBlock>
+                                      <div class="col-1 margin-plus-icon">
+                                        <i class="align-middle mr-2 far fa-fw fa-minus-square"
+                                          (click)="removeY(iv,ix,iy)" value="Add Y"></i>
+                                      </div>
+                                    </ng-template>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-5 ml-sm-auto">
+              <button type="submit" class="btn btn-primary">บันทึก</button>
+            </div>
+            <div class="col-sm-5 ml-sm-auto">
+              <button type="button" class="btn btn-danger" (click)="modalRef.hide()">ยกเลิก</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+
+<ng-template #modalEditAnswer class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="editAnswerForm" (ngSubmit)="editAnswer(editAnswerForm.value,editid)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการคำตอบปลายเปิด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำตอบปลายเปิด</label>
+          <input type="text" value="{{answer}}" formControlName="answer" class="form-control"
+            placeholder="กรุณากรอกคำถามปลายเปิด">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #answerPeopleModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">คำตอบภาคประชาชน</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body xl-12">
+      <div class="col-12 col-xl-12">
+        <div class="form-group">
+          <div class="row" *ngFor="let items of answerData; let i = index" style="margin-bottom: 15px; width: 100%;">
+            <!-- <div class="col-1">
+              <i class="fa fa-user-circle" style="font-size: 45px;padding: 0px 10px;"></i>
+            </div> -->
+            <div class="col-12" style="padding: 10px 20px 20px 20px;
+                  background-color: #f4f4f4;
+                  border-radius: 15px;">
+              <u>คำตอบ</u>
+              <label style="margin-left: 5px;">#{{i+1}}</label>
+              <br>
+              <label style="word-break: break-all;">{{items.answer}}</label><br>
+              <small style="color:gray; position: relative;
+                  bottom: -9px;">ชื่อ : {{items.user.name}} ตำแหน่ง : {{items.user.position}} เบอร์ติดต่อ :
+                {{items.user.phoneNumber}}</small><br>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+    </div>
+  </div>
+</ng-template>
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
