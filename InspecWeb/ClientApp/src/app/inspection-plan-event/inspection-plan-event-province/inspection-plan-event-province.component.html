@@ -49,21 +49,23 @@
 <div class="card">
   <div class="card-header">
     <!-- <h5 *ngIf="role_id == 3" class="card-title">ปฏิทินการตรวจ</h5> -->
-
-    <div class="float-left" *ngIf="role_id == 3">
-      <div class="form-group">
-        <div class="form-group col-md-12">
-          <div class="mb-12">
-            <select (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2">
-              <option value="allprovince">จังหวัดทั้งหมด</option>
-              <option *ngFor="let item of resultuserregion; let i = index" value="{{item.province.id}}">{{item.province.name}}
-              </option>
-            </select>
+    <form [formGroup]="Form">
+      <div class="float-left" *ngIf="role_id == 3">
+        <div class="form-group">
+          <div class="form-group col-md-12">
+            <div class="mb-12">
+              <select (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2"
+                formControlName="province">
+                <option value="allprovince">จังหวัดทั้งหมด</option>
+                <option *ngFor="let item of resultuserregion; let i = index" value="{{item.province.id}}">
+                  {{item.province.name}}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
+    </form>
     <div class="float-right" *ngIf="role_id == 3">
       <button class="btn btn-primary" (click)="CraateInspectionPlanEvent()">เพิ่มกำหนดการตรวจราชการประจำปี</button>
       <!-- &nbsp;&nbsp;
@@ -74,7 +76,7 @@
   </div>
 
   <div class="card-body">
-    <div id="calendar"></div>
+    <div *ngIf="loading" id="calendar"></div>
   </div>
 </div>
 
@@ -97,3 +99,6 @@
   </div>
 </ng-template>
 <!-- END primary modal -->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

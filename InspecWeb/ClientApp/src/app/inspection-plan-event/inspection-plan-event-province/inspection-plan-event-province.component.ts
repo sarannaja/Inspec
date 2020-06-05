@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Injectable, Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { InspectionplaneventService } from '../services/inspectionplanevent.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { InspectionplaneventService } from '../../services/inspectionplanevent.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,18 +8,21 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import * as moment from 'moment';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs/internal/Subscription';
 declare var $: any;
 @Injectable({
   providedIn: 'root'
 })
 
 @Component({
-  selector: 'app-inspection-plan-event',
-  templateUrl: './inspection-plan-event.component.html',
-  styleUrls: ['./inspection-plan-event.component.css']
+  selector: 'app-inspection-plan-event-province',
+  templateUrl: './inspection-plan-event-province.component.html',
+  styleUrls: ['./inspection-plan-event-province.component.css']
 })
-export class InspectionPlanEventComponent implements OnInit {
+export class InspectionPlanEventProvinceComponent implements OnInit {
   url = "";
   resultinspectionplanevent: any = []
   inspectionplancalendar: any = []
@@ -28,13 +31,34 @@ export class InspectionPlanEventComponent implements OnInit {
   modalRef: BsModalRef;
   userid: string
   role_id
+  id
+  Form: FormGroup;
+  subscription: Subscription;
+  loading: boolean = false
+
   constructor(private router: Router, private inspectionplanservice: InspectionplaneventService,
     private authorize: AuthorizeService,
     private modalService: BsModalService,
     private userService: UserService,
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string) {
+
+    this.subscription = this.userService.getUserNav()
+      .subscribe(
+        result => {
+          if (result.roleId != this.id) {
+            // this.loading = false;
+            console.log('result.roleId', result.roleId);
+            this.id = result.roleId
+            setTimeout(() => { this.getinspectionplaneventuserprovincedata() }, 200)
+          }
+        });
     // this.url = baseUrl + 'centralpolicy/detailcentralpolicyprovince/';
     this.url = baseUrl + 'inspectionplan/';
+    this.id = activatedRoute.snapshot.paramMap.get('id')
+
   }
 
   ngOnInit() {
@@ -52,13 +76,26 @@ export class InspectionPlanEventComponent implements OnInit {
         // alert(this.userid)
       })
 
+    this.Form = this.fb.group({
+      province: new FormControl(null, [Validators.required]),
+    })
+
+    this.Form.patchValue({
+      province: this.id
+    })
+
     this.inspectionplanservice.getuserregion(this.userid)
       .subscribe(result => {
         console.log("this.resultuserregion", result);
         this.resultuserregion = result
+        this.getinspectionplaneventuserprovincedata()
       })
 
-    this.inspectionplanservice.getinspectionplaneventdata(this.userid)
+
+  }
+
+  getinspectionplaneventuserprovincedata() {
+    this.inspectionplanservice.getinspectionplaneventuserprovincedata(this.userid, this.id)
       .subscribe(result => {
         console.log(result);
         this.resultinspectionplanevent = result
@@ -79,6 +116,8 @@ export class InspectionPlanEventComponent implements OnInit {
         this.getcalendar();
       })
   }
+
+
 
   getdata() {
     this.inspectionplanservice.getinspectionplaneventdata(this.userid)
@@ -101,7 +140,7 @@ export class InspectionPlanEventComponent implements OnInit {
       })
   }
 
-  getcalendar() {
+  async getcalendar() {
     // var url_to_inspection = this.url
     // var calendarEl = document.getElementById('calendar');
     // var calendar = new Calendar(calendarEl, {
@@ -117,7 +156,7 @@ export class InspectionPlanEventComponent implements OnInit {
 
     // });
     // calendar.render();
-    setTimeout(() => {
+    await setTimeout(() => {
       var url_to_inspection = this.url
       $("#calendar").fullCalendar({
         header: {
@@ -151,7 +190,10 @@ export class InspectionPlanEventComponent implements OnInit {
       //   $('[data-toggle="tooltip"]').tooltip();
       // });
       // $('[data-toggle="tooltip"]').tooltip();
+
     }, 100);
+
+    this.loading = true
   }
 
 
@@ -183,10 +225,12 @@ export class InspectionPlanEventComponent implements OnInit {
   //   this.router.navigate(['/inspectionplan/createinspectionplan'])
   // }
   selectprovince(value) {
-    if(value == "allprovince"){
-      window.location.reload();
+    if (value == "allprovince") {
+      this.router.navigate(['/inspectionplanevent'])
     } else {
+      this.loading = false
       var id = value
+      this.userService.sendNav(value);
       this.router.navigate(['/inspectionplaneventprovince/' + id])
     }
   }

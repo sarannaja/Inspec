@@ -14,6 +14,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 
 interface addInput {
   id: number;
@@ -27,6 +29,12 @@ interface addInput {
 })
 export class CreateElectronicBookComponent implements OnInit {
 
+  ministryPeople: any = [];
+  selectdataministrypeople: Array<IOption>
+  allMinistryPeople: any = [];
+  allUserPeople: any = [];
+  selectdatapeople: Array<IOption>
+  userPeople: any = [];
   url = "";
   private myDatePickerOptions: IMyOptions = {
     // other options...
@@ -76,8 +84,12 @@ export class CreateElectronicBookComponent implements OnInit {
   resultfiscalyear: any = [];
   showDetail = false;
   CentralPolicyId: any;
-
-
+  ProvinceId2: any;
+  centralpolicyprovinceid
+  resultsubject: any = [];
+  selectsubject: any = [];
+  showSubject = false;
+  fileType: any;
   // get f() { return this.Form.controls }
   // get t() { return this.f.input as FormArray }
 
@@ -97,12 +109,21 @@ export class CreateElectronicBookComponent implements OnInit {
     private electronicBookService: ElectronicbookService,
     private departmentservice: DepartmentService,
     private fiscalyearservice: FiscalyearService,
+    private notificationService: NotificationService,
+    private inspectionplanservice: InspectionplanService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.url = baseUrl;
   }
 
   ngOnInit() {
+
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+      })
 
     this.EditForm = this.fb.group({
       subquestionclose: new FormControl(),
@@ -122,8 +143,6 @@ export class CreateElectronicBookComponent implements OnInit {
     this.Form = this.fb.group({
       input: new FormArray([]),
       checkDetail: new FormControl(null, [Validators.required]),
-      UserMinistryId: new FormControl(null, [Validators.required]),
-      UserPeopleId: new FormControl(null, [Validators.required]),
       Status: new FormControl("ใช้งานจริง", [Validators.required]),
       Problem: new FormControl(null, [Validators.required]),
       Suggestion: new FormControl(null, [Validators.required]),
@@ -147,9 +166,15 @@ export class CreateElectronicBookComponent implements OnInit {
       Problem: new FormControl(null, [Validators.required]),
       Suggestion: new FormControl(null, [Validators.required]),
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      UserMinistryId: new FormControl(null, [Validators.required]),
+      UserPeopleId: new FormControl(null, [Validators.required]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
+      signatureFiles: [null],
+      description: new FormControl(null, [Validators.required]),
     })
 
     this.userservice.getprovincedata(this.userid).subscribe(result => {
+      // alert(JSON.stringify(result))
       this.resultprovince = result
 
       this.selectdataprovince = this.resultprovince.map((item, index) => {
@@ -176,12 +201,7 @@ export class CreateElectronicBookComponent implements OnInit {
       })
     })
 
-    this.authorize.getUser()
-    .subscribe(result => {
-      this.userid = result.sub
-      console.log(result);
-      // alert(this.userid)
-    })
+    // this.getallsubject();
 
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
@@ -191,6 +211,7 @@ export class CreateElectronicBookComponent implements OnInit {
       type: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null, [Validators.required]),
+      SubjectId: new FormControl(null, [Validators.required]),
       status: new FormControl("ใช้งานจริง", [Validators.required]),
       Class: new FormControl("สมุดตรวจอิเล็กทรอนิกส์", [Validators.required]),
       input: new FormArray([]),
@@ -212,10 +233,10 @@ export class CreateElectronicBookComponent implements OnInit {
     this.provinceservice.getprovincedata().subscribe(result => {
       this.resultprovince = result
 
-      this.selectdataprovince = this.resultprovince.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
-
+      // this.selectdataprovince = this.resultprovince.map((item, index) => {
+      //   return { value: item.id, label: item.name }
+      // })
+      // Ask song about this f(x)
       console.log(this.resultprovince);
     })
 
@@ -229,7 +250,9 @@ export class CreateElectronicBookComponent implements OnInit {
       // กรณีจะแก้ไข
     })
 
+
   }
+
 
   DetailCentralPolicy(id: any, i) {
     this.getDepartmentdata();
@@ -245,7 +268,7 @@ export class CreateElectronicBookComponent implements OnInit {
   storeInspectionPlanEvent(value) {
     console.log("Store : ", value);
     // alert("DATA: " + JSON.stringify(value));
-    this.electronicBookService.addElectronicBook(value, this.userid, this.form.value.files, this.CentralPolicyId).subscribe(response => {
+    this.electronicBookService.addElectronicBook(value, this.userid, this.form.value.files, this.CentralPolicyId, this.ProvinceId2).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
@@ -478,10 +501,14 @@ export class CreateElectronicBookComponent implements OnInit {
   storeCentralpolicy(value) {
     // console.log(this.form.value.files);
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicyEbook(value, this.form.value.files,this.userid)
+    this.centralpolicyservice.addCentralpolicyEbook(value, this.form.value.files, this.userid)
       .subscribe(response => {
+        // alert(JSON.stringify(response))
+        // alert(JSON.stringify(response.id))
+        // alert(JSON.stringify(response.provinceId[0]))
         console.log("return: ", response);
-        this.CentralPolicyId = response;
+        this.CentralPolicyId = response.id;
+        this.ProvinceId2 = response.provinceId[0];
         // this.Form.reset()
         // this.router.navigate(['centralpolicy'])
         this.showDetail = true
@@ -489,6 +516,170 @@ export class CreateElectronicBookComponent implements OnInit {
         //   this.centralpolicyservice = result
         //   console.log(this.resultcentralpolicy);
         // })
+        // alert(this.CentralPolicyId)
+        // alert(this.ProvinceId2)
+        this.inspectionplanservice.getcentralpolicyprovinceid(this.CentralPolicyId, this.ProvinceId2).subscribe(result => {
+          // alert(result)
+          this.centralpolicyprovinceid = result
+          this.getMinistryPeople();
+          this.getUserPeople();
+        })
+        // alert(this.centralpolicyprovinceid)
+
       })
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+
+  }
+
+
+  async getMinistryPeople() {
+    await this.userservice.getuserdata(6).subscribe(result => {
+      this.resultministrypeople = result // All
+    })
+
+    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.centralpolicyprovinceid).subscribe(async result => {
+      await result.forEach(async element => {
+        if (element.user.role_id == 6) {
+          await this.allMinistryPeople.push(element.user)
+        }
+      }); // Selected
+      // console.log("selectedMinistry: ", this.allMinistryPeople);
+      this.getRecycledMinistryPeople();
+    })
+  }
+  async getUserPeople() {
+    await this.userservice.getuserdata(7).subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.resultpeople = result
+      // alert(JSON.stringify(this.resultpeople))
+      console.log("tttt:", this.resultpeople);
+
+    })
+    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.centralpolicyprovinceid).subscribe(async result => {
+      await result.forEach(async element => {
+        if (element.user.role_id == 7) {
+          this.allUserPeople.push(element.user)
+        }
+      }); // Selected
+      console.log("selectedUser: ", this.allUserPeople);
+      this.getRecycledUserPeople();
+    })
+  }
+
+  async getRecycledUserPeople() {
+    var test: any = [];
+    test = this.resultpeople;
+    this.selectdatapeople = []
+    this.userPeople = this.allUserPeople
+    console.log("user: ", this.userPeople);
+    console.log("allUser: ", this.resultpeople);
+
+    if (this.userPeople.length == 0) {
+      for (var i = 0; i < this.resultpeople.length; i++) {
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+      }
+    }
+    else {
+      for (var i = 0; i < this.resultpeople.length; i++) {
+        var n = 0;
+        for (var ii = 0; ii < this.userPeople.length; ii++) {
+          if (this.resultpeople[i].id == this.userPeople[ii].id) {
+            await n++;
+          }
+        }
+        if (n == 0) {
+          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+        }
+      }
+    }
+    console.log("TEST: ", this.selectdatapeople);
+  }
+  async getRecycledMinistryPeople() {
+    this.selectdataministrypeople = []
+    this.ministryPeople = this.allMinistryPeople
+    console.log("MINISTRY: ", this.ministryPeople);
+    console.log("allMinistry: ", this.resultministrypeople);
+    if (this.ministryPeople.length == 0) {
+      for (var i = 0; i < this.resultministrypeople.length; i++) {
+        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+      }
+    }
+    else {
+      for (var i = 0; i < this.resultministrypeople.length; i++) {
+        var n = 0;
+        for (var ii = 0; ii < this.ministryPeople.length; ii++) {
+          if (this.resultministrypeople[i].id == this.ministryPeople[ii].id) {
+            await n++;
+          }
+        }
+        if (n == 0) {
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+        }
+      }
+    }
+    // console.log("TEST: ", this.selectdataministrypeople);
+  }
+
+  // storePeople(value: any) {
+  //   let UserPeopleId: any[] = value.UserPeopleId
+  //   // alert(JSON.stringify(value))
+  //   this.centralpolicyservice.addCentralpolicyUser(value, this.centralpolicyprovinceid, this.electronicbookid).subscribe(response => {
+  //     console.log(value);
+  //     this.Form.reset()
+  //     this.modalRef.hide()
+
+  //     for (let i = 0; i < UserPeopleId.length; i++) {
+  //       this.notificationService.addNotification(this.CentralPolicyId, this.ProvinceId2, UserPeopleId[i], 1, 1)
+  //         .subscribe(response => {
+  //           console.log(response);
+
+  //         })
+  //     }
+  //     // this.getCentralPolicyProvinceUser();
+  //   })
+  // }
+
+  // storeMinistryPeople(value: any) {
+  //   let UserPeopleId: any[] = value.UserPeopleId
+  //   this.centralpolicyservice.addCentralpolicyUser(value, this.centralpolicyprovinceid, this.electronicbookid).subscribe(response => {
+  //     console.log(value);
+  //     this.Form.reset()
+  //     this.modalRef.hide()
+  //     for (let i = 0; i < UserPeopleId.length; i++) {
+  //       this.notificationService.addNotification(this.CentralPolicyId, this.ProvinceId2, UserPeopleId[i], 1, 1)
+  //         .subscribe(response => {
+  //           console.log(response);
+  //         })
+  //     }
+  //     // this.getCentralPolicyProvinceUser();
+  //   })
+  // }
+
+  // getallsubject() {
+  //   this.subjectservice.getallsubject().subscribe(response => {
+  //     this.resultsubject = response
+  //     this.selectsubject = this.resultsubject.map((item, index) => {
+  //       return { value: item.id, label: item.name }
+  //     })
+  //   })
+  // }
+
+  getsubjectfromprovince(event) {
+    // alert(JSON.stringify(event))
+    this.subjectservice.getsubjectfromprovince(event.value).subscribe(response => {
+      // alert(JSON.stringify(response))
+      this.resultsubject = response
+      this.selectsubject = this.resultsubject.map((item, index) => {
+        return { value: item.id, label: item.name }
+      })
+    })
+    this.showSubject = true
+  }
+  checkType(type) {
+    // alert(type)
+    this.fileType = type;
   }
 }
