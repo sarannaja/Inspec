@@ -100,6 +100,12 @@ import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/in
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 
 
+
+
+const ExternalOrganization = [
+  GgcOpmComponent, Opm1111Component, OtpsComponent
+]
+
 @NgModule({
   declarations: [
     AppComponent,
