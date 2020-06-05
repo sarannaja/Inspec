@@ -100,7 +100,6 @@
 
             </div>
           </div>
-
           <div class="row" style="margin-top: 10px; ">
             <div class="col-md-6">
 
@@ -126,9 +125,9 @@
                     <td style="border-top: none;">
                       <div class="row">
                         <h4 style="margin-top: 20px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
-                          <!-- <button type="button" (click)="openModal2(modalInviteDepartment, items.id)"
-                            class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button> -->
-                          </h4>
+                          <button *ngIf="role_id == 9" type="button" (click)="openModal2(modalInviteDepartment, items.id)"
+                            class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
+                        </h4>
                         <div class="col-12"
                           *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
                           <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
@@ -167,7 +166,8 @@
                           aria-controls="collapseExample" style="margin-left: 20px; font-size: small;">คำตอบปลายเปิด
                           <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                         </button>
-                        <label *ngIf="!items.subquestionCentralPolicyProvinces.length" type="text" class="form-control">ไม่มีข้อมูล</label>
+                        <label *ngIf="!items.subquestionCentralPolicyProvinces.length" type="text"
+                          class="form-control">ไม่มีข้อมูล</label>
                         <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"
                           style="margin-top: 5px;">
                           <div class="row" *ngIf="item.type == 'คำถามปลายเปิด'">
@@ -287,8 +287,9 @@
                             style="padding-left: 0;">
                             <div class="form-group">
                               <label>ผลการตรวจ</label>
-                              <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
-                                class="form-control" placeholder="กรุณากรอกผลการตรวจ" readonly>
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].detail}}"
+                                class="form-control container" placeholder="กรุณากรอกผลการตรวจ" readonly>
+                              </textarea>
                             </div>
                           </div>
                           <!-- <div class="col-1">
@@ -304,8 +305,9 @@
                             style="padding-left: 0;">
                             <div class="form-group">
                               <label>ปัญหาและอุปสรรค</label>
-                              <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].problem}}"
                                 class="form-control" placeholder="กรุณากรอกปัญหาและอุปสรรค" readonly>
+                              </textarea>
                             </div>
                           </div>
                           <!-- <div class="col-1">
@@ -314,15 +316,15 @@
                           </div> -->
                         </div>
                       </div>
-
                       <div class="col-12">
                         <div class="row">
                           <div *ngIf="items.electronicBookSuggestGroups[0].suggestion != 'null'" class="col-12"
                             style="padding-left: 0;">
                             <div class="form-group">
                               <label>ข้อเสนอแนะ</label>
-                              <input cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
+                              <textarea cols="30" rows="5" value="{{items.electronicBookSuggestGroups[0].suggestion}}"
                                 class="form-control" placeholder="กรุณากรอกข้อเสนอแนะ" readonly>
+                              </textarea>
                             </div>
                           </div>
                           <!-- <div class="col-1">
@@ -388,8 +390,20 @@
               </a>
             </div>
           </div> -->
+          <hr>
 
           <div class="row">
+            <h4 style="margin-left: 10px;">คำถามภาคประชาชน</h4>
+            <button class="btn btn-success" style="margin-top: -5px; margin-left: 10px; margin-bottom: 10px;"
+              (click)="openAnswerModal(answerPeopleModal)">ดูคำตอบ</button>
+          </div>
+          <textarea cols="30" rows="5" class="form-control" *ngIf="role_id == 3" placeholder="คำถามภาคประชาชน"
+            formControlName="questionPeople" name="questionPeople" readonly></textarea>
+
+          <textarea cols="30" rows="5" class="form-control" *ngIf="role_id == 5" disabled placeholder="คำถามภาคประชาชน"
+            formControlName="questionPeople" name="questionPeople" readonly></textarea>
+
+          <div class="row" style="margin-top: 20px;">
             <div class="col-md-12">
               <u>ไฟล์แผนการตรวจราชการ</u><br>
               <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
@@ -520,6 +534,9 @@
           </div> -->
         </form>
       </div>
+
+
+      <!-- ============== Electronic book create by yourself. ============== -->
       <div *ngIf="resultdate == undefined" class="card-body">
         <form [formGroup]="editSuggestionForm" (ngSubmit)="editSugestionDetail(editSuggestionForm.value)">
           <div class="row" style="margin-top: 10px;">
@@ -527,6 +544,63 @@
               เรื่อง : {{resultdetailcentralpolicy.title}}
             </div>
           </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              <u>กระทรวง/กรม</u> &nbsp;&nbsp;
+              <!-- <button (click)="openModal(modalInviteMinistryPeople)" class="btn btn-info">เชิญกระทรวง/กรม</button> -->
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-12">
+              <div class="row" *ngFor="let items of electOwnData.centralpolicyuserdata;let i = index">
+                <div class="col-3" *ngIf="items.user.role_id == 6">
+                  {{items.user.prefix}} {{items.user.name}}
+                </div>
+                <div class="col-2" *ngIf="items.user.role_id == 6">
+                  <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
+                    disabled>{{items.status}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              <u>ภาคประชาชน</u> &nbsp;&nbsp;
+              <!-- <button class="btn btn-info" (click)="openModal(modalInvitePeople)">เชิญภาคประชาชน</button> -->
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-12">
+              <div class="row" *ngFor="let items of electOwnData.centralpolicyuserdata;let ii = index">
+                <div class="col-3" *ngIf="items.user.role_id == 7">
+                  {{items.user.prefix}} {{items.user.name}}
+                </div>
+                <div class="col-2" *ngIf="items.user.role_id == 7">
+                  <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
+                    disabled>{{items.status}}</button>
+                  <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
+                    disabled>{{items.status}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="col-12">
+            <div *ngFor="let item of electOwnData.subjectData; let i = index;">
+              <h4>ประเด็นนโยบาย</h4>
+              <label style="margin-left: 10px;">{{i + 1}}. {{item.name}}</label>
+            </div>
+          </div>
+
           <div class="col-12 col-xl-12" style="margin-top: 30px;">
             <div class="form-group">
               <div class="col-12 col-xl-12">
@@ -762,50 +836,62 @@
 
 <div *ngIf="resultStatus == 'ใช้งานจริง'" class="row">
   <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title mb-0">ลายมือชื่อของผู้ว่าราชการจังหวัด</h5>
-      </div>
-      <div class="card-body">
-        <div *ngIf="signatureFile.length <= 0">
-          <label style="color: gray;">รอแนบลายมือชื่อ</label>
+    <form [formGroup]="adminProvinceForm" (ngSubmit)="addSignatureFile(adminProvinceForm.value)">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">ลายมือชื่อของผู้ว่าราชการจังหวัด</h5>
         </div>
-        <div class="col-12 col-xl-12">
-          <div class="col-12 col-xl-12" style="margin-top: 20px;">
-            <div class="form-group">
-              <label *ngIf="signatureFile.length <= 0" class="form-label w-100">แนบไฟล์ลายมือชื่อ</label>
-              <input *ngIf="signatureFile.length <= 0" type="file" multiple (change)="uploadFile($event)"
-                style="margin-bottom: 10px;">
-              <div class="row">
-                <div class="col-md-12" style="margin-top: 10px;">
-                  <u>ไฟล์แนบลายมือชื่อ</u><br>
-                  <div class="row" *ngFor="let item2 of signatureFile; let i = index" style="margin-top: 10px;">
-                    <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
-                      <span>ไฟล์ที่
-                        {{i+1}})
-                        {{ item2.name }}<br>
-                      </span>
-                    </a>
-                    <!-- <i class="fas fa-fw fa-trash-alt pointer col-1" style="font-size: larger;"
+        <div class="card-body">
+          <div *ngIf="signatureFile.length <= 0">
+            <label style="color: gray;">รอแนบลายมือชื่อ</label>
+          </div>
+          <div class="col-12 col-xl-12">
+
+            <div class="col-12 col-xl-12" style="margin-top: 20px;">
+              <div class="form-group">
+                <div class="col-12" *ngIf="role_id == 5">
+                  <label *ngIf="signatureFile.length <= 0" class="form-label w-100">แนบไฟล์ลายมือชื่อ</label>
+                  <input *ngIf="signatureFile.length <= 0" type="file" multiple (change)="uploadFile($event)"
+                    style="margin-bottom: 10px;">
+                </div>
+                <div class="col-12" *ngIf="signatureFile.length > 0">
+                  <label class="form-label w-100">ข้อคิดเห็น / ข้อเสนอแนะ</label>
+                  <textarea *ngIf="signatureFile.length <= 0" style="width: 100%;" cols="30" rows="5"
+                    placeholder="ใส่ข้อคิดเห็นเพิ่มเติม" formControlName="provinceSuggestion"></textarea>
+                  <textarea class="form-control" style="width: 100%;" cols="30"
+                    rows="5" placeholder="ข้อคิดเห็นเพิ่มเติม" formControlName="provinceSuggestion" disabled></textarea>
+                </div>
+                <div class="row">
+                  <div class="col-md-12" style="margin-top: 15px;">
+                    <u>ไฟล์แนบลายมือชื่อ</u><br>
+                    <div class="row" *ngFor="let item2 of signatureFile; let i = index" style="margin-top: 10px;">
+                      <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
+                        <span>ไฟล์ที่
+                          {{i+1}})
+                          {{ item2.name }}<br>
+                        </span>
+                      </a>
+                      <!-- <i class="fas fa-fw fa-trash-alt pointer col-1" style="font-size: larger;"
                       (click)="openDeleteModal(modaldeleteCentralPolicy, item2.id)"></i> -->
+                    </div>
                   </div>
                 </div>
+                <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
-              <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
             </div>
+
           </div>
         </div>
+        <div *ngIf="signatureFile.length <= 0 && role_id == 5" class="form-group col col-lg-12"
+          style="margin-top: 20px; text-align: center;">
+          <button style="align-self: center;" type="submit" class="btn btn-primary"
+            style="margin-right: 45px;">บันทึก</button>
+          <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
+          <!-- <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button> -->
+        </div>
       </div>
-      <div *ngIf="signatureFile.length <= 0" class="form-group col col-lg-12"
-        style="margin-top: 20px; text-align: center;">
-        <button style="align-self: center;" type="submit" class="btn btn-primary" style="margin-right: 45px;"
-          (click)="addSignatureFile()">บันทึก</button>
-        <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
-        <!-- <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button> -->
-      </div>
-    </div>
+    </form>
   </div>
-
 </div>
 
 <div class="row" *ngIf="resultdate != undefined">
@@ -838,6 +924,99 @@
                 </div>
                 <br>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-8">
+            <h5 class="card-title mb-0">ความคิดเห็นภาคประชาชน</h5>
+          </div>
+          <div class="col-4" style="text-align: right;" data-toggle="collapse" data-target="#collapseAnswer"
+            aria-expanded="false">
+            แสดงทั้งหมด
+            <i class="fa fa-list"></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="collapse" id="collapseAnswer">
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <div *ngFor="let item of answerPeople">
+              <h5 style="width: 98%;
+              margin: 8px 8px 15px 8px">{{item.name}}</h5>
+              <div *ngFor="let items of item.subquestionCentralPolicyProvinces">
+                <div class="row" *ngFor="let items2 of items.answerSubquestionOutsiders" style="margin-bottom: 15px;">
+                  <div class="col-1" >
+                    <i *ngIf="items.type == 'คำถามปลายเปิด'" class="fa fa-user-circle" style="font-size: 45px;padding: 0px 10px;"></i>
+                  </div>
+                  <div *ngIf="items.type == 'คำถามปลายเปิด'" class="col-10" style="padding: 10px 20px 20px 20px;
+                  background-color: #f4f4f4;
+                  border-radius: 15px;">
+                    <label>ความคิดเห็น</label><br>
+                    <label style="word-break: break-all;">{{items2.answer}}</label><br>
+                    <small style="color:gray; position: relative;
+                  bottom: -9px;">ชื่อ : {{items2.name}} ตำแหน่ง : {{items2.position}} เบอร์ติดต่อ :
+                      {{items2.phonenumber}}</small><br>
+
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="row" *ngIf="resultdate != undefined">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-8">
+            <h5 class="card-title mb-0">ความคิดเห็นหน่วยงาน / ที่ปรึกษาภาคประชาชน</h5>
+          </div>
+          <div class="col-4" style="text-align: right; cursor: pointer;" data-toggle="collapse"
+            data-target="#collapseAnswer" aria-expanded="false">
+            แสดงทั้งหมด
+            <i class="fa fa-list"></i>
+          </div>
+        </div>
+      </div>
+      <div class="collapse" id="collapseAnswer">
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <div *ngFor="let item of commentData">
+              <h5 style="width: 98%;
+              margin: 8px 8px 15px 8px">{{item.name}}</h5>
+              <div class="row" *ngFor="let items of item.suggestionSubjects" style="margin-bottom: 15px;">
+                <div class="col-1">
+                  <i class="fa fa-user-circle" style="font-size: 45px;padding: 0px 10px;"></i>
+                </div>
+                <div class="col-10" style="padding: 10px 20px 20px 20px;
+                  background-color: #f4f4f4;
+                  border-radius: 15px;">
+                  <label>ความคิดเห็น</label><br>
+                  <label style="word-break: break-all;">{{items.suggestion}}</label><br>
+                  <small style="color:gray; position: relative;
+                  bottom: -9px;">ชื่อ : {{items.user.name}} ตำแหน่ง : {{items.user.position}} เบอร์ติดต่อ :
+                    {{items.user.phoneNumber}}</small><br>
+
+                </div>
+              </div>
+              <hr>
             </div>
           </div>
         </div>
@@ -1025,7 +1204,68 @@
   </form>
 </ng-template>
 
+<ng-template #answerPeopleModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">คำตอบภาคประชาชน</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body xl-12">
+      <div class="col-12 col-xl-12">
+        <div class="form-group">
+          <div class="row" *ngFor="let items of answerData; let i = index" style="margin-bottom: 15px; width: 100%;">
+            <!-- <div class="col-1">
+              <i class="fa fa-user-circle" style="font-size: 45px;padding: 0px 10px;"></i>
+            </div> -->
+            <div class="col-12" style="padding: 10px 20px 20px 20px;
+                  background-color: #f4f4f4;
+                  border-radius: 15px;">
+              <u>คำตอบ</u>
+              <label style="margin-left: 5px;">#{{i+1}}</label>
+              <br>
+              <label style="word-break: break-all;">{{items.answer}}</label><br>
+              <small style="color:gray; position: relative;
+                  bottom: -9px;">ชื่อ : {{items.user.name}} ตำแหน่ง : {{items.user.position}} เบอร์ติดต่อ :
+                {{items.user.phoneNumber}}</small><br>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+    </div>
+  </div>
+</ng-template>
 
+<!-- BEGIN primary modal -->
+<ng-template #modalInviteDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form2" (ngSubmit)="storeDepartment(Form2.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เชิญหน่วยงานเพิ่มเติม</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="department" name="DepartmentId"
+          formControlName="DepartmentId" [allowClear]="true">
+        </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
