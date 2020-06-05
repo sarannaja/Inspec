@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class AnswersubjectService {
 
   url = "";
+  // file: FileList
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/answersubject/';
@@ -47,7 +48,7 @@ export class AnswersubjectService {
     formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
     formData.append('UserId', userid);
     formData.append('Answer', answerdata.AnswerPeople);
-    
+
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url + "answercentralpolicyprovince", formData);
   }
@@ -60,17 +61,19 @@ export class AnswersubjectService {
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url + "outsider", formData);
   }
-  addFiles(subjectid, file: FileList) {
-    // alert(subjectid)
-    // alert(JSON.stringify(file))
-    // console.log("subjectid",subjectid);
-    console.log("file", file);
+  addFiles(subjectid, filedata) {
+    var file: FileList
+    console.log("filedata", filedata);
     console.log("subjectid", subjectid);
 
+    file = filedata.files
+    var Type = filedata.Type
+    console.log("file", file);
+    console.log("type", Type);
+
     const formData = new FormData();
-    // for (var i = 0; i < subjectid.length; i++) {
     formData.append('SubjectCentralPolicyProvinceId', subjectid);
-    // }
+    formData.append('Type', Type);
     for (var i = 0; i < file.length; i++) {
       formData.append("files", file[i]);
     }
