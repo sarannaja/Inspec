@@ -91,6 +91,7 @@ import { ReportExportComponent } from './report-export/report-export.component';
 import { AnswerOutsideThankComponent } from './answer-subject/answer-outside-thank/answer-outside-thank.component';
 
 
+
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -161,7 +162,7 @@ const ExternalOrganization = [
     AnswerSubjectDetailComponent,
     ElectronicBookProvinceComponent,
     AnswerOutsiderComponent,
-    TemplateElectronicComponent
+    TemplateElectronicComponent,
     ReportImportComponent,
     ReportExportComponent,
     AnswerOutsiderComponent,
