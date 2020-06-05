@@ -10,6 +10,7 @@ using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using EmailService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,17 +31,21 @@ namespace InspecWeb.Controllers
         }
 
         private readonly ApplicationDbContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public TrainingController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public TrainingController(ApplicationDbContext context, IWebHostEnvironment environment, IEmailSender emailSender)
         {
             _context = context;
             _environment = environment;
+            _emailSender = emailSender;
         }
 
         // GET: api/Training
         [HttpGet]
         public IEnumerable<Training> Get()
         {
+
+            
             var trainingdata = from P in _context.Trainings
                                select P;
             return trainingdata;
@@ -330,6 +335,11 @@ namespace InspecWeb.Controllers
             var training = _context.TrainingRegisters.Find(id);
             training.Status = status;
 
+            if (status == 1){
+                var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "Test email", "This is the content from our email.");
+                _emailSender.SendEmail(message);
+            }
+
             _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
@@ -341,7 +351,7 @@ namespace InspecWeb.Controllers
         //------zone training register font-end-------
         // POST api/training/trainingsurvey/trainingid
         [HttpPost("trainingregister/{trainingid}")]
-        public TrainingRegister InsertTrainingRegister(string name, long trainingid, string phone, string position, long status, string userid, long usertype)
+        public TrainingRegister InsertTrainingRegister(string name, long trainingid, string phone, string cardid, string position, long status, string userid, long usertype, string email)
         {
             var date = DateTime.Now;
 
@@ -350,10 +360,12 @@ namespace InspecWeb.Controllers
                 TrainingId = trainingid,
                 Name = name,
                 Phone = phone,
+                CardId = cardid,
                 Position = position,
                 Status = 0,
                 UserId = "TEST",
                 UserType = 1,
+                Email = email,
                 CreatedAt = date
 
             };
@@ -389,6 +401,18 @@ namespace InspecWeb.Controllers
 
             return trainingdata;
         }
+        
+
+        // PUT : api/training/edit/:id
+        [HttpPut("survey/edit/{id}")]
+        public void EditTrainingsurvey(long id, string name)
+        {
+            var training = _context.TrainingSurveys.Find(id);
+            training.Name = name;
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
 
         // DELETE api/Training/trainingsurvey/values/5
         [HttpDelete("trainingsurvey/{trainingid}")]
@@ -399,9 +423,11 @@ namespace InspecWeb.Controllers
             _context.TrainingSurveys.Remove(trainingdata);
             _context.SaveChanges();
         }
+        //----------------------------------
+
 
         // POST api/training/trainingsurveyanswer/trainingid
-        [HttpPost("trainingsurveyanswer/{trainingid}")]
+        [HttpPost("trainingsurveyanswer")]
         public IActionResult InsertSurveyAnswer([FromBody] TrainingSurveyAnswerViewModel model)
         {
             var date = DateTime.Now;
@@ -529,6 +555,159 @@ namespace InspecWeb.Controllers
         }
         //----------------------------------
 
+        //------zone training report-------
+        //GET api/Training/historyreport
+        [HttpGet("historyreport/{name}")]
+        public IActionResult GetHistoryReport(string name)
+        {
+            var districtdata = _context.TrainingRegisters
+                .Include(m => m.Training)
+                .Where(m => m.Name == name);
+                
+            return Ok(districtdata);
+
+        }
+        
+
+        // //GET api/Training/trainingid
+        // [HttpGet("{trainingid}")]
+        // public IActionResult Get2(long trainingid)
+        // {
+        //     var districtdata = _context.TrainingRegisters
+        //         .Include(m => m.Training)
+        //         .Where(m => m.TrainingId == trainingid);
+
+        //     return Ok(districtdata);
+
+        //     //return _context.TrainingRegisters
+        //     //           .Include(m => m.Training)
+        //     //           .Where(m => m.TrainingId == trainingid);
+
+        // }
+
+        //------end training report--------
+
+
+
+
+
+
+        //------zone training program-------
+        //GET api/training/program
+        [HttpGet("program/{trainingid}")]
+        public IActionResult GetHistoryReport(long trainingid)
+        {
+            var districtdata = _context.TrainingPrograms
+                .Include(m => m.Training)
+                .Where(m => m.TrainingId == trainingid);
+                
+            return Ok(districtdata);
+
+        }
+
+        // POST api/training/program/trainingid
+        [HttpPost("program/save/{trainingid}")]
+        public TrainingProgram InsertTrainingProgram(long trainingid, string programtopic, string programdetail, DateTime programdate, string minutestart, string minuteend, string lecturername)
+        {
+            var date = DateTime.Now;
+            System.Console.WriteLine("Start InsertTrainingProgram");
+            var trainingdata = new TrainingProgram
+            {
+                TrainingId = trainingid,
+                ProgramDetail = programdetail,
+                ProgramDate = programdate,
+                MinuteStartDate = minutestart,
+                MinuteEndDate = minuteend,
+                LecturerId = lecturername,
+                ProgramTopic = programtopic,
+                CreatedAt = date
+            };
+
+            _context.TrainingPrograms.Add(trainingdata);
+            _context.SaveChanges();
+
+            return trainingdata;
+        }
+
+
+        // DELETE api/training/program/delete/{trainingid}
+        [HttpDelete("program/delete/{trainingid}")]
+        public void DeleteTrainingProgram(long trainingid)
+        {
+            var trainingdata = _context.TrainingPrograms.Find(trainingid);
+
+            _context.TrainingPrograms.Remove(trainingdata);
+            _context.SaveChanges();
+        }
+        //------end training program---------
+
+
+
+
+
+
+        //------zone training lecturer-------
+        //GET api/training/program
+        [HttpGet("lecturer")]
+        public IEnumerable<TrainingLecturer> GetTrainingLecturers()
+        {
+            var data = from P in _context.TrainingLecturers
+                               select P;
+            return data;
+        }
+
+        // POST : api/training/lecturer/save
+        [HttpPost("lecturer/save")]
+        public TrainingLecturer addTraininglecturer(string lecturername, string lecturerphone, string lectureremail, string education, string workhistory, string experience)
+        {
+            var date = DateTime.Now;
+
+            var trainingdata = new TrainingLecturer
+            {
+                LecturerName = lecturername
+                ,Phone = lecturerphone
+                ,Email = lectureremail
+                ,Education = education
+                ,WorkHistory = workhistory
+                ,Experience = experience
+                ,CreatedAt = date
+
+            };
+
+            _context.TrainingLecturers.Add(trainingdata);
+            _context.SaveChanges();
+
+            return trainingdata;
+        }
+
+        // PUT : api/training/edit/:id
+        [HttpPut("lecturer/edit/{id}")]
+        public void EditTraininglecturer(long id, string lecturername, string lecturerphone, string lectureremail, string education, string workhistory, string experience)
+        {
+            var training = _context.TrainingLecturers.Find(id);
+                training.LecturerName = lecturername;
+                training.Phone = lecturerphone;
+                training.Email = lectureremail;
+                training.Education = education;
+                training.WorkHistory = workhistory;
+                training.Experience = experience;
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        // DELETE : api/training/lecturer/delete/:id
+        [HttpDelete("lecturer/delete/{id}")]
+        public void DeleteTrainingLecturer(long id)
+        {
+            var trainingdata = _context.TrainingLecturers.Find(id);
+
+            _context.TrainingLecturers.Remove(trainingdata);
+            _context.SaveChanges();
+        }
+        //------end training lecturer---------
+
+        
 
     }
 }

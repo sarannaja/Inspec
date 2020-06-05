@@ -44,10 +44,15 @@
     "datatables.net-bs4": "^1.10.20",
     "datatables.net-dt": "^1.10.20",
     "eslint": "6.6.0",
+<<<<<<< HEAD
     "exceljs": "^1.12.0",
     "expose-loader": "0.7.5",
     "file-loader": "4.2.0",
     "file-saver": "^2.0.2",
+=======
+    "expose-loader": "0.7.5",
+    "file-loader": "4.2.0",
+>>>>>>> merge master
     "filemanager-webpack-plugin": "2.0.5",
     "fullcalendar": "^3.10.1",
     "hard-source-webpack-plugin": "0.13.1",

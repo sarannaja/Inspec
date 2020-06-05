@@ -121,6 +121,15 @@
                 <br>
                 <a href="train/list/{{ trainingid }}">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</a>
                 <br>
+                เอกสารประกอบ
+                <table *ngIf="loading" class="">
+                  <tbody>
+                      <tr *ngFor="let item of resulttraining3; let i = index">
+                          <td class=""><a href="{{ downloadUrl }}/{{ item.name }}" target="_blank"> - {{ item.detail }}</a></td>
+                      </tr>
+                  </tbody>
+              </table>
+                <br>
                 <div class="text-center">
                     <!-- <a href="{{ mainUrl }}train/register/{{ trainingid }}" class="btn btn-info">สมัครอบรม</a> -->
                     <button class="btn btn-primary" (click)="openModal(modalregister)" class="btn btn-info">สมัครอบรม</button>

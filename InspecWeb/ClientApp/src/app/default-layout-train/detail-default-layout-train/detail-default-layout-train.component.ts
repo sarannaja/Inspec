@@ -16,6 +16,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
   trainingid: string;
   resulttraining: any[] = [];
   resulttraining2: any[] = [];
+  resulttraining3: any[] = [];
   modalRef: BsModalRef;
   delid: any
   loading = false;
@@ -76,6 +77,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
 
     //alert(this.trainingid);
 
+    //center training
     this.trainingservice.getdetailtraining(this.trainingid)
     .subscribe(result => {
       if (result.length != 0){
@@ -93,10 +95,19 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
       //console.log(this.resulttraining);
     })
 
+    //right training
     this.trainingservice.gettrainingdata()
     .subscribe(result => {
       this.resulttraining2 = result
       this.loading = true;
+      //console.log(this.resulttraining);
+    })
+
+    //document training 
+    this.trainingservice.getlisttrainingdocumentdata(this.trainingid)
+    .subscribe(result => {
+      this.resulttraining3 = result
+      this.loading = true
       //console.log(this.resulttraining);
     })
   }

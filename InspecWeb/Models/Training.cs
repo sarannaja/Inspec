@@ -27,6 +27,15 @@ namespace InspecWeb.Models
         [Description("คำอธิบายหลักสูตรการอบรม")]
         public string Detail { get; set; }
 
+        [Description("สถานที่จัด")]
+        public string Location { get; set; }
+
+        [Description("รุ่น")]
+        public int Generation { get; set; }
+
+        [Description("ปี")]
+        public int Year { get; set; }
+
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }

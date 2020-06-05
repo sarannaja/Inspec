@@ -96,25 +96,29 @@ export class TrainingService {
 
   //insert training register font-end
   addTrainingRegister(trainingData, trainingid) {
-    alert('Service:' + JSON.stringify(trainingData))
+    //alert('Service:' + JSON.stringify(trainingData))
     //alert(trainingid)
     const formData = new FormData();
     formData.append('name', trainingData.name);
-    //formData.append('name', trainingData.cardid);
+    formData.append('cardid', trainingData.cardid);
     formData.append('position', trainingData.position);
     formData.append('phone', trainingData.phone);
-    //formData.append('name', trainingData.email);
+    formData.append('email', trainingData.email);
 
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + 'trainingregister/' + trainingid , formData);
   }
 
   //-------------------------------------
+
+
+
+
   //---------zone training survey--------
   //insert training survey list
   addTrainingsurvey(trainingData, trainingid) {
     //alert(JSON.stringify(trainingData))
-    alert(trainingid)
+    //alert(trainingid)
     const formData = new FormData();
     formData.append('name', trainingData.name);
 
@@ -122,10 +126,23 @@ export class TrainingService {
     return this.http.post(this.url + 'trainingsurvey/' + trainingid , formData);
   }
 
+  editTrainingSurvey(trainingregisterlistData,id) {
+    console.log(trainingregisterlistData);
+
+    const formData = new FormData();
+    formData.append('name', trainingregisterlistData.name);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'survey/edit/' + id , formData);
+  }
+
   deleteTrainingSurvey(trainingid) {
     return this.http.delete(this.url + 'trainingsurvey/' + trainingid);
   }
   //-------------------------------------
+
+
+
+
   //--------zone training document-------
   gettrainingviewdocumentdata():Observable<any[]> {
     return this.http.get<any[]>(this.url + 'trainingdocumentcount')
@@ -139,7 +156,7 @@ export class TrainingService {
     return this.http.delete(this.url + 'deletedocument/' + trainingid);
   }
 
-  addTrainingDocument(trainingData,file: FileList) {
+  addTrainingDocument(trainingData,file: FileList, trainingId) {
 
     //alert('service:' + JSON.stringify(trainingData))
     const formData = new FormData();
@@ -150,7 +167,85 @@ export class TrainingService {
     }
 
     console.log('FORMDATA: ' + formData);
-    return this.http.post(this.url + 'insertdocument/', formData);
+    console.log("test", formData.getAll('detail'));
+    console.log("yyy", formData.getAll('files'));
+    return this.http.post(this.url + 'insertdocument/' + trainingId, formData);
+  }
+
+  addTrainingsurveyanswer(body){
+    return this.http.post(this.url + 'trainingsurveyanswer', body);
   }
   //-------------------------------------
+
+
+  gethistorytraining(name):Observable<any[]> {
+    console.log('FORMDATA: ' + name);
+    return this.http.get<any[]>(this.url + 'historyreport/' + name)
+  }
+
+  getprogramtraining(trainingid):Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'program/' + trainingid)
+  }
+
+
+  //--------zone training program-------
+  addTrainingProgram(trainingData, trainingid) {
+    //alert('Service:' + JSON.stringify(trainingData))
+    //alert(trainingid)
+    const formData = new FormData();
+    formData.append('programtopic', trainingData.programtopic);
+    formData.append('programdetail', trainingData.programdetail);
+    formData.append('programdate', trainingData.programdate);
+    formData.append('minutestart', trainingData.mStart);
+    formData.append('minuteend', trainingData.mEnd);
+    formData.append('lecturername', trainingData.lecturername);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'program/save/' + trainingid , formData);
+  }
+
+  deleteTrainingProgram(trainingid) {
+    return this.http.delete(this.url + 'program/delete/' + trainingid);
+  }
+  //-------------------------------------
+  //--------zone training lecturer-------
+  gettraininglecturer():Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'lecturer')
+  }
+
+  addTraininglecturer(trainingData) {
+    //alert(JSON.stringify(trainingData))
+    const formData = new FormData();
+    formData.append('lecturername', trainingData.lecturername);
+    formData.append('lecturerphone', trainingData.lecturerphone);
+    formData.append('lectureremail', trainingData.lectureremail);
+    formData.append('education', trainingData.education);
+    formData.append('workhistory', trainingData.workhistory);
+    formData.append('experience', trainingData.experience);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'lecturer/save' , formData);
+  }
+
+  editTraininglecturer(trainingData,id) {
+    console.log(trainingData);
+
+    const formData = new FormData();
+    formData.append('lecturername', trainingData.lecturername);
+    formData.append('lecturerphone', trainingData.lecturerphone);
+    formData.append('lectureremail', trainingData.lectureremail);
+    formData.append('education', trainingData.education);
+    formData.append('workhistory', trainingData.workhistory);
+    formData.append('experience', trainingData.experience);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'lecturer/edit/' + id , formData);
+  }
+
+  deleteTrainingLecturer(id) {
+    return this.http.delete(this.url + 'lecturer/delete/' + id);
+  }
+  //-------------------------------------
+
 }
+
+

@@ -26,9 +26,11 @@ namespace InspecWeb.Models
 
         [Required]
         [Description("ชื่อวิทยากร")]
-        public string LecturerName { get; set; }
+        public string LecturerId { get; set; }
 
-        [Required]
+        [Description("หัวข้อเรื่อง")]
+        public string ProgramTopic { get; set; }
+        
         [Description("กิจกรรม")]
         public string ProgramDetail { get; set; }
 
@@ -37,12 +39,10 @@ namespace InspecWeb.Models
         public DateTime ProgramDate { get; set; }
 
         [Description("เวลาเริ่มกำหนดการ")]
-        [DataType(DataType.Date)]
-        public DateTime MinuteStartDate { get; set; }
+        public string MinuteStartDate { get; set; }
 
         [Description("เวลาสิ้นสุดกำหนดการ")]
-        [DataType(DataType.Date)]
-        public DateTime MinuteEndDate { get; set; }
+        public string MinuteEndDate { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
