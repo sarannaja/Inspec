@@ -834,14 +834,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     name: "Rold9Answer"
   },
   {
-    icon: 'fa-book',
-    url: "/usercentralpolicy",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
-  },
-  {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
+  },
+  {
+    icon: 'fa-book',
+    url: "/electronicbookprovince",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
     icon: 'fa-list-alt',

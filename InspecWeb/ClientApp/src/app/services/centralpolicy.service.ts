@@ -107,15 +107,18 @@ export class CentralpolicyService {
     }
 
     if (file != null) {
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
-  }
 
+    for (var iiii = 0; iiii < centralpolicyData.SubjectId.length; iiii++) {
+      formData.append("SubjectId", centralpolicyData.SubjectId[iiii]);
+    }
     formData.append('Class', centralpolicyData.Class);
     console.log('Class: ', formData.get("Class"));
     console.log('FORMDATA: ', formData.get("ProvinceId"));
-    return this.http.post(this.url, formData)
+    return this.http.post<any>(this.url, formData)
   }
 
   editCentralpolicy(centralpolicyData, file: FileList, id, userId) {
@@ -239,6 +242,9 @@ export class CentralpolicyService {
       const formData = new FormData();
       formData.append('Report', reportData.report);
       formData.append('DraftStatus', reportData.Status);
+      formData.append("files", null);
+      formData.append('Description', reportData.description);
+      formData.append('fileType', reportData.fileType);
       for (var i = 0; i < file.length; i++) {
         formData.append("files", file[i]);
       }
@@ -248,6 +254,8 @@ export class CentralpolicyService {
       formData.append('Report', reportData.report);
       formData.append('DraftStatus', reportData.Status);
       formData.append("files", null);
+      formData.append('Description', reportData.description);
+      formData.append('fileType', reportData.fileType);
       return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
     }
 
@@ -286,7 +294,24 @@ export class CentralpolicyService {
     return this.http.post(this.url + "addpeopleanswer", formData);
   }
 
-  getcentralidandprovinceid(centralpolicyprovinceid){
+  getcentralidandprovinceid(centralpolicyprovinceid) {
     return this.http.get<any>(this.url + 'getcentralidandprovinceid/' + centralpolicyprovinceid);
+  }
+
+  addeditDepartment(data, subjectid) {
+    const formData = {
+      DepartmentId: data.DepartmentId,
+      SubjectCentralPolicyProvinceId: subjectid,
+      Box: data.Box
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "addeditdepartment", formData);
+  }
+  getComment(centralpolicyprovinceid) {
+    return this.http.get<any>(this.url + 'comment/' + centralpolicyprovinceid);
+  }
+
+  getAnswer(centralPolicyProvinceId) {
+    return this.http.get<any>(this.url + "getAnswerPeople/" + centralPolicyProvinceId);
   }
 }

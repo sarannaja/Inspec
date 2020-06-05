@@ -106,6 +106,8 @@ namespace InspecWeb.Controllers
             {
                 ProvinceId = model.ProvinceId,
                 CentralPolicyId = centralpolicydata.Id,
+                Step = "มอบหมายหน่วยงาน",
+                Status = "ร่างกำหนดการ"
             };
             _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
             _context.SaveChanges();
