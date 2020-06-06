@@ -99,6 +99,7 @@ import { InvitedElectronicBookComponent } from './electronic-book/invited-electr
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 import { InfoVillageComponent } from './info-village/info-village.component';
 import { StatepolicyComponent } from './statepolicy/statepolicy.component';
+import { DocumenttemplateComponent } from './documenttemplate/documenttemplate.component';
 
 
 
@@ -183,6 +184,7 @@ import { StatepolicyComponent } from './statepolicy/statepolicy.component';
     InfoMinistryComponent,
     InfoVillageComponent,
     StatepolicyComponent,
+    DocumenttemplateComponent,
   ],
 
   imports: [
@@ -288,6 +290,7 @@ import { StatepolicyComponent } from './statepolicy/statepolicy.component';
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
