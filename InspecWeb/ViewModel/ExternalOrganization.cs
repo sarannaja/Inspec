@@ -57,6 +57,26 @@ namespace InspecWeb.ViewModel
         public List<OtpsProvinces> Provinces { get; set; }
 
     }
+
+
+
+    public class OtpsProvinceFiscalYearsList
+    {
+        public List<OtpsProvinceFiscalYears> FiscalYears { get; set; }
+      
+
+    }
+
+    public class OtpsProvinceFiscalYears
+    {
+        public int Year { get; set; }
+        public string Name { get; set; }
+        public OtpsProjects Projects { get; set; }
+        public OtpsRegionMinisters Region { get; set; }
+
+        // public List<OtpsProvinces> Provinces { get; set; }
+
+    }
     public class OtpsProjects
     {
         public int Count { get; set; }
@@ -72,6 +92,7 @@ namespace InspecWeb.ViewModel
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ISO { get; set; }
 
     }
 

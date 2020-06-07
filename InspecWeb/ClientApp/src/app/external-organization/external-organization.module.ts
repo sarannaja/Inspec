@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { GgcOpmComponent } from './ggc-opm/ggc-opm.component';
 import { Opm1111Component } from './opm1111/opm1111.component';
 import { OtpsComponent } from './otps/otps.component';
@@ -17,6 +17,8 @@ import { GccOpmTableComponent } from './ggc-opm/gcc-opm-table/gcc-opm-table.comp
 import { FormsModule } from '@angular/forms';
 import { Gcc1111TableComponent } from './opm1111/gcc1111-table/gcc1111-table.component';
 import { ThaiDatePipe } from '../services/Pipe/thaidate.service';
+import { VectorMapComponent } from './vector-map/vector-map.component';
+import { CustomCurrencyPipe } from '../services/Pipe/customecurrency.service';
 
 
 
@@ -31,6 +33,8 @@ import { ThaiDatePipe } from '../services/Pipe/thaidate.service';
     TitleModalComponent,
     GccOpmTableComponent,
     Gcc1111TableComponent,
+    VectorMapComponent,
+    CustomCurrencyPipe
     
   ],
   imports: [
@@ -41,8 +45,8 @@ import { ThaiDatePipe } from '../services/Pipe/thaidate.service';
     ModalModule.forRoot(),
     FormsModule,
   ],
-  exports:[MinisterModalComponent],
-  providers: [ExternalOrganizationService],
+  exports:[MinisterModalComponent,CustomCurrencyPipe],
+  providers: [ExternalOrganizationService,CurrencyPipe],
   entryComponents: [MinisterModalComponent]
   // entryComponents:[GgcOpmComponent,Opm1111Component,OtpsComponent],
   // exports: [GgcOpmComponent, Opm1111Component, OtpsComponent, MinisterTableComponent],
