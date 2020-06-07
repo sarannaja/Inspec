@@ -100,6 +100,7 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 import { InfoVillageComponent } from './info-village/info-village.component';
 import { StatepolicyComponent } from './statepolicy/statepolicy.component';
 import { DocumenttemplateComponent } from './documenttemplate/documenttemplate.component';
+import { MeetinginformationComponent } from './meetinginformation/meetinginformation.component';
 
 
 
@@ -185,6 +186,7 @@ import { DocumenttemplateComponent } from './documenttemplate/documenttemplate.c
     InfoVillageComponent,
     StatepolicyComponent,
     DocumenttemplateComponent,
+    MeetinginformationComponent,
   ],
 
   imports: [
@@ -291,6 +293,8 @@ import { DocumenttemplateComponent } from './documenttemplate/documenttemplate.c
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
+          { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
+          
         ]
       },
       {
