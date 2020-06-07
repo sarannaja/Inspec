@@ -105,6 +105,7 @@ import { InfoDepartmentComponent } from './info-department/info-department.compo
 import { InfoVillageComponent } from './info-village/info-village.component';
 import { StatepolicyComponent } from './statepolicy/statepolicy.component';
 import { DocumenttemplateComponent } from './documenttemplate/documenttemplate.component';
+import { MeetinginformationComponent } from './meetinginformation/meetinginformation.component';
 
 
 
@@ -200,6 +201,7 @@ const ExternalOrganization = [
     InfoVillageComponent,
     StatepolicyComponent,
     DocumenttemplateComponent,
+    MeetinginformationComponent,
   ],
 
   imports: [
@@ -309,6 +311,8 @@ const ExternalOrganization = [
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
+          { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
+          
         ]
       },
       {
