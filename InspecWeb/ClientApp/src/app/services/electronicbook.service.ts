@@ -188,7 +188,7 @@ export class ElectronicbookService {
   }
 
   getElectronicBookProvince(userId) {
-    return this.http.get(this.url + "province/" + userId)
+    return this.http.get<any[]>(this.url + "province/" + userId)
   }
 
   getSuggestionDetailById(subjectCentralPolicyProvinceID, electID) {
@@ -245,6 +245,17 @@ export class ElectronicbookService {
 
   getSubjectReport() {
     return this.http.get(this.url + "subjectImport");
+  }
+  acceptelectronicbook(bookgroupid, userid) {
+    const formData = new FormData();
+    formData.append('bookgroupid', bookgroupid);
+    formData.append('userid', userid)
+    console.log('FORMDATA: ' + formData.get("name"));
+    return this.http.post(this.url + "accept", formData);
+  }
+
+  getReportExcelElectronicBook(id) {
+    return this.http.get<any>(this.url + "exportexcel/" + id)
   }
 }
 

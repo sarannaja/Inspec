@@ -64,4 +64,11 @@ export class InspectionplaneventService {
     return this.http.get<any[]>(this.url + "userregion/" + userid)
   }
 
+  getscheduledata(userid):Observable<any[]> {
+    return this.http.get<any[]>(this.url + "inspectionplanexportindex/" + userid)
+  }
+
+  getregion(userid):Observable<any[]> {
+    return this.http.get<any[]>(this.url + "inspectionplanexportindex/" + userid)
+  }
 }

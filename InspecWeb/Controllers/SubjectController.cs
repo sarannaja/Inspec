@@ -37,13 +37,19 @@ namespace InspecWeb.Controllers
         }
 
         // GET: api/values
-        [HttpGet]
-        public IEnumerable<Subject> Get()
+        [HttpGet("getsubjectfromprovince/{proid}")]
+        public IEnumerable<SubjectCentralPolicyProvince> Get4(long proid)
         {
-            var subjectdata = from P in _context.Subjects
-                              select P;
-            return subjectdata;
+            //var subjectdata = from P in _context.Subjects
+            //                  select P;
+            //return subjectdata;
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                //.Where(m => m.CentralPolicyProvince.ProvinceId == proid)
+                .Where(m => m.Status == "ใช้งานจริง")
+                .Where(m => m.Type == "Master")
+                .ToList();
 
+            return subjectdata;
             //return 
             //_context.Provinces
             //   .Include(p => p.Districts)

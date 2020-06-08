@@ -98,6 +98,9 @@ import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-ce
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/inspection-plan-event-province/inspection-plan-event-province.component';
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
+import { ExcelGeneraterService } from './services/excel-generater.service';
+import { DatePipe } from '@angular/common';
+import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
 
 
 @NgModule({
@@ -180,6 +183,8 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
     InvitedElectronicBookComponent,
     InspectionPlanEventProvinceComponent,
     InfoMinistryComponent,
+    ReportInspectionPlanEventComponent,
+    // DatePipe
   ],
 
   imports: [
@@ -284,6 +289,7 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
@@ -299,11 +305,15 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
     ]),
     ModalModule.forRoot(),
   ], exports: [
-    ThaiDatePipe,],
+    ThaiDatePipe,
+    // DatePipe
+  ],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    ExcelGeneraterService,
+    DatePipe
 
     // UserManager
 

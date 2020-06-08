@@ -854,11 +854,11 @@
                   <input *ngIf="signatureFile.length <= 0" type="file" multiple (change)="uploadFile($event)"
                     style="margin-bottom: 10px;">
                 </div>
-                <div class="col-12">
+                <div class="col-12" *ngIf="signatureFile.length > 0">
                   <label class="form-label w-100">ข้อคิดเห็น / ข้อเสนอแนะ</label>
                   <textarea *ngIf="signatureFile.length <= 0" style="width: 100%;" cols="30" rows="5"
                     placeholder="ใส่ข้อคิดเห็นเพิ่มเติม" formControlName="provinceSuggestion"></textarea>
-                  <textarea  *ngIf="signatureFile.length > 0" class="form-control" style="width: 100%;" cols="30"
+                  <textarea class="form-control" style="width: 100%;" cols="30"
                     rows="5" placeholder="ข้อคิดเห็นเพิ่มเติม" formControlName="provinceSuggestion" disabled></textarea>
                 </div>
                 <div class="row">
