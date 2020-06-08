@@ -97,11 +97,8 @@ namespace InspecWeb.Data
         public DbSet<ExportReportBody> ExportReportBodies { get; set; }
         public DbSet<SuggestionSubject> SuggestionSubjects { get; set; }
         public DbSet<AnswerCentralPolicyProvince> AnswerCentralPolicyProvinces { get; set; }
-<<<<<<< HEAD
         public DbSet<ReportCommander> ReportCommanders { get; set; }
-=======
         public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
->>>>>>> palmaof
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
