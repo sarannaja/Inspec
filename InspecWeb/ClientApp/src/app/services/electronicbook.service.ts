@@ -24,8 +24,8 @@ export class ElectronicbookService {
   }
 
   addElectronicBook(value, id, file: FileList, CentralPolicyId, provinceId) {
-    alert(value.description);
-    alert( value.fileType)
+    // alert(value.description);
+    // alert( value.fileType)
     console.log("Add EBook: ", value);
 
     const formData = new FormData();
@@ -208,7 +208,7 @@ export class ElectronicbookService {
   }
 
   addSignatureFile(electID, file: FileList, provinceData) {
-    alert(provinceData.provinceSuggestion);
+    // alert(provinceData.provinceSuggestion);
     const formData = new FormData();
     if (file != null) {
       for (var i = 0; i < file.length; i++) {
@@ -241,6 +241,10 @@ export class ElectronicbookService {
       ReportCentralPolicyId: centralPolicyId
     }
     return this.http.post(this.url + "addReport", formData)
+  }
+
+  getSubjectReport() {
+    return this.http.get(this.url + "subjectImport");
   }
 }
 

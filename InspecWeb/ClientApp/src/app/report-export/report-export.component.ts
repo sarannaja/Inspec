@@ -22,7 +22,10 @@ export class ReportExportComponent implements OnInit {
   modalRef: BsModalRef;
   centralpolicyprovinceid: any;
   reportData: any = [];
-  role_id
+  role_id;
+  exportData: any = [];
+  url = ""
+
   constructor(
     private router: Router,
     private electronicBookService: ElectronicbookService,
@@ -32,8 +35,10 @@ export class ReportExportComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private userService: UserService,
     private exportReportService: ExportReportService,
-    @Inject('BASE_URL') baseUrl: string
-  ) { }
+    @Inject('BASE_URL') baseUrl: string,
+  ) {
+    this.url = baseUrl
+  }
 
   ngOnInit() {
 
@@ -92,11 +97,19 @@ export class ReportExportComponent implements OnInit {
     this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
   }
 
-  exportReport() {
-    alert("eiei");
-    this.exportReportService.exportReport(this.userid).subscribe(res => {
+  exportReport(elecId, cenProId) {
+    // alert("eiei");
+    this.exportReportService.exportReport(this.userid, elecId, cenProId).subscribe(res => {
       console.log("export: ", res);
-      this.getexportport();
+      this.createReport(res, cenProId);
+    })
+  }
+
+  createReport(res, cenProId) {
+    this.exportReportService.createReport(res, cenProId).subscribe(results => {
+      console.log("aaa: ", res);
+      // alert("Success");
+      window.open(this.url + "Uploads/" + results.data);
     })
   }
 
