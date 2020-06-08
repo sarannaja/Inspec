@@ -96,8 +96,15 @@ import { ExcelService } from './services/excel.service';
 import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-detail/answer-people-detail.component';
 import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
+import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/inspection-plan-event-province/inspection-plan-event-province.component';
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 
+
+
+
+const ExternalOrganization = [
+  GgcOpmComponent, Opm1111Component, OtpsComponent
+]
 
 @NgModule({
   declarations: [
@@ -177,6 +184,7 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
     AnswerPeopleDetailComponent,
     AnswerCentralPolicyProvinceComponent,
     InvitedElectronicBookComponent,
+    InspectionPlanEventProvinceComponent,
     InfoMinistryComponent,
   ],
 
@@ -280,6 +288,7 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
           { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
         ]
       },
@@ -302,8 +311,8 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
 
-
     // UserManager
+
   ],
 
   bootstrap: [AppComponent]

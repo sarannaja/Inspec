@@ -34,7 +34,6 @@ export class ElectronicBookComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub

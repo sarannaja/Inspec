@@ -232,6 +232,32 @@ namespace InspecWeb.Controllers
         }
 
         // GET api/values/5
+        [HttpGet("userpeople/{userid}")]
+        public IActionResult Get5(string userid)
+        {
+            var subjectcentralpolicyprovinceusergroupsdata = _context.SubjectCentralPolicyProvinceUserGroups
+                .Where(m => m.UserId == userid);
+
+
+            var centralpolicydata = _context.CentralPolicyUsers
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.UserId == userid).ToList();
+
+            //var centralpolicyprovincedata = _context.CentralPolicyProvinces
+            //    .Include(m => m.CentralPolicy)
+            //    .Include(m => m.SubjectCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
+            //    //.ThenInclude(m => m.ProvincialDepartment)
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceUserGroups.Any(m => m.UserId == userid))))
+            //    .ToList();
+
+
+            return Ok(centralpolicydata);
+        }
+
+        // GET api/values/5
         [HttpGet("subjectlist/{id}/{userid}")]
         public IActionResult Get3(long id, string userid)
         {
@@ -303,32 +329,6 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Id == id && m.Type == "NoMaster")
                 .First();
             return Ok(subjectdata);
-        }
-
-        // GET api/values/5
-        [HttpGet("userpeople/{userid}")]
-        public IActionResult Get5(string userid)
-        {
-            var subjectcentralpolicyprovinceusergroupsdata = _context.SubjectCentralPolicyProvinceUserGroups
-                .Where(m => m.UserId == userid);
-
-
-            var centralpolicydata = _context.CentralPolicyUsers
-                .Include(m => m.CentralPolicy)
-                .Where(m => m.UserId == userid).ToList();
-
-            //var centralpolicyprovincedata = _context.CentralPolicyProvinces
-            //    .Include(m => m.CentralPolicy)
-            //    .Include(m => m.SubjectCentralPolicyProvinces)
-            //    .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
-            //    .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
-            //    //.ThenInclude(m => m.ProvincialDepartment)
-            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
-            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceUserGroups.Any(m => m.UserId == userid))))
-            //    .ToList();
-
-
-            return Ok(centralpolicydata);
         }
 
         // GET api/values/5
@@ -436,6 +436,7 @@ namespace InspecWeb.Controllers
 
                         SubjectCentralPolicyProvinceId = model.SubjectCentralPolicyProvinceId,
                         Name = random + filename,
+                        Type = model.Type
                     };
 
                     System.Console.WriteLine("Start Upload 4.2");

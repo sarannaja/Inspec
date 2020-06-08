@@ -46,7 +46,6 @@ export class SubquestionComponent implements OnInit {
     private departmentservice: DepartmentService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public share: SubquestionService,
     private spinner: NgxSpinnerService) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.name = activatedRoute.snapshot.paramMap.get('name')
@@ -57,7 +56,7 @@ export class SubquestionComponent implements OnInit {
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       centralpolicydateid: new FormControl(null, [Validators.required]),
-      status: new FormControl(null, [Validators.required]),
+      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       inputsubjectdepartment: this.fb.array([
         this.initdepartment()
       ]),

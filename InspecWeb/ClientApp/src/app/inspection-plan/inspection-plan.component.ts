@@ -7,6 +7,7 @@ import { IOption } from 'ng-select';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-inspection-plan',
@@ -31,7 +32,7 @@ export class InspectionPlanComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   centralpolicyprovinceid: any
   role_id
-  constructor(private modalService: BsModalService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService, ) {
+  constructor(private modalService: BsModalService, private notificationService: NotificationService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService, ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
@@ -102,12 +103,21 @@ export class InspectionPlanComponent implements OnInit {
     this.router.navigate(['/acceptcentralpolicy', id])
   }
   storeCentralPolicyEventRelation(value) {
+    let CentralpolicyId: any[] = value.CentralpolicyId
     // alert(JSON.stringify(value))
     this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid).subscribe(response => {
 
 
       this.Form.reset()
       this.modalRef.hide()
+
+      for (let i = 0; i < CentralpolicyId.length; i++) {
+        this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
+          .subscribe(response => {
+            console.log(response);
+          })
+      }
+      // alert("OK")
       // this.loading = false
       // this.inspectionplanservice.getinspectionplandata(this.id).subscribe(result => {
       //   this.resultinspectionplan = result[0].centralPolicyEvents //Chose

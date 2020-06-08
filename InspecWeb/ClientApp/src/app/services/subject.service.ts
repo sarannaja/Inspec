@@ -86,7 +86,7 @@ export class SubjectService {
   addFiles(subjectid, file: FileList) {
     // alert(subjectid)
     // alert(JSON.stringify(file))
-    // console.log("subjectid",subjectid);
+    console.log("subjectid",subjectid);
     console.log("file", file);
 
     const formData = new FormData();
@@ -98,10 +98,50 @@ export class SubjectService {
     }
     return this.http.post(this.url + "addfiles", formData);
   }
-  // addDate(Datadata){
-
-  //   return this.http.post(this.url + "test", null);
-  // }
+  AddDepartmentQuestion(DepartmentQuestiondata, Box, subjectid) {
+    console.log("DepartmentQuestiondata", DepartmentQuestiondata);
+    var testsubjectdepartment = []
+    var test = []
+    var departmentId = []
+    testsubjectdepartment = DepartmentQuestiondata.inputsubjectdepartment.map((item, index) => {
+      return {
+        box: index,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputquestionopen,
+        inputquestionclose: item.inputquestionclose
+      }
+    })
+    console.log("testsubjectdepartment", testsubjectdepartment);
+    for (var i = 0; i < testsubjectdepartment.length; i++) {
+      for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
+        departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
+      }
+    }
+    test = departmentId.map((item, index) => {
+      return {
+        subjectid: subjectid,
+        box: Box,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
+        inputquestionclose: item.inputsubjectdepartment.inputquestionclose
+      }
+    })
+    // test = DepartmentQuestiondata.inputsubjectdepartment.map((item, index) => {
+    //   return {
+    //     subjectid: subjectid,
+    //     box: Box,
+    //     departmentId: item.departmentId,
+    //     inputquestionopen: item.inputquestionopen,
+    //     inputquestionclose: item.inputquestionclose
+    //   }
+    // })
+    
+    console.log("test", test);
+    const formData = {
+      inputsubjectdepartment: test,
+    }
+    return this.http.post(this.url + "adddepartmentquestion", formData);
+  }
   addSubquestionopen(Subquestionopendata) {
     const formData = new FormData();
     formData.append('subjectId', Subquestionopendata.subjectId);
@@ -136,7 +176,9 @@ export class SubjectService {
   deletePeopleanswer(id) {
     return this.http.delete(this.url + "deletepeopleanswer/" + id);
   }
-
+  deleteFile(id) {
+    return this.http.delete(this.url + "deletefile/" + id);
+  }
   storesubjectprovince(centralpolicyid, provincevalue) {
     // alert(JSON.stringify(provincevalue))
     const formData = new FormData();
@@ -305,6 +347,8 @@ export class SubjectService {
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url + 'addsubjectrole3', formData);
   }
-
+  getsubjectfromprovince(proid) {
+    return this.http.get(this.url + "getsubjectfromprovince/" + proid)
+  }
 }
 

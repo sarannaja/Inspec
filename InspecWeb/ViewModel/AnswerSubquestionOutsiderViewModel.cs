@@ -14,6 +14,7 @@ namespace InspecWeb.ViewModel
         //public inputanswerfile[] inputanswerfile { get; set; }
 
         public long SubjectCentralPolicyProvinceId { get; set; }
+        public string Type { get; set; }
         public List<IFormFile> files { get; set; }
 
 

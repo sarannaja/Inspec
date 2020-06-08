@@ -143,10 +143,14 @@ namespace InspecWeb.Controllers
             //var accept = _context.CentralPolicyUsers.Where(m => m.Id == centralPolicyUserId).FirstOrDefault();
 
             var carlendarFile = _context.ElectronicBookFiles
-                .Where(x => x.ElectronicBookId == electID && x.Type == "Calendar File")
+                .Where(x => x.ElectronicBookId == electID && x.Type == "Calendar File" || x.Type == "Calendar Image File")
                 .ToList();
 
-            return Ok(carlendarFile);
+            var signatureFile = _context.ElectronicBookFiles
+               .Where(x => x.ElectronicBookId == electID && x.Type == "Calendar Signature File")
+               .ToList();
+
+            return Ok(new { carlendarFile, signatureFile });
         }
 
         [HttpGet("getElectronicbookFile/{electID}")]
@@ -155,11 +159,19 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("ELECT ID: " + electID);
             //var accept = _context.CentralPolicyUsers.Where(m => m.Id == centralPolicyUserId).FirstOrDefault();
 
-            var electronicFile = _context.ElectronicBookFiles
-                .Where(x => x.ElectronicBookId == electID && x.Type == "ElectronicBook File")
-                .ToList();
+            //var electronicFile = _context.ElectronicBookFiles
+            //    .Where(x => x.ElectronicBookId == electID && x.Type == "ElectronicBook File")
+            //    .ToList();
 
-            return Ok(electronicFile);
+            var electronicFile = _context.ElectronicBookFiles
+               .Where(x => x.ElectronicBookId == electID && x.Type == "ElectronicBook File" || x.Type == "ElectronicBook Image File")
+               .ToList();
+
+            var signatureFile = _context.ElectronicBookFiles
+               .Where(x => x.ElectronicBookId == electID && x.Type == "ElectronicBook Signature File")
+               .ToList();
+
+            return Ok(new { electronicFile, signatureFile });
         }
 
         [HttpPut("editElectronicBookDetail/{id}")]
@@ -230,7 +242,8 @@ namespace InspecWeb.Controllers
                         {
                             ElectronicBookId = id,
                             Name = random + filename,
-                            Type = "ElectronicBook File"
+                            Description = model.Description,
+                            Type = model.Type
                         };
                         _context.ElectronicBookFiles.Add(ElectronicBookFileData);
                         System.Console.WriteLine("in5");
@@ -349,55 +362,55 @@ namespace InspecWeb.Controllers
 
             //System.Console.WriteLine("3.8");
 
-            //foreach (var itemUserPeopleId in model.UserPeopleId)
-            //{
-            //    var CentralPolicyGroupdata = new CentralPolicyGroup
-            //    {
-            //    };
-            //    _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
-            //    _context.SaveChanges();
+            foreach (var itemUserPeopleId in model.UserPeopleId)
+            {
+                var CentralPolicyGroupdata = new CentralPolicyGroup
+                {
+                };
+                _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
+                _context.SaveChanges();
 
-            //    System.Console.WriteLine("3.9");
-            //    System.Console.WriteLine("USERPeople: " + itemUserPeopleId);
+                System.Console.WriteLine("3.9");
+                System.Console.WriteLine("USERPeople: " + itemUserPeopleId);
 
-            //    var CentralPolicyUserdata = new CentralPolicyUser
-            //        {
-            //            CentralPolicyId = CentralPolicyId,
-            //            ProvinceId = ProvinceId,
-            //            ElectronicBookId = ElectronicBookdata.Id,
-            //            CentralPolicyGroupId = CentralPolicyGroupdata.Id,
-            //            UserId = itemUserPeopleId,
-            //            Status = "รอการตอบรับ",
-            //            DraftStatus = model.Status
+                var CentralPolicyUserdata = new CentralPolicyUser
+                {
+                    CentralPolicyId = model.CentralPolicyId,
+                    ProvinceId = model.ProvinceId,
+                    ElectronicBookId = ElectronicBookdata.Id,
+                    CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                    UserId = itemUserPeopleId,
+                    Status = "รอการตอบรับ",
+                    DraftStatus = "ร่างกำหนดการ",
 
-            //    };
-            //        _context.CentralPolicyUsers.Add(CentralPolicyUserdata);
-            //        _context.SaveChanges();
-            //}
-            //System.Console.WriteLine("4");
+                };
+                _context.CentralPolicyUsers.Add(CentralPolicyUserdata);
+                _context.SaveChanges();
+            }
+            System.Console.WriteLine("4");
 
-            //foreach (var itemUserMinistryId in model.UserMinistryId)
-            //{
-            //    var CentralPolicyGroupdata2 = new CentralPolicyGroup
-            //    {
-            //    };
-            //    _context.CentralPolicyGroups.Add(CentralPolicyGroupdata2);
-            //    _context.SaveChanges();
-            //    System.Console.WriteLine("5");
-            //    var CentralPolicyUserdata2 = new CentralPolicyUser
-            //    {
-            //        CentralPolicyId = CentralPolicyId,
-            //        ProvinceId = ProvinceId,
-            //        ElectronicBookId = ElectronicBookdata.Id,
-            //        CentralPolicyGroupId = CentralPolicyGroupdata2.Id,
-            //        UserId = itemUserMinistryId,
-            //        Status = "รอการตอบรับ",
-            //        DraftStatus = model.Status
-            //    };
-            //    _context.CentralPolicyUsers.Add(CentralPolicyUserdata2);
-            //    _context.SaveChanges();
-            //    System.Console.WriteLine("6");
-            //}
+            foreach (var itemUserMinistryId in model.UserMinistryId)
+            {
+                var CentralPolicyGroupdata2 = new CentralPolicyGroup
+                {
+                };
+                _context.CentralPolicyGroups.Add(CentralPolicyGroupdata2);
+                _context.SaveChanges();
+                System.Console.WriteLine("5");
+                var CentralPolicyUserdata2 = new CentralPolicyUser
+                {
+                    CentralPolicyId = model.CentralPolicyId,
+                    ProvinceId = model.ProvinceId,
+                    ElectronicBookId = ElectronicBookdata.Id,
+                    CentralPolicyGroupId = CentralPolicyGroupdata2.Id,
+                    UserId = itemUserMinistryId,
+                    Status = "รอการตอบรับ",
+                    DraftStatus = "ร่างกำหนดการ",
+                };
+                _context.CentralPolicyUsers.Add(CentralPolicyUserdata2);
+                _context.SaveChanges();
+                System.Console.WriteLine("6");
+            }
 
             System.Console.WriteLine("Start Upload");
 
@@ -438,6 +451,8 @@ namespace InspecWeb.Controllers
                         {
                             ElectronicBookId = ElectronicBookdata.Id,
                             Name = random + filename,
+                            Description = model.Description,
+                            Type = model.Type
                         };
 
                         System.Console.WriteLine("Start Upload 4.2");
@@ -519,43 +534,92 @@ namespace InspecWeb.Controllers
             var filePath = _environment.WebRootPath + "//Uploads//";
 
             System.Console.WriteLine("Start Upload 2");
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+
+            if (model.files != null)
             {
-
-                System.Console.WriteLine("Start Upload 3");
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
                 {
 
-                    System.Console.WriteLine("Start Upload 4");
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
                     {
-                        await formFile.Value.CopyToAsync(stream);
+
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var ElectronicBookFile = new ElectronicBookFile
+                        {
+                            ElectronicBookId = model.ElectronicBookId,
+                            Name = random + filename,
+                            Type = model.Type,
+                            Description = model.Description
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.ElectronicBookFiles.Add(ElectronicBookFile);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
                     }
 
-                    System.Console.WriteLine("Start Upload 4.1");
-                    var ElectronicBookFile = new ElectronicBookFile
-                    {
-                        ElectronicBookId = model.ElectronicBookId,
-                        Name = random + filename,
-                        Type = "Calendar File"
-                    };
-
-                    System.Console.WriteLine("Start Upload 4.2");
-                    _context.ElectronicBookFiles.Add(ElectronicBookFile);
-                    _context.SaveChanges();
-
-                    System.Console.WriteLine("Start Upload 4.3");
+                    System.Console.WriteLine("Start Upload 5");
                 }
-
-                System.Console.WriteLine("Start Upload 5");
             }
+
+            if (model.signatureFiles != null)
+            {
+                foreach (var formFile in model.signatureFiles.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var ElectronicBookFile = new ElectronicBookFile
+                        {
+                            ElectronicBookId = model.ElectronicBookId,
+                            Name = random + filename,
+                            Type = "Calendar Signature File"
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.ElectronicBookFiles.Add(ElectronicBookFile);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+
+                    System.Console.WriteLine("Start Upload 5");
+                }
+            }
+
+
+
             return Ok(new { status = true });
         }
 
@@ -569,18 +633,39 @@ namespace InspecWeb.Controllers
             var provinceuser = _context.UserProvinces
                 .Where(m => m.UserID == user.Id).FirstOrDefault();
 
-            var ebook = _context.ElectronicBookGroups
-                            .Include(x => x.CentralPolicyProvince)
-                            .ThenInclude(x => x.Province)
-                            .Include(x => x.CentralPolicyProvince)
-                            .ThenInclude(x => x.CentralPolicy)
-                            .ThenInclude(x => x.CentralPolicyUser)
-                            .Include(x => x.ElectronicBook)
-                            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง")
-                            .Where(x => x.CentralPolicyProvince.Province.Id == provinceuser.ProvinceId)
-                            .ToList();
+            if (user.Role_id == 5)
+            {
+                var ebook = _context.ElectronicBookGroups
+                                .Include(x => x.CentralPolicyProvince)
+                                .ThenInclude(x => x.Province)
+                                .Include(x => x.CentralPolicyProvince)
+                                .ThenInclude(x => x.CentralPolicy)
+                                .ThenInclude(x => x.CentralPolicyUser)
+                                .Include(x => x.ElectronicBook)
+                                .Where(x => x.ElectronicBook.Status == "ใช้งานจริง")
+                                .Where(x => x.CentralPolicyProvince.Province.Id == provinceuser.ProvinceId)
+                                .ToList();
+                return Ok(ebook);
+            }
+            else
+            {
+                var ebook = _context.ElectronicBookGroups
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.Province)
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyUser)
+                .Include(x => x.ElectronicBook)
+                .ThenInclude(x => x.ElectronicBookFiles)
+                .Where(x => x.ElectronicBook.ElectronicBookFiles.Any(x => x.Type == "SignatureProvince File"))
+                .Where(x => x.ElectronicBook.Status == "ใช้งานจริง")
+                .Where(x => x.CentralPolicyProvince.SubjectCentralPolicyProvinces.Any(x => x.SubquestionCentralPolicyProvinces.Any(x => x.SubjectCentralPolicyProvinceGroups.Any(x => x.ProvincialDepartment.DepartmentId == user.DepartmentId))))
+                .ToList();
 
-            return Ok(ebook);
+                return Ok(ebook);
+            }
+
+
         }
 
         [HttpPost("addSuggestion")]
@@ -735,7 +820,8 @@ namespace InspecWeb.Controllers
                     {
                         ElectronicBookId = model.ElectID,
                         Name = random + filename,
-                        Type = "SignatureProvince File"
+                        Type = "SignatureProvince File",
+                        Description = model.Description // Admin province suggestion.
                     };
 
                     System.Console.WriteLine("Start Upload 4.2");
@@ -857,9 +943,9 @@ namespace InspecWeb.Controllers
                 .Where(x => x.CentralPolicyProvinceId == centralPolicyProvinceData.Id)
                 .ToList();
 
-            foreach(var test in subjectCentralPolicyProvince)
+            foreach (var test in subjectCentralPolicyProvince)
             {
-              foreach(var test2 in test.ElectronicBookSuggestGroups)
+                foreach (var test2 in test.ElectronicBookSuggestGroups)
                 {
                     var ExportBodyData = new ExportReportBody
                     {
@@ -873,7 +959,7 @@ namespace InspecWeb.Controllers
 
                     foreach (var test3 in test.SubquestionCentralPolicyProvinces)
                     {
-                        foreach(var test4 in test3.SubjectCentralPolicyProvinceGroups)
+                        foreach (var test4 in test3.SubjectCentralPolicyProvinceGroups)
                         {
 
                             //return Ok(test4);
@@ -881,12 +967,12 @@ namespace InspecWeb.Controllers
 
                             var ExportBodyData2 = _context.ExportReportBodies.Find(ExportBodyData.Id);
                             {
-                                if(ExportBodyData2.Department == null)
+                                if (ExportBodyData2.Department == null)
                                 {
                                     System.Console.WriteLine(" test4 ja 1" + test4.ProvincialDepartment.Name);
                                     ExportBodyData2.Department = test4.ProvincialDepartment.Name;
-                                } 
-                                else 
+                                }
+                                else
                                 {
                                     System.Console.WriteLine(" test4 ja 2" + test4.ProvincialDepartment.Name);
                                     ExportBodyData2.Department = ExportBodyData2.Department + ", " + test4.ProvincialDepartment.Name;
@@ -898,11 +984,24 @@ namespace InspecWeb.Controllers
                     }
                 }
             }
-
-
             return Ok("eiei");
-            System.Console.WriteLine("Finish Add Suggestion");
         }
 
+        [HttpGet("getelectronicbookdetailown/{centralPolicyProvinceId}")]
+        public IActionResult GetElectronicBookDetailOwn(long centralPolicyProvinceId)
+        {
+            var centralpolicyprovince = _context.CentralPolicyProvinces
+             .Where(m => m.Id == centralPolicyProvinceId).FirstOrDefault();
+
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId);
+
+            var subjectData = _context.SubjectCentralPolicyProvinces
+                .Where(x => x.CentralPolicyProvinceId == centralPolicyProvinceId && x.Type == "NoMaster")
+                .ToList();
+
+            return Ok(new { centralpolicyuserdata, subjectData });
+        }
     }
 }
