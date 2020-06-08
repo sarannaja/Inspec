@@ -100,6 +100,7 @@ namespace InspecWeb.Data
         public DbSet<StatePolicy> StatePolicys { get; set; }
         public DbSet<Documenttemplate> Documenttemplates { get; set; }
         public DbSet<Meetinginformation> Meetinginformations { get; set; }
+        public DbSet<Premierorder> Premierorders { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
