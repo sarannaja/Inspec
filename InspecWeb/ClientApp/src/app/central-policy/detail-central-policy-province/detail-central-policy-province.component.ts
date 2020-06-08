@@ -362,7 +362,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       subquestionclose: name,
     })
   }
-  showGraph(item) {
+  showGraph(item, id) {
     // barchartAllset: any = {
     //   label: ['คำตอบ', 'ตัวเลือก', '2008', '2009', '2010', '2011', '2012'],
     //   barChartData: [
@@ -370,11 +370,16 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'หน่วยงาน B', stack: 'b' },
     //     { data: [30, 40, 20, 12, 33, 23, 50], label: 'หน่วยงาน c', stack: 'c' },
     //   ]
-    console.log("showGraph", item.subquestionChoiceCentralPolicyProvinces);
-    item.subquestionChoiceCentralPolicyProvinces.forEach(element => {
-      console.log("element", element);
+    console.log('item', id);
 
-    })
+    var barchartAllset: any
+    console.log("showGraph", item.subquestionChoiceCentralPolicyProvinces);
+    var dataE: Array<any> = item.subquestionChoiceCentralPolicyProvinces
+      .map(element => {
+        return [id][{ ...element } ]
+
+      })
+    console.log("element", dataE);
   }
   editModal2(template: TemplateRef<any>, id, name) {
     this.editid = id;
