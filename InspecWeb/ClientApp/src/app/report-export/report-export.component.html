@@ -18,9 +18,9 @@
         <h5 class="card-title">รายงานผลตรวจราชการ</h5>
       </div>
       <div class="card-header col-12">
-        <button>Export <i class="align-middle mr-2 fas fa-fw fa-file-export pointer"
-          (click)="exportReport()"></i>
-      </button>
+        <button class="btn btn-success" (click)="exportReport()">Export <i
+            class="align-middle mr-2 fas fa-fw fa-file-export pointer"></i>
+        </button>
       </div>
 
       <div class="card-body">
@@ -41,9 +41,12 @@
                 {{ item.centralPolicyProvince.centralPolicy.title }}</td>
               <!-- <td>{{ item.electronicBook.status }}</td> -->
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                  (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i> -->
+
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="testExcel(item.id)"></i>
               </td>
+
             </tr>
           </tbody>
         </table>

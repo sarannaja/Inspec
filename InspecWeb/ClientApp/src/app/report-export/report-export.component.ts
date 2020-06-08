@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { UserService } from '../services/user.service';
 import { ExportReportService } from '../services/export-report.service';
+import { ExcelGeneraterService } from '../services/excel-generater.service';
 
 @Component({
   selector: 'app-report-export',
@@ -32,6 +33,7 @@ export class ReportExportComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private userService: UserService,
     private exportReportService: ExportReportService,
+    private excellService:ExcelGeneraterService,
     @Inject('BASE_URL') baseUrl: string
   ) { }
 
@@ -99,6 +101,12 @@ export class ReportExportComponent implements OnInit {
       this.getexportport();
     })
   }
-
+  testExcel(id) {
+    console.log('generateExcel');
+    this.electronicBookService.getReportExcelElectronicBook(id).subscribe(res => {
+      alert(JSON.stringify(res))
+    })
+    // this.excellService.generateExcel()
+  }
 
 }

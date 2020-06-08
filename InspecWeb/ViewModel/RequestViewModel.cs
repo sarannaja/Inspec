@@ -15,6 +15,7 @@ namespace InspecWeb.ViewModel
         public string AnswerCounsel { get; set; }
         public long CentralpolicyId { get; set; }
         public long ProvinceId { get; set; }
+        public string UserId { get; set; }
         public List<IFormFile> files { get; set; }
     }
 }

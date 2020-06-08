@@ -33,5 +33,6 @@ namespace InspecWeb.Models
 
         //public ICollection<CentralPolicyUser> CentralPolicyUsers { get; set; }
         //public ICollection<CentralPolicyUserFile> CentralPolicyUserFiles { get; set; }
+        public ICollection<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
     }
 }

@@ -10,15 +10,15 @@ export class UserService {
   count = 0
   url = "";
   base = "";
-  urlfirst="";
-  urllist="";
+  urlfirst = "";
+  urllist = "";
   //files: FileList
 
   private subject = new Subject<any>();
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/user/getuser/';
     this.urllist = baseUrl + 'api/user/getuserlist/';
-    this.base = baseUrl  + 'api/user/';
+    this.base = baseUrl + 'api/user/';
   }
 
   getuserdata(id: any): Observable<any[]> { //role
@@ -31,18 +31,18 @@ export class UserService {
     return this.http.get<any[]>(this.urllist + id)
   }
   getuserfirstdata(id: any): Observable<any> {
-    return this.http.get<any>(this.base +'getuserfirst/'+ id)
+    return this.http.get<any>(this.base + 'getuserfirst/' + id)
   }
-    sendNav(roleId: string) {
-        this.subject.next({ roleId: roleId });
-    }
+  sendNav(roleId: string) {
+    this.subject.next({ roleId: roleId });
+  }
 
-    clearUserNav() {
-        this.subject.next();
-    }
-    getUserNav(): Observable<any> {
-        return this.subject.asObservable();
-    }
+  clearUserNav() {
+    this.subject.next();
+  }
+  getUserNav(): Observable<any> {
+    return this.subject.asObservable();
+  }
 
     addUser(userData,file: FileList) {
       //alert('service : '+userData.Role_id);
@@ -67,6 +67,8 @@ export class UserService {
       //formData.append('CreatedAt',''); 
       //formData.append('Startdate',''); 
       //formData.append('Enddate',''); 
+      formData.append('startdate', userData.startdate.date.year + '-' + userData.startdate.date.month + '-' + userData.startdate.date.day);
+    formData.append('enddate', userData.enddate.date.year + '-' + userData.enddate.date.month + '-' + userData.enddate.date.day);
    
       if(userData.UserRegion != null){
         for (var i = 0; i < userData.UserRegion.length; i++) {
@@ -77,68 +79,77 @@ export class UserService {
         formData.append('UserRegion', '1');
       }
 
-      if(userData.UserProvince != null){
-        for (var i = 0; i < userData.UserProvince.length; i++) {
-          formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน  
-        }
-      }else{
-        formData.append('UserProvince', '1');
-      }
+    if (userData.UserRegion != null) {
+      for (var i = 0; i < userData.UserRegion.length; i++) {
+        formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน
 
-      if(userData.ProvinceId == null){
-        formData.append('ProvinceId', '1');
-      }else{
-        formData.append('ProvinceId', userData.ProvinceId); //จังหวัดมีได้อันเดียว
       }
-      
-      if(userData.DistrictId == null){
-        formData.append('DistrictId', '1');
-      }else{
-        formData.append('DistrictId', userData.DistrictId); //จังหวัดมีได้อันเดียว
-      }
-
-      if(userData.SubdistrictId == null){
-        formData.append('SubdistrictId', '1');
-      }else{
-        formData.append('SubdistrictId', userData.SubdistrictId); //จังหวัดมีได้อันเดียว
-      }
-
-      if(userData.MinistryId == null){
-        formData.append('MinistryId', '1');
-      }else{
-        formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
-      }
-
-      if(userData.DepartmentId == null){
-        formData.append('DepartmentId', '1');
-      }else{
-        formData.append('DepartmentId', userData.DepartmentId);//หน่วยงานมีได้อันเดียว
-      }
-
-      for (var iii = 0; iii < file.length; iii++) {
-        formData.append("files", file[iii]);
-      }
-      
-      return this.http.post(this.base, formData);
+    } else {
+      formData.append('UserRegion', '1');
     }
 
-    editprofile(userData, file: FileList, userId){
-      const formData = new FormData();
-      formData.append('Prefix', userData.Prefix);
-      formData.append('Name', userData.Name);
-      formData.append('Position', userData.Position);
-      formData.append('PhoneNumber', userData.PhoneNumber);
-      formData.append('Formprofile', userData.Formprofile);
-      // for (var iii = 0; iii < file.length; iii++) {
-      //   formData.append("files", file[iii]);
-      // }
-      alert(userData.Formprofile);
-      let path = this.base + userId;
-      return this.http.put(path, formData)
+    if (userData.UserProvince != null) {
+      for (var i = 0; i < userData.UserProvince.length; i++) {
+        formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+      }
+    } else {
+      formData.append('UserProvince', '1');
     }
 
-    deleteUser(id) {
-      return this.http.delete(this.base + id);
+    if (userData.ProvinceId == null) {
+      formData.append('ProvinceId', '1');
+    } else {
+      formData.append('ProvinceId', userData.ProvinceId); //จังหวัดมีได้อันเดียว
     }
-    
+
+    if (userData.DistrictId == null) {
+      formData.append('DistrictId', '1');
+    } else {
+      formData.append('DistrictId', userData.DistrictId); //จังหวัดมีได้อันเดียว
+    }
+
+    if (userData.SubdistrictId == null) {
+      formData.append('SubdistrictId', '1');
+    } else {
+      formData.append('SubdistrictId', userData.SubdistrictId); //จังหวัดมีได้อันเดียว
+    }
+
+    if (userData.MinistryId == null) {
+      formData.append('MinistryId', '1');
+    } else {
+      formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+    }
+
+    if (userData.DepartmentId == null) {
+      formData.append('DepartmentId', '1');
+    } else {
+      formData.append('DepartmentId', userData.DepartmentId);//หน่วยงานมีได้อันเดียว
+    }
+
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }
+
+    return this.http.post(this.base, formData);
+  }
+
+  editprofile(userData, file: FileList, userId) {
+    const formData = new FormData();
+    formData.append('Prefix', userData.Prefix);
+    formData.append('Name', userData.Name);
+    formData.append('Position', userData.Position);
+    formData.append('PhoneNumber', userData.PhoneNumber);
+    formData.append('Formprofile', userData.Formprofile);
+    // for (var iii = 0; iii < file.length; iii++) {
+    //   formData.append("files", file[iii]);
+    // }
+    alert(userData.Formprofile);
+    let path = this.base + userId;
+    return this.http.put(path, formData)
+  }
+
+  deleteUser(id) {
+    return this.http.delete(this.base + id);
+  }
+
 }

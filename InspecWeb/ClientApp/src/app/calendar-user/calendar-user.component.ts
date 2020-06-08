@@ -148,6 +148,7 @@ export class CalendarUserComponent implements OnInit {
         this.resultinspectionplanevent = result
 
         this.inspectionplancalendar = result
+
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
           return {
             id: item.id,

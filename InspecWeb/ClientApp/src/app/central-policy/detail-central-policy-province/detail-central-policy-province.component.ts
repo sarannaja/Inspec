@@ -58,7 +58,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   fileStatus = false;
   form: FormGroup;
   carlendarFile: any = [];
-  provincename
+  provincename: any;
   provinceid
   resultdate: any = []
   department: any = []
@@ -69,6 +69,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   role_id
   temp = []
   resultdsubjectid: any = []
+  editAnswerForm: FormGroup;
+  answer: any;
+  answerData: any = [];
+  centralpolicyprovincedata: any;
+
+  fileStatus2 = false;
+  signatureFile: any = [];
+  fileType: any;
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -107,6 +115,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       })
 
     console.log("ID: ", this.id);
+    this.getAnswer();
 
     this.spinner.show();
     this.Form = this.fb.group({
@@ -124,6 +133,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.form = this.fb.group({
       files: [null],
       step: new FormControl(null, [Validators.required]),
+      status: new FormControl(null, [Validators.required]),
+      questionPeople: new FormControl(null, [Validators.required]),
+      signatureFiles: [null],
+      description: new FormControl(null, [Validators.required]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
     })
 
     this.EditForm = this.fb.group({
@@ -302,6 +316,22 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
+  editModal5(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.answer = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.editAnswerForm = this.fb.group({
+      answer: new FormControl(),
+      answerId: new FormControl(),
+
+    })
+    this.editAnswerForm.patchValue({
+      answer: name,
+      answerId: id
+    })
+  }
+
   DelModal(template: TemplateRef<any>, id) {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
@@ -338,24 +368,44 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         console.log("123", result);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
-        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
 
-        if (this.role_id == 3) {
-          if (this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step == 'มอบหมายเขต') {
-            this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step = "มอบหมายจังหวัด"
-          }
-          this.form.patchValue({
-
-            step: this.resultdetailcentralpolicyprovince[0].centralPolicyProvince.step
-          })
-        }
-
-        this.resultuser = result.userdata
-        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
 
         this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
         this.provincename = result.provincedata.name
         this.provinceid = result.provincedata.id
+        this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.centralpolicyprovincedata = result.centralpolicyprovince
+
+        this.form.patchValue({
+          questionPeople: this.centralpolicyprovincedata.questionPeople,
+          status: this.centralpolicyprovincedata.status
+        })
+        // alert(this.centralpolicyprovincedata.step)
+        // if (this.resultdetailcentralpolicyprovince.length > 0) {
+          if (this.role_id == 3) {
+            if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+              this.centralpolicyprovincedata.step = "มอบหมายจังหวัด"
+            }
+            this.form.patchValue({
+              step: this.centralpolicyprovincedata.step
+            })
+          } else if (this.role_id == 5) {
+            if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+              this.centralpolicyprovincedata.step = "มอบหมายเขต"
+            }
+            this.form.patchValue({
+              step: this.centralpolicyprovincedata.step
+            })
+          }
+
+
+        // } else {
+        //   alert("else")
+        // }
+
 
         this.getCalendarFile();
       })
@@ -373,7 +423,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storeFiles(value) {
     // alert(JSON.stringify(value))
-    this.electronicBookService.addElectronicBookFileFromCalendar(value, this.form.value.files, this.electronicbookid, this.id).subscribe(response => {
+    this.electronicBookService.addElectronicBookFileFromCalendar(value, this.form.value.files, this.electronicbookid, this.id, this.form.value.signatureFiles).subscribe(response => {
       console.log(value);
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
@@ -383,7 +433,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           console.log(response);
         })
 
-      window.history.back();
+        this.spinner.show();
+        setTimeout(() => {
+          this.getCalendarFile();
+          this.form.reset();
+          this.spinner.hide();
+        }, 300);
+
+      // window.history.back();
     })
   }
 
@@ -491,6 +548,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
   }
 
+  editAnswer(value, id) {
+    this.subjectservice.editAnswer(value, id).subscribe(response => {
+      console.log(value);
+      this.editAnswerForm.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
   async getMinistryPeople() {
     await this.userservice.getuserdata(6).subscribe(result => {
       this.resultministrypeople = result // All
@@ -592,9 +658,21 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.form.get('files').updateValueAndValidity()
   }
 
+  uploadFile2(event) {
+    this.fileStatus2 = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      signatureFiles: file
+    });
+    console.log("fff:", this.form.value.signatureFiles)
+    this.form.get('files').updateValueAndValidity()
+  }
+
   getCalendarFile() {
     this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
-      this.carlendarFile = res;
+      this.carlendarFile = res.carlendarFile;
+      this.signatureFile = res.signatureFile;
       console.log("calendarFile: ", res);
 
     })
@@ -718,6 +796,22 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.spinner.hide();
       this.getDetailCentralPolicyProvince()
     })
+  }
+
+  getAnswer() {
+    this.centralpolicyservice.getAnswer(this.id).subscribe(res => {
+      this.answerData = res;
+      console.log("answer: ", this.answerData);
+    })
+  }
+
+  async openAnswerModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  checkType(type) {
+    // alert(type)
+    this.fileType = type;
   }
 
 }

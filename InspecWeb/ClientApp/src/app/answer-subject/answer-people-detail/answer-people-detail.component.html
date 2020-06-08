@@ -1,0 +1,139 @@
+<div class="header">
+    <h1 class="header-title">
+        ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบาย</a></li>
+            <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบาย</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">รายละเอียด</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="Form" (ngSubmit)="storeanswer(Form.value)">
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-6">
+                            เรื่อง : {{resultsubjectdetail.name}}
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-6">
+                            จังหวัด : {{province}}
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-6">
+                            <u>ระยะเวลา</u><br>
+                            <span
+                                *ngFor="let item of resultsubjectdetail.subjectDateCentralPolicyProvinces; let i = index">ช่วงที่
+                                {{i+1}})
+                                {{ item.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
+                                {{ item.centralPolicyDateProvince.endDate | thaidate: 'year' }}<br></span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-lg-12">
+                            <table class="table table-default table-responsive-sm tableborder">
+                                <tbody>
+                                    <tr *ngFor="let item of t.controls; let i = index">
+                                        <td style="border-top: none;">
+                                            <u>คำถามที่ {{i + 1}}</u>
+                                            <div [formGroup]="item">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input type="text" value="{{item.value.Question}}"
+                                                            class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="border-top: none;"
+                                            *ngIf="item.value.Type == 'คำถามปลายเปิด'else elseBlock">
+                                            <!-- <u>คำตอบ</u>
+                                            <div [formGroup]="item">
+                                                <div>
+                                                    <div class="col-12">
+                                                        <input type="text" class="form-control" formControlName="Answer"
+                                                            placeholder="กรุณาตอบคำถาม" re>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </td>
+                                        <ng-template #elseBlock>
+                                            <td style="border-top: none;">
+                                                <u>คำตอบ</u>
+                                                <div [formGroup]="item">
+                                                    <div>
+                                                        <div class="col-12 " *ngFor="let items of item.value.Choice">
+                                                            <div class="test-test">
+                                                                <!-- <input style="margin: 5px;" type="checkbox"
+                                                                    [checked]="items.name == item.value.Answer ? true:false "
+                                                                    value="{{items.name}}"
+                                                                    (change)="Test(i,$event.target.value)" readonly> -->
+
+                                                                <input
+                                                                    [ngStyle]="{'color':items.name == item.value.Answer ? 'red':''  }"
+                                                                    type="text" value="{{items.name}}"
+                                                                    (click)="Test(i,items.name)" class="form-control"
+                                                                    readonly>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-template>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                    <label class="form-label w-100" style="margin-top: 30px;">แสดงความคิดเห็น</label>
+                    <textarea cols="30" rows="5" class="form-control"
+                        placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" formControlName="Suggestion"
+                        name="Suggestion"></textarea>
+                    <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์</label>
+                    <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+                    <label class="form-label w-100" style="margin-top: 30px;">ลายเซ็น</label>
+                    <input type="file" multiple (change)="uploadSignatureFile($event)" style="margin-bottom: 10px;">
+                    <!-- <div class="row">
+                        <div class="col-md-12" style="margin-top: 10px;">
+                            <u>ไฟล์แนบกำหนดการตรวจ</u><br>
+                            <div class="row" *ngFor="let item of carlendarFile; let i = index"
+                                style="margin-top: 10px;">
+                                <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                                    <span>ไฟล์ที่
+                                        {{i+1}})
+                                        {{ item.name }}<br>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+                        <button style="align-self: center;" type="submit" class="btn btn-primary"
+                            style="margin-right: 45px;">บันทึก</button>
+                        <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
+                        <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

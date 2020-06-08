@@ -14,7 +14,6 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { DefaultLayoutComponent } from './default-layout/default-layout/default-layout.component';
 import { CreateCentralPolicyComponent } from './central-policy/create-central-policy/create-central-policy.component';
 import { CreateInspectionPlanComponent } from './inspection-plan/create-inspection-plan/create-inspection-plan.component';
-import { CreateInstructionorderComponent } from './instruction-order/create-instructionorder/create-instructionorder.component';
 import { EditInspectionPlanComponent } from './inspection-plan/edit-inspection-plan/edit-inspection-plan.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { ProvinceComponent } from './province/province.component';
@@ -31,7 +30,7 @@ import { InspectionPlanComponent } from './inspection-plan/inspection-plan.compo
 import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { GovernmentinspectionplanComponent } from './governmentinspectionplan/governmentinspectionplan.component';
 import { InspectionorderComponent } from './inspectionorder/inspectionorder.component';
-import { InstructionOrderComponent } from './instruction-order/instruction-order.component';
+import { InstructionorderComponent } from './instructionorder/instructionorder.component';
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
 import { DataTablesModule } from 'angular-datatables';
@@ -90,9 +89,18 @@ import { ReportExportComponent } from './report-export/report-export.component';
 import { AnswerOutsideThankComponent } from './answer-subject/answer-outside-thank/answer-outside-thank.component';
 import { AnswerPeopleComponent } from './answer-subject/answer-people/answer-people.component';
 import { AnswerPeopleListComponent } from './answer-subject/answer-people-list/answer-people-list.component';
+import { InformationoperationComponent } from './informationoperation/informationoperation.component';
+import { NationalstrategyComponent } from './nationalstrategy/nationalstrategy.component';
 import { MainComponent } from './main/main.component';
 import { ExcelService } from './services/excel.service';
-
+import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-detail/answer-people-detail.component';
+import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
+import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
+import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/inspection-plan-event-province/inspection-plan-event-province.component';
+import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
+import { ExcelGeneraterService } from './services/excel-generater.service';
+import { DatePipe } from '@angular/common';
+import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
 
 
 @NgModule({
@@ -106,7 +114,6 @@ import { ExcelService } from './services/excel.service';
     DefaultLayoutComponent,
     CreateCentralPolicyComponent,
     CreateInspectionPlanComponent,
-    CreateInstructionorderComponent,
     EditInspectionPlanComponent,
     MinistryComponent,
     ProvinceComponent,
@@ -121,7 +128,7 @@ import { ExcelService } from './services/excel.service';
     InspectionPlanComponent,
     GovernmentinspectionplanComponent,
     InspectionorderComponent,
-    InstructionOrderComponent,
+    InstructionorderComponent,
     DistrictComponent,
     SubdistrictComponent,
     TrainingComponent,
@@ -169,6 +176,15 @@ import { ExcelService } from './services/excel.service';
     AnswerOutsideThankComponent,
     AnswerPeopleComponent,
     AnswerPeopleListComponent,
+    InformationoperationComponent,
+    NationalstrategyComponent,
+    AnswerPeopleDetailComponent,
+    AnswerCentralPolicyProvinceComponent,
+    InvitedElectronicBookComponent,
+    InspectionPlanEventProvinceComponent,
+    InfoMinistryComponent,
+    ReportInspectionPlanEventComponent,
+    // DatePipe
   ],
 
   imports: [
@@ -201,7 +217,6 @@ import { ExcelService } from './services/excel.service';
           { path: 'main', component: MainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
           { path: 'centralpolicy/createcentralpolicy', component: CreateCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/createinspectionplan/:id', component: CreateInspectionPlanComponent, canActivate: [AuthorizeGuard] },
-          { path: 'instructionorder/createinstuctionorder', component: CreateInstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/editinspectionplan/:id', component: EditInspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministry', component: MinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'province', component: ProvinceComponent, canActivate: [AuthorizeGuard] },
@@ -213,10 +228,9 @@ import { ExcelService } from './services/excel.service';
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
-          { path: 'instructionorder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'govermentinpectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'InstructionOrder', component: InstructionOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
@@ -268,6 +282,14 @@ import { ExcelService } from './services/excel.service';
           { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'informationoperation', component: InformationoperationComponent, canActivate: [AuthorizeGuard] },
+          { path: 'nationalstrategy', component: NationalstrategyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {
@@ -283,14 +305,18 @@ import { ExcelService } from './services/excel.service';
     ]),
     ModalModule.forRoot(),
   ], exports: [
-    ThaiDatePipe,],
+    ThaiDatePipe,
+    // DatePipe
+  ],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
-    SnotifyService, NotificationService, ExcelService,
+    SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-
+    ExcelGeneraterService,
+    DatePipe
 
     // UserManager
+
   ],
 
   bootstrap: [AppComponent]

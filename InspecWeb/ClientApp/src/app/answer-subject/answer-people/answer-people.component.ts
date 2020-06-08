@@ -3,6 +3,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 
 @Component({
   selector: 'app-answer-people',
@@ -20,7 +21,8 @@ export class AnswerPeopleComponent implements OnInit {
     private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,
     private spinner: NgxSpinnerService,
-    private router:Router
+    private router:Router,
+    private inspectionplanservice: InspectionplanService
   ) { }
 
   ngOnInit() {
@@ -54,7 +56,16 @@ export class AnswerPeopleComponent implements OnInit {
         console.log("test",this.resultuserdetail);
       })
   }
-  Subjectlist(id) {
-    this.router.navigate(['/answerpeople/list', id])
+  getCentralpolicyprovince(cenid, proid){
+    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+      this.router.navigate(['/answerpeople/centralpolicyprovinc/' + result])
+    })
+  }
+  Subjectlist(cenid, proid) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+      var id = result
+      this.router.navigate(['/answerpeople/list/' + id])
+    })
+    // this.router.navigate(['/answerpeople/list', id])
   }
 }

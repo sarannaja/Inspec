@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.service';
 
 @Component({
   selector: 'app-answer-subject-detail',
@@ -19,10 +20,11 @@ export class AnswerSubjectDetailComponent implements OnInit {
   Form: FormGroup;
   Formfile: FormGroup;
   province: any
-  answar = [{test: "1212" , benz:"121212"}]
+  answar = [{ test: "1212", benz: "121212" }]
 
   constructor(
     private answersubjectservice: AnswersubjectService,
+    private suggestionservice: SuggestionsubjectService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private authorize: AuthorizeService,
@@ -44,10 +46,12 @@ export class AnswerSubjectDetailComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.Form = this.fb.group({
-      result: new FormArray([])
+      result: new FormArray([]),
+      Suggestion: new FormControl(null, [Validators.required]),
     })
     this.Formfile = this.fb.group({
-      files: [null]
+      files: [null],
+      Type: ""
     })
     this.authorize.getUser()
       .subscribe(result => {
@@ -75,7 +79,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
     for (let i = 0; i < this.resultsubquestion.length; i++) {
       var test: any[] = this.resultsubquestion[i].subquestionChoiceCentralPolicyProvinces
       this.t.push(this.fb.group({
-        UserId:"",
+        UserId: "",
         SubquestionCentralPolicyProvinceId: [this.resultsubquestion[i].id],
         Question: [this.resultsubquestion[i].name],
         Answer: [""],
@@ -86,42 +90,59 @@ export class AnswerSubjectDetailComponent implements OnInit {
     console.log(this.t.value);
 
   }
+  addsuggestion() {
+
+  }
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
     this.Formfile.patchValue({
-      files: file
+      files: file,
+      Type: "รูปภาพ"
+    });
+    this.Formfile.get('files').updateValueAndValidity()
+  }
+  uploadSignatureFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Formfile.patchValue({
+      files: file,
+      Type: "ลายมือชื่อ"
     });
     this.Formfile.get('files').updateValueAndValidity()
 
   }
-  storeanswer(){
-    // console.log(value);
+  storeanswer(value) {
     this.spinner.show();
-    this.storeansweruser()
+    this.storeansweruser(value)
   }
-  storeansweruser(){
+  storeansweruser(value) {
     console.log(this.userid);
-    
-    for(let i = 0; i < this.t.value.length; i++){
-      
+
+    for (let i = 0; i < this.t.value.length; i++) {
+
       this.t.at(i).patchValue({
         UserId: this.userid,
       })
     }
     console.log(this.t.value);
     this.answersubjectservice.addAnswer(this.t.value).subscribe(result => {
-      console.log("result",result);
+      console.log("result", result);
+      this.storesuggestion(value)
       this.storefile()
       // this.Form.reset();
       // window.history.back();
     })
   }
-  storefile(){
-    this.answersubjectservice.addFiles(this.id, this.Formfile.value.files).subscribe(response => {
+  storesuggestion(value) {
+    this.suggestionservice.addSuggestion(value, this.id, this.userid).subscribe(result => {
+    })
+  }
+  storefile() {
+    this.answersubjectservice.addFiles(this.id, this.Formfile.value).subscribe(response => {
       this.Form.reset();
       this.Formfile.reset();
       this.spinner.hide();
       window.history.back();
+      // this.Formfile.value.files, this.Formfile.value
     })
   }
   back() {

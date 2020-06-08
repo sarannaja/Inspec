@@ -34,8 +34,10 @@ namespace InspecWeb.Models
         [Description("กล่อง")]
         public long Box { get; set; }
 
+        public ICollection<AnswerSubquestion> AnswerSubquestions { get; set; }
         public ICollection<SubquestionChoiceCentralPolicyProvince> SubquestionChoiceCentralPolicyProvinces { get; set; }
         public ICollection<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
         public ICollection<SubjectCentralPolicyProvinceUserGroup> SubjectCentralPolicyProvinceUserGroups { get; set; }
+        public ICollection<AnswerSubquestionOutsider> AnswerSubquestionOutsiders { get; set; }
     }
 }

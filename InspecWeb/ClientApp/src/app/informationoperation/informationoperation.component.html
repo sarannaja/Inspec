@@ -1,0 +1,171 @@
+<div class="header">
+    <h1 class="header-title">
+      ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="['/main']">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
+        <li class="breadcrumb-item active">ข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ อาทิ ข้อมูลการติดต่อที่พัก ยานพาหนะ และร้านอาหาร เที่ยวบิน</li>
+      </ol>
+    </nav>
+  </div>
+  <form class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: -40px;">
+          <h5 class="card-title">ข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ</h5>
+          <div class="float-right">
+            <button class="btn btn-primary" (click)="openModal(modalInformationoperation)"
+              style="margin-top: -60px;">เพิ่มข้อมูล</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ประเภทสถานที่</th>
+                <th>ชื่อ</th>
+                <th>รายละเอียด</th>
+                <th>เบอร์</th>
+                <th>จังหวัด</th>
+                <th>อำเภอ</th>
+                <th>ไฟล์แนบ</th>
+                <th>วันที่สร้าง</th>
+                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resultinformationoperation; let i = index">
+                <td>{{ i + 1 }}.</td>
+                <td>{{ item.location }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.detail }}</td>
+                <td>{{ item.tel }}</td>
+                <td>{{ item.province }}</td>
+                <td>{{ item.district }}</td>
+                <td ><img src="assets/InformationoperationFile/{{item.file}}" alt="{{item.file}}" style="width:210px;height:128px;"></td>
+                <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
+                <td>
+                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
+                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                    (click)="openModal(modaleditInformationoperation, item.id, item.location, item.name, item.detail, item.tel, item.province, item.district, item.file)"></i>
+                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                    (click)="openModal(modaldeleteInformationoperation, item.id)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modalInformationoperation class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="storeInformationoperation(Form.value)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">เพิ่มข้อมูล</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <div class="form-group">
+              <label for="test" class="form-label">ประเภทสถานที่ </label><br>
+              <select id="location" formControlName="location">
+                <option value="ที่พัก">ที่พัก</option>
+                <option value="ร้านอาหาร">ร้านอาหาร</option>
+              </select><br><br>
+              <label for="test" class="form-label">ชื่อ </label>
+              <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อสถานที่"><br>
+              <label for="test" class="form-label">รายละเอียด </label>
+              <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+              <label for="test" class="form-label">เบอร์ </label>
+              <input type="text" formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์"><br>
+              <label for="test" class="form-label">จังหวัด </label>
+              <input type="text" formControlName="province" class="form-control" placeholder="กรุณากรอกจังหวัด"><br>
+              <label for="test" class="form-label">อำเภอ </label>
+              <input type="text" formControlName="district" class="form-control" placeholder="กรุณากรอกอำเภอ"><br>
+              <label for="test" class="form-label">ไฟล์แนบ </label><br>
+              <input type="file"multiple (change)="uploadFile($event)">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </form>
+      <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+  
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modaldeleteInformationoperation class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+        <i class="fa fa-info-circle delete-icon"></i>
+        <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+          ลบข้อมูล
+        </p>
+        <p style="font-size: medium; color: #545454;">
+          คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+        </p>
+        <button type="button" class="btn btn-primary btnMargin" (click)="deleteInformationoperation(delid)">
+          ใช่
+        </button> &nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+          ไม่ใช่
+        </button>
+      </div>
+    </ng-template>
+    <!-- END primary modal -->
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modaleditInformationoperation class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="editInformationoperation(Form.value,delid)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ</h5><br>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <div class="form-group">
+            <label for="test" class="form-label">ประเภทสถานที่ </label><br>
+            <select id="location" formControlName="location">
+              <option value="ที่พัก">ที่พัก</option>
+              <option value="ร้านอาหาร">ร้านอาหาร</option>
+            </select><br><br>
+            <label for="test" class="form-label">ชื่อ</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" value="{{name}}" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อสถานที่"><br>
+              <label for="test" class="form-label">รายละเอียด </label>
+              <input type="text" value="{{detail}}"formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+              <label for="test" class="form-label">เบอร์ </label>
+              <input type="text" value="{{tel}}"formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์ติดต่อ"><br>
+              <label for="test" class="form-label">จังหวัด </label>
+              <input type="text" value="{{province}}"formControlName="province" class="form-control" placeholder="กรุณากรอกจังหวัด"><br>
+              <label for="test" class="form-label">อำเภอ </label>
+              <input type="text" value="{{district}}"formControlName="district" class="form-control" placeholder="กรุณากรอกอำเภอ"><br>
+              <label for="test" class="form-label">ไฟล์แนบ </label><br>
+              <input type="file" >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+  <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+
+  

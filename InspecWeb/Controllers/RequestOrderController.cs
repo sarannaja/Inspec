@@ -43,48 +43,57 @@ namespace InspecWeb.Controllers
         {
             var Requestdata = _context.RequestOrders.ToList();
             return Requestdata;
+
         }
 
         [HttpGet("{id}")]
-        public object Get(long id)
+        public IActionResult Get(long id)
         {
+
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-                .Include(m => m.ExecutiveOrders)
+                .Include(m => m.RequestOrders)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id).FirstOrDefault();
+            /*.Where(m => m.Id == id).FirstOrDefault();*/
+            .Where(m => m.Class == "แผนการตรวจประจำปี" && m.Id == id).ToList();
 
+            // .First()        
             return Ok(centralpolicydata);
             //return "value";
         }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] RequestViewModel model)
         {
-            System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
+           /* System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
             System.Console.WriteLine("provinceid: " + model.ProvinceId);
-            System.Console.WriteLine("Name: " + model.Name);
+            System.Console.WriteLine("Name: " + model.Name);*/
+            var date = DateTime.Now;
             var cabinedata = new RequestOrder
             {
 
                 DetailRequestOrder = model.Name,
                 CentralPolicyId = model.CentralpolicyId,
                 ProvinceId = model.ProvinceId,
+                UserId = model.UserId,
+                CreatedAt = date
+                
             };
 
             _context.RequestOrders.Add(cabinedata);
             _context.SaveChanges();
 
-            if (!Directory.Exists(_environment.WebRootPath + "//upload//"))
+            if (!Directory.Exists(_environment.WebRootPath + "//requestfile//"))
             {
-                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+                Directory.CreateDirectory(_environment.WebRootPath + "//requestfile//"); //สร้าง Folder Upload ใน wwwroot
             }
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
-            var filePath = _environment.WebRootPath + "//Uploads//";
+            var filePath = _environment.WebRootPath + "//requestfile//";
 
 
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
@@ -110,7 +119,7 @@ namespace InspecWeb.Controllers
                     };
                     _context.RequestOrderFiles.Add(RequestOrderFile);
                     _context.SaveChanges();
-                    System.Console.WriteLine("Sucess");
+                   /* System.Console.WriteLine("Sucess");*/
                 }
             }
             return Ok(new { status = true });
@@ -147,21 +156,56 @@ namespace InspecWeb.Controllers
         {
             var requestOrderdata = _context.RequestOrders
                 /*.Include(m => m.DetailExecutiveOrder)*/
+                .Include(m => m.CentralPolicy)
                 .Include(m => m.Province)
                 .Include(m => m.RequestOrderFiles)
+                .Include(m => m.AnswerRequestOrderFile)
                 .Where(m => m.CentralPolicyId == id);
 
             return Ok(requestOrderdata);
             //return "value";
         }
-        [HttpPut]
+        [HttpGet("view/{id}")]//new///
+        public IActionResult Getviewrequest(long id)
+        {
+            var viewrequestOrderdata = _context.RequestOrders
+                .Include(m => m.Province)
+                .Include(m => m.UserId)
+                .Include(m => m.CreatedAt)
+                .Include(m => m.RequestOrderFiles)
+                .Include(m => m.AnswerRequestOrderFile)
+                .Where(m => m.CentralPolicyId == id);
+
+            return Ok(viewrequestOrderdata);
+            //return "value";
+        }
+
+        [HttpGet("detailforinspector/{id}/{userid}")]
+        public IActionResult Getrequestrole3(long id, string userid)
+        {
+            var provinceId = _context.UserProvinces
+                .Where(x => x.UserID == userid)
+                .Select(x => x.ProvinceId)
+                .FirstOrDefault();
+
+            var requestOrderdata = _context.RequestOrders
+                /*.Include(m => m.DetailExecutiveOrder)*/
+                .Include(m => m.Province)
+                .Include(m => m.RequestOrderFiles)
+                .Where(m => m.CentralPolicyId == id && m.ProvinceId == provinceId);
+
+            return Ok(requestOrderdata);
+            //return "value";
+        }
+
+        [HttpPut("edit")]
         public async Task<IActionResult> Put([FromForm] RequestViewModel model)
         {
-                System.Console.WriteLine("detailrequestorder: " + model.id);
+               /* System.Console.WriteLine("detailrequestorder: " + model.id);
                 System.Console.WriteLine("AnswerDetail: " + model.AnswerDetail);
                 System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
                 System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
-                System.Console.WriteLine("AnswerRequestorder: " + model.files);
+                System.Console.WriteLine("AnswerRequestorder: " + model.files);*/
             var cabinedata = _context.RequestOrders.Find(model.id);
             {
                 cabinedata.AnswerDetail = model.AnswerDetail;
@@ -173,13 +217,13 @@ namespace InspecWeb.Controllers
              _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
             
-            if (!Directory.Exists(_environment.WebRootPath + "//upload//"))
+            if (!Directory.Exists(_environment.WebRootPath + "//requestfile//"))
             {
-                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+                Directory.CreateDirectory(_environment.WebRootPath + "//requestfile//"); //สร้าง Folder Upload ใน wwwroot
             }
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
-            var filePath = _environment.WebRootPath + "//Uploads//";
+            var filePath = _environment.WebRootPath + "//requestfile//";
             
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
             //foreach (var formFile in data.files)
@@ -204,11 +248,55 @@ namespace InspecWeb.Controllers
                     };
                     _context.AnswerRequestOrderFiles.Add(AnswerRequestOrderFile);
                     _context.SaveChanges();
-                    System.Console.WriteLine("Success");
+                    /*System.Console.WriteLine("Success");*/
                 }
             }
             return Ok(new { status = true });
         }
+        [HttpGet("ex/{id}")]
+        public IActionResult GetData(string id)
+        {
+           /* System.Console.WriteLine("DDDDD");
+            System.Console.WriteLine("USERID : " + id);*/
+            //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
+            //                              select P;
+            //return inspectionPlanEventdata;
+            var userprovince = _context.UserProvinces
+                               .Where(m => m.UserID == id)
+                               .ToList();
+
+            //var inspectionplans = _context.InspectionPlanEvents
+            //                    .Include(m => m.Province)
+            //                    .Include(m => m.CentralPolicyEvents)
+            //                    .ThenInclude(m => m.CentralPolicy)
+            //                    .ThenInclude(m => m.CentralPolicyProvinces)
+            //                    .ToList();
+
+            //var inspectionplans = _context.CentralPolicies
+            //                    .Include(m => m.CentralPolicyProvinces)
+            //                    .ThenInclude(x => x.Province).ToList();
+
+            var inspectionplans = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(x => x.FiscalYear)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyDates)
+                .ToList();
+
+            List<object> termsList = new List<object>();
+            foreach (var inspectionplan in inspectionplans)
+            {
+                for (int i = 0; i < userprovince.Count(); i++)
+                {
+                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                        termsList.Add(inspectionplan);
+                }
+            }
+
+            return Ok(termsList);
+
+        }
+      
     }
  }
 
