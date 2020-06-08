@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using InspecWeb.Data;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace InspecWeb.Controllers
 {
@@ -650,6 +653,7 @@ namespace InspecWeb.Controllers
             else
             {
                 var ebook = _context.ElectronicBookGroups
+                .Include(x => x.ElectronicBookAccepts)
                 .Include(x => x.CentralPolicyProvince)
                 .ThenInclude(x => x.Province)
                 .Include(x => x.CentralPolicyProvince)
@@ -1002,6 +1006,70 @@ namespace InspecWeb.Controllers
                 .ToList();
 
             return Ok(new { centralpolicyuserdata, subjectData });
+        }
+
+        // GET: api/ElectronicBook
+        [HttpGet("exportexcel/{id}")]
+        public IActionResult Get4(long id)
+        {
+            var ebook = _context.ElectronicBookGroups
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.Province)
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyUser)
+                .Include(x => x.ElectronicBook)
+                .Include(x => x.CentralPolicyProvince)
+                .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+                .Where(x => x.CentralPolicyProvince.SubjectCentralPolicyProvinces.Any(x => x.Type == "NoMaster" && x.Status == "ใช้งานจริง"))
+                .Where(x => x.Id == id).First();
+
+            var centralprovinceid = _context.CentralPolicyProvinces
+                .Where(x => x.Id == ebook.CentralPolicyProvinceId).First();
+
+            var exe = _context.ExecutiveOrders
+                .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
+            
+            var user = _context.CentralPolicyUsers
+                .Include(x => x.User)
+                .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
+
+            return Ok(new { ebook , exe , user });
+
+            var ssss = new UrlEBookData { data = new EBookData { ebook = ebook, exe = exe } } ;
+            //return Ok(ssss);
+            //var json = JsonConvert.SerializeObject(ssss);
+            var data = new StringContent(ssss.ToString(), Encoding.UTF8, "application/json");
+
+            //var data2 = new StringContent(data, Encoding.UTF8, "application/json");
+            var client = new HttpClient();
+            List<UrlEBook> model = null;
+            var task = client.PostAsync("http://localhost:3000/excel", data)
+                .ContinueWith((taskwithresponse) => {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<List<UrlEBook>>(jsonString.Result);
+                });
+            task.Wait();
+            return Ok(task);
+
+        }
+
+        // POST api/values
+        [HttpPost("accept")]
+        public ElectronicBookAccept Post(long bookgroupid, string userid)
+        {
+            var ElectronicBookAcceptdata = new ElectronicBookAccept
+            {
+                UserId = userid,
+                ElectronicBookGroupId = bookgroupid
+            };
+
+            _context.ElectronicBookAccepts.Add(ElectronicBookAcceptdata);
+            _context.SaveChanges();
+
+            return ElectronicBookAcceptdata;
         }
     }
 }

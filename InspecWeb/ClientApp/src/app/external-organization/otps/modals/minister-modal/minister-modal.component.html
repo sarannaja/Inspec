@@ -12,28 +12,37 @@
                     <!-- <hr> -->
                     <tr>
                         <td>โครงการที่เบิกจ่ายแล้วเสร็จ:</td>
-                        <td id="complete-count" class="text-right">{{minister.fiscalYears[0].projects.completed}} โครงการ</td>
+                        <td id="complete-count" class="text-right">
+                            {{minister.fiscalYears[0].projects.completed|CustomeCurrency}} โครงการ</td>
                     </tr>
                     <tr>
                         <td>โครงการกำลังดำเนินงาน:</td>
-                        <td class="text-right">{{minister.fiscalYears[0].projects.count - minister.fiscalYears[0].projects.completed }} โครงการ</td>
+                        <td class="text-right">
+                            {{minister.fiscalYears[0].projects.count - minister.fiscalYears[0].projects.completed }}
+                            โครงการ</td>
                     </tr>
                     <tr>
                         <td>งบประมาณ:</td>
-                        <td  class="text-right">{{minister.fiscalYears[0].projects.totalBudget}} บาท</td>
+                        <td class="text-right">{{(minister.fiscalYears[0].projects.totalBudget)| CustomeCurrency}} บาท
+                        </td>
                     </tr>
                     <tr>
                         <td>งบประมาณที่ใช้จริง:</td>
-                        <td  class="text-right">{{minister.fiscalYears[0].projects.totalAmount}} บาท</td>
+                        <td class="text-right">{{(minister.fiscalYears[0].projects.totalAmount)| CustomeCurrency}} บาท
+                        </td>
                         <!-- <td  class="text-right">197,202,372.00 บาท</td> -->
                     </tr>
                     <tr>
                         <td>งบประมาณที่เบิกจ่ายไปแล้ว:</td>
-                        <td class="text-right">{{minister.fiscalYears[0].projects.totalBudget - minister.fiscalYears[0].projects.totalAmount}} บาท</td>
+                        <td class="text-right">
+                            {{(minister.fiscalYears[0].projects.totalBudget - minister.fiscalYears[0].projects.totalAmount)| CustomeCurrency}}
+                            บาท</td>
                     </tr>
                     <tr>
                         <td>งบประมาณที่ยังไม่ได้เบิกจ่าย:</td>
-                        <td  class="text-right">{{minister.fiscalYears[0].projects.totalBudget-(minister.fiscalYears[0].projects.totalBudget - minister.fiscalYears[0].projects.totalAmount)}} บาท</td>
+                        <td class="text-right">
+                            {{(minister.fiscalYears[0].projects.totalBudget-(minister.fiscalYears[0].projects.totalBudget - minister.fiscalYears[0].projects.totalAmount)) | CustomeCurrency}}
+                            บาท</td>
                     </tr>
                     <tr>
                         <td>ร้อยละความสำเร็จ:</td>

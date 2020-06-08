@@ -400,17 +400,37 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/centralpolicy",
     name: "แผนการตรวจประจำปี"
   },
+
   {
+    IDchildren: 'schedule',
     icon: 'fa-calendar',
-    url: "/inspectionplanevent",
-    name: "ปฏิทินการตรวจราชการ"
+    name: "กำหนดการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionplanevent',
+        name: 'ปฏิทินการตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportinspectionplanevent',
+        name: 'รายงานกำหนดการตรวจราชการ'
+      },
+    ]
   },
+
+  // {
+  //   icon: 'fa-calendar',
+  //   url: "/inspectionplanevent",
+  //   name: "ปฏิทินการตรวจราชการ"
+  // },
   {
     icon: 'fa-book',
     url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
-
   {
     IDchildren: 'report',
     icon: 'fa-user-tie',
