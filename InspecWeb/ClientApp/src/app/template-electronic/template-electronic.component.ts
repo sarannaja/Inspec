@@ -38,7 +38,7 @@ export class TemplateElectronicComponent implements OnInit {
 
   ngOnInit() {
     this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
-      type: 'pie', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
+      type: 'bar', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
       data: { // ข้อมูลภายในแผนภูมิแบบเส้น
           labels: ["Jan","Feb","March","April","May","June","July","August","Sep","Oct","Nov","Dec"], // ชื่อของข้อมูลในแนวแกน x
           datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น

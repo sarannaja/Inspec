@@ -124,6 +124,8 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 import { ExcelGeneraterService } from './services/excel-generater.service';
 import { DatePipe } from '@angular/common';
 import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
+import { GraphAnswerSubjectComponent } from './subject/graph-answer-subject/graph-answer-subject.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 
@@ -234,6 +236,7 @@ const ExternalOrganization = [
     InfoMinistryComponent,
     ReportInspectionPlanEventComponent,
     // DatePipe
+    GraphAnswerSubjectComponent,
   ],
 
   imports: [
@@ -243,6 +246,7 @@ const ExternalOrganization = [
     ApiAuthorizationModule,
     SelectModule,
     ReactiveFormsModule,
+    ChartsModule,
     MyDatePickerTHModule,
     // BrowserModule,
     SnotifyModule,
@@ -298,8 +302,6 @@ const ExternalOrganization = [
           { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/program/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
-          
-          //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
@@ -355,6 +357,7 @@ const ExternalOrganization = [
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subject/graph/:id', component: GraphAnswerSubjectComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -365,10 +368,10 @@ const ExternalOrganization = [
       { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'train', component: DefaultLayoutTrainComponent,
-        data: {title: 'หน้าหลัก'},
+        data: { title: 'หน้าหลัก' },
         children: [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
-      ]
+        ]
       }
     ]),
     ModalModule.forRoot(),
