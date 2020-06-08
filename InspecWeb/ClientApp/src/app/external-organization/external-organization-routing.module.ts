@@ -5,6 +5,7 @@ import { Opm1111Component } from './opm1111/opm1111.component';
 import { OtpsComponent } from './otps/otps.component';
 import { TestComponent } from './test/test.component';
 import { JoaComponent } from './joa/joa.component';
+import { VectorMapComponent } from './vector-map/vector-map.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
         component: OtpsComponent
       },
     
+      {
+        path: 'thaimap',
+        component: VectorMapComponent
+      },
     ]
   },
   {

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Regions, Ministers, Cabinets } from '../models/otps';
+import { Regions, Ministers, Cabinets, Province, ProvinceFiscalYears, ProvinceFiscalYear } from '../models/otps';
 // [assembly: RegisterModule(typeof(SSLRequestModule))]                                                                                                                                                                                                                                                                                                                                             
 
 @Injectable({
@@ -18,6 +18,14 @@ export class ExternalOrganizationService {
   getRegions(): Observable<Regions[]> {
     return this.http.get<Regions[]>('http://203.113.14.20:3000/testservice/otps/regions', this.httpOptions)
   }
+
+  getProvinces():Observable<Province[]>{
+    return this.http.get<Province[]>(this.baseUrl + 'api/ExternalOrganization/otps/provinces', this.httpOptions)
+  }
+  getProvince(id:any):Observable<ProvinceFiscalYear>{
+    return this.http.get<ProvinceFiscalYear>(this.baseUrl + 'api/ExternalOrganization/otps/provinces/'+id, this.httpOptions)
+  }
+  
   getMinisters(): Observable<Ministers[]> {
     return this.http.get<Ministers[]>(this.baseUrl + 'api/ExternalOrganization/otps/ministers', this.httpOptions)
   }
@@ -36,6 +44,10 @@ export class ExternalOrganizationService {
 
   getGccwara(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl + 'api/ExternalOrganization/gcc/wara', this.httpOptions)
+  }
+
+  getGcc1111(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'api/ExternalOrganization/opm-1111', this.httpOptions)
   }
 
 }
