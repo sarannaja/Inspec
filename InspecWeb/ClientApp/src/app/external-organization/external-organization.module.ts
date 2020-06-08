@@ -15,6 +15,8 @@ import { TitleModalComponent } from './otps/modals/title-modal/title-modal.compo
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { GccOpmTableComponent } from './ggc-opm/gcc-opm-table/gcc-opm-table.component';
 import { FormsModule } from '@angular/forms';
+import { TestComponent } from './test/test.component';
+import { JoaComponent } from './joa/joa.component';
 
 
 
@@ -28,6 +30,8 @@ import { FormsModule } from '@angular/forms';
     MinisterModalComponent,
     TitleModalComponent,
     GccOpmTableComponent,
+    TestComponent,
+    JoaComponent,
     
   ],
   imports: [

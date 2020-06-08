@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { GgcOpmComponent } from './ggc-opm/ggc-opm.component';
 import { Opm1111Component } from './opm1111/opm1111.component';
 import { OtpsComponent } from './otps/otps.component';
+import { TestComponent } from './test/test.component';
+import { JoaComponent } from './joa/joa.component';
 
 const routes: Routes = [
   {
@@ -26,8 +28,22 @@ const routes: Routes = [
         path: 'otps',
         component: OtpsComponent
       },
+    
     ]
   },
+  {
+    path:'test',
+    component:JoaComponent,
+    children:[
+      {
+        path:'',pathMatch:'',redirectTo:'ssss'
+      },
+      {
+        path: 'ssss',
+        component: TestComponent
+      },
+    ]
+  }
 ]
 
 @NgModule({
