@@ -252,7 +252,7 @@ export class ElectronicbookService {
   }
 
   getReportExcelElectronicBook(id) {
-    return this.http.get(this.url + "exportexcel/" + id)
+    return this.http.get<any>(this.url + "exportexcel/" + id)
   }
 }
 
