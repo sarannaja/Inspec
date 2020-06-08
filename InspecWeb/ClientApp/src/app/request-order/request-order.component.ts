@@ -58,14 +58,15 @@ export class RequestOrderComponent implements OnInit {
         //console.log("test" , result);      
         this.role_id = result[0].role_id
 
-          if(this.role_id != 3){
+          if(this.role_id != 5){
             this.detailrequestOrderService.getcentralpolicydata()
             .subscribe(result => {
-              // console.log("role8" , result); 
+               //console.log("role5" , result); 
               this.resultcentralpolicy = result
               this.loading = true
             })
           }else{
+            //alert("hi")
             // this.detailrequestOrderService.getcentralpolicydata()
             // .subscribe(result => {
               
@@ -75,7 +76,7 @@ export class RequestOrderComponent implements OnInit {
             //this.requestOrderService.getcentralpolicydata()
            this.requestOrderService.getCentralpolicydata(this.userid)
            .subscribe(result => {
-            //  console.log("role3" , result); 
+              //console.log("role5" , result); 
              this.resultcentralpolicy = result
              this.loading = true
            })

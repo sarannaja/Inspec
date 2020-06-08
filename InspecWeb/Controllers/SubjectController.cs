@@ -778,6 +778,16 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
 
+        // DELETE api/values/5
+        [HttpDelete("deletefile/{id}")]
+        public void Delete4(long id)
+        {
+            var filedata = _context.SubjectCentralPolicyProvinceFiles.Find(id);
+
+            _context.SubjectCentralPolicyProvinceFiles.Remove(filedata);
+            _context.SaveChanges();
+        }
+
         [HttpPost("subjectprovince")]
         public object Post(long centralpolicyid, long provincevalue)
         {
