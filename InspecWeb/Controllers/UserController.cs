@@ -15,7 +15,7 @@ using ClosedXML.Excel;
 
 namespace InspecWeb.Controllers
 {
-   // [Route("api/[controller]")]
+    // [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -31,23 +31,23 @@ namespace InspecWeb.Controllers
 
         private static UserManager<ApplicationUser> _userManager;
         private static ApplicationDbContext _context;
-      
+
         public UserController(ApplicationDbContext context,
             UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
         {
             _context = context;
             _userManager = userManager;
             _environment = environment;
-         
+
         }
 
-        
+
 
         [HttpGet("api/[controller]/[action]")]
         public IActionResult momomo()
         {
-            UserViewModel[] Momos = 
-            {      
+            UserViewModel[] Momos =
+            {
                 new UserViewModel { UserName ="admin1@inspec.go.th", Email = "admin1@inspec.go.th" },
                 new UserViewModel { UserName ="admin2@inspec.go.th", Email = "admin2@inspec.go.th" },
                 new UserViewModel { UserName ="admin3@inspec.go.th", Email = "admin3@inspec.go.th" },
@@ -83,18 +83,18 @@ namespace InspecWeb.Controllers
         [HttpGet("api/[controller]/[action]/{id}")]
         public IEnumerable<ApplicationUser> getuser(long id)
         {
-                 var users = _context.Users
-                .Include(s => s.UserRegion)
-                .ThenInclude(r => r.Region)
-                .Include(s => s.UserProvince)
-                .ThenInclude(r => r.Province)
-                .Include(s => s.Province)
-                .Include(s => s.Ministries)
-                .Where(m => m.Role_id == id)
-                .Where(m => m.Active == 1)
-                .Where(m => m.Email != "admin@inspec.go.th");
+            var users = _context.Users
+           .Include(s => s.UserRegion)
+           .ThenInclude(r => r.Region)
+           .Include(s => s.UserProvince)
+           .ThenInclude(r => r.Province)
+           .Include(s => s.Province)
+           .Include(s => s.Ministries)
+           .Where(m => m.Role_id == id)
+           .Where(m => m.Active == 1)
+           .Where(m => m.Email != "admin@inspec.go.th");
 
-                return users;
+            return users;
         }
         [HttpGet("api/[controller]/[action]/{id}")]
         public IEnumerable<ApplicationUser> getuserlist(string id)
@@ -109,7 +109,7 @@ namespace InspecWeb.Controllers
            .Where(m => m.Id == id)
            .Where(m => m.Active == 1);
 
-           return users;
+            return users;
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]
@@ -125,7 +125,7 @@ namespace InspecWeb.Controllers
            .Where(m => m.Id == id)
            .Where(m => m.Active == 1).FirstOrDefault();
 
-         yield  return users;
+            yield return users;
         }
 
 
@@ -136,7 +136,7 @@ namespace InspecWeb.Controllers
         {
             var date = DateTime.Now;
             //var mo = model.Email;
-            
+
             //System.Console.WriteLine("testuser : " + mo);
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -194,7 +194,7 @@ namespace InspecWeb.Controllers
             user.Alley = model.Alley;
             user.Postalcode = model.Postalcode;
             user.Side = model.Side;
-           
+
             user.CreatedAt = DateTime.Now;
             user.Startdate = DateTime.Now;
             user.Enddate = DateTime.Now;
@@ -235,83 +235,83 @@ namespace InspecWeb.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromForm] UserViewModel model, String editId)
         {
-            Console.WriteLine("momomo :"+ model.Formprofile);
+            Console.WriteLine("momomo :" + model.Formprofile);
 
             var userdata = _context.Users.Find(editId);
-                 userdata.Img = model.Img;
+            userdata.Img = model.Img;
 
-                if (!Directory.Exists(_environment.WebRootPath + "//imgprofile//"))
-                {
-                    Directory.CreateDirectory(_environment.WebRootPath + "//imgprofile//"); //สร้าง Folder Upload ใน wwwroot
-                }
+            if (!Directory.Exists(_environment.WebRootPath + "//imgprofile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//imgprofile//"); //สร้าง Folder Upload ใน wwwroot
+            }
 
-                var filePath = _environment.WebRootPath + "//imgprofile//";
-                if (model.files != null)
+            var filePath = _environment.WebRootPath + "//imgprofile//";
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
                 {
-                    foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    // System.Console.WriteLine("testuser1 : ");
+
+                    if (formFile.Value.Length > 0)
                     {
-                        var random = RandomString(10);
-                        string filePath2 = formFile.Value.FileName;
-                        string filename = Path.GetFileName(filePath2);
-                        string ext = Path.GetExtension(filename);
-
-                        // System.Console.WriteLine("testuser1 : ");
-
-                        if (formFile.Value.Length > 0)
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
                         {
-                            using (var stream = System.IO.File.Create(filePath + random + filename))
-                            {
-                                await formFile.Value.CopyToAsync(stream);
-                            }
-
-                            userdata.Img = random + filename;
-                            // System.Console.WriteLine("testuser2 : " + random + filename);
+                            await formFile.Value.CopyToAsync(stream);
                         }
+
+                        userdata.Img = random + filename;
+                        // System.Console.WriteLine("testuser2 : " + random + filename);
                     }
                 }
-                if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง
-                {
-                        userdata.Prefix = model.Prefix;
-                        userdata.Name = model.Name;
-                        userdata.Position = model.Position;
-                        userdata.PhoneNumber = model.PhoneNumber;
-                }
-                else // แอดมินแก้ไขไห้
-                {
-                    userdata.DistrictId = model.DistrictId; //*
-                    userdata.ProvinceId = model.ProvinceId; //*
-                    userdata.SubdistrictId = model.SubdistrictId; //*
-                    userdata.MinistryId = model.MinistryId; //*
-                    userdata.DepartmentId = model.DepartmentId; //*
-                    userdata.Position = model.Position;//*
-                    userdata.Prefix = model.Prefix;  //*
-                    userdata.Name = model.Name; //*
-                    userdata.PhoneNumber = model.PhoneNumber; //*
-                    userdata.Role_id = model.Role_id;
-                    userdata.Educational = model.Educational;
-                    userdata.Birthday = DateTime.Now;
-                    userdata.Officephonenumber = model.Officephonenumber;               
-                    userdata.Telegraphnumber = model.Telegraphnumber;
-                    userdata.Housenumber = model.Housenumber;
-                    userdata.Rold = model.Rold;
-                    userdata.Alley = model.Alley;
-                    userdata.Postalcode = model.Postalcode;
-                    userdata.Side = model.Side;
+            }
+            if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง
+            {
+                userdata.Prefix = model.Prefix;
+                userdata.Name = model.Name;
+                userdata.Position = model.Position;
+                userdata.PhoneNumber = model.PhoneNumber;
+            }
+            else // แอดมินแก้ไขไห้
+            {
+                userdata.DistrictId = model.DistrictId; //*
+                userdata.ProvinceId = model.ProvinceId; //*
+                userdata.SubdistrictId = model.SubdistrictId; //*
+                userdata.MinistryId = model.MinistryId; //*
+                userdata.DepartmentId = model.DepartmentId; //*
+                userdata.Position = model.Position;//*
+                userdata.Prefix = model.Prefix;  //*
+                userdata.Name = model.Name; //*
+                userdata.PhoneNumber = model.PhoneNumber; //*
+                userdata.Role_id = model.Role_id;
+                userdata.Educational = model.Educational;
+                userdata.Birthday = DateTime.Now;
+                userdata.Officephonenumber = model.Officephonenumber;
+                userdata.Telegraphnumber = model.Telegraphnumber;
+                userdata.Housenumber = model.Housenumber;
+                userdata.Rold = model.Rold;
+                userdata.Alley = model.Alley;
+                userdata.Postalcode = model.Postalcode;
+                userdata.Side = model.Side;
 
-                }
+            }
 
-                foreach (var item in model.UserRegion)
+            foreach (var item in model.UserRegion)
+            {
+                var userregiondata = new UserRegion
                 {
-                    var userregiondata = new UserRegion
-                    {
-                        UserID = editId,
-                        RegionId = item
-                    };
-                    _context.UserRegions.Add(userregiondata);
-                    _context.SaveChanges();
-                }
+                    UserID = editId,
+                    RegionId = item
+                };
+                _context.UserRegions.Add(userregiondata);
+                _context.SaveChanges();
+            }
 
-       
+
             _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
@@ -693,18 +693,31 @@ namespace InspecWeb.Controllers
 
             return provinces;
         }
-         [HttpGet("api/get_role/{id}")]
+        [HttpGet("api/get_role/{id}")]
         public IActionResult test(string id)
         {
-          var user =  _userManager.Users.Where(m => m.Id == id)
-                 .Include(m => m.Departments)
-                 //.ThenInclude(m=>m.)
-                 .FirstOrDefault();
+            var user = _userManager.Users.Where(m => m.Id == id)
+                   .Include(m => m.Departments)
+                   //.ThenInclude(m=>m.)
+                   .FirstOrDefault();
 
             var proviceDepart = _context.ProvincialDepartment
-            .Where(m=>m.DepartmentId == user.DepartmentId ).FirstOrDefault();
-            var test = new {user,proviceDepart};
-            return Ok(new{user,proviceDepart});
+            .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
+            var test = new { user, proviceDepart };
+            return Ok(new { user, proviceDepart });
+        }
+
+        [HttpGet("api/provicedepart/{id}")]
+        public IActionResult proviceDepart(string id)
+        {
+            var user = _userManager.Users.Where(m => m.Id == id)
+                   .Include(m => m.Departments)
+                   //.ThenInclude(m=>m.)
+                   .FirstOrDefault();
+
+            var proviceDepart = _context.ProvincialDepartment
+            .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
+            return Ok(proviceDepart);
         }
     }
 
