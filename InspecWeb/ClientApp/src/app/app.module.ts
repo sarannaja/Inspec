@@ -98,6 +98,8 @@ import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-ce
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/inspection-plan-event-province/inspection-plan-event-province.component';
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
+import { GraphAnswerSubjectComponent } from './subject/graph-answer-subject/graph-answer-subject.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 
@@ -186,6 +188,7 @@ const ExternalOrganization = [
     InvitedElectronicBookComponent,
     InspectionPlanEventProvinceComponent,
     InfoMinistryComponent,
+    GraphAnswerSubjectComponent,
   ],
 
   imports: [
@@ -195,6 +198,7 @@ const ExternalOrganization = [
     ApiAuthorizationModule,
     SelectModule,
     ReactiveFormsModule,
+    ChartsModule,
     MyDatePickerTHModule,
     // BrowserModule,
     SnotifyModule,
@@ -290,6 +294,7 @@ const ExternalOrganization = [
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subject/graph/:id', component: GraphAnswerSubjectComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

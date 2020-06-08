@@ -696,8 +696,15 @@ namespace InspecWeb.Controllers
          [HttpGet("api/get_role/{id}")]
         public IActionResult test(string id)
         {
-           
-            return Ok(_userManager.Users.Where(m =>  m.Id == id).FirstOrDefault());
+          var user =  _userManager.Users.Where(m => m.Id == id)
+                 .Include(m => m.Departments)
+                 //.ThenInclude(m=>m.)
+                 .FirstOrDefault();
+
+            var proviceDepart = _context.ProvincialDepartment
+            .Where(m=>m.DepartmentId == user.DepartmentId ).FirstOrDefault();
+            var test = new {user,proviceDepart};
+            return Ok(new{user,proviceDepart});
         }
     }
 

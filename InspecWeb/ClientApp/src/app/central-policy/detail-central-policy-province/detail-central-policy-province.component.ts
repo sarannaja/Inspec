@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject, ɵɵtemplateRefExtractor } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -12,13 +12,15 @@ import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
-
+import { ChartDataSets, ChartType, ChartOptions, Chart } from 'chart.js';
+import { Label } from 'ng2-charts';
 @Component({
   selector: 'app-detail-central-policy-province',
   templateUrl: './detail-central-policy-province.component.html',
   styleUrls: ['./detail-central-policy-province.component.css']
 })
 export class DetailCentralPolicyProvinceComponent implements OnInit {
+
 
   resultuser: any = []
   resultpeople: any = []
@@ -73,10 +75,67 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   answer: any;
   answerData: any = [];
   centralpolicyprovincedata: any;
-
+  answerSubquestions: any = []
+  subquestionChoice: any[] = []
   fileStatus2 = false;
   signatureFile: any = [];
   fileType: any;
+  lineChart: any = [];
+  barChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      xAxes: [
+        {
+          // stacked: true
+        }
+      ],
+      yAxes: [
+        {
+          ticks: {
+            suggestedMin: 0,
+            // suggestedMax: 100
+          },
+          // stacked: true
+        }
+      ]
+    },
+  };
+  // subquestionChoice[i].question
+  barChartLabels: Label[] = ['2013', '2014', '2015', '2016', '2017', '2018'];
+  barChartType: ChartType = 'bar';
+  barChartLegend = true;
+  barChartPlugins = [];
+  // ssss: ChartDataSets[] = [{ data: [[5, 6], [3, 6]] }]
+  barchartAllset: any = {
+    label: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
+    barChartData: [
+      { data: [65, 59, 80, 81, 56, 55, 40], label: 'หน่วยงาน A', stack: 'a' },
+      { data: [28, 48, 40, 19, 86, 27, 90], label: 'หน่วยงาน B', stack: 'b' },
+      { data: [30, 40, 20, 12, 33, 23, 50], label: 'หน่วยงาน c', stack: 'c' },
+    ]
+
+    // [{ data: [[0, 6], [3, 6]], label: ["'ชื่อหน่วยงาน':'hello'", "'ชื่อหน่วยงาน':'hello2222'"] }]
+
+    // { data: [6], label: 'นิก' },
+    // { data: [10], label: 'ปาล์ม' }
+
+
+    // {
+    //   label: 'Dataset 1',
+    //   backgroundColor: window.chartColors.red,
+    //   data: [
+    //     randomScalingFactor(),
+    //     randomScalingFactor(),
+    //     randomScalingFactor(),
+    //     randomScalingFactor(),
+    //     randomScalingFactor(),
+    //     randomScalingFactor(),
+    //     randomScalingFactor()
+    //   ]
+    // }
+  }
+
+
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -98,6 +157,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   async ngOnInit() {
 
+    // this.graph();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -195,6 +255,35 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.spinner.hide();
     }, 800);
   }
+  graph() {
+    this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
+      type: 'bar', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
+      data: { // ข้อมูลภายในแผนภูมิแบบเส้น
+        labels: ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sep", "Oct", "Nov", "Dec"], // ชื่อของข้อมูลในแนวแกน x
+        datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
+          label: 'Number of items sold in months',
+          data: [9, 7, 3, 5, 2, 10, 15, 61, 19, 3, 1, 9],
+          fill: false,
+          lineTension: 0.2,
+          borderColor: "red", // สีของเส้น
+          borderWidth: 1
+        }]
+      },
+      options: {
+        title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
+          text: "Bar Chart",
+          display: true
+        }
+      },
+      // scales: { // แสดง scales ของแผนภูมิเริมที่ 0
+      //    yAxes: [{
+      //       ticks:{
+      //          beginAtZero:true
+      //       }
+      //    }]
+      //  }
+    })
+  }
   initdepartment() {
     return this.fb.group({
       departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
@@ -273,7 +362,20 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       subquestionclose: name,
     })
   }
+  showGraph(item) {
+    // barchartAllset: any = {
+    //   label: ['คำตอบ', 'ตัวเลือก', '2008', '2009', '2010', '2011', '2012'],
+    //   barChartData: [
+    //     { data: [65, 59, 80, 81, 56, 55, 40], label: 'หน่วยงาน A', stack: 'a' },
+    //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'หน่วยงาน B', stack: 'b' },
+    //     { data: [30, 40, 20, 12, 33, 23, 50], label: 'หน่วยงาน c', stack: 'c' },
+    //   ]
+    console.log("showGraph", item.subquestionChoiceCentralPolicyProvinces);
+    item.subquestionChoiceCentralPolicyProvinces.forEach(element => {
+      console.log("element", element);
 
+    })
+  }
   editModal2(template: TemplateRef<any>, id, name) {
     this.editid = id;
     this.subquestionclosechoicename = name;
@@ -385,27 +487,128 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         })
         // alert(this.centralpolicyprovincedata.step)
         // if (this.resultdetailcentralpolicyprovince.length > 0) {
-          if (this.role_id == 3) {
-            if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
-              this.centralpolicyprovincedata.step = "มอบหมายจังหวัด"
-            }
-            this.form.patchValue({
-              step: this.centralpolicyprovincedata.step
-            })
-          } else if (this.role_id == 5) {
-            if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
-              this.centralpolicyprovincedata.step = "มอบหมายเขต"
-            }
-            this.form.patchValue({
-              step: this.centralpolicyprovincedata.step
-            })
+        if (this.role_id == 3) {
+          if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+            this.centralpolicyprovincedata.step = "มอบหมายจังหวัด"
           }
-
-
+          this.form.patchValue({
+            step: this.centralpolicyprovincedata.step
+          })
+        } else if (this.role_id == 5) {
+          if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+            this.centralpolicyprovincedata.step = "มอบหมายเขต"
+          }
+          this.form.patchValue({
+            step: this.centralpolicyprovincedata.step
+          })
+        }
         // } else {
         //   alert("else")
         // }
+        this.resultdetailcentralpolicyprovince.forEach(element => {
+          var subquestionCentralPolicyProvinces: any[] = element.subquestionCentralPolicyProvinces
+          var subquestionChoicef: any[] = []
 
+          subquestionCentralPolicyProvinces
+            .filter(element2 => {
+              return element2.type == "คำถามปลายปิด"
+            })
+            .forEach(result => {
+              var data: any[] = result.subquestionChoiceCentralPolicyProvinces
+              var data2: any[]
+              var dataanswer: any[] = result.answerSubquestions
+              var dataanswer2: any[]
+              // data.push()
+              data2 = data.map(result => {
+                return result.name
+              })
+              console.log("result", result);
+
+              dataanswer2 = dataanswer.map(result => {
+                return result.answer
+              })
+              // barchartAllset: any = {
+              //   label: ['แมวคือไร'],
+              //   barChartData: [
+              //     { data: [6], label: 'นิก' },
+              //     { data: [10], label: 'ปาล์ม' }
+              //   ]
+              // }
+              var reasult1 = {}
+              dataanswer2.forEach(
+                function (x) {
+                  reasult1[x] = (reasult1[x] || 0) + 1;
+                  // console.log(x);
+                });
+              // console.log("reasult1", reasult1);
+
+              this.subquestionChoice.push(
+                { question: data2, answer: dataanswer2.length == 0 ? 0 : dataanswer2, data: Object.values(reasult1) }
+              )
+
+              // this.subquestionChoice.
+              // this.subquestionChoice.push(resultdata.name)
+              // data.forEach(resultdata => {
+              //   this.subquestionChoice.push(resultdata.name)
+              // })
+              //  result
+            })
+          // const count = this.subquestionChoice.reduce((acc, cur) => cur.id === id ? ++acc : acc, 0);
+          // this.subquestionChoice.forEach(element => {
+          //   console.log("in");
+          //   element.data.forEach(element2 => {
+          //     console.log("element2", element2);
+          //     if (element.data = null) {
+          //       console.log("in2");
+
+          //     }
+          //   })
+
+          // })
+          console.log(this.subquestionChoice);
+
+          // subquestionCentralPolicyProvinces
+          //   .filter(element2 => {
+          //     return element2.type == "คำถามปลายปิด"
+          //   })
+          //   .forEach(result => {
+          //     var dataanswer: any[] = result.answerSubquestions
+          //     var dataanswer2: any[]
+          //     // data.push()
+          //     dataanswer2 = dataanswer.map(result => {
+          //       return result.answer
+          //     })
+          //     this.answerSubquestions.push(
+          //       dataanswer2
+          //     )
+          //     // this.subquestionChoice.push(resultdata.name)
+          //     // data.forEach(resultdata => {
+          //     //   this.subquestionChoice.push(resultdata.name)
+          //     // })
+          //     //  result
+          //   })
+
+          // var subquestionChoiceCentralPolicyProvinces = subquestionChoicef.subquestionChoiceCentralPolicyProvinces
+          // subquestionChoicef.forEach(item => {
+          //   this.subquestionChoice.push(item.name)
+          // })
+          // subquestionChoiceCentralPolicyProvinces
+          // this.subquestionChoice.push(
+          //   subquestionChoicef
+          // )
+
+
+          // this.subquestionChoice = this.subquestionChoice.push(subquestionChoicef)
+          // this.subquestionChoice = this.subquestionChoice
+          // element.subquestionCentralPolicyProvinces.forEach(element2 => {
+          //   if (element2.type == "คำถามปลายปิด")
+          //     this.subquestionChoice.push(element2.subquestionChoiceCentralPolicyProvinces)
+          // })
+          // this.subquestionCentralPolicyProvinces.push(element.subquestionCentralPolicyProvinces)
+        })
+        console.log('subquestionChoice', this.subquestionChoice);
+
+        // console.log("subquestionChoice", subquestionChoice);
 
         this.getCalendarFile();
       })
@@ -433,12 +636,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           console.log(response);
         })
 
-        this.spinner.show();
-        setTimeout(() => {
-          this.getCalendarFile();
-          this.form.reset();
-          this.spinner.hide();
-        }, 300);
+      this.spinner.show();
+      setTimeout(() => {
+        this.getCalendarFile();
+        this.form.reset();
+        this.spinner.hide();
+      }, 300);
 
       // window.history.back();
     })

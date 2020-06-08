@@ -150,8 +150,7 @@
                           <button *ngIf="role_id == 3" type="button"
                             (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
-                          <button
-                            *ngIf="role_id == 5 && rcentralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
+                          <button *ngIf="role_id == 5 && centralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
                             type="button" (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
                         </h4>
@@ -237,6 +236,14 @@
                     <div class="card" *ngIf="item.type == 'คำถามปลายปิด'">
                       <td style="border-top: none; width: 85%;">
                         <u>คำถามปลายปิด</u>
+                        <!-- <button class="btn btn-success" id="test2{{i}}" data-toggle="collapse"
+                          [attr.data-target]="'#test' + i" aria-expanded="false" aria-controls="test"
+                          style="margin-left: 20px; font-size: small;">กราฟคำตอบปลายปิด
+                          <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
+                        </button> -->
+                        <button (click)="showGraph(item)">
+                          กราฟคำตอบปลายปิด
+                        </button>
                         <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
                         <div class="row">
                           <div class="col-10" *ngIf="item.type == 'คำถามปลายปิด'">
@@ -276,8 +283,6 @@
                                     </label>
                                   </div> -->
                                 </div>
-
-
                               </div>
                               <!-- <div class="col-1"
                               *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
@@ -288,6 +293,21 @@
                           </div>
                         </div>
                       </td>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="collapse col-9" id="test{{i}}" style="margin-left: 10px; margin-top: 5px;">
+                            <div class="chartjs-container">
+                              <canvas baseChart [datasets]="barchartAllset.barChartData" [labels]="barchartAllset.label"
+                                [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
+                                [chartType]="barChartType">
+                              </canvas>
+                            </div>
+                          </div>
+                          <!-- <div class="collapse col-1" id="test{{i}}">
+                            <i class="align-middle mr-2 fas fa-fw fa-pen pointer" style="padding-top: 10px;"></i>
+                          </div> -->
+                        </div>
+                      </div>
                     </div>
                   </tr>
 
@@ -447,12 +467,10 @@
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="step" value="มอบหมายจังหวัด" checked
-                [checked]="rcentralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
-                formControlName="step">
+                [checked]="centralpolicyprovincedata.step == 'มอบหมายจังหวัด'" formControlName="step">
               <label style="margin-left: 10px;">มอบหมายให้จังหวัด</label>
               <input style="margin-left: 10px;" type="radio" name="step" value="มอบหมายหน่วยงาน"
-                [checked]="rcentralpolicyprovincedata.step == 'มอบหมายหน่วยงาน'"
-                formControlName="step">
+                [checked]="centralpolicyprovincedata.step == 'มอบหมายหน่วยงาน'" formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
           </div>
@@ -460,12 +478,10 @@
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" checked
-                [checked]="rcentralpolicyprovincedata.status == 'ร่างกำหนดการ'"
-                formControlName="status">
+                [checked]="centralpolicyprovincedata.status == 'ร่างกำหนดการ'" formControlName="status">
               <label style="margin-left: 10px;">ร่างกำหนดการ</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
-                [checked]="rcentralpolicyprovincedata.status == 'ใช้งานจริง'"
-                formControlName="status">
+                [checked]="centralpolicyprovincedata.status == 'ใช้งานจริง'" formControlName="status">
               <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>
           </div>
@@ -529,8 +545,10 @@
             </div>
           </div>
 
-          <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
-          <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)" style="margin-bottom: 10px;">
+          <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100"
+            style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
+          <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)"
+            style="margin-bottom: 10px;">
 
           <div class="row">
             <div class="col-md-12" style="margin-top: 10px;">
