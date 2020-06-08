@@ -351,7 +351,7 @@ namespace InspecWeb.Controllers
         //------zone training register font-end-------
         // POST api/training/trainingsurvey/trainingid
         [HttpPost("trainingregister/{trainingid}")]
-        public TrainingRegister InsertTrainingRegister(string name, long trainingid, string phone, string cardid, string position, long status, string userid, long usertype, string email)
+        public TrainingRegister InsertTrainingRegister(string name, long trainingid, string phone, string cardid, string position, long status, string userid, long usertype, string email, string department)
         {
             var date = DateTime.Now;
 
@@ -362,6 +362,7 @@ namespace InspecWeb.Controllers
                 Phone = phone,
                 CardId = cardid,
                 Position = position,
+                Department = department,
                 Status = 0,
                 UserId = "TEST",
                 UserType = 1,

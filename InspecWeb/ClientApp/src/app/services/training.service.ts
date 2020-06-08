@@ -102,6 +102,7 @@ export class TrainingService {
     formData.append('name', trainingData.name);
     formData.append('cardid', trainingData.cardid);
     formData.append('position', trainingData.position);
+    formData.append('department', trainingData.department);
     formData.append('phone', trainingData.phone);
     formData.append('email', trainingData.email);
 

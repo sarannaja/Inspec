@@ -90,6 +90,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
       name: new FormControl(null, [Validators.required]),
       cardid: new FormControl(null, [Validators.required]),
       position: new FormControl(null, [Validators.required]),
+      department: new FormControl(null, [Validators.required]),
       phone: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [Validators.required]),
       
