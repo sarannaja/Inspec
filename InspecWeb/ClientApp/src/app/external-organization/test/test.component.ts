@@ -112,12 +112,10 @@ export class TestComponent implements OnInit {
     // worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
 
     // Generate Excel File with given name
-    workbook.xlsx.writeFile('uploads/excel/' + filename + '.xlsx')
-      .then(function (result) {
-        console.log(result);
-
-        // helper.openFile('Uploads/excel/Excel4.xlsx');
-      });
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, title + '.xlsx');
+    })
     // const subTitleRow = worksheet.addRow(['Date : ' + this.datePipe.transform(new Date(), 'medium')]);
   }
   ngOnInit() {
