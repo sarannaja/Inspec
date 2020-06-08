@@ -65,9 +65,10 @@ namespace InspecWeb.Data
         public DbSet<ProvincialDepartmentProvince> ProvincialDepartmentProvince { get; set; } //เชื่อม หน่วยงานส่วนภูมิถาค กับ จังหวัด
         public DbSet<CentralDepartment> CentralDepartment { get; set; } //หน่วยงานราชการส่วนกลางภูมิภาค 
         public DbSet<CentralDepartmentProvince> CentralDepartmentProvince { get; set; } //เชื่อม หน่วยงานราชการส่วนกลางภูมิภาค กับ จังหวัด
-
+        public DbSet<Informationoperation> Informationoperations { get; set; }
+        public DbSet<Nationalstrategy> Nationalstrategies { get; set; }
         //public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
-       
+
         public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }
         public DbSet<SubjectDate> SubjectDates { get; set; }
@@ -88,11 +89,29 @@ namespace InspecWeb.Data
 
         public DbSet<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
         //public DbSet<SubquestionGroup> SubquestionGroups { get; set; }
-        
+
+        public DbSet<ExecutiveOrderFile> ExecutiveFiles { get; set; }
+        public DbSet<AnswerExecutiveOrderFile> AnswerExecutiveOrderFiles { get; set; }
+        public DbSet<RequestOrder> RequestOrders { get; set; }
+        public DbSet<RequestOrderFile> RequestOrderFiles { get; set; }
+        public DbSet<AnswerRequestOrderFile> AnswerRequestOrderFiles { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<SubjectCentralPolicyProvinceFile> SubjectCentralPolicyProvinceFiles { get; set; }
+        public DbSet<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
+        public DbSet<SubjectCentralPolicyProvinceUserGroup> SubjectCentralPolicyProvinceUserGroups { get; set; }
+        public DbSet<AnswerSubquestion> AnswerSubquestions { get; set; }
+        public DbSet<AnswerSubquestionOutsider> AnswerSubquestionOutsiders { get; set; }
+        public DbSet<AnswerSubquestionFile> AnswerSubquestionFiles { get; set; }
+        public DbSet<ExportRegistration> ExportRegistrations { get; set; }
+        public DbSet<ExportReportHead> ExportReportHeads { get; set; }
+        public DbSet<ExportReportBody> ExportReportBodies { get; set; }
+        public DbSet<SuggestionSubject> SuggestionSubjects { get; set; }
+        public DbSet<AnswerCentralPolicyProvince> AnswerCentralPolicyProvinces { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-           // ส่วนที่สำหรับเชื่อ model
+            // ส่วนที่สำหรับเชื่อ model
             builder.Entity<UserRegion>()
             .HasKey(m => new { m.UserID, m.RegionId });
 
@@ -137,6 +156,6 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
         }
 
-     
+
     }
 }

@@ -1,0 +1,59 @@
+
+
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">สมุดตรวจอิเล็กทรอนิกส์</a></li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+
+      <div *ngIf="role_id == 3; else elseBlock" class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
+        <div class="float-right">
+          <button *ngIf="role_id == 3" class="btn btn-primary" (click)="createElectronicBook()"
+            style="margin-top: -60px;">สร้างสมุดตรวจอิเล็กทรอนิกส์</button>
+        </div>
+      </div>
+      <ng-template #elseBlock>
+        <div class="card-header">
+          <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
+        </div>
+      </ng-template>
+
+
+      <div class="card-body">
+
+        <div class="row">
+      <div class="col-lg-3" *ngFor="let items of Data">
+        <div class="card" style="margin-top: 10px; text-align: center;">
+          <div style="padding-top: 10px; align-self: center;">
+            <img [src]="getImagePath(items.name)" alt="photo" class="imgSize"
+            (click)="exportToWord(items.id)" >
+            <br>
+            <span class="badge badge-warning text-center"
+              style="width: 100px; height: 20px; align-self: center; margin-bottom: 10px;">{{items.name}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="card-body">
+
+
+          <canvas id="lineChart"></canvas> <!-- ใช้ id ในการอ้างอิงเพื่อนำแสงผลที่ได้ทำการสร้างไว้ในหน้า app.component.ts -->
+
+
+    </div>
+
+
+</div>
+</div>

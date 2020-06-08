@@ -20,32 +20,36 @@ export class SubjectService {
   addSubject(subjectData, centralpolicyid) {
     var subjectdepartment = subjectData.inputsubjectdepartment
     console.log('subjectData: ', subjectdepartment);
-
-    // var subjectdepartment: Array<any> = subjectdepartmentId.map((item, index) => {
-    //   return {
-    //     provincialdepartmentprovinceid: item.value
-    //   }
-    // })
-    // console.log("ARRAY: ", subjectdepartment);
     var departmentId = []
     var test = []
-    for (var i = 0; i < subjectdepartment.length; i++) {
-      for (var j = 0; j < subjectdepartment[i].departmentId.length; j++) {
-        departmentId.push({ departmentId: subjectdepartment[i].departmentId[j], inputsubjectdepartment: subjectdepartment[i] })
+    var testsubjectdepartment = []
+    testsubjectdepartment = subjectdepartment.map((item, index) => {
+      return {
+        box: index,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputquestionopen,
+        inputquestionclose: item.inputquestionclose
+      }
+    })
+    console.log("testsubjectdepartment", testsubjectdepartment);
+    for (var i = 0; i < testsubjectdepartment.length; i++) {
+      for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
+        departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
       }
     }
-    console.log("departmentId",departmentId);
+
+    console.log("departmentId", departmentId);
+
 
     test = departmentId.map((item, index) => {
       return {
+        box: item.box,
         departmentId: item.departmentId,
         inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
         inputquestionclose: item.inputsubjectdepartment.inputquestionclose
       }
     })
     console.log("test", test);
-
-
 
     // const formData = new FormData();
     // formData.append('Name', subjectData.name);
@@ -77,7 +81,66 @@ export class SubjectService {
     //     formData.append('CentralPolicyDateId', subjectData.centralpolicydateid);
     // ``
     console.log('FORMDATA: ', formData);
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
+  }
+  addFiles(subjectid, file: FileList) {
+    // alert(subjectid)
+    // alert(JSON.stringify(file))
+    console.log("subjectid",subjectid);
+    console.log("file", file);
+
+    const formData = new FormData();
+    for (var i = 0; i < subjectid.length; i++) {
+      formData.append('SubjectCentralPolicyProvinceId', subjectid[i]);
+    }
+    for (var ii = 0; ii < file.length; ii++) {
+      formData.append("files", file[ii]);
+    }
+    return this.http.post(this.url + "addfiles", formData);
+  }
+  AddDepartmentQuestion(DepartmentQuestiondata, Box, subjectid) {
+    console.log("DepartmentQuestiondata", DepartmentQuestiondata);
+    var testsubjectdepartment = []
+    var test = []
+    var departmentId = []
+    testsubjectdepartment = DepartmentQuestiondata.inputsubjectdepartment.map((item, index) => {
+      return {
+        box: index,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputquestionopen,
+        inputquestionclose: item.inputquestionclose
+      }
+    })
+    console.log("testsubjectdepartment", testsubjectdepartment);
+    for (var i = 0; i < testsubjectdepartment.length; i++) {
+      for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
+        departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
+      }
+    }
+    test = departmentId.map((item, index) => {
+      return {
+        subjectid: subjectid,
+        box: Box,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
+        inputquestionclose: item.inputsubjectdepartment.inputquestionclose
+      }
+    })
+    // test = DepartmentQuestiondata.inputsubjectdepartment.map((item, index) => {
+    //   return {
+    //     subjectid: subjectid,
+    //     box: Box,
+    //     departmentId: item.departmentId,
+    //     inputquestionopen: item.inputquestionopen,
+    //     inputquestionclose: item.inputquestionclose
+    //   }
+    // })
+    
+    console.log("test", test);
+    const formData = {
+      inputsubjectdepartment: test,
+    }
+    return this.http.post(this.url + "adddepartmentquestion", formData);
   }
   addSubquestionopen(Subquestionopendata) {
     const formData = new FormData();
@@ -110,7 +173,12 @@ export class SubjectService {
   deleteSubject(id) {
     return this.http.delete(this.url + id);
   }
-
+  deletePeopleanswer(id) {
+    return this.http.delete(this.url + "deletepeopleanswer/" + id);
+  }
+  deleteFile(id) {
+    return this.http.delete(this.url + "deletefile/" + id);
+  }
   storesubjectprovince(centralpolicyid, provincevalue) {
     // alert(JSON.stringify(provincevalue))
     const formData = new FormData();
@@ -180,6 +248,107 @@ export class SubjectService {
     formData.append('name', data.subjectquestionopen);
 
     return this.http.put(this.url + "editsubjectquestionopenchoiceprovince/" + id, formData);
+  }
+
+  editAnswer(data, id) {
+    console.log("answerData: ", data);
+    console.log("answerID: ", id);
+
+    const formData = new FormData();
+    formData.append('answer', data.answer);
+    // formData.append('id', id);
+
+    return this.http.put(this.url + "editAnswer/" + id, formData);
+  }
+
+
+  deleteProvincial(id) {
+    return this.http.delete(this.url + "deleteprovincial/" + id);
+  }
+
+  deletesubjectrole3(id) {
+    return this.http.delete(this.url + "deletesubjectrole3/" + id);
+  }
+
+  deletequestionrole3(id) {
+    return this.http.delete(this.url + "deletequestionrole3/" + id);
+  }
+
+  deleteoptionrole3(id) {
+    console.log()
+
+    return this.http.delete(this.url + "test" + null);
+  }
+  adddeleteDate(datedata, centralPolicyDateId, subjectid) {
+    console.log(centralPolicyDateId);
+
+    // var centralPolicyDateIddata = []
+    // for (var i = 0; i < centralPolicyDateId.length; i++) {
+    //   centralPolicyDateIddata.push(centralPolicyDateId[i])
+    // }
+    // console.log("test", centralPolicyDateIddata);
+
+    const formData = new FormData();
+    for (var i = 0; i < datedata.length; i++) {
+      formData.append('id', datedata[i].value);
+    }
+    for (var ii = 0; ii < centralPolicyDateId.centralPolicyDateId.length; ii++) {
+      formData.append('CentralPolicyDateId', centralPolicyDateId.centralPolicyDateId[ii]);
+      // console.log(centralPolicyDateId[i]);
+
+    }
+    formData.append('subjectid', subjectid);
+    // console.log(formData);
+    return this.http.post(this.url + "deletedate", formData);
+  }
+
+  addSubjectRole3(subjectData, centralpolicyid) {
+    var subjectdepartment = subjectData.inputsubjectdepartment
+    console.log('subjectData: ', subjectdepartment);
+    var departmentId = []
+    var test = []
+    var testsubjectdepartment = []
+    testsubjectdepartment = subjectdepartment.map((item, index) => {
+      return {
+        box: index,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputquestionopen,
+        inputquestionclose: item.inputquestionclose
+      }
+    })
+    console.log("testsubjectdepartment", testsubjectdepartment);
+    for (var i = 0; i < testsubjectdepartment.length; i++) {
+      for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
+        departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
+      }
+    }
+
+    console.log("departmentId", departmentId);
+
+
+    test = departmentId.map((item, index) => {
+      return {
+        box: item.box,
+        departmentId: item.departmentId,
+        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
+        inputquestionclose: item.inputsubjectdepartment.inputquestionclose
+      }
+    })
+    console.log("test", test);
+
+    const formData = {
+      Name: subjectData.name,
+      Answer: subjectData.name,
+      Status: subjectData.status,
+      CentralPolicyId: parseInt(centralpolicyid),
+      inputsubjectdepartment: test,
+    }
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url + 'addsubjectrole3', formData);
+  }
+  getsubjectfromprovince(proid) {
+    return this.http.get(this.url + "getsubjectfromprovince/" + proid)
   }
 }
 

@@ -40,8 +40,10 @@ export class CreateInspectionPlanComponent implements OnInit {
   ProvinceId: any;
   selectdataprovince: Array<IOption>
   input: any = [{ date: '', subject: '', questions: '' }]
-  // id
+  id
   userid: string
+  provinceid
+  resultinspectionplan: any = []
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +56,8 @@ export class CreateInspectionPlanComponent implements OnInit {
     private authorize: AuthorizeService,
     private userservice: UserService,
     private inspectionplanservice: InspectionplanService) {
-    // this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.provinceid = activatedRoute.snapshot.paramMap.get('proid')
   }
 
   ngOnInit() {
@@ -65,15 +68,17 @@ export class CreateInspectionPlanComponent implements OnInit {
         // alert(this.userid)
       })
 
+    this.getinspectionplanservice();
+
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
       start_date: new FormControl(null, [Validators.required]),
       end_date: new FormControl(null, [Validators.required]),
       year: new FormControl(null, [Validators.required]),
       type: new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      // files: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null, [Validators.required]),
-      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       input: new FormArray([])
     })
     this.t.push(this.fb.group({
@@ -115,10 +120,13 @@ export class CreateInspectionPlanComponent implements OnInit {
   }
 
   storeInspectionPlan(value) {
-    this.inspectionplanservice.addInspectionPlan(value, this.userid).subscribe(response => {
+    console.log("FORM: ", value);
+    // alert(JSON.stringify(value))
+    this.inspectionplanservice.addInspectionPlan(value, this.userid,this.id).subscribe(response => {
       console.log(value);
       this.Form.reset()
-      this.router.navigate(['inspectionplanevent'])
+      window.history.back();
+      // this.router.navigate(['inspectionplanevent'])
       // this.router.navigate(['inspectionplan', this.id])
     })
   }
@@ -138,6 +146,22 @@ export class CreateInspectionPlanComponent implements OnInit {
     }))
   }
   appendquestion() {
+  }
+
+  getinspectionplanservice() {
+    this.inspectionplanservice.getinspectionplandata(this.id, this.provinceid).subscribe(result => {
+      console.log("result", result);
+
+      this.resultinspectionplan = result.inspectionplandata
+
+      this.Form.patchValue({
+        start_date: this.resultinspectionplan[0].startDate,
+        end_date:  this.resultinspectionplan[0].endDate,
+        ProvinceId:  this.resultinspectionplan[0].province.id,
+      })
+
+      // alert(JSON.stringify(this.resultinspectionplan))
+    })
   }
 
 }

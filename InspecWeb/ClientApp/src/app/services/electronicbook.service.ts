@@ -19,115 +19,151 @@ export class ElectronicbookService {
     return this.http.get(this.url + userId)
   }
 
-  addElectronicBook(value, id, file: FileList, subjectdepartmentId) {
-    // alert(JSON.stringify(inspectionplaneventData.input))
+  getElectronicBookInvited(userId) {
+    return this.http.get(this.url + "invited/" + userId)
+  }
+
+  addElectronicBook(value, id, file: FileList, CentralPolicyId, provinceId) {
+    alert(value.description);
+    alert( value.fileType)
+    console.log("Add EBook: ", value);
+
     const formData = new FormData();
     formData.append('Detail', value.checkDetail);
     formData.append('Problem', value.Problem);
     formData.append('Suggestion', value.Suggestion);
     formData.append('id', id);
     formData.append('Status', value.Status);
+    formData.append('CentralPolicyId', CentralPolicyId);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
+    formData.append('ProvinceId', provinceId);
 
-    // var ProvincialDepartment: Array<any> = subjectdepartmentId.map((item , index) => {
-    //   return {
-    //     Id:item.provincialDepartmentID
-    //   }
-    // })
+    for (var i = 0; i < value.UserMinistryId.length; i++) {
+      formData.append('UserMinistryId', value.UserMinistryId[i]);
+    }
+    for (var i = 0; i < value.UserPeopleId.length; i++) {
+      formData.append('UserPeopleId', value.UserPeopleId[i]);
+    }
 
-    // for (var i = 0; i < ProvincialDepartment.length; i++) {
-    //   console.log("i: ", i);
-    //   formData.append('ProvincialDepartmentId', ProvincialDepartment[i].Id);
-    // }
-
-    // var input: Array<any> = value.input.map((item , index) => {
-    //   return {
-    //     // StartPlanDate:item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
-    //     // EndPlanDate:item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
-    //     ProvinceId:item.provinces,
-    //     CentralPolicyId:item.centralpolicies,
-    //   }
-    // })
-
-    // for (var i = 0; i < input.length; i++) {
-    //   console.log("input: ", input[i]);
-    //   // console.log("inputdateii: ", inputdate[ii].StartDate);
-    //   // formData.append('Inputelectronicbook', input[i]);
-    // }
-
-    // formData.append('CentralPolicyId', input[0].CentralPolicyId);
-    // formData.append('ProvinceId', input[0].ProvinceId);
-
-    // var userMinistry: Array<any> = value.UserMinistryId.map((item , index) => {
-    //   return {
-    //     Id:item
-    //   }
-    // })
-
-    // for (var i = 0; i < userMinistry.length; i++) {
-    //   console.log("i: ", i);
-    //   // console.log("inputdateii: ", inputdate[ii].StartDate);
-    //   formData.append('UserMinistryId', userMinistry[i].Id);
-    // }
-
-    // var userPeople: Array<any> = value.UserPeopleId.map((item , index) => {
-    //   return {
-    //     Id:item
-    //   }
-    // })
-
-    // for (var i = 0; i < userPeople.length; i++) {
-    //   console.log("i: ", i);
-    //   // console.log("inputdateii: ", inputdate[ii].StartDate);
-    //   formData.append('UserPeopleId', userPeople[i].Id);
-    // }
+    console.log("detail", formData.getAll("Detail"));
+    console.log("Problem", formData.getAll("Problem"));
+    console.log("Suggestion", formData.getAll("Suggestion"));
+    console.log("id", formData.getAll("id"));
+    console.log("Status", formData.getAll("Status"));
 
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
 
-    // const formData = {
-    //   Detail: value.checkDetail,
-    //   Inputelectronicbook: input,
-    //   UserMinistryId: userMinistry,
-    //   UserPeopleId: userPeople,
-    //   id: id,
-    //   Status: value.Status,
-    //   files: file
-    // }
-
-    // console.log("UserPeopleId", (formData.getAll("UserPeopleId")));
-
-    // console.log("ProvincialDepartmentId", (formData.getAll("ProvincialDepartmentId")));
-
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);
+  }
+
+
+  addElectronicBookFileFromCalendar(value, file: FileList, electronicbookid, centralproid, signatureFiles: FileList) {
+    console.log("Description: ", value.description);
+    console.log("File Type: ", value.fileType);
+    const formData = new FormData();
+    formData.append('ElectronicBookId', electronicbookid);
+    formData.append('Step', value.step);
+    formData.append('Status', value.status);
+    formData.append('QuestionPeople', value.questionPeople);
+    formData.append('CentralPolicyProvinceId', centralproid);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
+
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+
+    if (signatureFiles != null) {
+      for (var index = 0; index < signatureFiles.length; index++) {
+        formData.append("signatureFiles", file[index]);
+      }
+    }
+
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post(this.url + "calendarfile", formData);
   }
 
   deleteElectronicBook(id) {
     return this.http.delete(this.url + id)
   }
 
-  getElectronicBookDetail(centralPolicyUserId): Observable <any> {
-    return this.http.get<any>(this.url + 'getElectronicBookById/' + centralPolicyUserId);
+  getElectronicBookDetail(electID): Observable<any> {
+    return this.http.get<any>(this.url + 'getElectronicBookById/' + electID);
   }
 
-  editElectronicBookDetail(value, electID, file: FileList,) {
+  editElectronicBookDetail(value, electID, file: FileList, ) {
     console.log("EDIT VALUE: ", value);
-    console.log("EDIT FILE: ", file);
     // const formData = {
     //   Detail: value.eBookDetail,
     //   Status: value.Status
     // }
 
     const formData = new FormData();
-    formData.append('Detail', value.eBookDetail);
+    // formData.append('Detail', value.eBookDetail);
     formData.append('Status', value.Status);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
 
-    for (var i = 0; i < file.length; i++) {
-      formData.append("files", file[i]);
+    if (file != null) {
+      for (var i = 0; i < file.length; i++) {
+        formData.append("files", file[i]);
+      }
     }
 
     return this.http.put(this.url + 'editElectronicBookDetail/' + electID, formData)
+  }
+
+  addSuggestion(value, electID, subjectCentralpolicyID) {
+    console.log("EDIT VALUE: ", value);
+    console.log("SubjectCentralPolicyID: ", subjectCentralpolicyID);
+
+    // const formData = {
+    //   Detail: value.eBookDetail,
+    //   Status: value.Status
+    // }
+
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('SubjectCentralPolicyProvinceId', subjectCentralpolicyID);
+
+    return this.http.post(this.url + 'addSuggestion', formData)
+  }
+
+  editSuggestion(value, electID, subjectCentralpolicyID) {
+    console.log("EDIT VALUE: ", value);
+
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('SubjectCentralPolicyProvinceId', subjectCentralpolicyID);
+
+    return this.http.put(this.url + 'editSuggestion', formData)
+  }
+
+  editSuggestionOwn(value, electID, subjectCentralpolicyID) {
+    console.log("EDIT VALUE Own: ", value);
+
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('Status', value.Status);
+
+    return this.http.put(this.url + 'editSuggestionown', formData)
   }
 
   getNotSelectedInspectionPlan(id) {
@@ -138,4 +174,73 @@ export class ElectronicbookService {
   deleteFile(id) {
     return this.http.delete(this.url + 'deletefile/' + id);
   }
+
+  getCalendarFile(electID) {
+    console.log("SERVICE EID: ", electID);
+
+    return this.http.get<any>(this.url + "getCalendarFile/" + electID)
+  }
+
+  getElectronicbookFile(electID) {
+    console.log("SERVICE EID: ", electID);
+
+    return this.http.get<any>(this.url + "getElectronicbookFile/" + electID)
+  }
+
+  getElectronicBookProvince(userId) {
+    return this.http.get(this.url + "province/" + userId)
+  }
+
+  getSuggestionDetailById(subjectCentralPolicyProvinceID, electID) {
+    return this.http.get<any>(this.url + "suggestiondetail/" + subjectCentralPolicyProvinceID + "/" + electID)
+  }
+
+  getElectOwnCreate(electID) {
+    return this.http.get<any>(this.url + "getElectronicBookOwn/" + electID)
+  }
+
+  getElectOwnDetail(centralPolicyProvinceId) {
+    return this.http.get<any>(this.url + "getelectronicbookdetailown/" + centralPolicyProvinceId)
+  }
+
+  getSignatureFile(electID) {
+    return this.http.get(this.url + "getSignatureFile/" + electID)
+  }
+
+  addSignatureFile(electID, file: FileList, provinceData) {
+    alert(provinceData.provinceSuggestion);
+    const formData = new FormData();
+    if (file != null) {
+      for (var i = 0; i < file.length; i++) {
+        formData.append("files", file[i]);
+      }
+    }
+    formData.append("ElectID", electID);
+    formData.append("Description", provinceData.provinceSuggestion)
+    return this.http.post(this.url + "addSignature", formData)
+  }
+
+  getexportport(userId) {
+    return this.http.get(this.url + "export/" + userId)
+  }
+
+  addReportTable(reportData, suggestionForm, centralPolicyId) {
+    console.log("ProvinceId: ", reportData.centralPolicyProvinces[0].provinceId);
+    console.log("ReportTitle: ", reportData.title);
+    console.log("ReportYear: ", reportData.fiscalYear.year);
+    console.log("ReportUserId: ", reportData.createdBy);
+    console.log("ReportStatus: ", reportData.status);
+    console.log("suggestionForm: ", suggestionForm);
+
+    const formData = {
+      ReportProvinceId: reportData.centralPolicyProvinces[0].provinceId,
+      ReportTitle: reportData.title,
+      ReportYear: reportData.fiscalYear.year,
+      ReportUserId: reportData.createdBy,
+      ReportStatus: reportData.status,
+      ReportCentralPolicyId: centralPolicyId
+    }
+    return this.http.post(this.url + "addReport", formData)
+  }
 }
+

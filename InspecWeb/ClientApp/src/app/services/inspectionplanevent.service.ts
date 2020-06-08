@@ -28,6 +28,13 @@ export class InspectionplaneventService {
 
     return this.http.get<any>(path)
   }
+  getinspectionplaneventuserprovincedata(id, proid): Observable<any> {
+    //  alert(id)
+    let path = this.url + 'inspectionplanprovince/' + id + '/' + proid;
+    console.log("URL: ", path);
+
+    return this.http.get<any>(path)
+  }
 
   addInspectionplanevent(inspectionplaneventData, userid) {
     // alert(JSON.stringify(inspectionplaneventData.input))
@@ -51,6 +58,10 @@ export class InspectionplaneventService {
 
   deleteInspectionplanevent(id) {
     return this.http.delete(this.url + id);
+  }
+
+  getuserregion(userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "userregion/" + userid)
   }
 
 }

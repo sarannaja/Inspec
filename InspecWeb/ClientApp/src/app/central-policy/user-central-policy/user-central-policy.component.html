@@ -28,6 +28,7 @@
               <th>ชื่อแผนตรวจราชการประจำปี</th>
               <th>ปี</th>
               <th>ระยะเวลา</th>
+              <th>สถานะกำหนดการ</th>
               <th>สถานะ</th>
               <th>สถานะรายงานผล</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -39,15 +40,31 @@
               <td width="40%" class="pointer">{{ item.centralPolicy.title }}</td>
               <td>2563</td>
               <td>
-                <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
+                <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">
+                  {{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
               </td>
+
+              <td>
+                <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
+                  <span *ngIf="item2.provinceId == item.provinceId">{{ item2.status }}</span>
+                </div>
+              </td>
+
               <td>{{ item.status }}</td>
               <td>{{ item.draftStatus }}</td>
               <td>
-                <i *ngIf="item.status == 'รอการตอบรับ'" class="align-middle mr-2 fas fa-fw fa-check-circle pointer" (click)="AcceptCentralPolicy(item.id)"></i>
-                <i *ngIf="item.status == 'ตอบรับ'" class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="gotoReport(item.id)"></i>
-                <i *ngIf="item.status == 'ปฏิเสธ'"></i>
+
+                <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
+                  <div *ngIf="item2.provinceId == item.provinceId && item2.status == 'ใช้งานจริง'">
+                    <i *ngIf="item.status == 'รอการตอบรับ'" class="align-middle mr-2 fas fa-fw fa-check-circle pointer"
+                      (click)="AcceptCentralPolicy(item.id, item.centralPolicy.id,item.provinceId)"></i>
+                    <i *ngIf="item.status == 'ตอบรับ' && item.draftStatus == 'ร่างกำหนดการ'"
+                      class="align-middle mr-2 fas fa-fw fa-book pointer"
+                      (click)="gotoReport(item.id, item.centralPolicy.id,item.provinceId)"></i>
+                    <i *ngIf="item.status == 'ปฏิเสธ'"></i>
+                  </div>
+                </div>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i> -->
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i> -->

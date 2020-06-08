@@ -201,7 +201,14 @@
                 </div> -->
               </div>
             </div>
-
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label class="form-label w-100">แนบไฟล์</label>
+                <input type="file" multiple (change)="uploadFile($event)" accept="image/png, image/jpeg">
+                <!-- formControlName="files" -->
+                <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+              </div>
+            </div>
             <div class="form-group row">
               <div class="col-sm-5 ml-sm-auto">
                 <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -216,3 +223,6 @@
     </div>
   </div>
 </div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -70,9 +70,55 @@ export class CentralpolicyService {
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
+    formData.append('Class', centralpolicyData.Class);
     console.log('FORMDATA: ', formData.get("inputdate"));
     console.log('FORMDATA: ', formData.get("ProvinceId"));
     return this.http.post(this.url, formData)
+  }
+
+  addCentralpolicyEbook(centralpolicyData, file: FileList, userid) {
+    // alert(JSON.stringify(file))
+    console.log("FNAJA: ", centralpolicyData);
+
+    var inputdate: Array<any> = centralpolicyData.inputdate.map((item, index) => {
+      return {
+        StartDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
+        EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
+      }
+    })
+    console.log("DDD", inputdate);
+
+    const formData = new FormData();
+    formData.append('UserID', userid);
+    formData.append('Title', centralpolicyData.title);
+    formData.append('Type', centralpolicyData.type);
+    // for (var i = 0; i < centralpolicyData.ProvinceId.length; i++) {
+    //   formData.append('ProvinceId', centralpolicyData.ProvinceId[i]);
+    // }
+    formData.append('ProvinceId', centralpolicyData.ProvinceId);
+    formData.append('FiscalYearId', centralpolicyData.year);
+    formData.append('Status', centralpolicyData.status);
+    // formData.append('files',centralpolicyData.file);
+    for (var ii = 0; ii < inputdate.length; ii++) {
+      console.log("ii: ", ii);
+      // console.log("inputdateii: ", inputdate[ii].StartDate);
+      formData.append('StartDate2', inputdate[ii].StartDate);
+      formData.append('EndDate2', inputdate[ii].EndDate);
+    }
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+
+    for (var iiii = 0; iiii < centralpolicyData.SubjectId.length; iiii++) {
+      formData.append("SubjectId", centralpolicyData.SubjectId[iiii]);
+    }
+    formData.append('Class', centralpolicyData.Class);
+    console.log('Class: ', formData.get("Class"));
+    console.log('FORMDATA: ', formData.get("ProvinceId"));
+    return this.http.post<any>(this.url, formData)
   }
 
   editCentralpolicy(centralpolicyData, file: FileList, id, userId) {
@@ -178,6 +224,7 @@ export class CentralpolicyService {
     return this.http.put(this.url + "acceptcentralpolicy/" + id, formData);
   }
   getdetailcentralpolicyprovincedata(id): Observable<any> {
+    alert('hi')
     return this.http.get<any>(this.url + "centralpolicyprovince/" + id)
   }
 
@@ -196,6 +243,9 @@ export class CentralpolicyService {
       const formData = new FormData();
       formData.append('Report', reportData.report);
       formData.append('DraftStatus', reportData.Status);
+      formData.append("files", null);
+      formData.append('Description', reportData.description);
+      formData.append('fileType', reportData.fileType);
       for (var i = 0; i < file.length; i++) {
         formData.append("files", file[i]);
       }
@@ -205,6 +255,8 @@ export class CentralpolicyService {
       formData.append('Report', reportData.report);
       formData.append('DraftStatus', reportData.Status);
       formData.append("files", null);
+      formData.append('Description', reportData.description);
+      formData.append('fileType', reportData.fileType);
       return this.http.put(this.url + "reportcentralpolicy/" + id, formData)
     }
 
@@ -223,5 +275,44 @@ export class CentralpolicyService {
 
   getAssign(id) {
     return this.http.get<any>(this.url + 'getassign/' + id);
+  }
+
+  addDepartment(data, subjectid) {
+    const formData = {
+      DepartmentId: data.DepartmentId,
+      SubjectCentralPolicyProvinceId: subjectid,
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "adddepartment", formData);
+  }
+
+  addPeopleAnswer(data, subjectid) {
+    const formData = {
+      UserId: data.peopleanswer,
+      SubjectCentralPolicyProvinceId: subjectid,
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "addpeopleanswer", formData);
+  }
+
+  getcentralidandprovinceid(centralpolicyprovinceid) {
+    return this.http.get<any>(this.url + 'getcentralidandprovinceid/' + centralpolicyprovinceid);
+  }
+
+  addeditDepartment(data, subjectid) {
+    const formData = {
+      DepartmentId: data.DepartmentId,
+      SubjectCentralPolicyProvinceId: subjectid,
+      Box: data.Box
+    }
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "addeditdepartment", formData);
+  }
+  getComment(centralpolicyprovinceid) {
+    return this.http.get<any>(this.url + 'comment/' + centralpolicyprovinceid);
+  }
+
+  getAnswer(centralPolicyProvinceId) {
+    return this.http.get<any>(this.url + "getAnswerPeople/" + centralPolicyProvinceId);
   }
 }

@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+
+namespace InspecWeb.ViewModel
+{
+    public class CalendarFileViewModel
+    {
+        public long ElectronicBookId { get; set; }
+        public long CentralPolicyProvinceId { get; set; }
+        public string Step { get; set; }
+        public string Status { get; set; }
+        public string QuestionPeople { get; set; }
+        public List<IFormFile> files { get; set; }
+        public List<IFormFile> signatureFiles { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
+    }
+}

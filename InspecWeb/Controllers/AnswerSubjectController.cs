@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +17,23 @@ namespace InspecWeb.Controllers
     [Route("api/[controller]")]
     public class AnswerSubjectController : Controller
     {
+        public static IWebHostEnvironment _environment;
+
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private readonly ApplicationDbContext _context;
 
-        public AnswerSubjectController(ApplicationDbContext context)
+        public AnswerSubjectController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/values
@@ -87,11 +102,11 @@ namespace InspecWeb.Controllers
                 {
                     g.Key.SubjectCentralPolicyProvinceGroupId,
                     //g.Key.subjectPolicyProvinceId,
-                   
+
                 })
                 .ToList();
 
-            foreach(var data in test)
+            foreach (var data in test)
             {
                 var test2 = _context.SubjectCentralPolicyProvinces
                     //.Where(x => x.Id == data.subjectPolicyProvinceId)
@@ -106,14 +121,15 @@ namespace InspecWeb.Controllers
                     .ToList();
 
 
-                foreach(var gg in test2)
+                foreach (var gg in test2)
                 {
                     long id = gg.CentralPolicyProvinceID;
                     termsList2.Add(id);
                 }
             }
 
-            foreach (long id in termsList2) {
+            foreach (long id in termsList2)
+            {
 
                 var test3 = _context.CentralPolicyProvinces
                     .Where(x => x.Id == id)
@@ -134,7 +150,7 @@ namespace InspecWeb.Controllers
                 }
             }
 
-            foreach( long idTest in termsList3)
+            foreach (long idTest in termsList3)
             {
                 var test4 = _context.CentralPolicies
                    .Where(x => x.Id == idTest)
@@ -189,25 +205,274 @@ namespace InspecWeb.Controllers
 
         }
 
+        // GET api/values/5
+        [HttpGet("user/{userid}")]
+        public IActionResult Get2(string userid)
+        {
+            var userdata = _context.Users
+                .Where(m => m.Id == userid).First();
+
+            var province = _context.UserProvinces
+                .Where(m => m.UserID == userid).First();
+
+            var provincialdepartment = _context.ProvincialDepartment
+               .Where(m => m.DepartmentId == userdata.DepartmentId).First();
+
+            var centralpolicyprovincedata = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.SubjectCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(m => m.ProvincialDepartment)
+                .Where(m => m.ProvinceId == province.ProvinceId)
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id))))
+                .ToList();
+            return Ok(centralpolicyprovincedata);
+        }
+
+        // GET api/values/5
+        [HttpGet("userpeople/{userid}")]
+        public IActionResult Get5(string userid)
+        {
+            var subjectcentralpolicyprovinceusergroupsdata = _context.SubjectCentralPolicyProvinceUserGroups
+                .Where(m => m.UserId == userid);
+
+
+            var centralpolicydata = _context.CentralPolicyUsers
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.UserId == userid).ToList();
+
+            //var centralpolicyprovincedata = _context.CentralPolicyProvinces
+            //    .Include(m => m.CentralPolicy)
+            //    .Include(m => m.SubjectCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
+            //    //.ThenInclude(m => m.ProvincialDepartment)
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceUserGroups.Any(m => m.UserId == userid))))
+            //    .ToList();
+
+
+            return Ok(centralpolicydata);
+        }
+
+        // GET api/values/5
+        [HttpGet("subjectlist/{id}/{userid}")]
+        public IActionResult Get3(long id, string userid)
+        {
+            var userdata = _context.Users
+               .Where(m => m.Id == userid).First();
+
+            var provincialdepartment = _context.ProvincialDepartment
+           .Where(m => m.DepartmentId == userdata.DepartmentId).First();
+
+
+            if (userdata.Role_id == 7)
+            {
+                var subjectdata = _context.SubjectCentralPolicyProvinces
+                    .Include(m => m.CentralPolicyProvince)
+                    .ThenInclude(m => m.CentralPolicy)
+                    .Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster");
+                return Ok(subjectdata);
+            }
+            else
+            {
+                System.Console.WriteLine("provincialdepartment.Id" + provincialdepartment.Id);
+
+                var subjectdata = _context.SubjectCentralPolicyProvinces
+                        .Include(m => m.SubquestionCentralPolicyProvinces)
+                        .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                        .ThenInclude(m => m.ProvincialDepartment)
+                .Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster")
+                .Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id)))
+                .ToList();
+
+                //var subjectdata = _context.SubjectCentralPolicyProvinces
+                //.Include(m => m.CentralPolicyProvince)
+                //.ThenInclude(m => m.CentralPolicy)
+                //.Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster");
+
+                return Ok(subjectdata);
+            }
+            //var userdata = _context.Users
+            //    .Where(m => m.Id == userid).First();
+
+            //var provincialdepartment = _context.ProvincialDepartment
+            //   .Where(m => m.DepartmentId == userdata.DepartmentId).First();
+
+            //var centralpolicyprovincedata = _context.CentralPolicyProvinces
+            //    .Include(m => m.CentralPolicy)
+            //    .Include(m => m.SubjectCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+            //    .ThenInclude(m => m.ProvincialDepartment)
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id))))
+            //    .ToList();
+
+        }
+
+        // GET api/values/5
+        [HttpGet("subjectdetail/{id}")]
+        public IActionResult Get4(long id)
+        {
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                .Include(m => m.CentralPolicyProvince)
+                .ThenInclude(m => m.Province)
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                .Include(m => m.SubjectDateCentralPolicyProvinces)
+                .ThenInclude(m => m.CentralPolicyDateProvince)
+                .Where(m => m.Id == id && m.Type == "NoMaster")
+                .First();
+            return Ok(subjectdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("centralpolicyprovinc/{id}")]
+        public IActionResult Get6(long id)
+        {
+            var centralpolicyprovincdata = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.Province)
+                .Where(m => m.Id == id)
+                .First();
+
+            return Ok(centralpolicyprovincdata);
+        }
+
         // POST api/values
         [HttpPost]
-        public Province Post(string name, string link)
+        public IActionResult Post([FromBody] AnswerSubquestionOutsiderViewModel model)
         {
             var date = DateTime.Now;
 
-            var provincedata = new Province
+            foreach (var answer in model.inputanswer)
             {
-                Name = name,
-                Link = link,
+                var Answerdata = new AnswerSubquestion
+                {
+                    SubquestionCentralPolicyProvinceId = answer.SubquestionCentralPolicyProvinceId,
+                    UserId = answer.UserId,
+                    Answer = answer.Answer,
+                    CreatedAt = date
+
+                };
+                _context.AnswerSubquestions.Add(Answerdata);
+                _context.SaveChanges();
+            }
+
+            return Ok(new { status = true });
+        }
+        // POST api/values
+        [HttpPost("outsider")]
+        public IActionResult Post2([FromBody] AnswerSubquestionOutsiderViewModel model)
+        {
+            var date = DateTime.Now;
+
+            foreach (var answeroutsider in model.inputansweroutsider)
+            {
+                var Answeroutsiderdata = new AnswerSubquestionOutsider
+                {
+                    SubquestionCentralPolicyProvinceId = answeroutsider.SubquestionCentralPolicyProvinceId,
+                    Name = answeroutsider.Name,
+                    Position = answeroutsider.Position,
+                    Phonenumber = answeroutsider.Phonenumber,
+                    Answer = answeroutsider.Answer,
+                    CreatedAt = date
+
+                };
+                _context.AnswerSubquestionOutsiders.Add(Answeroutsiderdata);
+                _context.SaveChanges();
+            }
+
+            return Ok(new { status = true });
+        }
+        // POST: api/
+        [HttpPost("addfiles")]
+        public async Task<IActionResult> Post3([FromForm] AnswerSubquestionOutsiderViewModel model)
+        {
+
+            System.Console.WriteLine("Start Upload");
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                System.Console.WriteLine("in2");
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "//Uploads//";
+            System.Console.WriteLine("Start Upload 2");
+
+            //var answerfile = model.inputanswerfile[0];
+            //foreach (var answerfile in model.inputanswerfile)
+            //{
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            {
+                //foreach (var formFile in data.files)
+                System.Console.WriteLine("Start Upload 3");
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+                if (formFile.Value.Length > 0)
+                {
+
+                    System.Console.WriteLine("Start Upload 4");
+                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+
+
+
+                }
+                System.Console.WriteLine("Start Upload 4.1");
+                {
+                    System.Console.WriteLine("Start Upload 4.1");
+                    var AnswerFile = new AnswerSubquestionFile
+                    {
+
+                        SubjectCentralPolicyProvinceId = model.SubjectCentralPolicyProvinceId,
+                        Name = random + filename,
+                        Type = model.Type
+                    };
+
+                    System.Console.WriteLine("Start Upload 4.2");
+                    _context.AnswerSubquestionFiles.Add(AnswerFile);
+                    _context.SaveChanges();
+
+                    System.Console.WriteLine("Start Upload 4.3");
+
+
+                    System.Console.WriteLine("Start Upload 5");
+                }
+
+                //}
+
+            }
+            return Ok(new { status = true });
+        }
+        // POST api/values
+        [HttpPost("answercentralpolicyprovince")]
+        public IActionResult Post4(long CentralPolicyProvinceId, string UserId, string Answer)
+        {
+            System.Console.WriteLine("in", Answer);
+            var date = DateTime.Now;
+            var Answerdata = new AnswerCentralPolicyProvince
+            {
+                CentralPolicyProvinceId = CentralPolicyProvinceId,
+                UserId = UserId,
+                Answer = Answer,
                 CreatedAt = date
             };
-
-            _context.Provinces.Add(provincedata);
+            System.Console.WriteLine("in2");
+            _context.AnswerCentralPolicyProvinces.Add(Answerdata);
             _context.SaveChanges();
 
-            return provincedata;
+            return Ok(new { status = true });
         }
-
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(long id, string name, string link)

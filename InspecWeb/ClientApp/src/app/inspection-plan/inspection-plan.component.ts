@@ -6,6 +6,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { IOption } from 'ng-select';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-inspection-plan',
@@ -29,7 +31,8 @@ export class InspectionPlanComponent implements OnInit {
   userid: string
   dtOptions: DataTables.Settings = {};
   centralpolicyprovinceid: any
-  constructor(private modalService: BsModalService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, ) {
+  role_id
+  constructor(private modalService: BsModalService, private notificationService: NotificationService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService, ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
@@ -41,18 +44,28 @@ export class InspectionPlanComponent implements OnInit {
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
-        console.log(result);
-        // alert(this.userid)
+        // this.role_id = result.role_id
+        // console.log(result);
+        // alert(this.role_id)
+
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
       })
 
-      this.dtOptions = {
-        pagingType: 'full_numbers',
-        columnDefs: [
-          {
-            targets: [5],
-            orderable: false
-          }
-        ]};
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columnDefs: [
+        {
+          targets: [4],
+          orderable: false
+        }
+      ]
+    };
 
     this.Form = this.fb.group({
       CentralpolicyId: new FormControl(null, [Validators.required])
@@ -69,8 +82,8 @@ export class InspectionPlanComponent implements OnInit {
     this.router.navigate(['/subject', id])
   }
 
-  CraateInspectionPlan(id) {
-    this.router.navigate(['/inspectionplan/createinspectionplan', id])
+  CrateInspectionPlan(id) {
+    this.router.navigate(['/inspectionplan/createinspectionplan', id, { proid: this.provinceid }])
   }
   EditInspectionPlan(id: any) {
     this.router.navigate(['/inspectionplan/editinspectionplan', id])
@@ -90,10 +103,21 @@ export class InspectionPlanComponent implements OnInit {
     this.router.navigate(['/acceptcentralpolicy', id])
   }
   storeCentralPolicyEventRelation(value) {
+    let CentralpolicyId: any[] = value.CentralpolicyId
     // alert(JSON.stringify(value))
-    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid).subscribe(response => {
+    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid).subscribe(response => {
+
+
       this.Form.reset()
       this.modalRef.hide()
+
+      for (let i = 0; i < CentralpolicyId.length; i++) {
+        this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
+          .subscribe(response => {
+            console.log(response);
+          })
+      }
+      // alert("OK")
       // this.loading = false
       // this.inspectionplanservice.getinspectionplandata(this.id).subscribe(result => {
       //   this.resultinspectionplan = result[0].centralPolicyEvents //Chose
@@ -117,7 +141,7 @@ export class InspectionPlanComponent implements OnInit {
       let data2: any = [];
 
       test1.forEach(element => {
-          data1.push(element)
+        data1.push(element)
       });
       console.log("Data 1: ", data1);
 
@@ -137,7 +161,6 @@ export class InspectionPlanComponent implements OnInit {
       });
       // this.loading = true;
       console.log("RESULTS: ", this.data);
-
       this.inspectionplanservice.getcentralpolicydata(this.provinceid)
         .subscribe(result => {
           this.resultcentralpolicy = result //All
@@ -153,7 +176,9 @@ export class InspectionPlanComponent implements OnInit {
 
     if (this.inspectionplan.length == 0) {
       for (var i = 0; i < this.resultcentralpolicy.length; i++) {
-        this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
+        if (this.resultcentralpolicy[i].status == "ใช้งานจริง") {
+          this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
+        }
       }
     }
     else {
@@ -165,7 +190,9 @@ export class InspectionPlanComponent implements OnInit {
           }
         }
         if (n == 0) {
-          this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
+          if (this.resultcentralpolicy[i].status == "ใช้งานจริง") {
+            this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
+          }
         }
       }
     }

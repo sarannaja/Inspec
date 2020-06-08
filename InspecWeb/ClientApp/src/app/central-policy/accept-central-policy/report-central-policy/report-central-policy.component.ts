@@ -4,6 +4,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 
 @Component({
   selector: 'app-report-central-policy',
@@ -26,14 +27,25 @@ export class ReportCentralPolicyComponent implements OnInit {
   resultelectronicbookdetail: any = [];
   draftStatus: any;
   resultuser: any = []
+  centralpolicyproviceid
+  electronicbookid
+  provincename
+  provinceid
+  resultdate: any = []
+  carlendarFile: any = [];
+  resultElecFile: any= [];
+  fileType2: any;
+
   constructor(
     private fb: FormBuilder,
     private authorize: AuthorizeService,
     private centralpolicyservice: CentralpolicyService,
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
+    private electronicBookService: ElectronicbookService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
   }
 
   ngOnInit() {
@@ -48,12 +60,16 @@ export class ReportCentralPolicyComponent implements OnInit {
       report: new FormControl(null, [Validators.required]),
       files: [null],
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
+      signatureFiles: [null],
+      description: new FormControl(null, [Validators.required]),
     })
 
     this.getDetailCentralPolicy();
     this.getCentralPolicyUser();
     this.getUserFiles();
-    this.getSubjectCentralPolicyProvince();
+    this.getDetailCentralPolicyProvince();
+
   }
 
   getDetailCentralPolicy() {
@@ -129,12 +145,51 @@ export class ReportCentralPolicyComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  getSubjectCentralPolicyProvince() {
-    this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  // getSubjectCentralPolicyProvince() {
+  //   this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
+  //     .subscribe(result => {
+  //       this.resultdetailcentralpolicyprovince = result
+  //       console.log("resultdetailcentralpolicyprovince : ", result);
+  //     })
+  // }
+  getDetailCentralPolicyProvince() {
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.centralpolicyproviceid)
       .subscribe(result => {
-        this.resultdetailcentralpolicyprovince = result
-        console.log("resultdetailcentralpolicyprovince : ", result);
+        console.log("123", result);
+        // alert(JSON.stringify(result))
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+
+        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        this.provincename = result.provincedata.name
+        this.provinceid = result.provincedata.id
+
+        this.getCalendarFile();
+        this.getElectronikbookFile();
       })
+  }
+
+  getCalendarFile() {
+    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+      this.carlendarFile = res.carlendarFile;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+
+  getElectronikbookFile() {
+    this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {
+      this.resultElecFile = res.electronicFile;
+      console.log("resultElecFile: ", res);
+
+    })
+  }
+
+  checkType2(type) {
+    // alert(type)
+    this.fileType2 = type;
   }
 
 }
