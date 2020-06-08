@@ -48,14 +48,16 @@ export class RequestorderrService {
     return this.http.get<any>(this.url + "province/" + id)
   }
 
-  adddetailrequestorder(detailrequestorderData, file: FileList, centralpolicyid) {
+  adddetailrequestorder(detailrequestorderData, file: FileList, centralpolicyid,userid) {
+
     var formData = new FormData();
     formData.append('Name', detailrequestorderData.name);
     formData.append('CentralpolicyId', centralpolicyid);
     formData.append('ProvinceId', detailrequestorderData.provinceId);
-    formData.append('Userid', detailrequestorderData.byuserid);
+    formData.append('Userid', userid);
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
+      
     }
     // console.log('Name: ' + formData.get("Name"));
     // console.log('CentralpolicyId: ' + formData.get("CentralpolicyId"));

@@ -30,8 +30,8 @@ export class UserService {
   getuserlistdata(id: any): Observable<any[]> {
     return this.http.get<any[]>(this.urllist + id)
   }
-  getuserfirstdata(id: any): Observable<any> {
-    return this.http.get<any>(this.base +'getuserfirst/'+ id)
+  getuserfirstdata(id: any): Observable<any[]> {
+    return this.http.get<any[]>(this.base +'getuserfirst/'+ id)
   }
     sendNav(roleId: string) {
         this.subject.next({ roleId: roleId });
