@@ -44,42 +44,44 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public object Get() {
 
-            var result = new List<WordfileViewModel>();
-            var CentralPolicyProvince = _context.CentralPolicyProvinces.Where(x => x.Id == 1).FirstOrDefault();
-            //return CentralPolicyProvince;
-            var subject2 = _context.SubjectCentralPolicyProvinces.Where(x => x.CentralPolicyProvinceId == 1 && x.Type == "noMaster").ToList();
-            //return subject2;
-            //return subject2;
-            var electornicbook = _context.CentralPolicies.Where(x => x.Id == 1).FirstOrDefault();
-            var electornicbookgroup = _context.ElectronicBookGroups.Where(x => x.CentralPolicyProvinceId == 1).FirstOrDefault();
-            var detailbook = _context.ElectronicBooks.Where(x => x.Id == 1).FirstOrDefault();
+
+            return "asasa";
+            //var result = new List<WordfileViewModel>();
+            //var CentralPolicyProvince = _context.CentralPolicyProvinces.Where(x => x.Id == 1).FirstOrDefault();
+            ////return CentralPolicyProvince;
+            //var subject2 = _context.SubjectCentralPolicyProvinces.Where(x => x.CentralPolicyProvinceId == 1 && x.Type == "noMaster").ToList();
+            ////return subject2;
+            ////return subject2;
+            //var electornicbook = _context.CentralPolicies.Where(x => x.Id == 1).FirstOrDefault();
+            //var electornicbookgroup = _context.ElectronicBookGroups.Where(x => x.CentralPolicyProvinceId == 1).FirstOrDefault();
+            //var detailbook = _context.ElectronicBooks.Where(x => x.Id == 1).FirstOrDefault();
 
 
 
 
-            //return detailbook;
-            var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId && x.ElectronicBookId == 1).ToList();
+            ////return detailbook;
+            //var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId && x.ElectronicBookId == 1).ToList();
 
 
-            foreach (var data in groupidfile)
-            {
+            //foreach (var data in groupidfile)
+            //{
 
-                var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == data.CentralPolicyGroupId).Select(m => m.Name).ToArray();
+            //    var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == data.CentralPolicyGroupId).Where(x=>x.Type == "CentralPolicyUser Image File").Select(m => m.Name).ToArray();
 
-                result.Add(new WordfileViewModel
-                {
-                    Name = file
+            //    result.Add(new WordfileViewModel
+            //    {
+            //        Name = file
 
-                });
+            //    });
 
-            }
+            //}
 
-            //foreach =
-            //var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Name).ToList();
+            ////foreach =
+            ////var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Name).ToList();
 
 
+            ////return result;
             //return result;
-            return result;
 
 
         }
@@ -122,24 +124,26 @@ namespace InspecWeb.Controllers
             var electornicbookgroup = _context.ElectronicBookGroups.Where(x => x.CentralPolicyProvinceId == CentralPolicyProvince.ProvinceId).FirstOrDefault();
             var detailbook = _context.ElectronicBooks.Where(x => x.Id == electornicbookgroup.ElectronicBookId).FirstOrDefault();
             ////return detailbook;
-            //var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId && x.ElectronicBookId == model.elecId).FirstOrDefault();
-            ////return groupidfile;
-            //var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Name).ToArray();
-            var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId && x.ElectronicBookId == 1).ToList();
+            var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId && x.ElectronicBookId == model.elecId).FirstOrDefault();
+            //return groupidfile;
+            var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Name).ToArray();
+            var description = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Description).ToArray();
+            //var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId && x.ElectronicBookId == 1).ToList();
 
+            System.Console.WriteLine("benz" + file.Length);
+            //foreach (var data in groupidfile)
+            //{
 
-            foreach (var data in groupidfile)
-            {
+            //    var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == data.CentralPolicyGroupId).Select(m => m.Name).ToArray();
 
-                var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == data.CentralPolicyGroupId).Select(m => m.Name).ToArray();
+            //    files.Add(new WordfileViewModel
+            //    {
+            //        Name = file
 
-                files.Add(new WordfileViewModel
-                {
-                    Name = file
+            //    });
 
-                });
-
-            }
+            //}
+            //return file;
 
             var index = 0;
 
@@ -179,19 +183,21 @@ namespace InspecWeb.Controllers
                     var i = document.InsertParagraph();
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
-                    var i3 = document.InsertParagraph();
+                    //var i3 = document.InsertParagraph();
 
-                    foreach (var file in files)
-                    {
-                        for (var k = 0; k < file.Name.Length; k++)
-                        {
-                            Image image2 = document.AddImage(filePath + file.Name[k]);
-                            Picture picture10 = image2.CreatePicture(90, 90);
-                           
-                            i3.AppendPicture(picture10).Alignment = Alignment.center;
-                            i3.SpacingAfter(20d);
-                        }
-                    }
+                    //foreach (var file in files)
+                    //{
+                    //    for (var k = 0; k < file.Name.Length; k++)
+                    //    {
+                    //        Image image2 = document.AddImage(filePath + file.Name[k]);
+                    //        Picture picture10 = image2.CreatePicture(90, 90);
+
+                    //        i3.AppendPicture(picture10).Alignment = Alignment.center;
+                    //        i3.SpacingAfter(20d);
+                    //    }
+                    //}
+
+                
 
 
                     // หัวข้อสมุดตรวจ
@@ -282,7 +288,12 @@ namespace InspecWeb.Controllers
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
 
+                    var i3 = document.InsertParagraph();
+                    Image image2 = document.AddImage(filePath + file[0]);
+                    Picture picture10 = image2.CreatePicture(150, 300);
 
+                    i3.AppendPicture(picture10).Alignment = Alignment.center;
+                    i3.SpacingAfter(20d);
 
                     // หัวข้อสมุดตรวจ
                     var subject = document.InsertParagraph();
@@ -319,7 +330,9 @@ namespace InspecWeb.Controllers
 
                         //รายละเอียดปัญหาและอุปสรรค
                         var problemdetail = document.InsertParagraph();
+                      
                         problemdetail.Append(data.Problem).FontSize(16).SpacingAfter(5d);
+                     
 
 
                         // หัวข้อคำแนะนำ
@@ -372,6 +385,30 @@ namespace InspecWeb.Controllers
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
 
 
+                    var i3 = document.InsertParagraph();
+                    Image image2 = document.AddImage(filePath + file[0]);
+                    Picture picture10 = image2.CreatePicture(150, 300);
+
+                    i3.AppendPicture(picture10).Alignment = Alignment.center;
+                    i3.SpacingAfter(20d);
+
+
+                    var i4 = document.InsertParagraph();
+
+                    if (file.Length > 2)
+                    {
+                        for (var j = 1; j < 3; j++)
+                        {
+                           
+                                Image image3 = document.AddImage(filePath + file[j]);
+                                Picture picture111 = image3.CreatePicture(90, 90);
+
+                                i4.AppendPicture(picture111).Alignment = Alignment.center;
+                                i4.SpacingAfter(20d);
+                            
+                        }
+                    }
+                    
 
                     // หัวข้อสมุดตรวจ
                     var subject = document.InsertParagraph();
@@ -459,6 +496,13 @@ namespace InspecWeb.Controllers
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
 
+                    var i3 = document.InsertParagraph();
+                    Image image2 = document.AddImage(filePath + file[0]);
+                    Picture picture10 = image2.CreatePicture(150, 300);
+
+                    i3.AppendPicture(picture10).Alignment = Alignment.center;
+                    i3.SpacingAfter(20d);
+
 
 
                     // หัวข้อสมุดตรวจ
@@ -467,6 +511,20 @@ namespace InspecWeb.Controllers
                     subject.SpacingAfter(40d);
 
 
+                    var i4 = document.InsertParagraph();
+                    if (file.Length > 3)
+                    {
+                        for (var j = 1; j < 4; j++)
+                        {
+                           
+                                Image image3 = document.AddImage(filePath + file[j]);
+                                Picture picture111 = image3.CreatePicture(90, 90);
+
+                                i4.AppendPicture(picture111).Alignment = Alignment.center;
+                                i4.SpacingAfter(20d);
+                            
+                        }
+                    }
 
                     // รูปภาพสมุดตรวจรูปแรก
                     //var i3 = document.InsertParagraph();
@@ -517,6 +575,9 @@ namespace InspecWeb.Controllers
                         ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
                         ii.SpacingAfter(20d);
                     }
+
+
+                  
 
 
 
@@ -608,7 +669,12 @@ namespace InspecWeb.Controllers
 
 
 
+                    var i3 = document.InsertParagraph();
+                    Image image2 = document.AddImage(filePath + file[0]);
+                    Picture picture10 = image2.CreatePicture(150, 300);
 
+                    i3.AppendPicture(picture10).Alignment = Alignment.center;
+                    i3.SpacingAfter(20d);
 
                     //var i4 = document.InsertParagraph();
 
@@ -696,6 +762,29 @@ namespace InspecWeb.Controllers
 
 
 
+                    var i3 = document.InsertParagraph();
+                    Image image2 = document.AddImage(filePath + file[0]);
+                    Picture picture10 = image2.CreatePicture(150, 300);
+
+                    i3.AppendPicture(picture10).Alignment = Alignment.center;
+                    i3.SpacingAfter(20d);
+
+
+                    var i4 = document.InsertParagraph();
+
+                    if (file.Length > 2)
+                    {
+                        for (var j = 1; j < 3; j++)
+                        {
+
+                            Image image3 = document.AddImage(filePath + file[j]);
+                            Picture picture111 = image3.CreatePicture(90, 90);
+
+                            i4.AppendPicture(picture111).Alignment = Alignment.center;
+                            i4.SpacingAfter(20d);
+
+                        }
+                    }
 
 
                     //var i4 = document.InsertParagraph();
@@ -783,6 +872,29 @@ namespace InspecWeb.Controllers
                     }
 
 
+                    var i3 = document.InsertParagraph();
+                    Image image2 = document.AddImage(filePath + file[0]);
+                    Picture picture10 = image2.CreatePicture(150, 300);
+
+                    i3.AppendPicture(picture10).Alignment = Alignment.center;
+                    i3.SpacingAfter(20d);
+
+
+                    var i4 = document.InsertParagraph();
+
+                    if (file.Length > 3)
+                    {
+                        for (var j = 1; j < 4; j++)
+                        {
+
+                            Image image3 = document.AddImage(filePath + file[j]);
+                            Picture picture111 = image3.CreatePicture(90, 90);
+
+                            i4.AppendPicture(picture111).Alignment = Alignment.center;
+                            i4.SpacingAfter(20d);
+
+                        }
+                    }
 
 
 
@@ -871,7 +983,21 @@ namespace InspecWeb.Controllers
                     }
 
 
+                  
 
+                   
+                        for (var j = 0; j < file.Length; j++)
+                        {
+                            var i4 = document.InsertParagraph();
+
+                            Image image3 = document.AddImage(filePath + file[j]);
+                            Picture picture111 = image3.CreatePicture(150, 150);
+
+                            i4.Append(description[j]).AppendPicture(picture111).Alignment = Alignment.left;
+                            i4.SpacingAfter(10d);
+                            
+                        }
+                    
 
 
                     //var i4 = document.InsertParagraph();
@@ -960,7 +1086,17 @@ namespace InspecWeb.Controllers
 
 
 
+                    for (var j = 0; j < file.Length; j++)
+                    {
+                        var i4 = document.InsertParagraph();
 
+                        Image image3 = document.AddImage(filePath + file[j]);
+                        Picture picture111 = image3.CreatePicture(150, 150);
+
+                        i4.AppendPicture(picture111).Append(description[j]).Alignment = Alignment.left;
+                        i4.SpacingAfter(10d);
+
+                    }
 
                     //var i4 = document.InsertParagraph();
 
@@ -1046,6 +1182,23 @@ namespace InspecWeb.Controllers
                         ii.SpacingAfter(20d);
                     }
 
+
+
+
+                    for (var j = 0; j < file.Length; j++)
+                    {
+                        var i4 = document.InsertParagraph();
+
+                        Image image3 = document.AddImage(filePath + file[j]);
+                        Picture picture111 = image3.CreatePicture(150, 300);
+
+                        i4.AppendPicture(picture111).Alignment = Alignment.center;
+                        i4.SpacingAfter(10d);
+                        var i5 = document.InsertParagraph();
+                        i5.Append(description[j]).Alignment = Alignment.center;
+                        i5.SpacingAfter(20d);
+
+                    }
 
 
 
