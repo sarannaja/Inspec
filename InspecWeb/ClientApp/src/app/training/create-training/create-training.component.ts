@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormBuilder, FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { TrainingService } from 'src/app/services/training.service';
 import { Router } from '@angular/router';
 
@@ -19,9 +19,17 @@ export class CreateTrainingComponent implements OnInit {
   regis_end_date:any
   Form: FormGroup;
   files: string[] = []
-
-  constructor(private fb: FormBuilder, private trainingservice: TrainingService,
-    public share: TrainingService, private router: Router) { }
+  inputdate: any = [{ start_date: '', end_date: '' }]
+  form: FormGroup;
+  formfile: FormGroup;
+  downloadUrl: any;
+  constructor(private fb: FormBuilder, 
+    private trainingservice: TrainingService,
+    public share: TrainingService, 
+    private router: Router,
+    @Inject('BASE_URL') baseUrl: string) {
+      this.downloadUrl = baseUrl + '/Uploads'
+    }
 
   ngOnInit() {
     this.Form = this.fb.group({
@@ -32,13 +40,22 @@ export class CreateTrainingComponent implements OnInit {
       lecturer_name: new FormControl(null, [Validators.required]),
       regis_start_date: new FormControl(null, [Validators.required]),
       regis_end_date: new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      // files: new FormControl(null, [Validators.required]),
+      inputdate: new FormArray([]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
+    this.form = this.fb.group({
+      files: [null]
+    })
+    // this.d.push(this.fb.group({
+    //   start_date: '',
+    //   end_date: '',
+    // }))
   }
-  storeTraining(value) {
-    // alert(JSON.stringify(value))
-    this.trainingservice.addTraining(value).subscribe(response => {
+  storeTraining(value ) {
+    //alert(JSON.stringify(value))   
+    //alert(this.form.value.files)
+    this.trainingservice.addTraining2(value ,this.form.value.files).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.router.navigate(['training'])
@@ -49,7 +66,29 @@ export class CreateTrainingComponent implements OnInit {
     })
   }
 
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.form.patchValue({
+      files: file
+    });
+    this.form.get('files').updateValueAndValidity()
+  }
+
+
+
   addFile(event) {
     this.files = event.target.files
+  }
+  get f() { return this.Form.controls }
+  get d() { return this.f.inputdate as FormArray }
+
+  // appenddate() {
+  //   this.d.push(this.fb.group({
+  //     start_date: '',
+  //     end_date: '',
+  //   }))
+  // }
+  remove(index: number) {
+    this.d.removeAt(index);
   }
 }

@@ -61,7 +61,11 @@ export class AnswerPeopleComponent implements OnInit {
       this.router.navigate(['/answerpeople/centralpolicyprovinc/' + result])
     })
   }
-  Subjectlist(id) {
-    this.router.navigate(['/answerpeople/list', id])
+  Subjectlist(cenid, proid) {
+    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+      var id = result
+      this.router.navigate(['/answerpeople/list/' + id])
+    })
+    // this.router.navigate(['/answerpeople/list', id])
   }
 }

@@ -9,4 +9,24 @@ namespace InspecWeb.ViewModel
             public long elecId { get; set; }
   
     }
+
+    public class WordsubjectViewModel
+    {
+
+        public string Name { get; set; }
+        public string Detail { get; set; }
+        public string Problem { get; set; }
+        public string Suggestion { get; set; }
+
+    }
+
+    public class WordfileViewModel
+    {
+
+        public string[] Name { get; set; }
+
+    }
+
+
+
 }

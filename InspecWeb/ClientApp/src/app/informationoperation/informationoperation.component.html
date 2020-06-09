@@ -75,11 +75,12 @@
           </div>
           <div class="modal-body m-3">
             <div class="form-group">
-              <label for="test" class="form-label">ประเภทสถานที่ </label><br>
-              <select id="location" formControlName="location">
-                <option value="ที่พัก">ที่พัก</option>
-                <option value="ร้านอาหาร">ร้านอาหาร</option>
-              </select><br><br>
+              <label for="test" class="form-label">--ประเภทสถานที่--</label><br>
+            <select class="select" formControlName="location">
+              <option value=null>กรุณาเลือกประเภท</option>
+              <option value="ที่พัก">ที่พัก</option>
+              <option value="ร้านอาหาร">ร้านอาหาร</option>
+            </select><br><br>
               <label for="test" class="form-label">ชื่อ </label>
               <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อสถานที่"><br>
               <label for="test" class="form-label">รายละเอียด </label>
@@ -138,11 +139,13 @@
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ประเภทสถานที่ </label><br>
-            <select id="location" formControlName="location">
-              <option value="ที่พัก">ที่พัก</option>
-              <option value="ร้านอาหาร">ร้านอาหาร</option>
-            </select><br><br>
+            <label for="test" class="form-label"> ประเภทสถานที่ </label><br>
+            <select class="select" value="{{location}}" formControlName="location">
+                      <!-- formControlName="type" -->
+                      <option value=null>--กรุณาเลือกประเภท--</option>
+                      <option value="ที่พัก">ที่พัก</option>
+                      <option value="ร้านอาหาร">ร้านอาหาร</option>
+                    </select><br><br>
             <label for="test" class="form-label">ชื่อ</label>
             <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
             <input type="text" value="{{name}}" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อสถานที่"><br>

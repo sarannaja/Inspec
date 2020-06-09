@@ -1,0 +1,148 @@
+<div class="header">
+    <h1 class="header-title">
+      ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="['/main']">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
+        <li class="breadcrumb-item active">แผนการตรวจราชการประจำปี</li>
+      </ol>
+    </nav>
+  </div>
+  <form class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: -40px;">
+          <h5 class="card-title">แผนการตรวจราชการประจำปี</h5>
+          <div class="float-right">
+            <button class="btn btn-primary" (click)="openModal(modalGovernmentinspectionplan)"
+              style="margin-top: -60px;">เพิ่มแผนการตรวจราชการประจำปี</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>คณะที่</th>
+                <th>นาม</th>
+                <th>คนที่/สมัยที่</th>
+                <th>คณะรัฐมนตรีดำรงตำแหน่ง</th>
+                <th>คณะรัฐมนตรีพ้นจากตำแหน่ง</th>
+                <th>วันแถลงนโยบาย</th>
+                <th>ไฟล์แนบ</th>
+                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resultstatepolicy; let i = index">
+                <td>{{ i + 1 }}.</td>
+                <td>{{ item.gangId}} </td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.no }} / {{ item.roundNo }}</td>
+                <td>{{ item.startDate | date:'dd / MM / yyyy' }}</td>
+                <td>{{ item.endDate | date:'dd / MM / yyyy' }}</td>
+                <td>{{ item.date | date:'dd / MM / yyyy'}}</td>
+                <td ><a *ngIf="item.file != 'NULL' " href="assets/GovernmentinspectionplanFile/{{item.file}}" download>{{ item.file }}</a></td>
+                <td>
+                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
+                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                    (click)="openModal(modaleditGovernmentinspectionplan, item.id, item.year, item.title, item.file)"></i>
+                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                    (click)="openModal(modaldeleteGovernmentinspectionplan, item.id)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modalGovernmentinspectionplan class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="storeGovernmentinspectionplan(Form.value)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">เพิ่มแผนการตรวจราชการประจำปี</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <div class="form-group">
+              <label for="test" class="form-label">ปีงบประมาณ </label>
+              <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ"><br>
+              <label for="test" class="form-label">รายละเอียด </label>
+              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+              <label for="test" class="form-label">ไฟล์แนบ </label><br>
+              <input type="file"multiple (change)="uploadFile($event)">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </form>
+      <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+  
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modaldeleteGovernmentinspectionplan class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+        <i class="fa fa-info-circle delete-icon"></i>
+        <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+          ลบข้อมูล
+        </p>
+        <p style="font-size: medium; color: #545454;">
+          คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+        </p>
+        <button type="button" class="btn btn-primary btnMargin" (click)="deleteGovernmentinspectionplan(delid)">
+          ใช่
+        </button> &nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+          ไม่ใช่
+        </button>
+      </div>
+    </ng-template>
+    <!-- END primary modal -->
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modaleditGovernmentinspectionplan class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="editGovernmentinspectionplan(Form.value,delid)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการปีงบประมาณ</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <div class="form-group">
+            <label for="test" class="form-label">ปีงบประมาณ</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" value="{{year}}" formControlName="year" class="form-control"
+              placeholder="กรุณากรอกปีงบประมาณ"><br>
+              <label for="test" class="form-label">รายละเอียด </label>
+              <input type="text" value="{{title}}"formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
+              <label for="test" class="form-label">ไฟล์แนบ </label><br>
+              <input type="file">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+  <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+  --
+  

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ using Microsoft.AspNetCore.Hosting;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
+using Image = Xceed.Document.NET.Image;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
@@ -181,7 +185,7 @@ namespace InspecWeb.Controllers
 
 
         [HttpGet("detailrole3/{id}/{userid}")]
-        public IActionResult Getexecutiverole3(long id,string userid)
+        public IActionResult Getexecutiverole3(long id, string userid)
         {
             var provinceId = _context.UserProvinces
                 .Where(x => x.UserID == userid)
@@ -212,7 +216,7 @@ namespace InspecWeb.Controllers
                 cabinedata.AnswerProblem = model.AnswerProblem;
                 cabinedata.AnswerCounsel = model.AnswerCounsel;
                 cabinedata.AnswerUserId = model.AnswerUserId;
-
+                //System.Console.WriteLine(model.AnswerUserId);
             };
 
             _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -227,7 +231,7 @@ namespace InspecWeb.Controllers
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
             //foreach (var formFile in data.files)
             {
-                
+
                 var random = RandomString(10);
                 string filePath2 = formFile.Value.FileName;
                 string filename = Path.GetFileName(filePath2);
@@ -248,23 +252,23 @@ namespace InspecWeb.Controllers
                     };
                     _context.AnswerExecutiveOrderFiles.Add(AnswerExecutiveOrderFile);
                     _context.SaveChanges();
-                  /*  System.Console.WriteLine("Sucess");*/
+                    /*  System.Console.WriteLine("Sucess");*/
                 }
             }
-            return Ok(new { Id = model.id }); 
+            return Ok(new { Id = model.id });
         }
 
         [HttpGet("ex/{id}")]
         public IActionResult GetData(string id)
         {
-           /* System.Console.WriteLine("DDDDD");
-            System.Console.WriteLine("USERID : " + id);*/
+            /* System.Console.WriteLine("DDDDD");
+             System.Console.WriteLine("USERID : " + id);*/
             //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
             //                              select P;
             //return inspectionPlanEventdata;
             var userprovince = _context.UserProvinces
                                .Where(m => m.UserID == id)
-                               .ToList();
+                               .ToList(); 
 
             //var inspectionplans = _context.InspectionPlanEvents
             //                    .Include(m => m.Province)
@@ -296,7 +300,122 @@ namespace InspecWeb.Controllers
 
             return Ok(termsList);
 
-        
+        }
+
+        [HttpGet("export1/{userId}")]
+        public IActionResult Getexport1(string userId)
+        {
+            var Eexcutive1 = _context.ExecutiveOrders
+                .Include(m => m.CreatedAt)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Title)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Status)
+                .Include(m => m.CreatedAt)
+                .Include(m => m.AnswerUserId)
+                .Include(m => m.AnswerDetail)
+                .Include(m => m.ExecutiveOrderFiles)
+                .Where(m => m.UserId == userId)
+                .ToList();
+                
+
+            return Ok(Eexcutive1);
+                
+        }
+
+        [HttpGet("export2")]
+        public IActionResult Getexport2(string userId)
+        {
+            var Executive2 = _context.ExecutiveOrders
+                .Include(m => m.CreatedAt)
+                .Include(m => m.UserId)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Title)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Status)
+
+                .Include(m => m.AnswerDetail)
+                .Include(m => m.AnswerExecutiveOrderFiles);
+
+            return Ok(Executive2);
+        }
+
+        public void CreateReport(List<object> centralpolicydata, string typeId)
+        {
+            if (!Directory.Exists(_environment.WebRootPath + "//reportexecutive//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportexecutive//"); //สร้าง Folder reportexecutive ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/reportexecutive/";
+            var filename = "รายงานการแจ้งข้อสั่งการผู้บริหาร" + DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss") + ".docx";
+            var createfile = filePath + filename;
+            var myImageFullPath = filePath + "logo01.png";
+
+            if (typeId == "1")
+            {
+                System.Console.WriteLine("in create");
+                using (DocX document = DocX.Create(createfile))
+                {
+                    Image image = document.AddImage(myImageFullPath);
+                    Picture picture = image.CreatePicture(90, 90);
+                    var logo = document.InsertParagraph();
+                    logo.AppendPicture(picture).Alignment = Alignment.left;
+
+                    // Add a title
+                    document.InsertParagraph("Columns width").FontSize(15d).SpacingAfter(50d).Alignment = Alignment.center;
+
+                    // Insert a title paragraph.
+                    var p = document.InsertParagraph("In the following table, the cell's left margin has been removed for rows 2-6 as well as the top/bottom table's borders.").Bold();
+                    p.Alignment = Alignment.center;
+                    p.SpacingAfter(40d);
+
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 200f, 200f, 200f, 200f, 200f, 200f, 200f };
+                    var t = document.InsertTable(1, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+                    //for (int i = 0; i < row.Cells.Count; ++i)
+                    //{
+                    row.Cells[0].Paragraphs.First().Append("วัน/เดือน/ปีที่มีข้อสั่งการ");
+                    row.Cells[1].Paragraphs.First().Append("ประเด็น/เรื่อง");
+                    row.Cells[2].Paragraphs.First().Append("สถานะเรื่อง");
+                    row.Cells[3].Paragraphs.First().Append("วัน/เดือน/ปีที่แจ้งข้อสั่งการ");
+                    row.Cells[4].Paragraphs.First().Append("ผู้รับข้อสั่งการ");
+                    row.Cells[5].Paragraphs.First().Append("การดำเนินการ");
+                    row.Cells[6].Paragraphs.First().Append("ไฟล์/เอกสารแนบ(เอกสาร / ภาพ / เสียง / วีดิทัศน์) ");
+
+                    //}
+
+                    // Add rows in the table.
+                    for (int i = 0; i < 5; i++)
+                    {
+                        var newRow = t.InsertRow();
+
+                        // Fill in the columns of the new rows.
+                        for (int j = 0; j < newRow.Cells.Count; ++j)
+                        {
+                            var newCell = newRow.Cells[j];
+                            newCell.Paragraphs.First().Append("test" + i);
+                            // Remove the left margin of the new cells.
+                            newCell.MarginLeft = 0;
+                        }
+                    }
+
+                    // Set a blank border for the table's top/bottom borders.
+                    var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                    //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
+            }
         }
     }
 }

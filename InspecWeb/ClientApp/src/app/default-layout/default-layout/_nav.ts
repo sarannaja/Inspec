@@ -275,9 +275,54 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
   },
   {
     icon: 'fa-shekel-sign',
-    url: "/training",
+    url: "/train",
     name: "จัดอบรมหลักสูตร"
   },
+  {
+    IDchildren: 'training',
+    icon: 'fa-shekel-sign',
+    name: "ข้อมูลจัดอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/lecturer',
+        name: 'วิทยากรอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'จัดอบรมหลักสูตร'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/document',
+        name: 'เอกสารประกอบการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/register',
+        name: 'ผู้สมัครเข้าร่วมอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/survey',
+        name: 'ประเมินผลการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/report',
+        name: 'รายงาน'
+      },
+      
+    ]
+  },
+  
 
 ]
 export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
@@ -350,6 +395,55 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       },
     ]
   },
+  {
+    icon: 'fa-shekel-sign',
+    url: "/train",
+    name: "จัดอบรมหลักสูตร"
+  },
+  {
+    IDchildren: 'training',
+    icon: 'fa-shekel-sign',
+    name: "ข้อมูลจัดอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/lecturer',
+        name: 'วิทยากรอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'จัดอบรมหลักสูตร'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/document',
+        name: 'เอกสารประกอบการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/register',
+        name: 'ผู้สมัครเข้าร่วมอบรม'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/survey',
+        name: 'ประเมินผลการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/report',
+        name: 'รายงาน'
+      },
+      
+    ]
+  },
 ]
 export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
@@ -362,17 +456,37 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/centralpolicy",
     name: "แผนการตรวจประจำปี"
   },
+
   {
+    IDchildren: 'schedule',
     icon: 'fa-calendar',
-    url: "/inspectionplanevent",
-    name: "ปฏิทินการตรวจราชการ"
+    name: "กำหนดการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionplanevent',
+        name: 'ปฏิทินการตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportinspectionplanevent',
+        name: 'รายงานกำหนดการตรวจราชการ'
+      },
+    ]
   },
+
+  // {
+  //   icon: 'fa-calendar',
+  //   url: "/inspectionplanevent",
+  //   name: "ปฏิทินการตรวจราชการ"
+  // },
   {
     icon: 'fa-book',
     url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
-
   {
     IDchildren: 'report',
     icon: 'fa-user-tie',
@@ -890,14 +1004,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     name: "Rold9Answer"
   },
   {
-    icon: 'fa-book',
-    url: "/usercentralpolicy",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
-  },
-  {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
+  },
+  {
+    icon: 'fa-book',
+    url: "/electronicbookprovince",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
     icon: 'fa-list-alt',

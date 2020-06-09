@@ -1,0 +1,101 @@
+<div class="header">
+    <h1 class="header-title">
+        ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนที่ประเทศไทย</a></li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header" style="margin-bottom: -20px;">
+                <h5 class="card-title">แผนที่ประเทศไทย</h5>
+                <!-- <div class="float-right">
+              <button class="btn btn-primary" (click)="CreateCentralPolicy()"
+              style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
+            </div> -->
+            </div>
+            <div class="card-body">
+                <!-- <app-cabinet-table></app-cabinet-table> -->
+                <div id="thai-map" class="block" style="height:800px;"></div>
+
+            </div>
+            <div *ngIf="provincesData.length != 0">
+
+                <div *ngFor="let item of provincesData; let i =index" class="card-body">
+                    <div class="modal-header">
+                        <h4 class="modal-title pull-left"> {{ item.name  }} - {{item.region.name}} </h4>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive" id="summaryTable">
+                            <table class="table table-borderless">
+                                <tbody>
+
+                                    <tr>
+                                        <td>โครงการทั้งหมด:</td>
+                                        <td class="text-right">{{item.projects.count}} โครงการ</td>
+                                    </tr>
+                                    <!-- <hr> -->
+                                    <tr>
+                                        <td>โครงการที่เบิกจ่ายแล้วเสร็จ:</td>
+                                        <td id="complete-count" class="text-right">
+                                            {{item.projects.completed|CustomeCurrency}} โครงการ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>โครงการกำลังดำเนินงาน:</td>
+                                        <td class="text-right">
+                                            {{item.projects.count - item.projects.completed }}
+                                            โครงการ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>งบประมาณ:</td>
+                                        <td class="text-right">
+                                            {{(item.projects.totalBudget)| CustomeCurrency}} บาท
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>งบประมาณที่ใช้จริง:</td>
+                                        <td class="text-right">
+                                            {{(item.projects.totalAmount)| CustomeCurrency}} บาท
+                                        </td>
+                                        <!-- <td  class="text-right">197,202,372.00 บาท</td> -->
+                                    </tr>
+                                    <tr>
+                                        <td>งบประมาณที่เบิกจ่ายไปแล้ว:</td>
+                                        <td class="text-right">
+                                            {{(item.projects.totalBudget - item.projects.totalAmount)| CustomeCurrency}}
+                                            บาท</td>
+                                    </tr>
+                                    <tr>
+                                        <td>งบประมาณที่ยังไม่ได้เบิกจ่าย:</td>
+                                        <td class="text-right">
+                                            {{(item.projects.totalBudget-(item.projects.totalBudget - item.projects.totalAmount)) | CustomeCurrency}}
+                                            บาท</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ร้อยละความสำเร็จ:</td>
+                                        <td class="text-right">{{item.projects.totalPercent}}%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

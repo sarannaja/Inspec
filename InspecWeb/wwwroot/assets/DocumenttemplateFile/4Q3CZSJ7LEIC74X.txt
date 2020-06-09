@@ -1,0 +1,4 @@
+create database table
+	- dotnet ef migrations add <Status><Name>
+create module
+	- ng g c <Name> --skipTests --skip-import
