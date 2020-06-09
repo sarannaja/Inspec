@@ -134,9 +134,13 @@ export class ReportExportComponent implements OnInit {
     console.log('generateExcel');
     this.electronicBookService.getReportExcelElectronicBook(id).subscribe(data => {
       var exe = []
+      var user = []
       var date2 = []
       data.exe.forEach((item, index) => {
         exe.push(item.detailExecutiveOrder)
+      })
+      data.user.forEach((item, index) => {
+        user.push(item.user.prefix + " " + item.user.name)
       })
       data.exe.forEach((item, index) => {
         var ddd = new Date(item.createdAt)
@@ -148,7 +152,7 @@ export class ReportExportComponent implements OnInit {
         return item.type == "NoMaster"
       }).map((result, index) => {
 
-        return [index + 1, dateNow, result.name, "ผู้สร้างรายงาน", "ร่าง", "วัน/เดือน/ปี ที่ส่งรายงาน", exe.toString(), date2.toString(), "ไฟล์/เอกสารแนบ (เอกสาร/ภาพ/เสียง/วีดิทัศน์)"]
+        return [index + 1, dateNow, result.name, data.ebook.centralPolicyProvince.province.name, user.toString(), "ร่าง", "วัน/เดือน/ปี ที่ส่งรายงาน", exe.toString(), date2.toString(), "ไฟล์/เอกสารแนบ (เอกสาร/ภาพ/เสียง/วีดิทัศน์)"]
       })
       console.log("data", subjectCentralPolicyProvinces)
       this.exportExcel2(subjectCentralPolicyProvinces, "");
@@ -163,7 +167,7 @@ export class ReportExportComponent implements OnInit {
     const header = [
       'ลำดับที่',
       'วัน/เดือน/ปี ที่มีรายงาน',
-      'ประเด็น/เรื่อง', 'ผู้สร้างรายงาน',
+      'ประเด็น/เรื่อง', 'จังหวัด', 'ผู้สร้างรายงาน',
       'สถานะรายงาน',
       'วัน/เดือน/ปี ที่ส่งรายงาน',
       'ข้อสั่งการของผู้บังคับบัญชา (มี/ไม่มี)',
@@ -245,5 +249,7 @@ export class ReportExportComponent implements OnInit {
     })
     // const subTitleRow = worksheet.addRow(['Date : ' + this.datePipe.transform(new Date(), 'medium')]);
   }
+
+
 
 }

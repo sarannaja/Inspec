@@ -211,7 +211,7 @@ namespace InspecWeb.Controllers
         }
 
         // GET: api/values
-        [HttpGet("userregion/{userid}")]
+        [HttpGet("userregion/{userid}")] //province
         public IActionResult GetDataUserRegion(string userid)
         {
             var userdata = _context.UserProvinces
@@ -221,6 +221,16 @@ namespace InspecWeb.Controllers
             return Ok(userdata);
         }
 
+        // GET: api/values
+        [HttpGet("userallregion/{userid}")]
+        public IActionResult GetDataUserAllRegion(string userid)
+        {
+            var userdata = _context.UserRegions
+                .Include(m => m.Region)
+                .Where(m => m.UserID == userid).ToList();
+
+            return Ok(userdata);
+        }
         // GET: api/values
         [HttpGet("inspectionplanprovince/{id}/{proid}")]
         public IActionResult GetDataInspectionPlanProvince(string id, long proid)
@@ -299,11 +309,30 @@ namespace InspecWeb.Controllers
         [HttpGet("exportexcelcalendarprovince/{id}")]
         public IActionResult GetExcelCalendarProvince(long id)
         {
-            var calendar = _context.CentralPolicyProvinces
-                .Include(x => x.CentralPolicy)
-                .Include(x => x.Province)
-                .Where(m => m.ProvinceId == id)
-                .ToList();
+            //var calendar = _context.CentralPolicyProvinces
+            //    .Include(x => x.CentralPolicy)
+            //    .Include(x => x.Province)
+            //    .Where(m => m.ProvinceId == id)
+            //    .ToList();
+
+            var calendar = _context.InspectionPlanEvents
+                               .Include(m => m.Province)
+                               .Include(m => m.CentralPolicyEvents)
+                               .ThenInclude(m => m.CentralPolicy)
+                               .ThenInclude(m => m.CentralPolicyProvinces)
+                               .Include(m => m.CentralPolicyEvents)
+                               .ThenInclude(m => m.CentralPolicy)
+                               .ThenInclude(m => m.CentralPolicyUser)
+                               .ThenInclude(m=>m.User)
+                               .Where(m => m.ProvinceId == id)
+
+                               .ToList();
+
+            //var calendar = _context.CentralPolicyEvents
+            //    .Include(m => m.CentralPolicy)
+            //    .ThenInclude(m => m.CentralPolicyUser)
+            //    .Include(m => m.InspectionPlanEvent)
+            //    .Where(m => m.InspectionPlanEvent.ProvinceId == id).ToList();
 
             return Ok(new { calendar });
         }

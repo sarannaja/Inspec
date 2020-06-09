@@ -15,9 +15,10 @@
     <div class="card-header" style="margin-bottom: -40px;">
       <h5 class="card-title">รายงานกำหนดการตรวจราชการ</h5>
       <div class="float-right">
-        <button class="btn btn-success" (click)="openModal(modalProvince)"
+        <button class="btn btn-success" (click)="openModal(modalRegion)"
           style="margin-top: -60px;margin-right: 10px;">รายงานกำหนดการตรวจรายเขต</button>
-        <button class="btn btn-success" style="margin-top: -60px;">รายงานกำหนดการตรวจรายจังหวัด</button>
+        <button class="btn btn-success" (click)="openModal(modalProvince)"
+          style="margin-top: -60px;">รายงานกำหนดการตรวจรายจังหวัด</button>
       </div>
     </div>
     <div class="card-body">
@@ -43,7 +44,7 @@
 </div>
 
 <!-- BEGIN primary modal -->
-<ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<ng-template #modalRegion class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="Form" (ngSubmit)="ExportRegion(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
@@ -56,8 +57,39 @@
 
         <div class="form-group">
           <label>เขต</label>
-          <ng-select placeholder="กรุณาเลือกเขต" [multiple]="true" [options]="selectsubject" name="region"
+          <ng-select placeholder="กรุณาเลือกเขต" [multiple]="false" [options]="selectregion" name="region"
             formControlName="region" [allowClear]="true">
+          </ng-select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Export</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="Form2" (ngSubmit)="ExportProvince(Form2.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">รายงานกำหนดการตรวจราชการรายจังหวัด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-12">
+
+        <div class="form-group">
+          <label>จังหวัด</label>
+          <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectprovince" name="province"
+            formControlName="province" [allowClear]="true">
           </ng-select>
         </div>
 
