@@ -31,7 +31,7 @@ export class SubdistrictComponent implements OnInit {
       this.resultsubdistrict = result
       this.titleprovince = result[0].district.province.name
       this.titledistrict = result[0].district.name
-      console.log(this.resultsubdistrict);
+      //console.log(this.resultsubdistrict);
     })
   }
 

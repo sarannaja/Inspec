@@ -97,6 +97,7 @@ import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-deta
 import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
+import { InfoDepartmentComponent } from './info-department/info-department.component';
 
 
 @NgModule({
@@ -178,6 +179,7 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
     AnswerCentralPolicyProvinceComponent,
     InvitedElectronicBookComponent,
     InfoMinistryComponent,
+    InfoDepartmentComponent,
   ],
 
   imports: [
@@ -281,6 +283,7 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
           { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
         ]
       },
       {
