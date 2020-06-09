@@ -20,9 +20,11 @@ export class RequestorderService {
     formData.append('AnswerDetail', detailrequestorderData.AnswerDetail);
     formData.append('AnswerProblem', detailrequestorderData.AnswerProblem);
     formData.append('AnswerCounsel', detailrequestorderData.AnswerCounsel);
+    formData.append('AnswerUserId', detailrequestorderData.byuserid);
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
+    console.log('IDuser: ' + formData.get("AnswerUserId"));
     //console.log('FORMDATA: ', formData.getAll);
     // console.log('AnswerDetail: ' + formData.get("AnswerDetail"));
     // console.log('AnswerProblem: ' + formData.get("AnswerProblem"));

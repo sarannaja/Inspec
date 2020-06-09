@@ -110,7 +110,7 @@ export class DetailRequestOrderComponent implements OnInit {
         this.requestorderService.getcentralpolicyprovinceiddata(this.id)
           .subscribe(result => {
             // console.log('userProvince', userProvince);
-            
+
             // var province: Array<any>
             for (let i = 0; i < userProvince.length; i++) {
 
@@ -122,22 +122,22 @@ export class DetailRequestOrderComponent implements OnInit {
                   return { value: item.province.id, label: item.province.name }
                 })
               this.selectdataprovince = this.selectdataprovince.concat(selectdataprovince)
-               //console.log( this.selectdataprovince);
-            
+              //console.log( this.selectdataprovince);
+
             }
-            
+
           })
 
         // alert(this.id);
         //   this.selectdataprovince = result[0].userProvince.map((item, index) => {
         //     return { value: item.province.id, label: item.province.name }
         //   })
-        
+
       })
 
     this.modalRef = this.modalService.show(template);
     this.modalRef.hide();
-        this.Form.reset();
+    this.Form.reset();
   }
 
   editModal(template: TemplateRef<any>, id) {
@@ -167,7 +167,7 @@ export class DetailRequestOrderComponent implements OnInit {
     this.requestorderrService.getdetailrequestorderdata(this.id)
       .subscribe(result => {
         this.resultdetailrequestorder = result
-         //console.log('c',this.resultdetailrequestorder);
+        //console.log('c',this.resultdetailrequestorder);
         this.loading = true
       })
 
@@ -232,7 +232,7 @@ export class DetailRequestOrderComponent implements OnInit {
     //console.log(this.provinceId);
 
     //console.log("value", this.Form.value.files)
-    this.requestorderrService.adddetailrequestorder(value, this.Form.value.files, this.id,this.userid)
+    this.requestorderrService.adddetailrequestorder(value, this.Form.value.files, this.id, this.userid)
       .subscribe(result => {
         this.request_id = result.id;
 
@@ -248,25 +248,30 @@ export class DetailRequestOrderComponent implements OnInit {
       })
   }
   answerModal(template: TemplateRef<any>, item) {
-    // alert(JSON.stringify(item))
+     //alert(JSON.stringify(item))
     // console.log(item);
 
     this.idAnswer = item.id;
-
     this.modalRef = this.modalService.show(template);
     this.EditForm = this.fb.group({
       "AnswerDetail": new FormControl(null, [Validators.required]),
       "AnswerProblem": new FormControl(null, [Validators.required]),
       "AnswerCounsel": new FormControl(null, [Validators.required]),
+      "AnswerUserId": new FormControl(null, [Validators.required]),//
       "files": new FormControl(null, [Validators.required]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+
     })
     this.EditForm.patchValue({
       "AnswerDetail": item.answerDetail,
       "AnswerProblem": item.answerProblem,
       "AnswerCounsel": item.answerCounsel,
-
+     
     })
+    this.getuserinfo()
+    this.modalRef.hide();
+    this.EditForm.reset();
+
   }
   uploadFile2(event) {
     // console.log("event", event);
@@ -278,7 +283,6 @@ export class DetailRequestOrderComponent implements OnInit {
     this.Form.get('files2').updateValueAndValidity()
   }
 
-  //start getuser //
   getuserinfo() {
     this.authorize.getUser()
       .subscribe(result => {
@@ -336,8 +340,9 @@ export class DetailRequestOrderComponent implements OnInit {
             // console.log(result);
 
           })
-        this.modalRef.hide();
-        this.EditForm.reset();
+         //alert(this.userid)
+         //console.log('user: ', this.userid);
+
       })
 
   }

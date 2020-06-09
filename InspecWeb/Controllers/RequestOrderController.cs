@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ using Microsoft.AspNetCore.Hosting;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
+using Image = Xceed.Document.NET.Image;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
@@ -211,6 +215,8 @@ namespace InspecWeb.Controllers
                 cabinedata.AnswerDetail = model.AnswerDetail;
                 cabinedata.AnswerProblem = model.AnswerProblem;
                 cabinedata.AnswerCounsel = model.AnswerCounsel;
+                cabinedata.AnswerUserId = model.AnswerUserId;
+                System.Console.WriteLine(model.AnswerUserId);
 
             };
 
@@ -293,8 +299,85 @@ namespace InspecWeb.Controllers
             //System.Console.WriteLine("tttt",data);
             return Ok(data);
         }
+        public void CreateReport(List<object> centralpolicydata, string typeId)
+        {
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/Uploads/";
+            var filename = "DOC" + DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss") + ".docx";
+            var createfile = filePath + filename;
+            var myImageFullPath = filePath + "logo01.png";
+
+            if (typeId == "1")
+            {
+                System.Console.WriteLine("in create");
+                using (DocX document = DocX.Create(createfile))
+                {
+                    Image image = document.AddImage(myImageFullPath);
+                    Picture picture = image.CreatePicture(90, 90);
+                    var logo = document.InsertParagraph();
+                    logo.AppendPicture(picture).Alignment = Alignment.left;
+
+                    // Add a title
+                    document.InsertParagraph("Columns width").FontSize(15d).SpacingAfter(50d).Alignment = Alignment.center;
+
+                    // Insert a title paragraph.
+                    var p = document.InsertParagraph("In the following table, the cell's left margin has been removed for rows 2-6 as well as the top/bottom table's borders.").Bold();
+                    p.Alignment = Alignment.center;
+                    p.SpacingAfter(40d);
+
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 200f, 200f, 200f, 200f, 200f, 200f, 200f };
+                    var t = document.InsertTable(1, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+                    //for (int i = 0; i < row.Cells.Count; ++i)
+                    //{
+                    row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม");
+                    row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ประเด็นปัญหา/ผลการตรวจ");
+                    row.Cells[2].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ");
+                    row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ");
+                    row.Cells[4].Paragraphs.First().Append("รายงานผลการดำเนินการของหน่วยรับตรวจ");
+                    row.Cells[5].Paragraphs.First().Append("เอกสารแนบ (ไฟล์)");
+                    row.Cells[6].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน");
+
+                    //}
+
+                    // Add rows in the table.
+                    for (int i = 0; i < 5; i++)
+                    {
+                        var newRow = t.InsertRow();
+
+                        // Fill in the columns of the new rows.
+                        for (int j = 0; j < newRow.Cells.Count; ++j)
+                        {
+                            var newCell = newRow.Cells[j];
+                            newCell.Paragraphs.First().Append("test" + i);
+                            // Remove the left margin of the new cells.
+                            newCell.MarginLeft = 0;
+                        }
+                    }
+
+                    // Set a blank border for the table's top/bottom borders.
+                    var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                    //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
+            }
+        }
+
     }
-            
- }
+}
 
 
