@@ -110,8 +110,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     label: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
     barChartData: [
       { data: [65, 59, 80, 81, 56, 55, 40], label: 'หน่วยงาน A', stack: 'a' },
-      { data: [28, 48, 40, 19, 86, 27, 90], label: 'หน่วยงาน B', stack: 'b' },
-      { data: [30, 40, 20, 12, 33, 23, 50], label: 'หน่วยงาน c', stack: 'c' },
+      { data: [28, 48, 40, 19, 86, 27, 90], label: 'หน่วยงาน B', stack: 'a' },
+      { data: [30, 40, 20, 12, 33, 23, 50], label: 'หน่วยงาน c', stack: 'a' },
     ]
 
     // [{ data: [[0, 6], [3, 6]], label: ["'ชื่อหน่วยงาน':'hello'", "'ชื่อหน่วยงาน':'hello2222'"] }]
