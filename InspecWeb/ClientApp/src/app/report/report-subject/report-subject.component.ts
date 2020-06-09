@@ -5,6 +5,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ReportService } from 'src/app/services/report.service';
 
 @Component({
   selector: 'app-report-subject',
@@ -17,11 +18,13 @@ export class ReportSubjectComponent implements OnInit {
   loading = false;
   resultcentralpolicy: any = []
   selectcentralpolicy: any = []
+  resultreportdata: any = []
   modalRef: BsModalRef;
 
   constructor(
     private router: Router,
     private centralpolicyservice: CentralpolicyService,
+    private reportservice: ReportService,
     private modalService: BsModalService,
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -43,17 +46,34 @@ export class ReportSubjectComponent implements OnInit {
         this.resultcentralpolicy = result
         this.loading = true;
         this.spinner.hide();
-        console.log(this.resultcentralpolicy);
+        //console.log(this.resultcentralpolicy);
         this.selectcentralpolicy = this.resultcentralpolicy.map((item, index) => {
           return { value: item.id, label: item.title }
         })
-        console.log("selectcentralpolicy", this.selectcentralpolicy);
+        //console.log("selectcentralpolicy", this.selectcentralpolicy);
 
       })
   }
   test(id) {
-    console.log(id);
+    //console.log(id);
+    this.reportservice.getreportsubject(id).subscribe(result => {
+      //console.log("report", result);
+      var data:Array<any> = []
+      var title = result.title
+      var centralPolicyProvinces: Array<any> = result.centralPolicyProvinces
+      var subjectCentralPolicyProvinces: Array<any> = []
+      centralPolicyProvinces.forEach(item => {
 
+        subjectCentralPolicyProvinces.push(
+          item.subjectCentralPolicyProvinces
+            .filter(item => {
+              return item.type == "Master"
+            }).map(result=>{return [result.name]})
+        )
+      })
+      console.log("subjectCentralPolicyProvinces", subjectCentralPolicyProvinces);
+
+    })
   }
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
