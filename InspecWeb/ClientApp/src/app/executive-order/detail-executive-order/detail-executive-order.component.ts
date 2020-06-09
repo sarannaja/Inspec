@@ -28,7 +28,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
   answercounsel: any
   centralpolicyid: any
   provinceid: any
-  resultexecutiveorder: any = []  
+  resultexecutiveorder: any = []
   resultdetailexecutiveorder: any = []
   resultprovince: any = []
   file: string[] = []
@@ -47,9 +47,9 @@ export class DetailExecutiveOrderComponent implements OnInit {
   centralpolicyprovinceid: any;
   provincefornotirole3: any;
   createdAt: any;
-  UsercreateName:any;
-  executivefile:any;
-  imgprofileUrl:any;
+  UsercreateName: any;
+  executivefile: any;
+  imgprofileUrl: any;
 
   constructor(
     private authorize: AuthorizeService,
@@ -63,9 +63,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
     private router: Router,
     private inspectionplanservice: InspectionplanService,
     @Inject('BASE_URL') baseUrl: string
-  )
-  
-   {
+  ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.Form = this.fb.group({
       name: [''],
@@ -98,24 +96,24 @@ export class DetailExecutiveOrderComponent implements OnInit {
     this.idAnswer = id;
     this.modalRef = this.modalService.show(template);
   }
-  viewModal(template: TemplateRef<any>, id,date, userid, text, text2,file, name, name2, name3, file2) {
-    
+  viewModal(template: TemplateRef<any>, id, date, userid, text, text2, file, name, name2, name3, file2) {
+
     this.userService.getuserfirstdata(userid)
-    .subscribe(result => {
-      
-      this.UsercreateName = result[0].name
-      
-    })
+      .subscribe(result => {
+
+        this.UsercreateName = result[0].name
+
+      })
     this.idview = id;
-    this.createdAt=date;
+    this.createdAt = date;
     this.centralpolicy = text
     this.text = text2;
-    this.executivefile=file
+    this.executivefile = file
     this.answerdetail = name;
     this.answerproblem = name2;
     this.answercounsel = name3;
     this.answerfile = file2
-    
+
     this.modalRef = this.modalService.show(template);
     // this.getviewExecutiveOrder(id);
 
@@ -127,7 +125,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
         // console.log(this.resultdetailexecutiveorder);
         this.loading = true
       })
-      this.getDetailExecutiveOrder()
+    this.getDetailExecutiveOrder()
   }
 
   getProvine() {
@@ -170,7 +168,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
 
         this.executive_id = result.id;
 
-        this.notificationService.addNotification(this.id, value.provinceId, 1, 10, this.executive_id)
+        this.notificationService.addNotification(this.id, value.provinceId, this.userid, 10, this.executive_id)
           .subscribe(result => {
           })
 
@@ -178,6 +176,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
         this.Form.reset();
         this.getuserinfo()
         this.getProvine()
+        
       })
 
   }
@@ -207,17 +206,20 @@ export class DetailExecutiveOrderComponent implements OnInit {
 
     this.detailexecutiveorderService.answerexecutiveorder(value, this.Form.value.files, this.idAnswer)
       .subscribe(result => {
-        //alert(result.id);
+
+        // alert(result.id);
         this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id)
           .subscribe(result => {
           })
-
+        this.modalRef.hide();
+        this.getuserinfo()
+        this.Form.reset();
+        //console.log("user",this.userid);
+        
       })
-    this.modalRef.hide();
-    this.Form.reset();
+
   }
 
-  //start getuser //yo
   getuserinfo() {
     this.authorize.getUser()
       .subscribe(result => {
@@ -233,7 +235,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
               this.detailexecutiveorderService.getdetailexecutiveorderdata(this.id)
                 .subscribe(result => {
                   this.resultdetailexecutiveorder = result
-                 // console.log("test: ", this.resultdetailexecutiveorder);
+                  // console.log("test: ", this.resultdetailexecutiveorder);
                   this.loading = true
                 })
             } else {

@@ -20,6 +20,7 @@ export class ExecutiveOrderComponent implements OnInit {
   loading = false;
   userid: any;
   role_id:any;
+  executive1data: any = [];
   
   constructor(
     private authorize: AuthorizeService,
@@ -28,7 +29,8 @@ export class ExecutiveOrderComponent implements OnInit {
     private router:Router, 
     private detailexecutiveorderService: CentralpolicyService, 
     private modalService: BsModalService) { }
-
+    private exportExecutiveService: DetailexecutiveorderService
+    private executive1: DetailexecutiveorderService
   ngOnInit() {
    
     this.dtOptions = {
@@ -76,6 +78,20 @@ export class ExecutiveOrderComponent implements OnInit {
             }
         })
       })
-    }
+    } 
     //End getuser
+
+    getexcutive1(){
+      this.executive1.getexcutive1(this.userid).subscribe(results => {
+        this.executive1data = results;
+      })
+    }
+    
+    exportExcutive() {
+      alert("Export");
+      this.exportExecutiveService.exportExecutive(this.userid).subscribe(res => {
+        console.log("export: ", res);
+        this.executive1data();
+      })
+    }
 }

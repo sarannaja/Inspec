@@ -1,0 +1,24 @@
+.btnMargin {
+    margin: 10px;
+    width: 90px;
+    height: 45px;
+}
+.delete-icon {
+    font-size: 80px;
+    color: #f8bb86;
+    border-color: #facea8;
+}
+.pointer {
+    cursor:pointer;
+}
+.ellipsis {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .zoom:hover {
+    -ms-transform: scale(1.005); /* IE 9 */
+    -webkit-transform: scale(1.005); /* Safari 3-8 */
+    transform: scale(1.005); 
+  }

@@ -35,7 +35,18 @@ namespace InspecWeb.Data
         public DbSet<Governmentinspectionplan> Governmentinspectionplans { get; set; }
         public DbSet<InspectionOrder> InspectionOrders { get; set; }
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
+
+
+        //---------Trainings-----------
         public DbSet<Training> Trainings { get; set; }
+        public DbSet<TrainingRegister> TrainingRegisters { get; set; }
+        public DbSet<TrainingSurvey> TrainingSurveys { get; set; }
+        public DbSet<TrainingProgram> TrainingPrograms { get; set; }
+        public DbSet<TrainingDocument> TrainingDocuments { get; set; }
+        public DbSet<TrainingSurveyAnswer> TrainingSurveyAnswers { get; set; }
+        public DbSet<TrainingLecturer> TrainingLecturers { get; set; }
+        //------------------------------
+
         public DbSet<Subquestion> Subquestions { get; set; }
         public DbSet<InspectionPlanEvent> InspectionPlanEvents { get; set; }
         public DbSet<Cabine> Cabines { get; set; }
@@ -97,6 +108,12 @@ namespace InspecWeb.Data
         public DbSet<ExportReportBody> ExportReportBodies { get; set; }
         public DbSet<SuggestionSubject> SuggestionSubjects { get; set; }
         public DbSet<AnswerCentralPolicyProvince> AnswerCentralPolicyProvinces { get; set; }
+        public DbSet<StatePolicy> StatePolicys { get; set; }
+        public DbSet<Documenttemplate> Documenttemplates { get; set; }
+        public DbSet<Meetinginformation> Meetinginformations { get; set; }
+        public DbSet<Premierorder> Premierorders { get; set; }
+        public DbSet<ReportCommander> ReportCommanders { get; set; }
+        public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

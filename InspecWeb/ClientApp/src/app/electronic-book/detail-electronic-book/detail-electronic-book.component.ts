@@ -78,6 +78,7 @@ export class DetailElectronicBookComponent implements OnInit {
   subjectid
   department: any = []
   Form2: FormGroup;
+  exportData: any = [];
 
   constructor(
     private fb: FormBuilder,

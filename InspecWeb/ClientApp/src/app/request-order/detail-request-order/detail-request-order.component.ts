@@ -28,7 +28,7 @@ export class DetailRequestOrderComponent implements OnInit {
   answercounsel: any
   centralpolicyid: any
   provinceid: any
-  resultrequestorder: any = []  
+  resultrequestorder: any = []
   resultdetailrequestorder: any = []
   resultprovince: any = []
   file: string[] = []
@@ -37,7 +37,7 @@ export class DetailRequestOrderComponent implements OnInit {
   request_id: any;
   userid: any;
   role_id: any;
-  selectdataprovince: Array<IOption>
+  selectdataprovince: Array<IOption> = []
   EditForm: FormGroup;
   loading = false;
   dtOptions: DataTables.Settings = {};
@@ -45,11 +45,11 @@ export class DetailRequestOrderComponent implements OnInit {
   provincefornotirole3: any;
   centralpolicyprovinceid: any;
   idview: any;
-  UsercreateName:any;
-  imgprofileUrl:any;
-  createdat:any;
-  requestfile:any;
-  answerfile:any;
+  UsercreateName: any;
+  imgprofileUrl: any;
+  createdat: any;
+  requestfile: any;
+  answerfile: any;
   provincename: any;
 
   constructor(
@@ -64,6 +64,7 @@ export class DetailRequestOrderComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private inspectionplanservice: InspectionplanService,
+    private centralpolicyService: CentralpolicyService,
     @Inject('BASE_URL') baseUrl: string
 
   ) {
@@ -77,7 +78,7 @@ export class DetailRequestOrderComponent implements OnInit {
 
   ngOnInit() {
     this.getuserinfo();
-    this.getProvine();
+    // this.getProvine();
 
     this.Form = this.fb.group({
       "byuserid": new FormControl(null, [Validators.required]),
@@ -93,31 +94,63 @@ export class DetailRequestOrderComponent implements OnInit {
     this.getDetailRequestOrder()
 
   }
-  openModal(template: TemplateRef<any>,userid) {
-    //console.log(this.userid);
-    this.userService.getuserfirstdata(userid)
-    .subscribe(result => {
-      this.provinceId= result[0].province.id
-      this.provincename = result[0].province.name
-      // console.log(this.provincename);
-      // console.log(this.provinceId);
-      
-      
-    })
-    
-    this.modalRef = this.modalService.show(template);
+
+  mapUserProvince() {
+
   }
+  openModal(template: TemplateRef<any>, userid) {
+    //console.log(this.userid);
+
+    this.userService.getuserfirstdata(userid)
+      .subscribe(result1 => {
+        var userProvince: any = result1[0].userProvince
+        //console.log('getuserprovince', result1[0].userProvince);
+        this.selectdataprovince = [];
+
+        this.requestorderService.getcentralpolicyprovinceiddata(this.id)
+          .subscribe(result => {
+            // console.log('userProvince', userProvince);
+
+            // var province: Array<any>
+            for (let i = 0; i < userProvince.length; i++) {
+
+              var selectdataprovince = result.filter((item, index) => {
+                //console.log(userProvince[i].provinceId, item.provinceId);
+                return userProvince[i].provinceId == item.provinceId
+              })
+                .map((item, index) => {
+                  return { value: item.province.id, label: item.province.name }
+                })
+              this.selectdataprovince = this.selectdataprovince.concat(selectdataprovince)
+              //console.log( this.selectdataprovince);
+
+            }
+
+          })
+
+        // alert(this.id);
+        //   this.selectdataprovince = result[0].userProvince.map((item, index) => {
+        //     return { value: item.province.id, label: item.province.name }
+        //   })
+
+      })
+
+    this.modalRef = this.modalService.show(template);
+    this.modalRef.hide();
+    this.Form.reset();
+  }
+
   editModal(template: TemplateRef<any>, id) {
     this.idAnswer = id;
     this.modalRef = this.modalService.show(template);
   }
-  viewModal(template: TemplateRef<any>, id,date,userid, text, text2,file, name, name2, name3, file2) {
+  viewModal(template: TemplateRef<any>, id, date, userid, text, text2, file, name, name2, name3, file2) {
     this.userService.getuserfirstdata(userid)
-    .subscribe(result => {
-      
-      this.UsercreateName = result[0].name
-      
-    })
+      .subscribe(result => {
+
+        this.UsercreateName = result[0].name
+
+      })
     this.idview = id;
     this.createdat = date;
     this.centralpolicy = text
@@ -127,17 +160,17 @@ export class DetailRequestOrderComponent implements OnInit {
     this.answerproblem = name2;
     this.answercounsel = name3;
     this.answerfile = file2;
-    
+
     this.modalRef = this.modalService.show(template);
   }
   getDetailRequestOrder() {
     this.requestorderrService.getdetailrequestorderdata(this.id)
       .subscribe(result => {
         this.resultdetailrequestorder = result
-        // console.log(this.resultdetailrequestorder);
+        //console.log('c',this.resultdetailrequestorder);
         this.loading = true
       })
-      
+
   }
   getProvine() {
     this.requestorderrService.getprovince(this.id)
@@ -151,17 +184,19 @@ export class DetailRequestOrderComponent implements OnInit {
         // console.log("in2", this.selectdataprovince);
       })
   }
-  addModal(template: TemplateRef<any>, id, name,userid) {
+  addModal(template: TemplateRef<any>, id, name, userid) {
+    //alert(3)
     this.userService.getuserfirstdata(userid)
-    .subscribe(result => {
-      
-      this.provincename = result[0].province.id
-      
-    })
+      .subscribe(result => {
+
+        this.provincename = result[0].province.id
+        //console.log(this.provincename);
+
+      })
     this.id = id;
     this.text = name;
     this.centralpolicyid = id;
-    this.provinceid = id;
+    this.provinceId = id;
     this.modalRef = this.modalService.show(template);
     this.EditForm = this.fb.group({
       "detailrequestordername": new FormControl(null, [Validators.required]),
@@ -194,18 +229,17 @@ export class DetailRequestOrderComponent implements OnInit {
 
   }
   storedetailrequestorder(value) {
-    console.log(this.provinceId);
-    
-      console.log("value", this.Form.value.files)
-    this.requestorderrService.adddetailrequestorder(value, this.Form.value.files, this.id)
-      .subscribe(result => {
+    //console.log(this.provinceId);
 
+    //console.log("value", this.Form.value.files)
+    this.requestorderrService.adddetailrequestorder(value, this.Form.value.files, this.id, this.userid)
+      .subscribe(result => {
         this.request_id = result.id;
 
-        this.notificationService.addNotification(this.id, this.provinceId, 1, 12, this.request_id)
+        this.notificationService.addNotification(this.id, value.provinceId, this.userid, 12, this.request_id)
           .subscribe(result => {
-
           })
+
         this.modalRef.hide();
         this.Form.reset();
         this.getuserinfo()
@@ -214,25 +248,30 @@ export class DetailRequestOrderComponent implements OnInit {
       })
   }
   answerModal(template: TemplateRef<any>, item) {
-    // alert(JSON.stringify(item))
+     //alert(JSON.stringify(item))
     // console.log(item);
 
     this.idAnswer = item.id;
-
     this.modalRef = this.modalService.show(template);
     this.EditForm = this.fb.group({
       "AnswerDetail": new FormControl(null, [Validators.required]),
       "AnswerProblem": new FormControl(null, [Validators.required]),
       "AnswerCounsel": new FormControl(null, [Validators.required]),
+      "AnswerUserId": new FormControl(null, [Validators.required]),//
       "files": new FormControl(null, [Validators.required]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+
     })
     this.EditForm.patchValue({
       "AnswerDetail": item.answerDetail,
       "AnswerProblem": item.answerProblem,
       "AnswerCounsel": item.answerCounsel,
-
+     
     })
+    this.getuserinfo()
+    this.modalRef.hide();
+    this.EditForm.reset();
+
   }
   uploadFile2(event) {
     // console.log("event", event);
@@ -244,7 +283,6 @@ export class DetailRequestOrderComponent implements OnInit {
     this.Form.get('files2').updateValueAndValidity()
   }
 
-  //start getuser //
   getuserinfo() {
     this.authorize.getUser()
       .subscribe(result => {
@@ -256,7 +294,7 @@ export class DetailRequestOrderComponent implements OnInit {
           .subscribe(result => {
             this.role_id = result[0].role_id
             // console.log("roleID: ", this.role_id);
-            
+
             if (this.role_id != 3) {
               this.requestorderrService.getdetailrequestorderdata(this.id)
                 .subscribe(result => {
@@ -265,14 +303,14 @@ export class DetailRequestOrderComponent implements OnInit {
                   this.loading = true
                 })
             } else {
-           
-                   this.requestorderrService.getdetailrequestorderdatarole3(this.id, this.userid)
-                   .subscribe(result => {
-                     this.resultdetailrequestorder = result
-                    this.provincefornotirole3 = result[0].province
-                     this.loading = true
-                   })
-             }
+
+              this.requestorderrService.getdetailrequestorderdatarole3(this.id, this.userid)
+                .subscribe(result => {
+                  this.resultdetailrequestorder = result
+                  this.provincefornotirole3 = result[0].province
+                  this.loading = true
+                })
+            }
           })
       })
   }
@@ -294,18 +332,19 @@ export class DetailRequestOrderComponent implements OnInit {
     this.requestorderService.editAnswerrequestorder(value, this.idAnswer)
       .subscribe(result => {
         // console.log(result);
-        
-        var body ={
+
+        var body = {
         }
-        this.notificationService.addNotification(this.id,this.provincefornotirole3, 1, 13,this.idAnswer )
+        this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 13, this.idAnswer)
           .subscribe(result => {
             // console.log(result);
 
           })
-          this.modalRef.hide();
-      this.EditForm.reset();
+         //alert(this.userid)
+         //console.log('user: ', this.userid);
+
       })
-     
+
   }
 
 }

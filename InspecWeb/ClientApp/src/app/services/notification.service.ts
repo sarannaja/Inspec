@@ -28,7 +28,7 @@ export class NotificationService {
   }
 
   addNotification(CentralPolicyId,ProvinceId,UserId,status, xe) {
-
+    
     var formData = new FormData();
     
     formData.append('CentralPolicyId',CentralPolicyId);

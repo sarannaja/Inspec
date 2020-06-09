@@ -24,8 +24,8 @@ export class ElectronicbookService {
   }
 
   addElectronicBook(value, id, file: FileList, CentralPolicyId, provinceId) {
-    alert(value.description);
-    alert( value.fileType)
+    // alert(value.description);
+    // alert( value.fileType)
     console.log("Add EBook: ", value);
 
     const formData = new FormData();
@@ -188,7 +188,7 @@ export class ElectronicbookService {
   }
 
   getElectronicBookProvince(userId) {
-    return this.http.get(this.url + "province/" + userId)
+    return this.http.get<any[]>(this.url + "province/" + userId)
   }
 
   getSuggestionDetailById(subjectCentralPolicyProvinceID, electID) {
@@ -208,7 +208,7 @@ export class ElectronicbookService {
   }
 
   addSignatureFile(electID, file: FileList, provinceData) {
-    alert(provinceData.provinceSuggestion);
+    // alert(provinceData.provinceSuggestion);
     const formData = new FormData();
     if (file != null) {
       for (var i = 0; i < file.length; i++) {
@@ -241,6 +241,21 @@ export class ElectronicbookService {
       ReportCentralPolicyId: centralPolicyId
     }
     return this.http.post(this.url + "addReport", formData)
+  }
+
+  getSubjectReport() {
+    return this.http.get(this.url + "subjectImport");
+  }
+  acceptelectronicbook(bookgroupid, userid) {
+    const formData = new FormData();
+    formData.append('bookgroupid', bookgroupid);
+    formData.append('userid', userid)
+    console.log('FORMDATA: ' + formData.get("name"));
+    return this.http.post(this.url + "accept", formData);
+  }
+
+  getReportExcelElectronicBook(id) {
+    return this.http.get<any>(this.url + "exportexcel/" + id)
   }
 }
 

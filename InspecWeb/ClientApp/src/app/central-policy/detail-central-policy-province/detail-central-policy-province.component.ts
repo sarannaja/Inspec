@@ -370,17 +370,19 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'หน่วยงาน B', stack: 'b' },
     //     { data: [30, 40, 20, 12, 33, 23, 50], label: 'หน่วยงาน c', stack: 'c' },
     //   ]
-    console.log('item', id);
-
+    console.log('id', id);
     var barchartAllset: any
-    console.log("showGraph", item.subquestionChoiceCentralPolicyProvinces);
+    // console.log("showGraph", item.subquestionChoiceCentralPolicyProvinces);
     var dataE: Array<any> = item.subquestionChoiceCentralPolicyProvinces
-      .map(element => {
-        return [id][{ ...element } ]
-
-      })
-    console.log("element", dataE);
+      .map(element => console.log('element',this.chartLabel(element))
+      )
+    // console.log("element", dataE);
+    // function 
   }
+  chartLabel(element) {
+    return element
+  }
+
   editModal2(template: TemplateRef<any>, id, name) {
     this.editid = id;
     this.subquestionclosechoicename = name;
