@@ -77,7 +77,6 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   uploadFile(event) {
-    alert('uploadfile');
     const file = (event.target as HTMLInputElement).files;
     this.Form.patchValue({
       files: file
@@ -127,13 +126,11 @@ export class DefaultLayoutComponent implements OnInit {
     this.authorize.getUser()
     .subscribe(result => {
       this.userid = result.sub  
-      //alert(this.userid);
       this.userService.getuserfirstdata(this.userid)      
       .subscribe(result => { 
-        this.resultuser = result;
-        //console.log("test" , this.resultuser);
-        this.role_id = result[0].role_id
-       
+        this.resultuser = result;  
+
+        this.role_id = result[0].role_id 
         this.Prefix = result[0].prefix
         this.Name = result[0].name
         this.Position = result[0].position
@@ -141,8 +138,6 @@ export class DefaultLayoutComponent implements OnInit {
         this.Email = result[0].email
         this.Img = result[0].img
 
-        //alert(this.Img);
-       
         this.Form.patchValue({
           Prefix: this.Prefix,
           Name: this.Name,

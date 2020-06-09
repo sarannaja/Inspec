@@ -17,7 +17,7 @@
         </div>
         <div class="card-body">
           <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
+              [dtOptions]="dtOptions">
             <thead>
               <tr>
                 <th>No.</th>
@@ -25,180 +25,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1.</td>
-                <td><p>ข้อมูลผลการดำเนินโครงการที่ได้รับจัดสรรงบประมาณจากเงินอุดหนุนทั่วไปโครงการเพิ่มขีดสมรรถนะในการกำกับและติดตามการปฏิบัติราชการในภูมิภาค </td>
-              </tr>
-              <tr>
-                <td>2.</td>
-                <td> ข้อมูลเรื่องร้องเรียนจากระบบศูนย์รับเรื่องราวร้องทุกข์ของรัฐบาล </td>
-              </tr>
-              <tr>
-                <td>3.</td>
+              <tr *ngFor="let item of datasupport; let i = index">
+                <td>{{ i + 1 }}.</td>
                 <td>
-                  <a [routerLink]="['/nationalstrategy']">
-                        ยุทธศาสตร์ชาติ
-                    </a>
+                  <a *ngIf="item.forblank == 0" [routerLink]="[item.link]">
+                    {{item.name}}
+                  </a>
+                  <a *ngIf="item.forblank == 1" href="{{item.link}}" target="_blank">{{item.name}}</a>
                 </td>
               </tr>
-              <tr>
-                <td>4.</td>
-                <td>
-                    <a target="_blank" href="http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/">
-                        แผนการปฏิรูปประเทศ (website)
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>5.</td>
-                <td>
-                    <a>
-                        แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ (website)
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>6.</td>
-                <td>
-                    <a target="_blank" href="http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/">
-                        แผนแม่บทต่าง ๆ (website)
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>7.</td>
-                <td>
-                  <a [routerLink]="['/statepolicy']">
-                        นโยบายรัฐบาล
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>8.</td>
-                <td>
-                    <a [routerLink]="['/premierorder']">
-                        <p>กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ อาทิ ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการตรวจราชการ พ.ศ.2551 ระเบียบสำนักนายกรัฐมนตรีว่าด้วยคณะกรรมการ</p>ธรรมาภิบาลจังหวัด พ.ศ. 2552 และที่แก้ไขเพิ่มเติม ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการกำกับติดตามการปฏิบัติราชการในภูมิภาค
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>9.</td>
-                <td>
-                    <a [routerLink]="['/govermentinspectionplan']">
-                        แผนการตรวจราชการประจำปี
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>10.</td>
-                <td>
-                    <a>
-                        ข้อมูลประกอบการตรวจราชการ(opm)
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>11.</td>
-                <td>
-                    <a [routerLink]="['/informationprovince']">
-                        ข้อมูลพื้นฐานรายจังหวัด
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>12.</td>
-                <td>
-                  <a [routerLink]="['/instructionorder']">
-                        คำสั่งรับผิดชอบเขตตรวจราชการ
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>13.</td>
-                <td>
-                  <a [routerLink]="['/inspectionorder']">
-                        คำสั่งการตรวจราชการประจำปี
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>14.</td>
-                <td>
-                  <a [routerLink]="['/meetinginformation']">
-                    ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>15.</td>
-                <td>
-                  <a [routerLink]="['/informationoperation']">
-                    ข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ อาทิ ข้อมูลการติดต่อที่พัก ยานพาหนะ และร้านอาหาร เที่ยวบิน
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>16.</td>
-                <td>
-                  <a [routerLink]="['/documenttemplate']">
-                    Document Template ของแบบขออนุมัติเดินทางไปราชการ แบบขอยืมเงินทดรองราชการ สัญญาขอยืมเงิน และแบบรายงานการเดินทางไปราชการ ฯลฯ
-                    </a>
-                </td>
-              </tr>
-              <!-- <tr>
-                <td>18.</td>
-                <td>
-                    <a [routerLink]="['/cabinet']">
-                        รายชื่อคณะรัฐมนตรี 
-                    </a>
-                </td>
-              </tr> -->
-              <tr>
-                <td>17.</td>
-                <td>
-                    <a [routerLink]="['/external']">
-                        รายชื่อรองนายกรัฐมนตรี และรัฐมนตรีประจำสำนักนายกรัฐมนตรีที่กำกับและติดตามการปฏิบัติราชการในภูมิภาค(opm)
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>18.</td>
-                <td>
-                  <a [routerLink]="['/infoministry']">
-                        รายชื่อส่วนราชการส่วนกลาง ได้แก่ กระทรวง กรม หน่วยงานอิสระ ฯลฯ
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>19.</td>
-                <td>
-                    <a target="_blank" href="http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14433&pagename=content1">
-                        ข้อมูลการแบ่งเขตตรวจราชการ (opm)
-                    </a>
-                </td>
-              </tr>
-              <!-- <tr>
-                <td>24.</td>
-                <td>
-                    <a>
-                        รายชื่อโครงการที่ได้รับจัดสรรงบประมาณจากเงินอุดหนุนทั่วไปโครงการเพิ่มขีดสมรรถนะในการกำกับและติดตามการปฏิบัติราชการในภูมิภาค
-                    </a>
-                </td>
-              </tr> -->
-              <!-- <tr>
-                <td>25.</td>
-                <td>
-                    <a>
-                        รายชื่อเรื่องร้องเรียนจากระบบศูนย์รับเรื่องราวร้องทุกข์ของรัฐบาล (link กับ 1111 ศบช.)
-                    </a>
-                </td>
-              </tr> -->
-
             </tbody>
           </table>
         </div>
       </div>
     </div>
-
   </div>
 

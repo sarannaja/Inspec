@@ -121,6 +121,7 @@ import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-ce
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/inspection-plan-event-province/inspection-plan-event-province.component';
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
+import { InfoDepartmentComponent } from './info-department/info-department.component';
 import { InfoVillageComponent } from './info-village/info-village.component';
 import { StatepolicyComponent } from './statepolicy/statepolicy.component';
 import { DocumenttemplateComponent } from './documenttemplate/documenttemplate.component';
@@ -129,10 +130,6 @@ import { PremierorderComponent } from './premierorder/premierorder.component';
 import { ExcelGeneraterService } from './services/excel-generater.service';
 import { DatePipe } from '@angular/common';
 import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
-
-
-
-
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -238,6 +235,7 @@ const ExternalOrganization = [
     InvitedElectronicBookComponent,
     InspectionPlanEventProvinceComponent,
     InfoMinistryComponent,
+    InfoDepartmentComponent,
     InfoVillageComponent,
     StatepolicyComponent,
     DocumenttemplateComponent,
@@ -364,6 +362,7 @@ const ExternalOrganization = [
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
