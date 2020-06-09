@@ -76,7 +76,7 @@ export class TemplateElectronicComponent implements OnInit {
 
 
   exportToWord(id) {
-    alert(id)
+    // alert(id)
 
     // alert(this.elecId)
     this.wordService.exportWord(id, this.provinId, this.elecId).subscribe(results => {
