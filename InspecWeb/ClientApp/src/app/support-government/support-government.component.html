@@ -68,23 +68,23 @@
               <tr>
                 <td>7.</td>
                 <td>
-                    <a target="_blank" href="http://www.soc.go.th/bb_main01.htm">
-                        นโยบายรัฐบาล (website)
+                  <a [routerLink]="['/statepolicy']">
+                        นโยบายรัฐบาล
                     </a>
                 </td>
               </tr>
               <tr>
                 <td>8.</td>
                 <td>
-                    <a target="_blank" href="http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=12796&pagename=content1">
-                        <p>กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ อาทิ ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการตรวจราชการ พ.ศ.2551 ระเบียบสำนักนายกรัฐมนตรีว่าด้วยคณะกรรมการ</p>ธรรมาภิบาลจังหวัด พ.ศ. 2552 และที่แก้ไขเพิ่มเติม ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการกำกับติดตามการปฏิบัติราชการในภูมิภาค (opm)
+                    <a [routerLink]="['/premierorder']">
+                        <p>กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ อาทิ ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการตรวจราชการ พ.ศ.2551 ระเบียบสำนักนายกรัฐมนตรีว่าด้วยคณะกรรมการ</p>ธรรมาภิบาลจังหวัด พ.ศ. 2552 และที่แก้ไขเพิ่มเติม ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการกำกับติดตามการปฏิบัติราชการในภูมิภาค
                     </a>
                 </td>
               </tr>
               <tr>
                 <td>9.</td>
                 <td>
-                    <a [routerLink]="['/govermentinpectionplan']">
+                    <a [routerLink]="['/govermentinspectionplan']">
                         แผนการตรวจราชการประจำปี
                     </a>
                 </td>
@@ -101,7 +101,7 @@
                 <td>11.</td>
                 <td>
                     <a [routerLink]="['/informationprovince']">
-                        ข้อมูลพื้นฐานรายจังหวัด(website)
+                        ข้อมูลพื้นฐานรายจังหวัด
                     </a>
                 </td>
               </tr>
@@ -116,40 +116,32 @@
               <tr>
                 <td>13.</td>
                 <td>
-                    <a target="_blank" href="https://onedrive.live.com/view.aspx?resid=8EAF7F9F94B80BB1!5828&ithint=file%2cxlsx&authkey=!AOmiHdFGs3R-itk">
-                        คำสั่งรับผิดชอบเขตตรวจราชการ (onedrive)
+                  <a [routerLink]="['/inspectionorder']">
+                        คำสั่งการตรวจราชการประจำปี
                     </a>
                 </td>
               </tr>
               <tr>
                 <td>14.</td>
                 <td>
-                    <a [routerLink]="['/inspectionorder']">
-                        คำสั่งการตรวจราชการประจำปี
+                  <a [routerLink]="['/meetinginformation']">
+                    ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม
                     </a>
                 </td>
               </tr>
               <tr>
                 <td>15.</td>
                 <td>
-                    <a>
-                        ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม
+                  <a [routerLink]="['/informationoperation']">
+                    ข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ อาทิ ข้อมูลการติดต่อที่พัก ยานพาหนะ และร้านอาหาร เที่ยวบิน
                     </a>
                 </td>
               </tr>
               <tr>
                 <td>16.</td>
                 <td>
-                  <a [routerLink]="['/informationoperation']">
-                        ข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ อาทิ ข้อมูลการติดต่อที่พัก ยานพาหนะ และร้านอาหาร เที่ยวบิน
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>17.</td>
-                <td>
-                    <a>
-                        Document Template ของแบบขออนุมัติเดินทางไปราชการ แบบขอยืมเงินทดรองราชการ สัญญาขอยืมเงิน และแบบรายงานการเดินทางไปราชการ ฯลฯ
+                  <a [routerLink]="['/documenttemplate']">
+                    Document Template ของแบบขออนุมัติเดินทางไปราชการ แบบขอยืมเงินทดรองราชการ สัญญาขอยืมเงิน และแบบรายงานการเดินทางไปราชการ ฯลฯ
                     </a>
                 </td>
               </tr>
@@ -162,7 +154,7 @@
                 </td>
               </tr> -->
               <tr>
-                <td>18.</td>
+                <td>17.</td>
                 <td>
                     <a [routerLink]="['/external']">
                         รายชื่อรองนายกรัฐมนตรี และรัฐมนตรีประจำสำนักนายกรัฐมนตรีที่กำกับและติดตามการปฏิบัติราชการในภูมิภาค(opm)
@@ -170,7 +162,7 @@
                 </td>
               </tr>
               <tr>
-                <td>19.</td>
+                <td>18.</td>
                 <td>
                   <a [routerLink]="['/infoministry']">
                         รายชื่อส่วนราชการส่วนกลาง ได้แก่ กระทรวง กรม หน่วยงานอิสระ ฯลฯ
@@ -178,26 +170,10 @@
                 </td>
               </tr>
               <tr>
-                <td>20.</td>
-                <td>
-                    <a target="_blank" href="https://onedrive.live.com/view.aspx?resid=8EAF7F9F94B80BB1!4614&ithint=file%2cxlsx&authkey=!ABMEuku7rYKck2E">
-                        รายชื่อส่วนราชการส่วนภูมิภาค ได้แก่ กลุ่มจังหวัด จังหวัด อำเภอ ตำบล หมู่บ้าน (onedrive)
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>21.</td>
+                <td>19.</td>
                 <td>
                     <a target="_blank" href="http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14433&pagename=content1">
                         ข้อมูลการแบ่งเขตตรวจราชการ (opm)
-                    </a>
-                </td>
-              </tr>
-              <tr>
-                <td>22.</td>
-                <td>
-                    <a target="_blank" href="https://onedrive.live.com/view.aspx?resid=8EAF7F9F94B80BB1!4569&ithint=file%2cxlsx&authkey=!AF_VQP13r-YjYI0">
-                        ข้อมูลการแบ่งเขตตรวจราชการ (onedrive)
                     </a>
                 </td>
               </tr>
