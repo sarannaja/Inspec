@@ -34,6 +34,13 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "Class")]
         public string Class { get; set; }
 
+        [JsonProperty(PropertyName = "Description")]
+        public string Description { get; set; }
+
+        [JsonProperty(PropertyName = "fileType")]
+        public string fileType { get; set; }
+
+
         [JsonProperty(PropertyName = "InspectionPlanEventId")]
         public long InspectionPlanEventId { get; set; }
 
@@ -42,6 +49,8 @@ namespace InspecWeb.ViewModel
         public DateTime[] StartDate2 { get; set; }
         public DateTime[] EndDate2 { get; set; }
         public List<IFormFile> files { get; set; }
+
+        public long[] SubjectId { get; set; }
 
     }
 

@@ -47,17 +47,32 @@
 </div> -->
 
 <div class="card">
-  <div *ngIf="role_id == 3" class="card-header" style="margin-bottom: -40px;">
-    <h5 *ngIf="role_id == 3" class="card-title">ปฏิทินการตรวจ</h5>
-    <div class="float-right">
-      <button *ngIf="role_id == 3" class="btn btn-primary" (click)="CraateInspectionPlanEvent()"
-        style="margin-top: -60px;">เพิ่มกำหนดการตรวจราชการประจำปี</button>
-        <!-- &nbsp;&nbsp;
+  <div class="card-header">
+    <!-- <h5 *ngIf="role_id == 3" class="card-title">ปฏิทินการตรวจ</h5> -->
+
+    <div class="float-left" *ngIf="role_id == 3">
+      <div class="form-group">
+        <div class="form-group col-md-12">
+          <div class="mb-12">
+            <select (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2">
+              <option value="allprovince">จังหวัดทั้งหมด</option>
+              <option *ngFor="let item of resultuserregion; let i = index" value="{{item.province.id}}">{{item.province.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="float-right" *ngIf="role_id == 3">
+      <button class="btn btn-primary" (click)="CraateInspectionPlanEvent()">เพิ่มกำหนดการตรวจราชการประจำปี</button>
+      <!-- &nbsp;&nbsp;
       <button class="btn btn-primary" (click)="CraateInspectionPlan()"
         style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button> -->
     </div>
     <!-- <h6 class="card-subtitle text-muted">Open source JavaScript jQuery plugin for a full-sized, drag & drop event calendar.</h6> -->
   </div>
+
   <div class="card-body">
     <div id="calendar"></div>
   </div>

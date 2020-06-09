@@ -7,6 +7,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { UserService } from '../services/user.service';
 import { ExportReportService } from '../services/export-report.service';
+import { ExcelGeneraterService } from '../services/excel-generater.service';
+
+import * as Excel from "exceljs/dist/exceljs.min.js";
+import * as ExcelProper from "exceljs";
+import * as fs from 'file-saver';
 
 @Component({
   selector: 'app-report-export',
@@ -22,7 +27,10 @@ export class ReportExportComponent implements OnInit {
   modalRef: BsModalRef;
   centralpolicyprovinceid: any;
   reportData: any = [];
-  role_id
+  role_id;
+  exportData: any = [];
+  url = ""
+
   constructor(
     private router: Router,
     private electronicBookService: ElectronicbookService,
@@ -32,8 +40,10 @@ export class ReportExportComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private userService: UserService,
     private exportReportService: ExportReportService,
-    @Inject('BASE_URL') baseUrl: string
-  ) { }
+    @Inject('BASE_URL') baseUrl: string,
+  ) {
+    this.url = baseUrl
+  }
 
   ngOnInit() {
 
@@ -92,13 +102,148 @@ export class ReportExportComponent implements OnInit {
     this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
   }
 
-  exportReport() {
-    alert("eiei");
-    this.exportReportService.exportReport(this.userid).subscribe(res => {
+  exportReport(elecId, cenProId) {
+    // alert("eiei");
+    this.exportReportService.exportReport(this.userid, elecId, cenProId).subscribe(res => {
       console.log("export: ", res);
-      this.getexportport();
+      this.createReport(res, cenProId);
     })
   }
 
+  createReport(res, cenProId) {
+    this.exportReportService.createReport(res, cenProId).subscribe(results => {
+      console.log("aaa: ", res);
+      // alert("Success");
+      window.open(this.url + "Uploads/" + results.data);
+    })
+  }
+  testExcel(id) {
+    var monthNamesThai = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษจิกายน", "ธันวาคม"];
+
+    var dayNames = ["วันอาทิตย์ที่", "วันจันทร์ที่", "วันอังคารที่", "วันพุทธที่", "วันพฤหัสบดีที่", "วันศุกร์ที่", "วันเสาร์ที่"];
+
+    var monthNamesEng = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+
+    var dayNamesEng = ['Sunday', 'Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+    var d = new Date();
+
+    var dateNow = d.getDate() + " " + monthNamesThai[d.getMonth()] + " " + (d.getFullYear() + 543)
+    console.log('generateExcel');
+    this.electronicBookService.getReportExcelElectronicBook(id).subscribe(data => {
+      var exe = []
+      var date2 = []
+      data.exe.forEach((item, index) => {
+        exe.push(item.detailExecutiveOrder)
+      })
+      data.exe.forEach((item, index) => {
+        var ddd = new Date(item.createdAt)
+        date2.push(ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543))
+      })
+
+      var subjectCentralPolicyProvinces = data.ebook.centralPolicyProvince.subjectCentralPolicyProvinces
+      subjectCentralPolicyProvinces = subjectCentralPolicyProvinces.filter((item, index) => {
+        return item.type == "NoMaster"
+      }).map((result, index) => {
+
+        return [index + 1, dateNow, result.name, "ผู้สร้างรายงาน", "ร่าง", "วัน/เดือน/ปี ที่ส่งรายงาน", exe.toString(), date2.toString(), "ไฟล์/เอกสารแนบ (เอกสาร/ภาพ/เสียง/วีดิทัศน์)"]
+      })
+      console.log("data", subjectCentralPolicyProvinces)
+      this.exportExcel2(subjectCentralPolicyProvinces, "");
+    })
+    // this.excellService.generateExcel()
+  }
+
+  exportExcel2(data: Array<any>, filename) {
+    // Excel Title, Header, Data
+    const title = 'ทะเบียนรายงานผลการตรวจราชการ';
+    // const header = ['Year', 'Month', 'Make', 'Model', 'Quantity', 'Pct'];
+    const header = [
+      'ลำดับที่',
+      'วัน/เดือน/ปี ที่มีรายงาน',
+      'ประเด็น/เรื่อง', 'ผู้สร้างรายงาน',
+      'สถานะรายงาน',
+      'วัน/เดือน/ปี ที่ส่งรายงาน',
+      'ข้อสั่งการของผู้บังคับบัญชา (มี/ไม่มี)',
+      'วัน/เดือน/ปี ที่มีข้อสั่งการ',
+      'ไฟล์/เอกสารแนบ (เอกสาร/ภาพ/เสียง/วีดิทัศน์)'
+    ];
+    // Create workbook and worksheet
+    // const workbook = new Workbook();
+    let workbook: ExcelProper.Workbook = new Excel.Workbook();
+    let worksheet = workbook.addWorksheet('Sales Data');
+    // Add Row and formatting
+    const titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    // Add Image
+    // const logo = workbook.addImage({
+    //     //   base64: logoFile.logoBase64,
+    //     extension: 'png',
+    // });
+
+    // worksheet.addImage(logo, 'E1:F3');
+    worksheet.mergeCells('A1:F2');
+    // worksheet.mergeCells('G5:G8');
+
+    // Blank Row
+    worksheet.addRow([]);
+
+    // Add Header Row
+    const headerRow = worksheet.addRow(header);
+
+    // Cell Style : Fill and Border
+    headerRow.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFFFF' },
+        bgColor: { argb: 'FFFFFF' }
+      };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    });
+    // worksheet.addRows(data);
+
+
+    // Add Data and Conditional Formatting
+    data.forEach(d => {
+      const row = worksheet.addRow(d);
+      const qty = row.getCell(5);
+      // let color = 'FFFFFF';
+      // if (+qty.value < 500) {
+      //   color = 'FFFFFF';
+      // }
+      // qty.fill = {
+      //   type: 'pattern',
+      //   pattern: 'solid',
+      //   fgColor: { argb: color }
+      // };
+    });
+
+    // worksheet.getColumn(3).width = 30;
+    // worksheet.getColumn(4).width = 30;
+    // worksheet.addRow([]);
+
+    // Footer Row
+    // const footerRow = worksheet.addRow(['This is system generated excel sheet.']);
+    // footerRow.getCell(1).fill = {
+    //     type: 'pattern',
+    //     pattern: 'solid',
+    //     fgColor: { argb: 'FFFFFF' }
+    // };
+    // footerRow.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+
+    // // Merge Cells
+    // worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
+
+    // Generate Excel File with given name
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, title + '.xlsx');
+    })
+    // const subTitleRow = worksheet.addRow(['Date : ' + this.datePipe.transform(new Date(), 'medium')]);
+  }
 
 }

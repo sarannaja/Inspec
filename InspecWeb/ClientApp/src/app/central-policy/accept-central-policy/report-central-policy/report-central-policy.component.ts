@@ -34,6 +34,7 @@ export class ReportCentralPolicyComponent implements OnInit {
   resultdate: any = []
   carlendarFile: any = [];
   resultElecFile: any= [];
+  fileType2: any;
 
   constructor(
     private fb: FormBuilder,
@@ -59,6 +60,9 @@ export class ReportCentralPolicyComponent implements OnInit {
       report: new FormControl(null, [Validators.required]),
       files: [null],
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
+      signatureFiles: [null],
+      description: new FormControl(null, [Validators.required]),
     })
 
     this.getDetailCentralPolicy();
@@ -169,7 +173,7 @@ export class ReportCentralPolicyComponent implements OnInit {
 
   getCalendarFile() {
     this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
-      this.carlendarFile = res;
+      this.carlendarFile = res.carlendarFile;
       console.log("calendarFile: ", res);
 
     })
@@ -177,10 +181,15 @@ export class ReportCentralPolicyComponent implements OnInit {
 
   getElectronikbookFile() {
     this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {
-      this.resultElecFile = res;
+      this.resultElecFile = res.electronicFile;
       console.log("resultElecFile: ", res);
 
     })
+  }
+
+  checkType2(type) {
+    // alert(type)
+    this.fileType2 = type;
   }
 
 }

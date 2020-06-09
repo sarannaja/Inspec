@@ -1,0 +1,139 @@
+<div class="header">
+    <h1 class="header-title">
+        ผู้สมัครเข้าร่วมอบรม
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+          <div class="card-header" style="margin-bottom: -40px;">
+              <h5 class="card-title">ผู้สมัครเข้าร่วมอบรม</h5>
+              <div class="float-right">
+                  <!-- <button class="btn btn-primary" (click)="CreateTraining()"
+                      style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button> -->
+                      <br>
+              </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <h5 class="text-center">รายชื่อผู้เข้ารับการฝึกอบรม (รายหลักสูตร/โครงการ)</h5>
+                </div>
+                
+            </div>  
+            <div class="row">
+                <div class="col-12 text-center">
+                    หลักสูตร <u>{{ trainingname }}</u>
+                    <label></label>
+                    รุ่น/ปี <u>01/62</u>
+                    <label></label>
+                    <br>
+                </div>
+
+            </div>
+               
+
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        - รายละเอียดโครงการ ดาวโหลด
+                        <br>
+                        - วิทยาการ
+                        <br>
+                        - รายงานของผู้เข้ารับการฝึกอบรม
+                    </div>
+                    <div class="col-4">
+                        - กำหนดการฝึกอบรม ดาวโหลด
+                        <br>
+                        - เอกสารประกอบการฝึกอบรม
+                        <br>
+                        - รายงานสรุปผลการฝึกอบรม
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+
+
+              <table *ngIf="loading" class="table table-bordered table-responsive-lg">
+                  <thead>
+                      <tr>
+                          <th width="5%" class="text-center" style="vertical-align: text-top;">ลำดับที่</th>
+                          <th width="20%" class="text-center" style="vertical-align: text-top;">ชื่อ-นามสกุล</th>
+                          <th width="20%" class="text-center" style="vertical-align: text-top;">ตำแหน่ง</th>
+                          <th width="20%" class="text-center" style="vertical-align: text-top;">หน่วยงาน/สังกัด</th>
+                          <th width="15%" class="text-center" style="vertical-align: text-top;">หมายเลขติดต่อ</th>
+                          <th width="20%" class="text-center" style="vertical-align: text-top;">สรุปผลการลงเวลา<br>
+                              (ประมวลผลจากข้อมูลการลงเวลาและสรุปสถานะ)</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let item of resulttraining; let i = index">
+                          <td>{{ i + 1 }}</td>
+                          <td class="ellipsis">{{ item.name }}</td>
+                          <td>{{ item.position }}</td>
+                          <td></td>
+                          <td>{{ item.phone }}</td>
+                          
+                          <!-- <td class="ellipsis">
+                            <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success"></i>
+                          </td> -->
+                          <td class="text-center">
+                          <ng-container *ngIf="item.status == 1;else second">
+                            <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success"></i>
+                          </ng-container>
+                            <ng-template #second>
+                                <ng-container *ngIf="item.status == 2;else third">
+                                    <i class="align-middle mr-2 fas fa-fw fa-times-circle text-danger"></i>
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #third>
+                                
+                            </ng-template>
+                          </td>
+                          
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalApprove class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+                        <label for="test" class="form-label">สิทธิ์การเข้าฝึกอบรม</label>
+                        <select class="form-control select2" data-toggle="select2" formControlName="approve">
+                            <option value=null>กรุณาเลือกสิทธิ์การเข้าฝึกอบรม</option>
+                            <option value=1>ได้รับสิทธิ์การฝึกอบรม</option>
+                            <option value=2>ไม่มีสิทธิ์การฝึกอบรม</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+  </div>
+

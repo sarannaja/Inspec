@@ -36,5 +36,7 @@ namespace InspecWeb.Models
         public string QuestionPeople { get; set; }
 
         public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
+
+        public ICollection<AnswerCentralPolicyProvince> AnswerCentralPolicyProvinces { get; set; }
     }
 }

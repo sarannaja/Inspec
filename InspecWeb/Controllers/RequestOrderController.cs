@@ -69,9 +69,9 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] RequestViewModel model)
         {
-           /* System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
-            System.Console.WriteLine("provinceid: " + model.ProvinceId);
-            System.Console.WriteLine("Name: " + model.Name);*/
+            /* System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
+             System.Console.WriteLine("provinceid: " + model.ProvinceId);
+             System.Console.WriteLine("Name: " + model.Name);*/
             var date = DateTime.Now;
             var cabinedata = new RequestOrder
             {
@@ -81,7 +81,7 @@ namespace InspecWeb.Controllers
                 ProvinceId = model.ProvinceId,
                 UserId = model.UserId,
                 CreatedAt = date
-                
+
             };
 
             _context.RequestOrders.Add(cabinedata);
@@ -119,7 +119,7 @@ namespace InspecWeb.Controllers
                     };
                     _context.RequestOrderFiles.Add(RequestOrderFile);
                     _context.SaveChanges();
-                   /* System.Console.WriteLine("Sucess");*/
+                    /* System.Console.WriteLine("Sucess");*/
                 }
             }
             return Ok(new { status = true });
@@ -201,22 +201,22 @@ namespace InspecWeb.Controllers
         [HttpPut("edit")]
         public async Task<IActionResult> Put([FromForm] RequestViewModel model)
         {
-               /* System.Console.WriteLine("detailrequestorder: " + model.id);
-                System.Console.WriteLine("AnswerDetail: " + model.AnswerDetail);
-                System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
-                System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
-                System.Console.WriteLine("AnswerRequestorder: " + model.files);*/
+            /* System.Console.WriteLine("detailrequestorder: " + model.id);
+             System.Console.WriteLine("AnswerDetail: " + model.AnswerDetail);
+             System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
+             System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
+             System.Console.WriteLine("AnswerRequestorder: " + model.files);*/
             var cabinedata = _context.RequestOrders.Find(model.id);
             {
                 cabinedata.AnswerDetail = model.AnswerDetail;
                 cabinedata.AnswerProblem = model.AnswerProblem;
                 cabinedata.AnswerCounsel = model.AnswerCounsel;
-                
+
             };
 
-             _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-            
+
             if (!Directory.Exists(_environment.WebRootPath + "//requestfile//"))
             {
                 Directory.CreateDirectory(_environment.WebRootPath + "//requestfile//"); //สร้าง Folder Upload ใน wwwroot
@@ -224,11 +224,11 @@ namespace InspecWeb.Controllers
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "//requestfile//";
-            
+
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
             //foreach (var formFile in data.files)
             {
-                
+
                 var random = RandomString(10);
                 string filePath2 = formFile.Value.FileName;
                 string filename = Path.GetFileName(filePath2);
@@ -256,25 +256,12 @@ namespace InspecWeb.Controllers
         [HttpGet("ex/{id}")]
         public IActionResult GetData(string id)
         {
-           /* System.Console.WriteLine("DDDDD");
-            System.Console.WriteLine("USERID : " + id);*/
-            //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
-            //                              select P;
-            //return inspectionPlanEventdata;
+            //System.Console.WriteLine(id);
             var userprovince = _context.UserProvinces
                                .Where(m => m.UserID == id)
                                .ToList();
 
-            //var inspectionplans = _context.InspectionPlanEvents
-            //                    .Include(m => m.Province)
-            //                    .Include(m => m.CentralPolicyEvents)
-            //                    .ThenInclude(m => m.CentralPolicy)
-            //                    .ThenInclude(m => m.CentralPolicyProvinces)
-            //                    .ToList();
 
-            //var inspectionplans = _context.CentralPolicies
-            //                    .Include(m => m.CentralPolicyProvinces)
-            //                    .ThenInclude(x => x.Province).ToList();
 
             var inspectionplans = _context.CentralPolicyProvinces
                 .Include(m => m.CentralPolicy)
@@ -290,14 +277,24 @@ namespace InspecWeb.Controllers
                 {
                     if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
                         termsList.Add(inspectionplan);
+                    //System.Console.WriteLine(userprovince[i].ProvinceId);
                 }
             }
 
             return Ok(termsList);
 
         }
-      
+        [HttpGet("centralpolicyprovinceid/{id}")]
+        public IActionResult Getcentralpolicyprovinceid(long id)
+        {
+            var data = _context.CentralPolicyProvinces
+                .Include(m => m.Province)
+                .Where(m => m.CentralPolicyId == id).ToList();
+            //System.Console.WriteLine("tttt",data);
+            return Ok(data);
+        }
     }
+            
  }
 
 

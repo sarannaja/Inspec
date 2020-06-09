@@ -18,9 +18,34 @@ export interface FiscalYears {
     Provinces: Array<Province>
 }
 
+export interface ProvinceFiscalYear {
+    fiscalYears: Array<ProvinceFiscalYears>
+
+
+}
+export interface ProvinceFiscalYears {
+
+    year: number,
+    name: string,
+    projects: {
+        count: number,
+        completed: number,
+        totalBudget: number,
+        totalAmount: number,
+        totalSpent: number,
+        totalPercent: number
+    },
+    // rovinces: Array<Province>
+    region: {
+        id: number,
+        name: string
+    },
+
+}
 export interface Province {
-    Id: number,
-    Name: string,
+    id: number,
+    name: string,
+    iso: string,
 }
 
 //Ministers model

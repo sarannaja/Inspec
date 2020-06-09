@@ -13,5 +13,8 @@ namespace InspecWeb.ViewModel
         public string Status { get; set; }
         public string QuestionPeople { get; set; }
         public List<IFormFile> files { get; set; }
+        public List<IFormFile> signatureFiles { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
     }
 }

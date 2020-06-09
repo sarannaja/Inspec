@@ -32,6 +32,7 @@ namespace InspecWeb.ViewModel
 
     public class inputsubjectdepartment
     {
+        public long subjectid { get; set; }
         public long box { get; set; }
         public long departmentId { get; set; }
         public inputquestionopen[] inputquestionopen { get; set; }

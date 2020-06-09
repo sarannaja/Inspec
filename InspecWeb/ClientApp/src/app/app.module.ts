@@ -34,8 +34,33 @@ import { InstructionorderComponent } from './instructionorder/instructionorder.c
 import { DistrictComponent } from './district/district.component';
 import { SubdistrictComponent } from './subdistrict/subdistrict.component';
 import { DataTablesModule } from 'angular-datatables';
+
+//----Training----
 import { TrainingComponent } from './training/training.component';
 import { CreateTrainingComponent } from './training/create-training/create-training.component';
+import { TrainingRegisterComponent } from './training-register/training-register.component';
+import { ListTrainingRegisterComponent } from './training-register/list-training-register/list-training-register.component';
+import { TrainingSurveyComponent } from './training-survey/training-survey.component';
+import { ListTrainingSurveyComponent } from './training-survey/list-training-survey/list-training-survey.component';
+import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
+import { DetailDefaultLayoutTrainComponent } from './default-layout-train/detail-default-layout-train/detail-default-layout-train.component';
+import { TrainComponent } from './train/train.component';
+import { ListDefaultLayoutTrainComponent } from './default-layout-train/list-default-layout-train/list-default-layout-train.component';
+import { PreviewTrainingSurveyComponent } from './training-survey/preview-training-survey/preview-training-survey.component';
+import { TrainingDocumentComponent } from './training-document/training-document.component';
+import { ListTrainingDocumentComponent } from './training-document/list-training-document/list-training-document.component';
+import { RegisterDefaultLayoutTrainComponent } from './default-layout-train/register-default-layout-train/register-default-layout-train.component';
+import { SurveyDefaultLayoutTrainComponent } from './default-layout-train/survey-default-layout-train/survey-default-layout-train.component';
+import { SuccessDefaultLayoutTrainComponent } from './default-layout-train/success-default-layout-train/success-default-layout-train.component';
+import { TrainingReportComponent } from './training-report/training-report.component';
+import { ListTrainingReportComponent } from './training-report/list-training-report/list-training-report.component';
+import { ListRegisterTrainingReportComponent } from './training-report/list-training-report/list-register-training-report/list-register-training-report.component';
+import { HistoryTrainingReportComponent } from './training-report/history-training-report/history-training-report.component';
+import { ProgramTrainingComponent } from './training/program-training/program-training.component';
+import { LecturerTrainingComponent } from './training/lecturer-training/lecturer-training.component';
+
+//----------------
+
 import { ThaiDatePipe } from './services/Pipe/thaidate.service';
 import { SnotifyModule, ToastDefaults, SnotifyService } from 'ng-snotify';
 import { NotificationService } from './services/Pipe/alert.service';
@@ -44,8 +69,6 @@ import { SubquestionComponent } from './subquestion/subquestion.component';
 import { DetailFiscalyearComponent } from './fiscalyear/detail-fiscalyear/detail-fiscalyear.component';
 import { InspectionPlanEventComponent } from './inspection-plan-event/inspection-plan-event.component';
 import { CreateInspectionPlanEventComponent } from './inspection-plan-event/create-inspection-plan-event/create-inspection-plan-event.component';
-import { TrainComponent } from './train/train.component';
-import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
 import { CabinetComponent } from './cabinet/cabinet.component';
 import { InspectorComponent } from './inspector/inspector.component';
 import { ExecutiveOrderComponent } from './executive-order/executive-order.component';
@@ -96,14 +119,24 @@ import { ExcelService } from './services/excel.service';
 import { AnswerPeopleDetailComponent } from './answer-subject/answer-people-detail/answer-people-detail.component';
 import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-central-policy-province/answer-central-policy-province.component';
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
+import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/inspection-plan-event-province/inspection-plan-event-province.component';
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 import { InfoVillageComponent } from './info-village/info-village.component';
 import { StatepolicyComponent } from './statepolicy/statepolicy.component';
 import { DocumenttemplateComponent } from './documenttemplate/documenttemplate.component';
 import { MeetinginformationComponent } from './meetinginformation/meetinginformation.component';
 import { PremierorderComponent } from './premierorder/premierorder.component';
+import { ExcelGeneraterService } from './services/excel-generater.service';
+import { DatePipe } from '@angular/common';
+import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
 
 
+
+
+
+const ExternalOrganization = [
+  GgcOpmComponent, Opm1111Component, OtpsComponent
+]
 
 @NgModule({
   declarations: [
@@ -133,16 +166,36 @@ import { PremierorderComponent } from './premierorder/premierorder.component';
     InstructionorderComponent,
     DistrictComponent,
     SubdistrictComponent,
+    //----Training----
     TrainingComponent,
     CreateTrainingComponent,
+    TrainingRegisterComponent,
+    ListTrainingRegisterComponent,
+    TrainingSurveyComponent,
+    ListTrainingSurveyComponent,
+    DefaultLayoutTrainComponent,
+    DetailDefaultLayoutTrainComponent,
+    TrainComponent,
+    ListDefaultLayoutTrainComponent,
+    PreviewTrainingSurveyComponent,
+    TrainingDocumentComponent,
+    ListTrainingDocumentComponent,
+    RegisterDefaultLayoutTrainComponent,
+    SurveyDefaultLayoutTrainComponent,
+    SuccessDefaultLayoutTrainComponent,
+    TrainingReportComponent,
+    ListTrainingReportComponent,
+    ListRegisterTrainingReportComponent,
+    HistoryTrainingReportComponent,
+    ProgramTrainingComponent,
+    LecturerTrainingComponent,
+    //---------------
     ThaiDatePipe,
     SubjectComponent,
     SubquestionComponent,
     DetailFiscalyearComponent,
     InspectionPlanEventComponent,
     CreateInspectionPlanEventComponent,
-    TrainComponent,
-    DefaultLayoutTrainComponent,
     CabinetComponent,
     InspectorComponent,
     ExecutiveOrderComponent,
@@ -183,12 +236,14 @@ import { PremierorderComponent } from './premierorder/premierorder.component';
     AnswerPeopleDetailComponent,
     AnswerCentralPolicyProvinceComponent,
     InvitedElectronicBookComponent,
+    InspectionPlanEventProvinceComponent,
     InfoMinistryComponent,
     InfoVillageComponent,
     StatepolicyComponent,
     DocumenttemplateComponent,
     MeetinginformationComponent,
     PremierorderComponent,
+    ReportInspectionPlanEventComponent,
   ],
 
   imports: [
@@ -237,8 +292,24 @@ import { PremierorderComponent } from './premierorder/premierorder.component';
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
+          //----Training----
           { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/register', component: TrainingRegisterComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/registerlist/:id', component: ListTrainingRegisterComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/survey', component: TrainingSurveyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/surveylist/:id', component: ListTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/survey/preview/:id', component: PreviewTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/document', component: TrainingDocumentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/documentlist/:id', component: ListTrainingDocumentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report', component: TrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/list', component: ListTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/list/:id', component: ListRegisterTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/program/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
+          
+          //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
@@ -291,36 +362,44 @@ import { PremierorderComponent } from './premierorder/premierorder.component';
           { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
-          
+          { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
         ]
       },
+      { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
+      { path: 'train/register/:id', component: RegisterDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
+      { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },
+      { path: 'train/list/:id', component: ListDefaultLayoutTrainComponent },
+      { path: 'train/survey/:id', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
+      { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       {
-        path: 'train',
-        component: DefaultLayoutTrainComponent,
-        data: {
-          title: 'หน้าหลัก'
-        },
+        path: 'train', component: DefaultLayoutTrainComponent,
+        data: {title: 'หน้าหลัก'},
         children: [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
-        ]
+      ]
       }
     ]),
     ModalModule.forRoot(),
   ], exports: [
-    ThaiDatePipe,],
+    ThaiDatePipe,
+    // DatePipe
+  ],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-
+    ExcelGeneraterService,
+    DatePipe
 
     // UserManager
+
   ],
 
   bootstrap: [AppComponent]

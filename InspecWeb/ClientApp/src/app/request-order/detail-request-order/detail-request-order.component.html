@@ -16,8 +16,9 @@
         <div class="card">
             <div class="card-header" style="margin-bottom: -40px;">
                 <h5 class="card-title">คำร้องขอจากหน่อยงานรัฐ</h5>
+                
                 <div class="float-right">
-                    <button *ngIf="role_id !=3" class="btn btn-primary" (click)="openModal(modalAddRequestorder)"
+                    <button *ngIf="role_id !=3" class="btn btn-primary" (click)="openModal(modalAddRequestorder,userid)"
                         style="margin-top: -60px;">แจ้งคำร้องขอ</button>
                 </div>
             </div>
@@ -88,6 +89,7 @@
             </div>
             <div class="modal-body m-3">
                 <div class="form-group">
+                    <!-- <label>จังหวัด :  {{provincename}} </label><br> -->
                     <label>จังหวัด</label>
                         <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
                             name="provinceId" formControlName="provinceId" [allowClear]="true">

@@ -170,7 +170,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
 
         this.executive_id = result.id;
 
-        this.notificationService.addNotification(this.id, value.provinceId, 1, 10, this.executive_id)
+        this.notificationService.addNotification(this.id, value.provinceId, this.userid, 10, this.executive_id)
           .subscribe(result => {
           })
 
