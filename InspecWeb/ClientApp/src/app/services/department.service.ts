@@ -15,14 +15,12 @@ export class DepartmentService {
   getalldepartdata(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
-
+  
   getdepartmentdata(id): Observable<any[]> {
-    // alert(id)
     return this.http.get<any[]>(this.url + id)
 
   }
-  // getdepartmentdata(id): Observable<any> {
-  //   // alert(id)
-  //   return this.http.get<any>(this.url+ "masteraof/" + id)
-  // }
+  getdepartmentsforsupportdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url+'departmentsforsupport/'+ id)
+  }
 }

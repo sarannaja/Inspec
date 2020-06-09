@@ -168,6 +168,62 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
     name: "ข้อมูลสนับสนุน"
   },
   {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบายและแผนยุทธศาสตร์",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
+  },
+  {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",

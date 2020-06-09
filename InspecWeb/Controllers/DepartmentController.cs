@@ -28,7 +28,17 @@ namespace InspecWeb.Controllers
                                select P;
             return provincialdepartmentdata;
         }
-        // GET api/values/5
+        //สำหรับใช้ตรงข้อมูลสนับสนุน
+        [HttpGet("departmentsforsupport/{id}")]
+        public IActionResult GetDepartments(long id)
+        {
+            var departments = _context.Departments
+                .Include(m => m.Ministries)
+                .Where(m => m.MinistryId == id);
+
+            return Ok(departments);
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
