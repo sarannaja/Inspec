@@ -9,7 +9,8 @@ namespace InspecWeb.ViewModel
     public class UserViewModel
     {
         //23
-        public string UserName { get; set; }       
+        public string UserName { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
         public string Email { get; set; }
