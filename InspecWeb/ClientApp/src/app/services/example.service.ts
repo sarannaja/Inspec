@@ -10,6 +10,6 @@ export class ExampleService {
 
   sendExample(body) {
     let data = body
-    return this.http.post(this.baseUrl + 'api/example', data)
+    return this.http.post(this.baseUrl + 'api/example/example', data)
   }
 }

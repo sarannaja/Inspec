@@ -13,10 +13,10 @@ namespace InspecWeb.Controllers
     public class ExampleController : ControllerBase
     {
         [HttpPost("example")]
-        public IActionResult example([FromForm] DataExample data)
+        public IActionResult example([FromBody] DataExample data)
         {
-            
-            return Ok(data);
+
+            return Ok(new { data });
         }
 
     }

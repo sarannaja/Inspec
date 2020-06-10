@@ -265,6 +265,10 @@ const ExternalOrganization = [
       { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent },
       { path: 'ty', component: AnswerOutsideThankComponent },
       {
+        path: 'example', loadChildren: () => import('./example/example.module')
+          .then(m => m.ExampleModule)
+      },
+      {
         path: '',
         component: DefaultLayoutComponent,
         data: {
@@ -339,10 +343,7 @@ const ExternalOrganization = [
             path: 'external', loadChildren: () => import('./external-organization/external-organization.module')
               .then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]
           },
-          {
-            path: 'example', loadChildren: () => import('./example/example.module')
-              .then(m => m.ExampleModule)
-          },
+         
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
           { path: 'officerinspection', component: OfficerInspectionComponent, canActivate: [AuthorizeGuard] },
