@@ -16,7 +16,7 @@ namespace InspecWeb.Controllers
         public IActionResult example([FromBody] DataExample data)
         {
 
-            return Ok(new { data });
+            return Ok(data );
         }
 
     }
