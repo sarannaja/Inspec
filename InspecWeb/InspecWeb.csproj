@@ -33,18 +33,18 @@
     <PackageReference Include="DocX" Version="1.6.0" />
     <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="System.IO.Packaging" Version="4.7.0" />
-    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="5.8.64" />
+    <!-- <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="5.8.64" /> -->
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Content Remove="$(SpaRoot)**" />
+    <!-- <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     <Content Remove="wwwroot\Uploads\4SSEYBRSAWScreen Shot 2563-04-23 at 10.27.52.png" />
     <Content Remove="wwwroot\Uploads\TBG487JZSLScreen Shot 2563-04-23 at 10.27.52.png" />
     <Content Remove="wwwroot\Uploads\EKOKWXE4M6Screen Shot 2563-04-23 at 10.27.10.png" />
-    <Content Remove="wwwroot\Uploads\LQN3MIJQ5DScreen Shot 2563-04-23 at 10.27.10.png" />
+    <Content Remove="wwwroot\Uploads\LQN3MIJQ5DScreen Shot 2563-04-23 at 10.27.10.png" /> -->
   </ItemGroup>
 
   <ItemGroup>
@@ -69,7 +69,7 @@
     </Exec>
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <!-- <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" /> -->
   </Target>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
