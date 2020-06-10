@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ReportService } from 'src/app/services/report.service';
+import { centralPolicyProvinces, subjectCentralPolicyProvinceGroups } from '../../models/reportnik';
 
 @Component({
   selector: 'app-report-subject',
@@ -56,22 +57,63 @@ export class ReportSubjectComponent implements OnInit {
   }
   test(id) {
     //console.log(id);
+    var mapData: Array<any> = []
     this.reportservice.getreportsubject(id).subscribe(result => {
       //console.log("report", result);
-      var data:Array<any> = []
       var title = result.title
-      var centralPolicyProvinces: Array<any> = result.centralPolicyProvinces
-      var subjectCentralPolicyProvinces: Array<any> = []
-      centralPolicyProvinces.forEach(item => {
+      var centralPolicyProvinces: Array<centralPolicyProvinces> = result.centralPolicyProvinces
 
-        subjectCentralPolicyProvinces.push(
+      function getDuplicateArrayElements(arr) {
+        var sorted_arr = arr.slice().sort();
+        var results = [];
+        for (var i = 0; i < sorted_arr.length - 1; i++) {
+          if (sorted_arr[i + 1].departmentId != sorted_arr[i].departmentId) {
+            results.push(sorted_arr[i]);
+          }
+        }
+        return results;
+      }
+
+
+      centralPolicyProvinces.forEach(item => {
+        mapData.push(
           item.subjectCentralPolicyProvinces
             .filter(item => {
               return item.type == "Master"
-            }).map(result=>{return [result.name]})
+            })
+            .map(
+              result => {
+                var department: Array<any> = []
+
+                result.subquestionCentralPolicyProvinces
+                  .forEach((reuult, index) => {
+                    reuult.subjectCentralPolicyProvinceGroups.forEach(element => {
+                      department.push(element.provincialDepartment)
+                    });
+                  })
+
+
+                return {
+                  data: {
+                    title,
+                    subjectCentralPolicyProvinces: result.name,
+                    department: getDuplicateArrayElements(department).map(result => { return result.name }),
+                    province: item.province.name,
+                    status: result.status
+                  },
+                  value: [Object.values({
+                    title,
+                    subjectCentralPolicyProvinces: result.name,
+                    department: getDuplicateArrayElements(department).map(result => { return result.name }).toString().replace(',', '\n'),
+                    province: item.province.name,
+                    status: result.status
+                  })],
+                  column: ['co1', 'co2', 'co3', 'co4', 'co5']
+                }
+              })
         )
+        console.log("mapData", mapData);
       })
-      console.log("subjectCentralPolicyProvinces", subjectCentralPolicyProvinces);
 
     })
   }
@@ -79,3 +121,7 @@ export class ReportSubjectComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 }
+
+
+
+
