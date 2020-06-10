@@ -14,9 +14,7 @@ namespace InspecWeb.ViewModel
 
         //รับค่า object ที่สร้า่งในประกอบไปด้วยตัวแแปรใน MemberWorkViewM {subjects:""}
         public MemberWorkViewM obj { get; set; }
-        //รับไฟล์มาเป็น array
-        public List<IFormFile> files { get; set; }
-
+    
 
     }
 
