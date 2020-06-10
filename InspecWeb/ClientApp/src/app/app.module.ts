@@ -306,7 +306,7 @@ const ExternalOrganization = [
           { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/program/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
-          
+
           //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
@@ -338,6 +338,10 @@ const ExternalOrganization = [
           {
             path: 'external', loadChildren: () => import('./external-organization/external-organization.module')
               .then(m => m.ExternalOrganizationModule), canActivate: [AuthorizeGuard]
+          },
+          {
+            path: 'example', loadChildren: () => import('./example/example.module')
+              .then(m => m.ExampleModule)
           },
           { path: 'answersubject', component: AnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'calendaruser', component: CalendarUserComponent, canActivate: [AuthorizeGuard] },
@@ -379,10 +383,10 @@ const ExternalOrganization = [
       { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'train', component: DefaultLayoutTrainComponent,
-        data: {title: 'หน้าหลัก'},
+        data: { title: 'หน้าหลัก' },
         children: [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
-      ]
+        ]
       }
     ]),
     ModalModule.forRoot(),
