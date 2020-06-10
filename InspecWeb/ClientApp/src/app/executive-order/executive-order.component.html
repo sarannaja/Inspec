@@ -18,10 +18,10 @@
             <button class="btn btn-primary" (click)="CreateCentralPolicy()"
             style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
           </div> -->
-        <div class="float-right">
+        <!-- <div class="float-right">
           <button *ngIf="role_id !=3" class="btn btn-primary" (click)="exportExcutive()"
             style="margin-top: -60px;">รายงานข้อสั่งการผู้บริหาร</button>
-        </div>
+        </div> -->
       </div>
       <div class="card-body" *ngIf="role_id !=3">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
@@ -48,6 +48,7 @@
               <td>{{ item.status }}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailExecutiveOrder(item.id)"></i>
+                
               </td>
             </tr>
           </tbody>

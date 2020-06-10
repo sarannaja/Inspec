@@ -40,9 +40,31 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
       name:"สมุดตรวจอิเล็กทรอนิกส์"
     },
     {
-        icon:'fa-hand-point-up',
-        url:"/executiveorder",
-        name:"ข้อสั่งการผู้บริหาร"
+      icon:'fa-hand-point-up',
+      name:"ข้อสั่งการ",
+      IDchildren:'executiveorderdata',
+      children:[
+          {
+              icon:'fa-long-arrow-alt-right',
+              url:'/executiveorder',
+              name:'ข้อสั่งการผู้บริหาร',
+              ex_link:'0',
+          },
+          {
+              icon:'fa-long-arrow-alt-right',
+              url:'/executiveorderexport1component',
+              name:'รายงานข้อสั่งการของผู้บริหาร',
+              ex_link:'0',
+            
+          },
+          {
+              icon:'fa-long-arrow-alt-right',
+              url:'/executiveorderexport3component',
+              name:'ทะเบียนข้อสั่งการของผู้บริหาร',
+              ex_link:'0',
+          
+          } 
+      ]
     },
     {
         icon:'fa-hands',
@@ -85,11 +107,6 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
             },
         ]
     } ,
-    // {
-    //     icon:'fa-user-friends',
-    //     url:"/user",
-    //     name:"จัดการผู้ใช้"
-    // },
     {
     icon:'fa-user-friends',
     name:"จัดการผู้ใช้",

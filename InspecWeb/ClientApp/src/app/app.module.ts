@@ -134,6 +134,11 @@ import { PremierorderComponent } from './premierorder/premierorder.component';
 
 
 
+import { ExcelGeneraterService } from './services/excel-generater.service';
+import { DatePipe } from '@angular/common';
+import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
+import { ExecutiveOrderExport1Component } from './executive-order/executive-order-export1/executive-order-export1.component';
+import { ExecutiveOrderExport3Component } from './executive-order/executive-order-export3/executive-order-export3.component';
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -247,6 +252,9 @@ const ExternalOrganization = [
     DocumenttemplateComponent,
     MeetinginformationComponent,
     PremierorderComponent,
+    ReportInspectionPlanEventComponent,
+    ExecutiveOrderExport1Component,
+    ExecutiveOrderExport3Component,
   ],
 
   imports: [
@@ -375,6 +383,9 @@ const ExternalOrganization = [
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
           
+          { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'executiveorderexport1component', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
+          { path: 'executiveorderexport3component', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

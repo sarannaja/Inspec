@@ -115,6 +115,9 @@ namespace InspecWeb.Data
         public DbSet<Documenttemplate> Documenttemplates { get; set; }
         public DbSet<Meetinginformation> Meetinginformations { get; set; }
         public DbSet<Premierorder> Premierorders { get; set; }
+        public DbSet<ReportCommander> ReportCommanders { get; set; }
+        public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
+        public DbSet<Log> Logs { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

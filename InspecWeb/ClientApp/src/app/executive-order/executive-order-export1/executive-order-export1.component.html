@@ -1,0 +1,37 @@
+<div class="header">
+    <h1 class="header-title">
+      ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a href="#">ข้อสั่งการ</a></li>
+        <li class="breadcrumb-item active">รายงานข้อสั่งการของผู้บริหาร</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: 0px;">
+          <h3 class="card-title">รายงานข้อสั่งการของผู้บริหาร</h3><br>
+            <div class="row">
+              <div class="col-4">
+               
+                <select style="margin-bottom: 0px;" (change)="changexcutive($event)" class="form-control select2 " data-toggle="select2">
+                  <option  [value]="">-- กรุณาเลือกชื่อผู้สั่งการ --</option>
+                <option *ngFor="let item of userdata" [value]="item.id">{{item.prefix}} {{item.name}}</option>
+            </select>   
+              </div>
+              <div class="col-2">
+                <button class="btn btn-primary" 
+                     (click)="exportexecutive(id)">Export</button>
+              </div> 
+              </div>  
+            </div> 
+
+        </div>
+        
+      </div>
+    </div>
+  
