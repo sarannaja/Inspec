@@ -165,24 +165,6 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       ]),
     })
 
-    // this.userservice.getuserdata(7).subscribe(result => {
-    //   // alert(JSON.stringify(result))
-    //   this.resultpeople = result
-    //   console.log(this.resultpeople);
-    //   this.selectpeople = this.resultpeople.map((item, index) => {
-    //     return { value: item.id, label: item.name }
-    //   })
-    // })
-    // this.userservice.getuserdata(6).subscribe(result => {
-    //   // alert(JSON.stringify(result))
-    //   this.resultministrypeople = result
-    //   console.log(this.resultministrypeople);
-    //   this.selectministrypeople = this.resultministrypeople.map((item, index) => {
-    //     return { value: item.id, label: item.name }
-    //   })
-    // })
-
-
     // this.getDetailCentralPolicy()
     await this.getCentralPolicyProvinceUser()
     await this.getDetailCentralPolicyProvince()
