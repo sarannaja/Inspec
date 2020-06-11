@@ -3,6 +3,7 @@
 // JUST BEFORE THE </head> CLOSING TAG
 
 // Set cookie
+
 function setCookie(name, value, days) {
   let expires = "";
   if (days) {
@@ -56,8 +57,9 @@ function getCurrentTheme() {
 // Append theme style-tag to <head>
 const link = document.createElement("link");
 console.log("link",link);
-
+// require('../../../template/css')
 // const link = document.getElementsByTagName('base')[0].href;
+// link.href = "assets/template/css/" + getCurrentTheme() + ".css";
 link.href = "css/" + getCurrentTheme() + ".css";
 link.type = "text/css";
 link.rel = "stylesheet";
