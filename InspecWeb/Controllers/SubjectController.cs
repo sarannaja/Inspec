@@ -272,14 +272,6 @@ namespace InspecWeb.Controllers
 
                         }
 
-                        //var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
-                        //{
-                        //    ProvincialDepartmentId = departmentId.departmentId,
-                        //    //SubjectCentralPolicyProvinceId = subjectid,
-                        //};
-                        //_context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-                        //_context.SaveChanges();
-
                         if (n == 0)
                         {
                             foreach (var id in model.CentralPolicyDateId)

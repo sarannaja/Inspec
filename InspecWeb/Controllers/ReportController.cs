@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,11 +18,12 @@ namespace InspecWeb.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
-
-        public ReportController(ApplicationDbContext context, IEmailSender emailSender)
+        private static UserManager<ApplicationUser> _userManager;
+        public ReportController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _emailSender = emailSender;
+            _userManager = userManager;
         }
 
         // GET api/values/5
@@ -37,6 +39,10 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                 .ThenInclude(m => m.ProvincialDepartment)
                 .Where(m => m.Id == id).FirstOrDefault();
+            var user = _userManager.Users.Where(m => m.Id == centralpolicydata.CreatedBy)
+                    .Include(m => m.Departments)
+                    //.ThenInclude(m=>m.)
+                    .FirstOrDefault();
 
             //var subjectdata = _context.SubjectCentralPolicyProvinces
             //    .Include(m => m.CentralPolicyProvince)
@@ -49,7 +55,7 @@ namespace InspecWeb.Controllers
             //    //.Where(m => m.CentralPolicyId == id);
             //    .Where(m => m.CentralPolicyProvince.CentralPolicyId == id && m.Type == "Master");
 
-            return Ok(centralpolicydata);
+            return Ok(new { centralpolicydata, user });
         }
 
     }

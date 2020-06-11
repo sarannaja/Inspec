@@ -11,6 +11,7 @@ import { centralPolicyProvinces, subjectCentralPolicyProvinceGroups } from '../.
 import * as Excel from "exceljs/dist/exceljs.min.js";
 import * as ExcelProper from "exceljs";
 import * as fs from 'file-saver';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-subject',
@@ -25,6 +26,7 @@ export class ReportSubjectComponent implements OnInit {
   selectcentralpolicy: any = []
   resultreportdata: any = []
   modalRef: BsModalRef;
+  userid: any
 
   constructor(
     private router: Router,
@@ -36,13 +38,11 @@ export class ReportSubjectComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-
+    this.test(1)
     this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
-
     };
-
     this.getcentralpolicy()
   }
   getcentralpolicy() {
@@ -55,7 +55,6 @@ export class ReportSubjectComponent implements OnInit {
         this.selectcentralpolicy = this.resultcentralpolicy.map((item, index) => {
           return { value: item.id, label: item.title }
         })
-        //console.log("selectcentralpolicy", this.selectcentralpolicy);
 
       })
   }
@@ -65,8 +64,11 @@ export class ReportSubjectComponent implements OnInit {
     var dataEx: Array<any> = []
     this.reportservice.getreportsubject(id).subscribe(async result => {
       //console.log("report", result);
+
       var title = result.title
+      var nameuser
       var centralPolicyProvinces: Array<centralPolicyProvinces> = result.centralPolicyProvinces
+      console.log("nameuser", nameuser);
 
       function getDuplicateArrayElements(arr) {
         var sorted_arr = arr.slice().sort();
@@ -113,7 +115,7 @@ export class ReportSubjectComponent implements OnInit {
                     province: item.province.name,
                     status: result.status
                   })],
-                  column: ['co1', 'co2', 'co3', 'co4', 'co5']
+                  column: ['ลำดับที่', 'หัวข้อการตรวจติดตาม', 'ประเด็นการตรวจติดตาม', 'หน่วยงานที่ได้รับประเด็นการตรวจติดตาม(ไม่ระบุจังหวัด)', 'จังหวัด', 'เจ้าของเรื่อง', 'สถานะประเด็น']
                 }
               })
         )
@@ -123,10 +125,10 @@ export class ReportSubjectComponent implements OnInit {
           console.log(result);
           return result
         }
-        
+
       }).map(result => {
-        
-        
+
+
         return [Object.values({
           title: result.data.title,
           subjectCentralPolicyProvinces: result.data.subjectCentralPolicyProvinces,
@@ -169,23 +171,12 @@ export class ReportSubjectComponent implements OnInit {
     const titleRow = worksheet.addRow([title]);
     titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
     worksheet.addRow([]);
-    // Add Image
-    // const logo = workbook.addImage({
-    //     //   base64: logoFile.logoBase64,
-    //     extension: 'png',
-    // });
-
-    // worksheet.addImage(logo, 'E1:F3');
     worksheet.mergeCells('A1:F2');
-    // worksheet.mergeCells('G5:G8');
 
-    // Blank Row
     worksheet.addRow([]);
 
-    // Add Header Row
     const headerRow = worksheet.addRow(column);
 
-    // Cell Style : Fill and Border
     headerRow.eachCell((cell, number) => {
       cell.fill = {
         type: 'pattern',
@@ -195,41 +186,11 @@ export class ReportSubjectComponent implements OnInit {
       };
       cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
     });
-    // worksheet.addRows(data);
-
-
-    // Add Data and Conditional Formatting
     data.forEach(d => {
       const row = worksheet.addRow(d);
       const qty = row.getCell(5);
-      // let color = 'FFFFFF';
-      // if (+qty.value < 500) {
-      //   color = 'FFFFFF';
-      // }
-      // qty.fill = {
-      //   type: 'pattern',
-      //   pattern: 'solid',
-      //   fgColor: { argb: color }
-      // };
     });
 
-    // worksheet.getColumn(3).width = 30;
-    // worksheet.getColumn(4).width = 30;
-    // worksheet.addRow([]);
-
-    // Footer Row
-    // const footerRow = worksheet.addRow(['This is system generated excel sheet.']);
-    // footerRow.getCell(1).fill = {
-    //     type: 'pattern',
-    //     pattern: 'solid',
-    //     fgColor: { argb: 'FFFFFF' }
-    // };
-    // footerRow.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-
-    // // Merge Cells
-    // worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
-
-    // Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       fs.saveAs(blob, title + '.xlsx');
