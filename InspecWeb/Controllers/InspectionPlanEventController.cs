@@ -323,7 +323,7 @@ namespace InspecWeb.Controllers
                                .Include(m => m.CentralPolicyEvents)
                                .ThenInclude(m => m.CentralPolicy)
                                .ThenInclude(m => m.CentralPolicyUser)
-                               .ThenInclude(m=>m.User)
+                               .ThenInclude(m => m.User)
                                .Where(m => m.ProvinceId == id)
 
                                .ToList();

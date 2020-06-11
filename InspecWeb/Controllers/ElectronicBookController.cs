@@ -1052,5 +1052,29 @@ namespace InspecWeb.Controllers
 
             return ElectronicBookAcceptdata;
         }
+
+        [HttpPost("addProceed")]
+        public void PostProceed(string userid, string proceed, long ElectID)
+        {
+            var ElectronicBookProceeddata = new ElectronicBookProceed
+            {
+                ElectronicBookId = ElectID,
+                Proceed = proceed,
+                UserId = userid
+            };
+
+            _context.ElectronicBookProceeds.Add(ElectronicBookProceeddata);
+            _context.SaveChanges();
+        }
+
+        [HttpGet("proceed/{id}")]
+        public IActionResult GetProceed(long id)
+        {
+            var data = _context.ElectronicBookProceeds
+                .Include(m => m.User)
+                .Where(m => m.ElectronicBookId == id).ToList();
+
+            return Ok(data);
+        }
     }
 }

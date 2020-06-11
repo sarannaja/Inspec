@@ -21,15 +21,22 @@
         <form [formGroup]="form" (ngSubmit)="storeFiles(form.value)">
           <div class="row">
             <div class="col-md-6">
-              ผู้มอบหมาย : {{resultuser.name}}
+              ชื่อ - นามสกุล : {{resultuser.name}}
             </div>
             <div class="col-md-6">
               ตำแหน่ง : {{resultuser.position}}
             </div>
           </div>
+
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
-              เรื่อง : {{resultdetailcentralpolicy.title}}
+              ประเภทแผนการตรวจ : {{resultdetailcentralpolicy.type}}
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              ประเด็นนโยบาย : {{resultdetailcentralpolicy.title}}
             </div>
           </div>
           <div class="row" style="margin-top: 10px;">
@@ -82,6 +89,9 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>ภาคประชาชน</u> &nbsp;&nbsp;
+              <button *ngIf="role_id == 3" type="button" class="btn btn-info"
+                (click)="openModal(modalInvitePeople)">เชิญภาคประชาชน</button>
+                &nbsp;&nbsp;
               <button *ngIf="role_id == 3" type="button" class="btn btn-info"
                 (click)="openModal(modalInvitePeople)">เชิญภาคประชาชน</button>
             </div>
@@ -143,7 +153,7 @@
                     </div>
                   </div> -->
 
-                  <tr>
+                  <!-- <tr>
                     <td style="border-top: none;">
                       <div class="row">
                         <h4 style="margin-top: 20px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
@@ -164,31 +174,65 @@
                       </div>
                     </td>
 
-                  </tr>
-                  <div class="row" style="margin-top: 10px; margin-left: 3px;">
+                  </tr> -->
+                  <!-- <div class="row" style="margin-top: 10px; margin-left: 3px;">
                     <div class="col-md-9">
                       ลิ้งค์บุคคลภายนอก : {{urllink}}{{items.id}}
                     </div>
-                  </div>
+                  </div> -->
+
                   <tr>
                     <div class="card">
                       <td style="border-top: none; width: 85%;">
-                        <u style="margin-left: 15px;">เรื่องประเด็น</u>
+                        <u style="margin-left: 15px;">ประเด็นนโยบายย่อย</u>
+                        &nbsp;&nbsp;
+                        <button *ngIf="role_id == 3" type="button" class="btn btn-info"
+                          (click)="openModal(modalcreatesuject)">เพิ่มประเด็นการตรวจติดตาม</button>
+
+
                         <div class="row">
                           <div class="col-10">
                             <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
                               readonly>
                           </div>
-                          <div class="col-1" *ngIf="role_id == 3">
+                          <!-- <div class="col-1" *ngIf="role_id == 3">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                               (click)="editModal3(modaleditsubject, items.id, items.name)"></i>
-                          </div>
+                          </div> -->
+                          <!-- && i != 0 -->
                           <div class="col-1" *ngIf="role_id == 3 && i != 0">
                             <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                               (click)="delsubjectModal(modaldelsubject, items.id)"></i>
                           </div>
                         </div>
                       </td>
+
+                      <div class="row">
+                        <h4 style="margin-top: 20px;">หน่วยงานผู้ให้ข้อมูล &nbsp;&nbsp;
+                          <button *ngIf="role_id == 3" type="button"
+                            (click)="openModal2(modalInviteDepartment, items.id)"
+                            class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
+                          <button *ngIf="role_id == 5 && centralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
+                            type="button" (click)="openModal2(modalInviteDepartment, items.id)"
+                            class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
+                        </h4>
+
+
+                        <div class="col-12"
+                          *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
+                          <span class="col-11">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
+                          <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
+                            (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
+
+                            <span *ngIf="ii == 0">ลิ้งค์บุคคลภายนอก : {{urllink}}{{items.id}}</span>
+                        </div>
+                        <!-- <div class="row" style="margin-top: 10px; margin-left: 3px;">
+                          <div class="col-md-9">
+                            ลิ้งค์บุคคลภายนอก : {{urllink}}{{items.id}}
+                          </div>
+                        </div> -->
+                      </div>
+
                       <td style="border-top: none;" width="85%">
                         <u>คำถามปลายเปิด</u>
                         <button class="btn btn-success" id="collapseAsk{{i}}" data-toggle="collapse"
@@ -256,11 +300,12 @@
                       </td>
 
                       <td style="border-top: none; width: 85%;" *ngIf="item.type == 'คำถามปลายปิด'">
-                        <u>ตัวเลือกคำถามปลายปิด</u>
+                        <!-- <u>ตัวเลือกคำถามปลายปิด</u> -->
                         <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
                           <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
                             <div class="row">
-                              <div class="col-10"
+                              <input style="margin-left: 10px;margin-top: 15px;" type="radio">
+                              <div class="col-9"
                                 *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
                                 <div class="row" style="border: 1px solid #ced4da;
                                 margin: 0px;
@@ -436,23 +481,21 @@
             </div>
           </div> -->
 
-          <div class="row" style="margin-top: -30px;">
+          <!-- <div class="row" style="margin-top: -30px;">
             <div class="col-md-6">
               <button *ngIf="role_id == 3" type="button" class="btn btn-info"
-                (click)="openModal(modalcreatesuject)">เพิ่มประเด็น</button>
+                (click)="openModal(modalcreatesuject)">เพิ่มประเด็นการตรวจติดตาม</button>
             </div>
           </div>
-          <br>
+          <br> -->
 
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="step" value="มอบหมายจังหวัด" checked
-                [checked]="centralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
-                formControlName="step">
+                [checked]="centralpolicyprovincedata.step == 'มอบหมายจังหวัด'" formControlName="step">
               <label style="margin-left: 10px;">มอบหมายให้จังหวัด</label>
               <input style="margin-left: 10px;" type="radio" name="step" value="มอบหมายหน่วยงาน"
-                [checked]="centralpolicyprovincedata.step == 'มอบหมายหน่วยงาน'"
-                formControlName="step">
+                [checked]="centralpolicyprovincedata.step == 'มอบหมายหน่วยงาน'" formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
           </div>
@@ -460,12 +503,10 @@
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" checked
-                [checked]="centralpolicyprovincedata.status == 'ร่างกำหนดการ'"
-                formControlName="status">
+                [checked]="centralpolicyprovincedata.status == 'ร่างกำหนดการ'" formControlName="status">
               <label style="margin-left: 10px;">ร่างกำหนดการ</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
-                [checked]="centralpolicyprovincedata.status == 'ใช้งานจริง'"
-                formControlName="status">
+                [checked]="centralpolicyprovincedata.status == 'ใช้งานจริง'" formControlName="status">
               <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>
           </div>
@@ -529,8 +570,10 @@
             </div>
           </div>
 
-          <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
-          <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)" style="margin-bottom: 10px;">
+          <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100"
+            style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
+          <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)"
+            style="margin-bottom: 10px;">
 
           <div class="row">
             <div class="col-md-12" style="margin-top: 10px;">
@@ -1187,6 +1230,6 @@
   </div>
 </ng-template>
 
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+<!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
-</ngx-spinner>
+</ngx-spinner> -->

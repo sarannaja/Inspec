@@ -32,7 +32,8 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>ชื่อแผนตรวจราชการประจำปี</th>
+              <th>แผนการตรวจราชการ</th>
+              <th>ประเด็นนโยบาย</th>
               <th>ปี</th>
               <th>ระยะเวลา</th>
               <th>สถานะ</th>
@@ -42,7 +43,9 @@
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
+              <td>{{item.type}}</td>
               <td width="40%" (click)="Subject(item.id,item.title)" class="pointer">{{ item.title }}</td>
+
               <td>{{item.fiscalYear.year}}</td>
               <td>
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
@@ -51,15 +54,17 @@
               <td>{{ item.status }}</td>
               <td>
                 <div class="row">
-                  <i *ngIf="item.status == 'ใช้งานจริง';" class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i>
+                  <i *ngIf="item.status == 'ใช้งานจริง';" class="align-middle mr-2 fas fa-fw fa-search pointer"
+                    (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                   <div *ngIf="role_id == 1 || role_id == 2">
                     <i *ngIf="item.status == 'ร่างกำหนดการ';" style="padding-bottom: 10px;"
                       class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i>
+
+                    <!-- <i *ngIf="role_id == 1 || role_id == 2;" class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i> -->
+                    <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                      (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
                   </div>
-                  <!-- <i *ngIf="role_id == 1 || role_id == 2;" class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i> -->
-                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                    (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
                 </div>
               </td>
             </tr>

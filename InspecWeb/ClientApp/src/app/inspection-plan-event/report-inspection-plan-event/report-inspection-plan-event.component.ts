@@ -38,7 +38,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.ExportProvince(1)
+    // this.ExportProvince(1)
     this.spinner.show();
 
     this.authorize.getUser()
@@ -116,7 +116,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
     var d = new Date();
     var dateNow = d.getDate() + " " + monthNamesThai[d.getMonth()] + " " + (d.getFullYear() + 543)
     var centralPolicyProvinces: Array<any> = []
-    this.inspectionplanservice.getexportprovince(1).subscribe(async data => {
+    this.inspectionplanservice.getexportprovince(value.province).subscribe(async data => {
       var calendar: Array<any> = data.calendar
       var centralPolicyUser: Array<any> = []
       var centralPolicyProvinces: Array<any> = []
@@ -140,7 +140,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
               // if(centralPolicyProvinces)
 
               centralPolicyUser.push(centralPolicy.centralPolicyUser.filter(item => {
-                return item.provinceId == 1
+                return item.provinceId == value.province
 
               }).map(item => {
 
@@ -151,7 +151,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
                 var ownerId = item.user.id
                 var statusPlan = centralPolicyProvinces
                   .filter(result => {
-                    return result.provinceId == 1
+                    return result.provinceId == value.province
                   })[0].status
                 //   .catch(err => {
                 //   //console.log('error');

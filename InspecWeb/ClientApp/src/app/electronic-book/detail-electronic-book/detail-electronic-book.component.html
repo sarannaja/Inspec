@@ -125,7 +125,8 @@
                     <td style="border-top: none;">
                       <div class="row">
                         <h4 style="margin-top: 20px;">หน่วยงานที่เกี่ยวข้อง &nbsp;&nbsp;
-                          <button *ngIf="role_id == 9" type="button" (click)="openModal2(modalInviteDepartment, items.id)"
+                          <button *ngIf="role_id == 9" type="button"
+                            (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
                         </h4>
                         <div class="col-12"
@@ -858,8 +859,8 @@
                   <label class="form-label w-100">ข้อคิดเห็น / ข้อเสนอแนะ</label>
                   <textarea *ngIf="signatureFile.length <= 0" style="width: 100%;" cols="30" rows="5"
                     placeholder="ใส่ข้อคิดเห็นเพิ่มเติม" formControlName="provinceSuggestion"></textarea>
-                  <textarea class="form-control" style="width: 100%;" cols="30"
-                    rows="5" placeholder="ข้อคิดเห็นเพิ่มเติม" formControlName="provinceSuggestion" disabled></textarea>
+                  <textarea class="form-control" style="width: 100%;" cols="30" rows="5"
+                    placeholder="ข้อคิดเห็นเพิ่มเติม" formControlName="provinceSuggestion" disabled></textarea>
                 </div>
                 <div class="row">
                   <div class="col-md-12" style="margin-top: 15px;">
@@ -908,7 +909,7 @@
           <div class="form-group">
             <div *ngFor="let item3 of resultreport; let i = index">
               <div *ngIf="item3.draftStatus == 'ใช้งานจริง'" class="card" style="padding: 10px;">
-                <b><label *ngIf="item3.report != null"> {{item3.user.prefix}} {{item3.user.name}} ตำแหน่ง
+                <b><label *ngIf="item3.report != null">{{item3.user.prefix}} {{item3.user.name}} ตำแหน่ง
                     {{item3.user.position}}</label></b>
                 <input *ngIf="item3.report != null" value="{{item3.report}}" class="form-control"
                   placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly />
@@ -1024,6 +1025,67 @@
     </div>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header row">
+        <h5 class="card-title mb-0" style="margin-left: 10px;">การดำเนินการตามรายการของสมุดตรวจราชการอิเล็กทรอนิกส์</h5> &nbsp;&nbsp;
+        <button *ngIf="role_id == 9" type="button" style="margin-top: -5px;" (click)="openModal(modalProceed)"
+          class="btn btn-primary">เพิ่มการดำเนินการ</button>
+      </div>
+      <div class="card-body">
+        <!-- <div>
+          <label style="color: gray;">ไม่มีข้อมูล</label>
+        </div> -->
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <div *ngFor="let item3 of ProceedData; let i = index">
+              <div class="card" style="padding: 10px;">
+                <b><label>{{item3.user.prefix}} {{item3.user.name}} ตำแหน่ง
+                    {{item3.user.position}}</label></b>
+                <input value="{{item3.proceed}}" class="form-control"
+                  placeholder="กรุณากรอกรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" readonly />
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalProceed class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form4" (ngSubmit)="addProceed(Form4.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">การดำเนินการตามรายการของสมุดตรวจราชการอิเล็กทรอนิกส์</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>การดำเนินการตามรายการของสมุดตรวจราชการอิเล็กทรอนิกส์</label>
+            <textarea cols="30" rows="5" formControlName="proceed" class="form-control"
+              placeholder="กรุณากรอกดำเนินการตามรายการของสมุดตรวจราชการอิเล็กทรอนิกส์">
+        </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
 
 <!-- BEGIN primary modal -->
 <ng-template #modaleditsubquestionclose class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

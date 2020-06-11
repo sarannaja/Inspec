@@ -257,5 +257,17 @@ export class ElectronicbookService {
   getReportExcelElectronicBook(id) {
     return this.http.get<any>(this.url + "exportexcel/" + id)
   }
+
+  addProceed(value, electID, userid) {
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+    formData.append('proceed', value.proceed);
+    formData.append('userid', userid);
+    return this.http.post(this.url + 'addProceed', formData)
+  }
+
+  getProceed(eid) {
+    return this.http.get<any>(this.url + 'proceed/' + eid);
+  }
 }
 
