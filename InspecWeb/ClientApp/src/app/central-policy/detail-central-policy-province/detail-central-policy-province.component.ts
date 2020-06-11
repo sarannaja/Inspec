@@ -14,6 +14,8 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ChartDataSets, ChartType, ChartOptions, Chart } from 'chart.js';
 import { Label } from 'ng2-charts';
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-detail-central-policy-province',
   templateUrl: './detail-central-policy-province.component.html',
@@ -31,6 +33,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   allUserPeople: any = [];
   resultdetailcentralpolicyprovince: any = []
   UserPeopleId: any;
+  departmentgraph: any = [];
   // UserMinistryId: any;
   id
   Form2: FormGroup;
@@ -51,6 +54,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   subjectquestionopen: any;
   downloadUrl: any
   urllink
+  graphvalue : any = [];
   loading = false;
   electronicbookid: any
   selectdataministrypeople: Array<IOption>
@@ -101,6 +105,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     },
   };
   // subquestionChoice[i].question
+  benzbenz:any = [[20,39], [40,49] , [50 , 55] , [75,80]];
   barChartLabels: Label[] = ['2013', '2014', '2015', '2016', '2017', '2018'];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
@@ -109,9 +114,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   barchartAllset: any = {
     label: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
     barChartData: [
-      { data: [65, 59, 80, 81, 56, 55, 40], label: 'หน่วยงาน A', stack: 'a' },
-      { data: [28, 48, 40, 19, 86, 27, 90], label: 'หน่วยงาน B', stack: 'b' },
-      { data: [30, 40, 20, 12, 33, 23, 50], label: 'หน่วยงาน c', stack: 'c' },
+
+
     ]
 
     // [{ data: [[0, 6], [3, 6]], label: ["'ชื่อหน่วยงาน':'hello'", "'ชื่อหน่วยงาน':'hello2222'"] }]
@@ -156,6 +160,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+
+
+
 
     // this.graph();
     this.authorize.getUser()
@@ -377,7 +385,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       .map(element => console.log('element',this.chartLabel(element))
       )
     // console.log("element", dataE);
-    // function 
+    // function
   }
   chartLabel(element) {
     return element
@@ -478,7 +486,6 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
 
-
         this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
         this.provincename = result.provincedata.name
         this.provinceid = result.provincedata.id
@@ -487,6 +494,40 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.centralpolicyprovincedata = result.centralpolicyprovince
+
+
+
+        console.log("Map Data: ", this.resultdetailcentralpolicyprovince);
+        var test = []
+        this.departmentgraph = this.resultdetailcentralpolicyprovince.map((item, index) => {
+
+
+
+          let x = item.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;
+            this.graphvalue  = _.values(_.groupBy(x, 'subquestionCentralPolicyProvinceId'))[0]
+          .map((value, key) => ({ label: value.provincialDepartment.name,
+                                  stack: 'a'  ,
+                                  }));
+
+
+          return this.graphvalue
+        })
+
+          console.log("p'tung" , this.departmentgraph)
+
+
+
+
+
+        this.barchartAllset.barChartData.push(this.departmentgraph);
+        // console.log("p'tung" , this.barchartAllset);
+
+
+        //   console.log("test1: ", this.departmentgraph);
+
+
+
+        //  console.log("benzbenz" , test)
 
         this.form.patchValue({
           questionPeople: this.centralpolicyprovincedata.questionPeople,

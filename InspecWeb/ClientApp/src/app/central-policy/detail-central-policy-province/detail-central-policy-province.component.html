@@ -236,6 +236,10 @@
                     <div class="card" *ngIf="item.type == 'คำถามปลายปิด'">
                       <td style="border-top: none; width: 85%;">
                         <u>คำถามปลายปิด</u>
+                        <canvas baseChart [datasets]="barchartAllset.barChartData[0][i]" [labels]="subquestionChoice[i].question"
+                        [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
+                        [chartType]="barChartType">
+                      </canvas>
                         <!-- <button class="btn btn-success" id="test2{{i}}" data-toggle="collapse"
                           [attr.data-target]="'#test' + i" aria-expanded="false" aria-controls="test"
                           style="margin-left: 20px; font-size: small;">กราฟคำตอบปลายปิด
@@ -297,10 +301,10 @@
                         <div class="row">
                           <div class="collapse col-9" id="test{{i}}" style="margin-left: 10px; margin-top: 5px;">
                             <div class="chartjs-container">
-                              <canvas baseChart [datasets]="barchartAllset.barChartData" [labels]="barchartAllset.label"
+                              <!-- <canvas baseChart [datasets]="barchartAllset.barChartData[i]" [labels]="subquestionChoice[i].question"
                                 [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
                                 [chartType]="barChartType">
-                              </canvas>
+                              </canvas> -->
                             </div>
                           </div>
                           <!-- <div class="collapse col-1" id="test{{i}}">
