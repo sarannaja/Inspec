@@ -56,13 +56,13 @@ export class TemplateElectronicComponent implements OnInit {
             display: true
          }
       },
-      scales: { // แสดง scales ของแผนภูมิเริมที่ 0
-         yAxes: [{
-            ticks:{
-               beginAtZero:true
-            }
-         }]
-       }
+      // scales: { // แสดง scales ของแผนภูมิเริมที่ 0
+      //    yAxes: [{
+      //       ticks:{
+      //          beginAtZero:true
+      //       }
+      //    }]
+      //  }
    })
   }
 

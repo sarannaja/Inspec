@@ -38,7 +38,7 @@ namespace InspecWeb.Models
         //[DataType(DataType.Date)]
         //public DateTime EndDate { get; set; }
 
-        public ICollection<SubjectDate> SubjectDates { get; set; }
+        // public ICollection<SubjectDate> SubjectDates { get; set; }
         public ICollection<Subquestion> Subquestions { get; set; }
     }
 }
