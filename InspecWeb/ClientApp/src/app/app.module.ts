@@ -101,6 +101,7 @@ import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
 import { ExcelGeneraterService } from './services/excel-generater.service';
 import { DatePipe } from '@angular/common';
 import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
+import { CommanderReportComponent } from './commander-report/commander-report.component';
 
 
 
@@ -190,6 +191,7 @@ const ExternalOrganization = [
     InspectionPlanEventProvinceComponent,
     InfoMinistryComponent,
     ReportInspectionPlanEventComponent,
+    CommanderReportComponent,
     // DatePipe
   ],
 
@@ -296,6 +298,7 @@ const ExternalOrganization = [
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       {

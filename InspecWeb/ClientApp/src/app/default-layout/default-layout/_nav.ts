@@ -768,24 +768,29 @@ export const president: NavBar[] = [ //User นายก
     url: "/executiveorder",
     name: "ข้อสั่งการผู้บริหาร"
   },
+  // {
+  //   IDchildren: 'report',
+  //   icon: 'fa-user-tie',
+  //   name: "รายงานผลการตรวจราชการ",
+  //   children: [
+  //     {
+  //       ex_link: '0',
+  //       icon: 'fa-long-arrow-alt-right',
+  //       url: '/reportexport',
+  //       name: 'Export'
+  //     },
+  //     {
+  //       ex_link: '0',
+  //       icon: 'fa-long-arrow-alt-right',
+  //       url: '/reportimport',
+  //       name: 'Import'
+  //     },
+  //   ]
+  // },
   {
-    IDchildren: 'report',
     icon: 'fa-user-tie',
-    name: "รายงานผลการตรวจราชการ",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/reportexport',
-        name: 'Export'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/reportimport',
-        name: 'Import'
-      },
-    ]
+    url: "/commanderreport",
+    name: "รายงานผลการตรวจราชการ"
   },
   {
     icon: 'fa-list-alt',

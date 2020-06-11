@@ -243,9 +243,6 @@ export class ElectronicbookService {
     return this.http.post(this.url + "addReport", formData)
   }
 
-  getSubjectReport() {
-    return this.http.get(this.url + "subjectImport");
-  }
   acceptelectronicbook(bookgroupid, userid) {
     const formData = new FormData();
     formData.append('bookgroupid', bookgroupid);

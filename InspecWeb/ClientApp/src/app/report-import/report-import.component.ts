@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../services/user.service';
 import { ExportReportService } from '../services/export-report.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-report-import',
@@ -28,6 +29,12 @@ export class ReportImportComponent implements OnInit {
   url = ""
   reportForm: FormGroup;
   fileForm: FormGroup;
+  importedReport: any = [];
+  subjectData: any = [];
+  fileFormExcel: FormGroup;
+  downloadUrl: any
+  commandData: any;
+  commandForm: FormGroup;
 
   constructor(
     private router: Router,
@@ -38,13 +45,18 @@ export class ReportImportComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private userService: UserService,
     private exportReportService: ExportReportService,
+    private notificationService: NotificationService,
     @Inject('BASE_URL') baseUrl: string,
     private fb: FormBuilder,
   ) {
     this.url = baseUrl,
-    this.fileForm = this.fb.group({
-      files: [null]
+      this.fileForm = this.fb.group({
+        files: [null]
+      })
+    this.fileFormExcel = this.fb.group({
+      fileExcel: [null]
     })
+    this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {
@@ -61,25 +73,41 @@ export class ReportImportComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [2],
+          targets: [4],
           orderable: false
         }
       ]
     };
-    this.getexportport();
+
+    this.getImportedReport();
+    this.getSubjectData();
 
     this.reportForm = this.fb.group({
       Subject: new FormControl(null, [Validators.required]),
-      TypeExport:  new FormControl(null, [Validators.required]),
-      TypeReport:  new FormControl(null, [Validators.required]),
+      TypeExport: new FormControl(null, [Validators.required]),
+      TypeReport: new FormControl(null, [Validators.required]),
+    })
+
+    this.commandForm = this.fb.group({
+      command: new FormControl(null, [Validators.required]),
+      commander: new FormControl(null, [Validators.required])
     })
   }
 
-  getexportport() {
-    this.electronicBookService.getSubjectReport().subscribe(results => {
-      console.log("res: ", results);
-
+  getImportedReport() {
+    this.exportReportService.getImportedReport(this.userid).subscribe(res => {
+      console.log("importReport: ", res.data);
+      this.importedReport = res.data;
       this.loading = true;
+    })
+  }
+
+  getSubjectData() {
+    this.exportReportService.getSubjectReport().subscribe(results => {
+      console.log("resSubject: ", results);
+      this.subjectData = results.data.map((item, index) => {
+        return { value: item.id, label: item.name }
+      })
     })
   }
 
@@ -87,29 +115,11 @@ export class ReportImportComponent implements OnInit {
     this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
   }
 
-  exportReport(elecId, cenProId) {
-    // alert("eiei");
-    this.exportReportService.exportReport(this.userid, elecId, cenProId).subscribe(res => {
-      console.log("export: ", res);
-      this.createReport(res, cenProId);
-    })
-  }
-
-  createReport(res, cenProId) {
-    this.exportReportService.createReport(res, cenProId).subscribe(results => {
-      console.log("aaa: ", res);
-      // alert("Success");
-      window.open(this.url + "Uploads/" + results.data);
-    })
-  }
-
   openModal(template: TemplateRef<any>) {
-    console.log("DELID: ", this.delid);
-
     this.modalRef = this.modalService.show(template);
   }
 
-  uploadFile(event) {
+  uploadFileWord(event) {
     const file = (event.target as HTMLInputElement).files;
     this.fileForm.patchValue({
       files: file
@@ -117,8 +127,73 @@ export class ReportImportComponent implements OnInit {
     this.fileForm.get('files').updateValueAndValidity()
   }
 
+  uploadFileExcel(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.fileFormExcel.patchValue({
+      fileExcel: file
+    });
+    this.fileForm.get('files').updateValueAndValidity()
+  }
+
   storeReport(value) {
     console.log("Report Value: ", value);
+    this.exportReportService.postImportedReport(value, this.fileForm.value.files, this.fileFormExcel.value.fileExcel, this.userid).subscribe(res => {
+      this.modalRef.hide();
+      this.fileForm.reset();
+      this.reportForm.reset();
+      this.fileFormExcel.reset();
+      console.log("res ID: ", res);
 
+      this.spinner.show();
+      setTimeout(() => {
+        this.loading = false;
+        this.getImportedReport();
+        this.loading = true;
+        this.spinner.hide();
+      }, 300);
+
+      this.notificationService.addNotification(1, 1, this.userid, 14, res.importId)
+      .subscribe(response => {
+        console.log("Noti: ", response);
+      });
+    })
+  }
+
+  openDeleteModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    console.log("DELID: ", this.delid);
+
+    this.modalRef = this.modalService.show(template);
+  }
+
+  deleteReport() {
+    // alert(this.delid);
+    this.exportReportService.deleteReport(this.delid).subscribe(res => {
+      console.log("Delete Data: ", res);
+      this.modalRef.hide();
+      this.spinner.show();
+
+      setTimeout(() => {
+        this.getImportedReport();
+        this.spinner.hide();
+      }, 300);
+    })
+  }
+
+  showCommandModal(template: TemplateRef<any>, id) {
+    this.exportReportService.getCommanderReportById(id).subscribe(res => {
+      // this.commandData = res.data.command;
+      console.log("Commander: ", res.commanderName);
+      this.commandForm.patchValue({
+        command: res.data.command,
+        commander: res.commanderName.name
+      })
+      this.modalRef = this.modalService.show(template);
+    })
+  }
+
+  closeModal() {
+    this.commandForm.reset();
+    this.modalRef.hide();
   }
 }
