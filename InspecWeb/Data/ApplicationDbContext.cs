@@ -108,6 +108,10 @@ namespace InspecWeb.Data
         public DbSet<ExportReportBody> ExportReportBodies { get; set; }
         public DbSet<SuggestionSubject> SuggestionSubjects { get; set; }
         public DbSet<AnswerCentralPolicyProvince> AnswerCentralPolicyProvinces { get; set; }
+        public DbSet<StatePolicy> StatePolicys { get; set; }
+        public DbSet<Documenttemplate> Documenttemplates { get; set; }
+        public DbSet<Meetinginformation> Meetinginformations { get; set; }
+        public DbSet<Premierorder> Premierorders { get; set; }
         public DbSet<ReportCommander> ReportCommanders { get; set; }
         public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
         public DbSet<ElectronicBookProceed> ElectronicBookProceeds { get; set; }
