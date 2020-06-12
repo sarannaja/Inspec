@@ -53,7 +53,7 @@
     "filemanager-webpack-plugin": "2.0.5",
     "fullcalendar": "^3.10.1",
     "hard-source-webpack-plugin": "0.13.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jquery-mask-plugin": "^1.14.16",
     "lodas": "^1.2.0",
     "mini-css-extract-plugin": "0.8.0",
