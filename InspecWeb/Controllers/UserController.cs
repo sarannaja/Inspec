@@ -633,8 +633,6 @@ namespace InspecWeb.Controllers {
             } else {
                 return Ok ("Fail");
             }
-            Console.WriteLine ("department3");
-            //return result;
         }
 
         [HttpGet ("api/[controller]/province/{id}")]
