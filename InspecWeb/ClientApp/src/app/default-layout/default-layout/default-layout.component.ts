@@ -14,6 +14,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 
 export class DefaultLayoutComponent implements OnInit {
+  toggled = false;
   classIcon = "align-middle mr-2 fas fa-fw "
   urlActive = ""
   classtap = 'sidebar-header'
@@ -49,6 +50,11 @@ export class DefaultLayoutComponent implements OnInit {
     this.imgprofileUrl = baseUrl + '/imgprofile';
   }
   // 0C-54-15-66-C2-D6
+  
+
+  onToggle(){
+    this.toggled = !this.toggled;
+  }
   ngOnInit() {
     this.nav = superAdmin;
     this.profileform();
