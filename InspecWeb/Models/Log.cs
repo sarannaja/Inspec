@@ -21,9 +21,9 @@ namespace InspecWeb.Models
 
         [ForeignKey("UserId")]
         [Description("User")]
+        public virtual ApplicationUser User { get; set; }
         public string UserId { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
         public string DatabaseName { get; set; }
         public string EventType { get; set; }
 
@@ -31,6 +31,6 @@ namespace InspecWeb.Models
         public DateTime? EventDate { get; set; }
         public string ObjectType { get; set; }
         
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        // public ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
