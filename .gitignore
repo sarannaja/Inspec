@@ -4,3 +4,13 @@
 
 .vs/
 .vscode/
+EmailService/obj/EmailService.csproj.nuget.cache
+EmailService/obj/EmailService.csproj.nuget.cache~grapework
+EmailService/obj/EmailService.csproj.nuget.dgspec.json
+EmailService/obj/EmailService.csproj.nuget.g.props
+EmailService/obj/EmailService.csproj.nuget.g.props~grapework
+EmailService/obj/EmailService.csproj.nuget.g.targets
+EmailService/obj/project.assets.json~grapework
+EmailService/obj/Debug/netcoreapp3.1/EmailService.AssemblyInfo.cs
+EmailService/obj/Debug/netcoreapp3.1/EmailService.AssemblyInfoInputs.cache
+EmailService/obj/Debug/netcoreapp3.1/EmailService.assets.cache
