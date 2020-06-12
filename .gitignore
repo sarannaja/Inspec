@@ -603,3 +603,6 @@ $RECYCLE.BIN/
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 
 # End of https://www.gitignore.io/api/macos,csharp,angular,windows,visualstudio,visualstudiocode
+EmailService/obj/Debug/netcoreapp3.1/EmailService.assets.cache
+EmailService/obj/EmailService.csproj.nuget.dgspec.json
+*.cache
