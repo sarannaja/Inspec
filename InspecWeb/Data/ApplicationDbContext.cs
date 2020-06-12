@@ -116,7 +116,6 @@ namespace InspecWeb.Data
         public DbSet<ElectronicBookProceed> ElectronicBookProceeds { get; set; }
         public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
         public DbSet<Log> Logs { get; set; }
-        public DbSet<StatePolicy> StatePolicys { get; set; }
 
 
         //method 

@@ -32,9 +32,9 @@ namespace InspecWeb.Controllers
         [HttpGet("departmentsforsupport/{id}")]
         public IActionResult GetDepartments(long id)
         {
-            var departments = _context.Departments
-                .Include(m => m.Ministries)
-                .Where(m => m.MinistryId == id);
+            var departments = _context.Ministries
+                .Include(m => m.Departments)
+                .Where(m => m.Id == id);
 
             return Ok(departments);
         }
