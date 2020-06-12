@@ -133,6 +133,7 @@ import { ReportInspectionPlanEventComponent } from './inspection-plan-event/repo
 import { ExecutiveOrderExport1Component } from './executive-order/executive-order-export1/executive-order-export1.component';
 import { ExecutiveOrderExport3Component } from './executive-order/executive-order-export3/executive-order-export3.component';
 
+
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -254,6 +255,9 @@ const ExternalOrganization = [
     ReportInspectionPlanEventComponent,
     ExecutiveOrderExport1Component,
     ExecutiveOrderExport3Component,
+    InfoMinistryComponent,
+    InfoVillageComponent,
+    StatepolicyComponent
   ],
 
   imports: [
@@ -391,6 +395,9 @@ const ExternalOrganization = [
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport1component', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport3component', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
+          { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
