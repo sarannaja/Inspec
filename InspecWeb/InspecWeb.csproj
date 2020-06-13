@@ -57,7 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EmailService\EmailService.csproj" />
+    <ProjectReference Include="..\EmailService\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
