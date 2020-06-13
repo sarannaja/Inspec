@@ -46,8 +46,16 @@
               "src/assets/jvectormap/jquery-jvectormap-2.0.3.min.js",
               "src/assets/jvectormap/jquery-jvectormap-th-mill.js",
               "src/assets/src/js/settings.js",
-              "src/assets/src/js/modules/sidebar.js"
-              
+              "src/assets/src/js/modules/sidebar.js",
+              "src/assets/src/js/modules/bootstrap",
+              "src/assets/src/js/modules/feather",
+              "src/assets/src/js/modules/fullcalendar",
+              "src/assets/src/js/modules/moment",
+              "src/assets/src/js/modules/sidebar",
+              "src/assets/src/js/modules/splash",
+              "src/assets/src/js/modules/theme",
+              "src/assets/src/js/modules/toastr",
+              "src/assets/src/js/modules/user-agent"
             ]
           },
           "configurations": {
