@@ -4,12 +4,13 @@ $(function() {
     $(".sidebar").toggleClass("toggled");
   });
 
-  const active = $(".sidebar .active");
+  // const active = $(".sidebar .active");
+  // console.log('sidebar',active);
+  
+  // if (active.length && active.parent(".collapse").length) {
+  //   const parent = active.parent(".collapse");
 
-  if (active.length && active.parent(".collapse").length) {
-    const parent = active.parent(".collapse");
-
-    parent.prev("a").attr("aria-expanded", true);
-    parent.addClass("show");
-  }
+  //   parent.prev("a").attr("aria-expanded", true);
+  //   parent.addClass("show");
+  // }
 });

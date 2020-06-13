@@ -16,3 +16,4 @@ code {
 }
 @import "~ng-snotify/styles/material";
 
+@import "./assets/dist/css/modern.css"
