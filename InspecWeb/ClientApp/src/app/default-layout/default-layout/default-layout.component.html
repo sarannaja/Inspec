@@ -1,12 +1,12 @@
-<div class="wrapper">
+<div  id="page-content-wrapper" class="wrapper">
 
-    <nav id="sidebar" class="sidebar">
+    <nav id="sidebar" class="sidebar" [ngClass]="{'toggled': toggled}">
         <a class="sidebar-brand" [routerLink]="['/main']">
             <img src="assets/img/logo.png" class="img-fluid rounded-circle mb-2" height="42" width="42" />
             &nbsp;
             สตร.
         </a>
-        <div class="sidebar-content">
+        <div  class="sidebar-content">
             <div class="sidebar-user">
 
                 <!-- กรณณีมีรูป-->
@@ -69,7 +69,7 @@
     </nav>
     <div class="main">
         <nav class="navbar navbar-expand navbar-theme">
-            <a class="sidebar-toggle d-flex mr-2">
+            <a (click)="onToggle()" class="sidebar-toggle d-flex mr-2">
                 <i class="hamburger align-self-center"></i>
             </a>
 
@@ -158,28 +158,38 @@
                         <a class="nav-link dropdown-toggle position-relative" href="javascript:void(0)"
                             id="alertsDropdown" data-toggle="dropdown">
                             <i class="align-middle fas fa-bell"></i>
-                            <span class="indicator"></span>
+                            <span *ngIf="resultnotificationscount.length != 0" class="indicator"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0"
                             aria-labelledby="alertsDropdown">
                             <div class="dropdown-menu-header">
-                                4 New Notifications
+                                {{resultnotificationscount.length}} การแจ้งเตือนใหม่
                             </div>
+
                             <div class="list-group">
-                                <a href="javascript:void(0)" class="list-group-item">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col-2">
-                                            <i class="ml-1 text-danger fas fa-fw fa-bell"></i>
+                                <div *ngFor="let item of resultnotifications">
+                                    <a href="javascript:void(0)" class="list-group-item" (click)="detailnotifications(item.id)">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-2">
+                                                <i *ngIf="item.noti == 0" class="ml-1 text-warning fas fa-fw fa-envelope-open"></i>
+                                                <i *ngIf="item.noti == 1" class="ml-1 text-danger fas fa-fw fa-bell"></i>
+                                                <!-- <i class="ml-1 text-primary fas fa-fw fa-building"></i>
+                                                <i class="ml-1 text-success fas fa-fw fa-bell-slash"></i> -->
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="text-dark">
+                                                   <span *ngIf="item.status == 1">เรื่องตรวจ</span>
+                                                   <span *ngIf="item.status == 10">ข้อสั่งการ</span>
+                                                </div>
+                                                <div class="text-muted small mt-1">
+                                                   {{item.centralPolicy.title}}
+                                                </div>
+                                                <div class="text-muted small mt-1">{{item.createdAt | thaidate: 'year' }}</div>
+                                            </div>
                                         </div>
-                                        <div class="col-10">
-                                            <div class="text-dark">Update completed</div>
-                                            <div class="text-muted small mt-1">Restart server 12 to complete the
-                                                update.</div>
-                                            <div class="text-muted small mt-1">2h ago</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="javascript:void(0)" class="list-group-item">
+                                    </a>
+                                </div>
+                                <!-- <a href="javascript:void(0)" class="list-group-item">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-2">
                                             <i class="ml-1 text-warning fas fa-fw fa-envelope-open"></i>
@@ -191,8 +201,9 @@
                                             <div class="text-muted small mt-1">6h ago</div>
                                         </div>
                                     </div>
-                                </a>
-                                <a href="javascript:void(0)" class="list-group-item">
+                                </a> -->
+
+                                <!-- <a href="javascript:void(0)" class="list-group-item">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-2">
                                             <i class="ml-1 text-primary fas fa-fw fa-building"></i>
@@ -202,8 +213,9 @@
                                             <div class="text-muted small mt-1">8h ago</div>
                                         </div>
                                     </div>
-                                </a>
-                                <a href="javascript:void(0)" class="list-group-item">
+                                </a> -->
+
+                                <!-- <a href="javascript:void(0)" class="list-group-item">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-2">
                                             <i class="ml-1 text-success fas fa-fw fa-bell-slash"></i>
@@ -214,10 +226,12 @@
                                             <div class="text-muted small mt-1">12h ago</div>
                                         </div>
                                     </div>
-                                </a>
+                                </a> -->
+
                             </div>
+
                             <div class="dropdown-menu-footer">
-                                <a href="javascript:void(0)" class="text-muted">Show all notifications</a>
+                                <!-- <a href="javascript:void(0)" class="text-muted">Show all notifications</a> -->
                             </div>
                         </div>
                     </li>

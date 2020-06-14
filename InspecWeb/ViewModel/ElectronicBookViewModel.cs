@@ -18,6 +18,12 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "ElectID")]
         public long ElectID { get; set; }
 
+        [JsonProperty(PropertyName = "Type")]
+        public string Type { get; set; }
+
+        [JsonProperty(PropertyName = "Description")]
+        public string Description { get; set; }
+
         [JsonProperty(PropertyName = "SubjectCentralPolicyProvinceId")]
         public long SubjectCentralPolicyProvinceId { get; set; }
 

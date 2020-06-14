@@ -7,7 +7,6 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { DetailexecutiveorderService } from '../services/detailexecutiveorder.service';
 
-
 @Component({
   selector: 'app-executive-order',
   templateUrl: './executive-order.component.html',
@@ -21,6 +20,8 @@ export class ExecutiveOrderComponent implements OnInit {
   loading = false;
   userid: any;
   role_id:any;
+  executive1data: any = [];
+  
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -28,7 +29,8 @@ export class ExecutiveOrderComponent implements OnInit {
     private router:Router, 
     private detailexecutiveorderService: CentralpolicyService, 
     private modalService: BsModalService) { }
-
+    private exportExecutiveService: DetailexecutiveorderService
+    private executive1: DetailexecutiveorderService
   ngOnInit() {
    
     this.dtOptions = {
@@ -45,6 +47,7 @@ export class ExecutiveOrderComponent implements OnInit {
   }
   DetailExecutiveOrder(id:any){
     this.router.navigate(['executiveorder/detailexecutiveorder', id])
+    // console.log(id)
   }
 
     //start getuser
@@ -68,13 +71,27 @@ export class ExecutiveOrderComponent implements OnInit {
             }else{
               this.executiveOrderService.getCentralpolicydata(this.userid)
               .subscribe(result => {
-                console.log("role3" , result); 
+                // console.log("role3" , result); 
                 this.resultcentralpolicy = result
                 this.loading = true
               })
             }
         })
       })
-    }
+    } 
     //End getuser
+
+    getexcutive1(){
+      this.executive1.getexcutive1(this.userid).subscribe(results => {
+        this.executive1data = results;
+      })
+    }
+    
+    exportExcutive() {
+      alert("Export");
+      this.exportExecutiveService.exportExecutive(this.userid).subscribe(res => {
+        console.log("export: ", res);
+        this.executive1data();
+      })
+    }
 }

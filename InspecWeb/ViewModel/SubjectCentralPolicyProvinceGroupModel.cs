@@ -7,5 +7,6 @@ namespace InspecWeb.ViewModel
     {
         public long[] DepartmentId { get; set; }
         public long SubjectCentralPolicyProvinceId { get; set; }
+        public long Box { get; set; }
     }
 }

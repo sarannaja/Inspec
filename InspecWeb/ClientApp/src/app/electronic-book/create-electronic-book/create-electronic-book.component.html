@@ -102,23 +102,33 @@
                       </my-date-picker-th>
                     </div>
                   </div>
-                  <div class="col-1" *ngIf="i == 0; else elseBlock">
+                  <!-- <div class="col-1" *ngIf="i == 0; else elseBlock">
                     <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appenddate()"></i>
                   </div>
                   <ng-template #elseBlock>
                     <div class="col-1">
                       <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="remove(i)"></i>
                     </div>
-                  </ng-template>
+                  </ng-template> -->
                 </form>
               </div>
             </div>
 
-            <div class="col-12 col-xl-12">
+            <div class="col-12 col-xl-12" style="margin-top:-40px">
               <div class="form-group">
                 <label>จังหวัด</label>
                 <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
-                  name="ProvinceId" formControlName="ProvinceId" [allowClear]="true">
+                  (selected)="getsubjectfromprovince($event)" name="ProvinceId" formControlName="ProvinceId"
+                  [allowClear]="true">
+                </ng-select>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-12" *ngIf="showSubject">
+              <div class="form-group">
+                <label>ประเด็นนโยบาย</label>
+                <ng-select placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true" [options]="selectsubject"
+                  name="SubjectId" formControlName="SubjectId" [allowClear]="true">
                 </ng-select>
               </div>
             </div>
@@ -202,10 +212,10 @@
 
             <!-- <hr> -->
             <!-- <div class="form-group row"> -->
-              <div class="col-sm-12 ml-sm-auto" style="margin-left: 30px; margin-top: 10px;">
-                <button type="submit" class="btn btn-success">ดำเนินการต่อ</button>
-              </div>
-              <!-- <div class="col-sm-5 ml-sm-auto">
+            <div class="col-sm-12 ml-sm-auto" style="margin-left: 30px; margin-top: 10px;">
+              <button type="submit" class="btn btn-success">ดำเนินการต่อ</button>
+            </div>
+            <!-- <div class="col-sm-5 ml-sm-auto">
                 <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
               </div> -->
             <!-- </div> -->
@@ -384,6 +394,24 @@
               </div>
             </div> -->
 
+            <div class="col-12 col-xl-12" style="margin-top:-40px;">
+              <div class="form-group">
+                <label>กระทรวง/กรม</label>
+                <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdataministrypeople"
+                  name="UserMinistryId" formControlName="UserMinistryId" [allowClear]="true">
+                </ng-select>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>ภาคประชาชน</label>
+                <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdatapeople"
+                  name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+                </ng-select>
+              </div>
+            </div>
+
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ผลการตรวจ</label>
@@ -443,8 +471,25 @@
               </div>
             </div>
 
-            <label class="form-label w-100" style="margin-top: 10px;">แนบไฟล์</label>
-            <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+            <!-- <label class="form-label w-100" style="margin-top: 10px;">แนบไฟล์</label>
+            <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;"> -->
+            <div class="col-12">
+              <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์สมุดตรวจอิเล็กทรอนิกส์</label>
+              <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
+              <div class="col-4">
+                <select class="selectpicker form-control" data-live-search="true"
+                  (change)="checkType($event.target.value)" formControlName="fileType">
+                  <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
+                  <option value="ElectronicBook Image File">รูปภาพ</option>
+                  <option value="ElectronicBook File">ไฟล์เอกสาร</option>
+                </select>
+              </div>
+              <div class="col-8">
+                <textarea *ngIf="fileType == 'ElectronicBook Image File'" cols="30" rows="5" class="form-control"
+                  placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;"
+                  formControlName="description"></textarea>
+              </div>
+            </div>
 
             <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
               <button style="align-self: center;" type="submit" class="btn btn-primary"
@@ -507,6 +552,58 @@
     </div>
   </form>
 </ng-template>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalInvitePeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdatapeople"
+          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form" (ngSubmit)="storeMinistryPeople(Form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdataministrypeople"
+          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
 
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>

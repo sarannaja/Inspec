@@ -168,6 +168,62 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     name: "ข้อมูลสนับสนุน"
   },
   {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบายและแผนยุทธศาสตร์",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
+  },
+  {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
@@ -219,7 +275,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   },
   {
     icon: 'fa-shekel-sign',
-    url: "/training",
+    url: "/train",
     name: "จัดอบรมหลักสูตร"
   },
   {
@@ -299,6 +355,55 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       },
     ]
   },
+  {
+    icon: 'fa-shekel-sign',
+    url: "/train",
+    name: "จัดอบรมหลักสูตร"
+  },
+  {
+    IDchildren: 'training',
+    icon: 'fa-shekel-sign',
+    name: "ข้อมูลจัดอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/lecturer',
+        name: 'วิทยากรอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'จัดอบรมหลักสูตร'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/document',
+        name: 'เอกสารประกอบการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/register',
+        name: 'ผู้สมัครเข้าร่วมอบรม'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/survey',
+        name: 'ประเมินผลการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/report',
+        name: 'รายงาน'
+      },
+      
+    ]
+  },
 ]
 export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
@@ -311,17 +416,37 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/centralpolicy",
     name: "แผนการตรวจประจำปี"
   },
+
   {
+    IDchildren: 'schedule',
     icon: 'fa-calendar',
-    url: "/inspectionplanevent",
-    name: "ปฏิทินการตรวจราชการ"
+    name: "กำหนดการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionplanevent',
+        name: 'ปฏิทินการตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportinspectionplanevent',
+        name: 'รายงานกำหนดการตรวจราชการ'
+      },
+    ]
   },
+
+  // {
+  //   icon: 'fa-calendar',
+  //   url: "/inspectionplanevent",
+  //   name: "ปฏิทินการตรวจราชการ"
+  // },
   {
     icon: 'fa-book',
     url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
-
   {
     IDchildren: 'report',
     icon: 'fa-user-tie',
@@ -348,7 +473,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   },
   {
     icon: 'fa-hands',
-    url: "#",
+    url: "/requestorder",
     name: "แจ้งคำร้องขอ"
   },
   {
@@ -497,7 +622,7 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
   },
   {
     icon: 'fa-hands',
-    url: "#",
+    url: "/requestorder",
     name: "แจ้งคำร้องขอ"
   },
   // {
@@ -586,6 +711,25 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ"
   },
+  {
+    IDchildren: 'electronicbook',
+    icon: 'fa-book',
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook',
+        name: 'สร้างเอง'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook/invited',
+        name: 'ถูกเชิญ'
+      },
+    ]
+  },
   // {
   //   icon: 'fa-book',
   //   url: "/usercentralpolicy",
@@ -667,7 +811,7 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
   {
     icon: 'fa-book',
     url: "/answerpeople",
-    name: "Userrole 5"
+    name: "Userrole 7 แสดงความคิดเห็น"
   },
   {
     icon: 'fa-calendar',
@@ -751,6 +895,25 @@ export const president: NavBar[] = [ //User นายก
     name: "ข้อสั่งการผู้บริหาร"
   },
   {
+    IDchildren: 'report',
+    icon: 'fa-user-tie',
+    name: "รายงานผลการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportexport',
+        name: 'Export'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportimport',
+        name: 'Import'
+      },
+    ]
+  },
+  {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน"
@@ -822,14 +985,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     name: "Rold9Answer"
   },
   {
-    icon: 'fa-book',
-    url: "/usercentralpolicy",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
-  },
-  {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
+  },
+  {
+    icon: 'fa-book',
+    url: "/electronicbookprovince",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
     icon: 'fa-list-alt',

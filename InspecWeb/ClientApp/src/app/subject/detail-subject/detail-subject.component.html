@@ -41,7 +41,7 @@
                                     {{ item.centralPolicyDateProvince.endDate | thaidate: 'year' }}<br></span>
                             </div>
                             <div class="form-group">
-                                <label>พื้นที่ดำเนินการ</label>
+                                <u>พื้นที่ดำเนินการ</u>
                                 <!-- <label>หน่วยงานที่เกี่ยวข้อง</label> -->
                                 <div class="col-12 col-xl-12"
                                     *ngFor="let item of resultprovince.centralPolicyProvinces; let i = index">
@@ -50,53 +50,67 @@
                                     <!-- </div> -->
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>หน่วยงานที่เกี่ยวข้อง</label>
-                                <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
-                                    <div *ngFor="let items of item.subjectCentralPolicyProvinceGroups; let i = index">
-                                        <span>{{ i + 1 }}. {{items.provincialDepartment.name}}</span>
-                                    </div>
-                                    <br>
-                                    <label>คำถามย่อย</label>
-                                    <div class="colum">
-                                        <label>คำถามปลายเปิด</label>
-                                    </div>
-                                    <div class="row" *ngFor="let item of question; let i = index">
-                                        <div class="col-9 col-xl-9 form-group"
-                                            *ngIf="item.box == i2 && item.type == 'คำถามปลายเปิด' ">
-                                            <input type="text" value="{{item.name }}" class="form-control"
-                                                placeholder="กรุณากรอกคำถาม" readonly>
+                            <br>
+                            <br>
+                            <div class="card">
+                                <div class="form-group">
+                                    <div class="col-12 col-xl-12"
+                                        *ngFor="let item of filterboxdepartments; let i2 = index">
+                                        <h4>หน่วยงานที่เกี่ยวข้อง</h4>
+                                        <div
+                                            *ngFor="let items of item.subjectCentralPolicyProvinceGroups; let i = index">
+                                            <span>{{ i + 1 }}. {{items.provincialDepartment.name}}</span>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <div class="colum">
-                                        <label>คำถามปลายปิด</label>
-                                    </div>
-                                    <div class="row" *ngFor="let item of question; let i = index">
-                                        <div class="col-11 col-xl-11"
-                                            *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
-                                            <div class="row">
-                                                <div class="col-9 col-xl-9">
-                                                    <input type="text" value="{{item.name}}" class="form-control"
-                                                        placeholder="กรุณากรอกคำถาม" readonly>
-                                                </div>
+                                        <br>
+                                        <u>คำถามย่อย</u>
+                                        <i class="fa fa-question-circle"
+                                            style="margin-left: 10px; font-size: large;"></i>
+                                        <br>
+                                        <br>
+                                        <div class="colum">
+                                            <u>คำถามปลายเปิด</u>
+                                        </div>
+                                        <div class="row" *ngFor="let item of question; let i = index">
+                                            <div class="col-9 col-xl-9 form-group"
+                                                *ngIf="item.box == i2 && item.type == 'คำถามปลายเปิด' ">
+                                                <input type="text" value="{{item.name }}" class="form-control"
+                                                    placeholder="กรุณากรอกคำถาม" readonly>
                                             </div>
-                                            <div class="col-11 col-xl-11"
-                                                *ngFor="let items of item.subquestionChoiceCentralPolicyProvinces; let i = index">
+                                        </div>
+                                        <br>
+                                        <div class="colum">
+                                            <u>คำถามปลายปิด</u>
+                                        </div>
+                                        <div class="row" *ngFor="let item of question; let i = index">
+                                            <div class="col-12 col-xl-12"
+                                                *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                                                 <div class="row">
                                                     <div class="col-9 col-xl-9">
-                                                        <input type="text" *ngIf="item.type == 'คำถามปลายปิด'"
-                                                            value="{{items.name}}" class="form-control"
+                                                        <input type="text" value="{{item.name}}" class="form-control"
                                                             placeholder="กรุณากรอกคำถาม" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-xl-12" style="margin-top: 3px;"
+                                                    *ngFor="let items of item.subquestionChoiceCentralPolicyProvinces; let i = index">
+                                                    <div class="row">
+                                                        <div class="col-9 col-xl-9">
+                                                            <label type="text" *ngIf="item.type == 'คำถามปลายปิด'"
+                                                                class="form-control">
+                                                                {{items.name}}
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
+                                        <hr>
                                     </div>
-                                    <hr>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-danger" (click)="back()">กลับ</button>
+                            <button type="button" class="btn btn-danger" (click)="back()">กลับ
+                                <i class="fa fa-backward"></i>
+                            </button>
                         </div>
                         <!-- <div class="form-group row">
                             <div class="col-sm-5 ml-sm-auto">

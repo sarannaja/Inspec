@@ -1,54 +1,95 @@
 <div class="header">
-    <h1 class="header-title">
-      ระบบตรวจราชการอิเล็กทรอนิกส์
-    </h1>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-        <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
-      </ol>
-    </nav>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header" style="margin-bottom: -20px;">
-          <h5 class="card-title" >แผนตรวจราชการประจำปี</h5>
-          <!-- <div class="float-right">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/Main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item active">คำร้องขอ</li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -20px;">
+        <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
+        <!-- <div class="float-right">
             <button class="btn btn-primary" (click)="CreateCentralPolicy()"
             style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
           </div> -->
-        </div>
-        <div class="card-body">
-          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>ชื่อแผนตรวจราชการประจำปี</th>
-                <th>ปี</th>
-                <th>ระยะเวลา</th>
-                <th>สถานะ</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of resultcentralpolicy; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td width="30%" (click)="DetailRequestOrder()" class="pointer">{{ item.title }}</td>
-                <td>2563</td>
-                <td>
-                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
-                  {{ item2.endDate | thaidate: 'year' }}</div>
-                </td>
-                <td>{{ item.status }}</td>
-                <td>
-                  <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailRequestOrder(item.id)"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+        <div class="float-right">
+          <button *ngIf="role_id !=3" class="btn btn-primary" (click)="exportRequest()"
+            style="margin-top: -60px;">รายงานแจ้งคำร้องขอ</button>
         </div>
       </div>
+      <div class="card-body" *ngIf="role_id !=5">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อแผนตรวจราชการประจำปี</th>
+              <th>ปี</th>
+              <th>ระยะเวลา</th>
+              <th>สถานะ</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultcentralpolicy; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td width="30%" (click)="DetailRequestOrder(item.id)" class="pointer">{{ item.title }}</td>
+              <td>{{item.fiscalYear.year}}</td>
+              <td>
+                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
+                  {{ item2.endDate | thaidate: 'year' }}</div>
+              </td>
+              <td>{{ item.status }}</td>
+              <td>
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailRequestOrder(item.id)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-body" *ngIf="role_id == 5">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อแผนตรวจราชการประจำปี</th>
+              <th>จังหวัด</th>
+              <th>ปี</th>
+              <th>ระยะเวลา</th>
+              <th>สถานะ</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultcentralpolicy; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td width="30%" (click)="DetailRequestOrder(item.centralPolicyId)" class="pointer">
+                {{ item.centralPolicy.title }}</td>
+              <td></td>
+              <td>{{item.centralPolicy.fiscalYear.year}}</td>
+              <td>
+                <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">
+                  {{ item2.startDate | thaidate: 'year' }} - {{ item2.endDate | thaidate: 'year' }}
+                </div>
+              </td>
+              <td>{{ item.centralPolicy.status }}</td>
+              <td>
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  (click)="DetailRequestOrder(item.centralPolicyId)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   </div>
+</div>

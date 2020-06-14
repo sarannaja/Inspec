@@ -24,26 +24,28 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./src/styles.css",
-              "./node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
-              "./node_modules/fullcalendar/dist/fullcalendar.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css",
+              "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
+              "node_modules/fullcalendar/dist/fullcalendar.min.css",
               "src/assets/jvectormap/jquery-jvectormap.min.css"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["./node_modules"]
+              "includePaths": [
+                "./node_modules"
+              ]
             },
             "scripts": [
-              
-              "./node_modules/jquery/dist/jquery.js",
-              "./node_modules/datatables.net/js/jquery.dataTables.js",
-              "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "./node_modules/popper.js/dist/umd/popper.min.js",
-              "./node_modules/moment/min/moment.min.js",
-              "./node_modules/fullcalendar/dist/fullcalendar.min.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/moment/min/moment.min.js",
+              "node_modules/fullcalendar/dist/fullcalendar.min.js",
               "src/assets/jvectormap/jquery-jvectormap-2.0.3.min.js",
-              "src/assets/jvectormap/jquery-jvectormap-th-mill.js"
+              "src/assets/jvectormap/jquery-jvectormap-th-mill.js",
+              "src/assets/src/js/settings.js"
             ]
           },
           "configurations": {

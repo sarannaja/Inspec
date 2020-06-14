@@ -26,5 +26,8 @@ namespace InspecWeb.Models
 
         [Description("ประเภท")]
         public string Type { get; set; }
+
+        [Description("คำอธิบายรูปภาพ")]
+        public string Description { get; set; }
     }
 }

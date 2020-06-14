@@ -20,8 +20,8 @@
           <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
             style="margin-top: -60px;">เพิ่มแผนการตรวจราชการประจำปี</button>
           &nbsp;&nbsp;
-            <button *ngIf="role_id == 3" class="btn btn-primary" (click)="CrateInspectionPlan(id)"
-              style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button>
+          <button *ngIf="role_id == 3" class="btn btn-primary" (click)="CrateInspectionPlan(id)"
+            style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button>
         </div>
       </div>
       <div class="card-body">
@@ -30,7 +30,8 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>ชื่อคำสั่งการ</th>
+              <th>ประเภทแผนการตรวจ</th>
+              <th>กำหนดการตรวจราชการ</th>
               <th>ปี</th>
               <!-- <th>ระยะเวลา</th> -->
               <th>สถานะ</th>
@@ -53,6 +54,7 @@
               </tr> -->
             <tr *ngFor="let item of data; let i = index">
               <td>{{ i + 1 }}</td>
+              <td>{{ item.centralPolicy.type }}</td>
               <td width="40%">{{ item.centralPolicy.title }}</td>
               <td>2563</td>
               <!-- <td>
@@ -60,11 +62,17 @@
                   {{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
               </td> -->
-              <td>{{ item.centralPolicy.status }}</td>
+
+
               <td>
+                <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
+                  <span *ngIf="item2.provinceId == provinceid">{{ item2.status }}</span>
+                </div>
+              </td>
 
+
+              <td>
                 <!-- <i *ngIf="item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.centralPolicyId,item.title)"></i> -->
-
                 <i class="align-middle mr-2 fas fa-fw fa-book pointer"
                   (click)="DetailCentralPolicy(item.centralPolicyId)"></i>
               </td>

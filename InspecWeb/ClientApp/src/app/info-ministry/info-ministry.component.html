@@ -1,0 +1,43 @@
+<div class="header">
+    <h1 class="header-title">
+      ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+        <li class="breadcrumb-item active"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
+        <li class="breadcrumb-item active">รายชื่อส่วนราชการส่วนกลาง ได้แก่ กระทรวง กรม หน่วยงานอิสระ ฯลฯ</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: -40px;">
+          <h5 class="card-title">กระทรวง</h5><br>
+          <div class="float-right">
+          </div>
+        </div>
+        <div class="card-body">
+          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+            [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ชื่อกระทรวง</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resultministry; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td class="pointer" (click)="infodepartment(item.id)">{{item.name}}</td>
+                <ng-template #elseBlock>
+                </ng-template>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -5,6 +5,7 @@ import { superAdmin,Centraladmin,Inspector,Provincialgovernor,Adminprovince,Insp
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-default-layout',
@@ -13,6 +14,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 })
 
 export class DefaultLayoutComponent implements OnInit {
+  toggled = false;
   classIcon = "align-middle mr-2 fas fa-fw "
   urlActive = ""
   classtap = 'sidebar-header'
@@ -32,12 +34,14 @@ export class DefaultLayoutComponent implements OnInit {
   files: any;
   Img:any;
   Formprofile:any;
-  
+  resultnotifications :any[] = [];
+  resultnotificationscount:any[] = [];
   // childClassIcon = "align-middle mr-2 fas fa-fw
 
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
+    private notificationService: NotificationService,
     private router: Router,
     private modalService: BsModalService,
     private fb: FormBuilder,
@@ -46,10 +50,16 @@ export class DefaultLayoutComponent implements OnInit {
     this.imgprofileUrl = baseUrl + '/imgprofile';
   }
   // 0C-54-15-66-C2-D6
+  
+
+  onToggle(){
+    this.toggled = !this.toggled;
+  }
   ngOnInit() {
     this.nav = superAdmin;
     this.profileform();
     this.getuserinfo();
+    this.getnotifications();
     this.checkactive(this.nav[0].url);
     // this.urlActive = this.nav[0].url
   }
@@ -73,7 +83,6 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   uploadFile(event) {
-    alert('uploadfile');
     const file = (event.target as HTMLInputElement).files;
     this.Form.patchValue({
       files: file
@@ -93,18 +102,41 @@ export class DefaultLayoutComponent implements OnInit {
     })
   }
 
+  getnotifications(){
+    this.notificationService.getnotificationsdata(this.userid)      
+    .subscribe(result => { 
+      this.resultnotifications = result;
+    })
+
+    this.notificationService.getnotificationscountdata(this.userid)      
+    .subscribe(result => { 
+      this.resultnotificationscount = result;
+    })
+  }
+
+  detailnotifications(id){
+    this.notificationService.updateNotification(id)      
+    .subscribe(result => { 
+
+      this.nav = superAdmin;
+      this.profileform();
+      this.getuserinfo();
+      this.getnotifications();
+      this.checkactive(this.nav[0].url);
+      
+    })
+  }
+
   //start getuser
   getuserinfo(){
     this.authorize.getUser()
     .subscribe(result => {
       this.userid = result.sub  
-      //alert(this.userid);
       this.userService.getuserfirstdata(this.userid)      
       .subscribe(result => { 
-        this.resultuser = result;
-        //console.log("test" , this.resultuser);
-        this.role_id = result[0].role_id
-       
+        this.resultuser = result;  
+
+        this.role_id = result[0].role_id 
         this.Prefix = result[0].prefix
         this.Name = result[0].name
         this.Position = result[0].position
@@ -112,8 +144,6 @@ export class DefaultLayoutComponent implements OnInit {
         this.Email = result[0].email
         this.Img = result[0].img
 
-        //alert(this.Img);
-       
         this.Form.patchValue({
           Prefix: this.Prefix,
           Name: this.Name,

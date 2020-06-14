@@ -67,5 +67,6 @@ namespace InspecWeb.Models
 
         public ICollection<CentralPolicyEvent> CentralPolicyEvents { get; set; }
         public ICollection<ExecutiveOrder> ExecutiveOrders { get; set; }
+        public ICollection<RequestOrder> RequestOrders { get; set; }
     }
 }
