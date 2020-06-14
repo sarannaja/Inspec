@@ -18,163 +18,146 @@ export interface Children {
 }
 
 
-export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิน
-    {
-        icon:'fa-home',
-        url:"/main",
-        name:"หน้าหลัก"
-    },
-    {
-        icon:'fa-archive',
-        url:"/centralpolicy",
-        name:"แผนการตรวจประจำปี"
-    },
-    {
-        icon:'fa-calendar',
-        url:"/inspectionplanevent",
-        name:"ปฏิทินการตรวจราชการ"
-    },
-    {
-      icon:'fa-book',
-      url:"/electronicbook",
-      name:"สมุดตรวจอิเล็กทรอนิกส์"
-    },
-    {
-      icon:'fa-hand-point-up',
-      name:"ข้อสั่งการ",
-      IDchildren:'executiveorderdata',
-      children:[
-          {
-              icon:'fa-long-arrow-alt-right',
-              url:'/executiveorder',
-              name:'ข้อสั่งการผู้บริหาร',
-              ex_link:'0',
-          },
-          {
-              icon:'fa-long-arrow-alt-right',
-              url:'/executiveorderexport1component',
-              name:'รายงานข้อสั่งการของผู้บริหาร',
-              ex_link:'0',
-            
-          },
-          {
-              icon:'fa-long-arrow-alt-right',
-              url:'/executiveorderexport3component',
-              name:'ทะเบียนข้อสั่งการของผู้บริหาร',
-              ex_link:'0',
-          
-          } 
-      ]
-    },
-    {
-        icon:'fa-hands',
-        url:"/requestorder",
-        name:"แจ้งคำร้องขอ"
-    },
-    // {
-    //     classtap:'sidebar-header',
-    //     url:"#",
-    //     name:"______________________"
-    // },
-    {
-        icon:'fa-database',
-        name:"ข้อมูลพื้นฐาน",
-        IDchildren:'basicdata',
-        children:[
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/fiscalyear',
-                name:'ปีงบประมาณ',
-                ex_link: '0'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/region',
-                name:'เขตตรวจราชการ',
-                ex_link: '0'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/province',
-                name:'จังหวัด',
-                ex_link: '0'
-            },
-            {
-                icon:'fa-long-arrow-alt-right',
-                url:'/ministry',
-                name:'กระทรวง/กรม',
-                ex_link: '0'
-            },
-        ]
-    } ,
-    {
-    icon:'fa-user-friends',
-    name:"จัดการผู้ใช้",
-    IDchildren:'userdata',
-    children:[
-        {
-            icon:'fa-long-arrow-alt-right',
-            url:'/user/1',
-            name:'ผู้ดูแลระบบ',
-            ex_link:'user',
-            id:'1'
-        },
-        {
-            icon:'fa-long-arrow-alt-right',
-            url:'/user/2',
-            name:'ผู้ดูแลแผนการตรวจราชการประจำปี',
-            ex_link:'user',
-            id:'2'
-        },
-        {
-            icon:'fa-long-arrow-alt-right',
-            url:'/user/3',
-            name:'ผู้ตรวจราชการสำนักนายกรัฐมนตรี',
-            ex_link:'user',
-            id:'3'
-        },
-        {
-            icon:'fa-long-arrow-alt-right',
-            url:'/user/6',
-            name:'ผู้ตรวจราชการกระทรวง',
-            ex_link:'user',
-            id:'6'
-        },
-        {
-            icon:'fa-long-arrow-alt-right',
-            url:'/user/9',
-            name:'ผู้ตรวจราชการกรม',
-            ex_link:'user',
-            id:'9'
-        },
-        {
-          icon:'fa-long-arrow-alt-right',
-          url:'/user/4',
-          name:'ผู้ว่าราชการจังหวัด',
-          ex_link:'user',
-          id:'4'
-        },
-        {
-            icon:'fa-long-arrow-alt-right',
-            url:'/user/5',
-            name:'สำนักงานจังหวัด',
-            ex_link:'user',
-            id:'5'
-        },
-        {
-            icon:'fa-long-arrow-alt-right',
-            url:'/user/7',
-            name:'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน',
-            ex_link:'user',
-            id:'7'
-        },
-        {
-            icon: 'fa-long-arrow-alt-right',
-            url: '/user/8',
-            name: 'นายก/รองนายก',
-            ex_link: 'user',
-            id: '8'
-        },
+export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิน
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
+  },
+  {
+    icon: 'fa-archive',
+    url: "/centralpolicy",
+    name: "แผนการตรวจประจำปี"
+  },
+  {
+    icon: 'fa-calendar',
+    url: "/inspectionplanevent",
+    name: "ปฏิทินการตรวจราชการ"
+  },
+  {
+    icon: 'fa-book',
+    url: "/electronicbook",
+    name: "สมุดตรวจอิเล็กทรอนิกส์"
+  },
+  {
+    icon: 'fa-hand-point-up',
+    url: "/executiveorder",
+    name: "ข้อสั่งการผู้บริหาร"
+  },
+  {
+    icon: 'fa-hands',
+    url: "/requestorder",
+    name: "แจ้งคำร้องขอ"
+  },
+  // {
+  //     classtap:'sidebar-header',
+  //     url:"#",
+  //     name:"______________________"
+  // },
+  {
+    icon: 'fa-database',
+    name: "ข้อมูลพื้นฐาน",
+    IDchildren: 'basicdata',
+    children: [
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/fiscalyear',
+        name: 'ปีงบประมาณ',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/region',
+        name: 'เขตตรวจราชการ',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/province',
+        name: 'จังหวัด',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/ministry',
+        name: 'กระทรวง/กรม',
+        ex_link: '0'
+      },
+    ]
+  },
+  // {
+  //     icon:'fa-user-friends',
+  //     url:"/user",
+  //     name:"จัดการผู้ใช้"
+  // },
+  {
+    icon: 'fa-user-friends',
+    name: "จัดการผู้ใช้",
+    IDchildren: 'userdata',
+    children: [
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/1',
+        name: 'ผู้ดูแลระบบ',
+        ex_link: 'user',
+        id: '1'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/2',
+        name: 'ผู้ดูแลแผนการตรวจราชการประจำปี',
+        ex_link: 'user',
+        id: '2'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/3',
+        name: 'ผู้ตรวจราชการสำนักนายกรัฐมนตรี',
+        ex_link: 'user',
+        id: '3'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/6',
+        name: 'ผู้ตรวจราชการกระทรวง',
+        ex_link: 'user',
+        id: '6'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/9',
+        name: 'ผู้ตรวจราชการกรม',
+        ex_link: 'user',
+        id: '9'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/4',
+        name: 'ผู้ว่าราชการจังหวัด',
+        ex_link: 'user',
+        id: '4'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/5',
+        name: 'สำนักงานจังหวัด',
+        ex_link: 'user',
+        id: '5'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/7',
+        name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน',
+        ex_link: 'user',
+        id: '7'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/8',
+        name: 'นายก/รองนายก',
+        ex_link: 'user',
+        id: '8'
+      },
 
 
     ]
@@ -296,50 +279,10 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
     name: "จัดอบรมหลักสูตร"
   },
   {
-    IDchildren: 'training',
-    icon: 'fa-shekel-sign',
-    name: "ข้อมูลจัดอบรมหลักสูตร",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/lecturer',
-        name: 'วิทยากรอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training',
-        name: 'จัดอบรมหลักสูตร'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/document',
-        name: 'เอกสารประกอบการฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/register',
-        name: 'ผู้สมัครเข้าร่วมอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/survey',
-        name: 'ประเมินผลการฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/report',
-        name: 'รายงาน'
-      },
-      
-    ]
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
-  
 
 ]
 export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
@@ -461,6 +404,11 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       
     ]
   },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
 ]
 export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
@@ -524,9 +472,9 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     ]
   },
   {
-    icon:'fa-hand-point-up',
-    url:"/executiveorder",
-    name:"ข้อสั่งการผู้บริหาร"
+    icon: 'fa-hand-point-up',
+    url: "/executiveorder",
+    name: "ข้อสั่งการผู้บริหาร"
   },
   {
     icon: 'fa-hands',
@@ -586,6 +534,11 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 
 
@@ -654,6 +607,11 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 ]
 export const Adminprovince: NavBar[] = [ //แอดมินจังหวัด
@@ -745,6 +703,11 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
     icon: 'fa-shekel-sign',
     url: "/training",
     name: "จัดอบรมหลักสูตร"
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 ]
 export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระทรวง
@@ -839,7 +802,13 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
-    ]
+    ],
+
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 
 ]
@@ -917,6 +886,11 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 ]
 export const president: NavBar[] = [ //User นายก
@@ -1008,6 +982,11 @@ export const president: NavBar[] = [ //User นายก
       },
     ]
   },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
 ]
 export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/หน่วยงาน
   {
@@ -1083,6 +1062,11 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 
 ]
