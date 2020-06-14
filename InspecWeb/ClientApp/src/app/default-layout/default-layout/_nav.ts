@@ -404,6 +404,11 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       
     ]
   },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
 ]
 export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
@@ -530,6 +535,11 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
       },
     ]
   },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
 
 
 ]
@@ -597,6 +607,11 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 ]
 export const Adminprovince: NavBar[] = [ //แอดมินจังหวัด
