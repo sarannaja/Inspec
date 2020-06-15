@@ -17,11 +17,11 @@
       <div class="card-header">
         <h5 class="card-title">รายงานผลตรวจราชการ</h5>
       </div>
-      <div class="card-header col-12">
-        <button>Export <i class="align-middle mr-2 fas fa-fw fa-file-export pointer"
-          (click)="exportReport()"></i>
-      </button>
-      </div>
+      <!-- <div class="card-header col-12">
+        <button class="btn btn-success" (click)="exportReport()">Export <i
+            class="align-middle mr-2 fas fa-fw fa-file-export pointer"></i>
+        </button>
+      </div> -->
 
       <div class="card-body">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
@@ -43,7 +43,13 @@
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                   (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-file-export pointer" (click)="exportReport(item.electronicBookId, item.centralPolicyProvinceId)"></i>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i> -->
+
+                <i class="align-middle mr-2 fas fa-fw fa-download pointer" (click)="testExcel(item.id)"></i>
               </td>
+
             </tr>
           </tbody>
         </table>

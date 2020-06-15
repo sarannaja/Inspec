@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ using Microsoft.AspNetCore.Hosting;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
+using Image = Xceed.Document.NET.Image;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
@@ -43,48 +47,57 @@ namespace InspecWeb.Controllers
         {
             var Requestdata = _context.RequestOrders.ToList();
             return Requestdata;
+
         }
 
         [HttpGet("{id}")]
-        public object Get(long id)
+        public IActionResult Get(long id)
         {
+
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-                .Include(m => m.ExecutiveOrders)
+                .Include(m => m.RequestOrders)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id).FirstOrDefault();
+            /*.Where(m => m.Id == id).FirstOrDefault();*/
+            .Where(m => m.Class == "แผนการตรวจประจำปี" && m.Id == id).ToList();
 
+            // .First()        
             return Ok(centralpolicydata);
             //return "value";
         }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] RequestViewModel model)
         {
-            System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
-            System.Console.WriteLine("provinceid: " + model.ProvinceId);
-            System.Console.WriteLine("Name: " + model.Name);
+            /* System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
+             System.Console.WriteLine("provinceid: " + model.ProvinceId);
+             System.Console.WriteLine("Name: " + model.Name);*/
+            var date = DateTime.Now;
             var cabinedata = new RequestOrder
             {
 
                 DetailRequestOrder = model.Name,
                 CentralPolicyId = model.CentralpolicyId,
                 ProvinceId = model.ProvinceId,
+                UserId = model.UserId,
+                CreatedAt = date
+
             };
 
             _context.RequestOrders.Add(cabinedata);
             _context.SaveChanges();
 
-            if (!Directory.Exists(_environment.WebRootPath + "//upload//"))
+            if (!Directory.Exists(_environment.WebRootPath + "//requestfile//"))
             {
-                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+                Directory.CreateDirectory(_environment.WebRootPath + "//requestfile//"); //สร้าง Folder Upload ใน wwwroot
             }
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
-            var filePath = _environment.WebRootPath + "//Uploads//";
+            var filePath = _environment.WebRootPath + "//requestfile//";
 
 
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
@@ -110,7 +123,7 @@ namespace InspecWeb.Controllers
                     };
                     _context.RequestOrderFiles.Add(RequestOrderFile);
                     _context.SaveChanges();
-                    System.Console.WriteLine("Sucess");
+                    /* System.Console.WriteLine("Sucess");*/
                 }
             }
             return Ok(new { status = true });
@@ -147,44 +160,81 @@ namespace InspecWeb.Controllers
         {
             var requestOrderdata = _context.RequestOrders
                 /*.Include(m => m.DetailExecutiveOrder)*/
+                .Include(m => m.CentralPolicy)
                 .Include(m => m.Province)
                 .Include(m => m.RequestOrderFiles)
+                .Include(m => m.AnswerRequestOrderFile)
                 .Where(m => m.CentralPolicyId == id);
 
             return Ok(requestOrderdata);
             //return "value";
         }
-        [HttpPut]
+        [HttpGet("view/{id}")]//new///
+        public IActionResult Getviewrequest(long id)
+        {
+            var viewrequestOrderdata = _context.RequestOrders
+                .Include(m => m.Province)
+                .Include(m => m.UserId)
+                .Include(m => m.CreatedAt)
+                .Include(m => m.RequestOrderFiles)
+                .Include(m => m.AnswerRequestOrderFile)
+                .Where(m => m.CentralPolicyId == id);
+
+            return Ok(viewrequestOrderdata);
+            //return "value";
+        }
+
+        [HttpGet("detailforinspector/{id}/{userid}")]
+        public IActionResult Getrequestrole3(long id, string userid)
+        {
+            var provinceId = _context.UserProvinces
+                .Where(x => x.UserID == userid)
+                .Select(x => x.ProvinceId)
+                .FirstOrDefault();
+
+            var requestOrderdata = _context.RequestOrders
+                /*.Include(m => m.DetailExecutiveOrder)*/
+                .Include(m => m.Province)
+                .Include(m => m.RequestOrderFiles)
+                .Where(m => m.CentralPolicyId == id && m.ProvinceId == provinceId);
+
+            return Ok(requestOrderdata);
+            //return "value";
+        }
+
+        [HttpPut("edit")]
         public async Task<IActionResult> Put([FromForm] RequestViewModel model)
         {
-                System.Console.WriteLine("detailrequestorder: " + model.id);
-                System.Console.WriteLine("AnswerDetail: " + model.AnswerDetail);
-                System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
-                System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
-                System.Console.WriteLine("AnswerRequestorder: " + model.files);
+            /* System.Console.WriteLine("detailrequestorder: " + model.id);
+             System.Console.WriteLine("AnswerDetail: " + model.AnswerDetail);
+             System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
+             System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
+             System.Console.WriteLine("AnswerRequestorder: " + model.files);*/
             var cabinedata = _context.RequestOrders.Find(model.id);
             {
                 cabinedata.AnswerDetail = model.AnswerDetail;
                 cabinedata.AnswerProblem = model.AnswerProblem;
                 cabinedata.AnswerCounsel = model.AnswerCounsel;
-                
+                cabinedata.AnswerUserId = model.AnswerUserId;
+                System.Console.WriteLine(model.AnswerUserId);
+
             };
 
-             _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-            
-            if (!Directory.Exists(_environment.WebRootPath + "//upload//"))
+
+            if (!Directory.Exists(_environment.WebRootPath + "//requestfile//"))
             {
-                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+                Directory.CreateDirectory(_environment.WebRootPath + "//requestfile//"); //สร้าง Folder Upload ใน wwwroot
             }
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
-            var filePath = _environment.WebRootPath + "//Uploads//";
-            
+            var filePath = _environment.WebRootPath + "//requestfile//";
+
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
             //foreach (var formFile in data.files)
             {
-                
+
                 var random = RandomString(10);
                 string filePath2 = formFile.Value.FileName;
                 string filename = Path.GetFileName(filePath2);
@@ -204,12 +254,130 @@ namespace InspecWeb.Controllers
                     };
                     _context.AnswerRequestOrderFiles.Add(AnswerRequestOrderFile);
                     _context.SaveChanges();
-                    System.Console.WriteLine("Success");
+                    /*System.Console.WriteLine("Success");*/
                 }
             }
             return Ok(new { status = true });
         }
+        [HttpGet("ex/{id}")]
+        public IActionResult GetData(string id)
+        {
+            //System.Console.WriteLine(id);
+            var userprovince = _context.UserProvinces
+                               .Where(m => m.UserID == id)
+                               .ToList();
+
+
+
+            var inspectionplans = _context.CentralPolicyProvinces
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(x => x.FiscalYear)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyDates)
+                .ToList();
+
+            List<object> termsList = new List<object>();
+            foreach (var inspectionplan in inspectionplans)
+            {
+                for (int i = 0; i < userprovince.Count(); i++)
+                {
+                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                        termsList.Add(inspectionplan);
+                    //System.Console.WriteLine(userprovince[i].ProvinceId);
+                }
+            }
+
+            return Ok(termsList);
+
+        }
+        [HttpGet("centralpolicyprovinceid/{id}")]
+        public IActionResult Getcentralpolicyprovinceid(long id)
+        {
+            var data = _context.CentralPolicyProvinces
+                .Include(m => m.Province)
+                .Where(m => m.CentralPolicyId == id).ToList();
+            //System.Console.WriteLine("tttt",data);
+            return Ok(data);
+        }
+        public void CreateReport(List<object> centralpolicydata, string typeId)
+        {
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/Uploads/";
+            var filename = "DOC" + DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss") + ".docx";
+            var createfile = filePath + filename;
+            var myImageFullPath = filePath + "logo01.png";
+
+            if (typeId == "1")
+            {
+                System.Console.WriteLine("in create");
+                using (DocX document = DocX.Create(createfile))
+                {
+                    Image image = document.AddImage(myImageFullPath);
+                    Picture picture = image.CreatePicture(90, 90);
+                    var logo = document.InsertParagraph();
+                    logo.AppendPicture(picture).Alignment = Alignment.left;
+
+                    // Add a title
+                    document.InsertParagraph("Columns width").FontSize(15d).SpacingAfter(50d).Alignment = Alignment.center;
+
+                    // Insert a title paragraph.
+                    var p = document.InsertParagraph("In the following table, the cell's left margin has been removed for rows 2-6 as well as the top/bottom table's borders.").Bold();
+                    p.Alignment = Alignment.center;
+                    p.SpacingAfter(40d);
+
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 200f, 200f, 200f, 200f, 200f, 200f, 200f };
+                    var t = document.InsertTable(1, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+                    //for (int i = 0; i < row.Cells.Count; ++i)
+                    //{
+                    row.Cells[0].Paragraphs.First().Append("ประเด็นการตรวจติดตาม");
+                    row.Cells[1].Paragraphs.First().Append("ข้อค้นพบ/ประเด็นปัญหา/ผลการตรวจ");
+                    row.Cells[2].Paragraphs.First().Append("หน่วยรับตรวจ/หน่วยงานที่รับผิดชอบ");
+                    row.Cells[3].Paragraphs.First().Append("ข้อเสนอแนะของผู้ตรวจราชการ");
+                    row.Cells[4].Paragraphs.First().Append("รายงานผลการดำเนินการของหน่วยรับตรวจ");
+                    row.Cells[5].Paragraphs.First().Append("เอกสารแนบ (ไฟล์)");
+                    row.Cells[6].Paragraphs.First().Append("ความเห็นของ ที่ปรึกษา ผต.ภาคประชาชน");
+
+                    //}
+
+                    // Add rows in the table.
+                    for (int i = 0; i < 5; i++)
+                    {
+                        var newRow = t.InsertRow();
+
+                        // Fill in the columns of the new rows.
+                        for (int j = 0; j < newRow.Cells.Count; ++j)
+                        {
+                            var newCell = newRow.Cells[j];
+                            newCell.Paragraphs.First().Append("test" + i);
+                            // Remove the left margin of the new cells.
+                            newCell.MarginLeft = 0;
+                        }
+                    }
+
+                    // Set a blank border for the table's top/bottom borders.
+                    var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                    //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
+            }
+        }
+
     }
- }
+}
 
 

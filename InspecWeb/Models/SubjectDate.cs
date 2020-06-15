@@ -18,14 +18,13 @@ namespace InspecWeb.Models
 
         [ForeignKey("Subject")]
         [Description("FK: ประเด็น")]
-        public long SubjectId { get; set; }
-
+        public long?  SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
 
         [ForeignKey("CentralPolicyDate")]
         [Description("FK: ปีงบประมาณ")]
-        public long CentralPolicyDateId { get; set; }
+        public long? CentralPolicyDateId { get; set; }
 
-        public virtual CentralPolicyDate CentralPolicyDate { get; set; }
+        // public virtual CentralPolicyDate CentralPolicyDate { get; set; }
     }
 }

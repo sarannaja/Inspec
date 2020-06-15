@@ -1,0 +1,63 @@
+<div class="header">
+    <h1 class="header-title">
+        ผู้สมัครเข้าร่วมอบรม
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+          <div class="card-header" style="margin-bottom: -40px;">
+              <h5 class="card-title">ผู้สมัครเข้าร่วมอบรม</h5>
+              <div class="float-right">
+                  <!-- <button class="btn btn-primary" (click)="CreateTraining()"
+                      style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button> -->
+                      <br>
+              </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <h5 class="text-center">ประวัติการฝึกอบรมของบุคลากร</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    ชื่อ <u>{{ Name }}</u>
+                    ตำแหน่ง <u>{{ Position }}</u>
+                </div>
+
+            </div>
+
+
+              <table *ngIf="loading" class="table table-bordered table-responsive-lg">
+                  <thead>
+                      <tr>
+                          <th width="5%" class="text-center" style="vertical-align: text-top;">ลำดับที่</th>
+                          <th width="40%" class="text-center" style="vertical-align: text-top;">หลักสูตร</th>
+                          <th width="10%" class="text-center" style="vertical-align: text-top;">รุ่น/ปี</th>
+                          <th width="25%" class="text-center" style="vertical-align: text-top;">หัวข้อการศึกษา</th>
+                          <th width="20%" class="text-center" style="vertical-align: text-top;">รายงานของผู้เข้ารับ</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let item of resulttraining; let i = index">
+                          <td>{{ i + 1 }}</td>
+                          <td class="ellipsis">{{ item.training.name }}</td>
+                          <td class="text-center">01/2563</td>
+                          <td class="text-center"></td>
+                          <td></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
+
+   
+  </div>
+

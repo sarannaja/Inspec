@@ -38,40 +38,14 @@
                                 <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
                             </div>
                         </div>
-
-                        <div class="col-12 col-xl-12">
-                            <label>กำหนดระยะเวลาอบรม</label>
-                        </div>
-                        <div class="col-12 col-xl-3">
-                            <div class="form-group">
-                                <my-date-picker-th formControlName="start_date" [options]="{}"
-                                    required>
-                                </my-date-picker-th>
-
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-xl-1">
-                            <div class="form-group" align="center">
-                                ถึง
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-xl-3">
-                            <div class="form-group">
-
-                                <my-date-picker-th formControlName="end_date" [options]="{}" required>
-                                </my-date-picker-th>
-
-                            </div>
-                        </div>
+                        
 
                         <div class="col-12 col-xl-12">
                             <label>กำหนดระยะรับสมัครเข้าอบรม</label>
                         </div>
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
-                                <my-date-picker-th formControlName="regis_start_date" [options]="{}"
+                                <my-date-picker-th formControlName="regis_start_date" [options]="myDatePickerOptions"
                                     required>
                                 </my-date-picker-th>
 
@@ -87,7 +61,34 @@
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
 
-                                <my-date-picker-th formControlName="regis_end_date" [options]="{}" required>
+                                <my-date-picker-th formControlName="regis_end_date" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-12">
+                            <label>กำหนดระยะเวลาอบรม</label>
+                        </div>
+                        <div class="col-12 col-xl-3">
+                            <div class="form-group">
+                                <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions"
+                                    required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-1">
+                            <div class="form-group" align="center">
+                                ถึง
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-3">
+                            <div class="form-group">
+
+                                <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
 
                             </div>
@@ -96,10 +97,18 @@
                         <div class="col-12 col-xl-12">
                             <div class="form-group">
                                 <label class="form-label w-100">แนบไฟล์</label>
-                                <input type="file" multiple="multiple" formControlName="files">
+                                <input type="file" multiple (change)="uploadFile($event)">
                                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
                             </div>
                         </div>
+
+
+                        
+                        
+
+                        
+
+                        
                         <!-- <hr> -->
                         <div class="form-group row">
                             <div class="col-sm-5 ml-sm-auto">

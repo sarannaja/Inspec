@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { TrainingService } from '../services/training.service';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
@@ -16,9 +16,18 @@ export class TrainingComponent implements OnInit {
   delid: any
   loading = false;
   dtOptions: DataTables.Settings = {};
+  downloadUrl: any;
+  mainUrl: string;
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private trainingservice: TrainingService,
-    public share: TrainingService, private router: Router) { }
+  constructor(private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private trainingservice: TrainingService,
+    public share: TrainingService, 
+    private router: Router,
+    @Inject('BASE_URL') baseUrl: string) {
+      this.downloadUrl = baseUrl + '/Uploads'
+      this.mainUrl = baseUrl
+    }
 
   ngOnInit() {
 
@@ -60,5 +69,9 @@ export class TrainingComponent implements OnInit {
         console.log(this.resulttraining);
       })
     })
+  }
+
+  gotoProgramTraining(trainingid){
+    this.router.navigate(['/training/program/', trainingid])
   }
 }

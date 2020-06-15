@@ -1,137 +1,156 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
 
-namespace InspecWeb.Controllers
-{
-   // [Route("api/[controller]")]
+namespace InspecWeb.Controllers {
+    // [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
-    {
+    public class UserController : ControllerBase {
         public static IWebHostEnvironment _environment;
 
-
-        private static Random random = new Random();
-        public static string RandomString(int length)
-        {
+        private static Random random = new Random ();
+        public static string RandomString (int length) {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
+            return new string (Enumerable.Repeat (chars, length)
+                .Select (s => s[random.Next (s.Length)]).ToArray ());
         }
 
         private static UserManager<ApplicationUser> _userManager;
         private static ApplicationDbContext _context;
 
-        public UserController(ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
-        {
+        public UserController (ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager, IWebHostEnvironment environment) {
             _context = context;
             _userManager = userManager;
             _environment = environment;
+
         }
 
+        [HttpGet ("api/[controller]/[action]")]
+        public IActionResult momomo () {
+            UserViewModel[] Momos = {
+                new UserViewModel { UserName = "admin1@inspec.go.th", Email = "admin1@inspec.go.th" },
+                new UserViewModel { UserName = "admin2@inspec.go.th", Email = "admin2@inspec.go.th" },
+                new UserViewModel { UserName = "admin3@inspec.go.th", Email = "admin3@inspec.go.th" },
+                new UserViewModel { UserName = "admin4@inspec.go.th", Email = "admin4@inspec.go.th" },
+            };
 
-        [HttpGet("api/[controller]/[action]/{id}")]
-        public IEnumerable<ApplicationUser> getuser(long id)
-        {
-                 var users = _context.Users
-                .Include(s => s.UserRegion)
-                .ThenInclude(r => r.Region)
-                .Include(s => s.UserProvince)
-                .ThenInclude(r => r.Province)
-                .Include(s => s.Province)
-                .Include(s => s.Ministries)
-                .Where(m => m.Role_id == id)
-                .Where(m => m.Active == 1)
-                .Where(m => m.Email != "admin@inspec.go.th");
+            using (var workbook = new XLWorkbook ()) {
+                var worksheet = workbook.Worksheets.Add ("Momos");
+                var currentRow = 1;
+                worksheet.Cell (currentRow, 1).Value = "Id";
+                worksheet.Cell (currentRow, 2).Value = "Username";
+                foreach (var momo in Momos) {
+                    currentRow++;
+                    worksheet.Cell (currentRow, 1).Value = momo.Email;
+                    worksheet.Cell (currentRow, 2).Value = momo.UserName;
+                }
+                System.Console.WriteLine ("momomo : " + "789");
+                using (var stream = new MemoryStream ()) {
+                    workbook.SaveAs (stream);
+                    var content = stream.ToArray ();
 
-                return users;
+                    return File (
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "momomo.xlsx");
+                }
+            }
         }
-        [HttpGet("api/[controller]/[action]/{id}")]
-        public IEnumerable<ApplicationUser> getuserlist(string id)
-        {
+
+        [HttpGet ("api/[controller]/[action]/{id}")]
+        public IEnumerable<ApplicationUser> getuser (long id) {
             var users = _context.Users
-           .Include(s => s.UserRegion)
-           .ThenInclude(r => r.Region)
-           .Include(s => s.UserProvince)
-           .ThenInclude(r => r.Province)
-           .Include(s => s.Province)
-           .Include(s => s.Ministries)
-           .Where(m => m.Id == id)
-           .Where(m => m.Active == 1);
+                .Include (s => s.UserRegion)
+                .ThenInclude (r => r.Region)
+                .Include (s => s.UserProvince)
+                .ThenInclude (r => r.Province)
+                .Include (s => s.Province)
+                .Include (s => s.Ministries)
+                .Where (m => m.Role_id == id)
+                .Where (m => m.Active == 1)
+                .Where (m => m.Email != "admin@inspec.go.th");
 
-           return users;
+            return users;
         }
 
-        [HttpGet("api/[controller]/[action]/{id}")]
-        public IEnumerable<ApplicationUser> getuserfirst(string id)
-        {
+        [HttpGet ("api/[controller]/[action]/{id}")]
+        public IEnumerable<ApplicationUser> getuserlist (string id) {
             var users = _context.Users
-           .Include(s => s.UserRegion)
-           .ThenInclude(r => r.Region)
-           .Include(s => s.UserProvince)
-           .ThenInclude(r => r.Province)
-           .Include(s => s.Province)
-           .Include(s => s.Ministries)
-           .Where(m => m.Id == id)
-           .Where(m => m.Active == 1).FirstOrDefault();
+                .Include (s => s.UserRegion)
+                .ThenInclude (r => r.Region)
+                .Include (s => s.UserProvince)
+                .ThenInclude (r => r.Province)
+                .Include (s => s.Province)
+                .Include (s => s.Ministries)
+                .Where (m => m.Id == id)
+                .Where (m => m.Active == 1);
 
-         yield  return users;
+            return users;
         }
 
+        [HttpGet ("api/[controller]/[action]/{id}")]
+        public IEnumerable<ApplicationUser> getuserfirst (string id) {
+            var users = _context.Users
+                .Include (s => s.UserRegion)
+                .ThenInclude (r => r.Region)
+                .Include (s => s.UserProvince)
+                .ThenInclude (r => r.Province)
+                .Include (s => s.Province)
+                .Include (s => s.Ministries)
+                .Where (m => m.Id == id)
+                .Where (m => m.Active == 1).FirstOrDefault ();
+
+            yield return users;
+        }
 
         // POST api/values
-        [Route("api/[controller]")]
+        [Route ("api/[controller]")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] UserViewModel model)
-        {
+        public async Task<IActionResult> Post ([FromForm] UserViewModel model) {
             var date = DateTime.Now;
             //var mo = model.Email;
-            
+
             //System.Console.WriteLine("testuser : " + mo);
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var success = await _userManager.CreateAsync(user, "Admin@12345678").ConfigureAwait(false);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
-            await _userManager.ConfirmEmailAsync(user, code).ConfigureAwait(false);
+            var success = await _userManager.CreateAsync (user, "Admin@12345678").ConfigureAwait (false);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync (user).ConfigureAwait (false);
+            await _userManager.ConfirmEmailAsync (user, code).ConfigureAwait (false);
             user.Img = model.Img;
 
-            if (!Directory.Exists(_environment.WebRootPath + "//imgprofile//"))
-            {
-                Directory.CreateDirectory(_environment.WebRootPath + "//imgprofile//"); //สร้าง Folder Upload ใน wwwroot
+            if (!Directory.Exists (_environment.WebRootPath + "//imgprofile//")) {
+                Directory.CreateDirectory (_environment.WebRootPath + "//imgprofile//"); //สร้าง Folder Upload ใน wwwroot
             }
 
             var filePath = _environment.WebRootPath + "//imgprofile//";
-            if (model.files != null)
-            {
-                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-                {
-                    var random = RandomString(10);
+            if (model.files != null) {
+                foreach (var formFile in model.files.Select ((value, index) => new { Value = value, Index = index })) {
+                    var random = RandomString (10);
                     string filePath2 = formFile.Value.FileName;
-                    string filename = Path.GetFileName(filePath2);
-                    string ext = Path.GetExtension(filename);
+                    string filename = Path.GetFileName (filePath2);
+                    string ext = Path.GetExtension (filename);
 
                     // System.Console.WriteLine("testuser1 : ");
 
-                    if (formFile.Value.Length > 0)
-                    {
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
-                        {
-                            await formFile.Value.CopyToAsync(stream);
+                    if (formFile.Value.Length > 0) {
+                        using (var stream = System.IO.File.Create (filePath + random + filename)) {
+                            await formFile.Value.CopyToAsync (stream);
                         }
 
                         user.Img = random + filename;
-                        System.Console.WriteLine("testuser2 : " + random + filename);
+                        System.Console.WriteLine ("testuser2 : " + random + filename);
                     }
                 }
             }
@@ -155,159 +174,141 @@ namespace InspecWeb.Controllers
             user.Alley = model.Alley;
             user.Postalcode = model.Postalcode;
             user.Side = model.Side;
-           
+
             user.CreatedAt = DateTime.Now;
             user.Startdate = DateTime.Now;
             user.Enddate = DateTime.Now;
             user.Active = 1;
 
-            _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            _context.Entry (user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges ();
 
             //user ที่อยู่หลายเขต
-            foreach (var item in model.UserRegion)
-            {
-                var userregiondata = new UserRegion
-                {
+            foreach (var item in model.UserRegion) {
+                var userregiondata = new UserRegion {
                     UserID = user.Id,
                     RegionId = item
                 };
-                _context.UserRegions.Add(userregiondata);
-                _context.SaveChanges();
+                _context.UserRegions.Add (userregiondata);
+                _context.SaveChanges ();
             }
 
             //user ที่อยู่หลายจังหวัด
-            foreach (var item2 in model.UserProvince)
-            {
-                var userprovincedata = new UserProvince
-                {
+            foreach (var item2 in model.UserProvince) {
+                var userprovincedata = new UserProvince {
                     UserID = user.Id,
                     ProvinceId = item2
                 };
-                _context.UserProvinces.Add(userprovincedata);
-                _context.SaveChanges();
+                _context.UserProvinces.Add (userprovincedata);
+                _context.SaveChanges ();
             }
 
-
-            return Ok(new { status = true });
+            return Ok (new { status = true });
 
         }
-        [Route("api/[controller]/{editId}")]
+
+        [Route ("api/[controller]/{editId}")]
         [HttpPut]
-        public async Task<IActionResult> Put([FromForm] UserViewModel model, String editId)
-        {
-            Console.WriteLine("momomo :"+ model.Formprofile);
+        public async Task<IActionResult> Put ([FromForm] UserViewModel model, String editId) {
+            Console.WriteLine ("momomo :" + model.Formprofile);
 
-            var userdata = _context.Users.Find(editId);
-                 userdata.Img = model.Img;
+            var userdata = _context.Users.Find (editId);
+            userdata.Img = model.Img;
 
-                if (!Directory.Exists(_environment.WebRootPath + "//imgprofile//"))
-                {
-                    Directory.CreateDirectory(_environment.WebRootPath + "//imgprofile//"); //สร้าง Folder Upload ใน wwwroot
-                }
+            if (!Directory.Exists (_environment.WebRootPath + "//imgprofile//")) {
+                Directory.CreateDirectory (_environment.WebRootPath + "//imgprofile//"); //สร้าง Folder Upload ใน wwwroot
+            }
 
-                var filePath = _environment.WebRootPath + "//imgprofile//";
-                if (model.files != null)
-                {
-                    foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-                    {
-                        var random = RandomString(10);
-                        string filePath2 = formFile.Value.FileName;
-                        string filename = Path.GetFileName(filePath2);
-                        string ext = Path.GetExtension(filename);
+            var filePath = _environment.WebRootPath + "//imgprofile//";
+            if (model.files != null) {
+                foreach (var formFile in model.files.Select ((value, index) => new { Value = value, Index = index })) {
+                    var random = RandomString (10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName (filePath2);
+                    string ext = Path.GetExtension (filename);
 
-                        // System.Console.WriteLine("testuser1 : ");
+                    // System.Console.WriteLine("testuser1 : ");
 
-                        if (formFile.Value.Length > 0)
-                        {
-                            using (var stream = System.IO.File.Create(filePath + random + filename))
-                            {
-                                await formFile.Value.CopyToAsync(stream);
-                            }
-
-                            userdata.Img = random + filename;
-                            // System.Console.WriteLine("testuser2 : " + random + filename);
+                    if (formFile.Value.Length > 0) {
+                        using (var stream = System.IO.File.Create (filePath + random + filename)) {
+                            await formFile.Value.CopyToAsync (stream);
                         }
+
+                        userdata.Img = random + filename;
+                        // System.Console.WriteLine("testuser2 : " + random + filename);
                     }
                 }
-                if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง
-                {
-                        userdata.Prefix = model.Prefix;
-                        userdata.Name = model.Name;
-                        userdata.Position = model.Position;
-                        userdata.PhoneNumber = model.PhoneNumber;
-                }
-                else // แอดมินแก้ไขไห้
-                {
-                    userdata.DistrictId = model.DistrictId; //*
-                    userdata.ProvinceId = model.ProvinceId; //*
-                    userdata.SubdistrictId = model.SubdistrictId; //*
-                    userdata.MinistryId = model.MinistryId; //*
-                    userdata.DepartmentId = model.DepartmentId; //*
-                    userdata.Position = model.Position;//*
-                    userdata.Prefix = model.Prefix;  //*
-                    userdata.Name = model.Name; //*
-                    userdata.PhoneNumber = model.PhoneNumber; //*
-                    userdata.Role_id = model.Role_id;
-                    userdata.Educational = model.Educational;
-                    userdata.Birthday = DateTime.Now;
-                    userdata.Officephonenumber = model.Officephonenumber;               
-                    userdata.Telegraphnumber = model.Telegraphnumber;
-                    userdata.Housenumber = model.Housenumber;
-                    userdata.Rold = model.Rold;
-                    userdata.Alley = model.Alley;
-                    userdata.Postalcode = model.Postalcode;
-                    userdata.Side = model.Side;
+            }
+            if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง
+            {
+                userdata.Prefix = model.Prefix;
+                userdata.Name = model.Name;
+                userdata.Position = model.Position;
+                userdata.PhoneNumber = model.PhoneNumber;
+            } else // แอดมินแก้ไขไห้
+            {
+                userdata.DistrictId = model.DistrictId; //*
+                userdata.ProvinceId = model.ProvinceId; //*
+                userdata.SubdistrictId = model.SubdistrictId; //*
+                userdata.MinistryId = model.MinistryId; //*
+                userdata.DepartmentId = model.DepartmentId; //*
+                userdata.Position = model.Position; //*
+                userdata.Prefix = model.Prefix; //*
+                userdata.Name = model.Name; //*
+                userdata.PhoneNumber = model.PhoneNumber; //*
+                userdata.Role_id = model.Role_id;
+                userdata.Educational = model.Educational;
+                userdata.Birthday = DateTime.Now;
+                userdata.Officephonenumber = model.Officephonenumber;
+                userdata.Telegraphnumber = model.Telegraphnumber;
+                userdata.Housenumber = model.Housenumber;
+                userdata.Rold = model.Rold;
+                userdata.Alley = model.Alley;
+                userdata.Postalcode = model.Postalcode;
+                userdata.Side = model.Side;
 
-                }
+            }
 
-                foreach (var item in model.UserRegion)
-                {
-                    var userregiondata = new UserRegion
-                    {
-                        UserID = editId,
-                        RegionId = item
-                    };
-                    _context.UserRegions.Add(userregiondata);
-                    _context.SaveChanges();
-                }
+            foreach (var item in model.UserRegion) {
+                var userregiondata = new UserRegion {
+                    UserID = editId,
+                    RegionId = item
+                };
+                _context.UserRegions.Add (userregiondata);
+                _context.SaveChanges ();
+            }
 
-       
-            _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            _context.Entry (userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges ();
 
-            return Ok(new { status = true });
+            return Ok (new { status = true });
         }
 
-        [Route("api/[controller]/{id}")]
+        [Route ("api/[controller]/{id}")]
         [HttpDelete]
-        public void Delete(string id)
-        {
-            System.Console.WriteLine("userdelete : " + id);
-            var userdata = _context.ApplicationUsers.Find(id);
+        public void Delete (string id) {
+            System.Console.WriteLine ("userdelete : " + id);
+            var userdata = _context.ApplicationUsers.Find (id);
 
-            _context.ApplicationUsers.Remove(userdata);
-            _context.SaveChanges();
+            _context.ApplicationUsers.Remove (userdata);
+            _context.SaveChanges ();
         }
 
-        [Route("[controller]/[action]")]
-        public async Task<string> Create()
-        {
+        [Route ("[controller]/[action]")]
+        public async Task<IActionResult> Create () {
             string result = string.Empty;
 
-            if (_context.Users.Count() == 0)
-            {
-                UserViewModel[] users =
-                {
-                    new UserViewModel { UserName ="admin@inspec.go.th", Email = "admin@inspec.go.th", Name ="Super Admin",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "Superadmin ",Prefix = "นาย",Role_id =1,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
-                    new UserViewModel { UserName ="inspect_Role2@inspec.go.th", Email = "inspect_Role2@inspec.go.th", Name ="Centraladmin",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "Centraladmin ",Prefix = "นาย",Role_id =2,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
-                    new UserViewModel { UserName ="inspect_Role3@inspec.go.th", Email = "inspect_Role3@inspec.go.th", Name ="Inspector",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "Inspector ",Prefix = "นาย",Role_id =3,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
-                    new UserViewModel { UserName ="inspect_Role4@inspec.go.th", Email = "inspect_Role4@inspec.go.th", Name ="Provincialgovernor",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "Provincialgovernor ",Prefix = "นาย",Role_id =4,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
-                    new UserViewModel { UserName ="inspect_Role5@inspec.go.th", Email = "inspect_Role5@inspec.go.th", Name ="Adminprovince",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "Adminprovince ",Prefix = "นาย",Role_id =5,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
-                    new UserViewModel { UserName ="inspect_Role6@inspec.go.th", Email = "inspect_Role6@inspec.go.th", Name ="InspectorMinistry",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "InspectorMinistry ",Prefix = "นาย",Role_id =6,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
-                    new UserViewModel { UserName ="inspect_Role7@inspec.go.th", Email = "inspect_Role7@inspec.go.th", Name ="publicsector",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "publicsector ",Prefix = "นาย",Role_id =7,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
-                    new UserViewModel { UserName ="inspect_Role8@inspec.go.th", Email = "inspect_Role8@inspec.go.th", Name ="president",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "president ",Prefix = "นาย",Role_id =8,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
-                    new UserViewModel { UserName ="inspect_Role9@inspec.go.th", Email = "inspect_Role9@inspec.go.th", Name ="president",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "InspectorDepartment ",Prefix = "นาย",Role_id =9,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
+            if (_context.Users.Count () == 0) {
+                UserViewModel[] users = {
+                    new UserViewModel { UserName = "admin@inspec.go.th", Email = "admin@inspec.go.th", Name = "Super Admin", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "Superadmin ", Prefix = "นาย", Role_id = 1, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
+                    new UserViewModel { UserName = "inspect_Role2@inspec.go.th", Email = "inspect_Role2@inspec.go.th", Name = "Centraladmin", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "Centraladmin ", Prefix = "นาย", Role_id = 2, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
+                    new UserViewModel { UserName = "inspect_Role3@inspec.go.th", Email = "inspect_Role3@inspec.go.th", Name = "Inspector", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "Inspector ", Prefix = "นาย", Role_id = 3, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
+                    new UserViewModel { UserName = "inspect_Role4@inspec.go.th", Email = "inspect_Role4@inspec.go.th", Name = "Provincialgovernor", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "Provincialgovernor ", Prefix = "นาย", Role_id = 4, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
+                    new UserViewModel { UserName = "inspect_Role5@inspec.go.th", Email = "inspect_Role5@inspec.go.th", Name = "Adminprovince", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "Adminprovince ", Prefix = "นาย", Role_id = 5, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
+                    new UserViewModel { UserName = "inspect_Role6@inspec.go.th", Email = "inspect_Role6@inspec.go.th", Name = "InspectorMinistry", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "InspectorMinistry ", Prefix = "นาย", Role_id = 6, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
+                    new UserViewModel { UserName = "inspect_Role7@inspec.go.th", Email = "inspect_Role7@inspec.go.th", Name = "publicsector", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "publicsector ", Prefix = "นาย", Role_id = 7, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
+                    new UserViewModel { UserName = "inspect_Role8@inspec.go.th", Email = "inspect_Role8@inspec.go.th", Name = "president", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "president ", Prefix = "นาย", Role_id = 8, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
+                    new UserViewModel { UserName = "inspect_Role9@inspec.go.th", Email = "inspect_Role9@inspec.go.th", Name = "president", MinistryId = 1, DepartmentId = 1, DistrictId = 1, ProvinceId = 1, SubdistrictId = 1, Position = "InspectorDepartment ", Prefix = "นาย", Role_id = 9, Educational = "", Birthday = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Officephonenumber = "", PhoneNumber = "", Telegraphnumber = "", Housenumber = "", Rold = "", Alley = "", Postalcode = "", Side = "", Img = "user.png", Active = 1, CreatedAt = DateTime.Now, Startdate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate = DateTime.ParseExact ("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int> () { 1 }, UserProvince = new List<int> () { 1 } },
 
                     new UserViewModel { UserName ="userRole3n1@inspec.go.th", Email = "userRole3n1@inspec.go.th",Name ="ชัยวัฒน์ โฆสิตาภา",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "ผต.นร. ",Prefix = "พลเอก",Role_id =3,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0899006901",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {1},UserProvince = new List<int>(){1} },
                     new UserViewModel { UserName ="userRole3n2@inspec.go.th", Email = "userRole3n2@inspec.go.th",Name ="สุรุ่งลักษณ์ เมฆะอำนวยชัย",MinistryId =1,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "ผต.นร. ",Prefix = "นางสาว",Role_id =3,Educational = "",Birthday =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0816408221",Telegraphnumber = "",Housenumber = "",Rold = "",Alley = "", Postalcode = "",Side = "", Img = "",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {2,13},UserProvince = new List<int>(){1} },
@@ -441,7 +442,7 @@ namespace InspecWeb.Controllers
                     new UserViewModel { UserName ="Tatho1484@hotmail.com", Email = "Tatho1484@hotmail.com",Name ="สิริธร  จุลชู",MinistryId =7,DepartmentId=1, DistrictId =55,ProvinceId =2,SubdistrictId =1,Position = "ผต.นร. ",Prefix = "นาย",Role_id =7,Educational = "ปริญญาตรี วิทยาศาสตร์บัณฑิตการไฟฟ้ามหาวิทยาลัยเทคโนโลยีมหานคร",Birthday =DateTime.ParseExact("1977/06/17 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "075611631",PhoneNumber = "0954293641 ",Telegraphnumber = "",Housenumber = "65",Rold = "ปานุราช",Alley = "", Postalcode = "10300",Side = "เศรษฐกิจ", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {7},UserProvince = new List<int>(){} },
                     new UserViewModel { UserName ="muigosouth@gmail.com", Email = "muigosouth@gmail.com",Name ="ฐิติชญาน์  บุญโสม",MinistryId =7,DepartmentId=1, DistrictId =55,ProvinceId =2,SubdistrictId =196,Position = "ผต.นร. ",Prefix = "นาง",Role_id =7,Educational = "ปริญญาเอก Ph.D. Candidateด้านการจัดการสิ่งแวดล้อมหาวิทยาลัยสงขลานครินทร์",Birthday =DateTime.ParseExact("1970/08/14 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0902899414",Telegraphnumber = "",Housenumber = "220/27 ม.8  หมู่บ้านท่าคลอง ",Rold = "",Alley = "", Postalcode = "10300",Side = "สิ่งแวดล้อม", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {7},UserProvince = new List<int>(){} },
                     new UserViewModel { UserName ="wichupan.srisanya@gmail.com", Email = "wichupan.srisanya@gmail.com",Name ="วิชุพรรณ  ศรีสัญญา",MinistryId =7,DepartmentId=1, DistrictId =55,ProvinceId =2,SubdistrictId =1,Position = "ผต.นร. ",Prefix = "นาง",Role_id =7,Educational = "ปริญญาโท Master of international Business in Hotel & Tourism ManagementUniversity centre cesar Ritz Switzerland",Birthday =DateTime.ParseExact("1951/10/05 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0964705658",Telegraphnumber = "",Housenumber = "54",Rold = "",Alley = "มหาราชซอย 5", Postalcode = "10300",Side = "สิ่งแวดล้อม", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {7},UserProvince = new List<int>(){} },
-                    new UserViewModel { UserName ="KrabiAdvisor@hotmail.com", Email = "KrabiAdvisor@hotmail.com",Name ="สำคัญ  เพชรทอง",MinistryId =7,DepartmentId=1, DistrictId =58,ProvinceId =2,SubdistrictId =218,Position = "ผต.นร. ",Prefix = "นาย",Role_id =8,Educational = "ปริญญาโท การศึกษามหาบัณฑิต",Birthday =DateTime.ParseExact("1951/08/11 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0640184647",Telegraphnumber = "",Housenumber = "4 หมู่2",Rold = "อ่าวลึก-แหลมสัก",Alley = "", Postalcode = "10300",Side = "วิชาการ", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {7},UserProvince = new List<int>(){} },
+                    new UserViewModel { UserName ="KrabiAdvisor@hotmail.com", Email = "KrabiAdvisor@hotmail.com",Name ="สำคัญ  เพชรทอง",MinistryId =7,DepartmentId=1, DistrictId =58,ProvinceId =2,SubdistrictId =218,Position = "ผต.นร. ",Prefix = "นาย",Role_id =7,Educational = "ปริญญาโท การศึกษามหาบัณฑิต",Birthday =DateTime.ParseExact("1951/08/11 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0640184647",Telegraphnumber = "",Housenumber = "4 หมู่2",Rold = "อ่าวลึก-แหลมสัก",Alley = "", Postalcode = "10300",Side = "วิชาการ", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {7},UserProvince = new List<int>(){} },
                     new UserViewModel { UserName ="Kuachat@hotmail.com", Email = "Kuachat@hotmail.com",Name ="สหชาติ  เกื้อชาติ",MinistryId =7,DepartmentId=1, DistrictId =51,ProvinceId =2,SubdistrictId =172,Position = "ผต.นร. ",Prefix = "นาย",Role_id =7,Educational = "ปริญญาตรี ครุศาสตร์บัณฑิต มหาวิทยาลัยราชภัฎกาญจนบุรี",Birthday =DateTime.ParseExact("1977/08/07 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0817144560",Telegraphnumber = "",Housenumber = "191 หมู่ 6 หมู่บ้านคลองทิพ",Rold = "",Alley = "", Postalcode = "10300",Side = "วิชาการ", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {7},UserProvince = new List<int>(){} },
                     new UserViewModel { UserName ="userRole7n04@inspec.go.th", Email = "userRole7n04@inspec.go.th",Name ="สมพงษ์  พงษ์พัว",MinistryId =7,DepartmentId=1, DistrictId =67,ProvinceId =3,SubdistrictId =291,Position = "ผต.นร. ",Prefix = "นาย",Role_id =7,Educational = "ปริญญาตรี ครุศาสตร์บัณฑิต มหาวิทยาลัยราชภัฎกาญจนบุรี",Birthday =DateTime.ParseExact("1950/02/10 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0843367955",Telegraphnumber = "",Housenumber = "99 หมู่ 5 หมู่บ้านหนองแค",Rold = "",Alley = "", Postalcode = "10300",Side = "สังคม", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {7},UserProvince = new List<int>(){} },
                     new UserViewModel { UserName ="userRole7n05@inspec.go.th", Email = "userRole7n05@inspec.go.th",Name ="วุฒิชัย  โชควิเชียรฉาย",MinistryId =7,DepartmentId=1, DistrictId =62,ProvinceId =3,SubdistrictId =250,Position = "ผต.นร. ",Prefix = "นาย",Role_id =7,Educational = "ปริญญาตรี รัฐประศาสนศาสตร์มหาวิทยาลัยกรุงเทพธนบุรี",Birthday =DateTime.ParseExact("1953/11/25 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0899808494",Telegraphnumber = "",Housenumber = "92 หมู่ 11 หมู่บ้านหนองลาน",Rold = "ท่ามะกา-หนองลาน",Alley = "", Postalcode = "10300",Side = "สังคม", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {4},UserProvince = new List<int>(){} },
@@ -570,95 +571,90 @@ namespace InspecWeb.Controllers
                     new UserViewModel { UserName ="Kosols2@hotmail.com", Email = "Kosols2@hotmail.com",Name ="โกศล  สมจินดา",MinistryId =7,DepartmentId=1, DistrictId =1,ProvinceId =1,SubdistrictId =1,Position = "ผต.นร. ",Prefix = "นาย",Role_id =7,Educational = "ปริญญาโท พัฒนาบริหารศาสตร์NIDA",Birthday =DateTime.ParseExact("1954/08/31 00:00:00", "yyyy/MM/dd HH:mm:ss", null),Officephonenumber = "",PhoneNumber = "0815935211",Telegraphnumber = "",Housenumber = "255",Rold = "มิตรภาพ",Alley = "", Postalcode = "30000",Side = "เศรษฐกิจ", Img = "user.png",Active =1,CreatedAt = DateTime.Now,Startdate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), Enddate =DateTime.ParseExact("1957/10/22 00:00:00", "yyyy/MM/dd HH:mm:ss", null), UserRegion = new List<int>() {14},UserProvince = new List<int>(){} },
 
                 };
+                foreach (var item in users) {
+                    var user = new ApplicationUser {
+                        UserName = item.UserName,
+                        Email = item.Email,
+                        DepartmentId = item.DepartmentId,
+                        DistrictId = item.DistrictId,
+                        ProvinceId = item.ProvinceId,
+                        SubdistrictId = item.SubdistrictId,
+                        MinistryId = item.MinistryId,
+                        Role_id = item.Role_id
+                    };
+                    var success = await _userManager.CreateAsync (user, "Admin@12345678").ConfigureAwait (false);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync (user).ConfigureAwait (false);
+                    await _userManager.ConfirmEmailAsync (user, code).ConfigureAwait (false);
 
-                foreach (var item in users)
-                {
-                    var user = new ApplicationUser { UserName = item.UserName, Email = item.Email };
-
-                    var success = await _userManager.CreateAsync(user, "Admin@12345678").ConfigureAwait(false);
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
-                    await _userManager.ConfirmEmailAsync(user, code).ConfigureAwait(false);
-
-                    user.DistrictId = item.DistrictId;
-                    user.ProvinceId = item.ProvinceId;
-                    user.SubdistrictId = item.SubdistrictId;
-                    user.MinistryId = item.MinistryId;
-                    user.DepartmentId = item.DepartmentId;
+                    Console.WriteLine ("department1");
+                    //user.DepartmentId = item.DepartmentId;
                     user.Position = item.Position;
                     user.Prefix = item.Prefix;
                     user.Name = item.Name;
-                    user.Role_id = item.Role_id;
                     user.Educational = item.Educational;
                     user.Birthday = item.Birthday;
                     user.Officephonenumber = item.Officephonenumber;
                     user.PhoneNumber = item.PhoneNumber;
                     user.Telegraphnumber = item.Telegraphnumber;
                     user.Housenumber = item.Housenumber;
-                    user.Rold = item.Rold;
                     user.Alley = item.Alley;
                     user.Postalcode = item.Postalcode;
                     user.Side = item.Side;
+                    user.Rold = item.Rold;
                     user.Img = item.Img;
                     user.CreatedAt = item.CreatedAt;
                     user.Startdate = item.Startdate;
                     user.Enddate = item.Enddate;
                     user.Active = item.Active;
 
-                    _context.Entry(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    _context.SaveChanges();
-
-
-                    foreach (var item2 in item.UserRegion)
-                    {
-                        var userregiondata = new UserRegion
-                        {
+                    _context.Entry (user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges ();
+                    Console.Write ("department2");
+                    foreach (var item2 in item.UserRegion) {
+                        var userregiondata = new UserRegion {
                             UserID = user.Id,
                             RegionId = item2
                         };
-                        _context.UserRegions.Add(userregiondata);
-                        _context.SaveChanges();
+                        _context.UserRegions.Add (userregiondata);
+                        _context.SaveChanges ();
                     }
 
-                    foreach (var item3 in item.UserProvince)
-                    {
-                        var userprovincedata = new UserProvince
-                        {
+                    foreach (var item3 in item.UserProvince) {
+                        var userprovincedata = new UserProvince {
                             UserID = user.Id,
                             ProvinceId = item3
                         };
-                        _context.UserProvinces.Add(userprovincedata);
-                        _context.SaveChanges();
+                        _context.UserProvinces.Add (userprovincedata);
+                        _context.SaveChanges ();
                     }
 
-
                 }
-                result = "Success";
+                return Ok ("Success");
+            } else {
+                return Ok ("Fail");
             }
-            else
-            {
-                result = "Fail";
-            }
-
-            return result;
         }
 
-        [HttpGet("api/[controller]/province/{id}")]
-        public IEnumerable<UserProvince> getprovince(string id)
-        {
+        [HttpGet ("api/[controller]/province/{id}")]
+        public IEnumerable<UserProvince> getprovince (string id) {
 
             var provinces = _context.UserProvinces
-                .Include(m => m.Province)
-                .Where(m => m.UserID == id)
-                .ToList();
+                .Include (m => m.Province)
+                .Where (m => m.UserID == id)
+                .ToList ();
 
             return provinces;
         }
-         [HttpGet("api/get_role/{id}")]
-        public IActionResult test(string id)
-        {
-           
-            return Ok(_userManager.Users.Where(m =>  m.Id == id).FirstOrDefault());
+
+        [HttpGet ("api/get_role/{id}")]
+        public IActionResult test (string id) {
+
+            return Ok (_userManager.Users.Where (m => m.Id == id).FirstOrDefault ());
         }
+    }
+
+    internal class Momo {
+        public int Id { get; set; }
+        public string Username { get; set; }
     }
 }

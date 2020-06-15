@@ -9,7 +9,7 @@ export class InspectionplaneventService {
 
   url = "";
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     this.url = baseUrl + 'api/inspectionplanevent/';
   }
 
@@ -24,6 +24,13 @@ export class InspectionplaneventService {
   getinspectionplaneventuserdata(id): Observable<any> {
     //  alert(id)
     let path = this.url + 'inspectionplanuser/' + id;
+    console.log("URL: ", path);
+
+    return this.http.get<any>(path)
+  }
+  getinspectionplaneventuserprovincedata(id, proid): Observable<any> {
+    //  alert(id)
+    let path = this.url + 'inspectionplanprovince/' + id + '/' + proid;
     console.log("URL: ", path);
 
     return this.http.get<any>(path)
@@ -53,4 +60,34 @@ export class InspectionplaneventService {
     return this.http.delete(this.url + id);
   }
 
+  getuserregion(userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "userregion/" + userid)
+  }
+
+  getscheduledata(userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "inspectionplanexportindex/" + userid)
+  }
+
+  getregion(userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "userallregion/" + userid)
+  }
+
+  getexportprovince(value): Observable<any> {
+    return this.http.get<any>(this.url + "exportexcelcalendarprovince/" + value)
+  }
+
+   getUserOwner(id) {
+
+    const apiURL = this.baseUrl + 'api/get_role/' + id
+    return this.http.get<any>(apiURL)
+    // .toPromise()
+
+  }
+}
+class Owner {
+  constructor(
+    public name: number,
+    public phoneNumber: number,
+
+  ) { }
 }

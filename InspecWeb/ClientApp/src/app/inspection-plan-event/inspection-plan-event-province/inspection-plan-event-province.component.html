@@ -1,0 +1,104 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">กำหนดการตรวจราชการ</a></li>
+    </ol>
+  </nav>
+</div>
+<!-- <div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">กำหนดการตรวจราชการ</h5>
+        <div class="float-right">
+          <button class="btn btn-primary" (click)="CraateInspectionPlanEvent()"
+            style="margin-top: -60px;">เพิ่มกำหนดการตรวจราชการ</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <table id="datatables-basic2" class="table table-striped" style="width:100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>กำหนดการตรวจราชการ</th>
+              <th>ระยะเวลา</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultinspectionplanevent; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td width="40%">{{ item.name }}</td>
+              <td>{{ item.startDate | date: 'dd/MM/yyyy' }} - {{ item.endDate | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                <i (click)="InspectionPlan(item.id,item.name)" class="align-middle mr-2 fas fa-fw fa-search pointer"></i>
+                <i (click)="openModal(modaldeleteInspectionPlanEvent, item.id)" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="card">
+  <div class="card-header">
+    <!-- <h5 *ngIf="role_id == 3" class="card-title">ปฏิทินการตรวจ</h5> -->
+    <form [formGroup]="Form">
+      <div class="float-left" *ngIf="role_id == 3">
+        <div class="form-group">
+          <div class="form-group col-md-12">
+            <div class="mb-12">
+              <select (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2"
+                formControlName="province">
+                <option value="allprovince">จังหวัดทั้งหมด</option>
+                <option *ngFor="let item of resultuserregion; let i = index" value="{{item.province.id}}">
+                  {{item.province.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="float-right" *ngIf="role_id == 3">
+      <button class="btn btn-primary" (click)="CraateInspectionPlanEvent()">เพิ่มกำหนดการตรวจราชการประจำปี</button>
+      <!-- &nbsp;&nbsp;
+      <button class="btn btn-primary" (click)="CraateInspectionPlan()"
+        style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button> -->
+    </div>
+    <!-- <h6 class="card-subtitle text-muted">Open source JavaScript jQuery plugin for a full-sized, drag & drop event calendar.</h6> -->
+  </div>
+
+  <div class="card-body">
+    <div *ngIf="loading" id="calendar"></div>
+  </div>
+</div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modaldeleteInspectionPlanEvent class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="deleteInspectionPlanEvent(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

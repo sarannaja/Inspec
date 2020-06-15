@@ -35,7 +35,18 @@ namespace InspecWeb.Data
         public DbSet<Governmentinspectionplan> Governmentinspectionplans { get; set; }
         public DbSet<InspectionOrder> InspectionOrders { get; set; }
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
+
+
+        //---------Trainings-----------
         public DbSet<Training> Trainings { get; set; }
+        public DbSet<TrainingRegister> TrainingRegisters { get; set; }
+        public DbSet<TrainingSurvey> TrainingSurveys { get; set; }
+        public DbSet<TrainingProgram> TrainingPrograms { get; set; }
+        public DbSet<TrainingDocument> TrainingDocuments { get; set; }
+        public DbSet<TrainingSurveyAnswer> TrainingSurveyAnswers { get; set; }
+        public DbSet<TrainingLecturer> TrainingLecturers { get; set; }
+        //------------------------------
+
         public DbSet<Subquestion> Subquestions { get; set; }
         public DbSet<InspectionPlanEvent> InspectionPlanEvents { get; set; }
         public DbSet<Cabine> Cabines { get; set; }
@@ -54,9 +65,10 @@ namespace InspecWeb.Data
         public DbSet<ProvincialDepartmentProvince> ProvincialDepartmentProvince { get; set; } //เชื่อม หน่วยงานส่วนภูมิถาค กับ จังหวัด
         public DbSet<CentralDepartment> CentralDepartment { get; set; } //หน่วยงานราชการส่วนกลางภูมิภาค 
         public DbSet<CentralDepartmentProvince> CentralDepartmentProvince { get; set; } //เชื่อม หน่วยงานราชการส่วนกลางภูมิภาค กับ จังหวัด
-
+        public DbSet<Informationoperation> Informationoperations { get; set; }
+        public DbSet<Nationalstrategy> Nationalstrategies { get; set; }
         //public DbSet<InspectionPlanEventProvince> InspectionPlanEventProvinces { get; set; }
-       
+
         public DbSet<CentralPolicyUser> CentralPolicyUsers { get; set; }
         public DbSet<CentralPolicyDate> CentralPolicyDates { get; set; }
         public DbSet<SubjectDate> SubjectDates { get; set; }
@@ -94,10 +106,26 @@ namespace InspecWeb.Data
         public DbSet<ExportRegistration> ExportRegistrations { get; set; }
         public DbSet<ExportReportHead> ExportReportHeads { get; set; }
         public DbSet<ExportReportBody> ExportReportBodies { get; set; }
+        public DbSet<SuggestionSubject> SuggestionSubjects { get; set; }
+        public DbSet<AnswerCentralPolicyProvince> AnswerCentralPolicyProvinces { get; set; }
+        public DbSet<StatePolicy> StatePolicys { get; set; }
+        public DbSet<Documenttemplate> Documenttemplates { get; set; }
+        public DbSet<Meetinginformation> Meetinginformations { get; set; }
+        public DbSet<Premierorder> Premierorders { get; set; }
+        public DbSet<ReportCommander> ReportCommanders { get; set; }
+        public DbSet<ElectronicBookProceed> ElectronicBookProceeds { get; set; }
+        public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
+        public DbSet<Log> Logs { get; set; }
+
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-           // ส่วนที่สำหรับเชื่อ model
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+                {
+                    relationship.DeleteBehavior = DeleteBehavior.Restrict;
+                }
+            // ส่วนที่สำหรับเชื่อ model
             builder.Entity<UserRegion>()
             .HasKey(m => new { m.UserID, m.RegionId });
 
@@ -123,7 +151,6 @@ namespace InspecWeb.Data
             //.HasKey(m => new { m.SubjectCentralPolicyProvinceId, m.CentralPolicyDateId });
 
             base.OnModelCreating(builder);
-
             // seed data
             builder.ApplyConfiguration(new MinistrySeeder());
             builder.ApplyConfiguration(new DepartmentSeeder());
@@ -142,6 +169,6 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
         }
 
-     
+
     }
 }

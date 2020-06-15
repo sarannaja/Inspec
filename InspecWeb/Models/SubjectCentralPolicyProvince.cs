@@ -36,10 +36,12 @@ namespace InspecWeb.Models
         //[Description("ลิ้ง")]
         //public string link { get; set; }
 
+
         public ICollection<SubjectDateCentralPolicyProvince> SubjectDateCentralPolicyProvinces { get; set; }
         public ICollection<SubquestionCentralPolicyProvince> SubquestionCentralPolicyProvinces { get; set; }
         //public ICollection<SubjectCentralPolicyProvinceGroup> SubjectCentralPolicyProvinceGroups { get; set; }
         public ICollection<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
         public ICollection<SubjectCentralPolicyProvinceFile> SubjectCentralPolicyProvinceFiles { get; set; }
+        public ICollection<SuggestionSubject> SuggestionSubjects { get; set; }
     }
 }

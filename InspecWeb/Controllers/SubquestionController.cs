@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace InspecWeb.Controllers
@@ -19,69 +20,143 @@ namespace InspecWeb.Controllers
             _context = context;
         }
 
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<Subquestion> Get()
+        // POST api/values
+        [HttpPost("addquestionopen")]
+        public IActionResult Post(long SubjectCentralPolicyProvinceId, string Name, long Box, long[] departmentId)
         {
-            var subquestiondata = from P in _context.Subquestions
-                              select P;
-            return subquestiondata;
+            System.Console.WriteLine("in");
+            var Subquestionopendata = new SubquestionCentralPolicyProvince
+            {
+                SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvinceId,
+                Name = Name,
+                Type = "คำถามปลายเปิด",
+                Box = Box
+            };
+            _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
+            _context.SaveChanges();
 
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
-        }
+            foreach (var departmentIddata in departmentId)
+            {
+                System.Console.WriteLine("in2");
+                var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                {
+                    ProvincialDepartmentId = departmentIddata,
+                    SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                };
+                _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+                _context.SaveChanges();
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public IActionResult Get(long id)
-        {
-            var subquestiondata = _context.Subquestions.Where(m => m.SubjectId == id);
-
-            return Ok(subquestiondata);
+            }
+            return Ok(new { status = true });
         }
 
         // POST api/values
-        [HttpPost]
-        public Subquestion Post(string name, long subjectid)
+        [HttpPost("addquestionclose")]
+        public IActionResult Post2(long SubjectCentralPolicyProvinceId, string Name, long Box, long[] departmentId, string[] answerclose)
         {
-            //var date = DateTime.Now;
-
-            var subquestiondata = new Subquestion
+            System.Console.WriteLine("Start" + answerclose);
+            var Subquestionopendata = new SubquestionCentralPolicyProvince
             {
-                Name = name,
-                SubjectId = subjectid,
-                //Answer = "",
-                //CreatedAt = date
+                SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvinceId,
+                Name = Name,
+                Type = "คำถามปลายปิด",
+                Box = Box
             };
-
-            _context.Subquestions.Add(subquestiondata);
+            System.Console.WriteLine("in");
+            _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
             _context.SaveChanges();
 
-            return subquestiondata;
+            foreach (var departmentIddata in departmentId)
+            {
+                System.Console.WriteLine("in2");
+                var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                {
+                    ProvincialDepartmentId = departmentIddata,
+                    SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                };
+                _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+                _context.SaveChanges();
+
+            }
+
+            foreach (var answerclosedata in answerclose)
+            {
+                System.Console.WriteLine("in3");
+                var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                {
+                    SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                    Name = answerclosedata
+
+                };
+                _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+                _context.SaveChanges();
+            }
+            return Ok(new { status = true });
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(long id, string name)
-        {
-            var subquestions = _context.Subquestions.Find(id);
-            subquestions.Name = name;
-            _context.Entry(subquestions).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+        //// GET: api/values
+        //[HttpGet]
+        //public IEnumerable<Subquestion> Get()
+        //{
+        //    var subquestiondata = from P in _context.Subquestions
+        //                      select P;
+        //    return subquestiondata;
 
-        }
+        //    //return
+        //    //_context.Provinces
+        //    //   .Include(p => p.Districts)
+        //    //   .Where(p => p.Id == 1)
+        //    //   .ToList();
+        //}
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(long id)
-        {
-            var subquestions = _context.Subquestions.Find(id);
+        //// GET api/values/5
+        //[HttpGet("{id}")]
+        //public IActionResult Get(long id)
+        //{
+        //    var subquestiondata = _context.Subquestions.Where(m => m.SubjectId == id);
 
-            _context.Subquestions.Remove(subquestions);
-            _context.SaveChanges();
-        }
+        //    return Ok(subquestiondata);
+        //}
+
+        //// POST api/values
+        //[HttpPost]
+        //public Subquestion Post(string name, long subjectid)
+        //{
+        //    //var date = DateTime.Now;
+
+        //    var subquestiondata = new Subquestion
+        //    {
+        //        Name = name,
+        //        SubjectId = subjectid,
+        //        //Answer = "",
+        //        //CreatedAt = date
+        //    };
+
+        //    _context.Subquestions.Add(subquestiondata);
+        //    _context.SaveChanges();
+
+        //    return subquestiondata;
+        //}
+
+        //// PUT api/values/5
+        //[HttpPut("{id}")]
+        //public void Put(long id, string name)
+        //{
+        //    var subquestions = _context.Subquestions.Find(id);
+        //    subquestions.Name = name;
+        //    _context.Entry(subquestions).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //    _context.SaveChanges();
+
+        //}
+
+        //// DELETE api/values/5
+        //[HttpDelete("{id}")]
+        //public void Delete(long id)
+        //{
+        //    var subquestions = _context.Subquestions.Find(id);
+
+        //    _context.Subquestions.Remove(subquestions);
+        //    _context.SaveChanges();
+        //}
     }
 }

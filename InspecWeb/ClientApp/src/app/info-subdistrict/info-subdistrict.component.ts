@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubdistrictService } from '../services/subdistrict.service';
 
 @Component({
@@ -22,8 +22,7 @@ export class InfoSubdistrictComponent implements OnInit {
   modalRef: BsModalRef;
 
   constructor(
-    private modalService: BsModalService,
-    private fb: FormBuilder,
+    private router:Router,
     private subdistrictservice: SubdistrictService,
     private activatedRoute: ActivatedRoute,
     public share: SubdistrictService) {
@@ -38,6 +37,9 @@ export class InfoSubdistrictComponent implements OnInit {
       this.loading = true
       console.log(this.resultsubdistrict);
     })
+  }
+  Village(id) {
+    this.router.navigate(['/infovillage',id])
   }
 
 }

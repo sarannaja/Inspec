@@ -4,6 +4,7 @@ import { Ministers, Cabinets } from 'src/app/models/otps';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MinisterModalComponent } from '../modals/minister-modal/minister-modal.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-minister-table',
@@ -14,9 +15,13 @@ export class MinisterTableComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   ministers: Array<Ministers>
   cabinets: Array<Cabinets>
+  cabinetDrop: Array<any>
+  cabinet: any
   loading: boolean = false
   dataindata: Array<Ministers>
-  fiscalyear: any = []
+  fiscalyear: any[] = []
+  year: any
+  wara: any
   constructor(
     private externalOrganizationService: ExternalOrganizationService,
     private spinner: NgxSpinnerService,
@@ -27,40 +32,66 @@ export class MinisterTableComponent implements OnInit {
 
     this.externalOrganizationService.getCabinets()
       .subscribe(results => {
-        console.log(results);
+        // console.log(results);
 
         this.cabinets = results
+
         // this.spinner.hide();
         // this.loading = true
-        this.fiscalyear = this.cabinets.map(value => {
-          return value.fiscalYears[0]
-        }).sort(function (a, b) { return b.year - a.year });
+        // let findDuplicates = arr => arr
+        const findDuplicates = (arr, key) => {
+          let sorted_arr = arr.slice().sort(); // You can define the comparing function here. 
+          // JS by default uses a crappy string compare.
+          // (we use slice to clone the array so the
+          // original array won't be modified)
+          let results = [];
+          for (let i = 0; i < sorted_arr.length - 1; i++) {
+            if (sorted_arr[i + 1][key] != sorted_arr[i][key]) {
+              results.push(sorted_arr[i]);
+            } else {
+              console.log('not findDuplicates', sorted_arr[i]);
+            }
+          }
+          return results;
+        }
+        let fiscalyear: Array<any> = []
+        this.fiscalyear = _.uniqBy(this.cabinets.map(value => {
+          console.log('value', value.fiscalYears[0].year);
+          fiscalyear.push(value.fiscalYears[0])
+          // let strArray =findDuplicates(value)
+
+          return { ...value.fiscalYears[0], cabinet: value.name }
+        })
+          , 'year') .sort(function (a, b) {
+            // console.log(a);
+            return b.year - a.year
+          }); //removed if had duplicate id
+
+
         this.externalOrganizationService.getMinisters()
           .subscribe(results => {
 
-            console.log(results);
+            // console.log(results);
+
             this.dataindata = results
             this.ministers = results
             this.spinner.hide();
-            this.dataindata = this.ministers.filter(result => {
-              console.log(result.fiscalYears[0].year, this.fiscalyear[0].year);
-              setTimeout(() => {
-                this.loading = true
-
-              }, 10)
-
-              return result.fiscalYears[0].year == this.fiscalyear[0].year
-            })
-            // this.spinner.hide();
             // this.dataindata = this.ministers.filter(result => {
-            //   // console.log( result.fiscalYears[0].year);
+            //   // console.log(result.fiscalYears[0].year, this.fiscalyear[0].year);
+            //   setTimeout(() => {
+            //     this.loading = true
 
-            //   return result.fiscalYears[0].year == this.fiscalyear[0].year
-            // })
+            //   }, 10)
+
+            // this.year = this.fiscalyear[0].year;
+            this.cabinetDrop = this.cabinets.map(result => { return result.name })
+            this.cabinet = this.cabinetDrop[0]
+            this.ChangeYear(this.fiscalyear[0].year)
+
             this.loading = true
           })
         // this.loading = true
-        console.log(this.fiscalyear);
+
 
       })
     this.dtOptions = {
@@ -71,30 +102,69 @@ export class MinisterTableComponent implements OnInit {
 
   }
   ChangeYear(year) {
-    console.log(year.target.value);
+    // console.log(year);
+
     this.loading = false
+    this.Changecabinet(year)
+
+    // this.checkresult(this.year)
+    //console.log(this.dataindata);
+
+  }
+  checkresult(year, cabinet: any = null) {
     this.dataindata = this.ministers.filter(result => {
-      console.log(result.fiscalYears[0].year, year.target.value);
+
       setTimeout(() => {
         this.loading = true
 
       }, 10)
+      console.log(result.fiscalYears[0].year, result.cabinet.name, result.fiscalYears[0].year == year, result.cabinet.name == cabinet);
 
-      return result.fiscalYears[0].year == year.target.value
+
+      return (result.fiscalYears[0].year == year && result.cabinet.name == cabinet)
     })
-    console.log(this.dataindata);
+  }
+  Changecabinet(year: any, cabinet: any = null) {
+    var test = 'คำสั่งที่ 334/2560'
+    this.cabinet = cabinet
 
+    if (this.year != year) {
+      this.year = year;
+      this.cabinetDrop = this.cabinets.filter((item, index) => {
+        return item.fiscalYears[0].year == year
+      })
+        .map(result => { return result.name })
+      this.checkresult(year, this.cabinetDrop[0])
+
+    } else {
+      this.year = year;
+      this.checkresult(this.year, cabinet)
+    }
   }
   modalRef: BsModalRef;
   openModal(minister: Ministers) {
     this.modalRef = this.modalService.show(MinisterModalComponent, {
       initialState: {
-        title: minister.name + " (" + minister.fiscalYears[0].name + ")",
+        title:`${minister.name }  ( ${minister.fiscalYears[0].name} )`,
         minister: minister,
         data: {},
 
       },
       class: 'modal-dialog-centered'
     });
+  }
+  reportword(year) {
+    alert(year);
+    this.dataindata = this.ministers.filter(result => {
+      //  console.log(result.fiscalYears[0].year, year.target.value);
+      setTimeout(() => {
+        this.loading = true
+
+      }, 10)
+
+      return result.fiscalYears[0].year == year
+    })
+
+    console.log('momomo', this.dataindata)
   }
 }

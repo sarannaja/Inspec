@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Refit;
+using InspecWeb.Models;
 
 namespace InspecWeb.ViewModel
 {
@@ -25,6 +26,24 @@ namespace InspecWeb.ViewModel
         public string address { get; set; }
         public string phonenumber { get; set; }
     }
+
+    public class UrlEBook
+    {
+        public string urlfile { get; set; }
+       
+    }
+
+    public class UrlEBookData
+    {
+        public EBookData data { get; set; }
+    }
+    public class EBookData
+    {
+        public List<ExecutiveOrder> exe { get; set; }
+        public ElectronicBookGroup ebook { get; set; }
+
+    }
+    
 
 
     public class OtpsMinisters

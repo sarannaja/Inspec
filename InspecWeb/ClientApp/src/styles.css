@@ -15,3 +15,5 @@ code {
   border-color: #1861ac;
 }
 @import "~ng-snotify/styles/material";
+
+@import "./assets/dist/css/modern.css"
