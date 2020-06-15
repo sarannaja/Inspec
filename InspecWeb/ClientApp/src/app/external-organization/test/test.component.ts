@@ -4,6 +4,7 @@ import * as Excel from "exceljs/dist/exceljs.min.js";
 import * as ExcelProper from "exceljs";
 
 import * as fs from 'file-saver';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
@@ -11,10 +12,18 @@ import * as fs from 'file-saver';
 })
 export class TestComponent implements OnInit {
 
-  constructor() { }
+  constructor(private TestUserService: UserService) { }
   /*name of the excel-file which will be downloaded. */
   fileName = 'ExcelSheet.xlsx';
-
+  testUser:any[] = [
+    {
+      id: 1,
+    },
+    {
+      id: 2
+    }
+  ]
+  resultUser: Array<any> = []
   exportexcel(): void {
     /* table id is passed over here */
     let element = document.getElementById('excel-table');
@@ -119,9 +128,29 @@ export class TestComponent implements OnInit {
     // const subTitleRow = worksheet.addRow(['Date : ' + this.datePipe.transform(new Date(), 'medium')]);
   }
   ngOnInit() {
-    this.exportexcel()
+    // this.exportexcel()
+    this.testUser.forEach((item) => {
+      this.getUserServiceLoop('001e26c1-0d87-4508-bd1a-e3b0e166f7d8')
+    })
     console.log("in test component");
 
+  }
+
+  getUserServiceLoop(id): void {
+    this.TestUserService.getuserfirstdata(id)
+      .subscribe(result => {
+        this.testUser = this.AddUserTest(this.testUser, result)
+        // console.log();
+        // return Array.from(s);
+        console.log(this.testUser);
+        
+      })
+  }
+
+  AddUserTest(array: any, value) {
+    var s = new Set(array);
+    s.add(value);
+    return Array.from(s);
   }
 
 }
