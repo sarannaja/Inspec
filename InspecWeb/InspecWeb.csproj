@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+  <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
     <PackageReference Include="ClosedXML" Version="0.95.3" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
@@ -34,6 +35,7 @@
     <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="System.IO.Packaging" Version="4.7.0" />
     <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="5.8.64" />
+    
   </ItemGroup>
 
   <ItemGroup><!-- Don't publish the SPA source files, but do show them in the project files list -->

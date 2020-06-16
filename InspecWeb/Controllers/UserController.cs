@@ -582,11 +582,12 @@ namespace InspecWeb.Controllers {
                         MinistryId = item.MinistryId,
                         Role_id = item.Role_id
                     };
+                    Console.WriteLine ("department1");
                     var success = await _userManager.CreateAsync (user, "Admin@12345678").ConfigureAwait (false);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync (user).ConfigureAwait (false);
                     await _userManager.ConfirmEmailAsync (user, code).ConfigureAwait (false);
 
-                    Console.WriteLine ("department1");
+                    
                     //user.DepartmentId = item.DepartmentId;
                     user.Position = item.Position;
                     user.Prefix = item.Prefix;
@@ -607,8 +608,8 @@ namespace InspecWeb.Controllers {
                     user.Enddate = item.Enddate;
                     user.Active = item.Active;
 
-                    _context.Entry (user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    _context.SaveChanges ();
+                     _context.Entry(user).State =  EntityState.Modified;
+                     _context.SaveChanges();
                     Console.Write ("department2");
                     foreach (var item2 in item.UserRegion) {
                         var userregiondata = new UserRegion {
