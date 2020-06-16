@@ -33,10 +33,10 @@
               <th>#</th>
               <th>ชื่อแผนตรวจราชการประจำปี</th>
               <th>ปี</th>
-              <th>ระยะเวลา</th>
-              <th>สถานะกำหนดการ</th>
-              <th>สถานะ</th>
-              <th>สถานะรายงานผล</th>
+              <!-- <th>ระยะเวลา</th> -->
+              <!-- <th>สถานะกำหนดการ</th>
+              <th>สถานะ</th> -->
+              <th>ผู้สั่งการ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -44,31 +44,36 @@
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
               <td width="40%" class="pointer">{{ item.centralPolicy.title }}</td>
-              <td>2563</td>
-              <td>
+              <td>{{item.centralPolicy.fiscalYear.year}}</td>
+              <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">
                   {{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
-              </td>
+              </td> -->
 
-              <td>
+              <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
                   <span *ngIf="item2.provinceId == item.provinceId">{{ item2.status }}</span>
                 </div>
               </td>
 
-              <td>{{ item.status }}</td>
-              <td>{{ item.draftStatus }}</td>
+              <td>{{ item.status }}</td> -->
+              <td>{{ item.invitedBy }}</td>
+
               <td>
 
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
-                  <div *ngIf="item2.provinceId == item.provinceId && item2.status == 'ใช้งานจริง'">
+                  <div *ngIf="item2.provinceId == item.provinceId">
+
                     <i *ngIf="item.status == 'รอการตอบรับ'" class="align-middle mr-2 fas fa-fw fa-check-circle pointer"
                       (click)="AcceptCentralPolicy(item.id, item.centralPolicy.id,item.provinceId)"></i>
+
+
                     <i *ngIf="item.status == 'ตอบรับ' && item.draftStatus == 'ร่างกำหนดการ'"
                       class="align-middle mr-2 fas fa-fw fa-book pointer"
                       (click)="gotoReport(item.id, item.centralPolicy.id,item.provinceId)"></i>
                     <i *ngIf="item.status == 'ปฏิเสธ'"></i>
+
                   </div>
                 </div>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i> -->

@@ -86,7 +86,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private userservice: UserService,
     private subjectservice: SubjectService,
     private activatedRoute: ActivatedRoute,
-    private spinner: NgxSpinnerService,
+    // private spinner: NgxSpinnerService,
     private electronicBookService: ElectronicbookService,
     private departmentService: DepartmentService,
     private notificationService: NotificationService,
@@ -117,9 +117,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       })
 
     console.log("ID: ", this.id);
-    this.getAnswer();
 
-    this.spinner.show();
+    // this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
     })
@@ -163,7 +162,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       // centralpolicydateid: new FormControl(null, [Validators.required]),
       status: new FormControl("ใช้งานจริง่", [Validators.required]),
       inputsubjectdepartment: this.fb.array([
-        this.initdepartment()
+        // this.initdepartment()
       ]),
     })
 
@@ -173,42 +172,44 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     await this.getMinistryPeople();
     await this.getUserPeople();
+    await this.getAnswer2();
     // await this.getDepartment()
 
     setTimeout(() => {
-      this.spinner.hide();
+      // this.spinner.hide();
     }, 800);
   }
-  initdepartment() {
-    return this.fb.group({
-      departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
-      inputquestionopen: this.fb.array([
-        this.initquestionopen()
-      ]),
-      inputquestionclose: this.fb.array([
-        this.initquestionclose()
-      ])
-    })
-  }
-  initquestionopen() {
-    return this.fb.group({
-      questionopen: [null, [Validators.required, Validators.pattern('[0-9]{3}')]]
 
-    })
-  }
-  initquestionclose() {
-    return this.fb.group({
-      questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
-      inputanswerclose: this.fb.array([
-        this.initanswerclose()
-      ])
-    });
-  }
-  initanswerclose() {
-    return this.fb.group({
-      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
-    })
-  }
+  // initdepartment() {
+  //   return this.fb.group({
+  //     departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+  //     inputquestionopen: this.fb.array([
+  //       this.initquestionopen()
+  //     ]),
+  //     inputquestionclose: this.fb.array([
+  //       this.initquestionclose()
+  //     ])
+  //   })
+  // }
+  // initquestionopen() {
+  //   return this.fb.group({
+  //     questionopen: [null, [Validators.required, Validators.pattern('[0-9]{3}')]]
+
+  //   })
+  // }
+  // initquestionclose() {
+  //   return this.fb.group({
+  //     questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+  //     inputanswerclose: this.fb.array([
+  //       this.initanswerclose()
+  //     ])
+  //   });
+  // }
+  // initanswerclose() {
+  //   return this.fb.group({
+  //     answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+  //   })
+  // }
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
     await this.getMinistryPeople();
@@ -427,11 +428,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           console.log(response);
         })
 
-        this.spinner.show();
+        // this.spinner.show();
         setTimeout(() => {
           this.getCalendarFile();
           this.form.reset();
-          this.spinner.hide();
+          // this.spinner.hide();
         }, 300);
 
       // window.history.back();
@@ -441,7 +442,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   storePeople(value: any) {
     let UserPeopleId: any[] = value.UserPeopleId
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid,this.userid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
@@ -492,7 +493,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storeMinistryPeople(value: any) {
     let UserPeopleId: any[] = value.UserPeopleId
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid,this.userid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
@@ -693,22 +694,22 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     })
   }
-  addV() {
-    const control = <FormArray>this.AddForm.controls['inputsubjectdepartment'];
-    control.push(this.initdepartment());
-  }
-  addW(iv) {
-    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
-    control.push(this.initquestionopen());
-  }
-  addX(iv) {
-    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
-    control.push(this.initquestionclose());
-  }
-  addY(iv, ix) {
-    const control = ((<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
-    control.push(this.initanswerclose());
-  }
+  // addV() {
+  //   const control = <FormArray>this.AddForm.controls['inputsubjectdepartment'];
+  //   control.push(this.initdepartment());
+  // }
+  // addW(iv) {
+  //   const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+  //   control.push(this.initquestionopen());
+  // }
+  // addX(iv) {
+  //   const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+  //   control.push(this.initquestionclose());
+  // }
+  // addY(iv, ix) {
+  //   const control = ((<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+  //   control.push(this.initanswerclose());
+  // }
   // remove(index: number) {
   //   this.d.removeAt(index);
   // }
@@ -775,7 +776,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
 
   storeSubject(value) {
-    this.spinner.show();
+    // this.spinner.show();
     console.log(value);
     this.subjectservice.addSubjectRole3(value, this.id).subscribe(response => {
       console.log("Response : ", response);
@@ -787,12 +788,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       // this.storefiles();
       this.AddForm.reset();
       this.modalRef.hide();
-      this.spinner.hide();
+      // this.spinner.hide();
       this.getDetailCentralPolicyProvince()
     })
   }
 
-  getAnswer() {
+  getAnswer2() {
     this.centralpolicyservice.getAnswer(this.id).subscribe(res => {
       this.answerData = res;
       console.log("answer: ", this.answerData);

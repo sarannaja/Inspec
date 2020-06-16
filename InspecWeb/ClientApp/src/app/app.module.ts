@@ -132,6 +132,9 @@ import { DatePipe } from '@angular/common';
 import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
 import { ExecutiveOrderExport1Component } from './executive-order/executive-order-export1/executive-order-export1.component';
 import { ExecutiveOrderExport3Component } from './executive-order/executive-order-export3/executive-order-export3.component';
+import { CommanderReportComponent } from './commander-report/commander-report.component';
+
+
 
 
 const ExternalOrganization = [
@@ -245,6 +248,7 @@ const ExternalOrganization = [
     MeetinginformationComponent,
     PremierorderComponent,
     ReportInspectionPlanEventComponent,
+    CommanderReportComponent,
     // DatePipe
     InfoDepartmentComponent,
     InfoVillageComponent,
@@ -398,6 +402,7 @@ const ExternalOrganization = [
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

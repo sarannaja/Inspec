@@ -209,6 +209,58 @@ namespace InspecWeb.Controllers
                 //System.Console.WriteLine("success");
             }
 
+            if (Status == 14)
+            {
+                var users = _context.Users
+
+               .Where(m => m.Role_id == 8).ToList();
+
+                foreach (var item in users)
+                {
+                    System.Console.WriteLine("USERID : " + item.Id);
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = item.Id,
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe,
+                    });
+
+                    _context.SaveChanges();
+                    //System.Console.WriteLine("success");
+
+                }
+            }
+
+            if (Status == 15)
+            {
+                var users = _context.Users
+
+               .Where(m => m.Id == UserId).ToList();
+
+                foreach (var item in users)
+                {
+                    System.Console.WriteLine("USERID : " + item.Id);
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = item.Id,
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe,
+                    });
+
+                    _context.SaveChanges();
+                    //System.Console.WriteLine("success");
+
+                }
+            }
+
             return notificationdata;
         }
 
