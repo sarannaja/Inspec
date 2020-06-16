@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\EmailService.csproj": {}
+    "c:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\EmailService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\EmailService.csproj": {
+    "c:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\EmailService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\EmailService.csproj",
+        "projectUniqueName": "c:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\EmailService.csproj",
         "projectName": "EmailService",
-        "projectPath": "C:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\EmailService.csproj",
+        "projectPath": "c:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\EmailService.csproj",
         "packagesPath": "C:\\Users\\ginta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\obj\\",
+        "outputPath": "c:\\Users\\ginta\\Desktop\\Inspec\\EmailService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ginta\\AppData\\Roaming\\NuGet\\NuGet.Config",

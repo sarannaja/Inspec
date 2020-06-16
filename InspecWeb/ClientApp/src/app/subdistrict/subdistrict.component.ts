@@ -35,7 +35,7 @@ export class SubdistrictComponent implements OnInit {
       console.log(this.resultsubdistrict);
     })
   }
-  Subvillage(id){
-    this.router.navigate(['/info-village',id])
+  InfoVillage(id){
+    this.router.navigate(['/infovillage',id])
   }
 }
