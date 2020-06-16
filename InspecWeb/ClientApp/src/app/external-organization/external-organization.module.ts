@@ -21,6 +21,7 @@ import { Gcc1111TableComponent } from './opm1111/gcc1111-table/gcc1111-table.com
 import { ThaiDatePipe } from '../services/Pipe/thaidate.service';
 import { VectorMapComponent } from './vector-map/vector-map.component';
 import { CustomCurrencyPipe } from '../services/Pipe/customecurrency.service';
+import { RegionComponent } from './otps/modals/region/region.component';
 
 
 
@@ -38,7 +39,8 @@ import { CustomCurrencyPipe } from '../services/Pipe/customecurrency.service';
     JoaComponent,
     Gcc1111TableComponent,
     VectorMapComponent,
-    CustomCurrencyPipe
+    CustomCurrencyPipe,
+    RegionComponent
     
   ],
   imports: [
@@ -51,7 +53,7 @@ import { CustomCurrencyPipe } from '../services/Pipe/customecurrency.service';
   ],
   exports:[MinisterModalComponent,CustomCurrencyPipe],
   providers: [ExternalOrganizationService,CurrencyPipe],
-  entryComponents: [MinisterModalComponent]
+  entryComponents: [MinisterModalComponent,RegionComponent]
   // entryComponents:[GgcOpmComponent,Opm1111Component,OtpsComponent],
   // exports: [GgcOpmComponent, Opm1111Component, OtpsComponent, MinisterTableComponent],
 })

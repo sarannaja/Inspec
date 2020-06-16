@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
-import { Regions, Ministers, Cabinets } from 'src/app/models/otps';
+import { Regions, Ministers, Cabinets } from '../models/otps';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({

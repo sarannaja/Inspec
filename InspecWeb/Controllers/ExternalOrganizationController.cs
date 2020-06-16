@@ -228,5 +228,24 @@ namespace InspecWeb.Controllers
 
         }
 
+        // GET api/values/5
+        [HttpGet("otps/region/{id}")]
+        public IActionResult OnGetRegionOtps(int id)
+        {
+            NewRegion model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Regions/"+id)
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<NewRegion>(jsonString.Result);
+                });
+            task.Wait();
+            return Ok(model);
+
+        }
+
     }
 }

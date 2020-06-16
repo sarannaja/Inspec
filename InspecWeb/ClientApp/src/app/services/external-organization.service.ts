@@ -1,7 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Regions, Ministers, Cabinets, Province, ProvinceFiscalYears, ProvinceFiscalYear } from '../models/otps';
+import { Regions, Ministers, Cabinets, Province, ProvinceFiscalYears, ProvinceFiscalYear } from '../external-organization/models/otps' ;
+import { NewRegion } from '../external-organization/models/Region';
+// import { NewRegion, Province } from '../external-organization/models/Region';
 // [assembly: RegisterModule(typeof(SSLRequestModule))]                                                                                                                                                                                                                                                                                                                                             
 
 @Injectable({
@@ -17,6 +19,9 @@ export class ExternalOrganizationService {
   //api ระบบพี่ตัง
   getRegions(): Observable<Regions[]> {
     return this.http.get<Regions[]>('http://203.113.14.20:3000/testservice/otps/regions', this.httpOptions)
+  }
+  getRegionById(id): Observable<NewRegion> {
+    return this.http.get<NewRegion>(`${this.baseUrl}api/ExternalOrganization/otps/region/${id}`, this.httpOptions)
   }
 
   getProvinces():Observable<Province[]>{

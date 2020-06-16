@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
-import { Ministers, Cabinets } from 'src/app/models/otps';
+import { Ministers, Cabinets, Regions, MinisterRegions } from '../../models/otps';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MinisterModalComponent } from '../modals/minister-modal/minister-modal.component';
 import * as _ from 'lodash';
+import { RegionComponent } from '../modals/region/region.component';
 
 @Component({
   selector: 'app-minister-table',
@@ -62,7 +63,7 @@ export class MinisterTableComponent implements OnInit {
 
           return { ...value.fiscalYears[0], cabinet: value.name }
         })
-          , 'year') .sort(function (a, b) {
+          , 'year').sort(function (a, b) {
             // console.log(a);
             return b.year - a.year
           }); //removed if had duplicate id
@@ -142,11 +143,26 @@ export class MinisterTableComponent implements OnInit {
     }
   }
   modalRef: BsModalRef;
+
   openModal(minister: Ministers) {
     this.modalRef = this.modalService.show(MinisterModalComponent, {
       initialState: {
-        title:`${minister.name }  ( ${minister.fiscalYears[0].name} )`,
+        title: `${minister.name} ( ${minister.fiscalYears[0].name} ${minister.cabinet.name} )`,
         minister: minister,
+        data: {},
+
+      },
+      class: 'modal-dialog-centered'
+    });
+  }
+
+  openModalRegion(region: any) {
+    console.log('region modal',region);
+    
+    this.modalRef = this.modalService.show(RegionComponent, {
+      initialState: {
+        title: `${region.name} ${region.id}`,
+        region: region,
         data: {},
 
       },

@@ -32,9 +32,8 @@
 </div>
 
 <div class="card-body">
-    <table *ngIf="loading" class="table table-striped table-bordered table-sm row-border hover "
-
-        datatable [dtOptions]="dtOptions">
+    <table *ngIf="loading" class="table table-striped table-bordered table-sm row-border hover " datatable
+        [dtOptions]="dtOptions">
         <thead>
             <tr>
                 <th>#</th>
@@ -53,8 +52,13 @@
                 <td>{{item.position}}</td>
                 <td>{{item.cabinet.name}}</td>
                 <td style="cursor: pointer;">
-                    <span class="badge badge-primary"
-                        *ngFor="let region of item.fiscalYears[0].regions">{{region.name}}</span>
+                    <a href="javascript:void(0)" *ngFor="let region of item.fiscalYears[0].regions"
+                        (click)="openModalRegion(region)">
+                        <span class="badge badge-primary">
+                            {{region.name}}
+                        </span>
+                    </a>
+
                 </td>
             </tr>
         </tbody>
