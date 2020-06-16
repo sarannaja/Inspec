@@ -9,41 +9,47 @@ export class NotificationService {
 
   count = 0
   url = "";
+  testLoop(func) {
+    console.log(`loop to ${func}`);
+  }
 
-
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string)
-  {
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/notification/';
   }
 
   getnotificationsdata(id: any): Observable<any> {
-    return this.http.get<any>(this.url +'getnotifications/'+ id)
+    this.testLoop('getnotificationsdata')
+    return this.http.get<any>(this.url + 'getnotifications/' + id)
   }
   getnotificationscountdata(id: any): Observable<any> {
-    return this.http.get<any>(this.url +'getnotificationscount/'+ id)
+    this.testLoop('getnotificationscountdata')
+    return this.http.get<any>(this.url + 'getnotificationscount/' + id)
   }
-
+  
   getnotificationsforexecutiveorderdata(id: any): Observable<any> {
-    return this.http.get<any>(this.url +'getnotificationsforexecutiveorder/'+ id)
+    this.testLoop('getnotificationsforexecutiveorderdata')
+    return this.http.get<any>(this.url + 'getnotificationsforexecutiveorder/' + id)
   }
-
-  addNotification(CentralPolicyId,ProvinceId,UserId,status, xe) {
+  
+  addNotification(CentralPolicyId, ProvinceId, UserId, status, xe) {
+    this.testLoop('addNotification')
     
     var formData = new FormData();
     
-    formData.append('CentralPolicyId',CentralPolicyId);
-    formData.append('ProvinceId',ProvinceId);
-    formData.append('UserId',UserId);
-    formData.append('Status',status);
-    formData.append('xe',xe);
-
+    formData.append('CentralPolicyId', CentralPolicyId);
+    formData.append('ProvinceId', ProvinceId);
+    formData.append('UserId', UserId);
+    formData.append('Status', status);
+    formData.append('xe', xe);
+    
     return this.http.post(this.url, formData);
   }
-
+  
   updateNotification(id) {
+    this.testLoop('updateNotification')
     const formData = new FormData();
     formData.append('update', 'update');
-    return this.http.put(this.url+id, formData);
+    return this.http.put(this.url + id, formData);
   }
 
 
