@@ -1026,9 +1026,10 @@ namespace InspecWeb.Controllers
 
             var centralprovinceid = _context.CentralPolicyProvinces
                 .Where(x => x.Id == ebook.CentralPolicyProvinceId).First();
-
-            var exe = _context.ExecutiveOrders
-                .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
+            
+            var exe = "";
+            //var exe = _context.ExecutiveOrders
+            //    .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
             
             var user = _context.CentralPolicyUsers
                 .Include(x => x.User)
