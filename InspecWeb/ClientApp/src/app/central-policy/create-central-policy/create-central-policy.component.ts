@@ -103,6 +103,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     })
 
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      // alert(JSON.stringify(result))
       this.resultfiscalyear = result
       console.log(this.resultcentralpolicy);
     })

@@ -49,6 +49,8 @@ export class MainComponent implements OnInit {
         //alert(this.role_id);
         console.log("user", result);
       })
+
+      // alert(this.role_id)
     this.exportExcel();
 
       this.userManager.getUser

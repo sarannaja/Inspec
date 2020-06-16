@@ -32,7 +32,9 @@ export class InspectionPlanComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   centralpolicyprovinceid: any
   role_id
-  constructor(private modalService: BsModalService, private notificationService: NotificationService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService, ) {
+  timelineData: any = [];
+
+  constructor(private modalService: BsModalService, private notificationService: NotificationService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
@@ -72,6 +74,14 @@ export class InspectionPlanComponent implements OnInit {
     })
 
     this.getinspectionplanservice()
+    this.getTimeline();
+  }
+
+  getTimeline() {
+    this.inspectionplanservice.getTimeline(this.id).subscribe(res => {
+      console.log("Timeline: ", res);
+      this.timelineData = res.timelineData;
+    })
   }
 
   openModal(template: TemplateRef<any>) {

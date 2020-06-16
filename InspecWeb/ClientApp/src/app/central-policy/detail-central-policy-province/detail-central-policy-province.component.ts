@@ -77,6 +77,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   fileStatus2 = false;
   signatureFile: any = [];
   fileType: any;
+  role7Count: any = 0;
+  role6Count: any = 0;
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -396,7 +398,17 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   getCentralPolicyProvinceUser() {
     this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
       .subscribe(result => {
+        console.log();
+
         this.resultcentralpolicyuser = result
+        this.resultcentralpolicyuser.forEach(element => {
+         if (element.user.role_id == 7) {
+           this.role7Count = 1
+         }
+         if (element.user.role_id == 6) {
+          this.role6Count = 1
+        }
+        });
         // console.log("result" + result);
       })
 
