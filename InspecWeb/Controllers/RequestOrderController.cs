@@ -59,7 +59,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-                .Include(m => m.RequestOrders)
+                //.Include(m => m.RequestOrders)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
             /*.Where(m => m.Id == id).FirstOrDefault();*/

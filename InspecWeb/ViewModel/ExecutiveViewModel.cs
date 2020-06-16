@@ -9,14 +9,17 @@ namespace InspecWeb.ViewModel
     public class ExecutiveViewModel
     {
         public long id { get; set; }
-        public string Name { get; set; }
-        public string AnswerDetail { get; set; }
-        public string AnswerProblem { get; set; }
-        public string AnswerCounsel { get; set; }
-        public long CentralpolicyId { get; set; }
-        public long ProvinceId { get; set; }
-        public string UserId { get; set; }
-        public string AnswerUserId { get; set; } 
+        public string Commanded_by { get; set; }
+        public string Subject { get; set; }
+        public string Subjectdetail { get; set; }
+        public string Status { get; set; }
+        public string Answer_by { get; set; } 
+        public string Answerdetail { get; set; } 
+        public string AnswerProblem { get; set; }      
+        public string AnswerCounsel { get; set; }      
+        public DateTime? CreatedAt { get; set; }     
+        public DateTime? Commanded_date { get; set; }
+        public DateTime? beaware_date { get; set; }
         public List<IFormFile> files { get; set; }
     }
 }

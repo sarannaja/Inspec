@@ -24,12 +24,6 @@ export class RequestorderService {
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
-    console.log('IDuser: ' + formData.get("AnswerUserId"));
-    //console.log('FORMDATA: ', formData.getAll);
-    // console.log('AnswerDetail: ' + formData.get("AnswerDetail"));
-    // console.log('AnswerProblem: ' + formData.get("AnswerProblem"));
-    // console.log('AnswerCounsel: ' + formData.get("AnswerCounsel"));
-    // console.log('files: ', formData.get("files"));
     return this.http.put(this.url + 'edit', formData);
   }
   getcentralpolicyprovinceiddata(id){

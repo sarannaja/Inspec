@@ -45,8 +45,9 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IEnumerable<ExecutiveOrder> Get()
         {
-
-            var executivedata = _context.ExecutiveOrders.ToList();
+            var executivedata = _context.ExecutiveOrders
+                .Where(m => m.publics == 1)
+                .ToList();
             return executivedata;
         }
 
@@ -58,7 +59,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
-                .Include(m => m.ExecutiveOrders)
+                //.Include(m => m.ExecutiveOrders)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
                 .Where(m => m.Id == id).FirstOrDefault();
@@ -66,25 +67,56 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicydata);
             //return "value";
         }
+        
+        [HttpGet("commanded/{id}")]
+        public IActionResult Commanded(string id)
+        {
+            var excutiveorderdata = _context.ExecutiveOrders
+                .Include(m => m.User_Answer_by)
+                //.ThenInclude(m => m.)
+                .Include(m => m.ExecutiveOrderFiles)
+                .Include(m => m.AnswerExecutiveOrderFiles)
+                .Where(m => m.Commanded_by == id && m.publics == 1)
+                .ToList();
+                
+
+            return Ok(excutiveorderdata);
+        }
+        [HttpGet("answered/{id}")]
+        public IActionResult answered(string id)
+        {
+            var excutiveorderdata = _context.ExecutiveOrders
+                .Include(m => m.User_Answer_by)
+                //.ThenInclude(m => m.)
+                .Include(m => m.ExecutiveOrderFiles)
+                .Include(m => m.AnswerExecutiveOrderFiles)
+                .Where(m => m.Answer_by == id && m.publics == 1)
+                .ToList();
+
+
+            return Ok(excutiveorderdata);
+        }
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] ExecutiveViewModel model)
         {
-            //System.Console.WriteLine("centralpolicy: " + model.CentralpolicyId);
+            System.Console.WriteLine("1 : ");
             //System.Console.WriteLine("provinceid: " + model.ProvinceId);
             //System.Console.WriteLine("Name: " + model.Name);
             var date = DateTime.Now;
-            var cabinedata = new ExecutiveOrder
+            var executiveordersdata = new ExecutiveOrder
             {
-
-                DetailExecutiveOrder = model.Name,
-                CentralPolicyId = model.CentralpolicyId,
-                ProvinceId = model.ProvinceId,
-                UserId = model.UserId,
-                CreatedAt = date
+                Commanded_by = model.Commanded_by,
+                Subject = model.Subject,
+                Subjectdetail = model.Subjectdetail,
+                Status = "แจ้งแล้ว",       
+                CreatedAt = date,
+                Commanded_date = model.Commanded_date,
+                publics = 1,
+                Answer_by = model.Answer_by
 
             };
-
-            _context.ExecutiveOrders.Add(cabinedata);
+            System.Console.WriteLine("2 : ");
+            _context.ExecutiveOrders.Add(executiveordersdata);
             _context.SaveChanges();
 
             if (!Directory.Exists(_environment.WebRootPath + "//executivefile//"))
@@ -114,112 +146,33 @@ namespace InspecWeb.Controllers
 
                     var ExecutiveOrderFile = new ExecutiveOrderFile
                     {
-                        ExecutiveOrderId = cabinedata.Id,
+                        ExecutiveOrderId = executiveordersdata.Id,
                         Name = random + filename,
                     };
                     _context.ExecutiveFiles.Add(ExecutiveOrderFile);
                     _context.SaveChanges();
                 }
             }
-            //System.Console.WriteLine("Return ID: " + cabinedata.Id);
-            return Ok(new { Id = cabinedata.Id });
+            System.Console.WriteLine("Answer_by_ID: " + executiveordersdata.Answer_by);
+            return Ok(new { Id = executiveordersdata.Id , Answer_by = executiveordersdata.Answer_by });
         }
-
-        [HttpGet("province/{id}")]
-        public object Getprovince(long id)
-        {
-            var result = new List<object>();
-
-
-            var centralpolicyprovincedata = _context.CentralPolicyProvinces
-                .Include(m => m.Province)
-                .Where(m => m.CentralPolicyId == id)
-                .ToList();
-
-            //foreach (var provinceid in centralpolicyprovincedata)
-            //{
-            //    var provincename = _context.Provinces
-            //        .Where(x => x.Id == provinceid)
-            //        .ToList();
-
-            //    result.Add(
-
-            //        provincename
-            //    );
-            //}
-
-            return Ok(centralpolicyprovincedata);
-            //return "value";
-        }
-        [HttpGet("detail/{id}")]//new///
-        public IActionResult Getexecutive(long id)
-        {
-            var executiveOrderdata = _context.ExecutiveOrders
-                /*.Include(m => m.DetailExecutiveOrder)*/
-                .Include(m => m.Province)
-                .Include(m => m.ExecutiveOrderFiles)
-                .Include(m => m.AnswerExecutiveOrderFiles)
-                .Include(m => m.CentralPolicy)
-                .Where(m => m.CentralPolicyId == id);
-
-            return Ok(executiveOrderdata);
-            //return "value";
-        }
-        [HttpGet("view/{id}")]//new///
-        public IActionResult Getviewexecutive(long id)
-        {
-            var executiveOrderdata = _context.ExecutiveOrders
-                /*.Include(m => m.DetailExecutiveOrder)*/
-                .Include(m => m.Province)
-                .Include(m => m.UserId)
-                .Include(m => m.CreatedAt)
-                .Include(m => m.ExecutiveOrderFiles)
-                .Include(m => m.AnswerUserId)
-                .Include(m => m.AnswerExecutiveOrderFiles)
-                .Include(m => m.CentralPolicy)
-                .Where(m => m.CentralPolicyId == id);
-
-            return Ok(executiveOrderdata);
-            //return "value";
-        }
-
-
-        [HttpGet("detailrole3/{id}/{userid}")]
-        public IActionResult Getexecutiverole3(long id, string userid)
-        {
-            var provinceId = _context.UserProvinces
-                .Where(x => x.UserID == userid)
-                .Select(x => x.ProvinceId)
-                .FirstOrDefault();
-
-            var executiveOrderdata = _context.ExecutiveOrders
-                /*.Include(m => m.DetailExecutiveOrder)*/
-                .Include(m => m.Province)
-                .Include(m => m.ExecutiveOrderFiles)
-                .Where(m => m.CentralPolicyId == id && m.ProvinceId == provinceId);
-
-            return Ok(executiveOrderdata);
-            //return "value";
-        }
+   
+       
 
         [HttpPut]
         public async Task<IActionResult> Put([FromForm] ExecutiveViewModel model)
         {
-            /*System.Console.WriteLine("detailexecutiveorder: " + model.id);
-            System.Console.WriteLine("AnswerDetail: " + model.AnswerDetail);
-            System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
-            System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
-            System.Console.WriteLine("AnswerExecutiveorder: " + model.files);*/
-            var cabinedata = _context.ExecutiveOrders.Find(model.id);
+            var date = DateTime.Now;
+            var executiveordersdata = _context.ExecutiveOrders.Find(model.id);
             {
-                cabinedata.AnswerDetail = model.AnswerDetail;
-                cabinedata.AnswerProblem = model.AnswerProblem;
-                cabinedata.AnswerCounsel = model.AnswerCounsel;
-                cabinedata.AnswerUserId = model.AnswerUserId;
-                //System.Console.WriteLine(model.AnswerUserId);
+                executiveordersdata.Answerdetail = model.Answerdetail;
+                executiveordersdata.AnswerProblem = model.AnswerProblem;
+                executiveordersdata.AnswerCounsel = model.AnswerCounsel;
+                executiveordersdata.Status = "ตอบกลับเรียบร้อย";
+                executiveordersdata.beaware_date = date;
             };
 
-            _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(executiveordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
             if (!Directory.Exists(_environment.WebRootPath + "//executivefile//"))
             {
@@ -307,16 +260,7 @@ namespace InspecWeb.Controllers
         {
             var userId = body.Id;
             var Eexcutive1 = _context.ExecutiveOrders
-                //.Include(m => m.CreatedAt)
-                .Include(m => m.CentralPolicy)
-                //.ThenInclude(m => m.Title)
-                //.Include(m => m.CentralPolicy)
-                //.ThenInclude(m => m.Status)
-                //.Include(m => m.CreatedAt)
-                //.Include(m => m.AnswerUserId)
-                //.Include(m => m.AnswerDetail)
-                //.Include(m => m.ExecutiveOrderFiles)
-                .Where(m => m.UserId == userId)
+                .Where(m => m.Commanded_by == userId)
                 .ToList();
 
                 var users = _context.Users      
@@ -406,17 +350,17 @@ namespace InspecWeb.Controllers
                     //System.Console.WriteLine("9.1: ");
                     t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
                     //System.Console.WriteLine("9.2: " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive1[i].CreatedAt.ToString());
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive1[i].Commanded_date.ToString());
                    // System.Console.WriteLine("9.3: " + model.reportData[i].suggestion);
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(Eexcutive1[i].CentralPolicy.Title);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(Eexcutive1[i].Subject);
                     // System.Console.WriteLine("9.4: " +Eexcutive1[i].CentralPolicy.Title);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive1[i].CentralPolicy.Status);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive1[i].Status);
                     // System.Console.WriteLine("9.5: " + Eexcutive1[i].CentralPolicy.Status);
                     t.Rows[j].Cells[4].Paragraphs[0].Append(Eexcutive1[i].CreatedAt.ToString());
                     // System.Console.WriteLine("9.6: " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[5].Paragraphs[0].Append(Eexcutive1[i].AnswerUserId);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(Eexcutive1[i].Answer_by);
                     // System.Console.WriteLine("10:  " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[6].Paragraphs[0].Append(Eexcutive1[i].AnswerDetail);
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(Eexcutive1[i].Answerdetail);
                     // System.Console.WriteLine("10: +Eexcutive1[i].AnswerDetail");
 
                 }
@@ -435,22 +379,7 @@ namespace InspecWeb.Controllers
             }
         }
 
-    //[HttpPost("export333")]
-    //public IActionResult Getexport332([FromBody] UserViewModel body)
-    //{
-    //    var userId = body.Id;
-    //    var Eexcutive1 = _context.ExecutiveOrders
-    //        .Include(m => m.CentralPolicy)
-    //        .Where(m => m.UserId == userId)
-    //        .ToList();
-
-    //    var users = _context.Users
-    //        .Where(m => m.Id == userId)
-    //        .FirstOrDefault();
-
-    //    System.Console.WriteLine("export1 : " + userId);
-    //        return Ok(new { data = Eexcutive1 });
-    //}
+   
 
 }
 

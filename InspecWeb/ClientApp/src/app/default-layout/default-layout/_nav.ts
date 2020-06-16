@@ -41,13 +41,13 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
     },
     {
       icon:'fa-hand-point-up',
-      name:"ข้อสั่งการ",
+      name:"ข้อสั่งการถึงผู้ตรวจราชการ",
       IDchildren:'executiveorderdata',
       children:[
           {
               icon:'fa-long-arrow-alt-right',
               url:'/executiveorder',
-              name:'ข้อสั่งการผู้บริหาร',
+              name:'ข้อสั่งการถึงผู้ตรวจราชการ',
               ex_link:'0',
           },
           {
@@ -67,9 +67,31 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
       ]
     },
     {
-        icon:'fa-hands',
-        url:"/requestorder",
-        name:"แจ้งคำร้องขอ"
+      icon:'fa-hand-point-up',
+      name:"แจ้งข้อมูลถึงผู้ตรวจราชการ",
+      IDchildren:'requestorderdata',
+      children:[
+          {
+              icon:'fa-long-arrow-alt-right',
+              url:'/requestorder',
+              name:'แจ้งข้อมูลถึงผู้ตรวจราชการ',
+              ex_link:'0',
+          },
+          {
+              icon:'fa-long-arrow-alt-right',
+              url:'#',
+              name:'รายงานแจ้งข้อมูลถึงผู้ตรวจราชการ',
+              ex_link:'0',
+            
+          },
+          {
+              icon:'fa-long-arrow-alt-right',
+              url:'#',
+              name:'ทะเบียนแจ้งข้อมูลถึงผู้ตรวจราชการ',
+              ex_link:'0',
+          
+          } 
+      ]
     },
     // {
     //     classtap:'sidebar-header',
@@ -525,13 +547,57 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   },
   {
     icon:'fa-hand-point-up',
-    url:"/executiveorder",
-    name:"ข้อสั่งการผู้บริหาร"
+    name:"ข้อสั่งการถึงผู้ตรวจราชการ",
+    IDchildren:'executiveorderdata',
+    children:[
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/executiveorder',
+            name:'ข้อสั่งการถึงผู้ตรวจราชการ',
+            ex_link:'0',
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/executiveorderexport1component',
+            name:'รายงานข้อสั่งการของผู้บริหาร',
+            ex_link:'0',
+          
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/executiveorderexport3component',
+            name:'ทะเบียนข้อสั่งการของผู้บริหาร',
+            ex_link:'0',
+        
+        } 
+    ]
   },
   {
-    icon: 'fa-hands',
-    url: "/requestorder",
-    name: "แจ้งคำร้องขอ"
+    icon:'fa-hand-point-up',
+    name:"แจ้งข้อมูลถึงผู้ตรวจราชการ",
+    IDchildren:'requestorderdata',
+    children:[
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/requestorder',
+            name:'แจ้งข้อมูลถึงผู้ตรวจราชการ',
+            ex_link:'0',
+        },
+        // {
+        //     icon:'fa-long-arrow-alt-right',
+        //     url:'/executiveorderexport1component',
+        //     name:'รายงานข้อสั่งการของผู้บริหาร',
+        //     ex_link:'0',
+          
+        // },
+        // {
+        //     icon:'fa-long-arrow-alt-right',
+        //     url:'/executiveorderexport3component',
+        //     name:'ทะเบียนข้อสั่งการของผู้บริหาร',
+        //     ex_link:'0',
+        
+        // } 
+    ]
   },
   {
     icon: 'fa-list-alt',
@@ -680,7 +746,34 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
   {
     icon: 'fa-hands',
     url: "/requestorder",
-    name: "แจ้งคำร้องขอ"
+    name: "แจ้งข้อมูลถึงผู้ตรวจราชการ"
+  },
+  {
+    icon:'fa-hand-point-up',
+    name:"แจ้งข้อมูลถึงผู้ตรวจราชการ",
+    IDchildren:'requestorderdata',
+    children:[
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/requestorder',
+            name:'แจ้งข้อมูลถึงผู้ตรวจราชการ',
+            ex_link:'0',
+        },
+        // {
+        //     icon:'fa-long-arrow-alt-right',
+        //     url:'/executiveorderexport1component',
+        //     name:'รายงานข้อสั่งการของผู้บริหาร',
+        //     ex_link:'0',
+          
+        // },
+        // {
+        //     icon:'fa-long-arrow-alt-right',
+        //     url:'/executiveorderexport3component',
+        //     name:'ทะเบียนข้อสั่งการของผู้บริหาร',
+        //     ex_link:'0',
+        
+        // } 
+    ]
   },
   // {
   //     classtap:'sidebar-header',
@@ -931,9 +1024,31 @@ export const president: NavBar[] = [ //User นายก
     name: "แผนการตรวจประจำปี"
   },
   {
-    icon: 'fa-hand-point-up',
-    url: "/executiveorder",
-    name: "ข้อสั่งการผู้บริหาร"
+    icon:'fa-hand-point-up',
+    name:"ข้อสั่งการถึงผู้ตรวจราชการ",
+    IDchildren:'executiveorderdata',
+    children:[
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/executiveorder',
+            name:'ข้อสั่งการถึงผู้ตรวจราชการ',
+            ex_link:'0',
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/executiveorderexport1component',
+            name:'รายงานข้อสั่งการของผู้บริหาร',
+            ex_link:'0',
+          
+        },
+        {
+            icon:'fa-long-arrow-alt-right',
+            url:'/executiveorderexport3component',
+            name:'ทะเบียนข้อสั่งการของผู้บริหาร',
+            ex_link:'0',
+        
+        } 
+    ]
   },
   {
     IDchildren: 'report',
