@@ -18,5 +18,8 @@ namespace InspecWeb.ViewModel
         public string DraftStatus { get; set; }
 
         public long ElectronicBookId { get; set; }
+
+        public string InviteBy { get; set; }
+
     }
 }

@@ -400,6 +400,8 @@ namespace InspecWeb.Controllers
         [HttpPost("users")]
         public void Post([FromBody] CentralPolicyUserModel model)
         {
+            var inviteby = _context.Users
+                .Where(m => m.Id == model.InviteBy).First();
 
             var CentralPolicyGroupdata = new CentralPolicyGroup
             {
@@ -431,7 +433,8 @@ namespace InspecWeb.Controllers
                     UserId = id,
                     Status = "รอการตอบรับ",
                     DraftStatus = "ร่างกำหนดการ",
-                    ElectronicBookId = model.ElectronicBookId
+                    ElectronicBookId = model.ElectronicBookId,
+                    InvitedBy = inviteby.Prefix + " " + inviteby.Name,
                 };
                 _context.CentralPolicyUsers.Add(centralpolicyuserdata);
             }
@@ -513,6 +516,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyProvinces)
+                  .Include(m => m.CentralPolicy)
+                  .ThenInclude(m => m.FiscalYear)
                 .Where(m => m.CentralPolicy.CentralPolicyEvents.Any(m => m.InspectionPlanEventId == planid))
                 .Where(m => m.UserId == id);
 

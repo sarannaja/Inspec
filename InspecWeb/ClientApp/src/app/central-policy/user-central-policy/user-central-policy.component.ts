@@ -45,7 +45,7 @@ export class UserCentralPolicyComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [5],
+          targets: [3],
           orderable: false
         }
       ]

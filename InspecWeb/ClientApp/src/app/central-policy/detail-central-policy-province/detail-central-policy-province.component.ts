@@ -448,7 +448,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   storePeople(value: any) {
     let UserPeopleId: any[] = value.UserPeopleId
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid,this.userid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
@@ -499,7 +499,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storeMinistryPeople(value: any) {
     let UserPeopleId: any[] = value.UserPeopleId
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid,this.userid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
