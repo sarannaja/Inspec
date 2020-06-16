@@ -431,7 +431,8 @@ namespace InspecWeb.Controllers
                     UserId = id,
                     Status = "รอการตอบรับ",
                     DraftStatus = "ร่างกำหนดการ",
-                    ElectronicBookId = model.ElectronicBookId
+                    ElectronicBookId = model.ElectronicBookId,
+                    InspectionPlanEventId = 1
                 };
                 _context.CentralPolicyUsers.Add(centralpolicyuserdata);
             }

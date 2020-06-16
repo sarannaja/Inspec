@@ -23,11 +23,14 @@ namespace InspecWeb.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<FiscalYear> Get()
+        public IActionResult Get()
         {
-            var fiscalyeardata = from P in _context.FiscalYears
-                                 select P;
-            return fiscalyeardata;
+            //var fiscalyeardata = from P in _context.FiscalYears
+            //                     select P;
+            var fiscalyearData = _context.FiscalYears
+                .OrderByDescending(x => x.Year)
+                .FirstOrDefault();
+            return Ok(fiscalyearData);
 
             //return 
             //_context.Provinces

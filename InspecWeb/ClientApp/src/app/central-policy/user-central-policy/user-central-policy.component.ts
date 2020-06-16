@@ -21,6 +21,8 @@ export class UserCentralPolicyComponent implements OnInit {
   userid: string
   centralpolicyprovinceid: any
   id
+  timelineData: any = [];
+
   constructor(
     private router: Router,
     private centralpolicyservice: CentralpolicyService,
@@ -60,6 +62,15 @@ export class UserCentralPolicyComponent implements OnInit {
         console.log("resultcentralpolicyDATA: ", this.resultcentralpolicy);
       })
 
+      this.getTimeline();
+
+  }
+
+  getTimeline() {
+    this.inspectionplanservice.getTimeline(this.id).subscribe(res => {
+      console.log("Timeline: ", res);
+      this.timelineData = res.timelineData;
+    })
   }
 
   openModal(template: TemplateRef<any>, id) {
