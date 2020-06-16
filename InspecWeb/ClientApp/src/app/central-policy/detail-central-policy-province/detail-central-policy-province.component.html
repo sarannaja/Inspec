@@ -169,12 +169,8 @@
                           <button *ngIf="role_id == 3" type="button"
                             (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
-<<<<<<< HEAD
-                          <button *ngIf="role_id == 5 && centralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
-=======
                           <button
                             *ngIf="role_id == 5 && centralpolicyprovincedata.step == 'มอบหมายจังหวัด'"
->>>>>>> master
                             type="button" (click)="openModal2(modalInviteDepartment, items.id)"
                             class="btn btn-primary">เชิญหน่วยงานเพิ่มเติม</button>
                         </h4>
@@ -292,11 +288,11 @@
                                     (click)="editModal5(modalEditAnswer, items2.id, items2.answer)"
                                     style="padding-top: 10px;"></i>
                                 </div>
-                                <!-- <div class="collapse col-1" id="collapseExample{{i}}" *ngIf="role_id == 3">
+                              <div class="collapse col-1" id="collapseExample{{i}}" *ngIf="role_id == 3">
                                   <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                     (click)="editModal5(modalEditAnswer, items2.id, items2.answer)"
                                     style="padding-top: 10px;"></i>
-                                </div> -->
+                                </div> 
                               </div>
                             </div>
 
@@ -308,7 +304,6 @@
 
 
                   <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
-<<<<<<< HEAD
                     <div class="card" *ngIf="item.type == 'คำถามปลายปิด'">
                       <td style="border-top: none; width: 85%;">
                         <u>คำถามปลายปิด</u>
@@ -320,11 +315,6 @@
                         <!-- <button (click)="showGraph(item,item.id)">
                           กราฟคำตอบปลายปิด
                         </button> -->
-=======
-                    <div style="margin-left: 36px; margin-top: 10px;" class="" *ngIf="item.type == 'คำถามปลายปิด'">
-                      <td style="border-top: none; width: 1%;">
-                        <h5><u>คำถามปลายปิด</u></h5>
->>>>>>> master
                         <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let ii = index"> -->
                         <div class="row">
                           <div class="col-10" *ngIf="item.type == 'คำถามปลายปิด'">
@@ -361,17 +351,6 @@
                                 padding-top: 4px;
                                 height: 32px;
                                 margin-top: 5px;">
-<<<<<<< HEAD
-                                  <div class="col-8">{{item3.name}}</div>
-                                  <!-- <div class="col-4" style="text-align: right;">
-                                    <label style="margin-left: 10px; color: #27A844; ">
-                                      คนตอบทั้งหมด {{item2.answerSubquestions.length}}
-                                    </label>
-                                  </div> -->
-                                </div>
-                              </div>
-                              <!-- <div class="col-1"
-=======
                                     <div class="col-8">{{item3.name}}</div>
 
                                   </div>
@@ -383,7 +362,6 @@
                                       placeholder="กรุณากรอกเรื่อง" readonly>
                                   </div>
                                   <!-- <div class="col-1"
->>>>>>> master
                               *ngIf="item2.type == 'คำถามปลายปิด'  && item.id == item3.subquestionCentralPolicyProvinceId">
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                 (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i>
@@ -392,9 +370,8 @@
                               </div>
                             </div>
                           </div>
-<<<<<<< HEAD
-                        </div>
-                      </td>
+                        </td>
+                      </div>
                       <div class="col-12">
                         <div class="row">
                           <div class="collapse col-9" id="test{{i}}" style="margin-left: 10px; margin-top: 5px;">
@@ -409,9 +386,6 @@
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer" style="padding-top: 10px;"></i>
                           </div> -->
                         </div>
-=======
-                        </td>
->>>>>>> master
                       </div>
                     </div>
                   </tr>
@@ -1313,8 +1287,4 @@
 
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
-<<<<<<< HEAD
-</ngx-spinner>
-=======
 </ngx-spinner> -->
->>>>>>> master

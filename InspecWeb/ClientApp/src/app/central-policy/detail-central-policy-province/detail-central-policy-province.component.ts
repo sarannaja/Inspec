@@ -652,21 +652,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           console.log(response);
         })
 
-<<<<<<< HEAD
-      this.spinner.show();
-      setTimeout(() => {
-        this.getCalendarFile();
-        this.form.reset();
-        this.spinner.hide();
-      }, 300);
-=======
         // this.spinner.show();
         setTimeout(() => {
           this.getCalendarFile();
           this.form.reset();
           // this.spinner.hide();
         }, 300);
->>>>>>> master
 
       // window.history.back();
     })
