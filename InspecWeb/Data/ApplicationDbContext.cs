@@ -113,14 +113,10 @@ namespace InspecWeb.Data
         public DbSet<Meetinginformation> Meetinginformations { get; set; }
         public DbSet<Premierorder> Premierorders { get; set; }
         public DbSet<ReportCommander> ReportCommanders { get; set; }
-<<<<<<< HEAD
-        public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
-=======
         public DbSet<ElectronicBookProceed> ElectronicBookProceeds { get; set; }
         public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<CentralPolicyProvinceEvent> CentralPolicyProvinceEvents { get; set; }
->>>>>>> master
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
