@@ -16,8 +16,6 @@ export interface Children {
   ex_link?: string;
   id?: string;
 }
-
-
 export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิน
     {
         icon:'fa-home',
@@ -197,8 +195,6 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
             ex_link: 'user',
             id: '8'
         },
-
-
     ]
   },
   {
@@ -318,50 +314,10 @@ export const superAdmin:NavBar[] = [ // ซุปเปอร์แอดมิ�
     name: "จัดอบรมหลักสูตร"
   },
   {
-    IDchildren: 'training',
-    icon: 'fa-shekel-sign',
-    name: "ข้อมูลจัดอบรมหลักสูตร",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/lecturer',
-        name: 'วิทยากรอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training',
-        name: 'จัดอบรมหลักสูตร'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/document',
-        name: 'เอกสารประกอบการฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/register',
-        name: 'ผู้สมัครเข้าร่วมอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/survey',
-        name: 'ประเมินผลการฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/report',
-        name: 'รายงาน'
-      },
-      
-    ]
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
-  
 
 ]
 export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
@@ -483,6 +439,11 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       
     ]
   },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
 ]
 export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
@@ -571,6 +532,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         
         } 
     ]
+
   },
   {
     icon:'fa-hand-point-up',
@@ -653,6 +615,11 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
       },
     ]
   },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
 
 
 ]
@@ -720,6 +687,11 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 ]
 export const Adminprovince: NavBar[] = [ //แอดมินจังหวัด
@@ -839,6 +811,11 @@ export const Adminprovince: NavBar[] = [ //แอดมินจังหวั�
     url: "/training",
     name: "จัดอบรมหลักสูตร"
   },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
 ]
 export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระทรวง
   {
@@ -932,7 +909,13 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
-    ]
+    ],
+
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 
 ]
@@ -1010,6 +993,11 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 ]
 export const president: NavBar[] = [ //User นายก
@@ -1123,6 +1111,11 @@ export const president: NavBar[] = [ //User นายก
       },
     ]
   },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
 ]
 export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/หน่วยงาน
   {
@@ -1198,6 +1191,11 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
     ]
+  },
+  {
+    icon: 'fa-chart',
+    url: "/external/thaimap",
+    name: "แผนที่"
   },
 
 ]
