@@ -132,6 +132,7 @@ import { ExcelGeneraterService } from './services/excel-generater.service';
 import { DatePipe } from '@angular/common';
 import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
 import { ReportSubjectComponent } from './report/report-subject/report-subject.component';
+import { CentralPolicyFiscalyearComponent } from './central-policy/central-policy-fiscalyear/central-policy-fiscalyear.component';
 
 
 
@@ -248,7 +249,8 @@ const ExternalOrganization = [
     MeetinginformationComponent,
     PremierorderComponent,
     ReportInspectionPlanEventComponent,
-    ReportSubjectComponent
+    ReportSubjectComponent,
+    CentralPolicyFiscalyearComponent,
   ],
 
   imports: [
@@ -377,7 +379,8 @@ const ExternalOrganization = [
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
-          { path: 'reportsubject', component: ReportSubjectComponent, canActivate: [AuthorizeGuard] },     
+          { path: 'reportsubject', component: ReportSubjectComponent, canActivate: [AuthorizeGuard] }, 
+          { path: 'centralpolicyfiscalyear/:id', component: CentralPolicyFiscalyearComponent, canActivate: [AuthorizeGuard] },    
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

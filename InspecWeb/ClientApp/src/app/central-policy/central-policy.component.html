@@ -14,18 +14,47 @@
     <div class="card">
       <div *ngIf="role_id == 1 || role_id == 2;else elseBlock" class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
+        <div class="float-left">
+          <div class="form-group">
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
+                  data-toggle="select2">
+                  <option value="allfiscalyear">ปีทั้งหมดทั้งหมด</option>
+                  <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">
+                    {{item.year}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="float-right">
           <button class="btn btn-primary" (click)="CreateCentralPolicy()"
             style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
         </div>
       </div>
-
       <ng-template #elseBlock>
         <div class="card-header">
           <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
+          <div class="float-left">
+            <div class="form-group" style="margin-bottom: -40px;">
+              <div class="form-group col-md-12">
+                <div class="mb-12">
+                  <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
+                    data-toggle="select2">
+                    <option value="allfiscalyear">ปีทั้งหมดทั้งหมด</option>
+                    <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">
+                      {{item.year}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </ng-template>
-
+      <br>
       <div class="card-body">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
           [dtOptions]="dtOptions">
@@ -42,7 +71,9 @@
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
-              <td width="40%" (click)="Subject(item.id,item.title)" class="pointer">{{ item.title }}</td>
+              <td *ngIf="item.status == 'ใช้งานจริง';" width="40%" (click)="Subject(item.id,item.title)"
+                class="pointer">{{ item.title }}</td>
+              <td *ngIf="item.status == 'ร่างกำหนดการ';" width="40%">{{ item.title }}</td>
               <td>{{item.fiscalYear.year}}</td>
               <td>
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
@@ -51,7 +82,8 @@
               <td>{{ item.status }}</td>
               <td>
                 <div class="row">
-                  <i *ngIf="item.status == 'ใช้งานจริง';" class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i>
+                  <i *ngIf="item.status == 'ใช้งานจริง';" class="align-middle mr-2 fas fa-fw fa-search pointer"
+                    (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                   <div *ngIf="role_id == 1 || role_id == 2">
                     <i *ngIf="item.status == 'ร่างกำหนดการ';" style="padding-bottom: 10px;"

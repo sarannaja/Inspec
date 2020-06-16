@@ -27,7 +27,7 @@ export class SubjectService {
       return {
         box: index,
         departmentId: item.departmentId,
-        inputquestionopen: item.inputquestionopen,
+        // inputquestionopen: item.inputquestionopen,
         inputquestionclose: item.inputquestionclose
       }
     })
@@ -45,7 +45,7 @@ export class SubjectService {
       return {
         box: item.box,
         departmentId: item.departmentId,
-        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
+        // inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
         inputquestionclose: item.inputsubjectdepartment.inputquestionclose
       }
     })
@@ -86,16 +86,19 @@ export class SubjectService {
   addFiles(subjectid, file: FileList) {
     // alert(subjectid)
     // alert(JSON.stringify(file))
-    console.log("subjectid",subjectid);
+    console.log("subjectid", subjectid);
     console.log("file", file);
 
     const formData = new FormData();
     for (var i = 0; i < subjectid.length; i++) {
       formData.append('SubjectCentralPolicyProvinceId', subjectid[i]);
     }
-    for (var ii = 0; ii < file.length; ii++) {
-      formData.append("files", file[ii]);
+    if (file != null) {
+      for (var ii = 0; ii < file.length; ii++) {
+        formData.append("files", file[ii]);
+      }
     }
+
     return this.http.post(this.url + "addfiles", formData);
   }
   AddDepartmentQuestion(DepartmentQuestiondata, Box, subjectid) {
@@ -135,7 +138,7 @@ export class SubjectService {
     //     inputquestionclose: item.inputquestionclose
     //   }
     // })
-    
+
     console.log("test", test);
     const formData = {
       inputsubjectdepartment: test,

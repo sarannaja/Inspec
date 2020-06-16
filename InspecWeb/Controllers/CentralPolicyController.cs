@@ -68,7 +68,21 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyFiles)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id).FirstOrDefault();
+                .Where(m => m.Id == id ).FirstOrDefault();
+
+            return Ok(centralpolicydata);
+            //return "value";
+        }
+        // GET api/values/5
+        [HttpGet("fiscalfear/{id}")]
+        public IActionResult Get2(long id)
+        {
+            var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.FiscalYear)
+                .Include(m => m.CentralPolicyProvinces)
+                .ThenInclude(x => x.Province)
+                .Include(m => m.CentralPolicyDates)
+                .Where(m => m.FiscalYearId == id && m.Class == "แผนการตรวจประจำปี").ToList();
 
             return Ok(centralpolicydata);
             //return "value";

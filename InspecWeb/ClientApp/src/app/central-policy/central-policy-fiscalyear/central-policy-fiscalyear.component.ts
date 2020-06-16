@@ -1,28 +1,33 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { CentralpolicyService } from '../services/centralpolicy.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NgxSpinnerService } from "ngx-spinner";
+import { ActivatedRoute, Router } from '@angular/router';
+import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
+import { FiscalyearService } from 'src/app/services/fiscalyear.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { UserService } from '../services/user.service';
-import { FiscalyearService } from '../services/fiscalyear.service';
+import { UserService } from 'src/app/services/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-central-policy',
-  templateUrl: './central-policy.component.html',
-  styleUrls: ['./central-policy.component.css']
+  selector: 'app-central-policy-fiscalyear',
+  templateUrl: './central-policy-fiscalyear.component.html',
+  styleUrls: ['./central-policy-fiscalyear.component.css']
 })
-export class CentralPolicyComponent implements OnInit {
+export class CentralPolicyFiscalyearComponent implements OnInit {
 
   resultcentralpolicy: any = []
   resultcentralpolicyrold3: any = []
   resultfiscalyear: any = []
+  id: any
   delid: any
   modalRef: BsModalRef;
   dtOptions: DataTables.Settings = {};
   loading = false;
   userid
   role_id
+  subscription: Subscription;
+  Form: FormGroup;
   constructor(
     private router: Router,
     private centralpolicyservice: CentralpolicyService,
@@ -30,7 +35,22 @@ export class CentralPolicyComponent implements OnInit {
     private modalService: BsModalService,
     private authorize: AuthorizeService,
     private userService: UserService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+  ) {
+    this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.subscription = this.userService.getUserNav()
+      .subscribe(
+        result => {
+          if (result.roleId != this.id) {
+            // this.loading = false;
+            console.log('result.roleId', result.roleId);
+            this.id = result.roleId
+            setTimeout(() => { this.getCentralPolicy() }, 200)
+          }
+        });
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -59,9 +79,15 @@ export class CentralPolicyComponent implements OnInit {
       ]
 
     };
+    this.Form = this.fb.group({
+      province: new FormControl(null, [Validators.required]),
+    })
+
+    this.Form.patchValue({
+      province: this.id
+    })
     this.getFiscalyear()
   }
-
   openModal(template: TemplateRef<any>, id) {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
@@ -73,7 +99,7 @@ export class CentralPolicyComponent implements OnInit {
     })
   }
   getCentralPolicy() {
-    this.centralpolicyservice.getcentralpolicydata()
+    this.centralpolicyservice.getcentralpolicyfiscalyeardata(this.id)
       .subscribe(result => {
         this.resultcentralpolicy = result
 
@@ -116,9 +142,10 @@ export class CentralPolicyComponent implements OnInit {
   }
   selectfiscalyear(value) {
     if (value == "allfiscalyear") {
-      window.location.reload();
+      this.router.navigate(['/centralpolicy'])
     } else {
       var id = value
+      this.userService.sendNav(value);
       this.router.navigate(['/centralpolicyfiscalyear/' + id])
     }
   }
