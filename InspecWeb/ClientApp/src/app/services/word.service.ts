@@ -22,7 +22,7 @@ export class WordService {
       // Target : value.Target
     }
 
-    console.log("formData" , formData);
+  //  alert(JSON.stringify(formData))
     return this.http.post<any>(this.url , formData)
   }
 

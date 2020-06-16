@@ -14,6 +14,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 
 export class DefaultLayoutComponent implements OnInit {
+  toggled = false;
   classIcon = "align-middle mr-2 fas fa-fw "
   urlActive = ""
   classtap = 'sidebar-header'
@@ -49,6 +50,11 @@ export class DefaultLayoutComponent implements OnInit {
     this.imgprofileUrl = baseUrl + '/imgprofile';
   }
   // 0C-54-15-66-C2-D6
+  
+
+  onToggle(){
+    this.toggled = !this.toggled;
+  }
   ngOnInit() {
     this.nav = superAdmin;
     this.profileform();
@@ -77,7 +83,6 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   uploadFile(event) {
-    alert('uploadfile');
     const file = (event.target as HTMLInputElement).files;
     this.Form.patchValue({
       files: file
@@ -127,13 +132,11 @@ export class DefaultLayoutComponent implements OnInit {
     this.authorize.getUser()
     .subscribe(result => {
       this.userid = result.sub  
-      //alert(this.userid);
       this.userService.getuserfirstdata(this.userid)      
       .subscribe(result => { 
-        this.resultuser = result;
-        //console.log("test" , this.resultuser);
-        this.role_id = result[0].role_id
-       
+        this.resultuser = result;  
+
+        this.role_id = result[0].role_id 
         this.Prefix = result[0].prefix
         this.Name = result[0].name
         this.Position = result[0].position
@@ -141,8 +144,6 @@ export class DefaultLayoutComponent implements OnInit {
         this.Email = result[0].email
         this.Img = result[0].img
 
-        //alert(this.Img);
-       
         this.Form.patchValue({
           Prefix: this.Prefix,
           Name: this.Name,
@@ -177,7 +178,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   }
   //End getuser
-
+//for
     editprofile(value) {
       this.userService.editprofile(value,this.Form.value.files,this.userid).subscribe(response => {
         this.Form.reset()

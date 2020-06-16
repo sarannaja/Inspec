@@ -5,7 +5,8 @@ $(function() {
   });
 
   const active = $(".sidebar .active");
-
+  console.log('sidebar',active);
+  
   if (active.length && active.parent(".collapse").length) {
     const parent = active.parent(".collapse");
 

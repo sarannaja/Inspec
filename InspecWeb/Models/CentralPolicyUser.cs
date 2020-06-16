@@ -32,6 +32,11 @@ namespace InspecWeb.Models
         public long ElectronicBookId { get; set; }
         public virtual ElectronicBook ElectronicBook { get; set; }
 
+        [ForeignKey("InspectionPlanEvent")]
+        [Description("FK: InspectionPlanEvent")]
+        public long InspectionPlanEventId { get; set; }
+        public virtual InspectionPlanEvent InspectionPlanEvent { get; set; }
+
         [ForeignKey("CentralPolicyGroup")]
         [Description("FK: แผนการตรวจ")]
         public long CentralPolicyGroupId { get; set; }

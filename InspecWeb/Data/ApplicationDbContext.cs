@@ -113,10 +113,21 @@ namespace InspecWeb.Data
         public DbSet<Meetinginformation> Meetinginformations { get; set; }
         public DbSet<Premierorder> Premierorders { get; set; }
         public DbSet<ReportCommander> ReportCommanders { get; set; }
+<<<<<<< HEAD
         public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
+=======
+        public DbSet<ElectronicBookProceed> ElectronicBookProceeds { get; set; }
+        public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
+        public DbSet<Log> Logs { get; set; }
+        public DbSet<CentralPolicyProvinceEvent> CentralPolicyProvinceEvents { get; set; }
+>>>>>>> master
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+                {
+                    relationship.DeleteBehavior = DeleteBehavior.Restrict;
+                }
             // ส่วนที่สำหรับเชื่อ model
             builder.Entity<UserRegion>()
             .HasKey(m => new { m.UserID, m.RegionId });
@@ -143,7 +154,6 @@ namespace InspecWeb.Data
             //.HasKey(m => new { m.SubjectCentralPolicyProvinceId, m.CentralPolicyDateId });
 
             base.OnModelCreating(builder);
-
             // seed data
             builder.ApplyConfiguration(new MinistrySeeder());
             builder.ApplyConfiguration(new DepartmentSeeder());

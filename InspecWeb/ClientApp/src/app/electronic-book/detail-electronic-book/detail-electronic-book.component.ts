@@ -32,6 +32,7 @@ export class DetailElectronicBookComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   EditForm2: FormGroup;
+  Form4: FormGroup;
   selectpeople: Array<IOption>
   selectministrypeople: Array<IOption>
   modalRef: BsModalRef;
@@ -69,6 +70,7 @@ export class DetailElectronicBookComponent implements OnInit {
   resultreportnum = 0;
   answerPeople: any = [];
   commentData: any = [];
+  ProceedData:any = [];
   answerData: any = [];
   electOwnData: any = [];
 
@@ -133,7 +135,9 @@ export class DetailElectronicBookComponent implements OnInit {
       DepartmentId: new FormControl(null, [Validators.required]),
       // UserMinistryId: new FormControl(null, [Validators.required]),
     })
-
+    this.Form4 = this.fb.group({
+      proceed: new FormControl(null, [Validators.required]),
+    })
     this.adminProvinceForm = this.fb.group({
       provinceSuggestion: new FormControl(null, [Validators.required]),
     });
@@ -186,6 +190,7 @@ export class DetailElectronicBookComponent implements OnInit {
     this.getElectronicBookDetail();
     this.getElectOwnCreate();
     this.getCommentData();
+    this.getProceedData();
     this.getElectronicBookOwnDetail();
     setTimeout(() => {
       this.spinner.hide();
@@ -405,6 +410,14 @@ export class DetailElectronicBookComponent implements OnInit {
     })
   }
 
+  addProceed(value) {
+    this.electronicBookService.addProceed(value, this.elecId, this.userid).subscribe(result => {
+      console.log("res: ", result);
+      this.modalRef.hide();
+      this.getProceedData();
+    })
+  }
+
   editSugestionDetail(value) {
     console.log("Detail Form: ", value);
 
@@ -506,6 +519,13 @@ export class DetailElectronicBookComponent implements OnInit {
       this.commentData = res;
       console.log("comment: ", this.commentData);
 
+    })
+  }
+
+  getProceedData() {
+    this.electronicBookService.getProceed(this.elecId).subscribe(res => {
+      this.ProceedData = res;
+      console.log("Proceed: ", this.ProceedData);
     })
   }
 

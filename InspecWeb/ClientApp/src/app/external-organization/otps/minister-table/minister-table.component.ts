@@ -17,6 +17,7 @@ export class MinisterTableComponent implements OnInit {
   loading: boolean = false
   dataindata: Array<Ministers>
   fiscalyear: any = []
+  year : any
   constructor(
     private externalOrganizationService: ExternalOrganizationService,
     private spinner: NgxSpinnerService,
@@ -27,28 +28,29 @@ export class MinisterTableComponent implements OnInit {
 
     this.externalOrganizationService.getCabinets()
       .subscribe(results => {
-        console.log(results);
+       // console.log(results);
 
         this.cabinets = results
         // this.spinner.hide();
         // this.loading = true
         this.fiscalyear = this.cabinets.map(value => {
-          return value.fiscalYears[0]
+          return value.fiscalYears[0]  
         }).sort(function (a, b) { return b.year - a.year });
         this.externalOrganizationService.getMinisters()
           .subscribe(results => {
 
-            console.log(results);
+          //  console.log(results);
             this.dataindata = results
             this.ministers = results
             this.spinner.hide();
             this.dataindata = this.ministers.filter(result => {
-              console.log(result.fiscalYears[0].year, this.fiscalyear[0].year);
+             // console.log(result.fiscalYears[0].year, this.fiscalyear[0].year);
               setTimeout(() => {
                 this.loading = true
 
               }, 10)
-
+             
+              
               return result.fiscalYears[0].year == this.fiscalyear[0].year
             })
             // this.spinner.hide();
@@ -60,7 +62,7 @@ export class MinisterTableComponent implements OnInit {
             this.loading = true
           })
         // this.loading = true
-        console.log(this.fiscalyear);
+        this.year = this.fiscalyear[0].year;
 
       })
     this.dtOptions = {
@@ -71,10 +73,11 @@ export class MinisterTableComponent implements OnInit {
 
   }
   ChangeYear(year) {
-    console.log(year.target.value);
+   // console.log(year.target.value);
+    this.year = year.target.value;
     this.loading = false
     this.dataindata = this.ministers.filter(result => {
-      console.log(result.fiscalYears[0].year, year.target.value);
+    //  console.log(result.fiscalYears[0].year, year.target.value);
       setTimeout(() => {
         this.loading = true
 
@@ -82,7 +85,7 @@ export class MinisterTableComponent implements OnInit {
 
       return result.fiscalYears[0].year == year.target.value
     })
-    console.log(this.dataindata);
+    //console.log(this.dataindata);
 
   }
   modalRef: BsModalRef;
@@ -96,5 +99,19 @@ export class MinisterTableComponent implements OnInit {
       },
       class: 'modal-dialog-centered'
     });
+  }
+  reportword(year){
+    alert(year);
+    this.dataindata = this.ministers.filter(result => {
+      //  console.log(result.fiscalYears[0].year, year.target.value);
+        setTimeout(() => {
+          this.loading = true
+  
+        }, 10)
+  
+        return result.fiscalYears[0].year == year
+      })
+
+      console.log('data',this.dataindata)
   }
 }

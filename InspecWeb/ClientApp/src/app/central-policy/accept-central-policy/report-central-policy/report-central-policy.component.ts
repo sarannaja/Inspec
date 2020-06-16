@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
@@ -35,6 +35,7 @@ export class ReportCentralPolicyComponent implements OnInit {
   carlendarFile: any = [];
   resultElecFile: any= [];
   fileType2: any;
+  downloadUrl: any
 
   constructor(
     private fb: FormBuilder,
@@ -43,9 +44,11 @@ export class ReportCentralPolicyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
     private electronicBookService: ElectronicbookService,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
+    this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {

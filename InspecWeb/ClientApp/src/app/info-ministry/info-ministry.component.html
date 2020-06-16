@@ -30,7 +30,7 @@
             <tbody>
               <tr *ngFor="let item of resultministry; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td>{{item.name}}</td>
+                <td class="pointer" (click)="infodepartment(item.id)">{{item.name}}</td>
                 <ng-template #elseBlock>
                 </ng-template>
               </tr>

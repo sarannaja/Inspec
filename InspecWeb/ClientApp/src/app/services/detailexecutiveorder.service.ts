@@ -15,6 +15,12 @@ export class DetailexecutiveorderService {
   getexecutiveorderdata(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
+
+  //สำหรับผู้สั่งการ
+  getexecutiveordercommandeddata(id): Observable<any> {
+    return this.http.get<any>(this.url + "commanded/" + id)
+  }
+
   getdetailexecutiveorderdata(id): Observable<any> {
     return this.http.get<any>(this.url + "detail/" + id)
   }
@@ -30,6 +36,23 @@ export class DetailexecutiveorderService {
   getprovince(id): Observable<any> {
     return this.http.get<any>(this.url + "province/" + id)
   }
+
+  //สำหรับเพิ่มข้อสั่งการ
+  addexecutiveorder(executiveorderData, file: FileList) {
+    //alert(2);
+    console.log('datatest',executiveorderData);
+    const formData = new FormData();
+    formData.append('Commanded_date', executiveorderData.Commanded_date.date.year + '-' + executiveorderData.Commanded_date.date.month + '-' + executiveorderData.Commanded_date.date.day);
+    formData.append('Commanded_by', executiveorderData.Commanded_by);
+    formData.append('Subject', executiveorderData.Subject);
+    formData.append('Subjectdetail', executiveorderData.Subjectdetail);
+    formData.append('Answer_by', executiveorderData.Answer_by);
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }
+     return this.http.post<any>(this.url, formData);
+  }
+
   adddetailexecutiveorder(detailexecutiveorderData, file: FileList, centralpolicyid) {
     const formData = new FormData();
     formData.append('Name', detailexecutiveorderData.name);
@@ -39,16 +62,9 @@ export class DetailexecutiveorderService {
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
-    //console.log('IDuser: ' + formData.get("byuserid"));
-    // console.log('Name: ' + formData.get("Name"));
-    // console.log('CentralpolicyId: ' + formData.get("CentralpolicyId"));
-    // console.log('ProvinceId: ' + formData.get("ProvinceId"));
-    // console.log('files: ' , formData.get("files"));
     return this.http.post<any>(this.url, formData);
   }
   answerexecutiveorder(detailexecutiveorderData, file: FileList, id) {
-
-    // console.log(detailexecutiveorderData)
     const formData = new FormData();
     formData.append('id', id);
     formData.append('AnswerDetail', detailexecutiveorderData.AnswerDetail);
@@ -58,19 +74,27 @@ export class DetailexecutiveorderService {
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
-    //console.log('IDuser: ' + formData.get("AnswerUserId"));
-
-    // console.log('FORMDATA: ' , formData);
-    // console.log('AnswerDetail: ' + formData.get("AnswerDetail"));
-    // console.log('AnswerProblem: ' + formData.get("AnswerProblem"));
-    // console.log('AnswerCounsel: ' + formData.get("AnswerCounsel"));
-    // console.log('files: ' , formData.get("files"));
     return this.http.put<any>(this.url, formData);
   }
-  getexcutive1(userId) {
-    return this.http.get(this.url + "export1/" + userId)
 
+  getexcutive1(Id) {
+    console.log('Id in service',Id);
+    // alert(Id);
+    var boby ={
+      Id 
+    }
+    return this.http.post<any>(this.url + "export1",boby)
+    // return this.http.get<any>("https://localhost:5001/api/ExecutiveOrder/export1/8b843646-d1f3-4a63-a1a4-a024f97138b8")
+  }
 
+  getexcutive3(Id) {
+    console.log('Id in service',Id);
+    // alert(Id);
+    var boby ={
+      Id 
+    }
+    return this.http.post<any>(this.url + "export3",boby)
+    // return this.http.get<any>("https://localhost:5001/api/ExecutiveOrder/export1/8b843646-d1f3-4a63-a1a4-a024f97138b8")
   }
 
   exportExecutive(userId) {

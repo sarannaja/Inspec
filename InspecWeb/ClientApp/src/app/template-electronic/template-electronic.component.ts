@@ -57,13 +57,13 @@ export class TemplateElectronicComponent implements OnInit {
         }
       },
       // scales: { // แสดง scales ของแผนภูมิเริมที่ 0
-      //   yAxes: [{
-      //     ticks: {
-      //       beginAtZero: true
-      //     }
-      //   }]
-      // }
-    })
+      //    yAxes: [{
+      //       ticks:{
+      //          beginAtZero:true
+      //       }
+      //    }]
+      //  }
+   })
   }
 
 
@@ -76,7 +76,7 @@ export class TemplateElectronicComponent implements OnInit {
 
 
   exportToWord(id) {
-    alert(id)
+    // alert(id)
 
     // alert(this.elecId)
     this.wordService.exportWord(id, this.provinId, this.elecId).subscribe(results => {

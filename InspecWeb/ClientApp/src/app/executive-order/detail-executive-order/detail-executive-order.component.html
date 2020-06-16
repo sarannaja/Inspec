@@ -40,11 +40,12 @@
                             <td>{{item.detailExecutiveOrder }}</td>
                             <td>{{item.province.name}}</td>
                             <td>
-                                <i class="align-middle mr-2 fas fa-fw fa-search  pointer" 
+                                <i class="align-middle mr-2 fas fa-fw fa-search  pointer" title="รายละเอียดข้อสั่งการและการตอบกลับ"
                                 (click)="viewModal(ViewExecutiveorder,item.id,item.createdAt,item.userId
                                 ,item.centralPolicy.title,item.detailExecutiveOrder,item.executiveOrderFiles
                                 ,item.answerDetail,item.answerProblem,item.answerCounsel,item.answerExecutiveOrderFiles
-                                )"></i>
+                                )"></i>&nbsp;
+                                <i class="align-middle mr-2 fas fa -fw fa-download pointer" title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร"></i>
                             </td>
                         </tr>
                     </tbody>

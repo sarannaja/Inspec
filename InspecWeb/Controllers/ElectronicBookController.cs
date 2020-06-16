@@ -661,7 +661,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.CentralPolicyUser)
                 .Include(x => x.ElectronicBook)
                 .ThenInclude(x => x.ElectronicBookFiles)
-                .Where(x => x.ElectronicBook.ElectronicBookFiles.Any(x => x.Type == "SignatureProvince File"))
+                //.Where(x => x.ElectronicBook.ElectronicBookFiles.Any(x => x.Type == "SignatureProvince File"))
                 .Where(x => x.ElectronicBook.Status == "ใช้งานจริง")
                 .Where(x => x.CentralPolicyProvince.SubjectCentralPolicyProvinces.Any(x => x.SubquestionCentralPolicyProvinces.Any(x => x.SubjectCentralPolicyProvinceGroups.Any(x => x.ProvincialDepartment.DepartmentId == user.DepartmentId))))
                 .ToList();
@@ -1026,34 +1026,16 @@ namespace InspecWeb.Controllers
 
             var centralprovinceid = _context.CentralPolicyProvinces
                 .Where(x => x.Id == ebook.CentralPolicyProvinceId).First();
-
-            var exe = _context.ExecutiveOrders
-                .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
+            
+            var exe = "";
+            //var exe = _context.ExecutiveOrders
+            //    .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
             
             var user = _context.CentralPolicyUsers
                 .Include(x => x.User)
                 .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
 
             return Ok(new { ebook , exe , user });
-
-            var ssss = new UrlEBookData { data = new EBookData { ebook = ebook, exe = exe } } ;
-            //return Ok(ssss);
-            //var json = JsonConvert.SerializeObject(ssss);
-            var data = new StringContent(ssss.ToString(), Encoding.UTF8, "application/json");
-
-            //var data2 = new StringContent(data, Encoding.UTF8, "application/json");
-            var client = new HttpClient();
-            List<UrlEBook> model = null;
-            var task = client.PostAsync("http://localhost:3000/excel", data)
-                .ContinueWith((taskwithresponse) => {
-                    var response = taskwithresponse.Result;
-                    var jsonString = response.Content.ReadAsStringAsync();
-                    jsonString.Wait();
-                    model = JsonConvert.DeserializeObject<List<UrlEBook>>(jsonString.Result);
-                });
-            task.Wait();
-            return Ok(task);
-
         }
 
         // POST api/values
@@ -1070,6 +1052,30 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
             return ElectronicBookAcceptdata;
+        }
+
+        [HttpPost("addProceed")]
+        public void PostProceed(string userid, string proceed, long ElectID)
+        {
+            var ElectronicBookProceeddata = new ElectronicBookProceed
+            {
+                ElectronicBookId = ElectID,
+                Proceed = proceed,
+                UserId = userid
+            };
+
+            _context.ElectronicBookProceeds.Add(ElectronicBookProceeddata);
+            _context.SaveChanges();
+        }
+
+        [HttpGet("proceed/{id}")]
+        public IActionResult GetProceed(long id)
+        {
+            var data = _context.ElectronicBookProceeds
+                .Include(m => m.User)
+                .Where(m => m.ElectronicBookId == id).ToList();
+
+            return Ok(data);
         }
     }
 }

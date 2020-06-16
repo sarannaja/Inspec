@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/Main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item active">ข้อสั่งการผู้บริหาร</li>
+      <li class="breadcrumb-item active">ข้อสั่งการถึงผู้ตรวจราชการ</li>
     </ol>
   </nav>
 </div>
@@ -13,81 +13,205 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
-        <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
-        <!-- <div class="float-right">
-            <button class="btn btn-primary" (click)="CreateCentralPolicy()"
-            style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
-          </div> -->
-        <div class="float-right">
-          <button *ngIf="role_id !=3" class="btn btn-primary" (click)="exportExcutive()"
-            style="margin-top: -60px;">รายงานข้อสั่งการผู้บริหาร</button>
+        <h5 class="card-title">ข้อสั่งการถึงผู้ตรวจราชการ</h5>
+        <div class="float-right" *ngIf="role_id == 8">
+            <button class="btn btn-primary"  (click)="openModal(CreateExcutiveOrder)"
+            style="margin-top: -60px;">เพิ่มข้อสั่งการ</button>
         </div>
       </div>
-      <div class="card-body" *ngIf="role_id !=3">
+      <div class="card-body">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
           [dtOptions]="dtOptions">
           <thead>
             <tr>
               <th>#</th>
-              <th>ชื่อแผนตรวจราชการประจำปี</th>
-              <th>ปี</th>
-              <th>ระยะเวลา</th>
+              <th>วันที่มีข้อสั่งการ</th>
+              <th>ประเด็น/เรื่อง</th>           
               <th>สถานะ</th>
+              <th>วันที่แจ้งข้อสั่งการ</th>
+              <th>ผู้รับข้อสั่งการ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of resultcentralpolicy; let i = index">
+            <tr  *ngFor="let item of resultexecutiveorder; let i = index">
               <td>{{ i + 1 }}</td>
-              <td width="30%" (click)="DetailExecutiveOrder(item.id)" class="pointer">{{ item.title }}</td>
-              <td>{{item.fiscalYear.year}}</td>
-              <td>
-                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
-                  {{ item2.endDate | thaidate: 'year' }}</div>
-              </td>
+              <td>{{ item.commanded_date | thaidate: 'year' }}</td>
+              <td>{{ item.subject}}</td>
               <td>{{ item.status }}</td>
+              <td>{{ item.createdAt | thaidate: 'year' }}</td>
+              <td>{{item.userans == null? '':item.userans.prefix+' '+item.userans.name  }}</td>
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailExecutiveOrder(item.id)"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer" title="รายละเอียดข้อสั่งการและการตอบกลับ" 
+                  (click)="DetailExecutiveOrder(
+                    DetailExecutiveorder,
+                    item.commanded_date,
+                    item.usercom == null? '':item.usercom.prefix+' '+item.usercom.name ,
+                    item.subject,
+                    item.subjectdetail,
+                    item.status,
+                    item.createdAt,
+                    item.userans == null? '':item.userans.prefix+' '+item.userans.name ,
+                    
+                    item.answerdetail,
+                    item.answerProblem,
+                    item.answerCounsel,
+                    item.executiveOrderFiles,
+                    item.answerExecutiveOrderFiles
+                  )">
+                </i>
+
+                <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-envelope pointer" 
+                    (click)="answerModal(AnswerExecutiveorder,item.id,item.answerdetail,item.answerProblem,item.answerCounsel)" title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร">
+                </i>
+
+                <i *ngIf="item.answerdetail != null" class="align-middle mr-2 fas fa -fw fa-download pointer" title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร"></i>
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="card-body" *ngIf="role_id ==3">
-        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>ชื่อแผนตรวจราชการประจำปี</th>
-              <th>ปี</th>
-              <th>ระยะเวลา</th>
-              <th>สถานะ</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of resultcentralpolicy; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td width="30%" (click)="DetailExecutiveOrder(item.centralPolicyId)" class="pointer">
-                {{ item.centralPolicy.title }}</td>
-              <td>{{item.centralPolicy.fiscalYear.year}}</td>
-              <td>
-                <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">
-                  {{ item2.startDate | thaidate: 'year' }} -
-                  {{ item2.endDate | thaidate: 'year' }}</div>
-              </td>
-              <td>{{ item.centralPolicy.status }}</td>
-              <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                  (click)="DetailExecutiveOrder(item.centralPolicyId)"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
       </div>
     </div>
   </div>
 </div>
+
+    <!-- BEGIN primary modal -->
+    <ng-template #CreateExcutiveOrder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <form [formGroup]="Form" (ngSubmit)="storedetailexecutiveorder(Form.value)">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">เพิ่มข้อสั่งการ</h5>
+                  <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body m-3">
+                  <div class="form-group">
+                                      
+                      <div class="form-group">
+                          <label class="form-label">วันที่มีข้อสั่งการ*</label>
+                          <my-date-picker-th formControlName="Commanded_date"
+                              [options]="myDatePickerOptions" required>
+                          </my-date-picker-th>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="form-label">ประเด็น/เรื่อง*</label>
+                        <input type="text" formControlName="Subject" class="form-control" placeholder="กรุณากรอกประเด็น/เรื่อง">
+                      </div>
+                      
+                      <label for="test" class="form-label">รายละเอียด</label>
+                      <textarea input type="text" formControlName="Subjectdetail" class="form-control" placeholder="กรุณากรอกลายละเอียด"></textarea>
+                      <br>
+                      <div class="col-12 col-xl-12"> 
+                          <div class="form-group">
+                              <label class="form-label w-100">แนบไฟล์</label>
+                              <input type="file" (change)="uploadFile($event)" >
+                              <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                          </div>
+                       </div> 
+
+                        <label>ผู้รับข้อสั่งการ</label>
+                        <ng-select placeholder="กรุณาเลือกผู้รับข้อสั่งการ" [multiple]="false" [options]="selectdatauser"
+                            name="Answer_by" formControlName="Answer_by" [allowClear]="true">
+                        </ng-select>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">บันทึก</button>
+                  <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+              </div>
+          </div>
+      </form>
+      <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+
+
+  <!-- END primary modal -->
+<ng-template #AnswerExecutiveorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="awnserForm" (ngSubmit)="storeanswerexecutiveorder(awnserForm.value)">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">บันทึกการดำเนินการตามข้อสั่งการ</h5>
+              <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                  aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body m-3">
+              <div class="form-group">
+                  <label for="test" class="form-label">รายละเอียด</label>
+                  <textarea input type="text" value="{{answerdetail}}"  formControlName="Answerdetail" class="form-control"
+                      placeholder="กรุณากรอกรายละเอียด"></textarea>
+                  <br>
+                  <label for="test" class="form-label">ปัญหา/อุปสรรค</label>
+                  <textarea input type="text" value="{{answerProblem}}" formControlName="AnswerProblem" class="form-control"
+                      placeholder="กรุณากรอกปัญหา/อุปสรรค"></textarea>
+                  <br>
+                  <label for="test" class="form-label">ข้อเสนอแนะ</label>
+                  <textarea input type="text" value="{{answerCounsel}}" formControlName="AnswerCounsel" class="form-control"
+                      placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
+                  <br>
+                  <div class="col-12 col-xl-12">
+                      <div class="form-group">
+                          <label class="form-label w-100">แนบไฟล์</label>
+                          <input type="file" multiple (change)="uploadFileanswer($event)">
+                          <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">บันทึก</button>
+              <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                  data-dismiss="modal">ปิด</button>
+          </div>
+      </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!--BEGIN primary modal -->
+
+
+  <!--BEGIN primary modal -->
+<ng-template #DetailExecutiveorder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <form [formGroup]="detailForm"> -->
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">ข้อสั่งการ</h4>
+              <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" >
+                  <label >ผู้สั่งการ : {{vcommanded_by}} </label><br>
+                  <label >วันที่มีข้อสั่งการ : {{vcommanded_date | thaidate: 'year'}} </label><br>
+                  <label >วันที่สร้างข้อสั่งการ : {{vcreatedAt | thaidate: 'year'}} </label><br>
+                  <label >ประเด็น/เรื่อง : {{vsubject}} </label><br>
+                  <label >รายละเอียดคำสั่งการ : {{vsubjectdetail}} </label><br>
+                  <label >สถานะ : {{vstatus}} </label><br>
+                  <label >ไฟล์แนบ :
+                      <a *ngFor="let item of vexecutiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item.name}}" download>
+                          <br> <td>{{i + 1}}.</td>{{item.name}}
+                      </a>
+                  </label><br>
+              
+                  <hr>
+                      <h4 class="font-weight">การตอบกลับ</h4>
+                  <hr>
+                  <label >ผู้รับเรื่อง : {{vanswer_by}} </label><br>
+                  <label >รายละเอียด : {{vanswerdetail}} </label><br>
+                  <label >ปัญหา/อุปสรรค : {{vanswerProblem}} </label><br>
+                  <label >ข้อเสนอแนะ : {{vanswerCounsel}} </label><br>
+                  <label >ไฟล์แนบ :
+                      <a *ngFor="let item of vanswerExecutiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item.name}}" download>
+                          <br> <td>{{i + 1}}.</td>{{item.name}}
+                      </a>
+                  </label><br>
+          </div>
+      </div>
+  <!-- </form> -->
+<!-- </div> -->
+</ng-template>
+<!-- END primary modal -->

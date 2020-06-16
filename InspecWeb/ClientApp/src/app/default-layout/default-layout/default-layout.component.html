@@ -1,12 +1,12 @@
-<div class="wrapper">
+<div  id="page-content-wrapper" class="wrapper">
 
-    <nav id="sidebar" class="sidebar">
+    <nav id="sidebar" class="sidebar" [ngClass]="{'toggled': toggled}">
         <a class="sidebar-brand" [routerLink]="['/main']">
             <img src="assets/img/logo.png" class="img-fluid rounded-circle mb-2" height="42" width="42" />
             &nbsp;
             สตร.
         </a>
-        <div class="sidebar-content">
+        <div  class="sidebar-content">
             <div class="sidebar-user">
 
                 <!-- กรณณีมีรูป-->
@@ -69,7 +69,7 @@
     </nav>
     <div class="main">
         <nav class="navbar navbar-expand navbar-theme">
-            <a class="sidebar-toggle d-flex mr-2">
+            <a (click)="onToggle()" class="sidebar-toggle d-flex mr-2">
                 <i class="hamburger align-self-center"></i>
             </a>
 

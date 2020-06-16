@@ -186,11 +186,12 @@ export class CentralpolicyService {
     return this.http.delete(this.url + id);
   }
 
-  addCentralpolicyUser(data, id, electronicbookid) {
+  addCentralpolicyUser(data, id, electronicbookid,userid) {
     const formData = {
       CentralPolicyId: id,
       UserId: data.UserPeopleId,
       ElectronicBookId: electronicbookid,
+      InviteBy: userid
     }
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + "users", formData);

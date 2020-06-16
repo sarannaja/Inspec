@@ -1,4 +1,4 @@
-// Main
+//Main
 // import "./modules/bootstrap";
 // import "./modules/feather";
 // import "./modules/fullcalendar";
@@ -9,25 +9,27 @@
 // import "./modules/toastr";
 // import "./modules/user-agent";
 
-// // Pages
-// import "./modules/dragula";
 
-// // Charts
-// import "./modules/chartjs";
-// import "./modules/apexcharts";
 
-// // Forms
-// import "./modules/daterangepicker";
-// import "./modules/datetimepicker";
-// import "./modules/markdown";
-// import "./modules/mask";
-// import "./modules/quill";
-// import "./modules/select2";
-// import "./modules/validation";
-// import "./modules/wizard";
+// Pages
+import "./modules/dragula";
 
-// // Maps
-// import "./modules/vector-maps";
+// Charts
+import "./modules/chartjs";
+import "./modules/apexcharts";
 
-// // Tables
-// import "./modules/datatables";
+// Forms
+import "./modules/daterangepicker";
+import "./modules/datetimepicker";
+import "./modules/markdown";
+import "./modules/mask";
+import "./modules/quill";
+import "./modules/select2";
+import "./modules/validation";
+import "./modules/wizard";
+
+// Maps
+import "./modules/vector-maps";
+
+// Tables
+import "./modules/datatables";

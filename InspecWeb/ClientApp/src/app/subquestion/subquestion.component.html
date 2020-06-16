@@ -7,8 +7,8 @@
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
       <li class="breadcrumb-item"><a href="javascript:void(0)">นโยบายกลาง</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบาย</a></li>
-      <li class="breadcrumb-item active" aria-current="page">เพิ่มประเด็นนโยบาย</li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นการตรวจติดตาม</a></li>
+      <li class="breadcrumb-item active" aria-current="page">เพิ่มประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
 </div>
@@ -26,8 +26,8 @@
             </div>
             <div class="col-12 col-xl-12">
               <div class="form-group">
-                <label>ชื่อประเด็นนโยบาย</label>
-                <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
+                <label>ชื่อเรื่อง</label>
+                <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง">
               </div>
               <div class="form-group">
                 <label>กำหนดระยะเวลา</label>
@@ -45,13 +45,13 @@
                 </div>
               </div>
               <div class="form-group">
-                <label>พื้นที่ดำเนินการ</label>
+                <!-- <label>พื้นที่ดำเนินการ</label> -->
                 <div formArrayName="inputsubjectdepartment">
                   <div *ngFor="let V of Form['controls'].inputsubjectdepartment['controls']; let iv=index">
                     <div formGroupName="{{iv}}">
                       <div class="row">
                         <div class="col-2">
-                          <label>หน่วยงานที่เกี่ยวข้อง</label>
+                          <label>ผู้ให้ข้อมูล</label>
                         </div>
                         <div class="col-1" *ngIf="iv == 0; else elseBlock">
                           <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i>
@@ -63,13 +63,16 @@
                           </div>
                         </ng-template>
                       </div>
-                      <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
+                      <ng-select placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true" [options]="temp"
                         formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
                         (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
                       </ng-select>
                       <br>
                       <br>
-                      <label>คำถามย่อย</label>
+                      <label>คำชี้แจง</label>
+                      <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง">
+                      <br>
+                      <label>ประเด็นการตรวจติดตาม</label>
                       <br>
                       <!-- <label>คำถามปลายเปิด</label> -->
                       <!-- <div formArrayName="inputquestionopen">

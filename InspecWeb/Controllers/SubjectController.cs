@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -961,6 +963,7 @@ namespace InspecWeb.Controllers
         {
             var subjectcentralpolicyprovincegroup = _context.SubjectCentralPolicyProvinces.Find(id);
 
+
             _context.SubjectCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);
             _context.SaveChanges();
         }
@@ -969,6 +972,21 @@ namespace InspecWeb.Controllers
         [HttpDelete("deletequestionrole3/{id}")]
         public void Deletequestrole3(long id)
         {
+            //var subs = _context.SubquestionCentralPolicyProvinces.Where(x => x.Id == id).First();
+
+            //var SubjectCentralPolicyProvinceGroupdata = _context.SubjectCentralPolicyProvinceGroups
+            //    .Where(x => x.SubquestionCentralPolicyProvinceId == subs.Id)
+            //    .ToList();
+
+            //foreach(var SubjectCentralPolicyProvinceGroupdataloop in SubjectCentralPolicyProvinceGroupdata)
+            //{
+            //    var subjectcentralpolicyprovincegroup2 = _context.SubjectCentralPolicyProvinceGroups
+            //        .Find(SubjectCentralPolicyProvinceGroupdataloop.Id);
+
+            //    _context.SubjectCentralPolicyProvinceGroups.Remove(subjectcentralpolicyprovincegroup2);
+            //    _context.SaveChanges();
+            //}
+
             var subjectcentralpolicyprovincegroup = _context.SubquestionCentralPolicyProvinces.Find(id);
 
             _context.SubquestionCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);

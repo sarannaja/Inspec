@@ -44,6 +44,7 @@ export class CreateInspectionPlanComponent implements OnInit {
   userid: string
   provinceid
   resultinspectionplan: any = []
+  yearString: any;
 
   constructor(
     private fb: FormBuilder,
@@ -70,12 +71,20 @@ export class CreateInspectionPlanComponent implements OnInit {
 
     this.getinspectionplanservice();
 
+    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      this.resultfiscalyear = result
+      this.yearString = this.resultfiscalyear.id.toString();
+      // alert(this.yearString)
+      console.log(this.resultcentralpolicy);
+      console.log("Yearrrrrr: ", this.yearString.toString());
+    });
+
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
       start_date: new FormControl(null, [Validators.required]),
       end_date: new FormControl(null, [Validators.required]),
       year: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
+      type: new FormControl("อื่นๆ", [Validators.required]),
       // files: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null, [Validators.required]),
       // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
@@ -107,12 +116,6 @@ export class CreateInspectionPlanComponent implements OnInit {
       console.log(this.resultprovince);
     })
 
-    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
-      this.resultfiscalyear = result
-      console.log(this.resultcentralpolicy);
-    })
-
-
     this.Form.patchValue({
       // กรณีจะแก้ไข
     })
@@ -122,7 +125,7 @@ export class CreateInspectionPlanComponent implements OnInit {
   storeInspectionPlan(value) {
     console.log("FORM: ", value);
     // alert(JSON.stringify(value))
-    this.inspectionplanservice.addInspectionPlan(value, this.userid,this.id).subscribe(response => {
+    this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.yearString).subscribe(response => {
       console.log(value);
       this.Form.reset()
       window.history.back();
@@ -156,12 +159,16 @@ export class CreateInspectionPlanComponent implements OnInit {
 
       this.Form.patchValue({
         start_date: this.resultinspectionplan[0].startDate,
-        end_date:  this.resultinspectionplan[0].endDate,
-        ProvinceId:  this.resultinspectionplan[0].province.id,
+        end_date: this.resultinspectionplan[0].endDate,
+        ProvinceId: this.resultinspectionplan[0].province.id,
       })
 
       // alert(JSON.stringify(this.resultinspectionplan))
     })
+  }
+
+  goBack() {
+    window.history.back();
   }
 
 }

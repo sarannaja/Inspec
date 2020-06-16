@@ -26,14 +26,7 @@ export class InspectionorderComponent implements OnInit {
 
   ngOnInit() {
     this.dtOptions = {
-      pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [5],
-          orderable: false
-        }
-      ]
-
+      pagingType: 'full_numbers'
     };
     this.inspectionorderservice.getinspectionorder().subscribe(result=>{
     this.resultInspectionorder = result

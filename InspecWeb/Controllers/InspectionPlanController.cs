@@ -50,12 +50,24 @@ namespace InspecWeb.Controllers
                 .Include(m => m.InspectionPlanEvent)
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyProvinces)
+                .Include(x => x.CentralPolicy)
+                .ThenInclude(x => x.FiscalYear)
+                .Where(m => m.InspectionPlanEvent.Id == id)
                 .Where(m => m.InspectionPlanEvent.ProvinceId == provinceid)
                 .Where(m => m.CentralPolicy.CentralPolicyProvinces.Any(m => m.ProvinceId == provinceid))
                 .ToList();
 
 
             return Ok(new { test, inspectionplandata });
+        }
+
+        [HttpGet("getTimeline/{id}")]
+        public IActionResult GetTimeline(long id)
+        {
+            var timelineData = _context.InspectionPlanEvents
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+            return Ok(new { timelineData });
         }
 
         // GET api/values/5
@@ -110,6 +122,16 @@ namespace InspecWeb.Controllers
                 Status = "ร่างกำหนดการ"
             };
             _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
+            _context.SaveChanges();
+
+            var subjectdata = new SubjectCentralPolicyProvince
+            {
+                Name = model.Title,
+                CentralPolicyProvinceId = centralpolicyprovincedata.Id,
+                Type = "NoMaster",
+                Status = "ใช้งานจริง"
+            };
+            _context.SubjectCentralPolicyProvinces.Add(subjectdata);
             _context.SaveChanges();
 
             //var inspectionplaneventdata = new InspectionPlanEvent
@@ -186,6 +208,15 @@ namespace InspecWeb.Controllers
                 };
                 _context.CentralPolicyEvents.Add(centralpolicyeventdata);
                 _context.SaveChanges();
+
+                var CentralPolicyProvinceEventdata = new CentralPolicyProvinceEvent
+                {
+                    CentralPolicyProvinceId = centralpolicyprovince.Id,
+                    InspectionPlanEventId = model.InspectionPlanEventId,
+                };
+                _context.CentralPolicyProvinceEvents.Add(CentralPolicyProvinceEventdata);
+                _context.SaveChanges();
+
                 System.Console.WriteLine("5");
             }
         }
