@@ -53,7 +53,7 @@
     <None Remove="ClientApp\src\assets\favicon.ico" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup> 
     <Content Include="ClientApp\src\assets\favicon.ico">
       <ExcludeFromSingleFile>false</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

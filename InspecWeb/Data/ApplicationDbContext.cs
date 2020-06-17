@@ -120,10 +120,7 @@ namespace InspecWeb.Data
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-                {
-                    relationship.DeleteBehavior = DeleteBehavior.Restrict;
-                }
+           
             // ส่วนที่สำหรับเชื่อ model
             builder.Entity<UserRegion>()
             .HasKey(m => new { m.UserID, m.RegionId });
@@ -137,8 +134,15 @@ namespace InspecWeb.Data
             builder.Entity<CentralDepartmentProvince>() //หน่วยงานราชการส่วนกลางภูมิภาค
            .HasKey(m => new { m.CentralDepartmentID, m.ProvinceId });
 
+            //สำหรับ Cascade
+            builder.Entity<CentralPolicyDate>()
+                .HasOne(i=>i.CentralPolicy)
+                .WithMany(a => a.CentralPolicyDates)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<CentralPolicyUser>()
-            .HasKey(m => new { m.CentralPolicyId, m.UserId });
+           .HasKey(m => new { m.CentralPolicyId, m.UserId });
 
             builder.Entity<SubjectDate>()
             .HasKey(m => new { m.SubjectId, m.CentralPolicyDateId });
@@ -166,6 +170,11 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
             builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
             builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
+
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Cascade;
+            }
         }
 
 
