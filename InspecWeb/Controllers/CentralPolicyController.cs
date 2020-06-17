@@ -68,7 +68,21 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyFiles)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id).FirstOrDefault();
+                .Where(m => m.Id == id ).FirstOrDefault();
+
+            return Ok(centralpolicydata);
+            //return "value";
+        }
+        // GET api/values/5
+        [HttpGet("fiscalfear/{id}")]
+        public IActionResult Get2(long id)
+        {
+            var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.FiscalYear)
+                .Include(m => m.CentralPolicyProvinces)
+                .ThenInclude(x => x.Province)
+                .Include(m => m.CentralPolicyDates)
+                .Where(m => m.FiscalYearId == id && m.Class == "แผนการตรวจประจำปี").ToList();
 
             return Ok(centralpolicydata);
             //return "value";
@@ -400,6 +414,8 @@ namespace InspecWeb.Controllers
         [HttpPost("users")]
         public void Post([FromBody] CentralPolicyUserModel model)
         {
+            var inviteby = _context.Users
+                .Where(m => m.Id == model.InviteBy).First();
 
             var CentralPolicyGroupdata = new CentralPolicyGroup
             {
@@ -431,7 +447,9 @@ namespace InspecWeb.Controllers
                     UserId = id,
                     Status = "รอการตอบรับ",
                     DraftStatus = "ร่างกำหนดการ",
-                    ElectronicBookId = model.ElectronicBookId
+                    ElectronicBookId = model.ElectronicBookId,
+                    InspectionPlanEventId = 1,
+                    InvitedBy = inviteby.Prefix + " " + inviteby.Name,
                 };
                 _context.CentralPolicyUsers.Add(centralpolicyuserdata);
             }
@@ -513,6 +531,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyProvinces)
+                  .Include(m => m.CentralPolicy)
+                  .ThenInclude(m => m.FiscalYear)
                 .Where(m => m.CentralPolicy.CentralPolicyEvents.Any(m => m.InspectionPlanEventId == planid))
                 .Where(m => m.UserId == id);
 

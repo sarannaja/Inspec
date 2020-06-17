@@ -178,7 +178,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   }
   //End getuser
-
+//for
     editprofile(value) {
       this.userService.editprofile(value,this.Form.value.files,this.userid).subscribe(response => {
         this.Form.reset()

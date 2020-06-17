@@ -17,6 +17,9 @@ export class CentralpolicyService {
   getcentralpolicydata(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
+  getcentralpolicyfiscalyeardata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "fiscalfear/" + id)
+  }
   getdetailcentralpolicydata(id): Observable<any> {
     console.log("CentralID: ", id);
 
@@ -183,11 +186,12 @@ export class CentralpolicyService {
     return this.http.delete(this.url + id);
   }
 
-  addCentralpolicyUser(data, id, electronicbookid) {
+  addCentralpolicyUser(data, id, electronicbookid,userid) {
     const formData = {
       CentralPolicyId: id,
       UserId: data.UserPeopleId,
       ElectronicBookId: electronicbookid,
+      InviteBy: userid
     }
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + "users", formData);

@@ -108,6 +108,7 @@ export class ReportExportComponent implements OnInit {
       console.log("export: ", res);
       this.createReport(res, cenProId);
     })
+    // this.excellService.generateExcel()
   }
 
   createReport(res, cenProId) {

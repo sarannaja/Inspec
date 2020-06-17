@@ -645,11 +645,31 @@ namespace InspecWeb.Controllers {
 
             return provinces;
         }
+        [HttpGet("api/get_role/{id}")]
+        public IActionResult test(string id)
+        {
+            var user = _userManager.Users.Where(m => m.Id == id)
+                   .Include(m => m.Departments)
+                   //.ThenInclude(m=>m.)
+                   .FirstOrDefault();
 
-        [HttpGet ("api/get_role/{id}")]
-        public IActionResult test (string id) {
+            var proviceDepart = _context.ProvincialDepartment
+            .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
+            var test = new { user, proviceDepart };
+            return Ok(new { user, proviceDepart });
+        }
 
-            return Ok (_userManager.Users.Where (m => m.Id == id).FirstOrDefault ());
+        [HttpGet("api/provicedepart/{id}")]
+        public IActionResult proviceDepart(string id)
+        {
+            var user = _userManager.Users.Where(m => m.Id == id)
+                   .Include(m => m.Departments)
+                   //.ThenInclude(m=>m.)
+                   .FirstOrDefault();
+
+            var proviceDepart = _context.ProvincialDepartment
+            .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
+            return Ok(proviceDepart);
         }
     }
 

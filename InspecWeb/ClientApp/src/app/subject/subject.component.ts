@@ -199,8 +199,8 @@ export class SubjectComponent implements OnInit {
   //   })
   // }
   deleteSubject(value) {
-    this.subjectservice.deleteSubject(value).subscribe(response => {
-      console.log(value);
+    this.subjectservice.deleteSubject(value).subscribe(result => {
+      console.log(result);
       this.modalRef.hide()
       this.subjectservice.getsubjectdata(this.id).subscribe(result => {
         this.resultsubject = result

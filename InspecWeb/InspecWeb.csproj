@@ -45,6 +45,8 @@
     <Content Remove="wwwroot\Uploads\TBG487JZSLScreen Shot 2563-04-23 at 10.27.52.png" />
     <Content Remove="wwwroot\Uploads\EKOKWXE4M6Screen Shot 2563-04-23 at 10.27.10.png" />
     <Content Remove="wwwroot\Uploads\LQN3MIJQ5DScreen Shot 2563-04-23 at 10.27.10.png" /> -->
+  
+    <!-- <Folder Include="Migrations\" /> -->
   </ItemGroup>
 
   <ItemGroup>
@@ -65,11 +67,11 @@
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <!-- <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" /> -->
   </Target>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">

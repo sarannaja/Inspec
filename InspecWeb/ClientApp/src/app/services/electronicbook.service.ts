@@ -99,7 +99,7 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + 'getElectronicBookById/' + electID);
   }
 
-  editElectronicBookDetail(value, electID, file: FileList, ) {
+  editElectronicBookDetail(value, electID, file: FileList,) {
     console.log("EDIT VALUE: ", value);
     // const formData = {
     //   Detail: value.eBookDetail,
