@@ -7,6 +7,7 @@ using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static InspecWeb.ViewModel.ExternalOtpsViewModel;
 
 namespace InspecWeb.Controllers
 {
@@ -60,6 +61,25 @@ namespace InspecWeb.Controllers
             return Ok(model);
 
         }
+         // GET api/values/5
+        [HttpGet("otps/regions2")]
+        public IActionResult OnGetRegionOtps()
+        {
+            List<RegionOtps> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Regions")
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<List<RegionOtps>>(jsonString.Result);
+                });
+            task.Wait();
+            return Ok(model);
+
+        }
+        
         // GET api/values/5
         [HttpGet("otps/provinces")]
         public IActionResult OnGetOtpsProvinces()

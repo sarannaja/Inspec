@@ -712,7 +712,7 @@ namespace InspecWeb.Data.Migrations
                         column: x => x.CentralPolicyId,
                         principalTable: "CentralPolicies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -49003,12 +49003,21 @@ namespace InspecWeb.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExecutiveOrders_User_Answer_byId",
+<<<<<<< HEAD:InspecWeb/Data/Migrations/20200616065339_Initial.cs
                 table: "ExecutiveOrders",
                 column: "User_Answer_byId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExecutiveOrders_User_Commanded_byId",
                 table: "ExecutiveOrders",
+=======
+                table: "ExecutiveOrders",
+                column: "User_Answer_byId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExecutiveOrders_User_Commanded_byId",
+                table: "ExecutiveOrders",
+>>>>>>> devmerge:InspecWeb/Data/Migrations/20200617185523_Initail.cs
                 column: "User_Commanded_byId");
 
             migrationBuilder.CreateIndex(
