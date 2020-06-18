@@ -42,7 +42,7 @@ namespace InspecWeb.Controllers
         {
             var fiscalyearData = _context.FiscalYears
                 .OrderByDescending(x => x.Year)
-                .FirstOrDefault();
+                .ToList();
 
             return Ok(fiscalyearData);
         }

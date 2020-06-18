@@ -70,6 +70,22 @@ namespace InspecWeb.Controllers
             return Ok(new { timelineData });
         }
 
+        [HttpGet("getScheduleData/{id}/{provinceId}")]
+        public IActionResult GetScheduleData(long id, long provinceId)
+        {
+            var scheduleData = _context.InspectionPlanEvents
+                .Include(x => x.Province)
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            var userData = _context.Users
+                .Where(x => x.Id == scheduleData.CreatedBy)
+                .FirstOrDefault();
+
+
+            return Ok(new { scheduleData, userData });
+        }
+
         // GET api/values/5
         [HttpGet("getcentralpolicydata/{provinceid}")]
         public IEnumerable<CentralPolicy> Get2(long provinceid)
