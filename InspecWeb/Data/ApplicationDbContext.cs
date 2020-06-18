@@ -126,7 +126,7 @@ namespace InspecWeb.Data
 
            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 {
-                    relationship.DeleteBehavior = DeleteBehavior.Cascade;
+                    relationship.DeleteBehavior = DeleteBehavior.Restrict;
                 }
             // ส่วนที่สำหรับเชื่อ model
             builder.Entity<UserRegion>()
