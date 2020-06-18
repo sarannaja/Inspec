@@ -15,7 +15,7 @@ export class FiscalyearService {
   }
 
   getfiscalyeardata(): Observable<any[]> {
-    return this.http.get<any>(this.url)
+    return this.http.get<any>(this.url + "getCurrentYear");
   }
   addFiscalyear(fiscalyearData) {
     const formData = new FormData();

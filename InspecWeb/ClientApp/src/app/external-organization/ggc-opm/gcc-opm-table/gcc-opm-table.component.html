@@ -12,10 +12,11 @@
     [dtOptions]="dtOptions">
     <thead>
         <tr>
-            <th>#</th>
-            <th>ชื่อ</th>
-            <th>ตำแหน่ง</th>
-            <th>เบอร์ฌทรศัพท์</th>
+            <th style="width: 5%;">#</th>
+            <th style="width: 15%;">ชื่อ</th>
+            <th style="width: 15%;">ตำแหน่ง</th>
+            <th style="width: 40%;">ที่อยู่</th>
+            <th style="width: 10%;">เบอร์โทรศัพท์</th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@
             <td> <a href="javascript:void(0)"> {{item.fullname}}</a></td>
             <!-- <td><img onmouseover="" [src]="item.photo" alt=""></td> -->
             <td>{{item.appointment}}</td>
+            <td>{{item.address}}</td>
             <td>
                 {{item.phonenumber}}
             </td>

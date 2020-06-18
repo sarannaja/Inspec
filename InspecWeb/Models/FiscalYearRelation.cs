@@ -25,7 +25,6 @@ namespace InspecWeb.Models
         [ForeignKey("Region")]
         [Description("FK: เขตตรวจราขการ")]
         public long RegionId { get; set; }
-
         public virtual Region Region { get; set; }
 
         [ForeignKey("Province")]

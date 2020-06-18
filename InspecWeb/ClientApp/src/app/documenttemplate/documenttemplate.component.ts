@@ -84,6 +84,7 @@ export class DocumenttemplateComponent implements OnInit {
       })
     })
   }
+  
   editDocumenttemplate(value,delid) {
     console.log(value);
     this.documenttemplateservice.editDocumenttemplate(value,delid).subscribe(response => {

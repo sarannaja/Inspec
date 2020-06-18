@@ -124,7 +124,7 @@ namespace InspecWeb.Controllers
             var electornicbookgroup = _context.ElectronicBookGroups.Where(x => x.CentralPolicyProvinceId == CentralPolicyProvince.ProvinceId).FirstOrDefault();
             var detailbook = _context.ElectronicBooks.Where(x => x.Id == electornicbookgroup.ElectronicBookId).FirstOrDefault();
             ////return detailbook;
-            var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId && x.ElectronicBookId == model.elecId).FirstOrDefault();
+            var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId).FirstOrDefault();
             //return groupidfile;
             var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Name).ToArray();
             var description = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Description).ToArray();
