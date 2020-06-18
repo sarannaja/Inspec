@@ -353,5 +353,21 @@ export class SubjectService {
   getsubjectfromprovince(proid) {
     return this.http.get(this.url + "getsubjectfromprovince/" + proid)
   }
+
+  subjectevent(value,userid) {
+    console.log("value",value);
+    console.log("value",value.province);
+    const formData = {
+      CentralpolicyId: value.CentralpolicyId,
+      ProvinceId: parseInt(value.province),
+      startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      CreatedBy : userid
+    }
+    return this.http.post<any>(this.url + 'subjectevent', formData);
+  }
+  getsubjectevent() {
+    return this.http.get(this.url + "getevent")
+  }
 }
 

@@ -70,6 +70,22 @@ namespace InspecWeb.Controllers
             return Ok(new { timelineData });
         }
 
+        //[HttpGet("getScheduleData/{id}/{provinceId}")]
+        //public IActionResult GetScheduleData(long id, long provinceId)
+        //{
+        //    var scheduleData = _context.InspectionPlanEvents
+        //        .Include(x => x.Province)
+        //        .Where(x => x.Id == id)
+        //        .FirstOrDefault();
+
+        //    var userData = _context.Users
+        //        .Where(x => x.Id == scheduleData.CreatedBy)
+        //        .FirstOrDefault();
+
+
+        //    return Ok(new { scheduleData, userData });
+        //}
+
         // GET api/values/5
         [HttpGet("getcentralpolicydata/{provinceid}")]
         public IEnumerable<CentralPolicy> Get2(long provinceid)
@@ -165,7 +181,7 @@ namespace InspecWeb.Controllers
             {
                 CentralPolicyId = centralpolicydata.Id,
                 InspectionPlanEventId = model.InspectionPlanEventId,
-                ElectronicBookId = ElectronicBookdata.Id,
+                //ElectronicBookId = ElectronicBookdata.Id,
             };
             _context.CentralPolicyEvents.Add(centralpolicyeventdata);
             _context.SaveChanges();
@@ -184,38 +200,38 @@ namespace InspecWeb.Controllers
                     .Where(m => m.CentralPolicyId == id && m.ProvinceId == model.ProvinceId).FirstOrDefault();
 
                 System.Console.WriteLine("2");
-                var ElectronicBookdata = new ElectronicBook
-                {
-                    CreatedBy = model.CreatedBy,
-                    Status = "ร่างกำหนดการ",
-                };
-                _context.ElectronicBooks.Add(ElectronicBookdata);
-                _context.SaveChanges();
-                System.Console.WriteLine("3");
-                var ElectronicBookGroupdata = new ElectronicBookGroup
-                {
-                    CentralPolicyProvinceId = centralpolicyprovince.Id,
-                    ElectronicBookId = ElectronicBookdata.Id,
-                };
-                _context.ElectronicBookGroups.Add(ElectronicBookGroupdata);
-                _context.SaveChanges();
+                //var ElectronicBookdata = new ElectronicBook
+                //{
+                //    CreatedBy = model.CreatedBy,
+                //    Status = "ร่างกำหนดการ",
+                //};
+                //_context.ElectronicBooks.Add(ElectronicBookdata);
+                //_context.SaveChanges();
+                //System.Console.WriteLine("3");
+                //var ElectronicBookGroupdata = new ElectronicBookGroup
+                //{
+                //    CentralPolicyProvinceId = centralpolicyprovince.Id,
+                //    ElectronicBookId = ElectronicBookdata.Id,
+                //};
+                //_context.ElectronicBookGroups.Add(ElectronicBookGroupdata);
+                //_context.SaveChanges();
                 System.Console.WriteLine("4");
                 var centralpolicyeventdata = new CentralPolicyEvent
                 {
                     CentralPolicyId = id,
                     InspectionPlanEventId = model.InspectionPlanEventId,
-                    ElectronicBookId = ElectronicBookdata.Id,
+                    //ElectronicBookId = ElectronicBookdata.Id,
                 };
                 _context.CentralPolicyEvents.Add(centralpolicyeventdata);
                 _context.SaveChanges();
 
-                var CentralPolicyProvinceEventdata = new CentralPolicyProvinceEvent
-                {
-                    CentralPolicyProvinceId = centralpolicyprovince.Id,
-                    InspectionPlanEventId = model.InspectionPlanEventId,
-                };
-                _context.CentralPolicyProvinceEvents.Add(CentralPolicyProvinceEventdata);
-                _context.SaveChanges();
+                //var CentralPolicyProvinceEventdata = new CentralPolicyProvinceEvent
+                //{
+                //    CentralPolicyProvinceId = centralpolicyprovince.Id,
+                //    InspectionPlanEventId = model.InspectionPlanEventId,
+                //};
+                //_context.CentralPolicyProvinceEvents.Add(CentralPolicyProvinceEventdata);
+                //_context.SaveChanges();
 
                 System.Console.WriteLine("5");
             }
@@ -258,5 +274,20 @@ namespace InspecWeb.Controllers
             return Ok(CentralPolicyProvincesid);
         }
 
+        [HttpGet("getScheduleData/{id}/{provinceId}")]
+        public IActionResult GetScheduleData(long id, long provinceId)
+        {
+            var scheduleData = _context.InspectionPlanEvents
+                .Include(x => x.Province)
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            var userData = _context.Users
+                .Where(x => x.Id == scheduleData.CreatedBy)
+                .FirstOrDefault();
+
+
+            return Ok(new { scheduleData, userData });
+        }
     }
 }

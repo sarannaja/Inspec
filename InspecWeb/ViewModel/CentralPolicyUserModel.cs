@@ -20,6 +20,7 @@ namespace InspecWeb.ViewModel
         public long ElectronicBookId { get; set; }
 
         public string InviteBy { get; set; }
+        public long planId { get; set; }
 
     }
 }

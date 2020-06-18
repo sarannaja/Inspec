@@ -45,7 +45,6 @@ export class GccOpmTableComponent implements OnInit {
         this.extranalService.getGccwara()
           .subscribe(result => {
             this.provincewara.wara = result
-
             this.getData(this.provincewara.provinces[0].value, this.provincewara.wara[0].value)
             this.provice = this.provincewara.provinces[0].value
             this.wara = this.provincewara.wara[0].value

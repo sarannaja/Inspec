@@ -135,6 +135,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     //   ]
     // }
   }
+  planId: any;
 
 
 
@@ -154,6 +155,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
     this.urllink = baseUrl + 'answersubject/outsider/';
+    this.planId = activatedRoute.snapshot.paramMap.get('planId')
   }
 
   async ngOnInit() {
@@ -174,7 +176,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             // alert(this.role_id)
           })
       })
-
+      // alert(this.planId)
     console.log("ID: ", this.id);
 
     // this.spinner.show();
@@ -376,7 +378,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       .map(element => console.log('element', this.chartLabel(element))
       )
     // console.log("element", dataE);
-    // function 
+    // function
   }
   chartLabel(element) {
     return element
@@ -484,7 +486,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         this.resultuser = result.userdata
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId
 
-        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        // this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.centralpolicyprovincedata = result.centralpolicyprovince
 
         this.form.patchValue({
@@ -493,21 +495,21 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         })
         // alert(this.centralpolicyprovincedata.step)
         // if (this.resultdetailcentralpolicyprovince.length > 0) {
-        if (this.role_id == 3) {
-          if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
-            this.centralpolicyprovincedata.step = "มอบหมายจังหวัด"
-          }
-          this.form.patchValue({
-            step: this.centralpolicyprovincedata.step
-          })
-        } else if (this.role_id == 5) {
-          if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
-            this.centralpolicyprovincedata.step = "มอบหมายเขต"
-          }
-          this.form.patchValue({
-            step: this.centralpolicyprovincedata.step
-          })
-        }
+        // if (this.role_id == 3) {
+        //   if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+        //     this.centralpolicyprovincedata.step = "มอบหมายจังหวัด"
+        //   }
+        //   this.form.patchValue({
+        //     step: this.centralpolicyprovincedata.step
+        //   })
+        // } else if (this.role_id == 5) {
+        //   if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+        //     this.centralpolicyprovincedata.step = "มอบหมายเขต"
+        //   }
+        //   this.form.patchValue({
+        //     step: this.centralpolicyprovincedata.step
+        //   })
+        // }
         // } else {
         //   alert("else")
         // }
@@ -621,7 +623,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
 
   getCentralPolicyProvinceUser() {
-    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
+    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
       .subscribe(result => {
         console.log();
 
@@ -666,7 +668,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   storePeople(value: any) {
     let UserPeopleId: any[] = value.UserPeopleId
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid, this.userid).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid, this.userid, this.planId).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
@@ -717,7 +719,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storeMinistryPeople(value: any) {
     let UserPeopleId: any[] = value.UserPeopleId
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid, this.userid).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid, this.userid, this.planId).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
@@ -781,7 +783,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.resultministrypeople = result // All
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(async result => {
+    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
       await result.forEach(async element => {
         if (element.user.role_id == 6) {
           await this.allMinistryPeople.push(element.user)
@@ -799,7 +801,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     console.log("allMinistry: ", this.resultministrypeople);
     if (this.ministryPeople.length == 0) {
       for (var i = 0; i < this.resultministrypeople.length; i++) {
-        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
       }
     }
     else {
@@ -811,7 +813,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           }
         }
         if (n == 0) {
-          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
         }
       }
     }
@@ -826,7 +828,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       console.log("tttt:", this.resultpeople);
 
     })
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id).subscribe(async result => {
+    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
       await result.forEach(async element => {
         if (element.user.role_id == 7) {
           this.allUserPeople.push(element.user)
@@ -847,7 +849,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     if (this.userPeople.length == 0) {
       for (var i = 0; i < this.resultpeople.length; i++) {
-        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].departments.name + " - " + this.resultpeople[i].name })
       }
     }
     else {
@@ -859,7 +861,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           }
         }
         if (n == 0) {
-          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].departments.name + " - " + this.resultpeople[i].name })
         }
       }
     }

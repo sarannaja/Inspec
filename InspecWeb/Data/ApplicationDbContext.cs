@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InspecWeb.Data.Seeders; //เรียกไฟล์ โฟเดอ
+using InspecWeb.Data.Seeders; //เรียกไฟล์ โฟเดอx
 
 namespace InspecWeb.Data
 {
@@ -117,10 +117,14 @@ namespace InspecWeb.Data
         public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<CentralPolicyProvinceEvent> CentralPolicyProvinceEvents { get; set; }
+        public DbSet<SubjectGroup> SubjectGroups { get; set; }
+        
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+           
+
+           foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 {
                     relationship.DeleteBehavior = DeleteBehavior.Restrict;
                 }
@@ -142,6 +146,8 @@ namespace InspecWeb.Data
 
             builder.Entity<SubjectDate>()
             .HasKey(m => new { m.SubjectId, m.CentralPolicyDateId });
+
+            
 
             //builder.Entity<SubquestionGroup>()
             //.HasKey(m => new { m.SubquestionId, m.ProvincialDepartmentId });

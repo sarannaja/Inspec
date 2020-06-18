@@ -439,6 +439,8 @@ namespace InspecWeb.Controllers
             {
                 System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
                 System.Console.WriteLine("LOOP: " + id);
+                System.Console.WriteLine("PLANID: " + model.planId);
+
                 var centralpolicyuserdata = new CentralPolicyUser
                 {
                     CentralPolicyId = CentralPolicyId,
@@ -447,8 +449,8 @@ namespace InspecWeb.Controllers
                     UserId = id,
                     Status = "รอการตอบรับ",
                     DraftStatus = "ร่างกำหนดการ",
-                    ElectronicBookId = model.ElectronicBookId,
-                    InspectionPlanEventId = 1,
+                    //ElectronicBookId = model.ElectronicBookId,
+                    InspectionPlanEventId = model.planId,
                     InvitedBy = inviteby.Prefix + " " + inviteby.Name,
                 };
                 _context.CentralPolicyUsers.Add(centralpolicyuserdata);
@@ -468,15 +470,15 @@ namespace InspecWeb.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("usersprovince/{id}")]
-        public IActionResult GetUserProvinces(long id)
+        [HttpGet("usersprovince/{id}/{planId}")]
+        public IActionResult GetUserProvinces(long id, long planId)
         {
             var centralpolicyprovince = _context.CentralPolicyProvinces
             .Where(m => m.Id == id).FirstOrDefault();
 
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
-                .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId);
+                .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId && m.InspectionPlanEventId == planId);
 
             return Ok(centralpolicyuserdata);
         }
@@ -547,8 +549,8 @@ namespace InspecWeb.Controllers
 
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.CentralPolicyUser)
-                .ThenInclude(m => m.ElectronicBook)
-                .ThenInclude(x => x.ElectronicBookSuggestGroups)
+                //.ThenInclude(m => m.ElectronicBook)
+                //.ThenInclude(x => x.ElectronicBookSuggestGroups)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
                 //.Include(m => m.Subjects)
@@ -595,27 +597,27 @@ namespace InspecWeb.Controllers
 
             //var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();
 
-            var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
-                .Include(m => m.SubquestionCentralPolicyProvinces)
-                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+            //var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
+            //    .Include(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
 
-                .Include(m => m.SubquestionCentralPolicyProvinces)
-                .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
-                .ThenInclude(m => m.User)
+            //    .Include(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
+            //    .ThenInclude(m => m.User)
 
-                .Include(m => m.SubquestionCentralPolicyProvinces)
-                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
-                .ThenInclude(m => m.ProvincialDepartment)
-                .Include(x => x.ElectronicBookSuggestGroups)
+            //    .Include(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+            //    .ThenInclude(m => m.ProvincialDepartment)
+            //    .Include(x => x.ElectronicBookSuggestGroups)
 
-                .Include(m => m.SubquestionCentralPolicyProvinces)
-                .ThenInclude(x => x.AnswerSubquestions)
+            //    .Include(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(x => x.AnswerSubquestions)
 
-                .Include(m => m.SubquestionCentralPolicyProvinces)
-                .ThenInclude(x => x.AnswerSubquestionOutsiders)
+            //    .Include(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(x => x.AnswerSubquestionOutsiders)
 
-                .Where(m => m.Type == "NoMaster")
-                .Where(m => m.CentralPolicyProvinceId == id).ToList();
+            //    .Where(m => m.Type == "NoMaster")
+            //    .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
             System.Console.WriteLine("CentralPolicyId" + centralpolicyprovince.CentralPolicyId);
             System.Console.WriteLine("InspectionPlanEventId" + centralpolicyprovince.ProvinceId);
@@ -641,19 +643,19 @@ namespace InspecWeb.Controllers
             if (InspectionPlanEventdata != null)
             {
                 var CentralPolicyEventdata = _context.CentralPolicyEvents
-                .Include(m => m.ElectronicBook)
+                //.Include(m => m.ElectronicBook)
                 .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId && m.InspectionPlanEventId == InspectionPlanEventdata.Id)
                 //.Where(m => m.InspectionPlanEventId == InspectionPlanEventdata.Id)
                 .FirstOrDefault();
 
                 var userdata = _context.Users.Where(m => m.Id == CentralPolicyEventdata.InspectionPlanEvent.CreatedBy).First();
-                return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince });
+                return Ok(new {  centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince });
             }
             else
             {
                 var userdata = "";
                 var CentralPolicyEventdata = "";
-                return Ok(new { subjectcentralpolicyprovincedata, centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince,answerPeople });
+                return Ok(new {  centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince,answerPeople });
             }
 
 
@@ -930,6 +932,37 @@ namespace InspecWeb.Controllers
                 .ToList();
 
             return Ok(answerData);
+        }
+
+        // GET api/values/5
+        [HttpGet("subjectevent/{id}/{subjectgroupid}")]
+        public IActionResult GetSubjectEvent(long id , long subjectgroupid)
+        {
+            var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceUserGroups)
+                .ThenInclude(m => m.User)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(m => m.ProvincialDepartment)
+                .Include(x => x.ElectronicBookSuggestGroups)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.AnswerSubquestions)
+
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.AnswerSubquestionOutsiders)
+
+                .Where(m => m.Type == "NoMaster")
+                .Where(m => m.SubjectGroupId == subjectgroupid)
+                .Where(m => m.CentralPolicyProvinceId == id).ToList();
+
+
+            return Ok(subjectcentralpolicyprovincedata);
         }
     }
 }

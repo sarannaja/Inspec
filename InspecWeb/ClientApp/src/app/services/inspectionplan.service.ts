@@ -22,6 +22,10 @@ export class InspectionplanService {
     return this.http.get<any>(this.url + "getTimeline/" + id);
   }
 
+  getScheduleData(id, provinceId) {
+    return this.http.get<any>(this.url + "getScheduleData/" + id + "/" + provinceId);
+  }
+
   getcentralpolicyprovinceid(centralpolicyid, provinceid) {
     return this.http.get(this.url + 'getcentralpolicyprovinceid/' + centralpolicyid + '/' + provinceid)
   }
