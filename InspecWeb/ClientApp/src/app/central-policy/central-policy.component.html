@@ -20,6 +20,7 @@
               <div class="mb-12">
                 <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
                   data-toggle="select2">
+                  <option value="currentfiscalyear">ปีปัจจุบัน</option>
                   <option value="allfiscalyear">ปีทั้งหมดทั้งหมด</option>
                   <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">
                     {{item.year}}
@@ -43,6 +44,7 @@
                 <div class="mb-12">
                   <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
                     data-toggle="select2">
+                    <option value="currentfiscalyear">ปีปัจจุบัน</option>
                     <option value="allfiscalyear">ปีทั้งหมดทั้งหมด</option>
                     <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">
                       {{item.year}}
@@ -72,9 +74,10 @@
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
-              <td *ngIf="item.status == 'ใช้งานจริง';" width="40%" (click)="Subject(item.id,item.title)"
+              <td>{{ item.class }}</td>
+              <td *ngIf="item.status == 'ใช้งานจริง';" width="30%" (click)="Subject(item.id,item.title)"
                 class="pointer">{{ item.title }}</td>
-              <td *ngIf="item.status == 'ร่างกำหนดการ';" width="40%">{{ item.title }}</td>
+              <td *ngIf="item.status == 'ร่างกำหนดการ';" width="30%">{{ item.title }}</td>
               <td>{{item.fiscalYear.year}}</td>
               <td>
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
