@@ -33,6 +33,7 @@ export class InspectionPlanComponent implements OnInit {
   centralpolicyprovinceid: any
   role_id
   timelineData: any = [];
+  ScheduleData: any = [];
 
   constructor(private modalService: BsModalService, private notificationService: NotificationService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -73,14 +74,22 @@ export class InspectionPlanComponent implements OnInit {
       CentralpolicyId: new FormControl(null, [Validators.required])
     })
 
-    this.getinspectionplanservice()
+    this.getinspectionplanservice();
     this.getTimeline();
+    this.getScheduleData();
   }
 
   getTimeline() {
     this.inspectionplanservice.getTimeline(this.id).subscribe(res => {
       console.log("Timeline: ", res);
       this.timelineData = res.timelineData;
+    })
+  }
+
+  getScheduleData() {
+    this.inspectionplanservice.getScheduleData(this.id, this.provinceid).subscribe(res => {
+      console.log("ScheduleData: ", res);
+      this.ScheduleData = res;
     })
   }
 
@@ -103,7 +112,7 @@ export class InspectionPlanComponent implements OnInit {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result])
+      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, {planId: this.id}])
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])
@@ -194,11 +203,11 @@ export class InspectionPlanComponent implements OnInit {
     else {
       for (var i = 0; i < this.resultcentralpolicy.length; i++) {
         var n = 0;
-        // for (var ii = 0; ii < this.inspectionplan.length; ii++) {
-        //   if (this.resultcentralpolicy[i].id == this.inspectionplan[ii].centralPolicyId) {
-        //     n++;
-        //   }
-        // }
+        for (var ii = 0; ii < this.inspectionplan.length; ii++) {
+          if (this.resultcentralpolicy[i].id == this.inspectionplan[ii].centralPolicyId) {
+            n++;
+          }
+        }
         if (n == 0) {
           if (this.resultcentralpolicy[i].status == "ใช้งานจริง") {
             this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
@@ -209,4 +218,3 @@ export class InspectionPlanComponent implements OnInit {
     this.loading = true;
   }
 }
-

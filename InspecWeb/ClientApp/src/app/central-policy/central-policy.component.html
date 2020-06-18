@@ -72,6 +72,7 @@
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
+              <td>{{item.class}}</td>
               <td *ngIf="item.status == 'ใช้งานจริง';" width="40%" (click)="Subject(item.id,item.title)"
                 class="pointer">{{ item.title }}</td>
               <td *ngIf="item.status == 'ร่างกำหนดการ';" width="40%">{{ item.title }}</td>
