@@ -15,6 +15,10 @@
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
         <h5 class="card-title">แผนการตรวจราชการ</h5>
+        <label style="margin-left: 5px;">จังหวัด: {{ScheduleData.scheduleData.province.name}}</label>
+        <label style="margin-left: 30px;">ผู้สร้าง: {{ScheduleData.userData.prefix}}
+          {{ScheduleData.userData.name}}</label>
+        <label style="margin-left: 30px;">สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
         <div class="row" style="margin-left: 5px;">
           <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
             readonly>

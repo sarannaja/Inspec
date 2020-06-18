@@ -335,8 +335,6 @@ const ExternalOrganization = [
           { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/program/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
-          
-          //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
@@ -399,15 +397,15 @@ const ExternalOrganization = [
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
-          { path: 'reportsubject', component: ReportSubjectComponent, canActivate: [AuthorizeGuard] }, 
-          { path: 'centralpolicyfiscalyear/:id', component: CentralPolicyFiscalyearComponent, canActivate: [AuthorizeGuard] },    
+          { path: 'reportsubject', component: ReportSubjectComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicyfiscalyear/:id', component: CentralPolicyFiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
-          
+
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport1component', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport3component', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
@@ -425,10 +423,10 @@ const ExternalOrganization = [
       { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'train', component: DefaultLayoutTrainComponent,
-        data: {title: 'หน้าหลัก'},
+        data: { title: 'หน้าหลัก' },
         children: [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
-      ]
+        ]
       }
     ]),
     ModalModule.forRoot(),

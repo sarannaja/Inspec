@@ -33,6 +33,7 @@ export class InspectionPlanComponent implements OnInit {
   centralpolicyprovinceid: any
   role_id
   timelineData: any = [];
+  ScheduleData: any = [];
 
   constructor(private modalService: BsModalService, private notificationService: NotificationService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -73,14 +74,22 @@ export class InspectionPlanComponent implements OnInit {
       CentralpolicyId: new FormControl(null, [Validators.required])
     })
 
-    this.getinspectionplanservice()
+    this.getinspectionplanservice();
     this.getTimeline();
+    this.getScheduleData();
   }
 
   getTimeline() {
     this.inspectionplanservice.getTimeline(this.id).subscribe(res => {
       console.log("Timeline: ", res);
       this.timelineData = res.timelineData;
+    })
+  }
+
+  getScheduleData() {
+    this.inspectionplanservice.getScheduleData(this.id, this.provinceid).subscribe(res => {
+      console.log("ScheduleData: ", res);
+      this.ScheduleData = res;
     })
   }
 

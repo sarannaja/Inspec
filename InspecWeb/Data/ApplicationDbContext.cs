@@ -171,10 +171,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
             builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
 
-            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Cascade;
-            }
+            
         }
 
 
