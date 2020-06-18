@@ -7,9 +7,9 @@ using System.Text;
 
 namespace InspecWeb.Models
 {
-    // <summary>
+    /// <summary>
     /// เนื้อหาของสื่อสิ่งพิมพ์
-    // </summary>
+    /// </summary>
     [Table("TrainingRegisters")]
     [Description("ตารางผู้สมัครหลักสูตรการอบรม")]
     public class TrainingRegister
@@ -22,7 +22,6 @@ namespace InspecWeb.Models
         [ForeignKey("Training")]
         [Description("FK: หลักสูตรอบรม")]
         public long TrainingId { get; set; }
-        public virtual Training Training { get; set; }
 
         [Description("ประเภทบุคคล")]
         public long UserType { get; set; }
@@ -52,6 +51,7 @@ namespace InspecWeb.Models
         [Description("สถานะ")]
         public long Status { get; set; }
 
+        public virtual Training Training { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import * as logoFile from '../../carlogo.js';
 import { DatePipe } from '@angular/common';
 @Injectable({
   providedIn: 'root'
@@ -65,11 +66,11 @@ export class ExcelGeneraterService {
 
     // Add Image
     const logo = workbook.addImage({
-      // base64: logoFile.logoBase64,
+      base64: logoFile.logoBase64,
       extension: 'png',
     });
 
-    // worksheet.addImage(logo, 'E1:F3');
+    worksheet.addImage(logo, 'E1:F3');
     worksheet.mergeCells('A1:D2');
 
 
