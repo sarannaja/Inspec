@@ -134,12 +134,12 @@ namespace InspecWeb.Data
             builder.Entity<CentralDepartmentProvince>() //หน่วยงานราชการส่วนกลางภูมิภาค
            .HasKey(m => new { m.CentralDepartmentID, m.ProvinceId });
 
-            //สำหรับ Cascade
-            builder.Entity<CentralPolicyDate>()
-                .HasOne(i=>i.CentralPolicy)
-                .WithMany(a => a.CentralPolicyDates)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+            // //สำหรับ Cascade
+            // builder.Entity<CentralPolicyDate>()
+            //     .HasOne(i=>i.CentralPolicy)
+            //     .WithMany(a => a.CentralPolicyDates)
+            //     .IsRequired()
+            //     .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<CentralPolicyUser>()
            .HasKey(m => new { m.CentralPolicyId, m.UserId });
