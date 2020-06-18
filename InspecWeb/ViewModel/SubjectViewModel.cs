@@ -27,7 +27,9 @@ namespace InspecWeb.ViewModel
 
         public inputsubjectdepartment[] inputsubjectdepartment { get; set; }
 
-       
+        public subjectevent[] subjectevent { get; set; }
+
+
     }
 
     public class inputsubjectdepartment
@@ -53,5 +55,18 @@ namespace InspecWeb.ViewModel
     public class inputanswerclose
     {
         public string answerclose { get; set; }
+    }
+
+    public class subjectevent
+    {
+        public long[] CentralpolicyId { get; set; }
+
+        public long ProvinceId { get; set; }
+
+        public DateTime startdate { get; set; }
+
+        public DateTime enddate { get; set; }
+
+        public string CreatedBy { get; set; }
     }
 }

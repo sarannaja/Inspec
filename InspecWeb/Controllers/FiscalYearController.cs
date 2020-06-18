@@ -27,7 +27,6 @@ namespace InspecWeb.Controllers
         {
             var fiscalyeardata = from P in _context.FiscalYears
                                  select P;
-
             return Ok(fiscalyeardata);
 
             //return 

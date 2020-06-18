@@ -138,6 +138,8 @@ import { CentralPolicyFiscalyearComponent } from './central-policy/central-polic
 import { ExecutiveOrderExport1Component } from './executive-order/executive-order-export1/executive-order-export1.component';
 import { ExecutiveOrderExport3Component } from './executive-order/executive-order-export3/executive-order-export3.component';
 import { CommanderReportComponent } from './commander-report/commander-report.component';
+import { SubjecteventComponent } from './subjectevent/subjectevent.component';
+import { DetailSubjecteventComponent } from './subjectevent/detail-subjectevent/detail-subjectevent.component';
 
 
 
@@ -269,7 +271,9 @@ const ExternalOrganization = [
     ExecutiveOrderExport3Component,
     InfoMinistryComponent,
     InfoVillageComponent,
-    StatepolicyComponent
+    StatepolicyComponent,
+    SubjecteventComponent,
+    DetailSubjecteventComponent
   ],
 
   imports: [
@@ -335,6 +339,8 @@ const ExternalOrganization = [
           { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/program/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
+
+          //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
@@ -413,6 +419,8 @@ const ExternalOrganization = [
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subjectevent/detail/:result', component: DetailSubjecteventComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

@@ -112,7 +112,7 @@ export class InspectionPlanComponent implements OnInit {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result])
+      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, {planId: this.id}])
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])
@@ -203,11 +203,11 @@ export class InspectionPlanComponent implements OnInit {
     else {
       for (var i = 0; i < this.resultcentralpolicy.length; i++) {
         var n = 0;
-        // for (var ii = 0; ii < this.inspectionplan.length; ii++) {
-        //   if (this.resultcentralpolicy[i].id == this.inspectionplan[ii].centralPolicyId) {
-        //     n++;
-        //   }
-        // }
+        for (var ii = 0; ii < this.inspectionplan.length; ii++) {
+          if (this.resultcentralpolicy[i].id == this.inspectionplan[ii].centralPolicyId) {
+            n++;
+          }
+        }
         if (n == 0) {
           if (this.resultcentralpolicy[i].status == "ใช้งานจริง") {
             this.selectdatacentralpolicy.push({ value: this.resultcentralpolicy[i].id, label: this.resultcentralpolicy[i].title })
@@ -218,4 +218,3 @@ export class InspectionPlanComponent implements OnInit {
     this.loading = true;
   }
 }
-
