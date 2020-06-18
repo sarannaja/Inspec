@@ -1,30 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj": {}
+    "/Users/fame/Desktop/Inspec/EmailService/EmailService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj": {
+    "/Users/fame/Desktop/Inspec/EmailService/EmailService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj",
+        "projectUniqueName": "/Users/fame/Desktop/Inspec/EmailService/EmailService.csproj",
         "projectName": "EmailService",
-        "projectPath": "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj",
-        "packagesPath": "C:\\Users\\TOT\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\obj\\",
+        "projectPath": "/Users/fame/Desktop/Inspec/EmailService/EmailService.csproj",
+        "packagesPath": "/Users/fame/.nuget/packages/",
+        "outputPath": "/Users/fame/Desktop/Inspec/EmailService/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\TOT\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/fame/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -61,7 +56,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.300/RuntimeIdentifierGraph.json"
         }
       }
     }
