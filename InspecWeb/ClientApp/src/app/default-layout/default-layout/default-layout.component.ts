@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit,Inject,TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { superAdmin,Centraladmin,Inspector,Provincialgovernor,Adminprovince,InspectorMinistry,publicsector,president,InspectorDepartment } from './_nav';
+import { superAdmin,Centraladmin,Inspector,Provincialgovernor,Adminprovince,InspectorMinistry,publicsector,president,InspectorDepartment,InspectorExamination } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -155,27 +155,28 @@ export class DefaultLayoutComponent implements OnInit {
         });
 
         if (this.role_id == 1) {
-          this.nav = superAdmin
+          this.nav = superAdmin //ซุปเปอร์แอดมิน
         } else if (this.role_id == 2) {
-          this.nav = Centraladmin
+          this.nav = Centraladmin //แอดมินส่วนกลาง
         } else if (this.role_id == 3) {
-          this.nav = Inspector
+          this.nav = Inspector //ผู้ตรวจราชการ
         } else if (this.role_id == 4) {
-          this.nav = Provincialgovernor
+          this.nav = Provincialgovernor //ผู้ว่าราชการจังหวัด
         } else if (this.role_id == 5) {
-          this.nav = Adminprovince
+          this.nav = Adminprovince //หัวหน้าสำนักงานจังหวัด
         } else if (this.role_id == 6) {
-          this.nav = InspectorMinistry
+          this.nav = InspectorMinistry // ผู้ตรวจกระทรวง
         } else if (this.role_id == 7) {
-          this.nav = publicsector
+          this.nav = publicsector // ผู้ตรวจภาคประชาชน
         } else if (this.role_id == 8) {
-          this.nav = president
+          this.nav = president // ผู้บริหาร หรือ นายก รองนายก
         } else if (this.role_id == 9) {
-          this.nav = InspectorDepartment
+          this.nav = InspectorExamination //หน่วยงานตรวจ
+        }else if(this.role_id == 10){
+          this.nav = InspectorDepartment // ผู้ตรวจกรม
         }
       })
     })
-
   }
   //End getuser
 //for
