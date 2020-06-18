@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace InspecWeb.Data.Migrations
+namespace InspecWeb.Data
 {
     public partial class Initail : Migration
     {
@@ -333,11 +333,7 @@ namespace InspecWeb.Data.Migrations
                     Subject = table.Column<string>(nullable: false),
                     TypeExport = table.Column<string>(nullable: true),
                     TypeReport = table.Column<string>(nullable: true),
-                    FileWord = table.Column<string>(nullable: true),
-                    FileExcel = table.Column<string>(nullable: true),
-                    CreateBy = table.Column<string>(nullable: true),
-                    Command = table.Column<string>(nullable: true),
-                    Commander = table.Column<string>(nullable: true)
+                    FileName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -712,7 +708,7 @@ namespace InspecWeb.Data.Migrations
                         column: x => x.CentralPolicyId,
                         principalTable: "CentralPolicies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1197,6 +1193,7 @@ namespace InspecWeb.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<< HEAD:InspecWeb/Data/Migrations/20200618061342_Initail.cs
                 name: "CentralPolicyProvinceEvents",
                 columns: table => new
                 {
@@ -1223,6 +1220,8 @@ namespace InspecWeb.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+=======
+>>>>>>> master:InspecWeb/Data/20200612122115_Initail.cs
                 name: "SubquestionChoices",
                 columns: table => new
                 {
@@ -1681,7 +1680,6 @@ namespace InspecWeb.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProvinceId = table.Column<long>(nullable: false),
                     ElectronicBookId = table.Column<long>(nullable: false),
-                    InspectionPlanEventId = table.Column<long>(nullable: false),
                     CentralPolicyGroupId = table.Column<long>(nullable: false),
                     Status = table.Column<string>(nullable: false),
                     Report = table.Column<string>(nullable: true),
@@ -1711,12 +1709,15 @@ namespace InspecWeb.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+<<<<<<< HEAD:InspecWeb/Data/Migrations/20200618061342_Initail.cs
                         name: "FK_CentralPolicyUsers_InspectionPlanEvents_InspectionPlanEventId",
                         column: x => x.InspectionPlanEventId,
                         principalTable: "InspectionPlanEvents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+=======
+>>>>>>> master:InspecWeb/Data/20200612122115_Initail.cs
                         name: "FK_CentralPolicyUsers_Provinces_ProvinceId",
                         column: x => x.ProvinceId,
                         principalTable: "Provinces",
@@ -1789,33 +1790,34 @@ namespace InspecWeb.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Commanded_by = table.Column<string>(nullable: true),
-                    User_Commanded_byId = table.Column<string>(nullable: true),
-                    Subject = table.Column<string>(nullable: false),
-                    Subjectdetail = table.Column<string>(nullable: false),
-                    Status = table.Column<string>(nullable: false),
-                    Answer_by = table.Column<string>(nullable: true),
-                    User_Answer_byId = table.Column<string>(nullable: true),
-                    Answerdetail = table.Column<string>(nullable: true),
+                    DetailExecutiveOrder = table.Column<string>(nullable: false),
+                    AnswerDetail = table.Column<string>(nullable: true),
                     AnswerProblem = table.Column<string>(nullable: true),
                     AnswerCounsel = table.Column<string>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: true),
-                    Commanded_date = table.Column<DateTime>(nullable: true),
-                    beaware_date = table.Column<DateTime>(nullable: true),
-                    publics = table.Column<long>(nullable: false)
+                    CentralPolicyId = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    AnswerUserId = table.Column<string>(nullable: true),
+                    ProvinceId = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExecutiveOrders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExecutiveOrders_AspNetUsers_User_Answer_byId",
-                        column: x => x.User_Answer_byId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_ExecutiveOrders_CentralPolicies_CentralPolicyId",
+                        column: x => x.CentralPolicyId,
+                        principalTable: "CentralPolicies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExecutiveOrders_AspNetUsers_User_Commanded_byId",
-                        column: x => x.User_Commanded_byId,
+                        name: "FK_ExecutiveOrders_Provinces_ProvinceId",
+                        column: x => x.ProvinceId,
+                        principalTable: "Provinces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExecutiveOrders_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -48881,16 +48883,6 @@ namespace InspecWeb.Data.Migrations
                 column: "CentralPolicyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CentralPolicyProvinceEvents_CentralPolicyProvinceId",
-                table: "CentralPolicyProvinceEvents",
-                column: "CentralPolicyProvinceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CentralPolicyProvinceEvents_InspectionPlanEventId",
-                table: "CentralPolicyProvinceEvents",
-                column: "InspectionPlanEventId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CentralPolicyProvinces_CentralPolicyId",
                 table: "CentralPolicyProvinces",
                 column: "CentralPolicyId");
@@ -48914,11 +48906,6 @@ namespace InspecWeb.Data.Migrations
                 name: "IX_CentralPolicyUsers_ElectronicBookId",
                 table: "CentralPolicyUsers",
                 column: "ElectronicBookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CentralPolicyUsers_InspectionPlanEventId",
-                table: "CentralPolicyUsers",
-                column: "InspectionPlanEventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CentralPolicyUsers_ProvinceId",
@@ -49002,14 +48989,19 @@ namespace InspecWeb.Data.Migrations
                 column: "ExecutiveOrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExecutiveOrders_User_Answer_byId",
+                name: "IX_ExecutiveOrders_CentralPolicyId",
                 table: "ExecutiveOrders",
-                column: "User_Answer_byId");
+                column: "CentralPolicyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExecutiveOrders_User_Commanded_byId",
+                name: "IX_ExecutiveOrders_ProvinceId",
                 table: "ExecutiveOrders",
-                column: "User_Commanded_byId");
+                column: "ProvinceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExecutiveOrders_UserId",
+                table: "ExecutiveOrders",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExportRegistration_ProvinceId",
@@ -49303,9 +49295,6 @@ namespace InspecWeb.Data.Migrations
                 name: "CentralPolicyFiles");
 
             migrationBuilder.DropTable(
-                name: "CentralPolicyProvinceEvents");
-
-            migrationBuilder.DropTable(
                 name: "CentralPolicyUserFiles");
 
             migrationBuilder.DropTable(
@@ -49444,10 +49433,10 @@ namespace InspecWeb.Data.Migrations
                 name: "CentralDepartments");
 
             migrationBuilder.DropTable(
-                name: "CentralPolicyGroups");
+                name: "InspectionPlanEvents");
 
             migrationBuilder.DropTable(
-                name: "InspectionPlanEvents");
+                name: "CentralPolicyGroups");
 
             migrationBuilder.DropTable(
                 name: "ElectronicBookGroups");

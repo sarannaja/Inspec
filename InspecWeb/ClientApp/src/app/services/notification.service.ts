@@ -9,30 +9,30 @@ export class NotificationService {
 
   count = 0
   url = "";
-  // testLoop(func) {
-  //   console.log(`loop to ${func}`);
-  // }
+  testLoop(func) {
+    console.log(`loop to ${func}`);
+  }
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/notification/';
   }
 
   getnotificationsdata(id: any): Observable<any> {
-    // this.testLoop('getnotificationsdata')
+    this.testLoop('getnotificationsdata')
     return this.http.get<any>(this.url + 'getnotifications/' + id)
   }
   getnotificationscountdata(id: any): Observable<any> {
-    // this.testLoop('getnotificationscountdata')
+    this.testLoop('getnotificationscountdata')
     return this.http.get<any>(this.url + 'getnotificationscount/' + id)
   }
   
   getnotificationsforexecutiveorderdata(id: any): Observable<any> {
-    // this.testLoop('getnotificationsforexecutiveorderdata')
+    this.testLoop('getnotificationsforexecutiveorderdata')
     return this.http.get<any>(this.url + 'getnotificationsforexecutiveorder/' + id)
   }
   
   addNotification(CentralPolicyId, ProvinceId, UserId, status, xe) {
-    // this.testLoop('addNotification')
+    this.testLoop('addNotification')
     
     var formData = new FormData();
     
@@ -46,7 +46,7 @@ export class NotificationService {
   }
   
   updateNotification(id) {
-    // this.testLoop('updateNotification')
+    this.testLoop('updateNotification')
     const formData = new FormData();
     formData.append('update', 'update');
     return this.http.put(this.url + id, formData);
