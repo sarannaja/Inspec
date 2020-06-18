@@ -186,12 +186,13 @@ export class CentralpolicyService {
     return this.http.delete(this.url + id);
   }
 
-  addCentralpolicyUser(data, id, electronicbookid,userid) {
+  addCentralpolicyUser(data, id, electronicbookid, userid, planId) {
     const formData = {
       CentralPolicyId: id,
       UserId: data.UserPeopleId,
       ElectronicBookId: electronicbookid,
-      InviteBy: userid
+      InviteBy: userid,
+      planId: planId
     }
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + "users", formData);
@@ -201,8 +202,8 @@ export class CentralpolicyService {
     return this.http.get<any[]>(this.url + "users/" + id)
   }
 
-  getcentralpolicyprovinceuserdata(id): Observable<any[]> {
-    return this.http.get<any[]>(this.url + "usersprovince/" + id)
+  getcentralpolicyprovinceuserdata(id, planId): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "usersprovince/" + id + "/" + planId)
   }
 
   getcentralpolicyfromprovince(id): Observable<any[]> {
@@ -318,5 +319,9 @@ export class CentralpolicyService {
 
   getAnswer(centralPolicyProvinceId) {
     return this.http.get<any>(this.url + "getAnswerPeople/" + centralPolicyProvinceId);
+  }
+  getSubjecteventdetaildata(id, subjectgroupid): Observable<any> {
+    // alert('hi')
+    return this.http.get<any>(this.url + "subjectevent/" + id + "/" + subjectgroupid)
   }
 }

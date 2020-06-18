@@ -114,6 +114,10 @@ export class CreateCentralPolicyComponent implements OnInit {
     })
     // this.addInput()
   }
+  inspec(event){
+    console.log(event);
+
+  }
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
     this.form.patchValue({

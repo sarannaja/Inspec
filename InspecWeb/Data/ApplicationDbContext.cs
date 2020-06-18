@@ -117,6 +117,8 @@ namespace InspecWeb.Data
         public DbSet<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<CentralPolicyProvinceEvent> CentralPolicyProvinceEvents { get; set; }
+        public DbSet<SubjectGroup> SubjectGroups { get; set; }
+        
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
