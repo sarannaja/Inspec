@@ -233,7 +233,7 @@ namespace InspecWeb.Controllers
             //return "value";
         }
 
-        [HttpPut("edit")]
+        [HttpPut]
         public async Task<IActionResult> Put([FromForm] RequestViewModel model)
         {
             /* System.Console.WriteLine("detailrequestorder: " + model.id);
@@ -241,18 +241,20 @@ namespace InspecWeb.Controllers
              System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
              System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
              System.Console.WriteLine("AnswerRequestorder: " + model.files);*/
-            var date = DateTime.Now;
-            var executiveordersdata = _context.ExecutiveOrders.Find(model.id);
+            System.Console.WriteLine("momotest: " + model.id);
+
+           var date = DateTime.Now;
+            var requestordersdata = _context.RequestOrders.Find(model.id);
             {
-                executiveordersdata.Answerdetail = model.Answerdetail;
-                executiveordersdata.AnswerProblem = model.AnswerProblem;
-                executiveordersdata.AnswerCounsel = model.AnswerCounsel;
-                executiveordersdata.Status = "ตอบกลับเรียบร้อย";
-                executiveordersdata.beaware_date = date;
+                requestordersdata.Answerdetail = model.Answerdetail;
+                requestordersdata.AnswerProblem = model.AnswerProblem;
+                requestordersdata.AnswerCounsel = model.AnswerCounsel;
+                requestordersdata.Status = "ตอบกลับเรียบร้อย";
+                requestordersdata.beaware_date = date;
 
             };
 
-            _context.Entry(executiveordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(requestordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
             if (!Directory.Exists(_environment.WebRootPath + "//requestfile//"))
