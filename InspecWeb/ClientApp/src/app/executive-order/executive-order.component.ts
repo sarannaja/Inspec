@@ -155,10 +155,11 @@ export class ExecutiveOrderComponent implements OnInit {
       this.notificationService.addNotification(1, 1, result.answer_by, 10, result.id)
         .subscribe(result => {
          // alert(2);
-          this.modalRef.hide();
+        
           this.Form.reset();
           this.getuserinfo();
         })
+        this.modalRef.hide();
     })
   }
   openModal(template: TemplateRef<any>) {
