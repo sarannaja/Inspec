@@ -27,7 +27,7 @@ export class SubjectService {
       return {
         box: index,
         departmentId: item.departmentId,
-        inputquestionopen: item.inputquestionopen,
+        // inputquestionopen: item.inputquestionopen,
         inputquestionclose: item.inputquestionclose
       }
     })
@@ -45,7 +45,7 @@ export class SubjectService {
       return {
         box: item.box,
         departmentId: item.departmentId,
-        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
+        // inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
         inputquestionclose: item.inputsubjectdepartment.inputquestionclose
       }
     })
@@ -86,16 +86,19 @@ export class SubjectService {
   addFiles(subjectid, file: FileList) {
     // alert(subjectid)
     // alert(JSON.stringify(file))
-    console.log("subjectid",subjectid);
+    console.log("subjectid", subjectid);
     console.log("file", file);
 
     const formData = new FormData();
     for (var i = 0; i < subjectid.length; i++) {
       formData.append('SubjectCentralPolicyProvinceId', subjectid[i]);
     }
-    for (var ii = 0; ii < file.length; ii++) {
-      formData.append("files", file[ii]);
+    if (file != null) {
+      for (var ii = 0; ii < file.length; ii++) {
+        formData.append("files", file[ii]);
+      }
     }
+
     return this.http.post(this.url + "addfiles", formData);
   }
   AddDepartmentQuestion(DepartmentQuestiondata, Box, subjectid) {
@@ -135,7 +138,7 @@ export class SubjectService {
     //     inputquestionclose: item.inputquestionclose
     //   }
     // })
-    
+
     console.log("test", test);
     const formData = {
       inputsubjectdepartment: test,
@@ -349,6 +352,22 @@ export class SubjectService {
   }
   getsubjectfromprovince(proid) {
     return this.http.get(this.url + "getsubjectfromprovince/" + proid)
+  }
+
+  subjectevent(value,userid) {
+    console.log("value",value);
+    console.log("value",value.province);
+    const formData = {
+      CentralpolicyId: value.CentralpolicyId,
+      ProvinceId: parseInt(value.province),
+      startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      CreatedBy : userid
+    }
+    return this.http.post<any>(this.url + 'subjectevent', formData);
+  }
+  getsubjectevent() {
+    return this.http.get(this.url + "getevent")
   }
 }
 

@@ -92,4 +92,64 @@ export class ExportReportService {
 
     return this.http.post<any>(this.url + "/createReport", formData)
   }
+
+  getSubjectReport() {
+    return this.http.get<any>(this.url + "/subjectImport");
+  }
+
+  getImportedReport(userId) {
+    return this.http.get<any>(this.url + "/getImportedReport/" + userId);
+  }
+
+  getCommanderReport() {
+    return this.http.get<any>(this.url + "/getCommanderReport");
+  }
+
+  getCommanderReportById(reportId) {
+    return this.http.get<any>(this.url + "/getCommanderReport/" + reportId);
+  }
+
+  postImportedReport(value, file: FileList, fileExcel: FileList, userId) {
+    console.log("Value: ", value);
+    console.log("Word: ", file);
+    console.log("Excel: ", fileExcel);
+
+    const formData = new FormData();
+    formData.append('SubjectId', value.Subject);
+    formData.append('TypeReport', value.TypeReport);
+    formData.append('TypeExport', value.TypeExport);
+    formData.append('CreateBy', userId);
+
+    for (var i = 0; i < file.length; i++) {
+      formData.append("fileWord", file[i]);
+    }
+
+    for (var i = 0; i < fileExcel.length; i++) {
+      formData.append("fileExcel", fileExcel[i]);
+    }
+
+    return this.http.post<any>(this.url + "/addImportReport", formData);
+  }
+
+  deleteReport(deleteId) {
+    return this.http.delete<any>(this.url + "/deleteImportedReport/" + deleteId);
+  }
+
+  sendCommand(value, reportId, commanderId) {
+    console.log("ReportId: ", reportId);
+    console.log("CommanderId: ", commanderId);
+    console.log("Command Value: ", value.command);
+
+    const formData = {
+      Command: value.command,
+      Commander: commanderId,
+      ReportId: reportId
+    }
+
+    // const formData = new FormData();
+    // formData.append('Command', value.command);
+    // formData.append('Commander', commanderId);
+
+    return this.http.put<any>(this.url + "/sendCommand", formData);
+  }
 }

@@ -15,13 +15,25 @@
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
         <h5 class="card-title">แผนการตรวจราชการ</h5>
-        <div class="float-right">
+        <label style="margin-left: 5px;">จังหวัด: {{ScheduleData.scheduleData.province.name}}</label>
+        <label style="margin-left: 30px;">ผู้สร้าง: {{ScheduleData.userData.prefix}}
+          {{ScheduleData.userData.name}}</label>
+        <label style="margin-left: 30px;">สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
+        <div class="row" style="margin-left: 5px;">
+          <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
+            readonly>
+          <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
+          <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'year'}}" readonly>
 
+          <!-- <input style="width: 12%;" class="form-control" value="{{provincename}}" readonly> -->
+        </div>
+
+        <div class="float-right">
           <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
-            style="margin-top: -60px;">เพิ่มแผนการตรวจราชการประจำปี</button>
+            style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามจากแผน</button>
           &nbsp;&nbsp;
           <button *ngIf="role_id == 3" class="btn btn-primary" (click)="CrateInspectionPlan(id)"
-            style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button>
+            style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามอื่นๆ</button>
         </div>
       </div>
       <div class="card-body">
@@ -56,7 +68,7 @@
               <td>{{ i + 1 }}</td>
               <td>{{ item.centralPolicy.type }}</td>
               <td width="40%">{{ item.centralPolicy.title }}</td>
-              <td>2563</td>
+              <td>{{item.centralPolicy.fiscalYear.year}}</td>
               <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">
                   {{ item2.startDate | thaidate: 'year' }} -

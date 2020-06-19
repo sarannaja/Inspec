@@ -60,11 +60,11 @@ export class CreateCentralPolicyComponent implements OnInit {
   ngOnInit() {
 
     this.authorize.getUser()
-    .subscribe(result => {
-      this.userid = result.sub
-      console.log(result);
-      // alert(this.userid)
-    })
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+      })
 
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
@@ -103,6 +103,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     })
 
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      // alert(JSON.stringify(result))
       this.resultfiscalyear = result
       console.log(this.resultcentralpolicy);
     })
@@ -112,6 +113,10 @@ export class CreateCentralPolicyComponent implements OnInit {
       // กรณีจะแก้ไข
     })
     // this.addInput()
+  }
+  inspec(event){
+    console.log(event);
+
   }
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
@@ -124,7 +129,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   storeCentralpolicy(value) {
     // console.log(this.form.value.files);
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files,this.userid)
+    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
       .subscribe(response => {
         console.log(response);
         this.Form.reset()
@@ -166,5 +171,14 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
   remove(index: number) {
     this.d.removeAt(index);
+  }
+
+  public onSelectAll() {
+    const selected = this.resultprovince.map(item => item.id);
+    this.Form.get('ProvinceId').patchValue(selected);
+  }
+
+  public onClearAll() {
+    this.Form.get('ProvinceId').patchValue([]);
   }
 }

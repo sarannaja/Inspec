@@ -105,7 +105,6 @@ export class EditCentralPolicyComponent implements OnInit {
 
     this.getDetailCentralpolicy()
     this.getFiscalyear()
-    this.getProvince()
 
   }
 
@@ -148,7 +147,7 @@ export class EditCentralPolicyComponent implements OnInit {
         });
         console.log("SELECTED: ", this.selected);
 
-        console.log("year: ", this.resultdetailcentralpolicy.fiscalYearId,);
+        console.log("year: ", this.resultdetailcentralpolicy.fiscalYearId);
 
 
         this.EditForm.patchValue({
@@ -157,6 +156,7 @@ export class EditCentralPolicyComponent implements OnInit {
           type: this.resultdetailcentralpolicy.type,
           status: this.resultdetailcentralpolicy.status
         });
+        this.getProvince()
       });
   }
 
@@ -190,11 +190,11 @@ export class EditCentralPolicyComponent implements OnInit {
     console.log("files: ", this.form.value.files);
 
     this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id, this.userid)
-    .subscribe(response => {
-      console.log("res: ", response);
-      this.EditForm.reset()
-      this.router.navigate(['centralpolicy'])
-    })
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.EditForm.reset()
+        this.router.navigate(['centralpolicy'])
+      })
   }
 
   appenddate() {
@@ -264,11 +264,11 @@ export class EditCentralPolicyComponent implements OnInit {
   deleteFile() {
     // alert(this.delid);
     this.centralpolicyservice.deleteFile(this.delid)
-    .subscribe(response => {
-      console.log("res: ", response);
-      this.modalRef.hide();
-      this.getDetailCentralpolicy();
-    })
+      .subscribe(response => {
+        console.log("res: ", response);
+        this.modalRef.hide();
+        this.getDetailCentralpolicy();
+      })
   }
 
   removeY(iy: any) {

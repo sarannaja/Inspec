@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
+import { FiscalyearService } from '../services/fiscalyear.service';
 
 @Component({
   selector: 'app-central-policy',
@@ -14,6 +15,8 @@ import { UserService } from '../services/user.service';
 export class CentralPolicyComponent implements OnInit {
 
   resultcentralpolicy: any = []
+  resultcentralpolicyrold3: any = []
+  resultfiscalyear: any = []
   delid: any
   modalRef: BsModalRef;
   dtOptions: DataTables.Settings = {};
@@ -21,8 +24,9 @@ export class CentralPolicyComponent implements OnInit {
   userid
   role_id
   constructor(
-    private router:Router,
+    private router: Router,
     private centralpolicyservice: CentralpolicyService,
+    private fiscalyearservice: FiscalyearService,
     private modalService: BsModalService,
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -37,12 +41,12 @@ export class CentralPolicyComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
         this.userService.getuserfirstdata(this.userid)
-        .subscribe(result => {
-          // this.resultuser = result;
-          //console.log("test" , this.resultuser);
-          this.role_id = result[0].role_id
-          // alert(this.role_id)
-        })
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
       })
 
     this.dtOptions = {
@@ -55,26 +59,39 @@ export class CentralPolicyComponent implements OnInit {
       ]
 
     };
-
-    this.centralpolicyservice.getcentralpolicydata()
-    .subscribe(result => {
-      this.resultcentralpolicy = result
-      this.loading = true;
-      this.spinner.hide();
-      console.log(this.resultcentralpolicy);
-    })
-
+    this.getFiscalyear()
   }
 
   openModal(template: TemplateRef<any>, id) {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
   }
-
-  Subject(id) {
-    this.router.navigate(['/subject', id])
+  getFiscalyear() {
+    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      this.resultfiscalyear = result
+      this.getCentralPolicy()
+    })
   }
+  getCentralPolicy() {
+    this.centralpolicyservice.getcentralpolicydata()
+      .subscribe(result => {
+        this.resultcentralpolicy = result
 
+        if (this.role_id == 3) {
+          this.resultcentralpolicy = []
+          result.forEach(element => {
+            if (element.status == "ใช้งานจริง") {
+              this.resultcentralpolicy.push(element);
+            }
+          });
+          console.log("data", this.resultcentralpolicy);
+        }
+
+        this.loading = true;
+        this.spinner.hide();
+      })
+
+  }
   deleteCentralPolicy(value) {
     this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
       console.log(value);
@@ -85,14 +102,24 @@ export class CentralPolicyComponent implements OnInit {
       })
     })
   }
-
-  CreateCentralPolicy(){
+  Subject(id) {
+    this.router.navigate(['/subject', id])
+  }
+  CreateCentralPolicy() {
     this.router.navigate(['/centralpolicy/createcentralpolicy'])
   }
-  DetailCentralPolicy(id:any){
-    this.router.navigate(['/centralpolicy/detailcentralpolicy',id])
+  DetailCentralPolicy(id: any) {
+    this.router.navigate(['/centralpolicy/detailcentralpolicy', id])
   }
-  EditCentralPolicy(id:any){
-    this.router.navigate(['/centralpolicy/editcentralpolicy',id])
+  EditCentralPolicy(id: any) {
+    this.router.navigate(['/centralpolicy/editcentralpolicy', id])
+  }
+  selectfiscalyear(value) {
+    if (value == "allfiscalyear") {
+      window.location.reload();
+    } else {
+      var id = value
+      this.router.navigate(['/centralpolicyfiscalyear/' + id])
+    }
   }
 }

@@ -78,6 +78,7 @@ namespace InspecWeb.Controllers {
                 .ThenInclude (r => r.Province)
                 .Include (s => s.Province)
                 .Include (s => s.Ministries)
+                .Include(x => x.Departments)
                 .Where (m => m.Role_id == id)
                 .Where (m => m.Active == 1)
                 .Where (m => m.Email != "admin@inspec.go.th");
@@ -582,11 +583,12 @@ namespace InspecWeb.Controllers {
                         MinistryId = item.MinistryId,
                         Role_id = item.Role_id
                     };
+                    Console.WriteLine ("department1");
                     var success = await _userManager.CreateAsync (user, "Admin@12345678").ConfigureAwait (false);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync (user).ConfigureAwait (false);
                     await _userManager.ConfirmEmailAsync (user, code).ConfigureAwait (false);
 
-                    Console.WriteLine ("department1");
+                    
                     //user.DepartmentId = item.DepartmentId;
                     user.Position = item.Position;
                     user.Prefix = item.Prefix;
@@ -607,8 +609,8 @@ namespace InspecWeb.Controllers {
                     user.Enddate = item.Enddate;
                     user.Active = item.Active;
 
-                    _context.Entry (user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    _context.SaveChanges ();
+                     _context.Entry(user).State =  EntityState.Modified;
+                     _context.SaveChanges();
                     Console.Write ("department2");
                     foreach (var item2 in item.UserRegion) {
                         var userregiondata = new UserRegion {
@@ -645,11 +647,31 @@ namespace InspecWeb.Controllers {
 
             return provinces;
         }
+        [HttpGet("api/get_role/{id}")]
+        public IActionResult test(string id)
+        {
+            var user = _userManager.Users.Where(m => m.Id == id)
+                   .Include(m => m.Departments)
+                   //.ThenInclude(m=>m.)
+                   .FirstOrDefault();
 
-        [HttpGet ("api/get_role/{id}")]
-        public IActionResult test (string id) {
+            var proviceDepart = _context.ProvincialDepartment
+            .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
+            var test = new { user, proviceDepart };
+            return Ok(new { user, proviceDepart });
+        }
 
-            return Ok (_userManager.Users.Where (m => m.Id == id).FirstOrDefault ());
+        [HttpGet("api/provicedepart/{id}")]
+        public IActionResult proviceDepart(string id)
+        {
+            var user = _userManager.Users.Where(m => m.Id == id)
+                   .Include(m => m.Departments)
+                   //.ThenInclude(m=>m.)
+                   .FirstOrDefault();
+
+            var proviceDepart = _context.ProvincialDepartment
+            .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
+            return Ok(proviceDepart);
         }
     }
 

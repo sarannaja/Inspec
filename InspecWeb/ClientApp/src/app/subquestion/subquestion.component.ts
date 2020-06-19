@@ -79,9 +79,9 @@ export class SubquestionComponent implements OnInit {
   initdepartment() {
     return this.fb.group({
       departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
-      inputquestionopen: this.fb.array([
-        this.initquestionopen()
-      ]),
+      // inputquestionopen: this.fb.array([
+      //   this.initquestionopen()
+      // ]),
       inputquestionclose: this.fb.array([
         this.initquestionclose()
       ])

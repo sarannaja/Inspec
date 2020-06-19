@@ -94,7 +94,7 @@ namespace InspecWeb.Controllers
             var ebook = _context.CentralPolicyUsers
                 .Include(m => m.CentralPolicy)
                 .Include(m => m.Province)
-                .Include(m => m.ElectronicBook)
+                //.Include(m => m.ElectronicBook)
                 .Where(m => m.UserId == userId)
                 .ToList();
 
@@ -133,7 +133,7 @@ namespace InspecWeb.Controllers
                 .Include(x => x.User)
                 .Include(x => x.CentralPolicyGroup)
                 .ThenInclude(x => x.CentralPolicyUserFiles)
-                .Where(x => x.ElectronicBookId == electID)
+                //.Where(x => x.ElectronicBookId == electID)
                 .ToList();
 
             return Ok(new { electData, report });
@@ -380,7 +380,7 @@ namespace InspecWeb.Controllers
                 {
                     CentralPolicyId = model.CentralPolicyId,
                     ProvinceId = model.ProvinceId,
-                    ElectronicBookId = ElectronicBookdata.Id,
+                    //ElectronicBookId = ElectronicBookdata.Id,
                     CentralPolicyGroupId = CentralPolicyGroupdata.Id,
                     UserId = itemUserPeopleId,
                     Status = "รอการตอบรับ",
@@ -404,7 +404,7 @@ namespace InspecWeb.Controllers
                 {
                     CentralPolicyId = model.CentralPolicyId,
                     ProvinceId = model.ProvinceId,
-                    ElectronicBookId = ElectronicBookdata.Id,
+                    //ElectronicBookId = ElectronicBookdata.Id,
                     CentralPolicyGroupId = CentralPolicyGroupdata2.Id,
                     UserId = itemUserMinistryId,
                     Status = "รอการตอบรับ",
@@ -1026,9 +1026,10 @@ namespace InspecWeb.Controllers
 
             var centralprovinceid = _context.CentralPolicyProvinces
                 .Where(x => x.Id == ebook.CentralPolicyProvinceId).First();
-
-            var exe = _context.ExecutiveOrders
-                .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
+            
+            var exe = "";
+            //var exe = _context.ExecutiveOrders
+            //    .Where(x => x.CentralPolicyId == centralprovinceid.CentralPolicyId && x.ProvinceId == centralprovinceid.ProvinceId).ToList();
             
             var user = _context.CentralPolicyUsers
                 .Include(x => x.User)

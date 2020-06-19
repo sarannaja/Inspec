@@ -15,12 +15,12 @@ export class FiscalyearService {
   }
 
   getfiscalyeardata(): Observable<any[]> {
-    return this.http.get<any[]>(this.url)
+    return this.http.get<any>(this.url + "getCurrentYear");
   }
   addFiscalyear(fiscalyearData) {
     const formData = new FormData();
     formData.append('year', fiscalyearData.fiscalyear);
-    
+
     formData.append('startdate', fiscalyearData.startdate.date.year + '-' + fiscalyearData.startdate.date.month + '-' + fiscalyearData.startdate.date.day);
     formData.append('enddate', fiscalyearData.enddate.date.year + '-' + fiscalyearData.enddate.date.month + '-' + fiscalyearData.enddate.date.day);
     console.log('FORMDATA: ' + formData);

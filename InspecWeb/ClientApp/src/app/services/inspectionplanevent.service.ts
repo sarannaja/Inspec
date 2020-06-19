@@ -76,7 +76,7 @@ export class InspectionplaneventService {
     return this.http.get<any>(this.url + "exportexcelcalendarprovince/" + value)
   }
 
-   getUserOwner(id) {
+  getUserOwner(id) {
 
     const apiURL = this.baseUrl + 'api/get_role/' + id
     return this.http.get<any>(apiURL)

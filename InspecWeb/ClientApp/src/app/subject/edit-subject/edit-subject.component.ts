@@ -77,6 +77,7 @@ export class EditSubjectComponent implements OnInit {
     this.EditForm = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       centralPolicyDateId: new FormControl(null, [Validators.required]),
+      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       // questionopen: new FormControl(null, [Validators.required]),
       // questionclose: new FormControl(null, [Validators.required]),
       // answerclose: new FormControl(null, [Validators.required]),
@@ -129,7 +130,7 @@ export class EditSubjectComponent implements OnInit {
         this.question = this.resultsubjectdetail.subquestionCentralPolicyProvinces
         this.departments = this.resultsubjectdetail.subquestionCentralPolicyProvinces
         this.centralpolicyid = this.resultsubjectdetail.centralPolicyProvince.centralPolicyId
-        console.log("res: ", this.question);
+        console.log("res: ", this.resultsubjectdetail);
         this.getCentralPolicyProvincesl()
         this.getboxsubquestion()
         this.getTimeCentralPolicy()
@@ -472,8 +473,26 @@ export class EditSubjectComponent implements OnInit {
   }
 
   EditSubject(value, id) {
+    // this.EditForm.reset();
     console.log(id);
     console.log(value);
+    console.log("map: ", this.resultsubjectdetail);
+    var CentralPolicyDateId: any = []
+    var departmentId: any = []
+    CentralPolicyDateId = this.resultsubjectdetail.subjectDateCentralPolicyProvinces.map((item, index) => {
+      return {
+        centralpolicydateid: item.id
+      }
+    })
+    departmentId = this.filterboxdepartments.subjectCentralPolicyProvinceGroups.map((item, index) => {
+      return {
+        departmentId: item.provincialDepartment.id
+      }
+    })
+    console.log(CentralPolicyDateId);
+    console.log(departmentId);
+    
+
     // this.subjectservice.editSubject(value, id).subscribe(response => {
     //   this.EditForm.reset()
     //   // alert("test")

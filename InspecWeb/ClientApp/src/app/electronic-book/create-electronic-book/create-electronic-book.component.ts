@@ -540,15 +540,15 @@ export class CreateElectronicBookComponent implements OnInit {
       this.resultministrypeople = result // All
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.centralpolicyprovinceid).subscribe(async result => {
-      await result.forEach(async element => {
-        if (element.user.role_id == 6) {
-          await this.allMinistryPeople.push(element.user)
-        }
-      }); // Selected
-      // console.log("selectedMinistry: ", this.allMinistryPeople);
-      this.getRecycledMinistryPeople();
-    })
+    // await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.centralpolicyprovinceid).subscribe(async result => {
+    //   await result.forEach(async element => {
+    //     if (element.user.role_id == 6) {
+    //       await this.allMinistryPeople.push(element.user)
+    //     }
+    //   }); // Selected
+    //   // console.log("selectedMinistry: ", this.allMinistryPeople);
+    //   this.getRecycledMinistryPeople();
+    // })
   }
   async getUserPeople() {
     await this.userservice.getuserdata(7).subscribe(result => {
@@ -558,15 +558,15 @@ export class CreateElectronicBookComponent implements OnInit {
       console.log("tttt:", this.resultpeople);
 
     })
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.centralpolicyprovinceid).subscribe(async result => {
-      await result.forEach(async element => {
-        if (element.user.role_id == 7) {
-          this.allUserPeople.push(element.user)
-        }
-      }); // Selected
-      console.log("selectedUser: ", this.allUserPeople);
-      this.getRecycledUserPeople();
-    })
+    // await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.centralpolicyprovinceid).subscribe(async result => {
+    //   await result.forEach(async element => {
+    //     if (element.user.role_id == 7) {
+    //       this.allUserPeople.push(element.user)
+    //     }
+    //   }); // Selected
+    //   console.log("selectedUser: ", this.allUserPeople);
+    //   this.getRecycledUserPeople();
+    // })
   }
 
   async getRecycledUserPeople() {

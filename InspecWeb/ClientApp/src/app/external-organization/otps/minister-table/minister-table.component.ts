@@ -181,6 +181,6 @@ export class MinisterTableComponent implements OnInit {
       return result.fiscalYears[0].year == year
     })
 
-    console.log('momomo', this.dataindata)
+      console.log('data',this.dataindata)
   }
 }

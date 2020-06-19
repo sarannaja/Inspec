@@ -121,6 +121,8 @@ import { AnswerCentralPolicyProvinceComponent } from './answer-subject/answer-ce
 import { InvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/invited-electronic-book.component';
 import { InspectionPlanEventProvinceComponent } from './inspection-plan-event/inspection-plan-event-province/inspection-plan-event-province.component';
 import { InfoMinistryComponent } from './info-ministry/info-ministry.component';
+import { GraphAnswerSubjectComponent } from './subject/graph-answer-subject/graph-answer-subject.component';
+import { ChartsModule } from 'ng2-charts';
 import { InfoDepartmentComponent } from './info-department/info-department.component';
 import { InfoVillageComponent } from './info-village/info-village.component';
 import { StatepolicyComponent } from './statepolicy/statepolicy.component';
@@ -130,8 +132,16 @@ import { PremierorderComponent } from './premierorder/premierorder.component';
 import { ExcelGeneraterService } from './services/excel-generater.service';
 import { DatePipe } from '@angular/common';
 import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
+import { ReportSubjectComponent } from './report/report-subject/report-subject.component';
+import { CentralPolicyFiscalyearComponent } from './central-policy/central-policy-fiscalyear/central-policy-fiscalyear.component';
+
 import { ExecutiveOrderExport1Component } from './executive-order/executive-order-export1/executive-order-export1.component';
 import { ExecutiveOrderExport3Component } from './executive-order/executive-order-export3/executive-order-export3.component';
+import { CommanderReportComponent } from './commander-report/commander-report.component';
+import { SubjecteventComponent } from './subjectevent/subjectevent.component';
+import { DetailSubjecteventComponent } from './subjectevent/detail-subjectevent/detail-subjectevent.component';
+
+
 
 
 const ExternalOrganization = [
@@ -238,6 +248,7 @@ const ExternalOrganization = [
     InvitedElectronicBookComponent,
     InspectionPlanEventProvinceComponent,
     InfoMinistryComponent,
+    GraphAnswerSubjectComponent,
     InfoDepartmentComponent,
     InfoVillageComponent,
     StatepolicyComponent,
@@ -245,6 +256,9 @@ const ExternalOrganization = [
     MeetinginformationComponent,
     PremierorderComponent,
     ReportInspectionPlanEventComponent,
+    ReportSubjectComponent,
+    CentralPolicyFiscalyearComponent,
+    CommanderReportComponent,
     // DatePipe
     InfoDepartmentComponent,
     InfoVillageComponent,
@@ -257,7 +271,9 @@ const ExternalOrganization = [
     ExecutiveOrderExport3Component,
     InfoMinistryComponent,
     InfoVillageComponent,
-    StatepolicyComponent
+    StatepolicyComponent,
+    SubjecteventComponent,
+    DetailSubjecteventComponent
   ],
 
   imports: [
@@ -267,6 +283,7 @@ const ExternalOrganization = [
     ApiAuthorizationModule,
     SelectModule,
     ReactiveFormsModule,
+    ChartsModule,
     MyDatePickerTHModule,
     // BrowserModule,
     SnotifyModule,
@@ -322,7 +339,7 @@ const ExternalOrganization = [
           { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/program/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
-          
+
           //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
@@ -378,6 +395,7 @@ const ExternalOrganization = [
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subject/graph/:id', component: GraphAnswerSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
@@ -385,19 +403,24 @@ const ExternalOrganization = [
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportsubject', component: ReportSubjectComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicyfiscalyear/:id', component: CentralPolicyFiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
-          
+
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport1component', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport3component', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subjectevent/detail/:result', component: DetailSubjecteventComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -408,10 +431,10 @@ const ExternalOrganization = [
       { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'train', component: DefaultLayoutTrainComponent,
-        data: {title: 'หน้าหลัก'},
+        data: { title: 'หน้าหลัก' },
         children: [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
-      ]
+        ]
       }
     ]),
     ModalModule.forRoot(),

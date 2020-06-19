@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -254,12 +256,21 @@ namespace InspecWeb.Controllers
 
                         if (n == 0)
                         {
+                            var SubjectGroupdata = new SubjectGroup
+                            {
+                                CentralPolicyId = model.CentralPolicyId,
+                                ProvinceId = provinceId,
+                            };
+                            _context.SubjectGroups.Add(SubjectGroupdata);
+                            _context.SaveChanges();
+
                             var subjectdata = new SubjectCentralPolicyProvince
                             {
                                 Name = model.Name,
                                 CentralPolicyProvinceId = centralpolicyprovinceData.Id,
                                 Type = "Master",
-                                Status = model.Status
+                                Status = model.Status,
+                                SubjectGroupId = SubjectGroupdata.Id
                             };
                             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
                             _context.SaveChanges();
@@ -271,14 +282,6 @@ namespace InspecWeb.Controllers
 
 
                         }
-
-                        //var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
-                        //{
-                        //    ProvincialDepartmentId = departmentId.departmentId,
-                        //    //SubjectCentralPolicyProvinceId = subjectid,
-                        //};
-                        //_context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-                        //_context.SaveChanges();
 
                         if (n == 0)
                         {
@@ -305,44 +308,44 @@ namespace InspecWeb.Controllers
                             }
                             _context.SaveChanges();
                         }
-                        var test = departmentId.inputquestionopen;
-                        foreach (var data in model.inputsubjectdepartment)
-                        {
-                            System.Console.WriteLine("TEST: " + data.inputquestionopen);
-                        }
+                        //var test = departmentId.inputquestionopen;
+                        //foreach (var data in model.inputsubjectdepartment)
+                        //{
+                        //    System.Console.WriteLine("TEST: " + data.inputquestionopen);
+                        //}
 
 
                         //long boxcheck = departmentId.box;
 
                         if (box != departmentId.box)
                         {
-                            foreach (var questionopen in departmentId.inputquestionopen)
-                            {
-                                System.Console.WriteLine("TEST: " + questionopen.questionopen);
-                                var Subquestionopendata = new SubquestionCentralPolicyProvince
-                                {
-                                    SubjectCentralPolicyProvinceId = subjectid,
-                                    Name = questionopen.questionopen,
-                                    Type = "คำถามปลายเปิด",
-                                    Box = departmentId.box
-                                };
-                                _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
-                                _context.SaveChanges();
+                            //foreach (var questionopen in departmentId.inputquestionopen)
+                            //{
+                            //    System.Console.WriteLine("TEST: " + questionopen.questionopen);
+                            //    var Subquestionopendata = new SubquestionCentralPolicyProvince
+                            //    {
+                            //        SubjectCentralPolicyProvinceId = subjectid,
+                            //        Name = questionopen.questionopen,
+                            //        Type = "คำถามปลายเปิด",
+                            //        Box = departmentId.box
+                            //    };
+                            //    _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
+                            //    _context.SaveChanges();
 
-                                foreach (var box2 in model.inputsubjectdepartment)
-                                {
-                                    if (box2.box == departmentId.box)
-                                    {
-                                        var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
-                                        {
-                                            ProvincialDepartmentId = box2.departmentId,
-                                            SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
-                                        };
-                                        _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-                                        _context.SaveChanges();
-                                    }
-                                }
-                            }
+                            //    foreach (var box2 in model.inputsubjectdepartment)
+                            //    {
+                            //        if (box2.box == departmentId.box)
+                            //        {
+                            //            var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                            //            {
+                            //                ProvincialDepartmentId = box2.departmentId,
+                            //                SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                            //            };
+                            //            _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+                            //            _context.SaveChanges();
+                            //        }
+                            //    }
+                            //}
 
                             foreach (var questionclose in departmentId.inputquestionclose)
                             {
@@ -389,141 +392,141 @@ namespace InspecWeb.Controllers
                 // return subjectdata;
             }
 
-            if (model.Status == "ใช้งานจริง")
-            {
-                foreach (var departmentId in model.inputsubjectdepartment)
-                {
-                    //System.Console.WriteLine("In1");
-                    var provincialdepartmentprovicedata = _context.ProvincialDepartmentProvince
-                        .Where(m => m.ProvincialDepartmentID == departmentId.departmentId)
-                        .Select(x => x.ProvinceId)
-                        .ToList();
+            //if (model.Status == "ใช้งานจริง")
+            //{
+            //    foreach (var departmentId in model.inputsubjectdepartment)
+            //    {
+            //        //System.Console.WriteLine("In1");
+            //        var provincialdepartmentprovicedata = _context.ProvincialDepartmentProvince
+            //            .Where(m => m.ProvincialDepartmentID == departmentId.departmentId)
+            //            .Select(x => x.ProvinceId)
+            //            .ToList();
 
-                    foreach (var provinceId in provincialdepartmentprovicedata)
-                    {
+            //        foreach (var provinceId in provincialdepartmentprovicedata)
+            //        {
 
-                        System.Console.WriteLine("all" + provinceId);
-                        var centralpolicyprovinceData = _context.CentralPolicyProvinces
-                                .Where(x => x.ProvinceId == provinceId && x.CentralPolicyId == model.CentralPolicyId)
-                                .FirstOrDefault();
+            //            System.Console.WriteLine("all" + provinceId);
+            //            var centralpolicyprovinceData = _context.CentralPolicyProvinces
+            //                    .Where(x => x.ProvinceId == provinceId && x.CentralPolicyId == model.CentralPolicyId)
+            //                    .FirstOrDefault();
 
-                        //System.Console.WriteLine("have" + centralpolicyprovinceData.ProvinceId);
+            //            //System.Console.WriteLine("have" + centralpolicyprovinceData.ProvinceId);
 
-                        if (centralpolicyprovinceData != null)
-                        {
+            //            if (centralpolicyprovinceData != null)
+            //            {
 
-                            var subjectdata = new SubjectCentralPolicyProvince
-                            {
-                                Name = model.Name,
-                                CentralPolicyProvinceId = centralpolicyprovinceData.Id,
-                                Type = "NoMaster",
-                                Status = model.Status,
-                                //Step = "หมอบหมายให้เขต",
-                                //link = "https://localhost:5001/answersubject/outsider/"
-                            };
-                            _context.SubjectCentralPolicyProvinces.Add(subjectdata);
-                            _context.SaveChanges();
+            //                var subjectdata = new SubjectCentralPolicyProvince
+            //                {
+            //                    Name = model.Name,
+            //                    CentralPolicyProvinceId = centralpolicyprovinceData.Id,
+            //                    Type = "NoMaster",
+            //                    Status = model.Status,
+            //                    //Step = "หมอบหมายให้เขต",
+            //                    //link = "https://localhost:5001/answersubject/outsider/"
+            //                };
+            //                _context.SubjectCentralPolicyProvinces.Add(subjectdata);
+            //                _context.SaveChanges();
 
 
-                            termsList.Add(subjectdata.Id);
-                            //long test2 = subjectdata.Id;
+            //                termsList.Add(subjectdata.Id);
+            //                //long test2 = subjectdata.Id;
 
-                            //GetSubjectID = test2;
+            //                //GetSubjectID = test2;
 
-                            //var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
-                            //{
-                            //    ProvincialDepartmentId = departmentId.departmentId,
-                            //    //SubjectCentralPolicyProvinceId = subjectdata.Id,
-                            //};
-                            //_context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-                            //_context.SaveChanges();
+            //                //var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+            //                //{
+            //                //    ProvincialDepartmentId = departmentId.departmentId,
+            //                //    //SubjectCentralPolicyProvinceId = subjectdata.Id,
+            //                //};
+            //                //_context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+            //                //_context.SaveChanges();
 
-                            foreach (var id in model.CentralPolicyDateId)
-                            {
-                                //System.Console.WriteLine("In3");
-                                var CentralPolicyDatedata = _context.CentralPolicyDates
-                                    .Where(m => m.Id == id).FirstOrDefault();
+            //                foreach (var id in model.CentralPolicyDateId)
+            //                {
+            //                    //System.Console.WriteLine("In3");
+            //                    var CentralPolicyDatedata = _context.CentralPolicyDates
+            //                        .Where(m => m.Id == id).FirstOrDefault();
 
-                                var CentralPolicyDateProvincedata = new CentralPolicyDateProvince
-                                {
-                                    StartDate = CentralPolicyDatedata.StartDate,
-                                    EndDate = CentralPolicyDatedata.EndDate
-                                };
-                                _context.CentralPolicyDateProvinces.Add(CentralPolicyDateProvincedata);
-                                _context.SaveChanges();
+            //                    var CentralPolicyDateProvincedata = new CentralPolicyDateProvince
+            //                    {
+            //                        StartDate = CentralPolicyDatedata.StartDate,
+            //                        EndDate = CentralPolicyDatedata.EndDate
+            //                    };
+            //                    _context.CentralPolicyDateProvinces.Add(CentralPolicyDateProvincedata);
+            //                    _context.SaveChanges();
 
-                                var subjectdatedata = new SubjectDateCentralPolicyProvince
-                                {
-                                    SubjectCentralPolicyProvinceId = subjectdata.Id,
-                                    CentralPolicyDateProvinceId = CentralPolicyDateProvincedata.Id,
-                                };
-                                _context.SubjectDateCentralPolicyProvinces.Add(subjectdatedata);
-                            }
-                            _context.SaveChanges();
+            //                    var subjectdatedata = new SubjectDateCentralPolicyProvince
+            //                    {
+            //                        SubjectCentralPolicyProvinceId = subjectdata.Id,
+            //                        CentralPolicyDateProvinceId = CentralPolicyDateProvincedata.Id,
+            //                    };
+            //                    _context.SubjectDateCentralPolicyProvinces.Add(subjectdatedata);
+            //                }
+            //                _context.SaveChanges();
 
-                            var test = departmentId.inputquestionopen;
-                            foreach (var data in model.inputsubjectdepartment)
-                            {
-                                System.Console.WriteLine("TEST: " + data.inputquestionopen);
-                            }
+            //                //var test = departmentId.inputquestionopen;
+            //                //foreach (var data in model.inputsubjectdepartment)
+            //                //{
+            //                //    System.Console.WriteLine("TEST: " + data.inputquestionopen);
+            //                //}
 
-                            foreach (var questionopen in departmentId.inputquestionopen)
-                            {
-                                System.Console.WriteLine("TEST: " + questionopen.questionopen);
-                                var Subquestionopendata = new SubquestionCentralPolicyProvince
-                                {
-                                    SubjectCentralPolicyProvinceId = subjectdata.Id,
-                                    Name = questionopen.questionopen,
-                                    Type = "คำถามปลายเปิด"
-                                };
-                                _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
-                                _context.SaveChanges();
+            //                //foreach (var questionopen in departmentId.inputquestionopen)
+            //                //{
+            //                //    System.Console.WriteLine("TEST: " + questionopen.questionopen);
+            //                //    var Subquestionopendata = new SubquestionCentralPolicyProvince
+            //                //    {
+            //                //        SubjectCentralPolicyProvinceId = subjectdata.Id,
+            //                //        Name = questionopen.questionopen,
+            //                //        Type = "คำถามปลายเปิด"
+            //                //    };
+            //                //    _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
+            //                //    _context.SaveChanges();
 
-                                var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
-                                {
-                                    ProvincialDepartmentId = departmentId.departmentId,
-                                    SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
-                                };
-                                _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-                                _context.SaveChanges();
-                            }
+            //                //    var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+            //                //    {
+            //                //        ProvincialDepartmentId = departmentId.departmentId,
+            //                //        SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+            //                //    };
+            //                //    _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+            //                //    _context.SaveChanges();
+            //                //}
 
-                            foreach (var questionclose in departmentId.inputquestionclose)
-                            {
-                                var Subquestionclosedata = new SubquestionCentralPolicyProvince
-                                {
-                                    SubjectCentralPolicyProvinceId = subjectdata.Id,
-                                    Name = questionclose.questionclose,
-                                    Type = "คำถามปลายปิด"
-                                };
-                                _context.SubquestionCentralPolicyProvinces.Add(Subquestionclosedata);
-                                _context.SaveChanges();
+            //                foreach (var questionclose in departmentId.inputquestionclose)
+            //                {
+            //                    var Subquestionclosedata = new SubquestionCentralPolicyProvince
+            //                    {
+            //                        SubjectCentralPolicyProvinceId = subjectdata.Id,
+            //                        Name = questionclose.questionclose,
+            //                        Type = "คำถามปลายปิด"
+            //                    };
+            //                    _context.SubquestionCentralPolicyProvinces.Add(Subquestionclosedata);
+            //                    _context.SaveChanges();
 
-                                var SubjectCentralPolicyProvinceGroupdata2 = new SubjectCentralPolicyProvinceGroup
-                                {
-                                    ProvincialDepartmentId = departmentId.departmentId,
-                                    SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
-                                };
-                                _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata2);
-                                _context.SaveChanges();
+            //                    var SubjectCentralPolicyProvinceGroupdata2 = new SubjectCentralPolicyProvinceGroup
+            //                    {
+            //                        ProvincialDepartmentId = departmentId.departmentId,
+            //                        SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+            //                    };
+            //                    _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata2);
+            //                    _context.SaveChanges();
 
-                                foreach (var questionclosechoice in questionclose.inputanswerclose)
-                                {
-                                    var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
-                                    {
-                                        SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
-                                        Name = questionclosechoice.answerclose,
-                                    };
-                                    _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
-                                    _context.SaveChanges();
-                                }
-                            }
-                        }
-                    }
-                    //return subjectdata;
-                }
+            //                    foreach (var questionclosechoice in questionclose.inputanswerclose)
+            //                    {
+            //                        var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+            //                        {
+            //                            SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+            //                            Name = questionclosechoice.answerclose,
+            //                        };
+            //                        _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+            //                        _context.SaveChanges();
+            //                    }
+            //                }
+            //            }
+            //        }
+            //        //return subjectdata;
+            //    }
 
-            }
+            //}
             return Ok(new { GetSubjectID, termsList });
         }
         // POST: api/
@@ -543,48 +546,48 @@ namespace InspecWeb.Controllers
 
             foreach (var id in model.SubjectCentralPolicyProvinceId)
             {
-
-                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                if (model.files != null)
                 {
-                    //foreach (var formFile in data.files)
-                    System.Console.WriteLine("Start Upload 3");
-                    var random = RandomString(10);
-                    string filePath2 = formFile.Value.FileName;
-                    string filename = Path.GetFileName(filePath2);
-                    string ext = Path.GetExtension(filename);
-                    if (formFile.Value.Length > 0)
+                    foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
                     {
-
-                        System.Console.WriteLine("Start Upload 4");
-                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        //foreach (var formFile in data.files)
+                        System.Console.WriteLine("Start Upload 3");
+                        var random = RandomString(10);
+                        string filePath2 = formFile.Value.FileName;
+                        string filename = Path.GetFileName(filePath2);
+                        string ext = Path.GetExtension(filename);
+                        if (formFile.Value.Length > 0)
                         {
-                            await formFile.Value.CopyToAsync(stream);
+
+                            System.Console.WriteLine("Start Upload 4");
+                            // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                            using (var stream = System.IO.File.Create(filePath + random + filename))
+                            {
+                                await formFile.Value.CopyToAsync(stream);
+                            }
+
                         }
-
-                    }
-                    System.Console.WriteLine("Start Upload 4.1");
-                    {
                         System.Console.WriteLine("Start Upload 4.1");
-                        var SubjectFile = new SubjectCentralPolicyProvinceFile
                         {
+                            System.Console.WriteLine("Start Upload 4.1");
+                            var SubjectFile = new SubjectCentralPolicyProvinceFile
+                            {
 
-                            SubjectCentralPolicyProvinceId = id,
-                            Name = random + filename,
-                        };
+                                SubjectCentralPolicyProvinceId = id,
+                                Name = random + filename,
+                            };
 
-                        System.Console.WriteLine("Start Upload 4.2");
-                        _context.SubjectCentralPolicyProvinceFiles.Add(SubjectFile);
-                        _context.SaveChanges();
+                            System.Console.WriteLine("Start Upload 4.2");
+                            _context.SubjectCentralPolicyProvinceFiles.Add(SubjectFile);
+                            _context.SaveChanges();
 
-                        System.Console.WriteLine("Start Upload 4.3");
+                            System.Console.WriteLine("Start Upload 4.3");
 
 
-                        System.Console.WriteLine("Start Upload 5");
+                            System.Console.WriteLine("Start Upload 5");
+                        }
                     }
                 }
-
-
             }
             return Ok(new { status = true });
         }
@@ -969,6 +972,7 @@ namespace InspecWeb.Controllers
         {
             var subjectcentralpolicyprovincegroup = _context.SubjectCentralPolicyProvinces.Find(id);
 
+
             _context.SubjectCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);
             _context.SaveChanges();
         }
@@ -977,6 +981,21 @@ namespace InspecWeb.Controllers
         [HttpDelete("deletequestionrole3/{id}")]
         public void Deletequestrole3(long id)
         {
+            //var subs = _context.SubquestionCentralPolicyProvinces.Where(x => x.Id == id).First();
+
+            //var SubjectCentralPolicyProvinceGroupdata = _context.SubjectCentralPolicyProvinceGroups
+            //    .Where(x => x.SubquestionCentralPolicyProvinceId == subs.Id)
+            //    .ToList();
+
+            //foreach(var SubjectCentralPolicyProvinceGroupdataloop in SubjectCentralPolicyProvinceGroupdata)
+            //{
+            //    var subjectcentralpolicyprovincegroup2 = _context.SubjectCentralPolicyProvinceGroups
+            //        .Find(SubjectCentralPolicyProvinceGroupdataloop.Id);
+
+            //    _context.SubjectCentralPolicyProvinceGroups.Remove(subjectcentralpolicyprovincegroup2);
+            //    _context.SaveChanges();
+            //}
+
             var subjectcentralpolicyprovincegroup = _context.SubquestionCentralPolicyProvinces.Find(id);
 
             _context.SubquestionCentralPolicyProvinces.Remove(subjectcentralpolicyprovincegroup);
@@ -1203,6 +1222,133 @@ namespace InspecWeb.Controllers
                 }
             }
             return Ok(new { GetSubjectID, termsList });
+        }
+
+        // POST api/values
+        [HttpPost("subjectevent")]
+        public IActionResult PostSubjectEvent([FromBody] subjectevent model)
+        {
+            System.Console.WriteLine("in");
+            //System.Console.WriteLine("StartProvinceId: " + ProvinceId);
+            var date = DateTime.Now;
+            var inspectionplanevent = new InspectionPlanEvent
+            {
+                StartDate = model.startdate,
+                EndDate = model.enddate,
+                ProvinceId = model.ProvinceId,
+                CreatedAt = date,
+                CreatedBy = model.CreatedBy,
+            };
+            _context.InspectionPlanEvents.Add(inspectionplanevent);
+            _context.SaveChanges();
+            System.Console.WriteLine("in2");
+            foreach (var cenid in model.CentralpolicyId)
+            {
+                var SubjectGroupdata = new SubjectGroup
+                {
+                    CentralPolicyId = cenid,
+                    ProvinceId = model.ProvinceId,
+                };
+                _context.SubjectGroups.Add(SubjectGroupdata);
+                _context.SaveChanges();
+
+                var CentralPolicyEventsdata = new CentralPolicyEvent
+                {
+                    CentralPolicyId = cenid,
+                    InspectionPlanEventId = inspectionplanevent.Id
+                };
+                _context.CentralPolicyEvents.Add(CentralPolicyEventsdata);
+                _context.SaveChanges();
+
+                var subjectcen = _context.SubjectCentralPolicyProvinces
+                    .Where(m => m.CentralPolicyProvince.CentralPolicyId == cenid)
+                    .Where(m => m.Type == "Master")
+                    .Where(m => m.Status == "ใช้งานจริง")
+                    .ToList();
+
+                foreach (var subcen in subjectcen)
+                {
+                    var cenpro = _context.CentralPolicyProvinces
+                        .Where(m => m.CentralPolicyId == cenid && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                    var subques = _context.SubquestionCentralPolicyProvinces
+                        .Where(m => m.SubjectCentralPolicyProvinceId == subcen.Id).ToList();
+
+                    foreach (var subque in subques)
+                    {
+                        var checkdeparts = _context.SubjectCentralPolicyProvinceGroups
+                            .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id)
+                            .Select(x => x.ProvincialDepartmentId)
+                            .ToList();
+
+                        foreach (var checkdepart in checkdeparts)
+                        {
+                            var checkprovince = _context.ProvincialDepartmentProvince
+                                .Where(m => m.ProvincialDepartmentID == checkdepart && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                            if (checkprovince != null)
+                            {
+                                var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
+                                {
+                                    Name = subcen.Name,
+                                    CentralPolicyProvinceId = cenpro.Id,
+                                    Type = "NoMaster",
+                                    Status = "ร่างกำหนดการ",
+                                    SubjectGroupId = SubjectGroupdata.Id,
+                                };
+                                _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
+                                _context.SaveChanges();
+
+                                var SubquestionCentralPolicyProvincedata = new SubquestionCentralPolicyProvince
+                                {
+                                    SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvincedata.Id,                                    
+                                    Name = subque.Name,
+                                    Type = subque.Type,
+                                    Box = subque.Box,
+                                };
+                                _context.SubquestionCentralPolicyProvinces.Add(SubquestionCentralPolicyProvincedata);
+                                _context.SaveChanges();
+
+                                var SubjectCentralPolicyProvinceGroupdata2 = new SubjectCentralPolicyProvinceGroup
+                                {
+                                    ProvincialDepartmentId = checkdepart,
+                                    SubquestionCentralPolicyProvinceId = SubquestionCentralPolicyProvincedata.Id,
+                                };
+                                _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata2);
+                                _context.SaveChanges();
+
+                                var subqueschoices = _context.SubquestionChoiceCentralPolicyProvinces
+                                    .Where(x => x.SubquestionCentralPolicyProvinceId == subque.Id).ToList();
+
+                                foreach (var subqueschoice in subqueschoices)
+                                {
+                                    var SubquestionChoiceCentralPolicyProvincedata = new SubquestionChoiceCentralPolicyProvince
+                                    {
+                                        SubquestionCentralPolicyProvinceId = SubquestionCentralPolicyProvincedata.Id,
+                                        Name = subqueschoice.Name,
+                                    };
+                                    _context.SubquestionChoiceCentralPolicyProvinces.Add(SubquestionChoiceCentralPolicyProvincedata);
+                                    _context.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return Ok();
+        }
+        // GET api/values/5
+        [HttpGet("getevent")]
+        public IActionResult Get3()
+        {
+            var subjectgroupsdata = _context.SubjectGroups
+                .Include(m => m.Province)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.FiscalYear)
+                .Include(m => m.SubjectCentralPolicyProvinces)
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")).ToList();
+
+            return Ok(subjectgroupsdata);
         }
     }
 }

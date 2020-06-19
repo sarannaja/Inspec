@@ -185,7 +185,7 @@ export class DetailElectronicBookComponent implements OnInit {
     this.getAnswer();
 
     // this.getDetailCentralPolicy()
-    this.getCentralPolicyProvinceUser();
+    // this.getCentralPolicyProvinceUser();
     this.getDetailCentralPolicyProvince();
     this.getElectronicBookDetail();
     this.getElectOwnCreate();
@@ -310,14 +310,14 @@ export class DetailElectronicBookComponent implements OnInit {
       })
   }
 
-  getCentralPolicyProvinceUser() {
-    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
-      .subscribe(result => {
-        this.resultcentralpolicyuser = result
-        console.log("resultCenUser", result);
-      })
+  // getCentralPolicyProvinceUser() {
+  //   this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
+  //     .subscribe(result => {
+  //       this.resultcentralpolicyuser = result
+  //       console.log("resultCenUser", result);
+  //     })
 
-  }
+  // }
 
 
   storeFiles(value) {

@@ -18,6 +18,14 @@ export class InspectionplanService {
     return this.http.get<any>(this.url + id + '/' + provinceid)
   }
 
+  getTimeline(id) {
+    return this.http.get<any>(this.url + "getTimeline/" + id);
+  }
+
+  getScheduleData(id, provinceId) {
+    return this.http.get<any>(this.url + "getScheduleData/" + id + "/" + provinceId);
+  }
+
   getcentralpolicyprovinceid(centralpolicyid, provinceid) {
     return this.http.get(this.url + 'getcentralpolicyprovinceid/' + centralpolicyid + '/' + provinceid)
   }
@@ -36,8 +44,9 @@ export class InspectionplanService {
     return this.http.post(this.url + "AddCentralPolicyEvents", formData);
   }
 
-  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid) {
+  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid, yearId) {
     // alert(JSON.stringify(InspectionPlanData))
+    // alert(yearId);
     const formData = {
       InspectionPlanEventId: parseInt(inspectionplaneventid),
       Title: InspectionPlanData.title,
@@ -45,7 +54,8 @@ export class InspectionplanService {
       EndDate: InspectionPlanData.end_date,
       Type: InspectionPlanData.type,
       ProvinceId: InspectionPlanData.ProvinceId,
-      FiscalYearId: InspectionPlanData.year,
+      // FiscalYearId: InspectionPlanData.year,
+      FiscalYearId: yearId,
       // files: "INSPECTIONPLAN.pdf",
       UserID: userid,
       Status: "ใช้งานจริง"

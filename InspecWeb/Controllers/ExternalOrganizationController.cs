@@ -244,7 +244,6 @@ namespace InspecWeb.Controllers
                 });
             task.Wait();
             return Ok(model);
-
         }
 
     }
