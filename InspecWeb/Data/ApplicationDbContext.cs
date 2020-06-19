@@ -156,7 +156,7 @@ namespace InspecWeb.Data
             //.HasKey(m => new { m.SubjectCentralPolicyProvinceId, m.CentralPolicyDateId });
 
             base.OnModelCreating(builder);
-            // seed data
+            //seed data
             builder.ApplyConfiguration(new MinistrySeeder());
             builder.ApplyConfiguration(new DepartmentSeeder());
             builder.ApplyConfiguration(new ProvinceSeeder());
