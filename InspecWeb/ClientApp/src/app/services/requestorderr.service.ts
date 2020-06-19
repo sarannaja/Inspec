@@ -42,6 +42,10 @@ addrequestorder(requestorderData, file: FileList) {
 
 //สำหรับตอบกลับข้อคำร้อง
 answerrequestorder(requestorderData, file: FileList, id) {
+  // alert(2);
+  // alert(requestorderData.Answerdetail);
+  // alert(requestorderData.AnswerProblem);
+  // alert(requestorderData.AnswerCounsel);
   const formData = new FormData();
   formData.append('id', id);
   formData.append('Answerdetail', requestorderData.Answerdetail);

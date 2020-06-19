@@ -597,7 +597,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     ]
   },
   {
-    icon: 'fa-hand-point-up',
+    icon: 'fa-hands',
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
     children: [
@@ -788,20 +788,20 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         name: 'แจ้งข้อมูลถึงผู้ตรวจราชการ',
         ex_link: '0',
       },
-      // {
-      //     icon:'fa-long-arrow-alt-right',
-      //     url:'/executiveorderexport1component',
-      //     name:'รายงานข้อสั่งการของผู้บริหาร',
-      //     ex_link:'0',
+      {
+        icon:'fa-long-arrow-alt-right',
+        url:'#',
+        name:'รายงานคำร้องขอของหน่วยรับตรวจ',
+        ex_link:'0',
 
-      // },
-      // {
-      //     icon:'fa-long-arrow-alt-right',
-      //     url:'/executiveorderexport3component',
-      //     name:'ทะเบียนข้อสั่งการของผู้บริหาร',
-      //     ex_link:'0',
+    },
+    {
+        icon:'fa-long-arrow-alt-right',
+        url:'#',
+        name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
+        ex_link:'0',
 
-      // }
+    } 
     ]
   },
   // {
@@ -909,11 +909,6 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
       },
     ]
   },
-  // {
-  //   icon: 'fa-book',
-  //   url: "/usercentralpolicy",
-  //   name: "Accept"
-  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
@@ -982,11 +977,6 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     url: "/main",
     name: "หน้าหลัก"
   },
-  // {
-  //   icon: 'fa-book',
-  //   url: "/usercentralpolicy",
-  //   name: "สมุดตรวจอิเล็กทรอนิกส์"
-  // },
   {
     icon: 'fa-book',
     url: "/answerpeople",
@@ -1095,25 +1085,6 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
       }
     ]
   },
-  // {
-  //   IDchildren: 'report',
-  //   icon: 'fa-user-tie',
-  //   name: "รายงานผลการตรวจราชการ",
-  //   children: [
-  //     {
-  //       ex_link: '0',
-  //       icon: 'fa-long-arrow-alt-right',
-  //       url: '/reportexport',
-  //       name: 'Export'
-  //     },
-  //     {
-  //       ex_link: '0',
-  //       icon: 'fa-long-arrow-alt-right',
-  //       url: '/reportimport',
-  //       name: 'Import'
-  //     },
-  //   ]
-  // },
   {
     icon: 'fa-user-tie',
     url: "/commanderreport",

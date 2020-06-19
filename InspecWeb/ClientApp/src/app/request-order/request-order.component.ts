@@ -160,7 +160,7 @@ export class RequestOrderComponent implements OnInit {
   }
 
   answerModal(template: TemplateRef<any>, id, answerdetail, answerProblem, answerCounsel) {
-    this.requestorderid = id;
+     this.requestorderid = id;
     this.answerdetail = answerdetail;
     this.answerProblem = answerProblem;
     this.answerCounsel = answerCounsel;
@@ -174,10 +174,10 @@ export class RequestOrderComponent implements OnInit {
 
   
   storeanswere(value) {
-
+   // alert(1);
     this.requestOrderService.answerrequestorder(value, this.awnserForm.value.files, this.requestorderid)
       .subscribe(result => {
-
+      //  alert(3);
         // alert(result.id);
         // this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id)
         //   .subscribe(result => {
