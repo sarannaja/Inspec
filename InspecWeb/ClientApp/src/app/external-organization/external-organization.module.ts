@@ -22,6 +22,7 @@ import { ThaiDatePipe } from '../services/Pipe/thaidate.service';
 import { VectorMapComponent } from './vector-map/vector-map.component';
 import { CustomCurrencyPipe } from '../services/Pipe/customecurrency.service';
 import { RegionComponent } from './otps/modals/region/region.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 
@@ -50,6 +51,7 @@ import { RegionComponent } from './otps/modals/region/region.component';
     NgxSpinnerModule,
     ModalModule.forRoot(),
     FormsModule,
+    ChartsModule
   ],
   exports:[MinisterModalComponent,CustomCurrencyPipe],
   providers: [ExternalOrganizationService,CurrencyPipe],

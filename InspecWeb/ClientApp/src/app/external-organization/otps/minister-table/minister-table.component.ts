@@ -152,7 +152,7 @@ export class MinisterTableComponent implements OnInit {
         data: {},
 
       },
-      class: 'modal-dialog-centered'
+      class: 'modal-dialog-centered modal-md'
     });
   }
 
@@ -167,7 +167,7 @@ export class MinisterTableComponent implements OnInit {
         data: {},
 
       },
-      class: 'modal-dialog-centered'
+      class: 'modal-dialog-centered modal-lg'
     });
   }
   reportword(year) {

@@ -63,7 +63,7 @@ namespace InspecWeb.ViewModel {
         public static Region FromJson (string json) => JsonConvert.DeserializeObject<Region> (json, Converter.Settings);
     }
 
-    public static class Serialize {
+    public static class SerializeOtpsRegion {
         public static string ToJson (this Region self) => JsonConvert.SerializeObject (self, Converter.Settings);
     }
 

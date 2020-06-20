@@ -1,25 +1,32 @@
 <div *ngIf="newRegion != null">
 
         <div class="card-body">
-        <!-- <div *ngFor="let item of FiscalYears; let i =index" class="card-body"> -->
+                <!-- <div *ngFor="let item of FiscalYears; let i =index" class="card-body"> -->
                 <div class="modal-header">
                         <h4 class="modal-title pull-left"> {{ FiscalYear.Name  }} - {{newRegion.Name}} </h4>
-
+                        <div class="float-right">
+                                <button class="btn btn-primary" style="margin-bottom: 20px;"
+                                        (click)="disableprovince = !disableprovince">
+                                        {{disableprovince?'ดูรายจังหวัด':'ดูภาพรวม'}}
+                                </button>
+                        </div>
                 </div>
-                <div class="col-md-12">
+                <div *ngIf="disableprovince" class="col-md-12">
                         <div class="table-responsive" id="summaryTable">
                                 <table class="table table-borderless">
                                         <tbody>
 
                                                 <tr>
                                                         <td>โครงการทั้งหมด:</td>
-                                                        <td class="text-right">{{FiscalYear.Projects.Count}} โครงการ</td>
+                                                        <td class="text-right">{{FiscalYear.Projects.Count}} โครงการ
+                                                        </td>
                                                 </tr>
                                                 <!-- <hr> -->
                                                 <tr>
                                                         <td>โครงการที่เบิกจ่ายแล้วเสร็จ:</td>
                                                         <td id="complete-count" class="text-right">
-                                                                {{FiscalYear.Projects.Completed|CustomeCurrency}} โครงการ</td>
+                                                                {{FiscalYear.Projects.Completed|CustomeCurrency}}
+                                                                โครงการ</td>
                                                 </tr>
                                                 <tr>
                                                         <td>โครงการกำลังดำเนินงาน:</td>
@@ -30,13 +37,15 @@
                                                 <tr>
                                                         <td>งบประมาณ:</td>
                                                         <td class="text-right">
-                                                                {{(FiscalYear.Projects.TotalBudget)| CustomeCurrency}} บาท
+                                                                {{(FiscalYear.Projects.TotalBudget)| CustomeCurrency}}
+                                                                บาท
                                                         </td>
                                                 </tr>
                                                 <tr>
                                                         <td>งบประมาณที่ใช้จริง:</td>
                                                         <td class="text-right">
-                                                                {{(FiscalYear.Projects.TotalAmount)| CustomeCurrency}} บาท
+                                                                {{(FiscalYear.Projects.TotalAmount)| CustomeCurrency}}
+                                                                บาท
                                                         </td>
                                                         <!-- <td  class="text-right">197,202,372.00 บาท</td> -->
                                                 </tr>
@@ -54,7 +63,8 @@
                                                 </tr>
                                                 <tr>
                                                         <td>ร้อยละความสำเร็จ:</td>
-                                                        <td class="text-right">{{FiscalYear.Projects.TotalPercent}}%</td>
+                                                        <td class="text-right">{{FiscalYear.Projects.TotalPercent}}%
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                 </table>
@@ -62,5 +72,87 @@
 
                 </div>
 
+                <div *ngIf="!disableprovince">
+                        <div *ngFor="let item of provinces; let i = index;">
+                                <div class="modal-header">
+                                        <h4 class="modal-title pull-left">ประจำจังหวัด : {{ item.province  }}
+                                        </h4>
+
+                                </div>
+                                <div class="col-md-12">
+                                        <!-- <p>{{item[0].projects.count}}</p> -->
+                                        <div class="table-responsive" id="summaryTable">
+                                                <table class="table table-borderless">
+                                                        <tbody>
+
+                                                                <tr>
+                                                                        <td>โครงการทั้งหมด:</td>
+                                                                        <td class="text-right">{{item.projects.count}}
+                                                                                โครงการ
+                                                                        </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>โครงการที่เบิกจ่ายแล้วเสร็จ:</td>
+                                                                        <td id="complete-count" class="text-right">
+                                                                                {{item.projects.completed}}
+                                                                                โครงการ</td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>โครงการกำลังดำเนินงาน:</td>
+                                                                        <td class="text-right">
+                                                                                {{item.projects.count - item.projects.completed }}
+                                                                                โครงการ</td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>งบประมาณ:</td>
+                                                                        <td class="text-right">
+                                                                                {{(item.projects.totalBudget)| CustomeCurrency}}
+                                                                                บาท
+                                                                        </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>งบประมาณที่ใช้จริง:</td>
+                                                                        <td class="text-right">
+                                                                                {{(item.projects.totalAmount)| CustomeCurrency}}
+                                                                                บาท
+                                                                        </td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>งบประมาณที่เบิกจ่ายไปแล้ว:</td>
+                                                                        <td class="text-right">
+                                                                                {{(item.projects.totalBudget - item.projects.totalAmount)| CustomeCurrency}}
+                                                                                บาท</td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>งบประมาณที่ยังไม่ได้เบิกจ่าย:</td>
+                                                                        <td class="text-right">
+                                                                                {{(item.projects.totalBudget-(item.projects.totalBudget - item.projects.totalAmount)) | CustomeCurrency}}
+                                                                                บาท</td>
+                                                                </tr>
+                                                                <tr>
+                                                                        <td>ร้อยละความสำเร็จ:</td>
+                                                                        <td class="text-right">
+                                                                                {{item.projects.totalPercent | CustomeCurrency}}%
+                                                                        </td>
+                                                                </tr>
+                                                        </tbody>
+                                                </table>
+                                        </div>
+
+                                </div>
+                        </div>
+                </div>
+                <canvas baseChart 
+                [data]="pieChartData" 
+                [labels]="pieChartLabels" 
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [colors]="pieChartcolors"
+                [legend]="pieChartLegend">
+              </canvas>
+
         </div>
+
+
 </div>

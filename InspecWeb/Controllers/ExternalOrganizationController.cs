@@ -61,7 +61,7 @@ namespace InspecWeb.Controllers
             return Ok(model);
 
         }
-         // GET api/values/5
+        // GET api/values/5
         [HttpGet("otps/regions2")]
         public IActionResult OnGetRegionOtps()
         {
@@ -79,7 +79,7 @@ namespace InspecWeb.Controllers
             return Ok(model);
 
         }
-        
+
         // GET api/values/5
         [HttpGet("otps/provinces")]
         public IActionResult OnGetOtpsProvinces()
@@ -108,7 +108,7 @@ namespace InspecWeb.Controllers
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
-               
+
                     var jsonString = response.Content.ReadAsStringAsync();
                     jsonString.Wait();
                     model = JsonConvert.DeserializeObject<OtpsProvinceFiscalYearsList>(jsonString.Result);
@@ -234,7 +234,7 @@ namespace InspecWeb.Controllers
         {
             NewRegion model = null;
             var client = new HttpClient();
-            var task = client.GetAsync("https://api.otps.go.th/api/Regions/"+id)
+            var task = client.GetAsync("https://api.otps.go.th/api/Regions/" + id)
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -245,6 +245,46 @@ namespace InspecWeb.Controllers
             task.Wait();
             return Ok(model);
         }
+
+        [HttpGet("otps/provinces2")]
+        public IActionResult OnGetProvincesOtps()
+        {
+            List<OtpsProvince> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Provinces")
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<List<OtpsProvince>>(jsonString.Result);
+                    // model = JsonConvert.DeserializeObject<List<QuickType.Province>>(jsonString.Result);
+                });
+            task.Wait();
+            return Ok(model);
+        }
+
+        [HttpGet("otps/provinces2/{Id}")]
+        public IActionResult OnGetOtpsProvince2(int Id)
+        {
+            OtpsProvinceFiscalYearsList model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Provinces/ " + Id)
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<OtpsProvinceFiscalYearsList>(jsonString.Result);
+                });
+            task.Wait();
+            return Ok(model);
+
+        }
+
+
+
 
     }
 }
