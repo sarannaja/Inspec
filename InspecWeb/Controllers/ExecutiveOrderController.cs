@@ -44,22 +44,7 @@ namespace InspecWeb.Controllers {
             return executivedata;
         }
 
-        [HttpGet ("{id}")]
-        public IActionResult Get (long id) {
-            var centralpolicydata = _context.CentralPolicies
-                .Include (m => m.CentralPolicyProvinces)
-                .ThenInclude (x => x.Province)
-                .Include (m => m.CentralPolicyDates)
-                .Include (m => m.CentralPolicyFiles)
-                //.Include(m => m.ExecutiveOrders)
-                .Include (m => m.Subjects)
-                .ThenInclude (m => m.Subquestions)
-                .Where (m => m.Id == id).FirstOrDefault ();
-
-            return Ok (centralpolicydata);
-            //return "value";
-        }
-
+       
         [HttpGet ("commanded/{id}")]
         public IActionResult Commanded (string id) {
             var excutiveorderdata = _context.ExecutiveOrders

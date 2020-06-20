@@ -149,16 +149,17 @@ export class ExecutiveOrderComponent implements OnInit {
 
   }
 
-  storedetailexecutiveorder(value) {
+  storeexecutiveorder(value) {
     this.executiveorderService.addexecutiveorder(value, this.Form.value.files).subscribe(result => {
       //alert(1);
       this.notificationService.addNotification(1, 1, result.answer_by, 10, result.id)
         .subscribe(result => {
          // alert(2);
-          this.modalRef.hide();
+        
           this.Form.reset();
           this.getuserinfo();
         })
+        this.modalRef.hide();
     })
   }
   openModal(template: TemplateRef<any>) {
