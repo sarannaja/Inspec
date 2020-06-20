@@ -1,8 +1,9 @@
 <div *ngIf="newRegion != null">
 
-        <div *ngFor="let item of FiscalYears; let i =index" class="card-body">
+        <div class="card-body">
+        <!-- <div *ngFor="let item of FiscalYears; let i =index" class="card-body"> -->
                 <div class="modal-header">
-                        <h4 class="modal-title pull-left"> {{ item.Name  }} - {{newRegion.Name}} </h4>
+                        <h4 class="modal-title pull-left"> {{ FiscalYear.Name  }} - {{newRegion.Name}} </h4>
 
                 </div>
                 <div class="col-md-12">
@@ -12,48 +13,48 @@
 
                                                 <tr>
                                                         <td>โครงการทั้งหมด:</td>
-                                                        <td class="text-right">{{item.Projects.Count}} โครงการ</td>
+                                                        <td class="text-right">{{FiscalYear.Projects.Count}} โครงการ</td>
                                                 </tr>
                                                 <!-- <hr> -->
                                                 <tr>
                                                         <td>โครงการที่เบิกจ่ายแล้วเสร็จ:</td>
                                                         <td id="complete-count" class="text-right">
-                                                                {{item.Projects.Completed|CustomeCurrency}} โครงการ</td>
+                                                                {{FiscalYear.Projects.Completed|CustomeCurrency}} โครงการ</td>
                                                 </tr>
                                                 <tr>
                                                         <td>โครงการกำลังดำเนินงาน:</td>
                                                         <td class="text-right">
-                                                                {{item.Projects.Count - item.Projects.Completed }}
+                                                                {{FiscalYear.Projects.Count - FiscalYear.Projects.Completed }}
                                                                 โครงการ</td>
                                                 </tr>
                                                 <tr>
                                                         <td>งบประมาณ:</td>
                                                         <td class="text-right">
-                                                                {{(item.Projects.TotalBudget)| CustomeCurrency}} บาท
+                                                                {{(FiscalYear.Projects.TotalBudget)| CustomeCurrency}} บาท
                                                         </td>
                                                 </tr>
                                                 <tr>
                                                         <td>งบประมาณที่ใช้จริง:</td>
                                                         <td class="text-right">
-                                                                {{(item.Projects.TotalAmount)| CustomeCurrency}} บาท
+                                                                {{(FiscalYear.Projects.TotalAmount)| CustomeCurrency}} บาท
                                                         </td>
                                                         <!-- <td  class="text-right">197,202,372.00 บาท</td> -->
                                                 </tr>
                                                 <tr>
                                                         <td>งบประมาณที่เบิกจ่ายไปแล้ว:</td>
                                                         <td class="text-right">
-                                                                {{(item.Projects.TotalBudget - item.Projects.TotalAmount)| CustomeCurrency}}
+                                                                {{(FiscalYear.Projects.TotalBudget - FiscalYear.Projects.TotalAmount)| CustomeCurrency}}
                                                                 บาท</td>
                                                 </tr>
                                                 <tr>
                                                         <td>งบประมาณที่ยังไม่ได้เบิกจ่าย:</td>
                                                         <td class="text-right">
-                                                                {{(item.Projects.TotalBudget-(item.Projects.TotalBudget - item.Projects.TotalAmount)) | CustomeCurrency}}
+                                                                {{(FiscalYear.Projects.TotalBudget-(FiscalYear.Projects.TotalBudget - FiscalYear.Projects.TotalAmount)) | CustomeCurrency}}
                                                                 บาท</td>
                                                 </tr>
                                                 <tr>
                                                         <td>ร้อยละความสำเร็จ:</td>
-                                                        <td class="text-right">{{item.Projects.TotalPercent}}%</td>
+                                                        <td class="text-right">{{FiscalYear.Projects.TotalPercent}}%</td>
                                                 </tr>
                                         </tbody>
                                 </table>

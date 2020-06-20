@@ -52,7 +52,7 @@
                 <td>{{item.position}}</td>
                 <td>{{item.cabinet.name}}</td>
                 <td style="cursor: pointer;">
-                    <a href="javascript:void(0)" *ngFor="let region of item.fiscalYears[0].regions"
+                    <a *ngFor="let region of item.fiscalYears[0].regions"
                         (click)="openModalRegion(region)">
                         <span class="badge badge-primary">
                             {{region.name}}

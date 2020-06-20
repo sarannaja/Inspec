@@ -163,6 +163,7 @@ export class MinisterTableComponent implements OnInit {
       initialState: {
         title: `${region.name} ${region.id}`,
         region: region,
+        Year: this.year,
         data: {},
 
       },
@@ -170,7 +171,7 @@ export class MinisterTableComponent implements OnInit {
     });
   }
   reportword(year) {
-    alert(year);
+    // alert(year);
     this.dataindata = this.ministers.filter(result => {
       //  console.log(result.fiscalYears[0].year, year.target.value);
       setTimeout(() => {

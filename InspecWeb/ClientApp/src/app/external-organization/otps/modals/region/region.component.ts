@@ -13,16 +13,19 @@ export class RegionComponent implements OnInit {
   title;
   region: any
   newRegion: NewRegion = null
-  FiscalYears: FiscalYear[] = []
+  FiscalYear: FiscalYear
+  Year:any
   constructor(private external: ExternalOrganizationService) { }
 
   ngOnInit() {
-    this.external.getRegionById(this.region.Id)
+    this.external.getRegionById(this.region.id)
       .subscribe(result => {
-        console.log(result,this.region.Id);
-        
+        console.log(result, this.region);
+
         this.newRegion = result
-        this.FiscalYears = result.FiscalYears
+        this.FiscalYear = result.FiscalYears.filter(result => {
+          return  result.Year == this.Year
+        })[0]
       })
     console.log(this.region);
 
