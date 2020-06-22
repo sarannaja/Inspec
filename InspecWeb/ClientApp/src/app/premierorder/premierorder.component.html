@@ -6,7 +6,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="['/main']">หน้าหลัก</a></li>
         <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
-        <li class="breadcrumb-item active">ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม</li>
+        <li class="breadcrumb-item active">กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ อาทิ ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการตรวจราชการ พ.ศ.2551 ระเบียบสำนักนายกรัฐมนตรีว่าด้วยคณะกรรมการ ธรรมาภิบาลจังหวัด พ.ศ. 2552 และที่แก้ไขเพิ่มเติม ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการกำกับติดตามการปฏิบัติราชการในภูมิภาค</li>
       </ol>
     </nav>
   </div>
@@ -14,10 +14,10 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">ข้อมูลเกี่ยวกับการประชุมต่าง ๆ </h5>
+          <h5 class="card-title">ข้อมูลเกี่ยวกับกฎต่าง ๆ </h5>
           <div class="float-right">
             <button class="btn btn-primary" (click)="openModal(modalPremierorder)"
-              style="margin-top: -60px;">เพิ่มข้อมูลเกี่ยวกับการประชุม</button>
+              style="margin-top: -60px;">เพิ่มข้อมูลเกี่ยวกับกฎระเบียบต่าง ๆ</button>
           </div>
         </div>
         <div class="card-body">
@@ -110,7 +110,7 @@
       <form [formGroup]="Form" (ngSubmit)="editPremierorder(Form.value,delid)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">แก้ไขข้อมูลเกี่ยวกับการประชุม</h5>
+          <h5 class="modal-title">แก้ไขข้อมูลเกี่ยวกับกฎระเบียบ</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

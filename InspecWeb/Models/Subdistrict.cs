@@ -29,7 +29,7 @@ namespace InspecWeb.Models
         [Description("ชื่อตำบล/แขวง")]
         public string Name { get; set; }
 
-        public ICollection<Village> Village { get; set; }
+        //public ICollection<Village> Village { get; set; }
 
     }
 }
