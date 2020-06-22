@@ -59,9 +59,9 @@ export class RegionComponent implements OnInit {
         this.disableprovince = true
 
         setTimeout(() => {
-          this.pieChartLabelssetUp(this.provinces)
+          this.pieChartsetUp(this.provinces)
           console.log(this.pieChartLabels, this.pieChartData,this.pieChartcolors);
-        }, 1000)
+        }, 2000)
 
 
 
@@ -94,7 +94,7 @@ export class RegionComponent implements OnInit {
   }
 
 
-  pieChartLabelssetUp(data: any[]) {
+  pieChartsetUp(data: any[]) {
     console.log('in setup', data[0].province);
 
     for (let i = 0; i < data.length; i++) {
@@ -104,7 +104,6 @@ export class RegionComponent implements OnInit {
       this.pieChartData.push(data[i].projects.count)
       this.pieChartcolors[0].backgroundColor = this.pieChartcolors[0].backgroundColor.concat(this.getRandomColor())
     }
-
   }
 
   getRandomColor() {
@@ -112,13 +111,7 @@ export class RegionComponent implements OnInit {
     return '#' + ('000000' + color).slice(-6);
   }
 
-  getRandomColor2() {
-    var length = 6;
-    var chars = '0123456789ABCDEF';
-    var hex = '#';
-    while (length--) hex += chars[(Math.random() * 16) | 0];
-    return hex;
-  }
+  
 
 }
 

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Regions, Ministers, Cabinets, Province, ProvinceFiscalYears, ProvinceFiscalYear } from '../external-organization/models/otps' ;
 import { NewRegion } from '../external-organization/models/Region';
 import { OtpsProvineFiscalYear } from '../models/otpsprovince';
+import { ProvinceOtps } from '../external-organization/models/province-otps';
 // import { NewRegion, Province } from '../external-organization/models/Region';
 // [assembly: RegisterModule(typeof(SSLRequestModule))]                                                                                                                                                                                                                                                                                                                                             
 
@@ -57,6 +58,9 @@ export class ExternalOrganizationService {
   }
   getOtpsProviceById(id): Observable<OtpsProvineFiscalYear> {
     return this.http.get<OtpsProvineFiscalYear>(this.baseUrl + `api/ExternalOrganization/otps/provinces2/${id}`, this.httpOptions)
+  }
+  getOtpsProviceOtps(): Observable<ProvinceOtps[]> {
+    return this.http.get<ProvinceOtps[]>(this.baseUrl + `api/ExternalOrganization/otps/provinces2`)
   }
   
 }
