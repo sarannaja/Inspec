@@ -13,27 +13,28 @@ export class SubdistrictComponent implements OnInit {
 
   resultsubdistrict: any = []
   id
-  name: any
   titleprovince: []
   titledistrict: []
+  Form: FormGroup;
+  EditForm: FormGroup;
+  loading = false;
+  dtOptions: DataTables.Settings = {};
+  modalRef: BsModalRef;
 
   constructor(
-    private modalService: BsModalService,
-    private fb: FormBuilder,
-    private subdistrictservice: SubdistrictService,
-    private activatedRoute : ActivatedRoute,
     private router:Router,
+    private subdistrictservice: SubdistrictService,
+    private activatedRoute: ActivatedRoute,
     public share: SubdistrictService) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
-    this.name = activatedRoute.snapshot.paramMap.get('name')
   }
-
+    
   ngOnInit() {
-
     this.subdistrictservice.getsubdistrictdata(this.id).subscribe(result => {
       this.resultsubdistrict = result
       this.titleprovince = result[0].district.province.name
       this.titledistrict = result[0].district.name
+      this.loading = true
       console.log(this.resultsubdistrict);
     })
   }

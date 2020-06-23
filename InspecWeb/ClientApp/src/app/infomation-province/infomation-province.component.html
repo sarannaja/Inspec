@@ -23,17 +23,12 @@
             <tr>
               <th>#</th>
               <th>ชื่อจังหวัด</th>
-              <th>ลิ้งค์</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of resultprovince; let i = index">
               <td>{{ i + 1 }}</td>
               <td class="pointer" (click)="District(item.id,item.name)">{{ item.name }}</td>
-              <td><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></td>
-              <ng-template #elseBlock>
-                <td></td>
-              </ng-template>
             </tr>
           </tbody>
         </table>

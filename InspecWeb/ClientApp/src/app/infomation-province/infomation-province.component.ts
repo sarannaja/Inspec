@@ -16,7 +16,6 @@ export class InfomationProvinceComponent implements OnInit {
   name: any
   link: any
   modalRef: BsModalRef;
-  Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
   dtOptions: DataTables.Settings = {};
@@ -37,12 +36,6 @@ export class InfomationProvinceComponent implements OnInit {
     // this.snotifyService.onSuccess("test")
     this.spinner.show();
 
-    this.Form = this.fb.group({
-      "provincename": new FormControl(null, [Validators.required]),
-      "provincelink": new FormControl(null, [Validators.required])
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
-    })
-
     //แก้ไข
 
 
@@ -53,9 +46,6 @@ export class InfomationProvinceComponent implements OnInit {
         this.loading = true
         console.log(this.resultprovince);
       })
-    this.Form.patchValue({
-      // test: "testest"
-    })
   }
 
   District(id) {

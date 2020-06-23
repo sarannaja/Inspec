@@ -10,11 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./district.component.css']
 })
 export class DistrictComponent implements OnInit {
-
   resultdistrict: any = []
   id
   name: any
   titleprovince:[]
+  Form: FormGroup;
+  EditForm: FormGroup;
+  loading = false;
+  dtOptions: DataTables.Settings = {};
   // router: any
 
   constructor(
@@ -35,6 +38,7 @@ export class DistrictComponent implements OnInit {
     this.districtservice.getdistrictdata(this.id).subscribe(result => {
       this.resultdistrict = result
       this.titleprovince = result[0].province.name
+      this.loading = true
       console.log(this.resultdistrict);
     })
   }
