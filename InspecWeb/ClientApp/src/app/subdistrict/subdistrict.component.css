@@ -11,3 +11,7 @@
 .pointer {
     cursor:pointer;
 }
+.thick {
+    font-weight: bold;
+    font-size: 16px;
+  }

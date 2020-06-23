@@ -17,9 +17,9 @@
     <div class="col-12">
         <div class="card">
             <div *ngIf="titleprovince != null" class="card-header" style="margin-bottom: -40px;">
-                <h4 class="card-title">จังหวัด : {{titleprovince}}</h4>
-                <h5 class="card-title">อำเภอ/เขต : {{titledistrict}}</h5>
-                <h6 class="card-title">ตำบล/แขวง : {{titlesubdistrict}}</h6><br>
+                <p class="call"><span class='thick'>จังหวัด : </span>{{titleprovince}}</p>
+                <p class="call"><span class='thick'>อำเภอ/เขต : </span>{{titledistrict}}</p>
+                <p class="call"><span class='thick'>ตำบล/แขวง : </span>{{titlesubdistrict}}</p><br>
             </div>
             <div *ngIf="titleprovince == null" class="card-header" style="margin-bottom: -40px;">
                 <h1 class="card-title" style="color:red; font-size: 160%; ">ไม่มีข้อมูลหมู่บ้าน</h1>
