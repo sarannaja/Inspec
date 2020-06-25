@@ -49,6 +49,8 @@ export class ExecutiveOrderComponent implements OnInit {
   answerProblem: any;
   answerCounsel: any;
   testUser: any;
+  url = ""
+
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -261,5 +263,16 @@ export class ExecutiveOrderComponent implements OnInit {
 
       this.loading = true
     }, 600)
+  }
+
+  exportexecutive2(id) {
+
+    this.executiveorderService.getexcutive2(id)
+      .subscribe(result => {
+        console.log('result', result);
+        window.open(this.url + "reportexecutive/" + result.data);
+      })
+    this.getuserinfo();
+
   }
 }

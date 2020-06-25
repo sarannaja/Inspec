@@ -14,7 +14,7 @@ import { IMyOptions } from 'mydatepicker-th';
   styleUrls: ['./request-order.component.css']
 })
 export class RequestOrderComponent implements OnInit {
-  
+
   private myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
@@ -24,14 +24,14 @@ export class RequestOrderComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   loading = false;
   userid: any;
-  role_id:any;
+  role_id: any;
   selectdatauser: Array<IOption>
   Form: FormGroup;
-  awnserForm:FormGroup;
-  requestorderid :any ;
-  answerdetail : any;
-  answerProblem : any;
-  answerCounsel : any;
+  awnserForm: FormGroup;
+  requestorderid: any;
+  answerdetail: any;
+  answerProblem: any;
+  answerCounsel: any;
   vcommanded_date: any;
   vcommanded_by: any;
   vsubject: any;
@@ -44,12 +44,14 @@ export class RequestOrderComponent implements OnInit {
   vanswerCounsel: any;
   vrequestorderFiles: any;
   vanswerrequestorderFiles: any;
+  url = ""
+
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
     private requestOrderService: RequestorderrService,
-    private router:Router,
-    private fb: FormBuilder, 
+    private router: Router,
+    private fb: FormBuilder,
     private modalService: BsModalService,
     @Inject('BASE_URL') baseUrl: string) { }
 
@@ -76,42 +78,42 @@ export class RequestOrderComponent implements OnInit {
       files: new FormControl(null, [Validators.required]),
 
     })
-    
+
   }
 
-  getuserinfo(){
+  getuserinfo() {
     this.authorize.getUser()
-    .subscribe(result => {
-      this.userid = result.sub  
-      this.userService.getuserfirstdata(this.userid)      
-      .subscribe(result => {  
-      
-        this.role_id = result[0].role_id
+      .subscribe(result => {
+        this.userid = result.sub
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
 
-        if (this.role_id == 5) { //แจ้งคำร้องขอ
-          this.requestOrderService.getrequestordercommandeddata(this.userid)
-            .subscribe(result => {
-              console.log('momomo',result);
-              this.getDatauser();
-              this.getUserServiceLoop(result)
+            this.role_id = result[0].role_id
 
-            })
-        } else if (this.role_id == 1) { //แอดมินใหญ่
-          this.requestOrderService.getrequestorderdata()
-            .subscribe(result => {
-              this.getDatauser();
-              this.getUserServiceLoop(result)
-            })
-        } else { // คนรับคำร้องขอ
-          this.requestOrderService.getrequestorderanswereddata(this.userid)
-            .subscribe(result => {
-              this.getDatauser();
-              this.getUserServiceLoop(result)
-            })
-        }
-        
+            if (this.role_id == 5) { //แจ้งคำร้องขอ
+              this.requestOrderService.getrequestordercommandeddata(this.userid)
+                .subscribe(result => {
+                  console.log('momomo', result);
+                  this.getDatauser();
+                  this.getUserServiceLoop(result)
+
+                })
+            } else if (this.role_id == 1) { //แอดมินใหญ่
+              this.requestOrderService.getrequestorderdata()
+                .subscribe(result => {
+                  this.getDatauser();
+                  this.getUserServiceLoop(result)
+                })
+            } else { // คนรับคำร้องขอ
+              this.requestOrderService.getrequestorderanswereddata(this.userid)
+                .subscribe(result => {
+                  this.getDatauser();
+                  this.getUserServiceLoop(result)
+                })
+            }
+
+          })
       })
-    })
   }
 
   uploadFile(event) {
@@ -137,11 +139,11 @@ export class RequestOrderComponent implements OnInit {
       //alert(1);
       // this.notificationService.addNotification(1, 1, result.answer_by, 10, result.id)
       //   .subscribe(result => {
-         // alert(2);
-          this.modalRef.hide();
-          this.Form.reset();
-          this.getuserinfo();
-        //})
+      // alert(2);
+      this.modalRef.hide();
+      this.Form.reset();
+      this.getuserinfo();
+      //})
     })
   }
   openModal(template: TemplateRef<any>) {
@@ -160,7 +162,7 @@ export class RequestOrderComponent implements OnInit {
   }
 
   answerModal(template: TemplateRef<any>, id, answerdetail, answerProblem, answerCounsel) {
-     this.requestorderid = id;
+    this.requestorderid = id;
     this.answerdetail = answerdetail;
     this.answerProblem = answerProblem;
     this.answerCounsel = answerCounsel;
@@ -172,12 +174,12 @@ export class RequestOrderComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  
+
   storeanswere(value) {
-   // alert(1);
+    // alert(1);
     this.requestOrderService.answerrequestorder(value, this.awnserForm.value.files, this.requestorderid)
       .subscribe(result => {
-      //  alert(3);
+        //  alert(3);
         // alert(result.id);
         // this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id)
         //   .subscribe(result => {
@@ -243,5 +245,13 @@ export class RequestOrderComponent implements OnInit {
     setTimeout(() => {
       this.loading = true
     }, 600)
+  }
+
+  exportrequest2(id) {
+    this.requestOrderService.getrequest2(id)
+      .subscribe(result => {
+        window.open(this.url + "reportrequest/" + result.data);
+      })
+      this.getuserinfo();
   }
 }
