@@ -57,6 +57,7 @@ export class SubquestionComponent implements OnInit {
       name: new FormControl(null, [Validators.required]),
       centralpolicydateid: new FormControl(null, [Validators.required]),
       status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      explanation: new FormControl(null, [Validators.required]),
       inputsubjectdepartment: this.fb.array([
         this.initdepartment()
       ]),

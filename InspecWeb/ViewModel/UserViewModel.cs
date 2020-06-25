@@ -16,6 +16,7 @@ namespace InspecWeb.ViewModel
         public string Email { get; set; }
         public long MinistryId { get; set; }
         public long DepartmentId { get; set; }
+        public long ProvincialDepartmentId { get; set; } //21-06-2020
         public long DistrictId { get; set; }
         public long ProvinceId { get; set; }
         public long SubdistrictId { get; set; }

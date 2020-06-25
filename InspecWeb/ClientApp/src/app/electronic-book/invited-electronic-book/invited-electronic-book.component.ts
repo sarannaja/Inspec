@@ -69,7 +69,7 @@ export class InvitedElectronicBookComponent implements OnInit {
     this.electronicBookService.getElectronicBookInvited(this.userid).subscribe(results => {
       console.log("res: ", results);
       this.electronicBookData = results;
-      console.log("ELECTDATA: ", this.electronicBookData);
+      console.log("electInvite: ", this.electronicBookData);
 
       this.loading = true;
     })
@@ -87,22 +87,8 @@ export class InvitedElectronicBookComponent implements OnInit {
     });
   }
 
-  gotoEdit(id, elecId, centralPolicyUserID) {
-    console.log("ID: ", id);
-    console.log("ELECID: ", elecId);
-    console.log("centralPolicyUserID", centralPolicyUserID);
-    this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID }])
-  }
-
-  gotoDetail(cenid, proid, elecId) {
-    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
-      // this.centralpolicyprovinceid = result
-      // this.router.navigate(['/electronicbook/edit/' + result, { electronicBookId: elecId }])
-      var id = result
-      this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
-    })
-
-
+  gotoDetail(id, inviteid) {
+    this.router.navigate(['/electronicbook/invitedetail/' + id, {ebookInviteId: inviteid}])
   }
 
   gotoTheme(cenid, proid, elecId) {

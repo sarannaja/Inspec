@@ -16,14 +16,19 @@ export class LogService {
     this.url = baseUrl + 'api/Log/';
   }
 
-  addLog(UserId,DatabaseName,EventType,status) {
+  //สำหรับ superadmin
+  getLogData(): Observable<any[]> {
+    return this.http.get<any[]>(this.url)
+  }
+
+  addLog(UserId,DatabaseName,EventType,ObjectType) {
     
     var formData = new FormData();
     
     formData.append('UserId',UserId); //id user
     formData.append('DatabaseName',DatabaseName); //table name
     formData.append('EventType',EventType); // ลบ แก้ไข หรือ เพิ่ม
-    formData.append('ObjectType',status); // text
+    formData.append('ObjectType',ObjectType); // text
    
     return this.http.post(this.url, formData);
   }

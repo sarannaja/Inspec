@@ -59,6 +59,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   userPeople: any = [];
   fileStatus = false;
   form: FormGroup;
+  FormQuestion: FormGroup;
+  questionpeople: any = [];
   carlendarFile: any = [];
   provincename: any;
   provinceid
@@ -176,7 +178,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             // alert(this.role_id)
           })
       })
-      // alert(this.planId)
+    // alert(this.planId)
     console.log("ID: ", this.id);
 
     // this.spinner.show();
@@ -194,7 +196,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     })
     this.form = this.fb.group({
       files: [null],
-      step: new FormControl(null, [Validators.required]),
+      // step: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
       questionPeople: new FormControl(null, [Validators.required]),
       signatureFiles: [null],
@@ -218,6 +220,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       subjectquestionopen: new FormControl(),
     })
 
+    this.FormQuestion = this.fb.group({
+      notificationdate: new FormControl(null, [Validators.required]),
+      deadlinedate: new FormControl(null, [Validators.required]),
+      question: new FormControl(null, [Validators.required]),
+    })
+
+
     this.AddForm = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       // centralpolicydateid: new FormControl(null, [Validators.required]),
@@ -230,10 +239,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     // this.getDetailCentralPolicy()
     await this.getCentralPolicyProvinceUser()
     await this.getDetailCentralPolicyProvince()
+    await this.getquestion();
 
     await this.getMinistryPeople();
     await this.getUserPeople();
     await this.getAnswer2();
+
     // await this.getDepartment()
 
     setTimeout(() => {
@@ -654,12 +665,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           console.log(response);
         })
 
-        // this.spinner.show();
-        setTimeout(() => {
-          this.getCalendarFile();
-          this.form.reset();
-          // this.spinner.hide();
-        }, 300);
+      // this.spinner.show();
+      setTimeout(() => {
+        this.getCalendarFile();
+        this.form.reset();
+        // this.spinner.hide();
+      }, 300);
 
       // window.history.back();
     })
@@ -668,7 +679,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   storePeople(value: any) {
     let UserPeopleId: any[] = value.UserPeopleId
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid, this.userid, this.planId).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.userid, this.planId).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
@@ -719,7 +730,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   storeMinistryPeople(value: any) {
     let UserPeopleId: any[] = value.UserPeopleId
-    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.electronicbookid, this.userid, this.planId).subscribe(response => {
+    this.centralpolicyservice.addCentralpolicyUser(value, this.id, this.userid, this.planId).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
@@ -1034,5 +1045,17 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     // alert(type)
     this.fileType = type;
   }
-
+  storeQuestion(value) {
+    this.centralpolicyservice.addPeoplequestion(this.id, this.planId, value).subscribe(res => {
+      this.FormQuestion.reset();
+      this.modalRef.hide();
+      this.getquestion();
+    })
+  }
+  getquestion() {
+    this.centralpolicyservice.getquestionpeople(this.id, this.planId).subscribe(res => {
+      this.questionpeople = res;
+      console.log("answer: ", this.answerData);
+    })
+  }
 }

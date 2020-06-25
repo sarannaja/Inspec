@@ -1,0 +1,238 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">สมุดตรวจอิเล็กทรอนิกส์</a></li>
+      <li class="breadcrumb-item active" aria-current="page">รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">รายละเอียด</h4>
+        <label style="margin-top: 20px;">วันที่ {{electronicBookData.electronicBook.startDate | thaidate: 'year'}} ถึง
+          {{electronicBookData.electronicBook.endDate | thaidate: 'year'}}</label>
+        <label></label>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <h4>แผนการตรวจ</h4>
+          <div *ngFor="let item of electronicBookData.electronicBookGroup; let i = index" class="col-12">
+            <label>{{i+1}}) {{item.centralPolicyEvent.centralPolicy.title}}</label>
+            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large;" id="centralPolicy{{i}}"
+              data-toggle="collapse" [attr.data-target]="'#centralPolicys' + i" aria-expanded="false"
+              aria-controls="centralPolicys"></i>
+            <!-- <button *ngIf="electronicBookData.electronicBookGroup" type="button" class="btn btn-outline-success btn-sm"
+              style="margin-left: 20px;"
+              (click)="openModal(addSuggestionModal, item.centralPolicyEvent.id)">เพิ่มคำแนะนำ</button> -->
+            <div class="col-12 collapse" id="centralPolicys{{i}}" style="margin-left: 5px;">
+              <div>
+                <label>- วันที่: {{item.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'year'}} ถึง
+                  {{item.centralPolicyEvent.inspectionPlanEvent.endDate  | thaidate: 'year'}}</label>
+              </div>
+              <div>
+                <label>- จังหวัด: {{item.centralPolicyEvent.inspectionPlanEvent.province.name}}</label>
+              </div>
+              <!-- <div>
+                <label>- ประเด็นนโยบายย่อย:</label>
+                <div *ngFor="let item of item.centralPolicyEvent.centralPolicy.centralPolicyProvinces"
+                  style="margin-left: 20px;">
+                  <div *ngFor="let items of item.subjectCentralPolicyProvinces; let index = index;">
+                    <label *ngIf="items.type == 'Master'">{{index + 1}}. {{items.name}}</label>
+                  </div>
+                </div>
+              </div> -->
+
+              <!-- <div>
+                <label>- ผู้ตรวจราชการกระทรวง:</label>
+                <div *ngFor="let item of item.centralPolicyEvent.centralPolicy.centralPolicyUser; let index = index"
+                  style="margin-left: 20px;">
+                  <label *ngIf="item.user.role_id == 6">{{index + 1}}. {{item.user.departments.name}} -
+                    {{item.user.prefix}} {{item.user.name}}</label>
+                </div>
+              </div>
+              <div>
+                <label>- ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</label>
+                <div *ngFor="let item of item.centralPolicyEvent.centralPolicy.centralPolicyUser; let index = index"
+                  style="margin-left: 20px;">
+                  <label *ngIf="item.user.role_id == 6">{{index + 1}}. {{item.user.departments.name}} -
+                    {{item.user.prefix}} {{item.user.name}}</label>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- <div>
+          <label>- ผู้ตรวจราชการกระทรวง:</label>
+          <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
+            <label *ngIf="items.user.role_id == 6">- {{items.user.prefix}} {{items.user.name}} -
+              {{items.user.departments.name}}</label>
+          </div>
+        </div>
+        <div>
+          <label>- ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</label>
+          <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
+            <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
+              {{items.user.departments.name}}</label>
+          </div>
+        </div> -->
+
+        <br>
+        <br>
+
+        <div *ngIf="opinionData.description != null" class="form-group" style="margin-left: 15px; margin-right: 21px;">
+          <form [formGroup]="approveForm">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12" style="padding-left: 0;">
+                  <div class="form-group">
+                    <div class="row">
+                      <h4 style="margin-left: 11px;">ลงความเห็นแล้ว <i class="fas fa-check-circle" style="margin-left: 2px;"></i></h4>
+                      <div *ngIf="opinionData.approve == 'เห็นด้วย'">
+                        <span class="badge badge-pill badge-success"
+                          style="margin-left: 10px;">{{opinionData.approve}}</span>
+                      </div>
+                      <div *ngIf="opinionData.approve == 'ไม่เห็นด้วย'">
+                        <span class="badge badge-pill badge-danger"
+                          style="margin-left: 10px;">{{opinionData.approve}}</span>
+                      </div>
+                    </div>
+                    <textarea cols="30" rows="5" formControlName="opinion" class="form-control container"
+                      placeholder="ไม่มีข้อมูล" readonly>
+                </textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <hr>
+        </div>
+
+        <div class="form-group" *ngIf="electronicBookData.electronicBookSuggestion.length > 0"
+          style="margin-left: 15px; margin-right: 21px;">
+          <h4>คำแนะนำ</h4>
+          <div *ngFor="let items of electronicBookData.electronicBookSuggestion">
+            <h5 style="margin-top: 15px;">{{items.centralPolicyEvent.centralPolicy.title}}</h5>
+            <textarea cols="30" rows="5" class="form-control container" ngModel="{{items.suggestion}}"
+              placeholder="ไม่มีข้อมูล" readonly></textarea>
+          </div>
+        </div>
+
+        <br>
+        <hr>
+        <br>
+
+        <form [formGroup]="Form">
+          <div class="col-12 col-xl-12" style="margin-top: 10px; margin-bottom: 20px;">
+            <div class="form-group">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12" style="padding-left: 0;">
+                    <div class="form-group">
+                      <h4><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
+                      <textarea cols="30" rows="5" formControlName="detail" class="form-control container"
+                        placeholder="ไม่มีข้อมูล" readonly>
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12" style="padding-left: 0;">
+                    <div class="form-group">
+                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
+                      <textarea cols="30" rows="5" formControlName="problem" class="form-control"
+                        placeholder="ไม่มีข้อมูล" readonly>
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12" style="padding-left: 0;">
+                    <div class="form-group">
+                      <h4><i class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
+                      <textarea cols="30" rows="5" formControlName="suggestion" class="form-control"
+                        placeholder="ไม่มีข้อมูล" readonly>
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="form-group col-md-3">
+              <div class="mb-3">
+                <input type="radio" name="Status" value="ร่างกำหนดการ"
+                  [checked]="electronicBookData.electronicBook.status == 'ร่างกำหนดการ'" formControlName="Status"
+                  disabled>
+                <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+                <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
+                  [checked]="electronicBookData.electronicBook.status == 'ใช้งานจริง'" formControlName="Status"
+                  disabled>
+                <label style="margin-left: 10px;">ใช้งานจริง</label>
+              </div>
+            </div> -->
+          </div>
+        </form>
+        <div *ngIf="opinionData.description == null" class="form-group col col-lg-12"
+          style="margin-top: 20px; text-align: center;">
+          <button style="align-self: center;" type="submit" class="btn btn-success" style="margin-right: 45px;"
+            (click)="openModal(addAprove)">ลงความเห็น</button>
+          <button type="button" class="btn btn-danger" (click)="goBack()">ยกเลิก</button>
+        </div>
+      </div>
+
+      <ng-template #addAprove class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <form [formGroup]="approveForm" (ngSubmit)="addOpinion(approveForm.value)">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">ลงความเห็นสมุดตรวจอิเล็กทรอนิกส์</h5>
+              <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body m-3">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12" style="padding-left: 0;">
+                    <div class="form-group">
+                      <h4><i class="fas fa-comment-dots" style="margin-right: 5px;"></i> ลงความเห็น</h4>
+                      <textarea cols="30" rows="5" formControlName="opinion" class="form-control container"
+                        placeholder="กรุณาลงความเห็นเพิ่มเติม">
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="mb-12">
+                  <input type="radio" name="accept" value="เห็นด้วย"
+                    [checked]="electronicBookData.electronicBook.status == 'เห็นด้วย'" formControlName="accept">
+                  <label style="margin-left: 10px;">เห็นด้วย</label>
+                  <input style="margin-left: 10px;" type="radio" name="accept" value="ไม่เห็นด้วย"
+                    [checked]="electronicBookData.electronicBook.status == 'ไม่เห็นด้วย'" formControlName="accept">
+                  <label style="margin-left: 10px;">ไม่เห็นด้วย</label>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+              <button type="submit" class="btn btn-primary">บันทึก</button>
+              <button type="button" class="btn btn-danger" (click)="closeModal()" data-dismiss="modal">ปิด</button>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+
+      <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+        <p style="font-size: 20px; color: white">Loading...</p>
+      </ngx-spinner>

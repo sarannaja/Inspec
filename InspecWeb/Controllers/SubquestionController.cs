@@ -158,5 +158,54 @@ namespace InspecWeb.Controllers
         //    _context.Subquestions.Remove(subquestions);
         //    _context.SaveChanges();
         //}
+
+        // POST api/values
+
+        [HttpPost("addquestioncloseevent")]
+        public IActionResult Post3(long SubjectCentralPolicyProvinceId, string Name, long Box, string[] answerclose)
+        {
+            System.Console.WriteLine("Start");
+            var Subquestionopendata = new SubquestionCentralPolicyProvince
+            {
+                SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvinceId,
+                Name = Name,
+                Type = "คำถามปลายปิด",
+                Box = Box,
+            };
+            System.Console.WriteLine("in");
+            _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
+            _context.SaveChanges();
+
+            //if (departmentId != null)
+            //{
+            //    long[] departmentId,
+            //    foreach (var departmentIddata in departmentId)
+            //    {
+            //        System.Console.WriteLine("in2");
+            //        var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+            //        {
+            //            ProvincialDepartmentId = departmentIddata,
+            //            SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+            //        };
+            //        _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+            //        _context.SaveChanges();
+
+            //    }
+            //}
+
+            foreach (var answerclosedata in answerclose)
+            {
+                System.Console.WriteLine("in3");
+                var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                {
+                    SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                    Name = answerclosedata
+
+                };
+                _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+                _context.SaveChanges();
+            }
+            return Ok(new { status = true });
+        }
     }
 }

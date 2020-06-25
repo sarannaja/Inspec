@@ -21,10 +21,10 @@ namespace InspecWeb.Models
         public long ElectronicBookId { get; set; }
         public virtual ElectronicBook ElectronicBook { get; set; }
 
-        [ForeignKey("CentralPolicyProvince")]
-        [Description("FK: จังหวัด")]
-        public long CentralPolicyProvinceId { get; set; }
-        public virtual CentralPolicyProvince CentralPolicyProvince { get; set; }
+        // [ForeignKey("CentralPolicyProvince")]
+        // [Description("FK: จังหวัด")]
+        // public long CentralPolicyProvinceId { get; set; }
+        // public virtual CentralPolicyProvince CentralPolicyProvince { get; set; }
 
         //[ForeignKey("SubjectCentralPolicyProvince")]
         //[Description("FK: SubjectCentralPolicyProvince")]
@@ -33,6 +33,12 @@ namespace InspecWeb.Models
 
         //public ICollection<CentralPolicyUser> CentralPolicyUsers { get; set; }
         //public ICollection<CentralPolicyUserFile> CentralPolicyUserFiles { get; set; }
+
+        [ForeignKey("CentralPolicyEvent")]
+        [Description("FK: CentralPolicyEventId")]
+        public long CentralPolicyEventId { get; set; }
+        public virtual CentralPolicyEvent CentralPolicyEvent { get; set; }
+        
         public ICollection<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
     }
 }

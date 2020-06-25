@@ -146,20 +146,20 @@ export class AcceptCentralPolicyComponent implements OnInit {
   }
 
 
-  storeAccept(value, answer) {
-    this.centralpolicyservice.acceptCentralpolicy(value, answer, this.id)
-      .subscribe(response => {
-        console.log(response);
-        this.Form.reset()
+  // storeAccept(value, answer) {
+  //   this.centralpolicyservice.acceptCentralpolicy(value, answer, this.id)
+  //     .subscribe(response => {
+  //       console.log(response);
+  //       this.Form.reset()
 
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 2, 1)
-          .subscribe(response => {
-            console.log(response);
-          })
+  //       this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 2, 1)
+  //         .subscribe(response => {
+  //           console.log(response);
+  //         })
 
-        this.router.navigate(['calendaruser'])
-      })
-  }
+  //       this.router.navigate(['calendaruser'])
+  //     })
+  // }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);

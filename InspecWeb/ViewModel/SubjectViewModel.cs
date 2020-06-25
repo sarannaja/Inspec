@@ -10,16 +10,15 @@ namespace InspecWeb.ViewModel
        
         public long Id { get; set; }
 
-       
         public long CentralPolicyId { get; set; }
 
-        
         public string Name { get; set; }
 
-        
         public string Answer { get; set; }
 
         public string Status { get; set; }
+
+        public string Explanation { get; set; }
 
         public List<IFormFile> files { get; set; }
 
@@ -37,6 +36,7 @@ namespace InspecWeb.ViewModel
         public long subjectid { get; set; }
         public long box { get; set; }
         public long departmentId { get; set; }
+        public string explanation { get; set; }
         public inputquestionopen[] inputquestionopen { get; set; }
         public inputquestionclose[] inputquestionclose { get; set; }
     }
@@ -60,7 +60,8 @@ namespace InspecWeb.ViewModel
     public class subjectevent
     {
         public long[] CentralpolicyId { get; set; }
-
+        public CentralpolicyModel[] CentralpolicySelect { get; set; }
+        //public long[] CentralPolicyeventId { get; set; }
         public long ProvinceId { get; set; }
 
         public DateTime startdate { get; set; }
@@ -68,5 +69,14 @@ namespace InspecWeb.ViewModel
         public DateTime enddate { get; set; }
 
         public string CreatedBy { get; set; }
+
+        public string Land { get; set; }
     }
-}
+
+    public class CentralpolicyModel
+    {
+        public long centralpolicyId { get; set; }
+        public long centralPolicyeventId { get; set; }
+      
+    }
+    }

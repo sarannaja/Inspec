@@ -23,9 +23,9 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>ชื่อแผนตรวจราชการประจำปี</th>
+              <th>กำหนดการสมุดตรวจ</th>
               <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
-              <th>จังหวัด</th>
+              <th>ประเด็นนโยบาย</th>
               <th>สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -33,20 +33,18 @@
           <tbody>
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
-              <td (click)="Subject(item.id,item.title)" class="pointer">
-                {{ item.centralPolicy.title }}</td>
+              <td (click)="Subject(item.id, item.subjectGroup.centralPolicy.title )" class="pointer">
+                วันที่ {{item.electronicBook.startDate | thaidate: 'year'}} ถึง
+                {{item.electronicBook.endDate | thaidate: 'year'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
-              <td>{{ item.province.name }}</td>
-              <td>{{ item.electronicBook.status }}</td>
               <td>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                  (click)="gotoDetail(item.centralPolicyId,item.inspectionPlanEvent.province.id, item.electronicBookId)"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa fa-book pointer"
-                  (click)="gotoTheme(item.centralPolicyId,item.provinceId, item.electronicBookId)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                  (click)="gotoDetail(item.centralPolicyId,item.provinceId, item.electronicBookId)"></i>
-                <!-- <i *ngIf="item.electronicBook.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="gotoEdit2(item.centralPolicyProvinceId, item.electronicBookId)"></i> -->
+                <div *ngFor="let items of item.electronicBook.electronicBookGroups; let i = index">
+                  {{i + 1}}. {{ items.centralPolicyEvent.centralPolicy.title }}
+                </div>
+              </td>
+              <td>{{ item.status }}</td>
+              <td>
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.electronicBookId, item.id)"></i>
               </td>
             </tr>
           </tbody>

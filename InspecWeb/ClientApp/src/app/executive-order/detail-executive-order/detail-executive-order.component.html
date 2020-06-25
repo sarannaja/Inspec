@@ -187,10 +187,13 @@
                     <label >ปัญหา/อุปสรรค : {{answerproblem}} </label><br>
                     <label >ข้อเสนอแนะ : {{answercounsel}} </label><br>
                     <label >ไฟล์การดำเนินการตามข้อสั่งการ :
-                        <a *ngFor="let item of answerfile let i = index" href="{{imgprofileUrl}}/{{item.name}}" download>
-                            <br> <td>{{i + 1}}.</td>{{item.name}}
-                        </a>
-                    </label><br>
+                    <br> 
+                    <a *ngFor="let item of answerfile let i = index" href="{{imgprofileUrl}}/{{item.name}}" download>
+                        {{i + 1}}.
+                        {{item.name}}
+                    </a>
+                    </label>
+                    <br>
             </div>
         </div>
     <!-- </form> -->

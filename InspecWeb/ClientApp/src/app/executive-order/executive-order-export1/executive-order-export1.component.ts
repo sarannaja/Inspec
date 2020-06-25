@@ -1,5 +1,5 @@
-import { DetailexecutiveorderService } from 'src/app/services/detailexecutiveorder.service';
-import { Component, OnInit,Inject} from '@angular/core';
+import { ExecutiveorderService } from 'src/app/services/executiveorder.service';
+import { Component, OnInit, Inject } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -10,12 +10,12 @@ import { UserService } from 'src/app/services/user.service';
 export class ExecutiveOrderExport1Component implements OnInit {
   userdata: any = [];
   id: any;
-  userid:any;
+  userid: any;
   url = ""
   constructor(
     @Inject('BASE_URL') baseUrl: string,
     private userService: UserService,
-    private detailexecutiveorderService: DetailexecutiveorderService
+    private executiveorderService: ExecutiveorderService
   ) { }
 
   ngOnInit() {
@@ -29,23 +29,23 @@ export class ExecutiveOrderExport1Component implements OnInit {
       .subscribe(result => {
         this.userdata = result;
         console.log(result);
-        
+
       })
 
   }
   //End getuser
   exportexecutive(userid) {
 
-      this.detailexecutiveorderService.getexcutive1(userid.target.value)
-        .subscribe(result => {
-          //console.log('result',result);
-          window.open(this.url + "reportexecutive/" + result.data);
-        })
-        this.getuserinfo();
-        
+    this.executiveorderService.getexcutive1(userid.target.value)
+      .subscribe(result => {
+        console.log('result', result);
+        window.open(this.url + "reportexecutive/" + result.data);
+      })
+    this.getuserinfo();
+
   }
 
-  changexcutive(userid){
+  changexcutive(userid) {
     this.id = userid
   }
 }
