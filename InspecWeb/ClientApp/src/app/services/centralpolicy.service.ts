@@ -342,4 +342,7 @@ export class CentralpolicyService {
 
     return this.http.post(this.url + "addPeoplequestion", formData);
   }
+  deleteDepartment(id) {
+    return this.http.delete(this.url + "deletedepartment/" + id);
+  }
 }

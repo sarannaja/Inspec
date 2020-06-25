@@ -13,6 +13,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as Chart from 'chart.js';
+import { SubquestionService } from 'src/app/services/subquestion.service';
 
 @Component({
   selector: 'app-detail-subjectevent',
@@ -34,6 +35,7 @@ export class DetailSubjecteventComponent implements OnInit {
   subjectgroup: any = []
   UserPeopleId: any;
   // UserMinistryId: any;
+  FormAddQuestionsclose: FormGroup;
   Form2: FormGroup;
   Form3: FormGroup;
   Form: FormGroup;
@@ -117,6 +119,7 @@ export class DetailSubjecteventComponent implements OnInit {
     ]
 
   }
+  filterboxdepartments: any = []
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -130,6 +133,7 @@ export class DetailSubjecteventComponent implements OnInit {
     private notificationService: NotificationService,
     private authorize: AuthorizeService,
     private userService: UserService,
+    private subquestionservice: SubquestionService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
@@ -474,7 +478,7 @@ export class DetailSubjecteventComponent implements OnInit {
       console.log(value);
       this.Form2.reset()
       this.modalRef.hide()
-      this.getDetailCentralPolicyProvince();
+      this.getsubjecteventDetail();
     })
   }
 
@@ -651,7 +655,7 @@ export class DetailSubjecteventComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false
 
-      this.getDetailCentralPolicyProvince();
+      this.getsubjecteventDetail();
 
     })
   }
@@ -761,5 +765,41 @@ export class DetailSubjecteventComponent implements OnInit {
   checkType(type) {
     // alert(type)
     this.fileType = type;
+  }
+  openAddModalQuestionsclose(template: TemplateRef<any>, subjectid) {
+    console.log("subjectid:", subjectid);
+    this.modalRef = this.modalService.show(template);
+    this.FormAddQuestionsclose = this.fb.group({
+      subjectId: subjectid,
+      box: 0,
+      type: "คำถามปลายปิด",
+      name: new FormControl(null, [Validators.required]),
+      ProvincialDepartmentId: new FormArray([]),
+      inputanswerclose: this.fb.array([
+        this.initanswerclose()
+      ])
+    })
+  }
+  initanswerclose() {
+    return this.fb.group({
+      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+    })
+  }
+  addXX() {
+    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
+    control.push(this.initanswerclose());
+  }
+  removeXX(index: number) {
+    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
+    control.removeAt(index);
+  }
+  AddQuestionsclose(value) {
+    console.log(value);
+    this.subquestionservice.addSubquestioncloseevent(value).subscribe(result => {
+      console.log(result);
+      this.FormAddQuestionsclose.reset()
+      this.modalRef.hide()
+      this.getsubjecteventDetail()
+    })
   }
 }

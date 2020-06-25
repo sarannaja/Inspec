@@ -273,7 +273,8 @@ namespace InspecWeb.Controllers
                                 CentralPolicyProvinceId = centralpolicyprovinceData.Id,
                                 Type = "Master",
                                 Status = model.Status,
-                                SubjectGroupId = SubjectGroupdata.Id
+                                SubjectGroupId = SubjectGroupdata.Id,
+                                Explanation = model.Explanation
                             };
                             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
                             _context.SaveChanges();
@@ -357,7 +358,7 @@ namespace InspecWeb.Controllers
                                     SubjectCentralPolicyProvinceId = subjectid,
                                     Name = questionclose.questionclose,
                                     Type = "คำถามปลายปิด",
-                                    Box = departmentId.box
+                                    Box = departmentId.box,
                                 };
                                 _context.SubquestionCentralPolicyProvinces.Add(Subquestionclosedata);
                                 _context.SaveChanges();
@@ -601,35 +602,35 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("Start");
             foreach (var departmentId in model.inputsubjectdepartment)
             {
-                System.Console.WriteLine("in1");
-                foreach (var questionopen in departmentId.inputquestionopen)
-                {
-                    System.Console.WriteLine("in2");
-                    System.Console.WriteLine("TEST: " + questionopen.questionopen);
-                    var Subquestionopendata = new SubquestionCentralPolicyProvince
-                    {
-                        SubjectCentralPolicyProvinceId = departmentId.subjectid,
-                        Name = questionopen.questionopen,
-                        Type = "คำถามปลายเปิด",
-                        Box = departmentId.box
-                    };
-                    _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
-                    _context.SaveChanges();
+                //System.Console.WriteLine("in1");
+                //foreach (var questionopen in departmentId.inputquestionopen)
+                //{
+                //    System.Console.WriteLine("in2");
+                //    System.Console.WriteLine("TEST: " + questionopen.questionopen);
+                //    var Subquestionopendata = new SubquestionCentralPolicyProvince
+                //    {
+                //        SubjectCentralPolicyProvinceId = departmentId.subjectid,
+                //        Name = questionopen.questionopen,
+                //        Type = "คำถามปลายเปิด",
+                //        Box = departmentId.box
+                //    };
+                //    _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
+                //    _context.SaveChanges();
 
-                    foreach (var box2 in model.inputsubjectdepartment)
-                    {
-                        if (box2.box == departmentId.box)
-                        {
-                            var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
-                            {
-                                ProvincialDepartmentId = box2.departmentId,
-                                SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
-                            };
-                            _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-                            _context.SaveChanges();
-                        }
-                    }
-                }
+                //    foreach (var box2 in model.inputsubjectdepartment)
+                //    {
+                //        if (box2.box == departmentId.box)
+                //        {
+                //            var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
+                //            {
+                //                ProvincialDepartmentId = box2.departmentId,
+                //                SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                //            };
+                //            _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
+                //            _context.SaveChanges();
+                //        }
+                //    }
+                //}
 
                 foreach (var questionclose in departmentId.inputquestionclose)
                 {
@@ -638,7 +639,7 @@ namespace InspecWeb.Controllers
                         SubjectCentralPolicyProvinceId = departmentId.subjectid,
                         Name = questionclose.questionclose,
                         Type = "คำถามปลายปิด",
-                        Box = departmentId.box
+                        Box = departmentId.box,
                     };
                     _context.SubquestionCentralPolicyProvinces.Add(Subquestionclosedata);
                     _context.SaveChanges();
@@ -1506,6 +1507,7 @@ namespace InspecWeb.Controllers
                                     Name = subque.Name,
                                     Type = subque.Type,
                                     Box = subque.Box,
+
                                 };
                                 _context.SubquestionCentralPolicyProvinces.Add(SubquestionCentralPolicyProvincedata);
                                 _context.SaveChanges();
@@ -1647,6 +1649,19 @@ namespace InspecWeb.Controllers
                 _context.SaveChanges();
             }
             return Ok();
+        }
+        // PUT api/values/5
+        [HttpPut("editsubject2/{id}")]
+        public void Put3([FromForm] SubjectViewModel model, long id)
+        {
+            
+            var subjects = _context.SubjectCentralPolicyProvinces.Find(id);
+            subjects.Name = model.Name;
+            subjects.Status = model.Status;
+            subjects.Explanation = model.Explanation;
+            _context.Entry(subjects).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
         }
     }
 }

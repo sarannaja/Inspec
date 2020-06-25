@@ -29,6 +29,9 @@
                                 <label>ชื่อประเด็นนโยบาย : {{resultsubjectdetail.name}}</label>
                             </div>
                             <div class="form-group">
+                                <label>คำชี้แจง : {{resultsubjectdetail.explanation}}</label>
+                            </div>
+                            <div class="form-group">
                                 <label>สถานะ : {{resultsubjectdetail.status}}</label>
                             </div>
                             <div class="form-group">
@@ -56,13 +59,13 @@
                                 <div class="form-group">
                                     <div class="col-12 col-xl-12"
                                         *ngFor="let item of filterboxdepartments; let i2 = index">
-                                        <h4>หน่วยงานที่เกี่ยวข้อง</h4>
+                                        <h4>ผู้ให้ข้อมูล</h4>
                                         <div
                                             *ngFor="let items of item.subjectCentralPolicyProvinceGroups; let i = index">
                                             <span>{{ i + 1 }}. {{items.provincialDepartment.name}}</span>
                                         </div>
                                         <br>
-                                        <u>คำถามย่อย</u>
+                                        <u>ประเด็นการตรวจติดตาม</u>
                                         <i class="fa fa-question-circle"
                                             style="margin-left: 10px; font-size: large;"></i>
                                         <br>
