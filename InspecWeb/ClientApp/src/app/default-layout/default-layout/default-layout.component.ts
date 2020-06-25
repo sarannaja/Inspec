@@ -60,7 +60,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.profileform();
     this.getuserinfo();
     this.getnotifications();
-    this.getplancount();
+    // this.getplancount();
     this.checkactive(this.nav[0].url);
     // this.urlActive = this.nav[0].url
   }
@@ -131,74 +131,13 @@ export class DefaultLayoutComponent implements OnInit {
   //start getuser
   getuserinfo() {
     this.authorize.getUser()
-<<<<<<< HEAD
-      .subscribe(result => {
-        this.userid = result.sub
-        this.userService.getuserfirstdata(this.userid)
-          .subscribe(result => {
-            this.resultuser = result;
-
-            this.role_id = result[0].role_id
-            this.Prefix = result[0].prefix
-            this.Name = result[0].name
-            this.Position = result[0].position
-            this.PhoneNumber = result[0].phoneNumber
-            this.Email = result[0].email
-            this.Img = result[0].img
-
-            this.Form.patchValue({
-              Prefix: this.Prefix,
-              Name: this.Name,
-              Position: this.Position,
-              PhoneNumber: this.PhoneNumber,
-              Email: this.Email,
-              Formprofile: 1,
-              files: this.files,
-            });
-
-            if (this.role_id == 1) {
-              this.nav = superAdmin
-            } else if (this.role_id == 2) {
-              this.nav = Centraladmin
-            } else if (this.role_id == 3) {
-              this.nav = Inspector
-            } else if (this.role_id == 4) {
-              this.nav = Provincialgovernor
-            } else if (this.role_id == 5) {
-              this.nav = Adminprovince
-            } else if (this.role_id == 6) {
-              this.nav = InspectorMinistry
-            } else if (this.role_id == 7) {
-              this.nav = publicsector
-            } else if (this.role_id == 8) {
-              this.nav = president
-            } else if (this.role_id == 9) {
-              this.nav = InspectorDepartment
-            }
-          })
-      })
-
-  }
-
-  getplancount() {
-    this.userService.getplancount(this.userid)
-      .subscribe(result => {
-        result.filter(
-          (thing, i, arr) => arr.findIndex(t => t.inspectionPlanEventId === thing.inspectionPlanEventId) === i
-        ).length
-        var bridge: Bridge = {
-          name: "ปฏิทินการตรวจราชการ",
-          test: result.filter(
-            (thing, i, arr) => arr.findIndex(t => t.inspectionPlanEventId === thing.inspectionPlanEventId) === i
-          ).length
-=======
     .subscribe(result => {
-      this.userid = result.sub  
-      this.userService.getuserfirstdata(this.userid)      
-      .subscribe(result => { 
-        this.resultuser = result;  
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+      .subscribe(result => {
+        this.resultuser = result;
 
-        this.role_id = result[0].role_id 
+        this.role_id = result[0].role_id
         this.Prefix = result[0].prefix
         this.Name = result[0].name
         this.Position = result[0].position
@@ -236,20 +175,15 @@ export class DefaultLayoutComponent implements OnInit {
           this.nav = InspectorExamination //หน่วยงานตรวจ
         }else if(this.role_id == 10){
           this.nav = InspectorDepartment // ผู้ตรวจกรม
->>>>>>> master
         }
-        this.bridge2.push(bridge)
+        // this.bridge2.push(bridge)
 
         console.log(
 
 
         );
       })
-<<<<<<< HEAD
-
-=======
     })
->>>>>>> master
   }
   //End getuser
   //for

@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MoreLinq;
-using MoreLinq.Extensions;
+//using MoreLinq;
+//using MoreLinq.Extensions;
 
 namespace InspecWeb.Controllers {
     // [Route("api/[controller]")]
