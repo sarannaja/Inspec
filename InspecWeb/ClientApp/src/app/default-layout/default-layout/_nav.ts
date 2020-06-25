@@ -7,6 +7,7 @@ export interface NavBar {
   children?: Array<Children>
   classtap?: string;
   IDchildren?: string;
+  bridge?: {name:string,status:boolean}
 }
 
 export interface Children {
@@ -978,7 +979,8 @@ export const publicsector: NavBar[] = [ //User ภาคประชาชน
   {
     icon: 'fa-calendar',
     url: "/calendaruser",
-    name: "ปฏิทินการตรวจราชการ"
+    name: "ปฏิทินการตรวจราชการ" ,
+    bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
   },
   {
     icon: 'fa-list-alt',

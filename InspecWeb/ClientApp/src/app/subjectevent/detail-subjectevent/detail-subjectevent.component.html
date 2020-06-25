@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจ</a></li>
-      <li class="breadcrumb-item active" aria-current="page">รายละเอียดกำหนดการตรวจ</li>
+      <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
 </div>
@@ -277,7 +277,7 @@
 
             </div>
           </div>
-          <div class="form-group col-12" *ngIf="role_id == 3">
+          <!-- <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="step" value="มอบหมายจังหวัด" checked
                 [checked]="centralpolicyprovincedata.step == 'มอบหมายจังหวัด'" formControlName="step">
@@ -286,15 +286,13 @@
                 [checked]="centralpolicyprovincedata.step == 'มอบหมายหน่วยงาน'" formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
-          </div>
+          </div> -->
 
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
-              <input type="radio" name="status" value="ร่างกำหนดการ" checked
-                [checked]="centralpolicyprovincedata.status == 'ร่างกำหนดการ'" formControlName="status">
+              <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
               <label style="margin-left: 10px;">ร่างกำหนดการ</label>
-              <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
-                [checked]="centralpolicyprovincedata.status == 'ใช้งานจริง'" formControlName="status">
+              <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" formControlName="status">
               <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>
           </div>
@@ -314,24 +312,24 @@
             </div>
           </div>
           <div class="col-12">
-            <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
+            <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์ประเด็นการตรวจติดตาม</label>
             <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
             <div class="col-4">
               <select class="selectpicker form-control" data-live-search="true"
                 (change)="checkType($event.target.value)" formControlName="fileType">
                 <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
-                <option value="Calendar Image File">รูปภาพ</option>
-                <option value="Calendar File">ไฟล์เอกสาร</option>
+                <option value="Subject Event Image File">รูปภาพ</option>
+                <option value="Subject Event File">ไฟล์เอกสาร</option>
               </select>
             </div>
             <div class="col-8">
-              <textarea *ngIf="fileType == 'Calendar Image File'" cols="30" rows="5" class="form-control"
+              <textarea *ngIf="fileType == 'Subject Event Image File'" cols="30" rows="5" class="form-control"
                 placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;" formControlName="description"></textarea>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12" style="margin-top: 20px;">
-              <u>ไฟล์แนบกำหนดการตรวจ</u><br>
+              <u>ไฟล์แนบประเด็นการตรวจติดตาม</u><br>
               <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
                 <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
                   <span>ไฟล์ที่

@@ -521,7 +521,7 @@ namespace InspecWeb.Controllers
             //    .Where(m => m.Id == model.CentralPolicyProvinceId).FirstOrDefault();
 
             var CentralPolicyProvincedata = _context.CentralPolicyProvinces.Find(model.CentralPolicyProvinceId);
-            CentralPolicyProvincedata.Step = model.Step;
+            //CentralPolicyProvincedata.Step = model.Step;
             CentralPolicyProvincedata.Status = model.Status;
             CentralPolicyProvincedata.QuestionPeople = model.QuestionPeople;
             _context.Entry(CentralPolicyProvincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;

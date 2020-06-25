@@ -31,6 +31,7 @@ export class DetailSubjecteventComponent implements OnInit {
   allMinistryPeople: any = [];
   allUserPeople: any = [];
   resultdetailcentralpolicyprovince: any = []
+  subjectgroup: any = []
   UserPeopleId: any;
   // UserMinistryId: any;
   Form2: FormGroup;
@@ -164,7 +165,7 @@ export class DetailSubjecteventComponent implements OnInit {
     })
     this.form = this.fb.group({
       files: [null],
-      step: new FormControl(null, [Validators.required]),
+      // step: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
       questionPeople: new FormControl(null, [Validators.required]),
       signatureFiles: [null],
@@ -191,7 +192,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.AddForm = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       // centralpolicydateid: new FormControl(null, [Validators.required]),
-      status: new FormControl("ใช้งานจริง่", [Validators.required]),
+      status: new FormControl("ใช้งานจริง", [Validators.required]),
       inputsubjectdepartment: this.fb.array([
         // this.initdepartment()
       ]),
@@ -374,26 +375,26 @@ export class DetailSubjecteventComponent implements OnInit {
         this.electronicbookid = result.centralPolicyEventdata.electronicBookId
         // this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.centralpolicyprovincedata = result.centralpolicyprovince
-        this.form.patchValue({
-          questionPeople: this.centralpolicyprovincedata.questionPeople,
-          status: this.centralpolicyprovincedata.status
-        })
+        // this.form.patchValue({
+        //   questionPeople: this.centralpolicyprovincedata.questionPeople,
+        //   status: this.centralpolicyprovincedata.status
+        // })
 
-        if (this.role_id == 3) {
-          if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
-            this.centralpolicyprovincedata.step = "มอบหมายจังหวัด"
-          }
-          this.form.patchValue({
-            step: this.centralpolicyprovincedata.step
-          })
-        } else if (this.role_id == 5) {
-          if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
-            this.centralpolicyprovincedata.step = "มอบหมายเขต"
-          }
-          this.form.patchValue({
-            step: this.centralpolicyprovincedata.step
-          })
-        }
+        // if (this.role_id == 3) {
+        //   if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+        //     this.centralpolicyprovincedata.step = "มอบหมายจังหวัด"
+        //   }
+        //   this.form.patchValue({
+        //     step: this.centralpolicyprovincedata.step
+        //   })
+        // } else if (this.role_id == 5) {
+        //   if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+        //     this.centralpolicyprovincedata.step = "มอบหมายเขต"
+        //   }
+        //   this.form.patchValue({
+        //     step: this.centralpolicyprovincedata.step
+        //   })
+        // }
 
         this.resultdetailcentralpolicyprovince.forEach(element => {
           var subquestionCentralPolicyProvinces: any[] = element.subquestionCentralPolicyProvinces
@@ -438,8 +439,14 @@ export class DetailSubjecteventComponent implements OnInit {
   getsubjecteventDetail() {
     this.centralpolicyservice.getSubjecteventdetaildata(this.id, this.subjectgroupid)
       .subscribe(result => {
-        this.resultdetailcentralpolicyprovince = result
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.subjectgroup = result.subjectgroup
         console.log("result", result);
+
+        this.form.patchValue({
+          // questionPeople: this.centralpolicyprovincedata.questionPeople,
+          status: this.subjectgroup.status
+        })
 
       })
   }

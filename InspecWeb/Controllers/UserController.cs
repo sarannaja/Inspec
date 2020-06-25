@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MoreLinq;
+using MoreLinq.Extensions;
 
 namespace InspecWeb.Controllers {
     // [Route("api/[controller]")]
@@ -673,6 +675,20 @@ namespace InspecWeb.Controllers {
             .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
             return Ok(proviceDepart);
         }
+
+        [HttpGet("api/[controller]/[action]/{id}")]
+        public IActionResult getplancount(string id)
+        {
+            var users = _context.CentralPolicyUsers
+                .Where(m => m.UserId == id)
+                .Where(m => m.Status == "รอการตอบรับ")
+                .ToArray();
+            //var users2 = users.DistinctBy(m => m.InspectionPlanEventId);
+                //.GroupBy(m => m.InspectionPlanEventId)
+
+            return Ok(users);
+        }
+
     }
 
     internal class Momo {

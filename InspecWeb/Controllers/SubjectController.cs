@@ -260,6 +260,9 @@ namespace InspecWeb.Controllers
                             {
                                 CentralPolicyId = model.CentralPolicyId,
                                 ProvinceId = provinceId,
+                                Type = "Master",
+                                Land = "Master",
+                                Status = "Master"
                             };
                             _context.SubjectGroups.Add(SubjectGroupdata);
                             _context.SaveChanges();
@@ -1238,6 +1241,7 @@ namespace InspecWeb.Controllers
                 ProvinceId = model.ProvinceId,
                 CreatedAt = date,
                 CreatedBy = model.CreatedBy,
+                Status = "ร่างกำหนดการ"
             };
             _context.InspectionPlanEvents.Add(inspectionplanevent);
             _context.SaveChanges();
@@ -1248,6 +1252,10 @@ namespace InspecWeb.Controllers
                 {
                     CentralPolicyId = cenid,
                     ProvinceId = model.ProvinceId,
+                    Type = "NoMaster",
+                    Status = "ร่างกำหนดการ",
+                    Land = model.Land
+
                 };
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();
@@ -1255,7 +1263,10 @@ namespace InspecWeb.Controllers
                 var CentralPolicyEventsdata = new CentralPolicyEvent
                 {
                     CentralPolicyId = cenid,
-                    InspectionPlanEventId = inspectionplanevent.Id
+                    InspectionPlanEventId = inspectionplanevent.Id,
+                    StartDate = model.startdate,
+                    EndDate = model.enddate,
+                    HaveSubject = 1,
                 };
                 _context.CentralPolicyEvents.Add(CentralPolicyEventsdata);
                 _context.SaveChanges();
@@ -1274,6 +1285,205 @@ namespace InspecWeb.Controllers
                     var subques = _context.SubquestionCentralPolicyProvinces
                         .Where(m => m.SubjectCentralPolicyProvinceId == subcen.Id).ToList();
 
+                   
+                
+                    
+                    //SubjectCentralPolicyProvince SubjectCentralPolicyProvincedata ;
+                     long departId=0;
+                    long subjectId = 0;
+                    foreach (var subque in subques)
+                    {
+                        var checkdeparts = _context.SubjectCentralPolicyProvinceGroups
+                            .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id)
+                            //.OrderBy(m => m.ProvincialDepartmentId)
+                            .Select(x => x.ProvincialDepartmentId)
+                            .First();
+                         Console.WriteLine("subque1" + departId);
+                        //departId = checkdeparts;
+                        //foreach (var checkdepart in checkdeparts)
+
+
+                        SubjectCentralPolicyProvince test;
+                        //foreach (var checkdepart in checkdeparts)
+                        //{
+                        var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
+                        {
+                            Name = subcen.Name,
+                            CentralPolicyProvinceId = cenpro.Id,
+                            Type = "NoMaster",
+                            Status = "ใช้งานจริง",
+                            SubjectGroupId = SubjectGroupdata.Id,
+                        };
+                        //subjectId = SubjectCentralPolicyProvincedata.Id;
+                        //departId = checkdepart;
+                        Console.WriteLine("subque1" + subque.Id);
+                        Console.WriteLine("subque1" + subjectId);
+
+                        if (departId != checkdeparts)
+                        {
+                            Console.WriteLine("subque1" + departId + ":" + checkdeparts);
+                            departId = checkdeparts;
+                            var checkprovince = _context.ProvincialDepartmentProvince
+                           .Where(m => m.ProvincialDepartmentID == departId && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+
+                            if (checkprovince != null)
+                            {
+                                _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
+                                _context.SaveChanges();
+                                test = SubjectCentralPolicyProvincedata;
+                                subjectId = SubjectCentralPolicyProvincedata.Id;
+                                //SubjectCentralPolicyProvincedata = SubjectCentralPolicyProvincedata;
+
+                                TestFunction(subque, departId, subjectId);
+                            }
+                        }
+                        else
+                        {
+                            departId = checkdeparts;
+                            var checkprovince = _context.ProvincialDepartmentProvince
+                           .Where(m => m.ProvincialDepartmentID == checkdeparts && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                            if (checkprovince != null)
+                            {
+
+                                //subjectId = SubjectCentralPolicyProvincedata.Id;
+                                Console.WriteLine("subque2", subque);
+                                TestFunction(subque, checkdeparts, subjectId);
+                            }
+                            //TestFunction(SubjectCentralPolicyProvincedata, subque, departId, subjectId);
+                        }
+
+                        //}
+                    }
+                }
+            }
+            return Ok();
+        }
+
+        public void TestFunction(SubquestionCentralPolicyProvince subque, long checkdepart, long subjectId)
+        {
+            var SubquestionCentralPolicyProvincedata = new SubquestionCentralPolicyProvince
+            {
+                SubjectCentralPolicyProvinceId = subjectId,
+                Name = subque.Name,
+                Type = subque.Type,
+                Box = subque.Box,
+            };
+            _context.SubquestionCentralPolicyProvinces.Add(SubquestionCentralPolicyProvincedata);
+            _context.SaveChanges();
+
+            var SubjectCentralPolicyProvinceGroupdata2 = new SubjectCentralPolicyProvinceGroup
+            {
+                ProvincialDepartmentId = checkdepart,
+                SubquestionCentralPolicyProvinceId = SubquestionCentralPolicyProvincedata.Id,
+            };
+            _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata2);
+            _context.SaveChanges();
+
+            var subqueschoices = _context.SubquestionChoiceCentralPolicyProvinces
+                .Where(x => x.SubquestionCentralPolicyProvinceId == subque.Id).ToList();
+
+            foreach (var subqueschoice in subqueschoices)
+            {
+                var SubquestionChoiceCentralPolicyProvincedata = new SubquestionChoiceCentralPolicyProvince
+                {
+                    SubquestionCentralPolicyProvinceId = SubquestionCentralPolicyProvincedata.Id,
+                    Name = subqueschoice.Name,
+                };
+                _context.SubquestionChoiceCentralPolicyProvinces.Add(SubquestionChoiceCentralPolicyProvincedata);
+                _context.SaveChanges();
+            }
+        }
+
+        // GET api/values/5
+        [HttpGet("getevent")]
+        public IActionResult Get3()
+        {
+            //var subjectgroupsdata = _context.SubjectGroups
+            //    .Include(m => m.Province)
+            //    .Include(m => m.CentralPolicy)
+            //    .ThenInclude(m => m.FiscalYear)
+            //    .Include(m => m.SubjectCentralPolicyProvinces)
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master")).ToList();
+
+            var subjectgroupsdata = _context.SubjectGroups
+                    .Include(m => m.Province)
+                    .Include(m => m.CentralPolicy)
+                    .ThenInclude(m => m.FiscalYear)
+                    .Include(m => m.SubjectCentralPolicyProvinces)
+                    //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+                    .Where(m => m.Type == "NoMaster").ToList();
+
+            return Ok(subjectgroupsdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("geteventfromcalendar/{id}")]
+        public IActionResult Geteventfromcalendar(long id)
+        {
+            System.Console.WriteLine("DDDDD");
+            var CentralPolicyEvents = _context.CentralPolicyEvents
+                .Include(m => m.InspectionPlanEvent)
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.InspectionPlanEvent.ProvinceId == id)
+                .ToList();
+
+            var subjectgroupsdatas = _context.SubjectGroups
+                .Where(m => m.ProvinceId == id)
+                .Where(m => m.Type == "NoMaster").ToList();
+
+            return Ok(new { CentralPolicyEvents , subjectgroupsdatas });
+
+        }
+
+        // POST api/values
+        [HttpPost("subjecteventnoland")]
+        public IActionResult PostSubjectEventNoLand([FromBody] subjectevent model)
+        {
+
+            var date = DateTime.Now;
+
+            System.Console.WriteLine("in2");
+            foreach (var cenid in model.CentralpolicyId)
+            {
+                var SubjectGroupdata = new SubjectGroup
+                {
+                    CentralPolicyId = cenid,
+                    ProvinceId = model.ProvinceId,
+                    Type = "NoMaster",
+                    Status = "ร่างกำหนดการ",
+                    Land = model.Land
+
+                };
+                _context.SubjectGroups.Add(SubjectGroupdata);
+                _context.SaveChanges();
+
+                var subjectcen = _context.SubjectCentralPolicyProvinces
+                    .Where(m => m.CentralPolicyProvince.CentralPolicyId == cenid)
+                    .Where(m => m.Type == "Master")
+                    .Where(m => m.Status == "ใช้งานจริง")
+                    .ToList();
+
+                foreach (var subcen in subjectcen)
+                {
+                    var cenpro = _context.CentralPolicyProvinces
+                        .Where(m => m.CentralPolicyId == cenid && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                    var subques = _context.SubquestionCentralPolicyProvinces
+                        .Where(m => m.SubjectCentralPolicyProvinceId == subcen.Id).ToList();
+
+                    var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
+                    {
+                        Name = subcen.Name,
+                        CentralPolicyProvinceId = cenpro.Id,
+                        Type = "NoMaster",
+                        Status = "ใช้งานจริง",
+                        SubjectGroupId = SubjectGroupdata.Id,
+                    };
+                    _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
+                    _context.SaveChanges();
+
                     foreach (var subque in subques)
                     {
                         var checkdeparts = _context.SubjectCentralPolicyProvinceGroups
@@ -1288,20 +1498,11 @@ namespace InspecWeb.Controllers
 
                             if (checkprovince != null)
                             {
-                                var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
-                                {
-                                    Name = subcen.Name,
-                                    CentralPolicyProvinceId = cenpro.Id,
-                                    Type = "NoMaster",
-                                    Status = "ร่างกำหนดการ",
-                                    SubjectGroupId = SubjectGroupdata.Id,
-                                };
-                                _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
-                                _context.SaveChanges();
+
 
                                 var SubquestionCentralPolicyProvincedata = new SubquestionCentralPolicyProvince
                                 {
-                                    SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvincedata.Id,                                    
+                                    SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvincedata.Id,
                                     Name = subque.Name,
                                     Type = subque.Type,
                                     Box = subque.Box,
@@ -1337,18 +1538,115 @@ namespace InspecWeb.Controllers
             }
             return Ok();
         }
-        // GET api/values/5
-        [HttpGet("getevent")]
-        public IActionResult Get3()
-        {
-            var subjectgroupsdata = _context.SubjectGroups
-                .Include(m => m.Province)
-                .Include(m => m.CentralPolicy)
-                .ThenInclude(m => m.FiscalYear)
-                .Include(m => m.SubjectCentralPolicyProvinces)
-                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")).ToList();
 
-            return Ok(subjectgroupsdata);
+        // POST api/values
+        [HttpPost("postsubjecteventfromcalendar")]
+        public IActionResult Postsubjecteventfromcalendar([FromBody] subjectevent model)
+        {
+            //foreach (var id in model.CentralpolicySelect.centralPolicyeventId) {
+            //    //var province = _context.CentralPolicyEvents.Find(model.CentralpolicyId2);
+            //    //province.HaveSubject = 1;
+            //    //_context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //    //_context.SaveChanges();
+            //}
+
+            foreach (var cenid in model.CentralpolicySelect)
+            {
+                var SubjectGroupdata = new SubjectGroup
+                {
+                    CentralPolicyId = cenid.centralpolicyId,
+                    ProvinceId = model.ProvinceId,
+                    Type = "NoMaster",
+                    Status = "ร่างกำหนดการ",
+                    Land = model.Land
+
+                };
+                _context.SubjectGroups.Add(SubjectGroupdata);
+                _context.SaveChanges();
+
+                var subjectcen = _context.SubjectCentralPolicyProvinces
+                    .Where(m => m.CentralPolicyProvince.CentralPolicyId == cenid.centralpolicyId)
+                    .Where(m => m.Type == "Master")
+                    .Where(m => m.Status == "ใช้งานจริง")
+                    .ToList();
+
+                foreach (var subcen in subjectcen)
+                {
+                    var cenpro = _context.CentralPolicyProvinces
+                        .Where(m => m.CentralPolicyId == cenid.centralpolicyId && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                    var subques = _context.SubquestionCentralPolicyProvinces
+                        .Where(m => m.SubjectCentralPolicyProvinceId == subcen.Id).ToList();
+
+                    var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
+                    {
+                        Name = subcen.Name,
+                        CentralPolicyProvinceId = cenpro.Id,
+                        Type = "NoMaster",
+                        Status = "ใช้งานจริง",
+                        SubjectGroupId = SubjectGroupdata.Id,
+                    };
+                    _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
+                    _context.SaveChanges();
+
+                    foreach (var subque in subques)
+                    {
+                        var checkdeparts = _context.SubjectCentralPolicyProvinceGroups
+                            .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id)
+                            .Select(x => x.ProvincialDepartmentId)
+                            .ToList();
+
+                        foreach (var checkdepart in checkdeparts)
+                        {
+                            var checkprovince = _context.ProvincialDepartmentProvince
+                                .Where(m => m.ProvincialDepartmentID == checkdepart && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                            if (checkprovince != null)
+                            {
+
+
+                                var SubquestionCentralPolicyProvincedata = new SubquestionCentralPolicyProvince
+                                {
+                                    SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvincedata.Id,
+                                    Name = subque.Name,
+                                    Type = subque.Type,
+                                    Box = subque.Box,
+                                };
+                                _context.SubquestionCentralPolicyProvinces.Add(SubquestionCentralPolicyProvincedata);
+                                _context.SaveChanges();
+
+                                var SubjectCentralPolicyProvinceGroupdata2 = new SubjectCentralPolicyProvinceGroup
+                                {
+                                    ProvincialDepartmentId = checkdepart,
+                                    SubquestionCentralPolicyProvinceId = SubquestionCentralPolicyProvincedata.Id,
+                                };
+                                _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata2);
+                                _context.SaveChanges();
+
+                                var subqueschoices = _context.SubquestionChoiceCentralPolicyProvinces
+                                    .Where(x => x.SubquestionCentralPolicyProvinceId == subque.Id).ToList();
+
+                                foreach (var subqueschoice in subqueschoices)
+                                {
+                                    var SubquestionChoiceCentralPolicyProvincedata = new SubquestionChoiceCentralPolicyProvince
+                                    {
+                                        SubquestionCentralPolicyProvinceId = SubquestionCentralPolicyProvincedata.Id,
+                                        Name = subqueschoice.Name,
+                                    };
+                                    _context.SubquestionChoiceCentralPolicyProvinces.Add(SubquestionChoiceCentralPolicyProvincedata);
+                                    _context.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                var province = _context.CentralPolicyEvents.Find(cenid.centralPolicyeventId);
+                province.HaveSubject = 1;
+                _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+            }
+            return Ok();
         }
     }
 }

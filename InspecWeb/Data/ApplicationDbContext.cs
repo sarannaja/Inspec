@@ -118,7 +118,7 @@ namespace InspecWeb.Data
         public DbSet<Log> Logs { get; set; }
         public DbSet<CentralPolicyProvinceEvent> CentralPolicyProvinceEvents { get; set; }
         public DbSet<SubjectGroup> SubjectGroups { get; set; }
-        
+        public DbSet<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -141,8 +141,8 @@ namespace InspecWeb.Data
             builder.Entity<CentralDepartmentProvince>() //หน่วยงานราชการส่วนกลางภูมิภาค
            .HasKey(m => new { m.CentralDepartmentID, m.ProvinceId });
 
-            builder.Entity<CentralPolicyUser>()
-            .HasKey(m => new { m.CentralPolicyId, m.UserId });
+            //builder.Entity<CentralPolicyUser>()
+            //.HasKey(m => new { m.CentralPolicyId, m.UserId });
 
             builder.Entity<SubjectDate>()
             .HasKey(m => new { m.SubjectId, m.CentralPolicyDateId });

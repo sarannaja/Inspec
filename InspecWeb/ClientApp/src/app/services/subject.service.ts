@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -354,20 +354,53 @@ export class SubjectService {
     return this.http.get(this.url + "getsubjectfromprovince/" + proid)
   }
 
-  subjectevent(value,userid) {
-    console.log("value",value);
-    console.log("value",value.province);
+  subjectevent(value, userid) {
+    console.log("value", value);
+    console.log("value", value.province);
     const formData = {
+      Land: value.land,
       CentralpolicyId: value.CentralpolicyId,
       ProvinceId: parseInt(value.province),
       startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
       enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
-      CreatedBy : userid
+      CreatedBy: userid
     }
     return this.http.post<any>(this.url + 'subjectevent', formData);
   }
+
+  subjecteventnoland(value, userid) {
+    console.log("value", value);
+    console.log("value", value.province);
+    const formData = {
+      Land: value.land,
+      CentralpolicyId: value.CentralpolicyId,
+      ProvinceId: parseInt(value.province),
+      // startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      // enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      CreatedBy: userid
+    }
+    return this.http.post<any>(this.url + 'subjecteventnoland', formData);
+  }
+
   getsubjectevent() {
     return this.http.get(this.url + "getevent")
+  }
+
+  geteventfromcalendar(id): Observable<any> {
+    return this.http.get<any[]>(this.url + "geteventfromcalendar/" + id)
+  }
+
+  postsubjecteventfromcalendar(value, userid) {
+
+    const formData = {
+      Land: "ลงพื้นที่",
+      CentralpolicySelect:value.CentralpolicyId2,
+      // CentralPolicyeventId:value.CentralpolicyId2[0].centralPolicyeventId ,
+      ProvinceId: parseInt(value.province2),
+      CreatedBy: userid
+    }
+    // console.log('JSON.parse(value.CentralpolicyId2)',value.CentralpolicyId2[0])
+    return this.http.post<any>(this.url + 'postsubjecteventfromcalendar', formData);
   }
 }
 
