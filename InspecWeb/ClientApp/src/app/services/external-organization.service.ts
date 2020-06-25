@@ -30,7 +30,7 @@ export class ExternalOrganizationService {
     return this.http.get<Province[]>(this.baseUrl + 'api/ExternalOrganization/otps/provinces', this.httpOptions)
   }
   getProvince(id:any):Observable<ProvinceFiscalYear>{
-    return this.http.get<ProvinceFiscalYear>(this.baseUrl + 'api/ExternalOrganization/otps/provinces/'+id, this.httpOptions)
+    return this.http.get<ProvinceFiscalYear>(this.baseUrl + `api/ExternalOrganization/otps/provinces/${id}`, this.httpOptions)
   }
   
   getMinisters(): Observable<Ministers[]> {
@@ -42,7 +42,7 @@ export class ExternalOrganizationService {
   }
 
   getGccopm(provinceId:any,representId:any): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'api/ExternalOrganization/gcc-opm/'+provinceId+'/'+representId, this.httpOptions)
+    return this.http.get<any[]>(this.baseUrl + `api/ExternalOrganization/gcc-opm/${provinceId}/${representId}`, this.httpOptions)
   }
 
   getGccProvice(): Observable<any[]> {
