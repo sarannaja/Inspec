@@ -171,7 +171,7 @@ namespace InspecWeb.Controllers
 
             var ElectronicBookGroupdata = new ElectronicBookGroup
             {
-                CentralPolicyProvinceId = centralpolicyprovincedata.Id,
+                // CentralPolicyProvinceId = centralpolicyprovincedata.Id,
                 ElectronicBookId = ElectronicBookdata.Id,
             };
             _context.ElectronicBookGroups.Add(ElectronicBookGroupdata);

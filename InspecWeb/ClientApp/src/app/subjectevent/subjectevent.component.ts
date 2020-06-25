@@ -133,6 +133,7 @@ export class SubjecteventComponent implements OnInit {
     // alert(JSON.stringify(value))
     this.subjectservice.subjectevent(value, this.userid)
       .subscribe(result => {
+        this.loading = false;
         this.modalRef.hide();
         this.Form.reset()
         // this.resultcentralpolicy = result

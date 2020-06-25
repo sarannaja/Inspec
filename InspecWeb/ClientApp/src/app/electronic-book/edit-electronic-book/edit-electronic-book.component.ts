@@ -376,7 +376,7 @@ export class EditElectronicBookComponent implements OnInit {
   editSugestionDetail(value) {
     console.log("Detail Form: ", value);
 
-    this.electronicBookService.editSuggestion(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
+    this.electronicBookService.editSuggestion(value, this.elecId).subscribe(result => {
       console.log("res Edit Suggestion: ", result);
 
       this.modalRef.hide();

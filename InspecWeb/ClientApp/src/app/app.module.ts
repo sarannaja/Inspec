@@ -140,6 +140,7 @@ import { ExecutiveOrderExport3Component } from './executive-order/executive-orde
 import { CommanderReportComponent } from './commander-report/commander-report.component';
 import { SubjecteventComponent } from './subjectevent/subjectevent.component';
 import { DetailSubjecteventComponent } from './subjectevent/detail-subjectevent/detail-subjectevent.component';
+import { DetailInvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/detail-invited-electronic-book/detail-invited-electronic-book.component';
 
 
 
@@ -273,7 +274,8 @@ const ExternalOrganization = [
     InfoVillageComponent,
     StatepolicyComponent,
     SubjecteventComponent,
-    DetailSubjecteventComponent
+    DetailSubjecteventComponent,
+    DetailInvitedElectronicBookComponent
   ],
 
   imports: [
@@ -421,6 +423,7 @@ const ExternalOrganization = [
           { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent/detail/:result', component: DetailSubjecteventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/invitedetail/:id', component: DetailInvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

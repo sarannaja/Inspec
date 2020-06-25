@@ -99,6 +99,15 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + 'getElectronicBookById/' + electID);
   }
 
+  getInvitedPeople(inspectionPlanEvent): Observable<any> {
+    console.log("inspectData: ", inspectionPlanEvent);
+    const formData = new FormData();
+    for (var i = 0; i < inspectionPlanEvent.length; i++) {
+      formData.append("inspectionPlanEventId", inspectionPlanEvent[i].inspectionPlanEventId);
+    }
+    return this.http.post<any>(this.url + 'getInvitedPeople', formData);
+  }
+
   editElectronicBookDetail(value, electID, file: FileList,) {
     console.log("EDIT VALUE: ", value);
     // const formData = {
@@ -121,34 +130,34 @@ export class ElectronicbookService {
     return this.http.put(this.url + 'editElectronicBookDetail/' + electID, formData)
   }
 
-  addSuggestion(value, electID, subjectCentralpolicyID) {
-    console.log("EDIT VALUE: ", value);
-    console.log("SubjectCentralPolicyID: ", subjectCentralpolicyID);
-
-    // const formData = {
-    //   Detail: value.eBookDetail,
-    //   Status: value.Status
-    // }
+  addSuggestion(value, electID, centralPolicyEventId) {
+    console.log("Suggestion Value: ", value);
+    console.log("ElectId: ", electID);
+    console.log("centralPolicyEventId: ", centralPolicyEventId);
 
     const formData = new FormData();
     formData.append('ElectID', electID);
-    formData.append('Detail', value.checkDetail);
-    formData.append('Problem', value.Problem);
-    formData.append('Suggestion', value.Suggestion);
-    formData.append('SubjectCentralPolicyProvinceId', subjectCentralpolicyID);
+    formData.append('Suggestion', value.suggestion);
+    formData.append('CentralEventId', centralPolicyEventId);
 
     return this.http.post(this.url + 'addSuggestion', formData)
   }
 
-  editSuggestion(value, electID, subjectCentralpolicyID) {
+  editSuggestion(value, electID) {
     console.log("EDIT VALUE: ", value);
+    console.log("user: ", value.user.length);
+
 
     const formData = new FormData();
+    formData.append('Detail', value.detail);
+    formData.append('Problem', value.problem);
+    formData.append('Suggestion', value.suggestion);
+    formData.append('Status', value.Status);
     formData.append('ElectID', electID);
-    formData.append('Detail', value.checkDetail);
-    formData.append('Problem', value.Problem);
-    formData.append('Suggestion', value.Suggestion);
-    formData.append('SubjectCentralPolicyProvinceId', subjectCentralpolicyID);
+
+    for (var i = 0; i < value.user.length; i++) {
+      formData.append("userId", value.user[i]);
+    }
 
     return this.http.put(this.url + 'editSuggestion', formData)
   }
@@ -268,6 +277,78 @@ export class ElectronicbookService {
 
   getProceed(eid) {
     return this.http.get<any>(this.url + 'proceed/' + eid);
+  }
+
+  getCentralPolicyEbook() {
+    return this.http.get<any>(this.url + "centralPolicyEbook")
+  }
+
+  createElectronicBook(value, file: FileList, userId) {
+    // alert(value.description);
+    // alert( value.fileType)
+    console.log("Add EBook: ", value);
+    console.log("Add EBook File: ", file);
+
+    var inputdate: Array<any> = value.inputdate.map((item, index) => {
+      return {
+        StartDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
+        EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
+      }
+    })
+
+    const formData = new FormData();
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('Status', value.Status);
+    // formData.append('centralPolicyEventId', value.centralPolicyEventId);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
+    formData.append('id', userId);
+
+    for (var i = 0; i < inputdate.length; i++) {
+      console.log("ii: ", i);
+      // console.log("inputdateii: ", inputdate[ii].StartDate);
+      formData.append('StartDate', inputdate[i].StartDate);
+      formData.append('EndDate', inputdate[i].EndDate);
+    }
+
+    for (var i = 0; i < value.centralPolicyEventId.length; i++) {
+      formData.append('centralPolicyEventId', value.centralPolicyEventId[i]);
+    }
+
+    console.log("detail", formData.getAll("Detail"));
+    console.log("Problem", formData.getAll("Problem"));
+    console.log("Suggestion", formData.getAll("Suggestion"));
+    console.log("id", formData.getAll("id"));
+    console.log("Status", formData.getAll("Status"));
+
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post(this.url + "CreateElectronicBook", formData);
+  }
+
+  addOpinion(value, ebookInviteId) {
+    console.log("value: ", value);
+    console.log("ebookInviteId: ", ebookInviteId);
+
+    const formData = new FormData();
+    formData.append('Description', value.opinion);
+    formData.append('approve', value.accept);
+    formData.append('inviteId', ebookInviteId);
+
+    return this.http.put(this.url + "addEbookInvite", formData);
+  }
+
+  getElectronicBookInviteOpinion(electId, userId) {
+    const formData = new FormData();
+    formData.append('ElectID', electId);
+    formData.append('userInvite', userId);
+
+    return this.http.post<any>(this.url + "getElectronicBookInviteOpinion", formData);
   }
 }
 

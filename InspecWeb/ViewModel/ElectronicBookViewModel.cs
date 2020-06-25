@@ -60,6 +60,18 @@ namespace InspecWeb.ViewModel
         public string ReportBodyFile { get; set; }
         public string ReportBodyComment { get; set; }
         public long ReportCentralPolicyId { get; set; }
+
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
+
+        public long[] CentralPolicyEventId { get; set; }
+        public long CentralEventId { get; set; }
+
+        public long[] inspectionPlanEventId { get; set; }
+        public string[] userId { get; set; }
+        public long inviteId { get; set; }
+        public string approve { get; set; }
+        public string userInvite { get; set; }
     }
 
     //public class Inputelectronicbook

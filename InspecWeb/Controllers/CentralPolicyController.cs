@@ -790,7 +790,7 @@ namespace InspecWeb.Controllers
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
-                .Include(x => x.ElectronicBookSuggestGroups)
+                // .Include(x => x.ElectronicBookSuggestGroups)
                 .Where(m => m.CentralPolicyProvinceId == centralpolicyprovincedata.Id)
                 .ToList();
 
@@ -949,7 +949,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                 .ThenInclude(m => m.ProvincialDepartment)
-                .Include(x => x.ElectronicBookSuggestGroups)
+                // .Include(x => x.ElectronicBookSuggestGroups)
 
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(x => x.AnswerSubquestions)

@@ -118,6 +118,8 @@ namespace InspecWeb.Data
         public DbSet<Log> Logs { get; set; }
         public DbSet<CentralPolicyProvinceEvent> CentralPolicyProvinceEvents { get; set; }
         public DbSet<SubjectGroup> SubjectGroups { get; set; }
+
+        public DbSet<ElectronicBookInvite> ElectronicBookInvites { get; set; }
         
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -172,10 +174,6 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
             builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
             builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
-
-            
         }
-
-
     }
 }

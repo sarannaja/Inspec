@@ -21,20 +21,24 @@ namespace InspecWeb.Models
         public long ElectronicBookId { get; set; }
         public virtual ElectronicBook ElectronicBook { get; set; }
 
+        // [ForeignKey("SubjectCentralPolicyProvince")]
+        // [Description("FK: SubjectCentralPolicyProvince")]
+        // public long SubjectCentralPolicyProvinceId { get; set; }
+        //  public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
+
         [ForeignKey("SubjectCentralPolicyProvince")]
         [Description("FK: SubjectCentralPolicyProvince")]
-        public long SubjectCentralPolicyProvinceId { get; set; }
+        public long CentralPolicyEventId { get; set; }
+         public virtual CentralPolicyEvent CentralPolicyEvent { get; set; }
 
-        [Description("ผลการจตรวจ")]
-        public string Detail { get; set; }
+        // [Description("ผลการจตรวจ")]
+        // public string Detail { get; set; }
 
-        [Description("ปัญหา")]
-        public string Problem { get; set; }
+        // [Description("ปัญหา")]
+        // public string Problem { get; set; }
 
 
         [Description("คำแนะนำ")]
         public string Suggestion { get; set; }
-
-        public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
     }
 }
