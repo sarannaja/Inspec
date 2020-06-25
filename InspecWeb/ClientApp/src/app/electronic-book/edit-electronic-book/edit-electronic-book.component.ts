@@ -159,7 +159,7 @@ export class EditElectronicBookComponent implements OnInit {
     })
 
     // this.getDetailCentralPolicy()
-    this.getCentralPolicyProvinceUser();
+    // this.getCentralPolicyProvinceUser();
     this.getDetailCentralPolicyProvince();
     this.getElectronicBookDetail();
     this.getElectOwnCreate();
@@ -278,14 +278,14 @@ export class EditElectronicBookComponent implements OnInit {
       })
   }
 
-  getCentralPolicyProvinceUser() {
-    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
-      .subscribe(result => {
-        this.resultcentralpolicyuser = result
-        console.log("resultCenUser", result);
-      })
+  // getCentralPolicyProvinceUser() {
+  //   this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id)
+  //     .subscribe(result => {
+  //       this.resultcentralpolicyuser = result
+  //       console.log("resultCenUser", result);
+  //     })
 
-  }
+  // }
 
 
   storeFiles(value) {
@@ -376,7 +376,7 @@ export class EditElectronicBookComponent implements OnInit {
   editSugestionDetail(value) {
     console.log("Detail Form: ", value);
 
-    this.electronicBookService.editSuggestion(value, this.elecId, this.subjectCentralPolicyID).subscribe(result => {
+    this.electronicBookService.editSuggestion(value, this.elecId).subscribe(result => {
       console.log("res Edit Suggestion: ", result);
 
       this.modalRef.hide();

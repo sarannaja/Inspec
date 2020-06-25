@@ -26,9 +26,28 @@ namespace InspecWeb.Models
         public long InspectionPlanEventId { get; set; }
         public virtual InspectionPlanEvent InspectionPlanEvent { get; set; }
 
-        [ForeignKey("ElectronicBook")]
-        [Description("FK: Event การตรวจ")]
-        public long ElectronicBookId { get; set; }
-        public virtual ElectronicBook ElectronicBook { get; set; }
+        [Description("วันที่สร้าง")]
+        [DataType(DataType.Date)]
+        public DateTime? StartDate { get; set; }
+
+        [Description("วันที่สร้าง")]
+        [DataType(DataType.Date)]
+        public DateTime? EndDate { get; set; }
+
+
+        [Description("วันที่สร้าง")]
+        [DataType(DataType.Date)]
+        public DateTime? NotificationDate { get; set; }
+
+        [Description("วันที่สร้าง")]
+        [DataType(DataType.Date)]
+        public DateTime? DeadlineDate { get; set; }
+
+        public long HaveSubject { get; set; }
+
+        //[ForeignKey("ElectronicBook")]
+        //[Description("FK: Event การตรวจ")]
+        //public long ElectronicBookId { get; set; }
+        //public virtual ElectronicBook ElectronicBook { get; set; }
     }
 }

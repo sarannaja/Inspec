@@ -35,6 +35,10 @@ namespace InspecWeb.Models
         [Description("คำตอบ")]
         public string Answer { get; set; }
 
+        [Required]
+        [Description("คำอธิบาย")]
+        public string Description { get; set; }
+
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }

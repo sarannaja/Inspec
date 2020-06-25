@@ -17,6 +17,9 @@ export class CentralpolicyService {
   getcentralpolicydata(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
+  getcentralpolicyfiscalyeardata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "fiscalfear/" + id)
+  }
   getdetailcentralpolicydata(id): Observable<any> {
     console.log("CentralID: ", id);
 
@@ -183,11 +186,13 @@ export class CentralpolicyService {
     return this.http.delete(this.url + id);
   }
 
-  addCentralpolicyUser(data, id, electronicbookid) {
+  addCentralpolicyUser(data, id, userid, planId) {
     const formData = {
       CentralPolicyId: id,
       UserId: data.UserPeopleId,
-      ElectronicBookId: electronicbookid,
+      // ElectronicBookId: electronicbookid,
+      InviteBy: userid,
+      planId: planId
     }
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + "users", formData);
@@ -197,8 +202,8 @@ export class CentralpolicyService {
     return this.http.get<any[]>(this.url + "users/" + id)
   }
 
-  getcentralpolicyprovinceuserdata(id): Observable<any[]> {
-    return this.http.get<any[]>(this.url + "usersprovince/" + id)
+  getcentralpolicyprovinceuserdata(id, planId): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "usersprovince/" + id + "/" + planId)
   }
 
   getcentralpolicyfromprovince(id): Observable<any[]> {
@@ -215,11 +220,12 @@ export class CentralpolicyService {
   getdetailuseracceptcentralpolicydata(id): Observable<any> {
     return this.http.get<any>(this.url + "detailaccept/users/" + id)
   }
-  acceptCentralpolicy(value, answer, id) {
+  acceptCentralpolicy(answer, id, userid) {
     const formData = new FormData();
 
     formData.append('status', answer);
     formData.append('id', id);
+    formData.append('userid', userid);
 
     return this.http.put(this.url + "acceptcentralpolicy/" + id, formData);
   }
@@ -314,5 +320,29 @@ export class CentralpolicyService {
 
   getAnswer(centralPolicyProvinceId) {
     return this.http.get<any>(this.url + "getAnswerPeople/" + centralPolicyProvinceId);
+  }
+  getSubjecteventdetaildata(id, subjectgroupid): Observable<any> {
+    // alert('hi')
+    return this.http.get<any>(this.url + "subjectevent/" + id + "/" + subjectgroupid)
+  }
+  getquestionpeople(cenproid, planid) {
+    return this.http.get<any>(this.url + 'getquestionpeople/' + cenproid + "/" + planid);
+  }
+  addPeoplequestion(cenproid, planid, data) {
+
+    const formData = new FormData();
+    formData.append('cenproid', cenproid);
+    formData.append('planid', planid);
+    formData.append('question', data.question);
+
+    // formData.append('notificationdate', data.notificationdate);
+    // formData.append('deadlinedate', data.deadlinedate);
+    formData.append('notificationdate', data.notificationdate.date.year + '-' + data.notificationdate.date.month + '-' + data.notificationdate.date.day);
+    formData.append('deadlinedate', data.deadlinedate.date.year + '-' + data.deadlinedate.date.month + '-' + data.deadlinedate.date.day);
+
+    return this.http.post(this.url + "addPeoplequestion", formData);
+  }
+  deleteDepartment(id) {
+    return this.http.delete(this.url + "deletedepartment/" + id);
   }
 }

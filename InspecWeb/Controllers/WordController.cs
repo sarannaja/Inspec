@@ -121,10 +121,10 @@ namespace InspecWeb.Controllers
             //return subject2;
             //return subject2;
             var electornicbook = _context.CentralPolicies.Where(x => x.Id == CentralPolicyProvince.CentralPolicyId).FirstOrDefault();
-            var electornicbookgroup = _context.ElectronicBookGroups.Where(x => x.CentralPolicyProvinceId == CentralPolicyProvince.ProvinceId).FirstOrDefault();
-            var detailbook = _context.ElectronicBooks.Where(x => x.Id == electornicbookgroup.ElectronicBookId).FirstOrDefault();
+            // var electornicbookgroup = _context.ElectronicBookGroups.Where(x => x.CentralPolicyProvinceId == CentralPolicyProvince.ProvinceId).FirstOrDefault();
+            // var detailbook = _context.ElectronicBooks.Where(x => x.Id == electornicbookgroup.ElectronicBookId).FirstOrDefault();
             ////return detailbook;
-            var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId && x.ElectronicBookId == model.elecId).FirstOrDefault();
+            var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId).FirstOrDefault();
             //return groupidfile;
             var file = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Name).ToArray();
             var description = _context.CentralPolicyUserFiles.Where(x => x.CentralPolicyGroupId == groupidfile.CentralPolicyGroupId).Select(m => m.Description).ToArray();
@@ -149,13 +149,17 @@ namespace InspecWeb.Controllers
 
             foreach (var sub in subject2)
             {
-                var subjectsugest = _context.ElectronicBookSuggestGroups.Where(x => x.SubjectCentralPolicyProvinceId == sub.Id).FirstOrDefault();
+                var subjectsugest = _context.ElectronicBookSuggestGroups
+                // .Where(x => x.SubjectCentralPolicyProvinceId == sub.Id)
+                 .Where(x => x.CentralPolicyEventId == sub.Id)
+                .FirstOrDefault();
 
                 result.Add(new WordsubjectViewModel
                 {
-                    Name = subjectsugest.SubjectCentralPolicyProvince.Name , 
-                    Detail = subjectsugest.Detail,
-                    Problem = subjectsugest.Problem , 
+                    // Name = subjectsugest.SubjectCentralPolicyProvince.Name , 
+                    Name = subjectsugest.CentralPolicyEvent.CentralPolicy.Title , 
+                    // Detail = subjectsugest.Detail,
+                    // Problem = subjectsugest.Problem , 
                     Suggestion = subjectsugest.Suggestion
 
                 });

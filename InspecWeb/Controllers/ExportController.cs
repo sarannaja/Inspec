@@ -103,7 +103,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                 .ThenInclude(m => m.ProvincialDepartment)
-                .Include(x => x.ElectronicBookSuggestGroups)
+                // .Include(x => x.ElectronicBookSuggestGroups)
 
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(x => x.AnswerSubquestions)
@@ -366,8 +366,181 @@ namespace InspecWeb.Controllers
             var data = _context.SubjectCentralPolicyProvinces
                 .Where(x => x.Status == "ใช้งานจริง" && x.Type == "Master")
                 .ToList();
-            return Ok(data);
+            return Ok(new { data });
         }
 
+        [HttpPost("addImportReport")]
+        public async Task<IActionResult> PostImportReport([FromForm] ImportReportViewModel model)
+        {
+            var SubjectName = _context.SubjectCentralPolicyProvinces
+                .Where(x => x.Id == model.SubjectId)
+                .Select(x => x.Name)
+                .FirstOrDefault();
+
+            long importId = 0;
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+            if (model.fileWord != null)
+            {
+                System.Console.WriteLine("Start Upload 2");
+                foreach (var formFile in model.fileWord.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var ImportReport = new ReportCommander
+                        {
+                            Subject = SubjectName,
+                            TypeExport = model.TypeExport,
+                            TypeReport = model.TypeReport,
+                            FileWord = filename,
+                            CreateBy = model.CreateBy
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.ReportCommanders.Add(ImportReport);
+                        _context.SaveChanges();
+
+                        importId = ImportReport.Id;
+
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+            }
+
+            if (model.fileExcel != null)
+            {
+                System.Console.WriteLine("Start Upload 2");
+                foreach (var formFile in model.fileExcel.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Upload 4.1");
+
+                        //var ImportReport = new ReportCommander
+                        //{
+                        //    Subject = SubjectName,
+                        //    TypeExport = model.TypeExport,
+                        //    TypeReport = model.TypeReport,
+                        //    FileWord = random + filename,
+                        //};
+                        System.Console.WriteLine("Import ID: " + importId);
+
+                        var importData = _context.ReportCommanders.Find(importId);
+                        {
+                            importData.FileExcel = filename;
+                        }
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.Entry(importData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+            }
+            return Ok(new { importId });
+        }
+
+        [HttpGet("getImportedReport/{userId}")]
+        public IActionResult GetImportedReport(string userId)
+        {
+            var data = _context.ReportCommanders
+                .Where(x => x.CreateBy == userId)
+                .ToList();
+            return Ok(new { data });
+        }
+
+        [HttpGet("getCommanderReport")]
+        public IActionResult GetCommanderReport(string userId)
+        {
+            var data = _context.ReportCommanders
+                .ToList();
+            return Ok(new { data });
+        }
+
+        [HttpGet("getCommanderReport/{reportId}")]
+        public IActionResult GetCommanderReport(long reportId)
+        {
+            var data = _context.ReportCommanders
+                .Where(x => x.Id == reportId)
+                .FirstOrDefault();
+
+            var commanderName = _context.Users
+                .Where(x => x.Id == data.Commander)
+                .FirstOrDefault();
+
+            return Ok(new { data, commanderName });
+        }
+
+        [HttpDelete("deleteImportedReport/{deleteId}")]
+        public void Delete(long deleteId)
+        {
+            System.Console.WriteLine("ID: " + deleteId);
+            var importedReportData = _context.ReportCommanders.Find(deleteId);
+
+            _context.ReportCommanders.Remove(importedReportData);
+            _context.SaveChanges();
+        }
+
+        [HttpPut("sendCommand")]
+        public IActionResult PutCommand([FromBody]ImportReportViewModel model)
+        {
+            System.Console.WriteLine("Report ID: " + model.ReportId);
+            System.Console.WriteLine("Command: " + model.Command);
+            System.Console.WriteLine("Commander: " + model.Commander);
+            var commandData = _context.ReportCommanders
+                .Where(x => x.Id == model.ReportId)
+                .FirstOrDefault();
+            {
+                commandData.Command = model.Command;
+                commandData.Commander = model.Commander;
+            }
+
+            _context.Entry(commandData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            System.Console.WriteLine("Command Finished.");
+            return Ok(commandData);
+        }
     }
 }

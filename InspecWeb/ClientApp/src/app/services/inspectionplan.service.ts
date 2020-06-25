@@ -18,6 +18,14 @@ export class InspectionplanService {
     return this.http.get<any>(this.url + id + '/' + provinceid)
   }
 
+  getTimeline(id) {
+    return this.http.get<any>(this.url + "getTimeline/" + id);
+  }
+
+  getScheduleData(id, provinceId) {
+    return this.http.get<any>(this.url + "getScheduleData/" + id + "/" + provinceId);
+  }
+
   getcentralpolicyprovinceid(centralpolicyid, provinceid) {
     return this.http.get(this.url + 'getcentralpolicyprovinceid/' + centralpolicyid + '/' + provinceid)
   }
@@ -30,14 +38,19 @@ export class InspectionplanService {
       CentralPolicyId: CentralPolicyEventData.CentralpolicyId,
       ProvinceId: proid,
       CreatedBy: userid,
+      StartDate: CentralPolicyEventData.startdate.date.year + '-' + CentralPolicyEventData.startdate.date.month + '-' + CentralPolicyEventData.startdate.date.day,
+      EndDate: CentralPolicyEventData.enddate.date.year + '-' + CentralPolicyEventData.enddate.date.month + '-' + CentralPolicyEventData.enddate.date.day,
+      NotificationDate: CentralPolicyEventData.notificationdate.date.year + '-' + CentralPolicyEventData.notificationdate.date.month + '-' + CentralPolicyEventData.notificationdate.date.day,
+      DeadlineDate: CentralPolicyEventData.deadlinedate.date.year + '-' + CentralPolicyEventData.deadlinedate.date.month + '-' + CentralPolicyEventData.deadlinedate.date.day,
     }
     // alert(JSON.stringify(formData));
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url + "AddCentralPolicyEvents", formData);
   }
 
-  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid) {
+  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid, yearId) {
     // alert(JSON.stringify(InspectionPlanData))
+    // alert(yearId);
     const formData = {
       InspectionPlanEventId: parseInt(inspectionplaneventid),
       Title: InspectionPlanData.title,
@@ -45,7 +58,8 @@ export class InspectionplanService {
       EndDate: InspectionPlanData.end_date,
       Type: InspectionPlanData.type,
       ProvinceId: InspectionPlanData.ProvinceId,
-      FiscalYearId: InspectionPlanData.year,
+      // FiscalYearId: InspectionPlanData.year,
+      FiscalYearId: yearId,
       // files: "INSPECTIONPLAN.pdf",
       UserID: userid,
       Status: "ใช้งานจริง"
@@ -73,4 +87,10 @@ export class InspectionplanService {
     return this.http.get<any[]>(this.url + 'getcentralpolicydata/' + provinceid)
   }
 
+  changeplanstatus(planid) {
+    const formData = new FormData();
+    formData.append('planid', planid);
+
+    return this.http.post(this.url + "changeplanstatus", formData);
+  }
 }

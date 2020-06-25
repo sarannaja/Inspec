@@ -24,7 +24,19 @@ namespace InspecWeb.Models
         [Description("ประเภทรายงาน")]
         public string TypeReport { get; set; }
 
-        [Description("ชื่อไฟล์เอกสาร")]
-        public string FileName { get; set; }
+        [Description("ไฟล์เอกสาร Word")]
+        public string FileWord { get; set; }
+
+        [Description("ไฟล์เอกสาร Excel")]
+        public string FileExcel { get; set; }
+
+        [Description("คนอัพโหลด")]
+        public string CreateBy { get; set; }
+
+        [Description("คำสั่งการ")]
+        public string Command { get; set; }
+
+        [Description("คนสั่งการ")]
+        public string Commander { get; set; }
     }
 }

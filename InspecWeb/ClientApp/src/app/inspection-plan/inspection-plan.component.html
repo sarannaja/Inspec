@@ -15,13 +15,68 @@
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
         <h5 class="card-title">แผนการตรวจราชการ</h5>
-        <div class="float-right">
+        <label style="margin-left: 5px;">จังหวัด: {{ScheduleData.scheduleData.province.name}}</label>
+        <label style="margin-left: 30px;">ผู้สร้าง: {{ScheduleData.userData.prefix}}
+          {{ScheduleData.userData.name}}</label>
+        <label style="margin-left: 30px;">สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
+        <div class="row" style="margin-left: 5px;">
+          <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
+            readonly>
+          <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
+          <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'year'}}" readonly>
+          <div class="form-group col-12" style="margin-top:10px;"
+            *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'">
+            <div class="mb-3">
+              <input type="radio" [value]="'ร่างกำหนดการ'" [(ngModel)]="timelineData.status">
+              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <input (click)="openModal(modalchangestatusplan)" style="margin-left: 10px;" type="radio"
+                [(ngModel)]="timelineData.status" [value]="'ใช้งานจริง'">
+              <label style="margin-left: 10px;">ใช้งานจริง</label>
+            </div>
 
-          <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
-            style="margin-top: -60px;">เพิ่มแผนการตรวจราชการประจำปี</button>
+            <div>
+              <button *ngIf="role_id == 3" type="button" (click)="openModal(modalChangeDate)"
+                class="btn btn-warning">แก้ไขกำหนดการตรวจ</button>
+              &nbsp;&nbsp;
+              <button *ngIf="role_id == 3" type="button" (click)="openModal(modalDeleteDate)"
+                class="btn btn-danger">ลบกำหนดการตรวจ</button>
+            </div>
+
+          </div>
+
+          <div class="form-group col-12" style="margin-top:10px;"
+            *ngIf="role_id == 3 && timelineData.status == 'ใช้งานจริง'">
+            <div class="mb-3">
+              <input type="radio" value="ร่างกำหนดการ" [checked]="timelineData.status == 'ร่างกำหนดการ'" disabled>
+              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <input disabled style="margin-left: 10px;" type="radio" value="ใช้งานจริง"
+                [checked]="timelineData.status == 'ใช้งานจริง'">
+              <label style="margin-left: 10px;">ใช้งานจริง</label>
+            </div>
+
+            <div>
+              <button *ngIf="role_id == 3" type="button" (click)="openModal(modalChangeDate)"
+                class="btn btn-warning">แก้ไขกำหนดการตรวจ</button>
+              &nbsp;&nbsp;
+              <button *ngIf="role_id == 3" type="button" (click)="openModal(modalDeleteDate)"
+                class="btn btn-danger">ลบกำหนดการตรวจ</button>
+            </div>
+          </div>
+          <!-- <input style="width: 12%;" class="form-control" value="{{provincename}}" readonly> -->
+        </div>
+        <!-- <div>สถานะกำหนดการตรวจ {{ScheduleData.scheduleData.status}}</div> -->
+
+
+
+        <div class="float-right" style="margin-top: -103.5px;">
+          <button *ngIf="role_id == 3" type="button" (click)="openModal(modalInviteMinistryPeople)"
+            style="margin-top: -60px;" class="btn btn-primary">เชิญผู้ตรวจราชการกระทรวง</button>
           &nbsp;&nbsp;
-          <button *ngIf="role_id == 3" class="btn btn-primary" (click)="CrateInspectionPlan(id)"
-            style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button>
+          <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
+            style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามจากแผน</button>
+          &nbsp;&nbsp;
+          <button *ngIf="role_id == 3" class="btn btn-success" (click)="CrateInspectionPlan(id)"
+            style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามอื่นๆ</button>
         </div>
       </div>
       <div class="card-body">
@@ -32,9 +87,9 @@
               <th>#</th>
               <th>ประเภทแผนการตรวจ</th>
               <th>กำหนดการตรวจราชการ</th>
-              <th>ปี</th>
-              <!-- <th>ระยะเวลา</th> -->
-              <th>สถานะ</th>
+              <!-- <th>ปี</th> -->
+              <th>ระยะเวลา</th>
+              <!-- <th>สถานะ</th> -->
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -56,19 +111,19 @@
               <td>{{ i + 1 }}</td>
               <td>{{ item.centralPolicy.type }}</td>
               <td width="40%">{{ item.centralPolicy.title }}</td>
-              <td>2563</td>
+              <!-- <td>{{item.centralPolicy.fiscalYear.year}}</td> -->
               <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">
                   {{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
               </td> -->
-
-
-              <td>
+              <td> {{ item.startDate | thaidate: 'year' }} -
+                {{ item.endDate | thaidate: 'year' }}</td>
+              <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
                   <span *ngIf="item2.provinceId == provinceid">{{ item2.status }}</span>
                 </div>
-              </td>
+              </td> -->
 
 
               <td>
@@ -103,6 +158,53 @@
             [allowClear]="true">
           </ng-select>
         </div>
+
+        <div class="form-group row">
+          <div class="col-12 col-xl-12">
+            <label>กำหนดระยะเวลา</label>
+          </div>
+          <div class="col-12 col-xl-5">
+            <div class="form-group">
+              <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+          <div class="col-12 col-xl-2">
+            <div class="form-group" align="center">
+              ถึง
+            </div>
+          </div>
+          <div class="col-12 col-xl-5">
+            <div class="form-group">
+              <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12 col-xl-12">
+            <label>วันที่แจ้งเตือน</label>
+          </div>
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <my-date-picker-th formControlName="notificationdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-12 col-xl-12">
+            <label>วัน Deadline</label>
+          </div>
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <my-date-picker-th formControlName="deadlinedate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -111,5 +213,120 @@
     </div>
     <!-- </div> -->
   </form>
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form2" (ngSubmit)="storeMinistryPeople(Form2.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdataministrypeople"
+          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalchangestatusplan class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      เปลี่ยนแปลงสถานะ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการเปลี่ยนแปลงสถานะกำหนดการนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="changeplanstatus()">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="closemodal()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalChangeDate class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form" (ngSubmit)="storeCentralPolicyEventRelation(Form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">แก้ไขกำหนดการตรวจ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group row">
+          <div class="col-12 col-xl-12">
+            <label>กำหนดระยะเวลา</label>
+          </div>
+          <div class="col-12 col-xl-5">
+            <div class="form-group">
+              <!-- <my-date-picker-th [selDate]="timelineData.startDate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th> -->
+              <my-date-picker-th [selDate]="startDate" [options]="myDatePickerOptions"
+                (dateChanged)="onStartDateChanged($event)" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+          <div class="col-12 col-xl-2">
+            <div class="form-group" align="center">
+              ถึง
+            </div>
+          </div>
+          <div class="col-12 col-xl-5">
+            <div class="form-group">
+              <my-date-picker-th [selDate]="endDate" [options]="myDatePickerOptions"
+                (dateChanged)="onEndDateChanged($event)" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+    <!-- </div> -->
+  </form>
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalDeleteDate class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบกำหนดการตรวจ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบกำหนดการตรวจกำหนดการนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
 </ng-template>
 <!-- END primary modal -->

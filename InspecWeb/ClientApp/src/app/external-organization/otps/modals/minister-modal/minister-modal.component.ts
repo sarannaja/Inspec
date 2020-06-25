@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Ministers } from 'src/app/models/otps';
+import { Ministers } from '../../../models/otps';
 
 @Component({
   selector: 'app-minister-modal',

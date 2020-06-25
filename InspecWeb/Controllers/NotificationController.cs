@@ -123,45 +123,36 @@ namespace InspecWeb.Controllers
 
             if (Status == 10)
             {
-                //System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
-                var users = _context.UserProvinces
-                .Include(m => m.User)
-               .Where(m => m.ProvinceId == ProvinceId && m.User.Role_id == 3).ToList();
-
-                foreach (var item in users)
+                System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
+                System.Console.WriteLine("USERID : " + UserId);
+                    _context.Notifications.Add(new Notification
                 {
-                    System.Console.WriteLine("USERID : " + item.UserID);
-                     _context.Notifications.Add(new Notification
-                    {
-                        UserID = item.UserID,
-                        CentralPolicyId = CentralPolicyId,
-                        ProvinceId = ProvinceId,
-                        status = Status,
-                        noti = 1,
-                        CreatedAt = date,
-                        xe = xe,
-                    });
+                    UserID = UserId,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe,
+                });
 
-                    _context.SaveChanges();
-                //System.Console.WriteLine("success");
-                
-                }                   
+                _context.SaveChanges();                  
             }    
             if (Status == 11)
             {
-                var ExecutiveOrders = _context.ExecutiveOrders
-                .Where(m => m.Id == xe)
-                .FirstOrDefault();
+                //var ExecutiveOrders = _context.ExecutiveOrders
+                //.Where(m => m.Id == xe)
+                //.FirstOrDefault();
 
-                notificationdata.UserID = ExecutiveOrders.UserId;
-                notificationdata.CentralPolicyId = CentralPolicyId;
-                notificationdata.ProvinceId = ProvinceId;
-                notificationdata.status = Status;
-                notificationdata.noti = 1;
-                notificationdata.CreatedAt = date;
-                notificationdata.xe = xe;
-                _context.Notifications.Add(notificationdata);
-                _context.SaveChanges();
+                //notificationdata.UserID = ExecutiveOrders.UserId;
+                //notificationdata.CentralPolicyId = CentralPolicyId;
+                //notificationdata.ProvinceId = ProvinceId;
+                //notificationdata.status = Status;
+                //notificationdata.noti = 1;
+                //notificationdata.CreatedAt = date;
+                //notificationdata.xe = xe;
+                //_context.Notifications.Add(notificationdata);
+                //_context.SaveChanges();
                 //System.Console.WriteLine("success");
 
             }
@@ -193,20 +184,72 @@ namespace InspecWeb.Controllers
             }
             if (Status == 13)
             {
-                var RequestOrders = _context.RequestOrders
-                 .Where(m => m.Id == xe)
-                .FirstOrDefault();
+                //var RequestOrders = _context.RequestOrders
+                // .Where(m => m.Id == xe)
+                //.FirstOrDefault();
 
-                notificationdata.UserID = RequestOrders.UserId;
-                notificationdata.CentralPolicyId = CentralPolicyId;
-                notificationdata.ProvinceId = ProvinceId;
-                notificationdata.status = Status;
-                notificationdata.noti = 1;
-                notificationdata.CreatedAt = date;
-                notificationdata.xe = xe;
-                _context.Notifications.Add(notificationdata);
-                _context.SaveChanges();
+                //notificationdata.UserID = RequestOrders.UserId;
+                //notificationdata.CentralPolicyId = CentralPolicyId;
+                //notificationdata.ProvinceId = ProvinceId;
+                //notificationdata.status = Status;
+                //notificationdata.noti = 1;
+                //notificationdata.CreatedAt = date;
+                //notificationdata.xe = xe;
+                //_context.Notifications.Add(notificationdata);
+                //_context.SaveChanges();
                 //System.Console.WriteLine("success");
+            }
+
+            if (Status == 14)
+            {
+                var users = _context.Users
+
+               .Where(m => m.Role_id == 8).ToList();
+
+                foreach (var item in users)
+                {
+                    System.Console.WriteLine("USERID : " + item.Id);
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = item.Id,
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe,
+                    });
+
+                    _context.SaveChanges();
+                    //System.Console.WriteLine("success");
+
+                }
+            }
+
+            if (Status == 15)
+            {
+                var users = _context.Users
+
+               .Where(m => m.Id == UserId).ToList();
+
+                foreach (var item in users)
+                {
+                    System.Console.WriteLine("USERID : " + item.Id);
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = item.Id,
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe,
+                    });
+
+                    _context.SaveChanges();
+                    //System.Console.WriteLine("success");
+
+                }
             }
 
             return notificationdata;

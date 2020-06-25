@@ -1,0 +1,47 @@
+<div class="header">
+    <h1 class="header-title">
+      ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/Main']">หน้าหลัก</a></li>
+        <li class="breadcrumb-item active">LOG</li>
+      </ol>
+    </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -20px;">
+        <h5 class="card-title">LOG</h5>
+      </div>
+      <div class="card-body">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อผู้ใช้</th>
+              <th>ชื่อฐานข้อมูล</th>           
+              <th>การกระทำ</th>
+              <th>รายละเอียด</th>
+              <th>วันที่ทำ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  *ngFor="let item of resultlog; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{item.UserId}}</td>
+              <td>{{item.DatabaseName}}</td>
+              <td>{{item.EventType }}</td>
+              <td>{{ item.ObjectType }}</td>
+              <td>{{ item.createdAt | thaidate: 'year' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+  

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,14 +27,20 @@ export class SubjectService {
       return {
         box: index,
         departmentId: item.departmentId,
-        inputquestionopen: item.inputquestionopen,
+        explanation: item.explanation,
+        // inputquestionopen: item.inputquestionopen,
         inputquestionclose: item.inputquestionclose
       }
     })
     console.log("testsubjectdepartment", testsubjectdepartment);
     for (var i = 0; i < testsubjectdepartment.length; i++) {
       for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
-        departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
+        departmentId.push({
+          box: testsubjectdepartment[i].box,
+          departmentId: testsubjectdepartment[i].departmentId[j],
+          explanation: testsubjectdepartment[i].explanation,
+          inputsubjectdepartment: testsubjectdepartment[i]
+        })
       }
     }
 
@@ -45,7 +51,8 @@ export class SubjectService {
       return {
         box: item.box,
         departmentId: item.departmentId,
-        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
+        explanation: item.explanation,
+        // inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
         inputquestionclose: item.inputsubjectdepartment.inputquestionclose
       }
     })
@@ -66,6 +73,7 @@ export class SubjectService {
       Name: subjectData.name,
       Answer: subjectData.name,
       Status: subjectData.status,
+      Explanation: subjectData.explanation,
       CentralPolicyId: parseInt(centralpolicyid),
       CentralPolicyDateId: subjectData.centralpolicydateid,
       inputsubjectdepartment: test,
@@ -86,16 +94,19 @@ export class SubjectService {
   addFiles(subjectid, file: FileList) {
     // alert(subjectid)
     // alert(JSON.stringify(file))
-    console.log("subjectid",subjectid);
+    console.log("subjectid", subjectid);
     console.log("file", file);
 
     const formData = new FormData();
     for (var i = 0; i < subjectid.length; i++) {
       formData.append('SubjectCentralPolicyProvinceId', subjectid[i]);
     }
-    for (var ii = 0; ii < file.length; ii++) {
-      formData.append("files", file[ii]);
+    if (file != null) {
+      for (var ii = 0; ii < file.length; ii++) {
+        formData.append("files", file[ii]);
+      }
     }
+
     return this.http.post(this.url + "addfiles", formData);
   }
   AddDepartmentQuestion(DepartmentQuestiondata, Box, subjectid) {
@@ -135,7 +146,7 @@ export class SubjectService {
     //     inputquestionclose: item.inputquestionclose
     //   }
     // })
-    
+
     console.log("test", test);
     const formData = {
       inputsubjectdepartment: test,
@@ -349,6 +360,67 @@ export class SubjectService {
   }
   getsubjectfromprovince(proid) {
     return this.http.get(this.url + "getsubjectfromprovince/" + proid)
+  }
+
+  subjectevent(value, userid) {
+    console.log("value", value);
+    console.log("value", value.province);
+    const formData = {
+      Land: value.land,
+      CentralpolicyId: value.CentralpolicyId,
+      ProvinceId: parseInt(value.province),
+      startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      CreatedBy: userid
+    }
+    return this.http.post<any>(this.url + 'subjectevent', formData);
+  }
+
+  subjecteventnoland(value, userid) {
+    console.log("value", value);
+    console.log("value", value.province);
+    const formData = {
+      Land: value.land,
+      CentralpolicyId: value.CentralpolicyId,
+      ProvinceId: parseInt(value.province),
+      // startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      // enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      CreatedBy: userid
+    }
+    return this.http.post<any>(this.url + 'subjecteventnoland', formData);
+  }
+
+  getsubjectevent() {
+    return this.http.get(this.url + "getevent")
+  }
+
+  geteventfromcalendar(id): Observable<any> {
+    return this.http.get<any[]>(this.url + "geteventfromcalendar/" + id)
+  }
+
+  postsubjecteventfromcalendar(value, userid) {
+
+    const formData = {
+      Land: "ลงพื้นที่",
+      CentralpolicySelect:value.CentralpolicyId2,
+      // CentralPolicyeventId:value.CentralpolicyId2[0].centralPolicyeventId ,
+      ProvinceId: parseInt(value.province2),
+      CreatedBy: userid
+    }
+    // console.log('JSON.parse(value.CentralpolicyId2)',value.CentralpolicyId2[0])
+    return this.http.post<any>(this.url + 'postsubjecteventfromcalendar', formData);
+  }
+  editSubject2(Subjectdata, id) {
+    console.log("id: ", id);
+    console.log("Subjectdata: ", Subjectdata);
+
+
+    const formData = new FormData();
+    formData.append('Name', Subjectdata.name);
+    formData.append('Status', Subjectdata.status);
+    formData.append('Explanation', Subjectdata.explanation);
+
+    return this.http.put(this.url + "editsubject2/" + id, formData);
   }
 }
 

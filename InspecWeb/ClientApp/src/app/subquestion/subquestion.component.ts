@@ -57,6 +57,7 @@ export class SubquestionComponent implements OnInit {
       name: new FormControl(null, [Validators.required]),
       centralpolicydateid: new FormControl(null, [Validators.required]),
       status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      explanation: new FormControl(null, [Validators.required]),
       inputsubjectdepartment: this.fb.array([
         this.initdepartment()
       ]),
@@ -79,9 +80,9 @@ export class SubquestionComponent implements OnInit {
   initdepartment() {
     return this.fb.group({
       departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
-      inputquestionopen: this.fb.array([
-        this.initquestionopen()
-      ]),
+      // inputquestionopen: this.fb.array([
+      //   this.initquestionopen()
+      // ]),
       inputquestionclose: this.fb.array([
         this.initquestionclose()
       ])

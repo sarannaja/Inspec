@@ -14,63 +14,90 @@
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
         <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
-        <div class="float-right">
-          <!-- <button class="btn btn-primary" (click)="CreateCentralPolicy()"
-            style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button> -->
+        <label style="margin-left: 5px;">จังหวัด: {{ScheduleData.scheduleData.province.name}}</label>
+        <label style="margin-left: 30px;">ผู้สร้าง: {{ScheduleData.userData.prefix}}
+          {{ScheduleData.userData.name}}</label>
+        <label style="margin-left: 30px;">สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
+        <div class="row" style="margin-left: 5px;">
+          <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
+            readonly>
+          <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
+          <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'year'}}" readonly>
         </div>
+
+        <div class="float-right" style="margin-top: -60px;" *ngIf="status == 'รอการตอบรับ';else elseBlock">
+          <button (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
+            class="btn btn-primary">ตอบรับ</button>
+          &nbsp;&nbsp;
+          <button (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
+            class="btn btn-danger">ปฏิเสธ</button>
+          &nbsp;&nbsp;
+          <button *ngIf="role_id != 7" (click)="openModal(assignModal)" value="มอบหมาย"
+            class="btn btn-success">มอบหมาย</button>
+        </div>
+
+        <ng-template #elseBlock>
+          <div class="float-right" style="margin-top: -60px; margin-right: 20px;">
+            <h4>สถานะ : {{status}}</h4>
+          </div>
+        </ng-template>
+
+
+
       </div>
+
       <div class="card-body">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
           [dtOptions]="dtOptions">
           <thead>
             <tr>
               <th>#</th>
-              <th>ชื่อแผนตรวจราชการประจำปี</th>
-              <th>ปี</th>
-              <th>ระยะเวลา</th>
-              <th>สถานะกำหนดการ</th>
-              <th>สถานะ</th>
-              <th>สถานะรายงานผล</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th>แผนการตรวจราชการ</th>
+              <th>ประเด็นนโยบาย</th>
+              <!-- <th>ปี</th> -->
+              <!-- <th>ระยะเวลา</th> -->
+              <!-- <th>สถานะกำหนดการ</th>
+              <th>สถานะ</th> -->
+              <th>ผู้สั่งการ</th>
+              <!-- <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
               <td>{{ i + 1 }}</td>
-              <td width="40%" class="pointer">{{ item.centralPolicy.title }}</td>
-              <td>2563</td>
-              <td>
+              <td>{{ item.centralPolicy.class }}</td>
+              <td>{{ item.centralPolicy.title }}</td>
+              <!-- <td>{{item.centralPolicy.fiscalYear.year}}</td> -->
+              <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">
                   {{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
-              </td>
+              </td> -->
 
-              <td>
+              <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
                   <span *ngIf="item2.provinceId == item.provinceId">{{ item2.status }}</span>
                 </div>
               </td>
 
-              <td>{{ item.status }}</td>
-              <td>{{ item.draftStatus }}</td>
-              <td>
+              <td>{{ item.status }}</td> -->
+              <td>{{ item.invitedBy }}</td>
 
+              <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
-                  <div *ngIf="item2.provinceId == item.provinceId && item2.status == 'ใช้งานจริง'">
+                  <div *ngIf="item2.provinceId == item.provinceId">
+
                     <i *ngIf="item.status == 'รอการตอบรับ'" class="align-middle mr-2 fas fa-fw fa-check-circle pointer"
                       (click)="AcceptCentralPolicy(item.id, item.centralPolicy.id,item.provinceId)"></i>
+
                     <i *ngIf="item.status == 'ตอบรับ' && item.draftStatus == 'ร่างกำหนดการ'"
                       class="align-middle mr-2 fas fa-fw fa-book pointer"
                       (click)="gotoReport(item.id, item.centralPolicy.id,item.provinceId)"></i>
                     <i *ngIf="item.status == 'ปฏิเสธ'"></i>
+
                   </div>
                 </div>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i> -->
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i> -->
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteCentralPolicy, item.id)"></i> -->
-              </td>
+              </td> -->
 
             </tr>
           </tbody>
@@ -81,16 +108,16 @@
 </div>
 
 <!-- BEGIN primary modal -->
-<ng-template #modaldeleteCentralPolicy class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<ng-template #changestatusrefuseModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
     <i class="fa fa-info-circle delete-icon"></i>
     <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
-      ลบข้อมูล
+      ปฏิเสธกำหนดการตรวจ
     </p>
     <p style="font-size: medium; color: #545454;">
-      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+      คุณต้องการปฏิเสธกำหนดการตรวจนี้ใช่หรือไม่ ?
     </p>
-    <button type="button" class="btn btn-primary btnMargin" (click)="deleteCentralPolicy(delid)">
+    <button type="button" class="btn btn-primary btnMargin" (click)="storeAccept(answer)">
       ใช่
     </button>
     <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
@@ -99,6 +126,53 @@
   </div>
 </ng-template>
 <!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #changestatusacceptModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ตอบรับกำหนดการตรวจ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการตอบรับกำหนดการตรวจนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="storeAccept(answer)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #assignModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="assignForm" (ngSubmit)="sendAssign(assignForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">มอบหมาย</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <textarea cols="30" rows="5" class="form-control" placeholder="กรุณากรอกรายละเอียดมอบหมาย"
+          formControlName="assign">
+            </textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>

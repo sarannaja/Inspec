@@ -21,8 +21,11 @@ namespace InspecWeb.Models
         //[Description("FK: SubjectCentralPolicyProvince")]
         //public long SubjectCentralPolicyProvinceId { get; set; }
         //public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
+        
+        [ForeignKey("User")]
+        [Description("FK: User")]
         public string CreatedBy { get; set; }
-        //public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         [Description("ผลการจตรวจ")]
         public string Detail { get; set; }
@@ -39,7 +42,16 @@ namespace InspecWeb.Models
         [Description("สถานะ")]
         public string Status { get; set; }
 
+        [Description("วันที่เริ่ม")]
+        [DataType(DataType.Date)]
+        public DateTime? StartDate { get; set; }
+
+        [Description("วันที่สิ้นสุด")]
+        [DataType(DataType.Date)]
+        public DateTime? EndDate { get; set; }
+
         public ICollection<ElectronicBookFile> ElectronicBookFiles { get; set; }
         public ICollection<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
+        public ICollection<ElectronicBookGroup> ElectronicBookGroups { get; set; }
     }
 }

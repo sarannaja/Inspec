@@ -16,7 +16,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">จัดการประเด็นการตรวจติดตาม</h5>
+        <h5 class="card-title">จัดการประเด็นนโยบาย : {{resultcentralpolicy.title}}</h5>
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
@@ -28,6 +28,10 @@
               <div class="form-group">
                 <label>ชื่อเรื่อง</label>
                 <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง">
+              </div>
+              <div class="form-group">
+                <label>คำชี้แจง</label>
+                <input type="text" formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง">
               </div>
               <div class="form-group">
                 <label>กำหนดระยะเวลา</label>
@@ -69,14 +73,10 @@
                       </ng-select>
                       <br>
                       <br>
-                      <label>คำชี้แจง</label>
-                      <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง">
-                      <br>
                       <label>ประเด็นการตรวจติดตาม</label>
                       <br>
-                      <label>คำถามปลายเปิด</label>
-                      <div formArrayName="inputquestionopen">
-                        <!-- <div *ngFor="let W of Form['controls'].inputquestionopen['controls']; let iw=index"> -->
+                      <!-- <label>คำถามปลายเปิด</label> -->
+                      <!-- <div formArrayName="inputquestionopen">
                         <div *ngFor="let W of V['controls'].inputquestionopen['controls']; let iw=index">
                           <div formGroupName="{{iw}}">
                             <div class="row">
@@ -99,8 +99,8 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <label>คำถามปลายปิด</label>
+                      </div> -->
+                      <!-- <label>คำถามปลายปิด</label> -->
                       <div formArrayName="inputquestionclose">
                         <div *ngFor="let X of V['controls'].inputquestionclose['controls']; let ix=index">
                           <div formGroupName="{{ix}}">

@@ -15,6 +15,12 @@ export class DetailexecutiveorderService {
   getexecutiveorderdata(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
+
+  //สำหรับผู้สั่งการ
+  getexecutiveordercommandeddata(id): Observable<any> {
+    return this.http.get<any>(this.url + "commanded/" + id)
+  }
+
   getdetailexecutiveorderdata(id): Observable<any> {
     return this.http.get<any>(this.url + "detail/" + id)
   }
@@ -30,6 +36,23 @@ export class DetailexecutiveorderService {
   getprovince(id): Observable<any> {
     return this.http.get<any>(this.url + "province/" + id)
   }
+
+  //สำหรับเพิ่มข้อสั่งการ
+  addexecutiveorder(executiveorderData, file: FileList) {
+    //alert(2);
+    console.log('datatest',executiveorderData);
+    const formData = new FormData();
+    formData.append('Commanded_date', executiveorderData.Commanded_date.date.year + '-' + executiveorderData.Commanded_date.date.month + '-' + executiveorderData.Commanded_date.date.day);
+    formData.append('Commanded_by', executiveorderData.Commanded_by);
+    formData.append('Subject', executiveorderData.Subject);
+    formData.append('Subjectdetail', executiveorderData.Subjectdetail);
+    formData.append('Answer_by', executiveorderData.Answer_by);
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }
+     return this.http.post<any>(this.url, formData);
+  }
+
   adddetailexecutiveorder(detailexecutiveorderData, file: FileList, centralpolicyid) {
     const formData = new FormData();
     formData.append('Name', detailexecutiveorderData.name);

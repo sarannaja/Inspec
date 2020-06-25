@@ -1,40 +1,39 @@
 <div class="header">
-    <h1 class="header-title">
-      ระบบตรวจราชการอิเล็กทรอนิกส์
-    </h1>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-        <li class="breadcrumb-item"><a href="#">ข้อสั่งการ</a></li>
-        <li class="breadcrumb-item active">ทะเบียนข้อสั่งการของผู้บริหาร</li>
-      </ol>
-    </nav>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header" style="margin-bottom: 0px;">
-          <h5 class="card-title">ทะเบียนข้อสั่งการของผู้บริหาร</h5><br>
-          <div class="row">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="#">ข้อสั่งการ</a></li>
+      <li class="breadcrumb-item active">ทะเบียนข้อสั่งการของผู้บริหาร</li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: 0px;">
+        <h5 class="card-title">ทะเบียนข้อสั่งการของผู้บริหาร</h5><br>
+        <div class="row">
           <div class="col-4">
-               
-            <select style="margin-bottom: 0px;" class="form-control select2 " data-toggle="select2">
-            <option *ngFor="let item of userdata" [value]="item.id">{{item.prefix}} {{item.name}}</option>
-        </select>   
+
+            <select style="margin-bottom: 0px;" (change)="changexcutive($event)" class="form-control select2 " data-toggle="select2">
+              <option  [value]="">-- กรุณาเลือกชื่อผู้รับข้อสั่งการ --</option>
+              <option *ngFor="let item of userdata" [value]="item.id">{{item.prefix}} {{item.name}}</option>
+            </select>
           </div>
           <div class="col-2">
             <button class="btn btn-primary" 
-                 >Export</button>
-          </div> 
+                 (click)="exportexecutive3(id)"><i class="align-middle mr-2 fas fa-file"></i>Export</button>
           </div> 
         </div>
-            <!-- <select style="margin-bottom: 20px;"  (change)="ChangeYear($event)" class="form-control select2 forselect" data-toggle="select2">
+      </div>
+      <!-- <select style="margin-bottom: 20px;"  (change)="ChangeYear($event)" class="form-control select2 forselect" data-toggle="select2">
                 <option *ngFor="let item of fiscalyear" [value]="item.year">{{item.name}}</option>
             </select>    -->
 
-          </div>
-        </div>
-        
-      </div>
-  
-  
+    </div>
+  </div>
+
+</div>

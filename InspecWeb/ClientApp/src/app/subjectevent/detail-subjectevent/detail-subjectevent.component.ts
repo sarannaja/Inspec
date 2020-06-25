@@ -1,0 +1,805 @@
+import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
+import { IOption } from 'ng-select';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ChartOptions, ChartType } from 'chart.js';
+import { Label } from 'ng2-charts';
+import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
+import { UserService } from 'src/app/services/user.service';
+import { SubjectService } from 'src/app/services/subject.service';
+import { ElectronicbookService } from 'src/app/services/electronicbook.service';
+import { DepartmentService } from 'src/app/services/department.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import * as Chart from 'chart.js';
+import { SubquestionService } from 'src/app/services/subquestion.service';
+
+@Component({
+  selector: 'app-detail-subjectevent',
+  templateUrl: './detail-subjectevent.component.html',
+  styleUrls: ['./detail-subjectevent.component.css']
+})
+export class DetailSubjecteventComponent implements OnInit {
+
+  id
+  subjectgroupid
+  resultuser: any = []
+  resultpeople: any = []
+  resultministrypeople: any = []
+  resultdetailcentralpolicy: any = []
+  resultcentralpolicyuser: any = []
+  allMinistryPeople: any = [];
+  allUserPeople: any = [];
+  resultdetailcentralpolicyprovince: any = []
+  subjectgroup: any = []
+  UserPeopleId: any;
+  // UserMinistryId: any;
+  FormAddQuestionsclose: FormGroup;
+  Form2: FormGroup;
+  Form3: FormGroup;
+  Form: FormGroup;
+  EditForm: FormGroup;
+  EditForm2: FormGroup;
+  EditForm3: FormGroup;
+  EditForm4: FormGroup;
+  AddForm: FormGroup;
+  selectpeople: Array<IOption>
+  selectministrypeople: Array<IOption>
+  modalRef: BsModalRef;
+  editid: any
+  subquestionclosename: any
+  subquestionclosechoicename: any
+  subject: any;
+  subjectquestionopen: any;
+  downloadUrl: any
+  urllink
+  loading = false;
+  electronicbookid: any
+  selectdataministrypeople: Array<IOption>
+  ministryPeople: any = [];
+  selectdatapeople: Array<IOption>
+  userPeople: any = [];
+  fileStatus = false;
+  form: FormGroup;
+  carlendarFile: any = [];
+  provincename: any;
+  provinceid
+  resultdate: any = []
+  department: any = []
+  peopleanswer: any = []
+  subjectid
+  delid
+  userid
+  role_id
+  temp = []
+  resultdsubjectid: any = []
+  editAnswerForm: FormGroup;
+  answer: any;
+  answerData: any = [];
+  centralpolicyprovincedata: any;
+  answerSubquestions: any = []
+  subquestionChoice: any[] = []
+  fileStatus2 = false;
+  signatureFile: any = [];
+  fileType: any;
+  lineChart: any = [];
+  role7Count: any = 0;
+  role6Count: any = 0;
+  barChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      xAxes: [
+        {
+          // stacked: true
+        }
+      ],
+      yAxes: [
+        {
+          ticks: {
+            suggestedMin: 0,
+            // suggestedMax: 100
+          },
+          // stacked: true
+        }
+      ]
+    },
+  };
+  // subquestionChoice[i].question
+  barChartLabels: Label[] = ['2013', '2014', '2015', '2016', '2017', '2018'];
+  barChartType: ChartType = 'bar';
+  barChartLegend = true;
+  barChartPlugins = [];
+  // ssss: ChartDataSets[] = [{ data: [[5, 6], [3, 6]] }]
+  barchartAllset: any = {
+    label: ['เห็นด้วย', 'ไม่เห็นด้วย'],
+    barChartData: [
+      { data: [3, 1], label: 'หน่วยงาน A', stack: 'a' },
+      { data: [2, 2], label: 'หน่วยงาน B', stack: 'a' },
+    ]
+
+  }
+  filterboxdepartments: any = []
+  constructor(
+    private fb: FormBuilder,
+    private modalService: BsModalService,
+    private centralpolicyservice: CentralpolicyService,
+    private userservice: UserService,
+    private subjectservice: SubjectService,
+    private activatedRoute: ActivatedRoute,
+    // private spinner: NgxSpinnerService,
+    private electronicBookService: ElectronicbookService,
+    private departmentService: DepartmentService,
+    private notificationService: NotificationService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private subquestionservice: SubquestionService,
+    @Inject('BASE_URL') baseUrl: string
+  ) {
+    this.id = activatedRoute.snapshot.paramMap.get('result')
+    this.subjectgroupid = activatedRoute.snapshot.paramMap.get('subjectgroupid')
+    this.downloadUrl = baseUrl + '/Uploads';
+    this.urllink = baseUrl + 'answersubject/outsider/';
+  }
+
+  async ngOnInit() {
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            this.role_id = result[0].role_id
+          })
+      })
+
+    console.log("ID: ", this.id);
+
+    // this.spinner.show();
+    this.Form = this.fb.group({
+      UserPeopleId: new FormControl(null, [Validators.required]),
+    })
+
+    this.Form2 = this.fb.group({
+      DepartmentId: new FormControl(null, [Validators.required]),
+      // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
+    this.Form3 = this.fb.group({
+      peopleanswer: new FormControl(null, [Validators.required]),
+      // UserMinistryId: new FormControl(null, [Validators.required]),
+    })
+    this.form = this.fb.group({
+      files: [null],
+      // step: new FormControl(null, [Validators.required]),
+      status: new FormControl(null, [Validators.required]),
+      questionPeople: new FormControl(null, [Validators.required]),
+      signatureFiles: [null],
+      description: new FormControl(null, [Validators.required]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
+    })
+
+    this.EditForm = this.fb.group({
+      subquestionclose: new FormControl(),
+    })
+
+    this.EditForm2 = this.fb.group({
+      subquestionclosechoice: new FormControl(),
+    })
+
+    this.EditForm3 = this.fb.group({
+      subject: new FormControl(),
+    })
+
+    this.EditForm4 = this.fb.group({
+      subjectquestionopen: new FormControl(),
+    })
+
+    this.AddForm = this.fb.group({
+      name: new FormControl(null, [Validators.required]),
+      // centralpolicydateid: new FormControl(null, [Validators.required]),
+      status: new FormControl("ใช้งานจริง", [Validators.required]),
+      inputsubjectdepartment: this.fb.array([
+        // this.initdepartment()
+      ]),
+    })
+
+    await this.getDetailCentralPolicyProvince()
+    await this.getsubjecteventDetail();
+    await this.getMinistryPeople();
+    await this.getUserPeople();
+    await this.getAnswer2();
+    // await this.getDepartment()
+
+    setTimeout(() => {
+      // this.spinner.hide();
+    }, 800);
+  }
+  graph() {
+    this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
+      type: 'bar', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
+      data: { // ข้อมูลภายในแผนภูมิแบบเส้น
+        labels: ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sep", "Oct", "Nov", "Dec"], // ชื่อของข้อมูลในแนวแกน x
+        datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
+          label: 'Number of items sold in months',
+          data: [9, 7, 3, 5, 2, 10, 15, 61, 19, 3, 1, 9],
+          fill: false,
+          lineTension: 0.2,
+          borderColor: "red", // สีของเส้น
+          borderWidth: 1
+        }]
+      },
+      options: {
+        title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
+          text: "Bar Chart",
+          display: true
+        }
+      },
+    })
+  }
+
+
+  async openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+    await this.getMinistryPeople();
+    await this.getUserPeople();
+    this.getDepartmentdata();
+  }
+  openModal2(template: TemplateRef<any>, subjectid) {
+    this.subjectid = subjectid
+    this.departmentService.getalldepartdata().subscribe(res => {
+      this.department = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      this.modalRef = this.modalService.show(template);
+    })
+  }
+
+  openModal3(template: TemplateRef<any>, subjectid) {
+    this.subjectid = subjectid
+  }
+
+  editModal(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subquestionclosename = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm = this.fb.group({
+      subquestionclose: new FormControl(),
+
+    })
+    this.EditForm.patchValue({
+      subquestionclose: name,
+    })
+  }
+  showGraph(item, id) {
+    console.log('id', id);
+    var barchartAllset: any
+    var dataE: Array<any> = item.subquestionChoiceCentralPolicyProvinces
+      .map(element => console.log('element', this.chartLabel(element))
+      )
+  }
+  chartLabel(element) {
+    return element
+  }
+
+  editModal2(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subquestionclosechoicename = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm2 = this.fb.group({
+      subquestionclosechoice: new FormControl(),
+
+    })
+    this.EditForm2.patchValue({
+      subquestionclosechoice: name,
+    })
+  }
+
+  editModal3(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subject = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm3 = this.fb.group({
+      subject: new FormControl(),
+
+    })
+    this.EditForm3.patchValue({
+      subject: name,
+    })
+  }
+
+  editModal4(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.subjectquestionopen = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.EditForm4 = this.fb.group({
+      subjectquestionopen: new FormControl(),
+
+    })
+    this.EditForm4.patchValue({
+      subjectquestionopen: name,
+    })
+  }
+
+  editModal5(template: TemplateRef<any>, id, name) {
+    this.editid = id;
+    this.answer = name;
+
+    this.modalRef = this.modalService.show(template);
+    this.editAnswerForm = this.fb.group({
+      answer: new FormControl(),
+      answerId: new FormControl(),
+
+    })
+    this.editAnswerForm.patchValue({
+      answer: name,
+      answerId: id
+    })
+  }
+
+  DelModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  DelModal2(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  delsubjectModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  delquestionModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+  deloptionModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+  getDetailCentralPolicyProvince() {
+    this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
+      .subscribe(result => {
+        console.log("123", result);
+        // alert(JSON.stringify(result))
+        this.resultdetailcentralpolicy = result.centralpolicydata
+        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        this.provincename = result.provincedata.name
+        this.provinceid = result.provincedata.id
+        this.resultuser = result.userdata
+        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+        // this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.centralpolicyprovincedata = result.centralpolicyprovince
+        // this.form.patchValue({
+        //   questionPeople: this.centralpolicyprovincedata.questionPeople,
+        //   status: this.centralpolicyprovincedata.status
+        // })
+
+        // if (this.role_id == 3) {
+        //   if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+        //     this.centralpolicyprovincedata.step = "มอบหมายจังหวัด"
+        //   }
+        //   this.form.patchValue({
+        //     step: this.centralpolicyprovincedata.step
+        //   })
+        // } else if (this.role_id == 5) {
+        //   if (this.centralpolicyprovincedata.step == 'มอบหมายเขต') {
+        //     this.centralpolicyprovincedata.step = "มอบหมายเขต"
+        //   }
+        //   this.form.patchValue({
+        //     step: this.centralpolicyprovincedata.step
+        //   })
+        // }
+
+        this.resultdetailcentralpolicyprovince.forEach(element => {
+          var subquestionCentralPolicyProvinces: any[] = element.subquestionCentralPolicyProvinces
+          var subquestionChoicef: any[] = []
+
+          subquestionCentralPolicyProvinces
+            .filter(element2 => {
+              return element2.type == "คำถามปลายปิด"
+            })
+            .forEach(result => {
+              var data: any[] = result.subquestionChoiceCentralPolicyProvinces
+              var data2: any[]
+              var dataanswer: any[] = result.answerSubquestions
+              var dataanswer2: any[]
+              data2 = data.map(result => {
+                return result.name
+              })
+              console.log("result", result);
+
+              dataanswer2 = dataanswer.map(result => {
+                return result.answer
+              })
+              var reasult1 = {}
+              dataanswer2.forEach(
+                function (x) {
+                  reasult1[x] = (reasult1[x] || 0) + 1;
+                });
+
+              this.subquestionChoice.push(
+                { question: data2, answer: dataanswer2.length == 0 ? 0 : dataanswer2, data: Object.values(reasult1) }
+              )
+
+            })
+          console.log(this.subquestionChoice);
+
+
+        })
+        console.log('subquestionChoice', this.subquestionChoice);
+        this.getCalendarFile();
+      })
+  }
+  getsubjecteventDetail() {
+    this.centralpolicyservice.getSubjecteventdetaildata(this.id, this.subjectgroupid)
+      .subscribe(result => {
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        this.subjectgroup = result.subjectgroup
+        console.log("result", result);
+
+        this.form.patchValue({
+          // questionPeople: this.centralpolicyprovincedata.questionPeople,
+          status: this.subjectgroup.status
+        })
+
+      })
+  }
+  storeFiles(value) {
+    this.electronicBookService.addElectronicBookFileFromCalendar(value, this.form.value.files, this.electronicbookid, this.id, this.form.value.signatureFiles).subscribe(response => {
+      console.log(value);
+      this.Form.reset()
+
+      this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
+        .subscribe(response => {
+          console.log(response);
+        })
+
+      setTimeout(() => {
+        this.getCalendarFile();
+        this.form.reset();
+      }, 300);
+
+    })
+  }
+
+
+  storeDepartment(value) {
+    this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
+      console.log(value);
+      this.Form2.reset()
+      this.modalRef.hide()
+      this.getsubjecteventDetail();
+    })
+  }
+
+  storepeopleanswer(value) {
+    let UserPeopleanswerId: any[] = value.peopleanswer
+    this.centralpolicyservice.addPeopleAnswer(value, this.subjectid).subscribe(response => {
+      console.log(value);
+      this.Form3.reset()
+      this.modalRef.hide()
+
+
+      for (let i = 0; i < UserPeopleanswerId.length; i++) {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1)
+          .subscribe(response => {
+            console.log(response);
+
+          })
+      }
+
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editsubquestionclose(value, id) {
+    this.subjectservice.editsubquestionprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editsubquestionclosechoice(value, id) {
+    this.subjectservice.editsubquestionchoiceprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm2.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editsubject(value, id) {
+    this.subjectservice.editsubjectchoiceprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm3.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editsubjectquestionopen(value, id) {
+    this.subjectservice.editsubjectquestionopenchoiceprovince(value, id).subscribe(response => {
+      console.log(value);
+      this.EditForm4.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  editAnswer(value, id) {
+    this.subjectservice.editAnswer(value, id).subscribe(response => {
+      console.log(value);
+      this.editAnswerForm.reset()
+      this.modalRef.hide()
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  async getMinistryPeople() {
+    await this.userservice.getuserdata(6).subscribe(result => {
+      this.resultministrypeople = result // All
+    })
+  }
+
+  async getRecycledMinistryPeople() {
+    this.selectdataministrypeople = []
+    this.ministryPeople = this.allMinistryPeople
+    console.log("MINISTRY: ", this.ministryPeople);
+    console.log("allMinistry: ", this.resultministrypeople);
+    if (this.ministryPeople.length == 0) {
+      for (var i = 0; i < this.resultministrypeople.length; i++) {
+        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+      }
+    }
+    else {
+      for (var i = 0; i < this.resultministrypeople.length; i++) {
+        var n = 0;
+        for (var ii = 0; ii < this.ministryPeople.length; ii++) {
+          if (this.resultministrypeople[i].id == this.ministryPeople[ii].id) {
+            await n++;
+          }
+        }
+        if (n == 0) {
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
+        }
+      }
+    }
+    // console.log("TEST: ", this.selectdataministrypeople);
+  }
+
+  async getUserPeople() {
+    await this.userservice.getuserdata(7).subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.resultpeople = result
+      // alert(JSON.stringify(this.resultpeople))
+      console.log("tttt:", this.resultpeople);
+
+    })
+  }
+
+  async getRecycledUserPeople() {
+    var test: any = [];
+    test = this.resultpeople;
+    this.selectdatapeople = []
+    this.userPeople = this.allUserPeople
+    console.log("user: ", this.userPeople);
+    console.log("allUser: ", this.resultpeople);
+
+    if (this.userPeople.length == 0) {
+      for (var i = 0; i < this.resultpeople.length; i++) {
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+      }
+    }
+    else {
+      for (var i = 0; i < this.resultpeople.length; i++) {
+        var n = 0;
+        for (var ii = 0; ii < this.userPeople.length; ii++) {
+          if (this.resultpeople[i].id == this.userPeople[ii].id) {
+            await n++;
+          }
+        }
+        if (n == 0) {
+          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].name })
+        }
+      }
+    }
+    console.log("TEST: ", this.selectdatapeople);
+  }
+
+  uploadFile(event) {
+    this.fileStatus = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      files: file
+    });
+    console.log("fff:", this.form.value.files)
+    this.form.get('files').updateValueAndValidity()
+  }
+
+  uploadFile2(event) {
+    this.fileStatus2 = true;
+    const file = (event.target as HTMLInputElement).files;
+
+    this.form.patchValue({
+      signatureFiles: file
+    });
+    console.log("fff:", this.form.value.signatureFiles)
+    this.form.get('files').updateValueAndValidity()
+  }
+
+  getCalendarFile() {
+    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+      this.carlendarFile = res.carlendarFile;
+      this.signatureFile = res.signatureFile;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+
+  deleteProvinceial(value) {
+    this.subjectservice.deleteProvincial(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+
+      this.getsubjecteventDetail();
+
+    })
+  }
+
+  deletepeopleanswer(value) {
+    this.subjectservice.deletePeopleanswer(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+
+      this.getDetailCentralPolicyProvince();
+
+    })
+  }
+
+  removeV(index: number) {
+    const control = <FormArray>this.AddForm.controls['inputsubjectdepartment'];
+    control.removeAt(index);
+  }
+  removeW(iv: number, iw: number) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionopen') as FormArray;
+    control.removeAt(iw);
+  }
+  removeX(iv: number, ix: number) {
+    const control = (<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray;
+    control.removeAt(ix);
+  }
+  removeY(iv: number, ix: number, iy: number) {
+    const control = ((<FormArray>this.AddForm.controls['inputsubjectdepartment']).at(iv).get('inputquestionclose') as FormArray).at(ix).get('inputanswerclose') as FormArray;
+    control.removeAt(iy);
+  }
+  back() {
+    window.history.back();
+  }
+
+  deletesubject(value) {
+    this.subjectservice.deletesubjectrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+  deletequestion(value) {
+    this.subjectservice.deletequestionrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+  deleteoption(value) {
+    this.subjectservice.deleteoptionrole3(value).subscribe(response => {
+      console.log(value);
+      this.modalRef.hide()
+      this.loading = false
+      this.getDetailCentralPolicyProvince();
+    })
+  }
+
+  getDepartmentdata() {
+    // this.resultprovince.forEach((element, index) => {
+    //   console.log('element', element);
+
+    this.departmentService.getalldepartdata()
+      .subscribe(result => {
+        this.temp = result.map((item, index) => {
+          return {
+            value: item.id,
+            label: item.name,
+          }
+        })
+        console.log(result);
+      })
+    // });
+  }
+
+  storeSubject(value) {
+    // this.spinner.show();
+    console.log(value);
+    this.subjectservice.addSubjectRole3(value, this.id).subscribe(response => {
+      console.log("Response : ", response);
+      this.resultdsubjectid.push(response.getSubjectID)
+      response.termsList.forEach(element => {
+        this.resultdsubjectid.push(element)
+      });
+      console.log("Response2 : ", this.resultdsubjectid);
+      // this.storefiles();
+      this.AddForm.reset();
+      this.modalRef.hide();
+      // this.spinner.hide();
+      this.getDetailCentralPolicyProvince()
+    })
+  }
+
+  getAnswer2() {
+    this.centralpolicyservice.getAnswer(this.id).subscribe(res => {
+      this.answerData = res;
+      console.log("answer: ", this.answerData);
+    })
+  }
+
+  async openAnswerModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  checkType(type) {
+    // alert(type)
+    this.fileType = type;
+  }
+  openAddModalQuestionsclose(template: TemplateRef<any>, subjectid) {
+    console.log("subjectid:", subjectid);
+    this.modalRef = this.modalService.show(template);
+    this.FormAddQuestionsclose = this.fb.group({
+      subjectId: subjectid,
+      box: 0,
+      type: "คำถามปลายปิด",
+      name: new FormControl(null, [Validators.required]),
+      ProvincialDepartmentId: new FormArray([]),
+      inputanswerclose: this.fb.array([
+        this.initanswerclose()
+      ])
+    })
+  }
+  initanswerclose() {
+    return this.fb.group({
+      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+    })
+  }
+  addXX() {
+    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
+    control.push(this.initanswerclose());
+  }
+  removeXX(index: number) {
+    const control = <FormArray>this.FormAddQuestionsclose.controls['inputanswerclose'];
+    control.removeAt(index);
+  }
+  AddQuestionsclose(value) {
+    console.log(value);
+    this.subquestionservice.addSubquestioncloseevent(value).subscribe(result => {
+      console.log(result);
+      this.FormAddQuestionsclose.reset()
+      this.modalRef.hide()
+      this.getsubjecteventDetail()
+    })
+  }
+}
