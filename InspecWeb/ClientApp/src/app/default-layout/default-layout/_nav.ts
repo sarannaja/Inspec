@@ -51,14 +51,14 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/executiveorderexport1component',
+        url: '/executiveorderexport1',
         name: 'รายงานข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/executiveorderexport3component',
+        url: '/executiveorderexport3',
         name: 'ทะเบียนข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 
@@ -78,14 +78,14 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '#',
+        url: '/exportrequestorderforadminprovince',
         name: 'รายงานแจ้งข้อมูลถึงผู้ตรวจราชการ',
         ex_link: '0',
 
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '#',
+        url: '/exportrequestorderforinspector',
         name: 'ทะเบียนแจ้งข้อมูลถึงผู้ตรวจราชการ',
         ex_link: '0',
 
@@ -595,14 +595,14 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/executiveorderexport1component',
+        url: '/executiveorderexport1',
         name: 'รายงานข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/executiveorderexport3component',
+        url: '/executiveorderexport3',
         name: 'ทะเบียนข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 
@@ -622,14 +622,14 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
       },
       {
           icon:'fa-long-arrow-alt-right',
-          url:'#',
+          url:'/exportrequestorderforadminprovince',
           name:'รายงานคำร้องขอของหน่วยรับตรวจ',
           ex_link:'0',
 
       },
       {
           icon:'fa-long-arrow-alt-right',
-          url:'#',
+          url:'/exportrequestorderforinspector',
           name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
           ex_link:'0',
 
@@ -803,14 +803,14 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
       },
       {
         icon:'fa-long-arrow-alt-right',
-        url:'#',
+        url:'/exportrequestorderforadminprovince',
         name:'รายงานคำร้องขอของหน่วยรับตรวจ',
         ex_link:'0',
 
     },
     {
         icon:'fa-long-arrow-alt-right',
-        url:'#',
+        url:'exportrequestorderforinspector',
         name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
         ex_link:'0',
 
@@ -1085,14 +1085,14 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/executiveorderexport1component',
+        url: '/executiveorderexport1',
         name: 'รายงานข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/executiveorderexport3component',
+        url: '/executiveorderexport3',
         name: 'ทะเบียนข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 

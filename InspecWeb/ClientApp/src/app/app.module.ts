@@ -140,7 +140,12 @@ import { ExecutiveOrderExport3Component } from './executive-order/executive-orde
 import { CommanderReportComponent } from './commander-report/commander-report.component';
 import { SubjecteventComponent } from './subjectevent/subjectevent.component';
 import { DetailSubjecteventComponent } from './subjectevent/detail-subjectevent/detail-subjectevent.component';
+
+import { RequestOrderExport1Component } from './request-order/request-order-export1/request-order-export1.component';
+import { RequestOrderExport3Component } from './request-order/request-order-export3/request-order-export3.component';
+
 import { LogComponent } from './log/log.component';
+
 
 
 
@@ -275,6 +280,8 @@ const ExternalOrganization = [
     StatepolicyComponent,
     SubjecteventComponent,
     DetailSubjecteventComponent,
+    RequestOrderExport1Component,
+    RequestOrderExport3Component,
     LogComponent,
   ],
 
@@ -414,14 +421,16 @@ const ExternalOrganization = [
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
-          { path: 'executiveorderexport1component', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
-          { path: 'executiveorderexport3component', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
+          { path: 'executiveorderexport1', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
+          { path: 'executiveorderexport3', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent/detail/:result', component: DetailSubjecteventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'exportrequestorderforadminprovince', component: RequestOrderExport1Component, canActivate: [AuthorizeGuard]},
+          { path: 'exportrequestorderforinspector', component: RequestOrderExport3Component, canActivate: [AuthorizeGuard]},
           { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
         ]
       },

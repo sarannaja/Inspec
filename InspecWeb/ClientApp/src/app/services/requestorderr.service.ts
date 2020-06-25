@@ -128,5 +128,25 @@ answerrequestorder(requestorderData, file: FileList, id) {
     return this.http.get<any>(this.url + "detailforinspector/" + id + "/" + userid)
   }
 
+  getrequest1(Id) {
+    console.log('Id in service',Id);
+    // alert(Id);
+    var boby ={
+      Id 
+    }
+    return this.http.post<any>(this.url + "exportrequest1",boby)
+    
+  }
+  getrequest3(Id) {
+    console.log('Id in service',Id);
+    // alert(Id);
+    var boby ={
+      Id 
+    }
+    return this.http.post<any>(this.url + "exportrequest3",boby)
+  }
 
+  getrequest2(id){
+    return this.http.get<any>(this.url + "exportrequest2/" + id)
+  }
 }

@@ -1,0 +1,33 @@
+<div class="header">
+    <h1 class="header-title">
+      ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a href="#">แจ้งข้อมูล</a></li>
+        <li class="breadcrumb-item active">รายงานแจ้งข้อมูลถึงผู้ตรวจราชการ</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header" style="margin-bottom: 0px;">
+          <h3 class="card-title">รายงานแจ้งข้อมูลถึงผู้ตรวจราชการ</h3><br>
+            <div class="row">
+              <div class="col-4">
+                <select style="margin-bottom: 0px;" (change)="changrequest($event)" class="form-control select2 " data-toggle="select2">
+                    <option  [value]="">-- กรุณาเลือกชื่อผู้แจ้งข้อมูล --</option>
+                  <option *ngFor="let item of userdata" [value]="item.id">{{item.prefix}} {{item.name}}</option>
+              </select>   
+                </div>
+                <div class="col-2">
+                  <button class="btn btn-primary" 
+                       (click)="exportrequest(id)"><i class="align-middle mr-2 fas fa-file"></i>Export</button>
+                </div> 
+                </div>  
+              </div> 
+        </div>
+      </div>
+    </div>

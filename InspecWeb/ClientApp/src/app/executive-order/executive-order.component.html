@@ -38,6 +38,7 @@
           <tbody>
             <tr *ngFor="let item of resultexecutiveorder; let i = index">
               <td>{{ i + 1 }}</td>
+
               <td>{{ item.commanded_date | thaidate: 'year' }}</td>
               <td class="pointer"  (click)="DetailExecutiveOrder(
                 DetailExecutiveorder,
@@ -63,6 +64,7 @@
                   (click)="answerModal(AnswerExecutiveorder,item.id,item.answerdetail,item.answerProblem,item.answerCounsel)"
                   title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร">
                 </i>ตอบกลับ
+
 
                <i *ngIf="item.answerdetail != null" class="align-middle mr-2 fas fa -fw fa-download pointer"
                 title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร"></i> 
@@ -192,37 +194,37 @@
         </i>
         <b style="font-size: 17.5px;">
           <u>ประเด็น/เรื่อง</u>: {{vsubject}}
-        </b> 
+        </b>
       </p>
       <p>
         <i class="align-middle mr-2 fas fa-file"></i>
         <b class="font-size: 17.5px;"><u>รายละเอียดคำสั่งการ</u>: {{vsubjectdetail}}
-        </b> 
+        </b>
       </p>
       <p>
         <i class="align-middle mr-2 fas fa-calendar">
-        </i><b class="font-size: 17.5px;"> วันที่มีข้อสั่งการ:</b> 
+        </i><b class="font-size: 17.5px;"> วันที่มีข้อสั่งการ:</b>
         <span class="badge badge badge-info">{{vcommanded_date | thaidate: 'year'}}</span>
       </p>
       <p>
         <i class="align-middle mr-2 fas fa-calendar"></i>
         <b class="font-size: 17.5px;"> วันที่สร้างข้อสั่งการ:
           <span class="badge badge badge-info">{{vcreatedAt | thaidate: 'year'}}</span>
-        </b> 
+        </b>
       </p>
       <p>
         <i class="align-middle mr-2 fas fa-fw fa-user-circle">
-        </i><b class="font-size: 17.5px;">ผู้สั่งการ: 
+        </i><b class="font-size: 17.5px;">ผู้สั่งการ:
           <span class="badge badge-warning">{{vcommanded_by}}</span>
-        </b> 
+        </b>
       </p>
       <p>
-         <i class="align-middle mr-2 fas fa-fw fa-download">
+        <i class="align-middle mr-2 fas fa-fw fa-download">
         </i>ไฟล์แนบ : <br>
         <a *ngFor="let item of  vexecutiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item.name}}" download>
           <td>
             <p><button class="btn btn-primary">
-              {{i + 1}}. {{item.name}}</button></p>
+                {{i + 1}}. {{item.name}}</button></p>
           </td>
         </a>
       </p>
@@ -240,14 +242,14 @@
       <p>
         <i class="align-middle mr-2 fas fa-exclamation-triangle"></i>
         <b style="font-size: 17.5px;">
-          <u> ปัญหา/อุปสรรค</u>: 
+          <u> ปัญหา/อุปสรรค</u>:
           {{vanswerProblem}}
-        </b> 
+        </b>
       </p>
       <p>
         <i class="align-middle mr-2 fas fa-comments"></i>
         <b style="font-size: 17.5px">
-          <u>ข้อเสนอแนะ</u>: 
+          <u>ข้อเสนอแนะ</u>:
           {{vanswerCounsel}}
         </b>
       </p>
@@ -255,17 +257,17 @@
         <i class="align-middle mr-2 fas fa-fw fa-user-circle">
         </i><b style="font-size: 17.5px"> ผู้รับเรื่อง:
           <span class="badge badge-warning">{{vanswer_by}}</span>
-        </b> 
+        </b>
       </p>
       <label>
         <i class="align-middle mr-2 fas fa-fw fa-download">
-        </i>ไฟล์แนบ : 
+        </i>ไฟล์แนบ :
         <a *ngFor="let item of vanswerExecutiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item.name}}"
           download>
           <br>
           <td>
             <h5><button class="btn btn-primary">
-              {{i + 1}}. {{item.name}}</button></h5>
+                {{i + 1}}. {{item.name}}</button></h5>
           </td>
         </a>
       </label><br>
