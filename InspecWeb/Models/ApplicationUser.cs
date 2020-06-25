@@ -54,6 +54,14 @@ namespace InspecWeb.Models
         public long DepartmentId { get; set; }
         public virtual Department Departments { get; set; }
 
+        // ***
+        //เพื่มเมื่อ 21-06-2020
+        [ForeignKey(" ProvincialDepartment")]
+        [Description("FK: หน่วยงานส่วนภูมิถาค")]
+        public long ProvincialDepartmentId { get; set; }
+        public virtual ProvincialDepartment ProvincialDepartments { get; set; }
+        // ***
+
         [ForeignKey("Province")]
         [Description("FK: จังหวัด")]
         public long ProvinceId { get; set; }

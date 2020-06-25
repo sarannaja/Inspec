@@ -30,45 +30,44 @@
               <th>สถานะ</th>
               <th>วันที่แจ้งข้อสั่งการ</th>
               <th>ผู้รับข้อสั่งการ</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              
+              <th> <i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <!-- <th></th> -->
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of resultexecutiveorder; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ item.commanded_date | thaidate: 'year' }}</td>
-              <td>{{ item.subject}}</td>
+              <td class="pointer"  (click)="DetailExecutiveOrder(
+                DetailExecutiveorder,
+                item.commanded_date,
+                item.usercom == null? '':item.usercom.prefix+' '+item.usercom.name ,
+                item.subject,
+                item.subjectdetail,
+                item.status,
+                item.createdAt,
+                item.userans == null? '':item.userans.prefix+' '+item.userans.name ,
+                
+                item.answerdetail,
+                item.answerProblem,
+                item.answerCounsel,
+                item.executiveOrderFiles,
+                item.answerExecutiveOrderFiles
+              )"> <i class="align-middle mr-2 fas fa-fw fa-book"> </i>{{ item.subject}}</td>
               <td>{{ item.status }}</td>
               <td>{{ item.createdAt | thaidate: 'year' }}</td>
-              <td>{{item.userans == null? '':item.userans.prefix+' '+item.userans.name  }}</td>
-              <td>
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer" title="รายละเอียดข้อสั่งการและการตอบกลับ"
-                  (click)="DetailExecutiveOrder(
-                    DetailExecutiveorder,
-                    item.commanded_date,
-                    item.usercom == null? '':item.usercom.prefix+' '+item.usercom.name ,
-                    item.subject,
-                    item.subjectdetail,
-                    item.status,
-                    item.createdAt,
-                    item.userans == null? '':item.userans.prefix+' '+item.userans.name ,
-                    
-                    item.answerdetail,
-                    item.answerProblem,
-                    item.answerCounsel,
-                    item.executiveOrderFiles,
-                    item.answerExecutiveOrderFiles
-                  )">
-                </i>
-
+              <td>{{item.userans == null? '':item.userans.prefix+' '+item.userans.name  }}</td>            
+              <td> 
                 <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-envelope pointer"
                   (click)="answerModal(AnswerExecutiveorder,item.id,item.answerdetail,item.answerProblem,item.answerCounsel)"
                   title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร">
-                </i>
+                </i>ตอบกลับ
 
-                <i *ngIf="item.answerdetail != null" class="align-middle mr-2 fas fa -fw fa-download pointer"
-                  title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร"></i>
+               <i *ngIf="item.answerdetail != null" class="align-middle mr-2 fas fa -fw fa-download pointer"
+                title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร"></i> 
               </td>
+              <!-- <td>รับทราบ</td> -->
             </tr>
           </tbody>
         </table>
@@ -80,7 +79,7 @@
 
 <!-- BEGIN primary modal -->
 <ng-template #CreateExcutiveOrder class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <form [formGroup]="Form" (ngSubmit)="storedetailexecutiveorder(Form.value)">
+  <form [formGroup]="Form" (ngSubmit)="storeexecutiveorder(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">เพิ่มข้อสั่งการ</h5>
@@ -104,21 +103,21 @@
           </div>
 
           <label for="test" class="form-label">รายละเอียด</label>
-          <textarea input type="text" formControlName="Subjectdetail" class="form-control"
+          <textarea input type="text" formControlName="Subjectdetail" class="form-control" 
             placeholder="กรุณากรอกลายละเอียด"></textarea>
-          <br>
-          <div class="col-12 col-xl-12">
-            <div class="form-group">
-              <label class="form-label w-100">แนบไฟล์</label>
-              <input type="file" (change)="uploadFile($event)">
-              <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
-            </div>
-          </div>
-
+         
+            <br>
           <label>ผู้รับข้อสั่งการ</label>
           <ng-select placeholder="กรุณาเลือกผู้รับข้อสั่งการ" [multiple]="false" [options]="selectdatauser"
             name="Answer_by" formControlName="Answer_by" [allowClear]="true">
           </ng-select>
+        </div>
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label w-100">แนบไฟล์</label>
+            <input type="file" (change)="uploadFile($event)">
+            <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

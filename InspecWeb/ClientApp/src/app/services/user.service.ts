@@ -46,11 +46,11 @@ export class UserService {
     return this.subject.asObservable();
   }
 
-    addUser(userData,file: FileList) {
-      //alert('service : '+userData.Role_id);
+  addUser(userData,file: FileList) {
+     // alert(userData.Role_id);
       //console.log("servicelog: ", userData);
       const formData = new FormData();
-      formData.append('Email', userData.Email); //role   
+      formData.append('Email', userData.Email); //email   
       formData.append('Role_id', userData.Role_id); //role
       formData.append('Prefix', userData.Prefix); //คำนำหน้า
       formData.append('Name', userData.Name); //ชื่อ
@@ -66,71 +66,65 @@ export class UserService {
       formData.append('Postalcode',''); 
       formData.append('Side',''); 
       formData.append('Img',''); 
-      //formData.append('CreatedAt',''); 
-      //formData.append('Startdate',''); 
-      //formData.append('Enddate',''); 
-      formData.append('startdate', userData.startdate.date.year + '-' + userData.startdate.date.month + '-' + userData.startdate.date.day);
-    formData.append('enddate', userData.enddate.date.year + '-' + userData.enddate.date.month + '-' + userData.enddate.date.day);
+      formData.append('startdate', userData.Startdate.date.year + '-' + userData.Startdate.date.month + '-' + userData.Startdate.date.day);
+      formData.append('enddate', userData.Enddate.date.year + '-' + userData.Enddate.date.month + '-' + userData.Enddate.date.day);
    
       if(userData.UserRegion != null){
         for (var i = 0; i < userData.UserRegion.length; i++) {
           formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน  
-         
         }
       }else{
         formData.append('UserRegion', '1');
       }
 
-    if (userData.UserRegion != null) {
-      for (var i = 0; i < userData.UserRegion.length; i++) {
-        formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน
-
+      if (userData.UserProvince != null) {
+        for (var i = 0; i < userData.UserProvince.length; i++) {
+          formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+        }
+      } else {
+        formData.append('UserProvince', '1');
       }
-    } else {
-      formData.append('UserRegion', '1');
-    }
 
-    if (userData.UserProvince != null) {
-      for (var i = 0; i < userData.UserProvince.length; i++) {
-        formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+      if (userData.ProvinceId == null) {
+        formData.append('ProvinceId', '1');
+      } else {
+        formData.append('ProvinceId', userData.ProvinceId); //จังหวัดมีได้อันเดียว
       }
-    } else {
-      formData.append('UserProvince', '1');
-    }
 
-    if (userData.ProvinceId == null) {
-      formData.append('ProvinceId', '1');
-    } else {
-      formData.append('ProvinceId', userData.ProvinceId); //จังหวัดมีได้อันเดียว
-    }
+      if (userData.DistrictId == null) {
+        formData.append('DistrictId', '1');
+      } else {
+        formData.append('DistrictId', userData.DistrictId); //อำเภอมีได้อันเดียว
+      }
 
-    if (userData.DistrictId == null) {
-      formData.append('DistrictId', '1');
-    } else {
-      formData.append('DistrictId', userData.DistrictId); //จังหวัดมีได้อันเดียว
-    }
+      if (userData.SubdistrictId == null) {
+        formData.append('SubdistrictId', '1');
+      } else {
+        formData.append('SubdistrictId', userData.SubdistrictId); //ตำบลมีได้อันเดียว
+      }
 
-    if (userData.SubdistrictId == null) {
-      formData.append('SubdistrictId', '1');
-    } else {
-      formData.append('SubdistrictId', userData.SubdistrictId); //จังหวัดมีได้อันเดียว
-    }
+      if (userData.MinistryId == null) {
+        formData.append('MinistryId', '1');
+      } else {
+        formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+      }
 
-    if (userData.MinistryId == null) {
-      formData.append('MinistryId', '1');
-    } else {
-      formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
-    }
+      if (userData.DepartmentId == null) {
+        formData.append('DepartmentId', '1');
+      } else {
+        formData.append('DepartmentId', userData.DepartmentId);//กรมมีได้อันเดียว
+      }
 
-    if (userData.DepartmentId == null) {
-      formData.append('DepartmentId', '1');
-    } else {
-      formData.append('DepartmentId', userData.DepartmentId);//หน่วยงานมีได้อันเดียว
-    }
+      if (userData.ProvincialDepartmentId == null) {
+        formData.append('ProvincialDepartmentId', '1');
+      } else {
+        formData.append('ProvincialDepartmentId', userData.ProvincialDepartmentId);//หน่วยงานภูมิภาคมีได้อันเดียว
+      }
 
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
-    }
+      for (var iii = 0; iii < file.length; iii++) {
+        
+        formData.append("files", file[iii]);
+      }
 
     return this.http.post(this.base, formData);
   }
