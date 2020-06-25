@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Regions, Ministers, Cabinets, Province, ProvinceFiscalYears, ProvinceFiscalYear } from '../external-organization/models/otps' ;
 import { NewRegion } from '../external-organization/models/Region';
 import { OtpsProvineFiscalYear } from '../models/otpsprovince';
+import { ProvinceOtps } from '../external-organization/models/province-otps';
 // import { NewRegion, Province } from '../external-organization/models/Region';
 // [assembly: RegisterModule(typeof(SSLRequestModule))]                                                                                                                                                                                                                                                                                                                                             
 
@@ -29,7 +30,7 @@ export class ExternalOrganizationService {
     return this.http.get<Province[]>(this.baseUrl + 'api/ExternalOrganization/otps/provinces', this.httpOptions)
   }
   getProvince(id:any):Observable<ProvinceFiscalYear>{
-    return this.http.get<ProvinceFiscalYear>(this.baseUrl + 'api/ExternalOrganization/otps/provinces/'+id, this.httpOptions)
+    return this.http.get<ProvinceFiscalYear>(this.baseUrl + `api/ExternalOrganization/otps/provinces/${id}`, this.httpOptions)
   }
   
   getMinisters(): Observable<Ministers[]> {
@@ -41,7 +42,7 @@ export class ExternalOrganizationService {
   }
 
   getGccopm(provinceId:any,representId:any): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + 'api/ExternalOrganization/gcc-opm/'+provinceId+'/'+representId, this.httpOptions)
+    return this.http.get<any[]>(this.baseUrl + `api/ExternalOrganization/gcc-opm/${provinceId}/${representId}`, this.httpOptions)
   }
 
   getGccProvice(): Observable<any[]> {
@@ -57,6 +58,9 @@ export class ExternalOrganizationService {
   }
   getOtpsProviceById(id): Observable<OtpsProvineFiscalYear> {
     return this.http.get<OtpsProvineFiscalYear>(this.baseUrl + `api/ExternalOrganization/otps/provinces2/${id}`, this.httpOptions)
+  }
+  getOtpsProviceOtps(): Observable<ProvinceOtps[]> {
+    return this.http.get<ProvinceOtps[]>(this.baseUrl + `api/ExternalOrganization/otps/provinces2`)
   }
   
 }

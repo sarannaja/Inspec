@@ -6,6 +6,7 @@ import { OtpsComponent } from './otps/otps.component';
 import { TestComponent } from './test/test.component';
 import { JoaComponent } from './joa/joa.component';
 import { VectorMapComponent } from './vector-map/vector-map.component';
+import { ProvinceOtpsComponent } from './otps/province-otps/province-otps.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'otps',
         component: OtpsComponent
+      },
+      {
+        path: 'otps-provinces',
+        component: ProvinceOtpsComponent
       },
     
       {

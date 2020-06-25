@@ -14,6 +14,7 @@
             <th>#</th>
             <th>รหัส</th>
             <th>วัตถุประสงค์</th>
+            <th>วันที่รับแจ้ง</th>
             <th>ประเภทเรื่อง</th>
             <th>สาระสำคัญ</th>
         </tr>
@@ -24,6 +25,7 @@
             <td> <a href="javascript:void(0)"> {{item.case_code}}</a></td>
             <!-- <td><img onmouseover="" [src]="item.photo" alt=""></td> -->
             <td>{{item.objective_text}}</td>
+            <td>{{item.date_opened   }}</td>
             <td>{{item.type_text}}</td>
             <td>
                 {{item.summary}}
