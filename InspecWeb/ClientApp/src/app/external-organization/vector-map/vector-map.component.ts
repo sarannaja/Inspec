@@ -3,7 +3,7 @@ declare var jQuery: any;
 import mapdata from "../../../assets/jvectormap/mappass"
 import code_color from "../../../assets/jvectormap/code_color"
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
-import { Province, ProvinceFiscalYears, ProvinceFiscalYear, FiscalYears } from 'src/app/models/otps';
+import { Province, ProvinceFiscalYears, ProvinceFiscalYear, FiscalYears } from '../models/otps';
 @Component({
   selector: 'app-vector-map',
   templateUrl: './vector-map.component.html',

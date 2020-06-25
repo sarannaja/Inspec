@@ -14,5 +14,11 @@ namespace InspecWeb.ViewModel
         public string CreatedBy { get; set; }
 
         public long ProvinceId { get; set; }
+
+        public DateTime NotificationDate { get; set; }
+        public DateTime DeadlineDate { get; set; }
+
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

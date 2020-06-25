@@ -218,16 +218,24 @@ namespace InspecWeb.Controllers
             var provincialdepartment = _context.ProvincialDepartment
                .Where(m => m.DepartmentId == userdata.DepartmentId).First();
 
-            var centralpolicyprovincedata = _context.CentralPolicyProvinces
+
+
+            //var centralpolicyprovincedata = _context.CentralPolicyProvinces
+            //    .Include(m => m.CentralPolicy)
+            //    .Include(m => m.SubjectCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+            //    .ThenInclude(m => m.ProvincialDepartment)
+            //    .Where(m => m.ProvinceId == province.ProvinceId)
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id))))
+            //    .ToList();
+
+            var centralpolicyprovincedata = _context.SubjectGroups
                 .Include(m => m.CentralPolicy)
-                .Include(m => m.SubjectCentralPolicyProvinces)
-                .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
-                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
-                .ThenInclude(m => m.ProvincialDepartment)
-                .Where(m => m.ProvinceId == province.ProvinceId)
-                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
-                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id))))
+                .Where(m => m.ProvinceId == province.ProvinceId && m.Type == "NoMaster")
                 .ToList();
+
             return Ok(centralpolicyprovincedata);
         }
 
@@ -284,9 +292,10 @@ namespace InspecWeb.Controllers
                         .Include(m => m.SubquestionCentralPolicyProvinces)
                         .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                         .ThenInclude(m => m.ProvincialDepartment)
-                .Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster")
-                .Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id)))
-                .ToList();
+                        .Where(m => m.SubjectGroupId == id && m.Type == "NoMaster")
+                        //.Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster")
+                        .Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id)))
+                        .ToList();
 
                 //var subjectdata = _context.SubjectCentralPolicyProvinces
                 //.Include(m => m.CentralPolicyProvince)

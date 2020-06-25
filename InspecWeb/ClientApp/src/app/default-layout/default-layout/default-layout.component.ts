@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit,Inject,TemplateRef } from '@angular/core';
+import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { superAdmin,Centraladmin,Inspector,Provincialgovernor,Adminprovince,InspectorMinistry,publicsector,president,InspectorDepartment,InspectorExamination } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
@@ -22,8 +22,8 @@ export class DefaultLayoutComponent implements OnInit {
   role_id: any
   nav: any
   imgprofileUrl: any;
-  resultuser :any [];
-  resultfirstuser:any[] = [];
+  resultuser: any[];
+  resultfirstuser: any[] = [];
   modalRef: BsModalRef;
   Form: FormGroup;
   Prefix: any;
@@ -32,12 +32,12 @@ export class DefaultLayoutComponent implements OnInit {
   PhoneNumber: any;
   Email: any;
   files: any;
-  Img:any;
-  Formprofile:any;
-  resultnotifications :any[] = [];
-  resultnotificationscount:any[] = [];
+  Img: any;
+  Formprofile: any;
+  resultnotifications: any[] = [];
+  resultnotificationscount: any[] = [];
   // childClassIcon = "align-middle mr-2 fas fa-fw
-
+  bridge2: Array<Bridge>
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -46,13 +46,13 @@ export class DefaultLayoutComponent implements OnInit {
     private modalService: BsModalService,
     private fb: FormBuilder,
     @Inject('BASE_URL') baseUrl: string
-  ) { 
+  ) {
     this.imgprofileUrl = baseUrl + '/imgprofile';
   }
   // 0C-54-15-66-C2-D6
-  
 
-  onToggle(){
+
+  onToggle() {
     this.toggled = !this.toggled;
   }
   ngOnInit() {
@@ -60,6 +60,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.profileform();
     this.getuserinfo();
     this.getnotifications();
+    this.getplancount();
     this.checkactive(this.nav[0].url);
     // this.urlActive = this.nav[0].url
   }
@@ -71,7 +72,7 @@ export class DefaultLayoutComponent implements OnInit {
   userNav(url, id): void {
     this.router.navigate([url])
     // send message to subscribers via observable subject
-    this.userService.sendNav(id);  
+    this.userService.sendNav(id);
   }
 
   Logout() {
@@ -79,7 +80,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-      this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template);
   }
 
   uploadFile(event) {
@@ -90,7 +91,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.Form.get('files').updateValueAndValidity()
   }
 
-  profileform(){
+  profileform() {
     this.Form = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
       Name: new FormControl(null, [Validators.required]),
@@ -102,34 +103,95 @@ export class DefaultLayoutComponent implements OnInit {
     })
   }
 
-  getnotifications(){
-    this.notificationService.getnotificationsdata(this.userid)      
-    .subscribe(result => { 
-      this.resultnotifications = result;
-    })
+  getnotifications() {
+    this.notificationService.getnotificationsdata(this.userid)
+      .subscribe(result => {
+        this.resultnotifications = result;
+      })
 
-    this.notificationService.getnotificationscountdata(this.userid)      
-    .subscribe(result => { 
-      this.resultnotificationscount = result;
-    })
+    this.notificationService.getnotificationscountdata(this.userid)
+      .subscribe(result => {
+        this.resultnotificationscount = result;
+      })
   }
 
-  detailnotifications(id){
-    this.notificationService.updateNotification(id)      
-    .subscribe(result => { 
+  detailnotifications(id) {
+    this.notificationService.updateNotification(id)
+      .subscribe(result => {
 
-      this.nav = superAdmin;
-      this.profileform();
-      this.getuserinfo();
-      this.getnotifications();
-      this.checkactive(this.nav[0].url);
-      
-    })
+        this.nav = superAdmin;
+        this.profileform();
+        this.getuserinfo();
+        this.getnotifications();
+        this.checkactive(this.nav[0].url);
+
+      })
   }
 
   //start getuser
-  getuserinfo(){
+  getuserinfo() {
     this.authorize.getUser()
+<<<<<<< HEAD
+      .subscribe(result => {
+        this.userid = result.sub
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            this.resultuser = result;
+
+            this.role_id = result[0].role_id
+            this.Prefix = result[0].prefix
+            this.Name = result[0].name
+            this.Position = result[0].position
+            this.PhoneNumber = result[0].phoneNumber
+            this.Email = result[0].email
+            this.Img = result[0].img
+
+            this.Form.patchValue({
+              Prefix: this.Prefix,
+              Name: this.Name,
+              Position: this.Position,
+              PhoneNumber: this.PhoneNumber,
+              Email: this.Email,
+              Formprofile: 1,
+              files: this.files,
+            });
+
+            if (this.role_id == 1) {
+              this.nav = superAdmin
+            } else if (this.role_id == 2) {
+              this.nav = Centraladmin
+            } else if (this.role_id == 3) {
+              this.nav = Inspector
+            } else if (this.role_id == 4) {
+              this.nav = Provincialgovernor
+            } else if (this.role_id == 5) {
+              this.nav = Adminprovince
+            } else if (this.role_id == 6) {
+              this.nav = InspectorMinistry
+            } else if (this.role_id == 7) {
+              this.nav = publicsector
+            } else if (this.role_id == 8) {
+              this.nav = president
+            } else if (this.role_id == 9) {
+              this.nav = InspectorDepartment
+            }
+          })
+      })
+
+  }
+
+  getplancount() {
+    this.userService.getplancount(this.userid)
+      .subscribe(result => {
+        result.filter(
+          (thing, i, arr) => arr.findIndex(t => t.inspectionPlanEventId === thing.inspectionPlanEventId) === i
+        ).length
+        var bridge: Bridge = {
+          name: "ปฏิทินการตรวจราชการ",
+          test: result.filter(
+            (thing, i, arr) => arr.findIndex(t => t.inspectionPlanEventId === thing.inspectionPlanEventId) === i
+          ).length
+=======
     .subscribe(result => {
       this.userid = result.sub  
       this.userService.getuserfirstdata(this.userid)      
@@ -174,17 +236,46 @@ export class DefaultLayoutComponent implements OnInit {
           this.nav = InspectorExamination //หน่วยงานตรวจ
         }else if(this.role_id == 10){
           this.nav = InspectorDepartment // ผู้ตรวจกรม
+>>>>>>> master
         }
+        this.bridge2.push(bridge)
+
+        console.log(
+
+
+        );
       })
+<<<<<<< HEAD
+
+=======
     })
+>>>>>>> master
   }
   //End getuser
-//for
-    editprofile(value) {
-      this.userService.editprofile(value,this.Form.value.files,this.userid).subscribe(response => {
-        this.Form.reset()
-        this.modalRef.hide()
-        this.getuserinfo();
-      })
-    }
+  //for
+  editprofile(value) {
+    this.userService.editprofile(value, this.Form.value.files, this.userid).subscribe(response => {
+      this.Form.reset()
+      this.modalRef.hide()
+      this.getuserinfo();
+    })
+  }
+
+  bridge(name) {
+    // this.bridge2.filter(result => {
+    //   return result.name == name
+    // })[0]
+    console.log( this.bridge2.filter(result => {
+      return result.name == name
+    })[0]);
+
+    return this.bridge2.filter(result => {
+      return result.name == name
+    })[0]
+  }
+}
+
+
+export interface Bridge {
+  name: string, test: any
 }

@@ -1,7 +1,9 @@
 {
   "format": 1,
   "restore": {
-    "/Users/fame/Desktop/Inspec/EmailService/EmailService.csproj": {}
+
+    "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj": {}
+
   },
   "projects": {
     "/Users/fame/Desktop/Inspec/EmailService/EmailService.csproj": {

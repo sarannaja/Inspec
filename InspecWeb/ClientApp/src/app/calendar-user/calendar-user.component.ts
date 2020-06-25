@@ -22,7 +22,7 @@ declare var $: any;
 export class CalendarUserComponent implements OnInit {
   url = "";
   resultinspectionplanevent: any = []
-  inspectionplancalendar: any[] = []
+  inspectionplancalendar: any = []
   delid: any
   modalRef: BsModalRef;
   userid: string
@@ -39,72 +39,146 @@ export class CalendarUserComponent implements OnInit {
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
-        console.log(result);
+        //console.log(result);
         // alert(this.userid)
       })
 
     this.inspectionplanservice.getinspectionplaneventuserdata(this.userid)
       .subscribe(result => {
-        // console.log("res: ", result);
+        // //console.log("res: ", result);
         this.resultinspectionplanevent = result;
 
-        var distinctThings = result.filter(
+        var distinctThings: any[] = result.filter(
           (thing, i, arr) => arr.findIndex(t => t.id === thing.id) === i
         );
 
-        console.log("unique: ", distinctThings);
+        //console.log("unique: ", distinctThings);
         // this.inspectionplancalendar = distinctThings;
 
-        var test: any = [];
+        // var test: any = [];
 
         // distinctThings.forEach(element => {
         //   element.centralPolicyEvents.forEach(element2 => {
         //     element2.centralPolicy.centralPolicyUser.forEach(element3 => {
         //       if (element3.userId == this.userid) {
-        //         // console.log("ELEMENT3: ", element3);
+        //         // //console.log("ELEMENT3: ", element3);
 
         //       }
         //     });
         //   });
         // });
 
+        var j = 0;
         this.inspectionplancalendar = distinctThings.map((item, indexo) => {
-          var parentArray = [{ item: 'one', children: [1, 2, 3] }, { item: 'two', children: [4, 5, 6] }];
-          // console.log("item: ", item.centralPolicyEvents);
+          // var parentArray = [{ item: 'one', children: [1, 2, 3] }, { item: 'two', children: [4, 5, 6] }];
+          // //console.log("item: ", item.centralPolicyEvents);
 
           var dest;
+          var test = 0;
 
 
           var element = item.centralPolicyEvents;
-          var element2: any = [];
+          // //console.log('element', element);
+
+          var element2: any[] = [];
           for (let index2 = 0; index2 < element.length; index2++) {
-            element[index2].centralPolicy.centralPolicyUser.forEach(elementTest => {
-              if (elementTest.userId == this.userid) {
-                element2.push(elementTest);
-              }
+            element2 = element[index2].centralPolicy.centralPolicyUser.filter(elementTest => {
+              return elementTest.userId == this.userid
+              // if () {
+              //   element2.push(elementTest);
+              // }
             });
           }
-          var test = 0;
           var colorJa: any;
-          console.log("T: ", element2);
-
-          element2.filter((item2) => {
-            if (test == 0) {
-              if (item2.status == "รอการตอบรับ") {
-                test = 1;
+          console.log("T:" + ((((j + element2.length) - 1) - element.length) - element2.length), element2);
+          // console.log("T:" + ((((j + element.length) - 1) - ((j + element2.length) - 1)) + j), element2);
+          // // return  {data:element2,startDate:item.startDate,endDate:item.endDate}
+          // test++
+          // if (test == 0) {
+          for (var i = 0; i <= j; i++) {
+            // console.log(element2[((j + element.length) - 1)].status);
+            //console.log("jjjj", j);
+            if (((((j + element.length) - 1) - ((j + element2.length) - 1)) + j) < 0) {
+              if (element2[((j + element.length) - 1)].status == "รอการตอบรับ") {
+                // test = 1;
+                colorJa = "#FFD700" //yellow
+              } else if (element2[((j + element.length) - 1)].status == "ตอบรับ") {
+                // test = 1;
+                colorJa = "#008000" //green
+              } else if (element2[((j + element.length) - 1)].status == "ปฏิเสธ") {
+                // test = 1;
                 colorJa = "#C70039" //red
-              } else if (item2.status == "ตอบรับ") {
-                test = 0;
-                colorJa = "#008000" //green
-              } else if (item2.status == "ปฎิเสธ") {
-                colorJa = "#008000" //green
-              } else if (item2.status == "มอบหมาย") {
+              } else if (element2[((j + element.length) - 1)].status == "มอบหมาย") {
+                // test = 1;
                 colorJa = "#008000" //green
               }
-
+            } else if (((((j + element2.length) - 1) - element.length) - element2.length) != element2.length) {
+              if (element2[((((j + element2.length) - 1) - element.length) - element2.length)].status == "รอการตอบรับ") {
+                // test = 1;
+                colorJa = "#FFD700" //yellow
+              } else if (element2[((((j + element2.length) - 1) - element.length) - element2.length)].status == "ตอบรับ") {
+                // test = 1;
+                colorJa = "#008000" //green
+              } else if (element2[((((j + element2.length) - 1) - element.length) - element2.length)].status == "ปฏิเสธ") {
+                // test = 1;
+                colorJa = "#C70039" //red
+              } else if (element2[((((j + element2.length) - 1) - element.length) - element2.length)].status == "มอบหมาย") {
+                // test = 1;
+                colorJa = "#008000" //green
+              }
+            } else {
+              if (element2[(((((j + element2.length) - 1) - element.length) - element2.length) - 1)].status == "รอการตอบรับ") {
+                // test = 1;
+                colorJa = "#FFD700" //yellow
+              } else if (element2[(((((j + element2.length) - 1) - element.length) - element2.length) - 1)].status == "ตอบรับ") {
+                // test = 1;
+                colorJa = "#008000" //green
+              } else if (element2[(((((j + element2.length) - 1) - element.length) - element2.length) - 1)].status == "ปฏิเสธ") {
+                // test = 1;
+                colorJa = "#C70039" //red
+              } else if (element2[(((((j + element2.length) - 1) - element.length) - element2.length) - 1)].status == "มอบหมาย") {
+                // test = 1;
+                colorJa = "#008000" //green
+              }
             }
-          })
-          console.log("element2: ", element2);
+
+          }
+          j++
+          // j=element2.length - j;
+          // }
+          // test = 0
+          // element2.filter((item2) => {
+          //   // if (test == 0) {
+          //   //   if (item2.status == "รอการตอบรับ") {
+          //   //     test = 1;
+          //   //     colorJa = "#C70039" //red
+          //   //   } else if (item2.status == "ตอบรับ") {
+          //   //     test = 0;
+          //   //     colorJa = "#008000" //green
+          //   //   } else if (item2.status == "ปฎิเสธ") {
+          //   //     colorJa = "#008000" //green
+          //   //   } else if (item2.status == "มอบหมาย") {
+          //   //     colorJa = "#008000" //green
+          //   //   }
+          //   // }
+          //   if (test == 0) {
+          //     if (item2.status == "รอการตอบรับ") {
+          //       test = 1;
+          //       colorJa = "#FFD700" //yellow
+          //     } else if (item2.status == "ตอบรับ") {
+          //       test = 1;
+          //       colorJa = "#008000" //green
+          //     } else if (item2.status == "ปฎิเสธ") {
+          //       test = 1;
+          //       colorJa = "#C70039" //red
+          //     } else if (item2.status == "มอบหมาย") {
+          //       test = 1;
+          //       colorJa = "#008000" //green
+          //     }
+          //   }
+          // })
+
+          // //console.log("element2: ", element2);
           return {
             id: item.id,
             title: item.province.name,
@@ -113,12 +187,48 @@ export class CalendarUserComponent implements OnInit {
             // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
             start: moment(item.startDate), //.format("YYYY-MM-DD"),
             end: moment(item.endDate).add(1, 'days'), //.format("YYYY-MM-DD"),
-            status: test,
+            // status: test,
             color: colorJa
+            // element2[1].status == "รอการตอบรับ" ?"#FFD700" :"#008000"
           }
         })
-        console.log('res: ', this.inspectionplancalendar);
+        console.log('res: ',
+          this.inspectionplancalendar
 
+        );
+
+        // var testtest:any[] =  this.inspectionplancalendar[0].data
+        // .map(result => {
+        //   var colorJa: any;
+        //   //console.log('result.startDate',result);
+
+        //   if (result.status == "รอการตอบรับ") {
+        //     // test = 1;
+        //     colorJa = "#FFD700" //yellow
+        //   } else if (result.status == "ตอบรับ") {
+        //     // test = 1;
+        //     colorJa = "#008000" //green
+        //   } else if (result.status == "ปฎิเสธ") {
+        //     // test = 1;
+        //     colorJa = "#C70039" //red
+        //   } else if (result.status == "มอบหมาย") {
+        //     // test = 1;
+        //     colorJa = "#008000" //green
+        //   }
+        //   return {
+        //     id: result.id,
+        //     title: result.province.name,
+        //     provinceid: result.province.id,
+        //     // id: result.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+        //     // title: result.province.name + ", " + result.centralPolicyEvents[0].centralPolicy.title,
+        //     start: moment( this.inspectionplancalendar[0].startDate), //.format("YYYY-MM-DD"),
+        //     end: moment( this.inspectionplancalendar[1].endDate).add(1, 'days'), //.format("YYYY-MM-DD"),
+        //     // status: test,
+        //     color: colorJa
+        //   }
+        // })
+
+        // this.inspectionplancalendar = testtest
 
 
         // this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
@@ -181,7 +291,7 @@ export class CalendarUserComponent implements OnInit {
     // });
     // calendar.render();
     setTimeout(() => {
-      console.log("INSPEC: ", this.inspectionplancalendar);
+      //console.log("INSPEC: ", this.inspectionplancalendar);
       var url_to_inspection = this.url
       $("#calendar").fullCalendar({
         events: this.inspectionplancalendar,
@@ -196,7 +306,7 @@ export class CalendarUserComponent implements OnInit {
         // eventBackgroundColor: "#DC143C",
         // eventBorderColor: "#DC143C",
         eventClick: function (event) {
-          window.location.href = url_to_inspection + event.id;
+          window.location.href = url_to_inspection + event.id + '/' + event.provinceid;;
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
         },
@@ -206,7 +316,7 @@ export class CalendarUserComponent implements OnInit {
         // },
 
         eventRender: function (event, element, view) {
-          console.log(element);
+          //console.log(element);
           element.find('span.fc-title').attr('data-toggle', 'tooltip');
           element.find('span.fc-title').attr('title', event.title);
         },
@@ -232,12 +342,12 @@ export class CalendarUserComponent implements OnInit {
 
   deleteInspectionPlanEvent(value) {
     this.inspectionplanservice.deleteInspectionplanevent(value).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.modalRef.hide()
       this.getdata();
       // this.inspectionplanservice.getinspectionplaneventuserdata().subscribe(result => {
       //   this.resultinspectionplanevent = result
-      //   console.log(this.resultinspectionplanevent);
+      //   //console.log(this.resultinspectionplanevent);
       // })
     })
   }

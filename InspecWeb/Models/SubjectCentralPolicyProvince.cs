@@ -35,6 +35,8 @@ namespace InspecWeb.Models
         [Description("ร่าง , ใช้งานจริง")]
         public string Status { get; set; }
 
+        [Description("คำชี้แจง")]
+        public string Explanation { get; set; }
         //[Description("มอบหมายเขต , มอบหมายจังหวัด , มอบหมายหน่วยงาน")]
         //public string Step { get; set; }
 

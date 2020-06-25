@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจ</a></li>
-      <li class="breadcrumb-item active" aria-current="page">รายละเอียดกำหนดการตรวจ</li>
+      <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
 </div>
@@ -33,7 +33,6 @@
               ประเภทแผนการตรวจ : {{resultdetailcentralpolicy.type}}
             </div>
           </div>
-
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               ประเด็นนโยบาย : {{resultdetailcentralpolicy.title}}
@@ -46,16 +45,12 @@
 
             </div>
           </div>
-
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>กำหนดลงพื่นที่</u><br>
               <span> {{ resultdate.startDate | thaidate: 'year' }} - {{ resultdate.endDate | thaidate: 'year' }}</span>
             </div>
           </div>
-
-
-
           <div class="row" style="margin-top: 10px;">
             <div class="col-12">
               <table class="table table-default table-responsive-sm tableborder">
@@ -91,7 +86,6 @@
                           </div>
                         </div>
                       </td>
-
                       <div class="row" style="margin-left: 47px; margin-top: 10px;">
                         <h5>
                           <u style="margin-top: 20px;">หน่วยงานผู้ให้ข้อมูล</u>
@@ -103,7 +97,7 @@
                           <button *ngIf="role_id == 3" type="button"
                             (click)="openModal2(modalInviteDepartment, items.id)" class="btn btn-primary btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
-                          <button *ngIf="role_id == 3" type="button" class="btn btn-success btn-xs"
+                          <button *ngIf="role_id == 3" type="button" (click)="openAddModalQuestionsclose(modalQuestionsclose,items.id)" class="btn btn-success btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มคำถาม</button>
                         </div>
                         <!-- <button *ngIf="role_id == 5 && centralpolicyprovincedata.step == 'มอบหมายจังหวัด'" type="button"
@@ -274,10 +268,9 @@
                   </tr>
                 </tbody>
               </table>
-
             </div>
           </div>
-          <div class="form-group col-12" *ngIf="role_id == 3">
+          <!-- <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
               <input type="radio" name="step" value="มอบหมายจังหวัด" checked
                 [checked]="centralpolicyprovincedata.step == 'มอบหมายจังหวัด'" formControlName="step">
@@ -286,15 +279,13 @@
                 [checked]="centralpolicyprovincedata.step == 'มอบหมายหน่วยงาน'" formControlName="step">
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
-          </div>
+          </div> -->
 
           <div class="form-group col-12" *ngIf="role_id == 3">
             <div class="mb-3">
-              <input type="radio" name="status" value="ร่างกำหนดการ" checked
-                [checked]="centralpolicyprovincedata.status == 'ร่างกำหนดการ'" formControlName="status">
+              <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
               <label style="margin-left: 10px;">ร่างกำหนดการ</label>
-              <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
-                [checked]="centralpolicyprovincedata.status == 'ใช้งานจริง'" formControlName="status">
+              <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" formControlName="status">
               <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>
           </div>
@@ -314,24 +305,24 @@
             </div>
           </div>
           <div class="col-12">
-            <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
+            <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์ประเด็นการตรวจติดตาม</label>
             <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
             <div class="col-4">
               <select class="selectpicker form-control" data-live-search="true"
                 (change)="checkType($event.target.value)" formControlName="fileType">
                 <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
-                <option value="Calendar Image File">รูปภาพ</option>
-                <option value="Calendar File">ไฟล์เอกสาร</option>
+                <option value="Subject Event Image File">รูปภาพ</option>
+                <option value="Subject Event File">ไฟล์เอกสาร</option>
               </select>
             </div>
             <div class="col-8">
-              <textarea *ngIf="fileType == 'Calendar Image File'" cols="30" rows="5" class="form-control"
+              <textarea *ngIf="fileType == 'Subject Event Image File'" cols="30" rows="5" class="form-control"
                 placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;" formControlName="description"></textarea>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12" style="margin-top: 20px;">
-              <u>ไฟล์แนบกำหนดการตรวจ</u><br>
+              <u>ไฟล์แนบประเด็นการตรวจติดตาม</u><br>
               <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
                 <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
                   <span>ไฟล์ที่
@@ -342,7 +333,6 @@
               </div>
             </div>
           </div>
-
           <!-- <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100"
             style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
           <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)"
@@ -361,7 +351,6 @@
               </div>
             </div>
           </div> -->
-
           <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
             <button *ngIf="role_id == 3" style="align-self: center;" type="submit" class="btn btn-primary"
               style="margin-right: 45px;">บันทึก</button>
@@ -631,6 +620,77 @@
   </div>
 </ng-template>
 
+<!-- BEGIN primary modal -->
+<ng-template #modalInviteDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form2" (ngSubmit)="storeDepartment(Form2.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เชิญหน่วยงานเพิ่มเติม</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="department" name="DepartmentId"
+          formControlName="DepartmentId" [allowClear]="true">
+        </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modalQuestionsclose class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="FormAddQuestionsclose" (ngSubmit)="AddQuestionsclose(FormAddQuestionsclose.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เพิ่มคำถามปลายปิด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
+          <div formArrayName="inputanswerclose">
+            <div *ngFor="let X of FormAddQuestionsclose['controls'].inputanswerclose['controls']; let ix=index">
+              <div formGroupName="{{ix}}">
+                <div class="row">
+                  <div class="col-11 col-xl-11">
+                    <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำถาม">
+                  </div>
+                  <div class="col-1">
+                    <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
+                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addXX()" value="Add X"></i>
+                    </div>
+                    <ng-template #elseBlock>
+                      <div class="col-1 margin-plus-icon">
+                        <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeXX(ix)" value="Add X"></i>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner> -->

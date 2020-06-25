@@ -7,6 +7,7 @@ export interface NavBar {
   children?: Array<Children>
   classtap?: string;
   IDchildren?: string;
+  bridge?: {name:string,status:boolean}
 }
 
 export interface Children {
@@ -162,8 +163,15 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/user/9',
+        url: '/user/10',
         name: 'ผู้ตรวจราชการกรม',
+        ex_link: 'user',
+        id: '10'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/user/9',
+        name: 'หน่วยงานตรวจ',
         ex_link: 'user',
         id: '9'
       },
@@ -177,7 +185,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         icon: 'fa-long-arrow-alt-right',
         url: '/user/5',
-        name: 'สำนักงานจังหวัด',
+        name: 'หัวหน้าสำนักงานจังหวัด',
         ex_link: 'user',
         id: '5'
       },
@@ -191,7 +199,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         icon: 'fa-long-arrow-alt-right',
         url: '/user/8',
-        name: 'นายก/รองนายก',
+        name: 'ผู้บริหาร/นายก/รองนายก',
         ex_link: 'user',
         id: '8'
       },
@@ -361,6 +369,11 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     icon: 'fa-chart',
     url: "/external/thaimap",
     name: "แผนที่"
+  },
+  {
+    icon: 'fa-shield',
+    url: "/log",
+    name: "LOG"
   },
 
 ]
@@ -985,7 +998,8 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
   {
     icon: 'fa-calendar',
     url: "/calendaruser",
-    name: "ปฏิทินการตรวจราชการ"
+    name: "ปฏิทินการตรวจราชการ" ,
+    bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
   },
   {
     icon: 'fa-list-alt',
