@@ -98,8 +98,9 @@ namespace InspecWeb.Controllers
             return _context.CentralPolicies
                        .Include(m => m.CentralPolicyProvinces)
                        .ThenInclude(m => m.SubjectCentralPolicyProvinces)
-                       .Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")))
-                       .Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
+                       //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")))
+                       //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid))
                        .ToList();
         }
 
@@ -181,6 +182,7 @@ namespace InspecWeb.Controllers
             {
                 CentralPolicyId = centralpolicydata.Id,
                 InspectionPlanEventId = model.InspectionPlanEventId,
+                HaveSubject = 0,
                 //ElectronicBookId = ElectronicBookdata.Id,
             };
             _context.CentralPolicyEvents.Add(centralpolicyeventdata);
@@ -220,6 +222,10 @@ namespace InspecWeb.Controllers
                 {
                     CentralPolicyId = id,
                     InspectionPlanEventId = model.InspectionPlanEventId,
+                    NotificationDate = model.NotificationDate,
+                    DeadlineDate = model.DeadlineDate,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
                     //ElectronicBookId = ElectronicBookdata.Id,
                 };
                 _context.CentralPolicyEvents.Add(centralpolicyeventdata);
@@ -250,6 +256,7 @@ namespace InspecWeb.Controllers
                 CreatedBy = userid,
                 StartDate = start_date_plan,
                 EndDate = end_date_plan,
+                Status = "ร่างกำหนดการ"
             };
 
             _context.InspectionPlanEvents.Add(InspectionPlanEventdata);
@@ -288,6 +295,19 @@ namespace InspecWeb.Controllers
 
 
             return Ok(new { scheduleData, userData });
+        }
+
+        // POST api/values
+        [HttpPost("changeplanstatus")]
+        public void Changeplanstatus(long planid)
+        {
+            var InspectionPlanEventsdata = _context.InspectionPlanEvents
+                .Find(planid);
+            InspectionPlanEventsdata.Status = "ใช้งานจริง";
+
+            _context.Entry(InspectionPlanEventsdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
         }
     }
 }

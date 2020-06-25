@@ -23,6 +23,9 @@ export class CentralPolicyComponent implements OnInit {
   loading = false;
   userid
   role_id
+  currentyear
+  selectfiscalyearid
+
   constructor(
     private router: Router,
     private centralpolicyservice: CentralpolicyService,
@@ -53,13 +56,14 @@ export class CentralPolicyComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [5],
+          targets: [6],
           orderable: false
         }
       ]
 
     };
     this.getFiscalyear()
+    this.getCurrentYear()
   }
 
   openModal(template: TemplateRef<any>, id) {
@@ -69,10 +73,17 @@ export class CentralPolicyComponent implements OnInit {
   getFiscalyear() {
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
-      this.getCentralPolicy()
+      // this.getCentralPolicy()
+    })
+  }
+  getCurrentYear() {
+    this.fiscalyearservice.getcurrentyeardata().subscribe(result => {
+      this.currentyear = result
+      this.getCurrentCentralPolicy()
     })
   }
   getCentralPolicy() {
+    this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicydata()
       .subscribe(result => {
         this.resultcentralpolicy = result
@@ -90,7 +101,44 @@ export class CentralPolicyComponent implements OnInit {
         this.loading = true;
         this.spinner.hide();
       })
+  }
+  getCurrentCentralPolicy() {
+    this.resultcentralpolicy = []
+    this.centralpolicyservice.getcentralpolicyfiscalyeardata(this.currentyear.id)
+      .subscribe(result => {
+        this.resultcentralpolicy = result
+        if (this.role_id == 3) {
+          this.resultcentralpolicy = []
+          result.forEach(element => {
+            if (element.status == "ใช้งานจริง") {
+              this.resultcentralpolicy.push(element);
+            }
+          });
+          console.log("data", this.resultcentralpolicy);
+        }
 
+        this.loading = true;
+        this.spinner.hide();
+      })
+  }
+  getSelectfiscalyear(){
+    this.resultcentralpolicy = []
+    this.centralpolicyservice.getcentralpolicyfiscalyeardata(this.selectfiscalyearid)
+    .subscribe(result => {
+      this.resultcentralpolicy = result
+      if (this.role_id == 3) {
+        this.resultcentralpolicy = []
+        result.forEach(element => {
+          if (element.status == "ใช้งานจริง") {
+            this.resultcentralpolicy.push(element);
+          }
+        });
+        console.log("data", this.resultcentralpolicy);
+      }
+
+      this.loading = true;
+      this.spinner.hide();
+    })
   }
   deleteCentralPolicy(value) {
     this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
@@ -115,11 +163,18 @@ export class CentralPolicyComponent implements OnInit {
     this.router.navigate(['/centralpolicy/editcentralpolicy', id])
   }
   selectfiscalyear(value) {
-    if (value == "allfiscalyear") {
-      window.location.reload();
-    } else {
-      var id = value
-      this.router.navigate(['/centralpolicyfiscalyear/' + id])
+    if (value == "currentfiscalyear") {
+      this.getCurrentYear()
+    }
+    else if (value == "allfiscalyear") {
+      this.getCentralPolicy()
+      this.spinner.show();
+    }
+    else {
+      this.selectfiscalyearid = value
+      this.getSelectfiscalyear()
+      this.spinner.show();
+      // this.router.navigate(['/centralpolicyfiscalyear/' + id])
     }
   }
 }

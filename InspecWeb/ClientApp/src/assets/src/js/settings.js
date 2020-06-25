@@ -4,53 +4,53 @@
 
 // Set cookie
 function setCookie(name, value, days) {
-        let expires = "";
-        if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-                expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
 // Get cookie
 function getCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(";");
-        for (let i = 0; i < ca.length; i++) {
-                const c = ca[i];
-                while (c.charAt(0) == " ") c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    const c = ca[i];
+    while (c.charAt(0) == " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
 }
 
 // Get query parameter
 function getQueryParameter(name) {
-        let queryParameter = undefined;
-        location.search
-                .substr(1)
-                .split("&")
-                .some(function (item) {
-                        // returns first occurence and stops
-                        return (
-                                item.split("=")[0] == name && (queryParameter = item.split("=")[1])
-                        );
-                });
-        return queryParameter;
+  let queryParameter = undefined;
+  location.search
+    .substr(1)
+    .split("&")
+    .some(function (item) {
+      // returns first occurence and stops
+      return (
+        item.split("=")[0] == name && (queryParameter = item.split("=")[1])
+      );
+    });
+  return queryParameter;
 }
 
 // Get current theme
 function getCurrentTheme() {
-        const cookie = getCookie("theme");
-        const queryParameter = getQueryParameter("theme");
+  const cookie = getCookie("theme");
+  const queryParameter = getQueryParameter("theme");
 
-        if (queryParameter) {
-                setCookie("theme", queryParameter, 7);
-                return queryParameter;
-        }
+  if (queryParameter) {
+    setCookie("theme", queryParameter, 7);
+    return queryParameter;
+  }
 
-        return cookie ? cookie : "modern";
+  return cookie ? cookie : "modern";
 }
 // document.getElementsByTagName('base')[0].href;
 // Append theme style-tag to <head>

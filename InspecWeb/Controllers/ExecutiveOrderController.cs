@@ -44,22 +44,7 @@ namespace InspecWeb.Controllers {
             return executivedata;
         }
 
-        [HttpGet ("{id}")]
-        public IActionResult Get (long id) {
-            var centralpolicydata = _context.CentralPolicies
-                .Include (m => m.CentralPolicyProvinces)
-                .ThenInclude (x => x.Province)
-                .Include (m => m.CentralPolicyDates)
-                .Include (m => m.CentralPolicyFiles)
-                //.Include(m => m.ExecutiveOrders)
-                .Include (m => m.Subjects)
-                .ThenInclude (m => m.Subquestions)
-                .Where (m => m.Id == id).FirstOrDefault ();
-
-            return Ok (centralpolicydata);
-            //return "value";
-        }
-
+       
         [HttpGet ("commanded/{id}")]
         public IActionResult Commanded (string id) {
             var excutiveorderdata = _context.ExecutiveOrders
@@ -312,7 +297,10 @@ namespace InspecWeb.Controllers {
                 for (int i = 0; i < Eexcutive1.Count; i++) {
                     j += 1;
                     //System.Console.WriteLine(i+=1);
-
+                    var username = _context.ApplicationUsers
+                        .Where(m => m.Id == Eexcutive1[i].Commanded_by)
+                        .Select(m => m.Name)
+                        .FirstOrDefault();
                     System.Console.WriteLine ("JJJJJ: " + j);
                     //System.Console.WriteLine("9.1: ");
                     t.Rows[j].Cells[0].Paragraphs[0].Append (j.ToString ());
@@ -325,7 +313,7 @@ namespace InspecWeb.Controllers {
                     // System.Console.WriteLine("9.5: " + Eexcutive1[i].CentralPolicy.Status);
                     t.Rows[j].Cells[4].Paragraphs[0].Append (Eexcutive1[i].CreatedAt.ToString ());
                     // System.Console.WriteLine("9.6: " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[5].Paragraphs[0].Append (Eexcutive1[i].Answer_by);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append (username);
                     // System.Console.WriteLine("10:  " + Eexcutive1[i].CreatedAt);
                     t.Rows[j].Cells[6].Paragraphs[0].Append (Eexcutive1[i].Answerdetail);
                     // System.Console.WriteLine("10: +Eexcutive1[i].AnswerDetail");
@@ -344,6 +332,256 @@ namespace InspecWeb.Controllers {
                 return Ok (new { data = filename });
             }
         }
+        [HttpPost("export3")] // 9.5.9 (1)รายข้อสั่งการผู้บริหาร(ผู้รับข้อสั่งการ)
+        public IActionResult Getexport2([FromBody] UserViewModel body)
+        {
+            System.Console.WriteLine("id " + body.Id);
+            var userId = body.Id;
+            var Executive3 = _context.ExecutiveOrders
+                .Where(m => m.Answer_by == userId)
+                .ToList();
+
+            var users = _context.Users
+                .Where(m => m.Id == userId)
+                .FirstOrDefault();
+
+            System.Console.WriteLine("export_ : " + userId);
+
+            if (!Directory.Exists(_environment.WebRootPath + "//reportexecutive//")) //ถ้ามีไฟล์อยู่แล้ว
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportexecutive//"); //สร้าง Folder reportexecutive ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/reportexecutive/"; // เก็บไฟล์ logo 
+            var filename = "รายงานข้อสั่งการผู้บริหาร" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var createfile = filePath + filename; //
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+            using (DocX document = DocX.Create(createfile)) //สร้าง
+            {
+                //System.Console.WriteLine("4");
+                //Image image = document.AddImage(myImageFullPath);
+                //Picture picture = image.CreatePicture(85, 85);
+                //var logo = document.InsertParagraph();
+                //logo.AppendPicture(picture).Alignment = Alignment.center;
+
+                System.Console.WriteLine("5");
+
+                // Add a title
+                document.InsertParagraph("ทะเบียนข้อสั่งการผู้บริหาร").FontSize(16d)
+                    .SpacingBefore(15d)
+                    .SpacingAfter(15d)
+                    .Bold() //ตัวหนา
+                    .Alignment = Alignment.center;
+
+                var name = document.InsertParagraph(users.Name);
+                name.Alignment = Alignment.center;
+                name.SpacingAfter(10d);
+                name.FontSize(12d); //ขนาดตัวอักษร      
+                System.Console.WriteLine("7");
+
+                int dataCount = 0;
+                dataCount = Executive3.Count; //เอาที่ select มาใช้
+                dataCount += 1;
+                System.Console.WriteLine("Data Count: " + dataCount);
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 300f, 300f, 300f, 300f, 300f, 300f, 300f };
+                var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                System.Console.WriteLine("8");
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+
+                // Fill in the columns of the first row in the table.
+                //for (int i = 0; i < row.Cells.Count; ++i)
+                //{
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปีที่มีข้อสั่งการ");
+                row.Cells[2].Paragraphs.First().Append("ผู้ข้อสั่งการ");
+                row.Cells[3].Paragraphs.First().Append("ประเด็น/เรื่อง");
+                row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
+                row.Cells[5].Paragraphs.First().Append("วัน/เดือน/ปีที่รับทราบข้อสั่งการ");
+                row.Cells[6].Paragraphs.First().Append("การดำเนินการ");
+
+                /*
+                                System.Console.WriteLine("9999: " + model.reportData.Count());
+                                System.Console.WriteLine("9: " + model.reportData.Length);*/
+
+                //}
+                // Add rows in the table.
+                int j = 0;
+                for (int i = 0; i < Executive3.Count; i++)
+                {
+                    j += 1;
+                    //System.Console.WriteLine(i+=1);
+                    var username = _context.ApplicationUsers
+                        .Where(m => m.Id == Executive3[i].Commanded_by)
+                        .Select(m => m.Name)
+                        .FirstOrDefault();
+                    System.Console.WriteLine("JJJJJ: " + j);
+                    //System.Console.WriteLine("9.1: ");
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                    //System.Console.WriteLine("9.2: " + Eexcutive1[i].CreatedAt);
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(Executive3[i].Commanded_date.ToString());
+                    // System.Console.WriteLine("9.3: " + model.reportData[i].suggestion);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(username);
+                    // System.Console.WriteLine("10:  " + Eexcutive1[i].CreatedAt);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(Executive3[i].Subject);
+                    // System.Console.WriteLine("9.4: " +Eexcutive1[i].CentralPolicy.Title);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(Executive3[i].Status);
+                    // System.Console.WriteLine("9.5: " + Eexcutive1[i].CentralPolicy.Status);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(Executive3[i].CreatedAt.ToString());
+                    // System.Console.WriteLine("9.6: " + Eexcutive1[i].CreatedAt);
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(Executive3[i].Answerdetail);
+                    // System.Console.WriteLine("10: +Eexcutive1[i].AnswerDetail");
+
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                System.Console.WriteLine("11");
+                document.Save(); //save เอกสาร
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+
+                return Ok(new { data = filename });
+            }
+        }
+
+        [HttpGet("export2/{id}")]
+        public IActionResult export2(long id )
+        {
+           
+            var exportexcutiveorderdata = _context.ExecutiveOrders
+                .Where(m => m.Id == id)
+               .FirstOrDefault();
+
+            var users = _context.Users
+              .Where(m => m.Id == exportexcutiveorderdata.Commanded_by)
+               .FirstOrDefault();
+
+            var username = _context.ApplicationUsers
+                        .Where(m => m.Id == exportexcutiveorderdata.Answer_by)
+                        .Select(m => m.Name)
+                        .FirstOrDefault();
+
+            System.Console.WriteLine("export2 : " + id);
+
+            if (!Directory.Exists(_environment.WebRootPath + "//reportexecutive//")) //ถ้ามีไฟล์อยู่แล้ว
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportexecutive//"); //สร้าง Folder reportexecutive ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/reportexecutive/"; // เก็บไฟล์ logo 
+            var filename = "รายงานข้อสั่งการผู้บริหาร" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var createfile = filePath + filename; //
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+            using (DocX document = DocX.Create(createfile)) //สร้าง
+
+            {
+                //System.Console.WriteLine("4");
+                //Image image = document.AddImage(myImageFullPath);
+                //Picture picture = image.CreatePicture(85, 85);
+                //var logo = document.InsertParagraph();
+                //logo.AppendPicture(picture).Alignment = Alignment.center;
+
+                System.Console.WriteLine("5");
+
+                // Add a title
+                document.InsertParagraph("รายงานข้อสั่งการของผู้บริหารและการดำเนินการตามข้อสั่งการ (รายเรื่อง)").FontSize(16d)
+                    .SpacingBefore(15d)
+                    .SpacingAfter(15d)
+                    .Bold() //ตัวหนา
+                    .Alignment = Alignment.center;
+
+                var name = document.InsertParagraph(users.Name);
+                name.Alignment = Alignment.center;
+                name.SpacingAfter(10d);
+                name.FontSize(16d); //ขนาดตัวอักษร
+                name.Bold();
+                System.Console.WriteLine("7");
+
+                //object v = Bold();
+                //string a = "รายละเอียด" + v;
+                //string b = exportexcutiveorderdata.Subjectdetail;
+
+
+                document.InsertParagraph(" วันที่มีข้อสั่งการ   "+exportexcutiveorderdata.Commanded_date  + "   วันที่แจ้งข้อสั่งการ   " + exportexcutiveorderdata.CreatedAt).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.center;
+
+                document.InsertParagraph("เรื่อง  "+ exportexcutiveorderdata.Subject).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                
+                document.InsertParagraph("ผู้รับเรื่อง   " + username).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("รายละเอียด  " + exportexcutiveorderdata.Subjectdetail).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("\n\n");
+
+                document.InsertParagraph("การดำเนินการตามข้อสั่งการ").FontSize(16d)
+                   .SpacingBefore(15d)
+                   .SpacingAfter(15d)
+                   .Bold() //ตัวหนา
+                   .Alignment = Alignment.center;
+
+                document.InsertParagraph("วันที่มีข้อสั่งการ   " + exportexcutiveorderdata.Commanded_date + "  วันที่แจ้งข้อสั่งการ   " + exportexcutiveorderdata.beaware_date).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.center;
+
+                document.InsertParagraph("รายละเอียด " + exportexcutiveorderdata.Answerdetail).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("ปัญหา/อุปสรรค " + exportexcutiveorderdata.AnswerProblem).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("ข้อเสนอแนะ " + exportexcutiveorderdata.AnswerCounsel).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                System.Console.WriteLine("11");
+                document.Save(); //save เอกสาร
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+
+                return Ok(new { data = filename });
+            }
+        }
+
     }
 
 }

@@ -66,7 +66,7 @@ export class ElectronicbookService {
     console.log("File Type: ", value.fileType);
     const formData = new FormData();
     formData.append('ElectronicBookId', electronicbookid);
-    formData.append('Step', value.step);
+    // formData.append('Step', value.step);
     formData.append('Status', value.status);
     formData.append('QuestionPeople', value.questionPeople);
     formData.append('CentralPolicyProvinceId', centralproid);

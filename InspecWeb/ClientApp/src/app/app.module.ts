@@ -142,6 +142,12 @@ import { SubjecteventComponent } from './subjectevent/subjectevent.component';
 import { DetailSubjecteventComponent } from './subjectevent/detail-subjectevent/detail-subjectevent.component';
 import { DetailInvitedElectronicBookComponent } from './electronic-book/invited-electronic-book/detail-invited-electronic-book/detail-invited-electronic-book.component';
 
+import { RequestOrderExport1Component } from './request-order/request-order-export1/request-order-export1.component';
+import { RequestOrderExport3Component } from './request-order/request-order-export3/request-order-export3.component';
+
+import { LogComponent } from './log/log.component';
+
+
 
 
 
@@ -275,7 +281,10 @@ const ExternalOrganization = [
     StatepolicyComponent,
     SubjecteventComponent,
     DetailSubjecteventComponent,
-    DetailInvitedElectronicBookComponent
+    DetailInvitedElectronicBookComponent,
+    RequestOrderExport1Component,
+    RequestOrderExport3Component,
+    LogComponent,
   ],
 
   imports: [
@@ -359,7 +368,7 @@ const ExternalOrganization = [
           { path: 'acceptcentralpolicy/:id', component: AcceptCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'usercentralpolicy', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'test/logout', component: LogoutComponent },
-          { path: 'usercentralpolicy/:id', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'usercentralpolicy/:id/:provinceid', component: UserCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'test/logout', component: LogoutComponent },
           { path: 'centralpolicy/editcentralpolicy/:id', component: EditCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'subject/editsubject/:id', component: EditSubjectComponent, canActivate: [AuthorizeGuard] },
@@ -413,10 +422,9 @@ const ExternalOrganization = [
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
-
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
-          { path: 'executiveorderexport1component', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
-          { path: 'executiveorderexport3component', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
+          { path: 'executiveorderexport1', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
+          { path: 'executiveorderexport3', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
@@ -424,6 +432,9 @@ const ExternalOrganization = [
           { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent/detail/:result', component: DetailSubjecteventComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invitedetail/:id', component: DetailInvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
+          { path: 'exportrequestorderforadminprovince', component: RequestOrderExport1Component, canActivate: [AuthorizeGuard]},
+          { path: 'exportrequestorderforinspector', component: RequestOrderExport3Component, canActivate: [AuthorizeGuard]},
+          { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

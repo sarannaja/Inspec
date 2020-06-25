@@ -37,7 +37,10 @@ namespace InspecWeb.Models
         [Description("คนที่สร้าง Event")]
         public string CreatedBy { get; set; }
 
-        //public ICollection<CentralPolicy> CentralPolicies { get; set; }
+        [Description("สถานะ")]
+        public string Status { get; set; }
+
+        public ICollection<CentralPolicy> CentralPolicies { get; set; }
         public ICollection<CentralPolicyEvent> CentralPolicyEvents { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Cabinets } from 'src/app/models/otps';
+import { Cabinets } from '../../models/otps';
 
 @Component({
   selector: 'app-cabinet-table',

@@ -49,6 +49,8 @@ export class ExecutiveOrderComponent implements OnInit {
   answerProblem: any;
   answerCounsel: any;
   testUser: any;
+  url = ""
+
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -149,16 +151,17 @@ export class ExecutiveOrderComponent implements OnInit {
 
   }
 
-  storedetailexecutiveorder(value) {
+  storeexecutiveorder(value) {
     this.executiveorderService.addexecutiveorder(value, this.Form.value.files).subscribe(result => {
       //alert(1);
       this.notificationService.addNotification(1, 1, result.answer_by, 10, result.id)
         .subscribe(result => {
          // alert(2);
-          this.modalRef.hide();
+        
           this.Form.reset();
           this.getuserinfo();
         })
+        this.modalRef.hide();
     })
   }
   openModal(template: TemplateRef<any>) {
@@ -260,5 +263,16 @@ export class ExecutiveOrderComponent implements OnInit {
 
       this.loading = true
     }, 600)
+  }
+
+  exportexecutive2(id) {
+
+    this.executiveorderService.getexcutive2(id)
+      .subscribe(result => {
+        console.log('result', result);
+        window.open(this.url + "reportexecutive/" + result.data);
+      })
+    this.getuserinfo();
+
   }
 }

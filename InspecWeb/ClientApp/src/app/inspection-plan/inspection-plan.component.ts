@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
-
+import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 @Component({
   selector: 'app-inspection-plan',
   templateUrl: './inspection-plan.component.html',
@@ -16,6 +16,12 @@ import { NotificationService } from '../services/notification.service';
 })
 export class InspectionPlanComponent implements OnInit {
 
+  private myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+  };
+
+  resultpeople: any = []
   resultinspectionplan: any = []
   resultcentralpolicy: any = []
   inspectionplan: Array<any> = []
@@ -25,6 +31,7 @@ export class InspectionPlanComponent implements OnInit {
   modalRef: BsModalRef;
   selectdatacentralpolicy: IOption[] = []
   Form: FormGroup
+  Form2: FormGroup
   CentralpolicyId: any
   loading = false;
   data: any = [];
@@ -34,14 +41,21 @@ export class InspectionPlanComponent implements OnInit {
   role_id
   timelineData: any = [];
   ScheduleData: any = [];
+  resultministrypeople: any = []
+  selectdataministrypeople: any = [];
+  startDate: any;
+  endDate: any;
 
-  constructor(private modalService: BsModalService, private notificationService: NotificationService, private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
+  constructor(private modalService: BsModalService,
+    private notificationService: NotificationService,
+    private userservice: UserService,
+    private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     // alert(this.provinceid)
 
     this.authorize.getUser()
@@ -64,25 +78,45 @@ export class InspectionPlanComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4],
+          targets: [3],
           orderable: false
         }
       ]
     };
 
-    this.Form = this.fb.group({
-      CentralpolicyId: new FormControl(null, [Validators.required])
-    })
 
     this.getinspectionplanservice();
     this.getTimeline();
     this.getScheduleData();
+    await this.getMinistryPeople();
+
+    this.Form = this.fb.group({
+      CentralpolicyId: new FormControl(null, [Validators.required]),
+
+      startdate: new FormControl(null, [Validators.required]),
+      enddate: new FormControl(null, [Validators.required]),
+
+      notificationdate: new FormControl(null, [Validators.required]),
+      deadlinedate: new FormControl(null, [Validators.required]),
+    })
+
+    // this.Form.patchValue({
+    //   startdate: this.timelineData.startDate,
+    //   enddate: this.timelineData.endDate
+    // })
+
+    this.Form2 = this.fb.group({
+      UserPeopleId: new FormControl(null, [Validators.required]),
+    })
+
   }
 
   getTimeline() {
     this.inspectionplanservice.getTimeline(this.id).subscribe(res => {
       console.log("Timeline: ", res);
       this.timelineData = res.timelineData;
+      this.startDate = this.time(this.timelineData.startDate)
+      this.endDate =  this.time(this.timelineData.endDate)
     })
   }
 
@@ -93,7 +127,7 @@ export class InspectionPlanComponent implements OnInit {
     })
   }
 
-  openModal(template: TemplateRef<any>) {
+  async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
@@ -112,7 +146,7 @@ export class InspectionPlanComponent implements OnInit {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, {planId: this.id}])
+      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, { planId: this.id }])
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])
@@ -217,4 +251,77 @@ export class InspectionPlanComponent implements OnInit {
     }
     this.loading = true;
   }
+
+  async getMinistryPeople() {
+    await this.userservice.getuserdata(6).subscribe(async result => {
+      // alert(JSON.stringify(result))
+
+      this.resultministrypeople = result // All
+      console.log("Ministry: ", this.resultministrypeople);
+      for (var i = 0; i < this.resultministrypeople.length; i++) {
+        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+      }
+      // alert(JSON.stringify(this.selectdataministrypeople))
+    })
+  }
+
+  storeMinistryPeople(value: any) {
+    // console.log("storeMinistryPeople", this.data)
+    // alert(JSON.stringify(this.data[0].centralPolicyId))
+    for (let j = 0; j < this.data.length; j++) {
+      let UserPeopleId: any[] = value.UserPeopleId
+      this.centralpolicyservice.addCentralpolicyUser(value, this.data[j].centralPolicyId, this.userid, this.id).subscribe(response => {
+        console.log(value);
+        this.Form.reset()
+        this.modalRef.hide()
+        for (let i = 0; i < UserPeopleId.length; i++) {
+          this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+        // this.getCentralPolicyProvinceUser();
+      })
+    }
+  }
+
+  changeplanstatus(value) {
+    // alert(this.timelineData.id)
+
+    this.inspectionplanservice.changeplanstatus(this.timelineData.id).subscribe(response => {
+      // console.log(value);
+      // this.Form.reset()
+      this.modalRef.hide()
+      // location.reload();
+      this.getTimeline();
+
+    })
+  }
+
+  closemodal() {
+    this.modalRef.hide()
+    this.timelineData.status = "ร่างกำหนดการ"
+
+    // alert( this.timelineData.status)
+    // this.getTimeline();
+  }
+
+  time(date) {
+    var ssss = new Date(date)
+    var new_date = { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDay() }
+    return new_date
+  }
+
+  onStartDateChanged(event: IMyDateModel) {
+    // alert(JSON.stringify(event))
+    this.startDate = event.date;
+    console.log("SS: ", this.startDate);
+  }
+
+  onEndDateChanged(event: IMyDateModel) {
+    // alert(JSON.stringify(event))
+    this.endDate = event.date;
+    console.log("EE: ", this.endDate);
+  }
+
 }

@@ -26,6 +26,11 @@ namespace InspecWeb.Models
         public long ProvinceId { get; set; }
         public virtual Province Province { get; set; }
 
+        [Description("ร่าง , ใช้งานจริง")]
+        public string Status { get; set; }
+        public string Type { get; set; }
+        public string Land { get; set; }
+
         public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
     }
 }

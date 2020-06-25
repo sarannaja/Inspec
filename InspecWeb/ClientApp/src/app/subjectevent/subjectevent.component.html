@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item active">เพิ่มแผนการตรวจราชการ</li>
+      <li class="breadcrumb-item active">เพิ่มประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
 </div>
@@ -13,10 +13,15 @@
 <div class="col-12">
   <div class="card">
     <div class="card-header" style="margin-bottom: -40px;">
-      <h5 class="card-title">เพิ่มแผนการตรวจราชการ</h5>
+      <h5 class="card-title">เพิ่มประเด็นการตรวจติดตาม</h5>
       <div class="float-right">
+
+        <button class="btn btn-primary" (click)="openModal(modalAddSubjectFromCalendar)"
+        style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</button>
+        &nbsp;&nbsp;
         <button class="btn btn-primary" (click)="openModal(modalProvince)"
-          style="margin-top: -60px;">เพิ่มแผนการตรวจราชการ</button>
+          style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตาม</button>
+
       </div>
     </div>
     <div class="card-body">
@@ -28,6 +33,7 @@
             <th>แผนการตรวจราชการ</th>
             <th>ประเด็นนโยบาย</th>
             <th>จังหวัด</th>
+            <th>ประเภทกำหนดการ</th>
             <th>ปี</th>
             <th>สถานะ</th>
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -39,8 +45,10 @@
             <td>{{item.centralPolicy.class}}</td>
             <td>{{ item.centralPolicy.title }}</td>
             <td>{{item.province.name}}</td>
+            <td>{{item.land}}</td>
             <td>{{item.centralPolicy.fiscalYear.year}}</td>
-            <td>{{item.subjectCentralPolicyProvinces[0].status}}</td>
+            <!-- <td>{{item.subjectCentralPolicyProvinces[0].status}}</td> -->
+            <td>{{item.status}}</td>
             <td><i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i></td>
           </tr>
         </tbody>
@@ -54,7 +62,7 @@
   <form [formGroup]="Form" (ngSubmit)="storeCentralPolicy(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการแผนการตรวจราชการ</h5>
+        <h5 class="modal-title">จัดการประเด็นการตรวจติดตาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -67,17 +75,17 @@
           </ng-select>
         </div>
         <div class="form-group">
-          <label for="test" class="form-label">แผนการตรวจราชการ</label>
+          <label for="test" class="form-label">ประเด็นการตรวจติดตาม</label>
           <ng-select placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true" [options]="selectdatacentralpolicy"
             name="CentralpolicyId" formControlName="CentralpolicyId" [allowClear]="true">
           </ng-select>
           <br>
           <br>
           <div class="mb-3">
-            <input type="radio" name="status" (change)="inspect($event)" value="ลงพื้นที่" formControlName="status">
+            <input type="radio" name="land" (change)="inspect($event)" value="ลงพื้นที่" formControlName="land">
             <label style="margin-left: 10px;">ลงพื้นที่</label>
-            <input style="margin-left: 10px;" type="radio" name="status" (change)="notInspec($event)"
-              value="ไม่ลงพื้นที่" formControlName="status">
+            <input style="margin-left: 10px;" type="radio" name="land" (change)="notInspec($event)"
+              value="ไม่ลงพื้นที่" formControlName="land">
             <label style="margin-left: 10px;">ไม่ลงพื้นที่</label>
           </div>
           <div *ngIf="checkInspec == true">
@@ -142,6 +150,39 @@
 </ng-template>
 <!-- END primary modal -->
 
+<!-- BEGIN primary modal -->
+<ng-template #modalAddSubjectFromCalendar class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="Form2" (ngSubmit)="storeCentralPolicy2(Form2.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการประเด็นการตรวจติดตาม</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+          <label for="test" class="form-label">จังหวัด</label>
+          <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
+            [allowClear]="true" formControlName="province2" (selected)="selectedprovince2($event,i,item)">
+          </ng-select>
+        </div>
+        <div class="form-group">
+          <label for="test" class="form-label">ประเด็นการตรวจติดตาม</label>
+          <ng-select placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true" [options]="selectdatacentralpolicy2"
+            name="CentralpolicyId2" formControlName="CentralpolicyId2" [allowClear]="true">
+          </ng-select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
 
 <ng-snotify></ng-snotify>
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">

@@ -40,6 +40,7 @@ namespace InspecWeb.Controllers
                                 .Include(m => m.CentralPolicyEvents)
                                 .ThenInclude(m => m.CentralPolicy)
                                 .ThenInclude(m => m.CentralPolicyProvinces)
+                                //.Where(m => m.Status == "ใช้งานจริง")
                                 //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
                                 .ToList();
             List<object> termsList = new List<object>();
@@ -82,6 +83,7 @@ namespace InspecWeb.Controllers
 
                                 //.Include(m => m.CentralPolicyEvents)
                                 .ThenInclude(m => m.CentralPolicy.CentralPolicyUser)
+                                .Where(m => m.Status == "ใช้งานจริง")
                                  //.ThenInclude(m => m.CentralPolicyUser)
                                  //.Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicy.CentralPolicyUser.Any(x => x.UserId == id))
                                  //.Where(m => m.CentralPolicyEvents.Any(m => m.CentralPolicy.CentralPolicyProvinces.Any(m => m.Status == "ใช้งานจริง")))
@@ -179,6 +181,7 @@ namespace InspecWeb.Controllers
                         ProvinceId = item2.ProvinceId,
                         CreatedAt = date,
                         CreatedBy = model.CreatedBy,
+                        Status = "ร่างกำหนดการ"
                     };
                     _context.InspectionPlanEvents.Add(inspectionplanevent);
                     _context.SaveChanges();

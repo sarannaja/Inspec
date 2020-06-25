@@ -13,7 +13,7 @@
                     <tr>
                         <td>โครงการที่เบิกจ่ายแล้วเสร็จ:</td>
                         <td id="complete-count" class="text-right">
-                            {{minister.fiscalYears[0].projects.completed|CustomeCurrency}} โครงการ</td>
+                            {{minister.fiscalYears[0].projects.completed}} โครงการ</td>
                     </tr>
                     <tr>
                         <td>โครงการกำลังดำเนินงาน:</td>
@@ -46,7 +46,7 @@
                     </tr>
                     <tr>
                         <td>ร้อยละความสำเร็จ:</td>
-                        <td class="text-right">{{minister.fiscalYears[0].projects.totalPercent}}%</td>
+                        <td class="text-right">{{minister.fiscalYears[0].projects.totalPercent| CustomeCurrency}}%</td>
                     </tr>
                 </tbody>
             </table>

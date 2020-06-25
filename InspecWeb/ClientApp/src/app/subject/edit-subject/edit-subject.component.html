@@ -27,11 +27,15 @@
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
-                <label>ชื่อประเด็นนโยบาย</label>
+                <label>ชื่อเรื่อง</label>
                 <input type="text" value="{{resultsubjectdetail.name}}" formControlName="name" class="form-control"
                   placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
               </div>
-
+              <div class="form-group">
+                <label>คำชี้แจง</label>
+                <input type="text" value="{{resultsubjectdetail.explanation}}" formControlName="explanation"
+                  class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
+              </div>
               <div class="form-group">
                 <label>กำหนดระยะเวลา</label>
                 <div class="row">
@@ -58,8 +62,8 @@
               <div class="card">
                 <div class="form-group">
                   <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
-                    <div class="row">
-                      <h4>หน่วยงานที่เกี่ยวข้อง</h4>
+                    <div class="row" style="margin-left: 2px;">
+                      <label>ผู้ให้ข้อมูล</label>
                       &nbsp;&nbsp;
                       <button type="button" style="margin-top: -8px;"
                         (click)="openAddDepartmentModal(modalInviteDepartment,item.id,item.box)"
@@ -68,12 +72,12 @@
                     <div style="margin-top: 10px;"
                       *ngFor="let items of item.subjectCentralPolicyProvinceGroups; let i = index">
                       <span class="col-11">{{ i + 1 }}. {{items.provincialDepartment.name}}</span>
-                      <!-- <i *ngIf="i != 0" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
-                        (click)="DelModal(modaldeleteProvincial, itemss.id)"></i> -->
+                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
+                        (click)="openModalDelete(modaldeleteDepartment, items.id)"></i>
                     </div>
                     <br>
-                    <label>คำถามย่อย</label>
-                    <div class="colum">
+                    <!-- <label>ประเด็นการตรวจติดตาม</label> -->
+                    <!-- <div class="colum">
                       <label>คำถามปลายเปิด</label>
                       &nbsp;&nbsp;
                       <button class="btn btn-info" type="button"
@@ -90,10 +94,10 @@
                         <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                           (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
                       </div>
-                    </div>
+                    </div> -->
                     <br>
-                    <div class="colum">
-                      <label>คำถามปลายปิด</label>
+                    <div>
+                      <label>ประเด็นการตรวจติดตาม</label>
                       &nbsp;&nbsp;
                       <button class="btn btn-info" type="button"
                         (click)="openAddModalQuestionsclose(modalQuestionsclose,item.box)">เพิ่มคำถามปลายปิด</button>
@@ -135,13 +139,13 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="row" style="margin-top: 10px;">
+              <div class="row" style="margin-top: 10px;">
                 <div class="col-md-6">
                   <button type="button" class="btn btn-info"
-                    (click)="openModal(modalcreatesuject)">เพิ่มหน่วยงานและคำถามใหม่</button>
+                    (click)="openModal(modalcreatesuject)">เพิ่มผู้ให้ข้อมูลและประเด็นการตรวจติดตามใหม่</button>
                 </div>
               </div>
-              <br> -->
+              <br>
               <!-- <div class="col-12">
                 <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
                 <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;"> -->
@@ -162,10 +166,10 @@
               <div class="row">
                 <div class="col-md-12" style="margin-top: 10px;">
                   <div class="colum">
-                  <u>ไฟล์แนบนโยบาย</u>
-                  &nbsp;&nbsp;
-                  <button class="btn btn-info" type="button"
-                    (click)="openAddFile(modaladdfile)">เพิ่มไฟล์แนบนโยบาย</button>
+                    <u>ไฟล์แนบนโยบาย</u>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-info" type="button"
+                      (click)="openAddFile(modaladdfile)">เพิ่มไฟล์แนบนโยบาย</button>
                   </div>
                   <div class="row"
                     *ngFor="let item of resultsubjectdetail.subjectCentralPolicyProvinceFiles; let i = index"
@@ -436,7 +440,7 @@
   <form [formGroup]="FormAddDepartmentQuestion" (ngSubmit)="AddDepartmentQuestion(FormAddDepartmentQuestion.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการหน่วยงานและคำถามใหม่</h5>
+        <h5 class="modal-title">จัดการผู้ให้ข้อมูลและประเด็นการตรวจติดตาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -450,7 +454,7 @@
             </div> -->
 
             <div class="form-group">
-              <label>พื้นที่ดำเนินการ</label>
+              <label>ผู้ให้ข้อมูล</label>
               <div formArrayName="inputsubjectdepartment">
                 <div
                   *ngFor="let V of FormAddDepartmentQuestion['controls'].inputsubjectdepartment['controls']; let iv=index">
@@ -478,11 +482,10 @@
                     </ng-select>
                     <br>
                     <br>
-                    <label>คำถามย่อย</label>
-                    <br>
-                    <label>คำถามปลายเปิด</label>
+                    <!-- <label>ประเด็นการตรวจติดตาม</label>
+                    <br> -->
+                    <!-- <label>คำถามปลายเปิด</label>
                     <div formArrayName="inputquestionopen">
-                      <!-- <div *ngFor="let W of Form['controls'].inputquestionopen['controls']; let iw=index"> -->
                       <div *ngFor="let W of V['controls'].inputquestionopen['controls']; let iw=index">
                         <div formGroupName="{{iw}}">
                           <div class="row">
@@ -505,8 +508,8 @@
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <label>คำถามปลายปิด</label>
+                    </div> -->
+                    <label>ประเด็นการตรวจติดตาม</label>
                     <div formArrayName="inputquestionclose">
                       <div *ngFor="let X of V['controls'].inputquestionclose['controls']; let ix=index">
                         <div formGroupName="{{ix}}">
@@ -599,27 +602,49 @@
 <!-- BEGIN primary modal -->
 <ng-template #modaladdfile class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <form [formGroup]="Formfile" (ngSubmit)="AddQuestionsopen(Formfile.value)"> -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">เพิ่มไฟล์แนบนโยบาย</h5>
-        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="col-12 col-xl-12" style="margin-top: 10px;">
-        <div class="form-group">
-          <label class="form-label w-100">แนบไฟล์</label>
-          <input type="file" multiple (change)="uploadFile($event)" accept="image/png, image/jpeg">
-          <!-- formControlName="files" -->
-          <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary"(click)="AddFile()">บันทึก</button>
-        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">เพิ่มไฟล์แนบนโยบาย</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="col-12 col-xl-12" style="margin-top: 10px;">
+      <div class="form-group">
+        <label class="form-label w-100">แนบไฟล์</label>
+        <input type="file" multiple (change)="uploadFile($event)" accept="image/png, image/jpeg">
+        <!-- formControlName="files" -->
+        <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
       </div>
     </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="AddFile()">บันทึก</button>
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+    </div>
+  </div>
   <!-- </form> -->
   <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modaldeleteDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ลบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="DeleteDepartment(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
