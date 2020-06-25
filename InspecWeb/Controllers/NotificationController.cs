@@ -184,19 +184,19 @@ namespace InspecWeb.Controllers
             }
             if (Status == 13)
             {
-                var RequestOrders = _context.RequestOrders
-                 .Where(m => m.Id == xe)
-                .FirstOrDefault();
+                //var RequestOrders = _context.RequestOrders
+                // .Where(m => m.Id == xe)
+                //.FirstOrDefault();
 
-                notificationdata.UserID = RequestOrders.UserId;
-                notificationdata.CentralPolicyId = CentralPolicyId;
-                notificationdata.ProvinceId = ProvinceId;
-                notificationdata.status = Status;
-                notificationdata.noti = 1;
-                notificationdata.CreatedAt = date;
-                notificationdata.xe = xe;
-                _context.Notifications.Add(notificationdata);
-                _context.SaveChanges();
+                //notificationdata.UserID = RequestOrders.UserId;
+                //notificationdata.CentralPolicyId = CentralPolicyId;
+                //notificationdata.ProvinceId = ProvinceId;
+                //notificationdata.status = Status;
+                //notificationdata.noti = 1;
+                //notificationdata.CreatedAt = date;
+                //notificationdata.xe = xe;
+                //_context.Notifications.Add(notificationdata);
+                //_context.SaveChanges();
                 //System.Console.WriteLine("success");
             }
 

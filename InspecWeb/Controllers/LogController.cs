@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InspecWeb.Controllers
 {
+    [Route("api/[controller]")]
     public class LogController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,9 +25,16 @@ namespace InspecWeb.Controllers
         }
 
 
-
+        [HttpGet]
+        public IEnumerable<Log> Get()
+        {
+            System.Console.WriteLine("1");
+            var logdata = _context.Logs.ToList();
+            return logdata;
+        }
+    
         // POST api/values
-        [Route("api/[controller]")]
+       // [Route("api/[controller]")]
         [HttpPost]
         public Log Post(string UserId, string DatabaseName, string EventType, string ObjectType)
         {

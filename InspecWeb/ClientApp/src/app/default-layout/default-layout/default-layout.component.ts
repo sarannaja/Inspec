@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { superAdmin, Centraladmin, Inspector, Provincialgovernor, Adminprovince, InspectorMinistry, publicsector, president, InspectorDepartment } from './_nav';
+import { superAdmin,Centraladmin,Inspector,Provincialgovernor,Adminprovince,InspectorMinistry,publicsector,president,InspectorDepartment,InspectorExamination } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -131,6 +131,7 @@ export class DefaultLayoutComponent implements OnInit {
   //start getuser
   getuserinfo() {
     this.authorize.getUser()
+<<<<<<< HEAD
       .subscribe(result => {
         this.userid = result.sub
         this.userService.getuserfirstdata(this.userid)
@@ -190,6 +191,52 @@ export class DefaultLayoutComponent implements OnInit {
           test: result.filter(
             (thing, i, arr) => arr.findIndex(t => t.inspectionPlanEventId === thing.inspectionPlanEventId) === i
           ).length
+=======
+    .subscribe(result => {
+      this.userid = result.sub  
+      this.userService.getuserfirstdata(this.userid)      
+      .subscribe(result => { 
+        this.resultuser = result;  
+
+        this.role_id = result[0].role_id 
+        this.Prefix = result[0].prefix
+        this.Name = result[0].name
+        this.Position = result[0].position
+        this.PhoneNumber = result[0].phoneNumber
+        this.Email = result[0].email
+        this.Img = result[0].img
+
+        this.Form.patchValue({
+          Prefix: this.Prefix,
+          Name: this.Name,
+          Position: this.Position,
+          PhoneNumber: this.PhoneNumber,
+          Email: this.Email,
+          Formprofile:1,
+          files: this.files,
+        });
+
+        if (this.role_id == 1) {
+          this.nav = superAdmin //ซุปเปอร์แอดมิน
+        } else if (this.role_id == 2) {
+          this.nav = Centraladmin //แอดมินส่วนกลาง
+        } else if (this.role_id == 3) {
+          this.nav = Inspector //ผู้ตรวจราชการ
+        } else if (this.role_id == 4) {
+          this.nav = Provincialgovernor //ผู้ว่าราชการจังหวัด
+        } else if (this.role_id == 5) {
+          this.nav = Adminprovince //หัวหน้าสำนักงานจังหวัด
+        } else if (this.role_id == 6) {
+          this.nav = InspectorMinistry // ผู้ตรวจกระทรวง
+        } else if (this.role_id == 7) {
+          this.nav = publicsector // ผู้ตรวจภาคประชาชน
+        } else if (this.role_id == 8) {
+          this.nav = president // ผู้บริหาร หรือ นายก รองนายก
+        } else if (this.role_id == 9) {
+          this.nav = InspectorExamination //หน่วยงานตรวจ
+        }else if(this.role_id == 10){
+          this.nav = InspectorDepartment // ผู้ตรวจกรม
+>>>>>>> master
         }
         this.bridge2.push(bridge)
 
@@ -198,7 +245,11 @@ export class DefaultLayoutComponent implements OnInit {
 
         );
       })
+<<<<<<< HEAD
 
+=======
+    })
+>>>>>>> master
   }
   //End getuser
   //for

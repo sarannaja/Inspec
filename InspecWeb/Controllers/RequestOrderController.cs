@@ -45,9 +45,37 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IEnumerable<RequestOrder> Get()
         {
-            var Requestdata = _context.RequestOrders.ToList();
-            return Requestdata;
+            var requestorderdata = _context.RequestOrders
+                .Where(m => m.publics == 1)
+                .ToList();
+            return requestorderdata;
+        }
 
+
+        [HttpGet("commanded/{id}")]
+        public IActionResult Commanded(string id)
+        {
+            var excutiveorderdata = _context.RequestOrders
+                .Include(m => m.User_Answer_by)
+                .Include(m => m.RequestOrderFiles)
+                .Include(m => m.AnswerRequestOrderFile)
+                .Where(m => m.Commanded_by == id && m.publics == 1)
+                .ToList();
+
+            return Ok(excutiveorderdata);
+        }
+
+        [HttpGet("answered/{id}")]
+        public IActionResult answered(string id)
+        {
+            var excutiveorderdata = _context.RequestOrders
+                .Include(m => m.User_Answer_by)
+                 .Include(m => m.RequestOrderFiles)
+                .Include(m => m.AnswerRequestOrderFile)
+                .Where(m => m.Answer_by == id && m.publics == 1)
+                .ToList();
+
+            return Ok(excutiveorderdata);
         }
 
         [HttpGet("{id}")]
@@ -80,11 +108,14 @@ namespace InspecWeb.Controllers
             var cabinedata = new RequestOrder
             {
 
-                DetailRequestOrder = model.Name,
-                CentralPolicyId = model.CentralpolicyId,
-                ProvinceId = model.ProvinceId,
-                UserId = model.UserId,
-                CreatedAt = date
+                Commanded_by = model.Commanded_by,
+                Subject = model.Subject,
+                Subjectdetail = model.Subjectdetail,
+                Status = "แจ้งแล้ว",
+                CreatedAt = date,
+                Commanded_date = model.Commanded_date,
+                publics = 1,
+                Answer_by = model.Answer_by
 
             };
 
@@ -158,13 +189,13 @@ namespace InspecWeb.Controllers
         [HttpGet("detail/{id}")]//new///
         public IActionResult Getrequest(long id)
         {
-            var requestOrderdata = _context.RequestOrders
+            var requestOrderdata = _context.RequestOrders;
                 /*.Include(m => m.DetailExecutiveOrder)*/
-                .Include(m => m.CentralPolicy)
-                .Include(m => m.Province)
-                .Include(m => m.RequestOrderFiles)
-                .Include(m => m.AnswerRequestOrderFile)
-                .Where(m => m.CentralPolicyId == id);
+                //.Include(m => m.CentralPolicy)
+                //.Include(m => m.Province)
+                //.Include(m => m.RequestOrderFiles)
+                //.Include(m => m.AnswerRequestOrderFile)
+                //.Where(m => m.CentralPolicyId == id);
 
             return Ok(requestOrderdata);
             //return "value";
@@ -172,13 +203,13 @@ namespace InspecWeb.Controllers
         [HttpGet("view/{id}")]//new///
         public IActionResult Getviewrequest(long id)
         {
-            var viewrequestOrderdata = _context.RequestOrders
-                .Include(m => m.Province)
-                .Include(m => m.UserId)
-                .Include(m => m.CreatedAt)
-                .Include(m => m.RequestOrderFiles)
-                .Include(m => m.AnswerRequestOrderFile)
-                .Where(m => m.CentralPolicyId == id);
+            var viewrequestOrderdata = _context.RequestOrders;
+                //.Include(m => m.Province)
+                //.Include(m => m.UserId)
+                //.Include(m => m.CreatedAt)
+                //.Include(m => m.RequestOrderFiles)
+                //.Include(m => m.AnswerRequestOrderFile)
+                //.Where(m => m.CentralPolicyId == id);
 
             return Ok(viewrequestOrderdata);
             //return "value";
@@ -192,17 +223,17 @@ namespace InspecWeb.Controllers
                 .Select(x => x.ProvinceId)
                 .FirstOrDefault();
 
-            var requestOrderdata = _context.RequestOrders
+            var requestOrderdata = _context.RequestOrders;
                 /*.Include(m => m.DetailExecutiveOrder)*/
-                .Include(m => m.Province)
-                .Include(m => m.RequestOrderFiles)
-                .Where(m => m.CentralPolicyId == id && m.ProvinceId == provinceId);
+                //.Include(m => m.Province)
+                //.Include(m => m.RequestOrderFiles)
+                //.Where(m => m.CentralPolicyId == id && m.ProvinceId == provinceId);
 
             return Ok(requestOrderdata);
             //return "value";
         }
 
-        [HttpPut("edit")]
+        [HttpPut]
         public async Task<IActionResult> Put([FromForm] RequestViewModel model)
         {
             /* System.Console.WriteLine("detailrequestorder: " + model.id);
@@ -210,17 +241,20 @@ namespace InspecWeb.Controllers
              System.Console.WriteLine("AnswerProblem: " + model.AnswerProblem);
              System.Console.WriteLine("AnswerCounsel: " + model.AnswerCounsel);
              System.Console.WriteLine("AnswerRequestorder: " + model.files);*/
-            var cabinedata = _context.RequestOrders.Find(model.id);
+            System.Console.WriteLine("momotest: " + model.id);
+
+           var date = DateTime.Now;
+            var requestordersdata = _context.RequestOrders.Find(model.id);
             {
-                cabinedata.AnswerDetail = model.AnswerDetail;
-                cabinedata.AnswerProblem = model.AnswerProblem;
-                cabinedata.AnswerCounsel = model.AnswerCounsel;
-                cabinedata.AnswerUserId = model.AnswerUserId;
-                System.Console.WriteLine(model.AnswerUserId);
+                requestordersdata.Answerdetail = model.Answerdetail;
+                requestordersdata.AnswerProblem = model.AnswerProblem;
+                requestordersdata.AnswerCounsel = model.AnswerCounsel;
+                requestordersdata.Status = "ตอบกลับเรียบร้อย";
+                requestordersdata.beaware_date = date;
 
             };
 
-            _context.Entry(cabinedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(requestordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
             if (!Directory.Exists(_environment.WebRootPath + "//requestfile//"))

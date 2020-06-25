@@ -49,6 +49,8 @@
     <Content Remove="wwwroot\Uploads\LQN3MIJQ5DScreen Shot 2563-04-23 at 10.27.10.png" /> -->
   
     <!-- <Folder Include="Migrations\" /> -->
+  
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

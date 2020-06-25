@@ -140,6 +140,7 @@ import { ExecutiveOrderExport3Component } from './executive-order/executive-orde
 import { CommanderReportComponent } from './commander-report/commander-report.component';
 import { SubjecteventComponent } from './subjectevent/subjectevent.component';
 import { DetailSubjecteventComponent } from './subjectevent/detail-subjectevent/detail-subjectevent.component';
+import { LogComponent } from './log/log.component';
 
 
 
@@ -273,7 +274,8 @@ const ExternalOrganization = [
     InfoVillageComponent,
     StatepolicyComponent,
     SubjecteventComponent,
-    DetailSubjecteventComponent
+    DetailSubjecteventComponent,
+    LogComponent,
   ],
 
   imports: [
@@ -411,7 +413,6 @@ const ExternalOrganization = [
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
           { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
-
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport1component', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport3component', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
@@ -421,6 +422,7 @@ const ExternalOrganization = [
           { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent/detail/:result', component: DetailSubjecteventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
