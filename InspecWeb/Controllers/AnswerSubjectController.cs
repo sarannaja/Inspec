@@ -285,6 +285,7 @@ namespace InspecWeb.Controllers
                         .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                         .ThenInclude(m => m.ProvincialDepartment)
                 .Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster")
+                .Where(m => m.Status == "ใช้งานจริง")
                 .Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id)))
                 .ToList();
 

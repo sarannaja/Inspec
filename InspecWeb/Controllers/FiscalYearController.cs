@@ -175,5 +175,15 @@ namespace InspecWeb.Controllers
             
             _context.SaveChanges();
         }
+
+        [HttpGet("getCurrentFiscalYear")]
+        public IActionResult GetCurrentFiscalYear()
+        {
+            var fiscalyearData = _context.FiscalYears
+                .OrderByDescending(x => x.Year)
+                .FirstOrDefault();
+
+            return Ok(fiscalyearData);
+        }
     }
 }

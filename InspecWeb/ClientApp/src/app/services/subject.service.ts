@@ -27,6 +27,7 @@ export class SubjectService {
       return {
         box: index,
         departmentId: item.departmentId,
+        explanation: item.explanation,
         // inputquestionopen: item.inputquestionopen,
         inputquestionclose: item.inputquestionclose
       }
@@ -34,7 +35,12 @@ export class SubjectService {
     console.log("testsubjectdepartment", testsubjectdepartment);
     for (var i = 0; i < testsubjectdepartment.length; i++) {
       for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
-        departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
+        departmentId.push({
+          box: testsubjectdepartment[i].box,
+          departmentId: testsubjectdepartment[i].departmentId[j],
+          explanation: testsubjectdepartment[i].explanation,
+          inputsubjectdepartment: testsubjectdepartment[i]
+        })
       }
     }
 
@@ -45,6 +51,7 @@ export class SubjectService {
       return {
         box: item.box,
         departmentId: item.departmentId,
+        explanation: item.explanation,
         // inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
         inputquestionclose: item.inputsubjectdepartment.inputquestionclose
       }
@@ -66,6 +73,7 @@ export class SubjectService {
       Name: subjectData.name,
       Answer: subjectData.name,
       Status: subjectData.status,
+      Explanation: subjectData.explanation,
       CentralPolicyId: parseInt(centralpolicyid),
       CentralPolicyDateId: subjectData.centralpolicydateid,
       inputsubjectdepartment: test,
@@ -354,20 +362,32 @@ export class SubjectService {
     return this.http.get(this.url + "getsubjectfromprovince/" + proid)
   }
 
-  subjectevent(value,userid) {
-    console.log("value",value);
-    console.log("value",value.province);
+  subjectevent(value, userid) {
+    console.log("value", value);
+    console.log("value", value.province);
     const formData = {
       CentralpolicyId: value.CentralpolicyId,
       ProvinceId: parseInt(value.province),
       startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
       enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
-      CreatedBy : userid
+      CreatedBy: userid
     }
     return this.http.post<any>(this.url + 'subjectevent', formData);
   }
   getsubjectevent() {
     return this.http.get(this.url + "getevent")
+  }
+  editSubject2(Subjectdata, id) {
+    console.log("id: ", id);
+    console.log("Subjectdata: ", Subjectdata);
+
+
+    const formData = new FormData();
+    formData.append('Name', Subjectdata.name);
+    formData.append('Status', Subjectdata.status);
+    formData.append('Explanation', Subjectdata.explanation);
+
+    return this.http.put(this.url + "editsubject2/" + id, formData);
   }
 }
 

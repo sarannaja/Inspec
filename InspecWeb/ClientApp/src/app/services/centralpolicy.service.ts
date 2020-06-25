@@ -324,4 +324,7 @@ export class CentralpolicyService {
     // alert('hi')
     return this.http.get<any>(this.url + "subjectevent/" + id + "/" + subjectgroupid)
   }
+  deleteDepartment(id) {
+    return this.http.delete(this.url + "deletedepartment/" + id);
+  }
 }

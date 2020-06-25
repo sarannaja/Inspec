@@ -73,11 +73,13 @@ export class EditSubjectComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.getSubjectDetail()
     this.EditForm = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       centralPolicyDateId: new FormControl(null, [Validators.required]),
       status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      explanation: new FormControl(null, [Validators.required]),
       // questionopen: new FormControl(null, [Validators.required]),
       // questionclose: new FormControl(null, [Validators.required]),
       // answerclose: new FormControl(null, [Validators.required]),
@@ -96,9 +98,9 @@ export class EditSubjectComponent implements OnInit {
   initdepartment() {
     return this.fb.group({
       departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
-      inputquestionopen: this.fb.array([
-        this.initquestionopen()
-      ]),
+      // inputquestionopen: this.fb.array([
+      //   this.initquestionopen()
+      // ]),
       inputquestionclose: this.fb.array([
         this.initquestionclose()
       ])
@@ -166,6 +168,7 @@ export class EditSubjectComponent implements OnInit {
             label: test,
           })
         }
+        this.spinner.hide();
       })
   }
   getCentralPolicyProvincesl() {
@@ -471,33 +474,36 @@ export class EditSubjectComponent implements OnInit {
       this.getSubjectDetail()
     })
   }
-
+  DeleteDepartment(value){
+    this.centralpolicyservice.deleteDepartment(value).subscribe(response => {
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
+  }
   EditSubject(value, id) {
-    // this.EditForm.reset();
+    this.spinner.show();
     console.log(id);
     console.log(value);
-    console.log("map: ", this.resultsubjectdetail);
+    // console.log("map: ", this.resultsubjectdetail);
     var CentralPolicyDateId: any = []
     var departmentId: any = []
-    CentralPolicyDateId = this.resultsubjectdetail.subjectDateCentralPolicyProvinces.map((item, index) => {
-      return {
-        centralpolicydateid: item.id
-      }
+    this.subjectservice.editSubject2(value ,id).subscribe(response => {
+      this.spinner.hide();
+      window.history.back();
     })
-    departmentId = this.filterboxdepartments.subjectCentralPolicyProvinceGroups.map((item, index) => {
-      return {
-        departmentId: item.provincialDepartment.id
-      }
-    })
-    console.log(CentralPolicyDateId);
-    console.log(departmentId);
-    
-
-    // this.subjectservice.editSubject(value, id).subscribe(response => {
-    //   this.EditForm.reset()
-    //   // alert("test")
-    //   window.history.back()
+    // CentralPolicyDateId = this.resultsubjectdetail.subjectDateCentralPolicyProvinces.map((item, index) => {
+    //   return {
+    //     centralpolicydateid: item.id
+    //   }
     // })
+    // departmentId = this.filterboxdepartments.subjectCentralPolicyProvinceGroups.map((item, index) => {
+    //   return {
+    //     departmentId: item.provincialDepartment.id
+    //   }
+    // })
+    // console.log(CentralPolicyDateId);
+    // console.log(departmentId);
+    
   }
   EditQuestions(value, editid) {
     console.log(editid);

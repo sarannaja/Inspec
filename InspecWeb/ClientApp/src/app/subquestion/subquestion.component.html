@@ -30,6 +30,10 @@
                 <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง">
               </div>
               <div class="form-group">
+                <label>คำชี้แจง</label>
+                <input type="text" formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง">
+              </div>
+              <div class="form-group">
                 <label>กำหนดระยะเวลา</label>
                 <ng-select multiple="true" placeholder="กรุณาเลือกระยะเวลา" [options]="times" name="ํTime"
                   formControlName="centralpolicydateid" [allowClear]="true">
@@ -68,9 +72,6 @@
                         (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
                       </ng-select>
                       <br>
-                      <br>
-                      <label>คำชี้แจง</label>
-                      <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง">
                       <br>
                       <label>ประเด็นการตรวจติดตาม</label>
                       <br>

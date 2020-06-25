@@ -86,7 +86,7 @@
               <td>{{ item.status }}</td>
               <td>
                 <div class="row">
-                  <i *ngIf="item.status == 'ใช้งานจริง';" class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  <i title="ดูรายละเอียดประเด็นย่อย" *ngIf="item.status == 'ใช้งานจริง';" class="align-middle mr-2 fas fa-fw fa-search pointer"
                     (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                   <div *ngIf="role_id == 1 || role_id == 2">
