@@ -53,6 +53,8 @@ export class UserComponent implements OnInit {
   UserRegion:any;
   files: string[] = [];
   imgprofileUrl: any;
+  Startdate: any;
+  Enddate: any;
   //END name input
   datarole: any = [
     {
@@ -140,30 +142,6 @@ export class UserComponent implements OnInit {
     this.addForm.patchValue({
       Role_id: this.roleId
     })
-
-    
-    // alert(this.resultfirstuser.Name);
-
-    if (this.roleId == 1) {
-      this.rolename = 'ผู้ดูแลระบบ'
-    } else if (this.roleId == 2) {
-      this.rolename = 'ผู้ดูแลแผนการตรวจราชการประจำปี'
-    } else if (this.roleId == 3) {
-      this.rolename = 'ผู้ตรวจราชการ'
-    } else if (this.roleId == 4) {
-      this.rolename = 'ผู้ว่าราชการจังหวัด'
-    } else if (this.roleId == 5) {
-      this.rolename = 'ผู้ตรวจจังหวัด'
-    } else if (this.roleId == 6) {
-      this.rolename = 'ผู้ตรวจกระทรวง'
-    } else if (this.roleId == 7) {
-      this.rolename = 'ผู้ตรวจภาคประชาชน'
-    } else if (this.roleId == 8) {
-      this.rolename = 'นายก/รองนายก'
-    } else if (this.roleId == 9) {
-      this.rolename = 'ผู้ตรวจกรม/หน่วยงาน'
-    }
-
   }
 
   getData() {
@@ -182,6 +160,28 @@ export class UserComponent implements OnInit {
     this.selectdatadeparment = this.datadeparment.map((item, index) => {
       return { value: item.id, label: item.name }
     })
+
+    if (this.roleId == 1) {
+      this.rolename = 'ผู้ดูแลระบบ'
+    } else if (this.roleId == 2) {
+      this.rolename = 'ผู้ดูแลแผนการตรวจราชการประจำปี'
+    } else if (this.roleId == 3) {
+      this.rolename = 'ผู้ตรวจราชการ'
+    } else if (this.roleId == 4) {
+      this.rolename = 'ผู้ว่าราชการจังหวัด'
+    } else if (this.roleId == 5) {
+      this.rolename = 'หัวหน้าสำนักงานจังหวัด'
+    } else if (this.roleId == 6) {
+      this.rolename = 'ผู้ตรวจกระทรวง'
+    } else if (this.roleId == 7) {
+      this.rolename = 'ผู้ตรวจภาคประชาชน'
+    } else if (this.roleId == 8) {
+      this.rolename = 'ผู้บริหาร/นายก/รองนายก'
+    } else if (this.roleId == 9) {
+      this.rolename = 'หน่วยงานตรวจ'
+    } else if (this.roleId == 10) {
+      this.rolename = 'ผู้ตรวจกรม'
+    }
   }
 
   openModal(template: TemplateRef<any>,IDdelete) {
@@ -239,7 +239,9 @@ export class UserComponent implements OnInit {
   }
   //เพิ่ม user
   adduser(value) {
+    //alert(1);
     this.userService.addUser(value,this.addForm.value.files).subscribe(response => {
+      //alert(3);
       this.addForm.reset()
       this.modalRef.hide()
       this.loading = false
@@ -264,12 +266,17 @@ export class UserComponent implements OnInit {
       Role_id: new FormControl(null, [Validators.required]),
       PhoneNumber: new FormControl(null, [Validators.required]),
       Email: new FormControl(null, [Validators.required]),
-      ProvinceId: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null),
       MinistryId: new FormControl(null, [Validators.required]),
+      DepartmentId : new FormControl(null),
+      ProvincialDepartmentId : new FormControl(null),
       UserRegion: new FormControl(null, [Validators.required]),
+      UserProvince: new FormControl(null, [Validators.required]),
       SubdistrictId : new FormControl(null),
       DistrictId: new FormControl(null),
       files: new FormControl(null, [Validators.required]),
+      Startdate: new FormControl(null, [Validators.required]),
+      Enddate: new FormControl(null, [Validators.required]),
     })
   }
 
