@@ -144,6 +144,10 @@ namespace InspecWeb.Controllers
 
             //_context.InspectionPlanEvents.Add(inspectionplanevent);
             //_context.SaveChanges();
+            var roleid = _context.Users
+                .Where(m => m.Id == model.CreatedBy)
+                .Select(m => m.Role_id)
+                .FirstOrDefault();
 
             foreach (var item2 in model.input)
             {
@@ -169,6 +173,7 @@ namespace InspecWeb.Controllers
                         ProvinceId = item2.ProvinceId,
                         CreatedAt = date,
                         CreatedBy = model.CreatedBy,
+                        RoleCreatedBy = roleid.ToString(),
                         Status = "ร่างกำหนดการ"
                     };
                     _context.InspectionPlanEvents.Add(inspectionplanevent);

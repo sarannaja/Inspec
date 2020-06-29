@@ -487,8 +487,13 @@ namespace InspecWeb.Controllers
         [HttpGet("getcentralpolicyfromprovince/{id}")]
         public IActionResult getcentralpolicyfromprovince(long id)
         {
+            var fiscalyearData = _context.FiscalYears
+                              .OrderByDescending(x => x.Year)
+                              .FirstOrDefault();
+
             var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Include(m => m.CentralPolicy)
+                .Where(m => m.CentralPolicy.FiscalYearId == fiscalyearData.Id)
                 .Where(m => m.ProvinceId == id)
                 .ToList();
 
@@ -965,7 +970,7 @@ namespace InspecWeb.Controllers
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
             var subjectgroup = _context.SubjectGroups
-                .Where(m => m.Id == id).FirstOrDefault();
+                .Where(m => m.Id == subjectgroupid).FirstOrDefault();
 
             return Ok(new { subjectgroup, subjectcentralpolicyprovincedata });
         }

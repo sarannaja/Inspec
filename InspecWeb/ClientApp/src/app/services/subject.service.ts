@@ -313,46 +313,19 @@ export class SubjectService {
     return this.http.post(this.url + "deletedate", formData);
   }
 
-  addSubjectRole3(subjectData, centralpolicyid) {
-    var subjectdepartment = subjectData.inputsubjectdepartment
-    console.log('subjectData: ', subjectdepartment);
-    var departmentId = []
-    var test = []
-    var testsubjectdepartment = []
-    testsubjectdepartment = subjectdepartment.map((item, index) => {
-      return {
-        box: index,
-        departmentId: item.departmentId,
-        inputquestionopen: item.inputquestionopen,
-        inputquestionclose: item.inputquestionclose
-      }
-    })
-    console.log("testsubjectdepartment", testsubjectdepartment);
-    for (var i = 0; i < testsubjectdepartment.length; i++) {
-      for (var j = 0; j < testsubjectdepartment[i].departmentId.length; j++) {
-        departmentId.push({ box: testsubjectdepartment[i].box, departmentId: testsubjectdepartment[i].departmentId[j], inputsubjectdepartment: testsubjectdepartment[i] })
-      }
+  addSubjectRole3(subjectData) {
+
+    const formData = new FormData();
+    formData.append('SubjectCentralPolicyProvinceId', subjectData.subjectId);
+    formData.append('Name', subjectData.name);
+    formData.append('Box', subjectData.box);
+
+    for (var ii = 0; ii < subjectData.inputanswerclose.length; ii++) {
+      formData.append('answerclose', subjectData.inputanswerclose[ii].answerclose);
     }
 
-    console.log("departmentId", departmentId);
-
-
-    test = departmentId.map((item, index) => {
-      return {
-        box: item.box,
-        departmentId: item.departmentId,
-        inputquestionopen: item.inputsubjectdepartment.inputquestionopen,
-        inputquestionclose: item.inputsubjectdepartment.inputquestionclose
-      }
-    })
-    console.log("test", test);
-
-    const formData = {
-      Name: subjectData.name,
-      Answer: subjectData.name,
-      Status: subjectData.status,
-      CentralPolicyId: parseInt(centralpolicyid),
-      inputsubjectdepartment: test,
+    for (var ii = 0; ii < subjectData.DepartmentId.length; ii++) {
+      formData.append('DepartmentId', subjectData.DepartmentId[ii]);
     }
 
     console.log('FORMDATA: ', formData);
@@ -402,7 +375,7 @@ export class SubjectService {
 
     const formData = {
       Land: "ลงพื้นที่",
-      CentralpolicySelect:value.CentralpolicyId2,
+      CentralpolicySelect: value.CentralpolicyId2,
       // CentralPolicyeventId:value.CentralpolicyId2[0].centralPolicyeventId ,
       ProvinceId: parseInt(value.province2),
       CreatedBy: userid

@@ -61,8 +61,10 @@
                         <div class="row">
                           <i class="fa fa-tags" style="margin-top: 5px;"></i>
                           <h4 style="margin-left: 15px;">ประเด็นนโยบายย่อย</h4>
-                          <button style="margin-top: -10px; margin-left: 10px;" *ngIf="role_id == 3" type="button"
-                            class="btn btn-info" (click)="openModal(modalcreatesuject)">เพิ่มประเด็นการตรวจติดตาม
+                          <button style="margin-top: -10px; margin-left: 10px;"
+                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
+                            class="btn btn-info"
+                            (click)="openModalSubject(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
                           <!-- <i class="fas fa-plus-circle pointer"
@@ -80,10 +82,10 @@
                               (click)="editModal3(modaleditsubject, items.id, items.name)"></i>
                           </div> -->
                           <!-- && i != 0 -->
-                          <div class="col-1" *ngIf="role_id == 3 && i != 0">
+                          <!-- <div class="col-1" *ngIf="role_id == 3 && i != 0">
                             <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                               (click)="delsubjectModal(modaldelsubject, items.id)"></i>
-                          </div>
+                          </div> -->
                         </div>
                       </td>
                       <div class="row" style="margin-left: 47px; margin-top: 10px;">
@@ -94,10 +96,12 @@
                             aria-expanded="false" aria-controls="departments"></i>
                         </h5>
                         <div class="row" style="margin-left: 10px;">
-                          <button *ngIf="role_id == 3" type="button"
+                          <button *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
                             (click)="openModal2(modalInviteDepartment, items.id)" class="btn btn-primary btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
-                          <button *ngIf="role_id == 3" type="button" (click)="openAddModalQuestionsclose(modalQuestionsclose,items.id)" class="btn btn-success btn-xs"
+                          <button *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
+                            (click)="openAddModalQuestionsclose(modalQuestionsclose,items.id)"
+                            class="btn btn-success btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มคำถาม</button>
                         </div>
                         <!-- <button *ngIf="role_id == 5 && centralpolicyprovincedata.step == 'มอบหมายจังหวัด'" type="button"
@@ -122,7 +126,8 @@
                                 <span class="col-12">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
                               </div>
                               <div class="col-1">
-                                <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
+                                <i *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'"
+                                  class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
                                   (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
                               </div>
                             </div>
@@ -184,7 +189,7 @@
                         <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;" id="question{{i}}"
                           data-toggle="collapse" [attr.data-target]="'#questions' + i" aria-expanded="false"
                           aria-controls="questions"></i>
-                        <button class="btn btn-danger" id="graph{{i}}" data-toggle="collapse"
+                        <button class="btn btn-danger" id="graph{{i}}" data-toggle="collapse" type="button"
                           [attr.data-target]="'#graphs' + i" aria-expanded="false" aria-controls="graphs"
                           style="margin-left: 20px; font-size: small;">กราฟคำตอบปลายปิด
                           <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
@@ -198,11 +203,13 @@
                             <input type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
                               readonly>
                           </div>
-                          <div class="col-0" *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3">
+                          <div class="col-0"
+                            *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                               (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
                           </div>
-                          <div class="col-0" *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3">
+                          <div class="col-0"
+                            *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
                             <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                               (click)="delquestionModal(modaldelquestion, item.id)"></i>
                           </div>
@@ -281,7 +288,7 @@
             </div>
           </div> -->
 
-          <div class="form-group col-12" *ngIf="role_id == 3">
+          <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
               <label style="margin-left: 10px;">ร่างกำหนดการ</label>
@@ -289,6 +296,16 @@
               <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>
           </div>
+          <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ใช้งานจริง'">
+            <div class="mb-3">
+              <input type="radio" name="status" value="ร่างกำหนดการ" formControlName="status" disabled>
+              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" formControlName="status"
+                disabled>
+              <label style="margin-left: 10px;">ใช้งานจริง</label>
+            </div>
+          </div>
+
           <br>
           <div class="row">
             <div class="col-md-12">
@@ -305,9 +322,11 @@
             </div>
           </div>
           <div class="col-12">
-            <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์ประเด็นการตรวจติดตาม</label>
-            <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
-            <div class="col-4">
+            <label *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" class="form-label w-100"
+              style="margin-top: 30px;">แนบไฟล์ประเด็นการตรวจติดตาม</label>
+            <input *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="file" multiple
+              (change)="uploadFile($event)" style="margin-bottom: 10px;">
+            <div class="col-4" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
               <select class="selectpicker form-control" data-live-search="true"
                 (change)="checkType($event.target.value)" formControlName="fileType">
                 <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
@@ -320,6 +339,7 @@
                 placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;" formControlName="description"></textarea>
             </div>
           </div>
+
           <div class="row">
             <div class="col-md-12" style="margin-top: 20px;">
               <u>ไฟล์แนบประเด็นการตรวจติดตาม</u><br>
@@ -333,6 +353,7 @@
               </div>
             </div>
           </div>
+
           <!-- <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100"
             style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
           <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)"
@@ -351,13 +372,20 @@
               </div>
             </div>
           </div> -->
-          <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+          <div *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" class="form-group col col-lg-12"
+            style="margin-top: 20px; text-align: center;">
             <button *ngIf="role_id == 3" style="align-self: center;" type="submit" class="btn btn-primary"
               style="margin-right: 45px;">บันทึก</button>
             <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
               (click)="back()" style="margin-right: 45px;">บันทึก</button>
             <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
           </div>
+
+          <div *ngIf="subjectgroupstatus == 'ใช้งานจริง'" class="form-group col col-lg-12"
+            style="margin-top: 20px; text-align: center;">
+            <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
+          </div>
+
         </form>
       </div>
     </div>
@@ -645,6 +673,7 @@
   <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
+
 <!-- BEGIN primary modal -->
 <ng-template #modalQuestionsclose class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="FormAddQuestionsclose" (ngSubmit)="AddQuestionsclose(FormAddQuestionsclose.value)">
@@ -690,6 +719,61 @@
   </form>
   <!-- </div> -->
 </ng-template>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalcreatesuject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="FormSubject" (ngSubmit)="storeSubject(FormSubject.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เพิ่มประเด็นการตรวจติดตาม</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+
+        <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="department" name="DepartmentId"
+          formControlName="DepartmentId" [allowClear]="true">
+        </ng-select>
+
+        <div class="form-group">
+          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
+          <div formArrayName="inputanswerclose">
+            <div *ngFor="let X of FormSubject['controls'].inputanswerclose['controls']; let ix=index">
+              <div formGroupName="{{ix}}">
+                <div class="row">
+                  <div class="col-11 col-xl-11">
+                    <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำถาม">
+                  </div>
+                  <div class="col-1">
+                    <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
+                      <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addXXX()" value="Add X"></i>
+                    </div>
+                    <ng-template #elseBlock>
+                      <div class="col-1 margin-plus-icon">
+                        <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeXXX(ix)"
+                          value="Add X"></i>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
 <!-- END primary modal -->
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
