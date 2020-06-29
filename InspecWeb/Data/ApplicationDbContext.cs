@@ -122,6 +122,7 @@ namespace InspecWeb.Data
         public DbSet<ElectronicBookInvite> ElectronicBookInvites { get; set; }
         
         public DbSet<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
+        public DbSet<AnswerSubquestionStatus> AnswerSubquestionStatuses { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -264,21 +265,21 @@ namespace InspecWeb.Data
 
             base.OnModelCreating(builder);
             //seed data
-            builder.ApplyConfiguration(new MinistrySeeder());
-            builder.ApplyConfiguration(new DepartmentSeeder());
-            builder.ApplyConfiguration(new ProvinceSeeder());
-            builder.ApplyConfiguration(new RegionSeeder());
-            builder.ApplyConfiguration(new FiscalYearSeeder());
-            builder.ApplyConfiguration(new GovernmentinspectionplanSeeder());
-            builder.ApplyConfiguration(new InspectionOrderSeeder());
-            builder.ApplyConfiguration(new InstructionOrderSeeder());
-            builder.ApplyConfiguration(new DistrictSeeder());
-            builder.ApplyConfiguration(new SubdistrictSeeder());
-            builder.ApplyConfiguration(new RelationSeeder());
-            builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
-            builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
-            builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
-            builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
+            //builder.ApplyConfiguration(new MinistrySeeder());
+            //builder.ApplyConfiguration(new DepartmentSeeder());
+            //builder.ApplyConfiguration(new ProvinceSeeder());
+            //builder.ApplyConfiguration(new RegionSeeder());
+            //builder.ApplyConfiguration(new FiscalYearSeeder());
+            //builder.ApplyConfiguration(new GovernmentinspectionplanSeeder());
+            //builder.ApplyConfiguration(new InspectionOrderSeeder());
+            //builder.ApplyConfiguration(new InstructionOrderSeeder());
+            //builder.ApplyConfiguration(new DistrictSeeder());
+            //builder.ApplyConfiguration(new SubdistrictSeeder());
+            //builder.ApplyConfiguration(new RelationSeeder());
+            //builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
+            //builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
+            //builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
+            //builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
 
 
         }

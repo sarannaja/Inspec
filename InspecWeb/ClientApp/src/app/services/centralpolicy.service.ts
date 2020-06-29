@@ -70,8 +70,10 @@ export class CentralpolicyService {
       formData.append('StartDate2', inputdate[ii].StartDate);
       formData.append('EndDate2', inputdate[ii].EndDate);
     }
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
     formData.append('Class', centralpolicyData.Class);
     console.log('FORMDATA: ', formData.get("inputdate"));

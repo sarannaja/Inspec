@@ -286,7 +286,7 @@ namespace InspecWeb.Controllers
             }
             else
             {
-                System.Console.WriteLine("provincialdepartment.Id" + provincialdepartment.Id);
+                System.Console.WriteLine("provincialdepartment.Id" + id);
 
                 var subjectdata = _context.SubjectCentralPolicyProvinces
                         .Include(m => m.SubquestionCentralPolicyProvinces)
@@ -353,6 +353,46 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicyprovincdata);
         }
 
+        // GET api/values/5
+        [HttpGet("answeruser/{userid}")]
+        public IActionResult Get7(long id, string userid)
+        {
+            var answeruserdata = _context.AnswerSubquestions
+                .Include(m => m.SubquestionCentralPolicyProvince)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Where(m => m.UserId == userid)
+                .ToList();
+
+            return Ok(answeruserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("answeruserdetail/{id}/{userid}")]
+        public IActionResult Get8(long id, string userid)
+        {
+            var answeruserdata = _context.AnswerSubquestions
+                .Include(m => m.SubquestionCentralPolicyProvince)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Where(m => m.UserId == userid && m.Id == id)
+                .First();
+
+            return Ok(answeruserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("answeruserlist/{id}/{userid}")]
+        public IActionResult Get9(long id, string userid)
+        {
+            var answeruserdata = _context.AnswerSubquestions
+                .Include(m => m.SubquestionCentralPolicyProvince)
+                .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
+                .Where(m => m.UserId == userid)
+                .Where(m => m.SubquestionCentralPolicyProvince.SubjectCentralPolicyProvinceId == id)
+                .ToList();
+
+            return Ok(answeruserdata);
+        }
+
         // POST api/values
         [HttpPost]
         public IActionResult Post([FromBody] AnswerSubquestionOutsiderViewModel model)
@@ -366,7 +406,8 @@ namespace InspecWeb.Controllers
                     SubquestionCentralPolicyProvinceId = answer.SubquestionCentralPolicyProvinceId,
                     UserId = answer.UserId,
                     Answer = answer.Answer,
-                    CreatedAt = date
+                    CreatedAt = date,
+                    Description = answer.Description
 
                 };
                 _context.AnswerSubquestions.Add(Answerdata);
@@ -444,6 +485,7 @@ namespace InspecWeb.Controllers
                     {
 
                         SubjectCentralPolicyProvinceId = model.SubjectCentralPolicyProvinceId,
+                        UserId = model.UserId,
                         Name = random + filename,
                         Type = model.Type
                     };
@@ -484,16 +526,25 @@ namespace InspecWeb.Controllers
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name, string link)
+        public void Put(long id, string answer, string description)
         {
-            var province = _context.Provinces.Find(id);
-            province.Name = name;
-            province.Link = link;
-            _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var answerdata = _context.AnswerSubquestions.Find(id);
+            answerdata.Answer = answer;
+            answerdata.Description = description;
+            _context.Entry(answerdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
         }
+        // PUT api/values/5
+        [HttpPut("editstatus/{id}")]
+        public void Put2(long id, string status)
+        {
+            var statusdata = _context.AnswerSubquestionStatuses.Find(id);
+            statusdata.Status = status;
+            _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
 
+        }
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(long id)
@@ -501,6 +552,52 @@ namespace InspecWeb.Controllers
             var provincedata = _context.Provinces.Find(id);
 
             _context.Provinces.Remove(provincedata);
+            _context.SaveChanges();
+        }
+        // POST api/values
+        [HttpPost("addstatus")]
+        public IActionResult Post5(long SubjectCentralPolicyProvinceId, string UserId, string Status)
+        {
+            System.Console.WriteLine("in", UserId);
+            var date = DateTime.Now;
+            var Statusdata = new AnswerSubquestionStatus
+            {
+                SubjectCentralPolicyProvinceId = SubjectCentralPolicyProvinceId,
+                UserId = UserId,
+                Status = Status,
+                CreatedAt = date
+            };
+            System.Console.WriteLine("in2");
+            _context.AnswerSubquestionStatuses.Add(Statusdata);
+            _context.SaveChanges();
+
+            return Ok(new { status = true });
+        }
+        // GET api/values/5
+        [HttpGet("answerstatus/{id}/{userid}")]
+        public IActionResult Get2(long id, string userid)
+        {
+            var answerstatusdata = _context.AnswerSubquestionStatuses
+                .Where(m => m.SubjectCentralPolicyProvinceId == id && m.UserId == userid)
+                .First();
+            return Ok(answerstatusdata);
+        }
+        // GET api/values/5
+        [HttpGet("answerfile/{id}/{userid}")]
+        public IActionResult Get4(long id, string userid)
+        {
+            var answerfiledata = _context.AnswerSubquestionFiles
+                .Where(m => m.SubjectCentralPolicyProvinceId == id && m.UserId == userid)
+                .ToList();
+            return Ok(answerfiledata);
+        }
+        // DELETE api/values/5
+        [HttpDelete("deleteanswerfile/{id}")]
+        public void Delete2(long id)
+        {
+            var filedata = _context.AnswerSubquestionFiles.Find(id);
+
+            _context.AnswerSubquestionFiles.Remove(filedata);
             _context.SaveChanges();
         }
     }
