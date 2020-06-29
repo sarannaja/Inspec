@@ -122,7 +122,8 @@ namespace InspecWeb.Data
         public DbSet<ElectronicBookInvite> ElectronicBookInvites { get; set; }
         
         public DbSet<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
-
+        public DbSet<CalendarFile> CalendarFiles { get; set; }
+        public DbSet<SubjectEventFile> SubjectEventFiles { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -252,6 +253,19 @@ namespace InspecWeb.Data
             .HasOne(p => p.SubquestionCentralPolicyProvince)
             .WithMany(b => b.AnswerSubquestionOutsiders)
             .HasForeignKey(p => p.SubquestionCentralPolicyProvinceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            //InspectionPlanEvent Cascade//
+            builder.Entity<CentralPolicyEvent>()
+            .HasOne(p => p.InspectionPlanEvent)
+            .WithMany(b => b.CentralPolicyEvents)
+            .HasForeignKey(p => p.InspectionPlanEventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CentralPolicyUser>()
+            .HasOne(p => p.InspectionPlanEvent)
+            .WithMany(b => b.CentralPolicyUsers)
+            .HasForeignKey(p => p.InspectionPlanEventId)
             .OnDelete(DeleteBehavior.Cascade);
 
             //.WithOne(b => b.CentralPolicy)

@@ -633,7 +633,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
           name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
           ex_link:'0',
 
-      } 
+      }
     ]
   },
   {
@@ -814,7 +814,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
         ex_link:'0',
 
-    } 
+    }
     ]
   },
   // {
@@ -898,11 +898,32 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
   //   url: "/inspectionplanevent",
   //   name: "ปฏิทินการตรวจราชการ"
   // },
+  // {
+  //   icon: 'fa-archive',
+  //   url: "/calendaruser",
+  //   name: "ปฏิทินการตรวจราชการ"
+  // },
+
   {
-    icon: 'fa-archive',
-    url: "/calendaruser",
-    name: "ปฏิทินการตรวจราชการ"
+    IDchildren: 'calendarmenu',
+    icon: 'fa-calendar',
+    name: "ปฏิทินการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionplanevent',
+        name: 'สร้างเอง'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/calendaruser',
+        name: 'ถูกเชิญ'
+      },
+    ]
   },
+
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',

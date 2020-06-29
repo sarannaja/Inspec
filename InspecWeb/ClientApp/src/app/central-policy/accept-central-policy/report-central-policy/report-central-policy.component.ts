@@ -169,18 +169,18 @@ export class ReportCentralPolicyComponent implements OnInit {
         this.provincename = result.provincedata.name
         this.provinceid = result.provincedata.id
 
-        this.getCalendarFile();
+        // this.getCalendarFile();
         this.getElectronikbookFile();
       })
   }
 
-  getCalendarFile() {
-    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
-      this.carlendarFile = res.carlendarFile;
-      console.log("calendarFile: ", res);
+  // getCalendarFile() {
+  //   this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+  //     this.carlendarFile = res.carlendarFile;
+  //     console.log("calendarFile: ", res);
 
-    })
-  }
+  //   })
+  // }
 
   getElectronikbookFile() {
     this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {

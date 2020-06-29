@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
@@ -9,6 +9,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
+import { FiscalyearService } from '../services/fiscalyear.service';
 @Component({
   selector: 'app-inspection-plan',
   templateUrl: './inspection-plan.component.html',
@@ -45,14 +46,19 @@ export class InspectionPlanComponent implements OnInit {
   selectdataministrypeople: any = [];
   startDate: any;
   endDate: any;
+  currentyear
+  url = "";
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
+    private fiscalyearservice: FiscalyearService,
+    @Inject('BASE_URL') baseUrl: string,
     private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
+    this.url = baseUrl + 'inspectionplanevent';
   }
 
   async ngOnInit() {
@@ -84,7 +90,7 @@ export class InspectionPlanComponent implements OnInit {
       ]
     };
 
-
+    this.getCurrentYear();
     this.getinspectionplanservice();
     this.getTimeline();
     this.getScheduleData();
@@ -116,7 +122,13 @@ export class InspectionPlanComponent implements OnInit {
       console.log("Timeline: ", res);
       this.timelineData = res.timelineData;
       this.startDate = this.time(this.timelineData.startDate)
-      this.endDate =  this.time(this.timelineData.endDate)
+      this.endDate = this.time(this.timelineData.endDate)
+    })
+  }
+
+  getCurrentYear() {
+    this.fiscalyearservice.getcurrentyeardata().subscribe(result => {
+      this.currentyear = result
     })
   }
 
@@ -226,6 +238,7 @@ export class InspectionPlanComponent implements OnInit {
   getRecycled() {
     this.selectdatacentralpolicy = []
     this.inspectionplan = this.resultinspectionplan.test
+    // && this.resultcentralpolicy[i].fiscalYear.year == this.currentyear
 
     if (this.inspectionplan.length == 0) {
       for (var i = 0; i < this.resultcentralpolicy.length; i++) {
@@ -323,5 +336,17 @@ export class InspectionPlanComponent implements OnInit {
     this.endDate = event.date;
     console.log("EE: ", this.endDate);
   }
-
+  EditPlanDate() {
+    // alert(JSON.stringify(this.startDate))
+    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate).subscribe(response => {
+      this.modalRef.hide()
+      this.getTimeline();
+    })
+  }
+  deleteDate() {
+    this.inspectionplanservice.deleteplandate(this.id).subscribe(response => {
+      this.modalRef.hide()
+      this.router.navigate(['inspectionplanevent'])
+    })
+  }
 }

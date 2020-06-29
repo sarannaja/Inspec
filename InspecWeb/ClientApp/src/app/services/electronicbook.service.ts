@@ -184,10 +184,10 @@ export class ElectronicbookService {
     return this.http.delete(this.url + 'deletefile/' + id);
   }
 
-  getCalendarFile(electID) {
-    console.log("SERVICE EID: ", electID);
+  getCalendarFile(planId, cenproid) {
+    console.log("SERVICE EID: ", planId);
 
-    return this.http.get<any>(this.url + "getCalendarFile/" + electID)
+    return this.http.get<any>(this.url + "getCalendarFile/" + planId + "/" + cenproid)
   }
 
   getElectronicbookFile(electID) {
@@ -349,6 +349,41 @@ export class ElectronicbookService {
     formData.append('userInvite', userId);
 
     return this.http.post<any>(this.url + "getElectronicBookInviteOpinion", formData);
+  }
+
+  addSubjectEventFile(value, file: FileList, electronicbookid, centralproid, signatureFiles: FileList) {
+    console.log("Description: ", value.description);
+    console.log("File Type: ", value.fileType);
+    const formData = new FormData();
+    formData.append('ElectronicBookId', electronicbookid);
+    // formData.append('Step', value.step);
+    formData.append('Status', value.status);
+    formData.append('QuestionPeople', value.questionPeople);
+    formData.append('CentralPolicyProvinceId', centralproid);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
+
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+
+    if (signatureFiles != null) {
+      for (var index = 0; index < signatureFiles.length; index++) {
+        formData.append("signatureFiles", file[index]);
+      }
+    }
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post(this.url + "subjecteventfile", formData);
+  }
+
+  getSubjectEventFile(subjectgroupId, cenproid) {
+    console.log("SERVICE EID: ", subjectgroupId);
+
+    return this.http.get<any>(this.url + "getSubjectEventFile/" + subjectgroupId + "/" + cenproid)
   }
 }
 
