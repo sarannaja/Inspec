@@ -67,7 +67,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:10,
       name: 'ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม',
-      link:'',
+      link:'#',
       forblank:0
     },
     {

@@ -123,6 +123,9 @@ namespace InspecWeb.Data
         
         public DbSet<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
 
+        public DbSet<ExecutiveOrderAnswer> ExecutiveOrderAnswers { get; set; }
+        
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

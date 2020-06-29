@@ -66,7 +66,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     ]
   },
   {
-    icon: 'fa-hand-point-up',
+    icon: 'fa-paper-plane',
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
     children: [
@@ -366,14 +366,14 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
   {
-    icon: 'fa-shield',
+    icon: 'fa-eye',
     url: "/log",
-    name: "LOG"
+    name: "log"
   },
 
 ]
