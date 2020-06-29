@@ -515,10 +515,16 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   },
 
   {
-    IDchildren: 'report',
+    IDchildren: 'subject',
     icon: 'fa-file',
-    name: "รายงาน",
+    name: "ประเด็นการตรวจติดตาม",
     children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/subjectevent',
+        name: 'ประเด็นการตรวจติดตาม'
+      },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
@@ -532,12 +538,12 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-calendar',
     name: "กำหนดการตรวจราชการ",
     children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/subjectevent',
-        name: 'ประเด็นการตรวจติดตาม'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/subjectevent',
+      //   name: 'ประเด็นการตรวจติดตาม'
+      // },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
