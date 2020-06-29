@@ -122,10 +122,14 @@ namespace InspecWeb.Data
         public DbSet<ElectronicBookInvite> ElectronicBookInvites { get; set; }
         
         public DbSet<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
+        public DbSet<ElectronicBookProvinceApproveFile> ElectronicBookProvinceApproveFiles { get; set; }
+        public DbSet<AnswerSubquestionStatus> AnswerSubquestionStatuses { get; set; }
 
         public DbSet<ExecutiveOrderAnswer> ExecutiveOrderAnswers { get; set; }
         
 
+        public DbSet<CalendarFile> CalendarFiles { get; set; }
+        public DbSet<SubjectEventFile> SubjectEventFiles { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -257,6 +261,48 @@ namespace InspecWeb.Data
             .HasForeignKey(p => p.SubquestionCentralPolicyProvinceId)
             .OnDelete(DeleteBehavior.Cascade);
 
+            //ElectronicBook Cascade//
+            builder.Entity<ElectronicBookFile>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookFiles)
+            .HasForeignKey(p => p.ElectronicBookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ElectronicBookSuggestGroup>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookSuggestGroups)
+            .HasForeignKey(p => p.ElectronicBookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ElectronicBookGroup>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookGroups)
+            .HasForeignKey(p => p.ElectronicBookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ElectronicBookAccept>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookAccepts)
+            .HasForeignKey(p => p.ElectronicBookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+             builder.Entity<ElectronicBookInvite>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookInvites)
+            .HasForeignKey(p => p.ElectronicBookId);
+            //InspectionPlanEvent Cascade//
+            builder.Entity<CentralPolicyEvent>()
+            .HasOne(p => p.InspectionPlanEvent)
+            .WithMany(b => b.CentralPolicyEvents)
+            .HasForeignKey(p => p.InspectionPlanEventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CentralPolicyUser>()
+            .HasOne(p => p.InspectionPlanEvent)
+            .WithMany(b => b.CentralPolicyUsers)
+            .HasForeignKey(p => p.InspectionPlanEventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
             //.WithOne(b => b.CentralPolicy)
             //.HasMany();
             //builder.Entity<SubquestionGroup>()
@@ -267,21 +313,21 @@ namespace InspecWeb.Data
 
             base.OnModelCreating(builder);
             //seed data
-            builder.ApplyConfiguration(new MinistrySeeder());
-            builder.ApplyConfiguration(new DepartmentSeeder());
-            builder.ApplyConfiguration(new ProvinceSeeder());
-            builder.ApplyConfiguration(new RegionSeeder());
-            builder.ApplyConfiguration(new FiscalYearSeeder());
-            builder.ApplyConfiguration(new GovernmentinspectionplanSeeder());
-            builder.ApplyConfiguration(new InspectionOrderSeeder());
-            builder.ApplyConfiguration(new InstructionOrderSeeder());
-            builder.ApplyConfiguration(new DistrictSeeder());
-            builder.ApplyConfiguration(new SubdistrictSeeder());
-            builder.ApplyConfiguration(new RelationSeeder());
-            builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
-            builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
-            builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
-            builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
+            //builder.ApplyConfiguration(new MinistrySeeder());
+            //builder.ApplyConfiguration(new DepartmentSeeder());
+            //builder.ApplyConfiguration(new ProvinceSeeder());
+            //builder.ApplyConfiguration(new RegionSeeder());
+            //builder.ApplyConfiguration(new FiscalYearSeeder());
+            //builder.ApplyConfiguration(new GovernmentinspectionplanSeeder());
+            //builder.ApplyConfiguration(new InspectionOrderSeeder());
+            //builder.ApplyConfiguration(new InstructionOrderSeeder());
+            //builder.ApplyConfiguration(new DistrictSeeder());
+            //builder.ApplyConfiguration(new SubdistrictSeeder());
+            //builder.ApplyConfiguration(new RelationSeeder());
+            //builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
+            //builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
+            //builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
+            //builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
 
 
         }

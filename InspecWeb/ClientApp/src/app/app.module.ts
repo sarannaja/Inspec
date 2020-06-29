@@ -146,6 +146,7 @@ import { RequestOrderExport1Component } from './request-order/request-order-expo
 import { RequestOrderExport3Component } from './request-order/request-order-export3/request-order-export3.component';
 
 import { LogComponent } from './log/log.component';
+import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
 
 
 
@@ -285,6 +286,7 @@ const ExternalOrganization = [
     RequestOrderExport1Component,
     RequestOrderExport3Component,
     LogComponent,
+    AnswerSubjectEditComponent,
   ],
 
   imports: [
@@ -435,6 +437,7 @@ const ExternalOrganization = [
           { path: 'exportrequestorderforadminprovince', component: RequestOrderExport1Component, canActivate: [AuthorizeGuard]},
           { path: 'exportrequestorderforinspector', component: RequestOrderExport3Component, canActivate: [AuthorizeGuard]},
           { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answersubject/edit/:id', component: AnswerSubjectEditComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

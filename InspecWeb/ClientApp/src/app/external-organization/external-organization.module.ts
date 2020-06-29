@@ -23,6 +23,8 @@ import { VectorMapComponent } from './vector-map/vector-map.component';
 import { CustomCurrencyPipe } from '../services/Pipe/customecurrency.service';
 import { RegionComponent } from './otps/modals/region/region.component';
 import { ChartsModule } from 'ng2-charts';
+import { ProvinceOtpsComponent } from './otps/province-otps/province-otps.component';
+import { ProvinceOtpsTableComponent } from './otps/province-otps-table/province-otps-table.component';
 
 
 
@@ -41,7 +43,9 @@ import { ChartsModule } from 'ng2-charts';
     Gcc1111TableComponent,
     VectorMapComponent,
     CustomCurrencyPipe,
-    RegionComponent
+    RegionComponent,
+    ProvinceOtpsComponent,
+    ProvinceOtpsTableComponent
     
   ],
   imports: [

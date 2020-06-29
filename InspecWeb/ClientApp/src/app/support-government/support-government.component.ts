@@ -30,14 +30,14 @@ export class SupportGovernmentComponent implements OnInit {
     },
     {
       id:4,
-      name: 'ข้อมูลผลการดำเนินโครงการที่ได้รับจัดสรรงบประมาณจากเงินอุดหนุนทั่วไปโครงการเพิ่มขีดสมรรถนะในการกำกับและติดตามการปฏิบัติราชการในภูมิภาค',
-      link:'',
+      name: 'ข้อมูลผลการดำเนินโครงการที่ได้รับจัดสรรงบประมาณจากเงินอุดหนุนทั่วไปโครงการเพิ่มขีดสมรรถนะในการกำกับและติดตามการปฏิบัติราชการในภูมิมขีดสมรรถนะในการกำกับและติดตามการปฏิบัติราชการในภูมิภาค',
+      link:'/external/otps',
       forblank:0
     },
     {
       id:5,
       name: 'ข้อมูลเรื่องร้องเรียนจากระบบศูนย์รับเรื่องราวร้องทุกข์ของรัฐบาล',
-      link:'',
+      link:'/external/opm-1111',
       forblank:0
     },
     {
@@ -61,7 +61,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:9,
       name: 'ข้อมูลพื้นฐานรายจังหวัด',
-      link:'https://onedrive.live.com/view.aspx?resid=8EAF7F9F94B80BB1!4614&ithint=file%2cxlsx&authkey=!ABMEuku7rYKck2E',
+      link:'/external/otps-provinces',
       forblank:1
     },
     {

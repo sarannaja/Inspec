@@ -214,6 +214,7 @@ export class SubjecteventComponent implements OnInit {
     if (value.land == "ลงพื้นที่") {
       this.subjectservice.subjectevent(value, this.userid)
         .subscribe(result => {
+          this.loading = false;
           this.modalRef.hide();
           this.Form.reset()
           // this.resultcentralpolicy = result
@@ -222,6 +223,7 @@ export class SubjecteventComponent implements OnInit {
     } else if (value.land == "ไม่ลงพื้นที่") {
       this.subjectservice.subjecteventnoland(value, this.userid)
         .subscribe(result => {
+          this.loading = false;
           this.modalRef.hide();
           this.Form.reset()
           // this.resultcentralpolicy = result
@@ -234,6 +236,7 @@ export class SubjecteventComponent implements OnInit {
     // alert(JSON.stringify(value))
     this.subjectservice.postsubjecteventfromcalendar(value, this.userid)
     .subscribe(result => {
+      this.loading = false;
       this.modalRef.hide();
       this.Form2.reset()
       // this.resultcentralpolicy = result

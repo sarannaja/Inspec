@@ -39,6 +39,6 @@ namespace InspecWeb.Models
         public long CentralPolicyEventId { get; set; }
         public virtual CentralPolicyEvent CentralPolicyEvent { get; set; }
         
-        public ICollection<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
+        // public ICollection<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
     }
 }

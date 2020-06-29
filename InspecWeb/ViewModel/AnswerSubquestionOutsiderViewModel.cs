@@ -14,6 +14,7 @@ namespace InspecWeb.ViewModel
         //public inputanswerfile[] inputanswerfile { get; set; }
 
         public long SubjectCentralPolicyProvinceId { get; set; }
+        public string UserId { get; set; }
         public string Type { get; set; }
         public List<IFormFile> files { get; set; }
 
@@ -42,6 +43,8 @@ namespace InspecWeb.ViewModel
         public string UserId { get; set; }
 
         public string Answer { get; set; }
+
+        public string Description { get; set; }
     }
     //public class inputanswerfile
     //{

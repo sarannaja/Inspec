@@ -50,8 +50,14 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
+        [Description("สถานะจังหวัด")]
+        public string ProvinceStatus { get; set; }
         public ICollection<ElectronicBookFile> ElectronicBookFiles { get; set; }
         public ICollection<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
         public ICollection<ElectronicBookGroup> ElectronicBookGroups { get; set; }
+
+        public ICollection<ElectronicBookInvite> ElectronicBookInvites { get; set; }
+
+        public ICollection<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
     }
 }

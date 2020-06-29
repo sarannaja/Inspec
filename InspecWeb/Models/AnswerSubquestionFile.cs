@@ -11,7 +11,7 @@ namespace InspecWeb.Models
     /// เนื้อหาของสื่อสิ่งพิมพ์
     /// </summary>
     [Table("AnswerSubquestionFiles")]
-    [Description("ตารางตอบคำถาม")]
+    [Description("ตารางไฟล์ตอบคำถาม")]
     public class AnswerSubquestionFile
     {
         [Key]
@@ -25,6 +25,12 @@ namespace InspecWeb.Models
 
         public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
 
+        [ForeignKey("User")]
+        [Description("FK: User")]
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
+
         [Required]
         [Description("ชื่อไฟล์")]
         public string Name { get; set; }
@@ -34,5 +40,9 @@ namespace InspecWeb.Models
 
         [Description("คำอธิบายรูปภาพ")]
         public string Description { get; set; }
+
+        [Description("วันที่สร้าง")]
+        [DataType(DataType.Date)]
+        public DateTime? CreatedAt { get; set; }
     }
 }

@@ -186,7 +186,7 @@
         </form>
         <div *ngIf="opinionData.description == null" class="form-group col col-lg-12"
           style="margin-top: 20px; text-align: center;">
-          <button style="align-self: center;" type="submit" class="btn btn-success" style="margin-right: 45px;"
+          <button *ngIf="role_id == 6" style="align-self: center;" type="submit" class="btn btn-success" style="margin-right: 45px;"
             (click)="openModal(addAprove)">ลงความเห็น</button>
           <button type="button" class="btn btn-danger" (click)="goBack()">ยกเลิก</button>
         </div>

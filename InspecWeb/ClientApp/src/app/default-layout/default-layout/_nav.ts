@@ -515,10 +515,16 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   },
 
   {
-    IDchildren: 'report',
+    IDchildren: 'subject',
     icon: 'fa-file',
-    name: "รายงาน",
+    name: "ประเด็นการตรวจติดตาม",
     children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/subjectevent',
+        name: 'ประเด็นการตรวจติดตาม'
+      },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
@@ -532,12 +538,12 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-calendar',
     name: "กำหนดการตรวจราชการ",
     children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/subjectevent',
-        name: 'ประเด็นการตรวจติดตาม'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/subjectevent',
+      //   name: 'ประเด็นการตรวจติดตาม'
+      // },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
@@ -633,7 +639,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
           name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
           ex_link:'0',
 
-      } 
+      }
     ]
   },
   {
@@ -814,7 +820,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
         ex_link:'0',
 
-    } 
+    }
     ]
   },
   // {
@@ -898,29 +904,51 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
   //   url: "/inspectionplanevent",
   //   name: "ปฏิทินการตรวจราชการ"
   // },
+  // {
+  //   icon: 'fa-archive',
+  //   url: "/calendaruser",
+  //   name: "ปฏิทินการตรวจราชการ"
+  // },
+
   {
-    icon: 'fa-archive',
-    url: "/calendaruser",
-    name: "ปฏิทินการตรวจราชการ"
-  },
-  {
-    IDchildren: 'electronicbook',
-    icon: 'fa-book',
-    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    IDchildren: 'calendarmenu',
+    icon: 'fa-calendar',
+    name: "ปฏิทินการตรวจราชการ",
     children: [
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook',
+        url: '/inspectionplanevent',
         name: 'สร้างเอง'
       },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook/invited',
+        url: '/calendaruser',
         name: 'ถูกเชิญ'
       },
     ]
+  },
+
+  {
+    IDchildren: 'electronicbook',
+    icon: 'fa-book',
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    url: '/electronicbook/invited',
+    // children: [
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/electronicbook',
+    //     name: 'สร้างเอง'
+    //   },
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/electronicbook/invited',
+    //     name: 'ถูกเชิญ'
+    //   },
+    // ]
   },
   {
     icon: 'fa-list-alt',
@@ -1000,6 +1028,12 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ" ,
     bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
+  },
+  {
+    IDchildren: 'electronicbook',
+    icon: 'fa-book',
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    url: '/electronicbook/invited',
   },
   {
     icon: 'fa-list-alt',
@@ -1173,7 +1207,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
   {
     icon: 'fa-archive',
     url: "/answersubject",
-    name: "Rold9Answer"
+    name: "ประเด็นตรวจติดตาม"
   },
   {
     icon: 'fa-calendar',
