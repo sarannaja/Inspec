@@ -1,0 +1,45 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">ปีงบประมาณ</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">จัดการความสัมพันธ์</a></li>
+      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">จัดการความสัมพันธ์</h5>
+        <br>
+      </div>
+      <div class="card-body">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>เขตตรวจราชการ</th>
+              <th>ประกอบด้วยจังหวัด</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let items of resultdetailfiscalyear; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ items.region.name }} </td>
+              <td>
+                <span *ngFor="let item of items.province; let i = index">{{ item.name }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

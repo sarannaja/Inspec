@@ -25,12 +25,7 @@ export class DocumenttemplateComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [5],
-          orderable: false
-        }
-      ]
+     
 
     };
     this.documenttemplateservice.getdocumenttemplate().subscribe(result=>{

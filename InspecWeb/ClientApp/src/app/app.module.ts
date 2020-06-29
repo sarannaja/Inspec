@@ -146,6 +146,14 @@ import { RequestOrderExport1Component } from './request-order/request-order-expo
 import { RequestOrderExport3Component } from './request-order/request-order-export3/request-order-export3.component';
 
 import { LogComponent } from './log/log.component';
+import { SupportCentralPolicyComponent } from './support-centralpolicy/support-centralpolicy.component';
+import { SupportSubjectCentralpolicyComponent } from './support-centralpolicy/support-subject-centralpolicy/support-subject-centralpolicy.component';
+import { ProvinceDepartmentuserComponent } from './province-departmentuser/province-departmentuser.component';
+import { SupportFiscalyearComponent } from './support-fiscalyear/support-fiscalyear.component';
+import { SupportDetailfiscalyearComponent } from './support-fiscalyear/support-detailfiscalyear/support-detailfiscalyear.component';
+import { SupportDetailsubjectComponent } from './support-centralpolicy/support-detailsubject/support-detailsubject.component';
+
+
 
 
 
@@ -270,9 +278,6 @@ const ExternalOrganization = [
     InfoDepartmentComponent,
     InfoVillageComponent,
     StatepolicyComponent,
-    DocumenttemplateComponent,
-    MeetinginformationComponent,
-    PremierorderComponent,
     ReportInspectionPlanEventComponent,
     ExecutiveOrderExport1Component,
     ExecutiveOrderExport3Component,
@@ -285,6 +290,13 @@ const ExternalOrganization = [
     RequestOrderExport1Component,
     RequestOrderExport3Component,
     LogComponent,
+    SupportCentralPolicyComponent,
+    SupportSubjectCentralpolicyComponent,
+    ProvinceDepartmentuserComponent,
+    SupportFiscalyearComponent,
+    SupportDetailfiscalyearComponent,
+    SupportDetailsubjectComponent,
+    
   ],
 
   imports: [
@@ -419,9 +431,6 @@ const ExternalOrganization = [
           { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
           { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
-          { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
-          { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport1', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport3', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
@@ -435,6 +444,12 @@ const ExternalOrganization = [
           { path: 'exportrequestorderforadminprovince', component: RequestOrderExport1Component, canActivate: [AuthorizeGuard]},
           { path: 'exportrequestorderforinspector', component: RequestOrderExport3Component, canActivate: [AuthorizeGuard]},
           { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportcentralpolicy', component: SupportCentralPolicyComponent, canActivate: [AuthorizeGuard]},
+          { path: 'supportsubjectcentralpolicy/:id', component: SupportSubjectCentralpolicyComponent, canActivate: [AuthorizeGuard]},
+          { path: 'provicedepartmentuser', component: ProvinceDepartmentuserComponent, canActivate: [AuthorizeGuard]},
+          { path: 'supportfiscalyear', component: SupportFiscalyearComponent, canActivate: [AuthorizeGuard]},
+          { path: 'supportdetailfiscalyear/:id', component: SupportDetailfiscalyearComponent, canActivate: [AuthorizeGuard]},
+          { path: 'supportsubjectdetail/:id', component: SupportDetailsubjectComponent, canActivate: [AuthorizeGuard]},
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

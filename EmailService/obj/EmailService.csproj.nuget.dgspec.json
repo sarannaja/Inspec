@@ -1,9 +1,7 @@
 {
   "format": 1,
   "restore": {
-
-    "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj": {}
-
+    "/Users/fame/Desktop/Inspec/EmailService/EmailService.csproj": {}
   },
   "projects": {
     "/Users/fame/Desktop/Inspec/EmailService/EmailService.csproj": {
@@ -16,7 +14,7 @@
         "outputPath": "/Users/fame/Desktop/Inspec/EmailService/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/fame/.config/NuGet/NuGet.Config"
+          "/Users/fame/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -58,7 +56,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
         }
       }
     }

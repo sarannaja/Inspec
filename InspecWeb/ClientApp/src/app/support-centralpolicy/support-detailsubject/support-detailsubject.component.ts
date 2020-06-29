@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { SubjectService } from 'src/app/services/subject.service';
+import { SupportsubjectService } from 'src/app/services/supportsubject.service';
 import { ActivatedRoute } from '@angular/router';
-import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
+import { SupportcentralpolicyService } from 'src/app/services/supportcentralpolicy.service';
 
 @Component({
-  selector: 'app-detail-subject',
-  templateUrl: './detail-subject.component.html',
-  styleUrls: ['./detail-subject.component.css']
+  selector: 'app-support-detailsubject',
+  templateUrl: './support-detailsubject.component.html',
+  styleUrls: ['./support-detailsubject.component.css']
 })
-export class DetailSubjectComponent implements OnInit {
-
-
+export class SupportDetailsubjectComponent implements OnInit {
   resultsubjectdetail: any = []
   question: any = []
   departments: any = []
@@ -19,14 +17,14 @@ export class DetailSubjectComponent implements OnInit {
   id: any
   centralpolicyid: any
   boxcount = 0
+
   constructor(
-    private subjectservice: SubjectService,
+    private subjectservice: SupportsubjectService,
     private activatedRoute: ActivatedRoute,
-    private centralpolicyservice: CentralpolicyService,
+    private centralpolicyservice: SupportcentralpolicyService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
   }
-
   ngOnInit() {
     this.getSubjectDetail()
   }
@@ -40,6 +38,9 @@ export class DetailSubjectComponent implements OnInit {
         //console.log("res: ", this.question);
         this.getCentralPolicyProvincesl()
         this.getboxsubquestion()
+ 
+  
+        
       })
   }
   getCentralPolicyProvincesl() {
@@ -50,12 +51,12 @@ export class DetailSubjectComponent implements OnInit {
   }
   getboxsubquestion() {
     var departments = this.departments
-   // console.log("aaaaa: ", this.departments);
+   // console.log("test1: ", this.departments);
     var question = this.question
     this.filterboxdepartments = departments.filter(
       (thing, i, arr) => arr.findIndex(t => t.box === thing.box) === i
-    ); //song
-    //console.log("CCCCCCC: ", this.filterboxdepartments);
+    ); 
+    //console.log("test2: ", this.filterboxdepartments);
 
     var test: any = [];
 
@@ -75,13 +76,5 @@ export class DetailSubjectComponent implements OnInit {
       });
     });
     //console.log("TEST: ", test);
-
-  }
-
-  test(){
-    this.boxcount + 1
-  }
-  back() {
-    window.history.back();
   }
 }

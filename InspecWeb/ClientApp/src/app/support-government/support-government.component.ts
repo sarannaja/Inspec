@@ -25,7 +25,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:3,
       name: 'ข้อมูลการแบ่งเขตตรวจราชการ',
-      link:'',
+      link:'/supportfiscalyear',
       forblank:0
     },
     {
@@ -49,7 +49,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:7,
       name: 'แผนการตรวจราชการประจำปี',
-      link:'/govermentinpectionplan',
+      link:'/supportcentralpolicy',
       forblank:0
     },
     {
@@ -67,7 +67,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:10,
       name: 'ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม',
-      link:'',
+      link:'/meetinginformation',
       forblank:0
     },
     {
@@ -79,7 +79,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:12,
       name: 'แบบขออนุมัติเดินทางไปราชการ แบบขอยืมเงินทดรองราชการ สัญญาขอยืมเงิน และแบบรายงานการเดินทางไปราชการ ฯลฯ',
-      link:'',
+      link:'/documenttemplate',
       forblank:0
     },
   ]

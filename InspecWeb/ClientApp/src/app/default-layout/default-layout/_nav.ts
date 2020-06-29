@@ -292,7 +292,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '#',
+        url: '/provicedepartmentuser',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {

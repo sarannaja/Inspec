@@ -25,12 +25,7 @@ export class MeetinginformationComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [5],
-          orderable: false
-        }
-      ]
+      
 
     };
     this.meetinginformationservice.getmeetinginformation().subscribe(result=>{
