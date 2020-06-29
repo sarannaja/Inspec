@@ -323,8 +323,10 @@ export class ElectronicbookService {
     console.log("id", formData.getAll("id"));
     console.log("Status", formData.getAll("Status"));
 
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
 
     console.log('FORMDATA: ', formData);
@@ -349,6 +351,21 @@ export class ElectronicbookService {
     formData.append('userInvite', userId);
 
     return this.http.post<any>(this.url + "getElectronicBookInviteOpinion", formData);
+  }
+
+  sendToProvince(electId, userId, provinceId) {
+    console.log("Provinces: ", provinceId);
+
+    const formData = new FormData();
+    formData.append('ElectID', electId);
+    formData.append('userCreate', userId);
+
+    for (var i = 0; i < provinceId.length; i++) {
+      formData.append("electProvinceId", provinceId[i]);
+    }
+    console.log("PID: ", formData.getAll("electProvinceId"));
+
+    return this.http.post<any>(this.url + "sendElectronicBookToProvince", formData)
   }
 }
 

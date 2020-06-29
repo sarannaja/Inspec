@@ -143,7 +143,10 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
 
   addOpinion(value) {
     this.electronicBookService.addOpinion(value, this.ebookInviteId).subscribe(res => {
-      console.log('res:', res);
+      console.log('Opinion:', res);
+      this.approveForm.reset();
+      this.getElectronicBookDetail();
+      this.getElectronicBookInviteOpinion();
       this.modalRef.hide();
     })
   }

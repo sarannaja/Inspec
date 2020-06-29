@@ -26,7 +26,7 @@
               <th>กำหนดการสมุดตรวจ</th>
               <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
               <th>ประเด็นนโยบาย</th>
-              <th>สถานะ</th>
+              <th *ngIf="role_id == 6">สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -42,7 +42,7 @@
                   {{i + 1}}. {{ items.centralPolicyEvent.centralPolicy.title }}
                 </div>
               </td>
-              <td>{{ item.status }}</td>
+              <td *ngIf="role_id == 6">{{ item.status }}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.electronicBookId, item.id)"></i>
               </td>

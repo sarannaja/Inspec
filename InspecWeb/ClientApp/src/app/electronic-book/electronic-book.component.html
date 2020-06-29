@@ -51,10 +51,10 @@
 
                 <i class="align-middle mr-2 fas fa-fw fa fa-book pointer" (click)="gotoTheme(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.id)"></i>
-                <i *ngIf="item.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="gotoEdit2(item.id)"></i>
+                <!-- <i *ngIf="item.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                  (click)="gotoEdit2(item.id)"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
+                  (click)="openModal(deleteElectronicBookModal, item.id)"></i>
               </td>
             </tr>
           </tbody>
@@ -65,7 +65,7 @@
 </div>
 
 <!-- BEGIN primary modal -->
-<ng-template #modaldeleteCentralPolicy class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<ng-template #deleteElectronicBookModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
     <i class="fa fa-info-circle delete-icon"></i>
     <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
