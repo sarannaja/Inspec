@@ -367,5 +367,10 @@ export class ElectronicbookService {
 
     return this.http.post<any>(this.url + "sendElectronicBookToProvince", formData)
   }
+
+  getSendedElectronicBookProvince(provinceId) {
+    console.log("provinceID: ", provinceId);
+    return this.http.get<any[]>(this.url + "electronicbookprovince/" + provinceId)
+  }
 }
 

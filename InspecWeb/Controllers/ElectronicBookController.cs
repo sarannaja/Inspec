@@ -1282,5 +1282,14 @@ namespace InspecWeb.Controllers
 
             return Ok(new {status = true});
         }
+
+         [HttpGet("electronicbookprovince/{provinceId}")]
+        public IActionResult GetElectronicbookProvince(long provinceId)
+        {
+            var ebookProvince = _context.ElectronicBookAccepts
+            .Where(x => x.ProvinceId == provinceId)
+            .ToList();
+            return Ok(ebookProvince);
+        }
     }
 }

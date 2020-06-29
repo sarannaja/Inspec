@@ -20,7 +20,9 @@ export class ElectronicBookProvinceComponent implements OnInit {
   delid: any;
   modalRef: BsModalRef;
   centralpolicyprovinceid: any;
-  role_id
+  role_id;
+  provinceId;
+
   constructor(
     private router: Router,
     private electronicBookService: ElectronicbookService,
@@ -41,8 +43,9 @@ export class ElectronicBookProvinceComponent implements OnInit {
         this.userService.getuserfirstdata(this.userid)
         .subscribe(result => {
           // this.resultuser = result;
-          //console.log("test" , this.resultuser);
-          this.role_id = result[0].role_id
+          console.log("test => " , result);
+          this.role_id = result[0].role_id;
+          this.provinceId = result[0].provinceId;
           // alert(this.role_id)
         })
       })
@@ -64,8 +67,9 @@ export class ElectronicBookProvinceComponent implements OnInit {
   }
 
   getElectronicBook() {
-    this.electronicBookService.getElectronicBook(this.userid).subscribe(results => {
-      console.log("res: ", results);
+    alert(this.userid)
+    this.electronicBookService.getSendedElectronicBookProvince(this.provinceId).subscribe(results => {
+      // console.log("res: ", results);
       this.electronicBookData = results;
       console.log("ELECTDATA: ", this.electronicBookData);
 
