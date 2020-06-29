@@ -123,6 +123,7 @@ namespace InspecWeb.Data
         
         public DbSet<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
         public DbSet<ElectronicBookProvinceApproveFile> ElectronicBookProvinceApproveFiles { get; set; }
+        public DbSet<AnswerSubquestionStatus> AnswerSubquestionStatuses { get; set; }
 
         public DbSet<CalendarFile> CalendarFiles { get; set; }
         public DbSet<SubjectEventFile> SubjectEventFiles { get; set; }
@@ -324,6 +325,8 @@ namespace InspecWeb.Data
             //builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
             //builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
             //builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
+
+
         }
     }
 }

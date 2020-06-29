@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InspecWeb.Data.Migrations
 {
+<<<<<<< HEAD:InspecWeb/Data/Migrations/20200625090951_ElectronicBookCascade.cs
     public partial class ElectronicBookCascade : Migration
+=======
+    public partial class Initial : Migration
+>>>>>>> nikniknik:InspecWeb/Data/Migrations/20200625111042_Initial.cs
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -1919,9 +1923,11 @@ namespace InspecWeb.Data.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SubjectCentralPolicyProvinceId = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: false),
                     Type = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1930,6 +1936,40 @@ namespace InspecWeb.Data.Migrations
                         name: "FK_AnswerSubquestionFiles_SubjectCentralPolicyProvinces_SubjectCentralPolicyProvinceId",
                         column: x => x.SubjectCentralPolicyProvinceId,
                         principalTable: "SubjectCentralPolicyProvinces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AnswerSubquestionFiles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AnswerSubquestionStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubjectCentralPolicyProvinceId = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnswerSubquestionStatuses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AnswerSubquestionStatuses_SubjectCentralPolicyProvinces_SubjectCentralPolicyProvinceId",
+                        column: x => x.SubjectCentralPolicyProvinceId,
+                        principalTable: "SubjectCentralPolicyProvinces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AnswerSubquestionStatuses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -48862,6 +48902,11 @@ namespace InspecWeb.Data.Migrations
                 column: "SubjectCentralPolicyProvinceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AnswerSubquestionFiles_UserId",
+                table: "AnswerSubquestionFiles",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AnswerSubquestionOutsiders_SubquestionCentralPolicyProvinceId",
                 table: "AnswerSubquestionOutsiders",
                 column: "SubquestionCentralPolicyProvinceId");
@@ -48874,6 +48919,16 @@ namespace InspecWeb.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AnswerSubquestions_UserId",
                 table: "AnswerSubquestions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnswerSubquestionStatuses_SubjectCentralPolicyProvinceId",
+                table: "AnswerSubquestionStatuses",
+                column: "SubjectCentralPolicyProvinceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnswerSubquestionStatuses_UserId",
+                table: "AnswerSubquestionStatuses",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -49406,6 +49461,9 @@ namespace InspecWeb.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AnswerSubquestions");
+
+            migrationBuilder.DropTable(
+                name: "AnswerSubquestionStatuses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");

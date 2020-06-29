@@ -19,6 +19,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
   resultsubquestion: any = []
   Form: FormGroup;
   Formfile: FormGroup;
+  Formstatus: FormGroup;
   province: any
   answar = [{ test: "1212", benz: "121212" }]
 
@@ -47,11 +48,13 @@ export class AnswerSubjectDetailComponent implements OnInit {
     this.spinner.show();
     this.Form = this.fb.group({
       result: new FormArray([]),
-      Suggestion: new FormControl(null, [Validators.required]),
     })
     this.Formfile = this.fb.group({
       files: [null],
       Type: ""
+    })
+    this.Formstatus = this.fb.group({
+      Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
     })
     this.authorize.getUser()
       .subscribe(result => {
@@ -84,13 +87,11 @@ export class AnswerSubjectDetailComponent implements OnInit {
         Question: [this.resultsubquestion[i].name],
         Answer: [""],
         Choice: [test],
+        Description: [""],
         Type: [this.resultsubquestion[i].type]
       }))
     }
     console.log(this.t.value);
-
-  }
-  addsuggestion() {
 
   }
   uploadFile(event) {
@@ -110,12 +111,13 @@ export class AnswerSubjectDetailComponent implements OnInit {
     this.Formfile.get('files').updateValueAndValidity()
 
   }
-  storeanswer(value) {
+  storeanswer(value, value2) {
     this.spinner.show();
-    this.storeansweruser(value)
+    this.storeansweruser(value, value2)
+
   }
-  storeansweruser(value) {
-    console.log(this.userid);
+  storeansweruser(value, value2) {
+    // console.log(this.userid);
 
     for (let i = 0; i < this.t.value.length; i++) {
 
@@ -126,18 +128,16 @@ export class AnswerSubjectDetailComponent implements OnInit {
     console.log(this.t.value);
     this.answersubjectservice.addAnswer(this.t.value).subscribe(result => {
       console.log("result", result);
-      this.storesuggestion(value)
+      this.storestatus(value2)
       this.storefile()
-      // this.Form.reset();
-      // window.history.back();
     })
   }
-  storesuggestion(value) {
-    this.suggestionservice.addSuggestion(value, this.id, this.userid).subscribe(result => {
+  storestatus(value2) {
+    this.answersubjectservice.addStatus(value2, this.id, this.userid).subscribe(result => {
     })
   }
   storefile() {
-    this.answersubjectservice.addFiles(this.id, this.Formfile.value).subscribe(response => {
+    this.answersubjectservice.addFiles(this.id, this.Formfile.value, this.userid).subscribe(response => {
       this.Form.reset();
       this.Formfile.reset();
       this.spinner.hide();

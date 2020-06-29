@@ -1207,7 +1207,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
   {
     icon: 'fa-archive',
     url: "/answersubject",
-    name: "Rold9Answer"
+    name: "ประเด็นตรวจติดตาม"
   },
   {
     icon: 'fa-calendar',
