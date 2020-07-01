@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj": {}
   },
   "projects": {
@@ -12,12 +13,26 @@
         "projectPath": "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\EmailService.csproj",
         "packagesPath": "C:\\Users\\TOT\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\TOT\\Desktop\\OfficialInspectionBureau2019\\INS2019\\Inspec\\EmailService\\obj\\",
+=======
+    "C:\\Users\\toey\\Desktop\\Inspec\\EmailService\\EmailService.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\toey\\Desktop\\Inspec\\EmailService\\EmailService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\toey\\Desktop\\Inspec\\EmailService\\EmailService.csproj",
+        "projectName": "EmailService",
+        "projectPath": "C:\\Users\\toey\\Desktop\\Inspec\\EmailService\\EmailService.csproj",
+        "packagesPath": "C:\\Users\\toey\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\toey\\Desktop\\Inspec\\EmailService\\obj\\",
+>>>>>>> toey
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\TOT\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\toey\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> toey
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -20,6 +20,7 @@ export class ListTrainingRegisterComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   Form: any;
+  resulttrainingCondition: any[] = []
   
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -54,6 +55,13 @@ export class ListTrainingRegisterComponent implements OnInit {
     this.trainingservice.getregistertrainingdata(this.trainingid)
     .subscribe(result => {
       this.resulttraining = result
+      this.loading = true
+      //console.log(this.resulttraining);
+    })
+
+    this.trainingservice.getTrainingCondition(this.trainingid)
+    .subscribe(result => {
+      this.resulttrainingCondition = result
       this.loading = true
       //console.log(this.resulttraining);
     })

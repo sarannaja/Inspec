@@ -69,13 +69,6 @@ export class SuccessDefaultLayoutTrainComponent implements OnInit {
     })
 
 
-    //right training
-    this.trainingservice.gettrainingdata()
-    .subscribe(result => {
-      this.resulttraining2 = result
-      this.loading = true;
-      //console.log(this.resulttraining);
-    })
   }
 
   GotoDetail(trainingid){

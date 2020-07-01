@@ -19,20 +19,10 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("Training")]
-        [Description("FK: หลักสูตรอบรม")]
-        public long TrainingId { get; set; }
-        public virtual Training Training { get; set; }
-
-        [Required]
-        [Description("ชื่อวิทยากร")]
-        public string LecturerId { get; set; }
-
-        [Description("หัวข้อเรื่อง")]
-        public string ProgramTopic { get; set; }
-        
-        [Description("กิจกรรม")]
-        public string ProgramDetail { get; set; }
+        [ForeignKey("TrainingPhase")]
+        [Description("FK: ช่วงหลักสูตรอบรม")]
+        public long TrainingPhaseId { get; set; }
+        public virtual TrainingPhase TrainingPhase { get; set; }
 
         [Description("วันที่กำหนดการ")]
         [DataType(DataType.Date)]
@@ -43,6 +33,15 @@ namespace InspecWeb.Models
 
         [Description("เวลาสิ้นสุดกำหนดการ")]
         public string MinuteEndDate { get; set; }
+        
+        [Description("กิจกรรม")]
+        public string ProgramDetail { get; set; }
+
+        [Description("สถานที่")]
+        public string ProgramLocation { get; set; }
+
+        [Description("การแต่งกาย")]
+        public string ProgramToDress { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
