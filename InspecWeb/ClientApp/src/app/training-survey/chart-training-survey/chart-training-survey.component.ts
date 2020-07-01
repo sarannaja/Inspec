@@ -26,18 +26,18 @@ export class ChartTrainingSurveyComponent implements OnInit {
   EditForm: FormGroup;
   lineChart: any;
 
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     }
-    
-    
+
+
 
   ngOnInit() {
     this.spinner.show();
@@ -53,9 +53,9 @@ export class ChartTrainingSurveyComponent implements OnInit {
     };
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
-      
+
     })
-    
+
     this.trainingservice.getlisttrainingsurveydata(this.trainingid)
     .subscribe(result => {
       this.resulttraining = result
@@ -85,15 +85,15 @@ export class ChartTrainingSurveyComponent implements OnInit {
             display: true
          }
       },
-      scales: { // แสดง scales ของแผนภูมิเริมที่ 0
-         yAxes: [{
-            ticks:{
-               beginAtZero:true
-            }
-         }]
-       }
+      // scales: { // แสดง scales ของแผนภูมิเริมที่ 0
+      //    yAxes: [{
+      //       ticks:{
+      //          beginAtZero:true
+      //       }
+      //    }]
+      //  }
    })
-    
+
   }
 
 
