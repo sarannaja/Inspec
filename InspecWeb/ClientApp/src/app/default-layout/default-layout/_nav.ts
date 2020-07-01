@@ -1452,23 +1452,12 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook',
-        name: 'สร้างเอง'
-      },
+      
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
         url: '/training',
         name: 'สมัครฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook/invited',
-        name: 'ถูกเชิญ'
       },
     ]
   },
