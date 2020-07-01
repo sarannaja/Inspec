@@ -17,3 +17,9 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+.star{
+    font-size: 20px;
+    color: red;
+
+}

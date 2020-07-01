@@ -13,7 +13,7 @@ namespace InspecWeb.ViewModel
         public string Subject { get; set; }
         public string Subjectdetail { get; set; }
         public string Status { get; set; }
-        public string Answer_by { get; set; } 
+        public List<string> Answer_by { get; set; } 
         public string Answerdetail { get; set; } 
         public string AnswerProblem { get; set; }      
         public string AnswerCounsel { get; set; }      

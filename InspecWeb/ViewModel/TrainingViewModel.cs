@@ -17,8 +17,6 @@ namespace InspecWeb.ViewModel
 
         public DateTime EndDate { get; set; }
 
-        public string LecturerName { get; set; }
-
         public DateTime RegisStartDate { get; set; }
 
         public DateTime RegisEndDate { get; set; }

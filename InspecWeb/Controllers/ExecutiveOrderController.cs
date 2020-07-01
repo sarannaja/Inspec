@@ -47,12 +47,10 @@ namespace InspecWeb.Controllers {
        
         [HttpGet ("commanded/{id}")]
         public IActionResult Commanded (string id) {
-            var excutiveorderdata = _context.ExecutiveOrders
-                .Include (m => m.User_Answer_by)
-                //.ThenInclude(m => m.)
+            var excutiveorderdata = _context.ExecutiveOrders     
                 .Include (m => m.ExecutiveOrderFiles)
-                .Include (m => m.AnswerExecutiveOrderFiles)
-                .Where (m => m.Commanded_by == id && m.publics == 1)
+                .Include(m => m.ExecutiveOrderAnswers)
+                .Where (m => m.UserID == id && m.publics == 1)
                 .ToList ();
 
             return Ok (excutiveorderdata);
@@ -61,11 +59,11 @@ namespace InspecWeb.Controllers {
         [HttpGet ("answered/{id}")]
         public IActionResult answered (string id) {
             var excutiveorderdata = _context.ExecutiveOrders
-                .Include (m => m.User_Answer_by)
+               // .Include (m => m.User_Answer_by)
                 //.ThenInclude(m => m.)
                 .Include (m => m.ExecutiveOrderFiles)
-                .Include (m => m.AnswerExecutiveOrderFiles)
-                .Where (m => m.Answer_by == id && m.publics == 1)
+               // .Include (m => m.AnswerExecutiveOrderFiles)
+                //.Where (m => m.Answer_by == id && m.publics == 1)
                 .ToList ();
 
             return Ok (excutiveorderdata);
@@ -73,46 +71,55 @@ namespace InspecWeb.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Post ([FromForm] ExecutiveViewModel model) {
-            System.Console.WriteLine ("1 : ");
-            //System.Console.WriteLine("provinceid: " + model.ProvinceId);
-            //System.Console.WriteLine("Name: " + model.Name);
+
+            System.Console.WriteLine ("1 : ");          
             var date = DateTime.Now;
+
             var executiveordersdata = new ExecutiveOrder {
-                Commanded_by = model.Commanded_by,
+                UserID = model.Commanded_by,
                 Subject = model.Subject,
                 Subjectdetail = model.Subjectdetail,
-                Status = "แจ้งแล้ว",
                 CreatedAt = date,
                 Commanded_date = model.Commanded_date,
                 publics = 1,
-                Answer_by = model.Answer_by
-
             };
             System.Console.WriteLine ("2 : ");
             _context.ExecutiveOrders.Add (executiveordersdata);
             _context.SaveChanges ();
 
+            // <!-- เพิ่มผู่รับข้อสั่งการ  -->
+            System.Console.WriteLine("3 : ");
+            foreach (var item in model.Answer_by)
+            {
+                var data = new ExecutiveOrderAnswer
+                {
+                    ExecutiveOrderId = executiveordersdata.Id,
+                    Status = "แจ้งแล้ว",
+                    UserID = item,
+                    publics = 1,
+                };
+                _context.ExecutiveOrderAnswers.Add(data);
+                _context.SaveChanges();
+            }
+            // <!-- END เพิ่มผู่รับข้อสั่งการ  -->
+            System.Console.WriteLine("4 : ");
+            // <!-- อัพไฟล์  -->
             if (!Directory.Exists (_environment.WebRootPath + "//executivefile//")) {
                 Directory.CreateDirectory (_environment.WebRootPath + "//executivefile//"); //สร้าง Folder Upload ใน wwwroot
             }
-            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
-            // path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "//executivefile//";
 
-            foreach (var formFile in model.files.Select ((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+            foreach (var formFile in model.files.Select ((value, index) => new { Value = value, Index = index }))   
             {
                 var random = RandomString (10);
                 string filePath2 = formFile.Value.FileName;
                 string filename = Path.GetFileName (filePath2);
                 string ext = Path.GetExtension (filename);
 
-                if (formFile.Value.Length > 0) {
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                if (formFile.Value.Length > 0) {                 
                     using (var stream = System.IO.File.Create (filePath + random + filename)) {
                         await formFile.Value.CopyToAsync (stream);
                     }
-
                     var ExecutiveOrderFile = new ExecutiveOrderFile {
                         ExecutiveOrderId = executiveordersdata.Id,
                         Name = random + filename,
@@ -121,19 +128,21 @@ namespace InspecWeb.Controllers {
                     _context.SaveChanges ();
                 }
             }
-            System.Console.WriteLine ("Answer_by_ID: " + executiveordersdata.Answer_by);
-            return Ok (new { Id = executiveordersdata.Id, Answer_by = executiveordersdata.Answer_by });
+            // <!--END อัพไฟล์  -->
+            System.Console.WriteLine("5 : ");
+            //return Ok (new { Id = executiveordersdata.Id, Answer_by = executiveordersdata.Answer_by }); //เดียวมาใช้
+            return Ok(new { Id = executiveordersdata.Id});
         }
 
         [HttpPut]
         public async Task<IActionResult> Put ([FromForm] ExecutiveViewModel model) {
             var date = DateTime.Now;
             var executiveordersdata = _context.ExecutiveOrders.Find (model.id); {
-                executiveordersdata.Answerdetail = model.Answerdetail;
-                executiveordersdata.AnswerProblem = model.AnswerProblem;
-                executiveordersdata.AnswerCounsel = model.AnswerCounsel;
-                executiveordersdata.Status = "ตอบกลับเรียบร้อย";
-                executiveordersdata.beaware_date = date;
+                //executiveordersdata.Answerdetail = model.Answerdetail;
+                //executiveordersdata.AnswerProblem = model.AnswerProblem;
+                //executiveordersdata.AnswerCounsel = model.AnswerCounsel;
+                //executiveordersdata.Status = "ตอบกลับเรียบร้อย";
+                //executiveordersdata.beaware_date = date;
             };
 
             _context.Entry (executiveordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -216,7 +225,7 @@ namespace InspecWeb.Controllers {
         public IActionResult Getexport1 ([FromBody] UserViewModel body) {
             var userId = body.Id;
             var Eexcutive1 = _context.ExecutiveOrders
-                .Where (m => m.Commanded_by == userId)
+                .Where (m => m.UserID == userId)
                 .ToList ();
 
             var users = _context.Users
@@ -298,7 +307,7 @@ namespace InspecWeb.Controllers {
                     j += 1;
                     //System.Console.WriteLine(i+=1);
                     var username = _context.ApplicationUsers
-                        .Where(m => m.Id == Eexcutive1[i].Commanded_by)
+                        .Where(m => m.Id == Eexcutive1[i].UserID)
                         .Select(m => m.Name)
                         .FirstOrDefault();
                     System.Console.WriteLine ("JJJJJ: " + j);
@@ -309,13 +318,13 @@ namespace InspecWeb.Controllers {
                     // System.Console.WriteLine("9.3: " + model.reportData[i].suggestion);
                     t.Rows[j].Cells[2].Paragraphs[0].Append (Eexcutive1[i].Subject);
                     // System.Console.WriteLine("9.4: " +Eexcutive1[i].CentralPolicy.Title);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append (Eexcutive1[i].Status);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append (Eexcutive1[i]+" ");
                     // System.Console.WriteLine("9.5: " + Eexcutive1[i].CentralPolicy.Status);
                     t.Rows[j].Cells[4].Paragraphs[0].Append (Eexcutive1[i].CreatedAt.ToString ());
                     // System.Console.WriteLine("9.6: " + Eexcutive1[i].CreatedAt);
                     t.Rows[j].Cells[5].Paragraphs[0].Append (username);
                     // System.Console.WriteLine("10:  " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[6].Paragraphs[0].Append (Eexcutive1[i].Answerdetail);
+                    t.Rows[j].Cells[6].Paragraphs[0].Append (Eexcutive1[i] + " ");
                     // System.Console.WriteLine("10: +Eexcutive1[i].AnswerDetail");
 
                 }
@@ -338,7 +347,7 @@ namespace InspecWeb.Controllers {
             System.Console.WriteLine("id " + body.Id);
             var userId = body.Id;
             var Executive3 = _context.ExecutiveOrders
-                .Where(m => m.Answer_by == userId)
+               // .Where(m => m.Answer_by == userId)
                 .ToList();
 
             var users = _context.Users
@@ -421,7 +430,7 @@ namespace InspecWeb.Controllers {
                     j += 1;
                     //System.Console.WriteLine(i+=1);
                     var username = _context.ApplicationUsers
-                        .Where(m => m.Id == Executive3[i].Commanded_by)
+                        .Where(m => m.Id == Executive3[i].UserID)
                         .Select(m => m.Name)
                         .FirstOrDefault();
                     System.Console.WriteLine("JJJJJ: " + j);
@@ -434,11 +443,11 @@ namespace InspecWeb.Controllers {
                     // System.Console.WriteLine("10:  " + Eexcutive1[i].CreatedAt);
                     t.Rows[j].Cells[3].Paragraphs[0].Append(Executive3[i].Subject);
                     // System.Console.WriteLine("9.4: " +Eexcutive1[i].CentralPolicy.Title);
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(Executive3[i].Status);
+                   // t.Rows[j].Cells[4].Paragraphs[0].Append(Executive3[i].Status);
                     // System.Console.WriteLine("9.5: " + Eexcutive1[i].CentralPolicy.Status);
                     t.Rows[j].Cells[5].Paragraphs[0].Append(Executive3[i].CreatedAt.ToString());
                     // System.Console.WriteLine("9.6: " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[6].Paragraphs[0].Append(Executive3[i].Answerdetail);
+                  //  t.Rows[j].Cells[6].Paragraphs[0].Append(Executive3[i].Answerdetail);
                     // System.Console.WriteLine("10: +Eexcutive1[i].AnswerDetail");
 
                 }
@@ -465,11 +474,11 @@ namespace InspecWeb.Controllers {
                .FirstOrDefault();
 
             var users = _context.Users
-              .Where(m => m.Id == exportexcutiveorderdata.Commanded_by)
+              .Where(m => m.Id == exportexcutiveorderdata.UserID)
                .FirstOrDefault();
 
             var username = _context.ApplicationUsers
-                        .Where(m => m.Id == exportexcutiveorderdata.Answer_by)
+                    //    .Where(m => m.Id == exportexcutiveorderdata.Answer_by)
                         .Select(m => m.Name)
                         .FirstOrDefault();
 
@@ -550,25 +559,25 @@ namespace InspecWeb.Controllers {
                    .Bold() //ตัวหนา
                    .Alignment = Alignment.center;
 
-                document.InsertParagraph("วันที่มีข้อสั่งการ   " + exportexcutiveorderdata.Commanded_date + "  วันที่แจ้งข้อสั่งการ   " + exportexcutiveorderdata.beaware_date).FontSize(16d)
+                document.InsertParagraph("วันที่มีข้อสั่งการ   " + exportexcutiveorderdata.Commanded_date + "  วันที่แจ้งข้อสั่งการ   " ).FontSize(16d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
                 .Alignment = Alignment.center;
 
-                document.InsertParagraph("รายละเอียด " + exportexcutiveorderdata.Answerdetail).FontSize(16d)
+                document.InsertParagraph("รายละเอียด " ).FontSize(16d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
                 .Alignment = Alignment.left;
 
-                document.InsertParagraph("ปัญหา/อุปสรรค " + exportexcutiveorderdata.AnswerProblem).FontSize(16d)
+                document.InsertParagraph("ปัญหา/อุปสรรค " ).FontSize(16d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
                 .Alignment = Alignment.left;
 
-                document.InsertParagraph("ข้อเสนอแนะ " + exportexcutiveorderdata.AnswerCounsel).FontSize(16d)
+                document.InsertParagraph("ข้อเสนอแนะ " ).FontSize(16d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา

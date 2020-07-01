@@ -73,7 +73,7 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public Training Post(string name, string detail,DateTime start_date,DateTime end_date,string lecturer_name,DateTime regis_start_date, DateTime regis_end_date,string image)
+        public Training Post(string name, string detail,DateTime start_date,DateTime end_date,DateTime regis_start_date, DateTime regis_end_date,string image)
         {
             var date = DateTime.Now;
 
@@ -83,7 +83,6 @@ namespace InspecWeb.Controllers
                 Detail = detail,
                 StartDate = start_date,
                 EndDate = end_date,
-                LecturerName = lecturer_name,
                 RegisStartDate = regis_start_date,
                 RegisEndDate = regis_end_date,
                 Image = image,
@@ -98,14 +97,13 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name, string detail, DateTime start_date, DateTime end_date, string lecturer_name, DateTime regis_start_date, DateTime regis_end_date, string image)
+        public void Put(long id, string name, string detail, DateTime start_date, DateTime end_date, DateTime regis_start_date, DateTime regis_end_date, string image)
         {
             var training = _context.Trainings.Find(id);
             training.Name = name;
             training.Detail = detail;
             training.StartDate = start_date;
             training.EndDate = end_date;
-            training.LecturerName = lecturer_name;
             training.RegisStartDate = regis_start_date;
             training.RegisEndDate = regis_end_date;
             training.Image = image;

@@ -24,39 +24,63 @@
                     [dtOptions]="dtOptions">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th width="30%">ชื่อหลักสูตรการอบรม</th>
-                            <th width="25%">คำอธิบายหลักสูตรการอบรม</th>
-                            <th>กำหนดระยะเวลาอบรม</th>
-                            <th>รูปภาพ</th>
-                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="2%">#</th>
+                            <th width="8%" >รูปภาพ</th>
+                            <th width="35%">ชื่อหลักสูตรการอบรม</th>
+                            <th width="15%">คำอธิบายหลักสูตรการอบรม</th>
+                            <th width="15%" >ระยะเวลา</th>
+                            <th width="15%">การจัดการ</th>
+                            <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resulttraining; let i = index">
                             <td>{{ i + 1 }}</td>
-                            <td class="ellipsis">
-                                {{ item.name }}
+                            <td><img src="{{downloadUrl}}/{{item.image}}" width="120" height="90"></td>
+                            <td class="">
+                                <span style="font-weight: 1000;">{{ item.name }}</span>
                                 <br>
-                                <div class="input-group">
-                                    <label class="form-text">ลิงก์</label>
+                                    <label class="form-text">ลิงก์รายละเอียดหน้าสมัคร</label>
                                     <a class="form-control">{{ mainUrl }}train/detail/{{ item.id }}</a>
-                                </div>
+                                <label class="form-text">ลิงก์แบบประเมิน</label>
+                                <a class="form-control">{{ mainUrl }}train/survey/{{ item.id }}</a>
                                 
 
                             </td>
-                            <td class="ellipsis">{{ item.detail }}</td>
-                            <td>{{ item.startDate | thaidate:'year'}} - {{ item.endDate | thaidate:'year'}}</td>
-                            <td><img src="{{downloadUrl}}/{{item.image}}" width="160" height="130"></td>
+                            <td class="ellipsis" title="{{ item.detail }}">{{ item.detail }}</td>
                             <td>
-                                <i class="align-middle mr-2 fas fa-fw fa-list pointer" data-toggle="tooltip" title="กำหนดการ"
-                                (click)="gotoProgramTraining(item.id)"></i>
+                                ระยะเวลาสมัคร : <br>
+                                {{ item.regisStartDate | thaidate:'year'}} - {{ item.regisEndDate | thaidate:'year'}}
+                                <br>
+                                ระยะเวลาอบรม : <br>
+                                {{ item.startDate | thaidate:'year'}} - {{ item.endDate | thaidate:'year'}}
+                            </td>
+                            <td>
+                                <a href="{{mainUrl}}training/documentlist/{{item.id}}">- อัพโหลดเอกสารเพิ่มเติม</a>
+                                <br>
+                                <a href="{{mainUrl}}training/condition/{{item.id}}">- กำหนดคุณสมบัติ</a>
+                                <br>
+                                <a href="{{mainUrl}}training/registerlist/{{item.id}}">- ตรวจสอบคุณสมบัติผู้สมัคร</a>
+                                <br>
+                                <a href="{{mainUrl}}training/surveylist/{{item.id}}">- ออกรหัสเข้าอบรม</a>
+                                <br>
+                                <a href="{{mainUrl}}training/surveylist/{{item.id}}">- บัตรผู้ร่วมอบรม</a>
+                                <br>
+                                <a href="{{mainUrl}}training/register/program/group/{{item.id}}">- จัดกลุ่มผู้สมัคร</a>
+                                <br>
+                                <a href="{{mainUrl}}training/survey/{{item.id}}">- แบบประเมินหลักสูตร</a>
+                                <br>
+                                <a href="{{mainUrl}}training/report">- รายงาน</a>
+                                <br>
+                            </td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดการ"
+                                (click)="gotoPhaseTraining(item.id)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
-                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"></i>
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                    (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>
+                                    (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i> -->
                                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                                    (click)="openModal(modaldeleteTraining, item.id)"></i> -->
+                                    (click)="openModal(modaldeleteTraining, item.id)"></i>
                             </td>
                         </tr>
                     </tbody>
