@@ -670,10 +670,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.Form.reset()
       // this.router.navigate(['inspectionplanevent'])
       // console.log("get");
-      this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
-        .subscribe(response => {
-          console.log(response);
-        })
+      // this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
+      //   .subscribe(response => {
+      //     console.log(response);
+      //   })
 
       window.history.back();
 
@@ -696,13 +696,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
 
-      for (let i = 0; i < UserPeopleId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
-          .subscribe(response => {
-            console.log(response);
+      // for (let i = 0; i < UserPeopleId.length; i++) {
+      //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
+      //     .subscribe(response => {
+      //       console.log(response);
 
-          })
-      }
+      //     })
+      // }
 
       this.getCentralPolicyProvinceUser();
     })
@@ -728,13 +728,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.modalRef.hide()
 
 
-      for (let i = 0; i < UserPeopleanswerId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1)
-          .subscribe(response => {
-            console.log(response);
+      // for (let i = 0; i < UserPeopleanswerId.length; i++) {
+      //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1)
+      //     .subscribe(response => {
+      //       console.log(response);
 
-          })
-      }
+      //     })
+      // }
 
       this.getDetailCentralPolicyProvince();
     })
@@ -746,12 +746,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
-      for (let i = 0; i < UserPeopleId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
-          .subscribe(response => {
-            console.log(response);
-          })
-      }
+      // for (let i = 0; i < UserPeopleId.length; i++) {
+      //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
+      //     .subscribe(response => {
+      //       console.log(response);
+      //     })
+      // }
       this.getCentralPolicyProvinceUser();
     })
   }
@@ -762,12 +762,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
-      for (let i = 0; i < UserPeopleId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
-          .subscribe(response => {
-            console.log(response);
-          })
-      }
+      // for (let i = 0; i < UserPeopleId.length; i++) {
+      //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
+      //     .subscribe(response => {
+      //       console.log(response);
+      //     })
+      // }
       this.getCentralPolicyProvinceUser();
     })
   }

@@ -147,6 +147,8 @@ import { RequestOrderExport3Component } from './request-order/request-order-expo
 
 import { LogComponent } from './log/log.component';
 import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
+import { InspectionPlanMinistryComponent } from './inspection-plan-ministry/inspection-plan-ministry.component';
+import { DetailCentralPolicyProvinceMinistryComponent } from './central-policy/detail-central-policy-province-ministry/detail-central-policy-province-ministry.component';
 
 
 
@@ -287,6 +289,8 @@ const ExternalOrganization = [
     RequestOrderExport3Component,
     LogComponent,
     AnswerSubjectEditComponent,
+    InspectionPlanMinistryComponent,
+    DetailCentralPolicyProvinceMinistryComponent,
   ],
 
   imports: [
@@ -328,9 +332,11 @@ const ExternalOrganization = [
           { path: 'fiscalyear', component: FiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy/detailcentralpolicyprovince/:result', component: DetailCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicy/detailcentralpolicyprovince/ministry/:result', component: DetailCentralPolicyProvinceMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/inspectorministry/:id/:provinceid', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },

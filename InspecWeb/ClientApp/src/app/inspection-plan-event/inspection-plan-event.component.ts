@@ -65,6 +65,18 @@ export class InspectionPlanEventComponent implements OnInit {
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
 
+          if (this.role_id == 6) {
+            var roleCreatedBy: any;
+            var colorJa: any;
+            if (item.roleCreatedBy == "3") {
+              roleCreatedBy = 3
+              colorJa = "#C70039" //red
+            } else if (item.roleCreatedBy == "6") {
+              roleCreatedBy = 6
+              colorJa = "#3B7DDD" //blue
+            }
+          }
+
           return {
             id: item.id,
             title: item.province.name,
@@ -72,7 +84,9 @@ export class InspectionPlanEventComponent implements OnInit {
             // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
             // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
             start: moment(item.startDate), //.format("YYYY-MM-DD"),
-            end: moment(item.endDate).add(1, 'days') //.format("YYYY-MM-DD"),
+            end: moment(item.endDate).add(1, 'days'), //.format("YYYY-MM-DD"),
+            color: colorJa,
+            roleCreatedBy: roleCreatedBy,
           }
         })
         // alert(JSON.stringify(this.inspectionplancalendar))
@@ -129,7 +143,11 @@ export class InspectionPlanEventComponent implements OnInit {
         editable: false,
         eventLimit: false,
         eventClick: function (event) {
-          window.location.href = url_to_inspection + event.id + '/' + event.provinceid;
+          if (event.roleCreatedBy == 3) {
+            window.location.href = url_to_inspection + event.id + '/' + event.provinceid;
+          } else if (event.roleCreatedBy == 6) {
+            window.location.href = url_to_inspection + 'inspectorministry/' + event.id + '/' + event.provinceid;
+          }
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
         },
@@ -183,7 +201,7 @@ export class InspectionPlanEventComponent implements OnInit {
   //   this.router.navigate(['/inspectionplan/createinspectionplan'])
   // }
   selectprovince(value) {
-    if(value == "allprovince"){
+    if (value == "allprovince") {
       window.location.reload();
     } else {
       var id = value
