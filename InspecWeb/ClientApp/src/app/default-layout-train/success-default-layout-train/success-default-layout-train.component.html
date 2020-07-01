@@ -107,11 +107,11 @@
     
     <div class="container">
         <div class="row">
-        <div class="col-8">
+        <div class="col-12">
         <!-- <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)"> -->
             <div class="">
                 <!-- <label *ngFor="let item of resulttraining; let i = index">{{ item.name }}</label> -->
-                <h1><label >{{ name }}</label></h1>
+                <h1><label >ใบสมัครหลักสูตร{{ name }}</label></h1>
                 <label >วันที่ประกาศ {{ createdAt | thaidate:'year'}}</label>
                 <br>
                 <br>
@@ -130,40 +130,7 @@
             </div>
         <!-- </form> -->
         </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="text-center">
-                        <img src="assets/img/user.png" alt="Image Placeholder" width="100px" class="img-fluid">
-                        <div class="">
-                            <h2>Admin สตร.</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-12">
-                    
-                    <!-- <table *ngIf="loading" class="table table-hover" datatable [dtOptions]="dtOptions2"> -->
-                    <table *ngIf="loading" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th colspan="2" class="text-center"><h5>หลักสูตรอบรม</h5></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of resulttraining2; let i = index" class="pointer">
-                            <td width="30%"><a href="train/detail/{{item.id}}"><img src="{{ downloadUrl }}/{{item.image}}" width="160" height="130"></a></td>
-                            <td width="70%"><a href="train/detail/{{item.id}}"><h5>{{ item.name }}</h5></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-
-                </div>
-            </div>
-        </div>
+        
         </div>
     </div>
 

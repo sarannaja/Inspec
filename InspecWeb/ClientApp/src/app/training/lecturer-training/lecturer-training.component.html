@@ -70,9 +70,20 @@
                 </div>
                 <div class="modal-body m-3">
                     <div class="form-group">
+                        <label for="test" class="form-label">ประเภทผู้ดำเนินรายการ</label>
+                        <select class="form-control select2" data-toggle="select2" formControlName="approve">
+                            <option value=null>กรุณาเลือกประเภทผู้ดำเนินรายการ</option>
+                            <option value=1>วิทยากร</option>
+                            <option value=2>ผู้ฝึกสอน</option>
+                        </select>
+                        <br>
                         <label for="test" class="form-label">ชื่อวิทยากร</label>
                         <input type="text" formControlName="lecturername" class="form-control"
                             placeholder="กรุณากรอกชื่อวิทยากร">
+                        <br>
+                        <label class="form-label w-100">รูปวิทยากร</label>
+                        <input type="file" (change)="uploadFile($event)" Accept=".jpg, .jpeg, .png">
+                        <small class="form-text text-muted">สำหรับแนบไฟล์ .jpg .png เท่านั้น</small>
                         <br>
                         <label for="test" class="form-label">เบอร์โทรศัพท์</label>
                         <input type="text" formControlName="lecturerphone" class="form-control"

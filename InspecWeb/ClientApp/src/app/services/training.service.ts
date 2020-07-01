@@ -94,6 +94,16 @@ export class TrainingService {
     return this.http.put(this.url + 'registerlist/' + id , formData);
   }
 
+  //Update Group
+  editRegisterGroup(trainingregisterlistData,id) {
+    console.log(trainingregisterlistData);
+
+    const formData = new FormData();
+    formData.append('group', trainingregisterlistData.approve);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'register/group/' + id , formData);
+  }
+
   //insert training register font-end
   addTrainingRegister(trainingData, trainingid) {
     //alert('Service:' + JSON.stringify(trainingData))
@@ -194,9 +204,10 @@ export class TrainingService {
     //alert('Service:' + JSON.stringify(trainingData))
     //alert(trainingid)
     const formData = new FormData();
+    formData.append('programtype', trainingData.programtype);
     formData.append('programtopic', trainingData.programtopic);
     formData.append('programdetail', trainingData.programdetail);
-    formData.append('programdate', trainingData.programdate);
+    formData.append('programdate', trainingData.programdate.date.year + '-' + trainingData.programdate.date.month + '-' + trainingData.programdate.date.day);
     formData.append('minutestart', trainingData.mStart);
     formData.append('minuteend', trainingData.mEnd);
     formData.append('lecturername', trainingData.lecturername);
@@ -246,6 +257,31 @@ export class TrainingService {
     return this.http.delete(this.url + 'lecturer/delete/' + id);
   }
   //-------------------------------------
+
+  //---------zone training phase---------
+  getTrainingPhase(trainingid):Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'phase/' + trainingid)
+  }
+
+  getTrainingPhaseCount(trainingid):Observable<string> {
+    return this.http.get<string>(this.url + 'phase/count/' + trainingid)
+  }
+  deleteTrainingPhase(trainingid) {
+    return this.http.delete(this.url + 'phase/delete/' + trainingid);
+  }
+
+  //-------------------------------------
+
+  //---------zone training condition---------
+  getTrainingCondition(trainingid):Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'condition/' + trainingid)
+  }
+  deleteTrainingCondition(trainingid) {
+    return this.http.delete(this.url + 'condition/delete/' + trainingid);
+  }
+
+  //-------------------------------------
+
 
 }
 

@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EmailService;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -40,12 +42,11 @@ namespace InspecWeb.Controllers
             _emailSender = emailSender;
         }
 
+        //----------zone training------------
         // GET: api/Training
         [HttpGet]
         public IEnumerable<Training> Get()
         {
-
-            
             var trainingdata = from P in _context.Trainings
                                select P;
             return trainingdata;
@@ -166,21 +167,7 @@ namespace InspecWeb.Controllers
             return result;
         }
 
-        //GET api/Training/trainingid
-        [HttpGet("{trainingid}")]
-        public IActionResult Get2(long trainingid)
-        {
-            var districtdata = _context.TrainingRegisters
-                .Include(m => m.Training)
-                .Where(m => m.TrainingId == trainingid);
-
-            return Ok(districtdata);
-
-            //return _context.TrainingRegisters
-            //           .Include(m => m.Training)
-            //           .Where(m => m.TrainingId == trainingid);
-
-        }
+        
 
         //GET api/Training/trainingid
         [HttpGet("listsurvey/{trainingid}")]
@@ -283,7 +270,6 @@ namespace InspecWeb.Controllers
                         Detail = model.Detail,
                         StartDate = model.StartDate,
                         EndDate = model.EndDate,
-                        LecturerName = model.LecturerName,
                         RegisStartDate = model.RegisStartDate,
                         RegisEndDate = model.RegisEndDate,
                         Image = random + filename,
@@ -300,14 +286,13 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name, string detail, DateTime start_date, DateTime end_date, string lecturer_name, DateTime regis_start_date, DateTime regis_end_date, string image)
+        public void Put(long id, string name, string detail, DateTime start_date, DateTime end_date, DateTime regis_start_date, DateTime regis_end_date, string image)
         {
             var training = _context.Trainings.Find(id);
             training.Name = name;
             training.Detail = detail;
             training.StartDate = start_date;
             training.EndDate = end_date;
-            training.LecturerName = lecturer_name;
             training.RegisStartDate = regis_start_date;
             training.RegisEndDate = regis_end_date;
             training.Image = image;
@@ -325,6 +310,11 @@ namespace InspecWeb.Controllers
             _context.Trainings.Remove(trainingdata);
             _context.SaveChanges();
         }
+        //--------end zone training----------
+
+
+
+
 
 
         //------zone training register-------
@@ -335,17 +325,128 @@ namespace InspecWeb.Controllers
             var training = _context.TrainingRegisters.Find(id);
             training.Status = status;
 
-            if (status == 1){
-                var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "Test email", "This is the content from our email.");
-                _emailSender.SendEmail(message);
-            }
+
+            
+            // if (status == 1){
+
+            //     // var datas = _context.TrainingDocuments
+            //     // .Include(m => m.Training)
+            //     // .Where(m => m.TrainingId == 1).ToList();
+
+            //     // var text = "";
+            //     // foreach(var data2 in datas)
+            //     // {
+            //     //     // System.Console.WriteLine("data: " + data2.Name);
+            //     //     text = text + data2.Name + "\n";
+            //     // }
+
+
+                // var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "Test email", "This is the content from our email.");
+                // _emailSender.SendEmail(message);
+
+            //     var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "อบรมหลักสูตร", "เอกสารไฟล์แนบที่ 1 \n เอกสารไฟล์แนบที่ 2 \n เอกสารไฟล์แนบที่ 3 \n");
+            //     _emailSender.SendEmail(message);
+
+            //     // var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "อบรมหลักสูตร", text);
+            //     // _emailSender.SendEmail(message);
+            // }
 
             _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
+            //  var datas = _context.TrainingDocuments
+            //     .Include(m => m.Training)
+            //     .Where(m => m.TrainingId == trainingid).ToList();
+
+            // var text = '';
+            // foreach(data in datas)
+            // {
+            //     text = text + data.name;
+            // }
         }
 
+
+        //GET:TEST api/Training/listdocument/trainingid
+        [HttpGet("listdocument2/{trainingid}")]
+        public IActionResult GetListTrainingDocument2(long trainingid)
+        {
+            var datas = _context.TrainingDocuments
+                .Include(m => m.Training)
+                .Where(m => m.TrainingId == trainingid).ToList();
+
+            var text = "";
+            foreach(var data2 in datas)
+            {
+                // System.Console.WriteLine("data: " + data2.Name);
+                text = text + data2.Name + "\n";
+            }
+
+            //return text;
+            return Ok(text);
+        }
+
+        //GET api/Training/trainingid
+        [HttpGet("{trainingid}")]
+        public IActionResult Get2(long trainingid)
+        {
+            var districtdata = _context.TrainingRegisters
+                .Include(m => m.Training)
+                .Where(m => m.TrainingId == trainingid);
+
+            return Ok(districtdata);
+
+            //return _context.TrainingRegisters
+            //           .Include(m => m.Training)
+            //           .Where(m => m.TrainingId == trainingid);
+
+        }
+
+
+        // PUT api/training/register/group/:id
+        //[HttpPut("register/group/{id}")]
+        //public void EditRegisterGroup(long id, long group)
+        //{
+        //    var training = _context.TrainingRegisters.Find(id);
+        //    training.Group = group;
+
+        //    _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //    _context.SaveChanges();
+
+        //}
+
+        //GET api/Training/registerlist/:id
+        // [HttpGet("registerlist/{id}")]
+        // public IEnumerable<object> GetTrainingRegisterGroup(long id)
+        // {
+        //     var trainingdata = from P in _context.TrainingRegisters
+        //                        select P;
+
+        //     //return Ok(trainingdata);
+
+        //     var result = new List<object>();
+
+        //     // // var survey = _context.Trainings
+        //     // //     .Include(m => m.TrainingSurveys).ToList();
+        //     foreach (var test in trainingdata)
+        //     {
+        //         var test2 = _context.TrainingRegisterGroups
+        //             .Where(x => x.RegisterId == test.Id)
+        //             .ToList();
+
+        //         result.Add(new
+        //         {
+        //             Id = test.Id,
+        //             Name = test.Name,
+        //             //Count = test2.Count()
+        //         });
+        //     }
+        //     return result;
+
+        // }
+
         //----------------------------------
+
+
 
 
         //------zone training register font-end-------
@@ -595,40 +696,41 @@ namespace InspecWeb.Controllers
 
         //------zone training program-------
         //GET api/training/program
-        [HttpGet("program/{trainingid}")]
-        public IActionResult GetHistoryReport(long trainingid)
+        [HttpGet("program/{phaseid}")]
+        public IActionResult GetHistoryReport(long phaseid)
         {
             var districtdata = _context.TrainingPrograms
-                .Include(m => m.Training)
-                .Where(m => m.TrainingId == trainingid);
+                .Include(m => m.TrainingPhase)
+                .Where(m => m.TrainingPhaseId == phaseid);
                 
             return Ok(districtdata);
 
         }
 
         // POST api/training/program/trainingid
-        [HttpPost("program/save/{trainingid}")]
-        public TrainingProgram InsertTrainingProgram(long trainingid, string programtopic, string programdetail, DateTime programdate, string minutestart, string minuteend, string lecturername)
-        {
-            var date = DateTime.Now;
-            System.Console.WriteLine("Start InsertTrainingProgram");
-            var trainingdata = new TrainingProgram
-            {
-                TrainingId = trainingid,
-                ProgramDetail = programdetail,
-                ProgramDate = programdate,
-                MinuteStartDate = minutestart,
-                MinuteEndDate = minuteend,
-                LecturerId = lecturername,
-                ProgramTopic = programtopic,
-                CreatedAt = date
-            };
+        //[HttpPost("program/save/{trainingid}")]
+        //public TrainingProgram InsertTrainingProgram(long trainingid, long programtype, string programtopic, string programdetail, DateTime programdate, string minutestart, string minuteend, string lecturername)
+        //{
+        //    var date = DateTime.Now;
+        //    System.Console.WriteLine("Start InsertTrainingProgram");
+        //    var trainingdata = new TrainingProgram
+        //    {
+        //        TrainingId = trainingid,
+        //        ProgramType = programtype,
+        //        ProgramDetail = programdetail,
+        //        ProgramDate = programdate,
+        //        MinuteStartDate = minutestart,
+        //        MinuteEndDate = minuteend,
+        //        LecturerId = lecturername,
+        //        ProgramTopic = programtopic,
+        //        CreatedAt = date
+        //    };
 
-            _context.TrainingPrograms.Add(trainingdata);
-            _context.SaveChanges();
+        //    _context.TrainingPrograms.Add(trainingdata);
+        //    _context.SaveChanges();
 
-            return trainingdata;
-        }
+        //    return trainingdata;
+        //}
 
 
         // DELETE api/training/program/delete/{trainingid}
@@ -710,5 +812,178 @@ namespace InspecWeb.Controllers
 
         
 
+
+        //GET api/training/program
+        [HttpGet("testword/")]
+        public void Gettest()
+        {
+
+             if (!Directory.Exists(_environment.WebRootPath + "//DocumentReport_Training//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//DocumentReport_Training//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/DocumentReport_Training/";
+             var filename = "DOC.docx";
+              var createfile = filePath + filename;
+
+
+
+               using (DocX document = DocX.Create(createfile))
+                {
+                    var subject = document.InsertParagraph();
+                    subject.Append("p' teay").FontSize(18).Alignment = Alignment.center;
+                    subject.SpacingAfter(40d);
+
+                    //var i4 = document.InsertParagraph();
+
+                    //i4.AppendPicture(picture3).Alignment = Alignment.center;
+                    //i4.AppendPicture(picture3).Alignment = Alignment.center;
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+
+                }
+        }
+
+
+
+        //GET api/training/program
+        [HttpGet("exportpassport/")]
+        public void exportpassport()
+        {
+
+             if (!Directory.Exists(_environment.WebRootPath + "//DocumentReport_Training//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//DocumentReport_Training//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/DocumentReport_Training/";
+             var filename = "DOC2.docx";
+              var createfile = filePath + filename;
+
+
+
+               // Create a document
+          using( var document = DocX.Create(createfile))
+          {
+            // Add a title
+            document.InsertParagraph( "Columns width" ).FontSize( 15d ).SpacingAfter( 50d ).Alignment = Alignment.center;
+
+            // Insert a title paragraph.
+            var p = document.InsertParagraph( "In the following table, the cell's left margin has been removed for rows 2-6 as well as the top/bottom table's borders." ).Bold();
+            p.Alignment = Alignment.center;
+            p.SpacingAfter( 40d );
+
+            // Add a table in a document of 1 row and 3 columns.
+            var columnWidths = new float[] { 500f};
+            var t = document.InsertTable( 1, columnWidths.Length );
+
+            // Set the table's column width and background 
+            t.SetWidths( columnWidths );
+            t.AutoFit = AutoFit.Contents;
+
+            var row = t.Rows.First();
+
+            // Fill in the columns of the first row in the table.
+            for( int i = 0; i < row.Cells.Count; ++i )
+            {
+              row.Cells[i].Paragraphs.First().Append( "หัวข้อ " + i );
+            }
+
+            // Add rows in the table.
+            for( int i = 0; i < 5; i++ )
+            {
+              var newRow = t.InsertRow();
+
+              // Fill in the columns of the new rows.
+              for( int j = 0; j < newRow.Cells.Count; ++j )
+              {
+                var newCell = newRow.Cells[ j ];
+                newCell.Paragraphs.First().Append( "ข้อมูล " + i );
+                // Remove the left margin of the new cells.
+                newCell.MarginLeft = 0;
+              }
+            }
+
+            // Set a blank border for the table's top/bottom borders.
+            // var blankBorder = new Border( BorderStyle.Tcbs_none, 0, 0, Color.White );
+            // t.SetBorder( TableBorderType.Bottom, blankBorder );
+            // t.SetBorder( TableBorderType.Top, blankBorder );
+
+            document.Save();
+            Console.WriteLine( "\tCreated: ColumnsWidth.docx\n" );
+          }
+
+        }
+
+
+
+
+        //-------------------------------------zone training phase---------------------------------------------
+        //GET api/training/phase
+        [HttpGet("phase/{trainingid}")]
+        public IActionResult GetTrainingPhase(long trainingid)
+        {
+            var districtdata = _context.TrainingPhases
+                .Include(m => m.Training)
+                .Where(m => m.TrainingId == trainingid);
+
+            return Ok(districtdata);
+
+        }
+
+        //GET api/training/phase
+        [HttpGet("phase/count/{trainingid}")]
+        public IActionResult GetTrainingPhasecount(long trainingid)
+        {
+            var districtdata = _context.TrainingPhases
+                .Include(m => m.Training)
+                .Where(m => m.TrainingId == trainingid).Count();
+
+            return Ok(districtdata);
+
+        }
+
+        // DELETE : api/training/phase/delete/:id
+        [HttpDelete("phase/delete/{id}")]
+        public void DeleteTrainingPhase(long id)
+        {
+            var trainingdata = _context.TrainingPhases.Find(id);
+
+            _context.TrainingPhases.Remove(trainingdata);
+            _context.SaveChanges();
+        }
+
+        //-----------------------------------end zone training phase-------------------------------------------
+
+        //-------------------------------------zone training condition---------------------------------------------
+        //GET api/training/condition
+        [HttpGet("condition/{trainingid}")]
+        public IActionResult GetTrainingCondition(long trainingid)
+        {
+            var trainingdata = _context.TrainingConditions
+                .Include(m => m.Training)
+                .Where(m => m.TrainingId == trainingid);
+
+            return Ok(trainingdata);
+
+        }
+
+        // DELETE : api/training/condition/delete/:id
+        [HttpDelete("condition/delete/{id}")]
+        public void DeleteTrainingCondition(long id)
+        {
+            var trainingdata = _context.TrainingConditions.Find(id);
+
+            _context.TrainingConditions.Remove(trainingdata);
+            _context.SaveChanges();
+        }
+        //-----------------------------------end zone training condition-------------------------------------------
+
+
+
+
     }
+
+
+
 }

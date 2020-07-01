@@ -44,6 +44,7 @@ import { TrainingSurveyComponent } from './training-survey/training-survey.compo
 import { ListTrainingSurveyComponent } from './training-survey/list-training-survey/list-training-survey.component';
 import { DefaultLayoutTrainComponent } from './default-layout-train/default-layout-train.component';
 import { DetailDefaultLayoutTrainComponent } from './default-layout-train/detail-default-layout-train/detail-default-layout-train.component';
+import { ProgramDefaultLayoutTrainComponent } from './default-layout-train/program-default-layout-train/program-default-layout-train.component';
 import { TrainComponent } from './train/train.component';
 import { ListDefaultLayoutTrainComponent } from './default-layout-train/list-default-layout-train/list-default-layout-train.component';
 import { PreviewTrainingSurveyComponent } from './training-survey/preview-training-survey/preview-training-survey.component';
@@ -58,6 +59,11 @@ import { ListRegisterTrainingReportComponent } from './training-report/list-trai
 import { HistoryTrainingReportComponent } from './training-report/history-training-report/history-training-report.component';
 import { ProgramTrainingComponent } from './training/program-training/program-training.component';
 import { LecturerTrainingComponent } from './training/lecturer-training/lecturer-training.component';
+import { GroupTrainingRegisterComponent } from './training-register/group-training-register/group-training-register.component';
+import { ProgramTrainingRegisterComponent } from './training-register/program-training-register/program-training-register.component';
+import { ChartTrainingSurveyComponent } from './training-survey/chart-training-survey/chart-training-survey.component';
+import { PhaseTrainingComponent } from './training/phase-training/phase-training.component';
+import { TrainingConditionComponent } from './training-condition/training-condition.component';
 
 //----------------
 
@@ -169,6 +175,7 @@ const ExternalOrganization = [
     ListTrainingSurveyComponent,
     DefaultLayoutTrainComponent,
     DetailDefaultLayoutTrainComponent,
+    ProgramDefaultLayoutTrainComponent,
     TrainComponent,
     ListDefaultLayoutTrainComponent,
     PreviewTrainingSurveyComponent,
@@ -183,6 +190,11 @@ const ExternalOrganization = [
     HistoryTrainingReportComponent,
     ProgramTrainingComponent,
     LecturerTrainingComponent,
+    GroupTrainingRegisterComponent,
+    ProgramTrainingRegisterComponent,
+    ChartTrainingSurveyComponent,
+    PhaseTrainingComponent,
+    TrainingConditionComponent,
     //---------------
     ThaiDatePipe,
     SubjectComponent,
@@ -287,7 +299,7 @@ const ExternalOrganization = [
           { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/register', component: TrainingRegisterComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/registerlist/:id', component: ListTrainingRegisterComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/survey', component: TrainingSurveyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/survey/:id', component: TrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/surveylist/:id', component: ListTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/survey/preview/:id', component: PreviewTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/document', component: TrainingDocumentComponent, canActivate: [AuthorizeGuard] },
@@ -296,9 +308,13 @@ const ExternalOrganization = [
           { path: 'training/report/list', component: ListTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/list/:id', component: ListRegisterTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/program/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/phase/program/:phaseid/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
-          
+          { path: 'training/register/program/group/:id', component: GroupTrainingRegisterComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/register/program/:id', component: ProgramTrainingRegisterComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/survey/chart/:id', component: ChartTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/phase/:id', component: PhaseTrainingComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/condition/:id', component: TrainingConditionComponent, canActivate: [AuthorizeGuard] },
           //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
@@ -358,6 +374,7 @@ const ExternalOrganization = [
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
+      { path: 'train/detail/phase/:id', component: ProgramDefaultLayoutTrainComponent },
       { path: 'train/register/:id', component: RegisterDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },
       { path: 'train/list/:id', component: ListDefaultLayoutTrainComponent },

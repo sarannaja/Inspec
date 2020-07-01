@@ -65,6 +65,7 @@ export class ProgramTrainingComponent implements OnInit {
 
     };
     this.Form = this.fb.group({
+      programtype: new FormControl(null, [Validators.required]),
       programdate: new FormControl(null, [Validators.required]),
       mStart: new FormControl(null, [Validators.required]),
       mEnd: new FormControl(null, [Validators.required]),
@@ -74,13 +75,18 @@ export class ProgramTrainingComponent implements OnInit {
 
     })
 
+    //table program
     this.trainingservice.getprogramtraining(this.trainingid)
       .subscribe(result => {
         this.resulttraining = result
         this.loading = true
+        console.log(result[0].trainingPhase.startDate);
+        console.log(result[0].trainingPhase.endDate);
+        
         //console.log(this.resulttraining);
       })
 
+    //dropdown lecturer
     this.trainingservice.gettraininglecturer()
       .subscribe(result => {
         this.resultlecturer = result
@@ -91,8 +97,10 @@ export class ProgramTrainingComponent implements OnInit {
 
       })
 
+    
     this.trainingservice.getdetailtraining(this.trainingid)
       .subscribe(result => {
+        
         if (result.length != 0) {
           this.startdate = result[0].startDate
           this.enddate = result[0].endDate
@@ -113,41 +121,7 @@ export class ProgramTrainingComponent implements OnInit {
       })
 
 
-
-
-
-      this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
-        type: 'pie', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
-        data: { // ข้อมูลภายในแผนภูมิแบบเส้น
-            labels: ["Jan","Feb","March","April","May","June","July","August","Sep","Oct","Nov","Dec"], // ชื่อของข้อมูลในแนวแกน x
-            datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
-               label: 'Number of items sold in months',
-               data: [9,7,3,5,2,10,15,61,19,3,1,9],
-               fill: false,
-               lineTension: 0.2,
-               borderColor: "red", // สีของเส้น
-               borderWidth: 1
-            }]
-        },
-        options: {
-           title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
-              text: "Bar Chart",
-              display: true
-           }
-        },
-        scales: { // แสดง scales ของแผนภูมิเริมที่ 0
-           yAxes: [{
-              ticks:{
-                 beginAtZero:true
-              }
-           }]
-         }
-     })
-
   }
-
-
-
 
 
 

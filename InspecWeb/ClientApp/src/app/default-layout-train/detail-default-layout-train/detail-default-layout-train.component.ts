@@ -17,6 +17,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
   resulttraining: any[] = [];
   resulttraining2: any[] = [];
   resulttraining3: any[] = [];
+  resulttrainingphase: any[] = [];
   modalRef: BsModalRef;
   delid: any
   loading = false;
@@ -69,6 +70,13 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
       // ]
 
     };
+
+    this.trainingservice.getTrainingPhase(this.trainingid)
+      .subscribe(result => {
+        this.resulttrainingphase = result
+        this.loading = true
+        //console.log(this.resulttraining);
+      })
 
     this.Form = this.fb.group({
       type: new FormControl(null, [Validators.required]),

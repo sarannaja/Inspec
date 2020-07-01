@@ -23,14 +23,46 @@
                   [dtOptions]="dtOptions">
                   <thead>
                       <tr>
-                          <th>#</th>
+                          <th width="5%">#</th>
+                          <th width="85%">รายการ</th>
+                          <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+
+                          <!-- <th>#</th>
                           <th width="55%">ชื่อหลักสูตรการอบรม</th>
                           <th width="25%" class="text-center">จำนวนหัวข้อวัดผลประเมิน</th>
-                          <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                          <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
                       </tr>
                   </thead>
-                  <tbody>
-                      <tr *ngFor="let item of resulttraining; let i = index">
+                  <tbody> 
+                    <tr>
+                      <td>1</td>
+                      <td class="ellipsis">
+                        กำหนดแบบประเมิน
+                      </td> 
+                      <td>
+                          <a href="/training/surveylist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td class="ellipsis">
+                        สถานะการประเมินผู้สมัคร
+                    </td> 
+                    <td>
+                        <a href="/training/surveylist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td class="ellipsis">
+                        ประมวณผลการประเมิน
+                    </td> 
+                    <td>
+                        <a href="/training/survey/chart/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                    </td>
+                </tr>
+
+                      <!-- <tr *ngFor="let item of resulttraining; let i = index">
                           <td>{{ i + 1 }}</td>
                           <td class="ellipsis">
                             {{ item.name }}
@@ -44,11 +76,13 @@
                           <td class="ellipsis text-center">{{ item.count }}</td>
                           <td>
                               <i class="align-middle mr-2 fas fa-fw fa-book pointer"
-                                (click)="GotoPreviewTraining(item.id)"></i>
+                                (click)="GotoSurveyTrainingList(item.id)"></i>
+                              <i class="align-middle mr-2 fas fa-fw fa-chart-bar pointer"
+                                (click)="GotoChartTraining(item.id)"></i>
                               <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                                  (click)="GotoSurveyTrainingList(item.id)"></i>
+                                  (click)="GotoPreviewTraining(item.id)"></i>
                           </td>
-                      </tr>
+                      </tr> -->
                   </tbody>
               </table>
           </div>
