@@ -82,6 +82,8 @@ export class ProgramTrainingComponent implements OnInit {
         this.loading = true
         console.log(result[0].trainingPhase.startDate);
         console.log(result[0].trainingPhase.endDate);
+
+        this.dateOptionF(this.startdate, this.enddate)
         
         //console.log(this.resulttraining);
       })
