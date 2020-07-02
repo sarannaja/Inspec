@@ -1,0 +1,306 @@
+<div class="header">
+    <h1 class="header-title">
+        ผู้สมัครเข้าร่วมอบรม
+    </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+          <div class="card-header" style="margin-bottom: -40px;">
+              <h5 class="card-title">ผู้สมัครเข้าร่วมอบรม</h5>
+              <div class="float-right">
+                  <!-- <button class="btn btn-primary" (click)="CreateTraining()"
+                      style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button> -->
+                      <br>
+              </div>
+          </div>
+          <div class="card-body">
+              <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                  [dtOptions]="dtOptions">
+                  <thead>
+                      <tr>
+                          <th width="5%">#</th>
+                          <th width="30%">ชื่อ-นามสกุล</th>
+                          <!-- <th width="20%">วันที่สมัคร </th> -->
+                          
+                          <ng-container *ngIf="resulttrainingPhase == 1;else two">
+                                <th width="15%">ช่วงที่ 1</th>
+                          </ng-container>
+                          <ng-template #two>
+                              <ng-container *ngIf="resulttrainingPhase == 2;else three">
+                                <th width="15%">ช่วงที่ 1</th>
+                                <th width="15%">ช่วงที่ 2</th>   
+                              </ng-container>
+                          </ng-template>
+                          <ng-template #three>
+                            <ng-container *ngIf="resulttrainingPhase == 3;else four">
+                                <th width="15%">ช่วงที่ 1</th>
+                                <th width="15%">ช่วงที่ 2</th>  
+                                <th width="15%">ช่วงที่ 3</th>
+                            </ng-container>
+                      </ng-template>
+                      <ng-template #four>
+                        <ng-container *ngIf="resulttrainingPhase == 4;else five">
+                            <th width="15%">ช่วงที่ 1</th>
+                            <th width="15%">ช่วงที่ 2</th>  
+                            <th width="15%">ช่วงที่ 3</th>
+                            <th width="15%">ช่วงที่ 4</th>
+                        </ng-container>
+                    </ng-template>
+                    <ng-template #five>
+                        <ng-container *ngIf="resulttrainingPhase == 5;else six">
+                            <th width="15%">ช่วงที่ 1</th>
+                            <th width="15%">ช่วงที่ 2</th>  
+                            <th width="15%">ช่วงที่ 3</th>
+                            <th width="15%">ช่วงที่ 4</th>
+                            <th width="15%">ช่วงที่ 5</th>
+                        </ng-container>
+                    </ng-template>
+                        <ng-template #six>
+                            <ng-container *ngIf="resulttrainingPhase == 6;else seven">
+                                <th width="15%">ช่วงที่ 1</th>
+                                <th width="15%">ช่วงที่ 2</th>  
+                                <th width="15%">ช่วงที่ 3</th>
+                                <th width="15%">ช่วงที่ 4</th>
+                                <th width="15%">ช่วงที่ 5</th>
+                                <th width="15%">ช่วงที่ 6</th>
+                            </ng-container>
+                    </ng-template>
+                    <ng-template #seven>
+                        <ng-container *ngIf="resulttrainingPhase == 7;else eight">
+                            <th width="15%">ช่วงที่ 1</th>
+                            <th width="15%">ช่วงที่ 2</th>  
+                            <th width="15%">ช่วงที่ 3</th>
+                            <th width="15%">ช่วงที่ 4</th>
+                            <th width="15%">ช่วงที่ 5</th>
+                            <th width="15%">ช่วงที่ 6</th>
+                            <th width="15%">ช่วงที่ 7</th>
+                        </ng-container>
+                  </ng-template>
+                  <ng-template #eight>
+                    <ng-container *ngIf="resulttrainingPhase == 8;else nine">
+                            <th width="15%">ช่วงที่ 1</th>
+                            <th width="15%">ช่วงที่ 2</th>  
+                            <th width="15%">ช่วงที่ 3</th>
+                            <th width="15%">ช่วงที่ 4</th>
+                            <th width="15%">ช่วงที่ 5</th>
+                            <th width="15%">ช่วงที่ 6</th>
+                            <th width="15%">ช่วงที่ 7</th>
+                            <th width="15%">ช่วงที่ 8</th>
+                    </ng-container>
+              </ng-template>
+              <ng-template #nine>
+                <ng-container *ngIf="resulttrainingPhase == 9;else ten">
+                            <th width="15%">ช่วงที่ 1</th>
+                            <th width="15%">ช่วงที่ 2</th>  
+                            <th width="15%">ช่วงที่ 3</th>
+                            <th width="15%">ช่วงที่ 4</th>
+                            <th width="15%">ช่วงที่ 5</th>
+                            <th width="15%">ช่วงที่ 6</th>
+                            <th width="15%">ช่วงที่ 7</th>
+                            <th width="15%">ช่วงที่ 8</th>
+                            <th width="15%">ช่วงที่ 9</th>
+                </ng-container>
+          </ng-template>
+          <ng-template #ten>
+            <ng-container *ngIf="resulttrainingPhase == 10;else more">
+                            <th width="15%">ช่วงที่ 1</th>
+                            <th width="15%">ช่วงที่ 2</th>  
+                            <th width="15%">ช่วงที่ 3</th>
+                            <th width="15%">ช่วงที่ 4</th>
+                            <th width="15%">ช่วงที่ 5</th>
+                            <th width="15%">ช่วงที่ 6</th>
+                            <th width="15%">ช่วงที่ 7</th>
+                            <th width="15%">ช่วงที่ 8</th>
+                            <th width="15%">ช่วงที่ 9</th>
+                        <th width="15%">ช่วงที่ 10</th>
+            </ng-container>
+      </ng-template>
+                          
+
+
+                          <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let item of resulttraining; let i = index">
+                          <td>{{ i + 1 }}</td>
+                          <td class="ellipsis">{{ item.name }}</td>
+                          <!-- <td class="ellipsis">{{ item.createdAt | thaidate:'year'}}</td> -->
+
+                          
+                            <ng-container *ngIf="resulttrainingPhase == 1;else two">
+                                <td>{{ item.group1 }}</td>
+                          </ng-container>
+                          <ng-template #two>
+                              <ng-container *ngIf="resulttrainingPhase == 2;else three">
+                                <td>{{ item.group1 }}</td>
+                                <td>{{ item.group2 }}</td>
+                              </ng-container>
+                          </ng-template>
+                          <ng-template #three>
+                            <ng-container *ngIf="resulttrainingPhase == 3;else four">
+                                <td>{{ item.group1 }}</td>
+                                <td>{{ item.group2 }}</td>
+                                <td>{{ item.group3 }}</td>
+                            </ng-container>
+                      </ng-template>
+                      <ng-template #four>
+                        <ng-container *ngIf="resulttrainingPhase == 4;else five">
+                                <td>{{ item.group1 }}</td>
+                                <td>{{ item.group2 }}</td>
+                                <td>{{ item.group3 }}</td>
+                                <td>{{ item.group4 }}</td>
+                        </ng-container>
+                    </ng-template>
+                    <ng-template #five>
+                        <ng-container *ngIf="resulttrainingPhase == 5;else six">
+                                <td>{{ item.group1 }}</td>
+                                <td>{{ item.group2 }}</td>
+                                <td>{{ item.group3 }}</td>
+                                <td>{{ item.group4 }}</td>
+                                <td>{{ item.group5 }}</td>
+                        </ng-container>
+                    </ng-template>
+                        <ng-template #six>
+                            <ng-container *ngIf="resulttrainingPhase == 6;else seven">
+                                <td>{{ item.group1 }}</td>
+                                <td>{{ item.group2 }}</td>
+                                <td>{{ item.group3 }}</td>
+                                <td>{{ item.group4 }}</td>
+                                <td>{{ item.group5 }}</td>
+                                <td>{{ item.group6 }}</td>
+                            </ng-container>
+                    </ng-template>
+                    <ng-template #seven>
+                        <ng-container *ngIf="resulttrainingPhase == 7;else eight">
+                                <td>{{ item.group1 }}</td>
+                                <td>{{ item.group2 }}</td>
+                                <td>{{ item.group3 }}</td>
+                                <td>{{ item.group4 }}</td>
+                                <td>{{ item.group5 }}</td>
+                                <td>{{ item.group6 }}</td>
+                                <td>{{ item.group7 }}</td>
+                        </ng-container>
+                  </ng-template>
+                  <ng-template #eight>
+                    <ng-container *ngIf="resulttrainingPhase == 8;else nine">
+                            <td>{{ item.group1 }}</td>
+                            <td>{{ item.group2 }}</td>
+                            <td>{{ item.group3 }}</td>
+                            <td>{{ item.group4 }}</td>
+                            <td>{{ item.group5 }}</td>
+                            <td>{{ item.group6 }}</td>
+                            <td>{{ item.group7 }}</td>
+                            <td>{{ item.group8 }}</td>
+                    </ng-container>
+              </ng-template>
+              <ng-template #nine>
+                <ng-container *ngIf="resulttrainingPhase == 9;else ten">
+                            <td>{{ item.group1 }}</td>
+                            <td>{{ item.group2 }}</td>
+                            <td>{{ item.group3 }}</td>
+                            <td>{{ item.group4 }}</td>
+                            <td>{{ item.group5 }}</td>
+                            <td>{{ item.group6 }}</td>
+                            <td>{{ item.group7 }}</td>
+                            <td>{{ item.group8 }}</td>
+                            <td>{{ item.group9 }}</td>
+                </ng-container>
+          </ng-template>
+          <ng-template #ten>
+            <ng-container *ngIf="resulttrainingPhase == 10;else more">
+                            <td>{{ item.group1 }}</td>
+                            <td>{{ item.group2 }}</td>
+                            <td>{{ item.group3 }}</td>
+                            <td>{{ item.group4 }}</td>
+                            <td>{{ item.group5 }}</td>
+                            <td>{{ item.group6 }}</td>
+                            <td>{{ item.group7 }}</td>
+                            <td>{{ item.group8 }}</td>
+                            <td>{{ item.group9 }}</td>
+                            <td>{{ item.group10 }}</td>
+            </ng-container>
+      </ng-template>
+
+                            
+                          
+                          <td>
+                              <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                (click)="RegisterTraining()"></i> -->
+                              <i class="align-middle mr-2 fas fa-fw fa-edit pointer"
+                                (click)="openModal(modalApprove, item.id)"></i>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalApprove class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    
+
+                    <table *ngIf="loading" class="table table-responsive-lg" >
+                        <thead>
+                            <tr>
+                                <th class="text-center">ช่วงที่</th>
+                                <th class="text-center">จัดกลุ่ม</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of resulttrainingPhasetable; let i = index">
+                                <td class="text-center">{{ item.phaseNo }}</td>
+                                <td class="text-center">
+                                    <div class="form-group">
+                                        <!-- <label for="test" class="form-label">จัดกลุ่ม</label> -->
+                                        <select class="form-control select2" data-toggle="select2" formControlName="approve">
+                                            <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                                            <option value=1>กลุ่ม 1</option>
+                                            <option value=2>กลุ่ม 2</option>
+                                            <option value=3>กลุ่ม 3</option>
+                                            <option value=4>กลุ่ม 4</option>
+                                            <option value=5>กลุ่ม 5</option>
+                                            <option value=6>กลุ่ม 6</option>
+                                            <option value=7>กลุ่ม 7</option>
+                                            <option value=8>กลุ่ม 8</option>
+                                            <option value=9>กลุ่ม 9</option>
+                                            <option value=10>กลุ่ม 10</option>
+                
+                                        </select>
+                                    </div>     
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+  </div>
+

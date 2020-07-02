@@ -36,6 +36,9 @@ namespace InspecWeb.Models
         [Description("ปี")]
         public int Year { get; set; }
 
+        [Description("รหัสหลักสูตร")]
+        public int CourseCode { get; set; }
+
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
@@ -43,10 +46,6 @@ namespace InspecWeb.Models
         [Description("วันที่สิ้นสุด")]
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
-
-        [Required]
-        [Description("ชื่อวิทยากร")]
-        public string LecturerName { get; set; }
 
         [Description("วันที่เริ่มสมัคร")]
         [DataType(DataType.Date)]

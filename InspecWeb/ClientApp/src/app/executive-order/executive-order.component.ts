@@ -9,6 +9,7 @@ import { ExecutiveorderService } from '../services/executiveorder.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
 import { NotificationService } from '../services/notification.service';
+import { Executiveordercommanded, ExecutiveOrderAnswer } from '../models/excucommand';
 
 @Component({
   selector: 'app-executive-order',
@@ -16,11 +17,13 @@ import { NotificationService } from '../services/notification.service';
   styleUrls: ['./executive-order.component.css']
 })
 export class ExecutiveOrderComponent implements OnInit {
-  private myDatePickerOptions: IMyOptions = {
+  public myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
-  resultexecutiveorder: any[] = []
+  datas$
+  resultexecutiveorder: Executiveordercommanded[] = []
+  executiveOrderAnswers:ExecutiveOrderAnswer[] = []
   modalRef: BsModalRef;
   dtOptions: DataTables.Settings = {};
   loading = false;
@@ -49,7 +52,8 @@ export class ExecutiveOrderComponent implements OnInit {
   answerProblem: any;
   answerCounsel: any;
   testUser: any;
-  url = ""
+  url = "";
+  date: any = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
 
   constructor(
     private authorize: AuthorizeService,
@@ -101,21 +105,28 @@ export class ExecutiveOrderComponent implements OnInit {
             if (this.role_id == 8) {
               this.executiveorderService.getexecutiveordercommandeddata(this.userid)
                 .subscribe(result => {
+                  console.log("data",result);
                   this.getDatauser();
-                  this.getUserServiceLoop(result)
+                  this.resultexecutiveorder = result;
+                  this.loading = true;
+                
 
                 })
             } else if (this.role_id == 1) {
               this.executiveorderService.getexecutiveorderdata()
                 .subscribe(result => {
                   this.getDatauser();
-                  this.getUserServiceLoop(result)
+                  this.resultexecutiveorder = result;
+                  this.loading = true;
+                
                 })
             } else {
               this.executiveorderService.getexecutiveorderanswereddata(this.userid)
                 .subscribe(result => {
                   this.getDatauser();
-                  this.getUserServiceLoop(result)
+                  this.resultexecutiveorder = result;
+                  this.loading = true;
+               
                 })
             }
           })
@@ -152,15 +163,16 @@ export class ExecutiveOrderComponent implements OnInit {
   }
 
   storeexecutiveorder(value) {
+   // alert(1);
     this.executiveorderService.addexecutiveorder(value, this.Form.value.files).subscribe(result => {
-      //alert(1);
-      this.notificationService.addNotification(1, 1, result.answer_by, 10, result.id)
-        .subscribe(result => {
-         // alert(2);
+      // alert(3);
+      // this.notificationService.addNotification(1, 1, 1, 10, result.id)
+      //   .subscribe(result => {
+         
         
           this.Form.reset();
           this.getuserinfo();
-        })
+        //})
         this.modalRef.hide();
     })
   }
@@ -228,43 +240,6 @@ export class ExecutiveOrderComponent implements OnInit {
       })
 
   }
-  getUserServiceLoop(array): void {
-    var resultexecutiveorder: any[] = []
-    array.forEach(element => {
-      setTimeout(async () => {
-        await this.userService.getuserfirstdata(element.answer_by)
-          .subscribe(async result => {
-
-            await this.userService.getuserfirstdata(element.commanded_by)
-              .subscribe(resultCom => {
-                resultexecutiveorder.push({ ...element, userans: result[0], usercom: resultCom[0] })
-              })
-
-          })
-      }, 100)
-
-    });
-    setTimeout(async () => {
-      this.resultexecutiveorder = await resultexecutiveorder
-      // .sort(function (a, b) {
-      //   // console.log(a);
-      //   return a.id - b.id
-      // });
-
-      //console.log(this.resultexecutiveorder);
-
-
-    }, 150)
-
-    setTimeout(() => {
-
-
-      //console.log(this.resultexecutiveorder);
-
-      this.loading = true
-    }, 600)
-  }
-
   exportexecutive2(id) {
 
     this.executiveorderService.getexcutive2(id)

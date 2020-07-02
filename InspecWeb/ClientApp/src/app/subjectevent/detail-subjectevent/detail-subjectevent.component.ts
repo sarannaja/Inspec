@@ -461,15 +461,22 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   storeFiles(value) {
     // alert("123")
+    // if(value.status == "ใช้งานจริง"){
+    //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
+    //   .subscribe(response => {
+    //     console.log(response);
+    //   })
+    // }
     this.electronicBookService.addSubjectEventFile(value, this.form.value.files, this.subjectgroupid, this.id, this.form.value.signatureFiles).subscribe(response => {
       console.log(value);
       this.Form.reset()
 
-      this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
-        .subscribe(response => {
-          console.log(response);
-        })
-
+      if (value.status == "ใช้งานจริง") {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
+          .subscribe(response => {
+            console.log(response);
+          })
+      }
       window.history.back();
       // setTimeout(() => {
       //   // this.getCalendarFile();

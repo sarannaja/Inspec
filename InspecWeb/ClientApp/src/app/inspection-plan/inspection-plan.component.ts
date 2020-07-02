@@ -48,6 +48,7 @@ export class InspectionPlanComponent implements OnInit {
   endDate: any;
   currentyear
   url = "";
+  rolecreatedby
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
@@ -287,12 +288,12 @@ export class InspectionPlanComponent implements OnInit {
         console.log(value);
         this.Form.reset()
         this.modalRef.hide()
-        for (let i = 0; i < UserPeopleId.length; i++) {
-          this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
-            .subscribe(response => {
-              console.log(response);
-            })
-        }
+        // for (let i = 0; i < UserPeopleId.length; i++) {
+        //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
+        //     .subscribe(response => {
+        //       console.log(response);
+        //     })
+        // }
         // this.getCentralPolicyProvinceUser();
       })
     }
@@ -307,6 +308,11 @@ export class InspectionPlanComponent implements OnInit {
       this.modalRef.hide()
       // location.reload();
       this.getTimeline();
+
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id)
+        .subscribe(response => {
+          console.log(response);
+        })
 
     })
   }

@@ -35,25 +35,68 @@ namespace InspecWeb.Controllers
             var userprovince = _context.UserProvinces
                                .Where(m => m.UserID == id)
                                .ToList();
-            var inspectionplans = _context.InspectionPlanEvents
-                                .Include(m => m.Province)
-                                .Include(m => m.CentralPolicyEvents)
-                                .ThenInclude(m => m.CentralPolicy)
-                                .ThenInclude(m => m.CentralPolicyProvinces)
-                                //.Where(m => m.Status == "ใช้งานจริง")
-                                //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
-                                .ToList();
-            List<object> termsList = new List<object>();
-            foreach (var inspectionplan in inspectionplans)
+
+            var user = _context.Users
+                           .Where(m => m.Id == id)
+                           .FirstOrDefault();
+
+            if (user.Role_id == 3)
             {
-                for (int i = 0; i < userprovince.Count(); i++)
+                var inspectionplans = _context.InspectionPlanEvents
+                                    .Include(m => m.Province)
+                                    .Include(m => m.CentralPolicyEvents)
+                                    .ThenInclude(m => m.CentralPolicy)
+                                    .ThenInclude(m => m.CentralPolicyProvinces)
+                                    .Where(m => m.RoleCreatedBy == "3")
+                                    //.Where(m => m.Status == "ใช้งานจริง")
+                                    //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
+                                    .ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in inspectionplans)
                 {
-                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
-                        termsList.Add(inspectionplan);
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
                 }
+                return Ok(termsList);
+            }
+            else
+            {
+                var inspectionplans = _context.InspectionPlanEvents
+                    .Include(m => m.Province)
+                    .Include(m => m.CentralPolicyEvents)
+                    .ThenInclude(m => m.CentralPolicy)
+                    .ThenInclude(m => m.CentralPolicyProvinces)
+                    //.Where(m => m.Status == "ใช้งานจริง")
+                    //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
+                    .ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in inspectionplans)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
             }
 
-            return Ok(termsList);
+            //List<object> termsList = new List<object>();
+            //foreach (var inspectionplan in inspectionplans)
+            //{
+            //    for (int i = 0; i < userprovince.Count(); i++)
+            //    {
+            //        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+            //            termsList.Add(inspectionplan);
+            //    }
+            //}
+
+            //return Ok(termsList);
 
             //return 
             //_context.Provinces
@@ -112,6 +155,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.Province)
                 .Include(m => m.InspectionPlanEvent)
                 .Where(m => m.UserId == id)
+                .Where(m => m.InspectionPlanEvent.Status == "ใช้งานจริง")
                 .ToList();
 
             return Ok(termsList);
