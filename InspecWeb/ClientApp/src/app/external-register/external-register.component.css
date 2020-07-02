@@ -1,6 +1,4 @@
 
-  @import "../../../assets/fontend/css/style.css";
-
 .btnMargin {
     margin: 10px;
     width: 90px;
@@ -20,3 +18,9 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+.star{
+    font-size: 20px;
+    color: red;
+
+}
