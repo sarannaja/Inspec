@@ -153,10 +153,11 @@ import { RequestOrderExport3Component } from './request-order/request-order-expo
 
 import { LogComponent } from './log/log.component';
 import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
-import { AnswerCentralPolicyProvinceEditComponent } from './answer-subject/answer-central-policy-province-edit/answer-central-policy-province-edit.component';
+// import { AnswerCentralPolicyProvinceEditComponent } from './answer-subject/answer-central-policy-province-edit/answer-central-policy-province-edit.component';
 import { InspectionPlanMinistryComponent } from './inspection-plan-ministry/inspection-plan-ministry.component';
 import { DetailCentralPolicyProvinceMinistryComponent } from './central-policy/detail-central-policy-province-ministry/detail-central-policy-province-ministry.component';
 import { ExternalRegisterComponent } from './external-register/external-register.component';
+import { AnswerCentralPolicyProvinceEditComponent } from './answer-subject/answer-central-policy-province-edit/answer-central-policy-province-edit.component';
 
 
 
