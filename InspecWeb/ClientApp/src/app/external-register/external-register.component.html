@@ -1,0 +1,151 @@
+<header role="banner">
+  <div class="top-bar">
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-9 social">
+          <a href="javascript:void(0)"><span class="fa fa-twitter"></span></a>
+          <a href="javascript:void(0)"><span class="fa fa-facebook"></span></a>
+          <a href="javascript:void(0)"><span class="fa fa-instagram"></span></a>
+          <a href="javascript:void(0)"><span class="fa fa-youtube-play"></span></a>
+          <a href="javascript:void(0)"><span class="fa fa-vimeo"></span></a>
+          <a href="javascript:void(0)"><span class="fa fa-snapchat"></span></a>
+        </div>
+        <div class="col-3 search-icon">
+          <a href="javascript:void(0)"><span class="fa fa-search"></span></a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="container logo-wrap">
+    <div class="row pt-5">
+      <div class="col-12 text-center">
+        <a href="{{ mainUrl }}/train"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2"
+            height="70" width="100" /></a>
+        <h1>จัดอบรมหลักสูตร</h1>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+
+  <nav class="navbar navbar-expand-md  navbar-light bg-light">
+    <div class="container">
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav mx-auto">
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+        <div class="">
+          <h1><label>ใบสมัครหลักสูตร{{ name }}</label></h1>
+          <!-- <label>{{ createdAt | thaidate:'year'}}</label> -->
+          <h2 class="text-center">สมัครฝึกอบรม</h2>
+          <div class="container col-10">
+
+          </div>
+
+          <div class="container col-10 rounded-lg border">
+
+            <div class="form-group">
+              <label>เขตตรวจราชการ*</label>
+              <ng-select placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true" [options]="selectdataregion"
+                name="UserRegion" formControlName="UserRegion" [allowClear]="true">
+              </ng-select>
+            </div>
+
+            <div class="form-group">
+              <label>กระทรวง*</label>
+              <ng-select placeholder="กรุณาเลือกกระทรวง" formControlName="MinistryId" [options]="selectdataministry"
+                [allowClear]="true">
+              </ng-select>
+            </div>
+
+            <div class="form-group">
+              <label>หน่วยงาน/กรม</label>
+              <ng-select placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId"
+                [options]="selectdatadeparment" [allowClear]="true">
+              </ng-select>
+            </div>
+
+            <div class="form-group">
+              <label>หน่วยงานภูมิภาค</label>
+              <ng-select placeholder="กรุณาเลือกหน่วยงานภูมิภาค" formControlName="DepartmentId"
+                [options]="selectdatadeparment" [allowClear]="true">
+              </ng-select>
+            </div>
+
+            <div class="form-group">
+              <!-- จังหวัดหลายอัน -->
+              <label>จังหวัด*</label>
+              <ng-select placeholder="กรุณาเลือกจังหวัด" formControlName="UserProvince" [options]="selectdataprovince"
+                [allowClear]="true">
+              </ng-select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">อีเมล*</label>
+              <input type="email" formControlName="Email" class="form-control" placeholder="กรุณากรอกอีเมล">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">คำนำหน้า*</label>
+              <input type="text" formControlName="Prefix" class="form-control" placeholder="กรุณากรอกคำนำหน้า">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ชื่อ-นามสกุล(TH)*</label>
+              <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล(TH)">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ตำแหน่ง*</label>
+              <input type="text" formControlName="Position" class="form-control" placeholder="กรุณากรอกตำแหน่ง">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">เบอร์โทร*</label>
+              <input type="tel" formControlName="PhoneNumber" class="form-control" placeholder="กรุณากรอกเบอร์โทร">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">วันที่เริ่มต้น*</label>
+              <my-date-picker-th formControlName="Startdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">วันที่สิ้นสุด*</label>
+              <my-date-picker-th formControlName="Enddate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label w-100">รูปโปรไฟล์</label>
+              <input type="file" (change)="uploadFile($event)">
+              <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
+            </div>
+
+          </div>
+        </div>
+
+        <br>
+        <div class="text-center">
+          <a href="{{ mainUrl }}train/detail/{{ trainingid }}" class="btn btn-secondary" style="color:white">ย้อนกลับ</a>
+          &nbsp;&nbsp;
+          <button type="submit" class="btn btn-primary">ยืนยันการสมัคร</button>
+        </div>
+        <br>
+        <br>
+
+
+      </form>
+    </div>
+  </div>
+</div>

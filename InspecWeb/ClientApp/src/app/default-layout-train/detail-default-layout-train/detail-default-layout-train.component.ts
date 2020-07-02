@@ -36,10 +36,10 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
   Form: FormGroup;
 
   // constructor() { }
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
@@ -80,7 +80,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
 
     this.Form = this.fb.group({
       type: new FormControl(null, [Validators.required]),
-      
+
     })
 
     //alert(this.trainingid);
@@ -111,7 +111,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
       //console.log(this.resulttraining);
     })
 
-    //document training 
+    //document training
     this.trainingservice.getlisttrainingdocumentdata(this.trainingid)
     .subscribe(result => {
       this.resulttraining3 = result
@@ -141,23 +141,23 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
    this.modalRef = this.modalService.show(template);
  }
 
- storeTraining(value) {
-   
+ storeTraining() {
+  this.router.navigate(['/train/register/',this.trainingid])
 
-   if(value.type == 'in'){
-    //alert('1:' + value.type)
-    this.Form.reset()
-    this.modalRef.hide()
-    this.loading = false;
-    this.router.navigate(['/train/register/',this.trainingid])
-   }
-   else{
-    //alert('2:' + value.type)
-    this.Form.reset()
-    this.modalRef.hide()
-    this.loading = false;
-    this.router.navigate(['/train/register-external/',this.trainingid])
-   }
+  //  if(value.type == 'in'){
+  //   //alert('1:' + value.type)
+  //   this.Form.reset()
+  //   this.modalRef.hide()
+  //   this.loading = false;
+  //   this.router.navigate(['/train/register/',this.trainingid])
+  //  }
+  //  else{
+  //   //alert('2:' + value.type)
+  //   this.Form.reset()
+  //   this.modalRef.hide()
+  //   this.loading = false;
+  //   this.router.navigate(['/train/register-external/',this.trainingid])
+  //  }
   // alert(JSON.stringify(value))
   // this.trainingservice.addTrainingsurvey(value, this.trainingid).subscribe(response => {
   //   console.log(value);
