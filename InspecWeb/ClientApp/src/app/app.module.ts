@@ -147,6 +147,7 @@ import { RequestOrderExport3Component } from './request-order/request-order-expo
 
 import { LogComponent } from './log/log.component';
 import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
+import { AnswerCentralPolicyProvinceEditComponent } from './answer-subject/answer-central-policy-province-edit/answer-central-policy-province-edit.component';
 
 
 
@@ -287,6 +288,7 @@ const ExternalOrganization = [
     RequestOrderExport3Component,
     LogComponent,
     AnswerSubjectEditComponent,
+    AnswerCentralPolicyProvinceEditComponent,
   ],
 
   imports: [
@@ -404,7 +406,7 @@ const ExternalOrganization = [
           { path: 'informationoperation', component: InformationoperationComponent, canActivate: [AuthorizeGuard] },
           { path: 'nationalstrategy', component: NationalstrategyComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
-          { path: 'answerpeople/centralpolicyprovinc/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/centralpolicyprovince/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
@@ -438,6 +440,7 @@ const ExternalOrganization = [
           { path: 'exportrequestorderforinspector', component: RequestOrderExport3Component, canActivate: [AuthorizeGuard]},
           { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/edit/:id', component: AnswerSubjectEditComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/editcentralpolicyprovince/:result', component: AnswerCentralPolicyProvinceEditComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

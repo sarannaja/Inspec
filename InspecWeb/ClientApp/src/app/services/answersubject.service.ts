@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Answerrole7, GetQuestionPeople } from './nikmodel/answarrole7';
+import { CentralPolicyProvince, Answerrole7List } from './nikmodel/answerrole7list';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +30,8 @@ export class AnswersubjectService {
   getsubjectdetaildata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "subjectdetail/" + id)
   }
-  getcentralpolicyprovinc(id): Observable<any> {
-    return this.http.get<any>(this.url + "centralpolicyprovinc/" + id)
+  getcentralpolicyprovince(id): Observable<GetQuestionPeople[]> {
+    return this.http.get<GetQuestionPeople[]>(this.url + "centralpolicyprovince/" + id)
   }
   getAnsweruser(userid) {
     return this.http.get<any>(this.url + "answeruser/" + userid)
@@ -46,6 +48,15 @@ export class AnswersubjectService {
   getAnswerfile(id, userid) {
     return this.http.get<any>(this.url + "answerfile/" + id + "/" + userid)
   }
+  getansweruserrole7data(userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "answeruserrole7/" + userid)
+  }
+  getAnsweruserlistrole7(id, userid) {
+    return this.http.get<Answerrole7List[]>(this.url + "answeruserlistrold7/" + id + "/" + userid)
+  }
+  getAnswerstatusrole7(id, userid) {
+    return this.http.get<Answerrole7>(this.url + "answerstatusrole7/" + id + "/" + userid)
+  }
   addAnswer(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
@@ -54,18 +65,15 @@ export class AnswersubjectService {
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url, formData);
   }
-  addAnswercentralpolicyprovince(answerdata, centralpolicyprovinceId, userid) {
-    console.log("answerdata", answerdata);
-    // const formData = {
-    //   CentralPolicyProvinceId: parseInt(centralpolicyprovinceId),
-    //   UserId: userid,
-    //   Answer: answerdata.AnswerPeople
-    // }
-    const formData = new FormData();
-    formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
-    formData.append('UserId', userid);
-    formData.append('Answer', answerdata.AnswerPeople);
-
+  addAnswercentralpolicyprovince(answercentralpolicyprovincedata) {
+    console.log("answerdata", answercentralpolicyprovincedata);
+    // const formData = new FormData();
+    // formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
+    // formData.append('UserId', userid);
+    // formData.append('Answer', answerdata.AnswerPeople);
+    const formData = {
+      inputanswercentralpolicyprovince: answercentralpolicyprovincedata,
+    }
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url + "answercentralpolicyprovince", formData);
   }
@@ -73,7 +81,6 @@ export class AnswersubjectService {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
       inputansweroutsider: answersubjectdata,
-
     }
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url + "outsider", formData);
@@ -109,6 +116,14 @@ export class AnswersubjectService {
 
     return this.http.post(this.url + "addstatus", formData);
   }
+  addStatusrole7(StatusData, CentralPolicyEventId, UserId) {
+    const formData = new FormData();
+    formData.append('CentralPolicyEventId', CentralPolicyEventId);
+    formData.append('UserId', UserId);
+    formData.append('Status', StatusData.Status);
+
+    return this.http.post(this.url + "addstatusrole7", formData);
+  }
   editAnswer(Answerdata, id) {
     console.log(Answerdata[0].Description);
     const formData = new FormData();
@@ -120,6 +135,19 @@ export class AnswersubjectService {
     const formData = new FormData();
     formData.append('status', Statusdata.Status);
     return this.http.put(this.url + "editstatus/" + id, formData);
+  }
+  editStatusrole7(Statusdata, id) {
+    const formData = new FormData();
+    formData.append('status', Statusdata.Status);
+    return this.http.put(this.url + "editstatusrole7/" + id, formData);
+  }
+  editAnswerrole7(editanswerrole7) {
+    console.log("editanswerrole7", editanswerrole7);
+    const formData = {
+      editanswerrole7: editanswerrole7,
+    }
+    console.log('FORMDATA: ', formData);
+    return this.http.put<any>(this.url + "editanswerrole7", formData);
   }
   deleteFile(id) {
     return this.http.delete(this.url + "deleteanswerfile/" + id);

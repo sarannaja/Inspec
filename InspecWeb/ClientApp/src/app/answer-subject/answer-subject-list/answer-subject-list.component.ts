@@ -73,9 +73,10 @@ export class AnswerSubjectListComponent implements OnInit {
           this.router.navigate(['/answersubject/edit', id])
           break;
         } 
-        // else {
-        //   alert("me2 indetail")
+        else {
+          // alert("me2 indetail")
           this.router.navigate(['/answersubject/detail', id])
+        }
         }
       }
     }

@@ -127,6 +127,7 @@ namespace InspecWeb.Data
 
         public DbSet<CalendarFile> CalendarFiles { get; set; }
         public DbSet<SubjectEventFile> SubjectEventFiles { get; set; }
+        public DbSet<AnswerCentralPolicyProvinceStatus> AnswerCentralPolicyProvinceStatuses { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

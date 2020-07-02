@@ -339,18 +339,26 @@ namespace InspecWeb.Controllers
                 .First();
             return Ok(subjectdata);
         }
-
         // GET api/values/5
-        [HttpGet("centralpolicyprovinc/{id}")]
+        [HttpGet("centralpolicyprovince/{id}")]
         public IActionResult Get6(long id)
         {
-            var centralpolicyprovincdata = _context.CentralPolicyProvinces
-                .Include(m => m.CentralPolicy)
-                .Include(m => m.Province)
+            var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Where(m => m.Id == id)
                 .First();
 
-            return Ok(centralpolicyprovincdata);
+            var CentralPolicyEventdata = _context.CentralPolicyEvents
+                .Where(m => m.CentralPolicyId == centralpolicyprovincedata.Id && m.InspectionPlanEvent.ProvinceId == centralpolicyprovincedata.ProvinceId).First();
+
+            var question = _context.CentralPolicyEventQuestions
+                .Include(m => m.CentralPolicyEvent)
+                .ThenInclude(m => m.CentralPolicy)
+                .Include(m => m.CentralPolicyEvent)
+                .ThenInclude(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.Province)
+                .Where(m => m.CentralPolicyEventId == CentralPolicyEventdata.Id).ToList();
+
+            return Ok(question);
         }
 
         // GET api/values/5
@@ -392,7 +400,29 @@ namespace InspecWeb.Controllers
 
             return Ok(answeruserdata);
         }
+        // GET api/values/5
+        [HttpGet("answeruserrole7/{userid}")]
+        public IActionResult Get10(string userid)
+        {
+            var answeruserdata = _context.AnswerCentralPolicyProvinces
+                .Where(m => m.UserId == userid)
+                .ToList();
 
+            return Ok(answeruserdata);
+        }
+        // GET api/values/5
+        [HttpGet("answeruserlistrold7/{id}/{userid}")]
+        public IActionResult Get11(long id, string userid)
+        {
+            var answeruserdata = _context.AnswerCentralPolicyProvinces
+                .Include(m => m.CentralPolicyProvince)
+                .Include(m => m.CentralPolicyEventQuestion)
+                .Where(m => m.UserId == userid)
+                .Where(m => m.CentralPolicyProvinceId == id)
+                .ToList();
+
+            return Ok(answeruserdata);
+        }
         // POST api/values
         [HttpPost]
         public IActionResult Post([FromBody] AnswerSubquestionOutsiderViewModel model)
@@ -507,20 +537,25 @@ namespace InspecWeb.Controllers
         }
         // POST api/values
         [HttpPost("answercentralpolicyprovince")]
-        public IActionResult Post4(long CentralPolicyProvinceId, string UserId, string Answer)
+        public IActionResult Post4([FromBody] AnswerSubquestionOutsiderViewModel model)
         {
-            System.Console.WriteLine("in", Answer);
             var date = DateTime.Now;
-            var Answerdata = new AnswerCentralPolicyProvince
+            System.Console.WriteLine("in1");
+            foreach (var answer in model.inputanswercentralpolicyprovince)
             {
-                CentralPolicyProvinceId = CentralPolicyProvinceId,
-                UserId = UserId,
-                Answer = Answer,
-                CreatedAt = date
-            };
-            System.Console.WriteLine("in2");
-            _context.AnswerCentralPolicyProvinces.Add(Answerdata);
-            _context.SaveChanges();
+                System.Console.WriteLine("in2");
+                var Answercentralpolicyprovincedata = new AnswerCentralPolicyProvince
+                {
+                    CentralPolicyProvinceId = answer.CentralPolicyProvinceId,
+                    CentralPolicyEventQuestionId = answer.CentralPolicyEventQuestionId,
+                    UserId = answer.UserId,
+                    Answer = answer.Answer,
+                    CreatedAt = date
+                };
+                System.Console.WriteLine("in3");
+                _context.AnswerCentralPolicyProvinces.Add(Answercentralpolicyprovincedata);
+                _context.SaveChanges();
+            }
 
             return Ok(new { status = true });
         }
@@ -543,6 +578,32 @@ namespace InspecWeb.Controllers
             statusdata.Status = status;
             _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+        }
+        // PUT api/values/5
+        [HttpPut("editstatusrole7/{id}")]
+        public void Put3(long id, string status)
+        {
+            var statusdata = _context.AnswerCentralPolicyProvinceStatuses.Find(id);
+            statusdata.Status = status;
+            _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+        // PUT api/values/5
+        [HttpPut("editanswerrole7")]
+        public IActionResult Put4([FromBody] AnswerSubquestionOutsiderViewModel model)
+        {
+            System.Console.WriteLine("in1");
+            foreach (var answer in model.editanswerrole7)
+            {
+                var Answercentralpolicyprovincedata = _context.AnswerCentralPolicyProvinces.Find(answer.Id);
+                Answercentralpolicyprovincedata.Answer = answer.Answer;
+                _context.Entry(Answercentralpolicyprovincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+            }
+
+            return Ok(new { status = true });
 
         }
         // DELETE api/values/5
@@ -573,6 +634,25 @@ namespace InspecWeb.Controllers
 
             return Ok(new { status = true });
         }
+        // POST api/values
+        [HttpPost("addstatusrole7")]
+        public IActionResult Post6(long CentralPolicyEventId, string UserId, string Status)
+        {
+            System.Console.WriteLine("in", UserId);
+            var date = DateTime.Now;
+            var Statusdata = new AnswerCentralPolicyProvinceStatus
+            {
+                CentralPolicyEventId = CentralPolicyEventId,
+                UserId = UserId,
+                Status = Status,
+                CreatedAt = date
+            };
+            System.Console.WriteLine("in2");
+            _context.AnswerCentralPolicyProvinceStatuses.Add(Statusdata);
+            _context.SaveChanges();
+
+            return Ok(new { status = true });
+        }
         // GET api/values/5
         [HttpGet("answerstatus/{id}/{userid}")]
         public IActionResult Get2(long id, string userid)
@@ -599,6 +679,15 @@ namespace InspecWeb.Controllers
 
             _context.AnswerSubquestionFiles.Remove(filedata);
             _context.SaveChanges();
+        }
+        // GET api/values/5
+        [HttpGet("answerstatusrole7/{id}/{userid}")]
+        public IActionResult Get5(long id, string userid)
+        {
+            var answerstatusdata = _context.AnswerCentralPolicyProvinceStatuses
+                .Where(m => m.CentralPolicyEventId == id && m.UserId == userid)
+                .First();
+            return Ok(answerstatusdata);
         }
     }
 }
