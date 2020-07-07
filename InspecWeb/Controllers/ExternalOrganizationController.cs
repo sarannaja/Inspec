@@ -19,16 +19,16 @@ namespace InspecWeb.Controllers
     public class ExternalOrganizationController : ControllerBase
     {
         private readonly IHttpClientFactory _clientFactory;
-         private static UserManager<ApplicationUser> _userManager;
+        private static UserManager<ApplicationUser> _userManager;
         private static ApplicationDbContext _context;
 
-     
+
         public ExternalOrganizationController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             IHttpClientFactory clientFactory)
         {
-             _context = context;
+            _context = context;
             _userManager = userManager;
             _clientFactory = clientFactory;
         }
@@ -295,19 +295,92 @@ namespace InspecWeb.Controllers
 
         }
 
-         [HttpGet("opm/user/{id}")]
+        [HttpGet("opm/userprovince/{id}")]
         public IActionResult OngetOpmUser(string id)
         {
             var user = _userManager.Users.Where(m => m.Id == id)
-                //    .Include(m => m.Departments)
+                   //    .Include(m => m.Departments)
                    //.ThenInclude(m=>m.)
                    .FirstOrDefault();
 
+            var userProvince = _context.UserProvinces
+            .Where(user => user.UserID == id)
+            // .Where(p => p.ProvinceId == 1)
+            // .Select(s => s.ProvinceId)
+            .ToList();
+            List<OpmUserProvince> opmUserProvincesAll = new List<OpmUserProvince>();
+            foreach (var item in userProvince)
+            {
+                var Province = _context.Provinces
+                .Where(w => w.Id == item.ProvinceId)
+                .First();
+                ProvinceKeyword ProvinceS = SearchProvince(Province.Name);
+                Console.WriteLine(ProvinceS.Id);
+                List<OpmUserProvince> opmUserProvinces = OpmOpmUserProvince(ProvinceS.Id);
+                for (int i = 0; i < opmUserProvinces.Count; i++)
+                {
+                    opmUserProvincesAll.Add(opmUserProvinces[i]);
+                }
+            }
+            OpmUserProvince[] terms = opmUserProvincesAll.ToArray();
+            // var opmUserProvinces = OpmOpmUserProvince("11");
             // var proviceDepart = _context.ProvincialDepartment
             // .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
             // var test = new { user, proviceDepart };
-            return Ok(new { user });
+            return Ok(terms);
 
+        }
+
+        public ProvinceKeyword SearchProvince(string provinceName)
+        {
+            ProvinceKeyword ProvinceS = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("http://localhost:3000/testservice/opm/province/key/ " + provinceName)
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    ProvinceS = JsonConvert.DeserializeObject<ProvinceKeyword>(jsonString.Result);
+                });
+            task.Wait();
+            return ProvinceS;
+        }
+
+        public List<OpmUserProvince> OpmOpmUserProvince(long ID)
+        {
+            List<OpmUserProvince> OpmUserProvince = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("http://localhost:3000/testservice/opm/province/" + ID)
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    OpmUserProvince = JsonConvert.DeserializeObject<List<OpmUserProvince>>(jsonString.Result);
+                });
+            task.Wait();
+            return OpmUserProvince;
+        }
+        
+        [HttpGet("opm/case/{id}")]
+        public OpmCase OpmCase(string id)
+        {
+            OpmCase OpmUserProvince = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("http://localhost:3000/testservice/opm/case/" + id)
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    OpmUserProvince = JsonConvert.DeserializeObject<OpmCase>(jsonString.Result);
+                });
+            task.Wait();
+            return OpmUserProvince;
         }
 
 

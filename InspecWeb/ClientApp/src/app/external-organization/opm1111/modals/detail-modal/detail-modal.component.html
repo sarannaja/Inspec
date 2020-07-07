@@ -1,0 +1,56 @@
+<app-opmdetail-title-modal [title]="title"></app-opmdetail-title-modal>
+
+<div *ngIf="loading" class="modal-body">
+    <div class="col-md-12">
+        <div class="table-responsive" id="summaryTable">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td width="30%">รหัสเรื่อง:</td>
+                        <td class="text-right">{{result.case_code}}</td>
+                    </tr>
+                    <!-- <hr> -->
+                    <tr>
+                        <td>วัน/เวลา:</td>
+                        <td id="complete-count" class="text-right">
+                            {{result.date_opened }} </td>
+                    </tr>
+                    <tr>
+                        <td>ผู้เดือดร้อน:</td>
+                        <td class="text-right">
+                            {{result.account.firstname_th +" " +result.account.lastname_th }}
+                            </td>
+                    </tr>
+                    <tr>
+                        <td>รายละเอียดเรื่องร้องทุกข์ :</td>
+                        <td class="text-right">{{result.detail}} 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ประเภทเรื่อง:</td>
+                        <td class="text-right">{{result.type_text}}
+                        </td>
+                        <!-- <td  class="text-right">197,202,372.00 บาท</td> -->
+                    </tr>
+                    <tr>
+                        <td>ที่เกิดเหตุ:</td>
+                        <td class="text-right">
+                            {{result.summary}}
+                            </td>
+                    </tr>
+                    <!-- <tr>
+                        <td>อยู่ระหว่างพิจารณาคดีในชั้นศาล :</td>
+                        <td class="text-right">
+                            {{result.summary}}
+                            บาท</td>
+                    </tr> -->
+                    <tr>
+                        <td>ผู้แจ้ง :</td>
+                        <td class="text-right"> {{result.account.firstname_th +" " +result.account.lastname_th }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
