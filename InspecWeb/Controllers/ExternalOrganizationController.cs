@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using InspecWeb.Data;
+using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using static InspecWeb.ViewModel.ExternalOtpsViewModel;
@@ -16,8 +19,17 @@ namespace InspecWeb.Controllers
     public class ExternalOrganizationController : ControllerBase
     {
         private readonly IHttpClientFactory _clientFactory;
-        public ExternalOrganizationController(IHttpClientFactory clientFactory)
+         private static UserManager<ApplicationUser> _userManager;
+        private static ApplicationDbContext _context;
+
+     
+        public ExternalOrganizationController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            IHttpClientFactory clientFactory)
         {
+             _context = context;
+            _userManager = userManager;
             _clientFactory = clientFactory;
         }
 
@@ -280,6 +292,21 @@ namespace InspecWeb.Controllers
                 });
             task.Wait();
             return Ok(model);
+
+        }
+
+         [HttpGet("opm/user/{id}")]
+        public IActionResult OngetOpmUser(string id)
+        {
+            var user = _userManager.Users.Where(m => m.Id == id)
+                //    .Include(m => m.Departments)
+                   //.ThenInclude(m=>m.)
+                   .FirstOrDefault();
+
+            // var proviceDepart = _context.ProvincialDepartment
+            // .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
+            // var test = new { user, proviceDepart };
+            return Ok(new { user });
 
         }
 
