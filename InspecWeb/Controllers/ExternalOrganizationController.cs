@@ -316,6 +316,7 @@ namespace InspecWeb.Controllers
                 .First();
                 ProvinceKeyword ProvinceS = SearchProvince(Province.Name);
                 Console.WriteLine(ProvinceS.Id);
+                var prov = new {province = Province.Name};
                 List<OpmUserProvince> opmUserProvinces = OpmOpmUserProvince(ProvinceS.Id);
                 for (int i = 0; i < opmUserProvinces.Count; i++)
                 {
@@ -323,10 +324,7 @@ namespace InspecWeb.Controllers
                 }
             }
             OpmUserProvince[] terms = opmUserProvincesAll.ToArray();
-            // var opmUserProvinces = OpmOpmUserProvince("11");
-            // var proviceDepart = _context.ProvincialDepartment
-            // .Where(m => m.DepartmentId == user.DepartmentId).FirstOrDefault();
-            // var test = new { user, proviceDepart };
+          
             return Ok(terms);
 
         }
@@ -335,7 +333,7 @@ namespace InspecWeb.Controllers
         {
             ProvinceKeyword ProvinceS = null;
             var client = new HttpClient();
-            var task = client.GetAsync("http://localhost:3000/testservice/opm/province/key/ " + provinceName)
+            var task = client.GetAsync("http://203.113.14.20:3000/testservice/opm/province/key/ " + provinceName)
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -352,7 +350,7 @@ namespace InspecWeb.Controllers
         {
             List<OpmUserProvince> OpmUserProvince = null;
             var client = new HttpClient();
-            var task = client.GetAsync("http://localhost:3000/testservice/opm/province/" + ID)
+            var task = client.GetAsync("http://203.113.14.20:3000/testservice/opm/province/" + ID)
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;
@@ -370,7 +368,7 @@ namespace InspecWeb.Controllers
         {
             OpmCase OpmUserProvince = null;
             var client = new HttpClient();
-            var task = client.GetAsync("http://localhost:3000/testservice/opm/case/" + id)
+            var task = client.GetAsync("http://203.113.14.20:3000/testservice/opm/case/" + id)
                 .ContinueWith((taskwithresponse) =>
                 {
                     var response = taskwithresponse.Result;

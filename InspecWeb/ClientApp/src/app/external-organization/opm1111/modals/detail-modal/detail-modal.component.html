@@ -12,18 +12,20 @@
                     <!-- <hr> -->
                     <tr>
                         <td>วัน/เวลา:</td>
+                        <!-- <td id="complete-count" class="text-right">
+                            {{result.date_opened }} </td> -->
                         <td id="complete-count" class="text-right">
-                            {{result.date_opened }} </td>
+                            {{date  | thaidate}} </td>
                     </tr>
                     <tr>
                         <td>ผู้เดือดร้อน:</td>
                         <td class="text-right">
                             {{result.account.firstname_th +" " +result.account.lastname_th }}
-                            </td>
+                        </td>
                     </tr>
                     <tr>
                         <td>รายละเอียดเรื่องร้องทุกข์ :</td>
-                        <td class="text-right">{{result.detail}} 
+                        <td class="text-right">{{result.detail}}
                         </td>
                     </tr>
                     <tr>
@@ -36,7 +38,7 @@
                         <td>ที่เกิดเหตุ:</td>
                         <td class="text-right">
                             {{result.summary}}
-                            </td>
+                        </td>
                     </tr>
                     <!-- <tr>
                         <td>อยู่ระหว่างพิจารณาคดีในชั้นศาล :</td>

@@ -28,6 +28,8 @@ import { ProvinceOtpsTableComponent } from './otps/province-otps-table/province-
 import { ThaiDatePipe2 } from '../services/Pipe/thaidate2.service';
 import { OpmCaseDetailComponent } from './opm1111/modals/detail-modal/detail-modal.component';
 import { OpmDetailTitleModalComponent } from './opm1111/modals/title-modal/title-modal.component';
+import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 
 
@@ -61,6 +63,9 @@ import { OpmDetailTitleModalComponent } from './opm1111/modals/title-modal/title
     ModalModule.forRoot(),
     FormsModule,
     ChartsModule,
+    MyDatePickerTHModule,
+    MyDateRangePickerModule
+    // MyDateRangePickerTHModule
   ],
   exports:[MinisterModalComponent,CustomCurrencyPipe,ThaiDatePipe2],
   providers: [ExternalOrganizationService,CurrencyPipe,DatePipe],

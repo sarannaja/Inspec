@@ -13,6 +13,7 @@ export class OpmCaseDetailComponent implements OnInit {
   id
   result:OpmCase
   loading:boolean= false
+  date
   constructor(private external:ExternalOrganizationService) { }
 
   ngOnInit() {
