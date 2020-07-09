@@ -65,8 +65,8 @@ export class InspectionPlanEventComponent implements OnInit {
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
 
+          var roleCreatedBy: any="";
           if (this.role_id == 6) {
-            var roleCreatedBy: any;
             var colorJa: any;
             if (item.roleCreatedBy == "3") {
               roleCreatedBy = 3
@@ -76,6 +76,7 @@ export class InspectionPlanEventComponent implements OnInit {
               colorJa = "#3B7DDD" //blue
             }
           }
+          // console.log('roleCreatedBy',roleCreatedBy);
 
           return {
             id: item.id,
@@ -132,7 +133,9 @@ export class InspectionPlanEventComponent implements OnInit {
     // });
     // calendar.render();
     setTimeout(() => {
-      var url_to_inspection = this.url
+      const self = this;
+      // var self.url = this.url
+
       $("#calendar").fullCalendar({
         header: {
           left: 'prev,next today',
@@ -143,10 +146,20 @@ export class InspectionPlanEventComponent implements OnInit {
         editable: false,
         eventLimit: false,
         eventClick: function (event) {
-          if (event.roleCreatedBy == 3) {
-            window.location.href = url_to_inspection + event.id + '/' + event.provinceid;
-          } else if (event.roleCreatedBy == 6) {
-            window.location.href = url_to_inspection + 'inspectorministry/' + event.id + '/' + event.provinceid;
+          // alert(JSON.stringify(event))
+          console.log(event);
+          console.log('this.role_id',self.role_id);
+          if (self.role_id == 6) {
+            // alert(event.roleCreatedBy)
+            if (event.roleCreatedBy == 3) {
+              window.location.href = self.url + event.id + '/' + event.provinceid;
+            } else if (event.roleCreatedBy == 6) {
+              window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
+            }
+          }
+          else if (self.role_id == 3) {
+
+            window.location.href = self.url + event.id + '/' + event.provinceid;
           }
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
@@ -162,7 +175,7 @@ export class InspectionPlanEventComponent implements OnInit {
           element.find('span.fc-title').attr('data-toggle', 'tooltip');
           element.find('span.fc-title').attr('title', event.title);
         },
-        events: this.inspectionplancalendar,  // request to load current events
+        events: self.inspectionplancalendar,  // request to load current events
         // events: this.inspectionplancalendar  // request to load current events
       })
       // .on('click', '.fc-agendaWeek-button, .fc-month-button, .fc-agendaDay-button, .fc-prev-button, .fc-next-button', function () {

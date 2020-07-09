@@ -81,6 +81,16 @@ namespace InspecWeb.Models
         [Description("กลุ่ม 10")]
         public long Group10 { get; set; }
 
+        public string Type { get; set; }
+        public string Nickname { get; set; }
+        public DateTime? RetiredDate { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public string OfficeAddress { get; set; }
+        public string Fax { get; set; }
+        public string CollaboratorName { get; set; }
+        public string CollaboratorPhone { get; set; }
+        public string CollaboratorPhoneOffice { get; set; }
+        public string CollaboratorEmail { get; set; }
         public virtual Training Training { get; set; }
 
         [Description("วันที่สร้าง")]
