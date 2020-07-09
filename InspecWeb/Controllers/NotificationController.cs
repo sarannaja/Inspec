@@ -252,6 +252,29 @@ namespace InspecWeb.Controllers
                 }
             }
 
+            if (Status == 16)
+            {
+                var users = _context.CentralPolicyUsers
+                    .Where(m => m.InspectionPlanEventId == xe).ToList();
+
+                foreach (var item in users)
+                {
+                    System.Console.WriteLine("USERID : " + item.Id);
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = item.UserId,
+                        CentralPolicyId = item.CentralPolicyId,
+                        ProvinceId = item.ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe,
+                    });
+
+                    _context.SaveChanges();
+                }
+            }
+
             return notificationdata;
         }
 

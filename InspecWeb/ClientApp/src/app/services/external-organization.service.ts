@@ -5,6 +5,7 @@ import { Regions, Ministers, Cabinets, Province, ProvinceFiscalYears, ProvinceFi
 import { NewRegion } from '../external-organization/models/Region';
 import { OtpsProvineFiscalYear } from '../models/otpsprovince';
 import { ProvinceOtps } from '../external-organization/models/province-otps';
+import { OpmCase } from '../external-organization/models/opmcase';
 // import { NewRegion, Province } from '../external-organization/models/Region';
 // [assembly: RegisterModule(typeof(SSLRequestModule))]                                                                                                                                                                                                                                                                                                                                             
 
@@ -56,11 +57,16 @@ export class ExternalOrganizationService {
   getGcc1111(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl + 'api/ExternalOrganization/opm-1111', this.httpOptions)
   }
+  getGcc1111CaseDetail(id): Observable<OpmCase> {
+    return this.http.get<OpmCase>(this.baseUrl + `api/ExternalOrganization/opm/case/${id}`, this.httpOptions)
+  }
+  getGcc1111UserProvince(userId): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + `api/ExternalOrganization/opm/userprovince/${userId}`, this.httpOptions)
+  }
   getOtpsProviceById(id): Observable<OtpsProvineFiscalYear> {
     return this.http.get<OtpsProvineFiscalYear>(this.baseUrl + `api/ExternalOrganization/otps/provinces2/${id}`, this.httpOptions)
   }
   getOtpsProviceOtps(): Observable<ProvinceOtps[]> {
     return this.http.get<ProvinceOtps[]>(this.baseUrl + `api/ExternalOrganization/otps/provinces2`)
   }
-  
 }

@@ -15,8 +15,12 @@ namespace InspecWeb.ViewModel
         public string userId { get; set; }
         [JsonProperty(PropertyName = "centralPolicyProvinceId")]
         public long centralPolicyProvinceId { get; set; }
+        [JsonProperty(PropertyName = "reportId")]
+        public long reportId { get; set; }
 
         public reportData[] reportData { get; set; }
+
+        public reportData2[] reportData2 { get; set; }
     }
 
     public class reportData
@@ -45,5 +49,34 @@ namespace InspecWeb.ViewModel
 
         [JsonProperty(PropertyName = "opinionPeople")]
         public string opinionPeople { get; set; }
+
+        [JsonProperty(PropertyName = "reportId")]
+        public long reportId { get; set; }
+    }
+
+    public class reportData2
+    {
+        [JsonProperty(PropertyName = "centralPolicy")]
+        public string centralPolicy { get; set; }
+
+        [JsonProperty(PropertyName = "department")]
+        public string department { get; set; }
+
+        [JsonProperty(PropertyName = "fiscalYear")]
+        public string fiscalYear { get; set; }
+
+        [JsonProperty(PropertyName = "region")]
+        public string region { get; set; }
+
+        [JsonProperty(PropertyName = "province")]
+        public string province { get; set; }
+
+        public tableData[] tableData { get; set; }
+    }
+
+    public class tableData
+    {
+        [JsonProperty(PropertyName = "subject")]
+        public string subject { get; set; }
     }
 }

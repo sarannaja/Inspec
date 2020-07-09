@@ -33,14 +33,22 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-        [Required]
-        [Description("คนที่สร้าง Event")]
+        //[Required]
+        //[Description("คนที่สร้าง Event")]
+        [ForeignKey("User")]
+        [Description("FK: User")]
         public string CreatedBy { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
+        [Description("RoleCreatedBy")]
+        public string RoleCreatedBy { get; set; }
 
         [Description("สถานะ")]
         public string Status { get; set; }
 
         public ICollection<CentralPolicy> CentralPolicies { get; set; }
         public ICollection<CentralPolicyEvent> CentralPolicyEvents { get; set; }
+        public ICollection<CentralPolicyUser> CentralPolicyUsers { get; set; }
+
     }
 }

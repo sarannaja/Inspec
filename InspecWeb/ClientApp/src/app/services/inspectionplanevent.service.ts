@@ -1,6 +1,7 @@
 import { Injectable, Inject, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Inslpectionplan } from './modelaof/reportInspectionplan';
 
 @Injectable({
   providedIn: 'root'
@@ -72,10 +73,22 @@ export class InspectionplaneventService {
     return this.http.get<any[]>(this.url + "userallregion/" + userid)
   }
 
-  getexportprovince(value): Observable<any> {
-    return this.http.get<any>(this.url + "exportexcelcalendarprovince/" + value)
+  getpeople(): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "getpeople")
   }
 
+  getexportprovince(value): Observable<Inslpectionplan> {
+    return this.http.get<Inslpectionplan>(this.url + "exportexcelcalendarprovince/" + value)
+  }
+  getexportregion(value): Observable<Inslpectionplan> {
+    return this.http.get<Inslpectionplan>(this.url + "exportexcelcalendarregion/" + value)
+  }
+  getexportpeople(value): Observable<Inslpectionplan> {
+    return this.http.get<Inslpectionplan>(this.url + "exportexcelcalendarpeople/" + value)
+  }
+  getexportdate(): Observable<Inslpectionplan> {
+    return this.http.get<Inslpectionplan>(this.url + "exportexcelcalendardate")
+  }
   getUserOwner(id) {
 
     const apiURL = this.baseUrl + 'api/get_role/' + id

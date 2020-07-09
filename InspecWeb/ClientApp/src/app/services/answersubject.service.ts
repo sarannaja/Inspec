@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Answerrole7, GetQuestionPeople } from './nikmodel/answarrole7';
+import { CentralPolicyProvince, Answerrole7List } from './nikmodel/answerrole7list';
 
 @Injectable({
   providedIn: 'root'
@@ -22,33 +24,56 @@ export class AnswersubjectService {
   getsubjectlistdata(id, userid): Observable<any[]> {
     return this.http.get<any[]>(this.url + "subjectlist/" + id + "/" + userid)
   }
+  getansweruserdata(userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "answeruser/" + userid)
+  }
   getsubjectdetaildata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "subjectdetail/" + id)
   }
-  getcentralpolicyprovinc(id): Observable<any> {
-    return this.http.get<any>(this.url + "centralpolicyprovinc/" + id)
+  getcentralpolicyprovince(id): Observable<GetQuestionPeople[]> {
+    return this.http.get<GetQuestionPeople[]>(this.url + "centralpolicyprovince/" + id)
+  }
+  getAnsweruser(userid) {
+    return this.http.get<any>(this.url + "answeruser/" + userid)
+  }
+  getAnsweruserdetail(id, userid) {
+    return this.http.get<any>(this.url + "answeruserdetail/" + id + "/" + userid)
+  }
+  getAnsweruserlist(id, userid) {
+    return this.http.get<any>(this.url + "answeruserlist/" + id + "/" + userid)
+  }
+  getAnswerstatus(id, userid) {
+    return this.http.get<any>(this.url + "answerstatus/" + id + "/" + userid)
+  }
+  getAnswerfile(id, userid) {
+    return this.http.get<any>(this.url + "answerfile/" + id + "/" + userid)
+  }
+  getansweruserrole7data(userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "answeruserrole7/" + userid)
+  }
+  getAnsweruserlistrole7(id, userid) {
+    return this.http.get<Answerrole7List[]>(this.url + "answeruserlistrold7/" + id + "/" + userid)
+  }
+  getAnswerstatusrole7(id, userid) {
+    return this.http.get<Answerrole7>(this.url + "answerstatusrole7/" + id + "/" + userid)
   }
   addAnswer(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
       inputanswer: answersubjectdata,
-
     }
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url, formData);
   }
-  addAnswercentralpolicyprovince(answerdata, centralpolicyprovinceId, userid) {
-    console.log("answerdata", answerdata);
-    // const formData = {
-    //   CentralPolicyProvinceId: parseInt(centralpolicyprovinceId),
-    //   UserId: userid,
-    //   Answer: answerdata.AnswerPeople
-    // }
-    const formData = new FormData();
-    formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
-    formData.append('UserId', userid);
-    formData.append('Answer', answerdata.AnswerPeople);
-
+  addAnswercentralpolicyprovince(answercentralpolicyprovincedata) {
+    console.log("answerdata", answercentralpolicyprovincedata);
+    // const formData = new FormData();
+    // formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
+    // formData.append('UserId', userid);
+    // formData.append('Answer', answerdata.AnswerPeople);
+    const formData = {
+      inputanswercentralpolicyprovince: answercentralpolicyprovincedata,
+    }
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url + "answercentralpolicyprovince", formData);
   }
@@ -56,12 +81,11 @@ export class AnswersubjectService {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
       inputansweroutsider: answersubjectdata,
-
     }
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url + "outsider", formData);
   }
-  addFiles(subjectid, filedata) {
+  addFiles(subjectid, filedata, userid) {
     var file: FileList
     console.log("filedata", filedata);
     console.log("subjectid", subjectid);
@@ -73,10 +97,59 @@ export class AnswersubjectService {
 
     const formData = new FormData();
     formData.append('SubjectCentralPolicyProvinceId', subjectid);
+    formData.append('UserId', userid);
     formData.append('Type', Type);
     for (var i = 0; i < file.length; i++) {
       formData.append("files", file[i]);
     }
     return this.http.post(this.url + "addfiles", formData);
+  }
+  addStatus(StatusData, SubjectCentralPolicyProvinceId, UserId) {
+    const formData = new FormData();
+    console.log("Suggestion", StatusData);
+    console.log("SubjectCentralPolicyProvinceId", SubjectCentralPolicyProvinceId);
+    console.log("UserId", UserId);
+
+    formData.append('SubjectCentralPolicyProvinceId', SubjectCentralPolicyProvinceId);
+    formData.append('UserId', UserId);
+    formData.append('Status', StatusData.Status);
+
+    return this.http.post(this.url + "addstatus", formData);
+  }
+  addStatusrole7(StatusData, CentralPolicyEventId, UserId) {
+    const formData = new FormData();
+    formData.append('CentralPolicyEventId', CentralPolicyEventId);
+    formData.append('UserId', UserId);
+    formData.append('Status', StatusData.Status);
+
+    return this.http.post(this.url + "addstatusrole7", formData);
+  }
+  editAnswer(Answerdata, id) {
+    console.log(Answerdata[0].Description);
+    const formData = new FormData();
+    formData.append('answer', Answerdata[0].Answer);
+    formData.append('description', Answerdata[0].Description);
+    return this.http.put(this.url + id, formData);
+  }
+  editStatus(Statusdata, id) {
+    const formData = new FormData();
+    formData.append('status', Statusdata.Status);
+    return this.http.put(this.url + "editstatus/" + id, formData);
+  }
+  editStatusrole7(Statusdata, id) {
+    const formData = new FormData();
+    formData.append('status', Statusdata.Status);
+    return this.http.put(this.url + "editstatusrole7/" + id, formData);
+  }
+  editAnswerrole7(editanswerrole7) {
+    console.log("editanswerrole7", editanswerrole7);
+    const formData = {
+      editanswerrole7: editanswerrole7,
+    }
+    console.log('FORMDATA: ', formData);
+    return this.http.put<any>(this.url + "editanswerrole7", formData);
+  }
+  deleteFile(id) {
+    return this.http.delete(this.url + "deleteanswerfile/" + id);
   }
 }

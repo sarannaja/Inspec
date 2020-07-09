@@ -1,0 +1,264 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">รายงานผลการตรวจ</a></li>
+      <li class="breadcrumb-item active" aria-current="page">รายละเอียดรายงานผลการตรวจ</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">รายละเอียด</h4>
+        <div class="form-group col-12" style="margin-top: 20px;">
+          <u>แผนการตรวจราชการประจำปี</u>
+          <div *ngFor="let item of reportData.importData.importReportGroups; let i = index">
+            <label style="margin-left: 5px;" for="">{{i + 1}}) {{ item.centralPolicyEvent.centralPolicy.title}}</label>
+          </div>
+          <div>
+            <u>ประเภทรายงาน:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.centralPolicyType}}</label>
+          </div>
+          <div>
+            <u>ประเภทการออกรายงาน:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.reportType}}</label>
+          </div>
+          <div>
+            <u>รอบการตรวจราชการ:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.inspectionRound}}</label>
+          </div>
+          <div>
+            <u>ปีงบประมาณ:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.fiscalYear.year}}</label>
+          </div>
+          <div>
+            <u>เขตตรวจราชการ:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.region.name}}</label>
+          </div>
+          <div>
+            <u>จังหวัด:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.province.name}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group col-12">
+          <div class="col-10" style="margin-bottom: 20px;" *ngIf="reportData.importData.reportCommanders.length > 0">
+            <h4>ข้อสั่งการ</h4>
+            <div *ngFor="let item of reportData.importData.reportCommanders">
+              <label for="" style="margin-left: 5px;">{{item.user.prefix}} {{item.user.name}} -
+                {{item.user.departments.name}}</label>
+              <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="item.command"
+                readonly></textarea>
+            </div>
+            <br>
+            <hr>
+          </div>
+          <div class="col-10">
+            <h4>หัวข้อการตรวจติดตาม</h4>
+            <input class="form-control" type="text" [(ngModel)]="reportData.importData.monitoringTopics" readonly>
+          </div>
+          <div class="col-10" style="margin-top: 15px;">
+            <h4>สรุปผลการตรวจราชการ</h4>
+            <textarea class="form-control" name="" id="" cols="30" rows="5"
+              [(ngModel)]="reportData.importData.detailReport" readonly></textarea>
+          </div>
+          <div class="col-10" style="margin-top: 15px;">
+            <h4>ข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ</h4>
+            <textarea class="form-control" name="" id="" cols="30" rows="5"
+              [(ngModel)]="reportData.importData.suggestion" readonly></textarea>
+          </div>
+          <div class="col-10" style="margin-top: 15px;">
+            <h4>ข้อสั่งการของผู้บังคับบัญชา</h4>
+            <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="reportData.importData.command"
+              readonly></textarea>
+          </div>
+
+          <div class="col-10" style="margin-top: 15px;">
+            <label for="">ไฟล์แนบรายงานผลการตรวจ</label>
+            <div class="row" *ngFor="let item of reportData.importData.importReportFiles; let i = index"
+              style="margin-left: 5px;">
+              <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                <span>ไฟล์ที่
+                  {{i+1}})
+                  {{ item.name }}<br>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-10" style="margin-top: 15px; text-align: center;">
+            <button *ngIf="reportData.importData.status == 'ร่าง'" style="margin-right: 10px;" class="btn btn-primary"
+              (click)="openEditModal(editReportModal)">แก้ไขรายงานผลการตรวจ</button>
+            <button *ngIf="reportData.importData.status == 'ร่าง'" style="margin-right: 10px;" class="btn btn-success"
+              (click)="openModal(confirmModal)">ส่งรายงานผลการตรวจ</button>
+            <button class="btn btn-danger" (click)="back()">กลับ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #confirmModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ส่งรายงานผลการตรวจ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการส่งรายงานผลการตรวจให้ผู้บังคับบัญชาใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="sendToCommander()">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editReportModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="reportForm" (ngSubmit)="editReport(reportForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ออกรายงาน</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">แผนการตรวจราชการประจำปี*</label>
+            <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true" [options]="centralPolicyEvent"
+              name="centralPolicyEvent" formControlName="centralPolicyEvent" [allowClear]="true">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>ประเภทรายงาน*</label>
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select class="form-control select2" data-toggle="select2" formControlName="centralPolicyType">
+                  <option value=null>กรุณาเลือกประเภทรายงาน</option>
+                  <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
+                  <option value="มาตรา 34">มาตรา 34</option>
+                  <option value="อื่นๆ">อื่นๆ</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>ประเภทการออกรายงาน*</label>
+            <div class="form-group col-md-12">
+              <div class="mb-12">
+                <select class="form-control select2" data-toggle="select2" formControlName="reportType">
+                  <option value=null>กรุณาเลือกประเภทการออกรายงาน</option>
+                  <option value="รายวัน">รายวัน</option>
+                  <option value="รายเขต">รายเขต</option>
+                  <option value="รายจังหวัด">รายจังหวัด</option>
+                  <option value="รายภาค">รายภาค</option>
+                  <option value="รายหน่วยงาน">รายหน่วยงาน</option>
+                  <!-- <option value="อื่นๆ">อื่นๆ</option> -->
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">รอบการตรวจราชการ*</label>
+            <input class="form-control" type="text" placeholder="กรุณากรอกรอบการตรวจราชการ"
+              formControlName="inspectionRound">
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">ปีงบประมาณ*</label>
+            <ng-select placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false" [options]="fiscalYearData"
+              name="fiscalYear" formControlName="fiscalYear" [allowClear]="true" (selected)="selectFiscalYear($event)">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">เขตตรวจราชการ*</label>
+            <ng-select placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false" [options]="regionData" name="region"
+              formControlName="region" [allowClear]="true">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">จังหวัด*</label>
+            <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="provinceData" name="province"
+              formControlName="province" [allowClear]="true">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">หัวข้อการตรวจติดตาม*</label>
+            <input class="form-control" type="text" placeholder="กรุณากรอกหัวข้อการตรวจติดตาม"
+              formControlName="monitoringTopics">
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">สรุปผลการตรวจราชการ*</label>
+            <textarea class="form-control" formControlName="detailReport" name="detailReport" id="" cols="30" rows="5"
+              placeholder="กรุณากรอกสรุปผลการตรวจราชการ"></textarea>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">ข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ*</label>
+            <textarea class="form-control" name="suggestion" formControlName="suggestion" id="" cols="30" rows="5"
+              placeholder="กรุณากรอกข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ"></textarea>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">ข้อสั่งการของผู้บังคับบัญชา*</label>
+            <textarea class="form-control" name="command" formControlName="command" id="" cols="30" rows="5"
+              placeholder="กรุณากรอกข้อสั่งการของผู้บังคับบัญชา"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

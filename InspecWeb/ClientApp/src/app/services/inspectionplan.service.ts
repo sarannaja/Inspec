@@ -93,4 +93,15 @@ export class InspectionplanService {
 
     return this.http.post(this.url + "changeplanstatus", formData);
   }
+
+  editplandate(planid, startdate, enddate) {
+    const formData = new FormData();
+    formData.append('planid', planid);
+    formData.append('startdate', startdate.year + '-' + startdate.month + '-' + startdate.day);
+    formData.append('enddate', enddate.year + '-' + enddate.month + '-' + enddate.day);
+    return this.http.post(this.url + "editplandate", formData);
+  }
+  deleteplandate(planid) {
+    return this.http.delete(this.url + 'deleteplandate/' + planid);
+  }
 }

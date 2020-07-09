@@ -26,14 +26,15 @@
               <th>กำหนดการสมุดตรวจ</th>
               <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
               <th>ประเด็นนโยบาย</th>
-              <th>สถานะ</th>
+              <th>ผู้สร้าง</th>
+              <th *ngIf="role_id == 6 || role_id == 10">สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
-              <td (click)="Subject(item.id, item.subjectGroup.centralPolicy.title )" class="pointer">
+              <td class="pointer" (click)="gotoDetail(item.electronicBookId, item.id)">
                 วันที่ {{item.electronicBook.startDate | thaidate: 'year'}} ถึง
                 {{item.electronicBook.endDate | thaidate: 'year'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
@@ -42,7 +43,8 @@
                   {{i + 1}}. {{ items.centralPolicyEvent.centralPolicy.title }}
                 </div>
               </td>
-              <td>{{ item.status }}</td>
+              <td>{{item.electronicBook.user.prefix}} {{item.electronicBook.user.name}}</td>
+              <td *ngIf="role_id == 6 || role_id == 10">{{ item.status }}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.electronicBookId, item.id)"></i>
               </td>

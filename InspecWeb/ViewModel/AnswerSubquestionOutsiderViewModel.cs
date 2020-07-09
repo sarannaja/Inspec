@@ -11,9 +11,14 @@ namespace InspecWeb.ViewModel
 
         public inputanswer[] inputanswer { get; set; }
 
+        public inputanswercentralpolicyprovince[] inputanswercentralpolicyprovince { get; set; }
+
+        public editanswerrole7[] editanswerrole7 { get; set; }
+
         //public inputanswerfile[] inputanswerfile { get; set; }
 
         public long SubjectCentralPolicyProvinceId { get; set; }
+        public string UserId { get; set; }
         public string Type { get; set; }
         public List<IFormFile> files { get; set; }
 
@@ -33,6 +38,7 @@ namespace InspecWeb.ViewModel
 
         public string Answer { get; set; }
     }
+
     public class inputanswer
     {
         public long Id { get; set; }
@@ -40,6 +46,29 @@ namespace InspecWeb.ViewModel
         public long SubquestionCentralPolicyProvinceId { get; set; }
 
         public string UserId { get; set; }
+
+        public string Answer { get; set; }
+
+        public string Description { get; set; }
+    }
+
+    public class inputanswercentralpolicyprovince
+    {
+        public long Id { get; set; }
+
+        public long CentralPolicyProvinceId { get; set; }
+
+        public long CentralPolicyEventQuestionId { get; set; }
+
+        public string UserId { get; set; }
+
+        public string Answer { get; set; }
+
+    }
+
+    public class editanswerrole7
+    {
+        public long Id { get; set; }
 
         public string Answer { get; set; }
     }

@@ -14,6 +14,7 @@ export class AnswerPeopleComponent implements OnInit {
 
   userid: string
   resultuserdetail: any = []
+  resultanswersubject: any = []
   loading = false;
   dtOptions: DataTables.Settings = {};
 
@@ -21,7 +22,7 @@ export class AnswerPeopleComponent implements OnInit {
     private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,
     private spinner: NgxSpinnerService,
-    private router:Router,
+    private router: Router,
     private inspectionplanservice: InspectionplanService
   ) { }
 
@@ -44,8 +45,8 @@ export class AnswerPeopleComponent implements OnInit {
         this.userid = result.sub
         console.log(result);
       })
-
     this.getUserDetail()
+    this.getAnsweruserrole7()
   }
   getUserDetail() {
     this.answersubjectservice.getuserpeopleedata(this.userid)
@@ -53,19 +54,45 @@ export class AnswerPeopleComponent implements OnInit {
         this.resultuserdetail = result
         this.spinner.hide();
         this.loading = true
-        console.log("test",this.resultuserdetail);
+        console.log("test", this.resultuserdetail);
       })
   }
-  getCentralpolicyprovince(cenid, proid){
-    this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
-      this.router.navigate(['/answerpeople/centralpolicyprovinc/' + result])
+  getAnsweruserrole7() {
+    this.answersubjectservice.getansweruserrole7data(this.userid).subscribe(result => {
+      this.resultanswersubject = result
+      console.log("result", result);
     })
   }
-  Subjectlist(cenid, proid) {
+  // getCentralpolicyprovince(cenid, proid){
+  //   this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+  //     this.router.navigate(['/answerpeople/centralpolicyprovince/' + result])
+  //   })
+  // }
+  // Subjectlist(cenid, proid) {
+  //   this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+  //     var id = result
+  //     this.router.navigate(['/answerpeople/list/' + id])
+  //   })
+  //   // this.router.navigate(['/answerpeople/list', id])
+  // }
+  getCentralpolicyprovince(cenid, proid) {
     this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
-      var id = result
-      this.router.navigate(['/answerpeople/list/' + id])
+      if (this.resultanswersubject.length == 0) {
+        this.router.navigate(['/answerpeople/centralpolicyprovince/' + result])
+      }
+      else {
+        for (var i = 0; i < this.resultanswersubject.length; i++) {
+          if (this.resultanswersubject[i].centralPolicyProvinceId == result) {
+            // alert("me1 inedit")
+            this.router.navigate(['/answerpeople/editcentralpolicyprovince/' + result])
+            break;
+          }
+          else {
+            // alert("me2 indetail")
+            this.router.navigate(['/answerpeople/centralpolicyprovince/' + result])
+          }
+        }
+      }
     })
-    // this.router.navigate(['/answerpeople/list', id])
   }
 }

@@ -163,4 +163,12 @@ export class UserCentralPolicyComponent implements OnInit {
       this.ScheduleData = res;
     })
   }
+
+  sendAssign(value) {
+    this.centralpolicyservice.sendAssign(value, this.id).subscribe(response => {
+      console.log(response);
+      this.modalRef.hide();
+      this.router.navigate(['calendaruser'])
+    })
+  }
 }

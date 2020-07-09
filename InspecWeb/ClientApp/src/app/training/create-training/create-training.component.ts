@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { TrainingService } from 'src/app/services/training.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-create-training',
@@ -16,32 +17,36 @@ export class CreateTrainingComponent implements OnInit {
   end_date: any
   lecturer_name: any
   regis_start_date: any
-  regis_end_date:any
+  regis_end_date: any
   Form: FormGroup;
   files: string[] = []
   inputdate: any = [{ start_date: '', end_date: '' }]
   form: FormGroup;
   formfile: FormGroup;
   downloadUrl: any;
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
+    private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string) {
-      this.downloadUrl = baseUrl + '/Uploads'
-    }
+    this.downloadUrl = baseUrl + '/Uploads'
+  }
 
   ngOnInit() {
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       detail: new FormControl(null, [Validators.required]),
+      generation: new FormControl(null, [Validators.required]),
+      year: new FormControl(null, [Validators.required]),
+      coursecode: new FormControl(null, [Validators.required]),
       start_date: new FormControl(null, [Validators.required]),
       end_date: new FormControl(null, [Validators.required]),
-      lecturer_name: new FormControl(null, [Validators.required]),
       regis_start_date: new FormControl(null, [Validators.required]),
       regis_end_date: new FormControl(null, [Validators.required]),
       // files: new FormControl(null, [Validators.required]),
-      inputdate: new FormArray([]),
+      // inputdate: new FormArray([]),
+      // lecturer_name: new FormControl(null, [Validators.required]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
     this.form = this.fb.group({
@@ -52,12 +57,12 @@ export class CreateTrainingComponent implements OnInit {
     //   end_date: '',
     // }))
   }
-  storeTraining(value ) {
-    //alert(JSON.stringify(value))   
-    //alert(this.form.value.files)
-    this.trainingservice.addTraining2(value ,this.form.value.files).subscribe(response => {
-      console.log(value);
+  storeTraining(value) {
+    this.spinner.show();
+    this.trainingservice.addTraining2(value, this.form.value.files).subscribe(reuslt => {
+      console.log(reuslt);
       this.Form.reset()
+      this.spinner.hide();
       this.router.navigate(['training'])
       // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
       //   this.centralpolicyservice = result

@@ -30,32 +30,34 @@ namespace InspecWeb.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            var centralpolicydata = _context.CentralPolicies
-                .Include(m => m.CentralPolicyProvinces)
-                .ThenInclude(m => m.Province)
-                .Include(m => m.CentralPolicyProvinces)
-                .ThenInclude(m => m.SubjectCentralPolicyProvinces)
-                .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
-                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
-                .ThenInclude(m => m.ProvincialDepartment)
-                .Where(m => m.Id == id).FirstOrDefault();
-            var user = _userManager.Users.Where(m => m.Id == centralpolicydata.CreatedBy)
-                    .Include(m => m.Departments)
-                    //.ThenInclude(m=>m.)
-                    .FirstOrDefault();
-
-            //var subjectdata = _context.SubjectCentralPolicyProvinces
-            //    .Include(m => m.CentralPolicyProvince)
-            //    .ThenInclude(m => m.CentralPolicy)
-            //    .ThenInclude(m => m.CentralPolicyProvinces)
-            //    .ThenInclude(x => x.Province)
-            //    .Include(m => m.SubquestionCentralPolicyProvinces)
+            //var centralpolicydata = _context.CentralPolicies
+            //    .Include(m => m.CentralPolicyProvinces)
+            //    .ThenInclude(m => m.Province)
+            //    .Include(m => m.CentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubjectCentralPolicyProvinces)
+            //    .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
             //    .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
             //    .ThenInclude(m => m.ProvincialDepartment)
-            //    //.Where(m => m.CentralPolicyId == id);
-            //    .Where(m => m.CentralPolicyProvince.CentralPolicyId == id && m.Type == "Master");
+            //    .Where(m => m.Id == id).FirstOrDefault();
+            //var user = _userManager.Users
+            //    .Where(m => m.Id == centralpolicydata.CreatedBy)
+            //    .Include(m => m.Departments)
+            //    //.ThenInclude(m=>m.)
+            //    .FirstOrDefault();
 
-            return Ok(new { centralpolicydata, user });
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                .Include(m => m.CentralPolicyProvince)
+                .ThenInclude(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyProvinces)
+                .ThenInclude(x => x.Province)
+                .Include(m => m.SubquestionCentralPolicyProvinces)
+                .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(m => m.ProvincialDepartment)
+                //.Where(m => m.CentralPolicyId == id);
+                .Where(m => m.CentralPolicyProvince.CentralPolicyId == id && m.Type == "Master");
+
+            //return Ok(new { centralpolicydata, user });
+            return Ok(new { subjectdata });
         }
 
     }

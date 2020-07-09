@@ -13,15 +13,16 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./electronic-book-province.component.css']
 })
 export class ElectronicBookProvinceComponent implements OnInit {
-  electronicBookData: Array<any> = [];
+  electronicBookData: any = [];
   loading = false;
   dtOptions: DataTables.Settings = {};
   userid: string;
   delid: any;
   modalRef: BsModalRef;
   centralpolicyprovinceid: any;
-  role_id
-  countaccept: Array<any> = [];
+  role_id;
+  provinceId;
+
   constructor(
     private router: Router,
     private electronicBookService: ElectronicbookService,
@@ -34,14 +35,20 @@ export class ElectronicBookProvinceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
         console.log(result);
+        // alert(this.userid)
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            console.log("provinceId: ", result);
+
             this.role_id = result[0].role_id
+            this.provinceId = result[0].provinceId
+            this.getElectronicBook();
           })
       })
     this.dtOptions = {
@@ -53,7 +60,6 @@ export class ElectronicBookProvinceComponent implements OnInit {
         }
       ]
     };
-    this.getElectronicBook();
   }
 
   openModal(template: TemplateRef<any>, id) {
@@ -62,39 +68,53 @@ export class ElectronicBookProvinceComponent implements OnInit {
   }
 
   getElectronicBook() {
-    this.electronicBookService.getElectronicBookProvince(this.userid).subscribe(results => {
-      console.log("res: ", results);
+    this.electronicBookService.getSendedElectronicBookProvince(this.provinceId).subscribe(results => {
+      // console.log("res: ", results);
       this.electronicBookData = results;
-
-      if (this.role_id == 9) {
-        this.electronicBookData.forEach(element => {
-          console.log('electronicBookAccepts', element);
-          element.electronicBookAccepts.forEach(element2 => {
-            // alert("123")
-            if (element2.userId == this.userid) {
-              this.countaccept[element.id] = 1;
-            }
-          });
-        });
-      }
-
       console.log("ELECTDATA: ", this.electronicBookData);
 
       this.loading = true;
     })
   }
 
-  gotoDetail(id, elecId) {
-    this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
+  createElectronicBook() {
+    this.router.navigate(['/electronicbook/create'])
   }
 
-  Accept(value) {
-    this.electronicBookService.acceptelectronicbook(value, this.userid).subscribe(response => {
-      console.log(value);
-      this.modalRef.hide()
-      this.loading = false
+  deleteElectronicBook() {
+    this.electronicBookService.deleteElectronicBook(this.delid).subscribe(result => {
+      console.log('Delete Res: ', result);
+      this.loading = false;
+      this.modalRef.hide();
       this.getElectronicBook();
-    })
+    });
+  }
+
+  gotoEdit(id, elecId, centralPolicyUserID) {
+    console.log("ID: ", id);
+    console.log("ELECID: ", elecId);
+    console.log("centralPolicyUserID", centralPolicyUserID);
+    this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID }])
+  }
+
+  gotoDetail(id) {
+    this.router.navigate(['/electronicbook/provincedetail/' + id])
+  }
+
+  gotoTheme(id, elecId) {
+    this.router.navigate(['/electronicbook/theme/' + id ,{electronicBookId: elecId}])
+  }
+
+  gotoEdit2(id, elecId) {
+    // alert(id)
+    // alert(elecId)
+    // this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
+    //   // this.centralpolicyprovinceid = result
+    //   this.router.navigate(['/electronicbook/edit/' + result, { electronicBookId: elecId, centralPolicyUserId: cenid }])
+    // })
+    // alert(this.centralpolicyprovinceid)
+
+    this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId}])
   }
 }
 

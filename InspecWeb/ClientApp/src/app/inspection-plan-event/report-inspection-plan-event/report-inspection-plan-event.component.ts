@@ -9,6 +9,7 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import * as Excel from "exceljs/dist/exceljs.min.js";
 import * as ExcelProper from "exceljs";
 import * as fs from 'file-saver';
+import { Calendar } from 'src/app/services/modelaof/reportInspectionplan';
 
 @Component({
   selector: 'app-report-inspection-plan-event',
@@ -23,10 +24,14 @@ export class ReportInspectionPlanEventComponent implements OnInit {
   userid
   modalRef: BsModalRef;
   selectregion: any = [];
-  selectprovince: any = [];
   resultregion: any = [];
-  resultprovince: any = []
+  selectprovince: any = [];
+  resultprovince: any = [];
+  selectpeople: any = [];
+  resultpeople: any = [];
+  Form: FormGroup;
   Form2: FormGroup;
+  Form3: FormGroup;
   owner: any
   constructor(
     private spinner: NgxSpinnerService,
@@ -50,8 +55,16 @@ export class ReportInspectionPlanEventComponent implements OnInit {
           })
       })
 
+    this.Form = this.fb.group({
+      region: new FormControl(null, [Validators.required]),
+    });
+
     this.Form2 = this.fb.group({
       province: new FormControl(null, [Validators.required]),
+    });
+
+    this.Form3 = this.fb.group({
+      people: new FormControl(null, [Validators.required]),
     });
 
     this.dtOptions = {
@@ -77,6 +90,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
   openModal(template: TemplateRef<any>) {
     this.getprovince();
     this.getregion();
+    this.getpeople();
 
     this.modalRef = this.modalService.show(template);
   }
@@ -100,12 +114,83 @@ export class ReportInspectionPlanEventComponent implements OnInit {
       })
     })
   }
-
+  getpeople() {
+    this.inspectionplanservice.getpeople().subscribe(response => {
+      this.resultpeople = response
+      this.selectpeople = this.resultpeople.map((item, index) => {
+        return { value: item.id, label: item.prefix + " " + item.name }
+      })
+    })
+  }
 
 
   ExportRegion(value) {
+    var monthNamesThai = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษจิกายน", "ธันวาคม"];
+    var dayNames = ["วันอาทิตย์ที่", "วันจันทร์ที่", "วันอังคารที่", "วันพุทธที่", "วันพฤหัสบดีที่", "วันศุกร์ที่", "วันเสาร์ที่"];
+    var monthNamesEng = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    var dayNamesEng = ['Sunday', 'Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    var d = new Date();
+    var dateNow = d.getDate() + " " + monthNamesThai[d.getMonth()] + " " + (d.getFullYear() + 543)
+    // var centralPolicyProvinces: Array<any> = []
+    this.inspectionplanservice.getexportregion(value.region).subscribe(async data => {
+      var calendar: Array<Calendar> = data.calendar
+      var centralPolicyUser: Array<any> = []
+      var maptest: Array<any> =
+        // var centralPolicyProvinces: Array<any> = []
+        calendar.map((item, index) => {
+          var ddd = new Date(item.startDate)
+          var startDate = ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          // var date =  item.startDate.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          return [index + 1,
+            startDate,
+          item.centralPolicy.title,
+          item.inspectionPlanEvent.status,
+          item.inspectionPlanEvent.user.prefix + " " + item.inspectionPlanEvent.user.name,
+          item.inspectionPlanEvent.user.phoneNumber,
+          ///////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.prefix + " " + result.user.name
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.phoneNumber
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.status
+          }).toString().replace(',', "\n")
+          ]
+        })
+      console.log(maptest);
 
+      var column = ["ลำดับที่",
+        "วัน/เดือน/ปี",
+        "เรื่อง",
+        "สถานะเรื่อง",
+        "หน่วยงาน/ผต.นร./ผต.กท. (เจ้าของเรื่อง)",
+        "หมายเลขติดต่อ",
+        "ผู้เข้าร่วม/หน่วยงาน",
+        "หมายเลขติดต่อ",
+        "สถานะการเข้าร่วม"
+      ]
+      this.ExportExcel(maptest, column)
+    })
   }
+
   ExportProvince(value) {
     var monthNamesThai = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
       "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษจิกายน", "ธันวาคม"];
@@ -115,112 +200,201 @@ export class ReportInspectionPlanEventComponent implements OnInit {
     var dayNamesEng = ['Sunday', 'Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     var d = new Date();
     var dateNow = d.getDate() + " " + monthNamesThai[d.getMonth()] + " " + (d.getFullYear() + 543)
-    var centralPolicyProvinces: Array<any> = []
+    // var centralPolicyProvinces: Array<any> = []
     this.inspectionplanservice.getexportprovince(value.province).subscribe(async data => {
-      var calendar: Array<any> = data.calendar
+      var calendar: Array<Calendar> = data.calendar
       var centralPolicyUser: Array<any> = []
-      var centralPolicyProvinces: Array<any> = []
-      calendar
-        .forEach((item, index) => {
-
-          var createdAt = item.createdAt
-          // centralPolicyEvents= item.centralPolicyEvents
-          var centralPolicy: any
-          var centralPolicyEvents: Array<any> = item.centralPolicyEvents
-
-          centralPolicyEvents.forEach((item, idnex) => {
-            centralPolicy = item.centralPolicy
-            var centralPolicyProvinces: Array<any> = centralPolicy.centralPolicyProvinces
-            console.log('item.centralPolicyProvinces', centralPolicy.centralPolicyProvinces);
-
-            var title = centralPolicy.title
-            if (centralPolicy.centralPolicyUser.length != 0) {
-              //console.log('centralPolicy.centralPolicyUser.length', centralPolicy.centralPolicyUser.length);
-              // var test =
-              // if(centralPolicyProvinces)
-
-              centralPolicyUser.push(centralPolicy.centralPolicyUser.filter(item => {
-                return item.provinceId == value.province
-
-              }).map(item => {
-
-
-                var name = item.user.prefix + ' ' + item.user.name
-                var phone = item.phoneNumber
-                var status = item.status
-                var ownerId = item.user.id
-                var statusPlan = centralPolicyProvinces
-                  .filter(result => {
-                    return result.provinceId == value.province
-                  })[0].status
-                //   .catch(err => {
-                //   //console.log('error');
-                // });
-                return { name: name, phone, status, ownerId, createdAt, title, statusPlan }
-
-              }))
-              // centralPolicy.centralPolicyUser.forEach(element => {
-              //   if (element.provinceId == 1)
-
-              // })
-            }
-          })
-
+      var maptest: Array<any> =
+        // var centralPolicyProvinces: Array<any> = []
+        calendar.map((item, index) => {
+          var ddd = new Date(item.startDate)
+          var startDate = ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          // var date =  item.startDate.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          return [index + 1,
+            startDate,
+          item.centralPolicy.title,
+          item.inspectionPlanEvent.status,
+          item.inspectionPlanEvent.user.prefix + " " + item.inspectionPlanEvent.user.name,
+          item.inspectionPlanEvent.user.phoneNumber,
+          ///////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.prefix + " " + result.user.name
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.phoneNumber
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.status
+          }).toString().replace(',', "\n")
+          ]
         })
-      var column = [
-        'ลำดับที่',
-        'วัน/เดือน/ปี',
-        'เรื่อง',
-        // 'เอกสารประกอบ การตรวจราชการ',
-        'สถานะเรื่อง',
-        'หน่วยงาน/ผต.นร./ผต.กท. (เจ้าของเรื่อง)',
-        'หมายเลขติดต่อ',
-        'ผู้เข้าร่วม/หน่วยงาน',
-        'หมายเลขติดต่อ',
-        'สถานะ การเข้าร่วม'
-      ];
-      var test = centralPolicyUser.map((item, index) => {
+      console.log(maptest);
 
-        // var d = new Date();
-        var ddd = new Date(item[0].createdAt)
-        var date = ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
-        //
-        // var data:any
-        var name: Array<any> = []
-        var phone: Array<any> = []
-        var status: Array<any> = []
-        item.forEach((item) => {
-          name.push(item.name)
-          phone.push(item.phone)
-          status.push(item.status)
-
-          // return data
+      var column = ["ลำดับที่",
+        "วัน/เดือน/ปี",
+        "เรื่อง",
+        "สถานะเรื่อง",
+        "หน่วยงาน/ผต.นร./ผต.กท. (เจ้าของเรื่อง)",
+        "หมายเลขติดต่อ",
+        "ผู้เข้าร่วม/หน่วยงาน",
+        "หมายเลขติดต่อ",
+        "สถานะการเข้าร่วม"
+      ]
+      this.ExportExcel(maptest, column)
+      //console.log('test', test);
+    })
+  }
+  ExportPeople(value) {
+    var monthNamesThai = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษจิกายน", "ธันวาคม"];
+    var dayNames = ["วันอาทิตย์ที่", "วันจันทร์ที่", "วันอังคารที่", "วันพุทธที่", "วันพฤหัสบดีที่", "วันศุกร์ที่", "วันเสาร์ที่"];
+    var monthNamesEng = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    var dayNamesEng = ['Sunday', 'Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    var d = new Date();
+    var dateNow = d.getDate() + " " + monthNamesThai[d.getMonth()] + " " + (d.getFullYear() + 543)
+    // var centralPolicyProvinces: Array<any> = []
+    this.inspectionplanservice.getexportpeople(value.people).subscribe(async data => {
+      var calendar: Array<Calendar> = data.calendar
+      var centralPolicyUser: Array<any> = []
+      var maptest: Array<any> =
+        // var centralPolicyProvinces: Array<any> = []
+        calendar.map((item, index) => {
+          var ddd = new Date(item.startDate)
+          var startDate = ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          // var date =  item.startDate.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          return [index + 1,
+            startDate,
+          item.centralPolicy.title,
+          item.inspectionPlanEvent.status,
+          item.inspectionPlanEvent.user.prefix + " " + item.inspectionPlanEvent.user.name,
+          item.inspectionPlanEvent.user.phoneNumber,
+          ///////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.prefix + " " + result.user.name
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.phoneNumber
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.status
+          }).toString().replace(',', "\n")
+          ]
         })
-        console.log('name', name);
+      console.log(maptest);
 
-        // date2.push()
-        return [index + 1, date, item[0].title, item[0].statusPlan, 'ow', 'หมายเลขติดต่อ ow', name.toString().replace(',', "\n"), phone.toString().replace(',', "\n"), status.toString().replace(',', "\n")]
-      })
-
-      console.log('test', test);
-
-      this.ExportExcelProvince(test, column)
-      // var data: Array<any>
-      // item.map((item) => {
-      //   data['title'] = item.title
-      //   console.log(data);
-
-      //   return {data}
-      // })
-      console.log('centralPolicyUser', centralPolicyUser);
-
-
-
+      var column = ["ลำดับที่",
+        "วัน/เดือน/ปี",
+        "เรื่อง",
+        "สถานะเรื่อง",
+        "หน่วยงาน/ผต.นร./ผต.กท. (เจ้าของเรื่อง)",
+        "หมายเลขติดต่อ",
+        "ผู้เข้าร่วม/หน่วยงาน",
+        "หมายเลขติดต่อ",
+        "สถานะการเข้าร่วม"
+      ]
+      this.ExportExcel(maptest, column)
+      //console.log('test', test);
     })
   }
 
+  ExportDate() {
+    var monthNamesThai = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษจิกายน", "ธันวาคม"];
+    var dayNames = ["วันอาทิตย์ที่", "วันจันทร์ที่", "วันอังคารที่", "วันพุทธที่", "วันพฤหัสบดีที่", "วันศุกร์ที่", "วันเสาร์ที่"];
+    var monthNamesEng = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    var dayNamesEng = ['Sunday', 'Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    var d = new Date();
+    var dateNow = d.getDate() + " " + monthNamesThai[d.getMonth()] + " " + (d.getFullYear() + 543)
+    // var centralPolicyProvinces: Array<any> = []
+    this.inspectionplanservice.getexportdate().subscribe(async data => {
+      var calendar: Array<Calendar> = data.calendar
+      var centralPolicyUser: Array<any> = []
+      var maptest: Array<any> =
+        // var centralPolicyProvinces: Array<any> = []
+        calendar.map((item, index) => {
+          var ddd = new Date(item.startDate)
+          var startDate = ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          // var date =  item.startDate.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          return [index + 1,
+            startDate,
+          item.centralPolicy.title,
+          item.inspectionPlanEvent.status,
+          item.inspectionPlanEvent.user.prefix + " " + item.inspectionPlanEvent.user.name,
+          item.inspectionPlanEvent.user.phoneNumber,
+          ///////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.prefix + " " + result.user.name
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.phoneNumber
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.status
+          }).toString().replace(',', "\n")
+          ]
+        })
+      console.log(maptest);
 
-  ExportExcelProvince(data: Array<any>, column) {
+      var column = ["ลำดับที่",
+        "วัน/เดือน/ปี",
+        "เรื่อง",
+        "สถานะเรื่อง",
+        "หน่วยงาน/ผต.นร./ผต.กท. (เจ้าของเรื่อง)",
+        "หมายเลขติดต่อ",
+        "ผู้เข้าร่วม/หน่วยงาน",
+        "หมายเลขติดต่อ",
+        "สถานะการเข้าร่วม"
+      ]
+      this.ExportExcel(maptest, column)
+      //console.log('test', test);
+    })
+  }
+
+  ExportExcel(data: Array<any>, column) {
     const title = 'กำหนดการตรวจราชการ';
     const header: Array<any> = column
 
@@ -232,6 +406,10 @@ export class ReportInspectionPlanEventComponent implements OnInit {
     worksheet.addRow([]);
 
     worksheet.mergeCells('A1:F2');
+
+    for (let i = 0; i < column.length; i++) {
+      worksheet.getColumn(i + 1).width = 25
+    }
 
     worksheet.addRow([]);
 
@@ -257,4 +435,88 @@ export class ReportInspectionPlanEventComponent implements OnInit {
       fs.saveAs(blob, title + '.xlsx');
     })
   }
+
+  exportExcelService(
+    data: Array<any>,
+    title: string,
+    column: Array<any>
+  ) {
+
+
+    let workbook: ExcelProper.Workbook = new Excel.Workbook();
+    let worksheet = workbook.addWorksheet('Sales Data');
+    // Add Row and formatting
+    const titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    // Add Image
+    // const logo = workbook.addImage({
+    //     //   base64: logoFile.logoBase64,
+    //     extension: 'png',
+    // });
+
+    // worksheet.addImage(logo, 'E1:F3');
+    worksheet.mergeCells('A1:D2');
+    // worksheet.mergeCells('G5:G8');
+
+    // Blank Row
+    worksheet.addRow([]);
+
+    // Add Header Row
+    const headerRow = worksheet.addRow(column);
+
+    // Cell Style : Fill and Border
+    headerRow.eachCell((cell, number) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFFFF' },
+        bgColor: { argb: 'FFFFFF' }
+      };
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+    });
+    // worksheet.addRows(data);
+
+
+    // Add Data and Conditional Formatting
+    data.forEach(d => {
+      var obj = Object.values(d)
+      const row = worksheet.addRow(obj);
+      // const qty = row.getCell(5);
+      // let color = 'FFFFFF';
+      // if (+qty.value < 500) {
+      //   color = 'FFFFFF';
+      // }
+      // qty.fill = {
+      //   type: 'pattern',
+      //   pattern: 'solid',
+      //   fgColor: { argb: color }
+      // };
+    });
+
+    for (let i = 0; i < column.length; i++) {
+      worksheet.getColumn(i + 1).width = 25
+    }
+    worksheet.addRow([]);
+
+    // Footer Row
+    // const footerRow = worksheet.addRow(['This is system generated excel sheet.']);
+    // footerRow.getCell(1).fill = {
+    //     type: 'pattern',
+    //     pattern: 'solid',
+    //     fgColor: { argb: 'FFFFFF' }
+    // };
+    // footerRow.getCell(1).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+
+    // // Merge Cells
+    // worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
+
+    // Generate Excel File with given name
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, title + '.xlsx');
+    })
+    // const subTitleRow = worksheet.addRow(['Date : ' + this.datePipe.transform(new Date(), 'medium')]);
+  }
+
 }

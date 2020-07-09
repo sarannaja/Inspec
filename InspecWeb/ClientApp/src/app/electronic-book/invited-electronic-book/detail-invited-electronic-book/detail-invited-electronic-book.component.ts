@@ -24,13 +24,14 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
   role_id: any;
   electronicBookData: any = [];
   modalRef: BsModalRef;
-  centralPolicyEventId: any;
   suggestionForm: FormGroup;
   inspectionPlanEventId: any = [];
   invitedPeopleData: any = [];
   approveForm: any = [];
   ebookInviteId: any;
   opinionData: any = [];
+  downloadUrl: any;
+  signature: any;
 
   constructor(
     private fb: FormBuilder,
@@ -48,7 +49,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
     this.electId = activatedRoute.snapshot.paramMap.get('id');
     this.ebookInviteId = activatedRoute.snapshot.paramMap.get('ebookInviteId');
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
-
+    this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {
@@ -58,7 +59,9 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
-        console.log(result);
+
+        this.signature = result;
+        console.log("userData: ", this.signature);
         // alert(this.userid)
         this.userservice.getuserfirstdata(this.userid)
           .subscribe(result => {
@@ -136,14 +139,20 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
     })
   }
 
-  openModal(template: TemplateRef<any>, centralPolicyEventId) {
+  openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-    this.centralPolicyEventId = centralPolicyEventId;
+  }
+
+  openAlertModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   addOpinion(value) {
     this.electronicBookService.addOpinion(value, this.ebookInviteId).subscribe(res => {
-      console.log('res:', res);
+      console.log('Opinion:', res);
+      this.approveForm.reset();
+      this.getElectronicBookDetail();
+      this.getElectronicBookInviteOpinion();
       this.modalRef.hide();
     })
   }

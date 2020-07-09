@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
@@ -15,7 +15,8 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
   id: any
   userid: any
   Form: FormGroup
-  resultQuestionPeople: any = null
+  Formstatus: FormGroup
+  resultQuestionPeople: any = []
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -26,11 +27,18 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
   }
-
+  get f() { return this.Form.controls; }
+  get t() { return this.f.result as FormArray; }
   ngOnInit() {
     this.spinner.show();
+    // this.Form = this.fb.group({
+    //   AnswerPeople: new FormControl(null, [Validators.required]),
+    // })
     this.Form = this.fb.group({
-      AnswerPeople: new FormControl(null, [Validators.required]),
+      result: new FormArray([])
+    })
+    this.Formstatus = this.fb.group({
+      Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
     })
     this.authorize.getUser()
       .subscribe(result => {
@@ -40,20 +48,42 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
     this.getQuestionPeople()
   }
   getQuestionPeople() {
-    this.answersubjectservice.getcentralpolicyprovinc(this.id)
+    this.answersubjectservice.getcentralpolicyprovince(this.id)
       .subscribe(result => {
         this.resultQuestionPeople = result
-        console.log("eqwwqewqewqewqdfskfdnsfnsdjkfds", this.resultQuestionPeople);
         this.spinner.hide();
+        this.addvalue();
       })
   }
-  storeanswer(value) {
+  addvalue() {
+    this.Form.reset();
+    this.t.clear();
+    for (let i = 0; i < this.resultQuestionPeople.length; i++) {
+      // var test: any[] = this.resultQuestionPeople[i]
+      this.t.push(this.fb.group({
+        CentralPolicyProvinceId: [parseInt(this.id)],
+        CentralPolicyEventQuestionId: [this.resultQuestionPeople[i].id],
+        UserId: [this.userid],
+        Question: [this.resultQuestionPeople[i].questionPeople],
+        Answer: [""]
+      }))
+    }
+    // console.log("Form",this.t.value);
+
+  }
+  storeanswer(valuestatus) {
     this.spinner.show();
-    console.log(value);
-    this.answersubjectservice.addAnswercentralpolicyprovince(value, this.id, this.userid).subscribe(result => {
+    console.log("Form", this.t.value);
+    this.answersubjectservice.addAnswercentralpolicyprovince(this.t.value).subscribe(result => {
       console.log("result", result);
-      this.spinner.show();
+      this.storestatus(valuestatus)
+    })
+  }
+  storestatus(valuestatus) {
+    this.answersubjectservice.addStatusrole7(valuestatus, this.resultQuestionPeople[0].centralPolicyEventId, this.userid).subscribe(result => {
+      this.spinner.hide();
       this.Form.reset();
+      this.Formstatus.reset();
       window.history.back();
     })
   }

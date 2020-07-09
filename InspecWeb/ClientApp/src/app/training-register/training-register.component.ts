@@ -45,6 +45,7 @@ export class TrainingRegisterComponent implements OnInit {
     this.router.navigate(['/training/registerlist/',trainingid])
   }
 
-  
-
+  GotoRegisterTrainingProgram(trainingid){
+    this.router.navigate(['training/register/program/',trainingid])
+  }
 }

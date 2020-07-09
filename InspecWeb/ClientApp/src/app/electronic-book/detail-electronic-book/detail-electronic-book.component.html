@@ -16,20 +16,25 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0">รายละเอียด</h4>
-        <label style="margin-top: 20px;">วันที่ {{electronicBookData.electronicBook.startDate | thaidate: 'year'}} ถึง
+        <label style="margin-top: 20px;">กำหนดการสมุดตรวจ
+          {{electronicBookData.electronicBook.startDate | thaidate: 'year'}} ถึง
           {{electronicBookData.electronicBook.endDate | thaidate: 'year'}}</label>
-        <label></label>
+        <!-- <div *ngIf="electronicBookData.electronicBook.provinceStatus == 'ส่งสมุดตรวจให้จังหวัดแล้ว'" class="row"
+          style="float: right; margin: 20px;">
+          <h3 style="color: green;">ส่งสมุดตรวจแล้ว</h3><i class="fas fa-check-circle"
+            style="margin-left: 5px; color: green; font-size: larger; margin-top: 3px;"></i>
+        </div> -->
       </div>
       <div class="card-body">
         <div class="form-group">
           <h4>แผนการตรวจ</h4>
           <div *ngFor="let item of electronicBookData.electronicBookGroup; let i = index" class="col-12">
             <label>{{i+1}}) {{item.centralPolicyEvent.centralPolicy.title}}</label>
-            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large;" id="centralPolicy{{i}}"
-              data-toggle="collapse" [attr.data-target]="'#centralPolicys' + i" aria-expanded="false"
-              aria-controls="centralPolicys"></i>
-            <button *ngIf="electronicBookData.electronicBookGroup" type="button" class="btn btn-outline-success btn-sm"
-              style="margin-left: 20px;"
+            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
+              id="centralPolicy{{i}}" data-toggle="collapse" [attr.data-target]="'#centralPolicys' + i"
+              aria-expanded="false" aria-controls="centralPolicys"></i>
+            <button *ngIf="electronicBookData.electronicBook.provinceStatus == null" type="button"
+              class="btn btn-outline-success btn-sm" style="margin-left: 20px;"
               (click)="openModal(addSuggestionModal, item.centralPolicyEvent.id)">เพิ่มคำแนะนำ</button>
             <div class="col-12 collapse" id="centralPolicys{{i}}" style="margin-left: 5px;">
               <div>
@@ -69,45 +74,137 @@
           </div>
         </div>
 
-        <!-- <div>
-          <label>- ผู้ตรวจราชการกระทรวง:</label>
+        <div *ngIf="electronicBookData.ebookInvite.length == 0">
+          <u>ผู้ตรวจราชการกระทรวง:</u>
           <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
             <label *ngIf="items.user.role_id == 6">- {{items.user.prefix}} {{items.user.name}} -
               {{items.user.departments.name}}</label>
           </div>
         </div>
-        <div>
-          <label>- ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</label>
+        <div *ngIf="electronicBookData.ebookInvite.length == 0">
+          <u>ผู้ตรวจราชการกรม:</u>
+          <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
+            <label *ngIf="items.user.role_id == 10">- {{items.user.prefix}} {{items.user.name}} -
+              {{items.user.departments.name}}</label>
+          </div>
+        </div>
+        <div *ngIf="electronicBookData.ebookInvite.length == 0">
+          <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
           <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
             <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
               {{items.user.departments.name}}</label>
           </div>
-        </div> -->
+        </div>
 
-        <div>
-          <label>- ผู้ตรวจราชการกระทรวง:</label>
-          <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
-            <div class="row" style="margin-left: 5px;">
-              <label *ngIf="items.user.role_id == 6">- {{items.user.prefix}} {{items.user.name}} -
-                {{items.user.departments.name}}</label>
-              <i *ngIf="items.status == 'ลงความเห็นแล้ว'" class="fas fa-check-circle"
-                style="margin-top: 3px; margin-left: 5px;"></i>
-              <i *ngIf="items.status != 'ลงความเห็นแล้ว'" class="fas fa-times-circle"
-                style="margin-top: 3px; margin-left: 5px;"></i>
-              <div *ngIf="items.approve == 'เห็นด้วย'">
-                <span class="badge badge-pill badge-success" style="margin-left: 10px;">{{items.approve}}</span>
+        <div *ngIf="electronicBookData.ebookInvite.length > 0">
+          <u>ผู้ตรวจราชการกระทรวง:</u>
+          <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
+            id="ministryInvite" data-toggle="collapse" [attr.data-target]="'#ministryInvites'" aria-expanded="false"
+            aria-controls="ministryInvites"></i>
+          <div class="collapse" id="ministryInvites">
+            <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
+              <div *ngIf="items.user.role_id == 6" class="row" style="margin-left: 5px; margin-top: 5px;">
+                <label *ngIf="items.user.role_id == 6" style="font-size: medium;">- {{items.user.prefix}}
+                  {{items.user.name}} -
+                  {{items.user.departments.name}}</label>
+                <div *ngIf="items.status == 'ลงความเห็นแล้ว' && items.user.role_id == 6">
+                  <label style="color: #14A3B8; font-weight: bold; margin-left: 10px;">{{items.status}}</label>
+                  <i class=" fas fa-check-circle" style="margin-left: 5px; color: #14A3B8; font-size: larger;"></i>
+                </div>
+
+                <div *ngIf="items.status != 'ลงความเห็นแล้ว' && items.user.role_id == 6">
+                  <label style="color: #FFC007; font-weight: bold; margin-left: 10px;">{{items.status}}</label>
+                  <i class="fas fa-times-circle" style="margin-left: 5px; color: #FFC007; font-size: larger;"></i>
+                </div>
+
+                <div *ngIf="items.approve == 'เห็นด้วย'">
+                  <span class="badge badge-pill badge-success" style="margin-left: 10px;">{{items.approve}}</span>
+                </div>
+                <div *ngIf="items.approve == 'ไม่เห็นด้วย'">
+                  <span class="badge badge-pill badge-danger" style="margin-left: 10px;">{{items.approve}}</span>
+                </div>
               </div>
-              <div *ngIf="items.approve == 'ไม่เห็นด้วย'">
-                <span class="badge badge-pill badge-danger" style="margin-left: 10px;">{{items.approve}}</span>
+              <div *ngIf="items.status == 'ลงความเห็นแล้ว' && items.user.role_id == 6" class="form-group"
+                style="margin-left: 20px; margin-right: 80px;">
+                <div class="row col-12">
+                  <div class="col-10">
+                    <textarea cols="30" rows="5" style="border-radius: 15px;" class="form-control container"
+                      ngModel="{{items.description}}" placeholder="ไม่มีข้อมูล" readonly></textarea>
+                  </div>
+                  <div class="col-2" style="text-align: center;">
+                    <div>
+                      <img class="rounded" *ngIf="items.user.role_id == 6" src="{{downloadUrl}}/{{items.user.signature}}" alt=""
+                        style="width: 100px; height: 100px;">
+                    </div>
+                    <div>
+                      <label for="" style="font-size: small;">ลายมือชื่อผู้ตรวจ</label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div>
-          <label>- ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</label>
-          <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
-            <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-              {{items.user.departments.name}}</label>
+        <div *ngIf="electronicBookData.ebookInvite.length > 0">
+          <u>ผู้ตรวจราชการกรม:</u>
+          <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="Role10Invite"
+            data-toggle="collapse" [attr.data-target]="'#Role10Invites'" aria-expanded="false"
+            aria-controls="Role10Invites"></i>
+          <div class="collapse" id="Role10Invites">
+            <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
+              <div *ngIf="items.user.role_id == 10" class="row" style="margin-left: 5px; margin-top: 5px;">
+                <label *ngIf="items.user.role_id == 10" style="font-size: medium;">- {{items.user.prefix}}
+                  {{items.user.name}} -
+                  {{items.user.departments.name}}</label>
+
+                <div *ngIf="items.status == 'ลงความเห็นแล้ว' && items.user.role_id == 10">
+                  <label style="color: #14A3B8; font-weight: bold; margin-left: 10px;">{{items.status}}</label>
+                  <i class="fas fa-check-circle" style="margin-left: 5px; color: #14A3B8; font-size: larger;"></i>
+                </div>
+
+                <div *ngIf="items.status != 'ลงความเห็นแล้ว' && items.user.role_id == 10">
+                  <label style="color: #FFC007; font-weight: bold; margin-left: 10px;">{{items.status}}</label>
+                  <i class="fas fa-times-circle" style="margin-left: 5px; color: #FFC007; font-size: larger;"></i>
+                </div>
+
+                <div *ngIf="items.approve == 'เห็นด้วย'">
+                  <span class="badge badge-pill badge-success" style="margin-left: 10px;">{{items.approve}}</span>
+                </div>
+                <div *ngIf="items.approve == 'ไม่เห็นด้วย'">
+                  <span class="badge badge-pill badge-danger" style="margin-left: 10px;">{{items.approve}}</span>
+                </div>
+              </div>
+              <div *ngIf="items.status == 'ลงความเห็นแล้ว' && items.user.role_id == 10" class="form-group"
+                style="margin-left: 20px; margin-right: 80px;">
+                <div class="row col-12">
+                  <div class="col-10">
+                    <textarea cols="30" rows="5" style="border-radius: 15px;" class="form-control container"
+                      ngModel="{{items.description}}" placeholder="ไม่มีข้อมูล" readonly></textarea>
+                  </div>
+                  <div class="col-2" style="text-align: center;">
+                    <div>
+                      <img class="rounded" *ngIf="items.user.role_id == 10" src="{{downloadUrl}}/{{items.user.signature}}" alt=""
+                        style="width: 100px; height: 100px;">
+                    </div>
+                    <div>
+                      <label for="" style="font-size: small;">ลายมือชื่อผู้ตรวจ</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="electronicBookData.ebookInvite.length > 0">
+          <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
+          <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="peopleInvite"
+            data-toggle="collapse" [attr.data-target]="'#peopleInvites'" aria-expanded="false"
+            aria-controls="peopleInvites"></i>
+          <div class="collapse" id="peopleInvites">
+            <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
+              <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
+                {{items.user.departments.name}}</label>
+            </div>
           </div>
         </div>
 
@@ -148,7 +245,8 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
+                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค
+                      </h4>
                       <textarea cols="30" rows="5" formControlName="problem" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -181,13 +279,61 @@
                 <label style="margin-left: 10px;">ใช้งานจริง</label>
               </div>
             </div>
+            <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
+              style="margin-top: 10px; margin-left: 5px;">
+              <label for="">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
+              <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                <span>ไฟล์ที่
+                  {{i+1}})
+                  {{ item.name }}<br>
+                </span>
+              </a>
+            </div>
+            <!-- <div *ngIf="electronicBookData.electronicBookAccept != null">
+              <div class="row"
+                *ngFor="let item of electronicBookData.electronicBookAccept.electronicBookProvinceApproveFiles; let i = index"
+                style="margin-top: 10px; margin-left: 5px;">
+                <label for="">ลายมือชื่อผู้ว่าราชการจังหวัด</label>
+                <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item.name }}<br>
+                  </span>
+                </a>
+              </div>
+            </div> -->
+
+            <div class="form-group" *ngIf="electronicBookData.electronicBookAccept.status == 'ลงนามเอกสารแล้ว'"
+              style="margin-left: 15px; margin-right: 21px; margin-top: 30px;">
+              <h4>ลายมือชื่อผู้ว่าราชการจังหวัด</h4>
+              <div>
+                <h5 style="margin-top: 15px;">{{electronicBookData.electronicBookAccept.user.prefix}}
+                  {{electronicBookData.electronicBookAccept.user.name}}</h5>
+                <div class="row col-12">
+                  <div class="col-10">
+                    <textarea cols="30" rows="5" formControlName="provinceDetail" class="form-control container"
+                      placeholder="กรุณากรอกผลการตรวจ" readonly>
+                </textarea>
+                  </div>
+                  <div class="col-2">
+                    <img class="rounded" src="{{downloadUrl}}/{{electronicBookData.electronicBookAccept.user.signature}}" alt=""
+                      style="width: 100px; height: 100px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </form>
         <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
           <button *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง'" style="align-self: center;"
             type="submit" class="btn btn-danger" style="margin-right: 45px;"
             (click)="openModal(editSuggestionModal)">แก้ไขสมุดตรวจ</button>
-          <button type="button" class="btn btn-danger" (click)="goBack()">ยกเลิก</button>
+          <button
+            *ngIf="this.allMinistry.length == this.approveMinistry.length && this.allMinistry.length != 0 && electronicBookData.electronicBook.provinceStatus != 'ส่งสมุดตรวจให้จังหวัดแล้ว' && electronicBookData.electronicBook.provinceStatus != 'จังหวัดแนบลายมือชื่อแล้ว'"
+            class="btn btn-primary" style="margin-right: 45px;"
+            (click)="openModal(confirmModal)">ส่งสมุดตรวจให้ส่วนจังหวัด</button>
+          <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
         </div>
       </div>
 
@@ -242,7 +388,8 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
+                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค
+                      </h4>
                       <textarea cols="30" rows="5" formControlName="problem" class="form-control"
                         placeholder="กรุณากรอกปัญหาและอุปสรรค">
                       </textarea>
@@ -279,6 +426,24 @@
             </div>
           </div>
         </form>
+      </ng-template>
+
+      <ng-template #confirmModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+          <i class="fa fa-info-circle delete-icon"></i>
+          <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+            ส่งสมุดตรวจ
+          </p>
+          <p style="font-size: medium; color: #545454;">
+            คุณต้องการส่งสมุดตรวจนี้ไปที่ส่วนจังหวัดใช่หรือไม่ ?
+          </p>
+          <button type="button" class="btn btn-primary btnMargin" (click)="sendToProvince(electId)">
+            ใช่
+          </button>
+          <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+            ไม่ใช่
+          </button>
+        </div>
       </ng-template>
 
       <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">

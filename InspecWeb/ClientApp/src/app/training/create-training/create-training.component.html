@@ -1,6 +1,6 @@
 <div class="header">
     <h1 class="header-title">
-      ระบบตรวจราชการอิเล็กทรอนิกส์
+        ระบบตรวจราชการอิเล็กทรอนิกส์
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -21,24 +21,47 @@
                     <div class="row">
                         <div class="col-12 col-xl-12">
                             <br>
+                            <div class="input-group">
+                                <div class="form-group">
+                                    <label>ปี</label>
+                                    <input type="number" maxlength="2" formControlName="year" class="form-control"
+                                        placeholder="กรุณากรอกปี">
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>รหัสหลักสูตร</label>
+                                    <input type="number" maxlength="2" formControlName="coursecode" class="form-control"
+                                        placeholder="กรุณากรอกรหัสหลักสูตร">
+                                </div>
 
-                            <div class="form-group">
-                                <label>ชื่อหลักสูตรการอบรม</label>
-                                <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อหลักสูตรการอบรม">
-                                <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
+                            </div>
+                            <div class="input-group col-12" style="margin-left: -25px;">
+                                <div class="form-group col-4">
+                                    <label>ชื่อหลักสูตรการอบรม</label>
+                                    <input type="text" formControlName="name" class="form-control"
+                                        placeholder="กรุณากรอกชื่อหลักสูตรการอบรม">
+                                    <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group col-6">
+                                    <label>รุ่นที่</label>
+                                    <input type="text" formControlName="generation" class="form-control"
+                                        placeholder="กรุณากรอกรหัสหลักสูคร">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>คำอธิบายหลักสูตรการอบรม</label>
-                                <textarea type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอคำอธิบายหลักสูตรการอบรม" style="width: 100%; height:200px;"></textarea>
+                                <textarea type="text" formControlName="detail" class="form-control"
+                                    placeholder="กรุณากรอคำอธิบายหลักสูตรการอบรม"
+                                    style="width: 100%; height:200px;"></textarea>
                                 <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>วิทยากร</label>
                                 <input type="text" formControlName="lecturer_name" class="form-control" placeholder="กรุณากรอกชื่อวิทยากร" style="width: 50%;">
-                                <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
-                            </div>
+                            </div> -->
                         </div>
-                        
+
 
                         <div class="col-12 col-xl-12">
                             <label>กำหนดระยะรับสมัครเข้าอบรม</label>
@@ -61,7 +84,8 @@
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
 
-                                <my-date-picker-th formControlName="regis_end_date" [options]="myDatePickerOptions" required>
+                                <my-date-picker-th formControlName="regis_end_date" [options]="myDatePickerOptions"
+                                    required>
                                 </my-date-picker-th>
 
                             </div>
@@ -96,19 +120,19 @@
 
                         <div class="col-12 col-xl-12">
                             <div class="form-group">
-                                <label class="form-label w-100">แนบไฟล์</label>
+                                <label class="form-label w-100">แนบไฟล์รุปปกหลักสูตร</label>
                                 <input type="file" multiple (change)="uploadFile($event)">
                                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
                             </div>
                         </div>
 
 
-                        
-                        
 
-                        
 
-                        
+
+
+
+
                         <!-- <hr> -->
                         <div class="form-group row">
                             <div class="col-sm-5 ml-sm-auto">

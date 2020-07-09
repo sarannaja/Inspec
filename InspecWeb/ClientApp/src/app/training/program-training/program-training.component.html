@@ -3,124 +3,70 @@
         ผู้สมัครเข้าร่วมอบรม
     </h1>
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
-      </ol>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+        </ol>
     </nav>
-  </div>
-  <div class="row">
+</div>
+<div class="row">
     <div class="col-12">
-      <div class="card">
-          <div class="card-header" style="margin-bottom: -40px;">
-              <h5 class="card-title">จัดการหลักสูตรการอบรม</h5>
-              <div class="float-right">
-                  <button class="btn btn-primary" (click)="openModal(modalProgram)"
-                      style="margin-top: -60px;">ภาพรวมแผนกำหนดการ</button>
-              </div>
-          </div>
-          <div class="card-body">
-              <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-                  [dtOptions]="dtOptions">
-                  <thead>
-                      <tr>
-                          <th width="5%">#</th>
-                          <th width="15%">วันที่</th>
-                          <th width="15%">เวลา</th>
-                          <th width="55%">รายละเอียดกิจกรรม</th>
-                          <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr *ngFor="let item of resulttraining; let i = index">
-                          <td>{{ i + 1 }}</td>
-                          <td class="ellipsis">{{ item.programDate | thaidate:'year'}}</td>
-                          <td class="ellipsis">{{ item.minuteStartDate }} - {{ item.minuteEndDate }}</td>
-                          <td class="ellipsis">
-                              <b>หัวข้อ : </b>{{ item.programTopic }}
-                              <br>
-                              <b>รายละเอียด : </b>{{ item.programDetail }}
-                              <br>
-                              <b>ผู้ดำเนินรายการ : </b>{{ item.lecturerId }}
-                          </td>
-                          <td>
-                              <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+        <div class="card">
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h3>จัดการหลักสูตรการอบรม / กำหนดการ(ช่วง) / กำหนดการ</h3>
+                <div class="float-right">
+                    <button class="btn btn-primary" (click)="openModal(modalProgram)"
+                        style="margin-top: -60px;">ภาพรวมแผนกำหนดการ</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                    [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th width="10%">วันที่</th>
+                            <th width="10%">เวลา</th>
+                            <th width="25%">กิจกรรม</th>
+                            <th width="20%">สถานที่</th>
+                            <th width="25%">ผลการอบรม</th>
+                            <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resulttraining; let i = index">
+                            <td class="ellipsis">{{ item.programDate | thaidate:'year'}}</td>
+                            <td class="ellipsis">{{ item.minuteStartDate }} - {{ item.minuteEndDate }}</td>
+                            <td class="ellipsis">
+                                {{ item.programDetail }}
+
+                            </td>
+                            <td>{{ item.programLocation }}</td>
+                            <td>
+                                <a class="pointer text-primary" (click)="openModal(modalProgramCheckin)">-
+                                    อัพโหลดไฟล์ลงชื่อเข้าอบรม</a>
+                                <br>
+                            </td>
+                            <td>
+                                <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                   (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i> -->
-                              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                  (click)="openModal(modalProgram, item.id)"></i>
-                              <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
-                                  (click)="openModal(modaldelete, item.id)"></i>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                    (click)="openModal(modalProgram, item.id)"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
+                                    (click)="openModal(modaldelete, item.id)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-
-              <canvas id="lineChart"></canvas>
-
-          </div>
-      </div>
-  </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- BEGIN primary modal -->
     <ng-template #modalProgram class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">กำหนดการ</h5>
-                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
-                    aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body m-3">
-                <div class="form-group">
-                    <label for="test" class="form-label">วันที่</label>
-                    <my-date-picker-th formControlName="programdate"  [options]="dateOption" required>
-                    </my-date-picker-th>
-                    <!-- <input type="text" formControlName="programdate" class="form-control" placeholder="กรุณากรอกวันที่กำหนดการ"> -->
-                    <br>
-                    <div class="input-group">
-                        <label for="test" class="form-label">เวลาเริ่ม &nbsp;</label>
-                        <input type="text" formControlName="mStart" class="form-control" placeholder="Ex 00.00" maxlength="5">
-                    
-                    <br>
-                        <label for="test" class="form-label">&nbsp; ถึง &nbsp;</label>
-                        <input type="text" formControlName="mEnd" class="form-control" placeholder="Ex 00.00" maxlength="5">
-                    </div>
-                    <br>
-                    <label for="test" class="form-label">หัวข้อเรื่อง</label>
-                    <input type="text" formControlName="programtopic" class="form-control" placeholder="กรุณากรอกหัวข้อเรื่อง">
-                    <br>
-                    <label for="test" class="form-label">รายละเอียดกิจกรรม</label>
-                    <input type="text" formControlName="programdetail" class="form-control" placeholder="กรุณากรอกรายละเอียดกิจกรรม">
-                    <br>
-                    <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
-                    <ng-select placeholder="กรุณาเลือกวิทยากร" [options]="selectdatalecturer"
-                    name="lecturername" formControlName="lecturername" [allowClear]="true">
-                    </ng-select>
-
-                    <!-- <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
-                    <input type="text" formControlName="lecturername" class="form-control" placeholder="กรุณากรอกผู้ดำเนินรายการ"> -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">บันทึก</button>
-                <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
-                    data-dismiss="modal">ปิด</button>
-            </div>
-        </div>
-    </form>
-    <!-- </div> -->
-    </ng-template>
-    <!-- END primary modal -->
-
-    <!-- BEGIN primary modal -->
-    <ng-template #modalDetailProgram class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="width: 1000px;">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-            
-            <div class="modal-content" >
+        <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">กำหนดการ</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
@@ -129,41 +75,151 @@
                     </button>
                 </div>
                 <div class="modal-body m-3">
-                    <table *ngIf="loading" class="table table-responsive-lg">
-                        <thead>
-                            <tr>
-                                <th width="20%">วันที่</th>
-                                <th width="20%">เวลา</th>
-                                <th width="55%">รายละเอียดกิจกรรม</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of resulttraining; let i = index">
-                                <td class="ellipsis">{{ item.programDate | thaidate:'year'}}</td>
-                                <td class="ellipsis">{{ item.minuteStartDate }} - {{ item.minuteEndDate }}</td>
-                                <td class="ellipsis">
-                                    <b>หัวข้อ : </b>{{ item.programTopic }}
-                                    <br>
-                                    <b>รายละเอียด : </b>{{ item.programDetail }}
-                                    <br>
-                                    <b>ผู้ดำเนินรายการ : </b>{{ item.lecturerId }}
-                                </td>
-                               
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="form-group">
+                        <label for="test" class="form-label">ประเภทกิจกรรม</label>
+                        <select class="form-control select2" data-toggle="select2" formControlName="programtype">
+                            <option value=null>--กรุณาเลือกประเภทกิจกรรม--</option>
+                            <option value=1>ทั่วไป</option>
+                            <option value=2>คณะฝึกปฏิบัติ</option>
+                            <option value=3>คณะศึกษาดูงาน</option>
+                        </select>
+                        <br>
+
+                        <label for="test" class="form-label">วันที่</label>
+                        <my-date-picker-th formControlName="programdate" [options]="dateOption" required>
+                        </my-date-picker-th>
+                        <!-- <input type="text" formControlName="programdate" class="form-control" placeholder="กรุณากรอกวันที่กำหนดการ"> -->
+                        <br>
+                        <div class="input-group">
+                            <label for="test" class="form-label">เวลาเริ่ม &nbsp;</label>
+                            <input type="text" formControlName="mStart" class="form-control" placeholder="Ex 00.00"
+                                maxlength="5">
+
+                            <br>
+                            <label for="test" class="form-label">&nbsp; ถึง &nbsp;</label>
+                            <input type="text" formControlName="mEnd" class="form-control" placeholder="Ex 00.00"
+                                maxlength="5">
+                        </div>
+                        <br>
+                        <label for="test" class="form-label">หัวข้อเรื่อง</label>
+                        <input type="text" formControlName="programtopic" class="form-control"
+                            placeholder="กรุณากรอกหัวข้อเรื่อง">
+                        <br>
+                        <label for="test" class="form-label">รายละเอียดกิจกรรม</label>
+                        <input type="text" formControlName="programdetail" class="form-control"
+                            placeholder="กรุณากรอกรายละเอียดกิจกรรม">
+                        <br>
+                        <label for="test" class="form-label">สถานที่</label>
+                        <input type="text" formControlName="programlocation" class="form-control"
+                            placeholder="กรุณากรอกสถานที่">
+                        <br>
+                        <label for="test" class="form-label">การแต่งกาย</label>
+                        <input type="text" formControlName="programtodress" class="form-control"
+                            placeholder="กรุณากรอกการแต่งกาย">
+                        <br>
+                        <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
+                        <ng-select placeholder="กรุณาเลือกวิทยากร" [multiple]="true" [options]="selectdatalecturer"
+                            name="lecturername" formControlName="lecturername" [allowClear]="true">
+                        </ng-select>
+                        <br>
+                        <br>
+                        <label class="form-label w-100">แนบไฟล์</label>
+                        <input type="file" multiple (change)="uploadFile($event)">
+                        <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                        <!-- <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
+                    <input type="text" formControlName="lecturername" class="form-control" placeholder="กรุณากรอกผู้ดำเนินรายการ"> -->
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
                     <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
                         data-dismiss="modal">ปิด</button>
                 </div>
             </div>
-        
+        </form>
         <!-- </div> -->
-        </ng-template>
-        <!-- END primary modal -->
+    </ng-template>
+    <!-- END primary modal -->
+
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalProgramCheckin class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ผลการอบรม</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+                        <label class="form-text">อัพโหลดไฟล์ลงชื่ออบรม<span class="star">*</span></label>
+                        <input type="file" (change)="uploadFile($event)">
+                        <br>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalDetailProgram class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+        style="width: 1000px;">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">กำหนดการ</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <table *ngIf="loading" class="table table-responsive-lg">
+                    <thead>
+                        <tr>
+                            <th width="20%">วันที่</th>
+                            <th width="20%">เวลา</th>
+                            <th width="55%">รายละเอียดกิจกรรม</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resulttraining; let i = index">
+                            <td class="ellipsis">{{ item.programDate | thaidate:'year'}}</td>
+                            <td class="ellipsis">{{ item.minuteStartDate }} - {{ item.minuteEndDate }}</td>
+                            <td class="ellipsis">
+                                <b>หัวข้อ : </b>{{ item.programTopic }}
+                                <br>
+                                <b>รายละเอียด : </b>{{ item.programDetail }}
+                                <br>
+                                <b>ผู้ดำเนินรายการ : </b>{{ item.lecturerId }}
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
 
 
     <!-- BEGIN primary modal -->
@@ -186,5 +242,4 @@
     </ng-template>
     <!-- END primary modal -->
 
-  </div>
-
+</div>

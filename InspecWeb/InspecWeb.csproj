@@ -50,11 +50,11 @@
   
     <!-- <Folder Include="Migrations\" /> -->
   
-    <Folder Include="Data\Migrations\" />
+    <!-- <Folder Include="Data\Migrations\" /> -->
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\assets\favicon.ico" />
+    <!-- <None Remove="ClientApp\src\assets\favicon.ico" /> -->
   </ItemGroup>
 
   <ItemGroup>

@@ -72,6 +72,10 @@ namespace InspecWeb.ViewModel
         public long inviteId { get; set; }
         public string approve { get; set; }
         public string userInvite { get; set; }
+
+        public long[] electProvinceId { get; set; }
+
+        public string userCreate { get; set; }
     }
 
     //public class Inputelectronicbook
