@@ -94,7 +94,8 @@
                 <div class="col-12" style="padding-left: 0;">
                   <div class="form-group">
                     <div class="row">
-                      <h4 style="margin-left: 11px;">ลงความเห็นแล้ว <i class="fas fa-check-circle" style="margin-left: 2px;"></i></h4>
+                      <h4 style="margin-left: 11px;">ลงนามสมุดตรวจอิเล็กทรอนิกส์แล้ว <i class="fas fa-check-circle"
+                          style="margin-left: 2px;"></i></h4>
                       <div *ngIf="opinionData.approve == 'เห็นด้วย'">
                         <span class="badge badge-pill badge-success"
                           style="margin-left: 10px;">{{opinionData.approve}}</span>
@@ -169,6 +170,16 @@
                   </div>
                 </div>
               </div>
+              <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
+                style="margin-top: 10px; margin-left: 5px;">
+                <label for="">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
+                <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item.name }}<br>
+                  </span>
+                </a>
+              </div>
             </div>
             <!-- <div class="form-group col-md-3">
               <div class="mb-3">
@@ -184,11 +195,26 @@
             </div> -->
           </div>
         </form>
-        <div *ngIf="opinionData.description == null" class="form-group col col-lg-12"
+        <div *ngIf="opinionData.description == null" class="form-group row col-lg-12"
+          style="margin-top: 20px; justify-content: center;">
+
+          <div *ngIf="signature.user.signature != null">
+            <button *ngIf="role_id == 6 || role_id == 10" style="align-self: center;" type="submit"
+              class="btn btn-success" style="margin-right: 45px;"
+              (click)="openModal(addAprove)">ลงนามสมุดตรวจอิเล็กทรอนิกส์</button>
+          </div>
+
+          <div *ngIf="signature.user.signature == null">
+            <button *ngIf="role_id == 6 || role_id == 10" style="align-self: center;" type="submit"
+              class="btn btn-success" style="margin-right: 45px;"
+              (click)="openAlertModal(signatureModal)">ลงนามสมุดตรวจอิเล็กทรอนิกส์</button>
+          </div>
+
+          <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
+        </div>
+        <div *ngIf="opinionData.description != null" class="form-group col col-lg-12"
           style="margin-top: 20px; text-align: center;">
-          <button *ngIf="role_id == 6" style="align-self: center;" type="submit" class="btn btn-success" style="margin-right: 45px;"
-            (click)="openModal(addAprove)">ลงความเห็น</button>
-          <button type="button" class="btn btn-danger" (click)="goBack()">ยกเลิก</button>
+          <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
         </div>
       </div>
 
@@ -196,7 +222,7 @@
         <form [formGroup]="approveForm" (ngSubmit)="addOpinion(approveForm.value)">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">ลงความเห็นสมุดตรวจอิเล็กทรอนิกส์</h5>
+              <h5 class="modal-title">ลงนามสมุดตรวจอิเล็กทรอนิกส์</h5>
               <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -231,6 +257,24 @@
             </div>
           </div>
         </form>
+      </ng-template>
+
+      <ng-template #signatureModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+          <i class="fa fa-info-circle delete-icon"></i>
+          <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+            ขออภัย
+          </p>
+          <p style="font-size: medium; color: #545454;">
+            ไม่สามารถลงนามสมุดตรวจอิเล็กทรอนิกส์ได้เนื่องจากไม่มีข้อมูลลายมือชื่อ
+          </p>
+          <p style="font-size: medium; color: #545454;">
+            กรุณาอัพเดทข้อมูลลายมือชื่อของท่าน
+          </p>
+          <button type="button" class="btn btn-primary btnMargin" (click)="modalRef.hide()">
+            ตกลง
+          </button>
+        </div>
       </ng-template>
 
       <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">

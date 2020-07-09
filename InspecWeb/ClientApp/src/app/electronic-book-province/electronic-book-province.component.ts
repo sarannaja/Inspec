@@ -41,13 +41,15 @@ export class ElectronicBookProvinceComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
         this.userService.getuserfirstdata(this.userid)
-        .subscribe(result => {
-          // this.resultuser = result;
-          console.log("test => " , result);
-          this.role_id = result[0].role_id;
-          this.provinceId = result[0].provinceId;
-          // alert(this.role_id)
-        })
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            console.log("provinceId: ", result);
+
+            this.role_id = result[0].role_id
+            this.provinceId = result[0].provinceId
+            this.getElectronicBook();
+          })
       })
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -58,7 +60,6 @@ export class ElectronicBookProvinceComponent implements OnInit {
         }
       ]
     };
-    this.getElectronicBook();
   }
 
   openModal(template: TemplateRef<any>, id) {
@@ -67,7 +68,6 @@ export class ElectronicBookProvinceComponent implements OnInit {
   }
 
   getElectronicBook() {
-    alert(this.userid)
     this.electronicBookService.getSendedElectronicBookProvince(this.provinceId).subscribe(results => {
       // console.log("res: ", results);
       this.electronicBookData = results;
@@ -98,7 +98,7 @@ export class ElectronicBookProvinceComponent implements OnInit {
   }
 
   gotoDetail(id) {
-    this.router.navigate(['/electronicbook/detail/' + id])
+    this.router.navigate(['/electronicbook/provincedetail/' + id])
   }
 
   gotoTheme(id, elecId) {

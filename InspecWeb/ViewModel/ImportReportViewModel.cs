@@ -6,28 +6,105 @@ namespace InspecWeb.ViewModel
 {
     public class ImportReportViewModel
     {
-        [JsonProperty(PropertyName = "SubjectId")]
-        public long SubjectId { get; set; }
+        [JsonProperty(PropertyName = "centralPolicyEventId")]
+        public long[] centralPolicyEventId { get; set; }
 
-        [JsonProperty(PropertyName = "TypeReport")]
-        public string TypeReport { get; set; }
+        [JsonProperty(PropertyName = "centralPolicyType")]
+        public string centralPolicyType { get; set; }
 
-        [JsonProperty(PropertyName = "TypeExport")]
-        public string TypeExport { get; set; }
+        [JsonProperty(PropertyName = "reportType")]
+        public string reportType { get; set; }
 
-        [JsonProperty(PropertyName = "CreateBy")]
-        public string CreateBy { get; set; }
+        [JsonProperty(PropertyName = "inspectionRound")]
+        public string inspectionRound { get; set; }
 
-        [JsonProperty(PropertyName = "Command")]
-        public string Command { get; set; }
+        [JsonProperty(PropertyName = "fiscalYearId")]
+        public long fiscalYearId { get; set; }
 
-        [JsonProperty(PropertyName = "Commander")]
-        public string Commander { get; set; }
+        [JsonProperty(PropertyName = "regionId")]
+        public long regionId { get; set; }
 
-        [JsonProperty(PropertyName = "ReportId")]
-        public long ReportId { get; set; }
+        [JsonProperty(PropertyName = "provinceId")]
+        public long provinceId { get; set; }
 
-        public List<IFormFile> fileWord { get; set; }
-        public List<IFormFile> fileExcel { get; set; }
+        [JsonProperty(PropertyName = "monitoringTopics")]
+        public string monitoringTopics { get; set; }
+
+        [JsonProperty(PropertyName = "detailReport")]
+        public string detailReport { get; set; }
+
+        [JsonProperty(PropertyName = "suggestion")]
+        public string suggestion { get; set; }
+
+        [JsonProperty(PropertyName = "command")]
+        public string command { get; set; }
+
+        [JsonProperty(PropertyName = "UserId")]
+        public string UserId { get; set; }
+
+        public long reportId { get; set; }
+
+         public List<IFormFile> files { get; set; }
+
+        public headData[] headData { get; set; }
+    }
+
+    public class headData
+    {
+        [JsonProperty(PropertyName = "centralPolicy")]
+        public string centralPolicy { get; set; }
+
+        // [JsonProperty(PropertyName = "centralPolicyType")]
+        // public string centralPolicyType { get; set; }
+
+        // [JsonProperty(PropertyName = "reportType")]
+        // public string reportType { get; set; }
+
+        // [JsonProperty(PropertyName = "inspectionRound")]
+        // public string inspectionRound { get; set; }
+
+        // [JsonProperty(PropertyName = "fiscalYear")]
+        // public string fiscalYear { get; set; }
+
+        // [JsonProperty(PropertyName = "region")]
+        // public string region { get; set; }
+
+        // [JsonProperty(PropertyName = "province")]
+        // public string province { get; set; }
+
+        // [JsonProperty(PropertyName = "monitoringTopics")]
+        // public string monitoringTopics { get; set; }
+
+        // [JsonProperty(PropertyName = "detailReport")]
+        // public string detailReport { get; set; }
+
+        // [JsonProperty(PropertyName = "suggestion")]
+        // public string suggestion { get; set; }
+
+        // [JsonProperty(PropertyName = "command")]
+        // public string command { get; set; }
+
+        // public bodyData[] bodyData { get; set; }
+    }
+
+    public class bodyData
+    {
+        [JsonProperty(PropertyName = "subject")]
+        public string subject { get; set; }
+
+        [JsonProperty(PropertyName = "detail")]
+        public string detail { get; set; }
+
+        [JsonProperty(PropertyName = "suggestion")]
+        public string suggestion { get; set; }
+
+        [JsonProperty(PropertyName = "problem")]
+        public string problem { get; set; }
+
+        [JsonProperty(PropertyName = "department")]
+        public string department { get; set; }
+
+        [JsonProperty(PropertyName = "opinionPeople")]
+        public string opinionPeople { get; set; }
     }
 }

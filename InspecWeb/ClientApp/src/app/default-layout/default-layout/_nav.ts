@@ -1300,20 +1300,21 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     IDchildren: 'electronicbook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook',
-        name: 'สร้างเอง'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook/invited',
-        name: 'ถูกเชิญ'
-      },
-    ]
+    url: '/electronicbook/invited',
+    // children: [
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/electronicbook',
+    //     name: 'สร้างเอง'
+    //   },
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/electronicbook/invited',
+    //     name: 'ถูกเชิญ'
+    //   },
+    // ]
   },
   // {
   //   icon: 'fa-book',

@@ -114,7 +114,8 @@ namespace InspecWeb.Models
 
         public ICollection<Notification> notification { get; set; } // tb แจ้งเตือน
 
-
+        [Description("รูปลายเซ็น")]
+        public string Signature { get; set; }
     }
 
     public class UserArray

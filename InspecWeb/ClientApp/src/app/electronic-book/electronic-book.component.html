@@ -42,11 +42,12 @@
           <tbody>
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
-              <td (click)="Subject(item.id, item.subjectGroup.centralPolicy.title )" class="pointer">
+              <td class="pointer">
                 วันที่ {{item.startDate | thaidate: 'year'}} ถึง {{item.endDate | thaidate: 'year'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
               <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
-              <td>{{ item.status }}</td>
+              <td *ngIf="item.provinceStatus == null">{{ item.status }}</td>
+              <td *ngIf="item.provinceStatus != null">{{ item.provinceStatus }}</td>
               <td>
 
                 <i class="align-middle mr-2 fas fa-fw fa fa-book pointer" (click)="gotoTheme(item.id)"></i>
