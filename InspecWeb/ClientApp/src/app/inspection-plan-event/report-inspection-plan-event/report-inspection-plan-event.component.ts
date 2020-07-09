@@ -180,7 +180,6 @@ export class ReportInspectionPlanEventComponent implements OnInit {
         'สถานะการเข้าร่วม'
       ];
       var test = centralPolicyUser.map((item, index) => {
-
         // var d = new Date();
         var ddd = new Date(item[0].createdAt)
         var date = ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
@@ -199,7 +198,8 @@ export class ReportInspectionPlanEventComponent implements OnInit {
         console.log('name', name);
 
         // date2.push()
-        return [index + 1, date, item[0].title, item[0].statusPlan, 'ow', 'หมายเลขติดต่อ ow', name.toString().replace(',', "\n"), phone.toString().replace(',', "\n"), status.toString().replace(',', "\n")]
+        return [index + 1, date, item[0].title, item[0].statusPlan, 'ow', 'หมายเลขติดต่อ ow', name.
+        toString().replace(',', "\n"), phone.toString().replace(',', "\n"), status.toString().replace(',', "\n")]
       })
 
       console.log('test', test);

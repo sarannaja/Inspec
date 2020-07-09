@@ -20,9 +20,10 @@ namespace InspecWeb.Models
         public long Id { get; set; }
 
         [ForeignKey("ApplicationUser")]
-        [Description("FK: ผู้สั่งการ")]
-        public string Commanded_by { get; set; }
-        public virtual ApplicationUser User_Commanded_by { get; set; }
+        [Description("FK: User")]
+        public string UserID { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         [Description("ประเด็น/เรื่อง")]
@@ -31,24 +32,7 @@ namespace InspecWeb.Models
         [Required]
         [Description("รายละเอียดประเด็น/เรื่อง")]
         public string Subjectdetail { get; set; }
-
-        [Required]
-        [Description("สถานะ")]
-        public string Status { get; set; }
-
-        [Description("FK: ผู้ตอบ")]
-        public string Answer_by { get; set; }
-        public virtual ApplicationUser User_Answer_by { get; set; }
-
-        [Description("รายละเอียดของผู้ตอบ")]
-        public string Answerdetail { get; set; }
-
-        [Description("ปัญหา/อุปสรรค")]
-        public string AnswerProblem { get; set; }
-
-        [Description("ข้อเสนอแนะ")]
-        public string AnswerCounsel { get; set; }
-      
+       
         [Description("วันที่สั่งการ")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
@@ -56,17 +40,12 @@ namespace InspecWeb.Models
         [Description("วันที่มีข้อสั่งการ")]
         [DataType(DataType.Date)]
         public DateTime? Commanded_date { get; set; }
-
-        [Description("วันที่รับทราบข้อสั่งการ")]
-        [DataType(DataType.Date)]
-        public DateTime? beaware_date { get; set; }
-
+   
         [Description("publics")]
         public long publics { get; set; }
 
         public ICollection<ExecutiveOrderFile> ExecutiveOrderFiles { get; set; }
-        public ICollection<AnswerExecutiveOrderFile> AnswerExecutiveOrderFiles { get; set; }
 
-
+        public ICollection<ExecutiveOrderAnswer> ExecutiveOrderAnswers { get; set; }
     }
 }
