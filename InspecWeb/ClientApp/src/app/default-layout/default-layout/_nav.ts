@@ -66,7 +66,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     ]
   },
   {
-    icon: 'fa-hand-point-up',
+    icon: 'fa-paper-plane',
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
     children: [
@@ -317,11 +317,6 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     ]
   },
   {
-    icon: 'fa-shekel-sign',
-    url: "/train",
-    name: "จัดอบรมหลักสูตร"
-  },
-  {
     IDchildren: 'training',
     icon: 'fa-shekel-sign',
     name: "ข้อมูลจัดอบรมหลักสูตร",
@@ -329,51 +324,71 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/training/lecturer',
-        name: 'วิทยากรอบรม'
+        url: '/training',
+        name: 'จัดอบรมหลักสูตร'
+      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/lecturer',
+      //   name: 'วิทยากรอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/document',
+      //   name: 'เอกสารประกอบการฝึกอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/register',
+      //   name: 'ผู้สมัครเข้าร่วมอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/survey',
+      //   name: 'ประเมินผลการฝึกอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/report',
+      //   name: 'รายงาน'
+      // },
+      
+    ]
+  },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/train',
+        name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
         url: '/training',
-        name: 'จัดอบรมหลักสูตร'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/document',
-        name: 'เอกสารประกอบการฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/register',
-        name: 'ผู้สมัครเข้าร่วมอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/survey',
-        name: 'ประเมินผลการฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/report',
-        name: 'รายงาน'
+        name: 'ประวัติการฝึกอบรม'
       },
 
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
   {
-    icon: 'fa-shield',
+    icon: 'fa-eye',
     url: "/log",
-    name: "LOG"
+    name: "log"
   },
 
 ]
@@ -448,11 +463,6 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     ]
   },
   {
-    icon: 'fa-shekel-sign',
-    url: "/train",
-    name: "จัดอบรมหลักสูตร"
-  },
-  {
     IDchildren: 'training',
     icon: 'fa-shekel-sign',
     name: "ข้อมูลจัดอบรมหลักสูตร",
@@ -460,38 +470,58 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/training/lecturer',
-        name: 'วิทยากรอบรม'
+        url: '/training',
+        name: 'จัดอบรมหลักสูตร'
+      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/lecturer',
+      //   name: 'วิทยากรอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/document',
+      //   name: 'เอกสารประกอบการฝึกอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/register',
+      //   name: 'ผู้สมัครเข้าร่วมอบรม'
+      // },
+      // {
+      //   ex_link: '1',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/survey',
+      //   name: 'ประเมินผลการฝึกอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/training/report',
+      //   name: 'รายงาน'
+      // },
+      
+    ]
+  },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
         url: '/training',
-        name: 'จัดอบรมหลักสูตร'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/document',
-        name: 'เอกสารประกอบการฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/register',
-        name: 'ผู้สมัครเข้าร่วมอบรม'
-      },
-      {
-        ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/survey',
-        name: 'ประเมินผลการฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training/report',
-        name: 'รายงาน'
+        name: 'ประวัติการฝึกอบรม'
       },
 
     ]
@@ -515,10 +545,16 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   },
 
   {
-    IDchildren: 'report',
+    IDchildren: 'subject',
     icon: 'fa-file',
-    name: "รายงาน",
+    name: "ประเด็นการตรวจติดตาม",
     children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/subjectevent',
+        name: 'ประเด็นการตรวจติดตาม'
+      },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
@@ -532,12 +568,12 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-calendar',
     name: "กำหนดการตรวจราชการ",
     children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/subjectevent',
-        name: 'ประเด็นการตรวจติดตาม'
-      },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/subjectevent',
+      //   name: 'ประเด็นการตรวจติดตาม'
+      // },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
@@ -633,7 +669,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
           name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
           ex_link:'0',
 
-      } 
+      }
     ]
   },
   {
@@ -691,11 +727,30 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     ]
   },
   {
-    icon: 'fa-chart',
-    url: "/external/thaimap",
-    name: "แผนที่"
-  },
-
+   
+        icon: 'fa-chart',
+        url: "/external/thaimap",
+        name: "แผนที่"
+      },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'ประวัติการฝึกอบรม'
+      },
+    ]
+  }
 
 ]
 export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชการจังหวัด
@@ -764,10 +819,30 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     ]
   },
   {
-    icon: 'fa-chart',
-    url: "/external/thaimap",
-    name: "แผนที่"
-  },
+ 
+        icon: 'fa-chart',
+        url: "/external/thaimap",
+        name: "แผนที่"
+      },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'ประวัติการฝึกอบรม'
+      },
+    ]
+  }
 ]
 export const Adminprovince: NavBar[] = [ //หัวหน้าสำนักงานจังหวัด
   {
@@ -814,7 +889,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
         ex_link:'0',
 
-    } 
+    }
     ]
   },
   // {
@@ -877,6 +952,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     ]
   },
   {
+    IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     url: "/training",
     name: "จัดอบรมหลักสูตร"
@@ -886,6 +962,25 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     url: "/external/thaimap",
     name: "แผนที่"
   },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'ประวัติการฝึกอบรม'
+      },
+    ]
+  }
 ]
 export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระทรวง
   {
@@ -898,29 +993,51 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
   //   url: "/inspectionplanevent",
   //   name: "ปฏิทินการตรวจราชการ"
   // },
+  // {
+  //   icon: 'fa-archive',
+  //   url: "/calendaruser",
+  //   name: "ปฏิทินการตรวจราชการ"
+  // },
+
   {
-    icon: 'fa-archive',
-    url: "/calendaruser",
-    name: "ปฏิทินการตรวจราชการ"
-  },
-  {
-    IDchildren: 'electronicbook',
-    icon: 'fa-book',
-    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    IDchildren: 'calendarmenu',
+    icon: 'fa-calendar',
+    name: "ปฏิทินการตรวจราชการ",
     children: [
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook',
+        url: '/inspectionplanevent',
         name: 'สร้างเอง'
       },
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook/invited',
+        url: '/calendaruser',
         name: 'ถูกเชิญ'
       },
     ]
+  },
+
+  {
+    IDchildren: 'electronicbook',
+    icon: 'fa-book',
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    url: '/electronicbook/invited',
+    // children: [
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/electronicbook',
+    //     name: 'สร้างเอง'
+    //   },
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/electronicbook/invited',
+    //     name: 'ถูกเชิญ'
+    //   },
+    // ]
   },
   {
     icon: 'fa-list-alt',
@@ -982,6 +1099,25 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     url: "/external/thaimap",
     name: "แผนที่"
   },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'ประวัติการฝึกอบรม'
+      },
+    ]
+  }
 
 ]
 export const publicsector: NavBar[] = [ //ภาคประชาชน
@@ -1000,6 +1136,12 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ" ,
     bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
+  },
+  {
+    IDchildren: 'electronicbook',
+    icon: 'fa-book',
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    url: '/electronicbook/invited',
   },
   {
     icon: 'fa-list-alt',
@@ -1056,10 +1198,29 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     ]
   },
   {
-    icon: 'fa-chart',
-    url: "/external/thaimap",
-    name: "แผนที่"
-  },
+        icon: 'fa-chart',
+        url: "/external/thaimap",
+        name: "แผนที่"
+      },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'ประวัติการฝึกอบรม'
+      },
+    ]
+  }
 ]
 export const president: NavBar[] = [ //ผู้บริหารหรือนายก
   {
@@ -1159,10 +1320,29 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     ]
   },
   {
-    icon: 'fa-chart',
-    url: "/external/thaimap",
-    name: "แผนที่"
-  },
+        icon: 'fa-chart',
+        url: "/external/thaimap",
+        name: "แผนที่"
+      },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training',
+        name: 'ประวัติการฝึกอบรม'
+      },
+    ]
+  }
 ]
 export const InspectorExamination: NavBar[] = [ //หน่วยรับตรวจ
   {
@@ -1173,7 +1353,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
   {
     icon: 'fa-archive',
     url: "/answersubject",
-    name: "Rold9Answer"
+    name: "ประเด็นตรวจติดตาม"
   },
   {
     icon: 'fa-calendar',
@@ -1266,18 +1446,18 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     IDchildren: 'electronicbook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
+  },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
     children: [
+      
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook',
-        name: 'สร้างเอง'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook/invited',
-        name: 'ถูกเชิญ'
+        url: '/training',
+        name: 'สมัครฝึกอบรม'
       },
     ]
   },

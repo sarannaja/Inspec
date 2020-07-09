@@ -141,7 +141,7 @@ export class AnswerPeopleDetailComponent implements OnInit {
     })
   }
   storefile() {
-    this.answersubjectservice.addFiles(this.id, this.Formfile.value).subscribe(response => {
+    this.answersubjectservice.addFiles(this.id, this.Formfile.value, this.userid).subscribe(response => {
       this.Form.reset();
       this.Formfile.reset();
       this.spinner.hide();

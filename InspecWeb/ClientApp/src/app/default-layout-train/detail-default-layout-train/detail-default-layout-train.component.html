@@ -1,4 +1,4 @@
-<head>
+<!-- <head>
     <title>:: จัดอบรมหลักสูตร ::</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,11 +13,11 @@
     <link rel="stylesheet" href="/assets/fontend/fonts/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/fontend/fonts/flaticon/font/flaticon.css">
 
-    <!-- Theme Style -->
+
     <link rel="stylesheet" href="/assets/fontend/css/style.css">
 </head>
 
-<body>
+<body> -->
 
 
     <header role="banner">
@@ -104,7 +104,7 @@
 
 
             <!-- <router-outlet></router-outlet> -->
-    
+
     <div class="container">
         <div class="row">
         <div class="col-8">
@@ -115,13 +115,19 @@
                 <br>
                 <label >{{ detail }}</label>
                 <br>
-                กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'year'}} - {{ enddate | thaidate:'year'}}</label>
                 <br>
-                กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'year'}} - {{ regisenddate | thaidate:'year'}}</label>
-                <br>
-                <a href="train/list/{{ trainingid }}">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</a>
-                <br>
-                เอกสารประกอบ
+                <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'year'}} - {{ regisenddate | thaidate:'year'}}</label></h5>
+                <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'year'}} - {{ enddate | thaidate:'year'}}</label></h5>
+
+                <table *ngIf="loading" class="">
+                    <tbody>
+                        <tr *ngFor="let item of resulttrainingphase; let i = index">
+                            <td><h5><a href="{{ mainUrl }}train/detail/phase/{{ item.id }}">กำหนดการ ช่วงที่ {{ item.phaseNo }} : {{ item.detail }}</a></h5></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5><a href="train/list/{{ trainingid }}">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</a></h5>
+                เอกสารเพิ่มเติม
                 <table *ngIf="loading" class="">
                   <tbody>
                       <tr *ngFor="let item of resulttraining3; let i = index">
@@ -132,7 +138,7 @@
                 <br>
                 <div class="text-center">
                     <!-- <a href="{{ mainUrl }}train/register/{{ trainingid }}" class="btn btn-info">สมัครอบรม</a> -->
-                    <button class="btn btn-primary" (click)="openModal(modalregister)" class="btn btn-info">สมัครอบรม</button>
+                    <button class="btn btn-primary" (click)="storeTraining()" class="btn btn-info">สมัครอบรม</button>
                 </div>
                 <br>
                 <br>
@@ -157,7 +163,7 @@
             <br>
             <div class="row">
                 <div class="col-12">
-                    
+
                     <!-- <table *ngIf="loading" class="table table-hover" datatable
                     [dtOptions]="dtOptions2"> -->
                     <table *ngIf="loading" class="table table-hover">
@@ -168,8 +174,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resulttraining2; let i = index" class="pointer">
-                            <td width="30%"><a href="train/detail/{{item.id}}"><img src="{{ downloadUrl }}/{{item.image}}" width="160" height="130"></a></td>
-                            <td width="70%"><a href="train/detail/{{item.id}}"><h5>{{ item.name }}</h5></a></td>
+                            <td width="30%"><a href="train/detail/{{item.id}}"><img src="{{ downloadUrl }}/{{item.image}}" width="120" height="90"></a></td>
+                            <td width="70%" class=""><a href="train/detail/{{item.id}}" style="font-size: 14px;">{{ item.name }}</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -194,7 +200,7 @@
                     </button>
                 </div>
                 <div class="modal-body m-3">
-                   
+
                     <div class="form-group">
                         <input type="radio" formControlName="type" name="type" value="in">
                         <label for="r_in">บุคคลภายใน</label><br>
@@ -314,7 +320,7 @@
 
 
 
-    <script src="/assets/fontend/js/jquery-3.2.1.min.js"></script>
+    <!-- <script src="/assets/fontend/js/jquery-3.2.1.min.js"></script>
     <script src="/assets/fontend/js/jquery-migrate-3.0.0.js"></script>
     <script src="/assets/fontend/js/popper.min.js"></script>
     <script src="/assets/fontend/js/bootstrap.min.js"></script>
@@ -323,5 +329,5 @@
     <script src="/assets/fontend/js/jquery.stellar.min.js"></script>
 
 
-    <script src="/assets/fontend/js/main.js"></script>
-</body>
+    <script src="/assets/fontend/js/main.js"></script> -->
+<!-- </body> -->

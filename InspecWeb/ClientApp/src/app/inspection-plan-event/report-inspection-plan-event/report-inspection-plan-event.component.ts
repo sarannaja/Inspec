@@ -177,7 +177,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
         'หมายเลขติดต่อ',
         'ผู้เข้าร่วม/หน่วยงาน',
         'หมายเลขติดต่อ',
-        'สถานะ การเข้าร่วม'
+        'สถานะการเข้าร่วม'
       ];
       var test = centralPolicyUser.map((item, index) => {
         // var d = new Date();
@@ -205,13 +205,6 @@ export class ReportInspectionPlanEventComponent implements OnInit {
       console.log('test', test);
 
       this.ExportExcelProvince(test, column)
-      // var data: Array<any>
-      // item.map((item) => {
-      //   data['title'] = item.title
-      //   console.log(data);
-
-      //   return {data}
-      // })
       console.log('centralPolicyUser', centralPolicyUser);
 
 

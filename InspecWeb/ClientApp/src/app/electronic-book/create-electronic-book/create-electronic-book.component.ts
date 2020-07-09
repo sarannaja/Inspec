@@ -93,7 +93,6 @@ export class CreateElectronicBookComponent implements OnInit {
     this.getCentralPolicy();
   }
 
-
   goBack() {
     window.history.back();
   }

@@ -65,6 +65,7 @@ export class ProgramTrainingComponent implements OnInit {
 
     };
     this.Form = this.fb.group({
+      programtype: new FormControl(null, [Validators.required]),
       programdate: new FormControl(null, [Validators.required]),
       mStart: new FormControl(null, [Validators.required]),
       mEnd: new FormControl(null, [Validators.required]),
@@ -74,13 +75,20 @@ export class ProgramTrainingComponent implements OnInit {
 
     })
 
+    //table program
     this.trainingservice.getprogramtraining(this.trainingid)
       .subscribe(result => {
         this.resulttraining = result
         this.loading = true
+        console.log(result[0].trainingPhase.startDate);
+        console.log(result[0].trainingPhase.endDate);
+
+        this.dateOptionF(this.startdate, this.enddate)
+        
         //console.log(this.resulttraining);
       })
 
+    //dropdown lecturer
     this.trainingservice.gettraininglecturer()
       .subscribe(result => {
         this.resultlecturer = result
@@ -91,8 +99,10 @@ export class ProgramTrainingComponent implements OnInit {
 
       })
 
+    
     this.trainingservice.getdetailtraining(this.trainingid)
       .subscribe(result => {
+        
         if (result.length != 0) {
           this.startdate = result[0].startDate
           this.enddate = result[0].endDate
@@ -145,9 +155,6 @@ export class ProgramTrainingComponent implements OnInit {
      })
 
   }
-
-
-
 
 
 

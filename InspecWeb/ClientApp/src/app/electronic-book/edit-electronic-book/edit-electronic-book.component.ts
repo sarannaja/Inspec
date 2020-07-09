@@ -421,12 +421,12 @@ export class EditElectronicBookComponent implements OnInit {
 
   getCalendarFile() {
     // alert(this.electronicbookid)
-    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
-      this.carlendarFile = res.carlendarFile;
-      this.signatureFile = res.signatureFile;
-      console.log("calendarFile: ", res);
+    // this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+    //   this.carlendarFile = res.carlendarFile;
+    //   this.signatureFile = res.signatureFile;
+    //   console.log("calendarFile: ", res);
 
-    })
+    // })
   }
   getElectronikbookFile() {
     this.electronicBookService.getElectronicbookFile(this.electronicbookid).subscribe(res => {

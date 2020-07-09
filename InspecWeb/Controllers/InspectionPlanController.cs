@@ -95,11 +95,17 @@ namespace InspecWeb.Controllers
             //           //.ThenInclude(m => m.SubjectCentralPolicyProvinces)
             //           .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
 
+            var fiscalyearData = _context.FiscalYears
+                                 .OrderByDescending(x => x.Year)
+                                 .FirstOrDefault();
+
             return _context.CentralPolicies
                        .Include(m => m.CentralPolicyProvinces)
                        .ThenInclude(m => m.SubjectCentralPolicyProvinces)
+                       //.Include(m => m.FiscalYear)
                        //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")))
                        //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
+                       .Where(m => m.FiscalYearId == fiscalyearData.Id)
                        .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid))
                        .ToList();
         }
@@ -308,6 +314,30 @@ namespace InspecWeb.Controllers
             _context.Entry(InspectionPlanEventsdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
+        }
+
+        // POST api/values
+        [HttpPost("editplandate")]
+        public void Editplandate(long planid, DateTime startdate,DateTime enddate)
+        {
+            var InspectionPlanEventsdata = _context.InspectionPlanEvents
+                .Find(planid);
+            InspectionPlanEventsdata.StartDate = startdate;
+            InspectionPlanEventsdata.EndDate = enddate;
+
+            _context.Entry(InspectionPlanEventsdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deleteplandate/{planid}")]
+        public void Deleteplandate(long planid)
+        {
+            var InspectionPlanEventsdata = _context.InspectionPlanEvents.Find(planid);
+
+            _context.InspectionPlanEvents.Remove(InspectionPlanEventsdata);
+            _context.SaveChanges();
         }
     }
 }

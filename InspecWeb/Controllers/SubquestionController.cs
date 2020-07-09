@@ -176,22 +176,23 @@ namespace InspecWeb.Controllers
             _context.SubquestionCentralPolicyProvinces.Add(Subquestionopendata);
             _context.SaveChanges();
 
-            //if (departmentId != null)
-            //{
-            //    long[] departmentId,
-            //    foreach (var departmentIddata in departmentId)
-            //    {
-            //        System.Console.WriteLine("in2");
-            //        var SubjectCentralPolicyProvinceGroupdata = new SubjectCentralPolicyProvinceGroup
-            //        {
-            //            ProvincialDepartmentId = departmentIddata,
-            //            SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
-            //        };
-            //        _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroupdata);
-            //        _context.SaveChanges();
 
-            //    }
-            //}
+            var subquestiondata = _context.SubquestionCentralPolicyProvinces
+                .Where(m => m.SubjectCentralPolicyProvinceId == SubjectCentralPolicyProvinceId).FirstOrDefault();
+
+            var SubjectCentralPolicyProvinceGroupdatas = _context.SubjectCentralPolicyProvinceGroups
+                .Where(m => m.SubquestionCentralPolicyProvinceId == subquestiondata.Id).ToList();
+
+            foreach (var SubjectCentralPolicyProvinceGroupdata in SubjectCentralPolicyProvinceGroupdatas)
+            {
+                var SubjectCentralPolicyProvinceGroup = new SubjectCentralPolicyProvinceGroup
+                {
+                    SubquestionCentralPolicyProvinceId = Subquestionopendata.Id,
+                    ProvincialDepartmentId = SubjectCentralPolicyProvinceGroupdata.ProvincialDepartmentId,
+                };
+                _context.SubjectCentralPolicyProvinceGroups.Add(SubjectCentralPolicyProvinceGroup);
+                _context.SaveChanges();
+            }
 
             foreach (var answerclosedata in answerclose)
             {

@@ -96,15 +96,6 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
       
     })
 
-    // this.userservice.getuserfirstdata(0).subscribe(result => {
-    //    alert(JSON.stringify(result))
-    //   this.resultpeople = result
-    //   console.log(this.resultpeople);
-    //   this.selectpeople = this.resultpeople.map((item, index) => {
-    //     return { value: item.id, label: item.name }
-    //   })
-    // })
-    //alert(this.trainingid);
 
     this.trainingservice.getdetailtraining(this.trainingid)
     .subscribe(result => {
@@ -123,12 +114,6 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
       //console.log(this.resulttraining);
     })
 
-    this.trainingservice.gettrainingdata()
-    .subscribe(result => {
-      this.resulttraining2 = result
-      this.loading = true;
-      //console.log(this.resulttraining);
-    })
   }
 
 //start getuser

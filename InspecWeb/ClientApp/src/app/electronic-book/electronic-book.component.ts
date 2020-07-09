@@ -81,6 +81,7 @@ export class ElectronicBookComponent implements OnInit {
   deleteElectronicBook() {
     this.electronicBookService.deleteElectronicBook(this.delid).subscribe(result => {
       console.log('Delete Res: ', result);
+      this.loading = false;
       this.modalRef.hide();
       this.getElectronicBook();
     });

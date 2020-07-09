@@ -141,7 +141,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
         this.provincename = result.provincedata.name
         this.provinceid = result.provincedata.id
 
-        this.getCalendarFile();
+        // this.getCalendarFile();
       })
   }
 
@@ -182,12 +182,12 @@ export class AcceptCentralPolicyComponent implements OnInit {
       })
     })
   }
-  getCalendarFile() {
-    this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
-      this.carlendarFile = res;
-      console.log("calendarFile: ", res);
+  // getCalendarFile() {
+  //   this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
+  //     this.carlendarFile = res;
+  //     console.log("calendarFile: ", res);
 
-    })
-  }
+  //   })
+  // }
 
 }

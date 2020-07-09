@@ -45,6 +45,10 @@ namespace InspecWeb.Data
         public DbSet<TrainingDocument> TrainingDocuments { get; set; }
         public DbSet<TrainingSurveyAnswer> TrainingSurveyAnswers { get; set; }
         public DbSet<TrainingLecturer> TrainingLecturers { get; set; }
+        public DbSet<TrainingRegisterGroup> TrainingRegisterGroups { get; set; }
+        public DbSet<TrainingPhase> TrainingPhases { get; set; }
+        public DbSet<TrainingCondition> TrainingConditions { get; set; }
+        
         //------------------------------
 
         public DbSet<Subquestion> Subquestions { get; set; }
@@ -122,7 +126,14 @@ namespace InspecWeb.Data
         public DbSet<ElectronicBookInvite> ElectronicBookInvites { get; set; }
         
         public DbSet<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
+        public DbSet<ElectronicBookProvinceApproveFile> ElectronicBookProvinceApproveFiles { get; set; }
+        public DbSet<AnswerSubquestionStatus> AnswerSubquestionStatuses { get; set; }
 
+        public DbSet<ExecutiveOrderAnswer> ExecutiveOrderAnswers { get; set; }
+        
+
+        public DbSet<CalendarFile> CalendarFiles { get; set; }
+        public DbSet<SubjectEventFile> SubjectEventFiles { get; set; }
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -252,6 +263,48 @@ namespace InspecWeb.Data
             .HasOne(p => p.SubquestionCentralPolicyProvince)
             .WithMany(b => b.AnswerSubquestionOutsiders)
             .HasForeignKey(p => p.SubquestionCentralPolicyProvinceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            //ElectronicBook Cascade//
+            builder.Entity<ElectronicBookFile>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookFiles)
+            .HasForeignKey(p => p.ElectronicBookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ElectronicBookSuggestGroup>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookSuggestGroups)
+            .HasForeignKey(p => p.ElectronicBookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ElectronicBookGroup>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookGroups)
+            .HasForeignKey(p => p.ElectronicBookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ElectronicBookAccept>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookAccepts)
+            .HasForeignKey(p => p.ElectronicBookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+             builder.Entity<ElectronicBookInvite>()
+            .HasOne(p => p.ElectronicBook)
+            .WithMany(b => b.ElectronicBookInvites)
+            .HasForeignKey(p => p.ElectronicBookId);
+            //InspectionPlanEvent Cascade//
+            builder.Entity<CentralPolicyEvent>()
+            .HasOne(p => p.InspectionPlanEvent)
+            .WithMany(b => b.CentralPolicyEvents)
+            .HasForeignKey(p => p.InspectionPlanEventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CentralPolicyUser>()
+            .HasOne(p => p.InspectionPlanEvent)
+            .WithMany(b => b.CentralPolicyUsers)
+            .HasForeignKey(p => p.InspectionPlanEventId)
             .OnDelete(DeleteBehavior.Cascade);
 
             //.WithOne(b => b.CentralPolicy)
