@@ -1,0 +1,159 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">รายงานผลการตรวจ</a></li>
+      <li class="breadcrumb-item active" aria-current="page">รายละเอียดรายงานผลการตรวจ</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">รายละเอียด</h4>
+        <div class="form-group col-12" style="margin-top: 20px;">
+          <u>แผนการตรวจราชการประจำปี</u>
+          <div *ngFor="let item of reportData.importData.importReportGroups; let i = index">
+            <label style="margin-left: 5px;" for="">{{i + 1}}) {{ item.centralPolicyEvent.centralPolicy.title}}</label>
+          </div>
+          <div>
+            <u>ประเภทรายงาน:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.centralPolicyType}}</label>
+          </div>
+          <div>
+            <u>ประเภทการออกรายงาน:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.reportType}}</label>
+          </div>
+          <div>
+            <u>รอบการตรวจราชการ:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.inspectionRound}}</label>
+          </div>
+          <div>
+            <u>ปีงบประมาณ:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.fiscalYear.year}}</label>
+          </div>
+          <div>
+            <u>เขตตรวจราชการ:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.region.name}}</label>
+          </div>
+          <div>
+            <u>จังหวัด:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.province.name}}</label>
+          </div>
+          <div>
+            <u>ผู้ออกรายงาน:</u>
+            <label>&nbsp;&nbsp;{{reportData.importData.user.prefix}} {{reportData.importData.user.name}} - {{reportData.importData.user.departments.name}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group col-12">
+          <div class="col-10" style="margin-bottom: 20px;" *ngIf="checkCommanded == true">
+            <h4>ข้อสั่งการ</h4>
+            <div *ngFor="let item of reportData.importData.reportCommanders">
+            <textarea *ngIf="item.userCommanderId == userid" class="form-control" name="" id="" cols="30" rows="5"
+              [(ngModel)]="item.command" readonly></textarea>
+            </div>
+            <br>
+            <hr>
+          </div>
+          <div class="col-10">
+            <h4>หัวข้อการตรวจติดตาม</h4>
+            <input class="form-control" type="text" [(ngModel)]="reportData.importData.monitoringTopics" readonly>
+          </div>
+          <div class="col-10" style="margin-top: 15px;">
+            <h4>สรุปผลการตรวจราชการ</h4>
+            <textarea class="form-control" name="" id="" cols="30" rows="5"
+              [(ngModel)]="reportData.importData.detailReport" readonly></textarea>
+          </div>
+          <div class="col-10" style="margin-top: 15px;">
+            <h4>ข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ</h4>
+            <textarea class="form-control" name="" id="" cols="30" rows="5"
+              [(ngModel)]="reportData.importData.suggestion" readonly></textarea>
+          </div>
+          <div class="col-10" style="margin-top: 15px;">
+            <h4>ข้อสั่งการของผู้บังคับบัญชา</h4>
+            <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="reportData.importData.command"
+              readonly></textarea>
+          </div>
+          <div class="col-10" style="margin-top: 15px;">
+            <label for="">ไฟล์แนบรายงานผลการตรวจ</label>
+            <div class="row" *ngFor="let item of reportData.importData.importReportFiles; let i = index"
+              style="margin-left: 5px;">
+              <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                <span>ไฟล์ที่
+                  {{i+1}})
+                  {{ item.name }}<br>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="col-10" style="margin-top: 15px; text-align: center;">
+            <button *ngIf="checkCommanded == false" style="margin-right: 10px;" class="btn btn-primary"
+              (click)="openModal(commandModal)">บันทึกข้อสั่งการ</button>
+            <button class="btn btn-danger" (click)="back()">กลับ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #confirmModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      บันทึกข้อสั่งการ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการบันทึกข้อสั่งการในรายงานผลการตรวจใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="sendToCommander()">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #commandModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="commandForm" (ngSubmit)="sendCommand(commandForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">บันทึกข้อสั่งการ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-12" style="padding-left: 0;">
+              <div class="form-group">
+                <h4><i class="fas fa-comment-dots" style="margin-right: 5px;"></i> เพิ่มข้อสั่งการ</h4>
+                <textarea cols="30" rows="5" formControlName="command" class="form-control container"
+                  placeholder="กรุณากรอกข้อสั่งการ">
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="text-align: center;">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

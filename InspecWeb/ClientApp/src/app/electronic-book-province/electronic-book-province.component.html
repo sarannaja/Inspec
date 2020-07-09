@@ -24,7 +24,11 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>ชื่อแผนตรวจราชการประจำปี</th>
+              <th>กำหนดการสมุดตรวจ</th>
+              <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
+              <!-- <th>จังหวัด</th> -->
+              <th>ผู้สร้าง</th>
+              <th>วันที่สร้าง</th>
               <th>สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -33,27 +37,17 @@
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
               <td class="pointer">
-                {{ item.centralPolicyProvince.centralPolicy.title }}</td>
-              <td>{{ item.electronicBook.status }}</td>
-
-              <td *ngIf="role_id == 5;else elseBlockblock">
+                วันที่ {{item.electronicBook.startDate | thaidate: 'year'}} ถึง
+                {{item.electronicBook.endDate | thaidate: 'year'}}</td>
+              <!-- <td>{{ item.electronicBook.detail }}</td> -->
+              <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
+              <td>{{ item.userCreate.prefix }} {{item.userCreate.name}}</td>
+              <td>{{ item.createdAt | thaidate: 'year' }}</td>
+              <td>{{ item.status }}</td>
+              <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i>
+                  (click)="gotoDetail(item.electronicBook.id)"></i>
               </td>
-
-              <ng-template #elseBlockblock>
-                <td *ngIf="countaccept[item.id] == 1;else elseBlock">
-                  <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                    (click)="gotoDetail(item.centralPolicyProvinceId, item.electronicBookId)"></i>
-                </td>
-                <ng-template #elseBlock>
-                  <td>
-                    <i class="align-middle mr-2 fas fa-fw fa-check-circle pointer"
-                      (click)="openModal(modalAccept, item.id)"></i>
-                  </td>
-                </ng-template>
-              </ng-template>
-
             </tr>
           </tbody>
         </table>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { GgcOpmComponent } from './ggc-opm/ggc-opm.component';
 import { Opm1111Component } from './opm1111/opm1111.component';
 import { OtpsComponent } from './otps/otps.component';
@@ -25,6 +25,11 @@ import { RegionComponent } from './otps/modals/region/region.component';
 import { ChartsModule } from 'ng2-charts';
 import { ProvinceOtpsComponent } from './otps/province-otps/province-otps.component';
 import { ProvinceOtpsTableComponent } from './otps/province-otps-table/province-otps-table.component';
+import { ThaiDatePipe2 } from '../services/Pipe/thaidate2.service';
+import { OpmCaseDetailComponent } from './opm1111/modals/detail-modal/detail-modal.component';
+import { OpmDetailTitleModalComponent } from './opm1111/modals/title-modal/title-modal.component';
+import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 
 
@@ -45,8 +50,10 @@ import { ProvinceOtpsTableComponent } from './otps/province-otps-table/province-
     CustomCurrencyPipe,
     RegionComponent,
     ProvinceOtpsComponent,
-    ProvinceOtpsTableComponent
-    
+    ProvinceOtpsTableComponent,
+    ThaiDatePipe2,
+    OpmCaseDetailComponent,
+    OpmDetailTitleModalComponent
   ],
   imports: [
     CommonModule,
@@ -55,11 +62,14 @@ import { ProvinceOtpsTableComponent } from './otps/province-otps-table/province-
     NgxSpinnerModule,
     ModalModule.forRoot(),
     FormsModule,
-    ChartsModule
+    ChartsModule,
+    MyDatePickerTHModule,
+    MyDateRangePickerModule
+    // MyDateRangePickerTHModule
   ],
-  exports:[MinisterModalComponent,CustomCurrencyPipe],
-  providers: [ExternalOrganizationService,CurrencyPipe],
-  entryComponents: [MinisterModalComponent,RegionComponent]
+  exports:[MinisterModalComponent,CustomCurrencyPipe,ThaiDatePipe2],
+  providers: [ExternalOrganizationService,CurrencyPipe,DatePipe],
+  entryComponents: [MinisterModalComponent,RegionComponent,OpmCaseDetailComponent]
   // entryComponents:[GgcOpmComponent,Opm1111Component,OtpsComponent],
   // exports: [GgcOpmComponent, Opm1111Component, OtpsComponent, MinisterTableComponent],
 })

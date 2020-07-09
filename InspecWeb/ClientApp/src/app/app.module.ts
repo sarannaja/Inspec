@@ -153,9 +153,15 @@ import { RequestOrderExport3Component } from './request-order/request-order-expo
 
 import { LogComponent } from './log/log.component';
 import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
+<<<<<<< HEAD
+import { ElectronicBookProvinceDetailComponent } from './electronic-book-province/electronic-book-province-detail/electronic-book-province-detail.component';
+import { ReportImportDeatailComponent } from './report-import/report-import-deatail/report-import-deatail.component';
+import { CommanderReportDetailComponent } from './commander-report/commander-report-detail/commander-report-detail.component';
+=======
 import { InspectionPlanMinistryComponent } from './inspection-plan-ministry/inspection-plan-ministry.component';
 import { DetailCentralPolicyProvinceMinistryComponent } from './central-policy/detail-central-policy-province-ministry/detail-central-policy-province-ministry.component';
 import { ExternalRegisterComponent } from './external-register/external-register.component';
+>>>>>>> palmmerge
 
 
 
@@ -302,9 +308,15 @@ const ExternalOrganization = [
     RequestOrderExport3Component,
     LogComponent,
     AnswerSubjectEditComponent,
+<<<<<<< HEAD
+    ElectronicBookProvinceDetailComponent,
+    ReportImportDeatailComponent,
+    CommanderReportDetailComponent
+=======
     InspectionPlanMinistryComponent,
     DetailCentralPolicyProvinceMinistryComponent,
     ExternalRegisterComponent,
+>>>>>>> palmmerge
   ],
 
   imports: [
@@ -466,6 +478,9 @@ const ExternalOrganization = [
           { path: 'exportrequestorderforinspector', component: RequestOrderExport3Component, canActivate: [AuthorizeGuard] },
           { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/edit/:id', component: AnswerSubjectEditComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/provincedetail/:id', component: ElectronicBookProvinceDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportimport/detail/:id', component: ReportImportDeatailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'commanderreport/detail/:id', component: CommanderReportDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

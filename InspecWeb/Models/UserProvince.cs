@@ -24,7 +24,6 @@ namespace InspecWeb.Models
         [ForeignKey("Province")]
         [Description("FK: จังหวัด")]
         public long ProvinceId { get; set; }
-
         public virtual Province Province { get; set; }
     }
    

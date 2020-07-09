@@ -32,9 +32,14 @@ export class ReportImportComponent implements OnInit {
   importedReport: any = [];
   subjectData: any = [];
   fileFormExcel: FormGroup;
-  downloadUrl: any
-  commandData: any;
-  commandForm: FormGroup;
+  downloadUrl: any;
+  centralPolicyEvent: any = [];
+  fiscalYearId: any;
+  fiscalYearData: any = [];
+  regionData: any = [];
+  provinceData: any = [];
+  reportId: any;
+  form: FormGroup;
 
   constructor(
     private router: Router,
@@ -50,13 +55,7 @@ export class ReportImportComponent implements OnInit {
     private fb: FormBuilder,
   ) {
     this.url = baseUrl,
-      this.fileForm = this.fb.group({
-        files: [null]
-      })
-    this.fileFormExcel = this.fb.group({
-      fileExcel: [null]
-    })
-    this.downloadUrl = baseUrl + '/Uploads';
+      this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {
@@ -80,83 +79,87 @@ export class ReportImportComponent implements OnInit {
     };
 
     this.getImportedReport();
-    this.getSubjectData();
+    this.getCentralPolicyEvent();
+    this.getImportFiscalYears();
 
     this.reportForm = this.fb.group({
-      Subject: new FormControl(null, [Validators.required]),
-      TypeExport: new FormControl(null, [Validators.required]),
-      TypeReport: new FormControl(null, [Validators.required]),
+      centralPolicyEvent: new FormControl(null, [Validators.required]),
+      centralPolicyType: new FormControl(null, [Validators.required]),
+      reportType: new FormControl(null, [Validators.required]),
+      inspectionRound: new FormControl(null, [Validators.required]),
+      fiscalYear: new FormControl(null, [Validators.required]),
+      region: new FormControl(null, [Validators.required]),
+      province: new FormControl(null, [Validators.required]),
+      monitoringTopics: new FormControl(null, [Validators.required]),
+      detailReport: new FormControl(null, [Validators.required]),
+      suggestion: new FormControl(null, [Validators.required]),
+      command: new FormControl(null, [Validators.required]),
     })
 
-    this.commandForm = this.fb.group({
-      command: new FormControl(null, [Validators.required]),
-      commander: new FormControl(null, [Validators.required])
+    this.form = this.fb.group({
+      files: [null]
     })
   }
 
   getImportedReport() {
     this.exportReportService.getImportedReport(this.userid).subscribe(res => {
-      console.log("importReport: ", res.data);
-      this.importedReport = res.data;
+      console.log("importReport: ", res);
+      this.importedReport = res;
       this.loading = true;
     })
   }
 
-  getSubjectData() {
-    this.exportReportService.getSubjectReport().subscribe(results => {
-      console.log("resSubject: ", results);
-      this.subjectData = results.data.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
-    })
-  }
-
-  gotoDetail(id, elecId) {
-    this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
+  gotoDetail(id) {
+    this.router.navigate(['/reportimport/detail/' + id])
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  uploadFileWord(event) {
-    const file = (event.target as HTMLInputElement).files;
-    this.fileForm.patchValue({
-      files: file
-    });
-    this.fileForm.get('files').updateValueAndValidity()
+  openExportModal(template: TemplateRef<any>, reportId) {
+    this.modalRef = this.modalService.show(template);
+    this.reportId = reportId;
   }
 
-  uploadFileExcel(event) {
-    const file = (event.target as HTMLInputElement).files;
-    this.fileFormExcel.patchValue({
-      fileExcel: file
-    });
-    this.fileForm.get('files').updateValueAndValidity()
+  openEditModal(template: TemplateRef<any>, reportId) {
+    this.exportReportService.getImportedReportById(reportId).subscribe(res => {
+      console.log("getImportById: ", res);
+
+      this.reportForm.patchValue({
+        centralPolicyEvent: res.importData.importReportGroups.map((item, index) => {
+          return (item.centralPolicyEvent.centralPolicyId.toString())
+        }),
+        centralPolicyType: res.importData.centralPolicyType,
+        reportType: res.importData.reportType,
+        inspectionRound: res.importData.inspectionRound,
+        fiscalYear: res.importData.fiscalYearId.toString(),
+        monitoringTopics: res.importData.monitoringTopics,
+        detailReport: res.importData.detailReport,
+        suggestion: res.importData.suggestion,
+        command: res.importData.command,
+      })
+    })
+
+    this.modalRef = this.modalService.show(template);
   }
 
   storeReport(value) {
     console.log("Report Value: ", value);
-    this.exportReportService.postImportedReport(value, this.fileForm.value.files, this.fileFormExcel.value.fileExcel, this.userid).subscribe(res => {
-      this.modalRef.hide();
-      this.fileForm.reset();
+    this.exportReportService.postImportReport(value, this.userid, this.form.value.files).subscribe(res => {
       this.reportForm.reset();
-      this.fileFormExcel.reset();
-      console.log("res ID: ", res);
+      this.loading = false;
+      this.getImportedReport();
+      this.modalRef.hide();
 
-      this.spinner.show();
-      setTimeout(() => {
-        this.loading = false;
-        this.getImportedReport();
-        this.loading = true;
-        this.spinner.hide();
-      }, 300);
-
-      this.notificationService.addNotification(1, 1, this.userid, 14, res.importId)
-      .subscribe(response => {
-        console.log("Noti: ", response);
-      });
+      // this.notificationService.addNotification(1, 1, this.userid, 14, res.importId)
+      //   .subscribe(response => {
+      //     console.log("Noti: ", response);
+      //   });
     })
+  }
+
+  editReport(value) {
   }
 
   openDeleteModal(template: TemplateRef<any>, id) {
@@ -174,26 +177,112 @@ export class ReportImportComponent implements OnInit {
       this.spinner.show();
 
       setTimeout(() => {
+        this.loading = false;
         this.getImportedReport();
         this.spinner.hide();
       }, 300);
     })
   }
 
-  showCommandModal(template: TemplateRef<any>, id) {
-    this.exportReportService.getCommanderReportById(id).subscribe(res => {
-      // this.commandData = res.data.command;
-      console.log("Commander: ", res.commanderName);
-      this.commandForm.patchValue({
-        command: res.data.command,
-        commander: res.commanderName.name
+  closeModal() {
+    this.modalRef.hide();
+  }
+
+  getCentralPolicyEvent() {
+    this.electronicBookService.getCentralPolicyEbook().subscribe(res => {
+      console.log("cenData: ", res);
+      this.centralPolicyEvent = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.centralPolicy.title + "  -  " + "จังหวัด: " + item.inspectionPlanEvent.province.name
+        }
       })
-      this.modalRef = this.modalService.show(template);
     })
   }
 
-  closeModal() {
-    this.commandForm.reset();
-    this.modalRef.hide();
+  getImportFiscalYears() {
+    this.exportReportService.getImportReportFiscalYears().subscribe(res => {
+      console.log("fiscalYear1: ", res);
+      this.fiscalYearData = res.importFiscalYear.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.year
+        }
+      })
+      console.log("fiscalYear: ", this.fiscalYearData);
+    })
   }
+
+  getImportFiscalYearRelations() {
+    this.exportReportService.getImportReportFiscalYearRelations(this.fiscalYearId).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      );
+      console.log("uniqueRegions: ", uniqueRegion);
+
+      this.regionData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      })
+
+      this.provinceData = res.importFiscalYearRelations.map((item, index) => {
+        return {
+          value: item.province.id,
+          label: item.province.name
+        }
+      })
+    })
+  }
+
+  selectFiscalYear(value) {
+    this.fiscalYearId = value.value;
+    this.getImportFiscalYearRelations();
+  }
+
+  exportReport() {
+    this.exportReportService.getImportedReportById(this.reportId).subscribe(res => {
+      console.log("reportById: ", res);
+      // var data: any = [];
+      // this.exportData = res.importData.importReportGroups.map((item, index) => {
+      //   return {
+      //     title: item.centralPolicyEvent.centralPolicy.title,
+      //     subject: item.centralPolicyEvent.centralPolicy.centralPolicyProvinces.map((item2, index2) => {
+      //       return item2.subjectCentralPolicyProvinces
+      //     }),
+      //     centralPolicyType: res.importData.centralPolicyType,
+      //     command: res.importData.command,
+      //     detailReport: res.importData.detailReport,
+      //     fiscalYear: res.importData.fiscalYear.year,
+      //     inspectionRound: res.importData.inspectionRound,
+      //     monitoringTopics: res.importData.monitoringTopics,
+      //     province: res.importData.province.name,
+      //     region: res.importData.region.name,
+      //     reportType: res.importData.reportType,
+      //     suggestion: res.importData.suggestion
+      //   }
+      // })
+      // console.log("Data: ", this.exportData);
+
+      this.exportReportService.createReport2(res, this.reportId).subscribe(res => {
+        console.log("export: ", res);
+        window.open(this.url + "Uploads/" + res.data);
+        this.modalRef.hide();
+      })
+    })
+  }
+
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.form.patchValue({
+      files: file
+    });
+    console.log("fff:", this.form.value.files)
+    this.form.get('files').updateValueAndValidity()
+  }
+
 }

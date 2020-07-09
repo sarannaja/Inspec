@@ -373,7 +373,7 @@ export class ElectronicbookService {
     return this.http.get<any[]>(this.url + "electronicbookprovince/" + provinceId)
 
   }
-  
+
   addSubjectEventFile(value, file: FileList, electronicbookid, centralproid, signatureFiles: FileList) {
     console.log("Description: ", value.description);
     console.log("File Type: ", value.fileType);
@@ -407,6 +407,23 @@ export class ElectronicbookService {
     console.log("SERVICE EID: ", subjectgroupId);
 
     return this.http.get<any>(this.url + "getSubjectEventFile/" + subjectgroupId + "/" + cenproid)
+  }
+
+  provinceAddSignature(value, file: FileList, electId, userId) {
+    console.log("sign: ", value);
+    console.log("file: ", file);
+
+    const formData = new FormData();
+    formData.append('Description', value.description);
+    formData.append('ElectID', electId);
+    formData.append('userCreate', userId);
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+    return this.http.post<any>(this.url + "addProvinceSignature", formData)
   }
 }
 

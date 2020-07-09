@@ -14,29 +14,23 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [Required]
-        [Description("ชื่อประเด็น")]
-        public string Subject { get; set; }
+        [ForeignKey("ImportReport")]
+        [Description("FK: ImportReport")]
+        public long ImportReportId { get; set; }
+        public virtual ImportReport ImportReport { get; set; }
 
-        [Description("ประเภทการออกรายงาน")]
-        public string TypeExport { get; set; }
-
-        [Description("ประเภทรายงาน")]
-        public string TypeReport { get; set; }
-
-        [Description("ไฟล์เอกสาร Word")]
-        public string FileWord { get; set; }
-
-        [Description("ไฟล์เอกสาร Excel")]
-        public string FileExcel { get; set; }
-
-        [Description("คนอัพโหลด")]
-        public string CreateBy { get; set; }
+        public string Status { get; set; }
 
         [Description("คำสั่งการ")]
         public string Command { get; set; }
 
-        [Description("คนสั่งการ")]
-        public string Commander { get; set; }
+        [ForeignKey("User")]
+        [Description("FK: User")]
+        public string UserCommanderId { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
+        [Description("วันที่สร้าง")]
+        [DataType(DataType.Date)]
+        public DateTime? CreateAt { get; set; }
     }
 }
