@@ -55,28 +55,28 @@ export class UserService {
      // alert(userData.Role_id);
       //console.log("servicelog: ", userData);
       const formData = new FormData();
-      formData.append('Email', userData.Email); //email   
+      formData.append('Email', userData.Email); //email
       formData.append('Role_id', userData.Role_id); //role
       formData.append('Prefix', userData.Prefix); //คำนำหน้า
       formData.append('Name', userData.Name); //ชื่อ
       formData.append('Position', userData.Position);//ตำแหน่ง
       formData.append('Educational','');
-      //formData.append('Birthday',''); 
-      formData.append('Officephonenumber',''); 
-      formData.append('PhoneNumber',userData.PhoneNumber); 
-      formData.append('Telegraphnumber',''); 
-      formData.append('Housenumber',''); 
-      formData.append('Rold',''); 
-      formData.append('Alley',''); 
-      formData.append('Postalcode',''); 
-      formData.append('Side',''); 
-      formData.append('Img',''); 
+      //formData.append('Birthday','');
+      formData.append('Officephonenumber','');
+      formData.append('PhoneNumber',userData.PhoneNumber);
+      formData.append('Telegraphnumber','');
+      formData.append('Housenumber','');
+      formData.append('Rold','');
+      formData.append('Alley','');
+      formData.append('Postalcode','');
+      formData.append('Side','');
+      formData.append('Img','');
       formData.append('startdate', userData.Startdate.date.year + '-' + userData.Startdate.date.month + '-' + userData.Startdate.date.day);
       formData.append('enddate', userData.Enddate.date.year + '-' + userData.Enddate.date.month + '-' + userData.Enddate.date.day);
-   
+
       if(userData.UserRegion != null){
         for (var i = 0; i < userData.UserRegion.length; i++) {
-          formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน  
+          formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน
         }
       }else{
         formData.append('UserRegion', '1');
@@ -127,7 +127,7 @@ export class UserService {
       }
 
       for (var iii = 0; iii < file.length; iii++) {
-        
+
         formData.append("files", file[iii]);
       }
 

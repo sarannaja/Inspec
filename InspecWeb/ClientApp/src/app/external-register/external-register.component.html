@@ -42,14 +42,14 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+      <form [formGroup]="addForm" (ngSubmit)="adduser(addForm.value)">
         <div class="">
-          <h1><label>ใบสมัครหลักสูตร{{ name }}</label></h1>
-          <!-- <label>{{ createdAt | thaidate:'year'}}</label> -->
+          <!-- <h1><label>ใบสมัครหลักสูตร{{ name }}</label></h1>
+          <label>{{ createdAt | thaidate:'year'}}</label>
           <h2 class="text-center">สมัครฝึกอบรม</h2>
           <div class="container col-10">
 
-          </div>
+          </div> -->
 
           <div class="container col-10 rounded-lg border">
 
@@ -137,7 +137,7 @@
 
         <br>
         <div class="text-center">
-          <a href="{{ mainUrl }}train/detail/{{ trainingid }}" class="btn btn-secondary" style="color:white">ย้อนกลับ</a>
+          <button type="button" (click)="back()" class="btn btn-secondary" style="color:white">ย้อนกลับ</button>
           &nbsp;&nbsp;
           <button type="submit" class="btn btn-primary">ยืนยันการสมัคร</button>
         </div>

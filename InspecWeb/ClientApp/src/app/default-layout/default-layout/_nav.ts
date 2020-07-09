@@ -1446,20 +1446,21 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     IDchildren: 'electronicbook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-  },
-  {
-    IDchildren: 'training_private',
-    icon: 'fa-shekel-sign',
-    name: "การฝึกอบรมหลักสูตร",
-    children: [
-      
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/training',
-        name: 'สมัครฝึกอบรม'
-      },
-    ]
+    url: '/electronicbook/invited',
+    // children: [
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/electronicbook',
+    //     name: 'สร้างเอง'
+    //   },
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/electronicbook/invited',
+    //     name: 'ถูกเชิญ'
+    //   },
+    // ]
   },
   // {
   //   icon: 'fa-book',

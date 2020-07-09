@@ -152,12 +152,16 @@ import { RequestOrderExport1Component } from './request-order/request-order-expo
 import { RequestOrderExport3Component } from './request-order/request-order-export3/request-order-export3.component';
 
 import { LogComponent } from './log/log.component';
-import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
 // import { AnswerCentralPolicyProvinceEditComponent } from './answer-subject/answer-central-policy-province-edit/answer-central-policy-province-edit.component';
-import { InspectionPlanMinistryComponent } from './inspection-plan-ministry/inspection-plan-ministry.component';
+
+import { AnswerCentralPolicyProvinceEditComponent } from './answer-subject/answer-central-policy-province-edit/answer-central-policy-province-edit.component';
+import { ElectronicBookProvinceDetailComponent } from './electronic-book-province/electronic-book-province-detail/electronic-book-province-detail.component';
+import { ReportImportDeatailComponent } from './report-import/report-import-deatail/report-import-deatail.component';
+import { CommanderReportDetailComponent } from './commander-report/commander-report-detail/commander-report-detail.component';
 import { DetailCentralPolicyProvinceMinistryComponent } from './central-policy/detail-central-policy-province-ministry/detail-central-policy-province-ministry.component';
 import { ExternalRegisterComponent } from './external-register/external-register.component';
-import { AnswerCentralPolicyProvinceEditComponent } from './answer-subject/answer-central-policy-province-edit/answer-central-policy-province-edit.component';
+import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
+import { InspectionPlanMinistryComponent } from './inspection-plan-ministry/inspection-plan-ministry.component';
 
 
 
@@ -305,6 +309,9 @@ const ExternalOrganization = [
     LogComponent,
     AnswerSubjectEditComponent,
     AnswerCentralPolicyProvinceEditComponent,
+    ElectronicBookProvinceDetailComponent,
+    ReportImportDeatailComponent,
+    CommanderReportDetailComponent,
     InspectionPlanMinistryComponent,
     DetailCentralPolicyProvinceMinistryComponent,
     ExternalRegisterComponent,
@@ -470,6 +477,9 @@ const ExternalOrganization = [
           { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/edit/:id', component: AnswerSubjectEditComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/editcentralpolicyprovince/:result', component: AnswerCentralPolicyProvinceEditComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/provincedetail/:id', component: ElectronicBookProvinceDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportimport/detail/:id', component: ReportImportDeatailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'commanderreport/detail/:id', component: CommanderReportDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

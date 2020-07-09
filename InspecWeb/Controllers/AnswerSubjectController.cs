@@ -92,7 +92,7 @@ namespace InspecWeb.Controllers
             List<long> termsList3 = new List<long>();
 
             var test = _context.SubjectCentralPolicyProvinceGroups
-                .Where(x => x.ProvincialDepartmentId == provincialdepartment.Id)
+                .Where(x => x.ProvincialDepartmentId == userdata.ProvincialDepartmentId)
                 .GroupBy(g => new
                 {
                     //subjectPolicyProvinceId = g.SubjectCentralPolicyProvinceId,
@@ -294,7 +294,7 @@ namespace InspecWeb.Controllers
                         .ThenInclude(m => m.ProvincialDepartment)
                         .Where(m => m.SubjectGroupId == id && m.Type == "NoMaster")
                         //.Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster")
-                        .Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id)))
+                        .Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId)))
                         .ToList();
 
                 //var subjectdata = _context.SubjectCentralPolicyProvinces

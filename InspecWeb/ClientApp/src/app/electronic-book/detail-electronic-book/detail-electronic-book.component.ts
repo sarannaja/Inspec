@@ -32,6 +32,7 @@ export class DetailElectronicBookComponent implements OnInit {
   allMinistry: any = [];
   approveMinistry: any = [];
   provinceId: any = [];
+  downloadUrl: any;
 
   constructor(
     private fb: FormBuilder,
@@ -48,7 +49,7 @@ export class DetailElectronicBookComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id')
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
-
+    this.downloadUrl = baseUrl + '/Uploads';
   }
 
   ngOnInit() {
@@ -71,7 +72,12 @@ export class DetailElectronicBookComponent implements OnInit {
       suggestion: new FormControl(null, [Validators.required]),
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       user: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      provinceDetail: new FormControl(null, [Validators.required]),
     })
+
+    // this.provinceForm = this.fb.group({
+    //   provinceDetail: new FormControl(null, [Validators.required]),
+    // })
 
     this.suggestionForm = this.fb.group({
       suggestion: new FormControl(null, [Validators.required]),
@@ -108,16 +114,21 @@ export class DetailElectronicBookComponent implements OnInit {
       this.getInvitedPeople(this.inspectionPlanEventId);
 
       this.electronicBookData = result;
+      console.log("eBookDetail: ", this.electronicBookData);
+
+      // this.provinceForm.patchValue({
+      //   provinceDetail: this.electronicBookData.electronicBookAccept.description
+      // })
 
       this.electronicBookData.ebookInvite.forEach(element => {
-        if (element.user.role_id == 6) {
+        if (element.user.role_id == 6 || element.user.role_id == 10) {
           this.allMinistry.push(element)
         }
       });
       console.log("All: ", this.allMinistry.length);
 
       this.electronicBookData.ebookInvite.forEach(element => {
-        if (element.user.role_id == 6 && element.status == "ลงความเห็นแล้ว") {
+        if (element.user.role_id == 6 || element.user.role_id == 10 && element.status == "ลงความเห็นแล้ว") {
           this.approveMinistry.push(element)
         }
       });
@@ -128,7 +139,8 @@ export class DetailElectronicBookComponent implements OnInit {
       this.Form.patchValue({
         detail: result.electronicBook.detail,
         problem: result.electronicBook.problem,
-        suggestion: result.electronicBook.suggestion
+        suggestion: result.electronicBook.suggestion,
+        provinceDetail: this.electronicBookData.electronicBookAccept.description
       })
     })
   }
@@ -196,6 +208,7 @@ export class DetailElectronicBookComponent implements OnInit {
   sendToProvince(electId) {
     this.electronicBookService.sendToProvince(electId, this.userid, this.provinceId).subscribe(res => {
       console.log("sended: ", res);
+      this.getElectronicBookDetail();
       this.modalRef.hide();
     })
   }

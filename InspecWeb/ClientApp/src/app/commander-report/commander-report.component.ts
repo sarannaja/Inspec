@@ -35,6 +35,7 @@ export class CommanderReportComponent implements OnInit {
   downloadUrl: any;
   reportId: any;
   commandData: any;
+  provinceId: any;
 
   constructor(
     private router: Router,
@@ -64,6 +65,11 @@ export class CommanderReportComponent implements OnInit {
       .subscribe(result => {
         this.userid = result.sub
         console.log(result);
+
+        var data: any = [];
+        data = result;
+        this.provinceId = data.user.provinceId;
+
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.role_id = result[0].role_id
@@ -80,7 +86,6 @@ export class CommanderReportComponent implements OnInit {
     };
 
     this.getCommanderReport();
-    this.getSubjectData();
 
     this.commandForm = this.fb.group({
       command: new FormControl(null, [Validators.required])
@@ -88,79 +93,36 @@ export class CommanderReportComponent implements OnInit {
   }
 
   getCommanderReport() {
-    this.exportReportService.getCommanderReport().subscribe(res => {
-      console.log("commanderReport: ", res.data);
-      this.importedReport = res.data;
+    this.exportReportService.getCommanderReportById(this.provinceId).subscribe(res => {
+      console.log("commanderReport: ", res);
+      this.importedReport = res;
       this.loading = true;
     })
   }
 
-  getSubjectData() {
-    this.exportReportService.getSubjectReport().subscribe(results => {
-      console.log("resSubject: ", results);
-      this.subjectData = results.data.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
-    })
-  }
-
-  gotoDetail(id, elecId) {
-    this.router.navigate(['/electronicbook/detail/' + id, { electronicBookId: elecId }])
+  gotoDetail(id) {
+    this.router.navigate(['/commanderreport/detail/' + id])
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
-  uploadFileWord(event) {
-    const file = (event.target as HTMLInputElement).files;
-    this.fileForm.patchValue({
-      files: file
-    });
-    this.fileForm.get('files').updateValueAndValidity()
-  }
+  // storeCommand(value) {
+  //   this.exportReportService.sendCommand(value, this.reportId, this.userid).subscribe(res => {
+  //     this.commandForm.reset();
+  //     this.getCommanderReport();
+  //     this.modalRef.hide();
 
-  uploadFileExcel(event) {
-    const file = (event.target as HTMLInputElement).files;
-    this.fileFormExcel.patchValue({
-      fileExcel: file
-    });
-    this.fileForm.get('files').updateValueAndValidity()
-  }
-
-  storeCommand(value) {
-    this.exportReportService.sendCommand(value, this.reportId, this.userid).subscribe(res => {
-      this.commandForm.reset();
-      this.getCommanderReport();
-      this.modalRef.hide();
-
-      console.log("Command RES: ", res);
+  //     console.log("Command RES: ", res);
 
 
-      this.notificationService.addNotification(1, 1, res.createBy, 15, res.id)
-      .subscribe(response => {
-        console.log("Noti: ", response);
-      });
-    })
-  }
-
-  openCommandModal(template: TemplateRef<any>, id) {
-    this.reportId = id;
-
-    this.modalRef = this.modalService.show(template);
-  }
-
-  showCommandModal(template: TemplateRef<any>, id) {
-    this.exportReportService.getCommanderReportById(id).subscribe(res => {
-      this.commandData = res.data.command;
-      console.log("Command: ", res.data);
-      this.commandForm.patchValue({
-        command: this.commandData
-      })
-      this.modalRef = this.modalService.show(template);
-    })
-
-  }
+  //     this.notificationService.addNotification(1, 1, res.createBy, 15, res.id)
+  //     .subscribe(response => {
+  //       console.log("Noti: ", response);
+  //     });
+  //   })
+  // }
 
   closeModal() {
     this.commandForm.reset();

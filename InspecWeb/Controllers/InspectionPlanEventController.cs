@@ -327,22 +327,43 @@ namespace InspecWeb.Controllers
         public IActionResult GetExcelCalendarRegion(long id)
         {
 
-            List<object> data = new List<object>();
+            //List<object> data = new List<object>();
+            //var regions = _context.FiscalYearRelations
+            //    .Where(m => m.RegionId == id).ToList();
+
+            //foreach (var region in regions)
+            //{
+            //    var calendar = _context.CentralPolicyProvinces
+            //        .Include(x => x.CentralPolicy)
+            //        .Include(x => x.Province)
+            //        .Where(m => m.ProvinceId == region.ProvinceId)
+            //        .ToList();
+
+            //    data.Add(calendar);
+            //}
+
+            //return Ok(new { data });
             var regions = _context.FiscalYearRelations
                 .Where(m => m.RegionId == id).ToList();
 
+            List<object> calendar = new List<object>();
             foreach (var region in regions)
             {
-                var calendar = _context.CentralPolicyProvinces
-                    .Include(x => x.CentralPolicy)
-                    .Include(x => x.Province)
-                    .Where(m => m.ProvinceId == region.ProvinceId)
-                    .ToList();
-
-                data.Add(calendar);
+                var data = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.User)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.CentralPolicyUsers)
+                .ThenInclude(m => m.User)
+                .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
+                .Where(m => m.InspectionPlanEvent.RoleCreatedBy == "3")
+                .ToList();
+                calendar.Add(data);
             }
 
-            return Ok(new { data });
+            return Ok(new { calendar = calendar[0] });
+
         }
 
         // GET: api/ElectronicBook
@@ -355,24 +376,105 @@ namespace InspecWeb.Controllers
             //    .Where(m => m.ProvinceId == id)
             //    .ToList();
 
-            var calendar = _context.InspectionPlanEvents
-                               .Include(m => m.Province)
-                               .Include(m => m.CentralPolicyEvents)
-                               .ThenInclude(m => m.CentralPolicy)
-                               .ThenInclude(m => m.CentralPolicyProvinces)
-                               .Include(m => m.CentralPolicyEvents)
-                               .ThenInclude(m => m.CentralPolicy)
-                               .ThenInclude(m => m.CentralPolicyUser)
-                               .ThenInclude(m => m.User)
-                               .Where(m => m.ProvinceId == id)
+            //var calendar = _context.InspectionPlanEvents
+            //                   .Include(m => m.Province)
+            //                   .Include(m => m.CentralPolicyEvents)
+            //                   .ThenInclude(m => m.CentralPolicy)
+            //                   //.ThenInclude(m => m.CentralPolicyProvinces)
+            //                   //.Include(m => m.CentralPolicyEvents)
+            //                   //.ThenInclude(m => m.CentralPolicy)
+            //                   .Include(m => m.CentralPolicyUsers)
+            //                   .ThenInclude(m => m.User)
+            //                   .Include(m => m.CentralPolicyUsers)
+            //                   .ThenInclude(m => m.CentralPolicy)
+            //                   .Where(m => m.ProvinceId == id)
+            //                   .Where(m => m.RoleCreatedBy == "3")
+            //                   .ToList();
 
-                               .ToList();
+            var calendar = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.User)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.CentralPolicyUsers)
+                .ThenInclude(m => m.User)
+                .Where(m => m.InspectionPlanEvent.ProvinceId == id)
+                .Where(m => m.InspectionPlanEvent.RoleCreatedBy == "3")
+                .ToList();
 
-            //var calendar = _context.CentralPolicyEvents
-            //    .Include(m => m.CentralPolicy)
-            //    .ThenInclude(m => m.CentralPolicyUser)
-            //    .Include(m => m.InspectionPlanEvent)
-            //    .Where(m => m.InspectionPlanEvent.ProvinceId == id).ToList();
+            return Ok(new { calendar });
+        }
+
+        // GET: api/values
+        [HttpGet("getpeople")]
+        public IActionResult Getpeople()
+        {
+            var userdata = _context.Users
+                .Where(m => m.Role_id == 3)
+                .ToList();
+
+            return Ok(userdata);
+        }
+
+        // GET: api/ElectronicBook
+        [HttpGet("exportexcelcalendarpeople/{id}")]
+        public IActionResult GetExcelCalendarPeople(string id)
+        {
+            var calendar = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.User)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.CentralPolicyUsers)
+                .ThenInclude(m => m.User)
+                .Where(m => m.InspectionPlanEvent.CreatedBy == id)
+                .Where(m => m.InspectionPlanEvent.RoleCreatedBy == "3")
+                .ToList();
+
+            return Ok(new { calendar });
+        }
+
+        // GET: api/ElectronicBook
+        [HttpGet("exportexcelcalendardate")]
+        public IActionResult GetExcelCalendarDate()
+        {
+            var datetime = DateTime.Now;
+            var date = datetime.Date;
+
+            System.Console.WriteLine(date);
+
+            var calendar = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.User)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.CentralPolicyUsers)
+                .ThenInclude(m => m.User)
+                .Where(m => m.InspectionPlanEvent.StartDate == date)
+                .Where(m => m.InspectionPlanEvent.RoleCreatedBy == "3")
+                .ToList();
+
+            //System.Console.WriteLine(calendar.StartDate);
+
+            return Ok(new { calendar });
+        }
+
+        // GET: api/ElectronicBook
+        [HttpGet("exportexcelcalendardepartment/{id}")]
+        public IActionResult GetExcelCalendarDepartment(long id)
+        {
+            var calendar = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.User)
+                .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(m => m.CentralPolicyUsers)
+                .ThenInclude(m => m.User)
+                .Where(m => m.CentralPolicy.CentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinces
+                .Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups
+                .Any(m => m.ProvincialDepartmentId == id)))))
+                .Where(m => m.InspectionPlanEvent.RoleCreatedBy == "3")
+                .ToList();
 
             return Ok(new { calendar });
         }

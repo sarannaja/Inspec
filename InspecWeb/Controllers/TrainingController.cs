@@ -437,30 +437,194 @@ namespace InspecWeb.Controllers
         //------zone training register font-end-------
         // POST api/training/trainingsurvey/trainingid
         [HttpPost("trainingregister/{trainingid}")]
-        public TrainingRegister InsertTrainingRegister(string name, long trainingid, string phone, string cardid, string position, long status, string userid, long usertype, string email, string department)
+        public async Task<IActionResult> InsertTrainingRegister([FromForm] TrainingRegisterViewModel model)
         {
             var date = DateTime.Now;
 
             var trainingdata = new TrainingRegister
             {
-                TrainingId = trainingid,
-                Name = name,
-                Phone = phone,
-                CardId = cardid,
-                Position = position,
-                Department = department,
+                TrainingId = model.trainingid,
+                Name = model.name,
+                Phone = model.phone,
+                CardId = model.cardid,
+                Position = model.position,
+                Department = model.department,
                 Status = 0,
                 UserId = "TEST",
                 UserType = 1,
-                Email = email,
-                CreatedAt = date
-
+                Email = model.email,
+                CreatedAt = date,
+                Type = model.type,
+                Nickname = model.nickname,
+                RetiredDate = model.retireddate,
+                BirthDate = model.birthdate,
+                OfficeAddress = model.officeaddress,
+                Fax = model.fax,
+                CollaboratorName = model.collaboratorname,
+                CollaboratorPhone = model.collaboratorphone,
+                CollaboratorPhoneOffice = model.collaboratorphoneoffice,
+                CollaboratorEmail = model.collaboratoremail,
             };
 
             _context.TrainingRegisters.Add(trainingdata);
             _context.SaveChanges();
 
-            return trainingdata;
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+            System.Console.WriteLine("Start Upload 2");
+
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var TrainingRegisterFile = new TrainingRegisterFile
+                        {
+                            RegisterId = trainingdata.Id,
+                            Name = random + filename,
+                            Type = "รูปถ่ายหน้าตรง",
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.TrainingRegisterFiles.Add(TrainingRegisterFile);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+            }
+
+            if (model.CertificationFiles != null)
+            {
+                foreach (var formFile in model.CertificationFiles.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var TrainingRegisterFile = new TrainingRegisterFile
+                        {
+                            RegisterId = trainingdata.Id,
+                            Name = random + filename,
+                            Type = "เอกสาารการรับรองของผู้บังคับบัญชา",
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.TrainingRegisterFiles.Add(TrainingRegisterFile);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+            }
+
+            if (model.idcardFiles != null)
+            {
+                foreach (var formFile in model.idcardFiles.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var TrainingRegisterFile = new TrainingRegisterFile
+                        {
+                            RegisterId = trainingdata.Id,
+                            Name = random + filename,
+                            Type = "สำเนาบัตรประชาชน",
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.TrainingRegisterFiles.Add(TrainingRegisterFile);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+            }
+
+            if (model.GovernmentpassportFiles != null)
+            {
+                foreach (var formFile in model.GovernmentpassportFiles.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var TrainingRegisterFile = new TrainingRegisterFile
+                        {
+                            RegisterId = trainingdata.Id,
+                            Name = random + filename,
+                            Type = "สำเนาหนังสือเดินทางราชการ",
+                        };
+
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.TrainingRegisterFiles.Add(TrainingRegisterFile);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+            }
+
+            return Ok(trainingdata);
         }
 
 

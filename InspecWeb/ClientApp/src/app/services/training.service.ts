@@ -104,16 +104,49 @@ export class TrainingService {
   }
 
   //insert training register font-end
-  addTrainingRegister(trainingData, trainingid) {
+  addTrainingRegister(trainingData, trainingid, files: FileList, CertificationFiles: FileList, idcardFiles: FileList, GovernmentpassportFiles: FileList) {
     //alert('Service:' + JSON.stringify(trainingData))
     //alert(trainingid)
     const formData = new FormData();
+    formData.append('trainingid', trainingid);
     formData.append('name', trainingData.name);
     formData.append('cardid', trainingData.cardid);
     formData.append('position', trainingData.position);
     formData.append('department', trainingData.department);
     formData.append('phone', trainingData.phone);
     formData.append('email', trainingData.email);
+
+    formData.append('type', trainingData.type);
+    formData.append('nickname', trainingData.nickname);
+    formData.append('retireddate', trainingData.retireddate);
+    formData.append('birthdate', trainingData.birthdate);
+    formData.append('officeaddress', trainingData.officeaddress);
+    formData.append('fax', trainingData.fax);
+    formData.append('collaboratorname', trainingData.collaboratorname);
+    formData.append('collaboratorphone', trainingData.collaboratorphone);
+    formData.append('collaboratorphoneoffice', trainingData.collaboratorphoneoffice);
+    formData.append('collaboratoremail', trainingData.collaboratoremail);
+
+    if (files != null) {
+      for (var iii = 0; iii < files.length; iii++) {
+        formData.append("files", files[iii]);
+      }
+    }
+    if (CertificationFiles != null) {
+      for (var index = 0; index < CertificationFiles.length; index++) {
+        formData.append("CertificationFiles", CertificationFiles[index]);
+      }
+    }
+    if (idcardFiles != null) {
+      for (var index = 0; index < idcardFiles.length; index++) {
+        formData.append("idcardFiles", idcardFiles[index]);
+      }
+    }
+    if (GovernmentpassportFiles != null) {
+      for (var index = 0; index < GovernmentpassportFiles.length; index++) {
+        formData.append("GovernmentpassportFiles", GovernmentpassportFiles[index]);
+      }
+    }
 
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + 'trainingregister/' + trainingid, formData);

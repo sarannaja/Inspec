@@ -93,6 +93,84 @@ export class ExportReportService {
     return this.http.post<any>(this.url + "/createReport", formData)
   }
 
+  createReport2(res, reportId) {
+    var exportData: any = [];
+    exportData = res.importData.importReportGroups.map((item, index) => {
+      var subjectData: any = [];
+      var subjectMaster: any = [];
+      var departmentData: any = [];
+      var departmentStr: any = [];
+      var departmentAll: any = [];
+      var subquestion: any = [];
+
+      item.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element => {
+        subjectData = element.subjectCentralPolicyProvinces.map(element2 => {
+          if (element2.type == "Master") {
+            return {
+              subject: element2.name
+            }
+          }
+        });
+      });
+      subjectData.forEach(elementS => {
+        if (elementS != undefined) {
+          subjectMaster.push(elementS)
+        }
+      });
+      console.log("subjectMaster: ", subjectMaster);
+
+      // item.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element => {
+      //   departmentData = element.subjectCentralPolicyProvinces.map(element2 => {
+      //     if (element2.type == "Master") {
+      //       element2.subquestionCentralPolicyProvinces.forEach(element3 => {
+      //         console.log("ele3: ", element3);
+      //         subquestion = subquestion + element3.name;
+      //         element3.subjectCentralPolicyProvinceGroups.forEach(element4 => {
+      //           console.log("ele4: ", element4);
+      //           departmentStr = departmentStr + element4.provincialDepartment.name;
+      //         });
+      //       });
+      //       return {
+      //         department: departmentStr,
+      //         subquestion: subquestion
+      //       }
+      //     }
+      //   });
+      // });
+      // console.log("department: ", departmentData);
+      // console.log("subjectDataJa: ", subjectData);
+      // departmentData.forEach(elementD => {
+      //   if (elementD != undefined) {
+      //     departmentAll.push(elementD)
+      //   }
+      // });
+      // console.log("departmentStr: ", departmentAll);
+
+      return {
+        centralPolicy: item.centralPolicyEvent.centralPolicy.title,
+        department: res.importData.user.departments.name,
+        tableData: subjectMaster,
+        // centralPolicyType: res.importData.centralPolicyType,
+        // command: res.importData.command,
+        // detailReport: res.importData.detailReport,
+        fiscalYear: res.importData.fiscalYear.year,
+        // inspectionRound: res.importData.inspectionRound,
+        // monitoringTopics: res.importData.monitoringTopics,
+        province: res.importData.province.name,
+        region: res.importData.region.name,
+        // reportType: res.importData.reportType,
+        // suggestion: res.importData.suggestion
+      }
+    })
+    console.log("Data: ", exportData);
+
+    const formData = {
+      reportData2: exportData,
+      reportId: reportId
+    }
+    return this.http.post<any>(this.url + "/createReport2X", formData)
+  }
+
   getSubjectReport() {
     return this.http.get<any>(this.url + "/subjectImport");
   }
@@ -101,31 +179,43 @@ export class ExportReportService {
     return this.http.get<any>(this.url + "/getImportedReport/" + userId);
   }
 
+  getImportedReportById(reportId) {
+    console.log("reportId: ", reportId);
+
+    return this.http.get<any>(this.url + "/getImportedReportById/" + reportId);
+  }
+
   getCommanderReport() {
     return this.http.get<any>(this.url + "/getCommanderReport");
   }
 
-  getCommanderReportById(reportId) {
-    return this.http.get<any>(this.url + "/getCommanderReport/" + reportId);
+  getCommanderReportById(provinceId) {
+    console.log("provinceId: ", provinceId);
+
+    return this.http.get<any>(this.url + "/getCommanderReport/" + provinceId);
   }
 
-  postImportedReport(value, file: FileList, fileExcel: FileList, userId) {
-    console.log("Value: ", value);
-    console.log("Word: ", file);
-    console.log("Excel: ", fileExcel);
-
+  postImportReport(value, userId, file: FileList) {
     const formData = new FormData();
-    formData.append('SubjectId', value.Subject);
-    formData.append('TypeReport', value.TypeReport);
-    formData.append('TypeExport', value.TypeExport);
-    formData.append('CreateBy', userId);
 
-    for (var i = 0; i < file.length; i++) {
-      formData.append("fileWord", file[i]);
+    for (var i = 0; i < value.centralPolicyEvent.length; i++) {
+      formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
     }
 
-    for (var i = 0; i < fileExcel.length; i++) {
-      formData.append("fileExcel", fileExcel[i]);
+    formData.append('centralPolicyType', value.centralPolicyType);
+    formData.append('reportType', value.reportType);
+    formData.append('inspectionRound', value.inspectionRound);
+    formData.append('fiscalYearId', value.fiscalYear);
+    formData.append('regionId', value.region);
+    formData.append('provinceId', value.province);
+    formData.append('monitoringTopics', value.monitoringTopics);
+    formData.append('detailReport', value.detailReport);
+    formData.append('suggestion', value.suggestion);
+    formData.append('command', value.command);
+    formData.append('UserId', userId);
+
+    for (var i = 0; i < file.length; i++) {
+      formData.append("files", file[i]);
     }
 
     return this.http.post<any>(this.url + "/addImportReport", formData);
@@ -135,21 +225,55 @@ export class ExportReportService {
     return this.http.delete<any>(this.url + "/deleteImportedReport/" + deleteId);
   }
 
-  sendCommand(value, reportId, commanderId) {
-    console.log("ReportId: ", reportId);
-    console.log("CommanderId: ", commanderId);
-    console.log("Command Value: ", value.command);
+  getImportReportFiscalYears() {
+    return this.http.get<any>(this.url + "/getImportReportFiscalYears/");
+  }
 
-    const formData = {
-      Command: value.command,
-      Commander: commanderId,
-      ReportId: reportId
+  getImportReportFiscalYearRelations(fiscalYearId) {
+    console.log("fiscalYearId: ", fiscalYearId);
+
+    return this.http.get<any>(this.url + "/getImportReportFiscalYearRelations/" + fiscalYearId);
+  }
+
+  sendToCommander(reportID) {
+    console.log("reportIddd: ", reportID);
+    const formData = new FormData();
+    formData.append('reportId', reportID);
+    return this.http.put<any>(this.url + "/sendReportToCommander", formData);
+  }
+
+  sendCommand(reportID, value, userId) {
+    console.log("reportIddd: ", reportID);
+    console.log("value: ", value);
+    console.log("userIDDD: ", userId);
+
+    const formData = new FormData();
+    formData.append('reportId', reportID);
+    formData.append('command', value.command);
+    formData.append('UserId', userId);
+    return this.http.post<any>(this.url + "/sendCommand", formData);
+  }
+
+  editImportReport(value, reportId) {
+    console.log("EditValue: ", value);
+    console.log("Edit ID: ", reportId);
+
+    const formData = new FormData();
+    for (var i = 0; i < value.centralPolicyEvent.length; i++) {
+      formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
     }
+    formData.append('centralPolicyType', value.centralPolicyType);
+    formData.append('reportType', value.reportType);
+    formData.append('inspectionRound', value.inspectionRound);
+    formData.append('fiscalYearId', value.fiscalYear);
+    formData.append('regionId', value.region);
+    formData.append('provinceId', value.province);
+    formData.append('monitoringTopics', value.monitoringTopics);
+    formData.append('detailReport', value.detailReport);
+    formData.append('suggestion', value.suggestion);
+    formData.append('command', value.command);
+    formData.append('reportId', reportId);
 
-    // const formData = new FormData();
-    // formData.append('Command', value.command);
-    // formData.append('Commander', commanderId);
-
-    return this.http.put<any>(this.url + "/sendCommand", formData);
+    return this.http.post<any>(this.url + "/editImportReport", formData);
   }
 }
