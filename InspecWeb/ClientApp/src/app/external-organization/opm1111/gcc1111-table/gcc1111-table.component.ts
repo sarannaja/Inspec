@@ -107,7 +107,7 @@ export class Gcc1111TableComponent implements OnInit {
         // console.log((Date.parse(result[0].date_opened) / 1000).toString().length);
 
         this.results = result.filter(result => {
-          return (Date.parse(result.date_opened) / 1000) >= value.beginEpoc && (Date.parse(result.date_opened) / 1000) <= value.endEpoc
+          return (Date.parse(result.date_opened) / 999) >= value.beginEpoc && (Date.parse(result.date_opened) / 999) < value.endEpoc
         })
         // console.log(this.results);
 
