@@ -28,7 +28,8 @@ export class ProgramTrainingComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   form: FormGroup;
-  files: string[] = []
+  Formfile: FormGroup;
+  // files: string[] = []
   downloadUrl: string;
   selectdatalecturer: Array<IOption>
   resultlecturer: any = []
@@ -65,28 +66,22 @@ export class ProgramTrainingComponent implements OnInit {
 
     };
     this.Form = this.fb.group({
+      TrainingPhaseId: this.trainingid,
       programtype: new FormControl(null, [Validators.required]),
       programdate: new FormControl(null, [Validators.required]),
       mStart: new FormControl(null, [Validators.required]),
       mEnd: new FormControl(null, [Validators.required]),
       programtopic: new FormControl(null, [Validators.required]),
       programdetail: new FormControl(null, [Validators.required]),
+      programlocation: new FormControl(null,[Validators.required]),
+      programtodress: new FormControl(null,[Validators.required]),
       lecturername: new FormControl(null, [Validators.required]),
-
+    })
+    this.Formfile = this.fb.group({
+      files: [null],
     })
 
-    //table program
-    this.trainingservice.getprogramtraining(this.trainingid)
-      .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
-        console.log(result[0].trainingPhase.startDate);
-        console.log(result[0].trainingPhase.endDate);
-
-        this.dateOptionF(this.startdate, this.enddate)
-        
-        //console.log(this.resulttraining);
-      })
+    this.getprogramtraining()
 
     //dropdown lecturer
     this.trainingservice.gettraininglecturer()
@@ -94,25 +89,26 @@ export class ProgramTrainingComponent implements OnInit {
         this.resultlecturer = result
         console.log(this.resultlecturer);
         this.selectdatalecturer = this.resultlecturer.map((item, index) => {
-          return { value: item.lecturerName, label: item.lecturerName }
+          return { value: item.id, label: item.lecturerName }
         })
+        console.log("123", this.selectdatalecturer);
 
       })
 
-    
+
     this.trainingservice.getdetailtraining(this.trainingid)
       .subscribe(result => {
-        
+
         if (result.length != 0) {
           this.startdate = result[0].startDate
           this.enddate = result[0].endDate
           this.dateOptionF(this.startdate, this.enddate)
-          this.Form.patchValue({  
-            'programdate':this.startdate
+          this.Form.patchValue({
+            'programdate': this.startdate
           })
           console.log(this.startdate)
           console.log(this.enddate);
-          console.log(this.dateOption);
+          console.log("test", this.dateOption);
           // this.dateOption(this.startdate , this.enddate)
         }
         this.resulttrainingdetail = result
@@ -126,41 +122,50 @@ export class ProgramTrainingComponent implements OnInit {
 
 
 
-      this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
-        type: 'pie', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
-        data: { // ข้อมูลภายในแผนภูมิแบบเส้น
-            labels: ["Jan","Feb","March","April","May","June","July","August","Sep","Oct","Nov","Dec"], // ชื่อของข้อมูลในแนวแกน x
-            datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
-               label: 'Number of items sold in months',
-               data: [9,7,3,5,2,10,15,61,19,3,1,9],
-               fill: false,
-               lineTension: 0.2,
-               borderColor: "red", // สีของเส้น
-               borderWidth: 1
-            }]
-        },
-        options: {
-           title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
-              text: "Bar Chart",
-              display: true
-           }
-        },
-        // scales: { // แสดง scales ของแผนภูมิเริมที่ 0
-        //    yAxes: [{
-        //       ticks:{
-        //          beginAtZero:true
-        //       }
-        //    }]
-        //  }
-     })
+    this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
+      type: 'pie', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
+      data: { // ข้อมูลภายในแผนภูมิแบบเส้น
+        labels: ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sep", "Oct", "Nov", "Dec"], // ชื่อของข้อมูลในแนวแกน x
+        datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
+          label: 'Number of items sold in months',
+          data: [9, 7, 3, 5, 2, 10, 15, 61, 19, 3, 1, 9],
+          fill: false,
+          lineTension: 0.2,
+          borderColor: "red", // สีของเส้น
+          borderWidth: 1
+        }]
+      },
+      options: {
+        title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
+          text: "Bar Chart",
+          display: true
+        }
+      },
+      // scales: { // แสดง scales ของแผนภูมิเริมที่ 0
+      //    yAxes: [{
+      //       ticks:{
+      //          beginAtZero:true
+      //       }
+      //    }]
+      //  }
+    })
 
   }
 
+  getprogramtraining() {
+    //table program
+    this.trainingservice.getprogramtraining(this.trainingid)
+      .subscribe(result => {
+        this.resulttraining = result
+        this.loading = true
+        console.log(result[0].trainingPhase.startDate);
+        console.log(result[0].trainingPhase.endDate);
 
+        this.dateOptionF(this.startdate, this.enddate)
 
-
-
-
+        //console.log(this.resulttraining);
+      })
+  }
 
 
   dateOptionF(start, end) {
@@ -173,48 +178,48 @@ export class ProgramTrainingComponent implements OnInit {
     dateDayRemoveEnd.setDate(endDate.getDay() + 1)
 
     // moment(startDate).calendar()
-    
+
     this.dateOption = {
-      showTodayBtn:false,
+      showTodayBtn: false,
       // disableUntil: {year: 2020, month: 5, day: 10},
-      disableDateRanges: [
-        {
-          end: {
-            year: dateDayRemoveStart.getFullYear(),
-            month: dateDayRemoveStart.getMonth(),
-            day: (dateDayRemoveStart.getDay())
-          },
-          begin: {
-            year: (startDate.getFullYear()) - 50,
-            month: startDate.getMonth(),
-            day: (startDate.getDay()),
-          }
-        },
-        {
-          end: {
-            year: (endDate.getFullYear()) + 50,
-            month: endDate.getMonth(),
-            day: (endDate.getDay())
-          },
-          begin: {
-            year: (dateDayRemoveEnd.getFullYear()),
-            month: dateDayRemoveEnd.getMonth(),
-            day: (dateDayRemoveEnd.getDay()),
-          }
-        },
-        // {
-        //   end: {
-        //     year: new Date(endDate).getFullYear()+1000,
-        //     month: new Date(endDate).getMonth(),
-        //     day: new Date(endDate).getDay(),
-        //   },
-        //   begin:  {
-        //     year: new Date(startDate).getFullYear(),
-        //     month: new Date(startDate).getMonth(),
-        //     day: new Date(startDate).getDay(),
-        //   }
-        // }
-      ]
+      // disableDateRanges: [
+      //   {
+      //     end: {
+      //       year: dateDayRemoveStart.getFullYear(),
+      //       month: dateDayRemoveStart.getMonth(),
+      //       day: (dateDayRemoveStart.getDay())
+      //     },
+      //     begin: {
+      //       year: (startDate.getFullYear()) - 50,
+      //       month: startDate.getMonth(),
+      //       day: (startDate.getDay()),
+      //     }
+      //   },
+      //   {
+      //     end: {
+      //       year: (endDate.getFullYear()) + 50,
+      //       month: endDate.getMonth(),
+      //       day: (endDate.getDay())
+      //     },
+      //     begin: {
+      //       year: (dateDayRemoveEnd.getFullYear()),
+      //       month: dateDayRemoveEnd.getMonth(),
+      //       day: (dateDayRemoveEnd.getDay()),
+      //     }
+      //   },
+      //   // {
+      //   //   end: {
+      //   //     year: new Date(endDate).getFullYear()+1000,
+      //   //     month: new Date(endDate).getMonth(),
+      //   //     day: new Date(endDate).getDay(),
+      //   //   },
+      //   //   begin:  {
+      //   //     year: new Date(startDate).getFullYear(),
+      //   //     month: new Date(startDate).getMonth(),
+      //   //     day: new Date(startDate).getDay(),
+      //   //   }
+      //   // }
+      // ]
     }
 
     // console.log("Start:" + start);
@@ -240,32 +245,35 @@ export class ProgramTrainingComponent implements OnInit {
   storeTraining(value) {
     //alert(JSON.stringify(value))   
     //alert(this.form.value.files)
-    this.trainingservice.addTrainingProgram(value, this.trainingid).subscribe(response => {
+    console.log(value);
+    console.log(this.Formfile.value.files);
+
+    this.trainingservice.addTrainingProgram(value, this.Formfile.value.files).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-
-      this.trainingservice.getprogramtraining(this.trainingid)
-        .subscribe(result => {
-          this.resulttraining = result
-          this.loading = true
-          //console.log(this.resulttraining);
-        })
+      this.getprogramtraining();
+      // this.trainingservice.getprogramtraining(this.trainingid)
+      //   .subscribe(result => {
+      //     this.resulttraining = result
+      //     this.loading = true
+      //     //console.log(this.resulttraining);
+      //   })
     })
   }
 
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
-    this.form.patchValue({
-      files: file
+    this.Formfile.patchValue({
+      files: file,
     });
-    this.form.get('files').updateValueAndValidity()
+    this.Formfile.get('files').updateValueAndValidity()
   }
 
-  addFile(event) {
-    this.files = event.target.files
-  }
+  // addFile(event) {
+  //   this.files = event.target.files
+  // }
   get f() { return this.Form.controls }
   get d() { return this.f.inputdate as FormArray }
 

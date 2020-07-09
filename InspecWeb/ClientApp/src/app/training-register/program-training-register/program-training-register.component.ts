@@ -204,23 +204,23 @@ export class ProgramTrainingRegisterComponent implements OnInit {
   }
 
 
-  storeTraining(value) {
-    //alert(JSON.stringify(value))   
-    //alert(this.form.value.files)
-    this.trainingservice.addTrainingProgram(value, this.trainingid).subscribe(response => {
-      console.log(value);
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
+  // storeTraining(value) {
+  //   //alert(JSON.stringify(value))   
+  //   //alert(this.form.value.files)
+  //   this.trainingservice.addTrainingProgram(value, this.trainingid).subscribe(response => {
+  //     console.log(value);
+  //     this.Form.reset()
+  //     this.modalRef.hide()
+  //     this.loading = false;
 
-      this.trainingservice.getprogramtraining(this.trainingid)
-        .subscribe(result => {
-          this.resulttraining = result
-          this.loading = true
-          //console.log(this.resulttraining);
-        })
-    })
-  }
+  //     this.trainingservice.getprogramtraining(this.trainingid)
+  //       .subscribe(result => {
+  //         this.resulttraining = result
+  //         this.loading = true
+  //         //console.log(this.resulttraining);
+  //       })
+  //   })
+  // }
 
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;

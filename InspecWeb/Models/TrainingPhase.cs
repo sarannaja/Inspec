@@ -29,6 +29,10 @@ namespace InspecWeb.Models
         public long PhaseNo { get; set; }
 
         [Required]
+        [Description("หัวข้อเรื่อง")]
+        public string Title { get; set; }
+
+        [Required]
         [Description("คำอธิบายช่วงหลักสูตรการอบรม")]
         public string Detail { get; set; }
 

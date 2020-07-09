@@ -58,7 +58,7 @@
 </div>
 <!-- BEGIN primary modal -->
 <ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <form >
+    <form>
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">รายงานกำหนดการตรวจราชการรายเขต</h5>
@@ -70,15 +70,15 @@
 
                 <div class="form-group">
                     <label>แผนการตรวจ</label>
-                    <ng-select placeholder="กรุณาเลือกเขต" [options]="selectcentralpolicy" name="centralpolicy"
-                        [allowClear]="true" (selected)="test($event.value)">
+                    <ng-select placeholder="กรุณาเลือกเขต" [multiple]="true" [options]="selectcentralpolicy"
+                        name="centralpolicy" [(ngModel)]="id" [allowClear]="true" >
                     </ng-select>
                 </div>
 
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Export</button>
+                <button type="submit" class="btn btn-primary" (click)="this.select()">Export</button>
                 <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
                     data-dismiss="modal">Close</button>
             </div>

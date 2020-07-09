@@ -80,7 +80,7 @@ namespace InspecWeb.Controllers
             //      g.Key.TranId
             //  }).ToList();
 
-            foreach(var test in survey)
+            foreach (var test in survey)
             {
                 var test2 = _context.TrainingSurveys
                     .Where(x => x.TrainingId == test.Id)
@@ -167,7 +167,7 @@ namespace InspecWeb.Controllers
             return result;
         }
 
-        
+
 
         //GET api/Training/trainingid
         [HttpGet("listsurvey/{trainingid}")]
@@ -216,24 +216,6 @@ namespace InspecWeb.Controllers
         public async Task<IActionResult> Post([FromForm] TrainingViewModel model)
         {
             var date = DateTime.Now;
-
-            //var trainingdata = new Training
-            //{
-            //    Name = model.Name,
-            //    Detail = detail,
-            //    StartDate = start_date,
-            //    EndDate = end_date,
-            //    LecturerName = lecturer_name,
-            //    RegisStartDate = regis_start_date,
-            //    RegisEndDate = regis_end_date,
-            //    Image = image,
-            //    CreatedAt = date
-            //};
-
-            //_context.Trainings.Add(trainingdata);
-            //_context.SaveChanges();
-
-            //return trainingdata;
             System.Console.WriteLine("Start Uplond");
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
@@ -268,6 +250,9 @@ namespace InspecWeb.Controllers
                     {
                         Name = model.Name,
                         Detail = model.Detail,
+                        Generation = model.Generation,
+                        Year = model.Year,
+                        CourseCode = model.CourseCode,
                         StartDate = model.StartDate,
                         EndDate = model.EndDate,
                         RegisStartDate = model.RegisStartDate,
@@ -326,7 +311,7 @@ namespace InspecWeb.Controllers
             training.Status = status;
 
 
-            
+
             // if (status == 1){
 
             //     // var datas = _context.TrainingDocuments
@@ -341,8 +326,8 @@ namespace InspecWeb.Controllers
             //     // }
 
 
-                // var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "Test email", "This is the content from our email.");
-                // _emailSender.SendEmail(message);
+            // var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "Test email", "This is the content from our email.");
+            // _emailSender.SendEmail(message);
 
             //     var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "อบรมหลักสูตร", "เอกสารไฟล์แนบที่ 1 \n เอกสารไฟล์แนบที่ 2 \n เอกสารไฟล์แนบที่ 3 \n");
             //     _emailSender.SendEmail(message);
@@ -375,7 +360,7 @@ namespace InspecWeb.Controllers
                 .Where(m => m.TrainingId == trainingid).ToList();
 
             var text = "";
-            foreach(var data2 in datas)
+            foreach (var data2 in datas)
             {
                 // System.Console.WriteLine("data: " + data2.Name);
                 text = text + data2.Name + "\n";
@@ -503,7 +488,7 @@ namespace InspecWeb.Controllers
 
             return trainingdata;
         }
-        
+
 
         // PUT : api/training/edit/:id
         [HttpPut("survey/edit/{id}")]
@@ -534,7 +519,8 @@ namespace InspecWeb.Controllers
         {
             var date = DateTime.Now;
 
-            foreach (var item in model.inputtrainingsurveyanswer) {
+            foreach (var item in model.inputtrainingsurveyanswer)
+            {
 
                 var trainingdata = new TrainingSurveyAnswer
                 {
@@ -550,9 +536,9 @@ namespace InspecWeb.Controllers
                 _context.SaveChanges();
             }
 
-            
 
-            return Ok(new { status = "Save Success" }) ;
+
+            return Ok(new { status = "Save Success" });
         }
         //----------------------------------
 
@@ -605,7 +591,7 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost("insertdocument/{trainingid}")]
-        public async Task<IActionResult> InsertDocument([FromForm] TrainingDocumentViewModel model , long trainingid)
+        public async Task<IActionResult> InsertDocument([FromForm] TrainingDocumentViewModel model, long trainingid)
         {
             var date = DateTime.Now;
 
@@ -644,7 +630,7 @@ namespace InspecWeb.Controllers
                         TrainingId = trainingid,
                         Name = random + filename,
                         Detail = model.Detail,
-                        
+
                         CreatedAt = date
                     };
                     System.Console.WriteLine("Start Uplond4.2");
@@ -665,11 +651,11 @@ namespace InspecWeb.Controllers
             var districtdata = _context.TrainingRegisters
                 .Include(m => m.Training)
                 .Where(m => m.Name == name);
-                
+
             return Ok(districtdata);
 
         }
-        
+
 
         // //GET api/Training/trainingid
         // [HttpGet("{trainingid}")]
@@ -702,36 +688,119 @@ namespace InspecWeb.Controllers
             var districtdata = _context.TrainingPrograms
                 .Include(m => m.TrainingPhase)
                 .Where(m => m.TrainingPhaseId == phaseid);
-                
+
             return Ok(districtdata);
 
         }
 
-        // POST api/training/program/trainingid
-        //[HttpPost("program/save/{trainingid}")]
-        //public TrainingProgram InsertTrainingProgram(long trainingid, long programtype, string programtopic, string programdetail, DateTime programdate, string minutestart, string minuteend, string lecturername)
-        //{
-        //    var date = DateTime.Now;
-        //    System.Console.WriteLine("Start InsertTrainingProgram");
-        //    var trainingdata = new TrainingProgram
-        //    {
-        //        TrainingId = trainingid,
-        //        ProgramType = programtype,
-        //        ProgramDetail = programdetail,
-        //        ProgramDate = programdate,
-        //        MinuteStartDate = minutestart,
-        //        MinuteEndDate = minuteend,
-        //        LecturerId = lecturername,
-        //        ProgramTopic = programtopic,
-        //        CreatedAt = date
-        //    };
+       // POST api/training/program/trainingid
+       //[HttpPost("program/save/{trainingid}")]
+       // public TrainingProgram InsertTrainingProgram(long trainingid, long programtype, string programtopic, string programdetail, DateTime programdate, string minutestart, string minuteend, string lecturername)
+       // {
+       //     var date = DateTime.Now;
+       //     System.Console.WriteLine("Start InsertTrainingProgram");
+       //     var trainingdata = new TrainingProgram
+       //     {
+       //         TrainingId = trainingid,
+       //         ProgramType = programtype,
+       //         ProgramDetail = programdetail,
+       //         ProgramDate = programdate,
+       //         MinuteStartDate = minutestart,
+       //         MinuteEndDate = minuteend,
+       //         LecturerId = lecturername,
+       //         ProgramTopic = programtopic,
+       //         CreatedAt = date
+       //     };
 
-        //    _context.TrainingPrograms.Add(trainingdata);
-        //    _context.SaveChanges();
+       //     _context.TrainingPrograms.Add(trainingdata);
+       //     _context.SaveChanges();
 
-        //    return trainingdata;
-        //}
+       //     return trainingdata;
+       // }
 
+        // POST api/values
+        [HttpPost("program")]
+        public async Task<IActionResult> Post([FromForm] TrainingProgramViewModel model)
+        {
+
+            var date = DateTime.Now;
+            var trainingprogramdata = new TrainingProgram
+            {
+                TrainingPhaseId = model.TrainingPhaseId,
+                ProgramDate = model.ProgramDate,
+                MinuteStartDate = model.MinuteStartDate,
+                MinuteEndDate = model.MinuteEndDate,
+                ProgramType = model.ProgramType,
+                ProgramTopic = model.ProgramTopic,
+                ProgramDetail = model.ProgramDetail,
+                ProgramLocation = model.ProgramLocation,
+                ProgramToDress = model.ProgramToDress,
+                CreatedAt = date
+            };
+
+            _context.TrainingPrograms.Add(trainingprogramdata);
+            _context.SaveChanges();
+
+            foreach (var id in model.TrainingLecturerId)
+            {
+                var trainingprogramlecturerdata = new TrainingProgramLecturer
+                {
+                    TrainingProgramId = trainingprogramdata.Id,
+                    TrainingLecturerId = id
+                };
+                _context.TrainingProgramLecturers.Add(trainingprogramlecturerdata);
+                _context.SaveChanges();
+
+            }
+
+            int index = 0;
+            int indexend = 0;
+
+            //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
+            //var size = data.files.Sum(f => f.Length);
+
+            //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var trainingprogramfiledata = new TrainingProgramFile
+                        {
+                            TrainingProgramId = trainingprogramdata.Id,
+                            Name = random + filename,
+                        };
+                        _context.TrainingProgramFiles.Add(trainingprogramfiledata);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            return Ok(new { status = true });
+
+        }
 
         // DELETE api/training/program/delete/{trainingid}
         [HttpDelete("program/delete/{trainingid}")]
@@ -755,7 +824,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<TrainingLecturer> GetTrainingLecturers()
         {
             var data = from P in _context.TrainingLecturers
-                               select P;
+                       select P;
             return data;
         }
 
@@ -768,12 +837,18 @@ namespace InspecWeb.Controllers
             var trainingdata = new TrainingLecturer
             {
                 LecturerName = lecturername
-                ,Phone = lecturerphone
-                ,Email = lectureremail
-                ,Education = education
-                ,WorkHistory = workhistory
-                ,Experience = experience
-                ,CreatedAt = date
+                ,
+                Phone = lecturerphone
+                ,
+                Email = lectureremail
+                ,
+                Education = education
+                ,
+                WorkHistory = workhistory
+                ,
+                Experience = experience
+                ,
+                CreatedAt = date
 
             };
 
@@ -788,12 +863,12 @@ namespace InspecWeb.Controllers
         public void EditTraininglecturer(long id, string lecturername, string lecturerphone, string lectureremail, string education, string workhistory, string experience)
         {
             var training = _context.TrainingLecturers.Find(id);
-                training.LecturerName = lecturername;
-                training.Phone = lecturerphone;
-                training.Email = lectureremail;
-                training.Education = education;
-                training.WorkHistory = workhistory;
-                training.Experience = experience;
+            training.LecturerName = lecturername;
+            training.Phone = lecturerphone;
+            training.Email = lectureremail;
+            training.Education = education;
+            training.WorkHistory = workhistory;
+            training.Experience = experience;
             _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
@@ -810,7 +885,7 @@ namespace InspecWeb.Controllers
         }
         //------end training lecturer---------
 
-        
+
 
 
         //GET api/training/program
@@ -818,31 +893,31 @@ namespace InspecWeb.Controllers
         public void Gettest()
         {
 
-             if (!Directory.Exists(_environment.WebRootPath + "//DocumentReport_Training//"))
+            if (!Directory.Exists(_environment.WebRootPath + "//DocumentReport_Training//"))
             {
                 Directory.CreateDirectory(_environment.WebRootPath + "//DocumentReport_Training//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/DocumentReport_Training/";
-             var filename = "DOC.docx";
-              var createfile = filePath + filename;
+            var filename = "DOC.docx";
+            var createfile = filePath + filename;
 
 
 
-               using (DocX document = DocX.Create(createfile))
-                {
-                    var subject = document.InsertParagraph();
-                    subject.Append("p' teay").FontSize(18).Alignment = Alignment.center;
-                    subject.SpacingAfter(40d);
+            using (DocX document = DocX.Create(createfile))
+            {
+                var subject = document.InsertParagraph();
+                subject.Append("p' teay").FontSize(18).Alignment = Alignment.center;
+                subject.SpacingAfter(40d);
 
-                    //var i4 = document.InsertParagraph();
+                //var i4 = document.InsertParagraph();
 
-                    //i4.AppendPicture(picture3).Alignment = Alignment.center;
-                    //i4.AppendPicture(picture3).Alignment = Alignment.center;
+                //i4.AppendPicture(picture3).Alignment = Alignment.center;
+                //i4.AppendPicture(picture3).Alignment = Alignment.center;
 
-                    document.Save();
-                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                document.Save();
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
 
-                }
+            }
         }
 
 
@@ -852,66 +927,66 @@ namespace InspecWeb.Controllers
         public void exportpassport()
         {
 
-             if (!Directory.Exists(_environment.WebRootPath + "//DocumentReport_Training//"))
+            if (!Directory.Exists(_environment.WebRootPath + "//DocumentReport_Training//"))
             {
                 Directory.CreateDirectory(_environment.WebRootPath + "//DocumentReport_Training//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/DocumentReport_Training/";
-             var filename = "DOC2.docx";
-              var createfile = filePath + filename;
+            var filename = "DOC2.docx";
+            var createfile = filePath + filename;
 
 
 
-               // Create a document
-          using( var document = DocX.Create(createfile))
-          {
-            // Add a title
-            document.InsertParagraph( "Columns width" ).FontSize( 15d ).SpacingAfter( 50d ).Alignment = Alignment.center;
-
-            // Insert a title paragraph.
-            var p = document.InsertParagraph( "In the following table, the cell's left margin has been removed for rows 2-6 as well as the top/bottom table's borders." ).Bold();
-            p.Alignment = Alignment.center;
-            p.SpacingAfter( 40d );
-
-            // Add a table in a document of 1 row and 3 columns.
-            var columnWidths = new float[] { 500f};
-            var t = document.InsertTable( 1, columnWidths.Length );
-
-            // Set the table's column width and background 
-            t.SetWidths( columnWidths );
-            t.AutoFit = AutoFit.Contents;
-
-            var row = t.Rows.First();
-
-            // Fill in the columns of the first row in the table.
-            for( int i = 0; i < row.Cells.Count; ++i )
+            // Create a document
+            using (var document = DocX.Create(createfile))
             {
-              row.Cells[i].Paragraphs.First().Append( "หัวข้อ " + i );
+                // Add a title
+                document.InsertParagraph("Columns width").FontSize(15d).SpacingAfter(50d).Alignment = Alignment.center;
+
+                // Insert a title paragraph.
+                var p = document.InsertParagraph("In the following table, the cell's left margin has been removed for rows 2-6 as well as the top/bottom table's borders.").Bold();
+                p.Alignment = Alignment.center;
+                p.SpacingAfter(40d);
+
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 500f };
+                var t = document.InsertTable(1, columnWidths.Length);
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+
+                // Fill in the columns of the first row in the table.
+                for (int i = 0; i < row.Cells.Count; ++i)
+                {
+                    row.Cells[i].Paragraphs.First().Append("หัวข้อ " + i);
+                }
+
+                // Add rows in the table.
+                for (int i = 0; i < 5; i++)
+                {
+                    var newRow = t.InsertRow();
+
+                    // Fill in the columns of the new rows.
+                    for (int j = 0; j < newRow.Cells.Count; ++j)
+                    {
+                        var newCell = newRow.Cells[j];
+                        newCell.Paragraphs.First().Append("ข้อมูล " + i);
+                        // Remove the left margin of the new cells.
+                        newCell.MarginLeft = 0;
+                    }
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                // var blankBorder = new Border( BorderStyle.Tcbs_none, 0, 0, Color.White );
+                // t.SetBorder( TableBorderType.Bottom, blankBorder );
+                // t.SetBorder( TableBorderType.Top, blankBorder );
+
+                document.Save();
+                Console.WriteLine("\tCreated: ColumnsWidth.docx\n");
             }
-
-            // Add rows in the table.
-            for( int i = 0; i < 5; i++ )
-            {
-              var newRow = t.InsertRow();
-
-              // Fill in the columns of the new rows.
-              for( int j = 0; j < newRow.Cells.Count; ++j )
-              {
-                var newCell = newRow.Cells[ j ];
-                newCell.Paragraphs.First().Append( "ข้อมูล " + i );
-                // Remove the left margin of the new cells.
-                newCell.MarginLeft = 0;
-              }
-            }
-
-            // Set a blank border for the table's top/bottom borders.
-            // var blankBorder = new Border( BorderStyle.Tcbs_none, 0, 0, Color.White );
-            // t.SetBorder( TableBorderType.Bottom, blankBorder );
-            // t.SetBorder( TableBorderType.Top, blankBorder );
-
-            document.Save();
-            Console.WriteLine( "\tCreated: ColumnsWidth.docx\n" );
-          }
 
         }
 
@@ -941,6 +1016,31 @@ namespace InspecWeb.Controllers
 
             return Ok(districtdata);
 
+        }
+
+        // POST api/training/trainingphase
+        [HttpPost("phase")]
+        public IActionResult Postphase([FromForm] TrainingphaseViewModel model)
+        {
+            var date = DateTime.Now;
+            System.Console.WriteLine("Start");
+            var trainingphasedata = new TrainingPhase
+            {
+
+                TrainingId = model.TrainingId,
+                PhaseNo = model.PhaseNo,
+                Title = model.Title,
+                Detail = model.Detail,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                Location = model.Location,
+                Group = model.Group,
+                CreatedAt = date
+            };
+            _context.TrainingPhases.Add(trainingphasedata);
+            _context.SaveChanges();
+
+            return Ok(new { status = true });
         }
 
         // DELETE : api/training/phase/delete/:id

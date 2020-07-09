@@ -20,3 +20,8 @@
 .modal-dialogx {
     max-width: 1000px !important;
 }   
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

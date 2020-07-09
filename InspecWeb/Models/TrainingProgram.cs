@@ -33,7 +33,13 @@ namespace InspecWeb.Models
 
         [Description("เวลาสิ้นสุดกำหนดการ")]
         public string MinuteEndDate { get; set; }
-        
+
+        [Description("ประเภท")]
+        public string ProgramType { get; set; }
+
+        [Description("หัวเรื่อง")]
+        public string ProgramTopic { get; set; }
+
         [Description("กิจกรรม")]
         public string ProgramDetail { get; set; }
 

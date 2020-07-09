@@ -327,12 +327,12 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         url: '/training',
         name: 'จัดอบรมหลักสูตร'
       },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
-      //   url: '/training/lecturer',
-      //   name: 'วิทยากรอบรม'
-      // },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/lecturer',
+        name: 'วิทยากรอบรม'
+      },
       // {
       //   ex_link: '0',
       //   icon: 'fa-long-arrow-alt-right',

@@ -37,6 +37,7 @@ export class PhaseTrainingComponent implements OnInit {
   dateOption: IMyOptions
   resulttrainingdetail: any[];
   lineChart: any;
+  // test: any = [];
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
@@ -51,36 +52,28 @@ export class PhaseTrainingComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [0, 1, 2, 3, 4],
+          targets: [4],
           orderable: false
         }
       ]
 
     };
     this.Form = this.fb.group({
-      programtype: new FormControl(null, [Validators.required]),
-      programdate: new FormControl(null, [Validators.required]),
-      mStart: new FormControl(null, [Validators.required]),
-      mEnd: new FormControl(null, [Validators.required]),
-      programtopic: new FormControl(null, [Validators.required]),
-      programdetail: new FormControl(null, [Validators.required]),
-      lecturername: new FormControl(null, [Validators.required]),
-
+      phaseno: new FormControl(null, [Validators.required]),
+      title: new FormControl(null, [Validators.required]),
+      detail: new FormControl(null, [Validators.required]),
+      startdate: new FormControl(null, [Validators.required]),
+      enddate: new FormControl(null, [Validators.required]),
+      location: new FormControl(null, [Validators.required]),
+      group: new FormControl(null, [Validators.required]),
     })
 
-    this.trainingservice.getTrainingPhase(this.trainingid)
-      .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
-        //console.log(this.resulttraining);
-      })
+    this.getTrainingPhase()
 
 
     this.trainingservice.getdetailtraining(this.trainingid)
@@ -89,8 +82,8 @@ export class PhaseTrainingComponent implements OnInit {
           this.startdate = result[0].startDate
           this.enddate = result[0].endDate
           this.dateOptionF(this.startdate, this.enddate)
-          this.Form.patchValue({  
-            'programdate':this.startdate
+          this.Form.patchValue({
+            'programdate': this.startdate
           })
           console.log(this.startdate)
           console.log(this.enddate);
@@ -106,7 +99,15 @@ export class PhaseTrainingComponent implements OnInit {
 
 
   }
-
+  getTrainingPhase() {
+    this.trainingservice.getTrainingPhase(this.trainingid)
+      .subscribe(result => {
+        this.resulttraining = result
+        this.loading = true
+        this.spinner.hide();
+        //console.log(this.resulttraining);
+      })
+  }
 
 
   dateOptionF(start, end) {
@@ -119,9 +120,9 @@ export class PhaseTrainingComponent implements OnInit {
     dateDayRemoveEnd.setDate(endDate.getDay() + 1)
 
     // moment(startDate).calendar()
-    
+
     this.dateOption = {
-      showTodayBtn:false,
+      showTodayBtn: false,
       // disableUntil: {year: 2020, month: 5, day: 10},
       disableDateRanges: [
         {
@@ -184,20 +185,22 @@ export class PhaseTrainingComponent implements OnInit {
 
 
   storeTraining(value) {
-    //alert(JSON.stringify(value))   
-    //alert(this.form.value.files)
-    this.trainingservice.addTrainingProgram(value, this.trainingid).subscribe(response => {
-      console.log(value);
+    console.log(value);
+    this.spinner.show();
+    // this.test = []
+    // for (let i = 0; i < value.group; i++) {
+    //   this.test.push({
+    //     id: i + 1
+    //   })
+    // }
+    // console.log(this.test);
+
+    this.trainingservice.addTrainingPhase(value, this.trainingid).subscribe(response => {
+      console.log(response);
       this.Form.reset()
       this.modalRef.hide()
-      this.loading = false;
-
-      this.trainingservice.getprogramtraining(this.trainingid)
-        .subscribe(result => {
-          this.resulttraining = result
-          this.loading = true
-          //console.log(this.resulttraining);
-        })
+      this.loading = false
+      this.getTrainingPhase()
     })
   }
 
@@ -220,16 +223,11 @@ export class PhaseTrainingComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
-      this.trainingservice.getTrainingPhase(this.trainingid)
-        .subscribe(result => {
-          this.resulttraining = result
-          this.loading = true
-          //console.log(this.resulttraining);
-        })
+      this.getTrainingPhase()
     })
   }
 
-  gotoProgramTraining(id){
+  gotoProgramTraining(id) {
     this.router.navigate(['/training/phase/program/' + this.trainingid + '/' + id])
   }
 
