@@ -77,6 +77,10 @@ export class InspectionplaneventService {
     return this.http.get<any[]>(this.url + "getpeople")
   }
 
+  getprovincialdepartment(): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "getprovincialdepartment")
+  }
+
   getexportprovince(value): Observable<Inslpectionplan> {
     return this.http.get<Inslpectionplan>(this.url + "exportexcelcalendarprovince/" + value)
   }
@@ -88,6 +92,9 @@ export class InspectionplaneventService {
   }
   getexportdate(): Observable<Inslpectionplan> {
     return this.http.get<Inslpectionplan>(this.url + "exportexcelcalendardate")
+  }
+  exportexcelcalendardepartment(value): Observable<Inslpectionplan> {
+    return this.http.get<Inslpectionplan>(this.url + "exportexcelcalendardepartment/" + value)
   }
   getUserOwner(id) {
 

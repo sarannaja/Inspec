@@ -24,19 +24,22 @@ export class TrainingConditionComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   isNameSelected: boolean;
+  startyear: any;
+  endyear: any;
+  conditiontype: any;
 
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     }
-    
-    
+
+
 
   ngOnInit() {
     this.spinner.show();
@@ -52,24 +55,26 @@ export class TrainingConditionComponent implements OnInit {
     };
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
+      startyear: new FormControl(null, [Validators.required]),
+      endyear: new FormControl(null, [Validators.required]),
       conditiontype: new FormControl(null, [Validators.required]),
-      
+
     })
 
     this.Form.patchValue({
       conditiontype: "1"
     })
-    
+
     this.trainingservice.getTrainingCondition(this.trainingid)
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true
       //console.log(this.resulttraining);
     })
-    
+
   }
 
-  
+
   selectInput(event) {
     let selected = event.target.value;
     if (selected == "2") {
@@ -94,14 +99,14 @@ export class TrainingConditionComponent implements OnInit {
 
   storeTraining(value) {
     //alert(JSON.stringify(value))
-    this.trainingservice.addTrainingsurvey(value, this.trainingid).subscribe(response => {
+    this.trainingservice.addTrainingCondition(value, this.trainingid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
       //this.router.navigate(['/training/surveylist/',trainingid])
       //this.router.navigate(['training'])
-      this.trainingservice.getlisttrainingsurveydata(this.trainingid)
+      this.trainingservice.getTrainingCondition(this.trainingid)
       .subscribe(result => {
         this.resulttraining = result
         this.loading = true
@@ -111,12 +116,12 @@ export class TrainingConditionComponent implements OnInit {
     })
   }
 
-  deleteTrainingSurvey(value) {
-    this.trainingservice.deleteTrainingSurvey(value).subscribe(response => {
+  deleteTrainingCondition(value) {
+    this.trainingservice.deleteTrainingCondition(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       this.loading = false;
-      this.trainingservice.getlisttrainingsurveydata(this.trainingid).subscribe(result => {
+      this.trainingservice.getTrainingCondition(this.trainingid).subscribe(result => {
         this.resulttraining = result
         this.loading = true;
         console.log(this.resulttraining);
@@ -124,31 +129,40 @@ export class TrainingConditionComponent implements OnInit {
     })
   }
 
-  editModal(template: TemplateRef<any>, id, name) {
+  editModal(template: TemplateRef<any>, id, name, startyear, endyear, conditiontype) {
     this.delid = id;
     this.name = name;
+    // this.startyear = name;
+    // this.endyear = name;
+    // this.conditiontype = name;
+
     //console.log(this.delid);
     //console.log(this.name);
 
     this.modalRef = this.modalService.show(template);
     this.EditForm = this.fb.group({
-      "name": new FormControl(null, [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+      name: new FormControl(null, [Validators.required]),
+      startyear: new FormControl(null, [Validators.required]),
+      endyear: new FormControl(null, [Validators.required]),
+      conditiontype: new FormControl(null, [Validators.required]),
     })
     this.EditForm.patchValue({
       "name": name,
+      "startyear": startyear,
+      "endyear": endyear,
+      "conditiontype" : conditiontype
     })
   }
 
-  editTrainingSurvey(value, delid) {
+  editTrainingCondition(value, delid) {
     // alert(JSON.stringify(value));
     // console.clear();
     // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editTrainingSurvey(value, delid).subscribe(response => {
+    this.trainingservice.editTrainingCondition(value, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
-      this.trainingservice.getlisttrainingsurveydata(this.trainingid)
+      this.trainingservice.getTrainingCondition(this.trainingid)
       .subscribe(result => {
         this.resulttraining = result
         this.loading = true

@@ -478,5 +478,17 @@ namespace InspecWeb.Controllers
 
             return Ok(new { calendar });
         }
+
+        // GET: api/values
+        [HttpGet("getprovincialdepartment")]
+        public IActionResult Getprovincialdepartment()
+        {
+            var userdata = _context.ProvincialDepartment
+                .ToList();
+
+            return Ok(userdata);
+        }
+
+
     }
 }
