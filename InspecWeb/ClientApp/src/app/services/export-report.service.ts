@@ -168,7 +168,7 @@ export class ExportReportService {
       reportData2: exportData,
       reportId: reportId
     }
-    return this.http.post<any>(this.url + "/createReport2X", formData)
+    return this.http.post<any>(this.url + "/createReport2", formData)
   }
 
   getSubjectReport() {

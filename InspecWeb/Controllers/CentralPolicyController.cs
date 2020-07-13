@@ -119,7 +119,8 @@ namespace InspecWeb.Controllers
                     ProvinceId = id,
                     CentralPolicyId = centralpolicydata.Id,
                     Step = "มอบหมายเขต",
-                    Status = "ร่างกำหนดการ"
+                    Status = "ร่างกำหนดการ",
+                    Active = 1,
                 };
                 _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
                 _context.SaveChanges();
@@ -494,7 +495,7 @@ namespace InspecWeb.Controllers
             var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Include(m => m.CentralPolicy)
                 .Where(m => m.CentralPolicy.FiscalYearId == fiscalyearData.Id)
-                .Where(m => m.ProvinceId == id)
+                .Where(m => m.ProvinceId == id && m.Active == 1)
                 .ToList();
 
             return Ok(centralpolicyprovincedata);

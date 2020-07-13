@@ -124,10 +124,10 @@ export class CreateCentralPolicyComponent implements OnInit {
       files: file
     });
     this.form.get('files').updateValueAndValidity()
-
+    
   }
   storeCentralpolicy(value) {
-    // console.log(this.form.value.files);
+    console.log(this.form.value.files);
     // alert(JSON.stringify(value))
     this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
       .subscribe(response => {

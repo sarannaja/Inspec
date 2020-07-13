@@ -560,7 +560,38 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         icon: 'fa-long-arrow-alt-right',
         url: '/reportsubject',
         name: 'รายงานประเด็นการตรวจติดตาม'
-      }
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportperformance',
+        name: 'รายงานผลการดำเนินการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportsuggestions',
+        name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportsuggestionsresult',
+        name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportquestionnaire',
+        name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportcomment',
+        name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+      
     ]
   },
   {

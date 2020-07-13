@@ -58,8 +58,8 @@ export class InspectionplanService {
       EndDate: InspectionPlanData.end_date,
       Type: InspectionPlanData.type,
       ProvinceId: InspectionPlanData.ProvinceId,
-      // FiscalYearId: InspectionPlanData.year,
-      FiscalYearId: yearId,
+      FiscalYearId: parseInt(InspectionPlanData.year),
+      // FiscalYearId: yearId,
       // files: "INSPECTIONPLAN.pdf",
       UserID: userid,
       Status: "ใช้งานจริง"

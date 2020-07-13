@@ -138,7 +138,6 @@ import { PremierorderComponent } from './premierorder/premierorder.component';
 import { ExcelGeneraterService } from './services/excel-generater.service';
 import { DatePipe } from '@angular/common';
 import { ReportInspectionPlanEventComponent } from './inspection-plan-event/report-inspection-plan-event/report-inspection-plan-event.component';
-import { ReportSubjectComponent } from './report/report-subject/report-subject.component';
 import { CentralPolicyFiscalyearComponent } from './central-policy/central-policy-fiscalyear/central-policy-fiscalyear.component';
 
 import { ExecutiveOrderExport1Component } from './executive-order/executive-order-export1/executive-order-export1.component';
@@ -162,6 +161,12 @@ import { DetailCentralPolicyProvinceMinistryComponent } from './central-policy/d
 import { ExternalRegisterComponent } from './external-register/external-register.component';
 import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
 import { InspectionPlanMinistryComponent } from './inspection-plan-ministry/inspection-plan-ministry.component';
+import { ReportSubjectComponent } from './report/report-subject/report-subject.component';
+import { ReportPerformanceComponent } from './report/report-performance/report-performance.component';
+import { ReportSuggestionsComponent } from './report/report-suggestions/report-suggestions.component';
+import { ReportSuggestionResultComponent } from './report/report-suggestion-result/report-suggestion-result.component';
+import { ReportQuestionnaireComponent } from './report/report-questionnaire/report-questionnaire.component';
+import { ReportCommentComponent } from './report/report-comment/report-comment.component';
 
 
 
@@ -315,6 +320,11 @@ const ExternalOrganization = [
     InspectionPlanMinistryComponent,
     DetailCentralPolicyProvinceMinistryComponent,
     ExternalRegisterComponent,
+    ReportPerformanceComponent,
+    ReportSuggestionsComponent,
+    ReportSuggestionResultComponent,
+    ReportQuestionnaireComponent,
+    ReportCommentComponent,
   ],
 
   imports: [
@@ -480,6 +490,11 @@ const ExternalOrganization = [
           { path: 'electronicbook/provincedetail/:id', component: ElectronicBookProvinceDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportimport/detail/:id', component: ReportImportDeatailComponent, canActivate: [AuthorizeGuard] },
           { path: 'commanderreport/detail/:id', component: CommanderReportDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportperformance', component: ReportPerformanceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportsuggestions', component: ReportSuggestionsComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportsuggestionsresult', component: ReportSuggestionResultComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportquestionnaire', component: ReportQuestionnaireComponent, canActivate: [AuthorizeGuard] },
+          { path: 'reportcomment', component: ReportCommentComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
