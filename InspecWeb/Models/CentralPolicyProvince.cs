@@ -32,6 +32,8 @@ namespace InspecWeb.Models
         [Description("ร่าง , ใช้งาน")]
         public string Status { get; set; }
 
+        public long Active { get; set; }
+
         [Description("")]
         public string QuestionPeople { get; set; }
 

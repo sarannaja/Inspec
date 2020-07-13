@@ -9,6 +9,7 @@ import { UserService } from '../services/user.service';
 import { ExportReportService } from '../services/export-report.service';
 import { ExcelGeneraterService } from '../services/excel-generater.service';
 
+import * as _ from 'lodash';
 import * as Excel from "exceljs/dist/exceljs.min.js";
 import * as ExcelProper from "exceljs";
 import * as fs from 'file-saver';
@@ -66,6 +67,7 @@ export class ReportExportComponent implements OnInit {
       ]
     };
     this.getexportport();
+    this.testCompare();
   }
 
   getexportport() {
@@ -251,6 +253,30 @@ export class ReportExportComponent implements OnInit {
     // const subTitleRow = worksheet.addRow(['Date : ' + this.datePipe.transform(new Date(), 'medium')]);
   }
 
+  testCompare() {
 
+    //default value
+    var a = [{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }, { 'id': 4 }, { 'id': 5 }, { 'id': 6 }, { 'id': 7 }];
+
+    //new value
+    var b = [{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }, { 'id': 8 }];
+
+    var test: any = [];
+    test = _.differenceBy(a, b, 'id');
+
+    console.log("Less than Default => ", test);
+
+     //default value
+     var a2 = [{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }, { 'id': 4 }, { 'id': 5 }, { 'id': 6 }, { 'id': 7 }];
+
+     //new value
+     var b2 = [{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }, { 'id': 8 }];
+
+     var test2: any = [];
+     test2 = _.differenceBy(b2, a2, 'id');
+
+     console.log("More than Default => ", test2);
+
+  }
 
 }

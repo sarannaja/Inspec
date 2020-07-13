@@ -1220,6 +1220,47 @@ namespace InspecWeb.Controllers
         //-----------------------------------end zone training phase-------------------------------------------
 
         //-------------------------------------zone training condition---------------------------------------------
+
+        // POST api/training/condition/add/trainingid
+        [HttpPost("condition/add/{trainingid}")]
+        public TrainingCondition InsertTrainingCondition(string name, long trainingid, int startyear, int endyear, int conditiontype)
+        {
+            var date = DateTime.Now;
+
+            var trainingdata = new TrainingCondition
+            {
+                TrainingId = trainingid,
+                Name = name,
+                StartYear = startyear,
+                EndYear = endyear,
+                ConditionType = conditiontype,
+                CreatedAt = date
+
+            };
+
+            _context.TrainingConditions.Add(trainingdata);
+            _context.SaveChanges();
+
+            return trainingdata;
+        }
+
+
+        // PUT : api/training/edit/:id
+        [HttpPut("condition/edit/{id}")]
+        public void EditTrainingCondtion(string name, long id, int startyear, int endyear, int conditiontype)
+        {
+            var training = _context.TrainingConditions.Find(id);
+            training.Name = name;
+            training.StartYear = startyear;
+            training.EndYear = endyear;
+            training.ConditionType = conditiontype;
+
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+
         //GET api/training/condition
         [HttpGet("condition/{trainingid}")]
         public IActionResult GetTrainingCondition(long trainingid)

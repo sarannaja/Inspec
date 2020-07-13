@@ -29,9 +29,12 @@ export class ReportInspectionPlanEventComponent implements OnInit {
   resultprovince: any = [];
   selectpeople: any = [];
   resultpeople: any = [];
+  selectprovincialdepartment: any = [];
+  resultprovincialdepartment: any = [];
   Form: FormGroup;
   Form2: FormGroup;
   Form3: FormGroup;
+  Form4: FormGroup;
   owner: any
   constructor(
     private spinner: NgxSpinnerService,
@@ -67,6 +70,10 @@ export class ReportInspectionPlanEventComponent implements OnInit {
       people: new FormControl(null, [Validators.required]),
     });
 
+    this.Form4 = this.fb.group({
+      provincialdepartment: new FormControl(null, [Validators.required]),
+    });
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -91,8 +98,16 @@ export class ReportInspectionPlanEventComponent implements OnInit {
     this.getprovince();
     this.getregion();
     this.getpeople();
-
+    this.getprovincialdepartment();
     this.modalRef = this.modalService.show(template);
+  }
+  getprovincialdepartment() {
+    this.inspectionplanservice.getprovincialdepartment().subscribe(response => {
+      this.resultprovincialdepartment = response
+      this.selectprovincialdepartment = this.resultprovincialdepartment.map((item, index) => {
+        return { value: item.id, label: item.name }
+      })
+    })
   }
 
   getprovince() {
@@ -123,7 +138,72 @@ export class ReportInspectionPlanEventComponent implements OnInit {
     })
   }
 
+  ExportProvincialdepartment(value) {
+    var monthNamesThai = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษจิกายน", "ธันวาคม"];
+    var dayNames = ["วันอาทิตย์ที่", "วันจันทร์ที่", "วันอังคารที่", "วันพุทธที่", "วันพฤหัสบดีที่", "วันศุกร์ที่", "วันเสาร์ที่"];
+    var monthNamesEng = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    var dayNamesEng = ['Sunday', 'Monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    var d = new Date();
+    var dateNow = d.getDate() + " " + monthNamesThai[d.getMonth()] + " " + (d.getFullYear() + 543)
+    // var centralPolicyProvinces: Array<any> = []
+    this.inspectionplanservice.exportexcelcalendardepartment(value.provincialdepartment).subscribe(async data => {
+      var calendar: Array<Calendar> = data.calendar
+      var centralPolicyUser: Array<any> = []
+      var maptest: Array<any> =
+        // var centralPolicyProvinces: Array<any> = []
+        calendar.map((item, index) => {
+          var ddd = new Date(item.startDate)
+          var startDate = ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          // var date =  item.startDate.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+          return [index + 1,
+            startDate,
+          item.centralPolicy.title,
+          item.inspectionPlanEvent.status,
+          item.inspectionPlanEvent.user.prefix + " " + item.inspectionPlanEvent.user.name,
+          item.inspectionPlanEvent.user.phoneNumber,
+          ///////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.prefix + " " + result.user.name
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.phoneNumber
+          }).toString().replace(',', "\n"),
+          //////////
+          item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.status
+          }).toString().replace(',', "\n")
+          ]
+        })
+      console.log(maptest);
 
+      var column = ["ลำดับที่",
+        "วัน/เดือน/ปี",
+        "เรื่อง",
+        "สถานะเรื่อง",
+        "หน่วยงาน/ผต.นร./ผต.กท. (เจ้าของเรื่อง)",
+        "หมายเลขติดต่อ",
+        "ผู้เข้าร่วม/หน่วยงาน",
+        "หมายเลขติดต่อ",
+        "สถานะการเข้าร่วม"
+      ]
+      this.ExportExcel(maptest, column)
+    })
+  }
   ExportRegion(value) {
     var monthNamesThai = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
       "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษจิกายน", "ธันวาคม"];

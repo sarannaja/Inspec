@@ -37,7 +37,7 @@
                           <td class="ellipsis">{{ item.name }}</td>
                           <td class="ellipsis text-center">
                             <ng-container *ngIf="item.conditionType == 1;else msecond">
-                                
+
                             </ng-container>
                               <ng-template #msecond>
                                   <ng-container *ngIf="item.conditionType == 2;else mthird">
@@ -63,10 +63,10 @@
                           </td>
                           <td class="ellipsis">{{ item.createdAt | thaidate:'year'}}</td>
                           <td>
-                              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                  (click)="editModal(modaleditTrainingSurvey, item.id, item.name)"></i>
+                              <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                  (click)="editModal(modaleditTrainingCondition, item.id, item.name, item.startYear, item.endYear)"></i> -->
                               <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
-                                  (click)="openModal(modaldeleteTrainingSurvey, item.id)"></i>
+                                  (click)="openModal(modaldeleteTrainingCondition, item.id)"></i>
                           </td>
                       </tr>
                   </tbody>
@@ -101,26 +101,26 @@
                     <label for="name" class="form-label">เงื่อนไขคุณสมบัติ</label>
                     <input type="text" formControlName="name" class="form-control"
                         placeholder="กรุณากรอกเงื่อนไขคุณสมบัติ">
-                    
+
                 </div>
-                
+
                 <div class="form-group" *ngIf="isNameSelected">
                     <div class="input-group">
                         <label for="startyear" class="form-text">อายุ</label>
-                        &nbsp; 
+                        &nbsp;
                         <input type="number" formControlName="startyear" class="form-control"
-                        placeholder="" class="col-2"> 
+                        placeholder="" class="col-2">
                         &nbsp;
                         <label for="endyear" class="form-text">-</label>
                         &nbsp;
                         <input type="number" formControlName="endyear" class="form-control"
-                        placeholder="" class="col-2"> 
+                        placeholder="" class="col-2">
                     </div>
-                    
-                    
+
+
                 </div>
 
-                
+
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -135,7 +135,7 @@
 
 
     <!-- BEGIN primary modal -->
-    <ng-template #modaldeleteTrainingSurvey class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <ng-template #modaldeleteTrainingCondition class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
             <i class="fa fa-info-circle delete-icon"></i>
             <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
@@ -144,7 +144,7 @@
             <p style="font-size: medium; color: #545454;">
                 คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
             </p>
-            <button type="button" class="btn btn-primary btnMargin" (click)="deleteTrainingSurvey(delid)">
+            <button type="button" class="btn btn-primary btnMargin" (click)="deleteTrainingCondition(delid)">
                 ใช่
             </button>
             <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
@@ -156,25 +156,50 @@
 
 
     <!-- BEGIN primary modal -->
-    <ng-template #modaleditTrainingSurvey class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="EditForm" (ngSubmit)="editTrainingSurvey(EditForm.value,delid)">
+    <!-- <ng-template #modaleditTrainingCondition class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <form [formGroup]="EditForm" (ngSubmit)="editTrainingCondition(EditForm.value,delid)">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">แก้ไขหัวข้อวัดผลประเมิน</h5>
-                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body m-3">
-                    <div class="form-group">
-                        <label for="test" class="form-label">หัวข้อวัดผลประเมิน</label>
-                        <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-                        <input type="text" value="{{name}}" formControlName="name" class="form-control"
-                            placeholder="กรุณากรอกชื่อจังหวัด">
-                    </div>
-                </div>
+              <div class="modal-header">
+                <h5 class="modal-title">แก้ไขเงื่อนไขคุณสมบัติ</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+              <div class="form-group">
+                  <label for="conditiontype" class="form-label">ประเภทคุณสมบัคิ</label>
+                  <select class="form-control" formControlName="conditiontype" (change)="selectInput($event)">
+                      <option value=1>พื้นฐาน</option>
+                      <option value=2>คำนวณอายุ</option>
+
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="name" class="form-label">เงื่อนไขคุณสมบัติ</label>
+                  <input type="text" formControlName="name"value="{{name}}" class="form-control"
+                      placeholder="กรุณากรอกเงื่อนไขคุณสมบัติ">
+
+              </div>
+
+              <div class="form-group" *ngIf="isNameSelected">
+                  <div class="input-group">
+                      <label for="startyear" class="form-text">อายุ</label>
+                      &nbsp;
+                      <input type="number" formControlName="startyear" class="form-control"
+                      placeholder="" class="col-2">
+                      &nbsp;
+                      <label for="endyear" class="form-text">-</label>
+                      &nbsp;
+                      <input type="number" formControlName="endyear" class="form-control"
+                      placeholder="" class="col-2">
+                  </div>
+
+
+              </div>
+
+
+          </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">บันทึก</button>
                     <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
@@ -182,8 +207,7 @@
                 </div>
             </div>
         </form>
-        <!-- </div> -->
-    </ng-template>
+    </ng-template> -->
     <!-- END primary modal -->
 
   </div>
