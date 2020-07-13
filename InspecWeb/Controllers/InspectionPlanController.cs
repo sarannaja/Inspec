@@ -106,7 +106,7 @@ namespace InspecWeb.Controllers
                        //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")))
                        //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
                        .Where(m => m.FiscalYearId == fiscalyearData.Id)
-                       .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid))
+                       .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid && i.Active == 1))
                        .ToList();
         }
 
@@ -147,12 +147,26 @@ namespace InspecWeb.Controllers
             _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
             _context.SaveChanges();
 
+            ///////////////////////////////
+            var SubjectGroupdata = new SubjectGroup
+            {
+                CentralPolicyId = centralpolicydata.Id,
+                ProvinceId = model.ProvinceId,
+                Type = "Master",
+                Land = "Master",
+                Status = "Master"
+            };
+            _context.SubjectGroups.Add(SubjectGroupdata);
+            _context.SaveChanges();
+            ///////////////////////////////
+            ///
             var subjectdata = new SubjectCentralPolicyProvince
             {
                 Name = model.Title,
                 CentralPolicyProvinceId = centralpolicyprovincedata.Id,
                 Type = "NoMaster",
-                Status = "ใช้งานจริง"
+                Status = "ใช้งานจริง",
+                SubjectGroupId = SubjectGroupdata.Id,
             };
             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
             _context.SaveChanges();
@@ -167,22 +181,23 @@ namespace InspecWeb.Controllers
             //};
             //_context.InspectionPlanEvents.Add(inspectionplaneventdata);
             //_context.SaveChanges();
-            var ElectronicBookdata = new ElectronicBook
-            {
-                CreatedBy = model.UserID,
-                Status = "ร่างกำหนดการ",
-            };
-            _context.ElectronicBooks.Add(ElectronicBookdata);
-            _context.SaveChanges();
-            System.Console.WriteLine("3");
 
-            var ElectronicBookGroupdata = new ElectronicBookGroup
-            {
-                // CentralPolicyProvinceId = centralpolicyprovincedata.Id,
-                ElectronicBookId = ElectronicBookdata.Id,
-            };
-            _context.ElectronicBookGroups.Add(ElectronicBookGroupdata);
-            _context.SaveChanges();
+            //var ElectronicBookdata = new ElectronicBook
+            //{
+            //    CreatedBy = model.UserID,
+            //    Status = "ร่างกำหนดการ",
+            //};
+            //_context.ElectronicBooks.Add(ElectronicBookdata);
+            //_context.SaveChanges();
+            //System.Console.WriteLine("3");
+
+            //var ElectronicBookGroupdata = new ElectronicBookGroup
+            //{
+            //    // CentralPolicyProvinceId = centralpolicyprovincedata.Id,
+            //    ElectronicBookId = ElectronicBookdata.Id,
+            //};
+            //_context.ElectronicBookGroups.Add(ElectronicBookGroupdata);
+            //_context.SaveChanges();
 
             var centralpolicyeventdata = new CentralPolicyEvent
             {

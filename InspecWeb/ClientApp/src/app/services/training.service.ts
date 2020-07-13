@@ -235,7 +235,7 @@ export class TrainingService {
   addTrainingProgram(trainingData, file: FileList) {
     console.log(trainingData);
     console.log(file);
-    
+
     const formData = new FormData();
     formData.append('TrainingPhaseId', trainingData.TrainingPhaseId);
     formData.append('ProgramDate', trainingData.programdate.date.year + '-' + trainingData.programdate.date.month + '-' + trainingData.programdate.date.day);
@@ -332,6 +332,33 @@ export class TrainingService {
   //-------------------------------------
 
   //---------zone training condition---------
+  //insert training condition list
+  addTrainingCondition(trainingData, trainingid) {
+    //alert(JSON.stringify(trainingData))
+    //alert(trainingid)
+    const formData = new FormData();
+    formData.append('name', trainingData.name);
+    formData.append('startyear', trainingData.startyear);
+    formData.append('endyear', trainingData.endyear);
+    formData.append('conditiontype', trainingData.conditiontype);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'condition/add/' + trainingid, formData);
+  }
+
+  editTrainingCondition(trainingData, id) {
+    console.log(trainingData);
+
+    const formData = new FormData();
+    formData.append('name', trainingData.name);
+    formData.append('startyear', trainingData.startyear);
+    formData.append('endyear', trainingData.endyear);
+    formData.append('conditiontype', trainingData.conditiontype);
+
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'condition/edit/' + id, formData);
+  }
+
   getTrainingCondition(trainingid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'condition/' + trainingid)
   }
