@@ -106,10 +106,6 @@ namespace InspecWeb.Models
 
         [Description("การใช้งาน")]
         public long Active { get; set; }
-
-        [Description("ลายเซ็น")]
-        public String Signature { get; set; }
-
         public ICollection<UserRegion> UserRegion { get; set; }
         public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }
 
