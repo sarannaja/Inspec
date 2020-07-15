@@ -10,6 +10,7 @@ import { ProvinceService } from 'src/app/services/province.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-edit-central-policy',
@@ -41,7 +42,10 @@ export class EditCentralPolicyComponent implements OnInit {
   endDate: any;
   delid: any;
   modalRef: BsModalRef;
-  userid: string
+  userid: string;
+  oldProvince: any = [];
+  addProvince: any = [];
+  removeProvince: any = [];
 
   selected: any = [];
   downloadUrl: any;
@@ -112,7 +116,7 @@ export class EditCentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result;
-        console.log("RES: ", this.resultdetailcentralpolicy);
+        console.log("RES EDIT: ", this.resultdetailcentralpolicy);
 
         this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearId.toString();
 
@@ -142,10 +146,16 @@ export class EditCentralPolicyComponent implements OnInit {
         });
 
         this.resultdetailcentralpolicy.centralPolicyProvinces.forEach(element => {
-          //  console.log("element: ", element.province.id);
-          this.selected.push(element.province.id)
+          console.log("element: ", element);
+          if (element.active == 1) {
+            this.selected.push(element.province.id);
+            this.oldProvince.push(element.province.id);
+          }
+
         });
         console.log("SELECTED: ", this.selected);
+
+
 
         console.log("year: ", this.resultdetailcentralpolicy.fiscalYearId);
 
@@ -186,10 +196,17 @@ export class EditCentralPolicyComponent implements OnInit {
 
 
   EditCentralpolicy(value) {
-    console.log("SUBMIT: ", value);
+    console.log("Old Province: ", this.oldProvince);
+    console.log("New Province: ", this.selected);
     console.log("files: ", this.form.value.files);
 
-    this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id, this.userid)
+    this.removeProvince = _.differenceBy(this.oldProvince, this.selected);
+    console.log("Remove Value => ", this.removeProvince);
+
+    this.addProvince = _.differenceBy(this.selected, this.oldProvince);
+    console.log("Add Value => ", this.addProvince);
+
+    this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id, this.userid, this.removeProvince, this.addProvince)
       .subscribe(response => {
         console.log("res: ", response);
         this.EditForm.reset()

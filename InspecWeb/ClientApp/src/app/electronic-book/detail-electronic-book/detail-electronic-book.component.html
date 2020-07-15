@@ -133,8 +133,8 @@
                   </div>
                   <div class="col-2" style="text-align: center;">
                     <div>
-                      <img class="rounded" *ngIf="items.user.role_id == 6" src="{{downloadUrl}}/{{items.user.signature}}" alt=""
-                        style="width: 100px; height: 100px;">
+                      <img class="rounded" *ngIf="items.user.role_id == 6"
+                        src="{{downloadUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
                     </div>
                     <div>
                       <label for="" style="font-size: small;">ลายมือชื่อผู้ตรวจ</label>
@@ -183,8 +183,8 @@
                   </div>
                   <div class="col-2" style="text-align: center;">
                     <div>
-                      <img class="rounded" *ngIf="items.user.role_id == 10" src="{{downloadUrl}}/{{items.user.signature}}" alt=""
-                        style="width: 100px; height: 100px;">
+                      <img class="rounded" *ngIf="items.user.role_id == 10"
+                        src="{{downloadUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
                     </div>
                     <div>
                       <label for="" style="font-size: small;">ลายมือชื่อผู้ตรวจ</label>
@@ -303,7 +303,8 @@
               </div>
             </div> -->
 
-            <div class="form-group" *ngIf="electronicBookData.electronicBookAccept.status == 'ลงนามเอกสารแล้ว'"
+            <div class="form-group"
+              *ngIf="electronicBookData.electronicBookAccept != null && electronicBookData.electronicBookAccept.status == 'ลงนามเอกสารแล้ว'"
               style="margin-left: 15px; margin-right: 21px; margin-top: 30px;">
               <h4>ลายมือชื่อผู้ว่าราชการจังหวัด</h4>
               <div>
@@ -316,7 +317,8 @@
                 </textarea>
                   </div>
                   <div class="col-2">
-                    <img class="rounded" src="{{downloadUrl}}/{{electronicBookData.electronicBookAccept.user.signature}}" alt=""
+                    <img class="rounded"
+                      src="{{downloadUrl}}/{{electronicBookData.electronicBookAccept.user.signature}}" alt=""
                       style="width: 100px; height: 100px;">
                   </div>
                 </div>
@@ -330,9 +332,9 @@
             type="submit" class="btn btn-danger" style="margin-right: 45px;"
             (click)="openModal(editSuggestionModal)">แก้ไขสมุดตรวจ</button>
           <button
-            *ngIf="this.allMinistry.length == this.approveMinistry.length && this.allMinistry.length != 0 && electronicBookData.electronicBook.provinceStatus != 'ส่งสมุดตรวจให้จังหวัดแล้ว' && electronicBookData.electronicBook.provinceStatus != 'จังหวัดแนบลายมือชื่อแล้ว'"
+            *ngIf="this.allMinistry.length == this.approveMinistry.length && this.allMinistry.length != 0 && electronicBookData.electronicBook.provinceStatus != 'ส่งสมุดตรวจให้หน่วยรับตรวจแล้ว' && electronicBookData.electronicBook.provinceStatus != 'หน่วยรับตรวจแนบลายมือชื่อแล้ว'"
             class="btn btn-primary" style="margin-right: 45px;"
-            (click)="openModal(confirmModal)">ส่งสมุดตรวจให้ส่วนจังหวัด</button>
+            (click)="openModal(confirmModal)">ส่งสมุดตรวจให้หน่วยรับตรวจ</button>
           <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
         </div>
       </div>

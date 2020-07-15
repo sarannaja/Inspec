@@ -52,6 +52,12 @@ namespace InspecWeb.ViewModel
 
         public long[] SubjectId { get; set; }
 
+        [JsonProperty(PropertyName = "RemoveProvince")]
+        public long[] RemoveProvince { get; set; }
+
+        [JsonProperty(PropertyName = "AddProvince")]
+        public long[] AddProvince { get; set; }
+
     }
 
     //public class inputdate

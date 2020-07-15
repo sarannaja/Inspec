@@ -4,7 +4,7 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
     </ol>
   </nav>
@@ -86,7 +86,7 @@
               <td>{{ item.status }}</td>
               <td>
                 <div class="row">
-                  <i title="ดูรายละเอียดประเด็นย่อย" *ngIf="item.status == 'ใช้งานจริง';" class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  <i title="ดูรายละเอียดประเด็นย่อย" class="align-middle mr-2 fas fa-fw fa-search pointer"
                     (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                   <div *ngIf="role_id == 1 || role_id == 2">

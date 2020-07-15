@@ -257,24 +257,18 @@ export class ReportExportComponent implements OnInit {
 
     //default value
     var a = [{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }, { 'id': 4 }, { 'id': 5 }, { 'id': 6 }, { 'id': 7 }];
-
     //new value
     var b = [{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }, { 'id': 8 }];
-
     var test: any = [];
     test = _.differenceBy(a, b, 'id');
-
     console.log("Less than Default => ", test);
 
      //default value
      var a2 = [{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }, { 'id': 4 }, { 'id': 5 }, { 'id': 6 }, { 'id': 7 }];
-
      //new value
      var b2 = [{ 'id': 1 }, { 'id': 2 }, { 'id': 3 }, { 'id': 8 }];
-
      var test2: any = [];
      test2 = _.differenceBy(b2, a2, 'id');
-
      console.log("More than Default => ", test2);
 
   }

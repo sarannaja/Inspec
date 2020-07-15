@@ -162,6 +162,8 @@ import { DetailCentralPolicyProvinceMinistryComponent } from './central-policy/d
 import { ExternalRegisterComponent } from './external-register/external-register.component';
 import { AnswerSubjectEditComponent } from './answer-subject/answer-subject-edit/answer-subject-edit.component';
 import { InspectionPlanMinistryComponent } from './inspection-plan-ministry/inspection-plan-ministry.component';
+import { ElectronicBookOtherComponent } from './electronic-book-province/electronic-book-other/electronic-book-other.component';
+import { ElectronicBookOtherDetailComponent } from './electronic-book-province/electronic-book-other/electronic-book-other-detail/electronic-book-other-detail.component';
 
 
 
@@ -315,6 +317,8 @@ const ExternalOrganization = [
     InspectionPlanMinistryComponent,
     DetailCentralPolicyProvinceMinistryComponent,
     ExternalRegisterComponent,
+    ElectronicBookOtherComponent,
+    ElectronicBookOtherDetailComponent,
   ],
 
   imports: [
@@ -480,6 +484,8 @@ const ExternalOrganization = [
           { path: 'electronicbook/provincedetail/:id', component: ElectronicBookProvinceDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportimport/detail/:id', component: ReportImportDeatailComponent, canActivate: [AuthorizeGuard] },
           { path: 'commanderreport/detail/:id', component: CommanderReportDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/other', component: ElectronicBookOtherComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/otherdetail/:id', component: ElectronicBookOtherDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

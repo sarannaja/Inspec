@@ -357,7 +357,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       //   url: '/training/report',
       //   name: 'รายงาน'
       // },
-      
+
     ]
   },
   {
@@ -503,7 +503,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
       //   url: '/training/report',
       //   name: 'รายงาน'
       // },
-      
+
     ]
   },
   {
@@ -600,23 +600,24 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
-    IDchildren: 'report',
+    // IDchildren: 'report',
     icon: 'fa-user-tie',
     name: "รายงานผลการตรวจราชการ",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/reportexport',
-        name: 'Export'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/reportimport',
-        name: 'Import'
-      },
-    ]
+    url: '/reportimport',
+    // children: [
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/reportexport',
+    //     name: 'Export'
+    //   },
+    //   {
+    //     ex_link: '0',
+    //     icon: 'fa-long-arrow-alt-right',
+    //     url: '/reportimport',
+    //     name: 'Import'
+    //   },
+    // ]
   },
   {
     icon: 'fa-hand-point-up',
@@ -727,7 +728,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     ]
   },
   {
-   
+
         icon: 'fa-chart',
         url: "/external/thaimap",
         name: "แผนที่"
@@ -819,7 +820,7 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     ]
   },
   {
- 
+
         icon: 'fa-chart',
         url: "/external/thaimap",
         name: "แผนที่"
@@ -1361,9 +1362,23 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     name: "ปฏิทินการตรวจราชการ"
   },
   {
+    IDchildren: 'electronicBook',
     icon: 'fa-book',
-    url: "/electronicbookprovince",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: "/electronicbookprovince",
+        name: 'รอดำเนินการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook/other',
+        name: 'ถูกส่งต่อ'
+      },
+    ]
   },
   {
     icon: 'fa-list-alt',

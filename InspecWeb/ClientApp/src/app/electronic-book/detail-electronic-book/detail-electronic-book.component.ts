@@ -140,8 +140,12 @@ export class DetailElectronicBookComponent implements OnInit {
         detail: result.electronicBook.detail,
         problem: result.electronicBook.problem,
         suggestion: result.electronicBook.suggestion,
-        provinceDetail: this.electronicBookData.electronicBookAccept.description
       })
+      if (this.electronicBookData.electronicBookAccept != null) {
+        this.Form.patchValue({
+          provinceDetail: this.electronicBookData.electronicBookAccept.description
+        })
+      }
     })
   }
 
