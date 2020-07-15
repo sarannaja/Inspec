@@ -175,9 +175,7 @@ namespace InspecWeb.Controllers
                     indexend++;
                     _context.SaveChanges();
                 }
-
                 index++;
-
                 System.Console.WriteLine("Start: " + index);
             }
 

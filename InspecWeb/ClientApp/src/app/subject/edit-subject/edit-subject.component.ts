@@ -142,7 +142,7 @@ export class EditSubjectComponent implements OnInit {
         });
         this.EditForm.patchValue({
           name: this.resultsubjectdetail.name,
-          // centralPolicyDateId: this.datetime
+          explanation: this.resultsubjectdetail.explanation
         })
         this.times = []
         for (var i = 0; i < this.resultsubjectdetail.subjectDateCentralPolicyProvinces.length; i++) {
