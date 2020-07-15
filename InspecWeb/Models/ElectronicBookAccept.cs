@@ -51,7 +51,8 @@ namespace InspecWeb.Models
         public string CreateBy { get; set; }
         public virtual ApplicationUser UserCreate { get; set; }
 
-        [Required]
+        // [Required]
         public ICollection<ElectronicBookProvinceApproveFile> ElectronicBookProvinceApproveFiles { get; set; }
+        public ICollection<ElectronicBookOtherAccept> ElectronicBookOtherAccepts { get; set; }
     }
 }

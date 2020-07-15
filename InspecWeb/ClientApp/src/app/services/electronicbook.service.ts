@@ -374,6 +374,12 @@ export class ElectronicbookService {
 
   }
 
+  getSendedElectronicBookOtherDepartment(provincialDepartmentId) {
+    console.log("provinceID: ", provincialDepartmentId);
+    return this.http.get<any[]>(this.url + "electronicbookotherprovince/" + provincialDepartmentId)
+
+  }
+
   addSubjectEventFile(value, file: FileList, electronicbookid, centralproid, signatureFiles: FileList) {
     console.log("Description: ", value.description);
     console.log("File Type: ", value.fileType);
@@ -424,6 +430,38 @@ export class ElectronicbookService {
       }
     }
     return this.http.post<any>(this.url + "addProvinceSignature", formData)
+  }
+
+  getProvincialDepartment() {
+    return this.http.get<any>(this.url + "getProvincialDepartment")
+  }
+
+  sendToOtherProvince(value, userId, electAcceptId) {
+    console.log("value: ", value);
+    console.log("UserId", userId);
+    console.log("Accept", electAcceptId);
+
+    const formData = new FormData();
+    formData.append('electAcceptId', electAcceptId);
+    formData.append('userCreate', userId);
+    formData.append('provincialDepartmentId', value.provincialDepartment);
+    formData.append('Description', value.description);
+
+    return this.http.post<any>(this.url + "sendElectronicBookToOtherProvince", formData)
+  }
+
+  agreeOtherDepartment(value, userId, ebookAcceptId) {
+    console.log("value: ", value);
+    console.log("electAcceptId: ", ebookAcceptId);
+    console.log("USERID: ", userId);
+
+
+    const formData = new FormData();
+    formData.append('Description', value.description);
+    formData.append('userCreate', userId);
+    formData.append('electAcceptId', ebookAcceptId);
+
+    return this.http.put(this.url + "agreeOtherDepartment", formData);
   }
 }
 

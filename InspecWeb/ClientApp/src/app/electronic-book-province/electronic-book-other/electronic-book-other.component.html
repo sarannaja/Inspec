@@ -1,0 +1,82 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">สมุดตรวจอิเล็กทรอนิกส์ถูกส่งต่อ</a></li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+
+
+      <div class="card-header">
+        <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
+      </div>
+
+      <div class="card-body">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>กำหนดการสมุดตรวจ</th>
+              <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
+              <!-- <th>จังหวัด</th> -->
+              <th>ผู้ส่ง</th>
+              <th>วันที่ส่ง</th>
+              <th>สถานะ</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of electronicBookData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td class="pointer">
+                วันที่ {{item.electronicBookAccept.electronicBook.startDate | thaidate: 'year'}} ถึง
+                {{item.electronicBookAccept.electronicBook.endDate | thaidate: 'year'}}</td>
+              <!-- <td>{{ item.electronicBook.detail }}</td> -->
+              <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
+              <td>{{ item.userCreate.prefix }} {{item.userCreate.name}} - {{item.userCreate.provincialDepartments.name}}
+              </td>
+              <td>{{ item.createdAt | thaidate: 'year' }}</td>
+              <td>{{ item.status }}</td>
+              <td>
+                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  (click)="gotoDetail(item.electronicBookAccept.electronicBook.id, item.id)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalAccept class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      รับทราบข้อมูล
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการรับทราบข้อมูลนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="Accept(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

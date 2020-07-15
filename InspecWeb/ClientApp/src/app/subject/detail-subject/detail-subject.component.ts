@@ -46,6 +46,8 @@ export class DetailSubjectComponent implements OnInit {
     this.centralpolicyservice.getdetailcentralpolicydata(this.centralpolicyid)
       .subscribe(result => {
         this.resultprovince = result
+        console.log("RES PROVINCE: ", this.resultprovince);
+
       })
   }
   getboxsubquestion() {
