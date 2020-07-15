@@ -99,7 +99,7 @@ import { AnswerSubjectComponent } from './answer-subject/answer-subject.componen
 import { CalendarUserComponent } from './calendar-user/calendar-user.component';
 import { AdviserCivilSectorComponent } from './adviser-civil-sector/adviser-civil-sector.component';
 import { RequestOrderComponent } from './request-order/request-order.component';
-import { DetailRequestOrderComponent } from './request-order/detail-request-order/detail-request-order.component';
+//import { DetailRequestOrderComponent } from './request-order/detail-request-order/detail-request-order.component';
 import { OfficerInspectionComponent } from './officer-inspection/officer-inspection.component';
 import { InfomationProvinceComponent } from './infomation-province/infomation-province.component';
 import { InfoDistrictComponent } from './info-district/info-district.component';
@@ -262,7 +262,7 @@ const ExternalOrganization = [
     CalendarUserComponent,
     AdviserCivilSectorComponent,
     RequestOrderComponent,
-    DetailRequestOrderComponent,
+    //DetailRequestOrderComponent,
     OfficerInspectionComponent,
     InfomationProvinceComponent,
     InfoDistrictComponent,
@@ -451,7 +451,7 @@ const ExternalOrganization = [
           { path: 'reportexport', component: ReportExportComponent, canActivate: [AuthorizeGuard] },
           { path: 'advisercivilsector', component: AdviserCivilSectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'requestorder', component: RequestOrderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard] },
+          //{ path: 'requestorder/detailrequestorder/:id', component: DetailRequestOrderComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople', component: AnswerPeopleComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/list/:id', component: AnswerPeopleListComponent, canActivate: [AuthorizeGuard] },
           { path: 'informationoperation', component: InformationoperationComponent, canActivate: [AuthorizeGuard] },

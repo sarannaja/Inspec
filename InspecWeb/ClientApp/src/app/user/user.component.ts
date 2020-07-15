@@ -11,6 +11,8 @@ import { UserService } from '../services/user.service'; // ผู้ใช้
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from 'rxjs/internal/Subscription';
 import { IMyOptions } from 'mydatepicker-th';
+import {DepartmentService} from '../services/department.service';
+import {FiscalyearService} from '../services/fiscalyear.service';
 
 @Component({
   selector: 'app-user',
@@ -19,7 +21,7 @@ import { IMyOptions } from 'mydatepicker-th';
 })
 export class UserComponent implements OnInit {
 
-  private myDatePickerOptions: IMyOptions = {
+  public myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
@@ -30,6 +32,8 @@ export class UserComponent implements OnInit {
   selectdatadeparment: Array<IOption>
   selectdataprovince: Array<IOption>
   selectdataregion: Array<IOption>
+  selectdatafiscalyear:Array<IOption>
+  selectdataprovincialdepartment:Array<IOption>
   loading = false;
   dtOptions: DataTables.Settings = {};
   roleId: any;
@@ -95,6 +99,7 @@ export class UserComponent implements OnInit {
     },
 
   ]
+
   datadeparment: any = [
     {
       id: 1,
@@ -105,6 +110,8 @@ export class UserComponent implements OnInit {
       name: 'สำนักงานรัฐมนตรีกระทรวงการคลัง'
     },
   ]
+  fiscalYearId:any;
+  date: any = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
 
   constructor(
     private modalService: BsModalService,
@@ -112,6 +119,8 @@ export class UserComponent implements OnInit {
     private provinceService: ProvinceService,
     private regionService: RegionService,
     private ministryService: MinistryService,
+    private departmentService:DepartmentService,
+    private fiscalyearService:FiscalyearService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private userService: UserService,
@@ -152,14 +161,17 @@ export class UserComponent implements OnInit {
     };
     this.getUser()
     this.getDataProvinces()
-    this.getDataRegions()
+    //this.getDataRegions()
     this.getDataMinistries()
+    this.getDatafiscalyear()
+
     this.selectdatarole = this.datarole.map((item, index) => {
       return { value: item.id, label: item.name }
     })
-    this.selectdatadeparment = this.datadeparment.map((item, index) => {
-      return { value: item.id, label: item.name }
-    })
+
+    // this.selectdatadeparment = this.datadeparment.map((item, index) => {
+    //   return { value: item.id, label: item.name }
+    // })
 
     if (this.roleId == 1) {
       this.rolename = 'ผู้ดูแลระบบ'
@@ -172,20 +184,24 @@ export class UserComponent implements OnInit {
     } else if (this.roleId == 5) {
       this.rolename = 'หัวหน้าสำนักงานจังหวัด'
     } else if (this.roleId == 6) {
-      this.rolename = 'ผู้ตรวจกระทรวง'
+      this.rolename = 'ผู้ตรวจราชการกระทรวง'
     } else if (this.roleId == 7) {
       this.rolename = 'ผู้ตรวจภาคประชาชน'
     } else if (this.roleId == 8) {
       this.rolename = 'ผู้บริหาร/นายก/รองนายก'
     } else if (this.roleId == 9) {
-      this.rolename = 'หน่วยงานตรวจ'
+      this.rolename = 'หน่วยงานตรวจราชการ'
     } else if (this.roleId == 10) {
-      this.rolename = 'ผู้ตรวจกรม'
+      this.rolename = 'ผู้ตรวจราชการกรม'
     }
   }
 
   openModal(template: TemplateRef<any>,IDdelete) {
+    this.addForm.reset()
     this.id = IDdelete;//ID สำหรับลบ
+    this.addForm.patchValue({
+      Role_id: this.roleId
+    })
     this.modalRef = this.modalService.show(template);
   }
 
@@ -196,24 +212,45 @@ export class UserComponent implements OnInit {
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();
-        // console.log(this.resultuser);
+        console.log("userdata",this.resultuser);
       })
+  }
+
+  getDatafiscalyear() {
+    this.fiscalyearService.getfiscalyeardata()
+      .subscribe(result => {
+        console.log('mo',result)
+        this.selectdatafiscalyear = result.map((item, index) => {
+          return { value: item.id, label: item.year }
+        })
+
+      })
+  }
+
+  getDataRegions(event) {
+
+    this.regionService.getregiondataforuser(event.value).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      );
+      console.log("uniqueRegions: ", uniqueRegion);
+
+      this.selectdataregion = uniqueRegion.map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      })
+    })
   }
 
   getDataProvinces() {
     this.provinceService.getprovincedata()
       .subscribe(result => {
         this.selectdataprovince = result.map((item, index) => {
-          return { value: item.id, label: item.name }
-        })
-
-      })
-  }
-
-  getDataRegions() {
-    this.regionService.getregiondata()
-      .subscribe(result => {
-        this.selectdataregion = result.map((item, index) => {
           return { value: item.id, label: item.name }
         })
 
@@ -228,6 +265,25 @@ export class UserComponent implements OnInit {
         })
       })
   }
+
+  getDataDepartments(event) {
+    this.departmentService.getdepartmentsforuserdata(event.value)
+      .subscribe(result => {
+        this.selectdatadeparment = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      })
+  }
+
+  getProvincialDepartments(event) {
+    this.userService.getprovincialdepartment(event.value)
+      .subscribe(result => {
+        this.selectdataprovincialdepartment = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      })
+  }
+
   uploadFile(event) {
     //alert('uploadfile');
     const file = (event.target as HTMLInputElement).files;
@@ -240,7 +296,7 @@ export class UserComponent implements OnInit {
   //เพิ่ม user
   adduser(value) {
     //alert(1);
-    this.userService.addUser(value,this.addForm.value.files).subscribe(response => {
+    this.userService.addUser(value,this.addForm.value.files,this.roleId).subscribe(response => {
       //alert(3);
       this.addForm.reset()
       this.modalRef.hide()
@@ -269,6 +325,7 @@ export class UserComponent implements OnInit {
       ProvinceId: new FormControl(null),
       MinistryId: new FormControl(null, [Validators.required]),
       DepartmentId : new FormControl(null),
+      FiscalYear: new FormControl(null),
       ProvincialDepartmentId : new FormControl(null),
       UserRegion: new FormControl(null, [Validators.required]),
       UserProvince: new FormControl(null, [Validators.required]),
@@ -277,6 +334,7 @@ export class UserComponent implements OnInit {
       files: new FormControl(null, [Validators.required]),
       Startdate: new FormControl(null, [Validators.required]),
       Enddate: new FormControl(null, [Validators.required]),
+
     })
   }
 

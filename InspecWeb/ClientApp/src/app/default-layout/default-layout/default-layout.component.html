@@ -182,7 +182,7 @@
                                                    <span *ngIf="item.status == 10">ข้อสั่งการ</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
-                                                   {{item.centralPolicy.title}}
+                                                   <span *ngIf="item.status == 10">test10</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">{{item.createdAt | thaidate: 'year' }}</div>
                                             </div>

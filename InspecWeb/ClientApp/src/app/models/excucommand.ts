@@ -9,6 +9,10 @@ export interface Executiveordercommanded {
     createdAt:             string;
     commanded_date:        string;
     publics:               number;
+    draft:number;
+    cancel:number;
+    accept:number;
+    canceldetail:string;
     executiveOrderFiles:   ExecutiveOrderFile[];
     executiveOrderAnswers: ExecutiveOrderAnswer[];
 }
@@ -18,13 +22,15 @@ export interface ExecutiveOrderAnswer {
     executiveOrderId:          number;
     status:                    string;
     userID:                    string;
-    user:                      null;
+    user:                      any;
     answerdetail:              null;
     answerProblem:             null;
     answerCounsel:             null;
     beaware_date:              null;
     publics:                   number;
     answerExecutiveOrderFiles: null;
+
+    
 }
 
 export interface ExecutiveOrderFile {

@@ -7,6 +7,7 @@ import { RequestorderrService } from '../services/requestorderr.service';
 import { IOption } from 'ng-select';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-request-order',
@@ -15,7 +16,7 @@ import { IMyOptions } from 'mydatepicker-th';
 })
 export class RequestOrderComponent implements OnInit {
 
-  private myDatePickerOptions: IMyOptions = {
+  public myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
@@ -27,7 +28,9 @@ export class RequestOrderComponent implements OnInit {
   role_id: any;
   selectdatauser: Array<IOption>
   Form: FormGroup;
+  cancelForm:FormGroup;
   awnserForm: FormGroup;
+  gotitForm:FormGroup;
   requestorderid: any;
   answerdetail: any;
   answerProblem: any;
@@ -44,30 +47,36 @@ export class RequestOrderComponent implements OnInit {
   vanswerCounsel: any;
   vrequestorderFiles: any;
   vanswerrequestorderFiles: any;
+  idrequestorder:any;
   url = ""
+  resultrequestorderdetail:any[] =[];
+  idrequestorderanswer :any;
+  imgprofileUrl:any;
+
+  date: any = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
 
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
     private requestOrderService: RequestorderrService,
+    private notificationService: NotificationService,
     private router: Router,
     private fb: FormBuilder,
     private modalService: BsModalService,
-    @Inject('BASE_URL') baseUrl: string) { }
+    @Inject('BASE_URL') baseUrl: string) { 
+    this.imgprofileUrl = baseUrl + '/requestfile';
+    }
 
   ngOnInit() {
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-    };
-
     this.getuserinfo();
-
+    
     this.Form = this.fb.group({
-      "Commanded_by": this.userid,
+      Commanded_by: this.userid,
       "Subject": new FormControl(null, [Validators.required]),
       "Subjectdetail": new FormControl(null, [Validators.required]),
       "Answer_by": new FormControl(null, [Validators.required]),
       "Commanded_date": new FormControl(null, [Validators.required]),
+      "Draft": new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
     })
 
@@ -79,6 +88,14 @@ export class RequestOrderComponent implements OnInit {
 
     })
 
+    this.cancelForm = this.fb.group({
+      "canceldetail": new FormControl(null),
+    })
+
+    this.gotitForm = this.fb.group({
+    })
+
+    
   }
 
   getuserinfo() {
@@ -90,31 +107,45 @@ export class RequestOrderComponent implements OnInit {
 
             this.role_id = result[0].role_id
 
-            if (this.role_id == 5) { //แจ้งคำร้องขอ
+            if (this.role_id == 5 || this.role_id == 4) { //แจ้งคำร้องขอ
               this.requestOrderService.getrequestordercommandeddata(this.userid)
-                .subscribe(result => {
-                  console.log('momomo', result);
+                .subscribe(result => {  
+                  console.log('data',result);            
                   this.getDatauser();
-                  this.getUserServiceLoop(result)
+                    this.resultrequestorder = result;
+                  this.loading = true;      
 
                 })
             } else if (this.role_id == 1) { //แอดมินใหญ่
               this.requestOrderService.getrequestorderdata()
-                .subscribe(result => {
+                .subscribe(result => {       
                   this.getDatauser();
-                  this.getUserServiceLoop(result)
+                  this.resultrequestorder = result;
+                  this.loading = true;      
                 })
             } else { // คนรับคำร้องขอ
               this.requestOrderService.getrequestorderanswereddata(this.userid)
                 .subscribe(result => {
                   this.getDatauser();
-                  this.getUserServiceLoop(result)
+                  this.resultrequestorder = result;
+                  this.loading = true;      
                 })
             }
 
           })
       })
   }
+  // <!-- select ข้อมูลคนรับคำร้องขอ -->
+  getDatauser() {
+    this.userService.getuserdata(3)
+      .subscribe(result => {
+        this.selectdatauser = result.map((item, index) => {
+          return { value: item.id, label: item.prefix + ' ' + item.name }
+        })
+
+      })
+  }
+  // <!-- END select ข้อมูลคนรับคำร้องขอ -->
 
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
@@ -134,124 +165,169 @@ export class RequestOrderComponent implements OnInit {
 
   }
 
-  storerequestorde(value) {
-    this.requestOrderService.addrequestorder(value, this.Form.value.files).subscribe(result => {
-      //alert(1);
-      // this.notificationService.addNotification(1, 1, result.answer_by, 10, result.id)
-      //   .subscribe(result => {
-      // alert(2);
-      this.modalRef.hide();
-      this.Form.reset();
-      this.getuserinfo();
-      //})
+  openModal(template: TemplateRef<any>) {
+    this.Form.reset()
+    this.modalRef = this.modalService.show(template);
+    this.Form.patchValue({
+      Draft:1
     })
   }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
 
-
-  getDatauser() {
-    this.userService.getuserdata(3)
-      .subscribe(result => {
-        this.selectdatauser = result.map((item, index) => {
-          return { value: item.id, label: item.prefix + ' ' + item.name }
-        })
-
-      })
-  }
-
-  answerModal(template: TemplateRef<any>, id, answerdetail, answerProblem, answerCounsel) {
-    this.requestorderid = id;
-    this.answerdetail = answerdetail;
-    this.answerProblem = answerProblem;
-    this.answerCounsel = answerCounsel;
-    this.awnserForm.patchValue({
-      "Answerdetail": answerdetail,
-      "AnswerProblem": answerProblem,
-      "AnswerCounsel": answerCounsel,
-    });
-    this.modalRef = this.modalService.show(template);
-  }
-
-
-  storeanswere(value) {
-    // alert(1);
-    this.requestOrderService.answerrequestorder(value, this.awnserForm.value.files, this.requestorderid)
-      .subscribe(result => {
-        //  alert(3);
-        // alert(result.id);
-        // this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id)
-        //   .subscribe(result => {
-        //   })
-        this.modalRef.hide();
-        this.getuserinfo()
-        this.awnserForm.reset();
-
-      })
-
-  }
-
-  Detailrequestorderforclick(template: TemplateRef<any>,
-    commanded_date,
-    commanded_by,
-    subject,
-    subjectdetail,
-    status,
-    createdAt,
-    answer_by,
-    answerdetail,
-    answerProblem,
-    answerCounsel,
-    requestorderFiles,
-    answerrequestorderFiles) {
-
-
+  // <!-- แก้ไขคำร้องขอ -->
+  editmodalRequestOrder(template: TemplateRef<any>,id,commanded_date,subject,subjectdetail,draft,answer_by) {
+     
+    this.Form.patchValue({
+      Subjectdetail:subjectdetail,
+      Answer_by:answer_by.map(result=>{
+        return result.userID
+      }),
+      Draft:draft,
+      Commanded_date:this.time(commanded_date)
+    })
+    this.idrequestorder = id; 
     this.vcommanded_date = commanded_date;
-    this.vcommanded_by = commanded_by;
     this.vsubject = subject;
     this.vsubjectdetail = subjectdetail;
-    this.vstatus = status;
-    this.vcreatedAt = createdAt;
     this.vanswer_by = answer_by;
-    this.vanswerdetail = answerdetail;
-    this.vanswerProblem = answerProblem;
-    this.vanswerCounsel = answerCounsel;
-    this.vrequestorderFiles = requestorderFiles;
-    this.vanswerrequestorderFiles = answerrequestorderFiles;
 
     this.modalRef = this.modalService.show(template);
   }
 
-  getUserServiceLoop(array): void {
-    var resultrequestorder: any[] = []
-    array.forEach(element => {
-      setTimeout(async () => {
-        await this.userService.getuserfirstdata(element.answer_by)
-          .subscribe(async result => {
-            await this.userService.getuserfirstdata(element.commanded_by)
-              .subscribe(resultCom => {
-                resultrequestorder.push({ ...element, userans: result[0], usercom: resultCom[0] })
-              })
+  // <!-- เปิดโมดอลยกเลิก -->
+  cancelmodal(template: TemplateRef<any>, id){
+  this.cancelForm.reset()
+  this.idrequestorder = id;
+  this.modalRef = this.modalService.show(template);
+  }
+  // <!-- เปิดโมดอลรับทราบ -->
 
-          })
-      }, 100)
+    // <!-- เปิดโมดอลรับทราบ -->
+  gotitmodal(template: TemplateRef<any>, id,idanswer,subject,subjectdetail){
+  this.requestorderid = id;
+  this.idrequestorderanswer = idanswer;
+  this.vsubject = subject;
+  this.vsubjectdetail = subjectdetail;
 
-    });
-    setTimeout(async () => {
-      this.resultrequestorder = await resultrequestorder
-    }, 150)
-
-    setTimeout(() => {
-      this.loading = true
-    }, 600)
+  this.modalRef = this.modalService.show(template);
   }
 
-  exportrequest2(id) {
-    this.requestOrderService.getrequest2(id)
+   //<!-- setเวลา -->
+  time(date) {
+    var ssss = new Date(date)  
+    var new_date = {date:{ year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() }}
+    return new_date
+  }
+  //<!-- END setเวลา -->
+
+
+  //<!--เพิ่มข้อคำร้องขอ -->
+  storerequestorder(value) {
+    //alert(1);
+    this.requestOrderService.addrequestorder(value, this.Form.value.files,this.userid)
+      .subscribe(result => 
+    {
+       //alert(3);
+      if(value.Draft == 1){
+        //alert("draft 1");
+        this.Form.reset();
+        this.loading = false;
+        this.getuserinfo();
+        this.modalRef.hide();
+      }else{
+        this.notificationService.addNotification(1, 1, 1, 12, result.id)
+         .subscribe(result => {
+         // alert("draft 0");
+          this.Form.reset();
+          this.loading = false;
+          this.getuserinfo();
+          this.modalRef.hide();
+       })
+      }
+    })
+  }
+  //<!-- END เพิ่มข้อคำร้องขอ -->
+
+   //แก้ไขข้อสั่งการ
+   updaterequestorder(value) {
+    // alert(1);
+     this.requestOrderService.updaterequestorder(value, this.Form.value.files,this.idrequestorder).subscribe(result => {
+       // alert(3);
+     
+        if(value.Draft == 1){
+          this.Form.reset();
+          this.getuserinfo();
+          this.modalRef.hide();
+        }else{
+          this.notificationService.addNotification(1, 1, 1, 12, result.id)
+           .subscribe(result => {
+            this.Form.reset();
+            this.getuserinfo();
+            this.modalRef.hide();
+         })
+        }     
+     })
+   }
+
+   //<!-- ยกเลิกข้อสั่งการ -->
+  cancelexecutiveorder(value){
+    this.requestOrderService.cancelrequestorder(value,this.idrequestorder).subscribe(result => {  
+        this.cancelForm.reset()
+        this.loading = false;
+        this.getuserinfo();
+        this.modalRef.hide();
+    })
+  }
+  //<!-- END ยกเลิกข้อสั่งการ -->
+
+
+  //<!-- รายระเอียดข้อสั่งการ -->
+    DetailRequestOrdermodal(template: TemplateRef<any>,id) {
+
+      this.requestOrderService.getrequestorderdetaildata(id)
+        .subscribe(result => {
+          console.log('detail',result);
+          this.resultrequestorderdetail = result;
+        })
+    this.modalRef = this.modalService.show(template);
+  }
+  //<!-- END รายระเอียดข้อสั่งการ -->
+
+  //<!-- รับทราบข้อสั่งการ -->
+  gotitrequestorder(){ 
+    //alert(1); 
+    this.requestOrderService.gotitrequestorder(this.requestorderid,this.idrequestorderanswer).subscribe(result => {
+      //alert(3); 
+      this.notificationService.addNotification(1, 1, 1, 13, this.requestorderid)
       .subscribe(result => {
-        window.open(this.url + "reportrequest/" + result.data);
+        //alert(4); 
+       this.loading = false;
+       this.getuserinfo();
+       this.modalRef.hide();
       })
-      this.getuserinfo();
+   })
   }
+  //<!--END รับทราบข้อสั่งการ -->
+
+    //<!-- modal รายงานผล -->
+    answerModal(template: TemplateRef<any>, id) {
+      this.idrequestorderanswer = id;
+      this.modalRef = this.modalService.show(template);
+    }
+    //<!-- END modal รายงานผล -->
+  
+  
+    //<!-- รายงานผล -->
+    storeanswerrequestorder(value) {
+      alert(1);
+      this.requestOrderService.answerrequestorder(value, this.awnserForm.value.files, this.idrequestorderanswer)
+        .subscribe(result => {
+          alert(3);
+          this.awnserForm.reset();
+          this.loading = false;
+          this.getuserinfo()
+          this.modalRef.hide();   
+        })
+    }
+    //<!-- END รายงานผล -->
+
 }

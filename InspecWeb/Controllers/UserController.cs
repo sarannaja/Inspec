@@ -81,9 +81,10 @@ namespace InspecWeb.Controllers {
                 .Include (s => s.Province)
                 .Include (s => s.Ministries)
                 .Include(x => x.Departments)
+                .Include(x => x.ProvincialDepartments)
                 .Where (m => m.Role_id == id)
                 .Where (m => m.Active == 1)
-                .Where (m => m.Email != "admin@inspec.go.th");
+                .Where (m => m.Email != "admin@inspec.go.th").OrderByDescending(m=>m.CreatedAt);
 
             return users;
         }
@@ -118,13 +119,25 @@ namespace InspecWeb.Controllers {
             yield return users;
         }
 
+        //สำหรับใช้ตรง user
+        [HttpGet("api/[controller]/[action]/{id}")]
+        public IEnumerable<ProvincialDepartment> getprovincialdepartment(long id)
+        {
+            var provincialDepartment = _context.ProvincialDepartment            
+              .Where(x => x.DepartmentId == id)
+              .ToList();
+
+            return provincialDepartment;
+          
+        }
+
         // POST api/values
         [Route ("api/[controller]")]
         [HttpPost]
         public async Task<IActionResult> Post ([FromForm] UserViewModel model) {
             var date = DateTime.Now;
           
-            System.Console.WriteLine("testuser : 1 //" + model.DepartmentId);
+            System.Console.WriteLine("testuser : 1 " + model.DepartmentId);
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             //ข้อมูลหลัก
@@ -197,50 +210,82 @@ namespace InspecWeb.Controllers {
            // _context.SaveChanges ();
             System.Console.WriteLine("testuser : 3");
             //user ที่อยู่หลายเขต
-            foreach (var item in model.UserRegion) {
-                var userregiondata = new UserRegion {
-                    UserID = user.Id,
-                    RegionId = item
-                };
-                System.Console.WriteLine("testuser : 3.2");
-                _context.UserRegions.Add (userregiondata);
-                _context.SaveChanges ();
-                System.Console.WriteLine("testuser : 3.3");
+            int tt = 0;
+            List<FiscalYearRelation> termsList = new List<FiscalYearRelation>();
 
-                //    //สำหรับกรณีของ role ผู้ตรวจเขต
-                if (model.Role_id == 3)
+            //สำหรับกรณีของ role ผู้ตรวจเขต
+            if (model.Role_id == 3 || model.Role_id == 8)
+            {
+                foreach (var item in model.UserRegion)
                 {
-                    var fis = _context.FiscalYearRelations
-                                .Where(m => m.RegionId == item);
-
-                    foreach (var item2 in fis)
+                    var userregiondata = new UserRegion
                     {
-                       var userprovincedata = new UserProvince
-                        {
-                            UserID = user.Id,
-                            ProvinceId = item2.ProvinceId
-                       };
-                        _context.UserRegions.Add(userregiondata);
-                        _context.SaveChanges();
+                        UserID = user.Id,
+                        RegionId = item
+                    };
+                    System.Console.WriteLine("testuser : 3.2");
+                    _context.UserRegions.Add(userregiondata);
+                    _context.SaveChanges();
 
+                    System.Console.WriteLine("testuser : 3.3");
+
+
+
+                    var userprovince = _context.FiscalYearRelations
+                                .Where(m => m.RegionId == item)
+                                .ToList();
+
+                    // System.Console.WriteLine("UserRegion :" + item);
+                    foreach (var item2 in userprovince)
+                    {
+                        termsList.Add(item2);
                     }
-                   System.Console.WriteLine("testuser : 4");
+                    tt++;
+                    System.Console.WriteLine("testuser : 4 :" + tt);
+
                 }
             }
+            FiscalYearRelation[] terms = termsList.ToArray();
 
-            ////จังหวัดที่ทำงาน
-            if (model.Role_id != 3)
+            if (terms.Count() != 0)
             {
-                foreach (var item3 in model.UserProvince)
+                foreach (var x in terms)
                 {
+                    //System.Console.WriteLine("momomo :" + item2.ProvinceId);
                     var userprovincedata = new UserProvince
                     {
-                       UserID = user.Id,
-                        ProvinceId = item3
-                   };
+                        UserID = user.Id,
+                        ProvinceId = x.ProvinceId
+                    };
                     _context.UserProvinces.Add(userprovincedata);
                     _context.SaveChanges();
-               }
+                }
+            }
+            ////จังหวัดที่ทำงาน
+            if (model.Role_id != 3 || model.Role_id != 8)
+            {
+
+                //  foreach (var item3 in model.UserProvince)
+                //   {
+                var userregiondata = new UserRegion
+                {
+                    UserID = user.Id,
+                    RegionId = model.UserRegionId
+                };
+                System.Console.WriteLine("testuser : 4.2");
+                _context.UserRegions.Add(userregiondata);
+                _context.SaveChanges();
+
+
+
+                var userprovincedata = new UserProvince
+                    {
+                       UserID = user.Id,
+                        ProvinceId = model.UserProvinceId
+                    };
+                    _context.UserProvinces.Add(userprovincedata);
+                    _context.SaveChanges();
+              // }
                System.Console.WriteLine("testuser : 5");
             }
 

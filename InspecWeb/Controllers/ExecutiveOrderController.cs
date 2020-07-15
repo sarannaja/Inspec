@@ -36,43 +36,69 @@ namespace InspecWeb.Controllers {
             _environment = environment;
         }
 
+        //<!-- Get ข้อสั่ง Role แอดมิน-->
         [HttpGet]
         public IEnumerable<ExecutiveOrder> Get () {
-            var executivedata = _context.ExecutiveOrders
-                .Where (m => m.publics == 1)
-                .ToList ();
-            return executivedata;
+            var excutiveorderdata = _context.ExecutiveOrders
+                .Include(m => m.ExecutiveOrderFiles)
+                .Include(m => m.ExecutiveOrderAnswers)
+                .ThenInclude(m => m.User)
+                .Where(m => m.publics == 1)
+                .ToList();
+            return excutiveorderdata;
         }
+        //<!-- END Get ข้อสั่ง Role แอดมิน-->
 
-       
+        //<!-- Get ข้อสั่ง Role คนที่สั่ง-->
         [HttpGet ("commanded/{id}")]
         public IActionResult Commanded (string id) {
             var excutiveorderdata = _context.ExecutiveOrders     
                 .Include (m => m.ExecutiveOrderFiles)
                 .Include(m => m.ExecutiveOrderAnswers)
+                .ThenInclude(m => m.User)              
                 .Where (m => m.UserID == id && m.publics == 1)
                 .ToList ();
 
             return Ok (excutiveorderdata);
         }
+        //<!-- END get ข้อสั่ง Role คนที่สั่ง-->
 
+        //<!-- Get ข้อสั่งการของผู้รับ-->
         [HttpGet ("answered/{id}")]
         public IActionResult answered (string id) {
-            var excutiveorderdata = _context.ExecutiveOrders
-               // .Include (m => m.User_Answer_by)
-                //.ThenInclude(m => m.)
+            var excutiveorderdata = _context.ExecutiveOrders           
                 .Include (m => m.ExecutiveOrderFiles)
-               // .Include (m => m.AnswerExecutiveOrderFiles)
-                //.Where (m => m.Answer_by == id && m.publics == 1)
-                .ToList ();
+                .Include(m => m.ExecutiveOrderAnswers)
+                .ThenInclude(m => m.User)
+               .Where(x => x.ExecutiveOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
+               .ToList ();
 
             return Ok (excutiveorderdata);
         }
+        //<!-- END Get ข้อสั่งการของผู้รับ-->
 
+        //<!-- Get รายละเอียดข้อสั่งการ -->
+        [HttpGet("excutiveorderdetail/{id}")]
+        public IActionResult excutiveorderdetail(long id)
+        {
+            var excutiveorderdetaildata = _context.ExecutiveOrders
+              .Include(m => m.ExecutiveOrderFiles)
+              .Include(m => m.ExecutiveOrderAnswers)
+              .ThenInclude(m => m.User)             
+              .Include(m => m.ExecutiveOrderAnswers)
+              .ThenInclude(m => m.ExecutiveOrderAnswerDetails)
+              .ThenInclude(m => m.AnswerExecutiveOrderFiles)
+              .Where(m => m.Id == id && m.publics == 1)
+              .ToList();
+
+            return Ok(excutiveorderdetaildata);
+        }
+        //<!-- END Get รายละเอียดข้อสั่งการ -->
+
+        //<!-- เพิ่มข้อสั่งการ -->
         [HttpPost]
         public async Task<IActionResult> Post ([FromForm] ExecutiveViewModel model) {
 
-            System.Console.WriteLine ("1 : ");          
             var date = DateTime.Now;
 
             var executiveordersdata = new ExecutiveOrder {
@@ -82,10 +108,13 @@ namespace InspecWeb.Controllers {
                 CreatedAt = date,
                 Commanded_date = model.Commanded_date,
                 publics = 1,
+                Draft = model.Draft,
+                Accept = 0,
+                Cancel = 0,
             };
             System.Console.WriteLine ("2 : ");
-            _context.ExecutiveOrders.Add (executiveordersdata);
-            _context.SaveChanges ();
+            _context.ExecutiveOrders.Add(executiveordersdata);
+            _context.SaveChanges();
 
             // <!-- เพิ่มผู่รับข้อสั่งการ  -->
             System.Console.WriteLine("3 : ");
@@ -102,6 +131,7 @@ namespace InspecWeb.Controllers {
                 _context.SaveChanges();
             }
             // <!-- END เพิ่มผู่รับข้อสั่งการ  -->
+
             System.Console.WriteLine("4 : ");
             // <!-- อัพไฟล์  -->
             if (!Directory.Exists (_environment.WebRootPath + "//executivefile//")) {
@@ -133,20 +163,49 @@ namespace InspecWeb.Controllers {
             //return Ok (new { Id = executiveordersdata.Id, Answer_by = executiveordersdata.Answer_by }); //เดียวมาใช้
             return Ok(new { Id = executiveordersdata.Id});
         }
+        //<!-- END เพิ่มข้อสั่งการ -->
 
-        [HttpPut]
+        //<!-- แก้ไขข้อสั่งการ -->
+        [HttpPut("updateexecutiveorder")]
         public async Task<IActionResult> Put ([FromForm] ExecutiveViewModel model) {
             var date = DateTime.Now;
             var executiveordersdata = _context.ExecutiveOrders.Find (model.id); {
-                //executiveordersdata.Answerdetail = model.Answerdetail;
-                //executiveordersdata.AnswerProblem = model.AnswerProblem;
-                //executiveordersdata.AnswerCounsel = model.AnswerCounsel;
-                //executiveordersdata.Status = "ตอบกลับเรียบร้อย";
-                //executiveordersdata.beaware_date = date;
+              
+                executiveordersdata.Subject = model.Subject;
+                executiveordersdata.Subjectdetail = model.Subjectdetail;
+                executiveordersdata.Commanded_date = model.Commanded_date;
+                executiveordersdata.Draft = model.Draft;
+                executiveordersdata.CreatedAt = date;
+
             };
 
             _context.Entry (executiveordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges ();
+        
+            // <! -- ลบข้อมูลผู้รับข้อสั่งการเดิม -->
+            var OLDExecutiveOrderAnswer = _context.ExecutiveOrderAnswers
+                .Where(m => m.ExecutiveOrderId == executiveordersdata.Id);
+
+            _context.ExecutiveOrderAnswers.RemoveRange(OLDExecutiveOrderAnswer);
+            _context.SaveChanges();
+            // <! -- END ลบข้อมูลผู้รับข้อสั่งการเดิม -->
+
+            // <!-- แก้ไขผู่รับข้อสั่งการ  -->
+            System.Console.WriteLine("3 : ");
+            foreach (var item in model.Answer_by)
+            {
+                var data = new ExecutiveOrderAnswer
+                {
+                    ExecutiveOrderId = executiveordersdata.Id,
+                    Status = "แจ้งแล้ว",
+                    UserID = item,
+                    publics = 1,
+                };
+                _context.ExecutiveOrderAnswers.Add(data);
+                _context.SaveChanges();
+            }
+            // <!-- END แก้ไขผู้รับข้อสั่งการ  -->
+
             if (!Directory.Exists (_environment.WebRootPath + "//executivefile//")) {
                 Directory.CreateDirectory (_environment.WebRootPath + "//executivefile//"); //สร้าง Folder Upload ใน wwwroot
             }
@@ -156,7 +215,6 @@ namespace InspecWeb.Controllers {
             foreach (var formFile in model.files.Select ((value, index) => new { Value = value, Index = index }))
             //foreach (var formFile in data.files)
             {
-
                 var random = RandomString (10);
                 string filePath2 = formFile.Value.FileName;
                 string filename = Path.GetFileName (filePath2);
@@ -168,39 +226,130 @@ namespace InspecWeb.Controllers {
                     using (var stream = System.IO.File.Create (filePath + random + filename)) {
                         await formFile.Value.CopyToAsync (stream);
                     }
-                    var AnswerExecutiveOrderFile = new AnswerExecutiveOrderFile {
+                    var ExecutiveOrderFile = new ExecutiveOrderFile {
                         ExecutiveOrderId = model.id,
                         Name = random + filename
                     };
-                    _context.AnswerExecutiveOrderFiles.Add (AnswerExecutiveOrderFile);
-                    _context.SaveChanges ();
+                    _context.ExecutiveFiles.Add(ExecutiveOrderFile);
+                    _context.SaveChanges();
                     /*  System.Console.WriteLine("Sucess");*/
                 }
             }
             return Ok (new { Id = model.id });
         }
+        //<!-- END แก้ไขข้อสั่งการ -->
+
+        //<!-- ยกเลิกข้อสั่งการ -->
+        [HttpPut("cancelexecutiveorder")]
+        public async Task<IActionResult> PutCancelExecute([FromForm] ExecutiveViewModel model)
+        {
+            var date = DateTime.Now;
+            var executiveordersdata = _context.ExecutiveOrders.Find(model.id);
+            {
+                executiveordersdata.Cancel = 1;
+                executiveordersdata.Canceldetail = model.Canceldetail;
+            };
+
+            _context.Entry(executiveordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(new { Id = model.id });
+        }
+        //<!-- END ยกเลิกข้อสั่งการ -->
+
+        //<!-- รับทราบข้อสั่งการ -->
+        [HttpPut("gotitexecutiveorder")]
+        public async Task<IActionResult> PutgotitExecute([FromForm] ExecutiveViewModel model)
+        {
+            var date = DateTime.Now;
+            var executiveordersdata = _context.ExecutiveOrders.Find(model.id);
+            {
+                executiveordersdata.Accept = 1;             
+            };
+            _context.Entry(executiveordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            System.Console.WriteLine("1 : ");
+            var executiveorderanswerdata = _context.ExecutiveOrderAnswers.Find(model.ExecutiveOrderAnswerId);
+            {
+                executiveorderanswerdata.Status = "รับทราบข้อสั่งการ";
+               executiveorderanswerdata.beaware_date = date;
+            };
+            _context.Entry(executiveorderanswerdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            System.Console.WriteLine("2 : ");
+            return Ok(new { Id = model.id });
+        }
+        //<!-- END รับทราบข้อสั่งการ -->
+
+        //<!-- รายงานข้อสั่งการ -->
+        [HttpPut("answerexecutiveorder")]
+        public async Task<IActionResult> PutanswerExecute([FromForm] ExecutiveViewModel model)
+        {
+            var date = DateTime.Now;
+
+            var executiveorderanswerdata = _context.ExecutiveOrderAnswers.Find(model.ExecutiveOrderAnswerId);
+            {
+                executiveorderanswerdata.Status = "รายงานผลเรียบร้อย";           
+            };
+            _context.Entry(executiveorderanswerdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            var executiveorderanswerdetaildata = new ExecutiveOrderAnswerDetail
+            {
+                ExecutiveOrderAnswerId = model.ExecutiveOrderAnswerId,
+                Answerdetail = model.Answerdetail,
+                AnswerProblem = model.AnswerProblem,
+                AnswerCounsel = model.AnswerCounsel,
+                create_at = date,
+                publics = 1,
+              
+            };
+            System.Console.WriteLine("1 PutanswerExecute : ");
+          
+            _context.ExecutiveOrderAnswerDetails.Add(executiveorderanswerdetaildata);
+            _context.SaveChanges();
+
+            // <!-- อัพไฟล์  -->
+            if (!Directory.Exists(_environment.WebRootPath + "//executivefile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//executivefile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "//executivefile//";
+
+            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            {
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+
+                if (formFile.Value.Length > 0)
+                {
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+                    var AnswerExecutiveOrderFile = new AnswerExecutiveOrderFile
+                    {
+                        ExecutiveOrderAnswerDetailId = executiveorderanswerdetaildata.Id,
+                        Name = random + filename,
+                    };
+                    _context.AnswerExecutiveOrderFiles.Add(AnswerExecutiveOrderFile);
+                    _context.SaveChanges();
+                }
+            }
+            // <!--END อัพไฟล์  -->
+
+            return Ok(new { Id = model.id });
+        }
+        //<!-- END รายงานข้อสั่งการ -->
 
         [HttpGet ("ex/{id}")]
         public IActionResult GetData (string id) {
-            /* System.Console.WriteLine("DDDDD");
-             System.Console.WriteLine("USERID : " + id);*/
-            //var inspectionPlanEventdata = from P in _context.InspectionPlanEvents
-            //                              select P;
-            //return inspectionPlanEventdata;
+          
             var userprovince = _context.UserProvinces
                 .Where (m => m.UserID == id)
                 .ToList ();
-
-            //var inspectionplans = _context.InspectionPlanEvents
-            //                    .Include(m => m.Province)
-            //                    .Include(m => m.CentralPolicyEvents)
-            //                    .ThenInclude(m => m.CentralPolicy)
-            //                    .ThenInclude(m => m.CentralPolicyProvinces)
-            //                    .ToList();
-
-            //var inspectionplans = _context.CentralPolicies
-            //                    .Include(m => m.CentralPolicyProvinces)
-            //                    .ThenInclude(x => x.Province).ToList();
 
             var inspectionplans = _context.CentralPolicyProvinces
                 .Include (m => m.CentralPolicy)
@@ -248,11 +397,7 @@ namespace InspecWeb.Controllers {
             System.Console.WriteLine ("in create");
             using (DocX document = DocX.Create (createfile)) //สร้าง
             {
-                //System.Console.WriteLine("4");
-                //Image image = document.AddImage(myImageFullPath);
-                //Picture picture = image.CreatePicture(85, 85);
-                //var logo = document.InsertParagraph();
-                //logo.AppendPicture(picture).Alignment = Alignment.center;
+              
 
                 System.Console.WriteLine ("5");
 
@@ -370,12 +515,7 @@ namespace InspecWeb.Controllers {
             System.Console.WriteLine("in create");
             using (DocX document = DocX.Create(createfile)) //สร้าง
             {
-                //System.Console.WriteLine("4");
-                //Image image = document.AddImage(myImageFullPath);
-                //Picture picture = image.CreatePicture(85, 85);
-                //var logo = document.InsertParagraph();
-                //logo.AppendPicture(picture).Alignment = Alignment.center;
-
+             
                 System.Console.WriteLine("5");
 
                 // Add a title

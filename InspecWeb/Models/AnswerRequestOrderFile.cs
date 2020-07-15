@@ -16,11 +16,12 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("RequestOrder")]
-        [Description("FK: คำร้องขอ")]
-        public long RequestOrderId { get; set; }
 
-        public virtual RequestOrder RequestOrder { get; set; }
+        [ForeignKey("RequestOrderAnswerDetail")]
+        [Description("FK: ข้อสั่งการ")]
+        public long RequestOrderAnswerDetailId { get; set; }
+
+        public virtual RequestOrderAnswerDetail RequestOrderAnswerDetail { get; set; }
 
         [Required]
         [Description("ชื่อไฟล์")]

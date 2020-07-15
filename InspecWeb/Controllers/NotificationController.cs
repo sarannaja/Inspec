@@ -123,51 +123,19 @@ namespace InspecWeb.Controllers
 
             }
 
+            //<!-- แจ้งข้อสั่งการ -->
             if (Status == 10)
             {
-                System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
-                System.Console.WriteLine("USERID : " + UserId);
-                    _context.Notifications.Add(new Notification
+                //System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
+               
+                var ExecutiveOrderAnswersdata = _context.ExecutiveOrderAnswers                 
+                  .Where(m => m.ExecutiveOrderId == xe)
+                  .ToList();
+
+                foreach (var item in ExecutiveOrderAnswersdata)
                 {
-                    UserID = UserId,
-                    CentralPolicyId = CentralPolicyId,
-                    ProvinceId = ProvinceId,
-                    status = Status,
-                    noti = 1,
-                    CreatedAt = date,
-                    xe = xe,
-                });
+                    System.Console.WriteLine("st10 USERID : " + item.UserID);
 
-                _context.SaveChanges();                  
-            }    
-            if (Status == 11)
-            {
-                //var ExecutiveOrders = _context.ExecutiveOrders
-                //.Where(m => m.Id == xe)
-                //.FirstOrDefault();
-
-                //notificationdata.UserID = ExecutiveOrders.UserId;
-                //notificationdata.CentralPolicyId = CentralPolicyId;
-                //notificationdata.ProvinceId = ProvinceId;
-                //notificationdata.status = Status;
-                //notificationdata.noti = 1;
-                //notificationdata.CreatedAt = date;
-                //notificationdata.xe = xe;
-                //_context.Notifications.Add(notificationdata);
-                //_context.SaveChanges();
-                //System.Console.WriteLine("success");
-
-            }
-            if (Status == 12)
-            {
-                //System.Console.WriteLine("st12 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
-                var users = _context.UserProvinces
-                .Include(m => m.User)
-               .Where(m => m.ProvinceId == ProvinceId && m.User.Role_id == 3).ToList();
-
-                foreach (var item in users)
-                {
-                    System.Console.WriteLine("USERID : " + item.UserID);
                     _context.Notifications.Add(new Notification
                     {
                         UserID = item.UserID,
@@ -180,26 +148,83 @@ namespace InspecWeb.Controllers
                     });
 
                     _context.SaveChanges();
-                    //System.Console.WriteLine("success");
 
                 }
             }
+
+            //<!-- ตอบรับข้อสั่งการ -->
+            if (Status == 11)
+            {
+               // System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
+
+                var ExecutiveOrderdata = _context.ExecutiveOrders
+                  .Where(m => m.Id == xe)
+                  .First();
+
+
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = ExecutiveOrderdata.UserID,
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe,
+                    });
+
+                    _context.SaveChanges();
+
+
+            }
+            //<!-- แจ้งเรื่องถึงผู้ตรวจ -->
+            if (Status == 12)
+            {
+                var RequestOrderAnswers = _context.RequestOrderAnswers
+                 .Where(m => m.RequestOrderId == xe)
+                 .ToList();
+
+                foreach (var item in RequestOrderAnswers)
+                {
+                   // System.Console.WriteLine("st10 USERID : " + item.UserID);
+
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = item.UserID,
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe,
+                    });
+
+                    _context.SaveChanges();
+
+                }
+            }
+
+            //<!-- ตอบรับการแจ้งเรื่องมา --> 
             if (Status == 13)
             {
-                //var RequestOrders = _context.RequestOrders
-                // .Where(m => m.Id == xe)
-                //.FirstOrDefault();
+                var RequestOrderdata = _context.RequestOrders
+                  .Where(m => m.Id == xe)
+                  .First();
 
-                //notificationdata.UserID = RequestOrders.UserId;
-                //notificationdata.CentralPolicyId = CentralPolicyId;
-                //notificationdata.ProvinceId = ProvinceId;
-                //notificationdata.status = Status;
-                //notificationdata.noti = 1;
-                //notificationdata.CreatedAt = date;
-                //notificationdata.xe = xe;
-                //_context.Notifications.Add(notificationdata);
-                //_context.SaveChanges();
-                //System.Console.WriteLine("success");
+
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = RequestOrderdata.UserID,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe,
+                });
+
+                _context.SaveChanges();
+
             }
 
             if (Status == 14)

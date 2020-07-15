@@ -25,109 +25,93 @@ getrequestorderanswereddata(id): Observable<any> {
   return this.http.get<any>(this.url + "answered/" + id)
 }
 
+  //<!-- ดูรายละเอียด -->
+  getrequestorderdetaildata(id): Observable<any> {
+    return this.http.get<any>(this.url + "requestorderdetail/" + id)
+  }
+   //<!-- END ดูรายละเอียด -->
+
 //สำหรับเพิ่มข้อคำร้อง
-addrequestorder(requestorderData, file: FileList) {
+addrequestorder(requestorderData, file: FileList,Commanded_by) {
   //alert(2);
   const formData = new FormData();
   formData.append('Commanded_date', requestorderData.Commanded_date.date.year + '-' + requestorderData.Commanded_date.date.month + '-' + requestorderData.Commanded_date.date.day);
-  formData.append('Commanded_by', requestorderData.Commanded_by);
+  formData.append('Commanded_by', Commanded_by);
   formData.append('Subject', requestorderData.Subject);
   formData.append('Subjectdetail', requestorderData.Subjectdetail);
-  formData.append('Answer_by', requestorderData.Answer_by);
-  for (var iii = 0; iii < file.length; iii++) {
-    formData.append("files", file[iii]);
+  formData.append('Draft', requestorderData.Draft);
+
+  for (var i = 0; i < requestorderData.Answer_by.length; i++) {
+    formData.append('Answer_by', requestorderData.Answer_by[i]); 
   }
+
+  if(file != null){
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }     
+  }
+
    return this.http.post<any>(this.url, formData);
 }
 
-//สำหรับตอบกลับข้อคำร้อง
-answerrequestorder(requestorderData, file: FileList, id) {
-  // alert(2);
-  // alert(requestorderData.Answerdetail);
-  // alert(requestorderData.AnswerProblem);
-  // alert(requestorderData.AnswerCounsel);
-  const formData = new FormData();
-  formData.append('id', id);
-  formData.append('Answerdetail', requestorderData.Answerdetail);
-  formData.append('AnswerProblem', requestorderData.AnswerProblem);
-  formData.append('AnswerCounsel', requestorderData.AnswerCounsel);
-  for (var iii = 0; iii < file.length; iii++) {
-    formData.append("files", file[iii]);
-  }
-  return this.http.put<any>(this.url, formData);
-}
 
-
-
-
-  editAnswerrequestorder(detailrequestorderData: any, id) {
-    // return detailrequestorderData
-    var file: FileList = detailrequestorderData.files
-    var formData = new FormData();
+  //สำหรับแก้ไขคำร้องขอ
+  updaterequestorder(requestorderData, file: FileList, id) {
+    const formData = new FormData();
     formData.append('id', id);
-    formData.append('AnswerDetail', detailrequestorderData.AnswerDetail);
-    formData.append('AnswerProblem', detailrequestorderData.AnswerProblem);
-    formData.append('AnswerCounsel', detailrequestorderData.AnswerCounsel);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+    formData.append('Commanded_date', requestorderData.Commanded_date.date.year + '-' + requestorderData.Commanded_date.date.month + '-' + requestorderData.Commanded_date.date.day);
+    formData.append('Commanded_by', requestorderData.Commanded_by);
+    formData.append('Subject', requestorderData.Subject);
+    formData.append('Subjectdetail', requestorderData.Subjectdetail);
+    formData.append('Draft', requestorderData.Draft);
+
+    for (var i = 0; i < requestorderData.Answer_by.length; i++) {
+      formData.append('Answer_by', requestorderData.Answer_by[i]); //
     }
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+    return this.http.put<any>(this.url+"updaterequestorder", formData);
+  }
+
+  //สำหรับยกเลิก
+  cancelrequestorder(requestorderData,id) {
+    //alert(2);
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('Canceldetail', requestorderData.canceldetail);
+     return this.http.put<any>(`${this.url}cancelrequestorder`, formData);
+  }
+
+  //สำหรับรับทราบ
+  gotitrequestorder(id,RequestOrderAnswerId) {
+      //alert(2);
+      const formData = new FormData();
+      formData.append('id', id);
+      formData.append('RequestOrderAnswerId', RequestOrderAnswerId);
+      return this.http.put<any>(`${this.url}gotitrequestorder`, formData);
+    }
+
+      //สำหรับตอบกลับ
+    answerrequestorder(requestorderData, file: FileList, idrequestderanswer) {
+    alert(2);
+    const formData = new FormData();
+    formData.append('RequestOrderAnswerId', idrequestderanswer);
+    formData.append('Answerdetail', requestorderData.Answerdetail);
+    formData.append('AnswerProblem', requestorderData.AnswerProblem);
+    formData.append('AnswerCounsel', requestorderData.AnswerCounsel);
+
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+
+    return this.http.put<any>(`${this.url}answerrequestorder`, formData);
+  }
    
-    return this.http.put(this.url + 'edit', formData);
-  }
-
-  getdetailrequestorderdata(id): Observable<any> {
-    return this.http.get<any>(this.url + "detail/" + id)
-  }
-  getviewrequestorderdata(id): Observable<any> {
-  
-    return this.http.get<any>(this.url + "view/" + id)
-  }
- 
-  getCentralpolicydata(id): Observable<any> {
-    //alert(id);
-    return this.http.get<any>(this.url +"ex/"+ id)
-  }
-
-  getprovince(id): Observable<any> {
-    return this.http.get<any>(this.url + "province/" + id)
-  }
-
-  adddetailrequestorder(detailrequestorderData, file: FileList, centralpolicyid,userid) {
-
-    var formData = new FormData();
-    formData.append('Name', detailrequestorderData.name);
-    formData.append('CentralpolicyId', centralpolicyid);
-    formData.append('ProvinceId', detailrequestorderData.provinceId);
-    formData.append('Userid', userid);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
-      
-    }
-    // console.log('Name: ' + formData.get("Name"));
-    // console.log('CentralpolicyId: ' + formData.get("CentralpolicyId"));
-    // console.log('ProvinceId: ' + formData.get("ProvinceId"));
-    // console.log('files: ', formData.get("files"));
-    return this.http.post<any>(this.url, formData);
-  }
-
-  // answerrequestorder(detailrequestorderData, file: FileList, id) {
-
-  //   // console.log('xxx' + detailrequestorderData)
-  //   const formData = new FormData();
-  //   formData.append('id', id);
-  //   formData.append('AnswerDetail', detailrequestorderData.AnswerDetail);
-  //   formData.append('AnswerProblem', detailrequestorderData.AnswerProblem);
-  //   formData.append('AnswerCounsel', detailrequestorderData.AnswerCounsel);
-  //   for (var iii = 0; iii < file.length; iii++) {
-  //     formData.append("files", file[iii]);
-  //   }
-  
-  //   return this.http.put<any>(this.url, formData);
-  // }
-  getdetailrequestorderdatarole3(id, userid): Observable<any> {
-    return this.http.get<any>(this.url + "detailforinspector/" + id + "/" + userid)
-  }
-
   getrequest1(Id) {
     console.log('Id in service',Id);
     // alert(Id);

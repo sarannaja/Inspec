@@ -7,21 +7,24 @@ using System.Text;
 
 namespace InspecWeb.Models
 {
-    
-    [Table("ExecutiveOrderAnswers")]
-    [Description("ตารางการตอบกลับข้อสั่งการผู้บริหาร")]
-    public class ExecutiveOrderAnswer
+    /// <summary>
+    /// เนื้อหาของสื่อสิ่งพิมพ์
+    /// </summary>
+    [Table("RequestOrderAnswers")]
+    [Description("ตารางแจ้งคำร้องขอ")]
+    public class RequestOrderAnswer
     {
+    
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("ExecutiveOrder")]
+        [ForeignKey("RequestOrder")]
         [Description("FK: ข้อสั่งการ")]
-        public long ExecutiveOrderId { get; set; }
+        public long RequestOrderId { get; set; }
 
-        public virtual ExecutiveOrder ExecutiveOrder { get; set; }
+        public virtual RequestOrder RequestOrder { get; set; }
 
         [Required]
         [Description("สถานะ")]
@@ -32,7 +35,7 @@ namespace InspecWeb.Models
         public string UserID { get; set; }
 
         public virtual ApplicationUser User { get; set; }
-          
+
         [Description("วันที่รับทราบข้อสั่งการ")]
         [DataType(DataType.Date)]
         public DateTime? beaware_date { get; set; }
@@ -40,6 +43,7 @@ namespace InspecWeb.Models
         [Description("publics")]
         public long publics { get; set; }
 
-        public ICollection<ExecutiveOrderAnswerDetail> ExecutiveOrderAnswerDetails { get; set; }
+        public ICollection<RequestOrderAnswerDetail> RequestOrderAnswerDetails { get; set; }
+
     }
 }

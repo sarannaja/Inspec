@@ -23,4 +23,8 @@ export class DepartmentService {
   getdepartmentsforsupportdata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url+'departmentsforsupport/'+ id)
   }
+  getdepartmentsforuserdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url+'departmentsforuser/'+ id)
+  }
+  
 }

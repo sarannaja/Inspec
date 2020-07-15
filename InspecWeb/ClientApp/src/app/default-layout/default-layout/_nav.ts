@@ -7,7 +7,7 @@ export interface NavBar {
   children?: Array<Children>
   classtap?: string;
   IDchildren?: string;
-  bridge?: {name:string,status:boolean}
+  bridge?: { name: string, status: boolean }
 }
 
 export interface Children {
@@ -527,7 +527,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -591,7 +591,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         url: '/reportcomment',
         name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
-      
+
     ]
   },
   {
@@ -689,17 +689,17 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
         ex_link: '0',
       },
       {
-          icon:'fa-long-arrow-alt-right',
-          url:'/exportrequestorderforadminprovince',
-          name:'รายงานคำร้องขอของหน่วยรับตรวจ',
-          ex_link:'0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/exportrequestorderforadminprovince',
+        name: 'รายงานคำร้องขอของหน่วยรับตรวจ',
+        ex_link: '0',
 
       },
       {
-          icon:'fa-long-arrow-alt-right',
-          url:'/exportrequestorderforinspector',
-          name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
-          ex_link:'0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/exportrequestorderforinspector',
+        name: 'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
+        ex_link: '0',
 
       }
     ]
@@ -760,10 +760,10 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   },
   {
 
-        icon: 'fa-chart',
-        url: "/external/thaimap",
-        name: "แผนที่"
-      },
+    icon: 'fa-map-marker',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
@@ -852,10 +852,10 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
   },
   {
 
-        icon: 'fa-chart',
-        url: "/external/thaimap",
-        name: "แผนที่"
-      },
+    icon: 'fa-map-marker',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
@@ -909,19 +909,19 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
         ex_link: '0',
       },
       {
-        icon:'fa-long-arrow-alt-right',
-        url:'/exportrequestorderforadminprovince',
-        name:'รายงานคำร้องขอของหน่วยรับตรวจ',
-        ex_link:'0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/exportrequestorderforadminprovince',
+        name: 'รายงานคำร้องขอของหน่วยรับตรวจ',
+        ex_link: '0',
 
-    },
-    {
-        icon:'fa-long-arrow-alt-right',
-        url:'exportrequestorderforinspector',
-        name:'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
-        ex_link:'0',
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: 'exportrequestorderforinspector',
+        name: 'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
+        ex_link: '0',
 
-    }
+      }
     ]
   },
   // {
@@ -990,7 +990,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     name: "จัดอบรมหลักสูตร"
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -1127,7 +1127,7 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
 
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -1166,7 +1166,7 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
   {
     icon: 'fa-calendar',
     url: "/calendaruser",
-    name: "ปฏิทินการตรวจราชการ" ,
+    name: "ปฏิทินการตรวจราชการ",
     // bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
   },
   {
@@ -1230,10 +1230,10 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     ]
   },
   {
-        icon: 'fa-chart',
-        url: "/external/thaimap",
-        name: "แผนที่"
-      },
+    icon: 'fa-map-marker',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
@@ -1352,10 +1352,10 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     ]
   },
   {
-        icon: 'fa-chart',
-        url: "/external/thaimap",
-        name: "แผนที่"
-      },
+    icon: 'fa-map-marker',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
@@ -1466,7 +1466,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -1569,7 +1569,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
 
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
