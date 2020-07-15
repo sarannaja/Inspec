@@ -1161,13 +1161,13 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
   {
     icon: 'fa-book',
     url: "/answerpeople",
-    name: "Userrole 7 แสดงความคิดเห็น"
+    name: "คำถามภาคประชาชน"
   },
   {
     icon: 'fa-calendar',
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ" ,
-    bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
+    // bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
   },
   {
     IDchildren: 'electronicbook',

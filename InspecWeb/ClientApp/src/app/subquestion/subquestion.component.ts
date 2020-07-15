@@ -36,7 +36,7 @@ export class SubquestionComponent implements OnInit {
   Formfile: FormGroup;
   times: IOption[] = [];
   selectdatacentralpolicy: Array<IOption>
-  benz = [{ value: '1212', label: 'benz' }, { value: '1212', label: 'Songnew' }];
+  listfiles: any = []
 
   constructor(
     private modalService: BsModalService,
@@ -228,11 +228,17 @@ export class SubquestionComponent implements OnInit {
     })
   }
   uploadFile(event) {
-    const file = (event.target as HTMLInputElement).files;
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+    }
+    console.log("test",this.listfiles[0].name);
+    
     this.Formfile.patchValue({
-      files: file
+      files: this.listfiles
     });
-    this.Formfile.get('files').updateValueAndValidity()
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
 
   }
   storefiles() {

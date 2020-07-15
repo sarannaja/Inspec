@@ -131,13 +131,13 @@
                 <i class="align-middle mr-2 fas fa-fw fa-book pointer"
                   (click)="DetailCentralPolicy(item.centralPolicyId)"></i>
 
-                <i *ngIf="item.centralPolicy.class == 'แผนการตรวจประจำปี'"
+                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicyEvent, item.id)"></i>
 
-                <i *ngIf="item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="openModaledit(ModalEditCentralPolicy,item.id)"></i>
-                <i *ngIf="item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-trash pointer"
+                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
               </td>
             </tr>
