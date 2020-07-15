@@ -350,6 +350,78 @@ namespace InspecWeb.Controllers
             // }
         }
 
+        [HttpPut("registerlist2")]
+        public void EditRegisterList2(long[] traningregisterid, long status)
+        {
+            foreach (var id in traningregisterid) {
+                var training = _context.TrainingRegisters.Find(id);
+                training.Status = status;
+
+                _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+            }
+        }
+
+        [HttpPut("editRegisterConditionList")]
+        public void EditRegisterConditionList([FromBody] RegisterConditionViewModel model)
+        {
+            var training = _context.TrainingRegisters
+                .Where(m => m.Id == model.traningregisterid)
+                .FirstOrDefault();
+
+
+            foreach (var eachmodel in model.traningregistercondition)
+            {
+                System.Console.WriteLine("TEST" + eachmodel.id);
+                System.Console.WriteLine("TEST" + eachmodel.status);
+                
+                var traningregisterconditiondata = _context.TrainingRegisterConditions
+                    .Where(m => m.RegisterId == training.Id && m.ConditionId == eachmodel.id).FirstOrDefault();
+
+                if (traningregisterconditiondata == null) { 
+                    if (eachmodel.status) {
+                        var Trainingdata = new TrainingRegisterCondition
+                        {
+                            RegisterId = training.Id,
+                            ConditionId = eachmodel.id,
+                            Status = 1,
+                        };
+
+                        _context.TrainingRegisterConditions.Add(Trainingdata);
+                        _context.SaveChanges();
+                    } else
+                    {
+                        var Trainingdata = new TrainingRegisterCondition
+                        {
+                            RegisterId = training.Id,
+                            ConditionId = eachmodel.id,
+                            Status = 0,
+                        };
+
+                        _context.TrainingRegisterConditions.Add(Trainingdata);
+                        _context.SaveChanges();
+                    }
+                } else
+                {
+                    if (eachmodel.status)
+                    {
+                        var traningregisterconditiondata2 = _context.TrainingRegisterConditions.Find(traningregisterconditiondata.Id);
+                        traningregisterconditiondata2.Status = 1;
+
+                        _context.Entry(traningregisterconditiondata2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        var traningregisterconditiondata2 = _context.TrainingRegisterConditions.Find(traningregisterconditiondata.Id);
+                        traningregisterconditiondata2.Status = 0;
+
+                        _context.Entry(traningregisterconditiondata2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
+                    }
+                }
+            }
+        }
 
         //GET:TEST api/Training/listdocument/trainingid
         [HttpGet("listdocument2/{trainingid}")]
@@ -1267,6 +1339,8 @@ namespace InspecWeb.Controllers
         {
             var trainingdata = _context.TrainingConditions
                 .Include(m => m.Training)
+                .Include(m => m.TrainingRegisterConditions)
+                .ThenInclude(m => m.TrainingRegister)
                 .Where(m => m.TrainingId == trainingid);
 
             return Ok(trainingdata);

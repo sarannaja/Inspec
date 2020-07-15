@@ -93,6 +93,43 @@ export class TrainingService {
     return this.http.put(this.url + 'registerlist/' + id, formData);
   }
 
+  editRegisterList2(trainingregisterlistData, id) {
+    console.log(trainingregisterlistData);
+
+    const formData = new FormData();
+    formData.append('status', trainingregisterlistData.approve);
+
+
+    for (var iii = 0; iii < id.length; iii++) {
+      formData.append("traningregisterid", id[iii]);
+    }
+
+    // const formData = {
+    //   status: parseInt(trainingregisterlistData.approve),
+    //   traningregisterid: id,
+    // }
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'registerlist2', formData);
+  }
+
+  editRegisterConditionList(trainingregisterlistData, id) {
+
+    // const formData = new FormData();
+    const formData = {
+      traningregistercondition:trainingregisterlistData,
+      traningregisterid:id
+    }
+
+    // formData.append('traningregisterid', id);
+
+    // for (var iii = 0; iii < trainingregisterlistData.length; iii++) {
+    //   formData.append("traningregistercondition", trainingregisterlistData[iii]);
+    // }
+
+    // console.log('FORMDATA: ', (formData.get("traningregistercondition").toString()));
+    return this.http.put(this.url + 'editRegisterConditionList', formData);
+  }
+
   //Update Group
   editRegisterGroup(trainingregisterlistData, id) {
     console.log(trainingregisterlistData);

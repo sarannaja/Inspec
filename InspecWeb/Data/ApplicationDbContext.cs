@@ -144,6 +144,8 @@ namespace InspecWeb.Data
         
         public DbSet<ImportReportFile> ImportReportFiles { get; set; }
 
+        public DbSet<TrainingRegisterCondition> TrainingRegisterConditions { get; set; }
+        
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -344,6 +346,13 @@ namespace InspecWeb.Data
             .HasOne(p => p.ImportReport)
             .WithMany(b => b.ImportReportFiles)
             .HasForeignKey(p => p.ImportReportId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            //SubjectGroups Cascade//
+            builder.Entity<SubjectCentralPolicyProvince>()
+            .HasOne(p => p.SubjectGroup)
+            .WithMany(b => b.SubjectCentralPolicyProvinces)
+            .HasForeignKey(p => p.SubjectGroupId)
             .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
