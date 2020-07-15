@@ -91,9 +91,10 @@ export class CentralPolicyComponent implements OnInit {
         if (this.role_id == 3) {
           this.resultcentralpolicy = []
           result.forEach(element => {
-            if (element.status == "ใช้งานจริง") {
-              this.resultcentralpolicy.push(element);
-            }
+            // if (element.status == "ใช้งานจริง") {
+            //   this.resultcentralpolicy.push(element);
+            // }
+            this.resultcentralpolicy.push(element);
           });
           console.log("data", this.resultcentralpolicy);
         }
@@ -110,9 +111,10 @@ export class CentralPolicyComponent implements OnInit {
         if (this.role_id == 3) {
           this.resultcentralpolicy = []
           result.forEach(element => {
-            if (element.status == "ใช้งานจริง") {
-              this.resultcentralpolicy.push(element);
-            }
+            // if (element.status == "ใช้งานจริง") {
+            //   this.resultcentralpolicy.push(element);
+            // }
+            this.resultcentralpolicy.push(element);
           });
           console.log("data", this.resultcentralpolicy);
         }
@@ -129,9 +131,10 @@ export class CentralPolicyComponent implements OnInit {
       if (this.role_id == 3) {
         this.resultcentralpolicy = []
         result.forEach(element => {
-          if (element.status == "ใช้งานจริง") {
-            this.resultcentralpolicy.push(element);
-          }
+          // if (element.status == "ใช้งานจริง") {
+          //   this.resultcentralpolicy.push(element);
+          // }
+          this.resultcentralpolicy.push(element);
         });
         console.log("data", this.resultcentralpolicy);
       }
@@ -163,15 +166,20 @@ export class CentralPolicyComponent implements OnInit {
     this.router.navigate(['/centralpolicy/editcentralpolicy', id])
   }
   selectfiscalyear(value) {
+    console.log(value);
     if (value == "currentfiscalyear") {
+      this.loading = false;
       this.getCurrentYear()
+      this.spinner.show();
     }
     else if (value == "allfiscalyear") {
+      this.loading = false;
       this.getCentralPolicy()
       this.spinner.show();
     }
     else {
       this.selectfiscalyearid = value
+      this.loading = false;
       this.getSelectfiscalyear()
       this.spinner.show();
       // this.router.navigate(['/centralpolicyfiscalyear/' + id])
