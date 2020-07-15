@@ -68,7 +68,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyFiles)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id ).FirstOrDefault();
+                .Where(m => m.Id == id).FirstOrDefault();
 
             return Ok(centralpolicydata);
             //return "value";
@@ -173,10 +173,9 @@ namespace InspecWeb.Controllers
                         System.Console.WriteLine("END: " + indexend);
                     }
                     indexend++;
+                    _context.SaveChanges();
                 }
-
                 index++;
-
                 System.Console.WriteLine("Start: " + index);
             }
 
@@ -658,13 +657,13 @@ namespace InspecWeb.Controllers
                 .FirstOrDefault();
 
                 var userdata = _context.Users.Where(m => m.Id == CentralPolicyEventdata.InspectionPlanEvent.CreatedBy).First();
-                return Ok(new {  centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince });
+                return Ok(new { centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince });
             }
             else
             {
                 var userdata = "";
                 var CentralPolicyEventdata = "";
-                return Ok(new {  centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince,answerPeople });
+                return Ok(new { centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince, answerPeople });
             }
 
 
@@ -945,7 +944,7 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("subjectevent/{id}/{subjectgroupid}")]
-        public IActionResult GetSubjectEvent(long id , long subjectgroupid)
+        public IActionResult GetSubjectEvent(long id, long subjectgroupid)
         {
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
@@ -978,7 +977,7 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("getquestionpeople/{cenproid}/{planid}")]
-        public IActionResult getquestionpeople(long cenproid,long planid)
+        public IActionResult getquestionpeople(long cenproid, long planid)
         {
             var cenid = _context.CentralPolicyProvinces
                 .Where(m => m.Id == cenproid).FirstOrDefault();
@@ -997,7 +996,7 @@ namespace InspecWeb.Controllers
 
         //POST api/values
         [HttpPost("addPeoplequestion")]
-        public void addPeoplequestion(long cenproid, long planid, string question, DateTime notificationdate,DateTime deadlinedate)
+        public void addPeoplequestion(long cenproid, long planid, string question, DateTime notificationdate, DateTime deadlinedate)
         {
             var cenid = _context.CentralPolicyProvinces
             .Where(m => m.Id == cenproid).FirstOrDefault();
