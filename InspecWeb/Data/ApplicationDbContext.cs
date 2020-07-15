@@ -48,7 +48,7 @@ namespace InspecWeb.Data
         public DbSet<TrainingRegisterGroup> TrainingRegisterGroups { get; set; }
         public DbSet<TrainingPhase> TrainingPhases { get; set; }
         public DbSet<TrainingCondition> TrainingConditions { get; set; }
-        
+
         //------------------------------
 
         public DbSet<Subquestion> Subquestions { get; set; }
@@ -130,7 +130,7 @@ namespace InspecWeb.Data
         public DbSet<AnswerSubquestionStatus> AnswerSubquestionStatuses { get; set; }
 
         public DbSet<ExecutiveOrderAnswer> ExecutiveOrderAnswers { get; set; }
-        
+
 
         public DbSet<CalendarFile> CalendarFiles { get; set; }
         public DbSet<SubjectEventFile> SubjectEventFiles { get; set; }
@@ -141,9 +141,12 @@ namespace InspecWeb.Data
         public DbSet<TrainingRegisterFile> TrainingRegisterFiles { get; set; }
         public DbSet<ImportReport> ImportReports { get; set; }
         public DbSet<ImportReportGroup> ImportReportGroups { get; set; }
-        
-        public DbSet<ImportReportFile> ImportReportFiles { get; set; }
 
+        public DbSet<ImportReportFile> ImportReportFiles { get; set; }
+        public DbSet<ElectronicBookOtherAccept> ElectronicBookOtherAccepts { get; set; }
+
+        public DbSet<TrainingRegisterCondition> TrainingRegisterConditions { get; set; }
+        
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -319,6 +322,12 @@ namespace InspecWeb.Data
            .HasForeignKey(p => p.ElectronicBookId)
            .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<ElectronicBookOtherAccept>()
+           .HasOne(p => p.ElectronicBookAccept)
+           .WithMany(b => b.ElectronicBookOtherAccepts)
+           .HasForeignKey(p => p.ElectronicBookAcceptId)
+           .OnDelete(DeleteBehavior.Cascade);
+
             //InspectionPlanEvent Cascade//
             builder.Entity<CentralPolicyEvent>()
             .HasOne(p => p.InspectionPlanEvent)
@@ -359,8 +368,15 @@ namespace InspecWeb.Data
             .HasForeignKey(p => p.ImportReportId)
             .OnDelete(DeleteBehavior.Cascade);
 
+            //SubjectGroups Cascade//
+            // builder.Entity<SubjectCentralPolicyProvince>()
+            // .HasOne(p => p.SubjectGroup)
+            // .WithMany(b => b.SubjectCentralPolicyProvinces)
+            // .HasForeignKey(p => p.SubjectGroupId)
+            // .OnDelete(DeleteBehavior.Cascade);
+
             base.OnModelCreating(builder);
-            //seed data
+            // seed data
             builder.ApplyConfiguration(new MinistrySeeder());
             builder.ApplyConfiguration(new DepartmentSeeder());
             builder.ApplyConfiguration(new ProvinceSeeder());

@@ -68,7 +68,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyFiles)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
-                .Where(m => m.Id == id ).FirstOrDefault();
+                .Where(m => m.Id == id).FirstOrDefault();
 
             return Ok(centralpolicydata);
             //return "value";
@@ -254,29 +254,88 @@ namespace InspecWeb.Controllers
             _context.Entry(centralpolicydata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
-            var delData = _context.CentralPolicyProvinces
-                   .Where(x => x.CentralPolicyId == editId)
-                   .ToList();
-            foreach (var del in delData)
+            // var delData = _context.CentralPolicyProvinces
+            //        .Where(x => x.CentralPolicyId == editId)
+            //        .ToList();
+            // foreach (var del in delData)
+            // {
+            //     _context.CentralPolicyProvinces.Remove(del);
+            // }
+            // _context.SaveChanges();
+            // System.Console.WriteLine("edit 1: " + model.AddProvince.Length);
+            if (model.RemoveProvince != null)
             {
-                _context.CentralPolicyProvinces.Remove(del);
-            }
-            _context.SaveChanges();
-
-            foreach (var id in model.ProvinceId)
-            {
-                System.Console.WriteLine("in2");
-                var centralpolicyprovincedata = new CentralPolicyProvince
+                System.Console.WriteLine("edit 1.1: " + model.RemoveProvince.Length);
+                foreach (var provinceId in model.RemoveProvince)
                 {
-                    ProvinceId = id,
-                    CentralPolicyId = editId,
-                    Step = "มอบหมายเขต",
-                    Status = "ร่างกำหนดการ"
-                };
-                _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
-                //_context.Entry(centralpolicyprovincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    System.Console.WriteLine("removeID: " + provinceId);
+                    var removeData = _context.CentralPolicyProvinces
+                    .Where(x => x.CentralPolicyId == editId && x.ProvinceId == provinceId)
+                    .FirstOrDefault();
+                    {
+                        removeData.Active = 0;
+                    };
+                    _context.Entry(removeData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
             }
-            _context.SaveChanges();
+
+
+            // System.Console.WriteLine("edit 2: " + model.AddProvince.Count());
+
+            if (model.AddProvince != null)
+            {
+                System.Console.WriteLine("edit 2.1: " + model.AddProvince.Length);
+                foreach (var provinceId in model.AddProvince)
+                {
+                    var addProvince = _context.CentralPolicyProvinces
+                    .Where(x => x.ProvinceId == provinceId && x.CentralPolicyId == editId)
+                    .ToList();
+
+                    System.Console.WriteLine("addProvince" + addProvince);
+
+                    if (addProvince.Count() == 0)
+                    {
+                        var centralPolicyData = new CentralPolicyProvince
+                        {
+                            ProvinceId = provinceId,
+                            CentralPolicyId = editId,
+                            Step = "มอบหมายเขต",
+                            Status = "ร่างกำหนดการ",
+                            Active = 1,
+                        };
+                        _context.CentralPolicyProvinces.Add(centralPolicyData);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        var sameData = _context.CentralPolicyProvinces
+                        .Where(x => x.CentralPolicyId == editId && x.ProvinceId == provinceId)
+                        .FirstOrDefault();
+                        {
+                            sameData.Active = 1;
+                        };
+                        _context.Entry(sameData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
+                    }
+                    System.Console.WriteLine("edit 3");
+                }
+            }
+
+
+            // foreach (var id in model.ProvinceId)
+            // {
+            //     System.Console.WriteLine("in2");
+            //     var centralpolicyprovincedata = new CentralPolicyProvince
+            //     {
+            //         ProvinceId = id,
+            //         CentralPolicyId = editId,
+            //         Step = "มอบหมายเขต",
+            //         Status = "ร่างกำหนดการ"
+            //     };
+            //     _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
+            // }
+            // _context.SaveChanges();
 
             var deleteDate = _context.CentralPolicyDates
                     .Where(x => x.CentralPolicyId == editId)
@@ -389,7 +448,6 @@ namespace InspecWeb.Controllers
                 }
             }
             return Ok(new { status = true });
-
         }
 
         [HttpDelete("deletefile/{id}")]
@@ -529,8 +587,6 @@ namespace InspecWeb.Controllers
             //System.Console.WriteLine("Status: " + accept);
             //_context.Entry(accept).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-
-
         }
 
         // GET api/values/5
@@ -658,13 +714,13 @@ namespace InspecWeb.Controllers
                 .FirstOrDefault();
 
                 var userdata = _context.Users.Where(m => m.Id == CentralPolicyEventdata.InspectionPlanEvent.CreatedBy).First();
-                return Ok(new {  centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince });
+                return Ok(new { centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince });
             }
             else
             {
                 var userdata = "";
                 var CentralPolicyEventdata = "";
-                return Ok(new {  centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince,answerPeople });
+                return Ok(new { centralpolicydata, userdata, CentralPolicyEventdata, provincedata, centralpolicyprovince, answerPeople });
             }
 
 
@@ -700,7 +756,7 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPut("reportcentralpolicy/{id}")]
-        public async Task<IActionResult> PostReportCentralPolicy([FromForm]CentralPolicyProvinceViewModel model, CentralPolicyUserModel userModel, long id)
+        public async Task<IActionResult> PostReportCentralPolicy([FromForm] CentralPolicyProvinceViewModel model, CentralPolicyUserModel userModel, long id)
         {
             System.Console.WriteLine("UserID: " + id);
             System.Console.WriteLine("Report: " + userModel.Report);
@@ -945,7 +1001,7 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("subjectevent/{id}/{subjectgroupid}")]
-        public IActionResult GetSubjectEvent(long id , long subjectgroupid)
+        public IActionResult GetSubjectEvent(long id, long subjectgroupid)
         {
             var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.SubquestionCentralPolicyProvinces)
@@ -978,7 +1034,7 @@ namespace InspecWeb.Controllers
 
         // GET api/values/5
         [HttpGet("getquestionpeople/{cenproid}/{planid}")]
-        public IActionResult getquestionpeople(long cenproid,long planid)
+        public IActionResult getquestionpeople(long cenproid, long planid)
         {
             var cenid = _context.CentralPolicyProvinces
                 .Where(m => m.Id == cenproid).FirstOrDefault();
@@ -997,7 +1053,7 @@ namespace InspecWeb.Controllers
 
         //POST api/values
         [HttpPost("addPeoplequestion")]
-        public void addPeoplequestion(long cenproid, long planid, string question, DateTime notificationdate,DateTime deadlinedate)
+        public void addPeoplequestion(long cenproid, long planid, string question, DateTime notificationdate, DateTime deadlinedate)
         {
             var cenid = _context.CentralPolicyProvinces
             .Where(m => m.Id == cenproid).FirstOrDefault();

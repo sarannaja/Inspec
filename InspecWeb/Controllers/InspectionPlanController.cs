@@ -164,7 +164,7 @@ namespace InspecWeb.Controllers
             {
                 Name = model.Title,
                 CentralPolicyProvinceId = centralpolicyprovincedata.Id,
-                Type = "NoMaster",
+                Type = "Master",
                 Status = "ใช้งานจริง",
                 SubjectGroupId = SubjectGroupdata.Id,
             };
@@ -247,6 +247,7 @@ namespace InspecWeb.Controllers
                     DeadlineDate = model.DeadlineDate,
                     StartDate = model.StartDate,
                     EndDate = model.EndDate,
+                    HaveSubject = 0,
                     //ElectronicBookId = ElectronicBookdata.Id,
                 };
                 _context.CentralPolicyEvents.Add(centralpolicyeventdata);
@@ -268,6 +269,11 @@ namespace InspecWeb.Controllers
         [HttpPost("inspectionprovince")]
         public object Post(long provinceid, string userid, DateTime start_date_plan, DateTime end_date_plan)
         {
+                      var roleid = _context.Users
+                .Where(m => m.Id == userid)
+                .Select(m => m.Role_id)
+                .FirstOrDefault();
+
             var date = DateTime.Now;
 
             var InspectionPlanEventdata = new InspectionPlanEvent
@@ -277,7 +283,8 @@ namespace InspecWeb.Controllers
                 CreatedBy = userid,
                 StartDate = start_date_plan,
                 EndDate = end_date_plan,
-                Status = "ร่างกำหนดการ"
+                Status = "ร่างกำหนดการ",
+                RoleCreatedBy = roleid.ToString(),
             };
 
             _context.InspectionPlanEvents.Add(InspectionPlanEventdata);
@@ -353,6 +360,39 @@ namespace InspecWeb.Controllers
 
             _context.InspectionPlanEvents.Remove(InspectionPlanEventsdata);
             _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deletecentralpolicyevent/{id}")]
+        public void Deletecentralpolicyevent(long id)
+        {
+            var InspectionPlanEventsdata = _context.CentralPolicyEvents.Find(id);
+
+            _context.CentralPolicyEvents.Remove(InspectionPlanEventsdata);
+            _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deletecentralpolicy/{id}")]
+        public void Deletecentralpolicy(long id)
+        {
+            var InspectionPlanEventsdata = _context.CentralPolicies.Find(id);
+
+            _context.CentralPolicies.Remove(InspectionPlanEventsdata);
+            _context.SaveChanges();
+        }
+
+        // GET api/values/5
+        [HttpGet("getcentralpolicyeventdata/{id}")]
+        public IActionResult Getcentralpolicyeventdata(long id)
+        {
+            var centralpolicydata = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.FiscalYear)
+                .Where(m => m.Id == id)
+                .FirstOrDefault();
+
+            return Ok(centralpolicydata);
         }
     }
 }

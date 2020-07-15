@@ -168,6 +168,10 @@ import { ReportSuggestionResultComponent } from './report/report-suggestion-resu
 import { ReportQuestionnaireComponent } from './report/report-questionnaire/report-questionnaire.component';
 import { ReportCommentComponent } from './report/report-comment/report-comment.component';
 import {CookieService} from 'ngx-cookie-service'
+import { ElectronicBookOtherComponent } from './electronic-book-province/electronic-book-other/electronic-book-other.component';
+import { ElectronicBookOtherDetailComponent } from './electronic-book-province/electronic-book-other/electronic-book-other-detail/electronic-book-other-detail.component';
+
+
 
 
 
@@ -324,6 +328,8 @@ const ExternalOrganization = [
     ReportSuggestionResultComponent,
     ReportQuestionnaireComponent,
     ReportCommentComponent,
+    ElectronicBookOtherComponent,
+    ElectronicBookOtherDetailComponent,
   ],
 
   imports: [
@@ -494,6 +500,8 @@ const ExternalOrganization = [
           { path: 'reportsuggestionsresult', component: ReportSuggestionResultComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportquestionnaire', component: ReportQuestionnaireComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportcomment', component: ReportCommentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/other', component: ElectronicBookOtherComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/otherdetail/:id', component: ElectronicBookOtherDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

@@ -17,7 +17,6 @@ import { DepartmentService } from 'src/app/services/department.service';
   styleUrls: ['./electronic-book-province-detail.component.css']
 })
 export class ElectronicBookProvinceDetailComponent implements OnInit {
-
   electId: any;
   Form: FormGroup;
   userid: any;
@@ -35,6 +34,9 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   submitForm: FormGroup;
   downloadUrl: any;
   signature: any = [];
+  provincialDepartmentData: any = [];
+  otherDepartmentForm: FormGroup;
+  electAcceptId: any;
 
   constructor(
     private fb: FormBuilder,
@@ -55,15 +57,15 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("ELECTID: ", this.electId);
+    // console.log("ELECTID: ", this.electId);
     this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
-        console.log(result);
+        // console.log(result);
         // alert(this.userid)
         this.signature = result;
-        console.log("signatureProvince: ", this.signature);
+        // console.log("signatureProvince: ", this.signature);
 
         this.userservice.getuserfirstdata(this.userid)
           .subscribe(result => {
@@ -86,7 +88,13 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
       files: [null]
     })
 
+    this.otherDepartmentForm = this.fb.group({
+      description: new FormControl(null, [Validators.required]),
+      provincialDepartment: new FormControl(null, [Validators.required]),
+    })
+
     this.getElectronicBookDetail();
+    this.getProvincialDepartment();
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
@@ -95,18 +103,18 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   getElectronicBookDetail() {
     this.electronicBookService.getElectronicBookDetail(this.electId).subscribe(result => {
       console.log("RESProvince: ", result);
-
+      this.electAcceptId = result.electronicBookAccept.id;
       var provinces: any = [];
 
       result.electronicBookGroup.forEach(element => {
         provinces.push(element.centralPolicyEvent.inspectionPlanEvent.provinceId)
       });
-      console.log("allProvices: ", provinces);
+      // console.log("allProvices: ", provinces);
 
       this.provinceId = provinces.filter(
         (thing, i, arr) => arr.findIndex(t => t === thing) === i
       );
-      console.log("uniqueProvince: ", this.provinceId);
+      // console.log("uniqueProvince: ", this.provinceId);
 
       this.inspectionPlanEventId = result.electronicBookGroup.map((item, index) => {
         return {
@@ -117,14 +125,14 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
       this.getInvitedPeople(this.inspectionPlanEventId);
 
       this.electronicBookData = result;
-      console.log("provinceDataXXXXX: ", this.electronicBookData);
+      // console.log("provinceDataXXXXX: ", this.electronicBookData);
 
       this.electronicBookData.ebookInvite.forEach(element => {
         if (element.user.role_id == 6) {
           this.allMinistry.push(element)
         }
       });
-      console.log("All: ", this.allMinistry.length);
+      // console.log("All: ", this.allMinistry.length);
 
       this.electronicBookData.ebookInvite.forEach(element => {
         if (element.user.role_id == 6 && element.status == "ลงความเห็นแล้ว") {
@@ -132,7 +140,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
         }
       });
 
-      console.log("Approved: ", this.approveMinistry.length);
+      // console.log("Approved: ", this.approveMinistry.length);
 
 
       this.Form.patchValue({
@@ -146,22 +154,22 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   getInvitedPeople(inspectionPlanEventId) {
     this.electronicBookService.getInvitedPeople(inspectionPlanEventId).subscribe(res => {
 
-      console.log("res people: ", res);
+      // console.log("res people: ", res);
       var acceptPeople: any = [];
       var acceptPeople = res.filter(function (data) {
         return data.status == "ตอบรับ" || data.status == "มอบหมาย";
       });
-      console.log('acceptPeople: ', acceptPeople);
+      // console.log('acceptPeople: ', acceptPeople);
 
       this.invitedPeopleData = acceptPeople.filter(
         (thing, i, arr) => arr.findIndex(t => t.userId === thing.userId) === i
       );
-      console.log("invitedPeople: ", this.invitedPeopleData);
+      // console.log("invitedPeople: ", this.invitedPeopleData);
 
       var userInvite = this.invitedPeopleData.map((item, index) => {
         return item.userId;
       })
-      console.log("userrrrr: ", userInvite);
+      // console.log("userrrrr: ", userInvite);
 
       this.Form.patchValue({
         user: userInvite
@@ -192,16 +200,38 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
     this.form.patchValue({
       files: file
     });
-    console.log("fff:", this.form.value.files)
+    // console.log("fff:", this.form.value.files);
     this.form.get('files').updateValueAndValidity()
   }
 
   postSignature(value) {
     this.electronicBookService.provinceAddSignature(value, this.form.value.files, this.electId, this.userid).subscribe(res => {
-      console.log("signatureRES: ", res);
+      // console.log("signatureRES: ", res);
       this.getElectronicBookDetail();
       this.Form.reset();
       this.modalRef.hide();
+    })
+  }
+
+  sendToOtherProvince(value) {
+    console.log("Value: ", value);
+
+    this.electronicBookService.sendToOtherProvince(value, this.userid, this.electAcceptId).subscribe(res => {
+      console.log("sended: ", res);
+      this.getElectronicBookDetail();
+      this.modalRef.hide();
+    })
+  }
+
+  getProvincialDepartment() {
+    this.electronicBookService.getProvincialDepartment().subscribe(res => {
+      // console.log("ProvincialDepartment: ", res);
+      this.provincialDepartmentData = res.provincialDepartmentData.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
     })
   }
 

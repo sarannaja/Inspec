@@ -126,11 +126,13 @@ export class CentralpolicyService {
     return this.http.post<any>(this.url, formData)
   }
 
-  editCentralpolicy(centralpolicyData, file: FileList, id, userId) {
+  editCentralpolicy(centralpolicyData, file: FileList, id, userId, removeProvine, addProvince) {
     console.log("test: ", centralpolicyData);
     console.log("id", id);
     console.log("ff: ", file);
     console.log("userid: ", userId);
+    console.log("removeProvince: ", removeProvine);
+    console.log("addProvince: ", addProvince);
 
     var inputdate: Array<any> = centralpolicyData.inputdate.map((item, index) => {
       return {
@@ -143,9 +145,19 @@ export class CentralpolicyService {
     const formData = new FormData();
     formData.append('Title', centralpolicyData.title);
     formData.append('Type', centralpolicyData.type);
+
     for (var i = 0; i < centralpolicyData.ProvinceId.length; i++) {
       formData.append('ProvinceId', centralpolicyData.ProvinceId[i]);
     }
+
+    for (var i = 0; i < removeProvine.length; i++) {
+      formData.append('RemoveProvince', removeProvine[i]);
+    }
+
+    for (var i = 0; i < addProvince.length; i++) {
+      formData.append('AddProvince', addProvince[i]);
+    }
+
     formData.append('FiscalYearId', centralpolicyData.year);
     formData.append('Status', centralpolicyData.status);
     formData.append('UserID', userId);
@@ -172,6 +184,8 @@ export class CentralpolicyService {
     console.log("formStartDate2: ", formData.getAll('StartDate2'));
     console.log("formEndDate2: ", formData.getAll('EndDate2'));
     console.log("formfiles: ", formData.getAll('files'));
+    console.log("removeProvince: ", formData.getAll('RemoveProvince'));
+    console.log("addProvince: ", formData.getAll('AddProvince'));
 
     let path = this.url + id;
     console.log("path: ", path);
