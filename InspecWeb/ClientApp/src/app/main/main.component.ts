@@ -4,6 +4,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { ExcelService } from '../services/excel.service';
 import { WordService } from '../services/word.service';
 import { UserManager } from 'oidc-client';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-main',
@@ -14,6 +15,7 @@ export class MainComponent implements OnInit {
   exportregistration: any = []
   email: string = ''
   role_id: any;
+  userid: any;
   name = 'Angular 6';
 
   data: any = [{
@@ -38,7 +40,8 @@ export class MainComponent implements OnInit {
     private authorize: AuthorizeService,
     private userManager: UserManager,
     private wordService: WordService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private _CookieService: CookieService
   ) { }
 
   ngOnInit() {
@@ -46,14 +49,15 @@ export class MainComponent implements OnInit {
       .subscribe(result => {
         this.email = result.name
         this.role_id = result.role_id
+        this.userid = result.sub
+        this.setUserCookie(result.sub)
         //alert(this.role_id);
         console.log("user", result);
       })
-
-      // alert(this.role_id)
+    // alert(this.role_id)
     this.exportExcel();
 
-      this.userManager.getUser
+    this.userManager.getUser
   }
   Logout() {
     this.authorize.signOut({ local: true })
@@ -70,5 +74,11 @@ export class MainComponent implements OnInit {
       console.log("res: ", this.exportregistration);
 
     })
+  }
+
+ async setUserCookie(userid:string) {
+   await this._CookieService.set('UserIdMobile', userid)
+    console.log(this._CookieService.get('UserIdMobiasle'));
+
   }
 }
