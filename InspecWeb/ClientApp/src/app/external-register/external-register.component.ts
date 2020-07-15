@@ -201,7 +201,7 @@ export class ExternalRegisterComponent implements OnInit {
   //เพิ่ม user
   adduser(value) {
     //alert(1);
-    this.userService.addUser(value, this.addForm.value.files).subscribe(response => {
+    this.userService.addUser(value, this.addForm.value.files,11).subscribe(response => {
       //alert(3);
       this.addForm.reset()
       // this.modalRef.hide()
