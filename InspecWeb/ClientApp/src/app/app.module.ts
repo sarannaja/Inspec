@@ -167,8 +167,7 @@ import { ReportSuggestionsComponent } from './report/report-suggestions/report-s
 import { ReportSuggestionResultComponent } from './report/report-suggestion-result/report-suggestion-result.component';
 import { ReportQuestionnaireComponent } from './report/report-questionnaire/report-questionnaire.component';
 import { ReportCommentComponent } from './report/report-comment/report-comment.component';
-
-
+import {CookieService} from 'ngx-cookie-service'
 
 
 
@@ -522,7 +521,7 @@ const ExternalOrganization = [
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     ExcelGeneraterService,
-    DatePipe
+    DatePipe,CookieService
 
     // UserManager
 

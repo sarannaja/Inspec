@@ -60,12 +60,12 @@ export class Gcc1111TableComponent implements OnInit {
   ) { }
   getData() {
     // this.userManager.getUser().then(result=>{
-    //   console.log('result',result);
+    //   //console.log('result',result);
 
     // })
     this.extranalService.getGcc1111UserProvince(this.userId)
       .subscribe(result => {
-        // console.log(result);
+        // //console.log(result);
 
         this.loading = false
         this.results = result
@@ -73,7 +73,7 @@ export class Gcc1111TableComponent implements OnInit {
         this.spinner.hide();
 
       })
-    // console.log("user", );
+    // //console.log("user", );
 
   }
   openModal(data) {
@@ -98,18 +98,18 @@ export class Gcc1111TableComponent implements OnInit {
     setTimeout(() => { this.getData() }, 100)
   }
   onDateRangeChanged(value) {
-    // console.log(value);
+    // //console.log(value);
 
     this.loading = false
     this.spinner.show();
     this.extranalService.getGcc1111UserProvince(this.userId)
       .subscribe(result => {
-        // console.log((Date.parse(result[0].date_opened) / 1000).toString().length);
+        //console.log((Date.parse(result[0].date_opened) / 1000).toString().length,Date.parse(value.beginJsDate));
 
         this.results = result.filter(result => {
-          return (Date.parse(result.date_opened) / 999) >= value.beginEpoc && (Date.parse(result.date_opened) / 999) < value.endEpoc
+          return (Date.parse(result.date_opened)) >=Date.parse(value.beginJsDate) && (Date.parse(result.date_opened)) <= Date.parse(value.endJsDate)
         })
-        // console.log(this.results);
+      //  this.results.forEach(result=>{ //console.log(Date.parse(result.date_opened))});
 
         this.loading = true
         this.spinner.hide();
