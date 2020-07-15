@@ -77,8 +77,10 @@ export class MainComponent implements OnInit {
   }
 
  async setUserCookie(userid:string) {
+   console.log("in UserIdMobiasle",userid);
+   
    await this._CookieService.set('UserIdMobile', userid)
-    console.log(this._CookieService.get('UserIdMobiasle'));
+    console.log(this._CookieService.get('UserIdMobile'));
 
   }
 }
