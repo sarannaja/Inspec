@@ -32,24 +32,14 @@ namespace InspecWeb.Models
         public string UserID { get; set; }
 
         public virtual ApplicationUser User { get; set; }
-
-        [Description("รายละเอียดของผู้ตอบ")]
-        public string Answerdetail { get; set; }
-
-        [Description("ปัญหา/อุปสรรค")]
-        public string AnswerProblem { get; set; }
-
-        [Description("ข้อเสนอแนะ")]
-        public string AnswerCounsel { get; set; }
-         
+          
         [Description("วันที่รับทราบข้อสั่งการ")]
         [DataType(DataType.Date)]
         public DateTime? beaware_date { get; set; }
 
         [Description("publics")]
         public long publics { get; set; }
- 
-        public ICollection<AnswerExecutiveOrderFile> AnswerExecutiveOrderFiles { get; set; }
 
+        public ICollection<ExecutiveOrderAnswerDetail> ExecutiveOrderAnswerDetails { get; set; }
     }
 }

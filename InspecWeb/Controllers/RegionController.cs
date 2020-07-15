@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -74,5 +75,20 @@ namespace InspecWeb.Controllers
             _context.Regions.Remove(regiondata);
             _context.SaveChanges();
         }
+
+        //สำหรับใช้ตรง user
+        [HttpGet("regionforuser/{id}")]
+        public IActionResult GetRegionsforuser(long id)
+        {
+            var importFiscalYearRelations = _context.FiscalYearRelations
+              .Include(x => x.Region)
+              .Include(x => x.Province)
+              .Where(x => x.FiscalYearId == id)
+              .ToList();
+
+            return Ok(new { importFiscalYearRelations });
+
+        }
+
     }
 }

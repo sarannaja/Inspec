@@ -44,6 +44,18 @@ namespace InspecWeb.Models
         [Description("publics")]
         public long publics { get; set; }
 
+        [Description("Draft")]
+        public long Draft { get; set; }
+
+        [Description("Accept")]
+        public long Accept { get; set; }
+        
+        [Description("cancel")]
+        public long Cancel { get; set; }
+
+        [Description("canceldetail")]
+        public string Canceldetail { get; set; }
+
         public ICollection<ExecutiveOrderFile> ExecutiveOrderFiles { get; set; }
 
         public ICollection<ExecutiveOrderAnswer> ExecutiveOrderAnswers { get; set; }

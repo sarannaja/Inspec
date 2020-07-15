@@ -29,11 +29,6 @@ namespace InspecWeb.Controllers
                                  select P;
             return Ok(fiscalyeardata);
 
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
         }
 
         [HttpGet("getCurrentYear")]

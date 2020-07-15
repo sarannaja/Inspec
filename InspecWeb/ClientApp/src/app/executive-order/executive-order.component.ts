@@ -24,6 +24,7 @@ export class ExecutiveOrderComponent implements OnInit {
   datas$
   resultexecutiveorder: Executiveordercommanded[] = []
   executiveOrderAnswers:ExecutiveOrderAnswer[] = []
+  resultexecutiveorderdetail:any=[];
   modalRef: BsModalRef;
   dtOptions: DataTables.Settings = {};
   loading = false;
@@ -32,8 +33,11 @@ export class ExecutiveOrderComponent implements OnInit {
   executive1data: any = [];
   Form: FormGroup;
   awnserForm: FormGroup;
-  selectdatauser: Array<IOption>
+  cancelForm:FormGroup;
+  gotitForm:FormGroup;
+  selectdatauser: Array<any>
   files: string[] = [];
+  vid : any;
   vcommanded_date: any;
   vcommanded_by: any;
   vsubject: any;
@@ -48,6 +52,7 @@ export class ExecutiveOrderComponent implements OnInit {
   vanswerExecutiveOrderFiles: any;
   imgprofileUrl: any;
   idexecutiveorder: any;
+  idexecutiveorderanswer :any;
   answerdetail: any;
   answerProblem: any;
   answerCounsel: any;
@@ -68,20 +73,15 @@ export class ExecutiveOrderComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-    };
-
     this.getuserinfo();
-
-
+    
     this.Form = this.fb.group({
-      "Commanded_by": this.userid,
+      Commanded_by: this.userid,
       "Subject": new FormControl(null, [Validators.required]),
       "Subjectdetail": new FormControl(null, [Validators.required]),
       "Answer_by": new FormControl(null, [Validators.required]),
       "Commanded_date": new FormControl(null, [Validators.required]),
+      "Draft": new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
     })
 
@@ -92,6 +92,14 @@ export class ExecutiveOrderComponent implements OnInit {
       files: new FormControl(null, [Validators.required]),
 
     })
+
+    this.cancelForm = this.fb.group({
+      "canceldetail": new FormControl(null),
+    })
+
+    this.gotitForm = this.fb.group({
+    })
+   
   }
 
   //start getuser
@@ -105,12 +113,10 @@ export class ExecutiveOrderComponent implements OnInit {
             if (this.role_id == 8) {
               this.executiveorderService.getexecutiveordercommandeddata(this.userid)
                 .subscribe(result => {
-                  console.log("data",result);
+                 // console.log("data",result);
                   this.getDatauser();
                   this.resultexecutiveorder = result;
-                  this.loading = true;
-                
-
+                  this.loading = true;              
                 })
             } else if (this.role_id == 1) {
               this.executiveorderService.getexecutiveorderdata()
@@ -123,6 +129,7 @@ export class ExecutiveOrderComponent implements OnInit {
             } else {
               this.executiveorderService.getexecutiveorderanswereddata(this.userid)
                 .subscribe(result => {
+                  console.log("data3",result);
                   this.getDatauser();
                   this.resultexecutiveorder = result;
                   this.loading = true;
@@ -144,6 +151,50 @@ export class ExecutiveOrderComponent implements OnInit {
       })
   }
 
+  // <!-- เปิดโมดอลยกเลิก -->
+  cancelmodal(template: TemplateRef<any>, id){
+    this.cancelForm.reset()
+    this.idexecutiveorder = id;
+    this.modalRef = this.modalService.show(template);
+   }
+   // <!-- เปิดโมดอลรับทราบ -->
+  gotitmodal(template: TemplateRef<any>, id,idanswer,subject,subjectdetail){
+  this.idexecutiveorder = id;
+  this.idexecutiveorderanswer = idanswer;
+  this.vsubject = subject;
+  this.vsubjectdetail = subjectdetail;
+
+  this.modalRef = this.modalService.show(template);
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.Form.reset()
+    this.modalRef = this.modalService.show(template);
+    this.Form.patchValue({
+      Draft:1
+    })
+  }
+
+  // <!-- เปิดโมดอลแก้ไข -->
+  editExecutiveOrder(template: TemplateRef<any>,id,commanded_date,subject,subjectdetail,draft,answer_by) {
+     
+    this.Form.patchValue({
+      Subjectdetail:subjectdetail,
+      Answer_by:answer_by.map(result=>{
+        return result.userID
+      }),
+      Draft:draft,
+      Commanded_date:this.time(commanded_date)
+    })
+    this.idexecutiveorder = id; 
+    this.vcommanded_date = commanded_date;
+    this.vsubject = subject;
+    this.vsubjectdetail = subjectdetail;
+    this.vanswer_by = answer_by;
+
+    this.modalRef = this.modalService.show(template);
+  }
+
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
     this.Form.patchValue({
@@ -162,92 +213,135 @@ export class ExecutiveOrderComponent implements OnInit {
 
   }
 
+  //เพิ่มข้อสั่งการ
   storeexecutiveorder(value) {
-   // alert(1);
-    this.executiveorderService.addexecutiveorder(value, this.Form.value.files).subscribe(result => {
-      // alert(3);
-      // this.notificationService.addNotification(1, 1, 1, 10, result.id)
-      //   .subscribe(result => {
-         
-        
-          this.Form.reset();
-          this.getuserinfo();
-        //})
+    //alert(1);
+    this.executiveorderService.addexecutiveorder(value, this.Form.value.files,this.userid)
+      .subscribe(result => 
+    {
+       //alert(3);
+      if(value.Draft == 1){
+       // alert("draft 1");
+        this.Form.reset();
+        this.loading = false;
+        this.getuserinfo();
         this.modalRef.hide();
+      }else{
+        this.notificationService.addNotification(1, 1, 1, 10, result.id)
+         .subscribe(result => {
+         // alert("draft 0");
+          this.Form.reset();
+          this.loading = false;
+          this.getuserinfo();
+          this.modalRef.hide();
+       })
+      }
     })
   }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+
+  //แก้ไขข้อสั่งการ
+  updateexecutiveorder(value) {
+    // alert(1);
+     this.executiveorderService.updateexecutiveorder(value, this.Form.value.files,this.idexecutiveorder).subscribe(result => {
+       // alert(3);
+     
+        if(value.Draft == 1){
+          this.Form.reset();
+          this.getuserinfo();
+          this.modalRef.hide();
+        }else{
+          this.notificationService.addNotification(1, 1, 1, 10, result.id)
+           .subscribe(result => {
+            this.Form.reset();
+            this.getuserinfo();
+            this.modalRef.hide();
+         })
+        }    
+         
+         
+     })
+   }
+
+  time(date) {
+    var ssss = new Date(date)
+    // console.log('ssss',ssss.getDate());
+    
+    var new_date = {date:{ year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() }}
+    return new_date
   }
-  DetailExecutiveOrder(template: TemplateRef<any>,
-    commanded_date,
-    commanded_by,
-    subject,
-    subjectdetail,
-    status,
-    createdAt,
-    answer_by,
-    answerdetail,
-    answerProblem,
-    answerCounsel,
-    executiveOrderFiles,
-    answerExecutiveOrderFiles) {
+  DetailExecutiveOrder(template: TemplateRef<any>,id) {
 
+      this.executiveorderService.getexecutiveorderdetaildata(id)
+        .subscribe(result => {
+          console.log('detail',result);
+          this.resultexecutiveorderdetail = result;
+        })
 
-    this.vcommanded_date = commanded_date;
-    this.vcommanded_by = commanded_by;
-    this.vsubject = subject;
-    this.vsubjectdetail = subjectdetail;
-    this.vstatus = status;
-    this.vcreatedAt = createdAt;
-    this.vanswer_by = answer_by;
-    this.vanswerdetail = answerdetail;
-    this.vanswerProblem = answerProblem;
-    this.vanswerCounsel = answerCounsel;
-    this.vexecutiveOrderFiles = executiveOrderFiles;
-    this.vanswerExecutiveOrderFiles = answerExecutiveOrderFiles;
-
-    this.modalRef = this.modalService.show(template);
-  }
-
-  answerModal(template: TemplateRef<any>, id, answerdetail, answerProblem, answerCounsel) {
-    this.idexecutiveorder = id;
-    this.answerdetail = answerdetail;
-    this.answerProblem = answerProblem;
-    this.answerCounsel = answerCounsel;
-    this.awnserForm.patchValue({
-      "Answerdetail": answerdetail,
-      "AnswerProblem": answerProblem,
-      "AnswerCounsel": answerCounsel,
-    });
+   
     this.modalRef = this.modalService.show(template);
   }
 
+  //<!-- modal รายงานผล -->
+  answerModal(template: TemplateRef<any>, id) {
+    this.idexecutiveorderanswer = id;
+    this.modalRef = this.modalService.show(template);
+  }
+  //<!-- END modal รายงานผล -->
 
+
+  //<!-- รายงานผล -->
   storeanswerexecutiveorder(value) {
-
-    this.executiveorderService.answerexecutiveorder(value, this.awnserForm.value.files, this.idexecutiveorder)
+    //alert(1);
+    this.executiveorderService.answerexecutiveorder(value, this.awnserForm.value.files, this.idexecutiveorderanswer)
       .subscribe(result => {
-
-        // alert(result.id);
-        // this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id)
-        //   .subscribe(result => {
-        //   })
-        this.modalRef.hide();
-        this.getuserinfo()
+        //alert(3);
         this.awnserForm.reset();
-
+        this.loading = false;
+        this.getuserinfo()
+        this.modalRef.hide();   
       })
-
   }
-  exportexecutive2(id) {
+  //<!-- END รายงานผล -->
 
+
+  exportexecutive2(id) {
     this.executiveorderService.getexcutive2(id)
       .subscribe(result => {
         console.log('result', result);
         window.open(this.url + "reportexecutive/" + result.data);
       })
     this.getuserinfo();
-
   }
+
+  //<!-- ยกเลิกข้อสั่งการ -->
+  cancelexecutiveorder(value){
+    //alert(1);
+    this.executiveorderService.cancelexecutiveorder(value,this.idexecutiveorder).subscribe(result => {
+       //alert(3);
+      // this.notificationService.addNotification(1, 1, 1, 10, result.id)
+      //   .subscribe(result => {
+                
+        this.cancelForm.reset()
+        this.loading = false;
+        this.getuserinfo();
+        //})
+        this.modalRef.hide();
+    })
+  }
+  //<!-- END ยกเลิกข้อสั่งการ -->
+
+  //<!-- รับทราบข้อสั่งการ -->
+  gotitexecutiveorder(){  
+    this.executiveorderService.gotitexecutiveorder(this.idexecutiveorder,this.idexecutiveorderanswer).subscribe(result => {
+    
+      this.notificationService.addNotification(1, 1, 1, 11, this.idexecutiveorder)
+      .subscribe(result => {
+       this.loading = false;
+       this.getuserinfo();
+       this.modalRef.hide();
+      })
+   })
+  }
+  //<!--END รับทราบข้อสั่งการ -->
+  
 }

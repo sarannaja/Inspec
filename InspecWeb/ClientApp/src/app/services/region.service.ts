@@ -19,6 +19,10 @@ export class RegionService {
     return this.http.get<any[]>(this.url)
   }
 
+  getregiondataforuser(id): Observable<any> {
+    return this.http.get<any>(this.url+'regionforuser/'+ id)
+  }
+
   addRegion(regionData) {
     const formData = new FormData();
     formData.append('name', regionData.regionname);
