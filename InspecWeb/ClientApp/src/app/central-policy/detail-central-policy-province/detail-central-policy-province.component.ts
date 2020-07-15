@@ -1116,6 +1116,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.fileType = type;
   }
   storeQuestion(value) {
+    console.log("storeQuestion", value);
+    console.log("planID: ", this.planId);
+
+
     this.centralpolicyservice.addPeoplequestion(this.id, this.planId, value).subscribe(res => {
       this.FormQuestion.reset();
       this.modalRef.hide();
@@ -1125,7 +1129,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   getquestion() {
     this.centralpolicyservice.getquestionpeople(this.id, this.planId).subscribe(res => {
       this.questionpeople = res;
-      console.log("answer: ", this.answerData);
+      console.log("question: ", this.questionpeople);
     })
   }
 }

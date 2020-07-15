@@ -98,7 +98,9 @@ namespace InspecWeb.Controllers
             {
                 var users = _context.UserProvinces
                .Include(m => m.User)
-               .Where(m => m.ProvinceId == ProvinceId && m.User.Role_id == 5).ToList();
+               .Where(m => m.ProvinceId == ProvinceId)
+               .Where(m => m.User.Role_id == 9 || m.User.Role_id == 5)
+               .ToList();
                
                 foreach (var item in users)
                 {

@@ -226,14 +226,17 @@ namespace InspecWeb.Controllers
             //    .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
             //    .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
             //    .ThenInclude(m => m.ProvincialDepartment)
-            //    .Where(m => m.ProvinceId == province.ProvinceId)
+
+            //    //.Where(m => m.ProvinceId == province.ProvinceId)
+
             //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster"))
-            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == provincialdepartment.Id))))
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId))))
             //    .ToList();
 
             var centralpolicyprovincedata = _context.SubjectGroups
                 .Include(m => m.CentralPolicy)
-                .Where(m => m.ProvinceId == province.ProvinceId && m.Type == "NoMaster")
+                .Where(m => m.Status == "ใช้งานจริง" && m.Type == "NoMaster")
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId))))
                 .ToList();
 
             return Ok(centralpolicyprovincedata);
@@ -292,7 +295,7 @@ namespace InspecWeb.Controllers
                         .Include(m => m.SubquestionCentralPolicyProvinces)
                         .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                         .ThenInclude(m => m.ProvincialDepartment)
-                        .Where(m => m.SubjectGroupId == id && m.Type == "NoMaster")
+                        .Where(m => m.SubjectGroupId == id && m.Type == "NoMaster" && m.Status == "ใช้งานจริง")
                         //.Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster")
                         .Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId)))
                         .ToList();
@@ -300,7 +303,9 @@ namespace InspecWeb.Controllers
                 //var subjectdata = _context.SubjectCentralPolicyProvinces
                 //.Include(m => m.CentralPolicyProvince)
                 //.ThenInclude(m => m.CentralPolicy)
-                //.Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster");
+                //.Where(m => m.CentralPolicyProvinceId == id && m.Type == "NoMaster")
+                //.Where(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId)))
+                //.ToList();
 
                 return Ok(subjectdata);
             }
@@ -348,7 +353,7 @@ namespace InspecWeb.Controllers
                 .First();
 
             var CentralPolicyEventdata = _context.CentralPolicyEvents
-                .Where(m => m.CentralPolicyId == centralpolicyprovincedata.Id && m.InspectionPlanEvent.ProvinceId == centralpolicyprovincedata.ProvinceId).First();
+                .Where(m => m.CentralPolicyId == centralpolicyprovincedata.CentralPolicyId && m.InspectionPlanEvent.ProvinceId == centralpolicyprovincedata.ProvinceId).First();
 
             var question = _context.CentralPolicyEventQuestions
                 .Include(m => m.CentralPolicyEvent)
@@ -584,7 +589,11 @@ namespace InspecWeb.Controllers
         [HttpPut("editstatusrole7/{id}")]
         public void Put3(long id, string status)
         {
-            var statusdata = _context.AnswerCentralPolicyProvinceStatuses.Find(id);
+            System.Console.WriteLine("start" + status);
+            var statusdata = _context.AnswerCentralPolicyProvinceStatuses
+                .Where(m => m.CentralPolicyEventId == id)
+                .FirstOrDefault();
+            System.Console.WriteLine("tatusdata.Status" + statusdata.ToString());
             statusdata.Status = status;
             _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
