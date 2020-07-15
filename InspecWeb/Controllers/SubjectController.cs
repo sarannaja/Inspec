@@ -1137,6 +1137,11 @@ namespace InspecWeb.Controllers
         [HttpPost("subjectevent")]
         public IActionResult PostSubjectEvent([FromBody] subjectevent model)
         {
+               var roleid = _context.Users
+                .Where(m => m.Id == model.CreatedBy)
+                .Select(m => m.Role_id)
+                .FirstOrDefault();
+
             System.Console.WriteLine("in");
             //System.Console.WriteLine("StartProvinceId: " + ProvinceId);
             var date = DateTime.Now;
@@ -1147,7 +1152,8 @@ namespace InspecWeb.Controllers
                 ProvinceId = model.ProvinceId,
                 CreatedAt = date,
                 CreatedBy = model.CreatedBy,
-                Status = "ร่างกำหนดการ"
+                Status = "ร่างกำหนดการ",
+                RoleCreatedBy = roleid.ToString(),
             };
             _context.InspectionPlanEvents.Add(inspectionplanevent);
             _context.SaveChanges();

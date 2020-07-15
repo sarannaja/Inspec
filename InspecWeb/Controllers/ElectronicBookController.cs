@@ -155,6 +155,12 @@ namespace InspecWeb.Controllers
             var electronicBookAccept = _context.ElectronicBookAccepts
                 .Include(x => x.User)
                 .Include(x => x.ElectronicBookProvinceApproveFiles)
+                .Include(x => x.ElectronicBookOtherAccepts)
+                .ThenInclude(x => x.ProvincialDepartment)
+
+                .Include(x => x.ElectronicBookOtherAccepts)
+                .ThenInclude(x => x.User)
+
                 .Where(x => x.ElectronicBookId == electID)
                 .FirstOrDefault();
 
@@ -1293,11 +1299,29 @@ namespace InspecWeb.Controllers
                 .Where(x => x.Id == model.ElectID)
                 .FirstOrDefault();
             {
-                ElectronicBookStatus.ProvinceStatus = "ส่งสมุดตรวจให้จังหวัดแล้ว";
+                ElectronicBookStatus.ProvinceStatus = "ส่งสมุดตรวจให้หน่วยรับตรวจแล้ว";
             }
             _context.Entry(ElectronicBookStatus).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
+            return Ok(new {status = true});
+        }
+
+        [HttpPost("sendElectronicBookToOtherProvince")]
+        public IActionResult PostElectronicBookToOtherProvince(ElectronicBookViewModel model)
+        {
+                var ElectronicBook = new ElectronicBookOtherAccept
+                {
+                    ElectronicBookAcceptId = model.electAcceptId,
+                    ProvincialDepartmentId = model.provincialDepartmentId,
+                    CreateBy = model.userCreate,
+                    CreatedAt = DateTime.Now,
+                    Description = model.Description,
+                    Status = "ยังไม่ดำเนินการ"
+                };
+
+                _context.ElectronicBookOtherAccepts.Add(ElectronicBook);
+                _context.SaveChanges();
             return Ok(new {status = true});
         }
 
@@ -1311,6 +1335,22 @@ namespace InspecWeb.Controllers
             .Where(x => x.ProvinceId == provinceId)
             .ToList();
             return Ok(ebookProvince);
+        }
+
+        [HttpGet("electronicbookotherprovince/{provincialDepartmentId}")]
+        public IActionResult GetElectronicbookOtherProvince(long provincialDepartmentId)
+        {
+            var ebookOtherProvince = _context.ElectronicBookOtherAccepts
+            .Include(x => x.ElectronicBookAccept)
+            .ThenInclude(x => x.ElectronicBook)
+            .Include(x => x.User)
+            .Include(x => x.UserCreate)
+            .ThenInclude(x => x.Departments)
+            .Include(x => x.UserCreate)
+            .ThenInclude(x => x.ProvincialDepartments)
+            .Where(x => x.ProvincialDepartmentId == provincialDepartmentId)
+            .ToList();
+            return Ok(ebookOtherProvince);
         }
 
         // POST: api/ElectronicBook
@@ -1420,7 +1460,7 @@ namespace InspecWeb.Controllers
               .Where(x => x.Id == model.ElectID)
               .FirstOrDefault();
             {
-                Ebook.ProvinceStatus = "จังหวัดแนบลายมือชื่อแล้ว";
+                Ebook.ProvinceStatus = "หน่วยรับตรวจแนบลายมือชื่อแล้ว";
             }
             _context.Entry(ElectronicBookAccept).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
@@ -1477,6 +1517,33 @@ namespace InspecWeb.Controllers
             }
 
             return Ok(new { status = true });
+        }
+
+        [HttpGet("getProvincialDepartment")]
+        public IActionResult GetProvincialDepartment()
+        {
+            var provincialDepartmentData = _context.ProvincialDepartment
+            .ToList();
+            return Ok(new { provincialDepartmentData });
+        }
+
+        [HttpPut("agreeOtherDepartment")]
+        public void PutAgreeOtherDepartment([FromForm] ElectronicBookViewModel model)
+        {
+            var electronicBookAcceptData = _context.ElectronicBookOtherAccepts
+                .Where(x => x.ElectronicBookAcceptId == model.electAcceptId)
+                .FirstOrDefault();
+
+            {
+                electronicBookAcceptData.AcceptDate = DateTime.Now;
+                electronicBookAcceptData.OtherDescription = model.Description;
+                electronicBookAcceptData.UserId = model.userCreate;
+                electronicBookAcceptData.Status = "ดำเนินการแล้ว";
+            }
+            _context.Entry(electronicBookAcceptData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            System.Console.WriteLine("Finish Update Other Department");
         }
     }
 }

@@ -269,6 +269,11 @@ namespace InspecWeb.Controllers
         [HttpPost("inspectionprovince")]
         public object Post(long provinceid, string userid, DateTime start_date_plan, DateTime end_date_plan)
         {
+                      var roleid = _context.Users
+                .Where(m => m.Id == userid)
+                .Select(m => m.Role_id)
+                .FirstOrDefault();
+
             var date = DateTime.Now;
 
             var InspectionPlanEventdata = new InspectionPlanEvent
@@ -278,7 +283,8 @@ namespace InspecWeb.Controllers
                 CreatedBy = userid,
                 StartDate = start_date_plan,
                 EndDate = end_date_plan,
-                Status = "ร่างกำหนดการ"
+                Status = "ร่างกำหนดการ",
+                RoleCreatedBy = roleid.ToString(),
             };
 
             _context.InspectionPlanEvents.Add(InspectionPlanEventdata);

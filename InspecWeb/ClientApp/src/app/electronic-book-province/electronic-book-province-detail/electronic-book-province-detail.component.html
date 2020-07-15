@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">สมุดตรวจอิเล็กทรอนิกส์</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">สมุดตรวจอิเล็กทรอนิกส์รอดำเนินการ</a></li>
       <li class="breadcrumb-item active" aria-current="page">รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</li>
     </ol>
   </nav>
@@ -183,6 +183,29 @@
         <br>
         <br>
 
+        <div class="form-group" *ngIf="electronicBookData.electronicBookAccept.electronicBookOtherAccepts.length > 0"
+          style="margin-left: 15px; margin-right: 21px;">
+          <h4>ส่งต่อให้หน่วยรับตรวจ</h4>
+          <div *ngFor="let items of electronicBookData.electronicBookAccept.electronicBookOtherAccepts; let i = index">
+            <div class="row">
+              <h5 style="margin-top: 15px;">{{i + 1}}) {{items.provincialDepartment.name}}</h5>
+              <h5 *ngIf="items.status == 'ดำเนินการแล้ว'"
+                style="margin-left: 10px; margin-top: 15px; font-weight: bold; color: green;">รับทราบแล้ว</h5>
+            </div>
+            <textarea cols="30" rows="5" class="form-control container" ngModel="{{items.description}}"
+              placeholder="ไม่มีข้อมูล" readonly></textarea>
+            <label *ngIf="items.status == 'ดำเนินการแล้ว'" style="margin-top: 10px; width: 98%;">ผู้รับทราบ -
+              {{items.user.prefix}}
+              {{items.user.name}} เมื่อ {{items.acceptDate | thaidate: 'year'}}</label>
+            <textarea style="border-radius: 15px; width: 98%;" *ngIf="items.status == 'ดำเนินการแล้ว'" cols="30"
+              rows="4" class="form-control container" ngModel="{{items.otherDescription}}" placeholder="ไม่มีข้อมูล"
+              readonly></textarea>
+            <br>
+          </div>
+        </div>
+        <br>
+        <hr>
+
         <div class="form-group" *ngIf="electronicBookData.electronicBookSuggestion.length > 0"
           style="margin-left: 15px; margin-right: 21px;">
           <h4>คำแนะนำ</h4>
@@ -279,6 +302,8 @@
             (click)="openModal(addSignature)">รับทราบรายการสมุดตรวจ</button>
           <button *ngIf="signature.user.signature == null" class="btn btn-primary" style="margin-right: 45px;"
             (click)="openAlertModal(signatureModal)">รับทราบรายการสมุดตรวจ</button>
+          <button class="btn btn-success" style="margin-right: 45px;"
+            (click)="openModal(sendToOtherModal)">ส่งต่อให้หน่วยรับตรวจอื่น</button>
           <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
         </div>
         <div *ngIf="electronicBookData.electronicBookAccept.status == 'ลงนามเอกสารแล้ว'"
@@ -291,7 +316,7 @@
         <form [formGroup]="submitForm" (ngSubmit)="postSignature(submitForm.value)">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">แนบลายมือชื่อ</h5>
+              <h5 class="modal-title">รับทราบรายการสมุดตรวจ</h5>
               <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -332,6 +357,46 @@
             ตกลง
           </button>
         </div>
+      </ng-template>
+
+      <ng-template #sendToOtherModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <form [formGroup]="otherDepartmentForm" (ngSubmit)="sendToOtherProvince(otherDepartmentForm.value)">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">ส่งต่อให้หน่วยรับตรวจอื่น</h5>
+              <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body m-3">
+
+              <div class="col-12 col-xl-12">
+                <div class="form-group">
+                  <label class="form-label">หน่วยรับตรวจ*</label>
+                  <ng-select placeholder="กรุณาเลือกหน่วยรับตรวจ" [multiple]="false"
+                    [options]="provincialDepartmentData" name="province" formControlName="provincialDepartment"
+                    [allowClear]="true">
+                  </ng-select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <!-- <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์ลายมือชื่อผู้ว่าราชการจังหวัด</label>
+                <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;"> -->
+                <div class="form-group" style="margin-top: 20px;">
+                  <label>รายละเอียด</label>
+                  <textarea cols="30" rows="5" formControlName="description" class="form-control container"
+                    placeholder="รายละเอียดเพิ่มเติม">
+                  </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+              <button type="submit" class="btn btn-primary">บันทึก</button>
+              <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+          </div>
+        </form>
       </ng-template>
 
       <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
