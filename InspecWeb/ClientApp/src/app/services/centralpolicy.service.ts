@@ -356,6 +356,12 @@ export class CentralpolicyService {
     formData.append('notificationdate', data.notificationdate.date.year + '-' + data.notificationdate.date.month + '-' + data.notificationdate.date.day);
     formData.append('deadlinedate', data.deadlinedate.date.year + '-' + data.deadlinedate.date.month + '-' + data.deadlinedate.date.day);
 
+    console.log("form", formData.getAll("cenproid"));
+    console.log("form", formData.getAll("planid"));
+    console.log("form", formData.getAll("question"));
+    console.log("form", formData.getAll("notificationdate"));
+    console.log("form", formData.getAll("deadlinedate"));
+
     return this.http.post(this.url + "addPeoplequestion", formData);
   }
   deleteDepartment(id) {

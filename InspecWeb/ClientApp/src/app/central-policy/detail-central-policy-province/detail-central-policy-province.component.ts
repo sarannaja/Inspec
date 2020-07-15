@@ -1116,6 +1116,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.fileType = type;
   }
   storeQuestion(value) {
+    console.log("storeQuestion", value);
+    console.log("planID: ", this.planId);
+
+
     this.centralpolicyservice.addPeoplequestion(this.id, this.planId, value).subscribe(res => {
       this.FormQuestion.reset();
       this.modalRef.hide();

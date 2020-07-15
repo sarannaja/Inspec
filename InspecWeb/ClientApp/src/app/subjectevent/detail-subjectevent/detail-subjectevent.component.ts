@@ -522,6 +522,9 @@ export class DetailSubjecteventComponent implements OnInit {
       this.EditForm.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
+
+      this.getsubjecteventDetail();
+      this.getAnswer2();
     })
   }
 
@@ -531,6 +534,9 @@ export class DetailSubjecteventComponent implements OnInit {
       this.EditForm2.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
+
+      this.getsubjecteventDetail();
+      this.getAnswer2();
     })
   }
 
@@ -540,6 +546,9 @@ export class DetailSubjecteventComponent implements OnInit {
       this.EditForm3.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
+
+      this.getsubjecteventDetail();
+      this.getAnswer2();
     })
   }
 
@@ -549,6 +558,9 @@ export class DetailSubjecteventComponent implements OnInit {
       this.EditForm4.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
+
+      this.getsubjecteventDetail();
+      this.getAnswer2();
     })
   }
 
@@ -558,6 +570,9 @@ export class DetailSubjecteventComponent implements OnInit {
       this.editAnswerForm.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
+
+      this.getsubjecteventDetail();
+      this.getAnswer2();
     })
   }
 

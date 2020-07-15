@@ -65,8 +65,17 @@ export class InspectionPlanEventComponent implements OnInit {
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
 
-          var roleCreatedBy: any="";
-          if (this.role_id == 6) {
+          var roleCreatedBy: any = "";
+
+          if (this.role_id == 3) {
+            if (item.roleCreatedBy == "3") {
+              roleCreatedBy = 3
+            } else if (item.roleCreatedBy == "6") {
+              roleCreatedBy = 6
+            }
+          }
+
+          else {
             var colorJa: any;
             if (item.roleCreatedBy == "3") {
               roleCreatedBy = 3
@@ -148,8 +157,12 @@ export class InspectionPlanEventComponent implements OnInit {
         eventClick: function (event) {
           // alert(JSON.stringify(event))
           console.log(event);
-          console.log('this.role_id',self.role_id);
-          if (self.role_id == 6) {
+          console.log('this.role_id', self.role_id);
+          if (self.role_id == 3) {
+
+            window.location.href = self.url + event.id + '/' + event.provinceid;
+          }
+          else {
             // alert(event.roleCreatedBy)
             if (event.roleCreatedBy == 3) {
               window.location.href = self.url + event.id + '/' + event.provinceid;
@@ -157,10 +170,7 @@ export class InspectionPlanEventComponent implements OnInit {
               window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
             }
           }
-          else if (self.role_id == 3) {
-
-            window.location.href = self.url + event.id + '/' + event.provinceid;
-          }
+          // else
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
         },

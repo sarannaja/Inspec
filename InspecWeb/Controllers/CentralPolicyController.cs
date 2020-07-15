@@ -173,6 +173,7 @@ namespace InspecWeb.Controllers
                         System.Console.WriteLine("END: " + indexend);
                     }
                     indexend++;
+                    _context.SaveChanges();
                 }
 
                 index++;
@@ -1041,7 +1042,7 @@ namespace InspecWeb.Controllers
 
             var cenprolicyevent = _context.CentralPolicyEvents
                 .Where(m => m.InspectionPlanEventId == planid)
-                .Where(m => m.CentralPolicyId == cenid.Id)
+                .Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
                 .FirstOrDefault();
 
             var question = _context.CentralPolicyEventQuestions
@@ -1053,26 +1054,28 @@ namespace InspecWeb.Controllers
 
         //POST api/values
         [HttpPost("addPeoplequestion")]
-        public void addPeoplequestion(long cenproid, long planid, string question, DateTime notificationdate, DateTime deadlinedate)
+        public IActionResult addPeoplequestion(CentralPolicyEventQuestionViewModel model)
         {
             var cenid = _context.CentralPolicyProvinces
-            .Where(m => m.Id == cenproid).FirstOrDefault();
+            .Where(m => m.Id == model.cenproid).FirstOrDefault();
 
             var cenprolicyevent = _context.CentralPolicyEvents
-                .Where(m => m.InspectionPlanEventId == planid)
-                .Where(m => m.CentralPolicyId == cenid.Id)
+                .Where(m => m.InspectionPlanEventId == model.planid && m.CentralPolicyId == cenid.CentralPolicyId)
+                //.Where(m => m.CentralPolicyId == cenid.Id)
                 .FirstOrDefault();
 
             var CentralPolicyEventQuestiondata = new CentralPolicyEventQuestion
             {
                 CentralPolicyEventId = cenprolicyevent.Id,
-                QuestionPeople = question,
-                NotificationDate = notificationdate,
-                DeadlineDate = deadlinedate
+                QuestionPeople = model.question,
+                NotificationDate = model.notificationdate,
+                DeadlineDate = model.deadlinedate
             };
 
             _context.CentralPolicyEventQuestions.Add(CentralPolicyEventQuestiondata);
             _context.SaveChanges();
+
+            return Ok(cenprolicyevent);
         }
         // DELETE api/values/5
         [HttpDelete("deletedepartment/{id}")]

@@ -494,16 +494,13 @@ const ExternalOrganization = [
           { path: 'electronicbook/provincedetail/:id', component: ElectronicBookProvinceDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportimport/detail/:id', component: ReportImportDeatailComponent, canActivate: [AuthorizeGuard] },
           { path: 'commanderreport/detail/:id', component: CommanderReportDetailComponent, canActivate: [AuthorizeGuard] },
-<<<<<<< HEAD
           { path: 'reportperformance', component: ReportPerformanceComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportsuggestions', component: ReportSuggestionsComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportsuggestionsresult', component: ReportSuggestionResultComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportquestionnaire', component: ReportQuestionnaireComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportcomment', component: ReportCommentComponent, canActivate: [AuthorizeGuard] },
-=======
           { path: 'electronicbook/other', component: ElectronicBookOtherComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/otherdetail/:id', component: ElectronicBookOtherDetailComponent, canActivate: [AuthorizeGuard] },
->>>>>>> SongNewNormal
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
