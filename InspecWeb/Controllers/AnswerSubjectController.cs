@@ -589,7 +589,11 @@ namespace InspecWeb.Controllers
         [HttpPut("editstatusrole7/{id}")]
         public void Put3(long id, string status)
         {
-            var statusdata = _context.AnswerCentralPolicyProvinceStatuses.Find(id);
+            System.Console.WriteLine("start" + status);
+            var statusdata = _context.AnswerCentralPolicyProvinceStatuses
+                .Where(m => m.CentralPolicyEventId == id)
+                .FirstOrDefault();
+            System.Console.WriteLine("tatusdata.Status" + statusdata.ToString());
             statusdata.Status = status;
             _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
