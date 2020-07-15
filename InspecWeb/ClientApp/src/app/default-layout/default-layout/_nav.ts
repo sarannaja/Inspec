@@ -497,7 +497,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -691,7 +691,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -764,7 +764,7 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -882,7 +882,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     name: "จัดอบรมหลักสูตร"
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -978,7 +978,7 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
 
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -1056,7 +1056,7 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -1159,7 +1159,7 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -1240,7 +1240,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     ]
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },
@@ -1342,7 +1342,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
 
   },
   {
-    icon: 'fa-chart',
+    icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่"
   },

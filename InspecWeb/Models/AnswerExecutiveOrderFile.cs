@@ -8,7 +8,7 @@ using System.Text;
 namespace InspecWeb.Models
 {
     [Table("AnswerExecutiveOrderFiles")]
-    [Description("ตารางไฟล์บันทึกการดำเนินการตามข้อสั่งการ")]
+    [Description("")]
     public class AnswerExecutiveOrderFile
     {
         [Key]
@@ -16,11 +16,11 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("ExecutiveOrder")]
+        [ForeignKey("ExecutiveOrderAnswerDetail")]
         [Description("FK: ข้อสั่งการ")]
-        public long ExecutiveOrderId { get; set; }
+        public long ExecutiveOrderAnswerDetailId { get; set; }
 
-        public virtual ExecutiveOrder ExecutiveOrder { get; set; }
+        public virtual ExecutiveOrderAnswerDetail ExecutiveOrderAnswerDetail { get; set; }
 
         [Required]
         [Description("ชื่อไฟล์")]

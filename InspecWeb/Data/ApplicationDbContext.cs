@@ -118,13 +118,12 @@ namespace InspecWeb.Data
         public DbSet<Log> Logs { get; set; }
         public DbSet<CentralPolicyProvinceEvent> CentralPolicyProvinceEvents { get; set; }
         public DbSet<SubjectGroup> SubjectGroups { get; set; }
-
-        public DbSet<ElectronicBookInvite> ElectronicBookInvites { get; set; }
-        
+        public DbSet<ElectronicBookInvite> ElectronicBookInvites { get; set; }  
         public DbSet<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
-
         public DbSet<ExecutiveOrderAnswer> ExecutiveOrderAnswers { get; set; }
-        
+        public DbSet<ExecutiveOrderAnswerDetail> ExecutiveOrderAnswerDetails { get; set; }
+        public DbSet<RequestOrderAnswer> RequestOrderAnswers { get; set; }
+        public DbSet<RequestOrderAnswerDetail> RequestOrderAnswerDetails { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -39,6 +39,10 @@ export class UserService {
     return this.http.get<any[]>(this.base +'getplancount/'+ id)
   }
 
+  getprovincialdepartment(id: any): Observable<any> {
+    return this.http.get<any>(this.base +'getprovincialdepartment/'+ id)
+  }
+
  sendNav(roleId: string) {
     this.subject.next({ roleId: roleId });
 
@@ -51,12 +55,12 @@ export class UserService {
     return this.subject.asObservable();
   }
 
-  addUser(userData,file: FileList) {
-     // alert(userData.Role_id);
+  addUser(userData,file: FileList ,roleId) {
+    // alert(roleId);
       //console.log("servicelog: ", userData);
       const formData = new FormData();
       formData.append('Email', userData.Email); //email   
-      formData.append('Role_id', userData.Role_id); //role
+      formData.append('Role_id', roleId); //role
       formData.append('Prefix', userData.Prefix); //คำนำหน้า
       formData.append('Name', userData.Name); //ชื่อ
       formData.append('Position', userData.Position);//ตำแหน่ง
@@ -79,15 +83,15 @@ export class UserService {
           formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน  
         }
       }else{
-        formData.append('UserRegion', '1');
+        formData.append('UserRegionId', '1');
       }
 
       if (userData.UserProvince != null) {
-        for (var i = 0; i < userData.UserProvince.length; i++) {
-          formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
-        }
+        // alert(userData.UserProvince);
+          formData.append('UserProvinceId', userData.UserProvince); //จังหวัดที่รับผิดชอบมีได้หลายอัน
       } else {
-        formData.append('UserProvince', '1');
+       // alert(1);
+        formData.append('UserProvinceId', '1');
       }
 
       if (userData.ProvinceId == null) {

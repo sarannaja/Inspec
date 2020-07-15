@@ -77,5 +77,15 @@ namespace InspecWeb.Controllers
             }
             return Ok(termsList);
         }
+
+        //สำหรับใช้ตรง user
+        [HttpGet("departmentsforuser/{id}")]
+        public IActionResult GetDepartmentsforuser(long id)
+        {
+            var departments = _context.Departments
+                .Where(m => m.MinistryId == id);
+
+            return Ok(departments);
+        }
     }
 }

@@ -118,13 +118,11 @@ export class DefaultLayoutComponent implements OnInit {
   detailnotifications(id) {
     this.notificationService.updateNotification(id)
       .subscribe(result => {
-
         this.nav = superAdmin;
         this.profileform();
         this.getuserinfo();
         this.getnotifications();
         this.checkactive(this.nav[0].url);
-
       })
   }
 

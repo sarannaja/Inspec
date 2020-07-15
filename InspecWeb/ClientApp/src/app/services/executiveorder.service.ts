@@ -26,39 +26,90 @@ export class ExecutiveorderService {
   getexecutiveorderanswereddata(id): Observable<any> {
     return this.http.get<any>(this.url + "answered/" + id)
   }
+
+    //<!-- ดูรายละเอียด -->
+    getexecutiveorderdetaildata(id): Observable<any> {
+      return this.http.get<any>(this.url + "excutiveorderdetail/" + id)
+    }
+     //<!-- END ดูรายละเอียด -->
   
   //สำหรับเพิ่มข้อสั่งการ
-  addexecutiveorder(executiveorderData, file: FileList) {
-    // /alert(2);
-    //console.log('datatest',executiveorderData);
+  addexecutiveorder(executiveorderData, file: FileList,Commanded_by) {
+    //alert(2);
     const formData = new FormData();
+    formData.append('Commanded_date', executiveorderData.Commanded_date.date.year + '-' + executiveorderData.Commanded_date.date.month + '-' + executiveorderData.Commanded_date.date.day);
+    formData.append('Commanded_by', Commanded_by);
+    formData.append('Subject', executiveorderData.Subject);
+    formData.append('Subjectdetail', executiveorderData.Subjectdetail);
+    formData.append('Draft', executiveorderData.Draft);
+
+    for (var i = 0; i < executiveorderData.Answer_by.length; i++) {
+      formData.append('Answer_by', executiveorderData.Answer_by[i]); 
+    }
+
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }     
+    }
+
+     return this.http.post<any>(this.url, formData);
+  }
+  //สำหรับแก้ไขข้อสั่งการ
+  updateexecutiveorder(executiveorderData, file: FileList, id) {
+    const formData = new FormData();
+    formData.append('id', id);
     formData.append('Commanded_date', executiveorderData.Commanded_date.date.year + '-' + executiveorderData.Commanded_date.date.month + '-' + executiveorderData.Commanded_date.date.day);
     formData.append('Commanded_by', executiveorderData.Commanded_by);
     formData.append('Subject', executiveorderData.Subject);
     formData.append('Subjectdetail', executiveorderData.Subjectdetail);
+    formData.append('Draft', executiveorderData.Draft);
 
     for (var i = 0; i < executiveorderData.Answer_by.length; i++) {
       formData.append('Answer_by', executiveorderData.Answer_by[i]); //
     }
-
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
-     return this.http.post<any>(this.url, formData);
+    return this.http.put<any>(this.url+"updateexecutiveorder", formData);
   }
-
   
   //สำหรับตอบกลับข้อสั่งการ
-  answerexecutiveorder(executiveorderData, file: FileList, id) {
+  answerexecutiveorder(executiveorderData, file: FileList, idexecutiveorderanswer) {
+    //alert(2);
     const formData = new FormData();
-    formData.append('id', id);
+    formData.append('ExecutiveOrderAnswerId', idexecutiveorderanswer);
     formData.append('Answerdetail', executiveorderData.Answerdetail);
     formData.append('AnswerProblem', executiveorderData.AnswerProblem);
     formData.append('AnswerCounsel', executiveorderData.AnswerCounsel);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
-    return this.http.put<any>(this.url, formData);
+
+    return this.http.put<any>(`${this.url}answerexecutiveorder`, formData);
+  }
+
+  //สำหรับยกเลิกข้อสั่งการ
+  cancelexecutiveorder(executiveorderData,id) {
+    //alert(2);
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('Canceldetail', executiveorderData.canceldetail);
+     return this.http.put<any>(`${this.url}cancelexecutiveorder`, formData);
+  }
+
+  //สำหรับรับทราบข้อสั่งการ
+  gotitexecutiveorder(id,ExecutiveOrderAnswerId) {
+   // alert(2);
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('ExecutiveOrderAnswerId', ExecutiveOrderAnswerId);
+     return this.http.put<any>(`${this.url}gotitexecutiveorder`, formData);
   }
 
   getexcutive1(Id) {

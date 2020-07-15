@@ -25,6 +25,10 @@ export class NotificationService {
     this.testLoop('getnotificationscountdata')
     return this.http.get<any>(this.url + 'getnotificationscount/' + id)
   }
+
+  getnotificationsdatastatus10(id: any): Observable<any> {
+    return this.http.get<any>(this.url + 'getnotificationsdatastatus10/' + id)
+  }
   
   getnotificationsforexecutiveorderdata(id: any): Observable<any> {
     this.testLoop('getnotificationsforexecutiveorderdata')
