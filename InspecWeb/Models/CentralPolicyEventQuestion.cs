@@ -31,5 +31,7 @@ namespace InspecWeb.Models
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? DeadlineDate { get; set; }
+
+        public ICollection<AnswerCentralPolicyProvince> AnswerCentralPolicyProvinces { get; set; }
     }
 }

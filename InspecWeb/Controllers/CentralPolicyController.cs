@@ -1044,6 +1044,8 @@ namespace InspecWeb.Controllers
                 .FirstOrDefault();
 
             var question = _context.CentralPolicyEventQuestions
+                .Include(m => m.CentralPolicyEvent)
+                .Include(m => m.AnswerCentralPolicyProvinces)
                 .Where(m => m.CentralPolicyEventId == cenprolicyevent.Id)
                 .ToList();
 

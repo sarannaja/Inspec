@@ -1129,7 +1129,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   getquestion() {
     this.centralpolicyservice.getquestionpeople(this.id, this.planId).subscribe(res => {
       this.questionpeople = res;
-      console.log("answer: ", this.answerData);
+      console.log("question: ", this.questionpeople);
     })
   }
 }
