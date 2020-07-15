@@ -188,7 +188,6 @@ namespace InspecWeb.Data
             .HasForeignKey(p => p.CentralPolicyId)
             .OnDelete(DeleteBehavior.Cascade);
 
-
             builder.Entity<CentralPolicyFile>()
             .HasOne(p => p.CentralPolicy)
             .WithMany(b => b.CentralPolicyFiles)
@@ -222,6 +221,12 @@ namespace InspecWeb.Data
             builder.Entity<SubjectGroup>()
             .HasOne(p => p.CentralPolicy)
             .WithMany(b => b.SubjectGroups)
+            .HasForeignKey(p => p.CentralPolicyId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CentralPolicyEvent>()
+            .HasOne(p => p.CentralPolicy)
+            .WithMany(b => b.CentralPolicyEvents)
             .HasForeignKey(p => p.CentralPolicyId)
             .OnDelete(DeleteBehavior.Cascade);
 
