@@ -104,4 +104,18 @@ export class InspectionplanService {
   deleteplandate(planid) {
     return this.http.delete(this.url + 'deleteplandate/' + planid);
   }
+
+  deleteCentralPolicyEvent(id) {
+    return this.http.delete(this.url + 'deletecentralpolicyevent/' + id);
+  }
+
+  deleteCentralPolicy(id) {
+    return this.http.delete(this.url + 'deletecentralpolicy/' + id);
+  }
+
+  getcentralpolicyeventdata(id): Observable<any[]> {
+    // return this.http.get<any[]>(this.url)
+    return this.http.get<any[]>(this.url + 'getcentralpolicyeventdata/' + id)
+  }
+
 }

@@ -164,7 +164,7 @@ namespace InspecWeb.Controllers
             {
                 Name = model.Title,
                 CentralPolicyProvinceId = centralpolicyprovincedata.Id,
-                Type = "NoMaster",
+                Type = "Master",
                 Status = "ใช้งานจริง",
                 SubjectGroupId = SubjectGroupdata.Id,
             };
@@ -247,6 +247,7 @@ namespace InspecWeb.Controllers
                     DeadlineDate = model.DeadlineDate,
                     StartDate = model.StartDate,
                     EndDate = model.EndDate,
+                    HaveSubject = 0,
                     //ElectronicBookId = ElectronicBookdata.Id,
                 };
                 _context.CentralPolicyEvents.Add(centralpolicyeventdata);
@@ -353,6 +354,39 @@ namespace InspecWeb.Controllers
 
             _context.InspectionPlanEvents.Remove(InspectionPlanEventsdata);
             _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deletecentralpolicyevent/{id}")]
+        public void Deletecentralpolicyevent(long id)
+        {
+            var InspectionPlanEventsdata = _context.CentralPolicyEvents.Find(id);
+
+            _context.CentralPolicyEvents.Remove(InspectionPlanEventsdata);
+            _context.SaveChanges();
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("deletecentralpolicy/{id}")]
+        public void Deletecentralpolicy(long id)
+        {
+            var InspectionPlanEventsdata = _context.CentralPolicies.Find(id);
+
+            _context.CentralPolicies.Remove(InspectionPlanEventsdata);
+            _context.SaveChanges();
+        }
+
+        // GET api/values/5
+        [HttpGet("getcentralpolicyeventdata/{id}")]
+        public IActionResult Getcentralpolicyeventdata(long id)
+        {
+            var centralpolicydata = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.FiscalYear)
+                .Where(m => m.Id == id)
+                .FirstOrDefault();
+
+            return Ok(centralpolicydata);
         }
     }
 }

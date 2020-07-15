@@ -1494,7 +1494,26 @@ namespace InspecWeb.Controllers
                     var subques = _context.SubquestionCentralPolicyProvinces
                         .Where(m => m.SubjectCentralPolicyProvinceId == subcen.Id).ToList();
 
-                    //SubjectCentralPolicyProvince SubjectCentralPolicyProvincedata ;
+
+                    var centralpolicydata = _context.CentralPolicies
+                        .Where(m => m.Id == cenid.centralpolicyId).FirstOrDefault();
+
+                    System.Console.WriteLine("before if");
+                    if (centralpolicydata.Class == "แผนการตรวจ") {
+                        System.Console.WriteLine("in if");
+                        var SubjectCentralPolicyProvincedata2 = new SubjectCentralPolicyProvince
+                        {
+                            Name = subcen.Name,
+                            CentralPolicyProvinceId = cenpro.Id,
+                            Type = "NoMaster",
+                            Status = "ใช้งานจริง",
+                            SubjectGroupId = SubjectGroupdata.Id,
+                        };
+                        _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata2);
+                        _context.SaveChanges();
+                    }
+
+                    //SubjectCentralPolicyProvince SubjectCentralPolicyProvincedata;
                     long departId = 0;
                     long subjectId = 0;
                     foreach (var subque in subques)
