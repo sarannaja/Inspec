@@ -106,7 +106,7 @@ export class EditCentralPolicyComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
       })
-
+    this.getDataProvince()
     this.getDetailCentralpolicy()
     this.getFiscalyear()
 
@@ -148,8 +148,8 @@ export class EditCentralPolicyComponent implements OnInit {
         this.resultdetailcentralpolicy.centralPolicyProvinces.forEach(element => {
           console.log("element: ", element);
           if (element.active == 1) {
-            this.selected.push(element.province.id);
-            this.oldProvince.push(element.province.id);
+            this.selected.push(element.provinceId);
+            this.oldProvince.push(element.provinceId);
           }
 
         });
@@ -164,9 +164,9 @@ export class EditCentralPolicyComponent implements OnInit {
           title: this.resultdetailcentralpolicy.title,
           year: this.resultdetailcentralpolicy.fiscalYearId.toString(),
           type: this.resultdetailcentralpolicy.type,
-          status: this.resultdetailcentralpolicy.status
+          status: this.resultdetailcentralpolicy.status,
+          ProvinceId: this.selected
         });
-        this.getProvince()
       });
   }
 
@@ -297,6 +297,31 @@ export class EditCentralPolicyComponent implements OnInit {
 
   back() {
     window.history.back();
+  }
+
+  getDataProvince() {
+    this.provinceservice.getprovincedata()
+      .subscribe(result => {
+        this.selectdataprovince = result.map(result => {
+          console.log(
+            result.name
+          );
+          var region = this.provinceservice.getRegionMock()
+            .filter(
+              (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+            )[0].region
+          console.log(
+            region
+          );
+
+
+          return { ...result, region: region, label: result.name, value: result.id }
+        })
+        console.log(this.selectdataprovince);
+
+      })
+    this.spinner.hide();
+    console.log(this.provinceservice.getRegionMock());
   }
 
 }
