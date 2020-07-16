@@ -70,14 +70,14 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="test" class="form-label">จังหวัด</label>
-          <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
-            [allowClear]="true" formControlName="province" (selected)="selectedprovince($event,i,item)">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
+              formControlName="province" (selected)="selectedprovince($event,i,item)">
           </ng-select>
         </div>
         <div class="form-group">
           <label for="test" class="form-label">ประเด็นการตรวจติดตาม</label>
-          <ng-select placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true" [options]="selectdatacentralpolicy"
-            name="CentralpolicyId" formControlName="CentralpolicyId" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true"   [items]="selectdatacentralpolicy"
+            name="CentralpolicyId" formControlName="CentralpolicyId"  >
           </ng-select>
           <br>
           <br>
@@ -95,7 +95,7 @@
               </div>
               <div class="col-12 col-xl-5">
                 <div class="form-group">
-                  <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
+                  <my-date-picker-th formControlName="startdate"    [options]="myDatePickerOptions" required>
                   </my-date-picker-th>
                 </div>
               </div>
@@ -106,7 +106,7 @@
               </div>
               <div class="col-12 col-xl-5">
                 <div class="form-group">
-                  <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+                  <my-date-picker-th formControlName="enddate"    [options]="myDatePickerOptions" required>
                   </my-date-picker-th>
                 </div>
               </div>
@@ -163,14 +163,14 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="test" class="form-label">จังหวัด</label>
-          <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
-            [allowClear]="true" formControlName="province2" (selected)="selectedprovince2($event,i,item)">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
+              formControlName="province2" (selected)="selectedprovince2($event,i,item)">
           </ng-select>
         </div>
         <div class="form-group">
           <label for="test" class="form-label">ประเด็นการตรวจติดตาม</label>
-          <ng-select placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true" [options]="selectdatacentralpolicy2"
-            name="CentralpolicyId2" formControlName="CentralpolicyId2" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true"   [items]="selectdatacentralpolicy2"
+            name="CentralpolicyId2" formControlName="CentralpolicyId2"  >
           </ng-select>
         </div>
       </div>

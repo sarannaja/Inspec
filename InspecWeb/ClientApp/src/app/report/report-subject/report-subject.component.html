@@ -70,8 +70,8 @@
 
                 <div class="form-group">
                     <label>แผนการตรวจ</label>
-                    <ng-select placeholder="กรุณาเลือกเขต" [multiple]="true" [options]="selectcentralpolicy"
-                        name="centralpolicy" [(ngModel)]="id" [allowClear]="true" >
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขต" [multiple]="true"   [items]="selectcentralpolicy"
+                        name="centralpolicy" [(ngModel)]="id"   >
                     </ng-select>
                 </div>
 

@@ -1,0 +1,9 @@
+<ng-select bindLabel="label" bindValue="value" [items]="province" [multiple]="true" bindLabel="name" groupBy="region" [selectableGroup]="true"
+    [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="id" [(ngModel)]="selectedProvince">
+    <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+        <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.region }}
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.name}}
+    </ng-template>
+</ng-select>

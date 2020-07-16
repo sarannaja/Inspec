@@ -151,6 +151,7 @@ export class SubjectService {
     const formData = {
       inputsubjectdepartment: test,
     }
+    console.log('FORMDATA: ', formData);
     return this.http.post(this.url + "adddepartmentquestion", formData);
   }
   addSubquestionopen(Subquestionopendata) {

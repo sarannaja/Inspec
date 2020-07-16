@@ -2,6 +2,7 @@
 
 /* Provide sufficient contrast against white background */
 /* @import "./assets/fontend/css/style.css"; */
+@import "~@ng-select/ng-select/themes/default.theme.css";
 @import "./assets/fontend/fonts/flaticon/font/flaticon.css";
 a {
   color: #0366d6;
@@ -18,4 +19,4 @@ code {
 }
 @import "~ng-snotify/styles/material";
 
-@import "./assets/dist/css/modern.css"
+@import "./assets/dist/css/modern.css";

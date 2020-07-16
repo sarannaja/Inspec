@@ -279,8 +279,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาเลิกที่ปรึกษาผู้ตรวจราชการภาคประชาชน" [multiple]="true" [options]="peopleanswer"
-          name="peopleanswer" formControlName="peopleanswer" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลิกที่ปรึกษาผู้ตรวจราชการภาคประชาชน" [multiple]="true"   [items]="peopleanswer"
+          name="peopleanswer" formControlName="peopleanswer"  >
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -305,8 +305,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="department" name="DepartmentId"
-          formControlName="DepartmentId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="DepartmentId"
+          formControlName="DepartmentId"  >
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -332,8 +332,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdatapeople"
-          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdatapeople"
+          name="UserPeopleId" formControlName="UserPeopleId"  >
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -358,8 +358,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdataministrypeople"
-          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdataministrypeople"
+          name="UserPeopleId" formControlName="UserPeopleId"  >
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -477,7 +477,7 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="notificationdate" [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="notificationdate"   [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -488,7 +488,7 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="deadlinedate" [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="deadlinedate"   [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -517,8 +517,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdatadepartmentpeople"
-          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdatadepartmentpeople"
+          name="UserPeopleId" formControlName="UserPeopleId"  >
         </ng-select>
       </div>
       <div class="modal-footer">

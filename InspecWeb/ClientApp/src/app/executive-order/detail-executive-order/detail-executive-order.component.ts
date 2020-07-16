@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { DetailexecutiveorderService } from 'src/app/services/detailexecutiveorder.service';
 import { ProvinceService } from 'src/app/services/province.service';
-import { IOption } from 'ng-select';
+
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
@@ -35,7 +35,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
   answerfile: string[] = []
   Form: FormGroup
   provinceId: any;
-  selectdataprovince: Array<IOption>
+  selectdataprovince: Array<any>
   EditForm: FormGroup;
   loading = false;
   dtOptions: DataTables.Settings = {};

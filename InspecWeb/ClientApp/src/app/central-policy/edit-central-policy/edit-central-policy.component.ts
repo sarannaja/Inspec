@@ -3,7 +3,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { IOption } from 'ng-select';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
@@ -33,7 +33,7 @@ export class EditCentralPolicyComponent implements OnInit {
   fiscalYearIdString: any = [];
   resultprovince: any = []
   EditForm: FormGroup;
-  selectdataprovince: Array<IOption>
+  selectdataprovince: Array<any>
   provinceId: any[];
   form: FormGroup;
   fileStatus = false;

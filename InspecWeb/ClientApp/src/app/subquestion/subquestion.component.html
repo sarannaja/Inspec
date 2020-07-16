@@ -35,8 +35,8 @@
               </div>
               <div class="form-group">
                 <label>กำหนดระยะเวลา</label>
-                <ng-select multiple="true" placeholder="กรุณาเลือกระยะเวลา" [options]="times" name="ํTime"
-                  formControlName="centralpolicydateid" [allowClear]="true">
+                <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"   [items]="times" name="ํTime"
+                  formControlName="centralpolicydateid"  >
                 </ng-select>
               </div>
               <div class="form-group">
@@ -67,9 +67,9 @@
                           </div>
                         </ng-template>
                       </div>
-                      <ng-select placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true" [options]="temp"
+                      <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true"   [items]="temp"
                         formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
-                        (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
+                        (deselected)="addsubjectdepartment2($event,'remove')"  >
                       </ng-select>
                       <br>
                       <br>

@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@ang
 import { Router } from '@angular/router';
 import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
 import { ProvinceService } from 'src/app/services/province.service';
-import { IOption } from 'ng-select';
+
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
@@ -39,8 +39,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   start_date: any
   end_date: any
   Form: FormGroup;
-  selectdataprovince: Array<IOption>
-  selectdatacentralpolicy: Array<IOption>
+  selectdataprovince: Array<any>
+  selectdatacentralpolicy: Array<any>
   id: any = 1
   provincename: any = []
   provinceid: any = []

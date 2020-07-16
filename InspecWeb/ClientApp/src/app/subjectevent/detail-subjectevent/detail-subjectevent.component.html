@@ -263,7 +263,7 @@
                           <div class="collapse col-9" id="graphs{{i}}" style="margin-left: 10px; margin-top: 5px;">
                             <div class="chartjs-container">
                               <canvas baseChart [datasets]="barchartAllset.barChartData" [labels]="barchartAllset.label"
-                                [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
+                                  [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
                                 [chartType]="barChartType">
                               </canvas>
                             </div>
@@ -662,8 +662,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="department" name="DepartmentId"
-          formControlName="DepartmentId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="DepartmentId"
+          formControlName="DepartmentId"  >
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -735,8 +735,8 @@
       </div>
       <div class="modal-body m-3">
 
-        <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="department" name="DepartmentId"
-          formControlName="DepartmentId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="DepartmentId"
+          formControlName="DepartmentId"  >
         </ng-select>
 
         <div class="form-group">

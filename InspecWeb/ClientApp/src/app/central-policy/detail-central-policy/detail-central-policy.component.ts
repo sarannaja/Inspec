@@ -3,7 +3,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { IOption } from 'ng-select';
+// import { any } from '@ng-select/ng-select';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -22,8 +22,8 @@ export class DetailCentralPolicyComponent implements OnInit {
   // UserMinistryId: any;
   id
   Form: FormGroup;
-  selectpeople: Array<IOption>
-  selectministrypeople: Array<IOption>
+  selectpeople: Array<any>
+  selectministrypeople: Array<any>
   modalRef: BsModalRef;
 
   constructor(private fb: FormBuilder,

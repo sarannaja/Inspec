@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { IOption } from 'ng-select';
+
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
@@ -31,7 +31,7 @@ export class InspectionPlanComponent implements OnInit {
   provinceid
   name: any
   modalRef: BsModalRef;
-  selectdatacentralpolicy: IOption[] = []
+  selectdatacentralpolicy: any[] = []
   Form: FormGroup
   Form2: FormGroup
   EditForm: FormGroup

@@ -416,8 +416,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectpeople" name="UserPeopleId"
-          formControlName="UserPeopleId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectpeople" name="UserPeopleId"
+          formControlName="UserPeopleId"  >
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -442,8 +442,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectministrypeople"
-          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectministrypeople"
+          name="UserPeopleId" formControlName="UserPeopleId"  >
         </ng-select>
       </div>
       <div class="modal-footer">

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { IMyOptions } from 'mydatepicker-th';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
-import { IOption } from 'ng-select';
+
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Router } from '@angular/router';
 import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
@@ -34,7 +34,7 @@ export class CreateElectronicBookComponent implements OnInit {
   form: FormGroup;
   EbookForm: FormGroup;
   fileStatus: any;
-  centralPolicyEbook: Array<IOption>;
+  centralPolicyEbook: Array<any>;
   inputdate: any = [{ start_date: '', end_date: '' }];
   fileType: any;
 

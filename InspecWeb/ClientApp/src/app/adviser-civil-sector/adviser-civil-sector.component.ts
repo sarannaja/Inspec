@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { IOption } from 'ng-select';
+
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../services/Pipe/alert.service';

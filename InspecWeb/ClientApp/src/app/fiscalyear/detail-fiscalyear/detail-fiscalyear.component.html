@@ -67,14 +67,14 @@
         <div class="modal-body m-3">
           <div class="form-group">
             <label for="test" class="form-label">เขตตรวจราชการ</label>
-            <ng-select placeholder="กรุณาเลือกเขตตรวจ" [options]="regions" name="RegionId" formControlName="RegionId"
-              [allowClear]="true">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ"   [items]="regions" name="RegionId" formControlName="RegionId"
+               >
             </ng-select>
           </div>
           <div class="form-group">
             <label for="test" class="form-label">จังหวัด</label>
-            <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="provinces" name="ProvinceId"
-              formControlName="ProvinceId" [allowClear]="true">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true"   [items]="provinces" name="ProvinceId"
+              formControlName="ProvinceId"  >
             </ng-select>
           </div>
         </div>
@@ -122,14 +122,14 @@
         <div class="modal-body m-3">
           <div class="form-group">
             <label for="test" class="form-label">เขตตรวจราชการ</label>
-            <ng-select placeholder="กรุณาเลือกเขตตรวจ" [options]="regions" name="RegionId" formControlName="RegionId"
-              [allowClear]="true">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ"   [items]="regions" name="RegionId" formControlName="RegionId"
+               >
             </ng-select>
           </div>
           <div class="form-group">
             <label for="test" class="form-label">จังหวัด</label>
-            <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" [options]="provinces" name="ProvinceId"
-              formControlName="ProvinceId" [allowClear]="true">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true"   [items]="provinces" name="ProvinceId"
+              formControlName="ProvinceId"  >
             </ng-select>
           </div>
         </div>

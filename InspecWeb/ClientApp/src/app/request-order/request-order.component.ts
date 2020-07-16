@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { RequestorderrService } from '../services/requestorderr.service';
-import { IOption } from 'ng-select';
+
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
 import { NotificationService } from '../services/notification.service';
@@ -26,7 +26,7 @@ export class RequestOrderComponent implements OnInit {
   loading = false;
   userid: any;
   role_id: any;
-  selectdatauser: Array<IOption>
+  selectdatauser: Array<any>
   Form: FormGroup;
   cancelForm:FormGroup;
   awnserForm: FormGroup;

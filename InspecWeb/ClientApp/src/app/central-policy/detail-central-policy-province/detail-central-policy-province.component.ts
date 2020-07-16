@@ -3,7 +3,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { IOption } from 'ng-select';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubjectService } from 'src/app/services/subject.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -43,9 +43,9 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   EditForm3: FormGroup;
   EditForm4: FormGroup;
   AddForm: FormGroup;
-  selectpeople: Array<IOption>
-  selectministrypeople: Array<IOption>
-  selectdepartmentpeople: Array<IOption>
+  selectpeople: Array<any>
+  selectministrypeople: Array<any>
+  selectdepartmentpeople: Array<any>
   modalRef: BsModalRef;
   editid: any
   subquestionclosename: any
@@ -56,11 +56,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   urllink
   loading = false;
   electronicbookid: any
-  selectdataministrypeople: Array<IOption>
+  selectdataministrypeople: Array<any>
   ministryPeople: any = [];
-  selectdatadepartmentpeople: Array<IOption>
+  selectdatadepartmentpeople: Array<any>
   departmentPeople: any = [];
-  selectdatapeople: Array<IOption>
+  selectdatapeople: Array<any>
   userPeople: any = [];
   fileStatus = false;
   form: FormGroup;

@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { SubjectService } from '../services/subject.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IMyOptions, IMyDate } from 'mydatepicker-th';
-import { IOption } from 'ng-select';
+
 import * as moment from 'moment';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -38,7 +38,7 @@ export class SubjectComponent implements OnInit {
   modalRef: BsModalRef;
   // router: any
   Form: FormGroup;
-  times: IOption[] = [];
+  times: any[] = [];
   loading = false;
   dtOptions: DataTables.Settings = {};
 

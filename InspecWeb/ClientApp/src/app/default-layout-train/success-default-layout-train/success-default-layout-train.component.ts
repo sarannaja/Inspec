@@ -6,7 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { IOption } from 'ng-select';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({

@@ -91,8 +91,8 @@
                 <div class="form-group">
                     <!-- <label>จังหวัด :  {{provincename}} </label><br> -->
                     <label>จังหวัด</label>
-                        <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectdataprovince"
-                            name="provinceId" formControlName="provinceId" [allowClear]="true">
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
+                            name="provinceId" formControlName="provinceId"  >
                         </ng-select>
                     <label for="test" class="form-label">รายละเอียดคำร้องขอ</label>
                     <textarea input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกลายละเอียด"></textarea>

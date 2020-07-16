@@ -21,7 +21,7 @@ import { RegionComponent } from './region/region.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { UserComponent } from './user/user.component';
 import { FiscalyearComponent } from './fiscalyear/fiscalyear.component';
-import { SelectModule } from 'ng-select'
+// import { SelectModule } from 'ng-select'
 import { DetailCentralPolicyComponent } from './central-policy/detail-central-policy/detail-central-policy.component';
 import { LoginComponent } from './login/login.component';
 import { SupportGovernmentComponent } from './support-government/support-government.component';
@@ -170,6 +170,9 @@ import { ReportCommentComponent } from './report/report-comment/report-comment.c
 import {CookieService} from 'ngx-cookie-service'
 import { ElectronicBookOtherComponent } from './electronic-book-province/electronic-book-other/electronic-book-other.component';
 import { ElectronicBookOtherDetailComponent } from './electronic-book-province/electronic-book-other/electronic-book-other-detail/electronic-book-other-detail.component';
+import { ProvinceService } from './services/province.service';
+import { SelectSSSModule } from './external-organization/select/select.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -337,7 +340,7 @@ const ExternalOrganization = [
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
-    SelectModule,
+    // SelectModule,
     ReactiveFormsModule,
     ChartsModule,
     MyDatePickerTHModule,
@@ -520,8 +523,11 @@ const ExternalOrganization = [
       }
     ]),
     ModalModule.forRoot(),
+    // SelectSSSModule
+    NgSelectModule
   ], exports: [
     ThaiDatePipe,
+    // SelectSSSModule
     // DatePipe
   ],
   providers: [
@@ -529,7 +535,8 @@ const ExternalOrganization = [
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     ExcelGeneraterService,
-    DatePipe,CookieService
+    DatePipe,CookieService,
+    ProvinceService
 
     // UserManager
 

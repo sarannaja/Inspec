@@ -6,7 +6,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RegionService } from 'src/app/services/region.service';
 import { ProvinceService } from 'src/app/services/province.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { IOption } from 'ng-select';
+
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
@@ -36,8 +36,8 @@ export class DetailFiscalyearComponent implements OnInit {
   FiscalYearId: any
   RegionId: any
   ProvinceId: any;
-  regions: IOption[] = [];
-  provinces: IOption[] = [];
+  regions: any[] = [];
+  provinces: any[] = [];
   activeModal: boolean = false
   ascending: any = [];
   valueRegionId: any

@@ -5,7 +5,7 @@ import { IMyOptions } from 'mydatepicker-th';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
-import { IOption } from 'ng-select';
+
 import { InspectionplanService } from '../../services/inspectionplan.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
@@ -38,7 +38,7 @@ export class CreateInspectionPlanComponent implements OnInit {
   end_date: any
   Form: FormGroup;
   ProvinceId: any;
-  selectdataprovince: Array<IOption>
+  selectdataprovince: Array<any>
   input: any = [{ date: '', subject: '', questions: '' }]
   id
   userid: string

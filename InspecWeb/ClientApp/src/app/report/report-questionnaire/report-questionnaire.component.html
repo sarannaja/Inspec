@@ -72,24 +72,24 @@
                 <div class="col-12 col-xl-12">
                     <div class="form-group">
                         <label class="form-label">จังหวัด*</label>
-                        <ng-select placeholder="กรุณาเลือกจังหวัด" [options]="selectprovince"
-                            name="provinceid" formControlName="provinceid" [allowClear]="true" (selected)="selectedprovince($event)">
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด"   [items]="selectprovince"
+                            name="provinceid" formControlName="provinceid"   (selected)="selectedprovince($event)">
                         </ng-select>
                     </div>
                 </div>
                 <div class="col-12 col-xl-12">
                     <div class="form-group">
                         <label class="form-label">แผนการตรวจราชการประจำปี*</label>
-                        <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [options]="selectcentralpolicy"
-                            name="centralpolicyid" formControlName="centralpolicyid" [allowClear]="true" (selected)="selectedcentralpolicy($event)">
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี"   [items]="selectcentralpolicy"
+                            name="centralpolicyid" formControlName="centralpolicyid"   (selected)="selectedcentralpolicy($event)">
                         </ng-select>
                     </div>
                 </div>
                 <div class="col-12 col-xl-12">
                     <div class="form-group">
                         <label class="form-label">ประเด็น*</label>
-                        <ng-select placeholder="กรุณาเลือกประเด็น" [options]="selectsubject"
-                            name="subjectid" formControlName="subjectid" [allowClear]="true" (selected)="selectedsubject($event)">
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็น"   [items]="selectsubject"
+                            name="subjectid" formControlName="subjectid"   (selected)="selectedsubject($event)">
                         </ng-select>
                     </div>
                 </div>

@@ -40,8 +40,8 @@
                 <label>กำหนดระยะเวลา</label>
                 <div class="row">
                   <div class="col-11">
-                    <ng-select multiple="true" id="datetime" [(ngModel)]="datetime" placeholder="กรุณาเลือกระยะเวลา"
-                      [options]="times" name="ํTime" formControlName="centralPolicyDateId" [allowClear]="true"
+                    <ng-select bindLabel="label" bindValue="value" multiple="true" id="datetime" [(ngModel)]="datetime" placeholder="กรุณาเลือกระยะเวลา"
+                        [items]="times" name="ํTime" formControlName="centralPolicyDateId"  
                       [disabled]=true>
                     </ng-select>
                   </div>
@@ -100,7 +100,7 @@
                       <label>ประเด็นการตรวจติดตาม</label>
                       &nbsp;&nbsp;
                       <button class="btn btn-info" type="button"
-                        (click)="openAddModalQuestionsclose(modalQuestionsclose,item.box)">เพิ่มคำถามปลายปิด</button>
+                        (click)="openAddModalQuestionsclose(modalQuestionsclose,item.box)">เพิ่มคำถาม</button>
                     </div>
                     <div class="row" *ngFor="let item of question; let i = index">
                       <div class="col-11 col-xl-11" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
@@ -115,7 +115,7 @@
                             <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                               (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
                             <button class="btn btn-info" type="button"
-                              (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มตอบปลายปิด</button>
+                              (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มตอบ</button>
                           </div>
                         </div>
                         <div class="col-11 col-xl-11"
@@ -396,8 +396,8 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="test" class="form-label">กำหนดระยะเวลา</label>
-          <ng-select multiple="true" id="datetime" placeholder="กรุณาเลือกระยะเวลา" [options]="timesselect" name="ํTime"
-            formControlName="centralPolicyDateId" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" multiple="true" id="datetime" placeholder="กรุณาเลือกระยะเวลา"   [items]="timesselect" name="ํTime"
+            formControlName="centralPolicyDateId"  >
           </ng-select>
         </div>
         <div class="modal-footer">
@@ -421,8 +421,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="department" name="DepartmentId"
-          formControlName="DepartmentId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="DepartmentId"
+          formControlName="DepartmentId"  >
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -473,12 +473,12 @@
                         </div>
                       </ng-template>
                     </div> -->
-                    <!-- <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="temp"
+                    <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="temp"
                       formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
-                      (deselected)="addsubjectdepartment2($event,'remove')" [allowClear]="true">
+                      (deselected)="addsubjectdepartment2($event,'remove')"  >
                     </ng-select> -->
-                    <ng-select placeholder="กรุณาหน่วยงาน" [multiple]="true" [options]="department" name="departmentId"
-                      formControlName="departmentId" [allowClear]="true">
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="departmentId"
+                      formControlName="departmentId"  >
                     </ng-select>
                     <br>
                     <br>

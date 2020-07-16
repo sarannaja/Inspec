@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
-import { IOption } from 'ng-select';
+
 import { IMyOptions } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
@@ -30,7 +30,7 @@ export class PhaseTrainingComponent implements OnInit {
   form: FormGroup;
   files: string[] = []
   downloadUrl: string;
-  selectdatalecturer: Array<IOption>
+  selectdatalecturer: Array<any>
   resultlecturer: any = []
   startdate: any;
   enddate: any;

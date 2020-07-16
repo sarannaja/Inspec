@@ -175,7 +175,7 @@
      
           <div class="form-group">
             <label class="form-label">วันที่มีคำร้องขอ*</label>
-            <my-date-picker-th formControlName="Commanded_date" [options]="myDatePickerOptions" [(ngModel)]="date" required>
+            <my-date-picker-th formControlName="Commanded_date"    [options]="myDatePickerOptions" [(ngModel)]="date" required>
             </my-date-picker-th>
           </div>
 
@@ -190,8 +190,8 @@
           </textarea>       
             <br>
           <label>ผู้รับคำร้องขอ</label>
-          <ng-select placeholder="กรุณาเลือกผู้รับคำร้องขอ" [multiple]="true" [options]="selectdatauser"
-            name="Answer_by" formControlName="Answer_by" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้รับคำร้องขอ" [multiple]="true"   [items]="selectdatauser"
+            name="Answer_by" formControlName="Answer_by"  >
           </ng-select>
         </div>
         <div class="col-12 col-xl-12">
@@ -239,7 +239,7 @@
 
           <div class="form-group">
             <label class="form-label">วันที่มีข้อสั่งการ*</label>
-            <my-date-picker-th formControlName="Commanded_date"  [options]="myDatePickerOptions"  required>
+            <my-date-picker-th formControlName="Commanded_date"     [options]="myDatePickerOptions"  required>
             </my-date-picker-th>
           </div>
 
@@ -254,8 +254,8 @@
           </textarea>       
             <br>
           <label>ผู้รับข้อสั่งการ</label>
-          <ng-select placeholder="กรุณาเลือกผู้รับข้อสั่งการ"  [multiple]="true" [options]="selectdatauser"
-            name="Answer_by" formControlName="Answer_by" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้รับข้อสั่งการ"  [multiple]="true"   [items]="selectdatauser"
+            name="Answer_by" formControlName="Answer_by"  >
           </ng-select>
         </div>
         <div class="col-12 col-xl-12">

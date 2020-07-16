@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { IOption } from 'ng-select';
+
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../services/Pipe/alert.service';
@@ -25,11 +25,11 @@ export class ExternalRegisterComponent implements OnInit {
   };
 
   modalRef: BsModalRef;
-  selectdatarole: Array<IOption>
-  selectdataministry: Array<IOption>
-  selectdatadeparment: Array<IOption>
-  selectdataprovince: Array<IOption>
-  selectdataregion: Array<IOption>
+  selectdatarole: Array<any>
+  selectdataministry: Array<any>
+  selectdatadeparment: Array<any>
+  selectdataprovince: Array<any>
+  selectdataregion: Array<any>
   loading = false;
   dtOptions: DataTables.Settings = {};
   roleId: any;

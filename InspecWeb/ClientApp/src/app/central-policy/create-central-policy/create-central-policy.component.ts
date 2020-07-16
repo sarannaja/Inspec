@@ -4,8 +4,8 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { IMyOptions } from 'mydatepicker-th';
 import { Router } from '@angular/router';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
-import { ProvinceService } from 'src/app/services/province.service';
-import { IOption } from 'ng-select';
+import { ProvinceService, Province } from 'src/app/services/province.service';
+
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 interface addInput {
@@ -37,12 +37,15 @@ export class CreateCentralPolicyComponent implements OnInit {
   end_date: any
   Form: FormGroup;
   ProvinceId: any;
-  selectdataprovince: Array<IOption>
+  selectdataprovince: Array<any>
   input: any = [{ date: '', subject: '', questions: '' }]
   inputdate: any = [{ start_date: '', end_date: '' }]
   form: FormGroup;
   progress: number = 0;
   userid: string
+  province: any[] = [];
+  selectedProvince = [];
+
   constructor(
     private fb: FormBuilder,
     private centralpolicyservice: CentralpolicyService,
@@ -92,29 +95,29 @@ export class CreateCentralPolicyComponent implements OnInit {
     }))
     //แก้ไข
 
-    this.provinceservice.getprovincedata().subscribe(result => {
-      this.resultprovince = result
+    // this.provinceservice.getprovincedata()
+    // .subscribe(result => {
+    //   this.resultprovince = result
 
-      this.selectdataprovince = this.resultprovince.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
+    //   this.selectdataprovince = this.resultprovince.map((item, index) => {
+    //     return { value: item.id, label: item.name }
+    //   })
 
-      console.log(this.resultprovince);
-    })
-
+    //   console.log(this.resultprovince);
+    // })
+    this.getDataProvince();
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       // alert(JSON.stringify(result))
       this.resultfiscalyear = result
       console.log(this.resultcentralpolicy);
     })
 
-
     this.Form.patchValue({
       // กรณีจะแก้ไข
     })
     // this.addInput()
   }
-  inspec(event){
+  inspec(event) {
     console.log(event);
 
   }
@@ -124,21 +127,21 @@ export class CreateCentralPolicyComponent implements OnInit {
       files: file
     });
     this.form.get('files').updateValueAndValidity()
-    
+
   }
   storeCentralpolicy(value) {
-    console.log(this.form.value.files);
+    console.log(value);
     // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
-      .subscribe(response => {
-        console.log(response);
-        this.Form.reset()
-        this.router.navigate(['centralpolicy'])
-        // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
-        //   this.centralpolicyservice = result
-        //   console.log(this.resultcentralpolicy);
-        // })
-      })
+    // this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
+    //   .subscribe(response => {
+    //     console.log(response);
+    //     this.Form.reset()
+    //     this.router.navigate(['centralpolicy'])
+    //     // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+    //     //   this.centralpolicyservice = result
+    //     //   console.log(this.resultcentralpolicy);
+    //     // })
+    //   })
   }
 
   addFile(event) {
@@ -174,11 +177,35 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
 
   public onSelectAll() {
-    const selected = this.resultprovince.map(item => item.id);
+    var selected = this.province.map(item => item.id);
     this.Form.get('ProvinceId').patchValue(selected);
+    this.selectedProvince = selected
   }
 
   public onClearAll() {
     this.Form.get('ProvinceId').patchValue([]);
+  }
+  getDataProvince() {
+    this.provinceservice.getprovincedata()
+      .subscribe(result => {
+        this.province = result.map(result => {
+          console.log(
+            result.name
+          );
+          var region = this.provinceservice.getRegionMock().filter(
+            (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+          )[0].region
+          console.log(
+            region
+          );
+
+
+          return { ...result, region: region, label: result.name, value: result.id }
+        })
+        console.log(this.province);
+
+
+      })
+    console.log(this.provinceservice.getRegionMock());
   }
 }

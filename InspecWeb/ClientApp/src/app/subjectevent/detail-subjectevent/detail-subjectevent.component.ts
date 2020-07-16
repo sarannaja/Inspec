@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
-import { IOption } from 'ng-select';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
@@ -45,8 +45,8 @@ export class DetailSubjecteventComponent implements OnInit {
   EditForm4: FormGroup;
   FormSubject: FormGroup;
   AddForm: FormGroup;
-  selectpeople: Array<IOption>
-  selectministrypeople: Array<IOption>
+  selectpeople: Array<any>
+  selectministrypeople: Array<any>
   modalRef: BsModalRef;
   editid: any
   subquestionclosename: any
@@ -57,9 +57,9 @@ export class DetailSubjecteventComponent implements OnInit {
   urllink
   loading = false;
   electronicbookid: any
-  selectdataministrypeople: Array<IOption>
+  selectdataministrypeople: Array<any>
   ministryPeople: any = [];
-  selectdatapeople: Array<IOption>
+  selectdatapeople: Array<any>
   userPeople: any = [];
   fileStatus = false;
   form: FormGroup;

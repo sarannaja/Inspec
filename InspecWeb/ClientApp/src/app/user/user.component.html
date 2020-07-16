@@ -99,44 +99,44 @@
 
                 <div class="form-group" *ngIf="roleId == 3 || roleId == 8 ;">
                     <label>ปี*</label>
-                    <ng-select placeholder="กรุณาเลือกปี" [options]="selectdatafiscalyear"
-                        name="FiscalYear" formControlName="FiscalYear" [allowClear]="true" 
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปี"   [items]="selectdatafiscalyear"
+                        name="FiscalYear" formControlName="FiscalYear"   
                         (selected)="getDataRegions($event)">
                     </ng-select>
                 </div>
 
                 <div class="form-group" *ngIf="roleId == 3 || roleId == 8;">
                     <label>เขตตรวจราชการ*</label>
-                    <ng-select placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true" [options]="selectdataregion"
-                        name="UserRegion" formControlName="UserRegion" [allowClear]="true">
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"   [items]="selectdataregion"
+                        name="UserRegion" formControlName="UserRegion"  >
                     </ng-select>
                 </div>
 
                 <div class="form-group" *ngIf="roleId == 1 || roleId == 2 ||roleId == 3 || roleId == 6 ||  roleId == 7 ||roleId == 8 || roleId == 9 || roleId == 10;">
                     <label>กระทรวง*</label>
-                    <ng-select placeholder="กรุณาเลือกกระทรวง" formControlName="MinistryId"
-                     [options]="selectdataministry" [allowClear]="true" (selected)="getDataDepartments($event)">
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง" formControlName="MinistryId"
+                       [items]="selectdataministry"   (selected)="getDataDepartments($event)">
                     </ng-select>
                 </div>
 
                 <div class="form-group" *ngIf="roleId == 9 || roleId == 10;">
                     <label>หน่วยงาน/กรม</label>
-                    <ng-select placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId" 
-                    [options]="selectdatadeparment" 
-                    (selected)="getProvincialDepartments($event)" [allowClear]="true">
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId" 
+                      [items]="selectdatadeparment" 
+                    (selected)="getProvincialDepartments($event)"  >
                     </ng-select>
                 </div>
 
                 <div class="form-group" *ngIf="roleId == 9;">
                     <label>หน่วยงานภูมิภาค</label>
-                    <ng-select placeholder="กรุณาเลือกหน่วยงานภูมิภาค" formControlName="ProvincialDepartmentId" 
-                    [options]="selectdataprovincialdepartment" [allowClear]="true">
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค" formControlName="ProvincialDepartmentId" 
+                      [items]="selectdataprovincialdepartment"  >
                     </ng-select>
                 </div>
 
                 <div class="form-group" *ngIf="roleId == 4 || roleId == 5 || roleId == 9;"><!-- จังหวัดหลายอัน -->
                     <label>จังหวัด*</label>
-                    <ng-select placeholder="กรุณาเลือกจังหวัด" formControlName="UserProvince" [options]="selectdataprovince" [allowClear]="true">
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="UserProvince"   [items]="selectdataprovince"  >
                     </ng-select>
                 </div>
 
@@ -168,14 +168,14 @@
                 <div class="form-group">
                     <label class="form-label">วันที่เริ่มต้น*</label>
                     <my-date-picker-th formControlName="Startdate"
-                        [options]="myDatePickerOptions" required [(ngModel)]="date">
+                           [options]="myDatePickerOptions" required [(ngModel)]="date">
                     </my-date-picker-th>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">วันที่สิ้นสุด*</label>
                     <my-date-picker-th formControlName="Enddate"
-                        [options]="myDatePickerOptions" required [(ngModel)]="date">
+                           [options]="myDatePickerOptions" required [(ngModel)]="date">
                     </my-date-picker-th>
                 </div>
 

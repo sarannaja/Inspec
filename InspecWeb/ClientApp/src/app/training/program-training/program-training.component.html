@@ -86,7 +86,7 @@
                         <br>
 
                         <label for="test" class="form-label">วันที่</label>
-                        <my-date-picker-th formControlName="programdate" [options]="dateOption" required>
+                        <my-date-picker-th formControlName="programdate"    [options]="dateOption" required>
                         </my-date-picker-th>
                         <!-- <input type="text" formControlName="programdate" class="form-control" placeholder="กรุณากรอกวันที่กำหนดการ"> -->
                         <br>
@@ -118,8 +118,8 @@
                             placeholder="กรุณากรอกการแต่งกาย">
                         <br>
                         <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
-                        <ng-select placeholder="กรุณาเลือกวิทยากร" [multiple]="true" [options]="selectdatalecturer"
-                            name="lecturername" formControlName="lecturername" [allowClear]="true">
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกวิทยากร" [multiple]="true"   [items]="selectdatalecturer"
+                            name="lecturername" formControlName="lecturername"  >
                         </ng-select>
                         <br>
                         <br>

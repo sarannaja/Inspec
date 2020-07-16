@@ -24,9 +24,9 @@
               <div class="form-group">
                 <div class="form-group">
                   <label class="form-label">แผนการตรวจราชการประจำปี</label>
-                  <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true"
-                    [options]="centralPolicyEbook" name="centralPolicyEventId" formControlName="centralPolicyEventId"
-                    [allowClear]="true">
+                  <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true"
+                      [items]="centralPolicyEbook" name="centralPolicyEventId" formControlName="centralPolicyEventId"
+                     >
                   </ng-select>
                 </div>
               </div>
@@ -39,7 +39,7 @@
                 <form class=" row col-12">
                   <div class="col-12 col-xl-3">
                     <div class="form-group">
-                      <my-date-picker-th formControlName="startDate" [options]="myDatePickerOptions" required [(ngModel)]="startDate">
+                      <my-date-picker-th formControlName="startDate"   [items]="myDatePickerOptions" required [(ngModel)]="startDate">
                       </my-date-picker-th>
                     </div>
                   </div>
@@ -50,7 +50,7 @@
                   </div>
                   <div class="col-12 col-xl-3">
                     <div class="form-group">
-                      <my-date-picker-th formControlName="endDate" [options]="myDatePickerOptions" required [(ngModel)]="endDate">
+                      <my-date-picker-th formControlName="endDate"   [items]="myDatePickerOptions" required [(ngModel)]="endDate">
                       </my-date-picker-th>
                     </div>
                   </div>
@@ -64,10 +64,10 @@
                 <form class="form-group row col-12" [formGroup]="item">
                   <div class="col-12 col-xl-3">
                     <div class="form-group">
-                      <!-- <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
+                      <!-- <my-date-picker-th formControlName="start_date"   [items]="myDatePickerOptions" required>
                       </my-date-picker-th> -->
                       <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
-                        [options]="myDatePickerOptions" required>
+                          [options]="myDatePickerOptions" required>
                       </my-date-picker-th>
                     </div>
                   </div>
@@ -78,10 +78,10 @@
                   </div>
                   <div class="col-12 col-xl-3">
                     <div class="form-group">
-                      <!-- <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+                      <!-- <my-date-picker-th formControlName="end_date"   [items]="myDatePickerOptions" required>
                       </my-date-picker-th> -->
                       <my-date-picker-th formControlName="end_date" [(ngModel)]="item.end_date"
-                        [options]="myDatePickerOptions" required>
+                          [options]="myDatePickerOptions" required>
                       </my-date-picker-th>
                     </div>
                   </div>

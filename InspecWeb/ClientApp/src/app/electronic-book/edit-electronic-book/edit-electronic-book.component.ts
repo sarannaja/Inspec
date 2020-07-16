@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { IOption } from 'ng-select';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { UserService } from 'src/app/services/user.service';
@@ -30,8 +30,8 @@ export class EditElectronicBookComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   EditForm2: FormGroup;
-  selectpeople: Array<IOption>
-  selectministrypeople: Array<IOption>
+  selectpeople: Array<any>
+  selectministrypeople: Array<any>
   modalRef: BsModalRef;
   editid: any
   subquestionclosename: any
@@ -53,7 +53,7 @@ export class EditElectronicBookComponent implements OnInit {
   electronicbookid
   carlendarFile: any = [];
   electronikbookFile: any = [];
-  policyDropdown: Array<IOption>
+  policyDropdown: Array<any>
   urllink: any;
   subjectCentralPolicyID: any;
   editSuggestionForm: FormGroup;

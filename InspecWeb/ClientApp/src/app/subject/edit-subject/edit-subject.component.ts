@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SubjectService } from 'src/app/services/subject.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
-import { IOption } from 'ng-select';
+
 import { IMyDate } from 'mydatepicker-th';
 import { DepartmentService } from 'src/app/services/department.service';
 import { SubquestionService } from 'src/app/services/subquestion.service';
@@ -48,8 +48,8 @@ export class EditSubjectComponent implements OnInit {
   subquestionCentralPolicyProvincesId: any
   // questionsopen: any = []
   // questionsclose: any = []
-  times: IOption[] = [];
-  timesselect: IOption[] = [];
+  times: any[] = [];
+  timesselect: any[] = [];
   modalRef: BsModalRef;
 
   get f() { return this.FormAddQuestionsopen.controls; }

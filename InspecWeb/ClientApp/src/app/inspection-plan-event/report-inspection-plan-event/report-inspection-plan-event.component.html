@@ -72,8 +72,8 @@
 
         <div class="form-group">
           <label>เขต</label>
-          <ng-select placeholder="กรุณาเลือกเขต" [multiple]="false" [options]="selectregion" name="region"
-            formControlName="region" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขต" [multiple]="false"   [items]="selectregion" name="region"
+            formControlName="region"  >
           </ng-select>
         </div>
 
@@ -103,8 +103,8 @@
 
         <div class="form-group">
           <label>จังหวัด</label>
-          <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="selectprovince" name="province"
-            formControlName="province" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectprovince" name="province"
+            formControlName="province"  >
           </ng-select>
         </div>
 
@@ -134,8 +134,8 @@
 
         <div class="form-group">
           <label>ผู้ตรวจ</label>
-          <ng-select placeholder="กรุณาเลือกผู้ตรวจ" [multiple]="false" [options]="selectpeople" name="people"
-            formControlName="people" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้ตรวจ" [multiple]="false"   [items]="selectpeople" name="people"
+            formControlName="people"  >
           </ng-select>
         </div>
 
@@ -165,8 +165,8 @@
 
         <div class="form-group">
           <label>หน่วยงาน</label>
-          <ng-select placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false" [options]="selectprovincialdepartment" name="provincialdepartment"
-            formControlName="provincialdepartment" [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"   [items]="selectprovincialdepartment" name="provincialdepartment"
+            formControlName="provincialdepartment"  >
           </ng-select>
         </div>
 

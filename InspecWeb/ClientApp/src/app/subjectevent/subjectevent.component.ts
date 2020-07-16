@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubjectService } from '../services/subject.service';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { IOption } from 'ng-select';
+
 import { UserService } from '../services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
@@ -27,15 +27,15 @@ export class SubjecteventComponent implements OnInit {
   Form: FormGroup;
   Form2: FormGroup;
   checkInspec: Boolean;
-  selectdataprovince: Array<IOption>
+  selectdataprovince: Array<any>
   userid: string;
   resultprovince: any = [];
   province: any = []
   provincename: any = []
   provinceid: any = []
-  selectdatacentralpolicy: Array<IOption>
+  selectdatacentralpolicy: Array<any>
 
-  selectdataprovince2: Array<IOption>
+  selectdataprovince2: Array<any>
   selectdatacentralpolicy2: Array<any>
   province2: any = []
   provincename2: any = []

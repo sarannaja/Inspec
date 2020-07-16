@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@ang
 import { SubquestionService } from '../services/subquestion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CentralpolicyService } from '../services/centralpolicy.service';
-import { IOption } from 'ng-select';
+
 import { IMyDate } from 'mydatepicker-th';
 import { SubjectService } from '../services/subject.service';
 import { DepartmentService } from '../services/department.service';
@@ -34,8 +34,8 @@ export class SubquestionComponent implements OnInit {
   modalRef: BsModalRef;
   Form: FormGroup;
   Formfile: FormGroup;
-  times: IOption[] = [];
-  selectdatacentralpolicy: Array<IOption>
+  times: any[] = [];
+  selectdatacentralpolicy: Array<any>
   listfiles: any = []
 
   constructor(

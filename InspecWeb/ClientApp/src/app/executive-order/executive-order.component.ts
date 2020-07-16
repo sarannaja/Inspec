@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CentralpolicyService } from '../services/centralpolicy.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { IOption } from 'ng-select';
+
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { ExecutiveorderService } from '../services/executiveorder.service';

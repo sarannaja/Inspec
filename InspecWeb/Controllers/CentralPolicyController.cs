@@ -373,6 +373,7 @@ namespace InspecWeb.Controllers
                         System.Console.WriteLine("END: " + indexend);
                     }
                     indexend++;
+                    _context.SaveChanges();
                 }
 
                 index++;

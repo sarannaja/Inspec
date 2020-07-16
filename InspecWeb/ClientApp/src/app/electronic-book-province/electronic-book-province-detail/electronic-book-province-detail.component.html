@@ -373,9 +373,9 @@
               <div class="col-12 col-xl-12">
                 <div class="form-group">
                   <label class="form-label">หน่วยรับตรวจ*</label>
-                  <ng-select placeholder="กรุณาเลือกหน่วยรับตรวจ" [multiple]="false"
-                    [options]="provincialDepartmentData" name="province" formControlName="provincialDepartment"
-                    [allowClear]="true">
+                  <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยรับตรวจ" [multiple]="false"
+                      [items]="provincialDepartmentData" name="province" formControlName="provincialDepartment"
+                     >
                   </ng-select>
                 </div>
               </div>

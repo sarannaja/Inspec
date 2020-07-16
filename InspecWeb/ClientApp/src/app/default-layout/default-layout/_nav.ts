@@ -26,7 +26,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจประจำปี"
+    name: "แผนการตรวจราชการ"
   },
   {
     icon: 'fa-calendar',

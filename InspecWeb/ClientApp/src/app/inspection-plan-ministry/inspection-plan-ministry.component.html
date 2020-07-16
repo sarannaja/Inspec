@@ -126,9 +126,9 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label class="form-label">แผนการตรวจราชการประจำปี</label>
-          <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true"
-            [options]="selectdatacentralpolicy" name="CentralpolicyId" formControlName="CentralpolicyId"
-            [allowClear]="true">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true"
+              [items]="selectdatacentralpolicy" name="CentralpolicyId" formControlName="CentralpolicyId"
+             >
           </ng-select>
         </div>
 
@@ -138,7 +138,7 @@
           </div>
           <div class="col-12 col-xl-5">
             <div class="form-group">
-              <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="startdate"    [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -149,7 +149,7 @@
           </div>
           <div class="col-12 col-xl-5">
             <div class="form-group">
-              <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="enddate"    [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -161,7 +161,7 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="notificationdate" [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="notificationdate"    [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -172,7 +172,7 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="deadlinedate" [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="deadlinedate"    [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -201,8 +201,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true" [options]="selectdataministrypeople"
-          name="UserPeopleId" formControlName="UserPeopleId" [allowClear]="true">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdataministrypeople"
+          name="UserPeopleId" formControlName="UserPeopleId"  >
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -253,9 +253,9 @@
         </div>
         <div class="col-12 col-xl-5">
           <div class="form-group">
-            <!-- <my-date-picker-th [selDate]="timelineData.startDate" [options]="myDatePickerOptions" required>
+            <!-- <my-date-picker-th [selDate]="timelineData.startDate"   [items]="myDatePickerOptions" required>
               </my-date-picker-th> -->
-            <my-date-picker-th [selDate]="startDate" [options]="myDatePickerOptions"
+            <my-date-picker-th [selDate]="startDate"    [options]="myDatePickerOptions"
               (dateChanged)="onStartDateChanged($event)" required>
             </my-date-picker-th>
           </div>
@@ -267,7 +267,7 @@
         </div>
         <div class="col-12 col-xl-5">
           <div class="form-group">
-            <my-date-picker-th [selDate]="endDate" [options]="myDatePickerOptions"
+            <my-date-picker-th [selDate]="endDate"    [options]="myDatePickerOptions"
               (dateChanged)="onEndDateChanged($event)" required>
             </my-date-picker-th>
           </div>

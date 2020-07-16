@@ -102,7 +102,7 @@
             <div class="modal-body m-3">
                 <div class="form-group">
                     <label for="test" class="form-label">วันที่</label>
-                    <my-date-picker-th formControlName="programdate"  [options]="dateOption" required>
+                    <my-date-picker-th formControlName="programdate"     [options]="dateOption" required>
                     </my-date-picker-th>
                     <!-- <input type="text" formControlName="programdate" class="form-control" placeholder="กรุณากรอกวันที่กำหนดการ"> -->
                     <br>
@@ -122,8 +122,8 @@
                     <input type="text" formControlName="programdetail" class="form-control" placeholder="กรุณากรอกรายละเอียดกิจกรรม">
                     <br>
                     <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
-                    <ng-select placeholder="กรุณาเลือกวิทยากร" [options]="selectdatalecturer"
-                    name="lecturername" formControlName="lecturername" [allowClear]="true">
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกวิทยากร"   [items]="selectdatalecturer"
+                    name="lecturername" formControlName="lecturername"  >
                     </ng-select>
 
                     <!-- <label for="test" class="form-label">ผู้ดำเนินรายการ</label>

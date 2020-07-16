@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจราชการ</a></li>
     </ol>
   </nav>
 </div>
@@ -13,7 +13,7 @@
   <div class="col-12">
     <div class="card">
       <div *ngIf="role_id == 1 || role_id == 2;else elseBlock" class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
+        <h5 class="card-title">แผนการตรวจราชการ</h5>
         <div class="float-left">
           <div class="form-group">
             <div class="form-group col-md-12">
@@ -21,7 +21,7 @@
                 <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
                   data-toggle="select2">
                   <option value="currentfiscalyear">ปีปัจจุบัน</option>
-                  <option value="allfiscalyear">ปีทั้งหมด</option>
+                  <option value="allfiscalyear">ทุกปี</option>
                   <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">
                     {{item.year}}
                   </option>
@@ -32,12 +32,12 @@
         </div>
         <div class="float-right">
           <button class="btn btn-primary" (click)="CreateCentralPolicy()"
-            style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
+            style="margin-top: -60px;">เพิ่มแผนการตรวจราชการ</button>
         </div>
       </div>
       <ng-template #elseBlock>
         <div class="card-header">
-          <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
+          <h5 class="card-title">แผนการตรวจราชการ</h5>
           <div class="float-left">
             <div class="form-group" style="margin-bottom: -40px;">
               <div class="form-group col-md-12">

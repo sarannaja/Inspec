@@ -4,7 +4,7 @@
 // import { ActivatedRoute, Router } from '@angular/router';
 // import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 // import { ProvinceService } from 'src/app/services/province.service';
-// import { IOption } from 'ng-select';
+// 
 // import { RequestorderService } from 'src/app/services/requestorder.service';
 // import { AuthorizeService } from 'src/api-authorization/authorize.service';
 // import { UserService } from 'src/app/services/user.service';
@@ -37,7 +37,7 @@
 //   request_id: any;
 //   userid: any;
 //   role_id: any;
-//   selectdataprovince: Array<IOption> = []
+//   selectdataprovince: Array<any> = []
 //   EditForm: FormGroup;
 //   loading = false;
 //   dtOptions: DataTables.Settings = {};

@@ -97,7 +97,7 @@
                   <div class="col-12 col-xl-3">
                     <div class="form-group">
                       <my-date-picker-th [selDate]="item.start_date" (dateChanged)="onStartDateChanged($event, i)"
-                        [options]="myDatePickerOptions" required>
+                          [options]="myDatePickerOptions" required>
                       </my-date-picker-th>
                     </div>
                   </div>
@@ -109,7 +109,7 @@
                   <div class="col-12 col-xl-3">
                     <div class="form-group">
                       <my-date-picker-th [selDate]="item.end_date" (dateChanged)="onEndDateChanged($event, i)"
-                        [options]="myDatePickerOptions" required>
+                          [options]="myDatePickerOptions" required>
                       </my-date-picker-th>
                     </div>
                   </div>
@@ -127,9 +127,9 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>จังหวัด</label>
-                <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="true" id="selected"
-                  [options]="selectdataprovince" [(ngModel)]="selected" name="ProvinceId" formControlName="ProvinceId"
-                  [allowClear]="true">
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true" id="selected"
+                    [items]="selectdataprovince" [(ngModel)]="selected" name="ProvinceId" formControlName="ProvinceId"
+                   >
                 </ng-select>
               </div>
             </div>
@@ -159,7 +159,7 @@
                       </div>
                       <div class="col-12 col-xl-3">
                         <div class="form-group">
-                          <my-date-picker-th formControlName="start_date" [options]="myDatePickerOptions" required>
+                          <my-date-picker-th formControlName="start_date"   [items]="myDatePickerOptions" required>
                           </my-date-picker-th>
                         </div>
                       </div>
@@ -170,7 +170,7 @@
                       </div>
                       <div class="col-12 col-xl-3">
                         <div class="form-group">
-                          <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
+                          <my-date-picker-th formControlName="end_date"   [items]="myDatePickerOptions" required>
                           </my-date-picker-th>
                         </div>
                       </div>

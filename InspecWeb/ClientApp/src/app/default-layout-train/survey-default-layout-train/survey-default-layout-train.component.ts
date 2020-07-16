@@ -7,7 +7,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { IOption } from 'ng-select';
+
 
 
 @Component({
@@ -47,7 +47,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
   userid: any
   resultuser: any[];
   resultpeople: any = []
-  selectpeople: Array<IOption>
+  selectpeople: Array<any>
   role_id: any
   Prefix: any;
   Name: any;

@@ -140,8 +140,8 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">แผนการตรวจราชการประจำปี*</label>
-            <ng-select placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true" [options]="centralPolicyEvent"
-              name="centralPolicyEvent" formControlName="centralPolicyEvent" [allowClear]="true">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true"   [items]="centralPolicyEvent"
+              name="centralPolicyEvent" formControlName="centralPolicyEvent"  >
             </ng-select>
           </div>
         </div>
@@ -192,8 +192,8 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">ปีงบประมาณ*</label>
-            <ng-select placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false" [options]="fiscalYearData"
-              name="fiscalYear" formControlName="fiscalYear" [allowClear]="true" (selected)="selectFiscalYear($event)">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"   [items]="fiscalYearData"
+              name="fiscalYear" formControlName="fiscalYear"   (selected)="selectFiscalYear($event)">
             </ng-select>
           </div>
         </div>
@@ -201,8 +201,8 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">เขตตรวจราชการ*</label>
-            <ng-select placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false" [options]="regionData" name="region"
-              formControlName="region" [allowClear]="true">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"   [items]="regionData" name="region"
+              formControlName="region"  >
             </ng-select>
           </div>
         </div>
@@ -210,8 +210,8 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">จังหวัด*</label>
-            <ng-select placeholder="กรุณาเลือกจังหวัด" [multiple]="false" [options]="provinceData" name="province"
-              formControlName="province" [allowClear]="true">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="provinceData" name="province"
+              formControlName="province"  >
             </ng-select>
           </div>
         </div>
