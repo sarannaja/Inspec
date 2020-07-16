@@ -41,7 +41,7 @@
                 <div class="row">
                   <div class="col-11">
                     <ng-select bindLabel="label" bindValue="value" multiple="true" id="datetime" [(ngModel)]="datetime" placeholder="กรุณาเลือกระยะเวลา"
-                        [items]="times" name="ํTime" formControlName="centralPolicyDateId"  
+                        [items]="times" name="ํTime" formControlName="centralPolicyDateId"
                       [disabled]=true>
                     </ng-select>
                   </div>
@@ -474,7 +474,7 @@
                       </ng-template>
                     </div> -->
                     <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="temp"
-                      formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
+                      formControlName="departmentId"(ngModelChange)="addsubjectdepartment2($event,'add')"
                       (deselected)="addsubjectdepartment2($event,'remove')"  >
                     </ng-select> -->
                     <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="departmentId"

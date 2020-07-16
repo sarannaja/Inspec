@@ -68,7 +68,7 @@
                         </ng-template>
                       </div>
                       <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="true"   [items]="temp"
-                        formControlName="departmentId" (selected)="addsubjectdepartment2($event,'add')"
+                        formControlName="departmentId"(ngModelChange)="addsubjectdepartment2($event,'add')"
                         (deselected)="addsubjectdepartment2($event,'remove')"  >
                       </ng-select>
                       <br>

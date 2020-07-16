@@ -66,7 +66,7 @@
                   <div class="col-12 col-xl-4">
                     <div class="form-group">
                       <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
-                          formControlName="provinces" (selected)="selectedprovince($event,i,item)">
+                          formControlName="provinces"(ngModelChange)="selectedprovince($event,i,item)">
                       </ng-select>
                     </div>
                   </div>
@@ -98,8 +98,8 @@
                   <div class="col-12 col-xl-8">
                     <div class="form-group">
                       <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="false"
-                        formControlName="centralpolicies"   [items]="t.value[i].resultcentralpolicy"  
-                        (selected)="selectedcentralpolicy($event, i)">
+                        formControlName="centralpolicies"   [items]="t.value[i].resultcentralpolicy"
+                       (change)="selectedcentralpolicy($event, i)">
                       </ng-select>
                     </div>
                   </div>
