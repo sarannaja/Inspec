@@ -39,6 +39,7 @@ export class ProvinceService {
   }
   getRegionMock(){
     return [
+        
         {
             name:"กรุงเทพมหานคร",
             region:"ตอนพิเศษ"
@@ -233,6 +234,7 @@ export class ProvinceService {
     region:"ภาคใต้"},
     {name:"บึงกาฬ",
     region:"ภาคตะวันออกเฉียงเหนือ"},
+    
 
     ]
 }
