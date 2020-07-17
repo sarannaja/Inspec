@@ -128,14 +128,31 @@
               <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true"
                 [items]="selectdataprovince" name="ProvinceId" formControlName="ProvinceId">
               </ng-select> -->
-              <ng-select [items]="province" [multiple]="true" bindLabel="label"
-                groupBy="region" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
-                bindValue="value" [(ngModel)]="selectedProvince" formControlName="ProvinceId">
+              <ng-select [items]="province" [multiple]="true" bindLabel="label" groupBy="region"
+                [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
+                [(ngModel)]="selectedProvince" formControlName="ProvinceId">
+                <!-- <ng-template >
+
+
+                
+                -->
+                <ng-template ng-header-tmp>
+                  <div>
+                    <button class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
+                    <button class="btn btn-link" (click)="onClearAll()">ล้าง</button>
+                  </div>
+
+                </ng-template>
+                <!-- <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                  <input type="checkbox" /> เลือกทั้งหมด
+                </ng-template> -->
                 <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
-                  <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.region }}
+                  <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                    [ngModel]="item$.selected" /> {{item.region }}
                 </ng-template>
                 <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                  <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.name}}
+                  <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                    [ngModel]="item$.selected" /> {{item.name}}
                 </ng-template>
               </ng-select>
               <!-- <app-select-component></app-select-component> -->
