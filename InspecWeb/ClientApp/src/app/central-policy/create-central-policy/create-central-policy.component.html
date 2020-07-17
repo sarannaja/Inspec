@@ -130,7 +130,7 @@
               </ng-select> -->
               <ng-select [items]="province" [multiple]="true" bindLabel="label"
                 groupBy="region" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
-                bindValue="value" [(ngModel)]="selectedProvince" formControlName="ProvinceId" >
+                bindValue="value" [(ngModel)]="selectedProvince" formControlName="ProvinceId">
                 <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
                   <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.region }}
                 </ng-template>

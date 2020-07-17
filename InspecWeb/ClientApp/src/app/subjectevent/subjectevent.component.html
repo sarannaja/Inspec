@@ -71,7 +71,7 @@
         <div class="form-group">
           <label for="test" class="form-label">จังหวัด</label>
           <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
-              formControlName="province" (selected)="selectedprovince($event,i,item)">
+              formControlName="province"(ngModelChange)="selectedprovince($event,i,item)">
           </ng-select>
         </div>
         <div class="form-group">
@@ -164,7 +164,7 @@
         <div class="form-group">
           <label for="test" class="form-label">จังหวัด</label>
           <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
-              formControlName="province2" (selected)="selectedprovince2($event,i,item)">
+              formControlName="province2"(ngModelChange)="selectedprovince2($event,i,item)">
           </ng-select>
         </div>
         <div class="form-group">

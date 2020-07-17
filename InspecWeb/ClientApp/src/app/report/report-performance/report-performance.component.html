@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <label class="form-label">จังหวัด*</label>
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด"   [items]="selectprovince"
-                            name="provinceid" formControlName="provinceid"   (selected)="selectedprovince($event)">
+                            name="provinceid" formControlName="provinceid"  (change)="selectedprovince($event)">
                         </ng-select>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         <label class="form-label">แผนการตรวจราชการประจำปี*</label>
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี"   [items]="selectcentralpolicy"
-                            name="centralpolicyid" formControlName="centralpolicyid"   (selected)="selectedcentralpolicy($event)">
+                            name="centralpolicyid" formControlName="centralpolicyid"  (change)="selectedcentralpolicy($event)">
                         </ng-select>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                     <div class="form-group">
                         <label class="form-label">ประเด็น*</label>
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็น"   [items]="selectsubject"
-                            name="subjectid" formControlName="subjectid"   (selected)="selectedsubject($event)">
+                            name="subjectid" formControlName="subjectid"  (change)="selectedsubject($event)">
                         </ng-select>
                     </div>
                 </div>

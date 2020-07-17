@@ -128,7 +128,7 @@
           <div class="form-group">
             <label class="form-label">ปีงบประมาณ*</label>
             <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"   [items]="fiscalYearData"
-              name="fiscalYear" formControlName="fiscalYear"   (selected)="selectFiscalYear($event)">
+              name="fiscalYear" formControlName="fiscalYear"  (change)="selectFiscalYear($event)">
             </ng-select>
           </div>
         </div>
@@ -260,7 +260,7 @@
           <div class="form-group">
             <label class="form-label">ปีงบประมาณ*</label>
             <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"   [items]="fiscalYearData"
-              name="fiscalYear" formControlName="fiscalYear"   (selected)="selectFiscalYear($event)">
+              name="fiscalYear" formControlName="fiscalYear"  (change)="selectFiscalYear($event)">
             </ng-select>
           </div>
         </div>
