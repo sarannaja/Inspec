@@ -56,7 +56,7 @@ export class UserService {
   }
 
   addUser(userData,file: FileList ,roleId) {
-    // alert(roleId);
+     alert(roleId);
       //console.log("servicelog: ", userData);
       const formData = new FormData();
       formData.append('Email', userData.Email); //email   
@@ -65,7 +65,7 @@ export class UserService {
       formData.append('Name', userData.Name); //ชื่อ
       formData.append('Position', userData.Position);//ตำแหน่ง
       formData.append('Educational','');
-      //formData.append('Birthday','');
+      formData.append('Commandnumber',userData.Commandnumber); //เลขที่คำสั่ง
       formData.append('Officephonenumber','');
       formData.append('PhoneNumber',userData.PhoneNumber);
       formData.append('Telegraphnumber','');
@@ -112,7 +112,7 @@ export class UserService {
         formData.append('SubdistrictId', userData.SubdistrictId); //ตำบลมีได้อันเดียว
       }
 
-      if (userData.MinistryId == null) {
+      if (userData.MinistryId == null) { 
         formData.append('MinistryId', '1');
       } else {
         formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว

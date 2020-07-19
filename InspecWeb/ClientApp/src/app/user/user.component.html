@@ -97,27 +97,33 @@
                     <label>สิทธิ์การใช้งาน : {{rolename}}</label>
                 </div>
 
-                <div class="form-group" *ngIf="roleId == 3 || roleId == 8 ;">
-                    <label>ปี*</label>
-                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปี"   [items]="selectdatafiscalyear"
-                        name="FiscalYear" formControlName="FiscalYear"
-                       (change)="getDataRegions($event)">
-                    </ng-select>
+                <div class="form-group" *ngIf="roleId == 3">
+                    <label>กระทรวง : สำนักนายกรัฐมนตรี</label>
                 </div>
 
-                <div class="form-group" *ngIf="roleId == 3 || roleId == 8;">
-                    <label>เขตตรวจราชการ*</label>
-                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"   [items]="selectdataregion"
-                        name="UserRegion" formControlName="UserRegion"  >
-                    </ng-select>
+                <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
+                    <div class="form-group">
+                        <label>ปี*</label>
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปี"   [items]="selectdatafiscalyear"
+                            name="FiscalYear" formControlName="FiscalYear"
+                        (change)="getDataRegions($event)">
+                        </ng-select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>เขตตรวจราชการ*</label>
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"   [items]="selectdataregion"
+                            name="UserRegion" formControlName="UserRegion"  >
+                        </ng-select>
+                    </div>
                 </div>
 
-                <div class="form-group" *ngIf="roleId == 1 || roleId == 2 ||roleId == 3 || roleId == 6 ||  roleId == 7 ||roleId == 8 || roleId == 9 || roleId == 10;">
+                <div class="form-group" *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||  roleId == 7 ||roleId == 8 || roleId == 9 || roleId == 10;">
                     <label>กระทรวง*</label>
                     <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง" formControlName="MinistryId"
                        [items]="selectdataministry"  (change)="getDataDepartments($event)">
                     </ng-select>
-                </div>
+                </div>            
 
                 <div class="form-group" *ngIf="roleId == 9 || roleId == 10;">
                     <label>หน่วยงาน/กรม</label>
@@ -138,6 +144,11 @@
                     <label>จังหวัด*</label>
                     <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="UserProvince"   [items]="selectdataprovince"  >
                     </ng-select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">เลขที่คำสั่ง</label>
+                    <input type="text" formControlName="Commandnumber" class="form-control" placeholder="กรุณากรอกเลขที่คำสั่ง">
                 </div>
 
                 <div class="form-group">

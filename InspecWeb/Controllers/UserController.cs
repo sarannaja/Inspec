@@ -137,7 +137,7 @@ namespace InspecWeb.Controllers {
         public async Task<IActionResult> Post ([FromForm] UserViewModel model) {
             var date = DateTime.Now;
           
-            System.Console.WriteLine("testuser : 1 " + model.DepartmentId);
+            System.Console.WriteLine("testuser : 1 " + model.Role_id);
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             //ข้อมูลหลัก
@@ -213,8 +213,8 @@ namespace InspecWeb.Controllers {
             int tt = 0;
             List<FiscalYearRelation> termsList = new List<FiscalYearRelation>();
 
-            //สำหรับกรณีของ role ผู้ตรวจเขต
-            if (model.Role_id == 3 || model.Role_id == 8)
+            //สำหรับกรณีของ role ผู้ตรวจเข6
+            if (model.Role_id == 3 || model.Role_id == 6 || model.Role_id == 8 || model.Role_id == 10)
             {
                 foreach (var item in model.UserRegion)
                 {
@@ -241,7 +241,7 @@ namespace InspecWeb.Controllers {
                         termsList.Add(item2);
                     }
                     tt++;
-                    System.Console.WriteLine("testuser : 4 :" + tt);
+                    System.Console.WriteLine("testuser : 4.1 :");
 
                 }
             }
@@ -262,7 +262,8 @@ namespace InspecWeb.Controllers {
                 }
             }
             ////จังหวัดที่ทำงาน
-            if (model.Role_id != 3 || model.Role_id != 8)
+            if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 4 || model.Role_id == 5 
+                 || model.Role_id == 7 || model.Role_id == 9)
             {
 
                 //  foreach (var item3 in model.UserProvince)
