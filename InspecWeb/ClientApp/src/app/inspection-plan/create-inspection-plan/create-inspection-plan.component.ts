@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
-import { IMyOptions } from 'mydatepicker-th';
+import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService } from 'src/app/services/province.service';
@@ -45,6 +45,8 @@ export class CreateInspectionPlanComponent implements OnInit {
   provinceid
   resultinspectionplan: any = []
   yearString: any;
+  startDate: any;
+  endDate: any;
 
   constructor(
     private fb: FormBuilder,
@@ -125,8 +127,8 @@ export class CreateInspectionPlanComponent implements OnInit {
   storeInspectionPlan(value) {
     console.log("FORM: ", value);
     // alert(JSON.stringify(value))
-    this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.yearString).subscribe(response => {
-      console.log(value);
+    this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.yearString, this.startDate, this.endDate).subscribe(response => {
+      console.log("create Inspection plan: ", value);
       this.Form.reset()
       window.history.back();
       // this.router.navigate(['inspectionplanevent'])
@@ -163,12 +165,33 @@ export class CreateInspectionPlanComponent implements OnInit {
         ProvinceId: this.resultinspectionplan[0].province.id,
       })
 
+      this.startDate = this.time(this.resultinspectionplan[0].startDate)
+      this.endDate = this.time(this.resultinspectionplan[0].endDate)
+
       // alert(JSON.stringify(this.resultinspectionplan))
     })
   }
 
+  time(date) {
+    var ssss = new Date(date)
+    var new_date = { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() }
+    return new_date
+  }
+
   goBack() {
     window.history.back();
+  }
+
+  onStartDateChanged(event: IMyDateModel) {
+    // alert(JSON.stringify(event))
+    this.startDate = event.date;
+    console.log("SS: ", this.startDate);
+  }
+
+  onEndDateChanged(event: IMyDateModel) {
+    // alert(JSON.stringify(event))
+    this.endDate = event.date;
+    console.log("EE: ", this.endDate);
   }
 
 }

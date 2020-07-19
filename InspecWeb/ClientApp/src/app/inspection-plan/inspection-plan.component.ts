@@ -50,6 +50,8 @@ export class InspectionPlanComponent implements OnInit {
   selectdataministrypeople: any = [];
   startDate: any;
   endDate: any;
+  startDate2: any;
+  endDate2: any;
   currentyear
   url = "";
   rolecreatedby
@@ -124,6 +126,7 @@ export class InspectionPlanComponent implements OnInit {
     this.EditForm = this.fb.group({
       title: new FormControl(null),
       year: new FormControl(null),
+      type: new FormControl('อื่นๆ'),
     });
   }
 
@@ -158,7 +161,7 @@ export class InspectionPlanComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  openModaledit(template: TemplateRef<any>, editid){
+  openModaledit(template: TemplateRef<any>, editid) {
     // alert(editid)
     console.log(editid);
     this.editid = editid
@@ -198,7 +201,7 @@ export class InspectionPlanComponent implements OnInit {
   storeCentralPolicyEventRelation(value) {
     let CentralpolicyId: any[] = value.CentralpolicyId
     // alert(JSON.stringify(value))
-    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid).subscribe(response => {
+    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid, this.startDate, this.endDate).subscribe(response => {
 
 
       this.Form.reset()
@@ -314,14 +317,19 @@ export class InspectionPlanComponent implements OnInit {
       .subscribe(result => {
         this.resultdetailcentralpolicy = result;
         console.log("RES: ", this.resultdetailcentralpolicy);
-
+        this.startDate2 = this.time(this.resultdetailcentralpolicy.startDate);
+        this.endDate2 = this.time(this.resultdetailcentralpolicy.endDate);
         // this.EditForm.patchValue({
         //   title: this.resultdetailcentralpolicy.title,
         //   year: this.resultdetailcentralpolicy.fiscalYearId.toString(),
         //   type: this.resultdetailcentralpolicy.type,
         //   status: this.resultdetailcentralpolicy.status
         // });
+        this.EditForm.patchValue({
+          year: this.resultdetailcentralpolicy.centralPolicy.fiscalYearId
+        })
       });
+
   }
   getinspectionplanservice2() {
     this.inspectionplanservice.getinspectionplandata(this.id, this.provinceid).subscribe(result => {
@@ -338,7 +346,7 @@ export class InspectionPlanComponent implements OnInit {
       // alert(JSON.stringify(this.resultinspectionplan))
     })
   }
-  getFiscalyearservice(){
+  getFiscalyearservice() {
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
     });
@@ -406,12 +414,14 @@ export class InspectionPlanComponent implements OnInit {
   onStartDateChanged(event: IMyDateModel) {
     // alert(JSON.stringify(event))
     this.startDate = event.date;
+    this.startDate2 = event.date;
     console.log("SS: ", this.startDate);
   }
 
   onEndDateChanged(event: IMyDateModel) {
-    // alert(JSON.stringify(event))
+    // alert(JSON.stringify(event))]
     this.endDate = event.date;
+    this.endDate2 = event.date;
     console.log("EE: ", this.endDate);
   }
   EditPlanDate() {
@@ -421,9 +431,12 @@ export class InspectionPlanComponent implements OnInit {
       this.getTimeline();
     })
   }
-  EditCentralPolicy(value){
+  EditCentralPolicy(value) {
     console.log(value);
-
+    this.inspectionplanservice.editcentralpolicy(this.editid, this.startDate2, this.endDate2, value).subscribe(response => {
+      this.modalRef.hide()
+      this.getinspectionplanservice();
+    })
   }
   deleteDate() {
     this.inspectionplanservice.deleteplandate(this.id).subscribe(response => {
