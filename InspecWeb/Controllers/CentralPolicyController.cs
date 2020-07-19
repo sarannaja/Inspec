@@ -62,6 +62,7 @@ namespace InspecWeb.Controllers
         public IActionResult Get(long id)
         {
             var centralpolicydata = _context.CentralPolicies
+                .Include(m => m.FiscalYear)
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)

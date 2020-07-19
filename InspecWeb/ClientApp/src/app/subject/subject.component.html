@@ -40,17 +40,17 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of resultsubject; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ item.name }}</td> <!-- (click)="Subquestion()" -->
-            <td>
+            <td class="pointer" (click)="DetailSubject(item.id)">{{ i + 1 }}</td>
+            <td class="pointer" (click)="DetailSubject(item.id)">{{ item.name }}</td> <!-- (click)="Subquestion()" -->
+            <td class="pointer" (click)="DetailSubject(item.id)">
               <div *ngFor="let item2 of item.subjectDateCentralPolicyProvinces;">
                 {{ item2.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
                 {{ item2.centralPolicyDateProvince.endDate | thaidate: 'year' }}</div>
             </td>
-            <td>{{item.status}}</td>
+            <td class="pointer" (click)="DetailSubject(item.id)">{{item.status}}</td>
             <td>
               <div class="row">
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i>
+                <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i> -->
                 <div *ngIf="role_id == 1 || role_id == 2">
                   <i style="padding-bottom: 10px;" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                     (click)="EditSubject(item.id)"></i>

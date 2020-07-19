@@ -30,6 +30,7 @@ export class SubquestionComponent implements OnInit {
   temp = []
   test = []
   id
+  indexfiles
   name: any
   modalRef: BsModalRef;
   Form: FormGroup;
@@ -56,7 +57,7 @@ export class SubquestionComponent implements OnInit {
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       centralpolicydateid: new FormControl(null, [Validators.required]),
-      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      status: new FormControl("ใช้งานจริง", [Validators.required]),
       explanation: new FormControl(null, [Validators.required]),
       inputsubjectdepartment: this.fb.array([
         this.initdepartment()
@@ -76,6 +77,12 @@ export class SubquestionComponent implements OnInit {
   get f() { return this.Form.controls }
   get d() { return this.f.inputquestionopen as FormArray }
   get x() { return this.initanswerclose() }
+
+  openModalDelete(template: TemplateRef<any>, i) {
+    console.log(i);
+    this.indexfiles = i
+    this.modalRef = this.modalService.show(template);
+  }
 
   initdepartment() {
     return this.fb.group({
@@ -232,8 +239,8 @@ export class SubquestionComponent implements OnInit {
     for (let i = 0, numFiles = file.length; i < numFiles; i++) {
       this.listfiles.push(file[i])
     }
-    console.log("test",this.listfiles[0].name);
-    
+    console.log("test", this.listfiles[0].name);
+
     this.Formfile.patchValue({
       files: this.listfiles
     });
@@ -248,6 +255,13 @@ export class SubquestionComponent implements OnInit {
       this.spinner.hide();
       window.history.back();
     })
+  }
+
+  DeleteFile(value) {
+    console.log(value);
+    this.listfiles.splice(value, 1);
+    console.log(this.listfiles);
+    this.modalRef.hide()
   }
   // appendquestionopen() {
   //   this.d.push(this.fb.group({

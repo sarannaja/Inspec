@@ -156,6 +156,9 @@ export class CentralPolicyComponent implements OnInit {
   Subject(id) {
     this.router.navigate(['/subject', id])
   }
+  DetailrowCentralPolicy(id: any){
+    this.router.navigate(['/centralpolicy/detailrowcentralpolicy', id])
+  }
   CreateCentralPolicy() {
     this.router.navigate(['/centralpolicy/createcentralpolicy'])
   }
