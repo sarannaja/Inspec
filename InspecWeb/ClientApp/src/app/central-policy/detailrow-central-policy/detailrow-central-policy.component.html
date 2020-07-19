@@ -51,9 +51,9 @@
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>จังหวัด</label>
-              <ng-select [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
+              <ng-select  [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
                 [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
-                [(ngModel)]="selected" formControlName="ProvinceId" [disabled]="true">
+                [(ngModel)]="selected" formControlName="ProvinceId" >
                 <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
                   <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
                     [ngModel]="item$.selected" /> {{item.region }}

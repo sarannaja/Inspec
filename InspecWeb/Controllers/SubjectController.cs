@@ -596,13 +596,27 @@ namespace InspecWeb.Controllers
                         }
                         foreach (var questionclosechoice in questionclose.inputanswerclose)
                         {
-                            var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                            if(questionclosechoice.answerclose == null || questionclosechoice.answerclose == "")
                             {
-                                SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
-                                Name = questionclosechoice.answerclose,
-                            };
-                            _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
-                            _context.SaveChanges();
+                                var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                                {
+                                    SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+                                    Name = "โปรดระบุ",
+                                };
+                                _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+                                _context.SaveChanges();
+                            }
+                            else
+                            {
+                                var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                                {
+                                    SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+                                    Name = questionclosechoice.answerclose,
+                                };
+                                _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+                                _context.SaveChanges();
+                            }
+                          
                         }
                     }
                 }

@@ -41,7 +41,7 @@ export class DetailrowCentralPolicyComponent implements OnInit {
   oldProvince: any = [];
   addProvince: any = [];
   removeProvince: any = [];
-
+  disable = true;
   selected: any = [];
   downloadUrl: any;
 
@@ -129,6 +129,7 @@ export class DetailrowCentralPolicyComponent implements OnInit {
           status: this.resultdetailcentralpolicy.status,
           ProvinceId: this.selected
         });
+        this.EditForm.controls.ProvinceId.disable();
       });
   }
   getProvince() {
@@ -148,24 +149,24 @@ export class DetailrowCentralPolicyComponent implements OnInit {
     this.provinceservice.getprovincedata()
       .subscribe(result => {
         this.selectdataprovince = result.map(result => {
-          console.log(
-            result.name
-          );
+          // console.log(
+          //   result.name
+          // );
           var region = this.provinceservice.getRegionMock()
             .filter(
               (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
             )[0].region
-          console.log(
-            region
-          );
+          // console.log(
+          //   region
+          // );
 
 
           return { ...result, region: region, label: result.name, value: result.id }
         })
-        console.log(this.selectdataprovince);
+        // console.log(this.selectdataprovince);
 
       })
     this.spinner.hide();
-    console.log(this.provinceservice.getRegionMock());
+    // console.log(this.provinceservice.getRegionMock());
   }
 }
