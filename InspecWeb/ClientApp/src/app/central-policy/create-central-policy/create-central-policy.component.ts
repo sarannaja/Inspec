@@ -132,16 +132,16 @@ export class CreateCentralPolicyComponent implements OnInit {
   storeCentralpolicy(value) {
     console.log(value);
     // alert(JSON.stringify(value))
-    // this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
-    //   .subscribe(response => {
-    //     console.log(response);
-    //     this.Form.reset()
-    //     this.router.navigate(['centralpolicy'])
-    //     // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
-    //     //   this.centralpolicyservice = result
-    //     //   console.log(this.resultcentralpolicy);
-    //     // })
-    //   })
+    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
+      .subscribe(response => {
+        console.log(response);
+        this.Form.reset()
+        this.router.navigate(['centralpolicy'])
+        // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+        //   this.centralpolicyservice = result
+        //   console.log(this.resultcentralpolicy);
+        // })
+      })
   }
 
   addFile(event) {

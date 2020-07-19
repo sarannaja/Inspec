@@ -46,7 +46,7 @@ export class EditCentralPolicyComponent implements OnInit {
   oldProvince: any = [];
   addProvince: any = [];
   removeProvince: any = [];
-
+  oldSelected:any[] = []
   selected: any = [];
   downloadUrl: any;
 
@@ -61,6 +61,7 @@ export class EditCentralPolicyComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private authorize: AuthorizeService,
+    
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -149,6 +150,8 @@ export class EditCentralPolicyComponent implements OnInit {
           console.log("element: ", element);
           if (element.active == 1) {
             this.selected.push(element.provinceId);
+            this.oldSelected.push(element.provinceId);
+            
             this.oldProvince.push(element.provinceId);
           }
 
@@ -217,19 +220,31 @@ export class EditCentralPolicyComponent implements OnInit {
   appenddate() {
     let date: Date = new Date();
     this.d.push(this.fb.group({
-      start_date: {
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        day: date.getDate()
-      },
-      end_date: {
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        day: date.getDate()
-      }
+      // start_date: {
+      //   year: date.getFullYear(),
+      //   month: date.getMonth() + 1,
+      //   day: date.getDate()
+      // },
+      // end_date: {
+      //   year: date.getFullYear(),
+      //   month: date.getMonth() + 1,
+      //   day: date.getDate()
+      // }
     }))
   }
+  public onSelectAll() {
+    var selected = this.selectdataprovince.map(item => item.id);
+    this.EditForm.get('ProvinceId').patchValue(selected);
+    this.selected = selected
+  }
 
+  public onClearAll() {
+    this.EditForm.get('ProvinceId').patchValue([]);
+  }
+  public onClearUndo() {
+    this.EditForm.get('ProvinceId').patchValue(this.oldSelected);
+  }
+  
   // deleteDate(i) {
   //   let date: Date = new Date();
   //   let dArray: any = [];

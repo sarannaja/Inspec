@@ -112,13 +112,13 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] InspectionPlanViewModel model)
+        public IActionResult Post([FromBody] InspectionPlanViewModel model)
         {
             //var test = model.UserID;
             //System.Console.WriteLine(test);
-            System.Console.WriteLine("1" + model.Title);
+            System.Console.WriteLine("111");
             var date = DateTime.Now;
-            System.Console.WriteLine("2" + model.Type);
+            System.Console.WriteLine("222" + model.Type);
             var centralpolicydata = new CentralPolicy
             {
                 Title = model.Title,
@@ -204,11 +204,14 @@ namespace InspecWeb.Controllers
                 CentralPolicyId = centralpolicydata.Id,
                 InspectionPlanEventId = model.InspectionPlanEventId,
                 HaveSubject = 0,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
                 //ElectronicBookId = ElectronicBookdata.Id,
             };
             _context.CentralPolicyEvents.Add(centralpolicyeventdata);
             _context.SaveChanges();
             //}
+            return Ok(new { status = true });
         }
 
         // POST api/values
@@ -243,8 +246,8 @@ namespace InspecWeb.Controllers
                 {
                     CentralPolicyId = id,
                     InspectionPlanEventId = model.InspectionPlanEventId,
-                    NotificationDate = model.NotificationDate,
-                    DeadlineDate = model.DeadlineDate,
+                    // NotificationDate = model.NotificationDate,
+                    // DeadlineDate = model.DeadlineDate,
                     StartDate = model.StartDate,
                     EndDate = model.EndDate,
                     HaveSubject = 0,
@@ -269,10 +272,10 @@ namespace InspecWeb.Controllers
         [HttpPost("inspectionprovince")]
         public object Post(long provinceid, string userid, DateTime start_date_plan, DateTime end_date_plan)
         {
-                      var roleid = _context.Users
-                .Where(m => m.Id == userid)
-                .Select(m => m.Role_id)
-                .FirstOrDefault();
+            var roleid = _context.Users
+      .Where(m => m.Id == userid)
+      .Select(m => m.Role_id)
+      .FirstOrDefault();
 
             var date = DateTime.Now;
 
@@ -340,7 +343,7 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost("editplandate")]
-        public void Editplandate(long planid, DateTime startdate,DateTime enddate)
+        public void Editplandate(long planid, DateTime startdate, DateTime enddate)
         {
             var InspectionPlanEventsdata = _context.InspectionPlanEvents
                 .Find(planid);
@@ -393,6 +396,41 @@ namespace InspecWeb.Controllers
                 .FirstOrDefault();
 
             return Ok(centralpolicydata);
+        }
+
+        // POST api/values
+        [HttpPost("editcentralpolicy")]
+        public void Editcentralpolicy(long ceneventid, DateTime startdate, DateTime enddate, long year, string title)
+        {
+            // var InspectionPlanEventsdata = _context.InspectionPlanEvents
+            //     .Find(cenid);
+            // InspectionPlanEventsdata.StartDate = startdate;
+            // InspectionPlanEventsdata.EndDate = enddate;
+
+       
+
+            var CentralPolicyEventdata = _context.CentralPolicyEvents
+                .Find(ceneventid);
+
+            CentralPolicyEventdata.StartDate = startdate;
+            CentralPolicyEventdata.EndDate = enddate;
+            _context.Entry(CentralPolicyEventdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+
+            var CentralPolicyId = _context.CentralPolicyEvents
+                .Where(m => m.Id == ceneventid).Select(m => m.CentralPolicyId).FirstOrDefault();
+
+             var CentralPolicydata = _context.CentralPolicies
+                  .Find(CentralPolicyId);
+            CentralPolicydata.Title = title;
+            CentralPolicydata.StartDate = startdate;
+            CentralPolicydata.EndDate = enddate;
+            CentralPolicydata.FiscalYearId = year;
+
+            _context.Entry(CentralPolicydata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
         }
     }
 }

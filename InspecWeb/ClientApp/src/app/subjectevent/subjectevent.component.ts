@@ -121,7 +121,7 @@ export class SubjecteventComponent implements OnInit {
   }
 
   getSubjectevent() {
-    this.subjectservice.getsubjectevent().subscribe(result => {
+    this.subjectservice.getsubjectevent(this.userid).subscribe(result => {
       this.resultsubjectevent = result
       this.loading = true;
     })

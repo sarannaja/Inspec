@@ -596,13 +596,27 @@ namespace InspecWeb.Controllers
                         }
                         foreach (var questionclosechoice in questionclose.inputanswerclose)
                         {
-                            var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                            if(questionclosechoice.answerclose == null || questionclosechoice.answerclose == "")
                             {
-                                SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
-                                Name = questionclosechoice.answerclose,
-                            };
-                            _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
-                            _context.SaveChanges();
+                                var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                                {
+                                    SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+                                    Name = "โปรดระบุ",
+                                };
+                                _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+                                _context.SaveChanges();
+                            }
+                            else
+                            {
+                                var Subquestionchoiceclosedata = new SubquestionChoiceCentralPolicyProvince
+                                {
+                                    SubquestionCentralPolicyProvinceId = Subquestionclosedata.Id,
+                                    Name = questionclosechoice.answerclose,
+                                };
+                                _context.SubquestionChoiceCentralPolicyProvinces.Add(Subquestionchoiceclosedata);
+                                _context.SaveChanges();
+                            }
+                          
                         }
                     }
                 }
@@ -1248,17 +1262,26 @@ namespace InspecWeb.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("getevent")]
-        public IActionResult Get3()
+        [HttpGet("getevent/{id}")]
+        public IActionResult Get3(string id)
         {
-            //var subjectgroupsdata = _context.SubjectGroups
-            //    .Include(m => m.Province)
-            //    .Include(m => m.CentralPolicy)
-            //    .ThenInclude(m => m.FiscalYear)
-            //    .Include(m => m.SubjectCentralPolicyProvinces)
-            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master")).ToList();
+            var userprovince = _context.UserProvinces
+                       .Where(m => m.UserID == id)
+                       .ToList();
 
-            var subjectgroupsdata = _context.SubjectGroups
+            var user = _context.Users
+                           .Where(m => m.Id == id)
+                           .FirstOrDefault();
+
+            //var inspectionplans = _context.InspectionPlanEvents
+            //                    .Include(m => m.Province)
+            //                    .Include(m => m.CentralPolicyEvents)
+            //                    .ThenInclude(m => m.CentralPolicy)
+            //                    .ThenInclude(m => m.CentralPolicyProvinces)
+            //                    .Where(m => m.RoleCreatedBy == "3")
+            //                    .ToList();
+
+            var subjectgroupsdatas = _context.SubjectGroups
                     .Include(m => m.Province)
                     .Include(m => m.CentralPolicy)
                     .ThenInclude(m => m.FiscalYear)
@@ -1266,7 +1289,34 @@ namespace InspecWeb.Controllers
                     //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
                     .Where(m => m.Type == "NoMaster").ToList();
 
-            return Ok(subjectgroupsdata);
+            List<object> termsList = new List<object>();
+            foreach (var inspectionplan in subjectgroupsdatas)
+            {
+                for (int i = 0; i < userprovince.Count(); i++)
+                {
+                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                        termsList.Add(inspectionplan);
+                }
+            }
+            return Ok(termsList);
+
+
+            //var subjectgroupsdata = _context.SubjectGroups
+            //    .Include(m => m.Province)
+            //    .Include(m => m.CentralPolicy)
+            //    .ThenInclude(m => m.FiscalYear)
+            //    .Include(m => m.SubjectCentralPolicyProvinces)
+            //    .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master")).ToList();
+
+            //var subjectgroupsdata = _context.SubjectGroups
+            //        .Include(m => m.Province)
+            //        .Include(m => m.CentralPolicy)
+            //        .ThenInclude(m => m.FiscalYear)
+            //        .Include(m => m.SubjectCentralPolicyProvinces)
+            //        //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+            //        .Where(m => m.Type == "NoMaster").ToList();
+
+            //return Ok(subjectgroupsdata);
         }
 
         // GET api/values/5

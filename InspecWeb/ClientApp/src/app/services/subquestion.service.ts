@@ -26,7 +26,7 @@ export class SubquestionService {
     // console.log('FORMDATA: ' + formData.get("name"));
     return this.http.post(this.url + "addquestionopen", formData);
   }
-  addSubquestionclose(subquestionData) {
+  addSubquestionclose(subquestionData, arr) {
     console.log("subquestionData", subquestionData);
 
     const formData = new FormData();
@@ -36,8 +36,8 @@ export class SubquestionService {
     for (var i = 0; i < subquestionData.ProvincialDepartmentId.length; i++) {
       formData.append('departmentId', subquestionData.ProvincialDepartmentId[i].ProvincialDepartmentId);
     }
-    for (var ii = 0; ii < subquestionData.inputanswerclose.length; ii++) {
-      formData.append('answerclose', subquestionData.inputanswerclose[ii].answerclose);
+    for (var ii = 0; ii < arr.length; ii++) {
+      formData.append('answerclose', arr[ii].answerclose);
     }
     // console.log('FORMDATA: ' + formData.get("name"));
     return this.http.post(this.url + "addquestionclose", formData);

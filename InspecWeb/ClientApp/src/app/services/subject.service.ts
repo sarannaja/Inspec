@@ -364,8 +364,8 @@ export class SubjectService {
     return this.http.post<any>(this.url + 'subjecteventnoland', formData);
   }
 
-  getsubjectevent() {
-    return this.http.get(this.url + "getevent")
+  getsubjectevent(id) {
+    return this.http.get(this.url + "getevent/" + id)
   }
 
   geteventfromcalendar(id): Observable<any> {

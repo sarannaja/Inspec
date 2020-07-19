@@ -171,7 +171,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
   storeCentralPolicyEventRelation(value) {
     let CentralpolicyId: any[] = value.CentralpolicyId
     // alert(JSON.stringify(value))
-    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid).subscribe(response => {
+    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid, this.startDate, this.endDate).subscribe(response => {
 
 
       this.Form.reset()
@@ -327,7 +327,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
 
   time(date) {
     var ssss = new Date(date)
-    var new_date = { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDay() }
+    var new_date = { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() }
     return new_date
   }
 

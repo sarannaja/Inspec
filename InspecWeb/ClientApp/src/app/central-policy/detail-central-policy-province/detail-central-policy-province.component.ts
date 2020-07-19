@@ -888,7 +888,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     if (this.userPeople.length == 0) {
       for (var i = 0; i < this.resultpeople.length; i++) {
-        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].departments.name + " - " + this.resultpeople[i].name })
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" +this.resultpeople[i].side + " - " + this.resultpeople[i].name })
       }
     }
     else {

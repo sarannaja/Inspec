@@ -255,6 +255,8 @@ export class DetailSubjecteventComponent implements OnInit {
           label: item.name
         }
       })
+      console.log( this.department );
+
       this.modalRef = this.modalService.show(template);
     })
   }

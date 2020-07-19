@@ -142,7 +142,8 @@ export class EditSubjectComponent implements OnInit {
         });
         this.EditForm.patchValue({
           name: this.resultsubjectdetail.name,
-          explanation: this.resultsubjectdetail.explanation
+          explanation: this.resultsubjectdetail.explanation,
+          centralPolicyDateId: this.datetime
         })
         this.times = []
         for (var i = 0; i < this.resultsubjectdetail.subjectDateCentralPolicyProvinces.length; i++) {
@@ -411,13 +412,22 @@ export class EditSubjectComponent implements OnInit {
     })
   }
   AddQuestionsclose(value) {
-    console.log(value);
-    this.subquestionservice.addSubquestionclose(value).subscribe(result => {
+    var arr: any[] = value.inputanswerclose
+    // console.log(value.inputanswerclose);
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].answerclose == null || arr[i].answerclose == "") {
+        arr[i].answerclose = 'โปรดบะรุ'
+
+      }
+    }
+    this.subquestionservice.addSubquestionclose(value, arr).subscribe(result => {
       console.log(result);
       this.FormAddQuestionsclose.reset()
       this.modalRef.hide()
       this.getSubjectDetail()
     })
+    console.log(arr);
+
   }
   AddChoices(value) {
     console.log(value);
@@ -474,7 +484,7 @@ export class EditSubjectComponent implements OnInit {
       this.getSubjectDetail()
     })
   }
-  DeleteDepartment(value){
+  DeleteDepartment(value) {
     this.centralpolicyservice.deleteDepartment(value).subscribe(response => {
       this.modalRef.hide()
       this.getSubjectDetail()
@@ -487,7 +497,7 @@ export class EditSubjectComponent implements OnInit {
     // console.log("map: ", this.resultsubjectdetail);
     var CentralPolicyDateId: any = []
     var departmentId: any = []
-    this.subjectservice.editSubject2(value ,id).subscribe(response => {
+    this.subjectservice.editSubject2(value, id).subscribe(response => {
       this.spinner.hide();
       window.history.back();
     })
@@ -503,7 +513,7 @@ export class EditSubjectComponent implements OnInit {
     // })
     // console.log(CentralPolicyDateId);
     // console.log(departmentId);
-    
+
   }
   EditQuestions(value, editid) {
     console.log(editid);

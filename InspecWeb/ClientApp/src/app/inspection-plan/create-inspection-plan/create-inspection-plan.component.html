@@ -26,8 +26,11 @@
             </div>
             <div class="col-12 col-xl-3">
               <div class="form-group">
-                <input type="text" value="{{ resultinspectionplan[0].startDate | thaidate: 'year' }}" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                formControlName="start_date" readonly>
+                <!-- <input type="text" value="{{ resultinspectionplan[0].startDate | thaidate: 'year' }}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                formControlName="start_date"> -->
+                <my-date-picker-th [selDate]="startDate" (dateChanged)="onStartDateChanged($event)"
+                [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
               </div>
             </div>
             <div class="col-12 col-xl-1">
@@ -37,8 +40,11 @@
             </div>
             <div class="col-12 col-xl-3">
               <div class="form-group">
-                <input type="text" value="{{ resultinspectionplan[0].endDate | thaidate: 'year' }}" class="form-control" placeholder="กรุณากรอกเรื่อง"
-                readonly>
+                <!-- <input type="text" value="{{ resultinspectionplan[0].endDate | thaidate: 'year' }}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                readonly> -->
+                <my-date-picker-th [selDate]="endDate" (dateChanged)="onEndDateChanged($event)"
+                [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
               </div>
             </div>
 

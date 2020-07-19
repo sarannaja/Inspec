@@ -30,32 +30,43 @@ export class InspectionplanService {
     return this.http.get(this.url + 'getcentralpolicyprovinceid/' + centralpolicyid + '/' + provinceid)
   }
 
-  addCentralPolicyEvent(CentralPolicyEventData, Id, userid, proid) {
+  addCentralPolicyEvent(CentralPolicyEventData, Id, userid, proid, startDate, endDate) {
     // alert(JSON.stringify(CentralPolicyEventData))
     // alert(JSON.stringify(Id))
+    console.log("startDate: ", startDate);
+    console.log("endDate: ", endDate);
+
     const formData = {
       InspectionPlanEventId: parseInt(Id),
       CentralPolicyId: CentralPolicyEventData.CentralpolicyId,
       ProvinceId: proid,
       CreatedBy: userid,
-      StartDate: CentralPolicyEventData.startdate.date.year + '-' + CentralPolicyEventData.startdate.date.month + '-' + CentralPolicyEventData.startdate.date.day,
-      EndDate: CentralPolicyEventData.enddate.date.year + '-' + CentralPolicyEventData.enddate.date.month + '-' + CentralPolicyEventData.enddate.date.day,
-      NotificationDate: CentralPolicyEventData.notificationdate.date.year + '-' + CentralPolicyEventData.notificationdate.date.month + '-' + CentralPolicyEventData.notificationdate.date.day,
-      DeadlineDate: CentralPolicyEventData.deadlinedate.date.year + '-' + CentralPolicyEventData.deadlinedate.date.month + '-' + CentralPolicyEventData.deadlinedate.date.day,
+      // StartDate: CentralPolicyEventData.startdate.date.year + '-' + CentralPolicyEventData.startdate.date.month + '-' + CentralPolicyEventData.startdate.date.day,
+      // EndDate: CentralPolicyEventData.enddate.date.year + '-' + CentralPolicyEventData.enddate.date.month + '-' + CentralPolicyEventData.enddate.date.day,
+      StartDate: startDate.year + '-' + startDate.month + '-' + startDate.day,
+      EndDate: endDate.year + '-' + endDate.month + '-' + endDate.day,
+      // NotificationDate: CentralPolicyEventData.notificationdate.date.year + '-' + CentralPolicyEventData.notificationdate.date.month + '-' + CentralPolicyEventData.notificationdate.date.day,
+      // DeadlineDate: CentralPolicyEventData.deadlinedate.date.year + '-' + CentralPolicyEventData.deadlinedate.date.month + '-' + CentralPolicyEventData.deadlinedate.date.day,
     }
     // alert(JSON.stringify(formData));
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url + "AddCentralPolicyEvents", formData);
   }
 
-  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid, yearId) {
+  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid, yearId, startDate, endDate) {
     // alert(JSON.stringify(InspectionPlanData))
     // alert(yearId);
+    console.log("inspectData : ", InspectionPlanData);
+    console.log("sDate: ", startDate);
+    console.log("eDate: ", endDate);
+
     const formData = {
       InspectionPlanEventId: parseInt(inspectionplaneventid),
       Title: InspectionPlanData.title,
-      StartDate: InspectionPlanData.start_date,
-      EndDate: InspectionPlanData.end_date,
+      // StartDate: InspectionPlanData.start_date,
+      // EndDate: InspectionPlanData.end_date,
+      StartDate: startDate.year + '-' + startDate.month + '-' + startDate.day,
+      EndDate: endDate.year + '-' + endDate.month + '-' + endDate.day,
       Type: InspectionPlanData.type,
       ProvinceId: InspectionPlanData.ProvinceId,
       FiscalYearId: parseInt(InspectionPlanData.year),
@@ -64,6 +75,19 @@ export class InspectionplanService {
       UserID: userid,
       Status: "ใช้งานจริง"
     }
+
+    // const formData = new FormData();
+    // formData.append('InspectionPlanEventId', inspectionplaneventid);
+    // formData.append('Title', InspectionPlanData.title);
+    // formData.append('StartDate', startDate);
+    // formData.append('EndDate', endDate);
+    // formData.append('Type', InspectionPlanData.type);
+    // formData.append('ProvinceId', InspectionPlanData.ProvinceId);
+    // formData.append('FiscalYearId', InspectionPlanData.year);
+    // formData.append('UserID', userid);
+    // formData.append('Status', "ใช้งานจริง");
+
+
     console.log('FORMDATA POST: ', formData);
     return this.http.post(this.url, formData);
   }
@@ -116,6 +140,16 @@ export class InspectionplanService {
   getcentralpolicyeventdata(id): Observable<any[]> {
     // return this.http.get<any[]>(this.url)
     return this.http.get<any[]>(this.url + 'getcentralpolicyeventdata/' + id)
+  }
+
+  editcentralpolicy(ceneventid, startdate, enddate,value) {
+    const formData = new FormData();
+    formData.append('ceneventid', ceneventid);
+    formData.append('startdate', startdate.year + '-' + startdate.month + '-' + startdate.day);
+    formData.append('enddate', enddate.year + '-' + enddate.month + '-' + enddate.day);
+    formData.append('year', value.year);
+    formData.append('title', value.title);
+    return this.http.post(this.url + "editcentralpolicy" , formData);
   }
 
 }
