@@ -13,8 +13,22 @@
   <div class="col-12">
     <div class="card">
       <div *ngIf="role_id == 1 || role_id == 2;else elseBlock" class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">แผนการตรวจราชการ</h5>
-        <div class="float-left">
+        <div class="card-title">
+          <div class="row" style="margin-left: 1.5px;">
+            <h5>แผนการตรวจราชการ</h5>
+            <div class="col-2">
+              <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
+                data-toggle="select2">
+                <!-- <option value="currentfiscalyear">ปีปัจจุบัน</option> -->
+                <option value="allfiscalyear">ทุกปี</option>
+                <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}" [selected]='item.id == currentyear.id'>
+                  {{item.year}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="float-left">
           <div class="form-group">
             <div class="form-group col-md-12">
               <div class="mb-12">
@@ -29,7 +43,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="float-right">
           <button class="btn btn-primary" (click)="CreateCentralPolicy()"
             style="margin-top: -60px;">เพิ่มแผนการตรวจราชการ</button>
@@ -37,20 +51,18 @@
       </div>
       <ng-template #elseBlock>
         <div class="card-header">
-          <h5 class="card-title">แผนการตรวจราชการ</h5>
-          <div class="float-left">
-            <div class="form-group" style="margin-bottom: -40px;">
-              <div class="form-group col-md-12">
-                <div class="mb-12">
-                  <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
-                    data-toggle="select2">
-                    <option value="currentfiscalyear">ปีปัจจุบัน</option>
-                    <option value="allfiscalyear">ปีทั้งหมดทั้งหมด</option>
-                    <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">
-                      {{item.year}}
-                    </option>
-                  </select>
-                </div>
+          <div class="card-title">
+            <div class="row" style="margin-left: 1.5px;">
+              <h5>แผนการตรวจราชการ</h5>
+              <div class="col-2">
+                <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
+                  data-toggle="select2">
+                  <!-- <option value="currentfiscalyear">ปีปัจจุบัน</option> -->
+                  <option value="allfiscalyear">ทุกปี</option>
+                  <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}" [selected]='item.id == currentyear.id'>
+                    {{item.year}}
+                  </option>
+                </select>
               </div>
             </div>
           </div>
@@ -73,21 +85,22 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ item.type }}</td>
-              <td *ngIf="item.status == 'ใช้งานจริง';" (click)="Subject(item.id,item.title)" class="pointer">
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ i + 1 }}</td>
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ item.type }}</td>
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
                 {{ item.title }}</td>
-              <td *ngIf="item.status == 'ร่างกำหนดการ';">{{ item.title }}</td>
-              <td>{{item.fiscalYear.year}}</td>
-              <td>
+              <!-- *ngIf="item.status == 'ใช้งานจริง';" -->
+              <!-- <td *ngIf="item.status == 'ร่างกำหนดการ';">{{ item.title }}</td> -->
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{item.fiscalYear.year}}</td>
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
               </td>
-              <td>{{ item.status }}</td>
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ item.status }}</td>
               <td>
                 <div class="row">
-                  <i title="ดูรายละเอียดประเด็นย่อย" style="margin-top: 7px;"
-                    class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.id,item.title)"></i>
+                  <i title="ดูรายละเอียดประเด็นย่อย" style="margin-top: 6px;"
+                    class="align-middle mr-2 fas fa-file-medical pointer" (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                   <div *ngIf="role_id == 1 || role_id == 2">
                     <i class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i>

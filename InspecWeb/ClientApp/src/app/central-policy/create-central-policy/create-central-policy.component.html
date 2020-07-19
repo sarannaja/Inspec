@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">แผนตรวจราชการ</a></li>
       <li class="breadcrumb-item active" aria-current="page">เพิ่มแผนตรวจราชการประจำปี</li>
     </ol>
   </nav>
@@ -124,7 +124,7 @@
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label>พื้นที่การตรวจติดตาม</label>
+              <label>พื้นที่การตรวจติดตาม {{selectedProvince.length}} </label>
               <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true"
                 [items]="selectdataprovince" name="ProvinceId" formControlName="ProvinceId">
               </ng-select> -->
@@ -240,11 +240,11 @@
             </div>
           </div>
           <!-- <hr> -->
-          <div class="form-group row">
-            <div class="col-sm-5 ml-sm-auto">
+          <div class="form-group row" style="text-align: center; justify-content: center;">
+            <div class="col-1">
               <button type="submit" class="btn btn-primary">บันทึก</button>
             </div>
-            <div class="col-sm-5 ml-sm-auto">
+            <div class="col-1">
               <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
             </div>
           </div>

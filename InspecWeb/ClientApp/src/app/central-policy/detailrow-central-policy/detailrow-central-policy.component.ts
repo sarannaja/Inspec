@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -13,16 +13,11 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-edit-central-policy',
-  templateUrl: './edit-central-policy.component.html',
-  styleUrls: ['./edit-central-policy.component.css']
+  selector: 'app-detailrow-central-policy',
+  templateUrl: './detailrow-central-policy.component.html',
+  styleUrls: ['./detailrow-central-policy.component.css']
 })
-export class EditCentralPolicyComponent implements OnInit {
-
-  private myDatePickerOptions: IMyOptions = {
-    // other options...
-    dateFormat: 'dd/mm/yyyy',
-  };
+export class DetailrowCentralPolicyComponent implements OnInit {
 
   id: any;
   fiscalYearId: any;
@@ -46,7 +41,7 @@ export class EditCentralPolicyComponent implements OnInit {
   oldProvince: any = [];
   addProvince: any = [];
   removeProvince: any = [];
-  oldSelected:any[] = []
+
   selected: any = [];
   downloadUrl: any;
 
@@ -61,7 +56,6 @@ export class EditCentralPolicyComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private authorize: AuthorizeService,
-    
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -71,7 +65,6 @@ export class EditCentralPolicyComponent implements OnInit {
     })
     this.downloadUrl = baseUrl + '/Uploads';
   }
-
   get f() { return this.EditForm.controls }
   get t() { return this.f.input as FormArray }
   get d() { return this.f.inputdate as FormArray }
@@ -88,31 +81,15 @@ export class EditCentralPolicyComponent implements OnInit {
       input: new FormArray([]),
       inputdate: new FormArray([])
     });
-
-
     this.t.push(this.fb.group({
       date: '',
       subject: '',
       questions: []
     }))
 
-    // this.d.push(this.fb.group({
-    //   start_date: '',
-    //   end_date: '',
-    // }))
-
-    this.authorize.getUser()
-      .subscribe(result => {
-        this.userid = result.sub
-        console.log(result);
-        // alert(this.userid)
-      })
-    this.getDataProvince()
-    this.getDetailCentralpolicy()
-    this.getFiscalyear()
-
+    this.getDetailCentralpolicy();
+    this.getDataProvince();
   }
-
   getDetailCentralpolicy() {
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
       .subscribe(result => {
@@ -128,30 +105,12 @@ export class EditCentralPolicyComponent implements OnInit {
           let sDate: Date = new Date(element.startDate);
           let eDate: Date = new Date(element.endDate)
           console.log("EEE", sDate);
-
-
-
-          this.d.push(this.fb.group({
-            start_date: {
-              year: sDate.getFullYear(),
-              month: sDate.getMonth() + 1,
-              day: sDate.getDate()
-            },
-            end_date: {
-              year: eDate.getFullYear(),
-              month: eDate.getMonth() + 1,
-              day: eDate.getDate()
-            }
-          }))
-          // console.log("check: ", this.d.controls);
         });
 
         this.resultdetailcentralpolicy.centralPolicyProvinces.forEach(element => {
           console.log("element: ", element);
           if (element.active == 1) {
             this.selected.push(element.provinceId);
-            this.oldSelected.push(element.provinceId);
-            
             this.oldProvince.push(element.provinceId);
           }
 
@@ -172,20 +131,6 @@ export class EditCentralPolicyComponent implements OnInit {
         });
       });
   }
-
-  getFiscalyear() {
-    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
-      this.resultfiscalyear = result
-      this.fiscalYearIdString = this.resultfiscalyear.map((item, index) => {
-        return {
-          id: item.id.toString(),
-          year: item.year
-        }
-      })
-      // console.log("fiscalyearString: ", this.fiscalYearIdString);
-
-    })
-  }
   getProvince() {
     this.provinceservice.getprovincedata().subscribe(result => {
       this.resultprovince = result
@@ -196,124 +141,9 @@ export class EditCentralPolicyComponent implements OnInit {
     })
     this.loading = true;
   }
-
-
-  EditCentralpolicy(value) {
-    console.log("Old Province: ", this.oldProvince);
-    console.log("New Province: ", this.selected);
-    console.log("files: ", this.form.value.files);
-
-    this.removeProvince = _.differenceBy(this.oldProvince, this.selected);
-    console.log("Remove Value => ", this.removeProvince);
-
-    this.addProvince = _.differenceBy(this.selected, this.oldProvince);
-    console.log("Add Value => ", this.addProvince);
-
-    this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id, this.userid, this.removeProvince, this.addProvince)
-      .subscribe(response => {
-        console.log("res: ", response);
-        this.EditForm.reset()
-        this.router.navigate(['centralpolicy'])
-      })
-  }
-
-  appenddate() {
-    let date: Date = new Date();
-    this.d.push(this.fb.group({
-      // start_date: {
-      //   year: date.getFullYear(),
-      //   month: date.getMonth() + 1,
-      //   day: date.getDate()
-      // },
-      // end_date: {
-      //   year: date.getFullYear(),
-      //   month: date.getMonth() + 1,
-      //   day: date.getDate()
-      // }
-    }))
-  }
-  public onSelectAll() {
-    var selected = this.selectdataprovince.map(item => item.id);
-    this.EditForm.get('ProvinceId').patchValue(selected);
-    this.selected = selected
-  }
-
-  public onClearAll() {
-    this.EditForm.get('ProvinceId').patchValue([]);
-  }
-  public onClearUndo() {
-    this.EditForm.get('ProvinceId').patchValue(this.oldSelected);
-  }
-  
-  // deleteDate(i) {
-  //   let date: Date = new Date();
-  //   let dArray: any = [];
-  //   this.d.value = this.fb.group({
-  //     inputdate: this.fb.array([]),
-  //   });
-  //   this.d.value.forEach((element, index) => {
-  //     if (index != i) {
-
-  //       this.d.push(this.fb.group({
-  //        element
-  //       }))
-  //     }
-  //   });
-  // }
-
-  uploadFile(event) {
-    this.fileStatus = true;
-    const file = (event.target as HTMLInputElement).files;
-
-    this.form.patchValue({
-      files: file
-    });
-    console.log("fff:", this.form.value.files)
-    this.form.get('files').updateValueAndValidity()
-  }
-
-  onStartDateChanged(event: IMyDateModel, index) {
-    this.startDate = event.date;
-    console.log("SS: ", this.startDate);
-
-    this.d.value[index].start_date = this.startDate;
-    console.log("check: ", this.d.value);
-  }
-
-  onEndDateChanged(event: IMyDateModel, index) {
-    this.endDate = event.date;
-    console.log("EE: ", this.endDate);
-
-    this.d.value[index].end_date = this.endDate;
-    console.log("check: ", this.d.value);
-  }
-
-  openModal(template: TemplateRef<any>, id) {
-    this.delid = id;
-    this.modalRef = this.modalService.show(template);
-  }
-
-  deleteFile() {
-    // alert(this.delid);
-    this.centralpolicyservice.deleteFile(this.delid)
-      .subscribe(response => {
-        console.log("res: ", response);
-        this.modalRef.hide();
-        this.getDetailCentralpolicy();
-      })
-  }
-
-  removeY(iy: any) {
-    // this.d.removeAt(iy);
-    console.log("iy: ", iy);
-
-    this.d.removeAt(iy)
-  }
-
   back() {
     window.history.back();
   }
-
   getDataProvince() {
     this.provinceservice.getprovincedata()
       .subscribe(result => {
@@ -338,5 +168,4 @@ export class EditCentralPolicyComponent implements OnInit {
     this.spinner.hide();
     console.log(this.provinceservice.getRegionMock());
   }
-
 }
