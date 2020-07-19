@@ -135,9 +135,11 @@
                   class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicyEvent, item.id)"></i>
 
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ'"
+                  class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="openModaledit(ModalEditCentralPolicy,item.id)"></i>
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-trash pointer"
+                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ'"
+                  class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
               </td>
             </tr>
@@ -202,9 +204,9 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label class="form-label">แผนการตรวจราชการประจำปี</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true"
-              [items]="selectdatacentralpolicy" name="CentralpolicyId" formControlName="CentralpolicyId"
-             >
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี"
+            [multiple]="true" [items]="selectdatacentralpolicy" name="CentralpolicyId"
+            formControlName="CentralpolicyId">
           </ng-select>
         </div>
 
@@ -212,9 +214,11 @@
           <div class="col-12 col-xl-12">
             <label>กำหนดระยะเวลา</label>
           </div>
+
           <div class="col-12 col-xl-5">
             <div class="form-group">
-              <my-date-picker-th formControlName="startdate"    [options]="myDatePickerOptions" required>
+              <my-date-picker-th [selDate]="startDate" (dateChanged)="onStartDateChanged($event)"
+                [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -225,19 +229,20 @@
           </div>
           <div class="col-12 col-xl-5">
             <div class="form-group">
-              <my-date-picker-th formControlName="enddate"    [options]="myDatePickerOptions" required>
+              <my-date-picker-th [selDate]="endDate" (dateChanged)="onEndDateChanged($event)"
+                [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
         </div>
 
-        <div class="form-group row">
+        <!-- <div class="form-group row">
           <div class="col-12 col-xl-12">
             <label>วันที่แจ้งเตือน</label>
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="notificationdate"    [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="notificationdate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -248,11 +253,11 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="deadlinedate"    [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="deadlinedate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
-        </div>
+        </div> -->
 
       </div>
       <div class="modal-footer">
@@ -277,8 +282,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdataministrypeople"
-          name="UserPeopleId" formControlName="UserPeopleId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="selectdataministrypeople" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -331,7 +336,7 @@
           <div class="form-group">
             <!-- <my-date-picker-th [selDate]="timelineData.startDate"   [items]="myDatePickerOptions" required>
               </my-date-picker-th> -->
-            <my-date-picker-th [selDate]="startDate"    [options]="myDatePickerOptions"
+            <my-date-picker-th [selDate]="startDate" [options]="myDatePickerOptions"
               (dateChanged)="onStartDateChanged($event)" required>
             </my-date-picker-th>
           </div>
@@ -343,7 +348,7 @@
         </div>
         <div class="col-12 col-xl-5">
           <div class="form-group">
-            <my-date-picker-th [selDate]="endDate"    [options]="myDatePickerOptions"
+            <my-date-picker-th [selDate]="endDate" [options]="myDatePickerOptions"
               (dateChanged)="onEndDateChanged($event)" required>
             </my-date-picker-th>
           </div>
@@ -395,10 +400,13 @@
           <div class="col-12 col-xl-12">
             <label>กำหนดระยะเวลา</label>
           </div>
-          <div class="col-12 col-xl-3">
+          <div class="col-12">
             <div class="form-group">
-              <input type="text" value="{{ resultinspectionplan[0].startDate | thaidate: 'year' }}" class="form-control"
-                placeholder="กรุณากรอกเรื่อง" formControlName="start_date" readonly>
+              <!-- <input type="text" value="{{ resultinspectionplan[0].startDate | thaidate: 'year' }}" class="form-control"
+                placeholder="กรุณากรอกเรื่อง" formControlName="start_date" readonly> -->
+              <my-date-picker-th [selDate]="startDate2" (dateChanged)="onStartDateChanged($event)"
+                [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
             </div>
           </div>
           <div class="col-12 col-xl-1">
@@ -406,10 +414,13 @@
               ถึง
             </div>
           </div>
-          <div class="col-12 col-xl-3">
+          <div class="col-12">
             <div class="form-group">
-              <input type="text" value="{{ resultinspectionplan[0].endDate | thaidate: 'year' }}" class="form-control"
-                placeholder="กรุณากรอกเรื่อง" readonly>
+              <!-- <input type="text" value="{{ resultinspectionplan[0].endDate | thaidate: 'year' }}" class="form-control"
+                placeholder="กรุณากรอกเรื่อง" readonly> -->
+              <my-date-picker-th [selDate]="endDate2" (dateChanged)="onEndDateChanged($event)"
+                [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
             </div>
           </div>
 
@@ -432,32 +443,24 @@
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>ปีงบประมาณ*</label>
-              <div class="form-group col-md-3">
-                <div class="mb-3">
-                  <select class="form-control select2" data-toggle="select2" formControlName="year">
-                    <option value=null>กรุณาเลือกปีงบประมาณ</option>
-                    <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">{{item.year}}
-                    </option>
-                  </select>
-                  <!-- <input class="form-control" type="text" value="{{resultfiscalyear.year}}" disabled> -->
-                </div>
-              </div>
+              <select class="form-control select2" data-toggle="select2" formControlName="year">
+                <option value=null>กรุณาเลือกปีงบประมาณ</option>
+                <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">{{item.year}}
+                </option>
+              </select>
+              <!-- <input class="form-control" type="text" value="{{resultfiscalyear.year}}" disabled> -->
             </div>
           </div>
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>ประเภท*</label>
-              <div class="form-group col-md-3">
-                <div class="mb-3">
-                  <select class="form-control select2" data-toggle="select2" formControlName="type" disabled>
-                    <!-- <option value=null>กรุณาเลือกประเภท</option>
+              <select class="form-control select2" data-toggle="select2" formControlName="type" disabled>
+                <!-- <option value=null>กรุณาเลือกประเภท</option>
                     <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
                     <option value="มาตรา 34">มาตรา 34</option> -->
-                    <option selected value="อื่นๆ">อื่นๆ</option>
-                  </select>
-                </div>
-              </div>
+                <option selected value="อื่นๆ">อื่นๆ</option>
+              </select>
             </div>
           </div>
         </div>
