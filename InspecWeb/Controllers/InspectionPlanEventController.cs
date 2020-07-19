@@ -63,6 +63,31 @@ namespace InspecWeb.Controllers
                 }
                 return Ok(termsList);
             }
+
+            else if (user.Role_id == 6)
+            {
+                var inspectionplans = _context.InspectionPlanEvents
+                    .Include(m => m.Province)
+                    .Include(m => m.CentralPolicyEvents)
+                    .ThenInclude(m => m.CentralPolicy)
+                    .ThenInclude(m => m.CentralPolicyProvinces)
+                    .Where(m => m.RoleCreatedBy == "6")
+                    //.Where(m => m.Status == "ใช้งานจริง")
+                    //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
+                    .ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in inspectionplans)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+
             else
             {
                 var inspectionplans = _context.InspectionPlanEvents

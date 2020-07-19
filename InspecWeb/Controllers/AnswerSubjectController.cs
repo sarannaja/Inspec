@@ -237,6 +237,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicy)
                 .Where(m => m.Status == "ใช้งานจริง" && m.Type == "NoMaster")
                 .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId))))
+                .Where(m => m.ProvinceId == province.ProvinceId)
                 .ToList();
 
             return Ok(centralpolicyprovincedata);

@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจ</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นการตรวจติดตาม</a></li>
       <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
@@ -15,11 +15,11 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title mb-0">รายละเอียด</h5>
+        <h5 class="card-title mb-0">รายละเอียดประเด็นการตรวจติดตาม</h5>
       </div>
       <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="storeFiles(form.value)">
-          <div class="row">
+          <div  *ngIf="resultdate != null" class="row">
             <div class="col-md-6">
               ชื่อ - นามสกุล : {{resultuser.name}}
             </div>
@@ -45,7 +45,7 @@
 
             </div>
           </div>
-          <div class="row" style="margin-top: 10px;">
+          <div *ngIf="resultdate != null" class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>กำหนดลงพื่นที่</u><br>
               <span> {{ resultdate.startDate | thaidate: 'year' }} - {{ resultdate.endDate | thaidate: 'year' }}</span>
@@ -60,7 +60,7 @@
                       <td style="border-top: none; width: 1%;">
                         <div class="row">
                           <i class="fa fa-tags" style="margin-top: 5px;"></i>
-                          <h4 style="margin-left: 15px;">ประเด็นนโยบายย่อย</h4>
+                          <h4 style="margin-left: 15px;">ประเด็นการตรวจติดตาม</h4>
                           <button style="margin-top: -10px; margin-left: 10px;"
                             *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
                             class="btn btn-info"
@@ -103,6 +103,10 @@
                             (click)="openAddModalQuestionsclose(modalQuestionsclose,items.id)"
                             class="btn btn-success btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มคำถาม</button>
+
+                          <!-- <span style="margin-left: 20px;">ลิ้งค์บุคคลภายนอก :
+                            <a href="">{{urllink}}{{items.id}}</a></span> -->
+
                         </div>
                         <!-- <button *ngIf="role_id == 5 && centralpolicyprovincedata.step == 'มอบหมายจังหวัด'" type="button"
                           (click)="openModal2(modalInviteDepartment, items.id)" class="btn btn-primary btn-xs"
@@ -122,8 +126,8 @@
                           *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
                           <div class="col-6">
                             <div class="row col-12">
-                              <div class="col-11">
-                                <span class="col-12">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
+                              <div class="">
+                                <span class="">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
                               </div>
                               <div class="col-1">
                                 <i *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'"
@@ -132,10 +136,10 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-6">
+                          <!-- <div class="col-6">
                             <span style="text-align: right; align-self: flex-end;" *ngIf="ii == 0">ลิ้งค์บุคคลภายนอก :
                               <a href="">{{urllink}}{{items.id}}</a></span>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                       <!-- <td style="border-top: none;" width="85%">
@@ -185,7 +189,7 @@
                   <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
                     <div class="" *ngIf="item.type == 'คำถามปลายปิด'" style="margin-left: 34px;">
                       <td style="border-top: none; width: 1%;">
-                        <u>คำถามปลายปิด</u>
+                        <u>คำถาม</u>
                         <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;" id="question{{i}}"
                           data-toggle="collapse" [attr.data-target]="'#questions' + i" aria-expanded="false"
                           aria-controls="questions"></i>
@@ -218,16 +222,17 @@
                       </td>
                       <div class="col-12 collapse" id="questions{{i}}">
                         <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
-                          <!-- <u>ตัวเลือกคำถามปลายปิด</u> -->
+                          <!-- <u>ตัวเลือกคำถาม</u> -->
                           <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
                             <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
                               <div class="row">
                                 <div class="row col-10">
-                                  <div class="col-0" *ngIf="item.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                                  <div class="col-0"
+                                    *ngIf="item.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
                                     <input style="margin-left: 10px;margin-top: 11px;" type="radio" disabled>
                                   </div>
                                   <!-- <div class="col-12"
-                                  *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                                  *ngIf="item2.type == 'คำถาม' && item.id == item3.subquestionCentralPolicyProvinceId">
                                   <div class="row" style="border: 1px solid #ced4da;
                                 margin: 0px;
                                 border-radius: 4px;
@@ -241,7 +246,8 @@
 
 
                                 </div> -->
-                                  <div class="col-9" *ngIf="item.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                                  <div class="col-9"
+                                    *ngIf="item.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
                                     <input type="text" value="{{item3.name}}" class="form-control"
                                       placeholder="กรุณากรอกเรื่อง" readonly>
                                   </div>
@@ -263,7 +269,7 @@
                           <div class="collapse col-9" id="graphs{{i}}" style="margin-left: 10px; margin-top: 5px;">
                             <div class="chartjs-container">
                               <canvas baseChart [datasets]="barchartAllset.barChartData" [labels]="barchartAllset.label"
-                                  [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
+                                [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
                                 [chartType]="barChartType">
                               </canvas>
                             </div>
@@ -457,16 +463,16 @@
   <form [formGroup]="EditForm" (ngSubmit)="editsubquestionclose(EditForm.value,editid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการคำถามปลายปิด</h5>
+        <h5 class="modal-title">จัดการคำถาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <label for="test" class="form-label">คำถาม</label>
           <input type="text" value="{{subquestionclosename}}" formControlName="subquestionclose" class="form-control"
-            placeholder="กรุณากรอกคำถามปลายปิด">
+            placeholder="กรุณากรอกคำถาม">
         </div>
       </div>
       <div class="modal-footer">
@@ -481,16 +487,16 @@
   <form [formGroup]="EditForm2" (ngSubmit)="editsubquestionclosechoice(EditForm2.value,editid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการคำถามปลายปิด</h5>
+        <h5 class="modal-title">จัดการคำถาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <label for="test" class="form-label">คำถาม</label>
           <input type="text" value="{{subquestionclosechoicename}}" formControlName="subquestionclosechoice"
-            class="form-control" placeholder="กรุณากรอกคำถามปลายปิด">
+            class="form-control" placeholder="กรุณากรอกคำถาม">
         </div>
       </div>
       <div class="modal-footer">
@@ -661,9 +667,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="DepartmentId"
-          formControlName="DepartmentId"  >
+      <div class="modal-body">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
+          [items]="department" name="DepartmentId" formControlName="DepartmentId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -681,14 +687,14 @@
   <form [formGroup]="FormAddQuestionsclose" (ngSubmit)="AddQuestionsclose(FormAddQuestionsclose.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เพิ่มคำถามปลายปิด</h5>
+        <h5 class="modal-title">เพิ่มคำถาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <label for="test" class="form-label">คำถาม</label>
           <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
           <div formArrayName="inputanswerclose">
             <div *ngFor="let X of FormAddQuestionsclose['controls'].inputanswerclose['controls']; let ix=index">
@@ -735,12 +741,12 @@
       </div>
       <div class="modal-body m-3">
 
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="DepartmentId"
-          formControlName="DepartmentId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
+          [items]="department" name="DepartmentId" formControlName="DepartmentId">
         </ng-select>
 
         <div class="form-group">
-          <label for="test" class="form-label">คำถามปลายปิด</label>
+          <label for="test" class="form-label">คำถาม</label>
           <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
           <div formArrayName="inputanswerclose">
             <div *ngFor="let X of FormSubject['controls'].inputanswerclose['controls']; let ix=index">

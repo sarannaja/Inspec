@@ -14,11 +14,12 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
-        <h5 class="card-title">กำหนดการตรวจราชการ</h5>
+        <label class="card-title">กำหนดการตรวจราชการ</label>
         <label style="margin-left: 5px;">จังหวัด: {{ScheduleData.scheduleData.province.name}}</label>
-        <label style="margin-left: 30px;">ผู้สร้าง: {{ScheduleData.userData.prefix}}
+        <label  style="margin-left: 5px;">สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
+        <br>
+        <label>ผู้สร้าง: {{ScheduleData.userData.prefix}}
           {{ScheduleData.userData.name}}</label>
-        <label style="margin-left: 30px;">สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
         <div class="row" style="margin-left: 5px;">
           <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
             readonly>
@@ -69,7 +70,7 @@
 
 
         <div class="float-right" style="margin-top: -103.5px;">
-          <button *ngIf="role_id == 3" type="button" (click)="openModal(modalInviteMinistryPeople)"
+          <button *ngIf="role_id == 3 && data.length != 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
             style="margin-top: -60px;" class="btn btn-primary">เชิญผู้ตรวจราชการกระทรวง</button>
           &nbsp;&nbsp;
           <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
