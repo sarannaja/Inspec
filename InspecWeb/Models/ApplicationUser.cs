@@ -115,6 +115,12 @@ namespace InspecWeb.Models
 
         [Description("รูปลายเซ็น")]
         public string Signature { get; set; }
+
+        //20200719
+        [Description("เลขที่คำสั่ง")]
+        public string Commandnumber { get; set; }
+
+
     }
 
     public class UserArray

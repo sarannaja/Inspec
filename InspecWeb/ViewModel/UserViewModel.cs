@@ -38,6 +38,7 @@ namespace InspecWeb.ViewModel
         public DateTime? Enddate { get; set; }
         public long Active { get; set; }
         public String Signature { get; set; }
+        public string Commandnumber { get; set; }
         public long Formprofile { get; set; }
         public List<IFormFile> files { get; set; }
 

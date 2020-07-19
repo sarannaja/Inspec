@@ -11,8 +11,8 @@ import { UserService } from '../services/user.service'; // ผู้ใช้
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from 'rxjs/internal/Subscription';
 import { IMyOptions } from 'mydatepicker-th';
-import {DepartmentService} from '../services/department.service';
-import {FiscalyearService} from '../services/fiscalyear.service';
+import { DepartmentService } from '../services/department.service';
+import { FiscalyearService } from '../services/fiscalyear.service';
 
 @Component({
   selector: 'app-user',
@@ -25,21 +25,21 @@ export class UserComponent implements OnInit {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
-  
+
   modalRef: BsModalRef;
   selectdatarole: Array<any>
   selectdataministry: Array<any>
   selectdatadeparment: Array<any>
   selectdataprovince: Array<any>
   selectdataregion: Array<any>
-  selectdatafiscalyear:Array<any>
-  selectdataprovincialdepartment:Array<any>
+  selectdatafiscalyear: Array<any>
+  selectdataprovincialdepartment: Array<any>
   loading = false;
   dtOptions: DataTables.Settings = {};
   roleId: any;
   rolename: any;
   resultuser: any[] = [];
-  resultfirstuser:any[] = [];
+  resultfirstuser: any[] = [];
   subscription: Subscription;
   addForm: FormGroup;
   id: any;
@@ -51,10 +51,10 @@ export class UserComponent implements OnInit {
   PhoneNumber: any;
   Email: any;
   ProvinceId: any;
-  DistrictId:any;
+  DistrictId: any;
   SubdistrictId: any;
   MinistryId: any;
-  UserRegion:any;
+  UserRegion: any;
   files: string[] = [];
   imgprofileUrl: any;
   Startdate: any;
@@ -110,8 +110,8 @@ export class UserComponent implements OnInit {
       name: 'สำนักงานรัฐมนตรีกระทรวงการคลัง'
     },
   ]
-  fiscalYearId:any;
-  date: any = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
+  fiscalYearId: any;
+  date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
 
   constructor(
     private modalService: BsModalService,
@@ -119,8 +119,8 @@ export class UserComponent implements OnInit {
     private provinceService: ProvinceService,
     private regionService: RegionService,
     private ministryService: MinistryService,
-    private departmentService:DepartmentService,
-    private fiscalyearService:FiscalyearService,
+    private departmentService: DepartmentService,
+    private fiscalyearService: FiscalyearService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private userService: UserService,
@@ -138,7 +138,7 @@ export class UserComponent implements OnInit {
         });
     this.roleId = this.route.snapshot.paramMap.get('id')
     this.imgprofileUrl = baseUrl + '/imgprofile';
-   
+
     //เลขที่ส่งมาจาก url 
   }
   ngOnDestroy() {
@@ -196,7 +196,7 @@ export class UserComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>,IDdelete) {
+  openModal(template: TemplateRef<any>, IDdelete) {
     this.addForm.reset()
     this.id = IDdelete;//ID สำหรับลบ
     this.addForm.patchValue({
@@ -212,14 +212,14 @@ export class UserComponent implements OnInit {
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();
-        console.log("userdata",this.resultuser);
+        console.log("userdata", this.resultuser);
       })
   }
 
   getDatafiscalyear() {
     this.fiscalyearService.getfiscalyeardata()
       .subscribe(result => {
-        console.log('mo',result)
+        console.log('mo', result)
         this.selectdatafiscalyear = result.map((item, index) => {
           return { value: item.id, label: item.year }
         })
@@ -258,12 +258,15 @@ export class UserComponent implements OnInit {
   }
 
   getDataMinistries() {
+    var test: any = [];
     this.ministryService.getministry()
       .subscribe(result => {
-        this.selectdataministry = result.map((item, index) => {
+        this.selectdataministry = result.filter((item, index) => {
+          return item.id != 1
+        }).map((item, index) => {
           return { value: item.id, label: item.name }
         })
-      })
+      });
   }
 
   getDataDepartments(event) {
@@ -296,7 +299,7 @@ export class UserComponent implements OnInit {
   //เพิ่ม user
   adduser(value) {
     //alert(1);
-    this.userService.addUser(value,this.addForm.value.files,this.roleId).subscribe(response => {
+    this.userService.addUser(value, this.addForm.value.files, this.roleId).subscribe(response => {
       //alert(3);
       this.addForm.reset()
       this.modalRef.hide()
@@ -314,7 +317,7 @@ export class UserComponent implements OnInit {
     })
   }
 
-  userform(){
+  userform() {
     this.addForm = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
       Name: new FormControl(null, [Validators.required]),
@@ -324,16 +327,18 @@ export class UserComponent implements OnInit {
       Email: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null),
       MinistryId: new FormControl(null, [Validators.required]),
-      DepartmentId : new FormControl(null),
+      DepartmentId: new FormControl(null),
       FiscalYear: new FormControl(null),
-      ProvincialDepartmentId : new FormControl(null),
+      ProvincialDepartmentId: new FormControl(null),
       UserRegion: new FormControl(null, [Validators.required]),
       UserProvince: new FormControl(null, [Validators.required]),
-      SubdistrictId : new FormControl(null),
+      SubdistrictId: new FormControl(null),
       DistrictId: new FormControl(null),
       files: new FormControl(null, [Validators.required]),
       Startdate: new FormControl(null, [Validators.required]),
       Enddate: new FormControl(null, [Validators.required]),
+      Commandnumber: new FormControl(null),
+
 
     })
   }

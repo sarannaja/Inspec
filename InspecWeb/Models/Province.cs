@@ -19,6 +19,18 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
+        [ForeignKey("Sector")]
+        [Description("FK: ภาค")]
+        public long SectorId { get; set; }
+
+        public virtual Sector Sectors { get; set; }
+
+        [ForeignKey("ProvincesGroup")]
+        [Description("FK: กลุ่มจังหวัด")]
+        public long ProvincesGroupId { get; set; }
+
+        public virtual ProvincesGroup ProvincesGroups { get; set; }
+
         [Required]
         [Description("ชื่อจังหวัด")]
         public string Name { get; set; }
