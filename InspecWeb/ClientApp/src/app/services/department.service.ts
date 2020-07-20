@@ -18,13 +18,42 @@ export class DepartmentService {
   
   getdepartmentdata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + id)
-
   }
+
+  //20200720
+  getdepartmentsfirst(id: any):Observable<any> {
+    return this.http.get<any>(this.url +'departmentsfirst/'+ id)
+  }
+
   getdepartmentsforsupportdata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url+'departmentsforsupport/'+ id)
   }
   getdepartmentsforuserdata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url+'departmentsforuser/'+ id)
+  }
+
+  getdepartmentsdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url+'departmentsdata/'+ id)
+  }
+
+  addDepartment(departmentdata,ministryid) {
+   // alert(2 +' : '+ ministryid + departmentdata.Name);
+    const formData = new FormData();
+    formData.append('MinistryId', ministryid);
+    formData.append('Name', departmentdata.Name);
+    return this.http.post(this.url, formData);
+
+  }
+
+  deleteDepartment(id) {
+    return this.http.delete(this.url + id);
+  }
+
+  editDepartment(departmentdata, id) {
+     //alert(2 + ':' + id);
+    const formData = new FormData();
+    formData.append('Name', departmentdata.Name);
+    return this.http.put(this.url + id, formData);
   }
   
 }

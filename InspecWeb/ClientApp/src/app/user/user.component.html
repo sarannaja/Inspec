@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">จัดการผู้ใช้</h5>
+                <h5 class="card-title">จัดการผู้ใช้ สิทธิ์{{rolename}}</h5>
                 <div class="float-right">
                     <button class="btn btn-primary" (click)="openModal(modalUser)"
                         style="margin-top: -60px;">เพิ่มผู้ใช้
@@ -32,13 +32,13 @@
                             <th>ชื่อ-นามสกุล</th>
                             <th>อีเมลล์</th>
                             <th>ตำแหน่ง</th>
-                            <td *ngIf="roleId == 3">เขตตรวจ</td>
+                            <td *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10">เขตตรวจ</td>
                             <td *ngIf="roleId == 4 || roleId == 5 || roleId == 9">จังหวัด</td>
                             <th *ngIf="roleId != 9 ">กระทรวง</th>
                             <th *ngIf="roleId == 10">กรม</th>
                             <th *ngIf="roleId == 9">หน่วยงานส่วนภูมิภาค</th>
                             <th>เบอร์โทร</th>
-                            <th>สถานะ</th>
+                            <!-- <th>สถานะ</th> -->
                             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
@@ -49,7 +49,7 @@
                             <td>{{item.prefix + item.name}}</td>
                             <td>{{item.email}}</td>
                             <td>{{item.position}}</td>
-                            <td *ngIf="roleId == 3">
+                            <td *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10">
                                 <li *ngFor="let item2 of item.userRegion; let i2 = index">
                                     {{item2.region.name}}
                                 </li>
@@ -61,10 +61,10 @@
                             <td *ngIf="roleId == 10">{{item.departments.name}}</td>
                             <td *ngIf="roleId == 9">{{item.provincialDepartments.name}}</td>
                             <td>{{item.phoneNumber}}</td>
-                            <td>
+                            <!-- <td>
                                 <div *ngIf="item.active == 1;else elseBlock">ใช้งานปกติ</div>
                                 <ng-template #elseBlock>ยังไม่มีสิทธิ์เข้าใช้งาน</ng-template>
-                            </td>
+                            </td> -->
                             <td>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"

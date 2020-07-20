@@ -56,7 +56,7 @@ export class UserService {
   }
 
   addUser(userData,file: FileList ,roleId) {
-     alert(roleId);
+     //alert(roleId);
       //console.log("servicelog: ", userData);
       const formData = new FormData();
       formData.append('Email', userData.Email); //email   

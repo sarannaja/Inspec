@@ -377,8 +377,17 @@ namespace InspecWeb.Controllers {
         [HttpDelete]
         public void Delete (string id) {
             System.Console.WriteLine ("userdelete : " + id);
-            var userdata = _context.ApplicationUsers.Find (id);
 
+            var userregiondata = _context.UserRegions.Where(m => m.UserID ==id);
+            _context.UserRegions.RemoveRange(userregiondata);
+            _context.SaveChanges();
+
+            var userprovincedata = _context.UserProvinces.Where(m => m.UserID == id);
+            _context.UserProvinces.RemoveRange(userprovincedata);
+            _context.SaveChanges();
+
+
+            var userdata = _context.ApplicationUsers.Find (id);
             _context.ApplicationUsers.Remove (userdata);
             _context.SaveChanges ();
         }

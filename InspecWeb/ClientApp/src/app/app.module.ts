@@ -174,7 +174,8 @@ import { ProvinceService } from './services/province.service';
 import { SelectSSSModule } from './external-organization/select/select.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DetailrowCentralPolicyComponent } from './central-policy/detailrow-central-policy/detailrow-central-policy.component';
-
+import { DepartmentComponent } from './department/department.component';
+import { ProvincialDepartmentComponent } from './provincialdepartment/provincialdepartment.component';
 
 
 
@@ -335,6 +336,8 @@ const ExternalOrganization = [
     ElectronicBookOtherComponent,
     ElectronicBookOtherDetailComponent,
     DetailrowCentralPolicyComponent,
+    DepartmentComponent,
+    ProvincialDepartmentComponent,
   ],
 
   imports: [
@@ -508,6 +511,8 @@ const ExternalOrganization = [
           { path: 'electronicbook/other', component: ElectronicBookOtherComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/otherdetail/:id', component: ElectronicBookOtherDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy/detailrowcentralpolicy/:id', component: DetailrowCentralPolicyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'ministry/:id/department', component: DepartmentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'ministry/department/:id/provincialdepartment', component: ProvincialDepartmentComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
