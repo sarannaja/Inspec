@@ -11,6 +11,7 @@ import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as _ from 'lodash';
+import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 
 @Component({
   selector: 'app-edit-central-policy',
@@ -61,6 +62,7 @@ export class EditCentralPolicyComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private authorize: AuthorizeService,
+    private external: ExternalOrganizationService,
     
     @Inject('BASE_URL') baseUrl: string
   ) {
@@ -314,29 +316,56 @@ export class EditCentralPolicyComponent implements OnInit {
     window.history.back();
   }
 
+  // getDataProvince() {
+  //   this.provinceservice.getprovincedata()
+  //     .subscribe(result => {
+  //       this.selectdataprovince = result.map(result => {
+  //         console.log(
+  //           result.name
+  //         );
+  //         var region = this.provinceservice.getRegionMock()
+  //           .filter(
+  //             (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+  //           )[0].region
+  //         console.log(
+  //           region
+  //         );
+
+
+  //         return { ...result, region: region, label: result.name, value: result.id }
+  //       })
+  //       console.log(this.selectdataprovince);
+
+  //     })
+  //   this.spinner.hide();
+  //   console.log(this.provinceservice.getRegionMock());
+  // }
   getDataProvince() {
     this.provinceservice.getprovincedata()
       .subscribe(result => {
-        this.selectdataprovince = result.map(result => {
-          console.log(
-            result.name
-          );
-          var region = this.provinceservice.getRegionMock()
-            .filter(
-              (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
-            )[0].region
-          console.log(
-            region
-          );
+        this.external.getProvinceRegion()
+          .subscribe(result2 => {
+            this.selectdataprovince = result.map(result => {
+              console.log(
+                result.name
+              );
+              var region = result2.filter(
+                (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+              )[0].region
+              console.log(
+                region
+              );
 
 
-          return { ...result, region: region, label: result.name, value: result.id }
-        })
-        console.log(this.selectdataprovince);
+              return { ...result, region: region, label: result.name, value: result.id }
+            })
+            console.log(this.selectdataprovince);
+          })
+
+
 
       })
-    this.spinner.hide();
-    console.log(this.provinceservice.getRegionMock());
+    // console.log(this.provinceservice.getRegionMock());
   }
 
 }
