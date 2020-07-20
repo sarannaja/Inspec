@@ -7,6 +7,8 @@ import { TestComponent } from './test/test.component';
 import { JoaComponent } from './joa/joa.component';
 import { VectorMapComponent } from './vector-map/vector-map.component';
 import { ProvinceOtpsComponent } from './otps/province-otps/province-otps.component';
+import { VectorMapComponent2 } from './vector-map2/vector-map.component';
+import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 
 const routes: Routes = [
   {
@@ -19,6 +21,11 @@ const routes: Routes = [
         redirectTo: 'otps',
       },
       {
+        path: 'map',
+        pathMatch: 'full',
+        redirectTo: 'thaimaps',
+      },
+      {
         path: 'ggc-opm',
         component: GgcOpmComponent
       },
@@ -28,7 +35,8 @@ const routes: Routes = [
       },
       {
         path: 'otps',
-        component: OtpsComponent
+        component: OtpsComponent,
+        canActivate: [AuthorizeGuard]
       },
       {
         path: 'otps-provinces',
@@ -39,6 +47,10 @@ const routes: Routes = [
         path: 'thaimap',
         component: VectorMapComponent
       },
+      {
+        path: 'thaimaps',
+        component: VectorMapComponent2
+      }
     ]
   },
   {

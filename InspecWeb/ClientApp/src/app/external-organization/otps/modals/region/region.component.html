@@ -142,15 +142,10 @@
                                 </div>
                         </div>
                 </div>
-                <canvas baseChart 
-                [data]="pieChartData" 
-                [labels]="pieChartLabels" 
-                [chartType]="pieChartType"
-                  [items]="pieChartOptions"
-                [plugins]="pieChartPlugins"
-                [colors]="pieChartcolors"
-                [legend]="pieChartLegend">
-              </canvas>
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+                        [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartcolors"
+                        [legend]="pieChartLegend">
+                </canvas>
 
         </div>
 

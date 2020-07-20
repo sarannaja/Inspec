@@ -360,6 +360,10 @@ const ExternalOrganization = [
       { path: 'ty', component: AnswerOutsideThankComponent },
       { path: 'training/external/register', component: ExternalRegisterComponent },
       {
+        path: 'vector', loadChildren: () => import('./external-organization/external-organization.module')
+          .then(m => m.ExternalOrganizationModule)
+      },
+      {
         path: '',
         component: DefaultLayoutComponent,
         data: {
