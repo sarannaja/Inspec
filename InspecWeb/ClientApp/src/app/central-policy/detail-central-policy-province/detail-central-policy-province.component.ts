@@ -14,6 +14,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ChartDataSets, ChartType, ChartOptions, Chart } from 'chart.js';
 import { Label } from 'ng2-charts';
+import * as _ from 'lodash'
 @Component({
   selector: 'app-detail-central-policy-province',
   templateUrl: './detail-central-policy-province.component.html',
@@ -76,6 +77,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   delid
   userid
   role_id
+  ministryId
   temp = []
   resultdsubjectid: any = []
   editAnswerForm: FormGroup;
@@ -144,7 +146,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     // }
   }
   planId: any;
-
+  userProvince: any[] = []
 
 
   constructor(private fb: FormBuilder,
@@ -178,9 +180,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
+            var result2 = result[0]
+            this.userProvince = result2.userProvince
             // this.resultuser = result;
             //console.log("test" , this.resultuser);
+            console.log("xxxxxxx", result2.userProvince);
+
             this.role_id = result[0].role_id
+            this.ministryId = result[0].ministryId
             // alert(this.role_id)
           })
       })
@@ -335,8 +342,9 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   // }
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-    await this.getMinistryPeople();
-    await this.getUserPeople();
+    this.getDepartmentPeople();
+    this.getMinistryPeople();
+    this.getUserPeople();
     this.getDepartmentdata();
   }
   openModal2(template: TemplateRef<any>, subjectid) {
@@ -651,9 +659,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             this.role7Count = 1
           }
           if (element.user.role_id == 6) {
-            this.role6Count = 1
+            var checked = _.filter(element.user.userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+            // console.log("role6666",);
+            checked > 0 ? this.role6Count = 1 :null
+            // if (checked > 0) {
+            //   this.role6Count = 1
+            // }
           }
-          if (element.user.role_id == 10) {
+          if (element.user.role_id == 10 && this.ministryId == element.user.ministryId) {
             this.role10Count = 1
           }
         });
@@ -825,7 +838,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
       await result.forEach(async element => {
         if (element.user.role_id == 6) {
+
+          // var checked = _.filter(element.user.userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          // if (checked > 0) {
           await this.allMinistryPeople.push(element.user)
+          // }
         }
       }); // Selected
       // console.log("selectedMinistry: ", this.allMinistryPeople);
@@ -888,7 +905,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
     if (this.userPeople.length == 0) {
       for (var i = 0; i < this.resultpeople.length; i++) {
-        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" +this.resultpeople[i].side + " - " + this.resultpeople[i].name })
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].side + " - " + this.resultpeople[i].name })
       }
     }
     else {
@@ -912,15 +929,16 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.resultdepartmentpeople = result // All
     })
 
-    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
-      await result.forEach(async element => {
-        if (element.user.role_id == 10) {
-          await this.alldepartmentPeople.push(element.user)
-        }
-      }); // Selected
-      // console.log("selecteddepartment: ", this.alldepartmentPeople);
-      this.getRecycledDepartmentPeople();
-    })
+    await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId)
+      .subscribe(async result => {
+        await result.forEach(async element => {
+          if (element.user.role_id == 10 && this.ministryId == element.user.ministryId) {
+            await this.alldepartmentPeople.push(element.user)
+          }
+        }); // Selected
+        // console.log("selecteddepartment: ", this.alldepartmentPeople);
+        this.getRecycledDepartmentPeople();
+      })
   }
 
   async getRecycledDepartmentPeople() {
@@ -929,11 +947,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     console.log("department: ", this.departmentPeople);
     console.log("alldepartment: ", this.resultdepartmentpeople);
     if (this.departmentPeople.length == 0) {
+      // alert("if")
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
         await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
       }
     }
     else {
+      // alert("else")
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
         var n = 0;
         for (var ii = 0; ii < this.departmentPeople.length; ii++) {
