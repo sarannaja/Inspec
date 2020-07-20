@@ -14,13 +14,14 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as Chart from 'chart.js';
 import { SubquestionService } from 'src/app/services/subquestion.service';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-detail-subjectevent',
   templateUrl: './detail-subjectevent.component.html',
   styleUrls: ['./detail-subjectevent.component.css']
 })
 export class DetailSubjecteventComponent implements OnInit {
+  departmentSelect:any[] = []
   subjectgroupstatus
   id
   subjectgroupid
@@ -246,7 +247,7 @@ export class DetailSubjecteventComponent implements OnInit {
     // await this.getUserPeople();
     this.getDepartmentdata();
   }
-  openModal2(template: TemplateRef<any>, subjectid) {
+  openModal2(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
     this.subjectid = subjectid
     this.departmentService.getalldepartdata().subscribe(res => {
       this.department = res.map((item, index) => {
@@ -255,7 +256,16 @@ export class DetailSubjecteventComponent implements OnInit {
           label: item.name
         }
       })
-      console.log( this.department );
+
+      console.log(this.department);
+      var data: any[] = departmentSelected.map(result => {
+        return result.provincialDepartment.id
+      })
+
+      this.departmentSelect = _.filter(this.department, (v) => !_.includes(
+        data, v.value
+      ))
+
 
       this.modalRef = this.modalService.show(template);
     })

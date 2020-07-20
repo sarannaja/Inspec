@@ -72,20 +72,50 @@ export class InspectionPlanEventComponent implements OnInit {
               roleCreatedBy = 3
             } else if (item.roleCreatedBy == "6") {
               roleCreatedBy = 6
+            } else if (item.roleCreatedBy == "10") {
+              roleCreatedBy = 10
             }
           }
+
+          else if (this.role_id == 6) {
+            var colorJa: any;
+            if (item.roleCreatedBy == "3") {
+              roleCreatedBy = 3
+            } else if (item.roleCreatedBy == "6") {
+              roleCreatedBy = 6
+              colorJa = "#3B7DDD" //blue
+            } else if (item.roleCreatedBy == "10") {
+              roleCreatedBy = 10
+            }
+          }
+
+          else if (this.role_id == 10) {
+            var colorJa: any;
+            if (item.roleCreatedBy == "3") {
+              roleCreatedBy = 3
+            } else if (item.roleCreatedBy == "6") {
+              roleCreatedBy = 6
+            }
+            else if (item.roleCreatedBy == "10") {
+              roleCreatedBy = 10
+              colorJa = "#C70039" //blue
+            }
+          }
+
 
           else {
             var colorJa: any;
             if (item.roleCreatedBy == "3") {
               roleCreatedBy = 3
-              colorJa = "#C70039" //red
             } else if (item.roleCreatedBy == "6") {
               roleCreatedBy = 6
               colorJa = "#3B7DDD" //blue
             }
+            else if (item.roleCreatedBy == "10") {
+              roleCreatedBy = 10
+              colorJa = "#C70039" //blue
+            }
           }
-          // console.log('roleCreatedBy',roleCreatedBy);
 
           return {
             id: item.id,
@@ -158,18 +188,20 @@ export class InspectionPlanEventComponent implements OnInit {
           // alert(JSON.stringify(event))
           console.log(event);
           console.log('this.role_id', self.role_id);
-          if (self.role_id == 3) {
+          // if (self.role_id == 3) {
 
-            window.location.href = self.url + event.id + '/' + event.provinceid;
-          }
-          else {
+          //   window.location.href = self.url + event.id + '/' + event.provinceid;
+          // }
+          // else {
             // alert(event.roleCreatedBy)
             if (event.roleCreatedBy == 3) {
               window.location.href = self.url + event.id + '/' + event.provinceid;
             } else if (event.roleCreatedBy == 6) {
               window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
+            }else if (event.roleCreatedBy == 10) {
+              window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid;
             }
-          }
+          // }
           // else
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
