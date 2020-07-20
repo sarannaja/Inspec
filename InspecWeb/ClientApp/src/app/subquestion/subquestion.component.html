@@ -114,8 +114,10 @@
                                 {{ix + 1}}
                               </div>
                               <div class="col-10 col-xl-10">
-                                <input type="text" formControlName="questionclose" class="form-control"
-                                  placeholder="กรุณากรอกคำถาม">
+                                <!-- <input type="text" formControlName="questionclose" class="form-control"
+                                  placeholder="กรุณากรอกคำถาม"> -->
+                                <textarea cols="30" rows="5" type="text" formControlName="questionclose"
+                                  class="form-control" placeholder="กรุณากรอกคำถาม"></textarea>
                               </div>
                               <div class="col-1">
                                 <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
