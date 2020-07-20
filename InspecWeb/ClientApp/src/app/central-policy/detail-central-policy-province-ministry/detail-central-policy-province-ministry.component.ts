@@ -76,6 +76,7 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
   delid
   userid
   role_id
+  ministryId
   temp = []
   resultdsubjectid: any = []
   editAnswerForm: FormGroup;
@@ -181,7 +182,8 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
             // this.resultuser = result;
             //console.log("test" , this.resultuser);
             this.role_id = result[0].role_id
-            // alert(this.role_id)
+            this.ministryId = result[0].ministryId
+            console.log("useruseruser", result);
           })
       })
     // alert(this.planId)
@@ -335,8 +337,9 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
   // }
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-    await this.getMinistryPeople();
-    await this.getUserPeople();
+    this.getDepartmentPeople();
+    this.getMinistryPeople();
+    this.getUserPeople();
     this.getDepartmentdata();
   }
   openModal2(template: TemplateRef<any>, subjectid) {
@@ -653,7 +656,7 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
           if (element.user.role_id == 6) {
             this.role6Count = 1
           }
-          if (element.user.role_id == 10) {
+          if (element.user.role_id == 10 && this.ministryId == element.user.ministryId) {
             this.role10Count = 1
           }
         });
@@ -913,8 +916,14 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
     })
 
     await this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.id, this.planId).subscribe(async result => {
-      await result.forEach(async element => {
-        if (element.user.role_id == 10) {
+
+      console.log("elementelementelement", result);
+
+      result.forEach(async element => {
+        // alert("12343")
+        // console.log("elementelementelement", element);
+
+        if (element.user.role_id == 10 && this.ministryId == element.user.ministryId) {
           await this.alldepartmentPeople.push(element.user)
         }
       }); // Selected

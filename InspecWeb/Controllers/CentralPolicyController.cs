@@ -538,6 +538,7 @@ namespace InspecWeb.Controllers
 
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)
                 .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId && m.InspectionPlanEventId == planId);
 
             return Ok(centralpolicyuserdata);

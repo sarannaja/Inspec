@@ -335,8 +335,9 @@ export class DetailCentralPolicyProvinceDepartmentComponent implements OnInit {
   // }
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-    await this.getMinistryPeople();
-    await this.getUserPeople();
+    this.getDepartmentPeople();
+    this.getMinistryPeople();
+    this.getUserPeople();
     this.getDepartmentdata();
   }
   openModal2(template: TemplateRef<any>, subjectid) {
