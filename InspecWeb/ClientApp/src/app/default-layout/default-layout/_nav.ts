@@ -143,7 +143,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         icon: 'fa-long-arrow-alt-right',
         url: '/user/2',
-        name: 'ผู้ดูแลแผนการตรวจราชการประจำปี',
+        name: 'ผู้ดูแลแผนการตรวจราชการ',
         ex_link: 'user',
         id: '2'
       },
@@ -1483,11 +1483,31 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
   //   url: "/inspectionplanevent",
   //   name: "ปฏิทินการตรวจราชการ"
   // },
+  // {
+  //   icon: 'fa-archive',
+  //   url: "/calendaruser",
+  //   name: "ปฏิทินการตรวจราชการ"
+  // },
   {
-    icon: 'fa-archive',
-    url: "/calendaruser",
-    name: "ปฏิทินการตรวจราชการ"
+    IDchildren: 'calendarmenu',
+    icon: 'fa-calendar',
+    name: "ปฏิทินการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionplanevent',
+        name: 'สร้างเอง'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/calendaruser',
+        name: 'ถูกเชิญ'
+      },
+    ]
   },
+
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',

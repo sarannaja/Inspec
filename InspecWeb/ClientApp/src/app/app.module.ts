@@ -176,6 +176,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DetailrowCentralPolicyComponent } from './central-policy/detailrow-central-policy/detailrow-central-policy.component';
 import { DepartmentComponent } from './department/department.component';
 import { ProvincialDepartmentComponent } from './provincialdepartment/provincialdepartment.component';
+import { InspectionPlanDepartmentComponent } from './inspection-plan-department/inspection-plan-department.component';
+import { DetailCentralPolicyProvinceDepartmentComponent } from './central-policy/detail-central-policy-province-department/detail-central-policy-province-department.component';
+
+
 
 
 
@@ -338,6 +342,8 @@ const ExternalOrganization = [
     DetailrowCentralPolicyComponent,
     DepartmentComponent,
     ProvincialDepartmentComponent,
+    InspectionPlanDepartmentComponent,
+    DetailCentralPolicyProvinceDepartmentComponent,
   ],
 
   imports: [
@@ -363,6 +369,10 @@ const ExternalOrganization = [
       { path: 'ty', component: AnswerOutsideThankComponent },
       { path: 'training/external/register', component: ExternalRegisterComponent },
       {
+        path: 'vector', loadChildren: () => import('./external-organization/external-organization.module')
+          .then(m => m.ExternalOrganizationModule)
+      },
+      {
         path: '',
         component: DefaultLayoutComponent,
         data: {
@@ -381,10 +391,12 @@ const ExternalOrganization = [
           { path: 'centralpolicy/detailcentralpolicy/:id', component: DetailCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy/detailcentralpolicyprovince/:result', component: DetailCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy/detailcentralpolicyprovince/ministry/:result', component: DetailCentralPolicyProvinceMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'centralpolicy/detailcentralpolicyprovince/department/:result', component: DetailCentralPolicyProvinceDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/inspectorministry/:id/:provinceid', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/inspectordepartment/:id/:provinceid', component: InspectionPlanDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },

@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
       <li class="breadcrumb-item active" aria-current="page">แก้ไขประเด็นนโยบายย่อย</li>
     </ol>
@@ -28,13 +28,17 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ชื่อเรื่อง</label>
-                <input type="text" value="{{resultsubjectdetail.name}}" formControlName="name" class="form-control"
-                  placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
+                <!-- <input type="text" value="{{resultsubjectdetail.name}}" formControlName="name" class="form-control"
+                  placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
+                <textarea cols="30" rows="5" type="text" value="{{resultsubjectdetail.name}}" formControlName="name"
+                  class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"></textarea>
               </div>
               <div class="form-group">
                 <label>คำชี้แจง</label>
-                <input type="text" value="{{resultsubjectdetail.explanation}}" formControlName="explanation"
-                  class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย">
+                <!-- <input type="text" value="{{resultsubjectdetail.explanation}}" formControlName="explanation"
+                  class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
+                <textarea cols="30" rows="5" type="text" value="{{resultsubjectdetail.explanation}}"
+                  formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง"></textarea>
               </div>
               <div class="form-group">
                 <label>ระยะเวลา</label>
@@ -50,7 +54,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <div class="mb-3">
                   <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
                   <label style="margin-left: 10px;">ร่างกำหนดการ</label>
@@ -58,7 +62,8 @@
                     formControlName="status">
                   <label style="margin-left: 10px;">ใช้งานจริง</label>
                 </div>
-              </div>
+              </div> -->
+              <br>
               <div class="card">
                 <div class="form-group">
                   <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
@@ -66,7 +71,7 @@
                       <label>ผู้ให้ข้อมูล</label>
                       &nbsp;&nbsp;
                       <button type="button" style="margin-top: -8px;"
-                        (click)="openAddDepartmentModal(modalInviteDepartment,item.id,item.box)"
+                        (click)="openAddDepartmentModal(modalInviteDepartment,item.id,item.box,item.subjectCentralPolicyProvinceGroups)"
                         class="btn btn-primary">เพิ่มหน่วยงาน</button>
                     </div>
                     <div style="margin-top: 10px;"
@@ -105,8 +110,11 @@
                       <div class="col-11 col-xl-11" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                         <div class="row" style="margin-top: 5px;">
                           <div class="col-9 col-xl-9">
-                            <input [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}" type="text" value="{{item.name}}" class="form-control" placeholder="กรุณากรอกคำถาม"
-                              readonly>
+                            <!-- <input [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}" type="text"
+                              value="{{item.name}}" class="form-control" placeholder="กรุณากรอกคำถาม" readonly> -->
+                            <textarea [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}" cols="30" rows="5"
+                              type="text" value="{{item.name}}" formControlName="explanation" class="form-control"
+                              placeholder="กรุณากรอกคำถาม" readonly></textarea>
                           </div>
                           <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
@@ -114,15 +122,16 @@
                             <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                               (click)="openModalDelete(modaldeleteQuestionsclose, item.id)"></i>
                             <button class="btn btn-info" type="button"
-                              (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มตอบ</button>
+                              (click)="openAddModalChoices(modaladdChoices,item.id)">เพิ่มคำตอบ</button>
                           </div>
                         </div>
                         <div style="margin-top: 5px;" class="col-11 col-xl-11"
                           *ngFor="let items of item.subquestionChoiceCentralPolicyProvinces; let i = index">
                           <div class="row">
                             <div class="col-9 col-xl-9">
-                              <input [ngStyle]="{'background-color': 'rgba(189,189,189,0.5)'}" type="text" *ngIf="item.type == 'คำถามปลายปิด'" value="{{items.name}}"
-                                class="form-control" placeholder="กรุณากรอกคำถาม" readonly>
+                              <input [ngStyle]="{'background-color': 'rgba(189,189,189,0.5)'}" type="text"
+                                *ngIf="item.type == 'คำถามปลายปิด'" value="{{items.name}}" class="form-control"
+                                placeholder="กรุณากรอกคำตอบให้เลือก" readonly>
                             </div>
                             <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
@@ -134,7 +143,9 @@
                         </div>
                       </div>
                     </div>
-                    <hr>
+                    <br>
+                    <hr width="100%" color="gray">
+                    <br>
                   </div>
                 </div>
               </div>
@@ -200,7 +211,7 @@
   </div>
 </div>
 <!-- BEGIN primary modal -->
-<ng-template #modalQuestionsopen class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <ng-template #modalQuestionsopen class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="FormAddQuestionsopen" (ngSubmit)="AddQuestionsopen(FormAddQuestionsopen.value)">
     <div class="modal-content">
       <div class="modal-header">
@@ -221,15 +232,14 @@
       </div>
     </div>
   </form>
-  <!-- </div> -->
-</ng-template>
+</ng-template> -->
 <!-- END primary modal -->
 <!-- BEGIN primary modal -->
 <ng-template #modalQuestionsclose class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="FormAddQuestionsclose" (ngSubmit)="AddQuestionsclose(FormAddQuestionsclose.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เพิ่มคำถามปลายปิด</h5>
+        <h5 class="modal-title">เพิ่มคำถาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -237,12 +247,14 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="test" class="form-label">คำถาม</label>
-          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม">
+          <!-- <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม"> -->
+          <textarea cols="30" rows="5" type="text" formControlName="name" class="form-control"
+            placeholder="กรุณากรอกคำถาม"></textarea>
           <div formArrayName="inputanswerclose">
             <div *ngFor="let X of FormAddQuestionsclose['controls'].inputanswerclose['controls']; let ix=index">
               <div formGroupName="{{ix}}">
                 <div class="row">
-                  <div class="col-11 col-xl-11">
+                  <div class="col-11 col-xl-11" style="margin-top: 5px;">
                     <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำตอบ">
                   </div>
                   <div class="col-1">
@@ -421,7 +433,7 @@
       </div>
       <div class="modal-body m-3">
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
-          [items]="department" name="DepartmentId" formControlName="DepartmentId">
+          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -480,7 +492,6 @@
                       [items]="department" name="departmentId" formControlName="departmentId">
                     </ng-select>
                     <br>
-                    <br>
                     <!-- <label>ประเด็นการตรวจติดตาม</label>
                     <br> -->
                     <!-- <label>คำถามปลายเปิด</label>
@@ -513,9 +524,11 @@
                       <div *ngFor="let X of V['controls'].inputquestionclose['controls']; let ix=index">
                         <div formGroupName="{{ix}}">
                           <div class="row">
-                            <div class="col-11 col-xl-11">
-                              <input type="text" formControlName="questionclose" class="form-control"
-                                placeholder="กรุณากรอกคำถาม">
+                            <div class="col-11 col-xl-11" style="margin-top: 5px;">
+                              <!-- <input type="text" formControlName="questionclose" class="form-control"
+                                placeholder="กรุณากรอกคำถาม"> -->
+                              <textarea cols="30" rows="5" type="text" formControlName="questionclose"
+                                class="form-control" placeholder="กรุณากรอกคำถาม"></textarea>
                             </div>
                             <div class="col-1">
                               <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
@@ -534,7 +547,7 @@
                             <div *ngFor="let Y of X['controls'].inputanswerclose['controls']; let iy=index">
                               <div formGroupName="{{iy}}">
                                 <div class="row">
-                                  <div class="col-9 col-xl-9">
+                                  <div class="col-9 col-xl-9" style="margin-top: 5px;">
                                     <input type="text" formControlName="answerclose" class="form-control"
                                       placeholder="กรุณากรอกคำตอบให้เลือก">
                                   </div>

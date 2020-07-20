@@ -7,6 +7,7 @@ import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { ProvinceService, Province } from 'src/app/services/province.service';
 
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 
 interface addInput {
   id: number;
@@ -53,7 +54,9 @@ export class CreateCentralPolicyComponent implements OnInit {
     private router: Router,
     private fiscalyearservice: FiscalyearService,
     private provinceservice: ProvinceService,
-    private authorize: AuthorizeService,) {
+    private authorize: AuthorizeService,
+    private external: ExternalOrganizationService
+    ) {
     this.form = this.fb.group({
       name: [''],
       files: [null]
@@ -188,24 +191,28 @@ export class CreateCentralPolicyComponent implements OnInit {
   getDataProvince() {
     this.provinceservice.getprovincedata()
       .subscribe(result => {
-        this.province = result.map(result => {
-          console.log(
-            result.name
-          );
-          var region = this.provinceservice.getRegionMock().filter(
-            (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
-          )[0].region
-          console.log(
-            region
-          );
+        this.external.getProvinceRegion()
+          .subscribe(result2 => {
+            this.province = result.map(result => {
+              console.log(
+                result.name
+              );
+              var region = result2.filter(
+                (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+              )[0].region
+              console.log(
+                region
+              );
 
 
-          return { ...result, region: region, label: result.name, value: result.id }
-        })
-        console.log(this.province);
+              return { ...result, region: region, label: result.name, value: result.id }
+            })
+            console.log(this.province);
+          })
+
 
 
       })
-    console.log(this.provinceservice.getRegionMock());
+    // console.log(this.provinceservice.getRegionMock());
   }
 }

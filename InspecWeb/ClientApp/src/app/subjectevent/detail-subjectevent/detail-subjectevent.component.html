@@ -97,7 +97,7 @@
                         </h5>
                         <div class="row" style="margin-left: 10px;">
                           <button *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
-                            (click)="openModal2(modalInviteDepartment, items.id)" class="btn btn-primary btn-xs"
+                            (click)="openModal2(modalInviteDepartment, items.id,items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups)" class="btn btn-primary btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
                           <button *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
                             (click)="openAddModalQuestionsclose(modalQuestionsclose,items.id)"
@@ -669,7 +669,7 @@
       </div>
       <div class="modal-body">
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
-          [items]="department" name="DepartmentId" formControlName="DepartmentId">
+          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -742,7 +742,7 @@
       <div class="modal-body m-3">
 
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
-          [items]="department" name="DepartmentId" formControlName="DepartmentId">
+          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId">
         </ng-select>
 
         <div class="form-group">

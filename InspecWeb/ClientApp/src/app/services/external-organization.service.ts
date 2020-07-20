@@ -69,4 +69,7 @@ export class ExternalOrganizationService {
   getOtpsProviceOtps(): Observable<ProvinceOtps[]> {
     return this.http.get<ProvinceOtps[]>(this.baseUrl + `api/ExternalOrganization/otps/provinces2`)
   }
+  getProvinceRegion(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + `api/ExternalOrganization/provinceall`)
+  }
 }

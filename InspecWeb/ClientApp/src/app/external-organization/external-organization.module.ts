@@ -30,6 +30,7 @@ import { OpmCaseDetailComponent } from './opm1111/modals/detail-modal/detail-mod
 import { OpmDetailTitleModalComponent } from './opm1111/modals/title-modal/title-modal.component';
 import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { VectorMapComponent2 } from './vector-map2/vector-map.component';
 
 
 
@@ -53,7 +54,8 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
     ProvinceOtpsTableComponent,
     ThaiDatePipe2,
     OpmCaseDetailComponent,
-    OpmDetailTitleModalComponent
+    OpmDetailTitleModalComponent,
+    VectorMapComponent2
   ],
   imports: [
     CommonModule,
@@ -67,7 +69,7 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
     MyDateRangePickerModule
     // MyDateRangePickerTHModule
   ],
-  exports:[MinisterModalComponent,CustomCurrencyPipe,ThaiDatePipe2],
+  exports:[MinisterModalComponent,CustomCurrencyPipe,ThaiDatePipe2,VectorMapComponent2],
   providers: [ExternalOrganizationService,CurrencyPipe,DatePipe],
   entryComponents: [MinisterModalComponent,RegionComponent,OpmCaseDetailComponent]
   // entryComponents:[GgcOpmComponent,Opm1111Component,OtpsComponent],

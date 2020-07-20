@@ -6,7 +6,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
             <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
             <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
             <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบายย่อย</li>
         </ol>
@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-12 col-xl-12">
                             <div class="form-group">
-                                <label>ชื่อประเด็นนโยบาย : {{resultsubjectdetail.name}}</label>
+                                <label>ชื่อเรื่อง : {{resultsubjectdetail.name}}</label>
                             </div>
                             <div class="form-group">
                                 <label>คำชี้แจง : {{resultsubjectdetail.explanation}}</label>
@@ -44,9 +44,13 @@
                                     {{ item.centralPolicyDateProvince.endDate | thaidate: 'year' }}<br></span>
                             </div>
                             <div class="form-group">
-                                <u>พื้นที่ดำเนินการ</u>
+                                <u>พื้นที่ดำเนินการ
+                                    <i class="fas fa-chevron-down pointer" style="margin-left: 5px; font-size: large;"
+                                        id="province" data-toggle="collapse" [attr.data-target]="'#provinces'"
+                                        aria-expanded="false" aria-controls="provinces"></i>
+                                </u>
                                 <!-- <label>หน่วยงานที่เกี่ยวข้อง</label> -->
-                                <div class="col-12 col-xl-12"
+                                <div class="col-12 col-xl-12 collapse" id="provinces"
                                     *ngFor="let item of resultprovince.centralPolicyProvinces; let i = index">
                                     <!-- <div class="col-md-6"> -->
                                     <span *ngIf="item.active == 1">{{ i + 1 }}. {{item.province.name}}</span>
@@ -90,25 +94,37 @@
                                                 *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                                                 <div class="row">
                                                     <div class="col-9 col-xl-9">
-                                                        <input type="text" value="{{item.name}}" class="form-control"
-                                                            placeholder="กรุณากรอกคำถาม" readonly>
+                                                        <!-- <input type="text" value="{{item.name}}" class="form-control"
+                                                            placeholder="กรุณากรอกคำถาม" readonly> -->
+                                                        <textarea
+                                                            [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}"
+                                                            cols="30" rows="5" type="text" value="{{item.name}}"
+                                                            class="form-control" placeholder="กรุณากรอกคำถาม"
+                                                            readonly></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-xl-12" style="margin-top: 3px;"
                                                     *ngFor="let items of item.subquestionChoiceCentralPolicyProvinces; let i = index">
                                                     <div class="row">
                                                         <div class="col-9 col-xl-9">
-                                                            <label type="text" *ngIf="item.type == 'คำถามปลายปิด'"
+                                                            <!-- <label
+                                                                [ngStyle]="{'background-color': 'rgba(189,189,189,0.5)'}"
+                                                                type="text" *ngIf="item.type == 'คำถามปลายปิด'"
                                                                 class="form-control">
                                                                 {{items.name}}
-                                                            </label>
+                                                            </label> -->
+                                                            <input
+                                                                [ngStyle]="{'background-color': 'rgba(189,189,189,0.5)'}"
+                                                                type="text" *ngIf="item.type == 'คำถามปลายปิด'"
+                                                                value="{{items.name}}" class="form-control"
+                                                                placeholder="กรุณากรอกคำตอบให้เลือก" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <br>
-                                        <hr>
+                                        <hr width="100%" color="gray">
                                     </div>
                                 </div>
                             </div>

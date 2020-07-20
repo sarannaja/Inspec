@@ -65,7 +65,7 @@ export class SubjectComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4],
+          targets: [3],
           orderable: false
         }
       ]
