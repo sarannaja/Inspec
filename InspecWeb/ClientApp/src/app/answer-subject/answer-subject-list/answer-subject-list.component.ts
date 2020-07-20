@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
@@ -16,13 +16,17 @@ export class AnswerSubjectListComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   resultanswersubject: any[]
+  urllink
+
   constructor(
     private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    @Inject('BASE_URL') baseUrl: string,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.urllink = baseUrl + 'answersubject/outsider/';
   }
 
   ngOnInit() {
@@ -79,5 +83,11 @@ export class AnswerSubjectListComponent implements OnInit {
         }
         }
       }
+    }
+    /* To copy Text from Textbox */
+    copyInputMessage(inputElement){
+      inputElement.select();
+      document.execCommand('copy');
+      inputElement.setSelectionRange(0, 0);
     }
   }
