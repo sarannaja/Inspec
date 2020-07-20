@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
       <li class="breadcrumb-item active" aria-current="page">แก้ไขประเด็นนโยบายย่อย</li>
     </ol>
@@ -54,7 +54,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <div class="mb-3">
                   <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
                   <label style="margin-left: 10px;">ร่างกำหนดการ</label>
@@ -62,7 +62,8 @@
                     formControlName="status">
                   <label style="margin-left: 10px;">ใช้งานจริง</label>
                 </div>
-              </div>
+              </div> -->
+              <br>
               <div class="card">
                 <div class="form-group">
                   <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
@@ -130,7 +131,7 @@
                             <div class="col-9 col-xl-9">
                               <input [ngStyle]="{'background-color': 'rgba(189,189,189,0.5)'}" type="text"
                                 *ngIf="item.type == 'คำถามปลายปิด'" value="{{items.name}}" class="form-control"
-                                placeholder="กรุณากรอกคำถาม" readonly>
+                                placeholder="กรุณากรอกคำตอบให้เลือก" readonly>
                             </div>
                             <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
@@ -142,7 +143,9 @@
                         </div>
                       </div>
                     </div>
-                    <hr width="100%" color="black">
+                    <br>
+                    <hr width="100%" color="gray">
+                    <br>
                   </div>
                 </div>
               </div>
@@ -251,7 +254,7 @@
             <div *ngFor="let X of FormAddQuestionsclose['controls'].inputanswerclose['controls']; let ix=index">
               <div formGroupName="{{ix}}">
                 <div class="row">
-                  <div class="col-11 col-xl-11">
+                  <div class="col-11 col-xl-11" style="margin-top: 5px;">
                     <input type="text" formControlName="answerclose" class="form-control" placeholder="กรุณากรอกคำตอบ">
                   </div>
                   <div class="col-1">
@@ -489,7 +492,6 @@
                       [items]="department" name="departmentId" formControlName="departmentId">
                     </ng-select>
                     <br>
-                    <br>
                     <!-- <label>ประเด็นการตรวจติดตาม</label>
                     <br> -->
                     <!-- <label>คำถามปลายเปิด</label>
@@ -522,7 +524,7 @@
                       <div *ngFor="let X of V['controls'].inputquestionclose['controls']; let ix=index">
                         <div formGroupName="{{ix}}">
                           <div class="row">
-                            <div class="col-11 col-xl-11">
+                            <div class="col-11 col-xl-11" style="margin-top: 5px;">
                               <!-- <input type="text" formControlName="questionclose" class="form-control"
                                 placeholder="กรุณากรอกคำถาม"> -->
                               <textarea cols="30" rows="5" type="text" formControlName="questionclose"
@@ -545,7 +547,7 @@
                             <div *ngFor="let Y of X['controls'].inputanswerclose['controls']; let iy=index">
                               <div formGroupName="{{iy}}">
                                 <div class="row">
-                                  <div class="col-9 col-xl-9">
+                                  <div class="col-9 col-xl-9" style="margin-top: 5px;">
                                     <input type="text" formControlName="answerclose" class="form-control"
                                       placeholder="กรุณากรอกคำตอบให้เลือก">
                                   </div>

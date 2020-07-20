@@ -80,7 +80,7 @@ export class EditSubjectComponent implements OnInit {
     this.EditForm = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       centralPolicyDateId: new FormControl(null, [Validators.required]),
-      status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      status: new FormControl("ใช้งานจริง", [Validators.required]),
       explanation: new FormControl(null, [Validators.required]),
       // questionopen: new FormControl(null, [Validators.required]),
       // questionclose: new FormControl(null, [Validators.required]),

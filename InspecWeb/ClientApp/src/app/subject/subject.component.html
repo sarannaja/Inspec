@@ -23,7 +23,7 @@
     </div>
     <ng-template #elseBlock>
       <div class="card-header">
-        <h5 class="card-title">แผนตรวจราชการประจำปี</h5>
+        <h5 class="card-title">แผนตรวจราชการ</h5>
       </div>
     </ng-template>
     <div class="card-body">
@@ -34,7 +34,7 @@
             <th>#</th>
             <th>ชื่อประเด็นนโยบายย่อย</th>
             <th>ระยะเวลา</th>
-            <th>สถานะ</th>
+            <!-- <th>สถานะ</th> -->
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
         </thead>
@@ -47,7 +47,7 @@
                 {{ item2.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
                 {{ item2.centralPolicyDateProvince.endDate | thaidate: 'year' }}</div>
             </td>
-            <td class="pointer" (click)="DetailSubject(item.id)">{{item.status}}</td>
+            <!-- <td class="pointer" (click)="DetailSubject(item.id)">{{item.status}}</td> -->
             <td>
               <div class="row">
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i> -->

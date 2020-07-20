@@ -1158,68 +1158,70 @@ namespace InspecWeb.Controllers
                     long subjectId = 0;
                     foreach (var subque in subques)
                     {
-                        var checkdeparts = _context.SubjectCentralPolicyProvinceGroups
+                        var checkdepartsdata = _context.SubjectCentralPolicyProvinceGroups
                             .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id)
                             //.OrderBy(m => m.ProvincialDepartmentId)
                             .Select(x => x.ProvincialDepartmentId)
-                            .First();
+                            .ToList();
                         Console.WriteLine("subque1" + departId);
                         //departId = checkdeparts;
                         //foreach (var checkdepart in checkdeparts)
-
-
-                        SubjectCentralPolicyProvince test;
-                        //foreach (var checkdepart in checkdeparts)
-                        //{
-                        var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
+                        foreach (var checkdeparts in checkdepartsdata)
                         {
-                            Name = subcen.Name,
-                            CentralPolicyProvinceId = cenpro.Id,
-                            Type = "NoMaster",
-                            Status = "ใช้งานจริง",
-                            SubjectGroupId = SubjectGroupdata.Id,
-                        };
-                        //subjectId = SubjectCentralPolicyProvincedata.Id;
-                        //departId = checkdepart;
-                        Console.WriteLine("subque1" + subque.Id);
-                        Console.WriteLine("subque1" + subjectId);
 
-                        if (departId != checkdeparts)
-                        {
-                            Console.WriteLine("subque1" + departId + ":" + checkdeparts);
-                            departId = checkdeparts;
-                            var checkprovince = _context.ProvincialDepartmentProvince
-                           .Where(m => m.ProvincialDepartmentID == departId && m.ProvinceId == model.ProvinceId).FirstOrDefault();
-
-
-                            if (checkprovince != null)
+                            SubjectCentralPolicyProvince test;
+                            //foreach (var checkdepart in checkdeparts)
+                            //{
+                            var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
                             {
-                                _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
-                                _context.SaveChanges();
-                                test = SubjectCentralPolicyProvincedata;
-                                subjectId = SubjectCentralPolicyProvincedata.Id;
-                                //SubjectCentralPolicyProvincedata = SubjectCentralPolicyProvincedata;
+                                Name = subcen.Name,
+                                CentralPolicyProvinceId = cenpro.Id,
+                                Type = "NoMaster",
+                                Status = "ใช้งานจริง",
+                                SubjectGroupId = SubjectGroupdata.Id,
+                            };
+                            //subjectId = SubjectCentralPolicyProvincedata.Id;
+                            //departId = checkdepart;
+                            Console.WriteLine("subque1" + subque.Id);
+                            Console.WriteLine("subque1" + subjectId);
 
-                                TestFunction(subque, departId, subjectId);
-                            }
-                        }
-                        else
-                        {
-                            departId = checkdeparts;
-                            var checkprovince = _context.ProvincialDepartmentProvince
-                           .Where(m => m.ProvincialDepartmentID == checkdeparts && m.ProvinceId == model.ProvinceId).FirstOrDefault();
-
-                            if (checkprovince != null)
+                            if (departId != checkdeparts)
                             {
+                                Console.WriteLine("subque1" + departId + ":" + checkdeparts);
+                                departId = checkdeparts;
+                                var checkprovince = _context.ProvincialDepartmentProvince
+                               .Where(m => m.ProvincialDepartmentID == departId && m.ProvinceId == model.ProvinceId).FirstOrDefault();
 
-                                //subjectId = SubjectCentralPolicyProvincedata.Id;
-                                Console.WriteLine("subque2", subque);
-                                TestFunction(subque, checkdeparts, subjectId);
+
+                                if (checkprovince != null)
+                                {
+                                    _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
+                                    _context.SaveChanges();
+                                    test = SubjectCentralPolicyProvincedata;
+                                    subjectId = SubjectCentralPolicyProvincedata.Id;
+                                    //SubjectCentralPolicyProvincedata = SubjectCentralPolicyProvincedata;
+
+                                    TestFunction(subque, departId, subjectId);
+                                }
                             }
-                            //TestFunction(SubjectCentralPolicyProvincedata, subque, departId, subjectId);
-                        }
+                            else
+                            {
+                                departId = checkdeparts;
+                                var checkprovince = _context.ProvincialDepartmentProvince
+                               .Where(m => m.ProvincialDepartmentID == checkdeparts && m.ProvinceId == model.ProvinceId).FirstOrDefault();
 
-                        //}
+                                if (checkprovince != null)
+                                {
+
+                                    //subjectId = SubjectCentralPolicyProvincedata.Id;
+                                    Console.WriteLine("subque2", subque);
+                                    TestFunction(subque, checkdeparts, subjectId);
+                                }
+                                //TestFunction(SubjectCentralPolicyProvincedata, subque, departId, subjectId);
+                            }
+
+                            //}
+                        }
                     }
                 }
             }
@@ -1382,68 +1384,70 @@ namespace InspecWeb.Controllers
                     long subjectId = 0;
                     foreach (var subque in subques)
                     {
-                        var checkdeparts = _context.SubjectCentralPolicyProvinceGroups
+                        var checkdepartsdata = _context.SubjectCentralPolicyProvinceGroups
                             .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id)
                             //.OrderBy(m => m.ProvincialDepartmentId)
                             .Select(x => x.ProvincialDepartmentId)
-                            .First();
+                            .ToList();
                         Console.WriteLine("subque1" + departId);
                         //departId = checkdeparts;
                         //foreach (var checkdepart in checkdeparts)
-
-
-                        SubjectCentralPolicyProvince test;
-                        //foreach (var checkdepart in checkdeparts)
-                        //{
-                        var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
+                        foreach (var checkdeparts in checkdepartsdata)
                         {
-                            Name = subcen.Name,
-                            CentralPolicyProvinceId = cenpro.Id,
-                            Type = "NoMaster",
-                            Status = "ใช้งานจริง",
-                            SubjectGroupId = SubjectGroupdata.Id,
-                        };
-                        //subjectId = SubjectCentralPolicyProvincedata.Id;
-                        //departId = checkdepart;
-                        Console.WriteLine("subque1" + subque.Id);
-                        Console.WriteLine("subque1" + subjectId);
 
-                        if (departId != checkdeparts)
-                        {
-                            Console.WriteLine("subque1" + departId + ":" + checkdeparts);
-                            departId = checkdeparts;
-                            var checkprovince = _context.ProvincialDepartmentProvince
-                           .Where(m => m.ProvincialDepartmentID == departId && m.ProvinceId == model.ProvinceId).FirstOrDefault();
-
-
-                            if (checkprovince != null)
+                            SubjectCentralPolicyProvince test;
+                            //foreach (var checkdepart in checkdeparts)
+                            //{
+                            var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
                             {
-                                _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
-                                _context.SaveChanges();
-                                test = SubjectCentralPolicyProvincedata;
-                                subjectId = SubjectCentralPolicyProvincedata.Id;
-                                //SubjectCentralPolicyProvincedata = SubjectCentralPolicyProvincedata;
+                                Name = subcen.Name,
+                                CentralPolicyProvinceId = cenpro.Id,
+                                Type = "NoMaster",
+                                Status = "ใช้งานจริง",
+                                SubjectGroupId = SubjectGroupdata.Id,
+                            };
+                            //subjectId = SubjectCentralPolicyProvincedata.Id;
+                            //departId = checkdepart;
+                            Console.WriteLine("subque1" + subque.Id);
+                            Console.WriteLine("subque1" + subjectId);
 
-                                TestFunction(subque, departId, subjectId);
-                            }
-                        }
-                        else
-                        {
-                            departId = checkdeparts;
-                            var checkprovince = _context.ProvincialDepartmentProvince
-                           .Where(m => m.ProvincialDepartmentID == checkdeparts && m.ProvinceId == model.ProvinceId).FirstOrDefault();
-
-                            if (checkprovince != null)
+                            if (departId != checkdeparts)
                             {
+                                Console.WriteLine("subque1" + departId + ":" + checkdeparts);
+                                departId = checkdeparts;
+                                var checkprovince = _context.ProvincialDepartmentProvince
+                               .Where(m => m.ProvincialDepartmentID == departId && m.ProvinceId == model.ProvinceId).FirstOrDefault();
 
-                                //subjectId = SubjectCentralPolicyProvincedata.Id;
-                                Console.WriteLine("subque2", subque);
-                                TestFunction(subque, checkdeparts, subjectId);
+
+                                if (checkprovince != null)
+                                {
+                                    _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
+                                    _context.SaveChanges();
+                                    test = SubjectCentralPolicyProvincedata;
+                                    subjectId = SubjectCentralPolicyProvincedata.Id;
+                                    //SubjectCentralPolicyProvincedata = SubjectCentralPolicyProvincedata;
+
+                                    TestFunction(subque, departId, subjectId);
+                                }
                             }
-                            //TestFunction(SubjectCentralPolicyProvincedata, subque, departId, subjectId);
-                        }
+                            else
+                            {
+                                departId = checkdeparts;
+                                var checkprovince = _context.ProvincialDepartmentProvince
+                               .Where(m => m.ProvincialDepartmentID == checkdeparts && m.ProvinceId == model.ProvinceId).FirstOrDefault();
 
-                        //}
+                                if (checkprovince != null)
+                                {
+
+                                    //subjectId = SubjectCentralPolicyProvincedata.Id;
+                                    Console.WriteLine("subque2", subque);
+                                    TestFunction(subque, checkdeparts, subjectId);
+                                }
+                                //TestFunction(SubjectCentralPolicyProvincedata, subque, departId, subjectId);
+                            }
+
+                            //}
+                        }
                     }
                 }
             }
@@ -1514,68 +1518,70 @@ namespace InspecWeb.Controllers
                     long subjectId = 0;
                     foreach (var subque in subques)
                     {
-                        var checkdeparts = _context.SubjectCentralPolicyProvinceGroups
+                        var checkdepartsdata = _context.SubjectCentralPolicyProvinceGroups
                             .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id)
                             //.OrderBy(m => m.ProvincialDepartmentId)
                             .Select(x => x.ProvincialDepartmentId)
-                            .First();
+                            .ToList();
                         Console.WriteLine("subque1" + departId);
                         //departId = checkdeparts;
                         //foreach (var checkdepart in checkdeparts)
-
-
-                        SubjectCentralPolicyProvince test;
-                        //foreach (var checkdepart in checkdeparts)
-                        //{
-                        var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
+                        foreach (var checkdeparts in checkdepartsdata)
                         {
-                            Name = subcen.Name,
-                            CentralPolicyProvinceId = cenpro.Id,
-                            Type = "NoMaster",
-                            Status = "ใช้งานจริง",
-                            SubjectGroupId = SubjectGroupdata.Id,
-                        };
-                        //subjectId = SubjectCentralPolicyProvincedata.Id;
-                        //departId = checkdepart;
-                        Console.WriteLine("subque1" + subque.Id);
-                        Console.WriteLine("subque1" + subjectId);
 
-                        if (departId != checkdeparts)
-                        {
-                            Console.WriteLine("subque1" + departId + ":" + checkdeparts);
-                            departId = checkdeparts;
-                            var checkprovince = _context.ProvincialDepartmentProvince
-                           .Where(m => m.ProvincialDepartmentID == departId && m.ProvinceId == model.ProvinceId).FirstOrDefault();
-
-
-                            if (checkprovince != null)
+                            SubjectCentralPolicyProvince test;
+                            //foreach (var checkdepart in checkdeparts)
+                            //{
+                            var SubjectCentralPolicyProvincedata = new SubjectCentralPolicyProvince
                             {
-                                _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
-                                _context.SaveChanges();
-                                test = SubjectCentralPolicyProvincedata;
-                                subjectId = SubjectCentralPolicyProvincedata.Id;
-                                //SubjectCentralPolicyProvincedata = SubjectCentralPolicyProvincedata;
+                                Name = subcen.Name,
+                                CentralPolicyProvinceId = cenpro.Id,
+                                Type = "NoMaster",
+                                Status = "ใช้งานจริง",
+                                SubjectGroupId = SubjectGroupdata.Id,
+                            };
+                            //subjectId = SubjectCentralPolicyProvincedata.Id;
+                            //departId = checkdepart;
+                            Console.WriteLine("subque1" + subque.Id);
+                            Console.WriteLine("subque1" + subjectId);
 
-                                TestFunction(subque, departId, subjectId);
-                            }
-                        }
-                        else
-                        {
-                            departId = checkdeparts;
-                            var checkprovince = _context.ProvincialDepartmentProvince
-                           .Where(m => m.ProvincialDepartmentID == checkdeparts && m.ProvinceId == model.ProvinceId).FirstOrDefault();
-
-                            if (checkprovince != null)
+                            if (departId != checkdeparts)
                             {
+                                Console.WriteLine("subque1" + departId + ":" + checkdeparts);
+                                departId = checkdeparts;
+                                var checkprovince = _context.ProvincialDepartmentProvince
+                               .Where(m => m.ProvincialDepartmentID == departId && m.ProvinceId == model.ProvinceId).FirstOrDefault();
 
-                                //subjectId = SubjectCentralPolicyProvincedata.Id;
-                                Console.WriteLine("subque2", subque);
-                                TestFunction(subque, checkdeparts, subjectId);
+
+                                if (checkprovince != null)
+                                {
+                                    _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata);
+                                    _context.SaveChanges();
+                                    test = SubjectCentralPolicyProvincedata;
+                                    subjectId = SubjectCentralPolicyProvincedata.Id;
+                                    //SubjectCentralPolicyProvincedata = SubjectCentralPolicyProvincedata;
+
+                                    TestFunction(subque, departId, subjectId);
+                                }
                             }
-                            //TestFunction(SubjectCentralPolicyProvincedata, subque, departId, subjectId);
-                        }
+                            else
+                            {
+                                departId = checkdeparts;
+                                var checkprovince = _context.ProvincialDepartmentProvince
+                               .Where(m => m.ProvincialDepartmentID == checkdeparts && m.ProvinceId == model.ProvinceId).FirstOrDefault();
 
-                        //}
+                                if (checkprovince != null)
+                                {
+
+                                    //subjectId = SubjectCentralPolicyProvincedata.Id;
+                                    Console.WriteLine("subque2", subque);
+                                    TestFunction(subque, checkdeparts, subjectId);
+                                }
+                                //TestFunction(SubjectCentralPolicyProvincedata, subque, departId, subjectId);
+                            }
+
+                            //}
+                        }
                     }
                 }
 

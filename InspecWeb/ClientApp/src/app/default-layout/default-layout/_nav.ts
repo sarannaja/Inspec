@@ -143,7 +143,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         icon: 'fa-long-arrow-alt-right',
         url: '/user/2',
-        name: 'ผู้ดูแลแผนการตรวจราชการประจำปี',
+        name: 'ผู้ดูแลแผนการตรวจราชการ',
         ex_link: 'user',
         id: '2'
       },
