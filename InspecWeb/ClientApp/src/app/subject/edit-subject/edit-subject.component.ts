@@ -9,6 +9,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { IMyDate } from 'mydatepicker-th';
 import { DepartmentService } from 'src/app/services/department.service';
 import { SubquestionService } from 'src/app/services/subquestion.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-edit-subject',
@@ -41,8 +42,9 @@ export class EditSubjectComponent implements OnInit {
   datetime: any = []
   question: any = []
   departments: any = []
-  department: any = []
-  filterboxdepartments: any = []
+  department: any[] = []
+  departmentSelect: any[] = []
+  filterboxdepartments: any[] = []
   centralpolicyid: any
   boxcount = 0
   subquestionCentralPolicyProvincesId: any
@@ -204,7 +206,7 @@ export class EditSubjectComponent implements OnInit {
         }
       });
     });
-    console.log("TEST: ", test);
+    console.log("TEST: ", this.department);
   }
 
   getTimeCentralPolicy() {
@@ -247,7 +249,12 @@ export class EditSubjectComponent implements OnInit {
       centralPolicyDateId: new FormControl(null, [Validators.required])
     })
   }
-  openAddDepartmentModal(template: TemplateRef<any>, subquestionCentralPolicyProvincesId, inputbox) {
+  openAddDepartmentModal(
+    template: TemplateRef<any>, 
+    subquestionCentralPolicyProvincesId, 
+    inputbox, 
+    departmentSelected: any[] = []
+    ) {
     this.subquestionCentralPolicyProvincesId = subquestionCentralPolicyProvincesId
     console.log(this.subquestionCentralPolicyProvincesId);
     console.log((inputbox));
@@ -262,7 +269,16 @@ export class EditSubjectComponent implements OnInit {
           label: item.name
         }
       })
+      var data: any[] = departmentSelected.map(result => {
+        return result.provincialDepartment.id
+      })
+
+      this.departmentSelect = _.filter(this.department, (v) => !_.includes(
+        data, v.value
+      ))
       this.modalRef = this.modalService.show(template);
+      console.log("department", this.department, data);
+
     })
   }
   openAddModalQuestionsopen(template: TemplateRef<any>, inputbox) {

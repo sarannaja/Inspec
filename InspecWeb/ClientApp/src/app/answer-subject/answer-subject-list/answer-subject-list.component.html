@@ -5,8 +5,8 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="/centralpolicy">แผนตรวจราชการประจำปี</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบาย</a></li>
+      <li class="breadcrumb-item"><a href="/centralpolicy">แผนตรวจราชการ</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
       <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
   </nav>
@@ -27,7 +27,7 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>ชื่อประเด็นนโยบาย</th>
+            <th style="width: 50%;">ชื่อประเด็นนโยบายย่อย</th>
             <th>ระยะเวลา</th>
             <!-- <th>สถานะ</th> -->
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -36,7 +36,22 @@
         <tbody>
           <tr *ngFor="let item of resultsubjectlist; let i = index">
             <td>{{ i + 1 }}</td>
-            <td class="pointer" (click)="Subjectdetail(item.id)">{{ item.name }}</td> <!-- (click)="Subquestion()" -->
+            <!-- <td class="pointer" (click)="Subjectdetail(item.id)">{{ item.name }}</td>  -->
+            <!-- (click)="Subquestion()" -->
+            <td>
+              <span style="font-weight: 1000;">{{ item.name }}</span>
+              <br>
+              <label class="form-text">ลิ้งค์บุคคลภายนอก</label>
+              <!-- <a class="form-control">{{urllink}}{{item.id}}</a> -->
+              <div class="input-group">
+                <input class="col-10" type="text" value="{{urllink}}{{item.id}}" #userinput>
+                &nbsp;
+                &nbsp;
+                <i class="align-middle mr-2 fas fa-copy" style="font-size: large; cursor: pointer;"
+                  (click)="copyInputMessage(userinput)" title="คัดลอก"></i>
+
+              </div>
+            </td>
             <td>
               <div *ngFor="let item2 of item.subjectDateCentralPolicyProvinces;">
                 {{ item2.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
@@ -92,8 +107,8 @@
             </div> -->
         <div class="form-group">
           <label for="test" class="form-label">กำหนดระยะเวลา</label>
-          <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"   [items]="times" name="ํTime"
-            formControlName="centralpolicydateid"  >
+          <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"
+            [items]="times" name="ํTime" formControlName="centralpolicydateid">
           </ng-select>
         </div>
       </div>
