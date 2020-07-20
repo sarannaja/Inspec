@@ -39,6 +39,29 @@ namespace InspecWeb.Controllers
             return Ok(departments);
         }
 
+        //<!-- Get กรมตาม ID กระทรวง 20200720 -->
+        [HttpGet("departmentsdata/{id}")]
+        public IActionResult Getdepartmentsdata(long id)
+        {
+            var departmentdata = _context.Departments
+               .Where(x => x.MinistryId == id);
+
+            return Ok(departmentdata);
+        }
+        //<!-- END Get กรมตาม ID กระทรวง 20200720 -->
+
+        //<!-- Get กรมตาม ID กระทรวง 20200720 -->
+        [HttpGet("departmentsfirst/{id}")]
+        public IActionResult departmentsfirst(long id)
+        {
+            var departmentdata = _context.Departments
+               .Where(x => x.Id == id).FirstOrDefault(); 
+
+            return Ok(departmentdata);
+        }
+        //<!-- END Get กรมตาม ID กระทรวง 20200720 -->
+
+
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
@@ -87,5 +110,57 @@ namespace InspecWeb.Controllers
 
             return Ok(departments);
         }
+
+        [HttpPost]
+        public Department Post([FromForm] DepartmentRequest request)
+        {
+            Console.WriteLine ("department 1 :" + request.MinistryId);
+            var date = DateTime.Now;
+
+            var departmentdata = new Department
+            {
+                MinistryId = request.MinistryId,
+                Name = request.Name,         
+                CreatedAt = date
+            };
+
+            _context.Departments.Add(departmentdata);
+            _context.SaveChanges();
+            Console.WriteLine("department 2 :" + request.Name);
+            return departmentdata;
+        }
+
+    
+        [HttpPut("{id}")]
+        public void Put([FromForm] DepartmentRequest request,long id)
+        {
+            Console.WriteLine("department 1 :" + id +"///"+ request.Name);
+            var department = _context.Departments.Find(id);
+                department.Name = request.Name;
+      
+            _context.Entry(department).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public void Delete(long id)
+        {
+            var departmentdata = _context.Departments.Find(id);
+
+            _context.Departments.Remove(departmentdata);
+            _context.SaveChanges();
+        }
+
     }
+}
+
+
+public class DepartmentRequest
+{
+    public long Id { get; set; }
+    public long MinistryId { get; set; }
+
+    public string Name { get; set; }
 }

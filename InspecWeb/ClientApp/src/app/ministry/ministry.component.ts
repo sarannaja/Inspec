@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MinistryService } from '../services/ministry.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ministry',
@@ -20,6 +20,7 @@ export class MinistryComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private ministryservice: MinistryService,
+    private router:Router,
     public share: MinistryService) { }
   ngOnInit() {
 
@@ -103,6 +104,10 @@ export class MinistryComponent implements OnInit {
        
       })
     })
+  }
+
+  viewDepartment(id) {
+    this.router.navigate(['/ministry/'+id+'/department'])
   }
 
 }

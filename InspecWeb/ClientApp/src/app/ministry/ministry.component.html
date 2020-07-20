@@ -4,8 +4,9 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">กระทรวง</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item">จัดการฐานข้อมูล</li>
+      <li class="breadcrumb-item active">กระทรวง</li>
     </ol>
   </nav>
 </div>
@@ -33,7 +34,7 @@
           <tbody>
             <tr *ngFor="let item of resultministry; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{item.name}}</td>
+              <td class="pointer" (click)="viewDepartment(item.id)">{{item.name}}</td>
               <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
               <ng-template #elseBlock>
                 <td></td>

@@ -28,12 +28,33 @@ namespace InspecWeb.Controllers
             return Ministrydata;
         }
 
-        // GET api/values/5
+        //<!-- Get กระทรวง 20200720 -->
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(long id)
         {
-            return "value";
+            var ministrydata = _context.Ministries
+               .Where(x => x.Id == id).FirstOrDefault();
+
+            return Ok(ministrydata);
         }
+        //<!-- END Get กระทรวง 20200720-->
+
+        //<!-- Get  กระทรวง สำหรับหน่วยงานภูมิภาคไปใช้ 20200720 -->
+        [HttpGet("ministryfirst2/{id}")]
+        public IActionResult ministryfirst2(long id)
+        {
+            var departmentdata = _context.Departments
+               .Where(x => x.Id == id).FirstOrDefault();
+
+            var ministrydata = _context.Ministries
+              .Where(x => x.Id == departmentdata.MinistryId).FirstOrDefault();
+
+            return Ok(ministrydata);
+
+           
+        }
+        //<!-- END Get กระทรวง สำหรับหน่วยงานภูมิภาคไปใช้ 20200720 -->
+
 
         // POST api/values
         [HttpPost]

@@ -1,0 +1,180 @@
+<div class="header">
+    <h1 class="header-title">
+        ระบบตรวจราชการอิเล็กทรอนิกส์
+    </h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"> <a href="#">จัดการฐานข้อมูล</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/ministry']">กระทรวง</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/ministry/'+departmentname.id+'/department']">กรม</a></li>
+            <li class="breadcrumb-item active">หน่วยงานส่วนภูมิภาค</li>
+        </ol>
+    </nav>
+</div>
+
+<form class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h4 class="card-title">กระทรวง : {{ministryname.name}}</h4> 
+                <h4 class="card-title">กรม : {{departmentname.name}}</h4> 
+                <div class="float-right">
+                    <button class="btn btn-primary" (click)="openModal(modalDepartment,departmentname.id)"
+                      style="margin-top: -60px;">เพิ่มข้อมูล</button>
+                </div>             
+            </div> 
+           <br>
+            <div class="card-body">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                    [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ชื่อหน่วยงานส่วนภูมิภาค</th>
+                            <th>จังหวัดภายใต้</th>
+                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resultprovincialdepartment; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{item.id + item.name }}</td>
+                            <td>
+                              <span (click)="openDetailModal(modaldetailDepartment,item.id, item.name)" class="pointer">
+                              <i class="align-middle mr-2 fas fa-fw fa-search"></i>
+                              ดูรายละเอียด
+                              </span>
+                            </td>
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                  (click)="editModal(modaleditDepartment, item.id,item.name)">
+                                </i>
+                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                                  (click)="deleteModal(modaldeleteDepartment, item.id)">
+                                </i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="Form" (ngSubmit)="storeprovincialDepartment(Form.value)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการหน่วยงานส่วนภูมิภาค</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body m-3">
+            <div class="form-group">
+                <label for="Name" class="form-label">ชื่อ</label>
+                <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
+            </div> 
+            
+            <div class="form-group">
+              <label>จังหวัด*</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="Province"   
+              [items]="selectdataprovince" [multiple]="true">
+              </ng-select>
+            </div>
+        </div>
+
+       
+
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+
+  <!-- BEGIN primary modal -->
+<ng-template #modaleditDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="Form" (ngSubmit)="updateprovincialDepartment(Form.value)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการกรม</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body m-3">
+            <div class="form-group">
+                <label for="Name" class="form-label">ชื่อ</label>
+                <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
+            </div> 
+            
+            <div class="form-group">
+              <label>จังหวัด*</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="Province"   
+              [items]="selectdataprovince" [(ngModel)]="selectedProvince" [multiple]="true">
+              </ng-select>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
+
+  <!-- BEGIN primary modal -->
+<ng-template #modaldeleteDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+      <i class="fa fa-info-circle delete-icon"></i>
+      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+        ลบข้อมูล
+      </p>
+      <p style="font-size: medium; color: #545454;">
+        คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+      </p>
+      <button type="button" class="btn btn-primary btnMargin" (click)="deleteprovincialDepartment(departmentId)">
+        ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+        ไม่ใช่
+      </button>
+    </div>
+  </ng-template>
+  <!-- END primary modal -->
+
+    <!-- BEGIN primary modal -->
+<ng-template #modaldetailDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body">
+    <div class="col-md-12">
+        <div class="table-responsive" >
+            <table class="table table-borderless">
+                <tbody>
+                    <tr *ngFor="let item of resultdetail">
+                        <td>ชื่อจังหวัด :</td>
+                        <td class="text-right">{{item.name}}</td>
+                    </tr>
+                    <!-- <hr> -->
+                   
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+</ng-template>
+<!-- END primary modal -->
+
+
+  
