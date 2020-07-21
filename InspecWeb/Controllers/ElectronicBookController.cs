@@ -149,6 +149,14 @@ namespace InspecWeb.Controllers
 
             var ebookInvite = _context.ElectronicBookInvites
             .Include(x => x.User)
+            .ThenInclude(x => x.Ministries)
+
+            .Include(x => x.User)
+            .ThenInclude(x => x.Departments)
+
+            .Include(x => x.User)
+            .ThenInclude(x => x.ProvincialDepartments)
+
             .Where(x => x.ElectronicBookId == electID)
             .ToList();
 
@@ -1132,7 +1140,7 @@ namespace InspecWeb.Controllers
         {
             var test1 = model.Detail;
             //var test2 = model.UserId;
-
+            long ebookId;
             System.Console.WriteLine("Detail: " + test1);
             //System.Console.WriteLine("UserId: " + test2);
             var ElectronicBookdata = new ElectronicBook
@@ -1150,6 +1158,8 @@ namespace InspecWeb.Controllers
             _context.ElectronicBooks.Add(ElectronicBookdata);
             _context.SaveChanges();
 
+            ebookId = ElectronicBookdata.Id;
+
             foreach (var item in model.CentralPolicyEventId)
             {
                 var ElectronicBookgroupdata = new ElectronicBookGroup
@@ -1161,54 +1171,58 @@ namespace InspecWeb.Controllers
                 _context.SaveChanges();
             }
 
-            System.Console.WriteLine("Start Upload");
+            // System.Console.WriteLine("Start Upload");
 
-            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
-            {
-                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
-            }
+            // if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            // {
+            //     Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            // }
 
-            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
-            // path ที่เก็บไฟล์
-            var filePath = _environment.WebRootPath + "//Uploads//";
+            // //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // // path ที่เก็บไฟล์
+            // var filePath = _environment.WebRootPath + "//Uploads//";
+            // long ebookFileId = 0;
 
-            if (model.files != null)
-            {
-                System.Console.WriteLine("Start Upload 2");
-                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-                //foreach (var formFile in data.files)
-                {
-                    System.Console.WriteLine("Start Upload 3");
-                    var random = RandomString(10);
-                    string filePath2 = formFile.Value.FileName;
-                    string filename = Path.GetFileName(filePath2);
-                    string ext = Path.GetExtension(filename);
+            // if (model.files != null)
+            // {
+            //     System.Console.WriteLine("Start Upload 2");
+            //     foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            //     //foreach (var formFile in data.files)
+            //     {
+            //         System.Console.WriteLine("Start Upload 3");
+            //         var random = RandomString(10);
+            //         string filePath2 = formFile.Value.FileName;
+            //         string filename = Path.GetFileName(filePath2);
+            //         string ext = Path.GetExtension(filename);
 
-                    if (formFile.Value.Length > 0)
-                    {
-                        System.Console.WriteLine("Start Upload 4");
-                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
-                        {
-                            await formFile.Value.CopyToAsync(stream);
-                        }
-                        System.Console.WriteLine("Start Upload 4.1");
-                        var ElectronicBookFile = new ElectronicBookFile
-                        {
-                            ElectronicBookId = ElectronicBookdata.Id,
-                            Name = random + filename,
-                            Description = model.Description,
-                            Type = model.Type
-                        };
-                        System.Console.WriteLine("Start Upload 4.2");
-                        _context.ElectronicBookFiles.Add(ElectronicBookFile);
-                        _context.SaveChanges();
-                        System.Console.WriteLine("Start Upload 4.3");
-                    }
-                    System.Console.WriteLine("Start Upload 5");
-                }
-            }
-            return Ok(new { status = true });
+            //         if (formFile.Value.Length > 0)
+            //         {
+            //             System.Console.WriteLine("Start Upload 4");
+            //             // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+            //             using (var stream = System.IO.File.Create(filePath + random + filename))
+            //             {
+            //                 await formFile.Value.CopyToAsync(stream);
+            //             }
+            //             System.Console.WriteLine("Start Upload 4.1");
+            //             var ElectronicBookFile = new ElectronicBookFile
+            //             {
+            //                 ElectronicBookId = ElectronicBookdata.Id,
+            //                 Name = random + filename,
+            //                 // Description = model.fileDescription,
+            //                 // Type = model.Type
+            //             };
+            //             System.Console.WriteLine("Start Upload 4.2");
+            //             _context.ElectronicBookFiles.Add(ElectronicBookFile);
+            //             _context.SaveChanges();
+            //             ebookFileId = ElectronicBookFile.Id;
+            //             System.Console.WriteLine("Start Upload 4.3");
+            //         }
+            //         System.Console.WriteLine("Start Upload 5");
+            //     }
+            //     _context.SaveChanges();
+            // }
+            // _context.SaveChanges();
+            return Ok(new { eBookID = ebookId });
         }
 
         [HttpGet("getDetailEbook/{eBookId}")]
@@ -1235,6 +1249,10 @@ namespace InspecWeb.Controllers
                 var invitedPeople = _context.CentralPolicyUsers
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
+                .Include(x => x.User)
+                .ThenInclude(x => x.ProvincialDepartments)
+                .Include(x => x.User)
+                .ThenInclude(x => x.Ministries)
                 .Include(x => x.CentralPolicy)
                 .Include(x => x.InspectionPlanEvent)
                 .Where(x => x.InspectionPlanEventId == id)
@@ -1304,25 +1322,25 @@ namespace InspecWeb.Controllers
             _context.Entry(ElectronicBookStatus).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new {status = true});
+            return Ok(new { status = true });
         }
 
         [HttpPost("sendElectronicBookToOtherProvince")]
         public IActionResult PostElectronicBookToOtherProvince(ElectronicBookViewModel model)
         {
-                var ElectronicBook = new ElectronicBookOtherAccept
-                {
-                    ElectronicBookAcceptId = model.electAcceptId,
-                    ProvincialDepartmentId = model.provincialDepartmentId,
-                    CreateBy = model.userCreate,
-                    CreatedAt = DateTime.Now,
-                    Description = model.Description,
-                    Status = "ยังไม่ดำเนินการ"
-                };
+            var ElectronicBook = new ElectronicBookOtherAccept
+            {
+                ElectronicBookAcceptId = model.electAcceptId,
+                ProvincialDepartmentId = model.provincialDepartmentId,
+                CreateBy = model.userCreate,
+                CreatedAt = DateTime.Now,
+                Description = model.Description,
+                Status = "ยังไม่ดำเนินการ"
+            };
 
-                _context.ElectronicBookOtherAccepts.Add(ElectronicBook);
-                _context.SaveChanges();
-            return Ok(new {status = true});
+            _context.ElectronicBookOtherAccepts.Add(ElectronicBook);
+            _context.SaveChanges();
+            return Ok(new { status = true });
         }
 
         [HttpGet("electronicbookprovince/{provinceId}")]
@@ -1545,5 +1563,154 @@ namespace InspecWeb.Controllers
 
             System.Console.WriteLine("Finish Update Other Department");
         }
+
+        [HttpPost("imageDescription/{electID}")]
+        public async Task<IActionResult> imageDescription(inputfile model, long electID)
+        {
+            System.Console.WriteLine("ID: " + model.fileDescription2);
+            var ebookData = _context.ElectronicBookFiles
+            .Where(x => x.ElectronicBookId == electID)
+            .FirstOrDefault();
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+            foreach (var formFile in model.files2.Select((value, index) => new { Value = value, Index = index }))
+            //foreach (var formFile in data.files)
+            {
+
+                System.Console.WriteLine("Start Upload 3");
+                var random = RandomString(10);
+                string filePath2 = formFile.Value.FileName;
+                string filename = Path.GetFileName(filePath2);
+                string ext = Path.GetExtension(filename);
+
+                if (formFile.Value.Length > 0)
+                {
+                    System.Console.WriteLine("Start Upload 4");
+                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    {
+                        await formFile.Value.CopyToAsync(stream);
+                    }
+
+                    System.Console.WriteLine("Start Upload 4.1");
+                    var ElectronicBookProvinceSignature = new ElectronicBookFile
+                    {
+                        //CentralPolicyId = CentralPolicyProvincedata.CentralPolicyId,
+                        ElectronicBookId = electID,
+                        Name = random + filename,
+                        Description = model.fileDescription2
+                    };
+
+                    System.Console.WriteLine("Start Upload 4.2");
+                    _context.ElectronicBookFiles.Add(ElectronicBookProvinceSignature);
+                    _context.SaveChanges();
+
+                    System.Console.WriteLine("Start Upload 4.3");
+                }
+
+                System.Console.WriteLine("Start Upload 5");
+            }
+            return Ok(new { Status = true });
+        }
+        [HttpPost("CreateElectronicBook2")]
+        public async Task<IActionResult> CreateElectronicBook2([FromForm] ElectronicBookViewModel model)
+        {
+            var test1 = model.Detail;
+            //var test2 = model.UserId;
+            long ebookId;
+            System.Console.WriteLine("Detail: " + test1);
+            //System.Console.WriteLine("UserId: " + test2);
+            var ElectronicBookdata = new ElectronicBook
+            {
+                Detail = model.Detail,
+                Problem = model.Problem,
+                Suggestion = model.Suggestion,
+                CreatedBy = model.id,
+                Status = model.Status,
+                StartDate = model.startDate,
+                EndDate = model.endDate,
+            };
+            System.Console.WriteLine("1");
+
+            _context.ElectronicBooks.Add(ElectronicBookdata);
+            _context.SaveChanges();
+
+            ebookId = ElectronicBookdata.Id;
+
+            foreach (var item in model.CentralPolicyEventId)
+            {
+                var ElectronicBookgroupdata = new ElectronicBookGroup
+                {
+                    ElectronicBookId = ElectronicBookdata.Id,
+                    CentralPolicyEventId = item
+                };
+                _context.ElectronicBookGroups.Add(ElectronicBookgroupdata);
+                _context.SaveChanges();
+            }
+
+            System.Console.WriteLine("Start Upload");
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+            long ebookFileId = 0;
+
+            if (model.files != null)
+            {
+                System.Console.WriteLine("Start Upload 2");
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var ElectronicBookFile = new ElectronicBookFile
+                        {
+                            ElectronicBookId = ElectronicBookdata.Id,
+                            Name = random + filename,
+                            Description = formFile.Value.FileName,
+                            // Type = model.Type
+                        };
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.ElectronicBookFiles.Add(ElectronicBookFile);
+                        _context.SaveChanges();
+                        ebookFileId = ElectronicBookFile.Id;
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+                _context.SaveChanges();
+            }
+            _context.SaveChanges();
+            return Ok(new { eBookID = ebookId });
+        }
+
     }
+
+    
 }

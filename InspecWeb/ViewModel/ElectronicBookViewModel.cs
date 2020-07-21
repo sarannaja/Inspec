@@ -79,13 +79,16 @@ namespace InspecWeb.ViewModel
 
         public long electAcceptId { get; set; }
         public long provincialDepartmentId { get; set; }
+        public string[] fileDescription { get; set; }
+
+        public inputfile[] inputfile { get; set; }
     }
 
-    //public class Inputelectronicbook
-    //{
-    //    public long ProvinceId { get; set; }
-    //    public long CentralPolicyId { get; set; }
-    //}
+    public class inputfile
+    {
+        public List<IFormFile> files2 { get; set; }
+        public string fileDescription2 { get; set; }
+    }
 
     //public class UserPeopleId
     //{
