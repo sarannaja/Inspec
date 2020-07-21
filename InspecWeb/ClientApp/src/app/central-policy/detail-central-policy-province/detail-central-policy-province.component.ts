@@ -147,7 +147,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
   planId: any;
   userProvince: any[] = []
+  listfiles: any = [];
+  fileData: any = [{ ebookFile: '', fileDescription: '' }];
 
+
+  get f() { return this.form.controls }
+  get s() { return this.f.fileData as FormArray }
 
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
@@ -215,6 +220,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       signatureFiles: [null],
       description: new FormControl(null, [Validators.required]),
       fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
+      fileData: new FormArray([]),
     })
 
     this.EditForm = this.fb.group({
@@ -981,14 +987,24 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
 
   uploadFile2(event) {
-    this.fileStatus2 = true;
-    const file = (event.target as HTMLInputElement).files;
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        ebookFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.form.value);
+    console.log("eiei: ", this.s.controls);
+
 
     this.form.patchValue({
-      signatureFiles: file
+      files: this.listfiles
     });
-    console.log("fff:", this.form.value.signatureFiles)
-    this.form.get('files').updateValueAndValidity()
+
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
   }
 
   getCalendarFile() {
