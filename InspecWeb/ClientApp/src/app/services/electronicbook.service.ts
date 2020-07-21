@@ -574,10 +574,15 @@ export class ElectronicbookService {
     console.log("Suggestion", formData.getAll("Suggestion"));
     console.log("id", formData.getAll("id"));
     console.log("Status", formData.getAll("Status"));
-
+    function getFileExtension2(filename) {
+      return filename.split('.').pop();
+    }
     if (value.fileData != null) {
       for (var iii = 0; iii < value.fileData.length; iii++) {
-        formData.append("files", value.fileData[iii].ebookFile,value.fileData[iii].fileDescription);
+        var filename: string = value.fileData[iii].ebookFile.name;
+        console.log('.ebookFile.name', value.fileData[iii].ebookFile.name);
+        console.log('getFileExtension2', getFileExtension2(filename));
+        formData.append("files", value.fileData[iii].ebookFile, `${value.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
         // formData.append("fileDescription", value.fileData[iii].fileDescription);
       }
     }
