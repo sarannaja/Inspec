@@ -33,9 +33,9 @@
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
               id="centralPolicy{{i}}" data-toggle="collapse" [attr.data-target]="'#centralPolicys' + i"
               aria-expanded="false" aria-controls="centralPolicys"></i>
-            <button *ngIf="electronicBookData.electronicBook.provinceStatus == null" type="button"
+            <!-- <button *ngIf="electronicBookData.electronicBook.provinceStatus == null" type="button"
               class="btn btn-outline-success btn-sm" style="margin-left: 20px;"
-              (click)="openModal(addSuggestionModal, item.centralPolicyEvent.id)">เพิ่มคำแนะนำ</button>
+              (click)="openModal(addSuggestionModal, item.centralPolicyEvent.id)">เพิ่มคำแนะนำ</button> -->
             <div class="col-12 collapse" id="centralPolicys{{i}}" style="margin-left: 5px;">
               <div>
                 <label>- วันที่: {{item.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'year'}} ถึง
@@ -78,7 +78,7 @@
           <u>ผู้ตรวจราชการกระทรวง:</u>
           <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
             <label *ngIf="items.user.role_id == 6">- {{items.user.prefix}} {{items.user.name}} -
-              {{items.user.departments.name}}</label>
+              {{items.user.ministries.name}}</label>
           </div>
         </div>
         <div *ngIf="electronicBookData.ebookInvite.length == 0">
@@ -92,7 +92,7 @@
           <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
           <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
             <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-              {{items.user.departments.name}}</label>
+              {{items.user.side}}</label>
           </div>
         </div>
 
@@ -106,7 +106,7 @@
               <div *ngIf="items.user.role_id == 6" class="row" style="margin-left: 5px; margin-top: 5px;">
                 <label *ngIf="items.user.role_id == 6" style="font-size: medium;">- {{items.user.prefix}}
                   {{items.user.name}} -
-                  {{items.user.departments.name}}</label>
+                  {{items.user.ministries.name}}</label>
                 <div *ngIf="items.status == 'ลงความเห็นแล้ว' && items.user.role_id == 6">
                   <label style="color: #14A3B8; font-weight: bold; margin-left: 10px;">{{items.status}}</label>
                   <i class=" fas fa-check-circle" style="margin-left: 5px; color: #14A3B8; font-size: larger;"></i>
@@ -203,7 +203,7 @@
           <div class="collapse" id="peopleInvites">
             <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
               <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-                {{items.user.departments.name}}</label>
+                {{items.user.side}}</label>
             </div>
           </div>
         </div>
@@ -437,7 +437,7 @@
             ส่งสมุดตรวจ
           </p>
           <p style="font-size: medium; color: #545454;">
-            คุณต้องการส่งสมุดตรวจนี้ไปที่ส่วนจังหวัดใช่หรือไม่ ?
+            คุณต้องการส่งสมุดตรวจให้หน่วยรับตรวจใช่หรือไม่ ?
           </p>
           <button type="button" class="btn btn-primary btnMargin" (click)="sendToProvince(electId)">
             ใช่

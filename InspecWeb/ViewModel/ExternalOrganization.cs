@@ -216,5 +216,11 @@ namespace InspecWeb.ViewModel
 
     }
 
+    public class ProvinceRegion
+    {
+        public string name { get; set; }
+        public string region { get; set; }
+    }
+
 
 }

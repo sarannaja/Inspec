@@ -75,7 +75,7 @@
           <u>ผู้ตรวจราชการกระทรวง:</u>
           <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
             <label *ngIf="items.user.role_id == 6">- {{items.user.prefix}} {{items.user.name}} -
-              {{items.user.departments.name}}</label>
+              {{items.user.ministries.name}}</label>
           </div>
         </div>
         <div *ngIf="electronicBookData.ebookInvite.length == 0">
@@ -89,7 +89,7 @@
           <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
           <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
             <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-              {{items.user.departments.name}}</label>
+              {{items.user.side}}</label>
           </div>
         </div>
 
@@ -103,7 +103,7 @@
               <div *ngIf="items.user.role_id == 6" class="row" style="margin-left: 5px; margin-top: 5px;">
                 <label *ngIf="items.user.role_id == 6" style="font-size: medium;">- {{items.user.prefix}}
                   {{items.user.name}} -
-                  {{items.user.departments.name}}</label>
+                  {{items.user.ministries.name}}</label>
 
                 <div *ngIf="items.status == 'ลงความเห็นแล้ว' && items.user.role_id == 6">
                   <label style="color: #14A3B8; font-weight: bold; margin-left: 10px;">{{items.status}}</label>
@@ -175,7 +175,7 @@
           <div class="collapse" id="peopleInvites">
             <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
               <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-                {{items.user.departments.name}}</label>
+                {{items.user.side}}</label>
             </div>
           </div>
         </div>

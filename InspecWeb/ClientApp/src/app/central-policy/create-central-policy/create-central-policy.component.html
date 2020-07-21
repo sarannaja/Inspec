@@ -124,7 +124,7 @@
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label>พื้นที่การตรวจติดตาม {{selectedProvince.length}} </label>
+              <label>พื้นที่การตรวจติดตาม {{selectedProvince.length}} จังหวัด</label>
               <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true"
                 [items]="selectdataprovince" name="ProvinceId" formControlName="ProvinceId">
               </ng-select> -->
@@ -138,8 +138,8 @@
                 -->
                 <ng-template ng-header-tmp>
                   <div>
-                    <button class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
-                    <button class="btn btn-link" (click)="onClearAll()">ล้าง</button>
+                    <button type="button" class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
+                    <button type="button" class="btn btn-link" (click)="onClearAll()">ล้าง</button>
                   </div>
 
                 </ng-template>
@@ -156,10 +156,10 @@
                 </ng-template>
               </ng-select>
               <!-- <app-select-component></app-select-component> -->
-              <div>
+              <!-- <div>
                 <button type="button" class="btn btn-default" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
                 <button type="button" class="btn btn-default" (click)="onClearAll()">ล้าง</button>
-              </div>
+              </div> -->
             </div>
           </div>
 
