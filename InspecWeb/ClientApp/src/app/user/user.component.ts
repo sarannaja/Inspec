@@ -228,16 +228,11 @@ export class UserComponent implements OnInit {
   }
 
   getDataRegions(event) {
-
-    this.regionService.getregiondataforuser(event.value).subscribe(res => {
-      console.log("fiscalYearRelations: ", res);
-
+    this.regionService.getregiondataforuser(event.value).subscribe(res => {    
       var uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
       );
-      console.log("uniqueRegions: ", uniqueRegion);
-
       this.selectdataregion = uniqueRegion.map((item, index) => {
         return {
           value: item.region.id,

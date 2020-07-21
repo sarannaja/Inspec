@@ -39,7 +39,7 @@
                     <tbody>
                         <tr *ngFor="let item of resultprovincialdepartment; let i = index">
                             <td>{{ i + 1 }}</td>
-                            <td>{{item.id + item.name }}</td>
+                            <td>{{item.name }}</td>
                             <td>
                               <span (click)="openDetailModal(modaldetailDepartment,item.id, item.name)" class="pointer">
                               <i class="align-middle mr-2 fas fa-fw fa-search"></i>
@@ -158,19 +158,19 @@
 <ng-template #modaldetailDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-body">
     <div class="col-md-12">
-        <div class="table-responsive" >
-            <table class="table table-borderless">
-                <tbody>
-                    <tr *ngFor="let item of resultdetail">
-                        <td>ชื่อจังหวัด :</td>
-                        <td class="text-right">{{item.name}}</td>
-                    </tr>
-                    <!-- <hr> -->
-                   
-                </tbody>
-            </table>
+      
+          <div class="modal-header">
+            <h5 class="modal-title">จังหวัดภายใต้หน่วยงานส่วนภูมิภาค</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <span *ngFor="let item of resultdetail;let i = index">
+              {{item.name}}
+              <span *ngIf="(i+1) != resultdetail.length">,</span>
+            </span>
         </div>
-
     </div>
 </div>
 </ng-template>

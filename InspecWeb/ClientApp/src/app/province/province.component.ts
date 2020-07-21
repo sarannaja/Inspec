@@ -20,12 +20,16 @@ export class ProvinceComponent implements OnInit {
   delid: any
   name: any
   link: any
+  // Provincegroup:any;
+  // Sector:any;
   modalRef: BsModalRef;
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
   dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
+  selectdatasector: Array<any>=[];
+  selectdataprovincesgroup: Array<any>=[];
   constructor(
     private modalService: BsModalService,
     private fb: FormBuilder,
@@ -38,85 +42,45 @@ export class ProvinceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("in");
-    // this.onSuccess()
-    // this.snotifyService.onSuccess("test")
-    this.spinner.show();
- 
-    // setTimeout(() => {
-    //   /** spinner ends after 5 seconds */
-    //   this.spinner.hide();
-    // }, 5000);
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [4],
-          orderable: false
-        }
-      ]
-
-    };
-
+    
+    this.spinner.show();  
+    this.getDataProvincesGroup();
+    this.getDataSector();
+    this.getdata();
     this.Form = this.fb.group({
-      "provincename": new FormControl(null, [Validators.required]),
-      "provincelink": new FormControl(null, [Validators.required])
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+      provincename: new FormControl(null, [Validators.required]),
+      provincelink: new FormControl(null, [Validators.required]),
+      Sector: new FormControl(null, [Validators.required]),
+      Provincegroup: new FormControl(null, [Validators.required]),
     })
 
-    //แก้ไข
-
-
-    this.provinceservice.getprovincedata()
-      .subscribe(result => {
-        this.spinner.hide();
-        this.resultprovince = result
-        this.loading = true
-        console.log(this.resultprovince);
-      })
-    this.Form.patchValue({
-      // test: "testest"
+  }
+  getdata(){
+    this.provinceservice.getprovincedata().subscribe(result => {
+    //  console.log('data',result);
+      this.spinner.hide();
+      this.resultprovince = result
+      this.loading = true;
     })
   }
 
-  // onSuccess() {
-  //   this.snotifyService2.success('ssssss', 'ssss', this.getConfig());
-  // }
-  // style = 'material';
-  // title = 'Snotify title!';
-  // body = 'Lorem ipsum dolor sit amet!';
-  // timeout = 3000;
-  // position: SnotifyPosition = SnotifyPosition.rightBottom;
-  // progressBar = true;
-  // closeClick = true;
-  // newTop = true;
-  // filterDuplicates = false;
-  // backdrop = -1;
-  // dockMax = 8;
-  // blockMax = 6;
-  // pauseHover = true;
-  // titleMaxLength = 15;
-  // bodyMaxLength = 80;
-  // getConfig(): SnotifyToastConfig {
-  //   this.snotifyService2.setDefaults({
-  //     global: {
-  //       newOnTop: this.newTop,
-  //       maxAtPosition: this.blockMax,
-  //       maxOnScreen: this.dockMax,
-  //       // filterDuplicates: this.filterDuplicates
-  //     }
-  //   });
-  //   return {
-  //     bodyMaxLength: this.bodyMaxLength,
-  //     titleMaxLength: this.titleMaxLength,
-  //     backdrop: this.backdrop,
-  //     position: this.position,
-  //     timeout: this.timeout,
-  //     showProgressBar: this.progressBar,
-  //     closeOnClick: this.closeClick,
-  //     pauseOnHover: this.pauseHover
-  //   };
-  // }
+  getDataSector() {
+    this.provinceservice.getsectordata()
+      .subscribe(result => {
+        this.selectdatasector = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      })
+  }
+
+  getDataProvincesGroup() {
+    this.provinceservice.getprovincegroupdata()
+      .subscribe(result => {
+        this.selectdataprovincesgroup = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      })
+  }
 
   District(id) {
     this.router.navigate(['/district', id])
@@ -126,75 +90,56 @@ export class ProvinceComponent implements OnInit {
     this.delid = id;
     this.name = name;
     this.link = link
-    console.log(this.delid);
-    console.log(this.name);
-
     this.modalRef = this.modalService.show(template);
   }
-  forbiddenNames(control: FormControl): { [s: string]: boolean } {
-    if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
-      return { 'forbiddenNames': true };
-    }
-    return null;
-  }
+ 
 
   storeProvince(value) {
     this.provinceservice.addProvince(value).subscribe(response => {
-
-      console.log(value);
-
+      this.spinner.show();  
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
-
-      this.provinceservice.getprovincedata().subscribe(result => {
-        this.resultprovince = result
-        this.loading = true
-        console.log(this.resultprovince);
-      })
+      this.getdata();
     })
   }
+
   deleteProvince(value) {
     this.provinceservice.deleteProvince(value).subscribe(response => {
-      console.log(value);
+      //console.log(value);
+      this.spinner.show();  
       this.modalRef.hide()
       this.loading = false
-      this.provinceservice.getprovincedata().subscribe(result => {
-        this.resultprovince = result
-        this.loading = true
-        console.log(this.resultprovince);
-      })
+      this.getdata();
     })
   }
-  editModal(template: TemplateRef<any>, id, name, link) {
+
+  editModal(template: TemplateRef<any>, id, name, link,Sector,Provincegroup) {
     this.delid = id;
-    this.name = name;
-    this.link = link
-    console.log(this.delid);
-    console.log(this.name);
+   // console.log('Sector : ' + JSON.stringify(Sector));
+    this.EditForm = this.fb.group({
+      provincename: new FormControl(null, [Validators.required]),
+      provincelink: new FormControl(null, [Validators.required]),
+      Sector: new FormControl(null, [Validators.required]),
+      Provincegroup: new FormControl(null, [Validators.required]),
+    })
+
+    this.EditForm.patchValue({
+      provincename: name,
+      provincelink: link,
+      Provincegroup:Provincegroup,
+      Sector:Sector
+    })
 
     this.modalRef = this.modalService.show(template);
-    this.EditForm = this.fb.group({
-      "provincename": new FormControl(null, [Validators.required]),
-      "provincelink": new FormControl(null, [Validators.required])
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
-    })
-    this.EditForm.patchValue({
-      "provincename": name,
-      "provincelink": link
-    })
   }
   editProvince(value, delid) {
-    console.clear();
-    console.log("kkkk" + JSON.stringify(value));
     this.provinceservice.editProvince(value, delid).subscribe(response => {
+      this.spinner.show();  
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
-      this.provinceservice.getprovincedata().subscribe(result => {
-        this.resultprovince = result
-        this.loading = true
-      })
+      this.getdata();
     })
   }
 }
