@@ -25,5 +25,11 @@ namespace InspecWeb.Models
         [Required]
         [Description("ชื่อไฟล์")]
         public string Name { get; set; }
+
+        [Description("ประเภท")]
+        public string Type { get; set; }
+
+        [Description("คำอธิบายรูปภาพ")]
+        public string Description { get; set; }
     }
 }
