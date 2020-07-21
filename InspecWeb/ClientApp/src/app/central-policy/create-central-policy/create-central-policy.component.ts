@@ -46,6 +46,9 @@ export class CreateCentralPolicyComponent implements OnInit {
   userid: string
   province: any[] = [];
   selectedProvince = [];
+  fileStatus: any;
+  fileData: any = [{ CentralpolicyFile: '', fileDescription: '' }];
+  listfiles: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +59,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     private provinceservice: ProvinceService,
     private authorize: AuthorizeService,
     private external: ExternalOrganizationService
-    ) {
+  ) {
     this.form = this.fb.group({
       name: [''],
       files: [null]
@@ -84,7 +87,8 @@ export class CreateCentralPolicyComponent implements OnInit {
       input: new FormArray([]),
       inputdate: new FormArray([]),
       Class: new FormControl("แผนการตรวจประจำปี", [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+      fileData: new FormArray([]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
     })
     this.t.push(this.fb.group({
       date: '',
@@ -125,16 +129,38 @@ export class CreateCentralPolicyComponent implements OnInit {
 
   }
   uploadFile(event) {
+    this.fileStatus = true;
     const file = (event.target as HTMLInputElement).files;
     this.form.patchValue({
       files: file
     });
+    console.log("fff:", this.form.value.files)
     this.form.get('files').updateValueAndValidity()
 
   }
+  uploadFile2(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        CentralpolicyFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.Form.value);
+    console.log("eiei: ", this.s.controls);
+
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
+  }
   storeCentralpolicy(value) {
     console.log(value);
-    // alert(JSON.stringify(value))
+    // // alert(JSON.stringify(value))
     this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
       .subscribe(response => {
         console.log(response);
@@ -154,6 +180,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   get f() { return this.Form.controls }
   get t() { return this.f.input as FormArray }
   get d() { return this.f.inputdate as FormArray }
+  get s() { return this.f.fileData as FormArray }
 
   append() {
     this.t.push(this.fb.group({

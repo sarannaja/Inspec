@@ -550,7 +550,7 @@ namespace InspecWeb.Controllers
 
                             System.Console.WriteLine("Start Upload 4");
                             // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                            using (var stream = System.IO.File.Create(filePath + random + filename))
+                            using (var stream = System.IO.File.Create(filePath + random + ext))
                             {
                                 await formFile.Value.CopyToAsync(stream);
                             }
@@ -563,7 +563,8 @@ namespace InspecWeb.Controllers
                             {
 
                                 SubjectCentralPolicyProvinceId = id,
-                                Name = random + filename,
+                                Name = random + ext,
+                                Description = Path.GetFileNameWithoutExtension(filePath2),
                             };
 
                             System.Console.WriteLine("Start Upload 4.2");
