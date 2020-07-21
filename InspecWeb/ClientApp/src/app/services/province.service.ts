@@ -18,23 +18,32 @@ export class ProvinceService {
   getprovincedata():Observable<Province[]> {
     return this.http.get<Province[]>(this.url)
   }
+  getsectordata():Observable<any[]> {
+    return this.http.get<any[]>(this.url+'getsectordata')
+  }
+  getprovincegroupdata():Observable<any[]> {
+    return this.http.get<any[]>(this.url+'getprovincegroupdata')
+  }
   addProvince(provinceData) {
+   // alert(2 +":" +provinceData.Provincegroup);
     const formData = new FormData();
-    formData.append('name', provinceData.provincename);
-    formData.append('link', provinceData.provincelink)
-    console.log('FORMDATA: ' + formData.get("name"));
+    formData.append('Name', provinceData.provincename);
+    formData.append('Link', provinceData.provincelink)
+    formData.append('SectorId', provinceData.Sector);
+    formData.append('ProvincesGroupId', provinceData.Provincegroup);
+
     return this.http.post(this.url, formData);
   }
   deleteProvince(id) {
     return this.http.delete(this.url + id);
   }
   editProvince(provinceData,id) {
-    console.log(provinceData);
-
+    //console.log(provinceData);
     const formData = new FormData();
     formData.append('name', provinceData.provincename);
     formData.append('link', provinceData.provincelink)
-    console.log('FORMDATA: ' + JSON.stringify(formData));
+    formData.append('SectorId', provinceData.Sector);
+    formData.append('ProvincesGroupId', provinceData.Provincegroup);
     return this.http.put(this.url+id, formData);
   }
   getRegionMock(){
@@ -237,12 +246,12 @@ export class ProvinceService {
     
 
     ]
-}
+  }
 }
 export interface Province {
   id:        number;
   name:      string;
   link:      string;
   createdAt: null;
-  regoin?: string;
+  regoin?:   string;
 }
