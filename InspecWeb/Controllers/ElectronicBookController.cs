@@ -604,7 +604,7 @@ namespace InspecWeb.Controllers
 
                         System.Console.WriteLine("Start Upload 4");
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
                         {
                             await formFile.Value.CopyToAsync(stream);
                         }
@@ -614,9 +614,9 @@ namespace InspecWeb.Controllers
                         {
                             CentralPolicyId = CentralPolicyProvincedata.CentralPolicyId,
                             InspectionPlanEventId = model.ElectronicBookId,
-                            Name = random + filename,
-                            Type = model.Type,
-                            Description = model.Description
+                            Name = random + ext,
+                            Type = "Calendar File",
+                            Description = Path.GetFileNameWithoutExtension(filePath2),
                         };
 
                         System.Console.WriteLine("Start Upload 4.2");
@@ -1412,7 +1412,7 @@ namespace InspecWeb.Controllers
                     {
                         System.Console.WriteLine("Start Upload 4");
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
                         {
                             await formFile.Value.CopyToAsync(stream);
                         }
@@ -1422,9 +1422,9 @@ namespace InspecWeb.Controllers
                         {
                             //CentralPolicyId = CentralPolicyProvincedata.CentralPolicyId,
                             SubjectGroupId = model.ElectronicBookId,
-                            Name = random + filename,
-                            Type = model.Type,
-                            Description = model.Description
+                            Name = random + ext,
+                            Type = "Subject Event File",
+                            Description = Path.GetFileNameWithoutExtension(filePath2),
                         };
 
                         System.Console.WriteLine("Start Upload 4.2");
