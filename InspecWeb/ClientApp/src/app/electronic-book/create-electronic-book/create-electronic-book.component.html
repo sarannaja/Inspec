@@ -19,13 +19,13 @@
 
       <div class="card-body" style="margin-top: 45px;">
 
-        <div class="form-group ml-2">
+        <!-- <div class="form-group ml-2">
           <input type="radio" name="ebookType" (change)="createFromCentralpolicy($event)"
             value="สร้างจากแผนการตรวจราชการ">
           <label style="margin-left: 10px;">สร้างจากแผนการตรวจราชการ</label>
           <input style="margin-left: 10px;" type="radio" name="ebookType" (change)="createOwn($event)" value="สร้างเอง">
           <label style="margin-left: 10px;">สร้างเอง</label>
-        </div>
+        </div> -->
 
         <form *ngIf="checkTypeCreate == true" [formGroup]="EbookForm" (ngSubmit)="storeElectronicBook(EbookForm.value)">
           <div>

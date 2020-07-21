@@ -600,7 +600,7 @@ export class ElectronicbookService {
     // console.log("inputfil222", formData.getAll("inputfile"));
 
     console.log('FORMDATA: ', formData);
-    return this.http.post<any>(this.url + "CreateElectronicBook", formData);
+    return this.http.post<any>(this.url + "CreateElectronicBook2", formData);
   }
 }
 

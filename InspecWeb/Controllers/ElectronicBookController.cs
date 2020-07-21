@@ -1693,7 +1693,7 @@ namespace InspecWeb.Controllers
                         {
                             ElectronicBookId = ElectronicBookdata.Id,
                             Name = random + filename,
-                            // Description = model.fileDescription,
+                            Description = formFile.Value.FileName,
                             // Type = model.Type
                         };
                         System.Console.WriteLine("Start Upload 4.2");
