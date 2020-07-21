@@ -37,9 +37,15 @@ export class CreateElectronicBookComponent implements OnInit {
   centralPolicyEbook: Array<any>;
   inputdate: any = [{ start_date: '', end_date: '' }];
   fileType: any;
+  checkTypeCreate = true;
+  provincialDepartmentData: any = [];
+  listfiles: any = [];
+  fileData: any = [{ ebookFile: '', fileDescription: '' }];
 
   get f() { return this.EbookForm.controls }
   get d() { return this.f.inputdate as FormArray }
+
+  get s() { return this.f.fileData as FormArray }
 
   constructor(
     private fb: FormBuilder,
@@ -83,7 +89,10 @@ export class CreateElectronicBookComponent implements OnInit {
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
       description: new FormControl(null, [Validators.required]),
-    })
+      ebookType: new FormControl("สร้างจากแผนการตรวจราชการ", [Validators.required]),
+      provincialDepartment: new FormControl(null, [Validators.required]),
+      fileData: new FormArray([]),
+    });
 
     this.d.push(this.fb.group({
       start_date: '',
@@ -91,6 +100,7 @@ export class CreateElectronicBookComponent implements OnInit {
     }))
 
     this.getCentralPolicy();
+    this.getProvincialDepartment();
   }
 
   goBack() {
@@ -121,11 +131,37 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   storeElectronicBook(value) {
-    console.log("Form: ", value);
-    this.electronicBookService.createElectronicBook(value, this.form.value.files, this.userid).subscribe(res => {
-      console.log("eBookRes: ", res);
-      window.history.back();
-    })
+
+    console.log("File with desctiption: ", value);
+
+    if (this.checkTypeCreate == true) {
+      console.log("Form: ", value);
+      this.electronicBookService.createElectronicBook(value, this.userid).subscribe(res => {
+        console.log("eBookRes: ", res);
+
+        if (value.fileData != null) {
+          for (var iii = 0; iii < value.fileData.length; iii++) {
+            console.log("Loop: ", value.fileData[iii]);
+            const formData = new FormData();
+            formData.append("files2", value.fileData[iii].ebookFile);
+            formData.append("fileDescription2", value.fileData[iii].fileDescription);
+            this.electronicBookService.addElectronicBookImage(formData, res.eBookID).subscribe(res => {
+              console.log("imageRes: ", res);
+
+            })
+          }
+        }
+
+        // window.history.back();
+
+      })
+    } else {
+      console.log("Form: ", value);
+      this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid).subscribe(res => {
+        console.log("eBookRes: ", res);
+        // window.history.back();
+      })
+    }
   }
 
   checkType(type) {
@@ -136,4 +172,46 @@ export class CreateElectronicBookComponent implements OnInit {
   back() {
     window.history.back();
   }
+
+  createFromCentralpolicy() {
+    this.checkTypeCreate = true;
+  }
+  createOwn() {
+    this.checkTypeCreate = false;
+  }
+
+  getProvincialDepartment() {
+    this.electronicBookService.getProvincialDepartment().subscribe(res => {
+      // console.log("ProvincialDepartment: ", res);
+      this.provincialDepartmentData = res.provincialDepartmentData.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+    })
+  }
+
+  uploadFile2(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        ebookFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.EbookForm.value);
+    console.log("eiei: ", this.s.controls);
+
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
+  }
+
+
 }

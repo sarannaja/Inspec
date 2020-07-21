@@ -283,7 +283,79 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + "centralPolicyEbook")
   }
 
-  createElectronicBook(value, file: FileList, userId) {
+  createElectronicBook(value, userId) {
+    // alert(value.description);
+    // alert( value.fileType)
+    console.log("Add EBook: ", value);
+
+    var inputdate: Array<any> = value.inputdate.map((item, index) => {
+      return {
+        StartDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
+        EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
+      }
+    })
+
+    const formData = new FormData();
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('Status', value.Status);
+    // formData.append('centralPolicyEventId', value.centralPolicyEventId);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
+    formData.append('id', userId);
+
+    for (var i = 0; i < inputdate.length; i++) {
+      console.log("ii: ", i);
+      // console.log("inputdateii: ", inputdate[ii].StartDate);
+      formData.append('StartDate', inputdate[i].StartDate);
+      formData.append('EndDate', inputdate[i].EndDate);
+    }
+
+    for (var i = 0; i < value.centralPolicyEventId.length; i++) {
+      formData.append('CentralPolicyEventId', value.centralPolicyEventId[i]);
+    }
+
+    console.log("detail", formData.getAll("Detail"));
+    console.log("Problem", formData.getAll("Problem"));
+    console.log("Suggestion", formData.getAll("Suggestion"));
+    console.log("id", formData.getAll("id"));
+    console.log("Status", formData.getAll("Status"));
+
+    // if (value.fileData != null) {
+    //   for (var iii = 0; iii < value.fileData.length; iii++) {
+    //     formData.append("files", value.fileData[iii].ebookFile);
+    //     formData.append("fileDescription", value.fileData[iii].fileDescription);
+    //   }
+    // }
+
+    // var inputfile: any = [];
+
+    // if (value.fileData != null) {
+    //   for (var iii = 0; iii < value.fileData.length; iii++) {
+    //     inputfile.push({ files2: value.fileData[iii].ebookFile, fileDescription2: value.fileData[iii].fileDescription });
+    //   }
+    // }
+
+    // for(var key in inputfile) {
+    //   formData.append('inputfile', inputfile[key])
+    // }
+
+    // formData.append('inputfile', JSON.stringify(inputfile));
+
+    // console.log("fileNew", formData.getAll("files"));
+    // console.log("inputfil222", formData.getAll("inputfile"));
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url + "CreateElectronicBook", formData);
+  }
+
+  addElectronicBookImage(formData, electId) {
+
+    return this.http.post(this.url + "imageDescription/" + electId, formData);
+  }
+
+  createElectronicBookOwn(value, file: FileList, userId) {
     // alert(value.description);
     // alert( value.fileType)
     console.log("Add EBook: ", value);
@@ -462,6 +534,73 @@ export class ElectronicbookService {
     formData.append('electAcceptId', ebookAcceptId);
 
     return this.http.put(this.url + "agreeOtherDepartment", formData);
+  }
+
+  createElectronicBook2(value, userId) {
+    // alert(value.description);
+    // alert( value.fileType)
+    console.log("Add EBook: ", value);
+
+    var inputdate: Array<any> = value.inputdate.map((item, index) => {
+      return {
+        StartDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
+        EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
+      }
+    })
+
+    const formData = new FormData();
+    formData.append('Detail', value.checkDetail);
+    formData.append('Problem', value.Problem);
+    formData.append('Suggestion', value.Suggestion);
+    formData.append('Status', value.Status);
+    // formData.append('centralPolicyEventId', value.centralPolicyEventId);
+    formData.append('Description', value.description);
+    formData.append('Type', value.fileType);
+    formData.append('id', userId);
+
+    for (var i = 0; i < inputdate.length; i++) {
+      console.log("ii: ", i);
+      // console.log("inputdateii: ", inputdate[ii].StartDate);
+      formData.append('StartDate', inputdate[i].StartDate);
+      formData.append('EndDate', inputdate[i].EndDate);
+    }
+
+    for (var i = 0; i < value.centralPolicyEventId.length; i++) {
+      formData.append('CentralPolicyEventId', value.centralPolicyEventId[i]);
+    }
+
+    console.log("detail", formData.getAll("Detail"));
+    console.log("Problem", formData.getAll("Problem"));
+    console.log("Suggestion", formData.getAll("Suggestion"));
+    console.log("id", formData.getAll("id"));
+    console.log("Status", formData.getAll("Status"));
+
+    if (value.fileData != null) {
+      for (var iii = 0; iii < value.fileData.length; iii++) {
+        formData.append("files", value.fileData[iii].ebookFile,value.fileData[iii].fileDescription);
+        // formData.append("fileDescription", value.fileData[iii].fileDescription);
+      }
+    }
+
+    // var inputfile: any = [];
+
+    // if (value.fileData != null) {
+    //   for (var iii = 0; iii < value.fileData.length; iii++) {
+    //     inputfile.push({ files2: value.fileData[iii].ebookFile, fileDescription2: value.fileData[iii].fileDescription });
+    //   }
+    // }
+
+    // for(var key in inputfile) {
+    //   formData.append('inputfile', inputfile[key])
+    // }
+
+    // formData.append('inputfile', JSON.stringify(inputfile));
+
+    // console.log("fileNew", formData.getAll("files"));
+    // console.log("inputfil222", formData.getAll("inputfile"));
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url + "CreateElectronicBook", formData);
   }
 }
 
