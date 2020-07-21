@@ -16,9 +16,7 @@
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">สร้างสมุดตรวจอิเล็กทรอนิกส์</h5>
       </div>
-
       <div class="card-body" style="margin-top: 45px;">
-
         <!-- <div class="form-group ml-2">
           <input type="radio" name="ebookType" (change)="createFromCentralpolicy($event)"
             value="สร้างจากแผนการตรวจราชการ">
@@ -26,7 +24,6 @@
           <input style="margin-left: 10px;" type="radio" name="ebookType" (change)="createOwn($event)" value="สร้างเอง">
           <label style="margin-left: 10px;">สร้างเอง</label>
         </div> -->
-
         <form *ngIf="checkTypeCreate == true" [formGroup]="EbookForm" (ngSubmit)="storeElectronicBook(EbookForm.value)">
           <div>
             <div class="col-12 col-xl-12">
