@@ -283,7 +283,30 @@ namespace InspecWeb.Controllers
                             GetSubjectID = subjectid;
                             //file
 
+                            //old if n == 0 dup
+                            //foreach (var id in model.CentralPolicyDateId)
+                            //{
+                            //    //System.Console.WriteLine("In3");
+                            //    var CentralPolicyDatedata = _context.CentralPolicyDates
+                            //        .Where(m => m.Id == id).FirstOrDefault();
 
+                            //    var CentralPolicyDateProvincedata = new CentralPolicyDateProvince
+                            //    {
+                            //        StartDate = CentralPolicyDatedata.StartDate,
+                            //        EndDate = CentralPolicyDatedata.EndDate
+                            //    };
+                            //    _context.CentralPolicyDateProvinces.Add(CentralPolicyDateProvincedata);
+                            //    _context.SaveChanges();
+
+                            //    var subjectdatedata = new SubjectDateCentralPolicyProvince
+                            //    {
+                            //        SubjectCentralPolicyProvinceId = subjectid,
+                            //        CentralPolicyDateProvinceId = CentralPolicyDateProvincedata.Id,
+                            //    };
+                            //    _context.SubjectDateCentralPolicyProvinces.Add(subjectdatedata);
+                            //}
+                            //_context.SaveChanges();
+                            // end dup
 
                         }
 
@@ -377,7 +400,11 @@ namespace InspecWeb.Controllers
                         n++;
                         //}
                     }
-                }
+                    //else
+                    //{
+                    //    return Ok(new { upload = false });
+                    //}
+                } 
                 // return subjectdata;
             }
 
@@ -556,7 +583,7 @@ namespace InspecWeb.Controllers
                             }
 
                         }
-                        System.Console.WriteLine("Start Upload 4.1");
+                        System.Console.WriteLine("id" + id);
                         {
                             System.Console.WriteLine("Start Upload 4.1");
                             var SubjectFile = new SubjectCentralPolicyProvinceFile

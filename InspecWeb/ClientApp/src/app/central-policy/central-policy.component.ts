@@ -63,7 +63,7 @@ export class CentralPolicyComponent implements OnInit {
 
     };
     this.getFiscalyear()
-    this.getCurrentYear()
+    // this.getCurrentYear()
   }
 
   openModal(template: TemplateRef<any>, id) {
@@ -73,15 +73,19 @@ export class CentralPolicyComponent implements OnInit {
   getFiscalyear() {
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
+      var d = new Date().getFullYear() + 543;
+      this.currentyear = result.filter(result => {
+        return result.year == d
+      })[0]
+      this.getCurrentCentralPolicy(this.currentyear)
       // this.getCentralPolicy()
     })
   }
-  getCurrentYear() {
-    this.fiscalyearservice.getcurrentyeardata().subscribe(result => {
-      this.currentyear = result
-      this.getCurrentCentralPolicy()
-    })
-  }
+  // getCurrentYear() {
+  //   this.fiscalyearservice.getcurrentyeardata().subscribe(result => {
+  //     this.currentyear = result
+  //   })
+  // }
   getCentralPolicy() {
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicydata()
@@ -103,9 +107,9 @@ export class CentralPolicyComponent implements OnInit {
         this.spinner.hide();
       })
   }
-  getCurrentCentralPolicy() {
+  getCurrentCentralPolicy(currentyear) {
     this.resultcentralpolicy = []
-    this.centralpolicyservice.getcentralpolicyfiscalyeardata(this.currentyear.id)
+    this.centralpolicyservice.getcentralpolicyfiscalyeardata(currentyear.id)
       .subscribe(result => {
         this.resultcentralpolicy = result
         if (this.role_id == 3) {
@@ -123,25 +127,25 @@ export class CentralPolicyComponent implements OnInit {
         this.spinner.hide();
       })
   }
-  getSelectfiscalyear(){
+  getSelectfiscalyear() {
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicyfiscalyeardata(this.selectfiscalyearid)
-    .subscribe(result => {
-      this.resultcentralpolicy = result
-      if (this.role_id == 3) {
-        this.resultcentralpolicy = []
-        result.forEach(element => {
-          // if (element.status == "ใช้งานจริง") {
-          //   this.resultcentralpolicy.push(element);
-          // }
-          this.resultcentralpolicy.push(element);
-        });
-        console.log("data", this.resultcentralpolicy);
-      }
+      .subscribe(result => {
+        this.resultcentralpolicy = result
+        if (this.role_id == 3) {
+          this.resultcentralpolicy = []
+          result.forEach(element => {
+            // if (element.status == "ใช้งานจริง") {
+            //   this.resultcentralpolicy.push(element);
+            // }
+            this.resultcentralpolicy.push(element);
+          });
+          console.log("data", this.resultcentralpolicy);
+        }
 
-      this.loading = true;
-      this.spinner.hide();
-    })
+        this.loading = true;
+        this.spinner.hide();
+      })
   }
   deleteCentralPolicy(value) {
     this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
@@ -156,7 +160,7 @@ export class CentralPolicyComponent implements OnInit {
   Subject(id) {
     this.router.navigate(['/subject', id])
   }
-  DetailrowCentralPolicy(id: any){
+  DetailrowCentralPolicy(id: any) {
     this.router.navigate(['/centralpolicy/detailrowcentralpolicy', id])
   }
   CreateCentralPolicy() {
@@ -172,7 +176,7 @@ export class CentralPolicyComponent implements OnInit {
     console.log(value);
     if (value == "currentfiscalyear") {
       this.loading = false;
-      this.getCurrentYear()
+      // this.getCurrentYear()
       this.spinner.show();
     }
     else if (value == "allfiscalyear") {

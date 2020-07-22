@@ -20,8 +20,11 @@ export class AnswerSubjectDetailComponent implements OnInit {
   Form: FormGroup;
   Formfile: FormGroup;
   Formstatus: FormGroup;
+  form: FormGroup;
   province: any
   answar = [{ test: "1212", benz: "121212" }]
+  listfiles: any = []
+  fileData: any = [{ AnswerSubjectFile: '', fileDescription: '' }];
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -32,9 +35,16 @@ export class AnswerSubjectDetailComponent implements OnInit {
     private spinner: NgxSpinnerService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.form = this.fb.group({
+      name: [''],
+      files: [null]
+    })
   }
   get f() { return this.Form.controls; }
   get t() { return this.f.result as FormArray; }
+
+  get ff() { return this.Formfile.controls }
+  get s() { return this.ff.fileData as FormArray }
 
   Test(index, value) {
     this.t.at(index).patchValue({
@@ -50,8 +60,10 @@ export class AnswerSubjectDetailComponent implements OnInit {
       result: new FormArray([]),
     })
     this.Formfile = this.fb.group({
-      files: [null],
-      Type: ""
+      // files: [null],
+      // Type: ""
+      fileData: new FormArray([]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
     })
     this.Formstatus = this.fb.group({
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
@@ -102,15 +114,32 @@ export class AnswerSubjectDetailComponent implements OnInit {
     });
     this.Formfile.get('files').updateValueAndValidity()
   }
-  uploadSignatureFile(event) {
-    const file = (event.target as HTMLInputElement).files;
-    this.Formfile.patchValue({
-      files: file,
-      Type: "ลายมือชื่อ"
-    });
-    this.Formfile.get('files').updateValueAndValidity()
+  uploadFile2(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        AnswerSubjectFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.Formfile.value);
+    console.log("eiei: ", this.s.controls);
 
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
   }
+  // uploadSignatureFile(event) {
+  //   const file = (event.target as HTMLInputElement).files;
+  //   this.Formfile.patchValue({
+  //     files: file,
+  //     Type: "ลายมือชื่อ"
+  //   });
+  //   this.Formfile.get('files').updateValueAndValidity()
+
+  // }
   storeanswer(value, value2) {
     this.spinner.show();
     this.storeansweruser(value, value2)

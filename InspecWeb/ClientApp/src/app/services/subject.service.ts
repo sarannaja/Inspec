@@ -119,6 +119,19 @@ export class SubjectService {
         // formData.append("fileDescription", value.fileData[iii].fileDescription);
       }
     }
+    // if (SubjectfileData.fileData != null) {
+    //   for (var iii = 0; iii < SubjectfileData.fileData.length; iii++) {
+    //     var filename: string = SubjectfileData.fileData[iii].SubjectFile.name
+    //     if (SubjectfileData.fileData[iii].fileDescription != null || SubjectfileData.fileData[iii].fileDescription != "") {
+
+    //       formData.append("files", SubjectfileData.fileData[iii].SubjectFile, `${SubjectfileData.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+    //     } else {
+    //       formData.append("files", SubjectfileData.fileData[iii].SubjectFile, `ไม่มีคำอธิบาย.${getFileExtension2(filename)}`);
+
+    //     }
+    //     // formData.append("fileDescription", value.fileData[iii].fileDescription);
+    //   }
+    // }
     return this.http.post(this.url + "addfiles", formData);
   }
   AddDepartmentQuestion(DepartmentQuestiondata, Box, subjectid) {

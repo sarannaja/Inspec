@@ -244,7 +244,15 @@ export class SubquestionComponent implements OnInit {
         this.resultdsubjectid.push(element)
       });
       console.log("Response2 : ", this.resultdsubjectid);
-      this.storefiles();
+
+      if (response.getSubjectID != 0) {
+        this.storefiles();
+      } else {
+        this.Form.reset();
+        this.Formfile.reset();
+        this.spinner.hide();
+        window.history.back();
+      }
     })
   }
   uploadFile(event) {
