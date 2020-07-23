@@ -340,20 +340,19 @@ namespace InspecWeb.Controllers {
         }
 
         [HttpGet ("provinceall")]
-        public IActionResult GetAll ()
-         {
+        public IActionResult GetAll () {
             //สร้ าง array dotet core
             List<ProvinceRegion> termsList = new List<ProvinceRegion> ();
             var provinces = _context.Provinces.ToList ();
-            for (int i = 0; i < provinces.Count(); i++) {
+            for (int i = 0; i < provinces.Count (); i++) {
                 long region = provinces[i].ProvincesGroupId;
-                  var test = _context.ProvincesGroups.Find(region);
-                termsList.Add(new ProvinceRegion {name = provinces[i].Name,region = test.Name});
+                var test = _context.ProvincesGroups.Find (region);
+                termsList.Add (new ProvinceRegion { name = provinces[i].Name, region = test.Name });
             }
 
             // You can convert it back to an array if you would like to
-            ProvinceRegion[] terms = termsList.ToArray();
-            return Ok(terms);
+            ProvinceRegion[] terms = termsList.ToArray ();
+            return Ok (terms);
         }
 
     }

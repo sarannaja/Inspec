@@ -341,6 +341,24 @@ export class CalendarUserComponent implements OnInit {
         },
         navLinks: true,
         editable: false,
+ locale: 'th',
+        viewRender: function (view, element) {
+          setTimeout(function () {
+            var strDate = $.trim($(".fc-center").find("h2").text());
+            var arrDate = strDate.split(" ");
+            var lengthArr = arrDate.length;
+            var newstrDate = "";
+            for (var i = 0; i < lengthArr; i++) {
+              if (lengthArr - 1 == i || parseInt(arrDate[i]) > 1000) {
+                var yearBuddha = parseInt(arrDate[i]) + 543;
+                newstrDate += yearBuddha;
+              } else {
+                newstrDate += arrDate[i] + " ";
+              }
+            }
+            $(".fc-center").find("h2").text(newstrDate);
+          }, 5);
+        },
         eventLimit: false,
         // eventBackgroundColor: "#DC143C",
         // eventBorderColor: "#DC143C",
