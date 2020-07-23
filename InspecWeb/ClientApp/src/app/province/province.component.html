@@ -16,7 +16,7 @@
       <h5 class="card-title">จังหวัด</h5>
       <div class="float-right">
         <button class="btn btn-primary" (click)="openModal(modalProvince,'1','1','1')"
-          style="margin-top: -60px;">เพิ่มจังหวัด</button>
+          style="margin-top: -60px;">เพิ่มข้อมูล</button>
       </div>
     </div>
     <div class="card-body">
@@ -25,24 +25,23 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>ภาค</th>
+            <th>กลุ่มจังหวัด</th>
             <th>ชื่อจังหวัด</th>
-            <th>ลิ้งค์</th>
-            <th>วันที่สร้าง</th>
+            <th>ลิ้งค์</th>     
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of resultprovince; let i = index">
             <td>{{ i + 1 }}</td>
+            <td>{{item.sectors.name}}</td>
+            <th>{{item.provincesGroups.name}}</th>
             <td class="pointer" (click)="District(item.id,item.name)">{{ item.name }}</td>
-            <td><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></td>
-            <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
-            <ng-template #elseBlock>
-              <td></td>
-            </ng-template>
+            <td><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></td>        
             <td>
               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>
+                (click)="editModal(modaleditProvince, item.id, item.name, item.link,item.sectors.id,item.provincesGroups.id)"></i>
               <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                 (click)="openModal(modaldeleteProvince, item.id)"></i>
             </td>
@@ -64,7 +63,17 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <div class="form-group">
+        <div class="form-group">        
+          <label>ภาค*</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกภาค" formControlName="Sector"   
+          [items]="selectdatasector">
+          </ng-select>
+          <br>
+          <label>กลุ่มจังหวัด*</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกลุ่มจังหวัดจังหวัด" formControlName="Provincegroup"   
+          [items]="selectdataprovincesgroup">
+          </ng-select>
+          <br>
           <label for="test" class="form-label">ชื่อจังหวัด</label>
           <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด">
           <br>
@@ -115,12 +124,24 @@
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
+          <label>ภาค*</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกภาค" formControlName="Sector"  
+           bindValue="value" 
+          [items]="selectdatasector">
+          </ng-select>
+          <br>
+          <label>กลุ่มจังหวัด*</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกลุ่มจังหวัดจังหวัด" formControlName="Provincegroup" 
+          bindValue="value"  
+          [items]="selectdataprovincesgroup">
+          </ng-select>
+          <br>
           <label for="test" class="form-label">ชื่อจังหวัด</label>
-          <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
+          <input type="text" formControlName="provincename" class="form-control"
             placeholder="กรุณากรอกชื่อจังหวัด">
           <br>
           <label for="test" class="form-label">ลิ้งค์​</label>
-          <input type="text" value="{{link}}" formControlName="provincelink" class="form-control"
+          <input type="text" formControlName="provincelink" class="form-control"
             placeholder="กรุณากรอกจังหวัดลิ้ง">
         </div>
       </div>

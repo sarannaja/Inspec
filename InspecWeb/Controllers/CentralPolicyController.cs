@@ -209,7 +209,7 @@ namespace InspecWeb.Controllers
                     if (formFile.Value.Length > 0)
                     {
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
                         {
                             await formFile.Value.CopyToAsync(stream);
                         }
@@ -217,7 +217,8 @@ namespace InspecWeb.Controllers
                         var CentralPolicyFile = new CentralPolicyFile
                         {
                             CentralPolicyId = centralpolicydata.Id,
-                            Name = random + filename,
+                            Name = random + ext,
+                            Description = Path.GetFileNameWithoutExtension(filePath2),
                         };
                         _context.CentralPolicyFiles.Add(CentralPolicyFile);
                         _context.SaveChanges();
@@ -430,7 +431,7 @@ namespace InspecWeb.Controllers
                     {
                         System.Console.WriteLine("in4");
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
                         {
                             await formFile.Value.CopyToAsync(stream);
                         }
@@ -438,7 +439,8 @@ namespace InspecWeb.Controllers
                         var CentralPolicyFiledata = new CentralPolicyFile
                         {
                             CentralPolicyId = centralpolicydata.Id,
-                            Name = random + filename,
+                            Name = random + ext,
+                            Description = Path.GetFileNameWithoutExtension(filePath2),
                         };
                         _context.CentralPolicyFiles.Add(CentralPolicyFiledata);
                         System.Console.WriteLine("in5");

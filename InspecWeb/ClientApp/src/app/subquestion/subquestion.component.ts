@@ -35,9 +35,11 @@ export class SubquestionComponent implements OnInit {
   modalRef: BsModalRef;
   Form: FormGroup;
   Formfile: FormGroup;
+  form: FormGroup;
   times: any[] = [];
   selectdatacentralpolicy: Array<any>
   listfiles: any = []
+  fileData: any = [{ SubjectFile: '', fileDescription: '' }];
 
   constructor(
     private modalService: BsModalService,
@@ -50,6 +52,10 @@ export class SubquestionComponent implements OnInit {
     private spinner: NgxSpinnerService) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.name = activatedRoute.snapshot.paramMap.get('name')
+    this.form = this.fb.group({
+      name: [''],
+      files: [null]
+    })
   }
 
   ngOnInit() {
@@ -65,7 +71,9 @@ export class SubquestionComponent implements OnInit {
     })
     this.Formfile = this.fb.group({
       centralpolicydateid: new FormControl(null, [Validators.required]),
-      files: [null]
+      // files: [null]
+      fileData: new FormArray([]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
     })
     this.getTimeCentralPolicy()
     // this.d.push(this.fb.group({
@@ -77,6 +85,11 @@ export class SubquestionComponent implements OnInit {
   get f() { return this.Form.controls }
   get d() { return this.f.inputquestionopen as FormArray }
   get x() { return this.initanswerclose() }
+
+  get ff() { return this.Formfile.controls }
+  get s() { return this.ff.fileData as FormArray }
+
+
 
   openModalDelete(template: TemplateRef<any>, i) {
     console.log(i);
@@ -231,7 +244,15 @@ export class SubquestionComponent implements OnInit {
         this.resultdsubjectid.push(element)
       });
       console.log("Response2 : ", this.resultdsubjectid);
-      this.storefiles();
+
+      if (response.getSubjectID != 0) {
+        this.storefiles();
+      } else {
+        this.Form.reset();
+        this.Formfile.reset();
+        this.spinner.hide();
+        window.history.back();
+      }
     })
   }
   uploadFile(event) {
@@ -248,8 +269,25 @@ export class SubquestionComponent implements OnInit {
     // this.Formfile.get('files').updateValueAndValidity()
 
   }
+  uploadFile2(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        SubjectFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.Formfile.value);
+    console.log("eiei: ", this.s.controls);
+
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+  }
   storefiles() {
-    this.subjectservice.addFiles(this.resultdsubjectid, this.Formfile.value.files).subscribe(response => {
+    this.subjectservice.addFiles(this.resultdsubjectid, this.Formfile.value).subscribe(response => {
       this.Form.reset();
       this.Formfile.reset();
       this.spinner.hide();

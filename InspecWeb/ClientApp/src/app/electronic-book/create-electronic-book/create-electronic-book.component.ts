@@ -136,28 +136,29 @@ export class CreateElectronicBookComponent implements OnInit {
 
     if (this.checkTypeCreate == true) {
       console.log("Form: ", value);
-      this.electronicBookService.createElectronicBook(value, this.userid).subscribe(res => {
+      this.electronicBookService.createElectronicBook2(value, this.userid).subscribe(res => {
         console.log("eBookRes: ", res);
 
-        if (value.fileData != null) {
-          for (var iii = 0; iii < value.fileData.length; iii++) {
-            console.log("Loop: ", value.fileData[iii]);
-            const formData = new FormData();
-            formData.append("files2", value.fileData[iii].ebookFile);
-            formData.append("fileDescription2", value.fileData[iii].fileDescription);
-            this.electronicBookService.addElectronicBookImage(formData, res.eBookID).subscribe(res => {
-              console.log("imageRes: ", res);
+        // if (value.fileData != null) {
+        //   for (var iii = 0; iii < value.fileData.length; iii++) {
+        //     console.log("Loop: ", value.fileData[iii]);
+        //     const formData = new FormData();
+        //     formData.append("files2", value.fileData[iii].ebookFile);
+        //     formData.append("fileDescription2", value.fileData[iii].fileDescription);
+        //     this.electronicBookService.addElectronicBookImage(formData, res.eBookID).subscribe(res => {
+        //       console.log("imageRes: ", res);
 
-            })
-          }
-        }
+        //     })
+        //   }
+        // }
 
-        // window.history.back();
+        window.history.back();
 
       })
     } else {
       console.log("Form: ", value);
-      this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid).subscribe(res => {
+      this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid)
+      .subscribe(res => {
         console.log("eBookRes: ", res);
         // window.history.back();
       })
