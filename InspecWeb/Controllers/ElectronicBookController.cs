@@ -604,7 +604,7 @@ namespace InspecWeb.Controllers
 
                         System.Console.WriteLine("Start Upload 4");
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
                         {
                             await formFile.Value.CopyToAsync(stream);
                         }
@@ -614,9 +614,9 @@ namespace InspecWeb.Controllers
                         {
                             CentralPolicyId = CentralPolicyProvincedata.CentralPolicyId,
                             InspectionPlanEventId = model.ElectronicBookId,
-                            Name = random + filename,
-                            Type = model.Type,
-                            Description = model.Description
+                            Name = random + ext,
+                            Type = "Calendar File",
+                            Description = Path.GetFileNameWithoutExtension(filePath2),
                         };
 
                         System.Console.WriteLine("Start Upload 4.2");
@@ -1412,7 +1412,7 @@ namespace InspecWeb.Controllers
                     {
                         System.Console.WriteLine("Start Upload 4");
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
                         {
                             await formFile.Value.CopyToAsync(stream);
                         }
@@ -1422,9 +1422,9 @@ namespace InspecWeb.Controllers
                         {
                             //CentralPolicyId = CentralPolicyProvincedata.CentralPolicyId,
                             SubjectGroupId = model.ElectronicBookId,
-                            Name = random + filename,
-                            Type = model.Type,
-                            Description = model.Description
+                            Name = random + ext,
+                            Type = "Subject Event File",
+                            Description = Path.GetFileNameWithoutExtension(filePath2),
                         };
 
                         System.Console.WriteLine("Start Upload 4.2");
@@ -1684,6 +1684,96 @@ namespace InspecWeb.Controllers
                     {
                         System.Console.WriteLine("Start Upload 4");
                         // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Upload 4.1");
+                        var ElectronicBookFile = new ElectronicBookFile
+                        {
+                            ElectronicBookId = ElectronicBookdata.Id,
+                            Name = random + ext,
+                            Description = Path.GetFileNameWithoutExtension(filePath2),
+                            // Type = model.Type
+                        };
+                        System.Console.WriteLine("Start Upload 4.2");
+                        _context.ElectronicBookFiles.Add(ElectronicBookFile);
+                        _context.SaveChanges();
+                        ebookFileId = ElectronicBookFile.Id;
+                        System.Console.WriteLine("Start Upload 4.3");
+                    }
+                    System.Console.WriteLine("Start Upload 5");
+                }
+                _context.SaveChanges();
+            }
+            _context.SaveChanges();
+            return Ok(new { eBookID = ebookId });
+        }
+
+        [HttpPost("CreateElectronicBookOwn")]
+        public async Task<IActionResult> CreateElectronicBookOwn([FromForm] ElectronicBookViewModel model)
+        {
+            var test1 = model.Detail;
+            //var test2 = model.UserId;
+            long ebookId;
+            System.Console.WriteLine("Detail: " + test1);
+            //System.Console.WriteLine("UserId: " + test2);
+            var ElectronicBookdata = new ElectronicBook
+            {
+                Detail = model.Detail,
+                Problem = model.Problem,
+                Suggestion = model.Suggestion,
+                CreatedBy = model.id,
+                Status = model.Status,
+                StartDate = model.startDate,
+                EndDate = model.endDate,
+            };
+            System.Console.WriteLine("1");
+
+            _context.ElectronicBooks.Add(ElectronicBookdata);
+            _context.SaveChanges();
+
+            ebookId = ElectronicBookdata.Id;
+
+            foreach (var item in model.CentralPolicyEventId)
+            {
+                var ElectronicBookgroupdata = new ElectronicBookGroup
+                {
+                    ElectronicBookId = ElectronicBookdata.Id,
+                    CentralPolicyEventId = item
+                };
+                _context.ElectronicBookGroups.Add(ElectronicBookgroupdata);
+                _context.SaveChanges();
+            }
+
+            System.Console.WriteLine("Start Upload");
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+            long ebookFileId = 0;
+
+            if (model.files != null)
+            {
+                System.Console.WriteLine("Start Upload 2");
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    System.Console.WriteLine("Start Upload 3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Upload 4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
                         using (var stream = System.IO.File.Create(filePath + random + filename))
                         {
                             await formFile.Value.CopyToAsync(stream);
@@ -1712,5 +1802,5 @@ namespace InspecWeb.Controllers
 
     }
 
-    
+
 }

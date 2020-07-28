@@ -37,7 +37,7 @@ export class CentralpolicyService {
         EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
       }
     })
-    console.log("DDD", inputdate);
+    console.log("DDD", centralpolicyData);
 
     // for (var i = 0; i < file.length; i++) {
     //   // formData.append("files", file[i]);
@@ -70,9 +70,19 @@ export class CentralpolicyService {
       formData.append('StartDate2', inputdate[ii].StartDate);
       formData.append('EndDate2', inputdate[ii].EndDate);
     }
-    if (file != null) {
-      for (var iii = 0; iii < file.length; iii++) {
-        formData.append("files", file[iii]);
+    // if (file != null) {
+    //   for (var iii = 0; iii < file.length; iii++) {
+    //     formData.append("files", file[iii]);
+    //   }
+    // }
+    function getFileExtension2(filename) {
+      return filename.split('.').pop();
+    }
+    if (centralpolicyData.fileData != null) {
+      for (var iii = 0; iii < centralpolicyData.fileData.length; iii++) {
+        var filename: string = centralpolicyData.fileData[iii].CentralpolicyFile.name
+        formData.append("files", centralpolicyData.fileData[iii].CentralpolicyFile, `${centralpolicyData.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+        // formData.append("fileDescription", value.fileData[iii].fileDescription);
       }
     }
     formData.append('Class', centralpolicyData.Class);
@@ -168,11 +178,21 @@ export class CentralpolicyService {
       formData.append('EndDate2', inputdate[ii].EndDate);
     }
 
-    if (file != null) {
-      console.log('infile');
+    // if (file != null) {
+    //   console.log('infile');
 
-      for (var iii = 0; iii < file.length; iii++) {
-        formData.append("files", file[iii]);
+    //   for (var iii = 0; iii < file.length; iii++) {
+    //     formData.append("files", file[iii]);
+    //   }
+    // }
+    function getFileExtension2(filename) {
+      return filename.split('.').pop();
+    }
+    if (centralpolicyData.fileData != null) {
+      for (var iii = 0; iii < centralpolicyData.fileData.length; iii++) {
+        var filename: string = centralpolicyData.fileData[iii].CentralpolicyFile.name
+        formData.append("files", centralpolicyData.fileData[iii].CentralpolicyFile, `${centralpolicyData.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+        // formData.append("fileDescription", value.fileData[iii].fileDescription);
       }
     }
 

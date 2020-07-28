@@ -181,8 +181,27 @@ export class InspectionPlanEventComponent implements OnInit {
           center: 'title',
           right: 'month,agendaWeek,agendaDay'
         },
+        locale: 'th',
+        viewRender: function (view, element) {
+          setTimeout(function () {
+            var strDate = $.trim($(".fc-center").find("h2").text());
+            var arrDate = strDate.split(" ");
+            var lengthArr = arrDate.length;
+            var newstrDate = "";
+            for (var i = 0; i < lengthArr; i++) {
+              if (lengthArr - 1 == i || parseInt(arrDate[i]) > 1000) {
+                var yearBuddha = parseInt(arrDate[i]) + 543;
+                newstrDate += yearBuddha;
+              } else {
+                newstrDate += arrDate[i] + " ";
+              }
+            }
+            $(".fc-center").find("h2").text(newstrDate);
+          }, 5);
+        },
         navLinks: true,
         editable: false,
+
         eventLimit: false,
         eventClick: function (event) {
           // alert(JSON.stringify(event))
@@ -193,14 +212,14 @@ export class InspectionPlanEventComponent implements OnInit {
           //   window.location.href = self.url + event.id + '/' + event.provinceid;
           // }
           // else {
-            // alert(event.roleCreatedBy)
-            if (event.roleCreatedBy == 3) {
-              window.location.href = self.url + event.id + '/' + event.provinceid;
-            } else if (event.roleCreatedBy == 6) {
-              window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
-            }else if (event.roleCreatedBy == 10) {
-              window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid;
-            }
+          // alert(event.roleCreatedBy)
+          if (event.roleCreatedBy == 3) {
+            window.location.href = self.url + event.id + '/' + event.provinceid;
+          } else if (event.roleCreatedBy == 6) {
+            window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
+          } else if (event.roleCreatedBy == 10) {
+            window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid;
+          }
           // }
           // else
           // window.location.replace(url_to_inspection + event.id);

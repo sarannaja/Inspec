@@ -83,7 +83,7 @@
                         disabled>{{items.status}}</button>
                       <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
                         disabled>{{items.status}}</button>
-                        <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
+                      <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
                         disabled>{{items.status}}</button>
                     </div>
                   </div>
@@ -166,9 +166,9 @@
               <div *ngFor="let item3 of questionpeople; let i = index">
                 <label style="margin-left: 5px;">ข้อที่ {{i+1}})
                   {{item3.questionPeople}}<br></label>
-                  <div  *ngFor="let item4 of item3.answerCentralPolicyProvinces;">
-                    <label style="margin-left: 10px;"> - {{item4.answer}}</label>
-                  </div>
+                <div *ngFor="let item4 of item3.answerCentralPolicyProvinces;">
+                  <label style="margin-left: 10px;"> - {{item4.answer}}</label>
+                </div>
               </div>
             </div>
           </div>
@@ -191,20 +191,34 @@
 
           <div class="col-12">
             <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
-            <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
-            <div class="col-4">
+            <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile2($event)"
+              style="margin-bottom: 10px;">
+            <!-- <div class="col-4">
               <select class="selectpicker form-control" data-live-search="true"
                 (change)="checkType($event.target.value)" formControlName="fileType">
                 <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
                 <option value="Calendar Image File">รูปภาพ</option>
                 <option value="Calendar File">ไฟล์เอกสาร</option>
               </select>
-            </div>
-            <div class="col-8">
+            </div> -->
+            <!-- <div class="col-8">
               <textarea *ngIf="fileType == 'Calendar Image File'" cols="30" rows="5" class="form-control"
                 placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;" formControlName="description"></textarea>
-            </div>
+            </div> -->
           </div>
+
+          <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
+            <form class="form-group row col-12" [formGroup]="itemTest">
+              <div class="col-4">
+                <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
+                  {{itemTest.controls.ebookFile.value.name}}</label>
+              </div>
+              <div class="col-8">
+                <input formControlName="fileDescription" class="form-control" type="text" placeholder="ใส่คำอธิบาย">
+              </div>
+            </form>
+          </div>
+
           <div class="row">
             <div class="col-md-12" style="margin-top: 20px;">
               <u>ไฟล์แนบกำหนดการตรวจ</u><br>
@@ -215,6 +229,7 @@
                     {{ item.name }}<br>
                   </span>
                 </a>
+                <input type="text" class="form-control ml-4" style="width: 80%;" value="{{item.description}}" readonly>
               </div>
             </div>
           </div>
@@ -279,8 +294,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลิกที่ปรึกษาผู้ตรวจราชการภาคประชาชน" [multiple]="true"   [items]="peopleanswer"
-          name="peopleanswer" formControlName="peopleanswer"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลิกที่ปรึกษาผู้ตรวจราชการภาคประชาชน"
+          [multiple]="true" [items]="peopleanswer" name="peopleanswer" formControlName="peopleanswer">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -305,8 +320,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="DepartmentId"
-          formControlName="DepartmentId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
+          [items]="department" name="DepartmentId" formControlName="DepartmentId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -332,8 +347,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdatapeople"
-          name="UserPeopleId" formControlName="UserPeopleId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="selectdatapeople" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -358,8 +373,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdataministrypeople"
-          name="UserPeopleId" formControlName="UserPeopleId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="selectdataministrypeople" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -477,7 +492,7 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="notificationdate"   [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="notificationdate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -488,7 +503,7 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="deadlinedate"   [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="deadlinedate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -517,8 +532,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdatadepartmentpeople"
-          name="UserPeopleId" formControlName="UserPeopleId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="selectdatadepartmentpeople" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
       </div>
       <div class="modal-footer">

@@ -30,6 +30,7 @@ export class EditSubjectComponent implements OnInit {
   FormAddEditDepartment: FormGroup;
   FormAddDepartmentQuestion: FormGroup;
   Formfile: FormGroup;
+  form: FormGroup;
   id: any
   delid: any
   editid: any
@@ -53,11 +54,16 @@ export class EditSubjectComponent implements OnInit {
   times: any[] = [];
   timesselect: any[] = [];
   modalRef: BsModalRef;
+  listfiles: any = []
+  fileData: any = [{ SubjectFile: '', fileDescription: '' }];
 
   get f() { return this.FormAddQuestionsopen.controls; }
   get t() { return this.f.ProvincialDepartmentId as FormArray; }
   get ff() { return this.FormAddQuestionsclose.controls; }
   get tt() { return this.ff.ProvincialDepartmentId as FormArray; }
+  
+  get fff() { return this.Formfile.controls }
+  get s() { return this.fff.fileData as FormArray }
 
   constructor(
     private modalService: BsModalService,
@@ -72,6 +78,10 @@ export class EditSubjectComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string) {
     this.downloadUrl = baseUrl + '/Uploads';
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.form = this.fb.group({
+      name: [''],
+      files: [null]
+    })
   }
 
   ngOnInit() {
@@ -94,7 +104,9 @@ export class EditSubjectComponent implements OnInit {
     })
     this.Formfile = this.fb.group({
       centralpolicydateid: new FormControl(null, [Validators.required]),
-      files: [null]
+      // files: [null]
+      fileData: new FormArray([]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
     })
   }
   initdepartment() {
@@ -398,7 +410,23 @@ export class EditSubjectComponent implements OnInit {
     this.Formfile.get('files').updateValueAndValidity()
 
   }
+  uploadFile2(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        SubjectFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.Formfile.value);
+    console.log("eiei: ", this.s.controls);
 
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+  }
   AddDate(value) {
     console.log(value);
     console.log(this.resultsubjectdetail.id);
@@ -471,7 +499,7 @@ export class EditSubjectComponent implements OnInit {
     this.resultdsubjectid = []
     this.resultdsubjectid.push(this.id)
     //  alert(this.resultdsubjectid)
-    this.subjectservice.addFiles(this.resultdsubjectid, this.Formfile.value.files).subscribe(result => {
+    this.subjectservice.addFiles(this.resultdsubjectid, this.Formfile.value).subscribe(result => {
       console.log(result);
       this.Formfile.reset();
       this.modalRef.hide()
@@ -514,6 +542,7 @@ export class EditSubjectComponent implements OnInit {
     var CentralPolicyDateId: any = []
     var departmentId: any = []
     this.subjectservice.editSubject2(value, id).subscribe(response => {
+      this.AddFile();
       this.spinner.hide();
       window.history.back();
     })
