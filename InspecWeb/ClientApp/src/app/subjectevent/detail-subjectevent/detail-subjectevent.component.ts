@@ -21,7 +21,7 @@ import * as _ from 'lodash';
   styleUrls: ['./detail-subjectevent.component.css']
 })
 export class DetailSubjecteventComponent implements OnInit {
-  departmentSelect:any[] = []
+  departmentSelect: any[] = []
   subjectgroupstatus
   id
   subjectgroupid
@@ -119,8 +119,15 @@ export class DetailSubjecteventComponent implements OnInit {
       { data: [3, 1], label: 'หน่วยงาน A', stack: 'a' },
       { data: [2, 2], label: 'หน่วยงาน B', stack: 'a' },
     ]
-
   }
+
+  listfiles: any = [];
+  fileData: any = [{ ebookFile: '', fileDescription: '' }];
+
+
+  get f() { return this.form.controls }
+  get s() { return this.f.fileData as FormArray }
+
   filterboxdepartments: any = []
   constructor(
     private fb: FormBuilder,
@@ -178,6 +185,7 @@ export class DetailSubjecteventComponent implements OnInit {
       signatureFiles: [null],
       description: new FormControl(null, [Validators.required]),
       fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
+      fileData: new FormArray([]),
     })
 
 
@@ -671,14 +679,24 @@ export class DetailSubjecteventComponent implements OnInit {
   }
 
   uploadFile2(event) {
-    this.fileStatus2 = true;
-    const file = (event.target as HTMLInputElement).files;
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        ebookFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.form.value);
+    console.log("eiei: ", this.s.controls);
+
 
     this.form.patchValue({
-      signatureFiles: file
+      files: this.listfiles
     });
-    console.log("fff:", this.form.value.signatureFiles)
-    this.form.get('files').updateValueAndValidity()
+
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
   }
 
   getCalendarFile() {

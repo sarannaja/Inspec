@@ -98,9 +98,19 @@ export class AnswersubjectService {
     const formData = new FormData();
     formData.append('SubjectCentralPolicyProvinceId', subjectid);
     formData.append('UserId', userid);
-    formData.append('Type', Type);
-    for (var i = 0; i < file.length; i++) {
-      formData.append("files", file[i]);
+    // formData.append('Type', Type);
+    // for (var i = 0; i < file.length; i++) {
+    //   formData.append("files", file[i]);
+    // }
+    function getFileExtension2(filename) {
+      return filename.split('.').pop();
+    }
+    if (filedata.fileData != null) {
+      for (var iii = 0; iii < filedata.fileData.length; iii++) {
+        var filename: string = filedata.fileData[iii].AnswerSubjectFile.name
+        formData.append("files", filedata.fileData[iii].AnswerSubjectFile, `${filedata.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+        // formData.append("fileDescription", value.fileData[iii].fileDescription);
+      }
     }
     return this.http.post(this.url + "addfiles", formData);
   }

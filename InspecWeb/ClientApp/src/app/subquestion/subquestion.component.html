@@ -20,7 +20,7 @@
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
-          <div class="row">
+          <div class="">
             <div class="col-12 col-xl-12">
               <br>
             </div>
@@ -52,12 +52,13 @@
                   <label style="margin-left: 10px;">ใช้งานจริง</label>
                 </div>
               </div> -->
+              <hr width="100%" color="black">
               <div class="form-group">
                 <!-- <label>พื้นที่ดำเนินการ</label> -->
                 <div formArrayName="inputsubjectdepartment">
                   <div *ngFor="let V of Form['controls'].inputsubjectdepartment['controls']; let iv=index">
                     <div formGroupName="{{iv}}">
-                      <div class="row">
+                      <div class="form-group row">
                         <div class="col-2">
                           <label>ผู้ให้ข้อมูล</label>
                         </div>
@@ -218,8 +219,25 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label w-100">แนบไฟล์</label>
-                <input type="file" multiple (change)="uploadFile($event)" accept="image/png, image/jpeg">
-                <!-- formControlName="files" -->
+                <input type="file" multiple (change)="uploadFile2($event)">
+              </div>
+            </div>
+            <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
+              <form class="form-group row col-12" [formGroup]="itemTest">
+                <div class="col-4">
+                  <label formControlName="SubjectFile">ไฟล์ที่ {{i + 1}})
+                    {{itemTest.controls.SubjectFile.value.name}}</label>
+                </div>
+                <div class="col-8">
+                  <input formControlName="fileDescription" class="form-control" type="text" placeholder="ใส่คำอธิบาย">
+                </div>
+              </form>
+            </div>
+             <!-- formControlName="files" -->
+            <!-- <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label class="form-label w-100">แนบไฟล์</label>
+                <input type="file" multiple (change)="uploadFile($event)" accept="image/png, image/jpeg">  
                 <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
               </div>
               <div class="row" *ngFor="let item of listfiles; let i = index"
@@ -233,12 +251,12 @@
                   </span>
                 </a>
               </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-5 ml-sm-auto">
+            </div> -->
+            <div class="form-group row" style="text-align: center; justify-content: center;">
+              <div class="col-1">
                 <button type="submit" class="btn btn-primary">บันทึก</button>
               </div>
-              <div class="col-sm-5 ml-sm-auto">
+              <div class="col-1">
                 <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
               </div>
             </div>

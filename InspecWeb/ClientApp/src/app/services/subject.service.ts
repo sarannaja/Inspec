@@ -91,22 +91,47 @@ export class SubjectService {
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url, formData);
   }
-  addFiles(subjectid, file: FileList) {
-    // alert(subjectid)
-    // alert(JSON.stringify(file))
-    console.log("subjectid", subjectid);
-    console.log("file", file);
+  addFiles(subjectid, SubjectfileData) {
+    console.log("SubjectfileData", SubjectfileData);
 
     const formData = new FormData();
     for (var i = 0; i < subjectid.length; i++) {
       formData.append('SubjectCentralPolicyProvinceId', subjectid[i]);
     }
-    if (file != null) {
-      for (var ii = 0; ii < file.length; ii++) {
-        formData.append("files", file[ii]);
+    // if (file != null) {
+    //   for (var ii = 0; ii < file.length; ii++) {
+    //     formData.append("files", file[ii]);
+    //   }
+    // }
+    // if (SubjectfileData.fileData != null) {
+    //   for (var iii = 0; iii < SubjectfileData.fileData.length; iii++) {
+    //     formData.append("files", SubjectfileData.fileData[iii].SubjectFile,SubjectfileData.fileData[iii].fileDescription);
+    //     // formData.append("fileDescription", value.fileData[iii].fileDescription);
+    //   }
+    // }
+    function getFileExtension2(filename) {
+      return filename.split('.').pop();
+    }
+    if (SubjectfileData.fileData != null) {
+      for (var iii = 0; iii < SubjectfileData.fileData.length; iii++) {
+        var filename: string = SubjectfileData.fileData[iii].SubjectFile.name
+        formData.append("files", SubjectfileData.fileData[iii].SubjectFile, `${SubjectfileData.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+        // formData.append("fileDescription", value.fileData[iii].fileDescription);
       }
     }
+    // if (SubjectfileData.fileData != null) {
+    //   for (var iii = 0; iii < SubjectfileData.fileData.length; iii++) {
+    //     var filename: string = SubjectfileData.fileData[iii].SubjectFile.name
+    //     if (SubjectfileData.fileData[iii].fileDescription != null || SubjectfileData.fileData[iii].fileDescription != "") {
 
+    //       formData.append("files", SubjectfileData.fileData[iii].SubjectFile, `${SubjectfileData.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+    //     } else {
+    //       formData.append("files", SubjectfileData.fileData[iii].SubjectFile, `ไม่มีคำอธิบาย.${getFileExtension2(filename)}`);
+
+    //     }
+    //     // formData.append("fileDescription", value.fileData[iii].fileDescription);
+    //   }
+    // }
     return this.http.post(this.url + "addfiles", formData);
   }
   AddDepartmentQuestion(DepartmentQuestiondata, Box, subjectid) {

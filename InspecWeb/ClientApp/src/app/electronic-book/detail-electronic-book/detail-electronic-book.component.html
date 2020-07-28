@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)" >สมุดตรวจอิเล็กทรอนิกส์</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">สมุดตรวจอิเล็กทรอนิกส์</a></li>
       <li class="breadcrumb-item active" aria-current="page">รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</li>
     </ol>
   </nav>
@@ -279,15 +279,16 @@
                 <label style="margin-left: 10px;">ใช้งานจริง</label>
               </div>
             </div>
+            <label for="">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
             <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
               style="margin-top: 10px; margin-left: 5px;">
-              <label for="">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
               <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
                 <span>ไฟล์ที่
                   {{i+1}})
                   {{ item.name }}<br>
                 </span>
               </a>
+              <input type="text" value="{{item.description}}" style="width: 80%;" class="form-control ml-4" readonly>
             </div>
             <!-- <div *ngIf="electronicBookData.electronicBookAccept != null">
               <div class="row"

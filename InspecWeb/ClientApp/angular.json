@@ -44,6 +44,7 @@
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/moment/min/moment.min.js",
               "node_modules/fullcalendar/dist/fullcalendar.min.js",
+              "node_modules/fullcalendar/dist/locale-all.js",
               "src/assets/jvectormap/jquery-jvectormap-2.0.3.min.js",
               "src/assets/jvectormap/jquery-jvectormap-th-mill.js",
               "src/assets/src/js/settings.js"

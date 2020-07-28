@@ -50,6 +50,8 @@ export class EditCentralPolicyComponent implements OnInit {
   oldSelected:any[] = []
   selected: any = [];
   downloadUrl: any;
+  fileData: any = [{ CentralpolicyFile: '', fileDescription: '' }];
+  listfiles: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -77,6 +79,7 @@ export class EditCentralPolicyComponent implements OnInit {
   get f() { return this.EditForm.controls }
   get t() { return this.f.input as FormArray }
   get d() { return this.f.inputdate as FormArray }
+  get s() { return this.f.fileData as FormArray }
 
   ngOnInit() {
     this.spinner.show();
@@ -88,7 +91,9 @@ export class EditCentralPolicyComponent implements OnInit {
       ProvinceId: new FormControl(null),
       status: new FormControl(),
       input: new FormArray([]),
-      inputdate: new FormArray([])
+      inputdate: new FormArray([]),
+      fileData: new FormArray([]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
     });
 
 
@@ -194,6 +199,8 @@ export class EditCentralPolicyComponent implements OnInit {
       this.selectdataprovince = this.resultprovince.map((item, index) => {
         return { value: item.id, label: item.name }
       })
+      console.log("spinner");
+      
       this.spinner.hide();
     })
     this.loading = true;
@@ -273,7 +280,27 @@ export class EditCentralPolicyComponent implements OnInit {
     console.log("fff:", this.form.value.files)
     this.form.get('files').updateValueAndValidity()
   }
+  
+  uploadFile2(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        CentralpolicyFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.EditForm.value);
+    console.log("eiei: ", this.s.controls);
 
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
+  }
   onStartDateChanged(event: IMyDateModel, index) {
     this.startDate = event.date;
     console.log("SS: ", this.startDate);
@@ -365,6 +392,7 @@ export class EditCentralPolicyComponent implements OnInit {
 
 
       })
+      this.spinner.hide();
     // console.log(this.provinceservice.getRegionMock());
   }
 
