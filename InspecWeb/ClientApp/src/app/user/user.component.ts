@@ -34,6 +34,7 @@ export class UserComponent implements OnInit {
   selectdataregion: Array<any>
   selectdatafiscalyear: Array<any>
   selectdataprovincialdepartment: Array<any>
+  selectdataside:Array<any>
   loading = false;
   dtOptions: DataTables.Settings = {};
   roleId: any;
@@ -43,7 +44,7 @@ export class UserComponent implements OnInit {
   subscription: Subscription;
   addForm: FormGroup;
   id: any;
-  //name input
+  //<!-- input -->
   Prefix: any;
   Name: any;
   Position: any;
@@ -55,11 +56,17 @@ export class UserComponent implements OnInit {
   SubdistrictId: any;
   MinistryId: any;
   UserRegion: any;
+  FiscalYear:any;
   files: string[] = [];
   imgprofileUrl: any;
+  img:any;
   Startdate: any;
   Enddate: any;
-  //END name input
+  Commandnumberdate:any;
+  Side:any;
+  ed:any;
+  cd:any;
+  //<!-- END input -->
   datarole: any = [
     {
       id: 1,
@@ -100,14 +107,22 @@ export class UserComponent implements OnInit {
 
   ]
 
-  datadeparment: any = [
+  dataside: any = [
     {
-      id: 1,
-      name: 'กองทัพไทย'
+      id: 'วิชาการ',
+      name: 'วิชาการ'
     },
     {
-      id: 2,
-      name: 'สำนักงานรัฐมนตรีกระทรวงการคลัง'
+      id: 'สังคม',
+      name: 'สังคม'
+    },
+    {
+      id: 'สิ่งแวดล้อม',
+      name: 'สิ่งแวดล้อม'
+    },
+    {
+      id: 'เศรษฐกิจ',
+      name: 'เศรษฐกิจ'
     },
   ]
   fiscalYearId: any;
@@ -155,19 +170,20 @@ export class UserComponent implements OnInit {
 
   getData() {
     this.spinner.show();
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-
-    };
+ 
     this.getUser()
     this.getDataProvinces()
     //this.getDataRegions()
     this.getDataMinistries()
     this.getDatafiscalyear()
 
-    this.selectdatarole = this.datarole.map((item, index) => {
+    this.selectdataside = this.dataside.map((item, index) => {
       return { value: item.id, label: item.name }
     })
+
+    // this.selectdatarole = this.datarole.map((item, index) => {
+    //   return { value: item.id, label: item.name }
+    // })
 
     // this.selectdatadeparment = this.datadeparment.map((item, index) => {
     //   return { value: item.id, label: item.name }
@@ -200,10 +216,70 @@ export class UserComponent implements OnInit {
     this.addForm.reset()
     this.id = IDdelete;//ID สำหรับลบ
     this.addForm.patchValue({
-      Role_id: this.roleId
+      Role_id: this.roleId,
     })
     this.modalRef = this.modalService.show(template);
   }
+
+  openeditModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,ministryId,departmentId,provincialDepartmentId,side,
+    commandnumber,commandnumberdate,email,prefix,name,position,phoneNumber,startdate,enddate,img) 
+  {
+    this.addForm.reset()
+    this.id = id;
+    //alert(img);
+    this.img = img;
+    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {    
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      );
+      this.selectdataregion = uniqueRegion.map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      })
+    })
+
+    if(enddate == null){
+      this.ed = enddate;
+    }else{
+      this.ed = this.time(enddate);
+    }
+
+    if(commandnumberdate == null){
+      this.cd = commandnumberdate;
+    }else{
+      this.cd = this.time(commandnumberdate);
+    }
+
+    this.addForm.patchValue({
+      Role_id: this.roleId,
+      Prefix: prefix,
+      Name: name,
+      Position: position,
+      PhoneNumber: phoneNumber,
+      Email: email,
+      MinistryId: ministryId,
+      DepartmentId: departmentId,
+      FiscalYear: fiscalYearId,
+      ProvincialDepartmentId: provincialDepartmentId,
+      UserRegion: userRegion.map(result=>{
+        return result.regionId
+      }),
+      files: new FormControl(null, [Validators.required]),
+      Startdate: this.time(startdate),
+      Enddate: this.ed,
+      Commandnumber: commandnumber,
+      Side: side,
+      Commandnumberdate: this.cd,
+      Formprofile: 0,
+      Img:img,
+    })
+    this.modalRef = this.modalService.show(template);
+  }
+
+
 
   getUser() {
     this.userService.getuserdata(this.roleId)
@@ -219,7 +295,7 @@ export class UserComponent implements OnInit {
   getDatafiscalyear() {
     this.fiscalyearService.getfiscalyeardata()
       .subscribe(result => {
-        console.log('mo', result)
+      //  console.log('mo', result)
         this.selectdatafiscalyear = result.map((item, index) => {
           return { value: item.id, label: item.year }
         })
@@ -303,6 +379,17 @@ export class UserComponent implements OnInit {
     })
   }
 
+  updateuser(value) {
+   // alert(1);
+    this.userService.editprofile(value, this.addForm.value.files, this.id).subscribe(response => {
+      //alert(3);
+      this.addForm.reset()
+      this.modalRef.hide()
+      this.loading = false
+      this.getUser()
+    })
+  }
+
   //ลบ user
   deleteuser(value) {
     this.userService.deleteUser(value).subscribe(response => {
@@ -331,11 +418,17 @@ export class UserComponent implements OnInit {
       DistrictId: new FormControl(null),
       files: new FormControl(null, [Validators.required]),
       Startdate: new FormControl(null, [Validators.required]),
-      Enddate: new FormControl(null, [Validators.required]),
+      Enddate: new FormControl(null),
       Commandnumber: new FormControl(null),
-
-
+      Side: new FormControl(null),
+      Commandnumberdate: new FormControl(null),
+      Formprofile: 0,
+      Img: new FormControl(null),
     })
   }
-
+  time(date) {
+    var ssss = new Date(date)
+    var new_date = {date:{ year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() }}
+    return new_date
+  }
 }

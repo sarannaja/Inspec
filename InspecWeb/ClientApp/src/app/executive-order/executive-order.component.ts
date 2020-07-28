@@ -144,8 +144,9 @@ export class ExecutiveOrderComponent implements OnInit {
   getDatauser() {
     this.userService.getuserdata(3)
       .subscribe(result => {
+        console.log('data', result);
         this.selectdatauser = result.map((item, index) => {
-          return { value: item.id, label: item.prefix + ' ' + item.name }
+          return { value: item.id, label: item.prefix+item.name + ' : '+ item.ministries.name }
         })
 
       })
@@ -264,8 +265,6 @@ export class ExecutiveOrderComponent implements OnInit {
 
   time(date) {
     var ssss = new Date(date)
-    // console.log('ssss',ssss.getDate());
-    
     var new_date = {date:{ year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() }}
     return new_date
   }

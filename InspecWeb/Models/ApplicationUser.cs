@@ -120,6 +120,14 @@ namespace InspecWeb.Models
         [Description("เลขที่คำสั่ง")]
         public string Commandnumber { get; set; }
 
+        //20200719
+        [Description("ลงวันที่คำสั่ง")]
+        public DateTime? Commandnumberdate { get; set; }
+
+        //20200722
+        [Description("ปีงบประมาณ")]
+        public long FiscalYearId { get; set; }
+
 
     }
 

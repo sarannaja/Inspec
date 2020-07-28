@@ -73,10 +73,28 @@ export class UserService {
       formData.append('Rold','');
       formData.append('Alley','');
       formData.append('Postalcode','');
-      formData.append('Side','');
+
+      //<!-- ด้าน -->
+      if(userData.Side != null){
+      formData.append('Side',userData.Side); 
+      }else{
+        formData.append('Side',null);
+      }
+      //<!-- END ด้าน -->
       formData.append('Img','');
       formData.append('startdate', userData.Startdate.date.year + '-' + userData.Startdate.date.month + '-' + userData.Startdate.date.day);
+      
+      if(userData.Enddate != null){
       formData.append('enddate', userData.Enddate.date.year + '-' + userData.Enddate.date.month + '-' + userData.Enddate.date.day);
+      }else{
+        formData.append('enddate',null)
+      }
+
+      if(userData.Commandnumberdate != null){
+      formData.append('Commandnumberdate', userData.Commandnumberdate.date.year + '-' + userData.Commandnumberdate.date.month + '-' + userData.Commandnumberdate.date.day);
+      }else{
+        formData.append('Commandnumberdate',null)
+      }
 
       if(userData.UserRegion != null){
         for (var i = 0; i < userData.UserRegion.length; i++) {
@@ -124,6 +142,13 @@ export class UserService {
         formData.append('DepartmentId', userData.DepartmentId);//กรมมีได้อันเดียว
       }
 
+      if (userData.FiscalYear == null) {
+        formData.append('FiscalYearId', '1');
+      } else {
+        //alert(userData.FiscalYear);
+        formData.append('FiscalYearId', userData.FiscalYear);//ปีงบ
+      }
+
       if (userData.ProvincialDepartmentId == null) {
         formData.append('ProvincialDepartmentId', '1');
       } else {
@@ -139,16 +164,109 @@ export class UserService {
   }
 
   editprofile(userData, file: FileList, userId) {
+   // alert('2 :' + userId)
     const formData = new FormData();
+    formData.append('Role_id', userData.Role_id); //role
     formData.append('Prefix', userData.Prefix);
     formData.append('Name', userData.Name);
     formData.append('Position', userData.Position);
     formData.append('PhoneNumber', userData.PhoneNumber);
-    formData.append('Formprofile', userData.Formprofile);
-    // for (var iii = 0; iii < file.length; iii++) {
-    //   formData.append("files", file[iii]);
-    // }
-    alert(userData.Formprofile);
+    formData.append('Formprofile', userData.Formprofile);// สำหรับเช็ค user หรือแอดมิน เป็นคนเพิ่ม
+
+    formData.append('Email', userData.Email); //email  
+    
+    formData.append('Educational','');
+    formData.append('Commandnumber',userData.Commandnumber); //เลขที่คำสั่ง
+    formData.append('Officephonenumber','');
+    formData.append('Telegraphnumber','');
+    formData.append('Housenumber','');
+    formData.append('Rold','');
+    formData.append('Alley','');
+    formData.append('Postalcode','');
+    formData.append('Img',userData.Img);
+
+    //<!-- ด้าน -->
+    if(userData.Side != null){
+    formData.append('Side',userData.Side); 
+    }else{
+      formData.append('Side',null);
+    }
+    //<!-- END ด้าน -->
+    formData.append('startdate', userData.Startdate.date.year + '-' + userData.Startdate.date.month + '-' + userData.Startdate.date.day);
+    
+    if(userData.Enddate != null){
+    formData.append('enddate', userData.Enddate.date.year + '-' + userData.Enddate.date.month + '-' + userData.Enddate.date.day);
+    }else{
+      formData.append('enddate',null)
+    }
+
+    if(userData.Commandnumberdate != null){
+    formData.append('Commandnumberdate', userData.Commandnumberdate.date.year + '-' + userData.Commandnumberdate.date.month + '-' + userData.Commandnumberdate.date.day);
+    }else{
+      formData.append('Commandnumberdate',null)
+    }
+
+    if(userData.UserRegion != null){
+      for (var i = 0; i < userData.UserRegion.length; i++) {
+        formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน
+      }
+    }else{
+      formData.append('UserRegionId', '1');
+    }
+
+    if (userData.UserProvince != null) {
+        formData.append('UserProvinceId', userData.UserProvince); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+    } else {
+      formData.append('UserProvinceId', '1');
+    }
+
+    if (userData.ProvinceId == null) {
+      formData.append('ProvinceId', '1');
+    } else {
+      formData.append('ProvinceId', userData.ProvinceId); //จังหวัดมีได้อันเดียว
+    }
+
+    if (userData.DistrictId == null) {
+      formData.append('DistrictId', '1');
+    } else {
+      formData.append('DistrictId', userData.DistrictId); //อำเภอมีได้อันเดียว
+    }
+
+    if (userData.SubdistrictId == null) {
+      formData.append('SubdistrictId', '1');
+    } else {
+      formData.append('SubdistrictId', userData.SubdistrictId); //ตำบลมีได้อันเดียว
+    }
+
+    if (userData.MinistryId == null) { 
+      formData.append('MinistryId', '1');
+    } else {
+      formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+    }
+
+    if (userData.DepartmentId == null) {
+      formData.append('DepartmentId', '1');
+    } else {
+      formData.append('DepartmentId', userData.DepartmentId);//กรมมีได้อันเดียว
+    }
+
+    if (userData.FiscalYear == null) {
+      formData.append('FiscalYearId', '1');
+    } else {
+      formData.append('FiscalYearId', userData.FiscalYear);//ปีงบ
+    }
+
+    if (userData.ProvincialDepartmentId == null) {
+      formData.append('ProvincialDepartmentId', '1');
+    } else {
+      formData.append('ProvincialDepartmentId', userData.ProvincialDepartmentId);//หน่วยงานภูมิภาคมีได้อันเดียว
+    }
+
+    for (var iii = 0; iii < file.length; iii++) {
+
+      formData.append("files", file[iii]);
+    }
+   
     let path = this.base + userId;
     return this.http.put(path, formData)
   }
