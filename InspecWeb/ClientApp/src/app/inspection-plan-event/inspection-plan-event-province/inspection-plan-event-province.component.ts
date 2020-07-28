@@ -95,7 +95,7 @@ export class InspectionPlanEventProvinceComponent implements OnInit {
   }
 
   getinspectionplaneventuserprovincedata() {
-    this.inspectionplanservice.getinspectionplaneventuserprovincedata(this.userid, this.id)
+    this.inspectionplanservice.getinspectionplaneventuserprovincedata(this.id)
       .subscribe(result => {
         console.log(result);
         this.resultinspectionplanevent = result

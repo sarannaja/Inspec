@@ -608,6 +608,12 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionplanevent/all',
+        name: 'ปฏิทินการตรวจราชการรวม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
         url: '/inspectionplanevent',
         name: 'ปฏิทินการตรวจราชการ'
       },

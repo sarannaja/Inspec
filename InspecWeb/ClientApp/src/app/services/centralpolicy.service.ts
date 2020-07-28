@@ -387,4 +387,8 @@ export class CentralpolicyService {
   deleteDepartment(id) {
     return this.http.delete(this.url + "deletedepartment/" + id);
   }
+
+  deletecentralpolicyuser(id) {
+    return this.http.delete(this.url + "deletecentralpolicyuser/" + id);
+  }
 }
