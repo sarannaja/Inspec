@@ -28,9 +28,12 @@ export class AnswerSubjectEditComponent implements OnInit {
   Form: FormGroup
   Formstatus: FormGroup
   Formfile: FormGroup
+  form: FormGroup
   modalRef: BsModalRef;
   downloadUrl: any
   status: any
+  listfiles: any = []
+  fileData: any = [{ AnswerSubjectFile: '', fileDescription: '' }];
 
   constructor(
     private modalService: BsModalService,
@@ -44,9 +47,16 @@ export class AnswerSubjectEditComponent implements OnInit {
   ) {
     this.downloadUrl = baseUrl + '/Uploads';
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.form = this.fb.group({
+      name: [''],
+      files: [null]
+    })
   }
   get f() { return this.Form.controls; }
   get t() { return this.f.result as FormArray; }
+
+  get ff() { return this.Formfile.controls }
+  get s() { return this.ff.fileData as FormArray }
 
   Test(index, value) {
     this.t.at(index).patchValue({
@@ -62,8 +72,10 @@ export class AnswerSubjectEditComponent implements OnInit {
       result: new FormArray([]),
     })
     this.Formfile = this.fb.group({
-      files: [null],
-      Type: ""
+      // files: [null],
+      // Type: ""
+      fileData: new FormArray([]),
+      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
     })
     this.Formstatus = this.fb.group({
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
@@ -158,12 +170,13 @@ export class AnswerSubjectEditComponent implements OnInit {
     })
   }
   editstatus(value) {
+    // this.spinner.show();
     console.log(value);
     this.answersubjectservice.editStatus(value, this.resultanswerstatus.id).subscribe(result => {
+      this.storefile()
       this.Form.reset();
       this.Formstatus.reset();
-      this.Formfile.reset();
-      this.spinner.hide();
+      // this.spinner.hide();
       window.history.back();
     })
   }
@@ -175,11 +188,30 @@ export class AnswerSubjectEditComponent implements OnInit {
     });
     this.Formfile.get('files').updateValueAndValidity()
   }
+  uploadFile2(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s.push(this.fb.group({
+        AnswerSubjectFile: file[i],
+        fileDescription: '',
+      }))
+    }
+    console.log("listfiles: ", this.Formfile.value);
+    console.log("eiei: ", this.s.controls);
+
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+  }
   storefile() {
     this.answersubjectservice.addFiles(this.id, this.Formfile.value, this.userid).subscribe(response => {
       this.modalRef.hide();
-      this.Form.reset();
-      this.getAnswerfiles();
+      this.Formfile.reset();
+      this.spinner.hide();
+      window.history.back();
+      // this.getAnswerfiles();
       // this.Formfile.value.files, this.Formfile.value
     })
   }
@@ -189,6 +221,9 @@ export class AnswerSubjectEditComponent implements OnInit {
       this.modalRef.hide()
       this.getAnswerfiles();
     })
+  }
+  printPage() {
+    window.print();
   }
   back() {
     window.history.back();

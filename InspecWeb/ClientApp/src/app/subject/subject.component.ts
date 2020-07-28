@@ -58,7 +58,7 @@ export class SubjectComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.spinner.show();
 
     this.dtOptions = {
@@ -68,8 +68,18 @@ export class SubjectComponent implements OnInit {
           targets: [3],
           orderable: false
         }
-      ]
-
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
 
     // this.Form = this.fb.group({
@@ -86,12 +96,12 @@ export class SubjectComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
         this.userService.getuserfirstdata(this.userid)
-        .subscribe(result => {
-          // this.resultuser = result;
-          //console.log("test" , this.resultuser);
-          this.role_id = result[0].role_id
-          // alert(this.role_id)
-        })
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
       })
 
     // this.subjectservice.getsubjectdata(this.id).subscribe(result => {
@@ -128,7 +138,7 @@ export class SubjectComponent implements OnInit {
   Subquestion() {
     this.router.navigate(['/subquestion', this.id])
   }
-  DetailSubject(id){
+  DetailSubject(id) {
     this.router.navigate(['/subject/detailsubject', id])
   }
   EditSubject(id) {
