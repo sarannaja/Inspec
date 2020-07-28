@@ -37,6 +37,8 @@ namespace InspecWeb.ViewModel
         public string Phonenumber { get; set; }
 
         public string Answer { get; set; }
+
+        public string Description { get; set; }
     }
 
     public class inputanswer

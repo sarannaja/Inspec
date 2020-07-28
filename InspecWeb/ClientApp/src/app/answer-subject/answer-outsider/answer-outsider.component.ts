@@ -73,6 +73,7 @@ export class AnswerOutsiderComponent implements OnInit {
         Question: [this.resultsubquestion[i].name],
         Answer: [""],
         Choice: [test],
+        Description: [""],
         Type: [this.resultsubquestion[i].type]
       }))
     }
