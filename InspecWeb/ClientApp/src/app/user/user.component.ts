@@ -228,6 +228,7 @@ export class UserComponent implements OnInit {
   openeditModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,UserProvince,ministryId,departmentId,provincialDepartmentId,side,
     commandnumber,commandnumberdate,email,prefix,name,position,phoneNumber,startdate,enddate,img) 
   {
+    //alert(UserProvince);
     this.addForm.reset()
     this.id = id;
     this.img = img;
@@ -243,7 +244,6 @@ export class UserComponent implements OnInit {
         }
       })
     })
-
     if(enddate == null){
       this.ed = enddate;
     }else{
@@ -271,7 +271,7 @@ export class UserComponent implements OnInit {
       UserRegion: userRegion.map(result=>{
         return result.regionId
       }),
-      UserProvince: UserProvince,
+      UserProvince:UserProvince,
       files: new FormControl(null, [Validators.required]),
       Startdate: this.time(startdate),
       Enddate: this.ed,
@@ -330,7 +330,7 @@ export class UserComponent implements OnInit {
       UserRegion: userRegion.map(result=>{
         return result.regionId
       }),
-      UserProvince: UserProvince,
+      UserProvince:UserProvince[0].province.id,
       files: new FormControl(null, [Validators.required]),
       Startdate: this.time(startdate),
       Enddate: this.ed,
@@ -350,7 +350,7 @@ export class UserComponent implements OnInit {
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();
-        //console.log("userdata", this.resultuser);
+        console.log("userdata", this.resultuser);
       })
   }
 
