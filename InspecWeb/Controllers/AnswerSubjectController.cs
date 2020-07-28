@@ -467,6 +467,7 @@ namespace InspecWeb.Controllers
                     Position = answeroutsider.Position,
                     Phonenumber = answeroutsider.Phonenumber,
                     Answer = answeroutsider.Answer,
+                    Description = answeroutsider.Description,
                     CreatedAt = date
 
                 };

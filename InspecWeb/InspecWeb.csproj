@@ -38,22 +38,6 @@
     
   </ItemGroup>
 
-  <ItemGroup><!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <!-- <Content Remove="$(SpaRoot)**" />
-    <None Remove="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-    <Content Remove="wwwroot\Uploads\4SSEYBRSAWScreen Shot 2563-04-23 at 10.27.52.png" />
-    <Content Remove="wwwroot\Uploads\TBG487JZSLScreen Shot 2563-04-23 at 10.27.52.png" />
-    <Content Remove="wwwroot\Uploads\EKOKWXE4M6Screen Shot 2563-04-23 at 10.27.10.png" />
-    <Content Remove="wwwroot\Uploads\LQN3MIJQ5DScreen Shot 2563-04-23 at 10.27.10.png" /> -->
-  
-    <!-- <Folder Include="Migrations\" /> -->
-  
-    <!-- <Folder Include="Data\Migrations\" /> -->
-  
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
   <ItemGroup>
     <!-- <None Remove="ClientApp\src\assets\favicon.ico" /> -->
   </ItemGroup>
