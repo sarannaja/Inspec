@@ -33,10 +33,14 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   form: FormGroup;
   submitForm: FormGroup;
   downloadUrl: any;
-  signature: any = [];
+  signature: any;
   provincialDepartmentData: any = [];
   otherDepartmentForm: FormGroup;
   electAcceptId: any;
+  allDepartmentInvite: any = [];
+  acceptDepartmentInvite: any = [];
+  userProvinceId: any;
+  checkProvince = false;
 
   constructor(
     private fb: FormBuilder,
@@ -62,15 +66,17 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
-        // console.log(result);
+        // console.log("user naja: ", result);
         // alert(this.userid)
-        this.signature = result;
+        // this.signature = result;
         // console.log("signatureProvince: ", this.signature);
 
         this.userservice.getuserfirstdata(this.userid)
           .subscribe(result => {
-
+            console.log("user naja: ", result);
             this.role_id = result[0].role_id
+            this.signature = result[0].signature
+            this.userProvinceId = result[0].provinceId
             // alert(this.role_id)
           })
       })
@@ -125,6 +131,28 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
       this.getInvitedPeople(this.inspectionPlanEventId);
 
       this.electronicBookData = result;
+      console.log("electronicBookData => ", this.electronicBookData);
+      this.allDepartmentInvite = result.electronicBookDepartment;
+
+      this.electronicBookData.electronicBookAccept.forEach(element => {
+        if (element.provinceId == this.userProvinceId && element.electronicBookId == this.electId) {
+          if (element.status == "ลงนามเอกสารแล้ว") {
+            this.checkProvince = true;
+            console.log("checkProvince: ", this.checkProvince);
+
+          }
+        }
+      });
+
+      this.acceptDepartmentInvite = this.allDepartmentInvite.filter(function (data) {
+        return data.status == "ดำเนินการแล้ว";
+      });
+      console.log("allDepartment: ", this.allDepartmentInvite.length);
+
+      console.log('acceptDepartment: ', this.acceptDepartmentInvite.length);
+
+
+
       // console.log("provinceDataXXXXX: ", this.electronicBookData);
 
       this.electronicBookData.ebookInvite.forEach(element => {
@@ -205,7 +233,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   }
 
   postSignature(value) {
-    this.electronicBookService.provinceAddSignature(value, this.form.value.files, this.electId, this.userid).subscribe(res => {
+    this.electronicBookService.provinceAddSignature(value, this.form.value.files, this.electId, this.userid, this.userProvinceId).subscribe(res => {
       // console.log("signatureRES: ", res);
       this.getElectronicBookDetail();
       this.Form.reset();

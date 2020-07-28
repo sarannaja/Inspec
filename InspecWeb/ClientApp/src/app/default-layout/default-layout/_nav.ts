@@ -1396,21 +1396,27 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     IDchildren: 'electronicBook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: "/electronicbookprovince",
-        name: 'รอดำเนินการ'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/electronicbook/other',
-        name: 'ถูกส่งต่อ'
-      },
-    ]
+    url: "/electronicbookdepartment",
   },
+  // {
+  //   IDchildren: 'electronicBook',
+  //   icon: 'fa-book',
+  //   name: "สมุดตรวจอิเล็กทรอนิกส์",
+  //   children: [
+  //     {
+  //       ex_link: '0',
+  //       icon: 'fa-long-arrow-alt-right',
+  //       url: "/electronicbookdepartment",
+  //       name: 'รอดำเนินการ'
+  //     },
+  //     {
+  //       ex_link: '0',
+  //       icon: 'fa-long-arrow-alt-right',
+  //       url: '/electronicbook/other',
+  //       name: 'ถูกส่งต่อ'
+  //     },
+  //   ]
+  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",

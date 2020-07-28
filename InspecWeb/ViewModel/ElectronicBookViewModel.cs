@@ -82,6 +82,13 @@ namespace InspecWeb.ViewModel
         public string[] fileDescription { get; set; }
 
         public inputfile[] inputfile { get; set; }
+
+        public string sendToProvince { get; set; }
+        public long[] provincialDepartmentIdAr { get; set; }
+
+        public long electProvincialId { get; set; }
+
+        public string centralPolicyEventTitle { get; set; }
     }
 
     public class inputfile

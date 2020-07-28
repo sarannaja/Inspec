@@ -21,7 +21,7 @@ namespace InspecWeb.Models
         //[Description("FK: SubjectCentralPolicyProvince")]
         //public long SubjectCentralPolicyProvinceId { get; set; }
         //public virtual SubjectCentralPolicyProvince SubjectCentralPolicyProvince { get; set; }
-        
+
         [ForeignKey("User")]
         [Description("FK: User")]
         public string CreatedBy { get; set; }
@@ -59,5 +59,20 @@ namespace InspecWeb.Models
         public ICollection<ElectronicBookInvite> ElectronicBookInvites { get; set; }
 
         public ICollection<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
+
+        // Test create own
+        [Description("ประเภทสมุดตรวจ")]
+        public string ElectronicBookType { get; set; }
+
+        [Description("หน่วยรับตรวจ")]
+        public long ProvincialDepartmentId { get; set; }
+
+        [Description("ประเด็นนโยบาย")]
+        public string CentralPolicy { get; set; }
+
+        [Description("จังหวัดต้องรับทราบมั้ย")]
+        public string ProvinceType { get; set; }
+
+        public ICollection<ElectronicBookProvincialDepartment> ElectronicBookProvincialDepartments { get; set; }
     }
 }
