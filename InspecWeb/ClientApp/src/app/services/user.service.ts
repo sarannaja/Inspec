@@ -220,7 +220,7 @@ export class UserService {
       formData.append('UserProvinceId', '1');
     }
 
-    if (userData.ProvinceId == null) {
+    if (userData.ProvinceId == null) {  
       formData.append('ProvinceId', '1');
     } else {
       formData.append('ProvinceId', userData.ProvinceId); //จังหวัดมีได้อันเดียว

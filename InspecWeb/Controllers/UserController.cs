@@ -302,7 +302,7 @@ namespace InspecWeb.Controllers {
            // Console.WriteLine ("momomo :" + model.Formprofile);
 
             var userdata = _context.Users.Find (editId);
-            userdata.Img = userdata.Img;
+            userdata.Img = model.Img;
 
 
             //<!-- file -->
@@ -447,7 +447,7 @@ namespace InspecWeb.Controllers {
                     var userregiondata = new UserRegion
                     {
                         UserID = editId,
-                        RegionId = model.UserRegionId
+                        RegionId = 1
                     };
                     System.Console.WriteLine("testuser11 :");
                     _context.UserRegions.Add(userregiondata);
