@@ -32,6 +32,7 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>แผนการตรวจราชการ</th>
               <th>กำหนดการสมุดตรวจ</th>
               <!-- <th>รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</th> -->
               <!-- <th>จังหวัด</th> -->
@@ -42,14 +43,22 @@
           <tbody>
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
-              <td class="pointer">
-                วันที่ {{item.startDate | thaidate: 'year'}} ถึง {{item.endDate | thaidate: 'year'}}</td>
+              <td *ngIf="item.centralPolicy == null">
+                <div *ngFor="let items of item.electronicBookGroups; let i2 = index">
+                  {{i2 + 1}}) {{items.centralPolicyEvent.centralPolicy.title}}
+                </div>
+              </td>
+              <td *ngIf="item.centralPolicy != null">
+                {{item.centralPolicy}}
+              </td>
+              <td>
+                วันที่ {{item.startDate | thaidate: 'year'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
               <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
-              <td *ngIf="item.provinceStatus == null">{{ item.status }}</td>
-              <td *ngIf="item.provinceStatus != null">{{ item.provinceStatus }}</td>
+              <!-- <td *ngIf="item.provinceStatus == null">{{ item.status }}</td>
+              <td *ngIf="item.provinceStatus != null">{{ item.provinceStatus }}</td> -->
+              <td>{{ item.status }}</td>
               <td>
-
                 <i class="align-middle mr-2 fas fa-fw fa fa-book pointer" (click)="gotoTheme(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.id)"></i>
                 <!-- <i *ngIf="item.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"

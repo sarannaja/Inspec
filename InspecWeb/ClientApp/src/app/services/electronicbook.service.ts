@@ -283,6 +283,12 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + "centralPolicyEbook")
   }
 
+  getCentralPolicyEbook2(startDate) {
+    const formData = new FormData();
+    formData.append('startDate', startDate);
+    return this.http.post<any>(this.url + "centralPolicyEbook2", formData)
+  }
+
   createElectronicBook(value, userId) {
     // alert(value.description);
     // alert( value.fileType)
@@ -358,13 +364,12 @@ export class ElectronicbookService {
   createElectronicBookOwn(value, file: FileList, userId) {
     // alert(value.description);
     // alert( value.fileType)
-    console.log("Add EBook: ", value);
-    console.log("Add EBook File: ", file);
+    console.log("Add EBook Own: ", value);
 
     var inputdate: Array<any> = value.inputdate.map((item, index) => {
       return {
         StartDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
-        EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
+        // EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
       }
     })
 
@@ -373,36 +378,68 @@ export class ElectronicbookService {
     formData.append('Problem', value.Problem);
     formData.append('Suggestion', value.Suggestion);
     formData.append('Status', value.Status);
-    // formData.append('centralPolicyEventId', value.centralPolicyEventId);
+    formData.append('centralPolicyEventTitle', value.centralPolicy);
     formData.append('Description', value.description);
     formData.append('Type', value.fileType);
     formData.append('id', userId);
+    formData.append('ProvincialDepartmentId', value.provincialDepartment);
+    formData.append('userCreate', userId);
+
+    console.log("own 1: ");
+
+    for (var i = 0; i < value.provincialDepartment.length; i++) {
+      formData.append('provincialDepartmentIdAr', value.provincialDepartment[i]);
+    }
+
+    console.log("own 2: ");
+
+    for (var i = 0; i < value.ProvinceId.length; i++) {
+      formData.append('electProvinceId', value.ProvinceId[i]);
+    }
+
+    console.log("own 3: ");
 
     for (var i = 0; i < inputdate.length; i++) {
       console.log("ii: ", i);
       // console.log("inputdateii: ", inputdate[ii].StartDate);
       formData.append('StartDate', inputdate[i].StartDate);
-      formData.append('EndDate', inputdate[i].EndDate);
+      // formData.append('EndDate', inputdate[i].EndDate);
     }
 
-    for (var i = 0; i < value.centralPolicyEventId.length; i++) {
-      formData.append('centralPolicyEventId', value.centralPolicyEventId[i]);
-    }
+    console.log("own 4: ");
+
+    // for (var i = 0; i < value.centralPolicyEventId.length; i++) {
+    //   formData.append('CentralPolicyEventId', value.centralPolicyEventId[i]);
+    // }
 
     console.log("detail", formData.getAll("Detail"));
     console.log("Problem", formData.getAll("Problem"));
     console.log("Suggestion", formData.getAll("Suggestion"));
     console.log("id", formData.getAll("id"));
     console.log("Status", formData.getAll("Status"));
-
-    if (file != null) {
-      for (var iii = 0; iii < file.length; iii++) {
-        formData.append("files", file[iii]);
+    function getFileExtension2(filename) {
+      return filename.split('.').pop();
+    }
+    if (value.fileData != null) {
+      for (var iii = 0; iii < value.fileData.length; iii++) {
+        var filename: string = value.fileData[iii].ebookFile.name;
+        console.log('.ebookFile.name', value.fileData[iii].ebookFile.name);
+        console.log('getFileExtension2', getFileExtension2(filename));
+        formData.append("files", value.fileData[iii].ebookFile, `${value.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+        // formData.append("fileDescription", value.fileData[iii].fileDescription);
       }
     }
 
+    var sendOrNot: any;
+    if (value.SendToProvince == true) {
+      sendOrNot = "ส่งให้จังหวัด";
+    } else {
+      sendOrNot = "ไม่ส่งให้จังหวัด"
+    }
+    formData.append('sendToProvince', sendOrNot);
+
     console.log('FORMDATA: ', formData);
-    return this.http.post(this.url + "CreateElectronicBook", formData);
+    return this.http.post(this.url + "CreateElectronicBookOwn", formData);
   }
 
   addOpinion(value, ebookInviteId) {
@@ -425,7 +462,7 @@ export class ElectronicbookService {
     return this.http.post<any>(this.url + "getElectronicBookInviteOpinion", formData);
   }
 
-  sendToProvince(electId, userId, provinceId) {
+  sendToProvince(electId, userId, provinceId, provincialDepartmentId) {
     console.log("Provinces: ", provinceId);
 
     const formData = new FormData();
@@ -437,12 +474,17 @@ export class ElectronicbookService {
     }
     console.log("PID: ", formData.getAll("electProvinceId"));
 
+    for (var i = 0; i < provincialDepartmentId.length; i++) {
+      formData.append("provincialDepartmentIdAr", provincialDepartmentId[i]);
+    }
+    console.log("PDID: ", formData.getAll("provincialDepartmentIdAr"));
+
     return this.http.post<any>(this.url + "sendElectronicBookToProvince", formData)
   }
 
-  getSendedElectronicBookProvince(provinceId) {
+  getSendedElectronicBookProvince(provinceId, provincialDepartmentId) {
     console.log("provinceID: ", provinceId);
-    return this.http.get<any[]>(this.url + "electronicbookprovince/" + provinceId)
+    return this.http.get<any[]>(this.url + "electronicbookprovince/" + provinceId + "/" + provincialDepartmentId)
 
   }
 
@@ -487,14 +529,17 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + "getSubjectEventFile/" + subjectgroupId + "/" + cenproid)
   }
 
-  provinceAddSignature(value, file: FileList, electId, userId) {
+  provinceAddSignature(value, file: FileList, electId, userId, provinceId) {
     console.log("sign: ", value);
     console.log("file: ", file);
+    console.log("provinceId: ", provinceId);
+
 
     const formData = new FormData();
     formData.append('Description', value.description);
     formData.append('ElectID', electId);
     formData.append('userCreate', userId);
+    formData.append('ProvinceId', provinceId);
 
     if (file != null) {
       for (var iii = 0; iii < file.length; iii++) {
@@ -587,6 +632,14 @@ export class ElectronicbookService {
       }
     }
 
+    var sendOrNot: any;
+    if (value.SendToProvince == true) {
+      sendOrNot = "ส่งให้จังหวัด";
+    } else {
+      sendOrNot = "ไม่ส่งให้จังหวัด"
+    }
+    formData.append('sendToProvince', sendOrNot);
+
     // var inputfile: any = [];
 
     // if (value.fileData != null) {
@@ -606,6 +659,41 @@ export class ElectronicbookService {
 
     console.log('FORMDATA: ', formData);
     return this.http.post<any>(this.url + "CreateElectronicBook2", formData);
+  }
+
+  getSendedElectronicBookDepartment(provincialDepartmentId) {
+    console.log("provincialDepartmentId: ", provincialDepartmentId);
+    return this.http.get<any[]>(this.url + "electronicbookdepartment/" + provincialDepartmentId)
+  }
+
+  departmentAddSignature(value, file: FileList, electId, userId, electProvincialId) {
+    console.log("sign: ", value);
+    console.log("file: ", file);
+    console.log("electProvincialId =>>> ", electProvincialId);
+
+    const formData = new FormData();
+    formData.append('Description', value.description);
+    formData.append('ElectID', electId);
+    formData.append('userCreate', userId);
+    formData.append('electProvincialId', electProvincialId);
+
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+    return this.http.post<any>(this.url + "addDepartmentSignature", formData)
+  }
+
+  getElectronicBookDepartmentById(electId, provincialId) {
+    console.log("ProvincialDepartmentID: ", provincialId);
+
+    const formData = new FormData();
+    formData.append('ElectID', electId);
+    formData.append('provincialDepartmentId', provincialId);
+
+    return this.http.post<any>(this.url + "GetElectronicBookDepartmentById", formData);
   }
 }
 

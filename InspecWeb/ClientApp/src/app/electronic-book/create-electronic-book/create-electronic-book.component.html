@@ -17,15 +17,48 @@
         <h5 class="card-title">สร้างสมุดตรวจอิเล็กทรอนิกส์</h5>
       </div>
       <div class="card-body" style="margin-top: 45px;">
-        <!-- <div class="form-group ml-2">
+        <div class="form-group ml-2">
           <input type="radio" name="ebookType" (change)="createFromCentralpolicy($event)"
             value="สร้างจากแผนการตรวจราชการ">
           <label style="margin-left: 10px;">สร้างจากแผนการตรวจราชการ</label>
           <input style="margin-left: 10px;" type="radio" name="ebookType" (change)="createOwn($event)" value="สร้างเอง">
           <label style="margin-left: 10px;">สร้างเอง</label>
-        </div> -->
+        </div>
+
+
+        <!-- ==================== สร้างจากแผนการตรวจราชการ ==================== -->
         <form *ngIf="checkTypeCreate == true" [formGroup]="EbookForm" (ngSubmit)="storeElectronicBook(EbookForm.value)">
           <div>
+
+            <div class="col-12 col-xl-12">
+              <label>เลือกกำหนดการ</label>
+            </div>
+            <div class="col-12">
+              <div class="form-group row" *ngFor="let item of d.controls; let i = index">
+                <form class="form-group row col-12" [formGroup]="item">
+                  <div class="col-12 col-xl-3">
+                    <div class="form-group">
+                      <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
+                        [options]="myDatePickerOptions" onchange="" required (dateChanged)="onStartDateChanged($event)">
+                      </my-date-picker-th>
+                    </div>
+                  </div>
+                  <!-- <div class="col-12 col-xl-1">
+                    <div class="form-group" align="center">
+                      ถึง
+                    </div>
+                  </div>
+                  <div class="col-12 col-xl-3">
+                    <div class="form-group">
+                      <my-date-picker-th formControlName="end_date" [(ngModel)]="item.end_date"
+                        [options]="myDatePickerOptions" required>
+                      </my-date-picker-th>
+                    </div>
+                  </div> -->
+                </form>
+              </div>
+            </div>
+
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <div class="form-group">
@@ -35,63 +68,6 @@
                     formControlName="centralPolicyEventId">
                   </ng-select>
                 </div>
-              </div>
-            </div>
-            <div class="col-12 col-xl-12">
-              <label>กำหนดระยะเวลา</label>
-            </div>
-            <!-- <div class="col-12">
-              <div class=" row">
-                <form class=" row col-12">
-                  <div class="col-12 col-xl-3">
-                    <div class="form-group">
-                      <my-date-picker-th formControlName="startDate"   [items]="myDatePickerOptions" required [(ngModel)]="startDate">
-                      </my-date-picker-th>
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-1">
-                    <div class="" align="center">
-                      ถึง
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-3">
-                    <div class="form-group">
-                      <my-date-picker-th formControlName="endDate"   [items]="myDatePickerOptions" required [(ngModel)]="endDate">
-                      </my-date-picker-th>
-                    </div>
-                  </div>
-
-                </form>
-              </div>
-            </div> -->
-
-            <div class="col-12">
-              <div class="form-group row" *ngFor="let item of d.controls; let i = index">
-                <form class="form-group row col-12" [formGroup]="item">
-                  <div class="col-12 col-xl-3">
-                    <div class="form-group">
-                      <!-- <my-date-picker-th formControlName="start_date"   [items]="myDatePickerOptions" required>
-                      </my-date-picker-th> -->
-                      <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
-                        [options]="myDatePickerOptions" required>
-                      </my-date-picker-th>
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-1">
-                    <div class="form-group" align="center">
-                      ถึง
-                    </div>
-                  </div>
-                  <div class="col-12 col-xl-3">
-                    <div class="form-group">
-                      <!-- <my-date-picker-th formControlName="end_date"   [items]="myDatePickerOptions" required>
-                      </my-date-picker-th> -->
-                      <my-date-picker-th formControlName="end_date" [(ngModel)]="item.end_date"
-                        [options]="myDatePickerOptions" required>
-                      </my-date-picker-th>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
 
@@ -119,6 +95,16 @@
                 <textarea cols="30" rows="5" formControlName="Suggestion" class="form-control"
                   placeholder="กรุณากรอกข้อเสนอแนะ">
                 </textarea>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-12" style="margin-top: 20px;">
+              <div class="form-group">
+                <div class="form-group col-md-3">
+                  <div class="mb-3">
+                    <input type="checkbox" formControlName="SendToProvince"> ส่งให้หัวหน้าส่วนจังหวัดยืนยัน
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -188,6 +174,8 @@
           </div>
         </form>
 
+
+        <!-- ==================== สร้างเอง ==================== -->
         <form *ngIf="checkTypeCreate == false" [formGroup]="EbookForm"
           (ngSubmit)="storeElectronicBook(EbookForm.value)">
           <div>
@@ -195,22 +183,57 @@
               <div class="form-group">
                 <div class="form-group">
                   <label class="form-label">ประเด็นนโยบาย</label>
-                  <input class="form-control" type="text" placeholder="กรุณากรอกประเด็นนโยบาย">
+                  <input class="form-control" type="text" formControlName="centralPolicy"
+                    placeholder="กรุณากรอกประเด็นนโยบาย">
                 </div>
+              </div>
+            </div>
+
+            <!-- <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label class="form-label">จังหวัด</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+                  [items]="provinceData" name="ProvinceId" formControlName="ProvinceId">
+                </ng-select>
+              </div>
+            </div> -->
+
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>พื้นที่การตรวจติดตาม {{selectedProvince.length}} จังหวัด</label>
+                <ng-select [items]="province" [multiple]="true" bindLabel="label" groupBy="region"
+                  [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
+                  [(ngModel)]="selectedProvince" formControlName="ProvinceId">
+                  <ng-template ng-header-tmp>
+                    <div>
+                      <button type="button" class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
+                      <button type="button" class="btn btn-link" (click)="onClearAll()">ล้าง</button>
+                    </div>
+
+                  </ng-template>
+                  <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                      [ngModel]="item$.selected" /> {{item.region }}
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                    <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                      [ngModel]="item$.selected" /> {{item.name}}
+                  </ng-template>
+                </ng-select>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label">หน่วยรับตรวจ</label>
-                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยรับตรวจ" [multiple]="false"
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยรับตรวจ" [multiple]="true"
                   [items]="provincialDepartmentData" name="province" formControlName="provincialDepartment">
                 </ng-select>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
-              <label>กำหนดระยะเวลา</label>
+              <label>กำหนดการ</label>
             </div>
 
             <div class="col-12">
@@ -225,20 +248,18 @@
                       </my-date-picker-th>
                     </div>
                   </div>
-                  <div class="col-12 col-xl-1">
+                  <!-- <div class="col-12 col-xl-1">
                     <div class="form-group" align="center">
                       ถึง
                     </div>
                   </div>
                   <div class="col-12 col-xl-3">
                     <div class="form-group">
-                      <!-- <my-date-picker-th formControlName="end_date"   [items]="myDatePickerOptions" required>
-                      </my-date-picker-th> -->
                       <my-date-picker-th formControlName="end_date" [(ngModel)]="item.end_date"
                         [options]="myDatePickerOptions" required>
                       </my-date-picker-th>
                     </div>
-                  </div>
+                  </div> -->
                 </form>
               </div>
             </div>
@@ -270,6 +291,16 @@
               </div>
             </div>
 
+            <div class="col-12 col-xl-12" style="margin-top: 20px;">
+              <div class="form-group">
+                <div class="form-group col-md-3">
+                  <div class="mb-3">
+                    <input type="checkbox" formControlName="SendToProvince"> ส่งให้หัวหน้าส่วนจังหวัดยืนยัน
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- <div class="col-12 col-xl-12" style="margin-top: 20px;">
               <div class="form-group">
                 <div class="form-group col-md-3">
@@ -286,26 +317,13 @@
 
             <div class="col-12">
               <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์สมุดตรวจอิเล็กทรอนิกส์</label>
-              <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
-              <!-- <div class="col-4">
-                <select class="selectpicker form-control" data-live-search="true"
-                  (change)="checkType($event.target.value)" formControlName="fileType">
-                  <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
-                  <option value="ElectronicBook Image File">รูปภาพ</option>
-                  <option value="ElectronicBook File">ไฟล์เอกสาร</option>
-                </select>
-              </div>
-              <div class="col-8">
-                <textarea *ngIf="fileType == 'ElectronicBook Image File'" cols="30" rows="5" class="form-control"
-                  placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;"
-                  formControlName="description"></textarea>
-              </div> -->
+              <input type="file" multiple (change)="uploadFile2($event)" style="margin-bottom: 10px;">
             </div>
 
             <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
               <form class="form-group row col-12" [formGroup]="itemTest">
                 <div class="col-4">
-                  <label formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
+                  <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
                     {{itemTest.controls.ebookFile.value.name}}</label>
                 </div>
                 <div class="col-8">

@@ -153,6 +153,8 @@ namespace InspecWeb.Data
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<ProvincesGroup> ProvincesGroups { get; set; }
 
+        public DbSet<ElectronicBookProvincialDepartment> ElectronicBookProvincialDepartments { get; set; }
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -337,6 +339,12 @@ namespace InspecWeb.Data
            .HasOne(p => p.ElectronicBookAccept)
            .WithMany(b => b.ElectronicBookOtherAccepts)
            .HasForeignKey(p => p.ElectronicBookAcceptId)
+           .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ElectronicBookProvincialDepartment>()
+           .HasOne(p => p.ElectronicBook)
+           .WithMany(b => b.ElectronicBookProvincialDepartments)
+           .HasForeignKey(p => p.ElectronicBookId)
            .OnDelete(DeleteBehavior.Cascade);
 
             //InspectionPlanEvent Cascade//
