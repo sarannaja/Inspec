@@ -155,6 +155,20 @@ namespace InspecWeb.Controllers
         }
 
         // GET: api/values
+        [HttpGet("inspectionplanall")]
+        public IActionResult GetDataAll()
+        {
+                var inspectionplans = _context.InspectionPlanEvents
+                    .Include(m => m.Province)
+                    .Include(m => m.CentralPolicyEvents)
+                    .ThenInclude(m => m.CentralPolicy)
+                    .ThenInclude(m => m.CentralPolicyProvinces)
+                    .ToList();
+
+                return Ok(inspectionplans);
+        }
+
+        // GET: api/values
         [HttpGet("inspectionplanuser/{id}")]
         public IActionResult GetData2(string id)
         {
@@ -321,12 +335,12 @@ namespace InspecWeb.Controllers
             return Ok(userdata);
         }
         // GET: api/values
-        [HttpGet("inspectionplanprovince/{id}/{proid}")]
-        public IActionResult GetDataInspectionPlanProvince(string id, long proid)
+        [HttpGet("inspectionplanprovince/{proid}")]
+        public IActionResult GetDataInspectionPlanProvince(long proid)
         {
-            var userprovince = _context.UserProvinces
-                               .Where(m => m.UserID == id)
-                               .ToList();
+            //var userprovince = _context.UserProvinces
+            //                   .Where(m => m.UserID == id)
+            //                   .ToList();
             var inspectionplans = _context.InspectionPlanEvents
                                 .Include(m => m.Province)
                                 .Include(m => m.CentralPolicyEvents)
@@ -334,16 +348,16 @@ namespace InspecWeb.Controllers
                                 .ThenInclude(m => m.CentralPolicyProvinces)
                                 .Where(m => m.ProvinceId == proid)
                                 .ToList();
-            List<object> termsList = new List<object>();
-            foreach (var inspectionplan in inspectionplans)
-            {
-                for (int i = 0; i < userprovince.Count(); i++)
-                {
-                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
-                        termsList.Add(inspectionplan);
-                }
-            }
-            return Ok(termsList);
+            //List<object> termsList = new List<object>();
+            //foreach (var inspectionplan in inspectionplans)
+            //{
+            //    for (int i = 0; i < userprovince.Count(); i++)
+            //    {
+            //        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+            //            termsList.Add(inspectionplan);
+            //    }
+            //}
+            return Ok(inspectionplans);
         }
 
         // GET: api/values

@@ -46,18 +46,21 @@
                             <tbody>
                                 <tr *ngFor="let item of t.controls; let i = index">
                                     <div class="row col-12" style="margin-top: 10px; width: 100%;">
-                                        <td style="border-top: none; width: 480px;">
+                                        <td style="border-top: none; width: 50%">
                                             <u>คำถามที่ {{i + 1}}</u>
                                             <div [formGroup]="item">
                                                 <div class="row">
                                                     <div class="col-12" style="margin-top: 6px;">
-                                                        <input type="text" value="{{item.value.Question}}"
-                                                            class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
+                                                        <!-- <input type="text" value="{{item.value.Question}}"
+                                                            class="form-control" placeholder="กรุณากรอกเรื่อง" readonly> -->
+                                                        <textarea cols="30" rows="5" type="text"
+                                                            value="{{item.value.Question}}" class="form-control"
+                                                            placeholder="กรุณากรอกคำถาม" readonly></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="border-top: none; width: 490px;"
+                                        <td style="border-top: none; width: 50%;"
                                             *ngIf="item.value.Type == 'คำถามปลายปิด'else elseBlock">
                                             <u>คำตอบ</u>
                                             <div [formGroup]="item">
@@ -82,7 +85,7 @@
                                         </td>
 
                                         <ng-template #elseBlock>
-                                            <td style="border-top: none; width: 400px;">
+                                            <td style="border-top: none; width: 50%">
                                                 <u>คำตอบ</u>
                                                 <div [formGroup]="item">
                                                     <div>
@@ -95,8 +98,8 @@
                                             </td>
                                         </ng-template>
                                     </div>
-                                    <div>
-                                        <td style="border-top: none;">
+                                    <div class="row col-12" style="margin-top: 10px; width: 100%;">
+                                        <td style="border-top: none; width: 100%;">
                                             <u>คำอธิบายคำตอบ</u>
                                             <div [formGroup]="item">
                                                 <textarea cols="100%" rows="5" class="form-control"
@@ -112,39 +115,41 @@
 
                     </div>
                     <form [formGroup]="Formstatus">
-                    <div class="col-12 col-xl-12" style="margin-top: 20px;">
-                        <div class="form-group">
-                          <div class="form-group col-md-3">
-                            <div class="mb-3">
-                              <input type="radio" name="Status" value="ร่างกำหนดการ" checked formControlName="Status">
-                              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
-                              <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
-                                formControlName="Status">
-                              <label style="margin-left: 10px;">ใช้งานจริง</label>
+                        <div class="col-12 col-xl-12" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <div class="form-group col-md-3">
+                                    <div class="mb-3">
+                                        <input type="radio" name="Status" value="ร่างกำหนดการ" checked
+                                            formControlName="Status">
+                                        <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+                                        <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
+                                            formControlName="Status">
+                                        <label style="margin-left: 10px;">ใช้งานจริง</label>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
                     </form>
                     <!-- <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์</label>
                     <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;"> -->
                     <div class="col-12 col-xl-12">
                         <div class="form-group">
-                          <label class="form-label w-100">แนบไฟล์</label>
-                          <input type="file" multiple (change)="uploadFile2($event)">
+                            <label class="form-label w-100">แนบไฟล์</label>
+                            <input type="file" multiple (change)="uploadFile2($event)">
                         </div>
-                      </div>
-                      <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
+                    </div>
+                    <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
                         <form class="form-group row col-12" [formGroup]="itemTest">
-                          <div class="col-4">
-                            <label formControlName="AnswerSubjectFile">ไฟล์ที่ {{i + 1}})
-                              {{itemTest.controls.AnswerSubjectFile.value.name}}</label>
-                          </div>
-                          <div class="col-8">
-                            <input formControlName="fileDescription" class="form-control" type="text" placeholder="ใส่คำอธิบาย">
-                          </div>
+                            <div class="col-4">
+                                <label formControlName="AnswerSubjectFile">ไฟล์ที่ {{i + 1}})
+                                    {{itemTest.controls.AnswerSubjectFile.value.name}}</label>
+                            </div>
+                            <div class="col-8">
+                                <input formControlName="fileDescription" class="form-control" type="text"
+                                    placeholder="ใส่คำอธิบาย">
+                            </div>
                         </form>
-                      </div>
+                    </div>
                     <!-- <label class="form-label w-100" style="margin-top: 30px;">ลายเซ็น</label>
                     <input type="file" multiple (change)="uploadSignatureFile($event)" style="margin-bottom: 10px;"> -->
 

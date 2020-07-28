@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item active">เพิ่มประเด็นการตรวจติดตาม</li>
+      <li class="breadcrumb-item active">ประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
 </div>
@@ -13,11 +13,11 @@
 <div class="col-12">
   <div class="card">
     <div class="card-header" style="margin-bottom: -40px;">
-      <h5 class="card-title">เพิ่มประเด็นการตรวจติดตาม</h5>
+      <h5 class="card-title">ประเด็นการตรวจติดตาม</h5>
       <div class="float-right">
 
         <button class="btn btn-primary" (click)="openModal(modalAddSubjectFromCalendar)"
-        style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</button>
+          style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</button>
         &nbsp;&nbsp;
         <button class="btn btn-primary" (click)="openModal(modalProvince)"
           style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตาม</button>
@@ -30,11 +30,11 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>แผนการตรวจราชการ</th>
-            <th>ประเด็นนโยบาย</th>
+            <!-- <th>แผนการตรวจราชการ</th> -->
+            <th>เรื่องที่ตรวจ</th>
             <th>จังหวัด</th>
-            <th>ประเภทกำหนดการ</th>
-            <th>ปี</th>
+            <!-- <th>ประเภทกำหนดการ</th> -->
+            <th>วันที่ตรวจ</th>
             <th>สถานะ</th>
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
@@ -42,14 +42,21 @@
         <tbody>
           <tr *ngFor="let item of resultsubjectevent; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{item.centralPolicy.type}}</td>
+            <!-- <td>{{item.centralPolicy.type}}</td> -->
             <td>{{ item.centralPolicy.title }}</td>
             <td>{{item.province.name}}</td>
-            <td>{{item.land}}</td>
+            <!-- <td>{{item.land}}</td> -->
             <td>{{item.centralPolicy.fiscalYear.year}}</td>
             <!-- <td>{{item.subjectCentralPolicyProvinces[0].status}}</td> -->
+
             <td>{{item.status}}</td>
-            <td><i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i></td>
+
+            <td>
+              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
+
+              <i class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -70,22 +77,22 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="test" class="form-label">จังหวัด</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
-              formControlName="province"(change)="selectedprovince($event,i,item)">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+            [items]="selectdataprovince" formControlName="province" (change)="selectedprovince($event,i,item)">
           </ng-select>
         </div>
         <div class="form-group">
           <label for="test" class="form-label">ประเด็นการตรวจติดตาม</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true"   [items]="selectdatacentralpolicy"
-            name="CentralpolicyId" formControlName="CentralpolicyId"  >
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true"
+            [items]="selectdatacentralpolicy" name="CentralpolicyId" formControlName="CentralpolicyId">
           </ng-select>
           <br>
           <br>
           <div class="mb-3">
             <input type="radio" name="land" (change)="inspect($event)" value="ลงพื้นที่" formControlName="land">
             <label style="margin-left: 10px;">ลงพื้นที่</label>
-            <input style="margin-left: 10px;" type="radio" name="land" (change)="notInspec($event)"
-              value="ไม่ลงพื้นที่" formControlName="land">
+            <input style="margin-left: 10px;" type="radio" name="land" (change)="notInspec($event)" value="ไม่ลงพื้นที่"
+              formControlName="land">
             <label style="margin-left: 10px;">ไม่ลงพื้นที่</label>
           </div>
           <div *ngIf="checkInspec == true">
@@ -95,7 +102,7 @@
               </div>
               <div class="col-12 col-xl-5">
                 <div class="form-group">
-                  <my-date-picker-th formControlName="startdate"    [options]="myDatePickerOptions" required>
+                  <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
                   </my-date-picker-th>
                 </div>
               </div>
@@ -106,7 +113,7 @@
               </div>
               <div class="col-12 col-xl-5">
                 <div class="form-group">
-                  <my-date-picker-th formControlName="enddate"    [options]="myDatePickerOptions" required>
+                  <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
                   </my-date-picker-th>
                 </div>
               </div>
@@ -163,14 +170,14 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="test" class="form-label">จังหวัด</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
-              formControlName="province2"(change)="selectedprovince2($event,i,item)">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+            [items]="selectdataprovince" formControlName="province2" (change)="selectedprovince2($event,i,item)">
           </ng-select>
         </div>
         <div class="form-group">
           <label for="test" class="form-label">ประเด็นการตรวจติดตาม</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true"   [items]="selectdatacentralpolicy2"
-            name="CentralpolicyId2" formControlName="CentralpolicyId2"  >
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true"
+            [items]="selectdatacentralpolicy2" name="CentralpolicyId2" formControlName="CentralpolicyId2">
           </ng-select>
         </div>
       </div>

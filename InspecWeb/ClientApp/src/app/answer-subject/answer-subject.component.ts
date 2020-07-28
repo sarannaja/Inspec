@@ -28,13 +28,23 @@ export class AnswerSubjectComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      // columnDefs: [
-      //   {
-      //     targets: [4],
-      //     orderable: false
-      //   }
-      // ]
-
+      columnDefs: [
+        {
+          targets: [3],
+          orderable: false
+        }
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
 
     this.authorize.getUser()

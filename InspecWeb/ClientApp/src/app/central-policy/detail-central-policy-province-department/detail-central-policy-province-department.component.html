@@ -146,6 +146,7 @@
                         disabled>{{items.status}}</button>
                       <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
                         disabled>{{items.status}}</button>
+
                     </div>
                   </div>
                 </div>
@@ -523,3 +524,23 @@
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner> -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modaldeletecentralpolicyuser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ยกเลิกคำเชิญ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการยกเลิกคำเชิญนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="delcentralpolicyuser(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->

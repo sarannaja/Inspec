@@ -51,7 +51,7 @@
                     [ngClass]="item.register_status == true ?'align-middle mr-2 fas fa fa-info-circle  pointer text-success':'align-middle mr-2 fas fa fa-info-circle  pointer text-muted'"
                     aria-hidden="true"></i>
                   <label
-                  [ngClass]="item.register_status == true ?' pointer text-success':' pointer text-muted'">{{item.register_status == true ? "ตรวจสอบคุณสมบัติแล้ว" : "รอการตรวจสอบคุณสมบัติ"}}</label></span>
+                    [ngClass]="item.register_status == true ?' pointer text-success':' pointer text-muted'">{{item.register_status == true ? "ตรวจสอบคุณสมบัติแล้ว" : "รอการตรวจสอบคุณสมบัติ"}}</label></span>
               </td>
               <td>
                 <ng-container *ngIf="item.status == 0;else second">
@@ -215,8 +215,8 @@
                       <ng-container *ngIf="item.conditionType == 2;else cthird">
                         {{ item.name }}
                         <br>
-                        <span class="badge badge-light"><label
-                            class="text-success form-text">คุณสมบัติอยู่ในเกณฑ์</label></span>
+                        <span class="badge badge-light"><label class="text-success form-text">คุณสมบัติอยู่ในเกณฑ์
+                            {{item.training.birthDate}}</label></span>
                       </ng-container>
                     </ng-template>
                     <ng-template #mthird>
@@ -261,132 +261,128 @@
   <!-- BEGIN primary modal -->
   <ng-template #modaldetail class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">ข้อมูลผู้สมัคร</h5>
-          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body m-3">
-          <div class="col-12 rounded-lg border">
-            <!-- <br>
-                        <h3>ข้อมูลพื้นฐาน<span class="star">*จำเป็นต้องกรอก</span></h3>
+    <!-- <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)"> -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ข้อมูลผู้สมัคร</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="col-12 rounded-lg border">
 
-                        <br> -->
-            <!-- <label>รูปถ่าย</label><small class="text-muted">(หน้าตรง ถ่ายไว้ไม่เกิน 6 เดือน)รูปแบบไฟล์ .JPG .PNG *รูปชุดขาวถ้ามี</small><span class="star">*</span>
-                        <br>
-                        <input type="file" (change)="uploadFile($event)">
-                        <br><br>
+          <label class="form-text">ท่านเป็นผู้มีอายุราชการเหลือไม่น้อยกว่า 1 ปี ใช่หรือไม่</label>
 
-                        <label class="form-text">เอกสาารการรับรองของผู้บังคับบัญชาฯ<span class="star">*</span></label>
-                        <input type="file" (change)="uploadFile($event)">
-                        <br><br> -->
-
-            <label class="form-text">ท่านเป็นผู้มีอายุราชการเหลือไม่น้อยกว่า 1 ปี ใช่หรือไม่<span
-                class="star">*</span></label>
-            <input type="radio" formControlName="type" name="type" value="in">
-            <label for="r_in">&nbsp;&nbsp;ใช่</label><br>
-            <input type="radio" formControlName="type" name="type" value="out">
-            <label for="r_out">&nbsp;&nbsp;ไม่</label><br>
-            <br>
-
-            <label>โปรดระบุ ปี พ.ศ. ที่ท่านเกษียณอายุราชการ</label><span class="star">*</span>
-            <input type="text" value="" formControlName="name" class="form-control" placeholder="กรุณากรอกปี พ.ศ.">
-            <br>
-
-            <label>ชื่อ-นามสกุล</label><span class="star">*</span>
-            <input type="text" value="{{ Name }}" formControlName="name" class="form-control"
-              placeholder="กรุณากรอกชื่อ-นามสกุล">
-            <br>
-
-            <label>ชื่อเล่น</label><span class="star">*</span>
-            <input type="text" value="" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล">
-            <br>
-
-            <label>วันเกิด</label><span class="star">*</span>
-            <my-date-picker-th formControlName="end_date"    [options]="myDatePickerOptions" required>
-            </my-date-picker-th>
-            <br>
-
-            <label>หน่วยงาน/สังกัด</label><span class="star">*</span>
-            <input type="text" value="" formControlName="department" class="form-control"
-              placeholder="กรุณากรอกหน่วยงาน/สังกัด">
-            <br>
-
-            <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
-            <input type="text" value="" formControlName="cardid" class="form-control" placeholder="กรุณากรอกบัตรประชาชน"
-              maxlength="13">
-            <br>
-
-            <label>ชื่อตำแหน่งในปัจจุบัน</label><span class="star">*</span>
-            <input type="text" value="{{ Position }}" formControlName="position" class="form-control"
-              placeholder="กรุณากรอกตำแหน่ง">
-            <br>
-
-            <label>ที่อยู่ที่ทำงาน</label><span class="star">*</span>
-            <input type="text" value="{{ Position }}" formControlName="position" class="form-control"
-              placeholder="กรุณากรอกตำแหน่ง">
-            <br>
-
-            <label>เบอร์โทรศัพท์มือถือ</label><span class="star">*</span>
-            <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control"
-              placeholder="กรุณากรอกเบอร์โทรศัพท์">
-            <br>
-
-            <label>เบอร์โทรสาร</label><span class="star">*</span>
-            <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control"
-              placeholder="กรุณากรอกเบอร์โทรศัพท์">
-            <br>
-
-            <label>E-mail</label><span class="star">*</span>
-            <input type="text" value="{{ Email }}" formControlName="email" class="form-control"
-              placeholder="กรุณากรอก E-mail">
-            <br>
-          </div>
+          <input *ngIf="peopledetail.type == 'in'" type="text" value="ใช่" class="form-control" readonly
+          placeholder="กรุณากรอกชื่อ-นามสกุล">
+          <input *ngIf="peopledetail.type == 'out'" type="text" value="ไม่" class="form-control" readonly
+          placeholder="กรุณากรอกชื่อ-นามสกุล">
+          <!-- <input type="radio" formControlName="type" name="type" value="in">
+          <label for="r_in">&nbsp;&nbsp;ใช่</label><br>
+          <input type="radio" formControlName="type" name="type" value="out">
+          <label for="r_out">&nbsp;&nbsp;ไม่</label><br> -->
           <br>
 
-          <div class="col-12 rounded-lg border">
-            <br>
-            <h3>ผู้ประสานงาน<span class="star">*จำเป็นต้องกรอก</span></h3>
-            <small class="form-text text-muted">ผู้ช่วยผู้ตรวจราชการ หรือผู้ที่สามารถติดต่อได้ในกรณีเร่งด่วน</small>
-            <br>
+          <label>วันที่เกษียณอายุราชการ</label><span class="star">*</span>
+          <input type="text" value="{{peopledetail.retiredDate  | thaidate: 'year'}}" class="form-control" readonly
+            placeholder="กรุณากรอกชื่อ-นามสกุล">
+          <br>
 
-            <label>ชื่อ-นามสกุล</label><span class="star">*</span>
-            <input type="text" value="{{ Email }}" formControlName="email" class="form-control"
-              placeholder="กรุณากรอก E-mail">
-            <br>
+          <label>ชื่อ-นามสกุล</label><span class="star">*</span>
+          <input type="text" value="{{peopledetail.name}}" class="form-control" readonly
+            placeholder="กรุณากรอกชื่อ-นามสกุล">
+          <br>
 
-            <label>เบอร์โทรศัพท์มือถือผู้ประสานงาน</label><span class="star">*</span>
-            <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control"
-              placeholder="กรุณากรอกเบอร์โทรศัพท์">
-            <br>
+          <label>ชื่อเล่น</label><span class="star">*</span>
+          <input type="text" value="{{peopledetail.nickname}}" class="form-control" readonly
+            placeholder="กรุณากรอกชื่อ-นามสกุล">
+          <br>
 
-            <label>เบอร์โทรศัพท์ที่ทำงานผู้ประสานงาน</label><span class="star">*</span>
-            <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control"
-              placeholder="กรุณากรอกเบอร์โทรศัพท์">
-            <br>
+          <label>วันเกิด</label><span class="star">*</span>
+          <!-- <my-date-picker-th formControlName="end_date"    [options]="myDatePickerOptions" required>
+            </my-date-picker-th> -->
+          <input type="text" value="{{peopledetail.birthDate  | thaidate: 'year'}}" class="form-control" readonly
+            placeholder="กรุณากรอกชื่อ-นามสกุล">
+          <br>
 
-            <label>E-mail ผู้ประสานงาน</label><span class="star">*</span>
-            <input type="text" value="{{ Email }}" formControlName="email" class="form-control"
-              placeholder="กรุณากรอก E-mail">
-            <br>
+          <label>หน่วยงาน/สังกัด</label><span class="star">*</span>
+          <input type="text" value="{{peopledetail.department}}" class="form-control" readonly
+            placeholder="กรุณากรอกหน่วยงาน/สังกัด">
+          <br>
 
-            <!-- <label class="form-text">สำเนาบัตรประชาชน<span class="star">*</span></label>
+          <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
+          <input type="text" value="{{peopledetail.cardId}}" class="form-control" readonly
+            placeholder="กรุณากรอกบัตรประชาชน" maxlength="13">
+          <br>
+
+          <label>ชื่อตำแหน่งในปัจจุบัน</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.position }}" class="form-control" readonly
+            placeholder="กรุณากรอกตำแหน่ง">
+          <br>
+
+          <label>ที่อยู่ที่ทำงาน</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.officeAddress }}" class="form-control" readonly
+            placeholder="กรุณากรอกตำแหน่ง">
+          <br>
+
+          <label>เบอร์โทรศัพท์มือถือ</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.phone }}" class="form-control" readonly
+            placeholder="กรุณากรอกเบอร์โทรศัพท์">
+          <br>
+
+          <label>เบอร์โทรสาร</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.fax }}" class="form-control" readonly
+            placeholder="กรุณากรอกเบอร์โทรศัพท์">
+          <br>
+
+          <label>E-mail</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.email }}" class="form-control" readonly
+            placeholder="กรุณากรอก E-mail">
+          <br>
+        </div>
+        <br>
+
+        <div class="col-12 rounded-lg border">
+          <br>
+          <h3>ผู้ประสานงาน<span class="star">*จำเป็นต้องกรอก</span></h3>
+          <small class="form-text text-muted">ผู้ช่วยผู้ตรวจราชการ หรือผู้ที่สามารถติดต่อได้ในกรณีเร่งด่วน</small>
+          <br>
+
+          <label>ชื่อ-นามสกุล</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.collaboratorEmail }}" class="form-control" readonly
+            placeholder="กรุณากรอก E-mail">
+          <br>
+
+          <label>เบอร์โทรศัพท์มือถือผู้ประสานงาน</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.collaboratorPhone }}" class="form-control" readonly
+            placeholder="กรุณากรอกเบอร์โทรศัพท์">
+          <br>
+
+          <label>เบอร์โทรศัพท์ที่ทำงานผู้ประสานงาน</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.collaboratorPhoneOffice }}" class="form-control" readonly
+            placeholder="กรุณากรอกเบอร์โทรศัพท์">
+          <br>
+
+          <label>E-mail ผู้ประสานงาน</label><span class="star">*</span>
+          <input type="text" value="{{ peopledetail.collaboratorEmail }}" class="form-control" readonly
+            placeholder="กรุณากรอก E-mail">
+          <br>
+
+          <!-- <label class="form-text">สำเนาบัตรประชาชน<span class="star">*</span></label>
                         <input type="file" (change)="uploadFile($event)">
                         <small class="form-text text-muted">(เพื่อใช้ในการจองบัตรโดยสารเครื่องบิน)</small> -->
-            <br>
+          <br>
 
 
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">บันทึก</button>
-          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
         </div>
       </div>
-    </form>
+      <div class="modal-footer">
+        <!-- <button type="submit" class="btn btn-primary">บันทึก</button> -->
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+    <!-- </form> -->
     <!-- </div> -->
   </ng-template>
   <!-- END primary modal -->

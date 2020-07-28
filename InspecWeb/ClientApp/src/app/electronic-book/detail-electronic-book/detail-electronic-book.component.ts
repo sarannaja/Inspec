@@ -33,6 +33,7 @@ export class DetailElectronicBookComponent implements OnInit {
   approveMinistry: any = [];
   provinceId: any = [];
   downloadUrl: any;
+  provincialDepartmentId: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -73,6 +74,7 @@ export class DetailElectronicBookComponent implements OnInit {
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       user: new FormControl("ร่างกำหนดการ", [Validators.required]),
       provinceDetail: new FormControl(null, [Validators.required]),
+      provincialDepartment: new FormControl(null, [Validators.required]),
     })
 
     // this.provinceForm = this.fb.group({
@@ -93,8 +95,26 @@ export class DetailElectronicBookComponent implements OnInit {
     this.electronicBookService.getElectronicBookDetail(this.electId).subscribe(result => {
       console.log("RES: ", result);
 
-      var provinces: any = [];
+      var provincialDepartments: any = [];
+      result.electronicBookGroup.forEach(element => {
+        element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
+          element2.subjectCentralPolicyProvinces.forEach(element3 => {
+            element3.subquestionCentralPolicyProvinces.forEach(element4 => {
+              element4.subjectCentralPolicyProvinceGroups.forEach(element5 => {
+                provincialDepartments.push(element5.provincialDepartmentId)
+              });
+            });
+          });
+        });
+      });
 
+      console.log("provincialDepartment: ", provincialDepartments);
+      this.provincialDepartmentId = provincialDepartments.filter(
+        (thing, i, arr) => arr.findIndex(t => t === thing) === i
+      );
+      console.log("uniqueProvincialDepartment: ", this.provincialDepartmentId);
+
+      var provinces: any = [];
       result.electronicBookGroup.forEach(element => {
         provinces.push(element.centralPolicyEvent.inspectionPlanEvent.provinceId)
       });
@@ -128,8 +148,10 @@ export class DetailElectronicBookComponent implements OnInit {
       console.log("All: ", this.allMinistry.length);
 
       this.electronicBookData.ebookInvite.forEach(element => {
-        if (element.user.role_id == 6 || element.user.role_id == 10 && element.status == "ลงความเห็นแล้ว") {
-          this.approveMinistry.push(element)
+        if (element.user.role_id == 6 || element.user.role_id == 10) {
+          if (element.status == "ลงความเห็นแล้ว") {
+            this.approveMinistry.push(element)
+          }
         }
       });
 
@@ -147,7 +169,7 @@ export class DetailElectronicBookComponent implements OnInit {
           provinceDetail: this.electronicBookData.electronicBookAccept.description
         })
       }
-     
+
     })
   }
 
@@ -191,15 +213,15 @@ export class DetailElectronicBookComponent implements OnInit {
   }
 
   editSuggestion(value) {
-    if (this.electronicBookData.ebookInvite.length == 0 && value.status == 'ใช้งานจริง') {
-      alert("ไม่สามารถใช้งานจริงได้เนื่องจาก ไม่มีข้อมูลผู้ตรวจราชการ")
-    } else {
+    // if (this.electronicBookData.ebookInvite.length == 0 && value.status == 'ใช้งานจริง') {
+    //   alert("ไม่สามารถใช้งานจริงได้เนื่องจาก ไม่มีข้อมูลผู้ตรวจราชการ")
+    // } else {
       this.electronicBookService.editSuggestion(value, this.electId).subscribe(res => {
         console.log("Edit Suggestion: ", res);
         this.getElectronicBookDetail();
         this.modalRef.hide();
       })
-    }
+    // }
   }
 
   closeModal() {
@@ -212,7 +234,7 @@ export class DetailElectronicBookComponent implements OnInit {
   }
 
   sendToProvince(electId) {
-    this.electronicBookService.sendToProvince(electId, this.userid, this.provinceId).subscribe(res => {
+    this.electronicBookService.sendToProvince(electId, this.userid, this.provinceId, this.provincialDepartmentId).subscribe(res => {
       console.log("sended: ", res);
       this.getElectronicBookDetail();
       this.modalRef.hide();

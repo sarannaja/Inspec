@@ -15,10 +15,14 @@ export class InspectionplaneventService {
   }
 
   getinspectionplaneventdata(id): Observable<any[]> {
-    //  alert(id)
     let path = this.url + 'inspectionplan/' + id;
     console.log("URL: ", path);
+    return this.http.get<any[]>(path)
+  }
 
+  getinspectionplaneventalldata(): Observable<any[]> {
+    let path = this.url + 'inspectionplanall';
+    console.log("URL: ", path);
     return this.http.get<any[]>(path)
   }
 
@@ -29,9 +33,9 @@ export class InspectionplaneventService {
 
     return this.http.get<any>(path)
   }
-  getinspectionplaneventuserprovincedata(id, proid): Observable<any> {
+  getinspectionplaneventuserprovincedata(proid): Observable<any> {
     //  alert(id)
-    let path = this.url + 'inspectionplanprovince/' + id + '/' + proid;
+    let path = this.url + 'inspectionplanprovince/' + proid;
     console.log("URL: ", path);
 
     return this.http.get<any>(path)

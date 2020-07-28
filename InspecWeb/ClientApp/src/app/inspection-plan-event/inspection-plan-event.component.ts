@@ -116,17 +116,34 @@ export class InspectionPlanEventComponent implements OnInit {
               colorJa = "#C70039" //blue
             }
           }
-
-          return {
-            id: item.id,
-            title: item.province.name,
-            provinceid: item.province.id,
-            // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
-            // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
-            start: moment(item.startDate).format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
-            end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
-            color: colorJa,
-            roleCreatedBy: roleCreatedBy,
+          // alert(item.centralPolicyEvents[0].centralPolicy.title)
+          if (item.centralPolicyEvents.length != 0) {
+            return {
+              id: item.id,
+              title: item.province.name,
+              name: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+              provinceid: item.province.id,
+              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+              start: moment(item.startDate).format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
+              end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
+              color: colorJa,
+              roleCreatedBy: roleCreatedBy,
+            }
+          }
+          else {
+            return {
+              id: item.id,
+              title: item.province.name,
+              provinceid: item.province.id,
+              name: '',
+              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+              start: moment(item.startDate).format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
+              end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
+              color: colorJa,
+              roleCreatedBy: roleCreatedBy,
+            }
           }
         })
         // alert(JSON.stringify(this.inspectionplancalendar))
@@ -143,7 +160,7 @@ export class InspectionPlanEventComponent implements OnInit {
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
           return {
             id: item.id,
-            title: item.province.name,
+            title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
             provinceid: item.province.id,
             // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
             // title: item.province.name + "," + item.centralPolicyEvents[0].centralPolicy.title,
@@ -177,9 +194,11 @@ export class InspectionPlanEventComponent implements OnInit {
 
       $("#calendar").fullCalendar({
         header: {
+
           left: 'prev,next today',
           center: 'title',
-          right: 'month,agendaWeek,agendaDay'
+          right: 'month,agendaWeek,agendaDay',
+
         },
         locale: 'th',
         viewRender: function (view, element) {
@@ -234,7 +253,7 @@ export class InspectionPlanEventComponent implements OnInit {
           console.log(element);
 
           element.find('span.fc-title').attr('data-toggle', 'tooltip');
-          element.find('span.fc-title').attr('title', event.title);
+          element.find('span.fc-title').attr('title', event.name);
         },
         events: self.inspectionplancalendar,  // request to load current events
         // events: this.inspectionplancalendar  // request to load current events
