@@ -30,6 +30,9 @@ export class InspectionPlanEventAllComponent implements OnInit {
   userid: string
   role_id
   loading = false;
+
+  selectedProvince: any = "allprovince"
+  
   constructor(private router: Router, private inspectionplanservice: InspectionplaneventService,
     private provinceservice: ProvinceService,
     private authorize: AuthorizeService,
@@ -48,7 +51,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
           .subscribe(result => {
             this.role_id = result[0].role_id
           })
-        console.log(result);
+        //console.log(result);
 
         this.getprovince()
         this.getcalendaralldata()
@@ -58,7 +61,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
   getprovince() {
     this.provinceservice.getprovincedata()
       .subscribe(result => {
-        console.log("this.resultuserregion", result);
+        //console.log("this.resultuserregion", result);
         this.resultuserregion = result
       })
   }
@@ -66,7 +69,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
   getcalendaralldata() {
     this.inspectionplanservice.getinspectionplaneventalldata()
       .subscribe(result => {
-        console.log(result);
+        //console.log(result);
         this.resultinspectionplanevent = result
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
@@ -111,7 +114,10 @@ export class InspectionPlanEventAllComponent implements OnInit {
           }
         })
         this.getcalendar();
+        // setTimeout(() => {
+
         this.loading = true;
+        // }, 300)
       })
   }
 
@@ -130,8 +136,8 @@ export class InspectionPlanEventAllComponent implements OnInit {
         editable: false,
         eventLimit: false,
         eventClick: function (event) {
-          console.log(event);
-          console.log('this.role_id', self.role_id);
+          //console.log(event);
+          //console.log('this.role_id', self.role_id);
 
           if (event.roleCreatedBy == 3) {
             window.location.href = self.url + event.id + '/' + event.provinceid;
@@ -142,7 +148,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
           }
         },
         eventRender: function (event, element, view) {
-          console.log(element);
+          //console.log(element);
 
           element.find('span.fc-title').attr('data-toggle', 'tooltip');
           element.find('span.fc-title').attr('title', event.name);
@@ -179,6 +185,8 @@ export class InspectionPlanEventAllComponent implements OnInit {
 
 
   selectprovince(value) {
+    //console.log(value);
+
     if (value == "allprovince") {
       this.loading = false;
       this.getcalendaralldata()
