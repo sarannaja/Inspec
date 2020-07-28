@@ -155,6 +155,7 @@ namespace InspecWeb.Controllers {
             user.Startdate = model.Startdate;
             user.Enddate = model.Enddate;
             user.Active = 1;
+            user.Commandnumberdate = model.Commandnumberdate;//ลงวันที่คำสั่ง
 
             //ข้อมูลรอง
             user.Educational = model.Educational;
@@ -167,6 +168,7 @@ namespace InspecWeb.Controllers {
             user.Alley = model.Alley;
             user.Postalcode = model.Postalcode;
             user.Side = model.Side;
+            user.FiscalYearId = model.FiscalYearId;
 
             user.Img = null;
 
@@ -300,8 +302,10 @@ namespace InspecWeb.Controllers {
            // Console.WriteLine ("momomo :" + model.Formprofile);
 
             var userdata = _context.Users.Find (editId);
-            userdata.Img = model.Img;
+            userdata.Img = userdata.Img;
 
+
+            //<!-- file -->
             if (!Directory.Exists (_environment.WebRootPath + "//imgprofile//")) {
                 Directory.CreateDirectory (_environment.WebRootPath + "//imgprofile//"); //สร้าง Folder Upload ใน wwwroot
             }
@@ -314,7 +318,7 @@ namespace InspecWeb.Controllers {
                     string filename = Path.GetFileName (filePath2);
                     string ext = Path.GetExtension (filename);
 
-                    // System.Console.WriteLine("testuser1 : ");
+                    System.Console.WriteLine("testuser1 : ");
 
                     if (formFile.Value.Length > 0) {
                         using (var stream = System.IO.File.Create (filePath + random + filename)) {
@@ -322,54 +326,149 @@ namespace InspecWeb.Controllers {
                         }
 
                         userdata.Img = random + filename;
-                        // System.Console.WriteLine("testuser2 : " + random + filename);
+                         System.Console.WriteLine("testuser2 : ");
                     }
                 }
             }
+            //<!-- END file -->
+
             if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง
             {
                 userdata.Prefix = model.Prefix;
                 userdata.Name = model.Name;
                 userdata.Position = model.Position;
                 userdata.PhoneNumber = model.PhoneNumber;
-            } 
+                System.Console.WriteLine("testuser3 : ");
+            }
             else // แอดมินแก้ไขไห้
             {
-                userdata.DistrictId = model.DistrictId; //*
-                userdata.ProvinceId = model.ProvinceId; //*
-                userdata.SubdistrictId = model.SubdistrictId; //*
-                userdata.MinistryId = model.MinistryId; //*
-                userdata.DepartmentId = model.DepartmentId; //*
+
+                userdata.DistrictId = model.DistrictId;
+                userdata.ProvinceId = model.ProvinceId;
+                userdata.SubdistrictId = model.SubdistrictId;
+                userdata.MinistryId = model.MinistryId;
+                userdata.DepartmentId = model.DepartmentId;
                 userdata.ProvincialDepartmentId = model.ProvincialDepartmentId;
-                userdata.Position = model.Position; //*
-                userdata.Prefix = model.Prefix; //*
-                userdata.Name = model.Name; //*
-                userdata.PhoneNumber = model.PhoneNumber; //*
+                userdata.Position = model.Position;
+                userdata.Prefix = model.Prefix;
+                userdata.Name = model.Name;
                 userdata.Role_id = model.Role_id;
+                userdata.CreatedAt = DateTime.Now;
+                userdata.Startdate = model.Startdate;
+                userdata.Enddate = model.Enddate;
+                userdata.Active = 1;
+                userdata.Commandnumberdate = model.Commandnumberdate;//ลงวันที่คำสั่ง
+
+                //ข้อมูลรอง
                 userdata.Educational = model.Educational;
                 userdata.Birthday = DateTime.Now;
                 userdata.Officephonenumber = model.Officephonenumber;
+                userdata.PhoneNumber = model.PhoneNumber;
                 userdata.Telegraphnumber = model.Telegraphnumber;
                 userdata.Housenumber = model.Housenumber;
                 userdata.Rold = model.Rold;
                 userdata.Alley = model.Alley;
                 userdata.Postalcode = model.Postalcode;
                 userdata.Side = model.Side;
+                userdata.FiscalYearId = model.FiscalYearId;
+                System.Console.WriteLine("testuser4 : ");
 
+                // <!-- ลบเขตก่อน -->
+                var deleteuserregiondata = _context.UserRegions.Where(m => m.UserID == editId);
+                _context.UserRegions.RemoveRange(deleteuserregiondata);
+                _context.SaveChanges();
+                System.Console.WriteLine("testuser5 : ");
+
+                var deleteuserprovincedata = _context.UserProvinces.Where(m => m.UserID == editId);
+                _context.UserProvinces.RemoveRange(deleteuserprovincedata);
+                _context.SaveChanges();
+                System.Console.WriteLine("testuser6 : ");
+                // <!-- END ลบเขตก่อน -->
+
+
+                int tt = 0;
+                List<FiscalYearRelation> termsList = new List<FiscalYearRelation>();
+
+                //สำหรับกรณีของ role ผู้ตรวจเขต
+                if (model.Role_id == 3 || model.Role_id == 6 || model.Role_id == 8 || model.Role_id == 10)
+                {
+                    foreach (var item in model.UserRegion)
+                    {
+                        var userregiondata = new UserRegion
+                        {
+                            UserID = editId,
+                            RegionId = item
+                        };
+                        System.Console.WriteLine("testuser8 :");
+                        _context.UserRegions.Add(userregiondata);
+                        _context.SaveChanges();
+
+                        System.Console.WriteLine("testuser9 : ");
+
+
+
+                        var userprovince = _context.FiscalYearRelations
+                                    .Where(m => m.RegionId == item)
+                                    .ToList();
+
+
+                        foreach (var item2 in userprovince)
+                        {
+                            termsList.Add(item2);
+                        }
+                        tt++;
+                        System.Console.WriteLine("testuser10 :");
+
+                    }
+                }
+                FiscalYearRelation[] terms = termsList.ToArray();
+
+                if (terms.Count() != 0)
+                {
+                    foreach (var x in terms)
+                    {
+
+                        var userprovincedata = new UserProvince
+                        {
+                            UserID = editId,
+                            ProvinceId = x.ProvinceId
+                        };
+                        _context.UserProvinces.Add(userprovincedata);
+                        _context.SaveChanges();
+                    }
+                }
+
+                //// role ที่ไม่ไช้เขตตรวจ
+                if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 4 || model.Role_id == 5
+                     || model.Role_id == 7 || model.Role_id == 9)
+                {
+
+
+                    var userregiondata = new UserRegion
+                    {
+                        UserID = editId,
+                        RegionId = model.UserRegionId
+                    };
+                    System.Console.WriteLine("testuser11 :");
+                    _context.UserRegions.Add(userregiondata);
+                    _context.SaveChanges();
+
+
+
+                    var userprovincedata = new UserProvince
+                    {
+                        UserID = editId,
+                        ProvinceId = model.UserProvinceId
+                    };
+                    _context.UserProvinces.Add(userprovincedata);
+                    _context.SaveChanges();
+                    // }
+                    System.Console.WriteLine("testuser12: ");
+                }
             }
-
-            foreach (var item in model.UserRegion) {
-                var userregiondata = new UserRegion {
-                    UserID = editId,
-                    RegionId = item
-                };
-                _context.UserRegions.Add (userregiondata);
-                _context.SaveChanges ();
-            }
-
-            _context.Entry (userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges ();
-
+            _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            System.Console.WriteLine("testuser13 : ");
             return Ok (new { status = true });
         }
 
@@ -711,8 +810,10 @@ namespace InspecWeb.Controllers {
                     user.Startdate = item.Startdate;
                     user.Enddate = item.Enddate;
                     user.Active = 1;
+                    user.FiscalYearId = 1;
+                    user.Commandnumberdate = null;
 
-                     _context.Entry(user).State =  EntityState.Modified;
+                    _context.Entry(user).State =  EntityState.Modified;
                      _context.SaveChanges();
                     Console.Write ("department2");
                     foreach (var item2 in item.UserRegion) {

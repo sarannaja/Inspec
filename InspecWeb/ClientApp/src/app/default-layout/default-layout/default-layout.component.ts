@@ -118,7 +118,7 @@ export class DefaultLayoutComponent implements OnInit {
       PhoneNumber: new FormControl(null, [Validators.required]),
       Email: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
-      Formprofile: new FormControl(null, [Validators.required]),
+      Formprofile: 1,
     })
   }
 

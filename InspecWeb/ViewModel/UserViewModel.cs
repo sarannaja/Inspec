@@ -39,6 +39,8 @@ namespace InspecWeb.ViewModel
         public long Active { get; set; }
         public String Signature { get; set; }
         public string Commandnumber { get; set; }
+        public DateTime? Commandnumberdate { get; set; }
+        public long FiscalYearId { get; set; }
         public long Formprofile { get; set; }
         public List<IFormFile> files { get; set; }
 
@@ -48,7 +50,7 @@ namespace InspecWeb.ViewModel
 
         public long UserProvinceId { get; set; }
 
-        public long UserRegionId { get; set; } //สำหรับทำ array
+        public long UserRegionId { get; set; } //สำหรับทำ array  
     }
 
     public class UserArray
