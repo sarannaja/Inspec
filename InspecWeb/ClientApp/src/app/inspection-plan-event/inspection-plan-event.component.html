@@ -56,7 +56,8 @@
           <div class="mb-12">
             <select (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2">
               <option value="allprovince">จังหวัดทั้งหมด</option>
-              <option *ngFor="let item of resultuserregion; let i = index" value="{{item.province.id}}">{{item.province.name}}
+              <option *ngFor="let item of resultuserregion; let i = index" value="{{item.province.id}}">
+                {{item.province.name}}
               </option>
             </select>
           </div>
@@ -65,7 +66,13 @@
     </div>
 
     <div class="float-right" *ngIf="role_id == 3 || role_id == 6 || role_id == 10">
-      <button class="btn btn-primary" (click)="CraateInspectionPlanEvent()">เพิ่มกำหนดการตรวจราชการประจำปี</button>
+
+      <button class="btn btn-primary" title="เพิ่มกำหนดการตรวจราชการ" (click)="CraateInspectionPlanEvent()">
+        <i class="align-middle fas fa-fw fa-plus pointer"></i>
+      </button>
+
+      <!-- <button class="btn btn-primary" (click)="CraateInspectionPlanEvent()">เพิ่มกำหนดการตรวจราชการประจำปี</button> -->
+
       <!-- &nbsp;&nbsp;
       <button class="btn btn-primary" (click)="CraateInspectionPlan()"
         style="margin-top: -60px;">เพิ่มแผนตรวจราชการ</button> -->

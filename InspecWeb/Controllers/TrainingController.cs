@@ -1358,7 +1358,16 @@ namespace InspecWeb.Controllers
         }
         //-----------------------------------end zone training condition-------------------------------------------
 
+        //GET api/Training/trainingid
+        [HttpGet("peopledetail/{id}")]
+        public IActionResult Peopledetail(long id)
+        {
+            var districtdata = _context.TrainingRegisters
+                .Where(m => m.Id == id).FirstOrDefault();
 
+            return Ok(districtdata);
+
+        }
 
 
     }
