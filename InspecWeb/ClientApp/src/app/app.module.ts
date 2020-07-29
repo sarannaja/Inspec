@@ -181,6 +181,7 @@ import { DetailCentralPolicyProvinceDepartmentComponent } from './central-policy
 import { ElectronicBookDepartmentComponent } from './electronic-book-department/electronic-book-department.component';
 import { ElectronicBookDepartmentDetailComponent } from './electronic-book-department/electronic-book-department-detail/electronic-book-department-detail.component';
 import { InspectionPlanEventAllComponent } from './inspection-plan-event-all/inspection-plan-event-all.component';
+import { NotofyService } from './services/notofy.service';
 
 
 
@@ -553,9 +554,11 @@ const ExternalOrganization = [
     ]),
     ModalModule.forRoot(),
     // SelectSSSModule
-    NgSelectModule
+    NgSelectModule,
+    
   ], exports: [
     ThaiDatePipe,
+    SnotifyModule
     // SelectSSSModule
     // DatePipe
   ],
@@ -565,8 +568,8 @@ const ExternalOrganization = [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     ExcelGeneraterService,
     DatePipe,CookieService,
-    ProvinceService
-
+    ProvinceService,
+    NotofyService
     // UserManager
 
   ],

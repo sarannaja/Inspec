@@ -5,6 +5,7 @@ import { ExcelService } from '../services/excel.service';
 import { WordService } from '../services/word.service';
 import { UserManager } from 'oidc-client';
 import { CookieService } from 'ngx-cookie-service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-main',
@@ -41,7 +42,9 @@ export class MainComponent implements OnInit {
     private userManager: UserManager,
     private wordService: WordService,
     private excelService: ExcelService,
-    private _CookieService: CookieService
+    private _CookieService: CookieService,
+    
+    private _notify:NotofyService
   ) { }
 
   ngOnInit() {
@@ -82,5 +85,12 @@ export class MainComponent implements OnInit {
    await this._CookieService.set('UserIdMobile', userid)
     console.log(this._CookieService.get('UserIdMobile'));
 
+  }
+
+
+
+
+  test(){    
+    this._notify.onSuccess('test')
   }
 }
