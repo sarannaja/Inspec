@@ -589,7 +589,7 @@ export class ElectronicbookService {
     var inputdate: Array<any> = value.inputdate.map((item, index) => {
       return {
         StartDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
-        EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
+        // EndDate: item.end_date.date.year + '-' + item.end_date.date.month + '-' + item.end_date.date.day,
       }
     })
 
@@ -607,7 +607,7 @@ export class ElectronicbookService {
       console.log("ii: ", i);
       // console.log("inputdateii: ", inputdate[ii].StartDate);
       formData.append('StartDate', inputdate[i].StartDate);
-      formData.append('EndDate', inputdate[i].EndDate);
+      // formData.append('EndDate', inputdate[i].EndDate);
     }
 
     for (var i = 0; i < value.centralPolicyEventId.length; i++) {

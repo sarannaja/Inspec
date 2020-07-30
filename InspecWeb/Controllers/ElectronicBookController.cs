@@ -1179,6 +1179,8 @@ namespace InspecWeb.Controllers
         public IActionResult GetCentralPolicyEbook2(ElectronicBookViewModel model)
         {
             System.Console.WriteLine("StartDate: " + model.startDate);
+            var startDate = new DateTime(model.startDate.Year, model.startDate.Month, model.startDate.Day);
+            System.Console.WriteLine("StartDate2: " + startDate);
             var centralPolicyEbookData = _context.CentralPolicyEvents
             .Include(x => x.CentralPolicy)
             .ThenInclude(x => x.CentralPolicyProvinces)
@@ -1188,7 +1190,7 @@ namespace InspecWeb.Controllers
             .ThenInclude(x => x.SubjectCentralPolicyProvinces)
             .Include(x => x.InspectionPlanEvent)
             .ThenInclude(x => x.Province)
-            .Where(x => x.InspectionPlanEvent.Status == "ใช้งานจริง" && x.InspectionPlanEvent.StartDate.Date >= model.startDate && x.InspectionPlanEvent.EndDate.Date <= model.startDate)
+            .Where(x => x.InspectionPlanEvent.Status == "ใช้งานจริง" && x.InspectionPlanEvent.StartDate >= startDate && x.InspectionPlanEvent.EndDate <= startDate)
             .ToList();
             return Ok(centralPolicyEbookData);
         }
