@@ -8,6 +8,7 @@ import { ProvinceService, Province } from 'src/app/services/province.service';
 
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 interface addInput {
   id: number;
@@ -58,7 +59,8 @@ export class CreateCentralPolicyComponent implements OnInit {
     private fiscalyearservice: FiscalyearService,
     private provinceservice: ProvinceService,
     private authorize: AuthorizeService,
-    private external: ExternalOrganizationService
+    private external: ExternalOrganizationService,
+    private spinner: NgxSpinnerService,
   ) {
     this.form = this.fb.group({
       name: [''],
@@ -67,7 +69,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -160,11 +162,13 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
   storeCentralpolicy(value) {
     console.log(value);
+    this.spinner.show();
     // // alert(JSON.stringify(value))
     this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
       .subscribe(response => {
         console.log(response);
         this.Form.reset()
+        this.spinner.hide();
         this.router.navigate(['centralpolicy'])
         // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
         //   this.centralpolicyservice = result
@@ -236,9 +240,7 @@ export class CreateCentralPolicyComponent implements OnInit {
             })
             console.log(this.province);
           })
-
-
-
+          this.spinner.hide();
       })
     // console.log(this.provinceservice.getRegionMock());
   }

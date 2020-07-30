@@ -30,14 +30,14 @@
                 <label>ชื่อเรื่อง</label>
                 <!-- <input type="text" value="{{resultsubjectdetail.name}}" formControlName="name" class="form-control"
                   placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
-                <textarea cols="30" rows="5" type="text" value="{{resultsubjectdetail.name}}" formControlName="name"
+                <textarea cols="30" rows="2" type="text" value="{{resultsubjectdetail.name}}" formControlName="name"
                   class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"></textarea>
               </div>
               <div class="form-group">
                 <label>คำชี้แจง</label>
                 <!-- <input type="text" value="{{resultsubjectdetail.explanation}}" formControlName="explanation"
                   class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
-                <textarea cols="30" rows="5" type="text" value="{{resultsubjectdetail.explanation}}"
+                <textarea cols="30" rows="2" type="text" value="{{resultsubjectdetail.explanation}}"
                   formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง"></textarea>
               </div>
               <div class="form-group">
@@ -112,7 +112,7 @@
                           <div class="col-9 col-xl-9">
                             <!-- <input [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}" type="text"
                               value="{{item.name}}" class="form-control" placeholder="กรุณากรอกคำถาม" readonly> -->
-                            <textarea [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}" cols="30" rows="5"
+                            <textarea [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}" cols="30" rows="2"
                               type="text" value="{{item.name}}" formControlName="explanation" class="form-control"
                               placeholder="กรุณากรอกคำถาม" readonly></textarea>
                           </div>
@@ -281,7 +281,7 @@
         <div class="form-group">
           <label for="test" class="form-label">คำถาม</label>
           <!-- <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม"> -->
-          <textarea cols="30" rows="5" type="text" formControlName="name" class="form-control"
+          <textarea cols="30" rows="2" type="text" formControlName="name" class="form-control"
             placeholder="กรุณากรอกคำถาม"></textarea>
           <div formArrayName="inputanswerclose">
             <div *ngFor="let X of FormAddQuestionsclose['controls'].inputanswerclose['controls']; let ix=index">
@@ -560,7 +560,7 @@
                             <div class="col-11 col-xl-11" style="margin-top: 5px;">
                               <!-- <input type="text" formControlName="questionclose" class="form-control"
                                 placeholder="กรุณากรอกคำถาม"> -->
-                              <textarea cols="30" rows="5" type="text" formControlName="questionclose"
+                              <textarea cols="30" rows="2" type="text" formControlName="questionclose"
                                 class="form-control" placeholder="กรุณากรอกคำถาม"></textarea>
                             </div>
                             <div class="col-1">

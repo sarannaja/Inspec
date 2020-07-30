@@ -64,6 +64,8 @@ export class CentralPolicyComponent implements OnInit {
         "lengthMenu": "แสดง  _MENU_  รายการ",
         "search": "ค้นหา:",
         "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
         "paginate": {
           "first":      "หน้าแรก",
           "last":       "หน้าสุดท้าย",
@@ -159,13 +161,15 @@ export class CentralPolicyComponent implements OnInit {
       })
   }
   deleteCentralPolicy(value) {
+    this.loading = false;
     this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
-      this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
-        this.resultcentralpolicy = result
-        console.log(this.resultcentralpolicy);
-      })
+      this.getCentralPolicy();
+      // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+      //   this.resultcentralpolicy = result
+      //   console.log(this.resultcentralpolicy);
+      // })
     })
   }
   Subject(id) {
