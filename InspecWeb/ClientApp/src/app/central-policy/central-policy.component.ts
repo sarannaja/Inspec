@@ -52,27 +52,51 @@ export class CentralPolicyComponent implements OnInit {
           })
       })
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [6],
-          orderable: false
+    if (this.role_id == 1) {
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        columnDefs: [
+          {
+            targets: [6],
+            orderable: false
+          }
+        ],
+        "language": {
+          "lengthMenu": "แสดง  _MENU_  รายการ",
+          "search": "ค้นหา:",
+          "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+          "paginate": {
+            "first": "หน้าแรก",
+            "last": "หน้าสุดท้าย",
+            "next": "ต่อไป",
+            "previous": "ย้อนกลับ"
+          },
         }
-      ],
-      "language": {
-        "lengthMenu": "แสดง  _MENU_  รายการ",
-        "search": "ค้นหา:",
-        "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
-        "paginate": {
-          "first":      "หน้าแรก",
-          "last":       "หน้าสุดท้าย",
-          "next":       "ต่อไป",
-          "previous":   "ย้อนกลับ"
-      },
-    }
 
-    };
+      };
+    } else {
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        columnDefs: [
+          {
+            targets: [5],
+            orderable: false
+          }
+        ],
+        "language": {
+          "lengthMenu": "แสดง  _MENU_  รายการ",
+          "search": "ค้นหา:",
+          "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+          "paginate": {
+            "first": "หน้าแรก",
+            "last": "หน้าสุดท้าย",
+            "next": "ต่อไป",
+            "previous": "ย้อนกลับ"
+          },
+        }
+
+      };
+    }
     this.getFiscalyear()
     // this.getCurrentYear()
   }
@@ -103,13 +127,13 @@ export class CentralPolicyComponent implements OnInit {
       .subscribe(result => {
         this.resultcentralpolicy = result
 
-        if (this.role_id == 3) {
+        if (this.role_id != 1) {
           this.resultcentralpolicy = []
           result.forEach(element => {
-            // if (element.status == "ใช้งานจริง") {
-            //   this.resultcentralpolicy.push(element);
-            // }
-            this.resultcentralpolicy.push(element);
+            if (element.status == "ใช้งานจริง") {
+              this.resultcentralpolicy.push(element);
+            }
+            // this.resultcentralpolicy.push(element);
           });
           console.log("data", this.resultcentralpolicy);
         }
@@ -123,13 +147,13 @@ export class CentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getcentralpolicyfiscalyeardata(currentyear.id)
       .subscribe(result => {
         this.resultcentralpolicy = result
-        if (this.role_id == 3) {
+        if (this.role_id != 1) {
           this.resultcentralpolicy = []
           result.forEach(element => {
-            // if (element.status == "ใช้งานจริง") {
-            //   this.resultcentralpolicy.push(element);
-            // }
-            this.resultcentralpolicy.push(element);
+            if (element.status == "ใช้งานจริง") {
+              this.resultcentralpolicy.push(element);
+            }
+            // this.resultcentralpolicy.push(element);
           });
           console.log("data", this.resultcentralpolicy);
         }
@@ -143,13 +167,13 @@ export class CentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getcentralpolicyfiscalyeardata(this.selectfiscalyearid)
       .subscribe(result => {
         this.resultcentralpolicy = result
-        if (this.role_id == 3) {
+        if (this.role_id != 1) {
           this.resultcentralpolicy = []
           result.forEach(element => {
-            // if (element.status == "ใช้งานจริง") {
-            //   this.resultcentralpolicy.push(element);
-            // }
-            this.resultcentralpolicy.push(element);
+            if (element.status == "ใช้งานจริง") {
+              this.resultcentralpolicy.push(element);
+            }
+            // this.resultcentralpolicy.push(element);
           });
           console.log("data", this.resultcentralpolicy);
         }

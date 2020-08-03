@@ -87,17 +87,21 @@ namespace InspecWeb.Controllers
         //}
 
         // GET api/values/5
-        [HttpGet("getcentralpolicydata/{provinceid}")]
-        public IEnumerable<CentralPolicy> Get2(long provinceid)
+        [HttpGet("getcentralpolicydata/{provinceid}/{year}")]
+        public IEnumerable<CentralPolicy> Get2(long provinceid, long year)
         {
             //return _context.CentralPolicies
             //           .Include(m => m.CentralPolicyProvinces)
             //           //.ThenInclude(m => m.SubjectCentralPolicyProvinces)
             //           .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
 
+            var year2 = _context.FiscalYears
+                .Where(m => m.Year == year).FirstOrDefault();
+
             var fiscalyearData = _context.FiscalYears
-                                 .OrderByDescending(x => x.Year)
-                                 .FirstOrDefault();
+                .Where(m => m.Id == year2.Id).FirstOrDefault();
+                                 //.OrderByDescending(x => x.Year)
+                                 //.FirstOrDefault();
 
             return _context.CentralPolicies
                        .Include(m => m.CentralPolicyProvinces)
@@ -114,6 +118,13 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] InspectionPlanViewModel model)
         {
+            var year = _context.FiscalYears
+                .Where(m => m.Year == model.FiscalYearId).FirstOrDefault();
+            System.Console.WriteLine("year" + year.Id);
+            //if(year == null)
+            //{
+
+            //}
             //var test = model.UserID;
             //System.Console.WriteLine(test);
             System.Console.WriteLine("111");
@@ -123,7 +134,7 @@ namespace InspecWeb.Controllers
             {
                 Title = model.Title,
                 Type = model.Type,
-                FiscalYearId = model.FiscalYearId,
+                FiscalYearId = year.Id,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
                 Status = model.Status,

@@ -127,13 +127,13 @@ export class CreateInspectionPlanComponent implements OnInit {
   storeInspectionPlan(value) {
     console.log("FORM: ", value);
     // alert(JSON.stringify(value))
-    this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.yearString, this.startDate, this.endDate).subscribe(response => {
-      console.log("create Inspection plan: ", value);
-      this.Form.reset()
-      window.history.back();
-      // this.router.navigate(['inspectionplanevent'])
-      // this.router.navigate(['inspectionplan', this.id])
-    })
+    // this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.yearString, this.startDate, this.endDate).subscribe(response => {
+    //   console.log("create Inspection plan: ", value);
+    //   this.Form.reset()
+    //   window.history.back();
+    //   // this.router.navigate(['inspectionplanevent'])
+    //   // this.router.navigate(['inspectionplan', this.id])
+    // })
   }
 
   addFile(event) {

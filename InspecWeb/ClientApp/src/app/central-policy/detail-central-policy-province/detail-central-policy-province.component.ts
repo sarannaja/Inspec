@@ -25,7 +25,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
   resultuser: any = []
   resultpeople: any = []
-  resultministrypeople: any = []
+  resultministrypeople: any[] = []
   resultdepartmentpeople: any = []
   resultdetailcentralpolicy: any = []
   resultcentralpolicyuser: any = []
@@ -57,7 +57,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   urllink
   loading = false;
   electronicbookid: any
-  selectdataministrypeople: Array<any>
+  selectdataministrypeople: Array<any> =[]
   ministryPeople: any = [];
   selectdatadepartmentpeople: Array<any>
   departmentPeople: any = [];
@@ -261,8 +261,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.getquestion();
 
     this.getMinistryPeople();
-    this.getUserPeople();
-    this.getDepartmentPeople();
+    // this.getUserPeople();
+    // this.getDepartmentPeople();
     this.getAnswer2();
 
     // await this.getDepartment()
@@ -672,12 +672,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             this.role7Count = 1
           }
           if (element.user.role_id == 6) {
-            var checked = _.filter(element.user.userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+            // var checked = _.filter(element.user.userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
             // console.log("role6666",);
             // checked > 0 ? this.role6Count = 1 :null
-            if (checked > 0) {
-              this.role6Count = 1
-            }
+            // alert(checked)
+            // if (checked > 0) {
+            this.role6Count = 1
+            // }
           }
           if (element.user.role_id == 10 && this.ministryId == element.user.ministryId) {
             this.role10Count = 1
@@ -844,6 +845,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
 
   async getMinistryPeople() {
+    // alert("123")
     await this.userservice.getuserdata(6).subscribe(result => {
       this.resultministrypeople = result // All
     })
@@ -853,7 +855,9 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         if (element.user.role_id == 6) {
 
           // var checked = _.filter(element.user.userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          // alert(checked)
           // if (checked > 0) {
+          // alert("123444")
           await this.allMinistryPeople.push(element.user)
           // }
         }
@@ -868,9 +872,17 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.ministryPeople = this.allMinistryPeople
     console.log("MINISTRY: ", this.ministryPeople);
     console.log("allMinistry: ", this.resultministrypeople);
+    console.log("this.userProvince", this.userProvince);
+
     if (this.ministryPeople.length == 0) {
       for (var i = 0; i < this.resultministrypeople.length; i++) {
-        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+
+        var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        // alert(checked)
+        if (checked > 0) {
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+        }
+
       }
     }
     else {

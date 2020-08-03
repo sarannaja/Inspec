@@ -22,7 +22,7 @@ export class InspectionPlanComponent implements OnInit {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
-
+  resultdepartmentpeople: any = []
   resultpeople: any = []
   resultinspectionplan: any = []
   resultcentralpolicy: any = []
@@ -49,6 +49,8 @@ export class InspectionPlanComponent implements OnInit {
   resultdetailcentralpolicy: any = []
   resultfiscalyear: any = []
   selectdataministrypeople: any = [];
+  selectdatapeople: any = [];
+  selectdatadepartmentpeople: any = [];
   startDate: any;
   endDate: any;
   startDate2: any;
@@ -59,7 +61,7 @@ export class InspectionPlanComponent implements OnInit {
   delid
   editid
   checkInspec: Boolean;
-
+  year
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
@@ -105,7 +107,10 @@ export class InspectionPlanComponent implements OnInit {
     this.getinspectionplanservice();
     this.getTimeline();
     this.getScheduleData();
+
+    await this.getDepartmentPeople();
     await this.getMinistryPeople();
+    await this.getUserPeople();
 
     this.Form = this.fb.group({
       CentralpolicyId: new FormControl(null, [Validators.required]),
@@ -121,10 +126,10 @@ export class InspectionPlanComponent implements OnInit {
       title: new FormControl(null, [Validators.required]),
       start_date: new FormControl(null, [Validators.required]),
       end_date: new FormControl(null, [Validators.required]),
-      year: new FormControl(null, [Validators.required]),
+      year: new FormControl(1, [Validators.required]),
       type: new FormControl("อื่นๆ", [Validators.required]),
       // files: new FormControl(null, [Validators.required]),
-      ProvinceId: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(1, [Validators.required]),
       // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       input: new FormArray([])
     })
@@ -134,7 +139,9 @@ export class InspectionPlanComponent implements OnInit {
     // })
 
     this.Form2 = this.fb.group({
-      UserPeopleId: new FormControl(null, [Validators.required]),
+      UserPeopleId: new FormControl(null),
+      UserMinistryId: new FormControl(null),
+      UserDepartmentId: new FormControl(null),
     })
     this.EditForm = this.fb.group({
       title: new FormControl(null),
@@ -149,6 +156,8 @@ export class InspectionPlanComponent implements OnInit {
       this.timelineData = res.timelineData;
       this.startDate = this.time(this.timelineData.startDate)
       this.endDate = this.time(this.timelineData.endDate)
+      this.year = this.getyear(this.timelineData.startDate)
+      // alert(JSON.stringify(this.year))
     })
   }
 
@@ -166,6 +175,7 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   async openModal(template: TemplateRef<any>) {
+    this.checkInspec = null;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -219,6 +229,7 @@ export class InspectionPlanComponent implements OnInit {
 
       this.Form.reset()
       this.modalRef.hide()
+      // this.modalService.show('modaldeleteProvince');
 
       for (let i = 0; i < CentralpolicyId.length; i++) {
         this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
@@ -235,6 +246,7 @@ export class InspectionPlanComponent implements OnInit {
       this.loading = false;
       this.data = [];
       this.getinspectionplanservice()
+
     })
   }
 
@@ -272,7 +284,7 @@ export class InspectionPlanComponent implements OnInit {
       });
       // this.loading = true;
       console.log("RESULTS: ", this.data);
-      await this.inspectionplanservice.getcentralpolicydata(this.provinceid)
+      await this.inspectionplanservice.getcentralpolicydata(this.provinceid, this.year)
         .subscribe(async result => {
           this.resultcentralpolicy = result //All
           await this.getRecycled()
@@ -324,6 +336,23 @@ export class InspectionPlanComponent implements OnInit {
       // alert(JSON.stringify(this.selectdataministrypeople))
     })
   }
+  async getUserPeople() {
+    await this.userservice.getuserdata(7).subscribe(async result => {
+      this.resultpeople = result
+      console.log("tttt:", this.resultpeople);
+      for (var i = 0; i < this.resultpeople.length; i++) {
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].side + " - " + this.resultpeople[i].name })
+      }
+    })
+  }
+  async getDepartmentPeople() {
+    await this.userservice.getuserdata(10).subscribe(async result => {
+      this.resultdepartmentpeople = result // All
+      for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
+        await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+      }
+    })
+  }
 
   getDetailCentralpolicy() {
     this.inspectionplanservice.getcentralpolicyeventdata(this.editid)
@@ -364,24 +393,37 @@ export class InspectionPlanComponent implements OnInit {
       this.resultfiscalyear = result
     });
   }
-  storeMinistryPeople(value: any) {
+  async storeMinistryPeople(value: any) {
+
+
+
+    // alert(JSON.stringify(value))
     // console.log("storeMinistryPeople", this.data)
-    // alert(JSON.stringify(this.data[0].centralPolicyId))
+    console.log("data", this.data[0]);
+
     for (let j = 0; j < this.data.length; j++) {
-      let UserPeopleId: any[] = value.UserPeopleId
-      this.centralpolicyservice.addCentralpolicyUser(value, this.data[j].centralPolicyId, this.userid, this.id).subscribe(response => {
-        console.log(value);
-        this.Form.reset()
-        this.modalRef.hide()
-        // for (let i = 0; i < UserPeopleId.length; i++) {
-        //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
-        //     .subscribe(response => {
-        //       console.log(response);
-        //     })
-        // }
-        // this.getCentralPolicyProvinceUser();
+
+      // alert(JSON.stringify(this.data[j].centralPolicyId))
+
+      // let UserPeopleId: any[] = value.UserPeopleId
+      await this.inspectionplanservice.getcentralpolicyprovinceid(this.data[j].centralPolicyId, this.data[j].inspectionPlanEvent.provinceId).subscribe(result => {
+
+        this.centralpolicyservice.addCentralpolicyUser(value, result, this.userid, this.id).subscribe(response => {
+          console.log(value);
+
+          // for (let i = 0; i < UserPeopleId.length; i++) {
+          //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
+          //     .subscribe(response => {
+          //       console.log(response);
+          //     })
+          // }
+          // this.getCentralPolicyProvinceUser();
+          // alert(response);
+        })
       })
     }
+    this.Form.reset()
+    this.modalRef.hide()
   }
 
   changeplanstatus(value) {
@@ -418,6 +460,18 @@ export class InspectionPlanComponent implements OnInit {
       year: ssss.getFullYear(),
       month: ssss.getMonth() + 1,
       day: ssss.getDate()
+    }
+    console.log("newDate: ", new_date);
+
+    return new_date
+  }
+
+  getyear(date) {
+    console.log("Date: ", date);
+
+    let ssss = new Date(date)
+    var new_date = {
+      year: ssss.getFullYear(),
     }
     console.log("newDate: ", new_date);
 
@@ -486,6 +540,22 @@ export class InspectionPlanComponent implements OnInit {
   notInspec(value) {
     // alert(value)
     this.checkInspec = false;
+  }
+
+  storeInspectionPlan(value) {
+    console.log("FORM: ", value);
+    this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.provinceid, this.startDate, this.endDate, this.year).subscribe(response => {
+      console.log("create Inspection plan: ", value);
+      // this.Form.reset()
+      // window.history.back();
+
+      this.FormOther.reset()
+      this.modalRef.hide()
+
+      this.loading = false;
+      this.data = [];
+      this.getinspectionplanservice()
+    })
   }
 
 }

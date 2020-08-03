@@ -53,9 +53,9 @@ export class InspectionplanService {
     return this.http.post(this.url + "AddCentralPolicyEvents", formData);
   }
 
-  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid, yearId, startDate, endDate) {
+  addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid, yearId, startDate, endDate, year) {
     // alert(JSON.stringify(InspectionPlanData))
-    // alert(yearId);
+    // alert(year.year);
     console.log("inspectData : ", InspectionPlanData);
     console.log("sDate: ", startDate);
     console.log("eDate: ", endDate);
@@ -69,7 +69,7 @@ export class InspectionplanService {
       EndDate: endDate.year + '-' + endDate.month + '-' + endDate.day,
       Type: InspectionPlanData.type,
       ProvinceId: InspectionPlanData.ProvinceId,
-      FiscalYearId: parseInt(InspectionPlanData.year),
+      FiscalYearId: year.year + 543,
       // FiscalYearId: yearId,
       // files: "INSPECTIONPLAN.pdf",
       UserID: userid,
@@ -106,9 +106,11 @@ export class InspectionplanService {
 
   }
 
-  getcentralpolicydata(provinceid): Observable<any[]> {
+  getcentralpolicydata(provinceid, year): Observable<any[]> {
+    var year = year.year + 543;
+    // alert(year.year)
     // return this.http.get<any[]>(this.url)
-    return this.http.get<any[]>(this.url + 'getcentralpolicydata/' + provinceid)
+    return this.http.get<any[]>(this.url + 'getcentralpolicydata/' + provinceid + '/' + year)
   }
 
   changeplanstatus(planid) {
@@ -142,14 +144,14 @@ export class InspectionplanService {
     return this.http.get<any[]>(this.url + 'getcentralpolicyeventdata/' + id)
   }
 
-  editcentralpolicy(ceneventid, startdate, enddate,value) {
+  editcentralpolicy(ceneventid, startdate, enddate, value) {
     const formData = new FormData();
     formData.append('ceneventid', ceneventid);
     formData.append('startdate', startdate.year + '-' + startdate.month + '-' + startdate.day);
     formData.append('enddate', enddate.year + '-' + enddate.month + '-' + enddate.day);
     formData.append('year', value.year);
     formData.append('title', value.title);
-    return this.http.post(this.url + "editcentralpolicy" , formData);
+    return this.http.post(this.url + "editcentralpolicy", formData);
   }
 
 }

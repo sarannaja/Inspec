@@ -11,6 +11,10 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "UserId")]
         public string[] UserId { get; set; }
 
+        public string[] UserDepartmentId { get; set; }
+
+        public string[] UserMinistryId { get; set; }
+
         [JsonProperty(PropertyName = "Report")]
         public string Report { get; set; }
 

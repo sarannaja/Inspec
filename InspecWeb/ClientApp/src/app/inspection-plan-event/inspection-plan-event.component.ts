@@ -220,7 +220,6 @@ export class InspectionPlanEventComponent implements OnInit {
         },
         navLinks: true,
         editable: false,
-
         eventLimit: false,
         eventClick: function (event) {
           // alert(JSON.stringify(event))

@@ -137,7 +137,7 @@
                 (click)="openModal(modalInvitePeople)">เชิญ</button>
               &nbsp;&nbsp;
               <button *ngIf="role_id == 3" type="button" class="btn btn-success"
-                (click)="openModal(modalQuestionPeople)">คำถามภาคประชาชน</button>
+                (click)="openModal(modalQuestionPeople)">เพิ่มคำถาม</button>
             </div>
           </div>
 
@@ -484,7 +484,7 @@
   <form [formGroup]="FormQuestion" (ngSubmit)="storeQuestion(FormQuestion.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+        <h5 class="modal-title">คำถามที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -493,7 +493,7 @@
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
-            <label>คำถามภาคประชาชน</label>
+            <label>ประเด็นคำถาม</label>
             <textarea cols="30" rows="5" formControlName="question" class="form-control"
               placeholder="กรุณากรอกคำถามภาคประชาชน">
           </textarea>

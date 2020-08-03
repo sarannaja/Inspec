@@ -1168,8 +1168,9 @@ namespace InspecWeb.Controllers
                     ProvinceId = model.ProvinceId,
                     Type = "NoMaster",
                     Status = "ร่างกำหนดการ",
-                    Land = model.Land
-
+                    Land = model.Land,
+                    StartDate = model.startdate,
+                    EndDate = model.enddate,
                 };
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();
@@ -1336,7 +1337,7 @@ namespace InspecWeb.Controllers
                     .Include(m => m.Province)
                     .Include(m => m.CentralPolicy)
                     .ThenInclude(m => m.FiscalYear)
-                    .Include(m => m.SubjectCentralPolicyProvinces)
+                    //.Include(m => m.SubjectCentralPolicyProvinces)
                     //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
                     .Where(m => m.Type == "NoMaster").ToList();
 
@@ -1516,14 +1517,20 @@ namespace InspecWeb.Controllers
 
             foreach (var cenid in model.CentralpolicySelect)
             {
+                var centralpolicyeventdate = _context.CentralPolicyEvents
+                    .Where(m => m.CentralPolicyId == cenid.centralpolicyId)
+                    .Where(m => m.InspectionPlanEvent.ProvinceId == model.ProvinceId)
+                    .FirstOrDefault();
+                   
                 var SubjectGroupdata = new SubjectGroup
                 {
                     CentralPolicyId = cenid.centralpolicyId,
                     ProvinceId = model.ProvinceId,
                     Type = "NoMaster",
                     Status = "ร่างกำหนดการ",
-                    Land = model.Land
-
+                    Land = model.Land,
+                    StartDate = centralpolicyeventdate.StartDate,
+                    EndDate = centralpolicyeventdate.EndDate,
                 };
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();

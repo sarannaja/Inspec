@@ -223,14 +223,19 @@ export class CentralpolicyService {
   }
 
   addCentralpolicyUser(data, id, userid, planId) {
+    console.log("datAAAAA: ", data);
+
     const formData = {
       CentralPolicyId: id,
       UserId: data.UserPeopleId,
       // ElectronicBookId: electronicbookid,
+      UserDepartmentId: data.UserDepartmentId,
+      UserMinistryId: data.UserMinistryId,
+
       InviteBy: userid,
       planId: planId
     }
-    console.log('FORMDATA: ' + formData);
+    console.log('FORMDATAddddddd: ' + formData);
     return this.http.post(this.url + "users", formData);
   }
 

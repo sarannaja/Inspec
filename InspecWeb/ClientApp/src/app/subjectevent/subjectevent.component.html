@@ -16,11 +16,15 @@
       <h5 class="card-title">ประเด็นการตรวจติดตาม</h5>
       <div class="float-right">
 
-        <button class="btn btn-primary" (click)="openModal(modalAddSubjectFromCalendar)"
+        <button class="btn btn-primary" title="เพิ่มกำหนดการตรวจราชการ" style="margin-top: -60px;"
+          (click)="openModal(modalProvince)">
+          <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
+
+        <!-- <button class="btn btn-primary" (click)="openModal(modalAddSubjectFromCalendar)"
           style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</button>
         &nbsp;&nbsp;
         <button class="btn btn-primary" (click)="openModal(modalProvince)"
-          style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตาม</button>
+          style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตาม</button> -->
 
       </div>
     </div>
@@ -46,16 +50,23 @@
             <td>{{ item.centralPolicy.title }}</td>
             <td>{{item.province.name}}</td>
             <!-- <td>{{item.land}}</td> -->
-            <td>{{item.centralPolicy.fiscalYear.year}}</td>
+
+            <td *ngIf="item.land == 'ลงพื้นที่'">{{item.startDate | thaidate: 'year' }} - {{item.endDate | thaidate: 'year' }}</td>
+            <td *ngIf="item.land == 'ไม่ลงพื้นที่'">ไม่ลงพื้นที่</td>
             <!-- <td>{{item.subjectCentralPolicyProvinces[0].status}}</td> -->
 
-            <td>{{item.status}}</td>
+            <td *ngIf="item.status == 'ร่างกำหนดการ'">ร่าง</td>
+            <td *ngIf="item.status == 'ใช้งานจริง'">ใช้งาน</td>
 
             <td>
-              <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+              <i *ngIf="item.status == 'ร่างกำหนดการ'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                 (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
 
-              <i class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+                <i *ngIf="item.status == 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-search pointer"
+                (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ'" class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
             </td>
           </tr>
         </tbody>
@@ -66,15 +77,23 @@
 
 <!-- BEGIN primary modal -->
 <ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <form [formGroup]="Form" (ngSubmit)="storeCentralPolicy(Form.value)">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">จัดการประเด็นการตรวจติดตาม</h5>
-        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">จัดการประเด็นการตรวจติดตาม</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body m-3">
+
+      <div class="mb-3">
+        <input type="radio" name="land" (change)="type($event)" value="ลงพื้นที่">
+        <label style="margin-left: 10px;">เพิ่มประเด็นการตรวจติดตาม</label>
+        <input style="margin-left: 10px;" type="radio" name="land" (change)="notType($event)" value="ไม่ลงพื้นที่">
+        <label style="margin-left: 10px;">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</label>
       </div>
-      <div class="modal-body m-3">
+
+      <form *ngIf="checkType == true" [formGroup]="Form" (ngSubmit)="storeCentralPolicy(Form.value)">
         <div class="form-group">
           <label for="test" class="form-label">จังหวัด</label>
           <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
@@ -123,15 +142,39 @@
           <!-- <div *ngIf="checkInspec == false">
             <label for="">test2</label>
           </div> -->
-
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">บันทึก</button>
-        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
-      </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+
+
+
+      <form *ngIf="checkType == false" [formGroup]="Form2" (ngSubmit)="storeCentralPolicy2(Form2.value)">
+        <div class="form-group">
+          <label for="test" class="form-label">จังหวัด</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+            [items]="selectdataprovince" formControlName="province2" (change)="selectedprovince2($event,i,item)">
+          </ng-select>
+        </div>
+        <div class="form-group">
+          <label for="test" class="form-label">ประเด็นการตรวจติดตาม</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเด็นนโยบาย" [multiple]="true"
+            [items]="selectdatacentralpolicy2" name="CentralpolicyId2" formControlName="CentralpolicyId2">
+          </ng-select>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+
     </div>
-  </form>
+
+
+
+  </div>
   <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
@@ -159,15 +202,15 @@
 
 <!-- BEGIN primary modal -->
 <ng-template #modalAddSubjectFromCalendar class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <form [formGroup]="Form2" (ngSubmit)="storeCentralPolicy2(Form2.value)">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-content">
+    <div class="modal-header">
         <h5 class="modal-title">จัดการประเด็นการตรวจติดตาม</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
+        <form [formGroup]="Form2" (ngSubmit)="storeCentralPolicy2(Form2.value)">
         <div class="form-group">
           <label for="test" class="form-label">จังหวัด</label>
           <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
@@ -180,13 +223,13 @@
             [items]="selectdatacentralpolicy2" name="CentralpolicyId2" formControlName="CentralpolicyId2">
           </ng-select>
         </div>
+      </form>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
         <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
       </div>
     </div>
-  </form>
   <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
