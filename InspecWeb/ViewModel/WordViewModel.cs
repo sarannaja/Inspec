@@ -5,7 +5,7 @@ namespace InspecWeb.ViewModel
     {
 
             public long id { get; set; }
-            public long ProvinId { get; set; }
+            //public long ProvinId { get; set; }
             public long elecId { get; set; }
   
     }
@@ -23,8 +23,8 @@ namespace InspecWeb.ViewModel
     public class WordfileViewModel
     {
 
-        public string[] Name { get; set; }
-        public string[] Description { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
 
     }
 
