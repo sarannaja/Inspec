@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="/province">จังหวัด</a></li>
+      <li class="breadcrumb-item"><a href="/province">อำเภอ</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">อำเภอ</a></li>
       <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
@@ -15,7 +15,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h4 class="card-title">จังหวัด : {{titleprovince}}</h4>
+        <h4 class="card-title">อำเภอ : {{titleprovince}}</h4>
         <div class="float-right">
           <!-- <button class="btn btn-primary" (click)="openModal(modalProvince)"
             style="margin-top: -60px;">เพิ่มอำเภอ/เขต</button> -->
@@ -108,21 +108,18 @@
     <form [formGroup]="EditForm" (ngSubmit)="editProvince(EditForm.value,delid)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">จัดการจังหวัด</h5>
+          <h5 class="modal-title">จัดการอำเภอ</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ชื่อจังหวัด</label>
+            <label for="test" class="form-label">ชื่ออำเภอ</label>
             <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
             <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
-              placeholder="กรุณากรอกชื่อจังหวัด">
-            <br>
-            <label for="test" class="form-label">ลิ้งค์​</label>
-            <input type="text" value="{{link}}" formControlName="provincelink" class="form-control"
-              placeholder="กรุณากรอกจังหวัดลิ้ง">
+              placeholder="กรุณากรอกชื่ออำเภอ">
+          
           </div>
         </div>
         <div class="modal-footer">
