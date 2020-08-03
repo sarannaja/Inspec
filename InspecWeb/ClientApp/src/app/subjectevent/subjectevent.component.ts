@@ -27,6 +27,7 @@ export class SubjecteventComponent implements OnInit {
   Form: FormGroup;
   Form2: FormGroup;
   checkInspec: Boolean;
+  checkType: Boolean;
   selectdataprovince: Array<any>
   userid: string;
   resultprovince: any = [];
@@ -74,6 +75,17 @@ export class SubjecteventComponent implements OnInit {
       //     orderable: false
       //   }
       // ]
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
 
@@ -90,7 +102,7 @@ export class SubjecteventComponent implements OnInit {
       "province2": new FormControl(null, [Validators.required]),
     })
 
-    this.getCentralPolicy();
+    // this.getCentralPolicy();
     this.getSubjectevent();
 
 
@@ -106,7 +118,8 @@ export class SubjecteventComponent implements OnInit {
 
   }
   openModal(template: TemplateRef<any>) {
-
+    this.checkInspec = null;
+    this.checkType =  null;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -170,7 +183,7 @@ export class SubjecteventComponent implements OnInit {
         this.selectdatacentralpolicy2 = this.CentralPolicyEvents.filter((item, index) => {
           return item.haveSubject == 0
         }).map((item, index) => {
-          return { value:{centralPolicyId:item.centralPolicy.id,centralPolicyeventId:item.id} , label: item.centralPolicy.title }
+          return { value: { centralPolicyId: item.centralPolicy.id, centralPolicyeventId: item.id }, label: item.centralPolicy.title }
         })
 
         // alert(JSON.stringify(this.selectdatacentralpolicy2))
@@ -235,13 +248,13 @@ export class SubjecteventComponent implements OnInit {
   storeCentralPolicy2(value) {
     // alert(JSON.stringify(value))
     this.subjectservice.postsubjecteventfromcalendar(value, this.userid)
-    .subscribe(result => {
-      this.loading = false;
-      this.modalRef.hide();
-      this.Form2.reset()
-      // this.resultcentralpolicy = result
-      this.getSubjectevent();
-    })
+      .subscribe(result => {
+        this.loading = false;
+        this.modalRef.hide();
+        this.Form2.reset()
+        // this.resultcentralpolicy = result
+        this.getSubjectevent();
+      })
   }
 
   inspect(myradio) {
@@ -252,6 +265,16 @@ export class SubjecteventComponent implements OnInit {
     // alert(value)
     this.checkInspec = false;
   }
+
+  type(myradio) {
+    // alert(myradio)
+    this.checkType = true;
+  }
+  notType(value) {
+    // alert(value)
+    this.checkType = false;
+  }
+
   Subjectevent(id, centralPolicyId, provinceId) {
     this.inspectionplanservice.getcentralpolicyprovinceid(centralPolicyId, provinceId).subscribe(result => {
       // this.centralpolicyprovinceid = result

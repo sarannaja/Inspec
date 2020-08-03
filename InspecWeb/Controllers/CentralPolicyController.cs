@@ -496,28 +496,81 @@ namespace InspecWeb.Controllers
             .First();
             System.Console.WriteLine("CID: " + CentralPolicyId);
 
-
-            foreach (var id in model.UserId)
+            if (model.UserMinistryId != null)
             {
-                System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
-                System.Console.WriteLine("LOOP: " + id);
-                System.Console.WriteLine("PLANID: " + model.planId);
-
-                var centralpolicyuserdata = new CentralPolicyUser
+                foreach (var id in model.UserMinistryId)
                 {
-                    CentralPolicyId = CentralPolicyId,
-                    ProvinceId = ProvinceId,
-                    CentralPolicyGroupId = CentralPolicyGroupdata.Id,
-                    UserId = id,
-                    Status = "รอการตอบรับ",
-                    DraftStatus = "ร่างกำหนดการ",
-                    //ElectronicBookId = model.ElectronicBookId,
-                    InspectionPlanEventId = model.planId,
-                    InvitedBy = inviteby.Prefix + " " + inviteby.Name,
-                };
-                _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                    System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
+                    System.Console.WriteLine("LOOP: " + id);
+                    System.Console.WriteLine("PLANID: " + model.planId);
+
+                    var centralpolicyuserdata = new CentralPolicyUser
+                    {
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                        UserId = id,
+                        Status = "รอการตอบรับ",
+                        DraftStatus = "ร่างกำหนดการ",
+                        //ElectronicBookId = model.ElectronicBookId,
+                        InspectionPlanEventId = model.planId,
+                        InvitedBy = inviteby.Prefix + " " + inviteby.Name,
+                    };
+                    _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                }
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
+
+            if (model.UserId != null)
+            {
+
+                foreach (var id in model.UserId)
+                {
+                    System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
+                    System.Console.WriteLine("LOOP: " + id);
+                    System.Console.WriteLine("PLANID: " + model.planId);
+
+                    var centralpolicyuserdata = new CentralPolicyUser
+                    {
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                        UserId = id,
+                        Status = "รอการตอบรับ",
+                        DraftStatus = "ร่างกำหนดการ",
+                        //ElectronicBookId = model.ElectronicBookId,
+                        InspectionPlanEventId = model.planId,
+                        InvitedBy = inviteby.Prefix + " " + inviteby.Name,
+                    };
+                    _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                }
+                _context.SaveChanges();
+            }
+
+            if (model.UserDepartmentId != null)
+            {
+                foreach (var id in model.UserDepartmentId)
+                {
+                    System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
+                    System.Console.WriteLine("LOOP: " + id);
+                    System.Console.WriteLine("PLANID: " + model.planId);
+
+                    var centralpolicyuserdata = new CentralPolicyUser
+                    {
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                        UserId = id,
+                        Status = "รอการตอบรับ",
+                        DraftStatus = "ร่างกำหนดการ",
+                        //ElectronicBookId = model.ElectronicBookId,
+                        InspectionPlanEventId = model.planId,
+                        InvitedBy = inviteby.Prefix + " " + inviteby.Name,
+                    };
+                    _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                }
+                _context.SaveChanges();
+            }
         }
 
         // GET api/values/5
@@ -550,9 +603,14 @@ namespace InspecWeb.Controllers
         [HttpGet("getcentralpolicyfromprovince/{id}")]
         public IActionResult getcentralpolicyfromprovince(long id)
         {
+            var year = DateTime.Now.Year;
+
             var fiscalyearData = _context.FiscalYears
-                              .OrderByDescending(x => x.Year)
-                              .FirstOrDefault();
+                .Where(m => m.Year == year + 543).FirstOrDefault();
+
+            //var fiscalyearData = _context.FiscalYears
+            //                  .OrderByDescending(x => x.Year)
+            //                  .FirstOrDefault();
 
             var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Include(m => m.CentralPolicy)

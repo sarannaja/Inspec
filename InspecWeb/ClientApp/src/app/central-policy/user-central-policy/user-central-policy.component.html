@@ -58,8 +58,8 @@
               <!-- <th>ระยะเวลา</th> -->
               <!-- <th>สถานะกำหนดการ</th>
               <th>สถานะ</th> -->
-              <th>ผู้สั่งการ</th>
-              <!-- <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
+              <th>ผู้เชิญ</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
@@ -83,6 +83,9 @@
               <td>{{ item.status }}</td> -->
               <td>{{ item.invitedBy }}</td>
 
+              <td> <i *ngIf="item.status == 'รอการตอบรับ'" class="align-middle mr-2 fas fa-fw fa-check-circle pointer"
+                  (click)="AcceptCentralPolicy(item.id, item.centralPolicy.id,item.provinceId)"></i>
+              </td>
               <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
                   <div *ngIf="item2.provinceId == item.provinceId">
@@ -153,13 +156,13 @@
   <form [formGroup]="assignForm" (ngSubmit)="sendAssign(assignForm.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">มอบหมาย</h5>
+        <h5 class="modal-title">การมอบหมาย</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
-        <textarea cols="30" rows="5" class="form-control" placeholder="กรุณากรอกรายละเอียดมอบหมาย"
+        <textarea cols="30" rows="5" class="form-control" placeholder="กรอกชื่อ - สกุล"
           formControlName="assign">
             </textarea>
       </div>

@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">กำหนดการตรวจราชการ</a></li>
-      <li class="breadcrumb-item active" aria-current="page">เพิ่มกำหนดการตรวจราชการ</li>
+      <li class="breadcrumb-item active" aria-current="page">เพิ่มกำหนดการ</li>
     </ol>
   </nav>
 </div>
@@ -14,7 +14,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">เพิ่มกำหนดการตรวจราชการ</h5>
+        <h5 class="card-title">เพิ่มกำหนดการ</h5>
         <!-- <div class="float-right">
                       <button class="btn btn-primary" style="margin-top: -60px;">เพิ่มนโยบายกลาง</button>
                   </div> -->
@@ -34,7 +34,7 @@
 
             <div class="col-12 col-xl-7">
               <br>
-              <label>กำหนดระยะเวลา</label>
+              <label>ระยะเวลา</label>
             </div>
 
             <div class="col-12 col-xl-3">
@@ -63,7 +63,7 @@
                   </div>
 
 
-                  <div class="col-12 col-xl-4">
+                  <div class="col-12 col-xl-2">
                     <div class="form-group">
                       <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
                           formControlName="provinces"(change)="selectedprovince($event,i,item)">
@@ -80,16 +80,25 @@
                     </div>
                   </ng-template>
 
-                  <div class="col-12 col-xl-4" *ngIf="provincename[i] != null">
-                    <label>จังหวัดที่เลือก</label>
-                  </div>
-                  <div class="col-12 col-xl-8" *ngIf="provincename[i] != null">
+                  <div class="col-12 col-xl-2" *ngIf="provincename[i] != null">
                     <div class="form-group">
-                      {{provincename[i]}} &nbsp;&nbsp;
+                      <!-- {{provincename[i]}}
+                      &nbsp;&nbsp; -->
                       <button type="button" (click)="Gotoinspecplan(provinceid[i],i)"
-                        class="btn btn-info">จัดการแผนการตรวจ</button>
+                        class="btn btn-info">กำหนดรายละเอียด</button>
                     </div>
                   </div>
+                  <!-- <div class="col-12 col-xl-4" *ngIf="provincename[i] != null">
+                    <label>จังหวัดที่เลือก</label>
+                  </div> -->
+                  <!-- <div class="col-12 col-xl-8" *ngIf="provincename[i] != null">
+                    <div class="form-group">
+                      {{provincename[i]}}
+                      &nbsp;&nbsp;
+                      <button type="button" (click)="Gotoinspecplan(provinceid[i],i)"
+                        class="btn btn-info">กำหนดรายละเอียด</button>
+                    </div>
+                  </div> -->
 
                   <!-- <div class="col-12 col-xl-4">
                     <label>แผนการตรวจประจำปี</label>

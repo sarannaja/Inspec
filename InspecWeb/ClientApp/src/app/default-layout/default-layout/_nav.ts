@@ -401,7 +401,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจประจำปี"
+    name: "แผนการตรวจราชการ"
   },
   {
     icon: 'fa-calendar',
@@ -541,9 +541,39 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจประจำปี"
+    name: "แผนการตรวจราชการ"
   },
-
+  {
+    IDchildren: 'schedule',
+    icon: 'fa-calendar',
+    name: "กำหนดการตรวจราชการ",
+    children: [
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/subjectevent',
+      //   name: 'ประเด็นการตรวจติดตาม'
+      // },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionplanevent/all',
+        name: 'ปฏิทินการตรวจราชการรวม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/inspectionplanevent',
+        name: 'ปฏิทินการตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportinspectionplanevent',
+        name: 'รายงานกำหนดการตรวจราชการ'
+      },
+    ]
+  },
   {
     IDchildren: 'subject',
     icon: 'fa-file',
@@ -594,37 +624,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
 
     ]
   },
-  {
-    IDchildren: 'schedule',
-    icon: 'fa-calendar',
-    name: "กำหนดการตรวจราชการ",
-    children: [
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
-      //   url: '/subjectevent',
-      //   name: 'ประเด็นการตรวจติดตาม'
-      // },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/inspectionplanevent/all',
-        name: 'ปฏิทินการตรวจราชการรวม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/inspectionplanevent',
-        name: 'ปฏิทินการตรวจราชการ'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
-        url: '/reportinspectionplanevent',
-        name: 'รายงานกำหนดการตรวจราชการ'
-      },
-    ]
-  },
+
 
   // {
   //   icon: 'fa-calendar',
@@ -891,7 +891,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจประจำปี"
+    name: "แผนการตรวจราชการ"
   },
   {
     icon: 'fa-calendar',
@@ -1269,7 +1269,7 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจประจำปี"
+    name: "แผนการตรวจราชการ"
   },
   {
     icon: 'fa-hand-point-up',

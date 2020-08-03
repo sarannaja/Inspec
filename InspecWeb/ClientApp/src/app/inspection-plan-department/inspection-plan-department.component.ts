@@ -259,12 +259,12 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       });
       // this.loading = true;
       console.log("RESULTS: ", this.data);
-      await this.inspectionplanservice.getcentralpolicydata(this.provinceid)
-        .subscribe(async result => {
-          this.resultcentralpolicy = result //All
-          await this.getRecycled()
-          // alert(JSON.stringify(this.resultcentralpolicy))
-        })
+      // await this.inspectionplanservice.getcentralpolicydata(this.provinceid)
+      //   .subscribe(async result => {
+      //     this.resultcentralpolicy = result //All
+      //     await this.getRecycled()
+      //     // alert(JSON.stringify(this.resultcentralpolicy))
+      //   })
     })
 
   }
