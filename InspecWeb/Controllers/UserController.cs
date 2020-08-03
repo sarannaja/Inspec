@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.IO; //excel
 using System.Linq;
 using System.Threading.Tasks;
-using ClosedXML.Excel;
+using ClosedXML.Excel; //excel
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
@@ -39,21 +39,24 @@ namespace InspecWeb.Controllers {
 
         }
 
+        // <!-- test excel -->
         [HttpGet ("api/[controller]/[action]")]
         public IActionResult momomo () {
-            UserViewModel[] Momos = {
-                new UserViewModel { UserName = "admin1@inspec.go.th", Email = "admin1@inspec.go.th" },
-                new UserViewModel { UserName = "admin2@inspec.go.th", Email = "admin2@inspec.go.th" },
-                new UserViewModel { UserName = "admin3@inspec.go.th", Email = "admin3@inspec.go.th" },
-                new UserViewModel { UserName = "admin4@inspec.go.th", Email = "admin4@inspec.go.th" },
-            };
+            //UserViewModel[] Momos = {
+            //    new UserViewModel { UserName = "admin1@inspec.go.th", Email = "admin1@inspec.go.th" },
+            //    new UserViewModel { UserName = "admin2@inspec.go.th", Email = "admin2@inspec.go.th" },
+            //    new UserViewModel { UserName = "admin3@inspec.go.th", Email = "admin3@inspec.go.th" },
+            //    new UserViewModel { UserName = "admin4@inspec.go.th", Email = "admin4@inspec.go.th" },
+            //};
+
+            var users = _context.Users;
 
             using (var workbook = new XLWorkbook ()) {
                 var worksheet = workbook.Worksheets.Add ("Momos");
                 var currentRow = 1;
                 worksheet.Cell (currentRow, 1).Value = "Id";
                 worksheet.Cell (currentRow, 2).Value = "Username";
-                foreach (var momo in Momos) {
+                foreach (var momo in users) {
                     currentRow++;
                     worksheet.Cell (currentRow, 1).Value = momo.Email;
                     worksheet.Cell (currentRow, 2).Value = momo.UserName;
@@ -70,6 +73,7 @@ namespace InspecWeb.Controllers {
                 }
             }
         }
+        // <!-- END test excel -->
 
         [HttpGet ("api/[controller]/[action]/{id}")]
         public IEnumerable<ApplicationUser> getuser (long id) {
@@ -890,6 +894,41 @@ namespace InspecWeb.Controllers {
 
             return Ok(users);
         }
+
+        // <!-- test excel -->
+        [HttpGet("api/[controller]/[action]")]
+        public IActionResult getexceluserrole8()
+        {
+          
+
+            var users = _context.Users;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("VicePrimeMinister");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Username";
+                foreach (var momo in users)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = momo.Email;
+                    worksheet.Cell(currentRow, 2).Value = momo.UserName;
+                }
+                System.Console.WriteLine("momomo : " + "789");
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "VicePrimeMinister.xlsx");
+                }
+            }
+        }
+        // <!-- END test excel -->
 
     }
 

@@ -155,9 +155,12 @@ export class UserService {
         formData.append('ProvincialDepartmentId', userData.ProvincialDepartmentId);//หน่วยงานภูมิภาคมีได้อันเดียว
       }
 
-      for (var iii = 0; iii < file.length; iii++) {
-
-        formData.append("files", file[iii]);
+      if(file != null ){
+        for (var iii = 0; iii < file.length; iii++) {
+          formData.append("files", file[iii]);
+        }
+      }else{
+        formData.append("files", null);
       }
 
     return this.http.post(this.base, formData);
@@ -261,10 +264,12 @@ export class UserService {
     } else {
       formData.append('ProvincialDepartmentId', userData.ProvincialDepartmentId);//หน่วยงานภูมิภาคมีได้อันเดียว
     }
-
-    for (var iii = 0; iii < file.length; iii++) {
-
-      formData.append("files", file[iii]);
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }else{
+      formData.append("files", null);
     }
    
     let path = this.base + userId;

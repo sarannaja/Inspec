@@ -42,4 +42,9 @@ export class InfoMinistryComponent implements OnInit {
     this.router.navigate(['infoministry/'+ id +'/infodepartment'])
   }
 
+  //<!-- excel -->
+  excelministry(){
+    window.location.href = '/api/ministry/excelministry';
+  }
+  //<!-- END excel -->
 }

@@ -13,7 +13,7 @@ export class InfoDepartmentComponent implements OnInit {
   resultdepartment: any = []
   id
   name: any
-  ministryName:[]
+  ministryName:any;
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
@@ -32,7 +32,8 @@ export class InfoDepartmentComponent implements OnInit {
 
   ngOnInit() {
     this.departmentService.getdepartmentsforsupportdata(this.id).subscribe(result => {
-      this.resultdepartment = result
+      // console.log('data',result);
+      this.resultdepartment = result;
       this.ministryName = result[0].ministries.name;
       this.loading = true
    })

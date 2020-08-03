@@ -25,7 +25,8 @@ export class UserComponent implements OnInit {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
-
+  MinistryId
+  DepartmentId
   modalRef: BsModalRef;
   selectdatarole: Array<any>
   selectdataministry: Array<any>
@@ -34,7 +35,7 @@ export class UserComponent implements OnInit {
   selectdataregion: Array<any>
   selectdatafiscalyear: Array<any>
   selectdataprovincialdepartment: Array<any>
-  selectdataside:Array<any>
+  selectdataside: Array<any>
   loading = false;
   dtOptions: DataTables.Settings = {};
   roleId: any;
@@ -54,18 +55,18 @@ export class UserComponent implements OnInit {
   ProvinceId: any;
   DistrictId: any;
   SubdistrictId: any;
-  MinistryId: any;
+  // MinistryId: any;
   UserRegion: any;
-  FiscalYear:any;
+  FiscalYear: any;
   files: string[] = [];
   imgprofileUrl: any;
-  img:any;
+  img: any;
   Startdate: any;
   Enddate: any;
-  Commandnumberdate:any;
-  Side:any;
-  ed:any;
-  cd:any;
+  Commandnumberdate: any;
+  Side: any;
+  ed: any;
+  cd: any;
   //<!-- END input -->
   datarole: any = [
     {
@@ -144,6 +145,7 @@ export class UserComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private spinner: NgxSpinnerService,
+
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.subscription = this.userService.getUserNav()
@@ -179,19 +181,19 @@ export class UserComponent implements OnInit {
     this.getDataMinistries()
     this.getDatafiscalyear()
 
-    //<!-- ด้านสำหรับ role 7 -->
+    //<!-- ด้านสำหรับ role 7 ที่ปรึกษาภาคประชาชน -->
     this.selectdataside = this.dataside.map((item, index) => {
       return { value: item.id, label: item.name }
     })
-    //<!-- END ด้านสำหรับ role 7 -->
+    //<!-- END ด้านสำหรับ role 7 ที่ปรึกษาภาคประชาชน -->
 
     //<!-- สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
     this.selectdatarole = this.datarole.map((item, index) => {
       return { value: item.id, label: item.name }
     })
-     //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
+    //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
 
-    
+
 
     if (this.roleId == 1) {
       this.rolename = 'ผู้ดูแลระบบ'
@@ -225,14 +227,13 @@ export class UserComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  openeditModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,UserProvince,ministryId,departmentId,provincialDepartmentId,side,
-    commandnumber,commandnumberdate,email,prefix,name,position,phoneNumber,startdate,enddate,img) 
-  {
+  openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId, departmentId, provincialDepartmentId, side,
+    commandnumber, commandnumberdate, email, prefix, name, position, phoneNumber, startdate, enddate, img) {
     //alert(UserProvince);
     this.addForm.reset()
     this.id = id;
     this.img = img;
-    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {    
+    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {
       var uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -244,20 +245,20 @@ export class UserComponent implements OnInit {
         }
       })
     })
-    if(enddate == null){
+    if (enddate == null) {
       this.ed = enddate;
-    }else{
+    } else {
       this.ed = this.time(enddate);
     }
 
-    if(commandnumberdate == null){
+    if (commandnumberdate == null) {
       this.cd = commandnumberdate;
-    }else{
+    } else {
       this.cd = this.time(commandnumberdate);
     }
-    
+
     this.addForm.patchValue({
-      
+
       Role_id: this.roleId,
       Prefix: prefix,
       Name: name,
@@ -268,10 +269,10 @@ export class UserComponent implements OnInit {
       DepartmentId: departmentId,
       FiscalYear: fiscalYearId,
       ProvincialDepartmentId: provincialDepartmentId,
-      UserRegion: userRegion.map(result=>{
+      UserRegion: userRegion.map(result => {
         return result.regionId
       }),
-      UserProvince:UserProvince,
+      UserProvince: UserProvince,
       files: new FormControl(null, [Validators.required]),
       Startdate: this.time(startdate),
       Enddate: this.ed,
@@ -279,19 +280,22 @@ export class UserComponent implements OnInit {
       Side: side,
       Commandnumberdate: this.cd,
       Formprofile: 0,
-      Img:img,
+      Img: img,
     })
+    this.DepartmentId = departmentId
+    this.MinistryId = ministryId
+    console.log('this.addForm.value',departmentId,ministryId);
+    
     this.modalRef = this.modalService.show(template);
   }
 
-  openchangeModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,UserProvince,ministryId,departmentId,provincialDepartmentId,side,
-    commandnumber,commandnumberdate,email,prefix,name,position,phoneNumber,startdate,enddate,img) 
-  {
+  openchangeModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId, departmentId, provincialDepartmentId, side,
+    commandnumber, commandnumberdate, email, prefix, name, position, phoneNumber, startdate, enddate, img) {
     //alert(this.roleId);
     this.addForm.reset()
     this.id = id;
     this.img = img;
-    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {    
+    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {
       var uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -304,15 +308,15 @@ export class UserComponent implements OnInit {
       })
     })
 
-    if(enddate == null){
+    if (enddate == null) {
       this.ed = enddate;
-    }else{
+    } else {
       this.ed = this.time(enddate);
     }
 
-    if(commandnumberdate == null){
+    if (commandnumberdate == null) {
       this.cd = commandnumberdate;
-    }else{
+    } else {
       this.cd = this.time(commandnumberdate);
     }
 
@@ -327,10 +331,10 @@ export class UserComponent implements OnInit {
       DepartmentId: departmentId,
       FiscalYear: fiscalYearId,
       ProvincialDepartmentId: provincialDepartmentId,
-      UserRegion: userRegion.map(result=>{
+      UserRegion: userRegion.map(result => {
         return result.regionId
       }),
-      UserProvince:UserProvince[0].province.id,
+      UserProvince: UserProvince[0].province.id,
       files: new FormControl(null, [Validators.required]),
       Startdate: this.time(startdate),
       Enddate: this.ed,
@@ -338,7 +342,7 @@ export class UserComponent implements OnInit {
       Side: side,
       Commandnumberdate: this.cd,
       Formprofile: 0,
-      Img:img,
+      Img: img,
     })
     this.modalRef = this.modalService.show(template);
   }
@@ -357,7 +361,7 @@ export class UserComponent implements OnInit {
   getDatafiscalyear() {
     this.fiscalyearService.getfiscalyeardata()
       .subscribe(result => {
-      //  console.log('mo', result)
+        //  console.log('mo', result)
         this.selectdatafiscalyear = result.map((item, index) => {
           return { value: item.id, label: item.year }
         })
@@ -366,7 +370,7 @@ export class UserComponent implements OnInit {
   }
 
   getDataRegions(event) {
-    this.regionService.getregiondataforuser(event.value).subscribe(res => {    
+    this.regionService.getregiondataforuser(event.value).subscribe(res => {
       var uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -442,7 +446,7 @@ export class UserComponent implements OnInit {
   }
 
   updateuser(value) {
-   // alert(1);
+    // alert(1);
     this.userService.editprofile(value, this.addForm.value.files, this.id).subscribe(response => {
       //alert(3);
       this.addForm.reset()
@@ -490,7 +494,7 @@ export class UserComponent implements OnInit {
   }
   time(date) {
     var ssss = new Date(date)
-    var new_date = {date:{ year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() }}
+    var new_date = { date: { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() } }
     return new_date
   }
 }
