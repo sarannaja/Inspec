@@ -43,6 +43,17 @@ namespace InspecWeb.Models
         //[Description("ลิ้ง")]
         //public string link { get; set; }
 
+        [Description("วันที่สร้าง")]
+        [DataType(DataType.Date)]
+        public DateTime? CreatedAt { get; set; }
+
+        [Required]
+        [Description("คนที่สร้างนโยบายกลาง")]
+        public string CreatedBy { get; set; }
+
+        [Description("วันที่แก้ไข")]
+        [DataType(DataType.Date)]
+        public DateTime? UpdateAt { get; set; }
 
         public ICollection<SubjectDateCentralPolicyProvince> SubjectDateCentralPolicyProvinces { get; set; }
         public ICollection<SubquestionCentralPolicyProvince> SubquestionCentralPolicyProvinces { get; set; }

@@ -59,6 +59,10 @@ namespace InspecWeb.Models
         [Description("ประเภทหลัก 1.CentralPolicy 2.Inspectionplan")]
         public string Class { get; set; }
 
+        [Description("วันที่แก้ไข")]
+        [DataType(DataType.Date)]
+        public DateTime? UpdateAt { get; set; }
+
         public ICollection<Subject> Subjects { get; set; }
         public ICollection<CentralPolicyFile> CentralPolicyFiles { get; set; }
         public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }

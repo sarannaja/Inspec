@@ -94,7 +94,7 @@
                                             <div *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                                                 <div class="col-12 row" style="margin-top: 3px;">
                                                     <div class="col-0" style="margin-top: 15px;">
-                                                        {{i2}} {{i}}
+                                                        <!-- {{i2}} {{i}} -->
                                                     </div>
                                                     <!-- <div class="col-0" style="margin-top: 15px;">
                                                         {{i==0?1:i}}
@@ -130,7 +130,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div *ngIf="resultsubjectdetail.subjectCentralPolicyProvinceFiles.length !=0" class="col-md-12">
                                             <u>ไฟล์แนบ</u><br>
                                             <div class="row"
                                                 *ngFor="let item2 of resultsubjectdetail.subjectCentralPolicyProvinceFiles; let i = index"
@@ -146,7 +146,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                                    <!-- <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small> -->
                                 </div>
                             </div>
                             <div class="form-group row" style="text-align: center; justify-content: center;">

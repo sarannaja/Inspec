@@ -17,7 +17,7 @@ export class SubjectService {
   getsubjectdetaildata(id) {
     return this.http.get(this.url + "subjectdetail/" + id)
   }
-  addSubject(subjectData, centralpolicyid) {
+  addSubject(subjectData, centralpolicyid, userid) {
     var subjectdepartment = subjectData.inputsubjectdepartment
     console.log('subjectData: ', subjectdepartment);
     var departmentId = []
@@ -76,6 +76,7 @@ export class SubjectService {
       Explanation: subjectData.explanation,
       CentralPolicyId: parseInt(centralpolicyid),
       CentralPolicyDateId: subjectData.centralpolicydateid,
+      UserID: userid,
       inputsubjectdepartment: test,
       // test: departmentId
       // inputquestionopen: subjectdepartment.inputquestionopen,

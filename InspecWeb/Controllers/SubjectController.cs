@@ -170,10 +170,9 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] SubjectViewModel model)
         {
-
+            var date = DateTime.Now;
             long GetSubjectID = 0;
             List<object> termsList = new List<object>();
-
             //var subjectdata = new Subject
             //{
             //    Name = model.Name,
@@ -275,7 +274,10 @@ namespace InspecWeb.Controllers
                                 Type = "Master",
                                 Status = model.Status,
                                 SubjectGroupId = SubjectGroupdata.Id,
-                                Explanation = model.Explanation
+                                Explanation = model.Explanation,
+                                CreatedAt = date,
+                                CreatedBy = model.UserID,
+                                UpdateAt = date
                             };
                             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
                             _context.SaveChanges();
@@ -1653,11 +1655,12 @@ namespace InspecWeb.Controllers
         [HttpPut("editsubject2/{id}")]
         public void Put3([FromForm] SubjectViewModel model, long id)
         {
-
+            var date = DateTime.Now;
             var subjects = _context.SubjectCentralPolicyProvinces.Find(id);
             subjects.Name = model.Name;
             subjects.Status = model.Status;
             subjects.Explanation = model.Explanation;
+            subjects.UpdateAt = date;
             _context.Entry(subjects).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
