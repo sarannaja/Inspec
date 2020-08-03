@@ -7,7 +7,7 @@
       <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
       <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">แผนตรวจราชการ</a></li>
-      <li class="breadcrumb-item active" aria-current="page">เพิ่มแผนตรวจราชการประจำปี</li>
+      <li class="breadcrumb-item active" aria-current="page">เพิ่มแผนการตรวจราชการ</li>
     </ol>
   </nav>
 </div>
@@ -15,12 +15,12 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <strong class="card-title">เพิ่มแผนตรวจราชการประจำปี</strong>
+        <strong class="card-title">เพิ่มแผนการตรวจราชการ</strong>
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeCentralpolicy(Form.value)">
           <div class="col-12 row">
-            <div class="form-group col-6">
+            <div class="form-group col-3">
               <label>ปีงบประมาณ*</label>
               <select class="form-control select2" data-toggle="select2" formControlName="year">
                 <option value=null>กรุณาเลือกปีงบประมาณ</option>
@@ -59,10 +59,10 @@
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label>ประเด็นนโยบาย</label>
+              <label>เรื่องที่ตรวจ</label>
               <!-- <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกประเด็นนโยบาย"> -->
               <textarea cols="30" rows="2" type="text" formControlName="title" class="form-control"
-                placeholder="กรุณากรอกประเด็นนโยบาย"></textarea>
+                placeholder="กรุณากรอกเรื่องที่ตรวจ"></textarea>
               <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
             </div>
           </div>
@@ -72,17 +72,17 @@
               <div class="form-group col-md-3">
                 <div class="mb-3">
                   <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
-                  <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+                  <label style="margin-left: 10px;">ร่าง</label>
                   <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
                     formControlName="status">
-                  <label style="margin-left: 10px;">ใช้งานจริง</label>
+                  <label style="margin-left: 10px;">ใช้งาน</label>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="col-12">
-            <label>กำหนดระยะเวลา</label>
+            <label>ระยะเวลาการตรวจ</label>
           </div>
           <div class="col-12 mb-0" [formGroup]="Form" (ngSubmit)="storeCentralpolicy(Form.value)">
             <div class="" *ngFor="let item of d.controls; let i = index">
@@ -241,7 +241,7 @@
           <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
             <form class="form-group row col-12" [formGroup]="itemTest">
               <div class="col-4">
-                <label formControlName="CentralpolicyFile">ไฟล์ที่ {{i + 1}})
+                <label class="textellipsis" formControlName="CentralpolicyFile">ไฟล์ที่ {{i + 1}})
                   {{itemTest.controls.CentralpolicyFile.value.name}}</label>
               </div>
               <div class="col-8">
@@ -250,15 +250,10 @@
             </form>
           </div>
           <!-- <hr> -->
-          <div class="form-group row" style="text-align: center; justify-content: center;">
-            <div class="col-1">
-              <button type="submit" class="btn btn-primary">บันทึก</button>
-            </div>
-            <div class="col-1">
-              <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
-            </div>
+          <div class="form-group" style="text-align: center; justify-content: center;">
+            <button style="margin-right: 15px;" type="submit" class="btn btn-primary">บันทึก</button>
+            <button style="margin-left: 15px;" type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
           </div>
-
         </form>
       </div>
     </div>

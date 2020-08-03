@@ -63,16 +63,16 @@ export class CentralPolicyComponent implements OnInit {
       "language": {
         "lengthMenu": "แสดง  _MENU_  รายการ",
         "search": "ค้นหา:",
-        "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
         "infoEmpty": "แสดง 0 ของ 0 รายการ",
         "zeroRecords": "ไม่พบข้อมูล",
         "paginate": {
-          "first":      "หน้าแรก",
-          "last":       "หน้าสุดท้าย",
-          "next":       "ต่อไป",
-          "previous":   "ย้อนกลับ"
-      },
-    }
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
     this.getFiscalyear()
@@ -100,23 +100,67 @@ export class CentralPolicyComponent implements OnInit {
   //   })
   // }
   getCentralPolicy() {
+    this.loading = false
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicydata()
-      .subscribe(result => {
-        this.resultcentralpolicy = result
+      .subscribe(async result => {
+        // this.resultcentralpolicy = result.map(result2=>{
+        //   return 
+        // })
+        const doAsync = () => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              var array: any[] = []
+              for (let i1 = 0; i1 < result.length; i1++) {
+                //console.log('this.id[i1]', this.id[i1]);
+                console.log("result", result[0], i1);
 
+                this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
+                  console.log('result[i1]', result[i1], i1);
+
+                  if (this.role_id == 3 && result[i1].status == "ใช้งานจริง") {
+                    array.push({ ...result[i1], count: resultCount });
+                  } else if (this.role_id != 3) {
+                    array.push({ ...result[i1], count: resultCount });
+                  }
+                })
+
+
+                // }, 100 * i1 + 1)
+              }
+
+              resolve(array)
+              // return 
+            }, 300)
+          })
+        }
+        doAsync().then(res => {
+          this.resultcentralpolicy = res
+          setTimeout(() => {
+            this.loading = true;
+
+          }, 100)
+        })
         if (this.role_id == 3) {
-          this.resultcentralpolicy = []
-          result.forEach(element => {
-            // if (element.status == "ใช้งานจริง") {
-            //   this.resultcentralpolicy.push(element);
-            // }
-            this.resultcentralpolicy.push(element);
-          });
+          // this.resultcentralpolicy = []
+          // result.forEach(element => {
+          //   // if (element.status == "ใช้งานจริง") {
+          //   //   this.resultcentralpolicy.push(element);
+          //   // }
+          //   this.resultcentralpolicy.push({ ...element, count: 0 });
+          // });
+
+          doAsync().then(res => {
+            this.resultcentralpolicy = res
+            setTimeout(() => {
+              this.loading = true;
+
+            }, 100)
+          })
           console.log("data", this.resultcentralpolicy);
         }
 
-        this.loading = true;
+
         this.spinner.hide();
       })
   }
@@ -124,19 +168,65 @@ export class CentralPolicyComponent implements OnInit {
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicyfiscalyeardata(currentyear.id)
       .subscribe(result => {
-        this.resultcentralpolicy = result
+        // this.resultcentralpolicy = result
+        const doAsync = () => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              var array: any[] = []
+              for (let i1 = 0; i1 < result.length; i1++) {
+                //console.log('this.id[i1]', this.id[i1]);
+                console.log("result", result[0], i1);
+
+                this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
+                  console.log('result[i1]', result[i1], i1);
+                  // if (result[i1].status == "ใช้งานจริง") {
+                  if (this.role_id == 3 && result[i1].status == "ใช้งานจริง") {
+                    array.push({ ...result[i1], count: resultCount });
+                  } else if (this.role_id != 3) {
+                    array.push({ ...result[i1], count: resultCount });
+                  }
+                  // }
+
+
+
+
+                })
+
+
+                // }, 100 * i1 + 1)
+              }
+
+              resolve(array)
+              // return 
+            }, 300)
+          })
+        }
+        doAsync().then(res => {
+          this.resultcentralpolicy = res
+          setTimeout(() => {
+            this.loading = true;
+
+          }, 100)
+        })
         if (this.role_id == 3) {
-          this.resultcentralpolicy = []
-          result.forEach(element => {
-            // if (element.status == "ใช้งานจริง") {
-            //   this.resultcentralpolicy.push(element);
-            // }
-            this.resultcentralpolicy.push(element);
-          });
-          console.log("data", this.resultcentralpolicy);
+          // this.resultcentralpolicy = []
+          // result.forEach(element => {
+          //   // if (element.status == "ใช้งานจริง") {
+          //   //   this.resultcentralpolicy.push(element);
+          //   // }
+          //   this.resultcentralpolicy.push(element);
+          // });
+          // console.log("data", this.resultcentralpolicy);
+          doAsync().then(res => {
+            this.resultcentralpolicy = res
+            setTimeout(() => {
+              this.loading = true;
+
+            }, 100)
+          })
         }
 
-        this.loading = true;
+        // this.loading = true;
         this.spinner.hide();
       })
   }
@@ -144,19 +234,60 @@ export class CentralPolicyComponent implements OnInit {
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicyfiscalyeardata(this.selectfiscalyearid)
       .subscribe(result => {
-        this.resultcentralpolicy = result
+        // this.resultcentralpolicy = result
+        const doAsync = () => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              var array: any[] = []
+              for (let i1 = 0; i1 < result.length; i1++) {
+                //console.log('this.id[i1]', this.id[i1]);
+                console.log("result", result[0], i1);
+
+                this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
+                  console.log('result[i1]', result[i1], i1);
+
+                  if (this.role_id == 3 && result[i1].status == "ใช้งานจริง") {
+                    array.push({ ...result[i1], count: resultCount });
+                  } else if (this.role_id != 3) {
+                    array.push({ ...result[i1], count: resultCount });
+                  }
+                })
+
+
+                // }, 100 * i1 + 1)
+              }
+
+              resolve(array)
+              // return 
+            }, 300)
+          })
+        }
+        doAsync().then(res => {
+          this.resultcentralpolicy = res
+          setTimeout(() => {
+            this.loading = true;
+
+          }, 100)
+        })
         if (this.role_id == 3) {
-          this.resultcentralpolicy = []
-          result.forEach(element => {
-            // if (element.status == "ใช้งานจริง") {
-            //   this.resultcentralpolicy.push(element);
-            // }
-            this.resultcentralpolicy.push(element);
-          });
-          console.log("data", this.resultcentralpolicy);
+          // this.resultcentralpolicy = []
+          // result.forEach(element => {
+          //   // if (element.status == "ใช้งานจริง") {
+          //   //   this.resultcentralpolicy.push(element);
+          //   // }
+          //   this.resultcentralpolicy.push(element);
+          // });
+          // console.log("data", this.resultcentralpolicy);
+          doAsync().then(res => {
+            this.resultcentralpolicy = res
+            setTimeout(() => {
+              this.loading = true;
+
+            }, 100)
+          })
         }
 
-        this.loading = true;
+        // this.loading = true;
         this.spinner.hide();
       })
   }
@@ -165,7 +296,13 @@ export class CentralPolicyComponent implements OnInit {
     this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
-      this.getCentralPolicy();
+      if (this.selectfiscalyearid == "currentfiscalyear") {
+        this.getCurrentCentralPolicy(this.currentyear);
+      } else if (this.selectfiscalyearid == "allfiscalyear") {
+        this.getCentralPolicy();
+      } else {
+        this.getSelectfiscalyear();
+      }
       // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
       //   this.resultcentralpolicy = result
       //   console.log(this.resultcentralpolicy);
@@ -190,11 +327,13 @@ export class CentralPolicyComponent implements OnInit {
   selectfiscalyear(value) {
     console.log(value);
     if (value == "currentfiscalyear") {
+      this.selectfiscalyearid = value
       this.loading = false;
       // this.getCurrentYear()
       this.spinner.show();
     }
     else if (value == "allfiscalyear") {
+      this.selectfiscalyearid = value
       this.loading = false;
       this.getCentralPolicy()
       this.spinner.show();

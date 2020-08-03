@@ -4,11 +4,11 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-      <li class="breadcrumb-item"><a href="javascript:void(0)">นโยบายกลาง</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นการตรวจติดตาม</a></li>
-      <li class="breadcrumb-item active" aria-current="page">เพิ่มประเด็นการตรวจติดตาม</li>
+      <li class="breadcrumb-item"><a href="/centralpolicy">แผนการตรวจราชการ</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">เรื่องที่ตรวจ</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">เพิ่มหัวข้อการตรวจ</a></li>
     </ol>
   </nav>
 </div>
@@ -16,7 +16,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">จัดการประเด็นนโยบาย : {{resultcentralpolicy.title}}</h5>
+        <h5 class="card-title">เรื่องที่ตรวจ : {{resultcentralpolicy.title}}</h5>
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
@@ -26,7 +26,7 @@
             </div>
             <div class="col-12 col-xl-12">
               <div class="form-group">
-                <label>ชื่อเรื่อง</label>
+                <label>หัวข้อการตรวจ</label>
                 <!-- <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"> -->
                 <textarea cols="30" rows="2" type="text" formControlName="name" class="form-control"
                   placeholder="กรุณากรอกชื่อเรื่อง"></textarea>
@@ -38,7 +38,7 @@
                   placeholder="กรุณากรอกคำชี้แจง"></textarea>
               </div>
               <div class="form-group">
-                <label>กำหนดระยะเวลา</label>
+                <label>กำหนดระยะเวลาการตรวจ</label>
                 <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"
                   [items]="times" name="ํTime" formControlName="centralpolicydateid">
                 </ng-select>

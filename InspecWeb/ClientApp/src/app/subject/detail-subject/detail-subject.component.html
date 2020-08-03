@@ -4,11 +4,11 @@
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
             <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
-            <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบายย่อย</li>
+            <li class="breadcrumb-item"><a href="/centralpolicy">แผนตรวจราชการ</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">เรื่องที่ตรวจ</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">รายละเอียดหัวข้อการตรวจ</a></li>
         </ol>
     </nav>
 </div>
@@ -16,7 +16,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">รายละเอียดประเด็นนโยบาย</h5>
+                <h5 class="card-title">เรื่องที่ตรวจ : {{resultprovince.title}}</h5>
             </div>
             <div class="card-body">
                 <form>
@@ -26,16 +26,16 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label>ชื่อเรื่อง : {{resultsubjectdetail.name}}</label>
+                                <label>หัวข้อการตรวจ : {{resultsubjectdetail.name}}</label>
                             </div>
                             <div class="form-group">
                                 <label>คำชี้แจง : {{resultsubjectdetail.explanation}}</label>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>สถานะ : {{resultsubjectdetail.status}}</label>
-                            </div>
+                            </div> -->
                             <div class="form-group">
-                                <u>ระยะเวลา</u>
+                                <u>ระยะเวลาการตรวจ</u>
                                 <br>
                                 <span
                                     *ngFor="let item of resultsubjectdetail.subjectDateCentralPolicyProvinces; let i = index">ช่วงที่
@@ -94,8 +94,11 @@
                                             <div *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                                                 <div class="col-12 row" style="margin-top: 3px;">
                                                     <div class="col-0" style="margin-top: 15px;">
-                                                        {{i + 1}}
+                                                        {{i2}} {{i}}
                                                     </div>
+                                                    <!-- <div class="col-0" style="margin-top: 15px;">
+                                                        {{i==0?1:i}}
+                                                    </div> -->
                                                     <div class="col-11">
                                                         <textarea
                                                             [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}"
