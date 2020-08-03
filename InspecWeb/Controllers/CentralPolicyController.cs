@@ -89,6 +89,20 @@ namespace InspecWeb.Controllers
             //return "value";
         }
 
+        // GET api/values/5
+        [HttpGet("subjectcount/{id}")]
+        public IActionResult Get3(long id)
+        {
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                  .Include(m => m.SubjectDateCentralPolicyProvinces)
+                  .ThenInclude(m => m.CentralPolicyDateProvince)
+                  .Include(m => m.CentralPolicyProvince)
+                  //.Where(m => m.CentralPolicyId == id);
+                  .Where(m => m.CentralPolicyProvince.CentralPolicyId == id && m.Type == "Master");
+
+            return Ok(subjectdata.Count());
+        }
+
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] CentralPolicyProvinceViewModel model)

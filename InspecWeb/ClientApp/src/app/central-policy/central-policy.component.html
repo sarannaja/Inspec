@@ -21,7 +21,8 @@
                 data-toggle="select2">
                 <!-- <option value="currentfiscalyear">ปีปัจจุบัน</option> -->
                 <option value="allfiscalyear">ทุกปี</option>
-                <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}" [selected]='item.id == currentyear.id'>
+                <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}"
+                  [selected]='item.id == currentyear.id'>
                   {{item.year}}
                 </option>
               </select>
@@ -44,9 +45,11 @@
             </div>
           </div>
         </div> -->
+
         <div class="float-right">
-          <button class="btn btn-primary" (click)="CreateCentralPolicy()"
-            style="margin-top: -60px;">เพิ่มแผนการตรวจราชการ</button>
+          <button class="btn btn-primary" title="เพิ่มแผนการตรวจราชการ" (click)="CreateCentralPolicy()"
+            style="margin-top: -60px;"> <i class="align-middle fas fa-fw fa-plus pointer"></i>
+          </button>
         </div>
       </div>
       <ng-template #elseBlock>
@@ -59,7 +62,8 @@
                   data-toggle="select2">
                   <!-- <option value="currentfiscalyear">ปีปัจจุบัน</option> -->
                   <option value="allfiscalyear">ทุกปี</option>
-                  <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}" [selected]='item.id == currentyear.id'>
+                  <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}"
+                    [selected]='item.id == currentyear.id'>
                     {{item.year}}
                   </option>
                 </select>
@@ -74,9 +78,9 @@
           [dtOptions]="dtOptions">
           <thead>
             <tr>
-              <th>#</th>
+              <th width="5%">ที่</th>
               <th>แผนการตรวจราชการ</th>
-              <th width="20%">ประเด็นนโยบาย</th>
+              <th width="25%">เรื่องที่ตรวจ</th>
               <th>ปี</th>
               <th>ระยะเวลา</th>
               <th *ngIf="role_id == 1">สถานะ</th>
@@ -88,7 +92,7 @@
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ i + 1 }}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ item.type }}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                {{ item.title }}</td>
+                {{ item.title }}( {{item.count}} )</td>
               <!-- *ngIf="item.status == 'ใช้งานจริง';" -->
               <!-- <td *ngIf="item.status == 'ร่างกำหนดการ';">{{ item.title }}</td> -->
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{item.fiscalYear.year}}</td>
@@ -99,14 +103,14 @@
               <td *ngIf="role_id == 1" (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ item.status }}</td>
               <td>
                 <div class="row">
-                  <i title="ดูรายละเอียดประเด็นย่อย" style="margin-top: 6px;"
+                  <i title="ดูรายละเอียดเรื่องที่ตรวจ" style="margin-top: 6px;"
                     class="align-middle mr-2 fas fa-file-medical pointer" (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                   <div *ngIf="role_id == 1 || role_id == 2">
-                    <i class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i>
+                    <i title="แก้ไขเรื่องที่ตรวจ" class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i>
 
                     <!-- <i *ngIf="role_id == 1 || role_id == 2;" class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i> -->
-                    <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                    <i title="ลบเรื่องที่ตรวจ" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                       (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
                   </div>
                 </div>

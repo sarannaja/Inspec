@@ -26,7 +26,7 @@ export class SubjectComponent implements OnInit {
   private startDate: IMyDate = { year: 0, month: 0, day: 0 };
   private endDate: IMyDate = { year: 0, month: 0, day: 0 };
 
-  resultsubject: any = []
+  resultsubject: any[] = []
   resultcentralpolicy: any = []
   id
   userid
@@ -41,6 +41,8 @@ export class SubjectComponent implements OnInit {
   times: any[] = [];
   loading = false;
   dtOptions: DataTables.Settings = {};
+  subquestion: any = []
+  boxcount: any = []
 
   constructor(
     private modalService: BsModalService,
@@ -72,7 +74,9 @@ export class SubjectComponent implements OnInit {
       "language": {
         "lengthMenu": "แสดง  _MENU_  รายการ",
         "search": "ค้นหา:",
-        "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
         "paginate": {
           "first": "หน้าแรก",
           "last": "หน้าสุดท้าย",
@@ -179,9 +183,38 @@ export class SubjectComponent implements OnInit {
   }
 
   getSubject() {
+    this.resultsubject = []
     this.subjectservice.getsubjectdata(this.id).subscribe(result => {
-      this.resultsubject = result
-      this.loading = true;
+      result.forEach(element => {
+        var arrayBox: any[] = []
+        element.subquestionCentralPolicyProvinces.forEach(element2 => {
+          arrayBox.push(element2.box)
+          // console.log("cccc", element2.box);
+        });
+        setTimeout(() => {
+          var count = arrayBox.filter(
+            (thing, i, arr) => arr.findIndex(t => t === thing) === i
+          ).length
+          this.resultsubject.push({ ...element, count })
+          console.log(count);
+        }, 10 * result.length)
+
+        // console.log(arrayBox);
+      });
+      setTimeout(() => {
+        this.loading = true;
+      }, 10 * result.length)
+
+      // result.forEach(element => {
+      //   this.subquestion = element.subquestionCentralPolicyProvinces.filter(
+      //     (thing, i, arr) => arr.findIndex(t => t.box === thing.box) === i
+      //   )
+      // });
+      // this.boxcount = this.subquestion.filter(
+      //   (thing, i, arr) => arr.findIndex(t => t.box === thing.box) === i
+      // );
+      // console.log("CCCCCCC: ", this.resultsubject);
+
       this.spinner.hide();
     }
     )
@@ -209,13 +242,11 @@ export class SubjectComponent implements OnInit {
   //   })
   // }
   deleteSubject(value) {
+    this.loading = false;
     this.subjectservice.deleteSubject(value).subscribe(result => {
       console.log(result);
       this.modalRef.hide()
-      this.subjectservice.getsubjectdata(this.id).subscribe(result => {
-        this.resultsubject = result
-        console.log(this.resultsubject);
-      })
+      this.getSubject();
     })
   }
 }

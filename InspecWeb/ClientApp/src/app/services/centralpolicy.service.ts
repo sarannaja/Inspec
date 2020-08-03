@@ -20,6 +20,9 @@ export class CentralpolicyService {
   getcentralpolicyfiscalyeardata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "fiscalfear/" + id)
   }
+  getcentralpolicysubjectcount(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "subjectcount/" + id)
+  }
   getdetailcentralpolicydata(id): Observable<any> {
     console.log("CentralID: ", id);
 

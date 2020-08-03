@@ -4,11 +4,11 @@
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
             <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
-            <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบายย่อย</li>
+            <li class="breadcrumb-item"><a href="/centralpolicy">แผนตรวจราชการ</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">เรื่องที่ตรวจ</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">รายละเอียดหัวข้อการตรวจ</a></li>
         </ol>
     </nav>
 </div>
@@ -16,26 +16,26 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">รายละเอียดประเด็นนโยบาย</h5>
+                <h5 class="card-title">เรื่องที่ตรวจ : {{resultprovince.title}}</h5>
             </div>
             <div class="card-body">
                 <form>
                     <div class="row">
-                        <div class="col-12 col-xl-12">
+                        <div class="col-12">
                             <br>
                         </div>
-                        <div class="col-12 col-xl-12">
+                        <div class="col-12">
                             <div class="form-group">
-                                <label>ชื่อเรื่อง : {{resultsubjectdetail.name}}</label>
+                                <label>หัวข้อการตรวจ : {{resultsubjectdetail.name}}</label>
                             </div>
                             <div class="form-group">
                                 <label>คำชี้แจง : {{resultsubjectdetail.explanation}}</label>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>สถานะ : {{resultsubjectdetail.status}}</label>
-                            </div>
+                            </div> -->
                             <div class="form-group">
-                                <u>ระยะเวลา</u>
+                                <u>ระยะเวลาการตรวจ</u>
                                 <br>
                                 <span
                                     *ngFor="let item of resultsubjectdetail.subjectDateCentralPolicyProvinces; let i = index">ช่วงที่
@@ -50,7 +50,7 @@
                                         aria-expanded="false" aria-controls="provinces"></i>
                                 </u>
                                 <!-- <label>หน่วยงานที่เกี่ยวข้อง</label> -->
-                                <div class="col-12 col-xl-12 collapse" id="provinces"
+                                <div class="col-12 collapse" id="provinces"
                                     *ngFor="let item of resultprovince.centralPolicyProvinces; let i = index">
                                     <!-- <div class="col-md-6"> -->
                                     <span *ngIf="item.active == 1">{{ i + 1 }}. {{item.province.name}}</span>
@@ -63,6 +63,7 @@
                                 <div class="form-group">
                                     <div class="col-12 col-xl-12"
                                         *ngFor="let item of filterboxdepartments; let i2 = index">
+                                        <h4>ชุดที่ {{i2 + 1}}</h4>
                                         <h4>ผู้ให้ข้อมูล</h4>
                                         <div
                                             *ngFor="let items of item.subjectCentralPolicyProvinceGroups; let i = index">
@@ -89,30 +90,28 @@
                                         <div class="colum">
                                             <u>คำถามปลายปิด</u>
                                         </div> -->
-                                        <div class="row" *ngFor="let item of question; let i = index">
-                                            <div class="col-12 col-xl-12"
-                                                *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
-                                                <div class="row">
-                                                    <div class="col-9 col-xl-9">
-                                                        <!-- <input type="text" value="{{item.name}}" class="form-control"
-                                                            placeholder="กรุณากรอกคำถาม" readonly> -->
+                                        <div *ngFor="let item of question; let i = index">
+                                            <div *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
+                                                <div class="col-12 row" style="margin-top: 3px;">
+                                                    <div class="col-0" style="margin-top: 15px;">
+                                                        {{i2}} {{i}}
+                                                    </div>
+                                                    <!-- <div class="col-0" style="margin-top: 15px;">
+                                                        {{i==0?1:i}}
+                                                    </div> -->
+                                                    <div class="col-11">
                                                         <textarea
                                                             [ngStyle]="{'background-color': 'rgba(189,189,189,1)'}"
-                                                            cols="30" rows="5" type="text" value="{{item.name}}"
+                                                            cols="30" rows="2" type="text" value="{{item.name}}"
                                                             class="form-control" placeholder="กรุณากรอกคำถาม"
                                                             readonly></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-xl-12" style="margin-top: 3px;"
+                                                <div class="col-12" style="margin-top: 3px;"
                                                     *ngFor="let items of item.subquestionChoiceCentralPolicyProvinces; let i = index">
-                                                    <div class="row">
-                                                        <div class="col-9 col-xl-9">
-                                                            <!-- <label
-                                                                [ngStyle]="{'background-color': 'rgba(189,189,189,0.5)'}"
-                                                                type="text" *ngIf="item.type == 'คำถามปลายปิด'"
-                                                                class="form-control">
-                                                                {{items.name}}
-                                                            </label> -->
+                                                    <div class="row" style="margin-left: 5px;">
+                                                        <div class="col-0"></div>
+                                                        <div class="col-10">
                                                             <input
                                                                 [ngStyle]="{'background-color': 'rgba(189,189,189,0.5)'}"
                                                                 type="text" *ngIf="item.type == 'คำถามปลายปิด'"
@@ -128,31 +127,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-xl-12">
+                            <div class="col-12">
                                 <div class="form-group">
-                                  <div class="row">
-                                    <div class="col-md-12">
-                                      <u>ไฟล์แนบ</u><br>
-                                      <div class="row" *ngFor="let item2 of resultsubjectdetail.subjectCentralPolicyProvinceFiles; let i = index"
-                                        style="margin-top: 10px;">
-                                        <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
-                                          <span>ไฟล์ที่
-                                            {{i+1}})
-                                            {{ item2.name }}<br>
-                                          </span>
-                                        </a>
-                                        <input type="text" class="form-control ml-4" style="width: 80%;" value="{{item2.description}}" readonly>
-                                      </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <u>ไฟล์แนบ</u><br>
+                                            <div class="row"
+                                                *ngFor="let item2 of resultsubjectdetail.subjectCentralPolicyProvinceFiles; let i = index"
+                                                style="margin-top: 10px;">
+                                                <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
+                                                    <span>ไฟล์ที่
+                                                        {{i+1}})
+                                                        {{ item2.name }}<br>
+                                                    </span>
+                                                </a>
+                                                <input type="text" class="form-control ml-4" style="width: 80%;"
+                                                    value="{{item2.description}}" readonly>
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
-                                  <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+                                    <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
                                 </div>
-                              </div>
-                              <div class="form-group row" style="text-align: center; justify-content: center;">
+                            </div>
+                            <div class="form-group row" style="text-align: center; justify-content: center;">
                                 <div class="col-3">
-                                  <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
+                                    <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                         <!-- <div class="form-group row">
                             <div class="col-sm-5 ml-sm-auto">

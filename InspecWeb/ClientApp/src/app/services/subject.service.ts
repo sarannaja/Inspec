@@ -12,7 +12,7 @@ export class SubjectService {
     this.url = baseUrl + 'api/subject/';
   }
   getsubjectdata(id) {
-    return this.http.get(this.url + id)
+    return this.http.get<any[]>(this.url + id)
   }
   getsubjectdetaildata(id) {
     return this.http.get(this.url + "subjectdetail/" + id)

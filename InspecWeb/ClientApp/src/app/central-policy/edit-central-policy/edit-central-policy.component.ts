@@ -388,11 +388,8 @@ export class EditCentralPolicyComponent implements OnInit {
             })
             console.log(this.selectdataprovince);
           })
-
-
-
+          this.spinner.hide();
       })
-      this.spinner.hide();
     // console.log(this.provinceservice.getRegionMock());
   }
 

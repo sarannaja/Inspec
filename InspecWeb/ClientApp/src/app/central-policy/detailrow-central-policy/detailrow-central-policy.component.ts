@@ -138,7 +138,7 @@ export class DetailrowCentralPolicyComponent implements OnInit {
       this.selectdataprovince = this.resultprovince.map((item, index) => {
         return { value: item.id, label: item.name }
       })
-      this.spinner.hide();
+      // this.spinner.hide();
     })
     this.loading = true;
   }
@@ -159,14 +159,10 @@ export class DetailrowCentralPolicyComponent implements OnInit {
           // console.log(
           //   region
           // );
-
-
           return { ...result, region: region, label: result.name, value: result.id }
         })
         // console.log(this.selectdataprovince);
-
+        this.spinner.hide();
       })
-    this.spinner.hide();
-    // console.log(this.provinceservice.getRegionMock());
   }
 }
