@@ -70,15 +70,15 @@ export class UserComponent implements OnInit {
   datarole: any = [
     {
       id: 1,
-      name: 'Super Admin'
+      name: 'ผู้ดูแลระบบ'
     },
     {
       id: 2,
-      name: 'Admin แผนการตรวจราชการประจำปี'
+      name: 'ผู้ดูแลแผนการตรวจราชการประจำปี'
     },
     {
       id: 3,
-      name: 'ผู้ตรวจราชการ'
+      name: 'ผู้ตรวจราชการสำนักนายกรัฐมนตร'
     },
     {
       id: 4,
@@ -86,23 +86,27 @@ export class UserComponent implements OnInit {
     },
     {
       id: 5,
-      name: 'ผู้ตรวจจังหวัด'
+      name: 'หัวหน้าสำนักงานจังหวัด'
     },
     {
       id: 6,
-      name: 'ผู้ตรวจกระทรวง'
+      name: 'ผู้ตรวจราชการกระทรวง'
     },
     {
       id: 7,
-      name: 'ผู้ตรวจภาคประชาชน'
+      name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
     },
     {
       id: 8,
-      name: 'นายก/รองนายก'
+      name: 'นายกรัฐมนตรี,รองนายกรัฐมนตร'
     },
     {
       id: 9,
-      name: 'ผู้ตรวจกรม/หน่วยงาน'
+      name: 'หน่วยงานตรวจราชการ'
+    },
+    {
+      id: 10,
+      name: 'ผู้ตรวจราชการกรม'
     },
 
   ]
@@ -170,31 +174,31 @@ export class UserComponent implements OnInit {
 
   getData() {
     this.spinner.show();
- 
     this.getUser()
     this.getDataProvinces()
-    //this.getDataRegions()
     this.getDataMinistries()
     this.getDatafiscalyear()
 
+    //<!-- ด้านสำหรับ role 7 -->
     this.selectdataside = this.dataside.map((item, index) => {
       return { value: item.id, label: item.name }
     })
+    //<!-- END ด้านสำหรับ role 7 -->
 
-    // this.selectdatarole = this.datarole.map((item, index) => {
-    //   return { value: item.id, label: item.name }
-    // })
+    //<!-- สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
+    this.selectdatarole = this.datarole.map((item, index) => {
+      return { value: item.id, label: item.name }
+    })
+     //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
 
-    // this.selectdatadeparment = this.datadeparment.map((item, index) => {
-    //   return { value: item.id, label: item.name }
-    // })
+    
 
     if (this.roleId == 1) {
       this.rolename = 'ผู้ดูแลระบบ'
     } else if (this.roleId == 2) {
       this.rolename = 'ผู้ดูแลแผนการตรวจราชการประจำปี'
     } else if (this.roleId == 3) {
-      this.rolename = 'ผู้ตรวจราชการ'
+      this.rolename = 'ผู้ตรวจราชการสำนักนายกรัฐมนตร'
     } else if (this.roleId == 4) {
       this.rolename = 'ผู้ว่าราชการจังหวัด'
     } else if (this.roleId == 5) {
@@ -202,9 +206,9 @@ export class UserComponent implements OnInit {
     } else if (this.roleId == 6) {
       this.rolename = 'ผู้ตรวจราชการกระทรวง'
     } else if (this.roleId == 7) {
-      this.rolename = 'ผู้ตรวจภาคประชาชน'
+      this.rolename = 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
     } else if (this.roleId == 8) {
-      this.rolename = 'ผู้บริหาร/นายก/รองนายก'
+      this.rolename = 'นายกรัฐมนตรี,รองนายกรัฐมนตร'
     } else if (this.roleId == 9) {
       this.rolename = 'หน่วยงานตรวจราชการ'
     } else if (this.roleId == 10) {
@@ -221,12 +225,71 @@ export class UserComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  openeditModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,ministryId,departmentId,provincialDepartmentId,side,
+  openeditModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,UserProvince,ministryId,departmentId,provincialDepartmentId,side,
     commandnumber,commandnumberdate,email,prefix,name,position,phoneNumber,startdate,enddate,img) 
   {
+    //alert(UserProvince);
     this.addForm.reset()
     this.id = id;
-    //alert(img);
+    this.img = img;
+    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {    
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      );
+      this.selectdataregion = uniqueRegion.map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      })
+    })
+    if(enddate == null){
+      this.ed = enddate;
+    }else{
+      this.ed = this.time(enddate);
+    }
+
+    if(commandnumberdate == null){
+      this.cd = commandnumberdate;
+    }else{
+      this.cd = this.time(commandnumberdate);
+    }
+    
+    this.addForm.patchValue({
+      
+      Role_id: this.roleId,
+      Prefix: prefix,
+      Name: name,
+      Position: position,
+      PhoneNumber: phoneNumber,
+      Email: email,
+      MinistryId: ministryId,
+      DepartmentId: departmentId,
+      FiscalYear: fiscalYearId,
+      ProvincialDepartmentId: provincialDepartmentId,
+      UserRegion: userRegion.map(result=>{
+        return result.regionId
+      }),
+      UserProvince:UserProvince,
+      files: new FormControl(null, [Validators.required]),
+      Startdate: this.time(startdate),
+      Enddate: this.ed,
+      Commandnumber: commandnumber,
+      Side: side,
+      Commandnumberdate: this.cd,
+      Formprofile: 0,
+      Img:img,
+    })
+    this.modalRef = this.modalService.show(template);
+  }
+
+  openchangeModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,UserProvince,ministryId,departmentId,provincialDepartmentId,side,
+    commandnumber,commandnumberdate,email,prefix,name,position,phoneNumber,startdate,enddate,img) 
+  {
+    //alert(this.roleId);
+    this.addForm.reset()
+    this.id = id;
     this.img = img;
     this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {    
       var uniqueRegion: any = [];
@@ -267,6 +330,7 @@ export class UserComponent implements OnInit {
       UserRegion: userRegion.map(result=>{
         return result.regionId
       }),
+      UserProvince:UserProvince[0].province.id,
       files: new FormControl(null, [Validators.required]),
       Startdate: this.time(startdate),
       Enddate: this.ed,
@@ -280,11 +344,9 @@ export class UserComponent implements OnInit {
   }
 
 
-
   getUser() {
     this.userService.getuserdata(this.roleId)
       .subscribe(result => {
-        //alert(this.roleId);
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();

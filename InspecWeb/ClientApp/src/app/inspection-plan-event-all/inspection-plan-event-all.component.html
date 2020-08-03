@@ -17,7 +17,7 @@
       <div class="form-group">
         <div class="form-group col-md-12">
           <div class="mb-12">
-            <select (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2">
+            <select [(ngModel)]="selectedProvince" (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2" >
               <option value="allprovince">จังหวัดทั้งหมด</option>
               <option *ngFor="let item of resultuserregion; let i = index" value="{{item.id}}">
                 {{item.name}}
@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <div class="card-body">
-    <div id="calendar"></div>
+  <div  class="card-body">
+    <div *ngIf="loading" id="calendar"></div>
   </div>
 </div>
