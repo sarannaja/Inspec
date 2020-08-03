@@ -96,9 +96,15 @@
                             aria-expanded="false" aria-controls="departments"></i>
                         </h5>
                         <div class="row" style="margin-left: 10px;">
-                          <button *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
+                          <button
+                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
+                            type="button"
                             (click)="openModal2(modalInviteDepartment, items.id,items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups)"
                             class="btn btn-primary btn-xs"
+                            style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
+                          <button
+                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length == 0"
+                            type="button" (click)="openAlertModal(alertModal)" class="btn btn-primary btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
                           <button *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
                             (click)="openAddModalQuestionsclose(modalQuestionsclose,items.id)"
@@ -794,6 +800,24 @@
   <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
+
+<ng-template #alertModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ขออภัย
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      ไม่สามารถเพิ่มหน่วยงานได้
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      กรุณาเพิ่มคำถามก่อนเพิ่มหน่วยงาน
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="modalRef.hide()">
+      ตกลง
+    </button>
+  </div>
+</ng-template>
 
 <!-- END primary modal -->
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">

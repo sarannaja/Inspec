@@ -283,6 +283,10 @@ export class DetailSubjecteventComponent implements OnInit {
     this.subjectid = subjectid
   }
 
+  openAlertModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   editModal(template: TemplateRef<any>, id, name) {
     this.editid = id;
     this.subquestionclosename = name;
