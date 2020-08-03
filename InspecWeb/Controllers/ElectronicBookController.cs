@@ -1179,8 +1179,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetCentralPolicyEbook2(ElectronicBookViewModel model)
         {
             System.Console.WriteLine("StartDate: " + model.startDate);
-            var startDate = new DateTime(model.startDate.Year, model.startDate.Month, model.startDate.Day);
-            System.Console.WriteLine("StartDate2: " + startDate);
+
             var centralPolicyEbookData = _context.CentralPolicyEvents
             .Include(x => x.CentralPolicy)
             .ThenInclude(x => x.CentralPolicyProvinces)
@@ -1190,8 +1189,9 @@ namespace InspecWeb.Controllers
             .ThenInclude(x => x.SubjectCentralPolicyProvinces)
             .Include(x => x.InspectionPlanEvent)
             .ThenInclude(x => x.Province)
-            .Where(x => x.InspectionPlanEvent.Status == "ใช้งานจริง" && x.InspectionPlanEvent.StartDate >= startDate && x.InspectionPlanEvent.EndDate <= startDate)
+            .Where(x => x.InspectionPlanEvent.Status == "ใช้งานจริง" && (x.StartDate <= model.startDate && x.EndDate >= model.startDate))
             .ToList();
+
             return Ok(centralPolicyEbookData);
         }
 
@@ -1775,7 +1775,6 @@ namespace InspecWeb.Controllers
                     string filePath2 = formFile.Value.FileName;
                     string filename = Path.GetFileName(filePath2);
                     string ext = Path.GetExtension(filename);
-
                     if (formFile.Value.Length > 0)
                     {
                         System.Console.WriteLine("Start Upload 4");
@@ -1785,12 +1784,13 @@ namespace InspecWeb.Controllers
                             await formFile.Value.CopyToAsync(stream);
                         }
                         System.Console.WriteLine("Start Upload 4.1");
+                        System.Console.WriteLine("ContentType : " + formFile.Value.ContentType.ToString());
                         var ElectronicBookFile = new ElectronicBookFile
                         {
                             ElectronicBookId = ElectronicBookdata.Id,
                             Name = random + ext,
                             Description = Path.GetFileNameWithoutExtension(filePath2),
-                            // Type = model.Type
+                            Type = formFile.Value.ContentType.ToString(),
                         };
                         System.Console.WriteLine("Start Upload 4.2");
                         _context.ElectronicBookFiles.Add(ElectronicBookFile);
@@ -1905,7 +1905,7 @@ namespace InspecWeb.Controllers
                             ElectronicBookId = ElectronicBookdata.Id,
                             Name = random + ext,
                             Description = Path.GetFileNameWithoutExtension(filePath2),
-                            // Type = model.Type
+                            Type = formFile.Value.ContentType.ToString(),
                         };
                         System.Console.WriteLine("Start Upload 4.2");
                         _context.ElectronicBookFiles.Add(ElectronicBookFile);

@@ -57,14 +57,16 @@
               <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
               <!-- <td *ngIf="item.provinceStatus == null">{{ item.status }}</td>
               <td *ngIf="item.provinceStatus != null">{{ item.provinceStatus }}</td> -->
-              <td>{{ item.status }}</td>
+              <td *ngIf="item.status == 'ใช้งานจริง'">ใช้งาน</td>
+              <td *ngIf="item.status == 'ร่างกำหนดการ'">ร่าง</td>
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa fa-book pointer" (click)="gotoTheme(item.id)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.id)"></i>
+                <i class="align-middle mr-2 fas fa-search-plus pointer" (click)="gotoDetail(item.id)"
+                  title="จัดการสมุดตรวจอิเล็กทรอนิกส์"></i>
                 <!-- <i *ngIf="item.status != 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="gotoEdit2(item.id)"></i> -->
+                <i class="align-middle mr-2 fas fa-fw fa fa-book pointer" (click)="gotoTheme(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(deleteElectronicBookModal, item.id)"></i>
+                  (click)="openModal(deleteElectronicBookModal, item.id)" title="ลบสมุดตรวจอิเล็กทรอนิกส์"></i>
               </td>
             </tr>
           </tbody>
