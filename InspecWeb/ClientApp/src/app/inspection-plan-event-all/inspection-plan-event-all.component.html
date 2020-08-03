@@ -1,0 +1,35 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">กำหนดการตรวจราชการ</a></li>
+    </ol>
+  </nav>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+    <div class="float-left" *ngIf="role_id == 3">
+      <div class="form-group">
+        <div class="form-group col-md-12">
+          <div class="mb-12">
+            <select [(ngModel)]="selectedProvince" (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2" >
+              <option value="allprovince">จังหวัดทั้งหมด</option>
+              <option *ngFor="let item of resultuserregion; let i = index" value="{{item.id}}">
+                {{item.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div  class="card-body">
+    <div *ngIf="loading" id="calendar"></div>
+  </div>
+</div>

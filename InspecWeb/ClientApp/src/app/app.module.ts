@@ -178,6 +178,9 @@ import { DepartmentComponent } from './department/department.component';
 import { ProvincialDepartmentComponent } from './provincialdepartment/provincialdepartment.component';
 import { InspectionPlanDepartmentComponent } from './inspection-plan-department/inspection-plan-department.component';
 import { DetailCentralPolicyProvinceDepartmentComponent } from './central-policy/detail-central-policy-province-department/detail-central-policy-province-department.component';
+import { ElectronicBookDepartmentComponent } from './electronic-book-department/electronic-book-department.component';
+import { ElectronicBookDepartmentDetailComponent } from './electronic-book-department/electronic-book-department-detail/electronic-book-department-detail.component';
+import { InspectionPlanEventAllComponent } from './inspection-plan-event-all/inspection-plan-event-all.component';
 
 
 
@@ -344,6 +347,9 @@ const ExternalOrganization = [
     ProvincialDepartmentComponent,
     InspectionPlanDepartmentComponent,
     DetailCentralPolicyProvinceDepartmentComponent,
+    ElectronicBookDepartmentComponent,
+    ElectronicBookDepartmentDetailComponent,
+    InspectionPlanEventAllComponent,
   ],
 
   imports: [
@@ -431,6 +437,7 @@ const ExternalOrganization = [
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent', component: InspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplanevent/all', component: InspectionPlanEventAllComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplanevent/create', component: CreateInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           {
             path: 'cabinet', loadChildren: () => import('./external-organization/external-organization.module')
@@ -525,6 +532,8 @@ const ExternalOrganization = [
           { path: 'centralpolicy/detailrowcentralpolicy/:id', component: DetailrowCentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministry/:id/department', component: DepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'ministry/department/:id/provincialdepartment', component: ProvincialDepartmentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbookdepartment', component: ElectronicBookDepartmentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbook/departmentdetail/:id', component: ElectronicBookDepartmentDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

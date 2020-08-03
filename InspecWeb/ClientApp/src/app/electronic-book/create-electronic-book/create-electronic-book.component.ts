@@ -16,6 +16,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
+import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 
 interface addInput {
   id: number;
@@ -41,6 +42,9 @@ export class CreateElectronicBookComponent implements OnInit {
   provincialDepartmentData: any = [];
   listfiles: any = [];
   fileData: any = [{ ebookFile: '', fileDescription: '' }];
+  province: any[] = [];
+  selectedProvince = [];
+  provinceData: any = [];
 
   get f() { return this.EbookForm.controls }
   get d() { return this.f.inputdate as FormArray }
@@ -63,6 +67,7 @@ export class CreateElectronicBookComponent implements OnInit {
     private fiscalyearservice: FiscalyearService,
     private notificationService: NotificationService,
     private inspectionplanservice: InspectionplanService,
+    private external: ExternalOrganizationService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.url = baseUrl;
@@ -91,7 +96,10 @@ export class CreateElectronicBookComponent implements OnInit {
       description: new FormControl(null, [Validators.required]),
       ebookType: new FormControl("สร้างจากแผนการตรวจราชการ", [Validators.required]),
       provincialDepartment: new FormControl(null, [Validators.required]),
+      centralPolicy: new FormControl(null, [Validators.required]),
       fileData: new FormArray([]),
+      SendToProvince: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null, [Validators.required]),
     });
 
     this.d.push(this.fb.group({
@@ -101,6 +109,7 @@ export class CreateElectronicBookComponent implements OnInit {
 
     this.getCentralPolicy();
     this.getProvincialDepartment();
+    this.getDataProvince();
   }
 
   goBack() {
@@ -133,7 +142,9 @@ export class CreateElectronicBookComponent implements OnInit {
   storeElectronicBook(value) {
 
     console.log("File with desctiption: ", value);
+    console.log("checkType: ", this.checkTypeCreate);
 
+    // true = สร้างจากแผนการตรวจ
     if (this.checkTypeCreate == true) {
       console.log("Form: ", value);
       this.electronicBookService.createElectronicBook2(value, this.userid).subscribe(res => {
@@ -158,10 +169,10 @@ export class CreateElectronicBookComponent implements OnInit {
     } else {
       console.log("Form: ", value);
       this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid)
-      .subscribe(res => {
-        console.log("eBookRes: ", res);
-        // window.history.back();
-      })
+        .subscribe(res => {
+          console.log("eBookRes: ", res);
+          window.history.back();
+        })
     }
   }
 
@@ -216,8 +227,14 @@ export class CreateElectronicBookComponent implements OnInit {
 
   getProvincialDepartment() {
     this.electronicBookService.getProvincialDepartment().subscribe(res => {
-      // console.log("ProvincialDepartment: ", res);
+      console.log("ProvincialDepartment: ", res);
       this.provincialDepartmentData = res.provincialDepartmentData.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+      this.provinceData = res.provinceData.map((item, index) => {
         return {
           value: item.id,
           label: item.name
@@ -247,5 +264,59 @@ export class CreateElectronicBookComponent implements OnInit {
     // this.Formfile.get('files').updateValueAndValidity()
   }
 
+  onStartDateChanged(value) {
+    // console.log("startDateChange: ", value);
+    // var startDate: any;
+    // startDate =  value.date.year + '-' + value.date.month + '-' + value.date.day;
+    // console.log("Date ja: ", startDate);
+
+    // this.electronicBookService.getCentralPolicyEbook2(startDate).subscribe(res => {
+    //   console.log("cenData: ", res);
+
+    //   this.centralPolicyEbook = res.map((item, index) => {
+    //     return {
+    //       value: item.id,
+    //       label: item.centralPolicy.title + "  -  " + "จังหวัด: " + item.inspectionPlanEvent.province.name
+    //     }
+    //   })
+    // })
+  }
+
+  public onSelectAll() {
+    var selected = this.province.map(item => item.id);
+    this.EbookForm.get('ProvinceId').patchValue(selected);
+    this.selectedProvince = selected;
+  }
+
+  public onClearAll() {
+    this.EbookForm.get('ProvinceId').patchValue([]);
+  }
+  getDataProvince() {
+    this.provinceservice.getprovincedata()
+      .subscribe(result => {
+        this.external.getProvinceRegion()
+          .subscribe(result2 => {
+            this.province = result.map(result => {
+              console.log(
+                result.name
+              );
+              var region = result2.filter(
+                (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+              )[0].region
+              console.log(
+                region
+              );
+
+
+              return { ...result, region: region, label: result.name, value: result.id }
+            })
+            console.log(this.province);
+          })
+
+
+
+      })
+    // console.log(this.provinceservice.getRegionMock());
+  }
 
 }

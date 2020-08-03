@@ -4,7 +4,7 @@ import { CentralpolicyService } from '../services/centralpolicy.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
@@ -32,6 +32,7 @@ export class InspectionPlanComponent implements OnInit {
   name: any
   modalRef: BsModalRef;
   selectdatacentralpolicy: any[] = []
+  FormOther: FormGroup
   Form: FormGroup
   Form2: FormGroup
   EditForm: FormGroup
@@ -57,6 +58,7 @@ export class InspectionPlanComponent implements OnInit {
   rolecreatedby
   delid
   editid
+  checkInspec: Boolean;
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
@@ -115,6 +117,17 @@ export class InspectionPlanComponent implements OnInit {
       deadlinedate: new FormControl(null, [Validators.required]),
     })
 
+    this.FormOther = this.fb.group({
+      title: new FormControl(null, [Validators.required]),
+      start_date: new FormControl(null, [Validators.required]),
+      end_date: new FormControl(null, [Validators.required]),
+      year: new FormControl(null, [Validators.required]),
+      type: new FormControl("อื่นๆ", [Validators.required]),
+      // files: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(null, [Validators.required]),
+      // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      input: new FormArray([])
+    })
     // this.Form.patchValue({
     //   startdate: this.timelineData.startDate,
     //   enddate: this.timelineData.endDate
@@ -465,4 +478,14 @@ export class InspectionPlanComponent implements OnInit {
       this.getinspectionplanservice()
     })
   }
+
+  inspect(myradio) {
+    // alert(myradio)
+    this.checkInspec = true;
+  }
+  notInspec(value) {
+    // alert(value)
+    this.checkInspec = false;
+  }
+
 }

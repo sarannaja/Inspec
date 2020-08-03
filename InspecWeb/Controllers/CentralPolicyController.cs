@@ -1091,5 +1091,15 @@ namespace InspecWeb.Controllers
             _context.SubjectCentralPolicyProvinceGroups.Remove(departmentdata);
             _context.SaveChanges();
         }
+
+        // DELETE api/values/5
+        [HttpDelete("deletecentralpolicyuser/{id}")]
+        public void Deletecentralpolicyuser(long id)
+        {
+            var departmentdata = _context.CentralPolicyUsers.Find(id);
+
+            _context.CentralPolicyUsers.Remove(departmentdata);
+            _context.SaveChanges();
+        }
     }
 }

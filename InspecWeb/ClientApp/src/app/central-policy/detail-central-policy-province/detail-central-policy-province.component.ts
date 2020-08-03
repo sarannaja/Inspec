@@ -256,14 +256,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     // })
 
     // this.getDetailCentralPolicy()
-    await this.getCentralPolicyProvinceUser()
-    await this.getDetailCentralPolicyProvince()
-    await this.getquestion();
+    this.getCentralPolicyProvinceUser()
+    this.getDetailCentralPolicyProvince()
+    this.getquestion();
 
-    await this.getMinistryPeople();
-    await this.getUserPeople();
-    await this.getDepartmentPeople();
-    await this.getAnswer2();
+    this.getMinistryPeople();
+    this.getUserPeople();
+    this.getDepartmentPeople();
+    this.getAnswer2();
 
     // await this.getDepartment()
 
@@ -346,6 +346,13 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   //     answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
   //   })
   // }
+
+  openModaldelcenuser(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
+
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
     this.getDepartmentPeople();
@@ -667,10 +674,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           if (element.user.role_id == 6) {
             var checked = _.filter(element.user.userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
             // console.log("role6666",);
-            checked > 0 ? this.role6Count = 1 :null
-            // if (checked > 0) {
-            //   this.role6Count = 1
-            // }
+            // checked > 0 ? this.role6Count = 1 :null
+            if (checked > 0) {
+              this.role6Count = 1
+            }
           }
           if (element.user.role_id == 10 && this.ministryId == element.user.ministryId) {
             this.role10Count = 1
@@ -923,7 +930,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           }
         }
         if (n == 0) {
-          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: this.resultpeople[i].departments.name + " - " + this.resultpeople[i].name })
+          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].side + " - " + this.resultpeople[i].name })
         }
       }
     }
@@ -1166,6 +1173,20 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.centralpolicyservice.getquestionpeople(this.id, this.planId).subscribe(res => {
       this.questionpeople = res;
       console.log("question: ", this.questionpeople);
+    })
+  }
+
+  delcentralpolicyuser(value) {
+    // alert(id)
+    this.centralpolicyservice.deletecentralpolicyuser(value).subscribe(response => {
+      //console.log(value);
+      // this.spinner.show();
+      this.modalRef.hide()
+
+      this.getCentralPolicyProvinceUser()
+
+      this.loading = false
+      // this.getdata();
     })
   }
 }

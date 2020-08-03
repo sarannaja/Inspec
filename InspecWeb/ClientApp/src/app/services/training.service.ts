@@ -24,6 +24,9 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + id)
   }
 
+  getregistertrainingpeopledata(id): Observable<any> {
+    return this.http.get<any>(this.url + 'peopledetail/' + id)
+  }
 
   getlisttrainingsurveydata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'listsurvey/' + id)
@@ -155,8 +158,10 @@ export class TrainingService {
 
     formData.append('type', trainingData.type);
     formData.append('nickname', trainingData.nickname);
-    formData.append('retireddate', trainingData.retireddate);
-    formData.append('birthdate', trainingData.birthdate);
+
+    formData.append('retireddate', trainingData.retireddate.date.year + '-' + trainingData.retireddate.date.month + '-' + trainingData.retireddate.date.day);
+    formData.append('birthdate', trainingData.birthdate.date.year + '-' + trainingData.birthdate.date.month + '-' + trainingData.birthdate.date.day);
+
     formData.append('officeaddress', trainingData.officeaddress);
     formData.append('fax', trainingData.fax);
     formData.append('collaboratorname', trainingData.collaboratorname);

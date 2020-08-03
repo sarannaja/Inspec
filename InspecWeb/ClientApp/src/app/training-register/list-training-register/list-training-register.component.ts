@@ -13,7 +13,8 @@ import { delay } from 'lodash';
   styleUrls: ['./list-training-register.component.css']
 })
 export class ListTrainingRegisterComponent implements OnInit {
-
+  peopledetail: any
+  birthdate: any
   trainingid: string
   resulttraining: any[] = []
   modalRef: BsModalRef;
@@ -75,6 +76,9 @@ export class ListTrainingRegisterComponent implements OnInit {
       .subscribe(result => {
         this.resulttraining = result
         this.loading = true
+
+        // this.birthdate = this.resulttraining.birthDate
+
         //console.log(this.resulttraining);
 
         this.trainingservice.getTrainingCondition(this.trainingid)
@@ -157,6 +161,7 @@ export class ListTrainingRegisterComponent implements OnInit {
             //   })
             //   //console.log("resultresultresult", arrresulttraining);
             // }, 200)
+            // console.log("this.resulttrainingCondition", this.resulttrainingCondition);
 
           })
       })
@@ -172,6 +177,16 @@ export class ListTrainingRegisterComponent implements OnInit {
   // }
 
   openModal(template: TemplateRef<any>, id, item = null, index = null) {
+
+    this.trainingservice.getregistertrainingpeopledata(id)
+      .subscribe(result => {
+        // alert(JSON.stringify(result))
+        this.peopledetail = result
+        this.loading = true
+      })
+
+    // alert(JSON.stringify(this.peopledetail))
+
     this.resulttrainingCondition = this.resulttrainingCondition.map(result => {
       return { ...result, status: false }
     })
@@ -179,6 +194,7 @@ export class ListTrainingRegisterComponent implements OnInit {
     //console.log(this.delid);
     this.checkcondition(item, index)
     this.modalRef = this.modalService.show(template);
+
   }
 
   editRegisterList(value, delid) {

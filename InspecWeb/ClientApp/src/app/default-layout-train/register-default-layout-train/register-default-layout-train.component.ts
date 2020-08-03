@@ -178,7 +178,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
   }
 
   storeTraining(value) {
-    //alert(JSON.stringify(value))
+    // alert(JSON.stringify(value.retireddate))
     this.trainingservice.addTrainingRegister(value, this.trainingid, this.Form.value.files, this.Form.value.CertificationFiles, this.Form.value.idcardFiles, this.Form.value.GovernmentpassportFiles).subscribe(response => {
       console.log(value);
       this.Form.reset()
