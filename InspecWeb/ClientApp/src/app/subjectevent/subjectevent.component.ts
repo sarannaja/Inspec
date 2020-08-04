@@ -27,7 +27,7 @@ export class SubjecteventComponent implements OnInit {
   Form: FormGroup;
   Form2: FormGroup;
   checkInspec: Boolean;
-  checkType: Boolean;
+  checkType: any;
   selectdataprovince: Array<any>
   userid: string;
   resultprovince: any = [];
@@ -44,6 +44,7 @@ export class SubjecteventComponent implements OnInit {
 
   CentralPolicyEvents: Array<any> = []
   subjectgroupsdatas: Array<any> = []
+  checkOther: Boolean;
 
   // ceneventid
 
@@ -96,7 +97,8 @@ export class SubjecteventComponent implements OnInit {
       "startdate": new FormControl(null, [Validators.required]),
       "enddate": new FormControl(null, [Validators.required]),
       "province": new FormControl(null, [Validators.required]),
-      "land": new FormControl(null)
+      "land": new FormControl(null),
+      "centralPolicyOther": new FormControl(null)
     })
 
     this.Form2 = this.fb.group({
@@ -121,7 +123,7 @@ export class SubjecteventComponent implements OnInit {
   }
   openModal(template: TemplateRef<any>) {
     this.checkInspec = null;
-    this.checkType =  null;
+    this.checkType = 0;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -259,6 +261,19 @@ export class SubjecteventComponent implements OnInit {
       })
   }
 
+  storeCentralPolicy3(value) {
+    console.log("FORM JA: ", value);
+
+    this.subjectservice.subjecteventnolandOther(value, this.userid)
+      .subscribe(result => {
+        this.loading = false;
+        this.modalRef.hide();
+        this.Form.reset()
+        // this.resultcentralpolicy = result
+        this.getSubjectevent();
+      })
+  }
+
   inspect(myradio) {
     // alert(myradio)
     this.checkInspec = true;
@@ -270,11 +285,14 @@ export class SubjecteventComponent implements OnInit {
 
   type(myradio) {
     // alert(myradio)
-    this.checkType = true;
+    this.checkType = 1;
   }
   notType(value) {
     // alert(value)
-    this.checkType = false;
+    this.checkType = 2;
+  }
+  other() {
+    this.checkType = 3;
   }
 
   Subjectevent(id, centralPolicyId, provinceId) {

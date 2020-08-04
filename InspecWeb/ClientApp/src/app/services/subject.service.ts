@@ -389,6 +389,21 @@ export class SubjectService {
     return this.http.post<any>(this.url + 'subjecteventnoland', formData);
   }
 
+  subjecteventnolandOther(value, userid) {
+    console.log("value", value);
+    console.log("value", value.province);
+    const formData = {
+      Land: value.land,
+      CentralpolicyId: value.CentralpolicyId,
+      ProvinceId: parseInt(value.province),
+      Title: value.centralPolicyOther,
+      // startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      // enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      CreatedBy: userid
+    }
+    return this.http.post<any>(this.url + 'postsubjecteventOther', formData);
+  }
+
   getsubjectevent(id) {
     return this.http.get(this.url + "getevent/" + id)
   }
