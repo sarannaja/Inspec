@@ -150,13 +150,17 @@
                                 (click)="openEditmodalChoices(modaleditChoices,items.id,items.name)"></i>
                               <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                                 (click)="openModalDelete(modaldeleteChoices, items.id)"></i>
+                              <!-- <button *ngIf="i == 0" class="btn btn-primary" type="button" title="เพิ่มตัวเลือกคำตอบ"
+                                (click)="openAddModalChoices(modaladdChoices,item.id)">
+                                <i class="align-middle fas fa-fw fa-plus pointer"></i>
+                              </button> -->
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <br>
-                    <hr width="100%" color="gray">
+                    <hr width="100%" style="height: 2px;" color="black">
                     <br>
                   </div>
                 </div>
@@ -472,7 +476,7 @@
   <form [formGroup]="FormAddEditDepartment" (ngSubmit)="AddDepartment(FormAddEditDepartment.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เชิญหน่วยงานเพิ่มเติม</h5>
+        <h5 class="modal-title">เพิ่มผู้ให้ข้อมูล</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
