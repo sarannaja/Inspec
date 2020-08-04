@@ -613,6 +613,49 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicyuserdata);
         }
 
+
+        // GET api/values/5
+        [HttpGet("ministry/{id}")]
+        public IActionResult Getministryuser(long id)
+        {
+            //var centralpolicyprovince = _context.CentralPolicyProvinces
+            //.Where(m => m.Id == id).FirstOrDefault();
+
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)
+                .Where(m => m.InspectionPlanEventId == id)
+                .Where(m => m.User.Role_id == 6).ToList();
+
+            return Ok(centralpolicyuserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("department/{id}")]
+        public IActionResult Getdepartmentuser(long id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)
+                .Where(m => m.InspectionPlanEventId == id)
+                .Where(m => m.User.Role_id == 10).ToList();
+
+            return Ok(centralpolicyuserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("people/{id}")]
+        public IActionResult Getpeopleuser(long id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)
+                .Where(m => m.InspectionPlanEventId == id)
+                .Where(m => m.User.Role_id == 7).ToList();
+
+            return Ok(centralpolicyuserdata);
+        }
+
         // GET api/values/5
         [HttpGet("getcentralpolicyfromprovince/{id}")]
         public IActionResult getcentralpolicyfromprovince(long id)

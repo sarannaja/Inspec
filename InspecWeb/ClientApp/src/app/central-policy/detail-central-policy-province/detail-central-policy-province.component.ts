@@ -57,7 +57,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   urllink
   loading = false;
   electronicbookid: any
-  selectdataministrypeople: Array<any> =[]
+  selectdataministrypeople: Array<any> = []
   ministryPeople: any = [];
   selectdatadepartmentpeople: Array<any>
   departmentPeople: any = [];
@@ -894,7 +894,11 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           }
         }
         if (n == 0) {
-          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+          var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          // alert(checked)
+          if (checked > 0) {
+            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+          }
         }
       }
     }

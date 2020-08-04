@@ -20,29 +20,31 @@
           {{ScheduleData.userData.name}}</label>
         <br>
         <label>สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
-        <div class="row" style="margin-left: 5px;">
-          <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
-            readonly>
-          <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
-          <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'year'}}" readonly>
+        <div class="row-12">
+          <div class="row" style="margin-left: 5px;">
+            <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
+              readonly>
+            <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
+            <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'year'}}"
+              readonly>
 
-          <i *ngIf="role_id == 3" (click)="openModal(modalChangeDate)" style="margin-left: 5px;margin-top: 8px;"
-            title="แก้ไขวันที่ตรวจราชการ" class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
-          <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-            title="ลบกำหนดการตรวจราชการนี้" style="margin-left: 5px;margin-top: 8px;"
-            (click)="openModal(modalDeleteDate)"></i>
+            <i *ngIf="role_id == 3" (click)="openModal(modalChangeDate)" style="margin-left: 5px;margin-top: 8px;"
+              title="แก้ไขวันที่ตรวจราชการ" class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+            <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+              title="ลบกำหนดการตรวจราชการนี้" style="margin-left: 5px;margin-top: 8px;"
+              (click)="openModal(modalDeleteDate)"></i>
 
-          <div class="form-group col-12" style="margin-top:10px;"
-            *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'">
-            <div class="mb-3">
-              <input type="radio" [value]="'ร่างกำหนดการ'" [(ngModel)]="timelineData.status">
-              <label style="margin-left: 10px;">ร่าง</label>
-              <input (click)="openModal(modalchangestatusplan)" style="margin-left: 10px;" type="radio"
-                [(ngModel)]="timelineData.status" [value]="'ใช้งานจริง'">
-              <label style="margin-left: 10px;">ใช้งาน</label>
-            </div>
+            <div class="form-group col-12" style="margin-top:10px;"
+              *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'">
+              <div class="mb-3">
+                <input type="radio" [value]="'ร่างกำหนดการ'" [(ngModel)]="timelineData.status">
+                <label style="margin-left: 10px;">ร่าง</label>
+                <input (click)="openModal(modalchangestatusplan)" style="margin-left: 10px;" type="radio"
+                  [(ngModel)]="timelineData.status" [value]="'ใช้งานจริง'">
+                <label style="margin-left: 10px;">ใช้งาน</label>
+              </div>
 
-            <!-- <div>
+              <!-- <div>
               <button *ngIf="role_id == 3" type="button" (click)="openModal(modalChangeDate)"
                 class="btn btn-warning">แก้ไขกำหนดการตรวจ</button>
               &nbsp;&nbsp;
@@ -50,52 +52,94 @@
                 class="btn btn-danger">ลบกำหนดการตรวจ</button>
             </div> -->
 
-          </div>
-
-          <div class="form-group col-12" style="margin-top:10px;"
-            *ngIf="role_id == 3 && timelineData.status == 'ใช้งานจริง'">
-            <div class="mb-3">
-              <input type="radio" value="ร่างกำหนดการ" [checked]="timelineData.status == 'ร่างกำหนดการ'" disabled>
-              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
-              <input disabled style="margin-left: 10px;" type="radio" value="ใช้งานจริง"
-                [checked]="timelineData.status == 'ใช้งานจริง'">
-              <label style="margin-left: 10px;">ใช้งานจริง</label>
             </div>
 
-            <!-- <div>
+            <div class="form-group col-12" style="margin-top:10px;"
+              *ngIf="role_id == 3 && timelineData.status == 'ใช้งานจริง'">
+              <div class="mb-3">
+                <input type="radio" value="ร่างกำหนดการ" [checked]="timelineData.status == 'ร่างกำหนดการ'" disabled>
+                <label style="margin-left: 10px;">ร่าง</label>
+                <input disabled style="margin-left: 10px;" type="radio" value="ใช้งานจริง"
+                  [checked]="timelineData.status == 'ใช้งานจริง'">
+                <label style="margin-left: 10px;">ใช้งาน</label>
+              </div>
+
+              <!-- <div>
               <button *ngIf="role_id == 3" type="button" (click)="openModal(modalChangeDate)"
                 class="btn btn-warning">แก้ไขกำหนดการตรวจ</button>
               &nbsp;&nbsp;
               <button *ngIf="role_id == 3" type="button" (click)="openModal(modalDeleteDate)"
                 class="btn btn-danger">ลบกำหนดการตรวจ</button>
             </div> -->
+            </div>
+            <!-- <input style="width: 12%;" class="form-control" value="{{provincename}}" readonly> -->
+
+
           </div>
-          <!-- <input style="width: 12%;" class="form-control" value="{{provincename}}" readonly> -->
-        </div>
-        <!-- <div>สถานะกำหนดการตรวจ {{ScheduleData.scheduleData.status}}</div> -->
 
+          <!-- <div>456</div> -->
+          <!-- <div>สถานะกำหนดการตรวจ {{ScheduleData.scheduleData.status}}</div> -->
 
-
-        <div class="float-right" style="margin-top: -103.5px;">
-          <!-- <button *ngIf="role_id == 3 && data.length != 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
+          <div class="float-right" style="margin-top: -120px;">
+            <!-- <button *ngIf="role_id == 3 && data.length != 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
             style="margin-top: -60px;" class="btn btn-primary">เชิญผู้ตรวจราชการกระทรวง</button> -->
 
-          <i *ngIf="role_id == 3 && data.length != 0" (click)="openModal(modalInviteMinistryPeople)" title="เพิ่มผู้ร่วมตรวจ"
-            style="margin-top: -60px;" class="align-middle fas fa-fw fa-user-plus pointer"></i>
+            <i *ngIf="role_id == 3 && data.length != 0" (click)="openModal(modalInviteMinistryPeople)"
+              title="เพิ่มผู้ร่วมตรวจ" style="margin-top: -60px;"
+              class="align-middle fas fa-fw fa-user-plus pointer"></i>
 
-          &nbsp;&nbsp;
+            &nbsp;&nbsp;
 
-          <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม" style="margin-top: -60px;"
-            *ngIf="role_id == 3" (click)="openModal(modalCentralPolicyEventRelation)">
-            <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
+            <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม" style="margin-top: -60px;"
+              *ngIf="role_id == 3" (click)="openModal(modalCentralPolicyEventRelation)">
+              <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
 
-          <!-- <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
+            <!-- <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
             style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามจากแผน</button>
           &nbsp;&nbsp;
           <button *ngIf="role_id == 3" class="btn btn-success" (click)="CrateInspectionPlan(id)"
             style="margin-top: -60px;">เพิ่มเรื่องที่ตรวจติดตามอื่นๆ</button> -->
+          </div>
         </div>
       </div>
+      <div class="card-header">
+        <div class="row" style="text-align: center;">
+          <div class="col-4">
+            <u style="font-weight: bold;">ผู้ตรวจราชการกระทรวง</u>
+            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="ministry"
+              data-toggle="collapse" [attr.data-target]="'#ministrys'" aria-expanded="false"
+              aria-controls="ministrys"></i><br>
+            <div class="col-12 collapse" id="ministrys">
+              <span *ngFor="let item of ministryuserdata; let i = index">
+                {{item.user.prefix + " " + item.user.name}}<br>
+              </span>
+            </div>
+          </div>
+          <div class="col-4">
+            <u style="font-weight: bold;">ผู้ตรวจราชการกรม</u>
+            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="department"
+              data-toggle="collapse" [attr.data-target]="'#departments'" aria-expanded="false"
+              aria-controls="departments"></i><br>
+            <div class="col-12 collapse" id="departments">
+              <span *ngFor="let item of departmentuserdata; let i = index">
+                {{item.user.prefix + " " + item.user.name}}<br>
+              </span>
+            </div>
+          </div>
+          <div class="col-4">
+            <u style="font-weight: bold;">ผู้ตรวจราชการภาคประชาชน</u>
+            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="people"
+              data-toggle="collapse" [attr.data-target]="'#peoples'" aria-expanded="false"
+              aria-controls="peoples"></i><br>
+            <div class="col-12 collapse" id="peoples">
+              <span *ngFor="let item of peopleuserdata; let i = index">
+                {{item.user.prefix + " " + item.user.name}}<br>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
       <div class="card-body">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
           [dtOptions]="dtOptions">
