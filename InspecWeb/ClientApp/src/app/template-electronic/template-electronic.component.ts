@@ -31,8 +31,8 @@ export class TemplateElectronicComponent implements OnInit {
   constructor(@Inject('BASE_URL') baseUrl: string,
     private wordService: WordService,
     private activatedRoute: ActivatedRoute, ) {
-    this.provinId = activatedRoute.snapshot.paramMap.get('id')
-    this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
+    this.elecId = activatedRoute.snapshot.paramMap.get('id')
+    // this.elecId = activatedRoute.snapshot.paramMap.get('electronicBookId')
     this.url = baseUrl
   }
 
@@ -79,7 +79,7 @@ export class TemplateElectronicComponent implements OnInit {
     // alert(id)
 
     // alert(this.elecId)
-    this.wordService.exportWord(id, this.provinId, this.elecId).subscribe(results => {
+    this.wordService.exportWord(id, this.elecId).subscribe(results => {
       // alert(results)
       console.log("res: ", results);
       // alert(id)

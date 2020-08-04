@@ -11,12 +11,12 @@ export class WordService {
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl + 'api/word';
   }
-  exportWord(id , provinId ,  elecId) {
-    // alert(id)
+  exportWord(id ,   elecId) {
+    // alert(elecId)
 
     const formData = {
       id: id,
-      ProvinId: provinId,
+      // ProvinId: 1,
       elecId : elecId,
      // EndDate : EndWork ,
       // Target : value.Target
