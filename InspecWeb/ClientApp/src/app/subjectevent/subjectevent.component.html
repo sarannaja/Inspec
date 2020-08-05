@@ -51,8 +51,8 @@
             <td>{{item.province.name}}</td>
             <!-- <td>{{item.land}}</td> -->
 
-            <td *ngIf="item.land == 'ลงพื้นที่'">{{item.startDate | thaidate: 'year' }} -
-              {{item.endDate | thaidate: 'year' }}</td>
+            <td *ngIf="item.land == 'ลงพื้นที่'">{{item.startDate | thaidate: 'short' }} -
+              {{item.endDate | thaidate: 'short' }}</td>
             <td *ngIf="item.land == 'ไม่ลงพื้นที่'">ไม่ลงพื้นที่</td>
             <!-- <td>{{item.subjectCentralPolicyProvinces[0].status}}</td> -->
 

@@ -409,4 +409,9 @@ export class CentralpolicyService {
   getcentralpolicypeopledata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "people/" + id);
   }
+
+  getcentralpolicyprovincialdepartmentdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "provincialdepartment/" + id);
+  }
+
 }

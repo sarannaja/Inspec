@@ -283,8 +283,11 @@ export class UserComponent implements OnInit {
       Img: img,
     })
     this.DepartmentId = departmentId
+    this.getDataDepartments({ value: departmentId })
+    
     this.MinistryId = ministryId
-    console.log('this.addForm.value', departmentId, ministryId);
+    console.log('this.addForm.value', this.selectdataministry, "departmentId : " + departmentId, "ministryId: " + ministryId);
+
 
     this.modalRef = this.modalService.show(template);
   }
