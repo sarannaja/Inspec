@@ -57,7 +57,7 @@ export class CentralPolicyComponent implements OnInit {
         pagingType: 'full_numbers',
         columnDefs: [
           {
-            targets: [6],
+            targets: [7],
             orderable: false
           }
         ],
@@ -81,7 +81,7 @@ export class CentralPolicyComponent implements OnInit {
         pagingType: 'full_numbers',
         columnDefs: [
           {
-            targets: [5],
+            targets: [7],
             orderable: false
           }
         ],

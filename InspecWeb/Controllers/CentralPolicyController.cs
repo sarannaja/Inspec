@@ -122,6 +122,7 @@ namespace InspecWeb.Controllers
                 CreatedAt = date,
                 CreatedBy = model.UserID,
                 Class = model.Class,
+                UpdateAt = date
             };
 
             _context.CentralPolicies.Add(centralpolicydata);
@@ -260,9 +261,10 @@ namespace InspecWeb.Controllers
                 centralpolicydata.StartDate = model.StartDate;
                 centralpolicydata.EndDate = model.EndDate;
                 centralpolicydata.Status = model.Status;
-                centralpolicydata.CreatedAt = date;
+                centralpolicydata.UpdateAt = date;
                 centralpolicydata.CreatedBy = model.UserID;
                 centralpolicydata.Class = "แผนการตรวจประจำปี";
+
             };
 
             //_context.CentralPolicies.Add(centralpolicydata);
