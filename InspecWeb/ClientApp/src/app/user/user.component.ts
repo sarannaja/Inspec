@@ -227,7 +227,7 @@ export class UserComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId, departmentId, provincialDepartmentId, side,
+  openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, side,
     commandnumber, commandnumberdate, email, prefix, name, position, phoneNumber, startdate, enddate, img) {
     //alert(UserProvince);
     this.addForm.reset()
@@ -284,8 +284,8 @@ export class UserComponent implements OnInit {
     })
     this.DepartmentId = departmentId
     this.MinistryId = ministryId
-    console.log('this.addForm.value',departmentId,ministryId);
-    
+    console.log('this.addForm.value', departmentId, ministryId);
+
     this.modalRef = this.modalService.show(template);
   }
 
