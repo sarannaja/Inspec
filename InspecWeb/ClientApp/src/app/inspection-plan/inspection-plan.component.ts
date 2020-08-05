@@ -65,7 +65,7 @@ export class InspectionPlanComponent implements OnInit {
   ministryuserdata: any = [];
   departmentuserdata: any = [];
   peopleuserdata: any = [];
-
+  provincialdepartmentuserdata: any = [];
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
@@ -127,6 +127,7 @@ export class InspectionPlanComponent implements OnInit {
     this.getministryuser();
     this.getdepartmentuser();
     this.getpeopleuser();
+    this.getprovincialdepartmentuser();
 
     await this.getMinistryPeople();
     await this.getDepartmentPeople();
@@ -596,6 +597,16 @@ export class InspectionPlanComponent implements OnInit {
       console.log("this.departmentuserdata", this.departmentuserdata);
     })
   }
+
+  getprovincialdepartmentuser() {
+    this.centralpolicyservice.getcentralpolicyprovincialdepartmentdata(this.id).subscribe(result => {
+      this.provincialdepartmentuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.departmentuserdata", this.departmentuserdata);
+    })
+  }
+
   getpeopleuser() {
     this.centralpolicyservice.getcentralpolicypeopledata(this.id).subscribe(result => {
       this.peopleuserdata = result.filter(

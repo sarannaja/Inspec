@@ -607,7 +607,17 @@ namespace InspecWeb.Controllers
 
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
+                .ThenInclude(s => s.Ministries)
+                .Include(m => m.User)
+                .ThenInclude(x => x.Departments)
+                .Include(m => m.User)
+                .ThenInclude(x => x.ProvincialDepartments)
+                .Include(m => m.User)
                 .ThenInclude(m => m.UserProvince)
+                .OrderBy(m => m.User.Ministries.Name)
+                .OrderBy(m => m.User.Departments.Name)
+                .OrderBy(m => m.User.ProvincialDepartments.Name)
+                .OrderBy(m => m.User.Side)
                 .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId && m.InspectionPlanEventId == planId);
 
             return Ok(centralpolicyuserdata);
@@ -623,7 +633,9 @@ namespace InspecWeb.Controllers
 
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
-                .ThenInclude(m => m.UserProvince)
+                //.ThenInclude(m => m.UserProvince)
+                .ThenInclude(s => s.Ministries)
+                .OrderBy(s => s.User.Ministries.Name)
                 .Where(m => m.InspectionPlanEventId == id)
                 .Where(m => m.User.Role_id == 6).ToList();
 
@@ -636,9 +648,26 @@ namespace InspecWeb.Controllers
         {
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
-                .ThenInclude(m => m.UserProvince)
+                            //.ThenInclude(m => m.UserProvince)
+                 .ThenInclude(s => s.Departments)
+                .OrderBy(s => s.User.Departments.Name)
                 .Where(m => m.InspectionPlanEventId == id)
                 .Where(m => m.User.Role_id == 10).ToList();
+
+            return Ok(centralpolicyuserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("provincialdepartment/{id}")]
+        public IActionResult Getprovincialdepartment(long id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                             //.ThenInclude(m => m.UserProvince)
+                             .ThenInclude(s => s.ProvincialDepartments)
+                .OrderBy(s => s.User.ProvincialDepartments.Name)
+                .Where(m => m.InspectionPlanEventId == id)
+                .Where(m => m.User.Role_id == 9).ToList();
 
             return Ok(centralpolicyuserdata);
         }
@@ -649,7 +678,7 @@ namespace InspecWeb.Controllers
         {
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
-                .ThenInclude(m => m.UserProvince)
+                //.ThenInclude(m => m.UserProvince)
                 .Where(m => m.InspectionPlanEventId == id)
                 .Where(m => m.User.Role_id == 7).ToList();
 

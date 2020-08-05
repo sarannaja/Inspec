@@ -19,20 +19,21 @@
         <label style="margin-left: 5px;">ของ {{ScheduleData.userData.prefix}}
           {{ScheduleData.userData.name}}</label>
         <br>
-        <label>สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
+        <label>สร้างเมื่อ : {{ScheduleData.scheduleData.createdAt | thaidate: 'short'}}</label>
         <div class="row-12">
           <div class="row" style="margin-left: 5px;">
-            <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
+            <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'short'}}"
               readonly>
             <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
-            <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'year'}}"
+            <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'short'}}"
               readonly>
 
-            <i *ngIf="role_id == 3" (click)="openModal(modalChangeDate)" style="margin-left: 5px;margin-top: 8px;"
-              title="แก้ไขวันที่ตรวจราชการ" class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
-            <i *ngIf="role_id == 3" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-              title="ลบกำหนดการตรวจราชการนี้" style="margin-left: 5px;margin-top: 8px;"
-              (click)="openModal(modalDeleteDate)"></i>
+            <i *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'" (click)="openModal(modalChangeDate)"
+              style="margin-left: 5px;margin-top: 8px;" title="แก้ไขวันที่ตรวจราชการ"
+              class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+            <i *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'"
+              class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" title="ลบกำหนดการตรวจราชการนี้"
+              style="margin-left: 5px;margin-top: 8px;" (click)="openModal(modalDeleteDate)"></i>
 
             <div class="form-group col-12" style="margin-top:10px;"
               *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'">
@@ -91,7 +92,8 @@
             &nbsp;&nbsp;
 
             <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม" style="margin-top: -60px;"
-              *ngIf="role_id == 3" (click)="openModal(modalCentralPolicyEventRelation)">
+              *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'"
+              (click)="openModal(modalCentralPolicyEventRelation)">
               <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
 
             <!-- <button *ngIf="role_id == 3" class="btn btn-success" (click)="openModal(modalCentralPolicyEventRelation)"
@@ -102,42 +104,59 @@
           </div>
         </div>
       </div>
-      <div class="card-header">
-        <div class="row" style="text-align: center;">
-          <div class="col-4">
-            <u style="font-weight: bold;">ผู้ตรวจราชการกระทรวง</u>
-            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="ministry"
-              data-toggle="collapse" [attr.data-target]="'#ministrys'" aria-expanded="false"
-              aria-controls="ministrys"></i><br>
-            <div class="col-12 collapse" id="ministrys">
-              <span *ngFor="let item of ministryuserdata; let i = index">
-                {{item.user.prefix + " " + item.user.name}}<br>
-              </span>
-            </div>
-          </div>
-          <div class="col-4">
-            <u style="font-weight: bold;">ผู้ตรวจราชการกรม</u>
-            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="department"
-              data-toggle="collapse" [attr.data-target]="'#departments'" aria-expanded="false"
-              aria-controls="departments"></i><br>
-            <div class="col-12 collapse" id="departments">
-              <span *ngFor="let item of departmentuserdata; let i = index">
-                {{item.user.prefix + " " + item.user.name}}<br>
-              </span>
-            </div>
-          </div>
-          <div class="col-4">
-            <u style="font-weight: bold;">ผู้ตรวจราชการภาคประชาชน</u>
-            <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="people"
-              data-toggle="collapse" [attr.data-target]="'#peoples'" aria-expanded="false"
-              aria-controls="peoples"></i><br>
-            <div class="col-12 collapse" id="peoples">
-              <span *ngFor="let item of peopleuserdata; let i = index">
-                {{item.user.prefix + " " + item.user.name}}<br>
-              </span>
-            </div>
+      <div class="card-header" style="margin-top: -20px;">
+        <!-- <br> -->
+        <h3>ผู้ร่วมตรวจ</h3>
+        <!-- <div class="row"> -->
+        <div>
+          <u style="font-weight: bold;">ผู้ตรวจราชการกระทรวง {{ministryuserdata.length}} คน</u>
+          <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="ministry"
+            data-toggle="collapse" [attr.data-target]="'#ministrys'" aria-expanded="false"
+            aria-controls="ministrys"></i><br>
+          <div class="col-12 collapse" id="ministrys">
+            <span *ngFor="let item of ministryuserdata; let i = index">
+              {{i+1}}. {{item.user.ministries.name}} - {{item.user.prefix + " " + item.user.name}}<br>
+            </span>
           </div>
         </div>
+        <div>
+          <u style="font-weight: bold;">ผู้ตรวจราชการกรม {{departmentuserdata.length}} คน</u>
+          <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="department"
+            data-toggle="collapse" [attr.data-target]="'#departments'" aria-expanded="false"
+            aria-controls="departments"></i><br>
+          <div class="col-12 collapse" id="departments">
+            <span *ngFor="let item of departmentuserdata; let i = index">
+              {{i+1}}. {{item.user.departments.name}} - {{item.user.prefix + " " + item.user.name}}<br>
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <u style="font-weight: bold;">ทปษ.ผู้ตรวจราชการภาคประชาชน {{peopleuserdata.length}} คน</u>
+          <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="people"
+            data-toggle="collapse" [attr.data-target]="'#peoples'" aria-expanded="false"
+            aria-controls="peoples"></i><br>
+          <div class="col-12 collapse" id="peoples">
+            <span *ngFor="let item of peopleuserdata; let i = index">
+              {{i+1}}. {{item.user.side}} - {{item.user.prefix + " " + item.user.name}}<br>
+            </span>
+          </div>
+        </div>
+        <br>
+        <h3 style="color: #3b7ddd;">หน่วยรับตรวจ</h3>
+        <div>
+          <u style="font-weight: bold;color: #3b7ddd;">หน่วยรับตรวจ {{provincialdepartmentuserdata.length}} คน</u>
+          <i class="fas fa-chevron-down" style="margin-left: 10px;color: #3b7ddd; font-size: large; cursor: pointer;"
+            id="provincialdepartment" data-toggle="collapse" [attr.data-target]="'#provincialdepartments'"
+            aria-expanded="false" aria-controls="provincialdepartments"></i><br>
+          <div class="col-12 collapse" id="provincialdepartments">
+            <span *ngFor="let item of provincialdepartmentuserdata; let i = index">
+              {{i+1}}. {{item.user.provincialDepartments.name}} - {{item.user.prefix + " " + item.user.name}}<br>
+            </span>
+          </div>
+        </div>
+
+        <!-- </div> -->
       </div>
       <br>
       <div class="card-body">
@@ -178,8 +197,8 @@
                   {{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
               </td> -->
-              <td> {{ item.startDate | thaidate: 'year' }} -
-                {{ item.endDate | thaidate: 'year' }}</td>
+              <td> {{ item.startDate | thaidate: 'short' }} -
+                {{ item.endDate | thaidate: 'short' }}</td>
               <!-- <td>
                 <div *ngFor="let item2 of item.centralPolicy.centralPolicyProvinces; let i = index">
                   <span *ngIf="item2.provinceId == provinceid">{{ item2.status }}</span>
@@ -189,7 +208,7 @@
 
               <td>
                 <!-- <i *ngIf="item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.centralPolicyId,item.title)"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-book pointer"
+                <i class="align-middle mr-2 fas fa-fw fa-envelope pointer"
                   (click)="DetailCentralPolicy(item.centralPolicyId)"></i>
 
                 <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจประจำปี' && timelineData.status == 'ร่างกำหนดการ'"
