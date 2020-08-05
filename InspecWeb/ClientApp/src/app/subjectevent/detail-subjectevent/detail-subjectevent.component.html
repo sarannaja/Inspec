@@ -202,8 +202,8 @@
                           aria-controls="questions"></i>
                         <button class="btn btn-danger" id="graph{{i}}" data-toggle="collapse" type="button"
                           [attr.data-target]="'#graphs' + i" aria-expanded="false" aria-controls="graphs"
-                          style="margin-left: 20px; font-size: small;">กราฟคำตอบปลายปิด
-                          <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
+                          style="margin-left: 20px; font-size: small;">แสดงกราฟ
+                          <!-- <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i> -->
                         </button>
                         <!-- <button (click)="showGraph(item,item.id)">
                           กราฟคำตอบปลายปิด
@@ -322,7 +322,7 @@
           </div>
 
           <br>
-          <div class="row">
+          <div class="row" *ngIf="resultdetailcentralpolicy.centralPolicyFiles.length > 0">
             <div class="col-md-12">
               <u>ไฟล์แนบแผนการตรวจราชการ</u><br>
               <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
@@ -336,9 +336,10 @@
               </div>
             </div>
           </div>
+
           <div class="col-12">
             <label *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" class="form-label w-100"
-              style="margin-top: 30px;">แนบไฟล์ประเด็นการตรวจติดตาม</label>
+              >แนบไฟล์ประเด็นการตรวจติดตาม</label>
             <input *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="file" multiple
               (change)="uploadFile2($event)" style="margin-bottom: 10px;">
             <!-- <div class="col-4" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
@@ -365,7 +366,7 @@
               </div>
             </form>
           </div>
-          <div class="row">
+          <div class="row" *ngIf="carlendarFile.length > 0">
             <div class="col-md-12" style="margin-top: 20px;">
               <u>ไฟล์แนบประเด็นการตรวจติดตาม</u><br>
               <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
