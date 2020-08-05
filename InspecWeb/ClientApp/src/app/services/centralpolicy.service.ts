@@ -20,6 +20,9 @@ export class CentralpolicyService {
   getcentralpolicyfiscalyeardata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "fiscalfear/" + id)
   }
+  getcentralpolicysubjectcount(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "subjectcount/" + id)
+  }
   getdetailcentralpolicydata(id): Observable<any> {
     console.log("CentralID: ", id);
 
@@ -223,14 +226,19 @@ export class CentralpolicyService {
   }
 
   addCentralpolicyUser(data, id, userid, planId) {
+    console.log("datAAAAA: ", data);
+
     const formData = {
       CentralPolicyId: id,
       UserId: data.UserPeopleId,
       // ElectronicBookId: electronicbookid,
+      UserDepartmentId: data.UserDepartmentId,
+      UserMinistryId: data.UserMinistryId,
+
       InviteBy: userid,
       planId: planId
     }
-    console.log('FORMDATA: ' + formData);
+    console.log('FORMDATAddddddd: ' + formData);
     return this.http.post(this.url + "users", formData);
   }
 
@@ -390,5 +398,15 @@ export class CentralpolicyService {
 
   deletecentralpolicyuser(id) {
     return this.http.delete(this.url + "deletecentralpolicyuser/" + id);
+  }
+
+  getcentralpolicyministrydata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "ministry/" + id);
+  }
+  getcentralpolicydepartmentdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "department/" + id);
+  }
+  getcentralpolicypeopledata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "people/" + id);
   }
 }

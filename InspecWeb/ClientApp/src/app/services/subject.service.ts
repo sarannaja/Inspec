@@ -12,12 +12,12 @@ export class SubjectService {
     this.url = baseUrl + 'api/subject/';
   }
   getsubjectdata(id) {
-    return this.http.get(this.url + id)
+    return this.http.get<any[]>(this.url + id)
   }
   getsubjectdetaildata(id) {
     return this.http.get(this.url + "subjectdetail/" + id)
   }
-  addSubject(subjectData, centralpolicyid) {
+  addSubject(subjectData, centralpolicyid, userid) {
     var subjectdepartment = subjectData.inputsubjectdepartment
     console.log('subjectData: ', subjectdepartment);
     var departmentId = []
@@ -76,6 +76,7 @@ export class SubjectService {
       Explanation: subjectData.explanation,
       CentralPolicyId: parseInt(centralpolicyid),
       CentralPolicyDateId: subjectData.centralpolicydateid,
+      UserID: userid,
       inputsubjectdepartment: test,
       // test: departmentId
       // inputquestionopen: subjectdepartment.inputquestionopen,
@@ -387,6 +388,21 @@ export class SubjectService {
       CreatedBy: userid
     }
     return this.http.post<any>(this.url + 'subjecteventnoland', formData);
+  }
+
+  subjecteventnolandOther(value, userid) {
+    console.log("value", value);
+    console.log("value", value.province);
+    const formData = {
+      Land: value.land,
+      CentralpolicyId: value.CentralpolicyId,
+      ProvinceId: parseInt(value.province),
+      Title: value.centralPolicyOther,
+      // startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      // enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      CreatedBy: userid
+    }
+    return this.http.post<any>(this.url + 'postsubjecteventOther', formData);
   }
 
   getsubjectevent(id) {

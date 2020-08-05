@@ -31,6 +31,14 @@ namespace InspecWeb.Models
         public string Type { get; set; }
         public string Land { get; set; }
 
+        [Description("วันที่เริ่ม")]
+        [DataType(DataType.Date)]
+        public DateTime? StartDate { get; set; }
+
+        [Description("วันที่สิ้นสุด")]
+        [DataType(DataType.Date)]
+        public DateTime? EndDate { get; set; }
+
         public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
     }
 }

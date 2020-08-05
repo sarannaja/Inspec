@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using ClosedXML.Excel; //excel
+using System.IO; //excel
+using Microsoft.EntityFrameworkCore;
 
 namespace InspecWeb.Controllers
 {
@@ -94,5 +96,40 @@ namespace InspecWeb.Controllers
             _context.Ministries.Remove(Ministrydata);
             _context.SaveChanges();
         }
+
+        // <!-- ministry excel -->
+        [HttpGet("excelministry")]
+        public IActionResult excelministry()
+        {
+
+            var ministries = _context.Departments
+                .Include(m => m.Ministries);
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("ข้อมูลกระทรวง");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "ชื่อกระทรวง";
+                worksheet.Cell(currentRow, 2).Value = "กรม";
+                foreach (var ministry in ministries)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = ministry.Ministries.Name;
+                    worksheet.Cell(currentRow, 2).Value = ministry.Name;
+                }
+             
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "ministry.xlsx");
+                }
+            }
+        }
+        // <!-- END ministry excel -->
     }
 }

@@ -4,11 +4,11 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">Tables</a></li> -->
-      <li class="breadcrumb-item"><a href="javascript:void(0)">นโยบายกลาง</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นการตรวจติดตาม</a></li>
-      <li class="breadcrumb-item active" aria-current="page">เพิ่มประเด็นการตรวจติดตาม</li>
+      <li class="breadcrumb-item"><a href="/centralpolicy">แผนการตรวจราชการ</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">เรื่องที่ตรวจ</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">เพิ่มหัวข้อการตรวจ</a></li>
     </ol>
   </nav>
 </div>
@@ -16,7 +16,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">จัดการประเด็นนโยบาย : {{resultcentralpolicy.title}}</h5>
+        <h5 class="card-title">เรื่องที่ตรวจ : {{resultcentralpolicy.title}}</h5>
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
@@ -26,19 +26,19 @@
             </div>
             <div class="col-12 col-xl-12">
               <div class="form-group">
-                <label>ชื่อเรื่อง</label>
+                <label>หัวข้อการตรวจ</label>
                 <!-- <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"> -->
-                <textarea cols="30" rows="5" type="text" formControlName="name" class="form-control"
+                <textarea cols="30" rows="2" type="text" formControlName="name" class="form-control"
                   placeholder="กรุณากรอกชื่อเรื่อง"></textarea>
               </div>
               <div class="form-group">
                 <label>คำชี้แจง</label>
                 <!-- <input type="text" formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง"> -->
-                <textarea cols="30" rows="5" type="text" formControlName="explanation" class="form-control"
+                <textarea cols="30" rows="2" type="text" formControlName="explanation" class="form-control"
                   placeholder="กรุณากรอกคำชี้แจง"></textarea>
               </div>
               <div class="form-group">
-                <label>กำหนดระยะเวลา</label>
+                <label>ระยะเวลาการตรวจ</label>
                 <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"
                   [items]="times" name="ํTime" formControlName="centralpolicydateid">
                 </ng-select>
@@ -52,7 +52,7 @@
                   <label style="margin-left: 10px;">ใช้งานจริง</label>
                 </div>
               </div> -->
-              <hr width="100%" color="black">
+              <!-- <hr width="100%" color="black"> -->
               <div class="form-group">
                 <!-- <label>พื้นที่ดำเนินการ</label> -->
                 <div formArrayName="inputsubjectdepartment">
@@ -60,14 +60,16 @@
                     <div formGroupName="{{iv}}">
                       <div class="form-group row">
                         <div class="col-2">
+                          <label>ชุดที่ {{iv + 1}}</label>
+                          <br>
                           <label>ผู้ให้ข้อมูล</label>
                         </div>
                         <div class="col-1" *ngIf="iv == 0; else elseBlock">
-                          <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i>
+                          <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i> -->
                         </div>
                         <ng-template #elseBlock>
                           <div class="col-1">
-                            <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeV(iv)"
+                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" (click)="removeV(iv)"
                               value="Add V"></i>
                           </div>
                         </ng-template>
@@ -77,7 +79,6 @@
                         (ngModelChange)="addsubjectdepartment2($event,'add')"
                         (deselected)="addsubjectdepartment2($event,'remove')">
                       </ng-select>
-                      <br>
                       <br>
                       <label>ประเด็นการตรวจติดตาม</label>
                       <br>
@@ -117,18 +118,26 @@
                               <div class="col-10 col-xl-10">
                                 <!-- <input type="text" formControlName="questionclose" class="form-control"
                                   placeholder="กรุณากรอกคำถาม"> -->
-                                <textarea cols="30" rows="5" type="text" formControlName="questionclose"
+                                <textarea cols="30" rows="2" type="text" formControlName="questionclose"
                                   class="form-control" placeholder="กรุณากรอกคำถาม"></textarea>
                               </div>
                               <div class="col-1">
                                 <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
-                                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX(iv)"
-                                    value="Add X"></i>
+                                  <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX(iv)"
+                                    value="Add X"></i> -->
+                                  <button *ngIf="ix == 0; else elseBlock" class="btn btn-primary" type="button"
+                                    title="เพิ่มคำถาม" (click)="addX(iv)" value="Add X">
+                                    <i class="align-middle fas fa-fw fa-plus pointer"></i>
+                                  </button>
                                 </div>
                                 <ng-template #elseBlock>
                                   <div class="col-1 margin-plus-icon">
-                                    <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(iv,ix)"
-                                      value="Add X"></i>
+                                    <!-- <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(iv,ix)"
+                                      value="Add X"></i> -->
+                                    <button class="btn btn-primary" type="button" title="ลบคำถาม"
+                                      (click)="removeX(iv,ix)" value="Add X">
+                                      <i class="align-middle fas fa-fw fa-minus pointer"></i>
+                                    </button>
                                   </div>
                                 </ng-template>
                               </div>
@@ -143,13 +152,21 @@
                                     </div>
                                     <div class="col-1">
                                       <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
-                                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(iv,ix)"
-                                          value="Add Y"></i>
+                                        <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(iv,ix)"
+                                          value="Add Y"></i> -->
+                                        <button class="btn btn-primary" style="margin-top: -2px;" type="button"
+                                          title="เพิ่มคำตอบให้เลือก" (click)="addY(iv,ix)" value="Add Y">
+                                          <i class="align-middle fas fa-fw fa-plus pointer"></i>
+                                        </button>
                                       </div>
                                       <ng-template #elseBlock>
                                         <div class="col-1 margin-plus-icon">
-                                          <i class="align-middle mr-2 far fa-fw fa-minus-square"
-                                            (click)="removeY(iv,ix,iy)" value="Add Y"></i>
+                                          <!-- <i class="align-middle mr-2 far fa-fw fa-minus-square"
+                                            (click)="removeY(iv,ix,iy)" value="Add Y"></i> -->
+                                          <button class="btn btn-primary" style="margin-top: -2px;" type="button"
+                                            title="ลบคำตอบให้เลือก" (click)="removeY(iv,ix,iy)" value="Add Y">
+                                            <i class="align-middle fas fa-fw fa-minus pointer"></i>
+                                          </button>
                                         </div>
                                       </ng-template>
                                     </div>
@@ -157,12 +174,11 @@
                                 </div>
                               </div>
                             </div>
-                            <hr width="100%" color="black">
                           </div>
                         </div>
                       </div>
                     </div>
-                    <hr>
+                    <hr width="100%" style="height: 2px;" color="black">
                   </div>
                 </div>
 
@@ -214,6 +230,11 @@
                     </div>
                   </div>
                 </div> -->
+                <div class="row" style="margin-top: 10px;">
+                  <div class="col-md-6">
+                    <button type="button" class="btn btn-info" (click)="addV()">เพิ่มชุดประเด็นการตรวจติดตาม</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-12 col-xl-12">
@@ -233,7 +254,7 @@
                 </div>
               </form>
             </div>
-             <!-- formControlName="files" -->
+            <!-- formControlName="files" -->
             <!-- <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label w-100">แนบไฟล์</label>

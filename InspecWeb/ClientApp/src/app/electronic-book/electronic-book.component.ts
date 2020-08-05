@@ -40,12 +40,12 @@ export class ElectronicBookComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
         this.userService.getuserfirstdata(this.userid)
-        .subscribe(result => {
-          // this.resultuser = result;
-          //console.log("test" , this.resultuser);
-          this.role_id = result[0].role_id
-          // alert(this.role_id)
-        })
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
       })
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -54,7 +54,23 @@ export class ElectronicBookComponent implements OnInit {
           targets: [3],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        // "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        // "info": "แสดง _PAGE_ ของ _PAGES_ รายการ จาก _TOTAL_ แถว",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        // "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
     this.getElectronicBook();
   }
@@ -98,8 +114,9 @@ export class ElectronicBookComponent implements OnInit {
     this.router.navigate(['/electronicbook/detail/' + id])
   }
 
-  gotoTheme(id, elecId) {
-    this.router.navigate(['/electronicbook/theme/' + id ,{electronicBookId: elecId}])
+  gotoTheme(id) {
+    // alert(elec)
+    this.router.navigate(['/electronicbook/theme/' + id])
   }
 
   gotoEdit2(id, elecId) {
@@ -111,6 +128,6 @@ export class ElectronicBookComponent implements OnInit {
     // })
     // alert(this.centralpolicyprovinceid)
 
-    this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId}])
+    this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId }])
   }
 }

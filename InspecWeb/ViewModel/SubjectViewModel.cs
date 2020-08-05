@@ -20,6 +20,8 @@ namespace InspecWeb.ViewModel
 
         public string Explanation { get; set; }
 
+        public string UserID { get; set; }
+
         public List<IFormFile> files { get; set; }
 
         public long[] CentralPolicyDateId { get; set; }
@@ -27,8 +29,6 @@ namespace InspecWeb.ViewModel
         public inputsubjectdepartment[] inputsubjectdepartment { get; set; }
 
         public subjectevent[] subjectevent { get; set; }
-
-
     }
 
     public class inputsubjectdepartment
@@ -71,6 +71,8 @@ namespace InspecWeb.ViewModel
         public string CreatedBy { get; set; }
 
         public string Land { get; set; }
+
+        public string Title { get; set; }
     }
 
     public class CentralpolicyModel

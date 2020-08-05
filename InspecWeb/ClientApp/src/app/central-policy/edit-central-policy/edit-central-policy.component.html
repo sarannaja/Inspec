@@ -81,7 +81,7 @@
               <label>เรื่อง</label>
               <!-- <input type="text" value="{{resultdetailcentralpolicy.title}}" formControlName="title"
                   class="form-control" placeholder="กรุณากรอกเรื่อง"> -->
-              <textarea cols="30" rows="5" type="text" value="{{resultdetailcentralpolicy.title}}"
+              <textarea cols="30" rows="2" type="text" value="{{resultdetailcentralpolicy.title}}"
                 formControlName="title" class="form-control" placeholder="กรุณากรอกประเด็นนโยบาย"></textarea>
             </div>
           </div>
@@ -92,10 +92,10 @@
                 <div class="mb-3">
                   <input type="radio" name="status" value="ร่างกำหนดการ"
                     [checked]="resultdetailcentralpolicy.status == 'ร่างกำหนดการ'" formControlName="status">
-                  <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+                  <label style="margin-left: 10px;">ร่าง</label>
                   <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
                     [checked]="resultdetailcentralpolicy.status == 'ใช้งานจริง'" formControlName="status">
-                  <label style="margin-left: 10px;">ใช้งานจริง</label>
+                  <label style="margin-left: 10px;">ใช้งาน</label>
                 </div>
                 <!-- <ng-template #elseBlock>
                     <div class="mb-3">
@@ -283,15 +283,18 @@
             </div>
           </div>
           <!-- <hr> -->
-          <div class="form-group row" style="text-align: center; justify-content: center;">
+          <!-- <div class="form-group row" style="text-align: center; justify-content: center;">
             <div class="col-1">
               <button type="submit" class="btn btn-primary">บันทึก</button>
             </div>
             <div class="col-1">
               <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
             </div>
+          </div> -->
+          <div class="form-group" style="text-align: center; justify-content: center;">
+            <button style="margin-right: 15px;" type="submit" class="btn btn-primary">บันทึก</button>
+            <button style="margin-left: 15px;" type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
           </div>
-
           <!-- </div> -->
         </form>
       </div>

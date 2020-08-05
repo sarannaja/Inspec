@@ -32,10 +32,9 @@ namespace InspecWeb.Controllers
         [HttpGet("departmentsforsupport/{id}")]
         public IActionResult GetDepartments(long id)
         {
-            var departments = _context.Ministries
-                .Include(m => m.Departments)
-                .Where(m => m.Id == id);
-
+            var departments = _context.Departments
+                .Include(m => m.Ministries)
+                .Where(m => m.MinistryId == id);
             return Ok(departments);
         }
 
@@ -152,6 +151,7 @@ namespace InspecWeb.Controllers
             _context.Departments.Remove(departmentdata);
             _context.SaveChanges();
         }
+
 
     }
 }

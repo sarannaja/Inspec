@@ -41,4 +41,9 @@ export class MinistryService {
   getministryfirst2(id: any):Observable<any> {
     return this.http.get<any>(this.url+'ministryfirst2/'+ id)
   }
+
+  getexcelministry():Observable<any>{
+    alert(2);
+    return this.http.get<any>(this.url+'excelministry')
+  }
 }

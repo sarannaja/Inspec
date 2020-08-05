@@ -47,31 +47,30 @@ namespace InspecWeb.Controllers
             return Ok(districtdata);
         }
 
-        // POST api/values
         [HttpPost]
-        public District Post(string name)
+        public District Post([FromForm] DistrictRequest request)
         {
-            //var date = DateTime.Now;
-
+            var date = DateTime.Now;
+            Console.WriteLine("district 1 :" + request.Name + " : " + request.ProvincesId );
             var districtdata = new District
             {
-                Name = name,
-                //CreatedAt = date
+                ProvinceId = request.ProvincesId,
+                Name = request.Name,
             };
-
+            Console.WriteLine("district 2 :");
             _context.Districts.Add(districtdata);
             _context.SaveChanges();
-
+            Console.WriteLine("district 3 :");
             return districtdata;
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name)
+        public void Put([FromForm] DistrictRequest request, long id)
         {
-            var districts = _context.Districts.Find(id);
-            districts.Name = name;
-            _context.Entry(districts).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var districtdata = _context.Districts.Find(id);
+            districtdata.Name = request.Name;
+        
+            _context.Entry(districtdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
         }
@@ -86,4 +85,12 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
     }
+}
+
+public class DistrictRequest
+{
+    public long Id { get; set; }
+    public long ProvincesId { get; set; }
+    public string Name { get; set; }
+  
 }

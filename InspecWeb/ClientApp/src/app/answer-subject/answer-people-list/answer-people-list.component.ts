@@ -34,8 +34,20 @@ export class AnswerPeopleListComponent implements OnInit {
           targets: [4],
           orderable: false
         }
-      ]
-
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
     this.authorize.getUser()
       .subscribe(result => {

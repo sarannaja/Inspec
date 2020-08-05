@@ -20,7 +20,7 @@ export class AnswerSubjectComponent implements OnInit {
     private authorize: AuthorizeService,
     private answersubjectservice: AnswersubjectService,
     private spinner: NgxSpinnerService,
-    private router:Router, 
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -38,6 +38,8 @@ export class AnswerSubjectComponent implements OnInit {
         "lengthMenu": "แสดง  _MENU_  รายการ",
         "search": "ค้นหา:",
         "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
         "paginate": {
           "first": "หน้าแรก",
           "last": "หน้าสุดท้าย",
@@ -61,7 +63,7 @@ export class AnswerSubjectComponent implements OnInit {
         this.resultuserdetail = result
         this.spinner.hide();
         this.loading = true
-        console.log("test",this.resultuserdetail);
+        console.log("test", this.resultuserdetail);
       })
   }
   Subjectlist(id) {

@@ -89,6 +89,20 @@ namespace InspecWeb.Controllers
             //return "value";
         }
 
+        // GET api/values/5
+        [HttpGet("subjectcount/{id}")]
+        public IActionResult Get3(long id)
+        {
+            var subjectdata = _context.SubjectCentralPolicyProvinces
+                  .Include(m => m.SubjectDateCentralPolicyProvinces)
+                  .ThenInclude(m => m.CentralPolicyDateProvince)
+                  .Include(m => m.CentralPolicyProvince)
+                  //.Where(m => m.CentralPolicyId == id);
+                  .Where(m => m.CentralPolicyProvince.CentralPolicyId == id && m.Type == "Master");
+
+            return Ok(subjectdata.Count());
+        }
+
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] CentralPolicyProvinceViewModel model)
@@ -108,6 +122,7 @@ namespace InspecWeb.Controllers
                 CreatedAt = date,
                 CreatedBy = model.UserID,
                 Class = model.Class,
+                UpdateAt = date
             };
 
             _context.CentralPolicies.Add(centralpolicydata);
@@ -246,9 +261,10 @@ namespace InspecWeb.Controllers
                 centralpolicydata.StartDate = model.StartDate;
                 centralpolicydata.EndDate = model.EndDate;
                 centralpolicydata.Status = model.Status;
-                centralpolicydata.CreatedAt = date;
+                centralpolicydata.UpdateAt = date;
                 centralpolicydata.CreatedBy = model.UserID;
                 centralpolicydata.Class = "แผนการตรวจประจำปี";
+
             };
 
             //_context.CentralPolicies.Add(centralpolicydata);
@@ -496,28 +512,81 @@ namespace InspecWeb.Controllers
             .First();
             System.Console.WriteLine("CID: " + CentralPolicyId);
 
-
-            foreach (var id in model.UserId)
+            if (model.UserMinistryId != null)
             {
-                System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
-                System.Console.WriteLine("LOOP: " + id);
-                System.Console.WriteLine("PLANID: " + model.planId);
-
-                var centralpolicyuserdata = new CentralPolicyUser
+                foreach (var id in model.UserMinistryId)
                 {
-                    CentralPolicyId = CentralPolicyId,
-                    ProvinceId = ProvinceId,
-                    CentralPolicyGroupId = CentralPolicyGroupdata.Id,
-                    UserId = id,
-                    Status = "รอการตอบรับ",
-                    DraftStatus = "ร่างกำหนดการ",
-                    //ElectronicBookId = model.ElectronicBookId,
-                    InspectionPlanEventId = model.planId,
-                    InvitedBy = inviteby.Prefix + " " + inviteby.Name,
-                };
-                _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                    System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
+                    System.Console.WriteLine("LOOP: " + id);
+                    System.Console.WriteLine("PLANID: " + model.planId);
+
+                    var centralpolicyuserdata = new CentralPolicyUser
+                    {
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                        UserId = id,
+                        Status = "รอการตอบรับ",
+                        DraftStatus = "ร่างกำหนดการ",
+                        //ElectronicBookId = model.ElectronicBookId,
+                        InspectionPlanEventId = model.planId,
+                        InvitedBy = inviteby.Prefix + " " + inviteby.Name,
+                    };
+                    _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                }
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
+
+            if (model.UserId != null)
+            {
+
+                foreach (var id in model.UserId)
+                {
+                    System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
+                    System.Console.WriteLine("LOOP: " + id);
+                    System.Console.WriteLine("PLANID: " + model.planId);
+
+                    var centralpolicyuserdata = new CentralPolicyUser
+                    {
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                        UserId = id,
+                        Status = "รอการตอบรับ",
+                        DraftStatus = "ร่างกำหนดการ",
+                        //ElectronicBookId = model.ElectronicBookId,
+                        InspectionPlanEventId = model.planId,
+                        InvitedBy = inviteby.Prefix + " " + inviteby.Name,
+                    };
+                    _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                }
+                _context.SaveChanges();
+            }
+
+            if (model.UserDepartmentId != null)
+            {
+                foreach (var id in model.UserDepartmentId)
+                {
+                    System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
+                    System.Console.WriteLine("LOOP: " + id);
+                    System.Console.WriteLine("PLANID: " + model.planId);
+
+                    var centralpolicyuserdata = new CentralPolicyUser
+                    {
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                        UserId = id,
+                        Status = "รอการตอบรับ",
+                        DraftStatus = "ร่างกำหนดการ",
+                        //ElectronicBookId = model.ElectronicBookId,
+                        InspectionPlanEventId = model.planId,
+                        InvitedBy = inviteby.Prefix + " " + inviteby.Name,
+                    };
+                    _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                }
+                _context.SaveChanges();
+            }
         }
 
         // GET api/values/5
@@ -546,13 +615,61 @@ namespace InspecWeb.Controllers
             return Ok(centralpolicyuserdata);
         }
 
+
+        // GET api/values/5
+        [HttpGet("ministry/{id}")]
+        public IActionResult Getministryuser(long id)
+        {
+            //var centralpolicyprovince = _context.CentralPolicyProvinces
+            //.Where(m => m.Id == id).FirstOrDefault();
+
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)
+                .Where(m => m.InspectionPlanEventId == id)
+                .Where(m => m.User.Role_id == 6).ToList();
+
+            return Ok(centralpolicyuserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("department/{id}")]
+        public IActionResult Getdepartmentuser(long id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)
+                .Where(m => m.InspectionPlanEventId == id)
+                .Where(m => m.User.Role_id == 10).ToList();
+
+            return Ok(centralpolicyuserdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("people/{id}")]
+        public IActionResult Getpeopleuser(long id)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)
+                .Where(m => m.InspectionPlanEventId == id)
+                .Where(m => m.User.Role_id == 7).ToList();
+
+            return Ok(centralpolicyuserdata);
+        }
+
         // GET api/values/5
         [HttpGet("getcentralpolicyfromprovince/{id}")]
         public IActionResult getcentralpolicyfromprovince(long id)
         {
+            var year = DateTime.Now.Year;
+
             var fiscalyearData = _context.FiscalYears
-                              .OrderByDescending(x => x.Year)
-                              .FirstOrDefault();
+                .Where(m => m.Year == year + 543).FirstOrDefault();
+
+            //var fiscalyearData = _context.FiscalYears
+            //                  .OrderByDescending(x => x.Year)
+            //                  .FirstOrDefault();
 
             var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Include(m => m.CentralPolicy)

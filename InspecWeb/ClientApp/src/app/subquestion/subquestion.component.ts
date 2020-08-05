@@ -9,6 +9,7 @@ import { IMyDate } from 'mydatepicker-th';
 import { SubjectService } from '../services/subject.service';
 import { DepartmentService } from '../services/department.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-subquestion',
@@ -30,6 +31,7 @@ export class SubquestionComponent implements OnInit {
   temp = []
   test = []
   id
+  userid
   indexfiles
   name: any
   modalRef: BsModalRef;
@@ -49,7 +51,9 @@ export class SubquestionComponent implements OnInit {
     private departmentservice: DepartmentService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private authorize: AuthorizeService,
+    ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.name = activatedRoute.snapshot.paramMap.get('name')
     this.form = this.fb.group({
@@ -59,6 +63,12 @@ export class SubquestionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      console.log(result);
+      // alert(this.userid)
+    })
 
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
@@ -237,7 +247,7 @@ export class SubquestionComponent implements OnInit {
   storeSubject(value) {
     this.spinner.show();
     console.log(value);
-    this.subjectservice.addSubject(value, this.id).subscribe(response => {
+    this.subjectservice.addSubject(value, this.id, this.userid).subscribe(response => {
       console.log("Response : ", response);
       this.resultdsubjectid.push(response.getSubjectID)
       response.termsList.forEach(element => {

@@ -51,9 +51,9 @@
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>จังหวัด</label>
-              <ng-select  [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
+              <ng-select [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
                 [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
-                [(ngModel)]="selected" formControlName="ProvinceId" >
+                [(ngModel)]="selected" formControlName="ProvinceId">
                 <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
                   <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
                     [ngModel]="item$.selected" /> {{item.region }}
@@ -68,7 +68,7 @@
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <div class="row">
-                <div class="col-md-12">
+                <div *ngIf="resultdetailcentralpolicy.centralPolicyFiles.length !=0" class="col-md-12">
                   <u>ไฟล์แนบ</u><br>
                   <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
                     style="margin-top: 10px;">
@@ -78,24 +78,22 @@
                         {{ item2.name }}<br>
                       </span>
                     </a>
-                    <input type="text" class="form-control ml-4" style="width: 80%;" value="{{item2.description}}" readonly>
+                    <input type="text" class="form-control ml-4" style="width: 80%;" value="{{item2.description}}"
+                      readonly>
                   </div>
                 </div>
               </div>
               <!-- <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small> -->
             </div>
           </div>
-          <div class="form-group row" style="text-align: center; justify-content: center;">
-            <div class="col-3">
-              <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
-            </div>
+          <div class="form-group" style="text-align: center; justify-content: center;">
+            <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>

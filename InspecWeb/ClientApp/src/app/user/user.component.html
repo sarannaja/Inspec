@@ -99,7 +99,7 @@
     </div>
 </div>
 
-<!-- BEGIN primary modal -->
+<!-- BEGIN add modal -->
 <ng-template #modalUser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
     <form [formGroup]="addForm" (ngSubmit)="adduser(addForm.value)">
@@ -237,9 +237,9 @@
         <!-- </div> -->
     </form>
 </ng-template>
-<!-- END primary modal -->
+<!-- END add modal -->
 
-<!-- BEGIN primary modal -->
+<!-- BEGIN edit modal -->
 <ng-template #modaleditUser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
         <form [formGroup]="addForm" (ngSubmit)="updateuser(addForm.value)">
@@ -279,14 +279,14 @@
     
                     <div class="form-group" *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
                         <label>กระทรวง*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง" formControlName="MinistryId"
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง" [(ngModel)]="MinistryId" formControlName="MinistryId"
                            [items]="selectdataministry"  (change)="getDataDepartments($event)">
                         </ng-select>
                     </div>            
     
                     <div class="form-group" *ngIf="roleId == 9 || roleId == 10;">
                         <label>หน่วยงาน/กรม</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId"
+                        <ng-select bindLabel="label" bindValue="value" [(ngModel)]="DepartmentId" placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId"
                           [items]="selectdatadeparment"
                        (change)="getProvincialDepartments($event)"  >
                         </ng-select>
@@ -365,7 +365,8 @@
     
                     <div class="form-group">
                         <label class="form-label w-100">รูปโปรไฟล์</label>
-                        <img src="{{imgprofileUrl}}/{{img}}" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
+                        <img *ngIf="img != null" src="{{imgprofileUrl}}/{{img}}" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
+                        <img *ngIf="img == null" src="{{imgprofileUrl}}/user.png" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
                         <input type="file" (change)="uploadFile($event)" required accept="image/jpeg, image/png" />
                         <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
                     </div>
@@ -379,7 +380,7 @@
             <!-- </div> -->
         </form>
 </ng-template>
-<!-- END primary modal -->
+<!-- END edit modal -->
 
 <!-- BEGIN modalchangeUser modal -->
 <ng-template #modalchangeUser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

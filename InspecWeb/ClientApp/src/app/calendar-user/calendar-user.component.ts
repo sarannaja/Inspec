@@ -252,7 +252,7 @@ export class CalendarUserComponent implements OnInit {
     //   })
     this.inspectionplanservice.getinspectionplaneventuserdata(this.userid)
       .subscribe(result => {
-        // //console.log("res: ", result);
+        console.log("res: ", result);
         this.resultinspectionplanevent = result;
 
         // var distinctThings: any[] =
