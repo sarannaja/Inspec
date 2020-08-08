@@ -45,11 +45,11 @@
 
                   <div *ngIf="item2.userID == userid && role_id == 3">
                     {{item2.user.prefix}} {{item2.user.name}}
-                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น -->
                   </div>
  
                   <div *ngIf="role_id == 8 || role_id == 1">
-                    {{item2.user.prefix}} {{item2.user.name}}                  
+                    {{item2.user.prefix}} {{item2.user.name}}    
+                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น -->              
                   </div>
 
                 </div>
