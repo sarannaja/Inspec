@@ -307,6 +307,7 @@ namespace InspecWeb.Controllers {
 
             var userdata = _context.Users.Find (editId);
             userdata.Img = model.Img;
+            userdata.Signature = model.Signature;
 
 
             //<!-- file -->
@@ -335,6 +336,42 @@ namespace InspecWeb.Controllers {
                 }
             }
             //<!-- END file -->
+
+            //<!-- file2 -->
+            if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง คือส่วนลายเซ็น
+            {
+                if (!Directory.Exists(_environment.WebRootPath + "//Signature//"))
+                {
+                    Directory.CreateDirectory(_environment.WebRootPath + "//Signature//"); //สร้าง Folder Upload ใน wwwroot
+                }
+
+                var filePath3 = _environment.WebRootPath + "//Signature//";
+                if (model.files != null)
+                {
+                    foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                    {
+                        var random = RandomString(10);
+                        string filePath4 = formFile.Value.FileName;
+                        string filename = Path.GetFileName(filePath4);
+                        string ext = Path.GetExtension(filename);
+
+                        System.Console.WriteLine("testuser1.2 : ");
+
+                        if (formFile.Value.Length > 0)
+                        {
+                            using (var stream = System.IO.File.Create(filePath3 + random + filename))
+                            {
+                                await formFile.Value.CopyToAsync(stream);
+                            }
+
+                            userdata.Signature = random + filename;
+                            System.Console.WriteLine("testuser2.2 : ");
+                        }
+                    }
+                }
+                //<!-- END file2 -->
+            }
+
 
             if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง
             {

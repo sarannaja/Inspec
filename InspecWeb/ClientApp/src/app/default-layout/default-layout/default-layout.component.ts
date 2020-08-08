@@ -110,6 +110,14 @@ export class DefaultLayoutComponent implements OnInit {
     this.Form.get('files').updateValueAndValidity()
   }
 
+  uploadFile2(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Form.patchValue({
+      files2: file
+    });
+    this.Form.get('files2').updateValueAndValidity()
+  }
+
   profileform() {
     this.Form = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
@@ -118,6 +126,7 @@ export class DefaultLayoutComponent implements OnInit {
       PhoneNumber: new FormControl(null, [Validators.required]),
       Email: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
+      files2: new FormControl(null, [Validators.required]),
       Formprofile: 1,
     })
   }
@@ -205,7 +214,7 @@ export class DefaultLayoutComponent implements OnInit {
   //End getuser
   //for
   editprofile(value) {
-    this.userService.editprofile(value, this.Form.value.files, this.userid).subscribe(response => {
+    this.userService.editprofile(value, this.Form.value.files, this.Form.value.files2,this.userid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.getuserinfo();

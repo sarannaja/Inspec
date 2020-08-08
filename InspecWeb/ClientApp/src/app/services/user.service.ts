@@ -166,7 +166,7 @@ export class UserService {
     return this.http.post(this.base, formData);
   }
 
-  editprofile(userData, file: FileList, userId) {
+  editprofile(userData, file: FileList,file2: FileList, userId) {
    // alert('2 :' + userId)
     const formData = new FormData();
     formData.append('Role_id', userData.Role_id); //role
@@ -270,6 +270,14 @@ export class UserService {
       }
     }else{
       formData.append("files", null);
+    }
+
+    if(file2 != null){
+      for (var iii = 0; iii < file2.length; iii++) {
+        formData.append("files2", file2[iii]);
+      }
+    }else{
+      formData.append("files2", null);
     }
    
     let path = this.base + userId;

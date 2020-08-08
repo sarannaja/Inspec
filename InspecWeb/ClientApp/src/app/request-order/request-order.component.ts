@@ -69,7 +69,23 @@ export class RequestOrderComponent implements OnInit {
 
   ngOnInit() {
     this.getuserinfo();
-    
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+
+    };
     this.Form = this.fb.group({
       Commanded_by: this.userid,
       "Subject": new FormControl(null, [Validators.required]),
