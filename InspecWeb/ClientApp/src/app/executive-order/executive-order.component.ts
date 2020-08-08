@@ -74,7 +74,23 @@ export class ExecutiveOrderComponent implements OnInit {
 
   ngOnInit() {
     this.getuserinfo();
-    
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+
+    };
     this.Form = this.fb.group({
       Commanded_by: this.userid,
       "Subject": new FormControl(null, [Validators.required]),
@@ -180,6 +196,7 @@ export class ExecutiveOrderComponent implements OnInit {
   editExecutiveOrder(template: TemplateRef<any>,id,commanded_date,subject,subjectdetail,draft,answer_by) {
      
     this.Form.patchValue({
+      subject : subject,
       Subjectdetail:subjectdetail,
       Answer_by:answer_by.map(result=>{
         return result.userID
@@ -216,13 +233,13 @@ export class ExecutiveOrderComponent implements OnInit {
 
   //เพิ่มข้อสั่งการ
   storeexecutiveorder(value) {
-    //alert(1);
+   // alert(1);
     this.executiveorderService.addexecutiveorder(value, this.Form.value.files,this.userid)
       .subscribe(result => 
     {
-       //alert(3);
+    //   alert(3);
       if(value.Draft == 1){
-       // alert("draft 1");
+     //  alert("draft 1");
         this.Form.reset();
         this.loading = false;
         this.getuserinfo();
@@ -230,7 +247,7 @@ export class ExecutiveOrderComponent implements OnInit {
       }else{
         this.notificationService.addNotification(1, 1, 1, 10, result.id)
          .subscribe(result => {
-         // alert("draft 0");
+       //   alert("draft 0");
           this.Form.reset();
           this.loading = false;
           this.getuserinfo();
@@ -244,15 +261,17 @@ export class ExecutiveOrderComponent implements OnInit {
   updateexecutiveorder(value) {
     // alert(1);
      this.executiveorderService.updateexecutiveorder(value, this.Form.value.files,this.idexecutiveorder).subscribe(result => {
-       // alert(3);
+     // alert(3);
      
         if(value.Draft == 1){
+        //  alert("draft 1");
           this.Form.reset();
           this.getuserinfo();
           this.modalRef.hide();
         }else{
           this.notificationService.addNotification(1, 1, 1, 10, result.id)
            .subscribe(result => {
+          //  alert("draft 0");
             this.Form.reset();
             this.getuserinfo();
             this.modalRef.hide();

@@ -43,6 +43,7 @@ namespace InspecWeb.ViewModel
         public long FiscalYearId { get; set; }
         public long Formprofile { get; set; }
         public List<IFormFile> files { get; set; }
+        public List<IFormFile> files2 { get; set; }
 
         public List<int> UserRegion { get; set; } //สำหรับทำ array
 

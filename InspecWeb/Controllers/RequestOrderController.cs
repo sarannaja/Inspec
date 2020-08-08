@@ -149,27 +149,29 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//requestfile//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "//requestfile//";
-
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            if (model.files != null)
             {
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
                 {
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
                     {
-                        await formFile.Value.CopyToAsync(stream);
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        var RequestOrderFile = new RequestOrderFile
+                        {
+                            RequestOrderId = requestordersdata.Id,
+                            Name = random + filename,
+                        };
+                        _context.RequestOrderFiles.Add(RequestOrderFile);
+                        _context.SaveChanges();
                     }
-                    var RequestOrderFile = new RequestOrderFile
-                    {
-                        RequestOrderId = requestordersdata.Id,
-                        Name = random + filename,
-                    };
-                    _context.RequestOrderFiles.Add(RequestOrderFile);
-                    _context.SaveChanges();
                 }
             }
             // <!--END อัพไฟล์  -->
@@ -229,31 +231,34 @@ namespace InspecWeb.Controllers
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "//requestfile//";
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+            if (model.files != null)
             {
-
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
                 {
 
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
                     {
-                        await formFile.Value.CopyToAsync(stream);
+
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        var requestorderfile = new RequestOrderFile
+                        {
+                            RequestOrderId = model.id,
+                            Name = random + filename
+                        };
+                        _context.RequestOrderFiles.Add(requestorderfile);
+                        _context.SaveChanges();
+                        /*  System.Console.WriteLine("Sucess");*/
                     }
-                    var requestorderfile = new RequestOrderFile
-                    {
-                        RequestOrderId = model.id,
-                        Name = random + filename
-                    };
-                    _context.RequestOrderFiles.Add(requestorderfile);
-                    _context.SaveChanges();
-                    /*  System.Console.WriteLine("Sucess");*/
                 }
             }
             return Ok(new { Id = model.id });
@@ -336,27 +341,29 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//requestfile//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "//requestfile//";
-
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            if (model.files != null)
             {
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
                 {
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
                     {
-                        await formFile.Value.CopyToAsync(stream);
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        var AnswerRequestOrderFile = new AnswerRequestOrderFile
+                        {
+                            RequestOrderAnswerDetailId = requestorderanswerdetaildata.Id,
+                            Name = random + filename,
+                        };
+                        _context.AnswerRequestOrderFiles.Add(AnswerRequestOrderFile);
+                        _context.SaveChanges();
                     }
-                    var AnswerRequestOrderFile = new AnswerRequestOrderFile
-                    {
-                        RequestOrderAnswerDetailId = requestorderanswerdetaildata.Id,
-                        Name = random + filename,
-                    };
-                    _context.AnswerRequestOrderFiles.Add(AnswerRequestOrderFile);
-                    _context.SaveChanges();
                 }
             }
             // <!--END อัพไฟล์  -->

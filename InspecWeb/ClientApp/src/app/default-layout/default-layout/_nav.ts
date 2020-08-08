@@ -130,7 +130,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   },
   {
     icon: 'fa-user-friends',
-    name: "จัดการผู้ใช้",
+    name: "กำหนดสิทธิ์การใช้งาน",
     IDchildren: 'userdata',
     children: [
       {
