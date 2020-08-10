@@ -4,6 +4,7 @@ import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
 import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 export type IAuthenticationResult =
   SuccessAuthenticationResult |
@@ -45,7 +46,7 @@ export interface IUser {
 export class AuthorizeService {
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private _CookieService: CookieService,) {
 
   }
   private popUpDisabled = true;
@@ -92,6 +93,7 @@ export class AuthorizeService {
 
       user = await this.userManager.signinSilent(this.createArguments());
       await this.role(user.profile)
+      this._CookieService.set('UserIdMobile', user.profile.sub)
       this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
       return this.success(state);
     } catch (silentError) {
@@ -130,7 +132,8 @@ export class AuthorizeService {
     try {
       await this.ensureUserManagerInitialized();
       const user = await this.userManager.signinCallback(url);
-
+      console.log('user.profile', user.profile);
+      this._CookieService.set('UserIdMobile', user.profile.sub)
       await this.role(user.profile)
 
       this.userSubject.next(user && Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
