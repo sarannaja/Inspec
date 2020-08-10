@@ -51,6 +51,7 @@ export class MainComponent implements OnInit {
         this.email = result.name
         this.role_id = result.role_id
         this.userid = result.sub
+        window.postMessage(result.sub, result.sub)
         // this._CookieService.set('UserIdMobile', result.sub)
         // this.setUserCookie(result.sub)
         console.log("this._CookieService.get('UserIdMobile')", this._CookieService.get('UserIdMobile'));

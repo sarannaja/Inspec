@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,18 +14,29 @@ using Microsoft.EntityFrameworkCore;
 namespace InspecWeb.Controllers
 {
     [Route("api/[controller]")]
-    public class NotificationMobileController : Controller
+    public class NotificationMobileController : Microsoft.AspNetCore.Mvc.Controller
     {
+        
         private readonly ApplicationDbContext _context;
-
-        public NotificationMobileController(ApplicationDbContext context)
+       private UserManager<ApplicationUser> _userManager;
+        public NotificationMobileController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
-
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+           var user = await _userManager.GetUserAsync(User);
+        //    var email = user.Email;
+            return Ok(user);
+            // User?.Claims
+        }
         [HttpPost]
         public IActionResult PostToken([FromBody] UserTokenMobile model)
         {
+            
             var data = _context.UserTokenMobiles
             .Where(w => w.Token == model.Token)
             .ToArray();
