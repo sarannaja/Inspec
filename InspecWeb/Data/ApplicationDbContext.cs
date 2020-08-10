@@ -152,6 +152,7 @@ namespace InspecWeb.Data
 
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<ProvincesGroup> ProvincesGroups { get; set; }
+        public DbSet<UserTokenMobile> UserTokenMobiles { get; set; }
 
         public DbSet<ElectronicBookProvincialDepartment> ElectronicBookProvincialDepartments { get; set; }
 
