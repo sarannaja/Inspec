@@ -51,7 +51,22 @@ namespace InspecWeb.Controllers
             }
             else
             {
-                return Ok(new { data, status = "no value" });
+                // var date = DateTime.Now;
+                foreach (var item in data)
+                {
+                    var UserEditUserid = _context.UserTokenMobiles.Find(item.Id);
+                    new UserTokenMobile
+                    {
+                        UserID = model.UserID
+                    };
+
+                    _context.Entry(UserEditUserid).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                var data2 = _context.UserTokenMobiles
+                                .Where(w => w.Token == model.Token)
+                                .ToArray();
+                return Ok(new { data2, status = "update UserID" });
                 // return Ok(data);
             }
 
