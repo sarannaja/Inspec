@@ -55,11 +55,11 @@ namespace InspecWeb.Controllers
                 foreach (var item in data)
                 {
                     var UserEditUserid = _context.UserTokenMobiles.Find(item.Id);
-                    new UserTokenMobile
-                    {
-                        UserID = model.UserID
-                    };
-
+                    // new UserTokenMobile
+                    // {
+                    //     UserID = model.UserID
+                    // };
+                    UserEditUserid.UserID = model.UserID;
                     _context.Entry(UserEditUserid).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     _context.SaveChanges();
                 }
