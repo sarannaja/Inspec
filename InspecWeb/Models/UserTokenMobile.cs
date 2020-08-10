@@ -25,6 +25,7 @@ namespace InspecWeb.Models
 
         public string Token { get; set; }
         public string Session { get; set; }
+        public string DeviceType { get; set; }
 
     }
 }
