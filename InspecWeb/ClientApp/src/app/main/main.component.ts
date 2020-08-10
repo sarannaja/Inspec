@@ -51,8 +51,11 @@ export class MainComponent implements OnInit {
         this.email = result.name
         this.role_id = result.role_id
         this.userid = result.sub
-        this._CookieService.set('UserIdMobile', result.sub)
-        this.setUserCookie(result.sub)
+        // this._CookieService.set('UserIdMobile', result.sub)
+        // this.setUserCookie(result.sub)
+        console.log("this._CookieService.get('UserIdMobile')", this._CookieService.get('UserIdMobile'));
+
+
         //alert(this.role_id);
         console.log("user", result);
       })
@@ -83,9 +86,9 @@ export class MainComponent implements OnInit {
   }
 
   async setUserCookie(userid: string) {
-    console.log("in UserIdMobiasle", userid);
+    // console.log("in UserIdMobiasle", userid);
 
-    await this._CookieService.set('UserIdMobile', userid)
+    // await this._CookieService.set('UserIdMobile', userid)
     console.log(this._CookieService.get('UserIdMobile'));
 
   }
