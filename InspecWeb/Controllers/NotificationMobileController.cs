@@ -42,7 +42,7 @@ namespace InspecWeb.Controllers
             else if (data.Count() != 0 && model.Session == null)
             // else
             {
-                _context.UserTokenMobiles.Remove(data.First());
+                _context.UserTokenMobiles.RemoveRange(data);
                 _context.SaveChanges();
                 var data2 = _context.UserTokenMobiles
                 .Where(w => w.Token == model.Token)
