@@ -15,12 +15,14 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as Chart from 'chart.js';
 import { SubquestionService } from 'src/app/services/subquestion.service';
 import * as _ from 'lodash';
+import { ReportService } from 'src/app/services/report.service';
 @Component({
   selector: 'app-detail-subjectevent',
   templateUrl: './detail-subjectevent.component.html',
   styleUrls: ['./detail-subjectevent.component.css']
 })
 export class DetailSubjecteventComponent implements OnInit {
+
   departmentSelect: any[] = []
   subjectgroupstatus
   id
@@ -45,6 +47,7 @@ export class DetailSubjecteventComponent implements OnInit {
   EditForm3: FormGroup;
   EditForm4: FormGroup;
   FormSubject: FormGroup;
+  FormReport: FormGroup;
   AddForm: FormGroup;
   selectpeople: Array<any>
   selectministrypeople: Array<any>
@@ -124,7 +127,6 @@ export class DetailSubjecteventComponent implements OnInit {
   listfiles: any = [];
   fileData: any = [{ ebookFile: '', fileDescription: '' }];
 
-
   get f() { return this.form.controls }
   get s() { return this.f.fileData as FormArray }
 
@@ -143,6 +145,7 @@ export class DetailSubjecteventComponent implements OnInit {
     private authorize: AuthorizeService,
     private userService: UserService,
     private subquestionservice: SubquestionService,
+    private reportservice: ReportService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
@@ -214,6 +217,13 @@ export class DetailSubjecteventComponent implements OnInit {
       ]),
     })
 
+    // this.FormReport = this.fb.group({
+    //   type: new FormControl(null, [Validators.required]),
+    //   title: new FormControl(null, [Validators.required]),
+    //   name: new FormControl(null, [Validators.required]),
+    //   explanation: new FormControl(null, [Validators.required]),
+
+    // })
     await this.getDetailCentralPolicyProvince()
     await this.getsubjecteventDetail();
     // await this.getMinistryPeople();
@@ -891,5 +901,11 @@ export class DetailSubjecteventComponent implements OnInit {
       this.getsubjecteventDetail();
     })
   }
-
+  storeReport() {
+    this.reportservice.createReportSubject(this.resultdetailcentralpolicy, this.resultdetailcentralpolicyprovince).subscribe(result => {
+      console.log("export: ", result);
+      window.open(this.downloadUrl + "/" + result.data);
+      // this.modalRef.hide();
+    })
+  }
 }

@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@ang
 export class AnswerOutsiderComponent implements OnInit {
 
   id: any
+  senderuserid: any
   Username: any
   Userposition: any
   Userphonenumber: any
@@ -27,6 +28,7 @@ export class AnswerOutsiderComponent implements OnInit {
     private router:Router
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.senderuserid = activatedRoute.snapshot.paramMap.get('userid')
   }
 
   get f() { return this.Form.controls; }
@@ -43,6 +45,8 @@ export class AnswerOutsiderComponent implements OnInit {
     this.Form = this.fb.group({
       result: new FormArray([])
     })
+    console.log("senderuserid : ",this.senderuserid);
+    
     this.getSubjectdetail()
   }
 
@@ -74,7 +78,8 @@ export class AnswerOutsiderComponent implements OnInit {
         Answer: [""],
         Choice: [test],
         Description: [""],
-        Type: [this.resultsubquestion[i].type]
+        Type: [this.resultsubquestion[i].type],
+        SenderUserId: [this.senderuserid]
       }))
     }
     console.log(this.t.value);

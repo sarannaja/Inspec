@@ -1232,6 +1232,8 @@ namespace InspecWeb.Controllers
                                 Type = "NoMaster",
                                 Status = "ใช้งานจริง",
                                 SubjectGroupId = SubjectGroupdata.Id,
+                                Explanation = subcen.Explanation,
+                                CreatedBy = subcen.CreatedBy
                             };
                             //subjectId = SubjectCentralPolicyProvincedata.Id;
                             //departId = checkdepart;
@@ -1458,6 +1460,8 @@ namespace InspecWeb.Controllers
                                 Type = "NoMaster",
                                 Status = "ใช้งานจริง",
                                 SubjectGroupId = SubjectGroupdata.Id,
+                                Explanation = subcen.Explanation,
+                                CreatedBy = subcen.CreatedBy,
                             };
                             //subjectId = SubjectCentralPolicyProvincedata.Id;
                             //departId = checkdepart;
@@ -1598,6 +1602,8 @@ namespace InspecWeb.Controllers
                                 Type = "NoMaster",
                                 Status = "ใช้งานจริง",
                                 SubjectGroupId = SubjectGroupdata.Id,
+                                Explanation = subcen.Explanation,
+                                CreatedBy = subcen.CreatedBy
                             };
                             //subjectId = SubjectCentralPolicyProvincedata.Id;
                             //departId = checkdepart;
@@ -1788,6 +1794,8 @@ namespace InspecWeb.Controllers
                             Type = "NoMaster",
                             Status = "ใช้งานจริง",
                             SubjectGroupId = SubjectGroupdata.Id,
+                            Explanation = subcen.Explanation,
+                            CreatedBy = subcen.CreatedBy
                         };
                         //subjectId = SubjectCentralPolicyProvincedata.Id;
                         //departId = checkdepart;
