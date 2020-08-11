@@ -228,7 +228,7 @@ export class SubjecteventComponent implements OnInit {
   }
   storeCentralPolicy(value) {
     // alert(JSON.stringify(value))
-    // console.log('storeCentralPolicy',value);
+    console.log('storeCentralPolicy',value, this.userid);
 
     if (value.land == "ลงพื้นที่") {
       this.subjectservice.subjectevent(value, this.userid)
