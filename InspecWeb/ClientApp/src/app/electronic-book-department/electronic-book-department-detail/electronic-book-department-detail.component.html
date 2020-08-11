@@ -5,7 +5,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">สมุดตรวจอิเล็กทรอนิกส์</a>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="goBack()">สมุดตรวจอิเล็กทรอนิกส์</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">รายละเอียดสมุดตรวจอิเล็กทรอนิกส์</li>
     </ol>
@@ -18,7 +18,7 @@
       <div class="card-header">
         <h4 class="card-title mb-0">รายละเอียด</h4>
         <label style="margin-top: 20px;">กำหนดการสมุดตรวจ
-          {{electronicBookData.electronicBook.startDate | thaidate: 'year'}}</label>
+          {{electronicBookData.electronicBook.startDate | thaidate: 'short'}}</label>
         <!-- <div *ngIf="electronicBookData.electronicBookAccept.electronicBookProvinceApproveFiles.length > 0" class="row"
           style="float: right; margin: 20px;">
           <h3 style="color: green;">แนบลายมือชื่อแล้ว</h3><i class="fas fa-check-circle"
@@ -39,8 +39,8 @@
               aria-expanded="false" aria-controls="centralPolicys"></i>
             <div class="col-12 collapse" id="centralPolicys{{i}}" style="margin-left: 5px;">
               <div>
-                <label>- วันที่: {{item.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'year'}} ถึง
-                  {{item.centralPolicyEvent.inspectionPlanEvent.endDate  | thaidate: 'year'}}</label>
+                <label>- วันที่: {{item.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'short'}} ถึง
+                  {{item.centralPolicyEvent.inspectionPlanEvent.endDate  | thaidate: 'short'}}</label>
               </div>
               <div>
                 <label>- จังหวัด: {{item.centralPolicyEvent.inspectionPlanEvent.province.name}}</label>
@@ -310,10 +310,10 @@
         </form>
         <div *ngIf="ebookProvincialDepartment.description == null" class="form-group col col-lg-12"
           style="margin-top: 20px; text-align: center;">
-          <button *ngIf="signature != null" class="btn btn-primary" style="margin-right: 45px;"
+          <button class="btn btn-primary" style="margin-right: 45px;"
             (click)="openModal(addSignature)">รับทราบรายการสมุดตรวจ</button>
-          <button *ngIf="signature == null" class="btn btn-primary" style="margin-right: 45px;"
-            (click)="openAlertModal(signatureModal)">รับทราบรายการสมุดตรวจ</button>
+          <!-- <button *ngIf="signature == null" class="btn btn-primary" style="margin-right: 45px;"
+            (click)="openAlertModal(signatureModal)">รับทราบรายการสมุดตรวจ</button> -->
           <!-- <button class="btn btn-success" style="margin-right: 45px;"
             (click)="openModal(sendToOtherModal)">ส่งต่อให้หน่วยรับตรวจอื่น</button> -->
           <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>

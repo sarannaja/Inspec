@@ -127,7 +127,7 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   getCentralPolicy() {
-    this.electronicBookService.getCentralPolicyEbook().subscribe(res => {
+    this.electronicBookService.getCentralPolicyEbook(this.userid).subscribe(res => {
       console.log("cenData: ", res);
 
       this.centralPolicyEbook = res.map((item, index) => {
@@ -271,7 +271,7 @@ export class CreateElectronicBookComponent implements OnInit {
     startDate = value.date.year + '-' + value.date.month + '-' + value.date.day;
     console.log("Date ja: ", startDate);
 
-    this.electronicBookService.getCentralPolicyEbook2(startDate).subscribe(res => {
+    this.electronicBookService.getCentralPolicyEbook2(startDate, this.userid).subscribe(res => {
       console.log("cenData: ", res);
 
       this.centralPolicyEbook = res.map((item, index) => {
