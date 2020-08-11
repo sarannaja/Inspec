@@ -59,6 +59,43 @@ namespace InspecWeb.Controllers
 
         }
 
+        [HttpPut]
+        public IActionResult UpdateUserToken([FromBody] UserTokenMobile model)
+        {
+            var data = _context.UserTokenMobiles
+            .Where(w => w.Session == model.Session)
+            .ToArray();
+            if (data.Count() == 0 && model.Session != null)
+            {
+
+                _context.UserTokenMobiles.Add(model);
+                _context.SaveChanges();
+                var data2 = _context.UserTokenMobiles
+                .Where(w => w.Token == model.Token)
+                .ToArray();
+                // return Ok(data);
+                return Ok(new { data2, status = "add" });
+            }
+            else if (data.Count() != 0 && model.Session == null)
+            // else
+            {
+                _context.UserTokenMobiles.Remove(data.First());
+                _context.SaveChanges();
+                var data2 = _context.UserTokenMobiles
+                .Where(w => w.Token == model.Token)
+                .ToArray();
+                return Ok(new { data2, status = "delete" });
+            }
+            else
+            {
+                return Ok(new { data, status = "no value" });
+                // return Ok(data);
+            }
+
+
+
+        }
+
 
 
     }
