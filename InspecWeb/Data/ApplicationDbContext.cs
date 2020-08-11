@@ -155,6 +155,8 @@ namespace InspecWeb.Data
 
         public DbSet<ElectronicBookProvincialDepartment> ElectronicBookProvincialDepartments { get; set; }
 
+        public DbSet<SubjectGroupPeopleQuestion> SubjectGroupPeopleQuestions { get; set; }
+        
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {

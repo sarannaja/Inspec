@@ -37,9 +37,13 @@ export class AcceptCentralPolicyComponent implements OnInit {
   resultdate: any = []
   carlendarFile: any = [];
   cenid
+  planid
   SuggestionForm: FormGroup;
   role_id: any
-
+  role7Count
+  role6Count
+  role9Count
+  role10Count
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -51,9 +55,10 @@ export class AcceptCentralPolicyComponent implements OnInit {
     private notificationService: NotificationService,
     private userService: UserService,
     @Inject('BASE_URL') baseUrl: string) {
-    this.id = activatedRoute.snapshot.paramMap.get('id')
+    this.id = activatedRoute.snapshot.paramMap.get('id') //centralpolicyuserid
     this.centralpolicyproviceid = activatedRoute.snapshot.paramMap.get('centralpolicyproviceid')
     this.cenid = activatedRoute.snapshot.paramMap.get('cenid')
+    this.planid = activatedRoute.snapshot.paramMap.get('planid')
     this.downloadUrl = baseUrl + '/Uploads';
   }
 
@@ -65,7 +70,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
         // alert(this.userid)
       })
 
-      this.userService.getuserfirstdata(this.userid)
+    this.userService.getuserfirstdata(this.userid)
       .subscribe(result => {
         this.resultuser = result;
         //console.log("test" , this.resultuser);
@@ -87,9 +92,8 @@ export class AcceptCentralPolicyComponent implements OnInit {
     })
 
     this.getDetailCentralPolicy()
-    this.getCentralPolicyUser()
+    this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
-    this.getAssign();
   }
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
@@ -98,34 +102,31 @@ export class AcceptCentralPolicyComponent implements OnInit {
 
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultuser = result.userdata
-        this.resultelectronicbookdetail = result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].detail
-        // alert(JSON.stringify(this.resultelectronicbookdetail))
-
-        this.resultelectronicbookproblem = result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].problem
-        this.resultelectronicbooksuggestion = result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].suggestion
-
-        this.SuggestionForm.patchValue({
-          checkDetail: result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].detail,
-          Problem: result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].problem,
-          Suggestion: result.centralpolicydata.centralPolicyUser[0].electronicBook.electronicBookSuggestGroups[0].suggestion
-        })
       })
   }
-  getCentralPolicyUser() {
-    this.centralpolicyservice.getdetailuseracceptcentralpolicydata(this.id)
+  getCentralPolicyProvinceUser() {
+    this.centralpolicyservice.getcentralpolicyprovinceuserdata(this.centralpolicyproviceid, this.planid)
       .subscribe(result => {
-        this.resultcentralpolicyuser = result
-        console.log("result", result);
-      })
-  }
+        console.log();
 
-  // getSubjectCentralPolicyProvince() {
-  //   this.centralpolicyservice.getSubjectCentralPolicyProvince(this.id)
-  //     .subscribe(result => {
-  //       this.resultdetailcentralpolicyprovince = result
-  //       console.log("resultdetailcentralpolicyprovince : ", result);
-  //     })
-  // }
+        this.resultcentralpolicyuser = result
+        this.resultcentralpolicyuser.forEach(element => {
+          if (element.user.role_id == 7) {
+            this.role7Count = 1
+          }
+          if (element.user.role_id == 6) {
+            this.role6Count = 1
+          }
+          if (element.user.role_id == 9) {
+            this.role9Count = 1
+          }
+          if (element.user.role_id == 10) {
+            this.role10Count = 1
+          }
+        });
+      })
+
+  }
 
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.centralpolicyproviceid)
@@ -135,7 +136,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
         this.resultdetailcentralpolicy = result.centralpolicydata
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
-        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+        // this.electronicbookid = result.centraresultcentralpolicyuserlPolicyEventdata.electronicBookId
 
         this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
         this.provincename = result.provincedata.name
@@ -145,49 +146,16 @@ export class AcceptCentralPolicyComponent implements OnInit {
       })
   }
 
-
-  // storeAccept(value, answer) {
-  //   this.centralpolicyservice.acceptCentralpolicy(value, answer, this.id)
-  //     .subscribe(response => {
-  //       console.log(response);
-  //       this.Form.reset()
-
-  //       this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 2, 1)
-  //         .subscribe(response => {
-  //           console.log(response);
-  //         })
-
-  //       this.router.navigate(['calendaruser'])
-  //     })
-  // }
-
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
   sendAssign(value) {
-    this.centralpolicyservice.sendAssign(value, this.id).subscribe(response => {
-      console.log(response);
-      this.modalRef.hide();
-      this.router.navigate(['calendaruser'])
-    })
+    // this.centralpolicyservice.sendAssign(value, this.id).subscribe(response => {
+    //   console.log(response);
+    //   this.modalRef.hide();
+    //   this.router.navigate(['calendaruser'])
+    // })
   }
-
-  getAssign() {
-    this.centralpolicyservice.getAssign(this.id).subscribe(res => {
-      this.assignDetail = res.forward;
-      console.log("ASSIGN: ", this.assignDetail);
-      this.assignForm.patchValue({
-        assign: this.assignDetail
-      })
-    })
-  }
-  // getCalendarFile() {
-  //   this.electronicBookService.getCalendarFile(this.electronicbookid).subscribe(res => {
-  //     this.carlendarFile = res;
-  //     console.log("calendarFile: ", res);
-
-  //   })
-  // }
 
 }

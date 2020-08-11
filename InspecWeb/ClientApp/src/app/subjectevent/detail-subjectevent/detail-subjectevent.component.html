@@ -51,6 +51,38 @@
               <span> {{ resultdate.startDate | thaidate: 'year' }} - {{ resultdate.endDate | thaidate: 'year' }}</span>
             </div>
           </div>
+
+
+          <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate == null">
+            <!-- null -->
+            <div class="col-6">
+              <label>วันที่แต้งเตือน</label>
+              <my-date-picker-th formControlName="notificationsubjectdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+            <div class="col-6">
+              <label>วันกำหนดส่ง</label>
+              <my-date-picker-th formControlName="deadlinesubjectdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate != null">
+            <!-- not null -->
+            <div class="col-6">
+              <label>วันที่แต้งเตือน</label>
+              <my-date-picker-th [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
+                (dateChanged)="onStartDateChanged($event)">
+              </my-date-picker-th>
+            </div>
+            <div class="col-6">
+              <label>วันกำหนดส่ง</label>
+              <my-date-picker-th [selDate]="deadlinesubjectDate" [options]="myDatePickerOptions" required
+                (dateChanged)="onEndDateChanged($event)">
+              </my-date-picker-th>
+            </div>
+          </div>
+
           <div class="row" style="margin-top: 10px;">
             <div class="col-12">
               <table class="table table-default table-responsive-sm tableborder">
@@ -302,22 +334,79 @@
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
           </div> -->
+          <hr>
+
+
+
+          <div class="form-group" *ngIf="subjectgroupland == 'ลงพื้นที่'" style="margin-top: 10px;">
+            <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
+              <!-- null -->
+              <div class="col-6">
+                <label>วันที่แต้งเตือน</label>
+                <my-date-picker-th formControlName="notificationpeoplequestiondate" [options]="myDatePickerOptions"
+                  required>
+                </my-date-picker-th>
+              </div>
+              <div class="col-6">
+                <label>วันกำหนดส่ง</label>
+                <my-date-picker-th formControlName="deadlinepeoplequestiondate" [options]="myDatePickerOptions"
+                  required>
+                </my-date-picker-th>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionDeadlineDate != null">
+              <!-- not null -->
+              <div class="col-6">
+                <label>วันที่แต้งเตือน</label>
+                <my-date-picker-th [selDate]="notificationpeoplequestionDate" [options]="myDatePickerOptions" required
+                  (dateChanged)="onStartDateChanged2($event)">
+                </my-date-picker-th>
+              </div>
+              <div class="col-6">
+                <label>วันกำหนดส่ง</label>
+                <my-date-picker-th [selDate]="deadlinepeoplequestionDate" [options]="myDatePickerOptions" required
+                  (dateChanged)="onEndDateChanged2($event)">
+                </my-date-picker-th>
+              </div>
+            </div>
+
+            <br>
+            <div class="col-md-6">
+              <div class="row">
+                <i class="fa fa-tags" style="margin-top: 15px;"></i>
+                <h4 style="margin-top: 10px;margin-left: 15px;">คำถามภาคประชาชน</h4> &nbsp;&nbsp;
+                <button *ngIf="role_id == 3" type="button" class="btn btn-success btn-xs"
+                  (click)="openModalQuestionPeople(modalQuestionPeople)">เพิ่มคำถาม</button>
+              </div>
+              <br>
+              <div *ngFor="let item3 of questionpeople; let i = index">
+                <label style="margin-left: 5px;">ข้อที่ {{i+1}})
+                  {{item3.questionPeople}}<br></label>
+                <div *ngFor="let item4 of item3.answerCentralPolicyProvinces;">
+                  <label style="margin-left: 10px;"> - {{item4.answer}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <!-- {{subjectgroupland}} -->
 
           <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
-              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <label style="margin-left: 10px;">ร่าง</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" formControlName="status">
-              <label style="margin-left: 10px;">ใช้งานจริง</label>
+              <label style="margin-left: 10px;">ใช้งาน</label>
             </div>
           </div>
           <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ใช้งานจริง'">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" formControlName="status" disabled>
-              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <label style="margin-left: 10px;">ร่าง</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" formControlName="status"
                 disabled>
-              <label style="margin-left: 10px;">ใช้งานจริง</label>
+              <label style="margin-left: 10px;">ใช้งาน</label>
             </div>
           </div>
 
@@ -338,8 +427,8 @@
           </div>
 
           <div class="col-12">
-            <label *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" class="form-label w-100"
-              >แนบไฟล์ประเด็นการตรวจติดตาม</label>
+            <label *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'"
+              class="form-label w-100">แนบไฟล์ประเด็นการตรวจติดตาม</label>
             <input *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="file" multiple
               (change)="uploadFile2($event)" style="margin-bottom: 10px;">
             <!-- <div class="col-4" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
@@ -419,6 +508,62 @@
     </div>
   </div>
 </div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalQuestionPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="FormQuestion" (ngSubmit)="storeQuestion(FormQuestion.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">คำถามที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>ประเด็นคำถาม</label>
+            <textarea cols="30" rows="5" formControlName="question" class="form-control"
+              placeholder="กรุณากรอกคำถามภาคประชาชน">
+          </textarea>
+          </div>
+        </div>
+
+        <!-- <div class="form-group row">
+          <div class="col-12 col-xl-12">
+            <label>วันที่แจ้งเตือน</label>
+          </div>
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <my-date-picker-th formControlName="notificationdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-12 col-xl-12">
+            <label>วันกำหนดส่ง</label>
+          </div>
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <my-date-picker-th formControlName="deadlinedate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div> -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
 
 <!-- BEGIN primary modal -->
 <ng-template #modaldelsubject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

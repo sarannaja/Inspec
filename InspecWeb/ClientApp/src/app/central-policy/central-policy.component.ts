@@ -81,7 +81,7 @@ export class CentralPolicyComponent implements OnInit {
         pagingType: 'full_numbers',
         columnDefs: [
           {
-            targets: [7],
+            targets: [6],
             orderable: false
           }
         ],
@@ -131,7 +131,7 @@ export class CentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getcentralpolicydata()
       .subscribe(async result => {
         // this.resultcentralpolicy = result.map(result2=>{
-        //   return 
+        //   return
         // })
         const doAsync = () => {
           return new Promise((resolve, reject) => {
@@ -156,7 +156,7 @@ export class CentralPolicyComponent implements OnInit {
               }
 
               resolve(array)
-              // return 
+              // return
             }, 300)
           })
         }

@@ -503,6 +503,9 @@ export class ElectronicbookService {
   }
 
   addSubjectEventFile(value, file: FileList, electronicbookid, centralproid, signatureFiles: FileList) {
+
+    // alert(JSON.stringify(value.notificationpeoplequestiondate))
+
     console.log("Description: ", value.description);
     console.log("File Type: ", value.fileType);
     const formData = new FormData();
@@ -515,6 +518,13 @@ export class ElectronicbookService {
     formData.append('Type', value.fileType);
 
 
+    formData.append('NotificationSubjectDate', value.notificationsubjectdate);
+    formData.append('DeadlineSubjectDate', value.deadlinesubjectdate);
+
+    formData.append('NotificationPeopleQuestiontDate', value.notificationpeoplequestiondate);
+    formData.append('DeadlinePeopleQuestiontDate', value.deadlinepeoplequestiondate);
+
+    // console.log("PDID: ", formData.getAll("provincialDepartmentIdAr"));
 
     function getFileExtension2(filename) {
       return filename.split('.').pop();

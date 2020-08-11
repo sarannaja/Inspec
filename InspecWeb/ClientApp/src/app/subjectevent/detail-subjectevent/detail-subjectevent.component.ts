@@ -14,6 +14,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as Chart from 'chart.js';
 import { SubquestionService } from 'src/app/services/subquestion.service';
+import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import * as _ from 'lodash';
 @Component({
   selector: 'app-detail-subjectevent',
@@ -21,8 +22,15 @@ import * as _ from 'lodash';
   styleUrls: ['./detail-subjectevent.component.css']
 })
 export class DetailSubjecteventComponent implements OnInit {
+
+  notificationsubjectDate: any;
+  deadlinesubjectDate: any;
+  notificationpeoplequestionDate: any;
+  deadlinepeoplequestionDate: any;
+
   departmentSelect: any[] = []
   subjectgroupstatus
+  subjectgroupland
   id
   subjectgroupid
   resultuser: any = []
@@ -78,6 +86,7 @@ export class DetailSubjecteventComponent implements OnInit {
   resultdsubjectid: any = []
   editAnswerForm: FormGroup;
   answer: any;
+  FormQuestion: FormGroup;
   answerData: any = [];
   centralpolicyprovincedata: any;
   answerSubquestions: any = []
@@ -88,6 +97,7 @@ export class DetailSubjecteventComponent implements OnInit {
   lineChart: any = [];
   role7Count: any = 0;
   role6Count: any = 0;
+  questionpeople: any = [];
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -163,6 +173,13 @@ export class DetailSubjecteventComponent implements OnInit {
 
     console.log("ID: ", this.id);
 
+    this.FormQuestion = this.fb.group({
+      // notificationdate: new FormControl(null, [Validators.required]),
+      // deadlinedate: new FormControl(null, [Validators.required]),
+      question: new FormControl(null, [Validators.required]),
+    })
+
+
     // this.spinner.show();
     this.Form = this.fb.group({
       UserPeopleId: new FormControl(null, [Validators.required]),
@@ -186,6 +203,12 @@ export class DetailSubjecteventComponent implements OnInit {
       description: new FormControl(null, [Validators.required]),
       fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
       fileData: new FormArray([]),
+
+      notificationsubjectdate: new FormControl(null),
+      deadlinesubjectdate: new FormControl(null),
+
+      notificationpeoplequestiondate: new FormControl(null),
+      deadlinepeoplequestiondate: new FormControl(null),
     })
 
 
@@ -221,6 +244,7 @@ export class DetailSubjecteventComponent implements OnInit {
     await this.getAnswer2();
     // await this.getDepartment()
 
+
     setTimeout(() => {
       // this.spinner.hide();
     }, 800);
@@ -248,6 +272,9 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
 
+  async openModalQuestionPeople(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
@@ -473,7 +500,15 @@ export class DetailSubjecteventComponent implements OnInit {
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.subjectgroup = result.subjectgroup
 
+        console.log("this.subjectgroup", this.subjectgroup);
+
+        this.notificationsubjectDate = this.time(this.subjectgroup.subjectNotificationDate)
+        this.deadlinesubjectDate = this.time(this.subjectgroup.subjectDeadlineDate)
+        this.notificationpeoplequestionDate = this.time(this.subjectgroup.peopleQuestionNotificationDate)
+        this.deadlinepeoplequestionDate = this.time(this.subjectgroup.peopleQuestionDeadlineDate)
+
         this.subjectgroupstatus = this.subjectgroup.status
+        this.subjectgroupland = this.subjectgroup.land
         console.log("result", result);
         // alert(JSON.stringify(this.subjectgroup.status))
         this.form.patchValue({
@@ -481,9 +516,42 @@ export class DetailSubjecteventComponent implements OnInit {
           status: this.subjectgroup.status
         })
 
+        this.getquestion();
+
       })
   }
   storeFiles(value) {
+    // if (this.form.value.notificationsubjectdate == null) {
+    //   alert("if")
+    //   this.form.value.notificationsubjectdate = this.notificationsubjectDate
+    //   alert(JSON.stringify(this.form.value.notificationsubjectdate))
+    // } else {
+    //   alert(JSON.stringify(this.form.value.notificationsubjectdate))
+    // }
+    // alert(JSON.stringify(this.form.value.notificationsubjectdate))
+
+    if (this.form.value.notificationsubjectdate == null) {
+      this.form.value.notificationsubjectdate = this.notificationsubjectDate.year + "-" + this.notificationsubjectDate.month + "-" + this.notificationsubjectDate.day
+    } else {
+      this.form.value.notificationsubjectdate = this.form.value.notificationsubjectdate.date.year + "-" + this.form.value.notificationsubjectdate.date.month + "-" + this.form.value.notificationsubjectdate.date.day
+    }
+    if (this.form.value.deadlinesubjectdate == null) {
+      this.form.value.deadlinesubjectdate = this.deadlinesubjectDate.year + "-" + this.deadlinesubjectDate.month + "-" + this.deadlinesubjectDate.day
+    } else {
+      this.form.value.deadlinesubjectdate = this.form.value.deadlinesubjectdate.date.year + "-" + this.form.value.deadlinesubjectdate.date.month + "-" + this.form.value.deadlinesubjectdate.date.day
+    }
+    if (this.form.value.notificationpeoplequestiondate == null) {
+      this.form.value.notificationpeoplequestiondate = this.notificationpeoplequestionDate.year + "-" + this.notificationpeoplequestionDate.month + "-" + this.notificationpeoplequestionDate.day
+    } else {
+      this.form.value.notificationpeoplequestiondate = this.form.value.notificationpeoplequestiondate.date.year + "-" + this.form.value.notificationpeoplequestiondate.date.month + "-" + this.form.value.notificationpeoplequestiondate.date.day
+    }
+    if (this.form.value.deadlinepeoplequestiondate == null) {
+      this.form.value.deadlinepeoplequestiondate = this.deadlinepeoplequestionDate.year + "-" + this.deadlinepeoplequestionDate.month + "-" + this.deadlinepeoplequestionDate.day
+    } else {
+      this.form.value.deadlinepeoplequestiondate = this.form.value.deadlinepeoplequestiondate.date.year + "-" + this.form.value.deadlinepeoplequestiondate.date.month + "-" + this.form.value.deadlinepeoplequestiondate.date.day
+    }
+
+    // alert(this.form.value.notificationsubjectdate)
     // alert("123")
     // if(value.status == "ใช้งานจริง"){
     //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
@@ -892,4 +960,57 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
 
+  storeQuestion(value) {
+    this.centralpolicyservice.addPeoplequestion(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId, value).subscribe(res => {
+      this.FormQuestion.reset();
+      this.modalRef.hide();
+      this.getquestion();
+    })
+  }
+  getquestion() {
+    this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
+      this.questionpeople = res;
+      console.log("question: ", this.questionpeople);
+    })
+  }
+
+  time(date) {
+    console.log("Date: ", date);
+
+    let ssss = new Date(date)
+    var new_date = {
+      year: ssss.getFullYear(),
+      month: ssss.getMonth() + 1,
+      day: ssss.getDate()
+    }
+    console.log("newDate: ", new_date);
+
+    return new_date
+  }
+
+  onStartDateChanged(event: IMyDateModel) {
+    // alert(JSON.stringify(event))
+    this.notificationsubjectDate = event.date;
+    // this.notificationpeoplequestionDate = event.date;
+    // console.log("SS: ", this.startDate);
+  }
+  onStartDateChanged2(event: IMyDateModel) {
+    // alert(JSON.stringify(event))
+    // this.notificationsubjectDate = event.date;
+    this.notificationpeoplequestionDate = event.date;
+    // console.log("SS: ", this.startDate);
+  }
+
+  onEndDateChanged(event: IMyDateModel) {
+    // alert(JSON.stringify(event))]
+    this.deadlinesubjectDate = event.date;
+    // this.deadlinepeoplequestionDate = event.date;
+    // console.log("EE: ", this.endDate);
+  }
+  onEndDateChanged2(event: IMyDateModel) {
+    // alert(JSON.stringify(event))]
+    // this.deadlinesubjectDate = event.date;
+    this.deadlinepeoplequestionDate = event.date;
+    // console.log("EE: ", this.endDate);
+  }
 }

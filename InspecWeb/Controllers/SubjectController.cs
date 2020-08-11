@@ -1189,6 +1189,14 @@ namespace InspecWeb.Controllers
                 _context.CentralPolicyEvents.Add(CentralPolicyEventsdata);
                 _context.SaveChanges();
 
+                var SubjectGroupPeopleQuestiondata = new SubjectGroupPeopleQuestion
+                {
+                    SubjectGroupId = SubjectGroupdata.Id,
+                    CentralPolicyEventId = CentralPolicyEventsdata.Id,
+                };
+                _context.SubjectGroupPeopleQuestions.Add(SubjectGroupPeopleQuestiondata);
+                _context.SaveChanges();
+
                 var subjectcen = _context.SubjectCentralPolicyProvinces
                     .Where(m => m.CentralPolicyProvince.CentralPolicyId == cenid)
                     .Where(m => m.Type == "Master")
@@ -1232,6 +1240,7 @@ namespace InspecWeb.Controllers
                                 Type = "NoMaster",
                                 Status = "ใช้งานจริง",
                                 SubjectGroupId = SubjectGroupdata.Id,
+                                CreatedBy = subcen.CreatedBy,
                             };
                             //subjectId = SubjectCentralPolicyProvincedata.Id;
                             //departId = checkdepart;
@@ -1458,6 +1467,7 @@ namespace InspecWeb.Controllers
                                 Type = "NoMaster",
                                 Status = "ใช้งานจริง",
                                 SubjectGroupId = SubjectGroupdata.Id,
+                                CreatedBy = subcen.CreatedBy,
                             };
                             //subjectId = SubjectCentralPolicyProvincedata.Id;
                             //departId = checkdepart;
@@ -1538,6 +1548,14 @@ namespace InspecWeb.Controllers
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();
 
+                var SubjectGroupPeopleQuestiondata = new SubjectGroupPeopleQuestion
+                {
+                    SubjectGroupId = SubjectGroupdata.Id,
+                    CentralPolicyEventId = centralpolicyeventdate.Id,
+                };
+                _context.SubjectGroupPeopleQuestions.Add(SubjectGroupPeopleQuestiondata);
+                _context.SaveChanges();
+
                 var subjectcen = _context.SubjectCentralPolicyProvinces
                     .Where(m => m.CentralPolicyProvince.CentralPolicyId == cenid.centralpolicyId)
                     .Where(m => m.Type == "Master")
@@ -1567,6 +1585,7 @@ namespace InspecWeb.Controllers
                             Type = "NoMaster",
                             Status = "ใช้งานจริง",
                             SubjectGroupId = SubjectGroupdata.Id,
+                            CreatedBy = subcen.CreatedBy,
                         };
                         _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata2);
                         _context.SaveChanges();
@@ -1598,6 +1617,7 @@ namespace InspecWeb.Controllers
                                 Type = "NoMaster",
                                 Status = "ใช้งานจริง",
                                 SubjectGroupId = SubjectGroupdata.Id,
+                                CreatedBy = subcen.CreatedBy,
                             };
                             //subjectId = SubjectCentralPolicyProvincedata.Id;
                             //departId = checkdepart;
@@ -1724,6 +1744,7 @@ namespace InspecWeb.Controllers
                 Type = "NoMaster",
                 Status = "ใช้งานจริง",
                 SubjectGroupId = SubjectGroupdata.Id,
+                CreatedBy = model.CreatedBy,
             };
             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
             _context.SaveChanges();
@@ -1788,6 +1809,7 @@ namespace InspecWeb.Controllers
                             Type = "NoMaster",
                             Status = "ใช้งานจริง",
                             SubjectGroupId = SubjectGroupdata.Id,
+                            CreatedBy = subcen.CreatedBy,
                         };
                         //subjectId = SubjectCentralPolicyProvincedata.Id;
                         //departId = checkdepart;

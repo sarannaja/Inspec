@@ -258,7 +258,7 @@ export class CalendarUserComponent implements OnInit {
         // var distinctThings: any[] =
         this.inspectionplancalendar = result.filter(
           (thing, i, arr) => arr.findIndex(t => t.inspectionPlanEventId === thing.inspectionPlanEventId) === i
-        ).map(item2=>{
+        ).map(item2 => {
           var colorJa: any;
           if (item2.status == "รอการตอบรับ") {
             // test = 1;
@@ -273,14 +273,14 @@ export class CalendarUserComponent implements OnInit {
             // test = 1;
             colorJa = "#008000" //green
           }
-                 return {
+          return {
             id: item2.inspectionPlanEventId,
             title: item2.province.name,
             provinceid: item2.provinceId,
             // id: result.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
             // title: result.province.name + ", " + result.centralPolicyEvents[0].centralPolicy.title,
-            start: moment(item2.inspectionPlanEvent.startDate), //.format("YYYY-MM-DD"),
-            end: moment(item2.inspectionPlanEvent.endDate).add(1, 'days'), //.format("YYYY-MM-DD"),
+            start: moment(item2.inspectionPlanEvent.startDate).format("YYYY-MM-DD"),  //.format("YYYY-MM-DD"),
+            end: moment(item2.inspectionPlanEvent.endDate).add(1, 'days').format("YYYY-MM-DD"),  //.format("YYYY-MM-DD"),
             // status: test,
             color: colorJa
           }
@@ -341,7 +341,7 @@ export class CalendarUserComponent implements OnInit {
         },
         navLinks: true,
         editable: false,
- locale: 'th',
+        locale: 'th',
         viewRender: function (view, element) {
           setTimeout(function () {
             var strDate = $.trim($(".fc-center").find("h2").text());
