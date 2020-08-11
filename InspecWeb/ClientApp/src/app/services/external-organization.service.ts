@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Regions, Ministers, Cabinets, Province, ProvinceFiscalYears, ProvinceFiscalYear } from '../external-organization/models/otps' ;
+import { Regions, Ministers, Cabinets, Province, ProvinceFiscalYears, ProvinceFiscalYear } from '../external-organization/models/otps';
 import { NewRegion } from '../external-organization/models/Region';
 import { OtpsProvineFiscalYear } from '../models/otpsprovince';
 import { ProvinceOtps } from '../external-organization/models/province-otps';
@@ -27,13 +27,13 @@ export class ExternalOrganizationService {
     return this.http.get<NewRegion>(`${this.baseUrl}api/ExternalOrganization/otps/region/${id}`, this.httpOptions)
   }
 
-  getProvinces():Observable<Province[]>{
+  getProvinces(): Observable<Province[]> {
     return this.http.get<Province[]>(this.baseUrl + 'api/ExternalOrganization/otps/provinces', this.httpOptions)
   }
-  getProvince(id:any):Observable<ProvinceFiscalYear>{
+  getProvince(id: any): Observable<ProvinceFiscalYear> {
     return this.http.get<ProvinceFiscalYear>(this.baseUrl + `api/ExternalOrganization/otps/provinces/${id}`, this.httpOptions)
   }
-  
+
   getMinisters(): Observable<Ministers[]> {
     return this.http.get<Ministers[]>(this.baseUrl + 'api/ExternalOrganization/otps/ministers', this.httpOptions)
   }
@@ -42,7 +42,7 @@ export class ExternalOrganizationService {
     return this.http.get<Cabinets[]>(this.baseUrl + 'api/ExternalOrganization/otps/cabinets', this.httpOptions)
   }
 
-  getGccopm(provinceId:any,representId:any): Observable<any[]> {
+  getGccopm(provinceId: any, representId: any): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl + `api/ExternalOrganization/gcc-opm/${provinceId}/${representId}`, this.httpOptions)
   }
 
@@ -71,5 +71,9 @@ export class ExternalOrganizationService {
   }
   getProvinceRegion(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl + `api/ExternalOrganization/provinceall`)
+  }
+  putUserToken(body) {
+    var putdata = { UserID: body.sub, Session: body.sid }
+    return this.http.put(this.baseUrl + `api/NotificationMobile`, putdata)
   }
 }
