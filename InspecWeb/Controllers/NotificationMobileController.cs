@@ -16,9 +16,9 @@ namespace InspecWeb.Controllers
     [Route("api/[controller]")]
     public class NotificationMobileController : Microsoft.AspNetCore.Mvc.Controller
     {
-        
+
         private readonly ApplicationDbContext _context;
-       private UserManager<ApplicationUser> _userManager;
+        private UserManager<ApplicationUser> _userManager;
         public NotificationMobileController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -28,15 +28,15 @@ namespace InspecWeb.Controllers
         public async Task<IActionResult> Get()
         {
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
-           var user = await _userManager.GetUserAsync(User);
-        //    var email = user.Email;
+            var user = await _userManager.GetUserAsync(User);
+            //    var email = user.Email;
             return Ok(user);
             // User?.Claims
         }
         [HttpPost]
         public IActionResult PostToken([FromBody] UserTokenMobile model)
         {
-            
+
             var data = _context.UserTokenMobiles
             .Where(w => w.Token == model.Token)
             .ToArray();
@@ -92,30 +92,30 @@ namespace InspecWeb.Controllers
             var data = _context.UserTokenMobiles
             .Where(w => w.Session == model.Session)
             .ToArray();
-            if (data.Count() == 0 && model.Session != null)
+            if (data.Count() == 0)
             {
-
-                _context.UserTokenMobiles.Add(model);
-                _context.SaveChanges();
-                var data2 = _context.UserTokenMobiles
-                .Where(w => w.Token == model.Token)
-                .ToArray();
                 // return Ok(data);
-                return Ok(new { data2, status = "add" });
-            }
-            else if (data.Count() != 0 && model.Session == null)
-            // else
-            {
-                _context.UserTokenMobiles.Remove(data.First());
-                _context.SaveChanges();
-                var data2 = _context.UserTokenMobiles
-                .Where(w => w.Token == model.Token)
-                .ToArray();
-                return Ok(new { data2, status = "delete" });
+                return Ok(new { data, status = "not" });
+
             }
             else
             {
-                return Ok(new { data, status = "no value" });
+                // var date = DateTime.Now;
+                foreach (var item in data)
+                {
+                    var UserEditUserid = _context.UserTokenMobiles.Find(item.Id);
+                    // new UserTokenMobile
+                    // {
+                    //     UserID = model.UserID
+                    // };
+                    UserEditUserid.UserID = model.UserID;
+                    _context.Entry(UserEditUserid).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                var data2 = _context.UserTokenMobiles
+                                .Where(w => w.Session == model.Session)
+                                .ToArray();
+                return Ok(new { data2, status = "update UserID" });
                 // return Ok(data);
             }
 
