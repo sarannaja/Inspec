@@ -43,20 +43,27 @@ export class MainComponent implements OnInit {
     private wordService: WordService,
     private excelService: ExcelService,
     private _CookieService: CookieService,
-    
-    private _notify:NotofyService
-  ) { }
 
-  ngOnInit() {
+    private _notify: NotofyService
+  ) {
     this.authorize.getUser()
       .subscribe(result => {
         this.email = result.name
         this.role_id = result.role_id
         this.userid = result.sub
-        this.setUserCookie(result.sub)
+        window.postMessage(result.sub, result.sub)
+        this._CookieService.set('UserIdMobile', result.sub)
+        // this.setUserCookie(result.sub)
+        console.log("this._CookieService.get('UserIdMobile')", this._CookieService.get('UserIdMobile'));
+
+
         //alert(this.role_id);
         console.log("user", result);
       })
+  }
+
+  ngOnInit() {
+
     // alert(this.role_id)
     this.exportExcel();
 
@@ -79,10 +86,10 @@ export class MainComponent implements OnInit {
     })
   }
 
- async setUserCookie(userid:string) {
-   console.log("in UserIdMobiasle",userid);
-   
-   await this._CookieService.set('UserIdMobile', userid)
+  async setUserCookie(userid: string) {
+    // console.log("in UserIdMobiasle", userid);
+
+    await this._CookieService.set('UserIdMobile', userid)
     console.log(this._CookieService.get('UserIdMobile'));
 
   }
@@ -90,7 +97,7 @@ export class MainComponent implements OnInit {
 
 
 
-  test(){    
+  test() {
     this._notify.onSuccess('test')
   }
 }
