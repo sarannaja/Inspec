@@ -178,6 +178,7 @@ namespace InspecWeb.Controllers
                 Type = "Master",
                 Status = "ใช้งานจริง",
                 SubjectGroupId = SubjectGroupdata.Id,
+                CreatedBy = model.UserID,
             };
             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
             _context.SaveChanges();

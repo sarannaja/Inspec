@@ -13,16 +13,17 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
-        <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
-        <label style="margin-left: 5px;">จังหวัด: {{ScheduleData.scheduleData.province.name}}</label>
-        <label style="margin-left: 30px;">ผู้สร้าง: {{ScheduleData.userData.prefix}}
+        <label class="card-title">กำหนดการตรวจราชการ</label>
+        <label>จังหวัด {{ScheduleData.scheduleData.province.name}}</label>
+        <label style="margin-left: 5px;">ของ {{ScheduleData.userData.prefix}}
           {{ScheduleData.userData.name}}</label>
-        <label style="margin-left: 30px;">สร้างเมื่อ: {{ScheduleData.scheduleData.createdAt | thaidate: 'year'}}</label>
+        <br>
+        <label>สร้างเมื่อ : {{ScheduleData.scheduleData.createdAt | thaidate: 'short'}}</label>
         <div class="row" style="margin-left: 5px;">
-          <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'year'}}"
+          <input style="width: 12%;" class="form-control" value="{{timelineData.startDate | thaidate: 'short'}}"
             readonly>
           <label style="margin-left: 5px; margin-right: 5px; font-weight: bold;"> - </label>
-          <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'year'}}" readonly>
+          <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'short'}}" readonly>
         </div>
 
         <div class="float-right" style="margin-top: -60px;" *ngIf="status == 'รอการตอบรับ';else elseBlock">
@@ -32,12 +33,17 @@
           <button (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
             class="btn btn-danger">ปฏิเสธ</button>
           &nbsp;&nbsp;
-          <button *ngIf="role_id != 7" (click)="openModal(assignModal)" value="มอบหมาย"
+          <button *ngIf="role_id != 7 && ForwardName != 'ถูกมอบหมาย'" (click)="openModal(assignModal)" value="มอบหมาย"
             class="btn btn-success">มอบหมาย</button>
         </div>
 
         <ng-template #elseBlock>
-          <div class="float-right" style="margin-top: -60px; margin-right: 20px;">
+          <div class="float-right row" style="margin-top: -60px; margin-right: 20px;">
+            <button (click)="openModal2(changetocancel,'ปฏิเสธ')" value="ตอบรับ" *ngIf="status == 'ตอบรับ'"
+              style="margin-top: -10px;" type="button" class="btn btn-danger btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+            <button (click)="openModal2(changetoaccept,'ตอบรับ')" value="ปฏิเสธ" *ngIf="status == 'ปฏิเสธ'"
+              style="margin-top: -10px;" type="button" class="btn btn-primary btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
+            &nbsp;&nbsp;
             <h4>สถานะ : {{status}}</h4>
           </div>
         </ng-template>
@@ -83,7 +89,7 @@
               <td>{{ item.status }}</td> -->
               <td>{{ item.invitedBy }}</td>
 
-              <td> <i *ngIf="item.status == 'รอการตอบรับ'" class="align-middle mr-2 fas fa-fw fa-check-circle pointer"
+              <td> <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                   (click)="AcceptCentralPolicy(item.id, item.centralPolicy.id,item.provinceId)"></i>
               </td>
               <!-- <td>
@@ -153,29 +159,119 @@
 <!-- BEGIN primary modal -->
 <ng-template #assignModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-  <form [formGroup]="assignForm" (ngSubmit)="sendAssign(assignForm.value)">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">การมอบหมาย</h5>
-        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body m-3">
-        <textarea cols="30" rows="5" class="form-control" placeholder="กรอกชื่อ - สกุล"
-          formControlName="assign">
-            </textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">บันทึก</button>
-        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
-      </div>
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">การมอบหมาย</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </form>
+    <div class="modal-body m-3">
+
+      <div class="mb-3">
+        <input type="radio" name="land" (change)="internal($event)" value="ลงพื้นที่">
+        <label style="margin-left: 10px;">บุคคลภายใน</label>
+        <input style="margin-left: 10px;" type="radio" name="land" (change)="notinternal($event)" value="ไม่ลงพื้นที่">
+        <label style="margin-left: 10px;">บุคคลภายนอก</label>
+      </div>
+
+      <form *ngIf="checkType == 1" [formGroup]="assigninternalForm"
+        (ngSubmit)="sendAssignInternal(assigninternalForm.value)">
+
+        <div class="form-group col-12">
+          <label>ประเภทผู้รับมอบหมาย*</label>
+          <select class="form-control select2" data-toggle="select2" (change)="checktype($event.target.value)">
+            <option value=null>กรุณาเลือกประเภทผู้รับมอบหมาย</option>
+            <option value="ผู้ตรวจกระทรวง">ผู้ตรวจกระทรวง</option>
+            <option value="ผู้ตรวจกรม">ผู้ตรวจกรม</option>
+          </select>
+        </div>
+
+        <div *ngIf="peopletype == 1" class="form-group">
+          <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="false"
+            [items]="MinistrySelect" name="UserId" formControlName="UserId">
+          </ng-select>
+        </div>
+
+        <div *ngIf="peopletype == 2" class="form-group">
+          <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="false"
+            [items]="DepartmentSelect" name="UserId" formControlName="UserId">
+          </ng-select>
+        </div>
+
+        <br>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+
+      <form *ngIf="checkType == 2" [formGroup]="assignForm" (ngSubmit)="sendAssign(assignForm.value)">
+
+        <input class="form-control" placeholder="กรอกชื่อ-สกุลผู้รับมอบหมาย" formControlName="assign" />
+        <br>
+        <input class="form-control" placeholder="กรอกหน่วยงานผู้รับมอบหมาย" formControlName="department" />
+        <br>
+        <input class="form-control" placeholder="กรอกตำแหน่งผู้รับมอบหมาย" formControlName="position" />
+        <br>
+        <input class="form-control" placeholder="กรอกหมายเลขโทรศัพท์ผู้รับมอบหมาย" formControlName="phone" />
+        <br>
+        <input class="form-control" placeholder="กรอก E-mail ผู้รับมอบหมาย" formControlName="email" />
+        <br>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
   <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
 
+<!-- BEGIN primary modal -->
+<ng-template #changetocancel class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      เปลี่ยนสถานะเป็นปฏิเสธ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการเปลี่ยนสถานะเป็นปฏิเสธกำหนดการตรวจนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="storeAccept(answer)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #changetoaccept class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      เปลี่ยนสถานะเป็นตอบรับ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการเปลี่ยนสถานะเป็นตอบรับกำหนดการตรวจนี้ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="storeAccept(answer)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>

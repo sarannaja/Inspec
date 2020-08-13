@@ -39,6 +39,22 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
+        [Description("วันที่เริ่ม")]
+        [DataType(DataType.Date)]
+        public DateTime? SubjectNotificationDate { get; set; }
+
+        [Description("วันที่สิ้นสุด")]
+        [DataType(DataType.Date)]
+        public DateTime? SubjectDeadlineDate { get; set; }
+
+        [Description("วันที่เริ่ม")]
+        [DataType(DataType.Date)]
+        public DateTime? PeopleQuestionNotificationDate { get; set; }
+
+        [Description("วันที่สิ้นสุด")]
+        [DataType(DataType.Date)]
+        public DateTime? PeopleQuestionDeadlineDate { get; set; }
         public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
+        public ICollection<SubjectGroupPeopleQuestion> SubjectGroupPeopleQuestions { get; set; }
     }
 }

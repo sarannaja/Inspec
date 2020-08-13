@@ -328,9 +328,11 @@ namespace InspecWeb.Controllers
         [HttpGet("userallregion/{userid}")]
         public IActionResult GetDataUserAllRegion(string userid)
         {
-            var userdata = _context.UserRegions
-                .Include(m => m.Region)
-                .Where(m => m.UserID == userid).ToList();
+            //var userdata = _context.UserRegions
+            //    .Include(m => m.Region)
+            //    .Where(m => m.UserID == userid).ToList();
+
+            var userdata = _context.Regions.ToList();
 
             return Ok(userdata);
         }
