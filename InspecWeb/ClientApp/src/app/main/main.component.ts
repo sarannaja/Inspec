@@ -6,6 +6,7 @@ import { WordService } from '../services/word.service';
 import { UserManager } from 'oidc-client';
 import { CookieService } from 'ngx-cookie-service';
 import { NotofyService } from '../services/notofy.service';
+import { ExternalOrganizationService } from '../services/external-organization.service';
 
 @Component({
   selector: 'app-main',
@@ -43,20 +44,34 @@ export class MainComponent implements OnInit {
     private wordService: WordService,
     private excelService: ExcelService,
     private _CookieService: CookieService,
-    
-    private _notify:NotofyService
-  ) { }
+    private _external: ExternalOrganizationService,
 
-  ngOnInit() {
+    private _notify: NotofyService
+  ) {
     this.authorize.getUser()
       .subscribe(result => {
         this.email = result.name
         this.role_id = result.role_id
         this.userid = result.sub
-        this.setUserCookie(result.sub)
+        // window.postMessage(result.sub, result.sub)
+        this._CookieService.set('UserIdMobile', result.sub)
+        console.log('UserMMo', result);
+
+        this._external.putUserToken(result).subscribe(result => {
+          console.log('resultUserMMo', result);
+
+        })
+        // this.setUserCookie(result.sub)
+        console.log("this._CookieService.get('idsrv.session')", this._CookieService.get('idsrv.session'));
+
+
         //alert(this.role_id);
         console.log("user", result);
       })
+  }
+
+  ngOnInit() {
+
     // alert(this.role_id)
     this.exportExcel();
 
@@ -79,10 +94,10 @@ export class MainComponent implements OnInit {
     })
   }
 
- async setUserCookie(userid:string) {
-   console.log("in UserIdMobiasle",userid);
-   
-   await this._CookieService.set('UserIdMobile', userid)
+  async setUserCookie(userid: string) {
+    // console.log("in UserIdMobiasle", userid);
+
+    await this._CookieService.set('UserIdMobile', userid)
     console.log(this._CookieService.get('UserIdMobile'));
 
   }
@@ -90,7 +105,7 @@ export class MainComponent implements OnInit {
 
 
 
-  test(){    
+  test() {
     this._notify.onSuccess('test')
   }
 }

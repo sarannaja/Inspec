@@ -49,7 +49,7 @@ namespace InspecWeb.Models
         [Description("เบอร์โทรศัพท์ที่ทำงาน")]
         public string Officephonenumber { get; set; }
 
-      
+
         [Description("เบอร์โทรเลข")]
         public string Telegraphnumber { get; set; }
 
@@ -88,7 +88,7 @@ namespace InspecWeb.Models
         [Description("FK: ตำบล")]
         public long SubdistrictId { get; set; }
         public virtual Subdistrict Subdistricts { get; set; }
-        
+
         [Description("บ้านเลขที่")]
         public string Housenumber { get; set; }
 
@@ -97,7 +97,7 @@ namespace InspecWeb.Models
 
         [Description("ซอย")]
         public string Alley { get; set; }
-   
+
         [Description("รหัสไปรษณี")]
         public string Postalcode { get; set; }
 
@@ -120,6 +120,7 @@ namespace InspecWeb.Models
         public long Active { get; set; }
         public ICollection<UserRegion> UserRegion { get; set; }
         public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }
+        public ICollection<UserTokenMobile> UserTokenMobiles { get; set; }
 
         public ICollection<UserProvince> UserProvince { get; set; }
 
