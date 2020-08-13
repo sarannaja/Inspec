@@ -87,13 +87,13 @@ export class CommanderReportDetailComponent implements OnInit {
     window.history.back();
   }
 
-  sendToCommander() {
-    this.exportReportService.sendToCommander(this.reportId).subscribe(res => {
-      console.log("sended: ", res);
-      this.getReportImportById();
-      this.modalRef.hide();
-    })
-  }
+  // sendToCommander(value) {
+  //   this.exportReportService.sendToCommander(this.reportId, value).subscribe(res => {
+  //     console.log("sended: ", res);
+  //     this.getReportImportById();
+  //     this.modalRef.hide();
+  //   })
+  // }
 
   closeModal() {
     this.commandForm.reset();
