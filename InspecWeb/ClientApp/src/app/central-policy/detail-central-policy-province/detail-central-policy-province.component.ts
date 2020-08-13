@@ -264,7 +264,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     // this.getDetailCentralPolicy()
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
-    this.getquestion();
+    // this.getquestion();
 
     this.getMinistryPeople();
     // this.getUserPeople();
@@ -1241,7 +1241,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.centralpolicyservice.addPeoplequestion(this.id, this.planId, value).subscribe(res => {
       this.FormQuestion.reset();
       this.modalRef.hide();
-      this.getquestion();
+      // this.getquestion();
     })
   }
   getquestion() {

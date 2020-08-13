@@ -418,18 +418,24 @@
       <div class="modal-body m-3">
         <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
-          [items]="selectdataministrypeople" name="UserMinistryId" formControlName="UserMinistryId">
+          [items]="MinistrySelect" name="UserMinistryId" formControlName="UserMinistryId">
         </ng-select>
         <br>
         <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
-          [items]="selectdatadepartmentpeople" name="UserDepartmentId" formControlName="UserDepartmentId">
+          [items]="DepartmentSelect" name="UserDepartmentId" formControlName="UserDepartmentId">
         </ng-select>
         <br>
         <label class="form-label">เชิญผู้ตรวจราชการภาคประชาชน</label>
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
-          [items]="selectdatapeople" name="UserPeopleId" formControlName="UserPeopleId">
+          [items]="PeopleSelect" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
+        <br>
+        <label class="form-label">เชิญหน่วยรับตรวจ</label>
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="ProvincialDepartmentSelect" name="UserProvincialDepartmentId" formControlName="UserProvincialDepartmentId">
+        </ng-select>
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>

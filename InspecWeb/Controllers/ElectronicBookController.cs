@@ -1477,6 +1477,12 @@ namespace InspecWeb.Controllers
             var SubjectGroupsdata = _context.SubjectGroups.Find(model.ElectronicBookId);
             ////CentralPolicyProvincedata.Step = model.Step;
             SubjectGroupsdata.Status = model.Status;
+
+            SubjectGroupsdata.SubjectNotificationDate = model.NotificationSubjectDate;
+            SubjectGroupsdata.SubjectDeadlineDate = model.DeadlineSubjectDate;
+            SubjectGroupsdata.PeopleQuestionNotificationDate = model.NotificationPeopleQuestiontDate;
+            SubjectGroupsdata.PeopleQuestionDeadlineDate = model.DeadlinePeopleQuestiontDate;
+
             //CentralPolicyProvincedata.QuestionPeople = model.QuestionPeople;
             _context.Entry(CentralPolicyProvincedata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();

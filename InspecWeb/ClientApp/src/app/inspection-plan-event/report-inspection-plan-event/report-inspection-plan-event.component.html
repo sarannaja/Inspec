@@ -16,7 +16,11 @@
       <h5 class="card-title">รายงานกำหนดการตรวจราชการ</h5>
       <div class="float-right">
 
-        <button class="btn btn-success" (click)="ExportDate()"
+        <button class="btn btn-primary" title="ออกรายงาน" style="margin-top: -60px;"
+          (click)="openModal(modalReportAll)"> <i class="align-middle fas fa-fw fa-download pointer"></i>
+        </button>
+
+        <!-- <button class="btn btn-success" (click)="ExportDate()"
           style="margin-top: -60px;margin-right: 10px;">รายงานกำหนดการตรวจรายวัน</button>
 
         <button class="btn btn-success" (click)="openModal(modalPeople)"
@@ -32,7 +36,7 @@
           style="margin-top: -60px;margin-right: 10px;">รายงานกำหนดการตรวจรายจังหวัด</button>
 
         <button class="btn btn-success" (click)="openModal(modalProvincialDepertment)"
-          style="margin-top: -60px;">รายงานกำหนดการตรวจรายหน่วยงาน</button>
+          style="margin-top: -60px;">รายงานกำหนดการตรวจรายหน่วยงาน</button> -->
       </div>
 
     </div>
@@ -59,6 +63,37 @@
 </div>
 
 <!-- BEGIN primary modal -->
+<ng-template #modalReportAll class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="Form2" (ngSubmit)="ExportProvince(Form2.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">รายงานกำหนดการตรวจราชการรายจังหวัด</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-12">
+
+        <div class="form-group">
+          <label>จังหวัด</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+            [items]="selectprovince" name="province" formControlName="province">
+          </ng-select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Export</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
 <ng-template #modalRegion class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="Form" (ngSubmit)="ExportRegion(Form.value)">
     <div class="modal-content">
@@ -72,8 +107,8 @@
 
         <div class="form-group">
           <label>เขต</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขต" [multiple]="false"   [items]="selectregion" name="region"
-            formControlName="region"  >
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขต" [multiple]="false"
+            [items]="selectregion" name="region" formControlName="region">
           </ng-select>
         </div>
 
@@ -103,8 +138,8 @@
 
         <div class="form-group">
           <label>จังหวัด</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectprovince" name="province"
-            formControlName="province"  >
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+            [items]="selectprovince" name="province" formControlName="province">
           </ng-select>
         </div>
 
@@ -134,8 +169,8 @@
 
         <div class="form-group">
           <label>ผู้ตรวจ</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้ตรวจ" [multiple]="false"   [items]="selectpeople" name="people"
-            formControlName="people"  >
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้ตรวจ" [multiple]="false"
+            [items]="selectpeople" name="people" formControlName="people">
           </ng-select>
         </div>
 
@@ -165,8 +200,8 @@
 
         <div class="form-group">
           <label>หน่วยงาน</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"   [items]="selectprovincialdepartment" name="provincialdepartment"
-            formControlName="provincialdepartment"  >
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
+            [items]="selectprovincialdepartment" name="provincialdepartment" formControlName="provincialdepartment">
           </ng-select>
         </div>
 

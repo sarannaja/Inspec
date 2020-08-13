@@ -234,7 +234,7 @@ export class CentralpolicyService {
       // ElectronicBookId: electronicbookid,
       UserDepartmentId: data.UserDepartmentId,
       UserMinistryId: data.UserMinistryId,
-
+      UserProvincialDepartmentId: data.UserProvincialDepartmentId,
       InviteBy: userid,
       planId: planId
     }
@@ -317,11 +317,38 @@ export class CentralpolicyService {
     return this.http.delete(this.url + 'deleteuserfile/' + id);
   }
 
-  sendAssign(value, id) {
+  sendAssign(value, id, userid) {
+    console.log("value", value);
+
     const formData = new FormData();
     formData.append('assign', value.assign);
+
+    formData.append('department', value.department);
+    formData.append('position', value.position);
+    formData.append('phone', value.phone);
+    formData.append('email', value.email);
+    formData.append('userid', userid);
+
     return this.http.put(this.url + 'sendassign/' + id, formData)
   }
+
+  sendAssignInternal(value, id, userid) {
+    // alert(JSON.stringify(value))
+    console.log("value", value);
+
+    const formData = new FormData();
+
+    formData.append('assignuserid', value.UserId);
+
+    // formData.append('department', value.department);
+    // formData.append('position', value.position);
+    // formData.append('phone', value.phone);
+    // formData.append('email', value.email);
+    formData.append('userid', userid);
+
+    return this.http.put(this.url + 'sendassigninternal/' + id, formData)
+  }
+
 
   getAssign(id) {
     return this.http.get<any>(this.url + 'getassign/' + id);
@@ -381,8 +408,8 @@ export class CentralpolicyService {
 
     // formData.append('notificationdate', data.notificationdate);
     // formData.append('deadlinedate', data.deadlinedate);
-    formData.append('notificationdate', data.notificationdate.date.year + '-' + data.notificationdate.date.month + '-' + data.notificationdate.date.day);
-    formData.append('deadlinedate', data.deadlinedate.date.year + '-' + data.deadlinedate.date.month + '-' + data.deadlinedate.date.day);
+    // formData.append('notificationdate', data.notificationdate.date.year + '-' + data.notificationdate.date.month + '-' + data.notificationdate.date.day);
+    // formData.append('deadlinedate', data.deadlinedate.date.year + '-' + data.deadlinedate.date.month + '-' + data.deadlinedate.date.day);
 
     console.log("form", formData.getAll("cenproid"));
     console.log("form", formData.getAll("planid"));
