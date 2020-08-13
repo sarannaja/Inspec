@@ -172,7 +172,8 @@ export class UserService {
     const formData = new FormData();
     formData.append('Role_id', userData.Role_id); //role
     formData.append('Prefix', userData.Prefix);
-    formData.append('Name', userData.Name);
+    formData.append('Firstnameth', userData.FName); //ชื่อ
+    formData.append('Lastnameth', userData.LName); //ชื่อ
     formData.append('Position', userData.Position);
     formData.append('PhoneNumber', userData.PhoneNumber);
     formData.append('Formprofile', userData.Formprofile);// สำหรับเช็ค user หรือแอดมิน เป็นคนเพิ่ม

@@ -421,7 +421,7 @@ export class UserComponent implements OnInit {
     this.ministryService.getministry()
       .subscribe(result => {
 
-        if(this.roleId != 1){
+        if(this.roleId != 1 && this.roleId != 2){
           this.selectdataministry = result.filter((item, index) => {
             return item.id != 1
           }).map((item, index) => {
