@@ -144,17 +144,16 @@ namespace InspecWeb.Data
         public DbSet<TrainingRegisterFile> TrainingRegisterFiles { get; set; }
         public DbSet<ImportReport> ImportReports { get; set; }
         public DbSet<ImportReportGroup> ImportReportGroups { get; set; }
-
         public DbSet<ImportReportFile> ImportReportFiles { get; set; }
         public DbSet<ElectronicBookOtherAccept> ElectronicBookOtherAccepts { get; set; }
-
         public DbSet<TrainingRegisterCondition> TrainingRegisterConditions { get; set; }
-
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<ProvincesGroup> ProvincesGroups { get; set; }
         public DbSet<UserTokenMobile> UserTokenMobiles { get; set; }
-
         public DbSet<ElectronicBookProvincialDepartment> ElectronicBookProvincialDepartments { get; set; }
+        public DbSet<Approvaldocuments> Approvaldocuments { get; set; } //<!-- แบบขออนุมัติเดินทางไปราชการ -->
+        public DbSet<Informationinspection> Informationinspections { get; set; } //<!-- ข้อมูลประกอบการตรวจราชการ -->
+        public DbSet<Circularletter> Circularletters { get; set; } //<!-- กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ -->
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)

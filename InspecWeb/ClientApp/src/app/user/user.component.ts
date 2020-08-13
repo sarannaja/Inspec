@@ -245,7 +245,7 @@ export class UserComponent implements OnInit {
   }
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, side,
-    commandnumber, commandnumberdate, email, prefix, name, position, phoneNumber, startdate, enddate, img) {
+    commandnumber, commandnumberdate, email, prefix, fname,lname, position, phoneNumber, startdate, enddate, img) {
     //alert(UserProvince);
     this.addForm.reset()
     this.id = id;
@@ -278,7 +278,8 @@ export class UserComponent implements OnInit {
 
       Role_id: this.roleId,
       Prefix: prefix,
-      Name: name,
+      FName: fname,
+      LName: lname,
       Position: position,
       PhoneNumber: phoneNumber,
       Email: email,
@@ -419,11 +420,20 @@ export class UserComponent implements OnInit {
     var test: any = [];
     this.ministryService.getministry()
       .subscribe(result => {
-        this.selectdataministry = result.filter((item, index) => {
-          return item.id != 1
-        }).map((item, index) => {
-          return { value: item.id, label: item.name }
-        })
+
+        if(this.roleId != 1){
+          this.selectdataministry = result.filter((item, index) => {
+            return item.id != 1
+          }).map((item, index) => {
+            return { value: item.id, label: item.name }
+          })
+        }else{
+          this.selectdataministry = result.map((item, index) => {
+            return { value: item.id, label: item.name }
+          })
+        }
+
+
       });
   }
 
@@ -489,7 +499,8 @@ export class UserComponent implements OnInit {
   userform() {
     this.addForm = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
-      Name: new FormControl(null, [Validators.required]),
+      FName: new FormControl(null, [Validators.required]),
+      LName: new FormControl(null, [Validators.required]),
       Position: new FormControl(null, [Validators.required]),
       Role_id: new FormControl(null, [Validators.required]),
       PhoneNumber: new FormControl(null, [Validators.required]),

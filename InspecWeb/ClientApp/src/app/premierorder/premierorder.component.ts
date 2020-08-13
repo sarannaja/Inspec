@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { PremierorderService } from '../services/premierorder.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-premierorder',
@@ -20,11 +21,25 @@ export class PremierorderComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private premierorderservice: PremierorderService,
-    public share: PremierorderService) { }
+    public share: PremierorderService,private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      },
       columnDefs: [
         {
           targets: [5],
@@ -36,6 +51,7 @@ export class PremierorderComponent implements OnInit {
     this.premierorderservice.getpremierorder().subscribe(result=>{
     this.resultpremierorder = result
     this.loading = true
+    this.spinner.hide();
     })
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
@@ -47,9 +63,9 @@ export class PremierorderComponent implements OnInit {
     this.delid = id;
     this.title = title;
     this.year = year;
-    console.log(this.delid);
-    console.log(this.title);
-    console.log(this.year);
+    // console.log(this.delid);
+    // console.log(this.title);
+    // console.log(this.year);
     
     this.modalRef = this.modalService.show(template);
   }
