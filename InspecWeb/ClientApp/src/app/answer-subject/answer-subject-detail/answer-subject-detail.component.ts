@@ -17,6 +17,8 @@ export class AnswerSubjectDetailComponent implements OnInit {
   userid: string
   resultsubjectdetail: any = []
   resultsubquestion: any = []
+  resultansweroutsider: any = []
+  resultsubquestioncount: any = []
   Form: FormGroup;
   Formfile: FormGroup;
   Formstatus: FormGroup;
@@ -74,6 +76,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
         console.log(result);
       })
     this.getSubjectdetail()
+    this.getAnsweroutsider()
   }
   getSubjectdetail() {
     this.answersubjectservice.getsubjectdetaildata(this.id).subscribe(result => {
@@ -88,6 +91,15 @@ export class AnswerSubjectDetailComponent implements OnInit {
     }
     )
   }
+  getAnsweroutsider() {
+    this.answersubjectservice.getAnsweroutsider(this.id, this.userid).subscribe(result => {
+      this.resultansweroutsider = result
+      this.resultsubquestioncount = this.resultansweroutsider.filter(
+        (thing, i, arr) => arr.findIndex(t => t.subquestionCentralPolicyProvinceId === thing.subquestionCentralPolicyProvinceId) === i
+      );
+      console.log("uniqueresultsubquestioncount: ", this.resultsubquestioncount);
+    })
+  }
   addvalue() {
     this.Form.reset();
     this.t.clear();
@@ -96,6 +108,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
       this.t.push(this.fb.group({
         UserId: "",
         SubquestionCentralPolicyProvinceId: [this.resultsubquestion[i].id],
+        AnswerSubquestionStatusId: [],
         Question: [this.resultsubquestion[i].name],
         Answer: [""],
         Choice: [test],
@@ -142,27 +155,31 @@ export class AnswerSubjectDetailComponent implements OnInit {
   // }
   storeanswer(value, value2) {
     this.spinner.show();
-    this.storeansweruser(value, value2)
-
+    this.storestatus(value2)
+    // this.storeansweruser(value, value2)
   }
-  storeansweruser(value, value2) {
+  storestatus(value2) {
+    this.answersubjectservice.addStatus(value2, this.id, this.userid).subscribe(result => {
+      console.log("result", result.id);
+      var statusid = result.id
+      this.storeansweruser(statusid)
+    })
+  }
+  storeansweruser(statusid) {
     // console.log(this.userid);
 
     for (let i = 0; i < this.t.value.length; i++) {
 
       this.t.at(i).patchValue({
         UserId: this.userid,
+        AnswerSubquestionStatusId: statusid
       })
     }
     console.log(this.t.value);
     this.answersubjectservice.addAnswer(this.t.value).subscribe(result => {
       console.log("result", result);
-      this.storestatus(value2)
+      // this.storestatus(value2)
       this.storefile()
-    })
-  }
-  storestatus(value2) {
-    this.answersubjectservice.addStatus(value2, this.id, this.userid).subscribe(result => {
     })
   }
   storefile() {

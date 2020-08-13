@@ -47,5 +47,11 @@ namespace InspecWeb.Models
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
+
+        [ForeignKey("User")]
+        [Description("FK: User")]
+        public string SenderUserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }
