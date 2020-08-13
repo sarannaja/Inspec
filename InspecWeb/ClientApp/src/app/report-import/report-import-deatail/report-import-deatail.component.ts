@@ -27,6 +27,9 @@ export class ReportImportDeatailComponent implements OnInit {
   regionData: any = [];
   provinceData: any = [];
   fiscalYearId: any;
+  userid: string;
+  role_id;
+  commanderData: any = [];
 
   constructor(
     private router: Router,
@@ -48,9 +51,19 @@ export class ReportImportDeatailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            this.role_id = result[0].role_id
+          })
+      })
     this.getReportImportById();
     this.getCentralPolicyEvent();
     this.getImportFiscalYears();
+    this.getCommander();
     this.reportForm = this.fb.group({
       centralPolicyEvent: new FormControl(null, [Validators.required]),
       centralPolicyType: new FormControl(null, [Validators.required]),
@@ -63,6 +76,7 @@ export class ReportImportDeatailComponent implements OnInit {
       detailReport: new FormControl(null, [Validators.required]),
       suggestion: new FormControl(null, [Validators.required]),
       command: new FormControl(null, [Validators.required]),
+      commander: new FormControl(null, [Validators.required]),
     })
   }
 
@@ -115,8 +129,8 @@ export class ReportImportDeatailComponent implements OnInit {
     window.history.back();
   }
 
-  sendToCommander() {
-    this.exportReportService.sendToCommander(this.reportId).subscribe(res => {
+  sendToCommander(value) {
+    this.exportReportService.sendToCommander(this.reportId, value).subscribe(res => {
       console.log("sended: ", res);
       this.getReportImportById();
       this.modalRef.hide();
@@ -132,7 +146,7 @@ export class ReportImportDeatailComponent implements OnInit {
   }
 
   getCentralPolicyEvent() {
-    this.electronicBookService.getCentralPolicyEbook().subscribe(res => {
+    this.electronicBookService.getCentralPolicyEbook(this.userid).subscribe(res => {
       console.log("cenData: ", res);
       this.centralPolicyEvent = res.map((item, index) => {
         return {
@@ -184,6 +198,18 @@ export class ReportImportDeatailComponent implements OnInit {
         return {
           value: item.province.id.toString(),
           label: item.province.name
+        }
+      })
+    })
+  }
+
+  getCommander() {
+    this.exportReportService.getCommander().subscribe(res => {
+      console.log("commander: ", res);
+      this.commanderData = res.data.map((item, index) => {
+        return {
+          value: item.id.toString(),
+          label: item.prefix + item.name + " ตำแหน่ง: " + item.position
         }
       })
     })

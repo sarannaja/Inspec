@@ -95,29 +95,45 @@ export class ExportReportService {
 
   createReport2(res, reportId) {
     var exportData: any = [];
-    exportData = res.importData.importReportGroups.map((item, index) => {
-      var subjectData: any = [];
-      var subjectMaster: any = [];
-      var departmentData: any = [];
-      var departmentStr: any = [];
-      var departmentAll: any = [];
-      var subquestion: any = [];
+    console.log("REPORT RES: ", res);
+    var subjectData: any = [];
+    var subjectMaster: any = [];
+    var departmentData: any = [];
+    var departmentStr: any = [];
+    var departmentAll: any = [];
+    var subquestion: any = [];
 
+    exportData = res.importData.importReportGroups.map((item, index) => {
       item.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element => {
-        subjectData = element.subjectCentralPolicyProvinces.map(element2 => {
+        element.subjectCentralPolicyProvinces.map(element2 => {
+          console.log("TTEST: ", element2.name);
+
           if (element2.type == "Master") {
-            return {
+            subjectData.push({
               subject: element2.name
-            }
+            })
+            // return {
+            //   subject: element2.name
+            // }
           }
         });
       });
+      console.log("subJECTDATA: ", subjectData);
+
+      // var uniqueSubject = subjectData.filter(
+      //   (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      // );
+      // console.log("uniqueSubjectDATA: ", uniqueSubject);
       subjectData.forEach(elementS => {
         if (elementS != undefined) {
           subjectMaster.push(elementS)
         }
       });
       console.log("subjectMaster: ", subjectMaster);
+      var uniqueSubjectMaster = subjectMaster.filter(
+        (thing, i, arr) => arr.findIndex(t => t.subject === thing.subject) === i
+      );
+      console.log("uniqueSubjectDATA: ", uniqueSubjectMaster);
 
       // item.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element => {
       //   departmentData = element.subjectCentralPolicyProvinces.map(element2 => {
@@ -145,11 +161,13 @@ export class ExportReportService {
       //   }
       // });
       // console.log("departmentStr: ", departmentAll);
+      subjectData = [];
+      subjectMaster = [];
 
       return {
         centralPolicy: item.centralPolicyEvent.centralPolicy.title,
         department: res.importData.user.departments.name,
-        tableData: subjectMaster,
+        tableData: uniqueSubjectMaster,
         // centralPolicyType: res.importData.centralPolicyType,
         // command: res.importData.command,
         // detailReport: res.importData.detailReport,
@@ -162,6 +180,7 @@ export class ExportReportService {
         // suggestion: res.importData.suggestion
       }
     })
+
     console.log("Data: ", exportData);
 
     const formData = {
@@ -189,10 +208,10 @@ export class ExportReportService {
     return this.http.get<any>(this.url + "/getCommanderReport");
   }
 
-  getCommanderReportById(provinceId) {
+  getCommanderReportById(provinceId, userID) {
     console.log("provinceId: ", provinceId);
 
-    return this.http.get<any>(this.url + "/getCommanderReport/" + provinceId);
+    return this.http.get<any>(this.url + "/getCommanderReport/" + provinceId + "/" + userID);
   }
 
   postImportReport(value, userId, file: FileList) {
@@ -235,10 +254,13 @@ export class ExportReportService {
     return this.http.get<any>(this.url + "/getImportReportFiscalYearRelations/" + fiscalYearId);
   }
 
-  sendToCommander(reportID) {
+  sendToCommander(reportID, value) {
     console.log("reportIddd: ", reportID);
+    console.log("VALUEJA: ", value.commander);
+
     const formData = new FormData();
     formData.append('reportId', reportID);
+    formData.append('Commander', value.commander);
     return this.http.put<any>(this.url + "/sendReportToCommander", formData);
   }
 
@@ -275,5 +297,9 @@ export class ExportReportService {
     formData.append('reportId', reportId);
 
     return this.http.post<any>(this.url + "/editImportReport", formData);
+  }
+
+  getCommander() {
+    return this.http.get<any>(this.url + "/getCommander");
   }
 }

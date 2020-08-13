@@ -46,11 +46,11 @@
                 {{item.electronicBook.centralPolicy}}
               </td>
               <td>
-                วันที่ {{item.electronicBook.startDate | thaidate: 'year'}}</td>
+                วันที่ {{item.electronicBook.startDate | thaidate: 'short'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
               <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
               <!-- <td>{{ item.userCreate.prefix }} {{item.userCreate.name}}</td> -->
-              <td>{{ item.createdAt | thaidate: 'year' }}</td>
+              <td>{{ item.createdAt | thaidate: 'short' }}</td>
               <td *ngIf="item.electronicBook.provinceType == 'ส่งให้จังหวัด'">{{ item.status }}</td>
               <td *ngIf="item.electronicBook.provinceType != 'ส่งให้จังหวัด'">แจ้งเพื่อทราบ</td>
               <td>

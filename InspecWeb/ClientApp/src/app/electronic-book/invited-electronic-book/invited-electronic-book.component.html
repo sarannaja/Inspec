@@ -35,8 +35,8 @@
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
               <td class="pointer" (click)="gotoDetail(item.electronicBookId, item.id)">
-                วันที่ {{item.electronicBook.startDate | thaidate: 'year'}} ถึง
-                {{item.electronicBook.endDate | thaidate: 'year'}}</td>
+                วันที่ {{item.electronicBook.startDate | thaidate: 'short'}} ถึง
+                {{item.electronicBook.endDate | thaidate: 'short'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
               <td>
                 <div *ngFor="let items of item.electronicBook.electronicBookGroups; let i = index">

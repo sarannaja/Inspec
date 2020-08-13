@@ -60,7 +60,23 @@ export class ElectronicBookProvinceComponent implements OnInit {
           targets: [3],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        // "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        // "info": "แสดง _PAGE_ ของ _PAGES_ รายการ จาก _TOTAL_ แถว",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        // "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
   }
 
@@ -104,7 +120,7 @@ export class ElectronicBookProvinceComponent implements OnInit {
   }
 
   gotoTheme(id, elecId) {
-    this.router.navigate(['/electronicbook/theme/' + id ,{electronicBookId: elecId}])
+    this.router.navigate(['/electronicbook/theme/' + id, { electronicBookId: elecId }])
   }
 
   gotoEdit2(id, elecId) {
@@ -116,7 +132,7 @@ export class ElectronicBookProvinceComponent implements OnInit {
     // })
     // alert(this.centralpolicyprovinceid)
 
-    this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId}])
+    this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId }])
   }
 }
 
