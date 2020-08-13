@@ -23,10 +23,22 @@ namespace InspecWeb.Models
         public string Prefix { get; set; }
 
       
-        [Description("ชื่อ")]
+        [Description("ชื่อ+นามสกุล")]
         public string Name { get; set; }
-      
-        
+
+        [Description("ชื่อแรก")]
+        public string Firstnameth { get; set; }
+
+        [Description("นามสกุล")]
+        public string Lastnameth { get; set; }
+
+        [Description("ชื่อแรกอังกฤษ")]
+        public string Firstnameen { get; set; }
+
+        [Description("นามสกุลอังกฤษ")]
+        public string Lastnameen { get; set; }
+
+
         [Description("การศึกษา")]
         public string Educational { get; set; }
 

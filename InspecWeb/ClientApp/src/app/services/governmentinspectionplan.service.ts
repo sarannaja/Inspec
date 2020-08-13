@@ -4,10 +4,16 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
+
 export class GorvermentinspectionplanService {
   // url = "https://localhost:5001/api/governmentinspectionplan/";
+  url = "";
 
-  constructor(private http:HttpClient,@Inject('BASE_URL') private url: string) { }
+  constructor(private http:HttpClient,@Inject('BASE_URL')  baseUrl: string) { 
+    this.url = baseUrl + 'api/governmentinspectionplan';
+  }
+
+
   getgovernmentinspectionplan(){
     return this.http.get(this.url)
   }

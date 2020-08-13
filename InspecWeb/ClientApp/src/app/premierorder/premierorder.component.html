@@ -6,7 +6,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="['/main']">หน้าหลัก</a></li>
         <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment']">ข้อมูลสนับสนุน</a></li>
-        <li class="breadcrumb-item active">ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม</li>
+        <li class="breadcrumb-item active">ข้อมูลเกี่ยวกับการประชุมต่าง ๆ</li>
       </ol>
     </nav>
   </div>
@@ -17,7 +17,7 @@
           <h5 class="card-title">ข้อมูลเกี่ยวกับการประชุมต่าง ๆ </h5>
           <div class="float-right">
             <button class="btn btn-primary" (click)="openModal(modalPremierorder)"
-              style="margin-top: -60px;">เพิ่มข้อมูลเกี่ยวกับการประชุม</button>
+              style="margin-top: -60px;">เพิ่มข้อมูล</button>
           </div>
         </div>
         <div class="card-body">
@@ -39,11 +39,16 @@
                 <td>{{ item.title }}</td>
                 <td ><a *ngIf="item.file != 'NULL' " href="assets/PremierorderFile/{{item.file}}" download>{{ item.file }}</a></td>
                 <td>
-                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="openModal(modaleditPremierorder, item.id, item.year, item.title, item.file)"></i>
-                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                    (click)="openModal(modaldeletePremierorder, item.id)"></i>
+                  <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล">
+                    <i class="align-middle fas fa-fw fa-pen"
+                      (click)="openModal(modaleditPremierorder, item.id, item.year, item.title, item.file)">
+                    </i>
+                  </button>
+                  <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล">
+                    <i class="align-middle fas fa-fw fa-trash-alt"
+                      (click)="openModal(modaldeletePremierorder, item.id)">
+                    </i>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -134,4 +139,8 @@
   <!-- </div> -->
   </ng-template>
   <!-- END primary modal -->
+
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
   

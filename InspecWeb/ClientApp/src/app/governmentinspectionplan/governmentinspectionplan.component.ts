@@ -25,12 +25,26 @@ export class GovernmentinspectionplanComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      },
       columnDefs: [
         {
           targets: [5],
           orderable: false
         }
-      ]
+      ],
+      
 
     };
     this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result=>{
@@ -47,9 +61,9 @@ export class GovernmentinspectionplanComponent implements OnInit {
     this.delid = id;
     this.year = year;
     this.title = title
-    console.log(this.delid);
-    console.log(this.year);
-    console.log(this.title);
+  //  console.log(this.delid);
+   // console.log(this.year);
+   // console.log(this.title);
     
     this.modalRef = this.modalService.show(template);
   }
@@ -65,28 +79,28 @@ export class GovernmentinspectionplanComponent implements OnInit {
   storeGovernmentinspectionplan(value) {
     // alert(JSON.stringify(value));
     this.governmentinspectionplanservice.addGovernmentinspectionplan(value, this.Form.value.files).subscribe(response => {
-      console.log(value);
+     // console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result => {
         this.resultgovernmentinspectionplan = result
-        console.log(this.resultgovernmentinspectionplan);
+       // console.log(this.resultgovernmentinspectionplan);
       })
     })
   }
   deleteGovernmentinspectionplan(value) {
     this.governmentinspectionplanservice.deleteGovernmentinspectionplan(value).subscribe(response => {
-      console.log(value);
+     // console.log(value);
       this.modalRef.hide()
       this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result => {
         this.resultgovernmentinspectionplan = result
-        console.log(this.resultgovernmentinspectionplan);
+       // console.log(this.resultgovernmentinspectionplan);
       })
     })
   }
   editGovernmentinspectionplan(value,delid) {
-    console.clear();
-    console.log(value);
+    // console.clear();
+    // console.log(value);
     this.governmentinspectionplanservice.editGovernmentinspectionplan(value,delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()

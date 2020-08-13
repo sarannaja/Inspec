@@ -15,9 +15,11 @@ export class ProvinceService {
   {
     this.url = baseUrl + 'api/province/';
   }
+  
   getprovincedata():Observable<Province[]> {
     return this.http.get<Province[]>(this.url)
   }
+
   getsectordata():Observable<any[]> {
     return this.http.get<any[]>(this.url+'getsectordata')
   }

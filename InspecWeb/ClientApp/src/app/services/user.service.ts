@@ -62,7 +62,8 @@ export class UserService {
       formData.append('Email', userData.Email); //email   
       formData.append('Role_id', roleId); //role
       formData.append('Prefix', userData.Prefix); //คำนำหน้า
-      formData.append('Name', userData.Name); //ชื่อ
+      formData.append('Firstnameth', userData.FName); //ชื่อ
+      formData.append('Lastnameth', userData.LName); //ชื่อ
       formData.append('Position', userData.Position);//ตำแหน่ง
       formData.append('Educational','');
       formData.append('Commandnumber',userData.Commandnumber); //เลขที่คำสั่ง
@@ -288,4 +289,21 @@ export class UserService {
     return this.http.delete(this.base + id);
   }
 
+  //<!-- ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+  getuserinspectordata(): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'inspector')
+  }
+  //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+
+  //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+  getuserdistrictofficerdata(): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'districtofficer')
+  }
+  //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
+  
+  //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+  getuserpublicsectoradvisordata(): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'publicsectoradvisor')
+  }
+  //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
 }

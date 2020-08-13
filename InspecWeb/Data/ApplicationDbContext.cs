@@ -152,8 +152,10 @@ namespace InspecWeb.Data
 
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<ProvincesGroup> ProvincesGroups { get; set; }
-
         public DbSet<ElectronicBookProvincialDepartment> ElectronicBookProvincialDepartments { get; set; }
+        public DbSet<Approvaldocuments> Approvaldocuments { get; set; } //<!-- แบบขออนุมัติเดินทางไปราชการ -->
+        public DbSet<Informationinspection> Informationinspections { get; set; } //<!-- ข้อมูลประกอบการตรวจราชการ -->
+        public DbSet<Circularletter> Circularletters { get; set; } //<!-- กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ -->
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
