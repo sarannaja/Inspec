@@ -213,7 +213,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
-    name: "นโยบายและแผนยุทธศาสตร์",
+    name: "นโยบาย&แผนยุทธศาสตร์",
     children: [
       {
         ex_link: '0',

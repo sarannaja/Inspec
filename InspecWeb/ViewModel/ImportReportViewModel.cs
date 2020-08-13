@@ -44,9 +44,12 @@ namespace InspecWeb.ViewModel
 
         public long reportId { get; set; }
 
-         public List<IFormFile> files { get; set; }
+        public List<IFormFile> files { get; set; }
 
         public headData[] headData { get; set; }
+
+        [JsonProperty(PropertyName = "Commander")]
+        public string Commander { get; set; }
     }
 
     public class headData

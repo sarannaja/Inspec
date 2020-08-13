@@ -20,8 +20,6 @@ export class ProvinceComponent implements OnInit {
   delid: any
   name: any
   link: any
-  // Provincegroup:any;
-  // Sector:any;
   modalRef: BsModalRef;
   Form: FormGroup;
   EditForm: FormGroup;
@@ -57,9 +55,10 @@ export class ProvinceComponent implements OnInit {
   }
   getdata(){
     this.provinceservice.getprovincedata().subscribe(result => {
-    //  console.log('data',result);
+      console.log('data',result);
       this.spinner.hide();
       this.resultprovince = result
+
       this.loading = true;
     })
   }

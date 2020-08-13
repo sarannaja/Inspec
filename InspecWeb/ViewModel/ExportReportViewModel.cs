@@ -17,10 +17,20 @@ namespace InspecWeb.ViewModel
         public long centralPolicyProvinceId { get; set; }
         [JsonProperty(PropertyName = "reportId")]
         public long reportId { get; set; }
+        [JsonProperty(PropertyName = "electronicBookId")]
+        public long electronicBookId { get; set; }
+
+        [JsonProperty(PropertyName = "subjectData")]
+        public string[] subjectData { get; set; }
 
         public reportData[] reportData { get; set; }
 
         public reportData2[] reportData2 { get; set; }
+
+        public printReport[] printReport { get; set; }
+
+        public printReport2[] printReport2 { get; set; }
+
     }
 
     public class reportData
@@ -78,5 +88,32 @@ namespace InspecWeb.ViewModel
     {
         [JsonProperty(PropertyName = "subject")]
         public string subject { get; set; }
+    }
+
+    public class printReport
+    {
+        [JsonProperty(PropertyName = "inspectorName")]
+        public string inspectorName { get; set; }
+        [JsonProperty(PropertyName = "inspectorDescription")]
+        public string inspectorDescription { get; set; }
+        [JsonProperty(PropertyName = "inspectorSign")]
+        public string inspectorSign { get; set; }
+        [JsonProperty(PropertyName = "approve")]
+        public string approve { get; set; }
+
+    }
+
+    public class printReport2
+    {
+        [JsonProperty(PropertyName = "departmentName")]
+        public string departmentName { get; set; }
+        [JsonProperty(PropertyName = "department")]
+        public string department { get; set; }
+        [JsonProperty(PropertyName = "departmentDescription")]
+        public string departmentDescription { get; set; }
+        [JsonProperty(PropertyName = "departmentSign")]
+        public string departmentSign { get; set; }
+        [JsonProperty(PropertyName = "departmentDate")]
+        public DateTime departmentDate { get; set; }
     }
 }

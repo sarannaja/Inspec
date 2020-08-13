@@ -805,7 +805,9 @@ namespace InspecWeb.Controllers
                     .Where(x => x.Id == model.ElectID)
                     .FirstOrDefault();
                     {
-                        ElectronicBookStatus.ProvinceStatus = "ส่งสมุดตรวจแล้ว";
+                        //ElectronicBookStatus.ProvinceStatus = "ส่งสมุดตรวจแล้ว";
+                        //ElectronicBookStatus.Status = "ส่งสมุดตรวจแล้ว";
+                        ElectronicBookStatus.Status = model.Status;
                     }
                     _context.Entry(ElectronicBookStatus).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     _context.SaveChanges();
@@ -1154,9 +1156,10 @@ namespace InspecWeb.Controllers
             return Ok(data);
         }
 
-        [HttpGet("centralPolicyEbook")]
-        public IActionResult GetCentralPolicyEbook(ElectronicBookViewModel model)
+        [HttpGet("centralPolicyEbook/{userId}")]
+        public IActionResult GetCentralPolicyEbook(ElectronicBookViewModel model, string userId)
         {
+            System.Console.WriteLine("UserID: " + userId);
             var centralPolicyEbookData = _context.CentralPolicyEvents
             .Include(x => x.CentralPolicy)
             .ThenInclude(x => x.CentralPolicyProvinces)
@@ -1166,7 +1169,7 @@ namespace InspecWeb.Controllers
             .ThenInclude(x => x.SubjectCentralPolicyProvinces)
             .Include(x => x.InspectionPlanEvent)
             .ThenInclude(x => x.Province)
-            .Where(x => x.InspectionPlanEvent.Status == "ใช้งานจริง")
+            .Where(x => x.InspectionPlanEvent.Status == "ใช้งานจริง" && x.InspectionPlanEvent.CreatedBy == userId)
             .ToList();
 
             // var centralPolicyEbookData = _context.CentralPolicies
@@ -1189,7 +1192,7 @@ namespace InspecWeb.Controllers
             .ThenInclude(x => x.SubjectCentralPolicyProvinces)
             .Include(x => x.InspectionPlanEvent)
             .ThenInclude(x => x.Province)
-            .Where(x => x.InspectionPlanEvent.Status == "ใช้งานจริง" && (x.StartDate <= model.startDate && x.EndDate >= model.startDate))
+            .Where(x => x.InspectionPlanEvent.CreatedBy == model.User && x.InspectionPlanEvent.Status == "ใช้งานจริง" && (x.StartDate <= model.startDate && x.EndDate >= model.startDate))
             .ToList();
 
             return Ok(centralPolicyEbookData);
@@ -1389,14 +1392,15 @@ namespace InspecWeb.Controllers
                 _context.SaveChanges();
             }
 
-            var ElectronicBookStatus = _context.ElectronicBooks
-                .Where(x => x.Id == model.ElectID)
-                .FirstOrDefault();
-            {
-                ElectronicBookStatus.ProvinceStatus = "ส่งสมุดตรวจแล้ว";
-            }
-            _context.Entry(ElectronicBookStatus).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            //var ElectronicBookStatus = _context.ElectronicBooks
+            //    .Where(x => x.Id == model.ElectID)
+            //    .FirstOrDefault();
+            //{
+            //    //ElectronicBookStatus.ProvinceStatus = "ส่งสมุดตรวจแล้ว";
+            //    ElectronicBookStatus.Status = "ส่งสมุดตรวจแล้ว";
+            //}
+            //_context.Entry(ElectronicBookStatus).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //_context.SaveChanges();
 
             return Ok(new { status = true });
         }
@@ -1434,7 +1438,7 @@ namespace InspecWeb.Controllers
             .Include(x => x.User)
             .Include(x => x.UserCreate)
             .Where(x => x.ProvinceId == provinceId)
-            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง")
+            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
             // .Where(m => m.ElectronicBook.ElectronicBookGroups
             // .Any(x => x.CentralPolicyEvent.CentralPolicy.CentralPolicyProvinces
             // .Any(m => m.SubjectCentralPolicyProvinces
@@ -1936,7 +1940,7 @@ namespace InspecWeb.Controllers
             .Include(x => x.UserCreate)
             .Include(x => x.UserProvincialDepartment)
             .Where(x => x.ProvincialDepartmentId == provincialDepartmentId)
-            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง")
+            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
             .ToList();
             return Ok(ebookProvince);
         }
@@ -2026,6 +2030,34 @@ namespace InspecWeb.Controllers
             .FirstOrDefault();
 
             return Ok(ebookInvite);
+        }
+
+        [HttpPost("inviteMorePeople")]
+        public void InviteMorePeople([FromForm] ElectronicBookViewModel model)
+        {
+            foreach (var item in model.userId)
+            {
+                var ElectronicBookInviteData = new ElectronicBookInvite
+                {
+                    ElectronicBookId = model.ElectID,
+                    UserId = item,
+                    Status = "รอลงความเห็น"
+                };
+                _context.ElectronicBookInvites.Add(ElectronicBookInviteData);
+                _context.SaveChanges();
+            }
+            System.Console.WriteLine("Finish Invite More People");
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("deleteMoreInvited/{id}")]
+        public void DeleteMoreInvited(long id)
+        {
+            System.Console.WriteLine("Invited ID: " + id);
+            var invitedData = _context.ElectronicBookInvites.Find(id);
+
+            _context.ElectronicBookInvites.Remove(invitedData);
+            _context.SaveChanges();
         }
     }
 }

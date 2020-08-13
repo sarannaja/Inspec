@@ -97,7 +97,7 @@
             <button *ngIf="reportData.importData.status == 'ร่าง'" style="margin-right: 10px;" class="btn btn-primary"
               (click)="openEditModal(editReportModal)">แก้ไขรายงานผลการตรวจ</button>
             <button *ngIf="reportData.importData.status == 'ร่าง'" style="margin-right: 10px;" class="btn btn-success"
-              (click)="openModal(confirmModal)">ส่งรายงานผลการตรวจ</button>
+              (click)="openModal(confirmModal2)">ส่งรายงานผลการตรวจ</button>
             <button class="btn btn-danger" (click)="back()">กลับ</button>
           </div>
         </div>
@@ -125,12 +125,44 @@
   </div>
 </ng-template>
 
+<ng-template #confirmModal2 class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="reportForm" (ngSubmit)="sendToCommander(reportForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ส่งรายงานผลการตรวจ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">ส่งให้ผู้บังคับบัญชา*</label>
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้บังคับบัญชา" [multiple]="false"   [items]="commanderData"
+              name="commander" formControlName="commander"  >
+            </ng-select>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+
 <ng-template #editReportModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
   <form [formGroup]="reportForm" (ngSubmit)="editReport(reportForm.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">ออกรายงาน</h5>
+        <h5 class="modal-title">แก้ไขรายงานผลการตรวจ</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
