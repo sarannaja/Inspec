@@ -17,15 +17,14 @@
     <div *ngIf="role_id == 1 || role_id == 2;else elseBlock" class="card-header" style="margin-bottom: -40px;">
       <h5 class="card-title">เรื่องที่ตรวจ : {{resultcentralpolicy.title}}</h5>
       <div class="float-right">
-        <button class="btn btn-primary" title="เพิ่มหัวข้อการตรวจ" (click)="Subquestion()"
-          style="margin-top: -60px;">
+        <button class="btn btn-primary" title="เพิ่มหัวข้อการตรวจ" (click)="Subquestion()" style="margin-top: -60px;">
           <i class="align-middle fas fa-fw fa-plus pointer"></i>
         </button>
       </div>
     </div>
     <ng-template #elseBlock>
       <div class="card-header">
-        <h5 class="card-title">แผนตรวจราชการ</h5>
+        <h5 class="card-title">เรื่องที่ตรวจ : {{resultcentralpolicy.title}}</h5>
       </div>
     </ng-template>
     <div class="card-body">
@@ -34,8 +33,9 @@
         <thead>
           <tr>
             <th width="5%">ที่</th>
-            <th>หัวข้อการตรวจ</th>
+            <th>หัวข้อการตรวจ(จำนวนประเด็น)</th>
             <th>ระยะเวลาการตรวจ</th>
+            <th>ปรับปรุงล่าสุด</th>
             <!-- <th>สถานะ</th> -->
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
@@ -43,21 +43,24 @@
         <tbody>
           <tr *ngFor="let item of resultsubject; let i = index">
             <td class="pointer" (click)="DetailSubject(item.id)">{{ i + 1 }}</td>
-            <td class="pointer" (click)="DetailSubject(item.id)">{{ item.name }} ( {{item.count}} )</td> <!-- (click)="Subquestion()" -->
+            <td class="pointer" (click)="DetailSubject(item.id)">{{ item.name }} ( {{item.count}} )</td>
+            <!-- (click)="Subquestion()" -->
             <td class="pointer" (click)="DetailSubject(item.id)">
               <div *ngFor="let item2 of item.subjectDateCentralPolicyProvinces;">
                 {{ item2.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
                 {{ item2.centralPolicyDateProvince.endDate | thaidate: 'year' }}</div>
             </td>
+            <td class="pointer" (click)="DetailSubject(item.id)">{{ item.updateAt | thaidate: 'year' }}</td>
             <!-- <td class="pointer" (click)="DetailSubject(item.id)">{{item.status}}</td> -->
             <td>
               <div class="row">
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i> -->
                 <div *ngIf="role_id == 1 || role_id == 2">
-                  <i title="แก้ไขหัวข้อการตรวจ" style="padding-bottom: 10px;" class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="EditSubject(item.id)"></i>
+                  <i title="แก้ไขหัวข้อการตรวจ" style="padding-bottom: 10px;"
+                    class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditSubject(item.id)"></i>
                 </div>
-                <i title="ลบหัวข้อการตรวจ" *ngIf="role_id == 1 || role_id == 2;" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                <i title="ลบหัวข้อการตรวจ" *ngIf="role_id == 1 || role_id == 2;"
+                  class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteSubject, item.id)"></i>
               </div>
             </td>
@@ -103,8 +106,8 @@
           </div> -->
         <div class="form-group">
           <label for="test" class="form-label">กำหนดระยะเวลา</label>
-          <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"   [items]="times" name="ํTime"
-            formControlName="centralpolicydateid"  >
+          <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"
+            [items]="times" name="ํTime" formControlName="centralpolicydateid">
           </ng-select>
         </div>
       </div>

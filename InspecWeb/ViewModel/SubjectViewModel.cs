@@ -20,6 +20,8 @@ namespace InspecWeb.ViewModel
 
         public string Explanation { get; set; }
 
+        public string UserID { get; set; }
+
         public List<IFormFile> files { get; set; }
 
         public long[] CentralPolicyDateId { get; set; }

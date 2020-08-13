@@ -192,7 +192,7 @@ export class InspectionPlanEventComponent implements OnInit {
       const self = this;
       // var self.url = this.url
 
-      $("#calendar").fullCalendar({
+      $("#calendar2").fullCalendar({
         header: {
 
           left: 'prev,next today',

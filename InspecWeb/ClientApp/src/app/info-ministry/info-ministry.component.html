@@ -14,8 +14,10 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">กระทรวง</h5><br>
-          <div class="float-right">
+          <h5 class="card-title">กระทรวง</h5>
+          <div class="float-right"> 
+             <button class="btn btn-success" (click)="excelministry()"
+            style="margin-top: -60px;">excel</button>
           </div>
         </div>
         <div class="card-body">
@@ -24,15 +26,13 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>ชื่อกระทรวง</th>
+                <th>กระทรวง</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of resultministry; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td class="pointer" (click)="infodepartment(item.id)">{{item.name}}</td>
-                <ng-template #elseBlock>
-                </ng-template>
+                <td class="pointer" (click)="infodepartment(item.id)">{{item.name}}</td>             
               </tr>
             </tbody>
           </table>

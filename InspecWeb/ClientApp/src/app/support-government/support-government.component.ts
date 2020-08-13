@@ -25,7 +25,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:3,
       name: 'ข้อมูลการแบ่งเขตตรวจราชการ',
-      link:'',
+      link:'#',
       forblank:0
     },
     {
@@ -43,43 +43,44 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:6,
       name: 'กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ อาทิ ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการตรวจราชการ พ.ศ.2551 ระเบียบสำนักนายกรัฐมนตรีว่าด้วยคณะกรรมการ ธรรมาภิบาลจังหวัด พ.ศ. 2552 และที่แก้ไขเพิ่มเติม ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการกำกับติดตามการปฏิบัติราชการในภูมิภาค',
-      link:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=12796&pagename=content1',
-      forblank:1
+      // link:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=12796&pagename=content1',
+      link:'#',
+      forblank:0
     },
     {
       id:7,
       name: 'แผนการตรวจราชการประจำปี',
-      link:'/govermentinpectionplan',
+      link:'/supportgovernment/govermentinspectionplan',
       forblank:0
     },
     {
       id:8,
       name: 'ข้อมูลประกอบการตรวจราชการ',
-      link:'',
-      forblank:0
-    },
-    {
-      id:9,
-      name: 'ข้อมูลพื้นฐานรายจังหวัด',
-      link:'/external/otps-provinces',
-      forblank:1
-    },
-    {
-      id:10,
-      name: 'ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม',
       link:'#',
       forblank:0
     },
     {
+      id:9,
+      name:'ข้อมูลพื้นฐานรายจังหวัด',
+      link:'/external/otps-provinces',
+      forblank:0
+    },
+    {
+      id:10,
+      name:'ข้อมูลเกี่ยวกับการประชุมต่าง ๆ อาทิ หนังสือเชิญประชุม ระเบียบวาระการประชุม รายงานการประชุม เอกสารประกอบการประชุม',
+      link:'/supportgovernment/premierorder',
+      forblank:0
+    },
+    {
       id:11,
-      name: 'ข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ อาทิ ข้อมูลการติดต่อที่พัก ยานพาหนะ และร้านอาหาร เที่ยวบิน',
+      name:'ข้อมูลสำหรับการปฏิบัติงานของเจ้าหน้าที่ประจำเขตตรวจราชการ อาทิ ข้อมูลการติดต่อที่พัก ยานพาหนะ และร้านอาหาร เที่ยวบิน',
       link:'/informationoperation',
       forblank:0
     },
     {
       id:12,
       name: 'แบบขออนุมัติเดินทางไปราชการ แบบขอยืมเงินทดรองราชการ สัญญาขอยืมเงิน และแบบรายงานการเดินทางไปราชการ ฯลฯ',
-      link:'',
+      link:'#',
       forblank:0
     },
   ]
@@ -87,9 +88,22 @@ export class SupportGovernmentComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
     this.dtOptions = {
-      // pagingType: 'full_numbers',
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+
     };
   }
 

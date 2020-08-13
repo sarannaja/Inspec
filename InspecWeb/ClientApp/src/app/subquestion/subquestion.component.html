@@ -38,7 +38,7 @@
                   placeholder="กรุณากรอกคำชี้แจง"></textarea>
               </div>
               <div class="form-group">
-                <label>กำหนดระยะเวลาการตรวจ</label>
+                <label>ระยะเวลาการตรวจ</label>
                 <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"
                   [items]="times" name="ํTime" formControlName="centralpolicydateid">
                 </ng-select>
@@ -52,7 +52,7 @@
                   <label style="margin-left: 10px;">ใช้งานจริง</label>
                 </div>
               </div> -->
-              <hr width="100%" color="black">
+              <!-- <hr width="100%" color="black"> -->
               <div class="form-group">
                 <!-- <label>พื้นที่ดำเนินการ</label> -->
                 <div formArrayName="inputsubjectdepartment">
@@ -65,11 +65,11 @@
                           <label>ผู้ให้ข้อมูล</label>
                         </div>
                         <div class="col-1" *ngIf="iv == 0; else elseBlock">
-                          <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i>
+                          <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i> -->
                         </div>
                         <ng-template #elseBlock>
                           <div class="col-1">
-                            <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeV(iv)"
+                            <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" (click)="removeV(iv)"
                               value="Add V"></i>
                           </div>
                         </ng-template>
@@ -123,13 +123,21 @@
                               </div>
                               <div class="col-1">
                                 <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">
-                                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX(iv)"
-                                    value="Add X"></i>
+                                  <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addX(iv)"
+                                    value="Add X"></i> -->
+                                  <button *ngIf="ix == 0; else elseBlock" class="btn btn-primary" type="button"
+                                    title="เพิ่มคำถาม" (click)="addX(iv)" value="Add X">
+                                    <i class="align-middle fas fa-fw fa-plus pointer"></i>
+                                  </button>
                                 </div>
                                 <ng-template #elseBlock>
                                   <div class="col-1 margin-plus-icon">
-                                    <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(iv,ix)"
-                                      value="Add X"></i>
+                                    <!-- <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeX(iv,ix)"
+                                      value="Add X"></i> -->
+                                    <button class="btn btn-primary" type="button" title="ลบคำถาม"
+                                      (click)="removeX(iv,ix)" value="Add X">
+                                      <i class="align-middle fas fa-fw fa-minus pointer"></i>
+                                    </button>
                                   </div>
                                 </ng-template>
                               </div>
@@ -144,13 +152,21 @@
                                     </div>
                                     <div class="col-1">
                                       <div class="col-1 margin-plus-icon" *ngIf="iy == 0; else elseBlock">
-                                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(iv,ix)"
-                                          value="Add Y"></i>
+                                        <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addY(iv,ix)"
+                                          value="Add Y"></i> -->
+                                        <button class="btn btn-primary" style="margin-top: -2px;" type="button"
+                                          title="เพิ่มคำตอบให้เลือก" (click)="addY(iv,ix)" value="Add Y">
+                                          <i class="align-middle fas fa-fw fa-plus pointer"></i>
+                                        </button>
                                       </div>
                                       <ng-template #elseBlock>
                                         <div class="col-1 margin-plus-icon">
-                                          <i class="align-middle mr-2 far fa-fw fa-minus-square"
-                                            (click)="removeY(iv,ix,iy)" value="Add Y"></i>
+                                          <!-- <i class="align-middle mr-2 far fa-fw fa-minus-square"
+                                            (click)="removeY(iv,ix,iy)" value="Add Y"></i> -->
+                                          <button class="btn btn-primary" style="margin-top: -2px;" type="button"
+                                            title="ลบคำตอบให้เลือก" (click)="removeY(iv,ix,iy)" value="Add Y">
+                                            <i class="align-middle fas fa-fw fa-minus pointer"></i>
+                                          </button>
                                         </div>
                                       </ng-template>
                                     </div>
@@ -158,12 +174,11 @@
                                 </div>
                               </div>
                             </div>
-                            <hr width="100%" color="black">
                           </div>
                         </div>
                       </div>
                     </div>
-                    <hr>
+                    <hr width="100%" style="height: 2px;" color="black">
                   </div>
                 </div>
 
@@ -215,6 +230,11 @@
                     </div>
                   </div>
                 </div> -->
+                <div class="row" style="margin-top: 10px;">
+                  <div class="col-md-6">
+                    <button type="button" class="btn btn-info" (click)="addV()">เพิ่มชุดประเด็นการตรวจติดตาม</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-12 col-xl-12">

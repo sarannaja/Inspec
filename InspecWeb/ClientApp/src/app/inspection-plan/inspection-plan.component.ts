@@ -62,6 +62,10 @@ export class InspectionPlanComponent implements OnInit {
   editid
   checkInspec: Boolean;
   year
+  ministryuserdata: any = [];
+  departmentuserdata: any = [];
+  peopleuserdata: any = [];
+  provincialdepartmentuserdata: any = [];
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
@@ -100,16 +104,33 @@ export class InspectionPlanComponent implements OnInit {
           targets: [3],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
 
     this.getCurrentYear();
-    this.getinspectionplanservice();
     this.getTimeline();
     this.getScheduleData();
 
-    await this.getDepartmentPeople();
+    this.getministryuser();
+    this.getdepartmentuser();
+    this.getpeopleuser();
+    this.getprovincialdepartmentuser();
+
     await this.getMinistryPeople();
+    await this.getDepartmentPeople();
     await this.getUserPeople();
 
     this.Form = this.fb.group({
@@ -171,6 +192,7 @@ export class InspectionPlanComponent implements OnInit {
     this.inspectionplanservice.getScheduleData(this.id, this.provinceid).subscribe(res => {
       console.log("ScheduleData: ", res);
       this.ScheduleData = res;
+      this.getinspectionplanservice();
     })
   }
 
@@ -290,6 +312,7 @@ export class InspectionPlanComponent implements OnInit {
           await this.getRecycled()
           // alert(JSON.stringify(this.resultcentralpolicy))
         })
+      this.loading = true;
     })
 
   }
@@ -422,7 +445,7 @@ export class InspectionPlanComponent implements OnInit {
         })
       })
     }
-    this.Form.reset()
+    this.Form2.reset()
     this.modalRef.hide()
   }
 
@@ -558,4 +581,41 @@ export class InspectionPlanComponent implements OnInit {
     })
   }
 
+  getministryuser() {
+    this.centralpolicyservice.getcentralpolicyministrydata(this.id).subscribe(result => {
+      this.ministryuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.ministryuserdata", this.ministryuserdata);
+    })
+  }
+  getdepartmentuser() {
+    this.centralpolicyservice.getcentralpolicydepartmentdata(this.id).subscribe(result => {
+      this.departmentuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.departmentuserdata", this.departmentuserdata);
+    })
+  }
+
+  getprovincialdepartmentuser() {
+    this.centralpolicyservice.getcentralpolicyprovincialdepartmentdata(this.id).subscribe(result => {
+      this.provincialdepartmentuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.departmentuserdata", this.departmentuserdata);
+    })
+  }
+
+  getpeopleuser() {
+    this.centralpolicyservice.getcentralpolicypeopledata(this.id).subscribe(result => {
+      this.peopleuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.peopleuserdata", this.peopleuserdata);
+    })
+  }
+  // var distinctThings: any[] = result.filter(
+  //       (thing, i, arr) => arr.findIndex(t => t.id === thing.id) === i
+  //     );
 }

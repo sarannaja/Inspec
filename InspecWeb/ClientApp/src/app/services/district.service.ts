@@ -15,4 +15,21 @@ export class DistrictService {
     console.log(id);
     return this.http.get(this.url+id)
   }
+
+  adddistrict(districtData,provinceId) {
+     const formData = new FormData();
+     formData.append('ProvincesId', provinceId);
+     formData.append('Name', districtData.Name);
+     return this.http.post(this.url, formData);
+   }
+   deletedistrict(id) {
+     return this.http.delete(this.url + id);
+   }
+   editdistrict(districtData,id) {
+     const formData = new FormData();
+     formData.append('Name', districtData.Name);
+    
+     return this.http.put(this.url+id, formData);
+   }
+
 }

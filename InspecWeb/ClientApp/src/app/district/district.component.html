@@ -5,8 +5,8 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="/province">จังหวัด</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">อำเภอ</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/province']">จังหวัด</a></li>
+      <li class="breadcrumb-item active">อำเภอ</li>
       <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
   </nav>
@@ -15,19 +15,19 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h4 class="card-title">จังหวัด : {{titleprovince}}</h4>
+        <h4 class="card-title">อำเภอ : {{titleprovince}}</h4>
         <div class="float-right">
-          <!-- <button class="btn btn-primary" (click)="openModal(modalProvince)"
-            style="margin-top: -60px;">เพิ่มอำเภอ/เขต</button> -->
+          <button class="btn btn-primary" (click)="openModal(modaladd)"
+            style="margin-top: -60px;">เพิ่มอำเภอ/เขต</button>
         </div>
       </div>
       <div class="card-body">
-        <table id="datatables-basic" class="table table-striped" style="width:100%">
+        <table *ngIf="loading" id="datatables-basic" class="table table-striped" datatable [dtOptions]="dtOptions">
           <thead>
             <tr>
               <th>#</th>
               <th>ชื่ออำเภอ/เขต</th>
-              <th>วันที่สร้าง</th>
+              <!-- <th>วันที่สร้าง</th> -->
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -35,13 +35,13 @@
             <tr *ngFor="let item of resultdistrict; let i = index">
               <td>{{ i + 1 }}</td>
               <td class="pointer" (click)="Subdistrict(item.id)">{{ item.name }}</td>
-              <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
+              <!-- <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td> -->
               <td>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>
+                  (click)="openModal(modaledit, item.id, item.name)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteProvince, item.id)"></i>
+                  (click)="openModal(modaldelete, item.id)"></i>
               </td>
             </tr>
           </tbody>
@@ -50,25 +50,20 @@
     </div>
   </div>
 
-  <!-- BEGIN primary modal -->
-  <ng-template #modalProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="Form" (ngSubmit)="storeProvince(Form.value)">
+  <!-- BEGIN Add modal -->
+  <ng-template #modaladd class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="Form" (ngSubmit)="storeDistrict(Form.value)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">จัดการจังหวัด</h5>
+          <h5 class="modal-title">เพิ่มอำเภอ</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ชื่อจังหวัด</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด">
-            <br>
-            <label for="test" class="form-label">ลิ้งค์​</label>
-            <input type="text" formControlName="provincelink" class="form-control" placeholder="กรุณากรอกจังหวัดลิ้ง">
+            <label for="Name" class="form-label">ชื่ออำเภอ</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่ออำเภอ">         
           </div>
         </div>
         <div class="modal-footer">
@@ -77,13 +72,12 @@
         </div>
       </div>
     </form>
-    <!-- </div> -->
   </ng-template>
-  <!-- END primary modal -->
+  <!-- END Add modal -->
 
 
-  <!-- BEGIN primary modal -->
-  <ng-template #modaldeleteProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- BEGIN delete modal -->
+  <ng-template #modaldelete class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
       <i class="fa fa-info-circle delete-icon"></i>
       <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
@@ -92,7 +86,7 @@
       <p style="font-size: medium; color: #545454;">
         คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
       </p>
-      <button type="button" class="btn btn-primary btnMargin" (click)="deleteProvince(delid)">
+      <button type="button" class="btn btn-primary btnMargin" (click)="delete(district_id)">
         ใช่
       </button>
       <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
@@ -100,29 +94,23 @@
       </button>
     </div>
   </ng-template>
-  <!-- END primary modal -->
+  <!-- END delete modal -->
 
-  <!-- BEGIN primary modal -->
-  <ng-template #modaleditProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="EditForm" (ngSubmit)="editProvince(EditForm.value,delid)">
+  <!-- BEGIN edit modal -->
+  <ng-template #modaledit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="Form" (ngSubmit)="updateDistrict(Form.value,district_id)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">จัดการจังหวัด</h5>
+          <h5 class="modal-title">จัดการอำเภอ</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ชื่อจังหวัด</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
-              placeholder="กรุณากรอกชื่อจังหวัด">
-            <br>
-            <label for="test" class="form-label">ลิ้งค์​</label>
-            <input type="text" value="{{link}}" formControlName="provincelink" class="form-control"
-              placeholder="กรุณากรอกจังหวัดลิ้ง">
+            <label for="test" class="form-label">ชื่ออำเภอ</label>
+            <input type="text"  formControlName="Name" class="form-control"
+              placeholder="กรุณากรอกชื่ออำเภอ">
           </div>
         </div>
         <div class="modal-footer">
@@ -133,4 +121,8 @@
     </form>
     <!-- </div> -->
   </ng-template>
-  <!-- END primary modal -->
+  <!-- END edit modal -->
+
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>

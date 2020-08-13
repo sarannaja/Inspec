@@ -94,7 +94,7 @@ export class DetailrowCentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result;
-        console.log("RES EDIT: ", this.resultdetailcentralpolicy);
+        console.log("RES EDIT: ", this.resultdetailcentralpolicy.centralPolicyFiles);
 
         this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearId.toString();
 

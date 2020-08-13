@@ -188,6 +188,7 @@ import { NotofyService } from './services/notofy.service';
 
 
 
+
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -315,7 +316,6 @@ const ExternalOrganization = [
     StatepolicyComponent,
     DocumenttemplateComponent,
     MeetinginformationComponent,
-    PremierorderComponent,
     ReportInspectionPlanEventComponent,
     ExecutiveOrderExport1Component,
     ExecutiveOrderExport3Component,
@@ -405,7 +405,7 @@ const ExternalOrganization = [
           { path: 'inspectionplan/inspectorministry/:id/:provinceid', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/inspectordepartment/:id/:provinceid', component: InspectionPlanDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
@@ -495,7 +495,7 @@ const ExternalOrganization = [
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
-          { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportsubject', component: ReportSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicyfiscalyear/:id', component: CentralPolicyFiscalyearComponent, canActivate: [AuthorizeGuard] },
@@ -504,7 +504,6 @@ const ExternalOrganization = [
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
-          { path: 'premierorder', component: PremierorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport1', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport3', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },

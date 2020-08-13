@@ -129,6 +129,7 @@ namespace InspecWeb.Controllers {
                 };
                 _context.ExecutiveOrderAnswers.Add(data);
                 _context.SaveChanges();
+                System.Console.WriteLine("3.2 : ");
             }
             // <!-- END เพิ่มผู่รับข้อสั่งการ  -->
 
@@ -138,24 +139,29 @@ namespace InspecWeb.Controllers {
                 Directory.CreateDirectory (_environment.WebRootPath + "//executivefile//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "//executivefile//";
-
-            foreach (var formFile in model.files.Select ((value, index) => new { Value = value, Index = index }))   
+            if (model.files != null)
             {
-                var random = RandomString (10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName (filePath2);
-                string ext = Path.GetExtension (filename);
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                if (formFile.Value.Length > 0) {                 
-                    using (var stream = System.IO.File.Create (filePath + random + filename)) {
-                        await formFile.Value.CopyToAsync (stream);
+                    if (formFile.Value.Length > 0)
+                    {
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        var ExecutiveOrderFile = new ExecutiveOrderFile
+                        {
+                            ExecutiveOrderId = executiveordersdata.Id,
+                            Name = random + filename,
+                        };
+                        _context.ExecutiveFiles.Add(ExecutiveOrderFile);
+                        _context.SaveChanges();
                     }
-                    var ExecutiveOrderFile = new ExecutiveOrderFile {
-                        ExecutiveOrderId = executiveordersdata.Id,
-                        Name = random + filename,
-                    };
-                    _context.ExecutiveFiles.Add (ExecutiveOrderFile);
-                    _context.SaveChanges ();
                 }
             }
             // <!--END อัพไฟล์  -->
@@ -181,7 +187,7 @@ namespace InspecWeb.Controllers {
 
             _context.Entry (executiveordersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges ();
-        
+            System.Console.WriteLine("1 : ");
             // <! -- ลบข้อมูลผู้รับข้อสั่งการเดิม -->
             var OLDExecutiveOrderAnswer = _context.ExecutiveOrderAnswers
                 .Where(m => m.ExecutiveOrderId == executiveordersdata.Id);
@@ -201,40 +207,49 @@ namespace InspecWeb.Controllers {
                     UserID = item,
                     publics = 1,
                 };
+                System.Console.WriteLine("3.2 : ");
                 _context.ExecutiveOrderAnswers.Add(data);
+                System.Console.WriteLine("3.3 : ");
                 _context.SaveChanges();
             }
             // <!-- END แก้ไขผู้รับข้อสั่งการ  -->
-
+            System.Console.WriteLine("4 : ");
             if (!Directory.Exists (_environment.WebRootPath + "//executivefile//")) {
                 Directory.CreateDirectory (_environment.WebRootPath + "//executivefile//"); //สร้าง Folder Upload ใน wwwroot
             }
             //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             // path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "//executivefile//";
-            foreach (var formFile in model.files.Select ((value, index) => new { Value = value, Index = index }))
-            //foreach (var formFile in data.files)
+            if (model.files != null)
             {
-                var random = RandomString (10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName (filePath2);
-                string ext = Path.GetExtension (filename);
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                if (formFile.Value.Length > 0) {
+                    if (formFile.Value.Length > 0)
+                    {
 
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create (filePath + random + filename)) {
-                        await formFile.Value.CopyToAsync (stream);
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        var ExecutiveOrderFile = new ExecutiveOrderFile
+                        {
+                            ExecutiveOrderId = model.id,
+                            Name = random + filename
+                        };
+                        _context.ExecutiveFiles.Add(ExecutiveOrderFile);
+                        _context.SaveChanges();
+                        System.Console.WriteLine("4.2 : ");
                     }
-                    var ExecutiveOrderFile = new ExecutiveOrderFile {
-                        ExecutiveOrderId = model.id,
-                        Name = random + filename
-                    };
-                    _context.ExecutiveFiles.Add(ExecutiveOrderFile);
-                    _context.SaveChanges();
-                    /*  System.Console.WriteLine("Sucess");*/
                 }
             }
+            System.Console.WriteLine("5 : ");
             return Ok (new { Id = model.id });
         }
         //<!-- END แก้ไขข้อสั่งการ -->
@@ -315,27 +330,29 @@ namespace InspecWeb.Controllers {
                 Directory.CreateDirectory(_environment.WebRootPath + "//executivefile//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "//executivefile//";
-
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+            if (model.files != null)
             {
-                var random = RandomString(10);
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
                 {
-                    using (var stream = System.IO.File.Create(filePath + random + filename))
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
                     {
-                        await formFile.Value.CopyToAsync(stream);
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        var AnswerExecutiveOrderFile = new AnswerExecutiveOrderFile
+                        {
+                            ExecutiveOrderAnswerDetailId = executiveorderanswerdetaildata.Id,
+                            Name = random + filename,
+                        };
+                        _context.AnswerExecutiveOrderFiles.Add(AnswerExecutiveOrderFile);
+                        _context.SaveChanges();
                     }
-                    var AnswerExecutiveOrderFile = new AnswerExecutiveOrderFile
-                    {
-                        ExecutiveOrderAnswerDetailId = executiveorderanswerdetaildata.Id,
-                        Name = random + filename,
-                    };
-                    _context.AnswerExecutiveOrderFiles.Add(AnswerExecutiveOrderFile);
-                    _context.SaveChanges();
                 }
             }
             // <!--END อัพไฟล์  -->

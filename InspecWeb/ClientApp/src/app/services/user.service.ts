@@ -62,7 +62,8 @@ export class UserService {
       formData.append('Email', userData.Email); //email   
       formData.append('Role_id', roleId); //role
       formData.append('Prefix', userData.Prefix); //คำนำหน้า
-      formData.append('Name', userData.Name); //ชื่อ
+      formData.append('Firstnameth', userData.FName); //ชื่อ
+      formData.append('Lastnameth', userData.LName); //ชื่อ
       formData.append('Position', userData.Position);//ตำแหน่ง
       formData.append('Educational','');
       formData.append('Commandnumber',userData.Commandnumber); //เลขที่คำสั่ง
@@ -155,20 +156,24 @@ export class UserService {
         formData.append('ProvincialDepartmentId', userData.ProvincialDepartmentId);//หน่วยงานภูมิภาคมีได้อันเดียว
       }
 
-      for (var iii = 0; iii < file.length; iii++) {
-
-        formData.append("files", file[iii]);
+      if(file != null ){
+        for (var iii = 0; iii < file.length; iii++) {
+          formData.append("files", file[iii]);
+        }
+      }else{
+        formData.append("files", null);
       }
 
     return this.http.post(this.base, formData);
   }
 
-  editprofile(userData, file: FileList, userId) {
+  editprofile(userData, file: FileList,file2: FileList, userId) {
    // alert('2 :' + userId)
     const formData = new FormData();
     formData.append('Role_id', userData.Role_id); //role
     formData.append('Prefix', userData.Prefix);
-    formData.append('Name', userData.Name);
+    formData.append('Firstnameth', userData.FName); //ชื่อ
+    formData.append('Lastnameth', userData.LName); //ชื่อ
     formData.append('Position', userData.Position);
     formData.append('PhoneNumber', userData.PhoneNumber);
     formData.append('Formprofile', userData.Formprofile);// สำหรับเช็ค user หรือแอดมิน เป็นคนเพิ่ม
@@ -261,10 +266,20 @@ export class UserService {
     } else {
       formData.append('ProvincialDepartmentId', userData.ProvincialDepartmentId);//หน่วยงานภูมิภาคมีได้อันเดียว
     }
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }else{
+      formData.append("files", null);
+    }
 
-    for (var iii = 0; iii < file.length; iii++) {
-
-      formData.append("files", file[iii]);
+    if(file2 != null){
+      for (var iii = 0; iii < file2.length; iii++) {
+        formData.append("files2", file2[iii]);
+      }
+    }else{
+      formData.append("files2", null);
     }
    
     let path = this.base + userId;
@@ -275,4 +290,21 @@ export class UserService {
     return this.http.delete(this.base + id);
   }
 
+  //<!-- ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+  getuserinspectordata(): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'inspector')
+  }
+  //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+
+  //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+  getuserdistrictofficerdata(): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'districtofficer')
+  }
+  //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
+  
+  //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+  getuserpublicsectoradvisordata(): Observable<any[]> {
+    return this.http.get<any[]>(this.base + 'publicsectoradvisor')
+  }
+  //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
 }

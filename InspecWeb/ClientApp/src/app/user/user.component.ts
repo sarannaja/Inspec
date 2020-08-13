@@ -25,7 +25,8 @@ export class UserComponent implements OnInit {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
-
+  MinistryId
+  DepartmentId
   modalRef: BsModalRef;
   selectdatarole: Array<any>
   selectdataministry: Array<any>
@@ -34,7 +35,7 @@ export class UserComponent implements OnInit {
   selectdataregion: Array<any>
   selectdatafiscalyear: Array<any>
   selectdataprovincialdepartment: Array<any>
-  selectdataside:Array<any>
+  selectdataside: Array<any>
   loading = false;
   dtOptions: DataTables.Settings = {};
   roleId: any;
@@ -54,18 +55,18 @@ export class UserComponent implements OnInit {
   ProvinceId: any;
   DistrictId: any;
   SubdistrictId: any;
-  MinistryId: any;
+  // MinistryId: any;
   UserRegion: any;
-  FiscalYear:any;
+  FiscalYear: any;
   files: string[] = [];
   imgprofileUrl: any;
-  img:any;
+  img: any;
   Startdate: any;
   Enddate: any;
-  Commandnumberdate:any;
-  Side:any;
-  ed:any;
-  cd:any;
+  Commandnumberdate: any;
+  Side: any;
+  ed: any;
+  cd: any;
   //<!-- END input -->
   datarole: any = [
     {
@@ -144,6 +145,7 @@ export class UserComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private spinner: NgxSpinnerService,
+
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.subscription = this.userService.getUserNav()
@@ -155,10 +157,9 @@ export class UserComponent implements OnInit {
             setTimeout(() => { this.getData() }, 200)
           }
         });
-    this.roleId = this.route.snapshot.paramMap.get('id')
+    this.roleId = this.route.snapshot.paramMap.get('id') //เลขที่ส่งมาจาก url 
     this.imgprofileUrl = baseUrl + '/imgprofile';
 
-    //เลขที่ส่งมาจาก url 
   }
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
@@ -167,6 +168,23 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.getData()
     this.userform()
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+
+    };
     this.addForm.patchValue({
       Role_id: this.roleId
     })
@@ -174,31 +192,32 @@ export class UserComponent implements OnInit {
 
   getData() {
     this.spinner.show();
-    this.getUser()
-    this.getDataProvinces()
-    this.getDataMinistries()
-    this.getDatafiscalyear()
+    this.getUser();
+    this.getDataProvinces();
+    this.getDataMinistries();
+    this.getDatafiscalyear();
+    this.getDataRegions();
 
-    //<!-- ด้านสำหรับ role 7 -->
+    //<!-- ด้านสำหรับ role 7 ที่ปรึกษาภาคประชาชน -->
     this.selectdataside = this.dataside.map((item, index) => {
       return { value: item.id, label: item.name }
     })
-    //<!-- END ด้านสำหรับ role 7 -->
+    //<!-- END ด้านสำหรับ role 7 ที่ปรึกษาภาคประชาชน -->
 
     //<!-- สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
     this.selectdatarole = this.datarole.map((item, index) => {
       return { value: item.id, label: item.name }
     })
-     //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
+    //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
 
-    
+
 
     if (this.roleId == 1) {
       this.rolename = 'ผู้ดูแลระบบ'
     } else if (this.roleId == 2) {
-      this.rolename = 'ผู้ดูแลแผนการตรวจราชการประจำปี'
+      this.rolename = 'ผู้ดูแลแผนการตรวจราชการ'
     } else if (this.roleId == 3) {
-      this.rolename = 'ผู้ตรวจราชการสำนักนายกรัฐมนตร'
+      this.rolename = 'ผู้ตรวจราชการสำนักนายกรัฐมนตรี'
     } else if (this.roleId == 4) {
       this.rolename = 'ผู้ว่าราชการจังหวัด'
     } else if (this.roleId == 5) {
@@ -208,7 +227,7 @@ export class UserComponent implements OnInit {
     } else if (this.roleId == 7) {
       this.rolename = 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
     } else if (this.roleId == 8) {
-      this.rolename = 'นายกรัฐมนตรี,รองนายกรัฐมนตร'
+      this.rolename = 'นายกรัฐมนตรี,รองนายกรัฐมนตรี'
     } else if (this.roleId == 9) {
       this.rolename = 'หน่วยงานตรวจราชการ'
     } else if (this.roleId == 10) {
@@ -225,14 +244,13 @@ export class UserComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  openeditModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,UserProvince,ministryId,departmentId,provincialDepartmentId,side,
-    commandnumber,commandnumberdate,email,prefix,name,position,phoneNumber,startdate,enddate,img) 
-  {
+  openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, side,
+    commandnumber, commandnumberdate, email, prefix, fname,lname, position, phoneNumber, startdate, enddate, img) {
     //alert(UserProvince);
     this.addForm.reset()
     this.id = id;
     this.img = img;
-    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {    
+    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {
       var uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -244,23 +262,24 @@ export class UserComponent implements OnInit {
         }
       })
     })
-    if(enddate == null){
+    if (enddate == null) {
       this.ed = enddate;
-    }else{
+    } else {
       this.ed = this.time(enddate);
     }
 
-    if(commandnumberdate == null){
+    if (commandnumberdate == null) {
       this.cd = commandnumberdate;
-    }else{
+    } else {
       this.cd = this.time(commandnumberdate);
     }
-    
+
     this.addForm.patchValue({
-      
+
       Role_id: this.roleId,
       Prefix: prefix,
-      Name: name,
+      FName: fname,
+      LName: lname,
       Position: position,
       PhoneNumber: phoneNumber,
       Email: email,
@@ -268,10 +287,10 @@ export class UserComponent implements OnInit {
       DepartmentId: departmentId,
       FiscalYear: fiscalYearId,
       ProvincialDepartmentId: provincialDepartmentId,
-      UserRegion: userRegion.map(result=>{
+      UserRegion: userRegion.map(result => {
         return result.regionId
       }),
-      UserProvince:UserProvince,
+      UserProvince: UserProvince,
       files: new FormControl(null, [Validators.required]),
       Startdate: this.time(startdate),
       Enddate: this.ed,
@@ -279,19 +298,22 @@ export class UserComponent implements OnInit {
       Side: side,
       Commandnumberdate: this.cd,
       Formprofile: 0,
-      Img:img,
+      Img: img,
     })
+    this.DepartmentId = departmentId
+    this.getDataDepartments({ value: departmentId })
+    this.MinistryId = ministryId
+  
     this.modalRef = this.modalService.show(template);
   }
 
-  openchangeModal(template: TemplateRef<any>, id,fiscalYearId,userRegion,UserProvince,ministryId,departmentId,provincialDepartmentId,side,
-    commandnumber,commandnumberdate,email,prefix,name,position,phoneNumber,startdate,enddate,img) 
-  {
+  openchangeModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, side,
+    commandnumber, commandnumberdate, email, prefix, name, position, phoneNumber, startdate, enddate, img) {
     //alert(this.roleId);
     this.addForm.reset()
     this.id = id;
     this.img = img;
-    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {    
+    this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {
       var uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -304,15 +326,15 @@ export class UserComponent implements OnInit {
       })
     })
 
-    if(enddate == null){
+    if (enddate == null) {
       this.ed = enddate;
-    }else{
+    } else {
       this.ed = this.time(enddate);
     }
 
-    if(commandnumberdate == null){
+    if (commandnumberdate == null) {
       this.cd = commandnumberdate;
-    }else{
+    } else {
       this.cd = this.time(commandnumberdate);
     }
 
@@ -327,10 +349,10 @@ export class UserComponent implements OnInit {
       DepartmentId: departmentId,
       FiscalYear: fiscalYearId,
       ProvincialDepartmentId: provincialDepartmentId,
-      UserRegion: userRegion.map(result=>{
+      UserRegion: userRegion.map(result => {
         return result.regionId
       }),
-      UserProvince:UserProvince[0].province.id,
+      UserProvince: UserProvince[0].province.id,
       files: new FormControl(null, [Validators.required]),
       Startdate: this.time(startdate),
       Enddate: this.ed,
@@ -338,8 +360,12 @@ export class UserComponent implements OnInit {
       Side: side,
       Commandnumberdate: this.cd,
       Formprofile: 0,
-      Img:img,
+      Img: img,
     })
+    this.DepartmentId = departmentId
+    this.getDataDepartments({ value: departmentId })
+    this.MinistryId = ministryId
+
     this.modalRef = this.modalService.show(template);
   }
 
@@ -350,14 +376,14 @@ export class UserComponent implements OnInit {
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();
-        console.log("userdata", this.resultuser);
+       // console.log("userdata", this.resultuser);
       })
   }
 
   getDatafiscalyear() {
     this.fiscalyearService.getfiscalyeardata()
       .subscribe(result => {
-      //  console.log('mo', result)
+        //  console.log('mo', result)
         this.selectdatafiscalyear = result.map((item, index) => {
           return { value: item.id, label: item.year }
         })
@@ -365,8 +391,8 @@ export class UserComponent implements OnInit {
       })
   }
 
-  getDataRegions(event) {
-    this.regionService.getregiondataforuser(event.value).subscribe(res => {    
+  getDataRegions() {
+    this.regionService.getregiondataforuser(1).subscribe(res => {
       var uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -394,11 +420,20 @@ export class UserComponent implements OnInit {
     var test: any = [];
     this.ministryService.getministry()
       .subscribe(result => {
-        this.selectdataministry = result.filter((item, index) => {
-          return item.id != 1
-        }).map((item, index) => {
-          return { value: item.id, label: item.name }
-        })
+
+        if(this.roleId != 1 && this.roleId != 2){
+          this.selectdataministry = result.filter((item, index) => {
+            return item.id != 1
+          }).map((item, index) => {
+            return { value: item.id, label: item.name }
+          })
+        }else{
+          this.selectdataministry = result.map((item, index) => {
+            return { value: item.id, label: item.name }
+          })
+        }
+
+
       });
   }
 
@@ -442,8 +477,8 @@ export class UserComponent implements OnInit {
   }
 
   updateuser(value) {
-   // alert(1);
-    this.userService.editprofile(value, this.addForm.value.files, this.id).subscribe(response => {
+    // alert(1);
+    this.userService.editprofile(value, this.addForm.value.files,null, this.id).subscribe(response => {
       //alert(3);
       this.addForm.reset()
       this.modalRef.hide()
@@ -464,7 +499,8 @@ export class UserComponent implements OnInit {
   userform() {
     this.addForm = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
-      Name: new FormControl(null, [Validators.required]),
+      FName: new FormControl(null, [Validators.required]),
+      LName: new FormControl(null, [Validators.required]),
       Position: new FormControl(null, [Validators.required]),
       Role_id: new FormControl(null, [Validators.required]),
       PhoneNumber: new FormControl(null, [Validators.required]),
@@ -472,7 +508,7 @@ export class UserComponent implements OnInit {
       ProvinceId: new FormControl(null),
       MinistryId: new FormControl(null, [Validators.required]),
       DepartmentId: new FormControl(null),
-      FiscalYear: new FormControl(null),
+      FiscalYear: 1,
       ProvincialDepartmentId: new FormControl(null),
       UserRegion: new FormControl(null, [Validators.required]),
       UserProvince: new FormControl(null, [Validators.required]),
@@ -490,7 +526,7 @@ export class UserComponent implements OnInit {
   }
   time(date) {
     var ssss = new Date(date)
-    var new_date = {date:{ year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() }}
+    var new_date = { date: { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() } }
     return new_date
   }
 }

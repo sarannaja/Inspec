@@ -44,6 +44,7 @@ export class ExecutiveorderService {
     formData.append('Draft', executiveorderData.Draft);
 
     for (var i = 0; i < executiveorderData.Answer_by.length; i++) {
+     // alert('Answer_by :'+ executiveorderData.Answer_by[i]);
       formData.append('Answer_by', executiveorderData.Answer_by[i]); 
     }
 
@@ -57,6 +58,7 @@ export class ExecutiveorderService {
   }
   //สำหรับแก้ไขข้อสั่งการ
   updateexecutiveorder(executiveorderData, file: FileList, id) {
+   // alert(2)
     const formData = new FormData();
     formData.append('id', id);
     formData.append('Commanded_date', executiveorderData.Commanded_date.date.year + '-' + executiveorderData.Commanded_date.date.month + '-' + executiveorderData.Commanded_date.date.day);
@@ -66,6 +68,7 @@ export class ExecutiveorderService {
     formData.append('Draft', executiveorderData.Draft);
 
     for (var i = 0; i < executiveorderData.Answer_by.length; i++) {
+     // alert(executiveorderData.Answer_by[i]);
       formData.append('Answer_by', executiveorderData.Answer_by[i]); //
     }
     if(file != null){

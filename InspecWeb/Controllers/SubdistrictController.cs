@@ -48,31 +48,30 @@ namespace InspecWeb.Controllers
             return Ok(subdistrictdata);
         }
 
-        // POST api/values
         [HttpPost]
-        public Subdistrict Post(string name)
+        public Subdistrict Post([FromForm] DistrictRequest request)
         {
-            //var date = DateTime.Now;
-
+            var date = DateTime.Now;
+            Console.WriteLine("subdistrict 1 :" + request.Name + " : " + request.ProvincesId);
             var subdistrictdata = new Subdistrict
             {
-                Name = name,
-                //CreatedAt = date
+                DistrictId = request.ProvincesId,
+                Name = request.Name,
             };
-
+            Console.WriteLine("subdistrict 2 :");
             _context.Subdistricts.Add(subdistrictdata);
             _context.SaveChanges();
-
+            Console.WriteLine("subdistrict 3 :");
             return subdistrictdata;
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name)
+        public void Put([FromForm] DistrictRequest request, long id)
         {
-            var subdistricts = _context.Subdistricts.Find(id);
-            subdistricts.Name = name;
-            _context.Entry(subdistricts).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var subdistrictdata = _context.Subdistricts.Find(id);
+            subdistrictdata.Name = request.Name;
+
+            _context.Entry(subdistrictdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
         }
@@ -87,4 +86,12 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
     }
+}
+
+public class SubdistrictRequest
+{
+    public long Id { get; set; }
+    public long DistrictId { get; set; }
+    public string Name { get; set; }
+
 }

@@ -399,4 +399,19 @@ export class CentralpolicyService {
   deletecentralpolicyuser(id) {
     return this.http.delete(this.url + "deletecentralpolicyuser/" + id);
   }
+
+  getcentralpolicyministrydata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "ministry/" + id);
+  }
+  getcentralpolicydepartmentdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "department/" + id);
+  }
+  getcentralpolicypeopledata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "people/" + id);
+  }
+
+  getcentralpolicyprovincialdepartmentdata(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "provincialdepartment/" + id);
+  }
+
 }

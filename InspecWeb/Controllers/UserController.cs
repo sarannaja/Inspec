@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.IO; //excel
 using System.Linq;
 using System.Threading.Tasks;
-using ClosedXML.Excel;
+using ClosedXML.Excel; //excel
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
@@ -39,21 +39,24 @@ namespace InspecWeb.Controllers {
 
         }
 
+        // <!-- test excel -->
         [HttpGet ("api/[controller]/[action]")]
         public IActionResult momomo () {
-            UserViewModel[] Momos = {
-                new UserViewModel { UserName = "admin1@inspec.go.th", Email = "admin1@inspec.go.th" },
-                new UserViewModel { UserName = "admin2@inspec.go.th", Email = "admin2@inspec.go.th" },
-                new UserViewModel { UserName = "admin3@inspec.go.th", Email = "admin3@inspec.go.th" },
-                new UserViewModel { UserName = "admin4@inspec.go.th", Email = "admin4@inspec.go.th" },
-            };
+            //UserViewModel[] Momos = {
+            //    new UserViewModel { UserName = "admin1@inspec.go.th", Email = "admin1@inspec.go.th" },
+            //    new UserViewModel { UserName = "admin2@inspec.go.th", Email = "admin2@inspec.go.th" },
+            //    new UserViewModel { UserName = "admin3@inspec.go.th", Email = "admin3@inspec.go.th" },
+            //    new UserViewModel { UserName = "admin4@inspec.go.th", Email = "admin4@inspec.go.th" },
+            //};
+
+            var users = _context.Users;
 
             using (var workbook = new XLWorkbook ()) {
                 var worksheet = workbook.Worksheets.Add ("Momos");
                 var currentRow = 1;
                 worksheet.Cell (currentRow, 1).Value = "Id";
                 worksheet.Cell (currentRow, 2).Value = "Username";
-                foreach (var momo in Momos) {
+                foreach (var momo in users) {
                     currentRow++;
                     worksheet.Cell (currentRow, 1).Value = momo.Email;
                     worksheet.Cell (currentRow, 2).Value = momo.UserName;
@@ -70,6 +73,7 @@ namespace InspecWeb.Controllers {
                 }
             }
         }
+        // <!-- END test excel -->
 
         [HttpGet ("api/[controller]/[action]/{id}")]
         public IEnumerable<ApplicationUser> getuser (long id) {
@@ -131,6 +135,62 @@ namespace InspecWeb.Controllers {
           
         }
 
+        //<!-- ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+        [HttpGet("api/[controller]/[action]")]
+        public IEnumerable<ApplicationUser> inspector()
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Where(m => m.Role_id == 3)
+                .Where(m => m.Position == "ผต.นร." || m.Position == "ผต.นร. ")
+                .Where(m => m.Active == 1);
+
+             return users;
+        }
+        //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+
+        //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+        [HttpGet("api/[controller]/[action]")]
+        public IEnumerable<ApplicationUser> districtofficer()
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Where(m => m.Role_id == 3)
+                .Where(m => m.Position != "ผต.นร." || m.Position != "ผต.นร. ")
+                .Where(m => m.Active == 1);
+
+            return users;
+        }
+        //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+
+        //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+        [HttpGet("api/[controller]/[action]")]
+        public IEnumerable<ApplicationUser> publicsectoradvisor()
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Where(m => m.Role_id == 7)
+                .Where(m => m.Active == 1);
+
+            return users;
+        }
+        //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+
         // POST api/values
         [Route ("api/[controller]")]
         [HttpPost]
@@ -149,7 +209,9 @@ namespace InspecWeb.Controllers {
             user.ProvincialDepartmentId = model.ProvincialDepartmentId;
             user.Position = model.Position;
             user.Prefix = model.Prefix;
-            user.Name = model.Name;
+            user.Name = model.Firstnameth+' '+model.Lastnameth;
+            user.Firstnameth = model.Firstnameth;
+            user.Lastnameth = model.Lastnameth;
             user.Role_id = model.Role_id;
             user.CreatedAt = DateTime.Now;
             user.Startdate = model.Startdate;
@@ -303,6 +365,7 @@ namespace InspecWeb.Controllers {
 
             var userdata = _context.Users.Find (editId);
             userdata.Img = model.Img;
+            userdata.Signature = model.Signature;
 
 
             //<!-- file -->
@@ -332,10 +395,48 @@ namespace InspecWeb.Controllers {
             }
             //<!-- END file -->
 
+            //<!-- file2 -->
+            if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง คือส่วนลายเซ็น
+            {
+                if (!Directory.Exists(_environment.WebRootPath + "//Signature//"))
+                {
+                    Directory.CreateDirectory(_environment.WebRootPath + "//Signature//"); //สร้าง Folder Upload ใน wwwroot
+                }
+
+                var filePath3 = _environment.WebRootPath + "//Signature//";
+                if (model.files != null)
+                {
+                    foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                    {
+                        var random = RandomString(10);
+                        string filePath4 = formFile.Value.FileName;
+                        string filename = Path.GetFileName(filePath4);
+                        string ext = Path.GetExtension(filename);
+
+                        System.Console.WriteLine("testuser1.2 : ");
+
+                        if (formFile.Value.Length > 0)
+                        {
+                            using (var stream = System.IO.File.Create(filePath3 + random + filename))
+                            {
+                                await formFile.Value.CopyToAsync(stream);
+                            }
+
+                            userdata.Signature = random + filename;
+                            System.Console.WriteLine("testuser2.2 : ");
+                        }
+                    }
+                }
+                //<!-- END file2 -->
+            }
+
+
             if (model.Formprofile == 1) // 1 คือแก้ไขจากตัวuser เอง
             {
                 userdata.Prefix = model.Prefix;
-                userdata.Name = model.Name;
+                userdata.Name = model.Firstnameth + ' ' + model.Lastnameth;
+                userdata.Firstnameth = model.Firstnameth;
+                userdata.Lastnameth = model.Lastnameth;
                 userdata.Position = model.Position;
                 userdata.PhoneNumber = model.PhoneNumber;
                 System.Console.WriteLine("testuser3 : ");
@@ -351,13 +452,15 @@ namespace InspecWeb.Controllers {
                 userdata.ProvincialDepartmentId = model.ProvincialDepartmentId;
                 userdata.Position = model.Position;
                 userdata.Prefix = model.Prefix;
-                userdata.Name = model.Name;
+                userdata.Name = model.Firstnameth + ' ' + model.Lastnameth;
+                userdata.Firstnameth = model.Firstnameth;
+                userdata.Lastnameth = model.Lastnameth;
                 userdata.Role_id = model.Role_id;
                 userdata.CreatedAt = DateTime.Now;
                 userdata.Startdate = model.Startdate;
                 userdata.Enddate = model.Enddate;
                 userdata.Active = 1;
-                userdata.Commandnumberdate = model.Commandnumberdate;//ลงวันที่คำสั่ง
+                userdata.Commandnumberdate = model.Commandnumberdate;//ลงวันที่คำสั่ง  
 
                 //ข้อมูลรอง
                 userdata.Educational = model.Educational;
@@ -890,6 +993,41 @@ namespace InspecWeb.Controllers {
 
             return Ok(users);
         }
+
+        // <!-- test excel -->
+        [HttpGet("api/[controller]/[action]")]
+        public IActionResult getexceluserrole8()
+        {
+          
+
+            var users = _context.Users;
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("VicePrimeMinister");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Username";
+                foreach (var momo in users)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = momo.Email;
+                    worksheet.Cell(currentRow, 2).Value = momo.UserName;
+                }
+                System.Console.WriteLine("momomo : " + "789");
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "VicePrimeMinister.xlsx");
+                }
+            }
+        }
+        // <!-- END test excel -->
 
     }
 

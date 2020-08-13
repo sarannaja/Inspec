@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-            <li class="breadcrumb-item active">จัดการผู้ใช้</li>
+            <li class="breadcrumb-item active">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน </li>
         </ol>
     </nav>
 </div>
@@ -13,8 +13,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">จัดการผู้ใช้</h5>
-            </div>
+                <h5 class="card-title">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน </h5>
+            </div><br>
 
             <!-- ผู้ตรวจภาคประชาชน -->
             <div class="card-body">
@@ -24,27 +24,22 @@
                         <tr>
                             <th>No.</th>
                             <th>ชื่อ-นามสกุล</th>
-                            <th>อีเมลล์</th>
-                            <!-- <th>เขตตรวจ</th>                           -->
-                            <!-- <th>กระทรวง</th> -->
-                            <th>ตำแหน่ง</th>                        
+                            <th>ตำแหน่ง</th>
+                            <th>ด้าน</th>
+                            <th>จังหวัด</th>                        
                             <th>เบอร์โทร</th>
-                            <th>สถานะ</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resultuser; let i = index">
                             <td>{{i + 1}}</td>
                             <td>{{item.prefix +item.name}}</td>
-                            <td>{{item.email}}</td>
-                            <!-- <td>-</td>
-                            <td>-</td> -->
                             <td>{{item.position}}</td>
+                            <td>{{item.side}}</td>
+                            <td>{{item.userProvince[0].province.name}}</td>
                             <td>{{item.phoneNumber}}</td>
-                            <td>
-                                <div  *ngIf="item.active == 1;else elseBlock">ใช้งานปกติ</div>
-                                <ng-template #elseBlock>ยังไม่มีสิทธิ์เข้าใช้งาน</ng-template>
-                            </td>
+                            
                         </tr>
                     </tbody>
                 </table>

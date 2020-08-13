@@ -11,7 +11,11 @@ namespace InspecWeb.ViewModel
         //23
         public string UserName { get; set; }
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; }   
+        public string Firstnameth { get; set; }    
+        public string Lastnameth { get; set; }
+        public string Firstnameen { get; set; }
+        public string Lastnameen { get; set; }
         public string Position { get; set; }
         public string Email { get; set; }
         public long MinistryId { get; set; }
@@ -43,6 +47,7 @@ namespace InspecWeb.ViewModel
         public long FiscalYearId { get; set; }
         public long Formprofile { get; set; }
         public List<IFormFile> files { get; set; }
+        public List<IFormFile> files2 { get; set; }
 
         public List<int> UserRegion { get; set; } //สำหรับทำ array
 

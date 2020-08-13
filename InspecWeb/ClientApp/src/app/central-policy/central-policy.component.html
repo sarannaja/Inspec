@@ -80,9 +80,10 @@
             <tr>
               <th width="5%">ที่</th>
               <th>แผนการตรวจราชการ</th>
-              <th width="25%">เรื่องที่ตรวจ</th>
+              <th width="25%">เรื่องที่ตรวจ(จำนวนหัวข้อ)</th>
               <th>ปี</th>
-              <th>ระยะเวลา</th>
+              <th>ระยะเวลาการตรวจ</th>
+              <th>ปรับปรุงล่าสุด</th>
               <th *ngIf="role_id == 1">สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -99,15 +100,22 @@
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
                   {{ item2.endDate | thaidate: 'year' }}</div>
-              </td>
-              <td *ngIf="role_id == 1" (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ item.status }}</td>
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
+                {{item.updateAt | thaidate: 'year'}}</td>
+              <td *ngIf="item.status == 'ร่างกำหนดการ'  && role_id == 1"
+                (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ร่าง</td>
+              <td *ngIf="item.status == 'ใช้งานจริง' && role_id == 1  "
+                (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ใช้งาน</td>
+              <!-- <td *ngIf="role_id == 1 " (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
+                {{ item.status }}</td> -->
               <td>
                 <div class="row">
-                  <i title="ดูรายละเอียดเรื่องที่ตรวจ" style="margin-top: 6px;"
+                  <i title="รายละเอียด" style="margin-top: 6px;"
                     class="align-middle mr-2 fas fa-file-medical pointer" (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                   <div *ngIf="role_id == 1 || role_id == 2">
-                    <i title="แก้ไขเรื่องที่ตรวจ" class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i>
+                    <i title="แก้ไขเรื่องที่ตรวจ" class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                      (click)="EditCentralPolicy(item.id)"></i>
 
                     <!-- <i *ngIf="role_id == 1 || role_id == 2;" class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i> -->
                     <i title="ลบเรื่องที่ตรวจ" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"

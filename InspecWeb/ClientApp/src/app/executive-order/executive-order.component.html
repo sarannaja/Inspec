@@ -45,11 +45,11 @@
 
                   <div *ngIf="item2.userID == userid && role_id == 3">
                     {{item2.user.prefix}} {{item2.user.name}}
-                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น -->
                   </div>
  
                   <div *ngIf="role_id == 8 || role_id == 1">
-                    {{item2.user.prefix}} {{item2.user.name}}                  
+                    {{item2.user.prefix}} {{item2.user.name}}    
+                    <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น -->              
                   </div>
 
                 </div>
@@ -60,7 +60,7 @@
 
                   <div *ngIf="item2.userID == userid && role_id == 3">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
-                      <span style="color: red;">ยกเลิกข้อสั่งการ</span>
+                      <span style="color: red;">ยกเลิก</span>
                     </div>
                     <ng-template #notcancel>
                       <span *ngIf="item.draft === 1;else nodraft">ฉบับร่าง</span>
@@ -77,7 +77,7 @@
 
                   <div *ngIf="role_id == 8 || role_id == 1">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
-                      <span style="color: red;">ยกเลิกคำร้องขอ</span>
+                      <span style="color: red;">ยกเลิก</span>
                     </div>
                     <ng-template #notcancel>
                       <span *ngIf="item.draft === 1;else nodraft">ฉบับร่าง</span>
@@ -425,6 +425,7 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label w-100">แนบไฟล์</label>
+            <p></p>
             <input type="file" (change)="uploadFile($event)" [multiple]="true">
             <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
           </div>
