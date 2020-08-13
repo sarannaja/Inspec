@@ -30,6 +30,54 @@ export class ReportService {
   async role(id) {
     return await this.http.get<any>(this.baseUrl + 'api/get_role/' + id)
   }
+  createReportSubject(resultdetailcentralpolicy, resultdetailcentralpolicyprovince) {
+    var test = []
+    var test2 = []
+    // console.log("1", resultdetailcentralpolicy);
+    console.log("2", resultdetailcentralpolicyprovince);
+    test = resultdetailcentralpolicyprovince.map((item, index) => {
+      return {
+        name: item.name,
+        explanation: item.explanation,
+        namesubquestion: item.subquestionCentralPolicyProvinces.map((item2, index) => {
+          return item2.name;
+        }),
+        provincialDepartment: item.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups.map((item2, index) => {
+          return item2.provincialDepartment.name
+        }),
+      }
+    })
+    // for (var i = 0; i < test.length; i++) {
+    //   for(var ii = 0; ii < test[i].namesubquestion.length; ii++){
+    //     test2.push({
+    //       name: test[i].name,
+    //       explanation: test[i].name,
+    //       namesubquestion: test[i].namesubquestion[ii].name
+    //     })
+    //   }
+
+    // }
+    console.log("test", test);
+
+    // const formData = new FormData();
+    // formData.append('type', resultdetailcentralpolicy.type);
+    // formData.append('fiscalyear', resultdetailcentralpolicy.fiscalYear.year);
+    // formData.append('title', resultdetailcentralpolicy.title);
+    // for (var i = 0; i < resultdetailcentralpolicyprovince.length; i++) {
+    //   formData.append('name', resultdetailcentralpolicyprovince[i].name);
+    //   formData.append('explanation', resultdetailcentralpolicyprovince[i].explanation);
+    //   for (var ii = 0; ii < resultdetailcentralpolicyprovince[i].subquestionCentralPolicyProvinces.length; ii++) {
+    //     formData.append('namesubquestion', resultdetailcentralpolicyprovince[i].subquestionCentralPolicyProvinces[ii].name);
+    //   }
+    // }
+    const formData = {
+      type: resultdetailcentralpolicy.type,
+      fiscalyear: resultdetailcentralpolicy.fiscalYear.year,
+      title: resultdetailcentralpolicy.title,
+      Subject: test,
+    }
+    return this.http.post<any>(this.url + "reportsubject", formData)
+  }
   createReport(reportdata) {
     const formData = new FormData();
     formData.append('provinceid', reportdata.provinceid);

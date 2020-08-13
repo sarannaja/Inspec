@@ -61,9 +61,27 @@ export class AdviserCivilSectorComponent implements OnInit {
   ) {
   }
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+
+    };
     this.getUser()
   }
   getUser() {
+    this.spinner.show();
     this.userService.getuserdata("7")
       .subscribe(result => {
         //alert(this.roleId);

@@ -109,7 +109,7 @@
                                     <i class="align-middle fas fa-fw fa-pen"
                                         (click)="openeditModal(modaleditUser, item.id,item.fiscalYearId,item.userRegion,item.userProvince[0].provinceId,item.ministryId
                                         ,item.departmentId,item.provincialDepartmentId,item.side,item.commandnumber,
-                                        item.commandnumberdate,item.email,item.prefix,item.name,item.position,item.phoneNumber,
+                                        item.commandnumberdate,item.email,item.prefix,item.firstnameth,item.lastnameth,item.position,item.phoneNumber,
                                         item.startdate,item.enddate,item.img)">
                                     </i>
                                 </button>
@@ -225,9 +225,37 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">ชื่อ-นามสกุล(TH)*</label>
-                    <input type="text" formControlName="Name" class="form-control" required placeholder="กรุณากรอกชื่อ-นามสกุล(TH)">
+                    <div class="row">                   
+                        <label class="form-label col-6">ชื่อ(TH)*</label>
+                        <label class="form-label col-6">นามสกุล(TH)*</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" formControlName="FName" class="form-control" required placeholder="กรุณากรอกชื่อ(TH)">
+                        </div>
+                        
+                        <div class="col-6">
+                            <input type="text" formControlName="LName" class="form-control" required placeholder="กรุณากรอกนามสกุล(TH)">
+                        </div> 
+                    </div>
                 </div>
+
+                <!-- <div class="form-group">
+                    <div class="row">                   
+                        <label class="form-label col-6">ชื่อ(EN)*</label>
+                        <label class="form-label col-6">นามสกุล(EN)*</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกชื่อ(EN)">
+                        </div>
+                        
+                        <div class="col-6">
+                            <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกนามสกุล(EN)">
+                        </div> 
+                    </div>
+                </div> -->
+
 
                 <div class="form-group">
                     <label class="form-label">ตำแหน่ง*</label>
@@ -367,9 +395,36 @@
                     </div>
     
                     <div class="form-group">
-                        <label class="form-label">ชื่อ-นามสกุล(TH)*</label>
-                        <input type="text" formControlName="Name" class="form-control" required placeholder="กรุณากรอกชื่อ-นามสกุล(TH)">
+                        <div class="row">                   
+                            <label class="form-label col-6">ชื่อ(TH)*</label>
+                            <label class="form-label col-6">นามสกุล(TH)*</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" formControlName="FName" class="form-control" required placeholder="กรุณากรอกชื่อ(TH)">
+                            </div>
+                            
+                            <div class="col-6">
+                                <input type="text" formControlName="LName" class="form-control" required placeholder="กรุณากรอกนามสกุล(TH)">
+                            </div> 
+                        </div>
                     </div>
+    
+                    <!-- <div class="form-group">
+                        <div class="row">                   
+                            <label class="form-label col-6">ชื่อ(EN)*</label>
+                            <label class="form-label col-6">นามสกุล(EN)*</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกชื่อ(EN)">
+                            </div>
+                            
+                            <div class="col-6">
+                                <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกนามสกุล(EN)">
+                            </div> 
+                        </div>
+                    </div> -->
     
                     <div class="form-group">
                         <label class="form-label">ตำแหน่ง*</label>
@@ -512,9 +567,36 @@
                     </div>
     
                     <div class="form-group">
-                        <label class="form-label">ชื่อ-นามสกุล(TH)*</label>
-                        <input type="text" formControlName="Name" class="form-control" required placeholder="กรุณากรอกชื่อ-นามสกุล(TH)">
+                        <div class="row">                   
+                            <label class="form-label col-6">ชื่อ(TH)*</label>
+                            <label class="form-label col-6">นามสกุล(TH)*</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" formControlName="FName" class="form-control" required placeholder="กรุณากรอกชื่อ(TH)">
+                            </div>
+                            
+                            <div class="col-6">
+                                <input type="text" formControlName="LName" class="form-control" required placeholder="กรุณากรอกนามสกุล(TH)">
+                            </div> 
+                        </div>
                     </div>
+    
+                    <!-- <div class="form-group">
+                        <div class="row">                   
+                            <label class="form-label col-6">ชื่อ(EN)*</label>
+                            <label class="form-label col-6">นามสกุล(EN)*</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกชื่อ(EN)">
+                            </div>
+                            
+                            <div class="col-6">
+                                <input type="text" formControlName="" class="form-control" required placeholder="กรุณากรอกนามสกุล(EN)">
+                            </div> 
+                        </div>
+                    </div> -->
     
                     <div class="form-group">
                         <label class="form-label">ตำแหน่ง*</label>

@@ -41,11 +41,17 @@
               <td ><a *ngIf="item.file != 'NULL' " href="assets/GovernmentinspectionplanFile/{{item.file}}" download>{{ item.file }}</a></td>
               <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
               <td>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openModal(modaleditGovernmentinspectionplan, item.id, item.year, item.title, item.file)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteGovernmentinspectionplan, item.id)"></i>
+              
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล">
+                  <i class="align-middle  fas fa-fw fa-pen"
+                    (click)="openModal(modaleditGovernmentinspectionplan, item.id, item.year, item.title, item.file)">
+                  </i>
+                </button>
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล">
+                  <i class="align-middle  fas fa-fw fa-trash-alt"
+                    (click)="openModal(modaldeleteGovernmentinspectionplan, item.id)">
+                  </i>
+                </button>
               </td>
             </tr>
           </tbody>

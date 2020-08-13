@@ -82,7 +82,23 @@ export class CommanderReportComponent implements OnInit {
           targets: [4],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        // "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        // "info": "แสดง _PAGE_ ของ _PAGES_ รายการ จาก _TOTAL_ แถว",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        // "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
 
     this.getCommanderReport();
@@ -93,7 +109,7 @@ export class CommanderReportComponent implements OnInit {
   }
 
   getCommanderReport() {
-    this.exportReportService.getCommanderReportById(this.provinceId).subscribe(res => {
+    this.exportReportService.getCommanderReportById(this.provinceId, this.userid).subscribe(res => {
       console.log("commanderReport: ", res);
       this.importedReport = res;
       this.loading = true;

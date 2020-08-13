@@ -287,13 +287,14 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + 'proceed/' + eid);
   }
 
-  getCentralPolicyEbook() {
-    return this.http.get<any>(this.url + "centralPolicyEbook")
+  getCentralPolicyEbook(userId) {
+    return this.http.get<any>(this.url + "centralPolicyEbook/" + userId)
   }
 
-  getCentralPolicyEbook2(startDate) {
+  getCentralPolicyEbook2(startDate, userId) {
     const formData = new FormData();
     formData.append('startDate', startDate);
+    formData.append('User', userId);
     return this.http.post<any>(this.url + "centralPolicyEbook2", formData)
   }
 
@@ -710,6 +711,31 @@ export class ElectronicbookService {
     formData.append('provincialDepartmentId', provincialId);
 
     return this.http.post<any>(this.url + "GetElectronicBookDepartmentById", formData);
+  }
+
+  inviteMorePeople(value, electID) {
+    console.log("inviteMore: ", value);
+    console.log("ElectID: ", electID);
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+
+    if (value.UserMinistryId != null) {
+      for (var i = 0; i < value.UserMinistryId.length; i++) {
+        formData.append("userId", value.UserMinistryId[i]);
+      }
+    }
+
+    if (value.UserDepartmentId != null) {
+      for (var i = 0; i < value.UserDepartmentId.length; i++) {
+        formData.append("userId", value.UserDepartmentId[i]);
+      }
+    }
+
+    return this.http.post(this.url + 'inviteMorePeople', formData)
+  }
+
+  deleteMoreInvitedPeople(id) {
+    return this.http.delete(this.url + 'deleteMoreInvited/' + id)
   }
 }
 

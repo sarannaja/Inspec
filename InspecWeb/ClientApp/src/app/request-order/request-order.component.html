@@ -61,7 +61,7 @@
 
                   <div *ngIf="item2.userID == userid && role_id == 3;">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
-                      <span style="color: red;">ยกเลิกคำร้องขอ</span>
+                      <span style="color: red;">ยกเลิก</span>
                     </div>
                     <ng-template #notcancel>
                       <span *ngIf="item.draft === 1;else nodraft">ฉบับร่าง</span>
@@ -78,7 +78,7 @@
 
                   <div *ngIf="role_id == 5 || role_id == 1 || role_id == 4">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
-                      <span style="color: red;">ยกเลิกคำร้องขอ</span>
+                      <span style="color: red;">ยกเลิก</span>
                     </div>
                     <ng-template #notcancel>
                       <span *ngIf="item.draft === 1;else nodraft">ฉบับร่าง</span>
