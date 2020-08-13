@@ -57,6 +57,9 @@ export class AnswersubjectService {
   getAnswerstatusrole7(id, userid) {
     return this.http.get<Answerrole7>(this.url + "answerstatusrole7/" + id + "/" + userid)
   }
+  getAnsweroutsider(id, userid) {
+    return this.http.get<any>(this.url + "answersoutsider/" + id + "/" + userid)
+  }
   addAnswer(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
@@ -124,7 +127,7 @@ export class AnswersubjectService {
     formData.append('UserId', UserId);
     formData.append('Status', StatusData.Status);
 
-    return this.http.post(this.url + "addstatus", formData);
+    return this.http.post<any>(this.url + "addstatus", formData);
   }
   addStatusrole7(StatusData, CentralPolicyEventId, UserId) {
     const formData = new FormData();

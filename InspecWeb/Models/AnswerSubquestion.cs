@@ -25,6 +25,12 @@ namespace InspecWeb.Models
 
         public virtual SubquestionCentralPolicyProvince SubquestionCentralPolicyProvince { get; set; }
 
+        [ForeignKey("AnswerSubquestionStatus")]
+        [Description("FK:")]
+        public long AnswerSubquestionStatusId { get; set; }
+
+        public virtual AnswerSubquestionStatus AnswerSubquestionStatus { get; set; }
+
         [ForeignKey("User")]
         [Description("FK: User")]
         public string UserId { get; set; }
