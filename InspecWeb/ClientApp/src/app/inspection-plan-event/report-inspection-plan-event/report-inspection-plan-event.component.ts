@@ -125,7 +125,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
     this.inspectionplanservice.getregion(this.userid).subscribe(response => {
       this.resultregion = response
       this.selectregion = this.resultregion.map((item, index) => {
-        return { value: item.region.id, label: item.region.name }
+        return { value: item.id, label: item.name }
       })
     })
   }
