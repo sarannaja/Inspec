@@ -40,24 +40,23 @@ export class PremierorderComponent implements OnInit {
           "previous": "ย้อนกลับ"
         },
       },
-      columnDefs: [
-        {
-          targets: [5],
-          orderable: false
-        }
-      ]
-
     };
-    this.premierorderservice.getpremierorder().subscribe(result=>{
-    this.resultpremierorder = result
-    this.loading = true
-    this.spinner.hide();
-    })
+    this.getdata()
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
       year: new FormControl(null, [Validators.required]),
       files : new FormControl(null, [Validators.required])
     })
+  }
+
+  getdata(){
+    
+    this.premierorderservice.getpremierorder().subscribe(result=>{
+      this.resultpremierorder = result
+      this.loading = true
+      this.spinner.hide();
+      
+      })
   }
   openModal(template: TemplateRef<any>, id, year,title) {
     this.delid = id;
