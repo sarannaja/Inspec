@@ -237,10 +237,10 @@
                         <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;" id="question{{i}}"
                           data-toggle="collapse" [attr.data-target]="'#questions' + i" aria-expanded="false"
                           aria-controls="questions"></i>
-                        <button *ngIf="item.answerSubquestions.length != 0" class="btn btn-primary" id="answer{{i}}"
-                          data-toggle="collapse" type="button" [attr.data-target]="'#answers' + i" aria-expanded="false"
-                          aria-controls="answers" style="margin-left: 20px; font-size: small;">แสดงคำตอบ
-                          <!-- <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i> -->
+                        <button type="button" *ngIf="item.answerSubquestions.length != 0"
+                          (click)="reportModal(modalreportreportperformance, item.subjectCentralPolicyProvinceGroups)"
+                          style="margin-left: 20px; font-size: small;"
+                          class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
                         </button>
                         <button class="btn btn-danger" id="graph{{i}}" data-toggle="collapse" type="button"
                           [attr.data-target]="'#graphs' + i" aria-expanded="false" aria-controls="graphs"
@@ -312,28 +312,15 @@
                           </div>
                         </td>
                       </div>
-                      <div class="col-12 collapse" id="answers{{i}}">
+                      <div class="col-12" *ngIf="item.answerSubquestions.length != 0">
                         <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
                           <!-- <u>ตัวเลือกคำถาม</u> -->
                           <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
                             <div *ngFor="let item3 of item2.answerSubquestions;let iii = index">
-                              <div class="row">
-                                <div class="col-10">
-                                  <!-- <div class="col-0"
-                                    *ngIf="item.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                                    <input style="margin-left: 10px;margin-top: 11px;" type="radio" disabled>
-                                  </div> -->
-                                  <div class="col-9" *ngIf="item.id == item3.subquestionCentralPolicyProvinceId">
-                                    <input type="text" value="{{item3.answer}}" class="form-control"
-                                      placeholder="กรุณากรอกเรื่อง" readonly>
-                                  </div>
-
-                                  <!-- <div class="col-1"
-                                    *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                                    <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                      (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i>
-                                  </div> -->
-                                </div>
+                              <div *ngIf="item3.answerSubquestionStatus.status == 'ใช้งานจริง'" class="row">
+                                <div class="col-2">{{iii+1}}. โดย {{item3.user.name}}</div>
+                                <div class="col-5">ตอบ {{item3.answer}}</div>
+                                <div class="col-5">คำอธิบาย {{item3.description}}</div>
                               </div>
                             </div>
                           </div>
@@ -1000,7 +987,77 @@
     </button>
   </div>
 </ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modalreportreportperformance class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">รายงานผลการดำเนินการของหน่วยรับตรวจ</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body m-3">
+      <div class="mb-3">
+        <input type="radio" name="report" (change)="report1($event)" value="รายหน่วยงาน">
+        <label style="margin-left: 10px;">รายหน่วยงาน</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="report2($event)" value="รายจังหวัด">
+        <label style="margin-left: 10px;">รายจังหวัด</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="report3($event)" value="รายเขต">
+        <label style="margin-left: 10px;">รายเขต</label>
+      </div>
+      <form [formGroup]="" *ngIf="checkTypeReport== 1" (ngSubmit)="storeInspectionPlan(FormOther.value)">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>หน่วยงาน</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
+              [items]="select">
+              <!-- (ngModelChange)="addsubjectdepartment2($event,'add')"
+              (deselected)="addsubjectdepartment2($event,'remove')" -->
+            </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+      <form [formGroup]="" *ngIf="checkTypeReport== 2" (ngSubmit)="storeInsectionPlan(FormOther.value)">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>เรื่อง2</label>
+              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+      <form [formGroup]="" *ngIf="checkTypeReport== 3" (ngSubmit)="storeInspectionPlan(FormOther.value)">
+        <div class="row">
 
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>เรื่อง3</label>
+              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</ng-template>
 <!-- END primary modal -->
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
