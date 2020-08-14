@@ -131,6 +131,8 @@ export class DetailSubjecteventComponent implements OnInit {
   get s() { return this.f.fileData as FormArray }
 
   filterboxdepartments: any = []
+  checkTypeReport: any;
+  select = []
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -402,7 +404,29 @@ export class DetailSubjecteventComponent implements OnInit {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
   }
-
+  reportModal(template: TemplateRef<any>, provincialDepartment) {
+    this.select = provincialDepartment.map((item, index) => {
+      return {
+        value: item.provincialDepartment.id,
+        label: item.provincialDepartment.name,
+      }
+    })
+    console.log("select",this.select);
+    this.checkTypeReport = 0;
+    this.modalRef = this.modalService.show(template);
+  }
+  report1(value) {
+    // alert(myradio)
+    this.checkTypeReport = 1;
+  }
+  report2(value) {
+    // alert(myradio)
+    this.checkTypeReport = 2;
+  }
+  report3(value) {
+    // alert(myradio)
+    this.checkTypeReport = 3;
+  }
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
       .subscribe(result => {
