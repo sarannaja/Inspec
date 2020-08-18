@@ -50,6 +50,12 @@ namespace InspecWeb.ViewModel
 
         [JsonProperty(PropertyName = "Commander")]
         public string Commander { get; set; }
+
+        [JsonProperty(PropertyName = "DepartmentId")]
+        public long DepartmentId { get; set; }
+
+        [JsonProperty(PropertyName = "ZoneId")]
+        public long ZoneId { get; set; }
     }
 
     public class headData

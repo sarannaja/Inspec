@@ -35,12 +35,13 @@ export class ElectronicbookreportService {
           inspectorDescription: item.description,
           approve: item.approve,
         }
-      } else if (item.user.role_id == 7) {
+      }
+      else if (item.user.role_id == 7) {
         return {
-          inspectorName: item.user.side + "\n" + item.user.prefix + item.user.name,
-          inspectorSign: item.user.signature,
-          inspectorDescription: item.description,
-          approve: item.approve,
+          inspectorName: "ที่ปรึกษาผู้ตรวจภาคประชาชน" + "\n" + item.user.side + "\n" + item.user.prefix + item.user.name,
+          inspectorSign: null,
+          inspectorDescription: "-",
+          approve: "-",
         }
       }
     })
