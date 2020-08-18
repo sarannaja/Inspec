@@ -43,19 +43,9 @@ namespace InspecWeb.Controllers
                                  select P;
             return nationalstrategydata;
 
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
+          
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST api/values
         [HttpPost]
@@ -108,15 +98,15 @@ namespace InspecWeb.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(long id,string title, string file)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromForm] NationalstrategyViewModel model)
         {
-            var nationalstrategy = _context.Nationalstrategies.Find(id);
-            nationalstrategy.Title = title;
+            var nationalstrategy = _context.Nationalstrategies.Find(model.Id);
+            nationalstrategy.Title = model.Title;
             
             _context.Entry(nationalstrategy).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-
+            return Ok(nationalstrategy);
         }
 
         // DELETE api/values/5
