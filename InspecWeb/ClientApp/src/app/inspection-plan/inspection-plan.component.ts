@@ -75,6 +75,8 @@ export class InspectionPlanComponent implements OnInit {
   provincialdepartmentuserdata: any = [];
   userProvince: any[] = []
   ministryId
+  watch
+
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
@@ -84,6 +86,7 @@ export class InspectionPlanComponent implements OnInit {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
+    this.watch = activatedRoute.snapshot.paramMap.get('watch')
     this.url = baseUrl + 'inspectionplanevent';
   }
 
@@ -248,12 +251,13 @@ export class InspectionPlanComponent implements OnInit {
   EditInspectionPlan(id: any) {
     this.router.navigate(['/inspectionplan/editinspectionplan', id])
   }
-  DetailCentralPolicy(id: any) {
+  DetailCentralPolicy(id: any, watch) {
+    // alert(watch)
     this.inspectionplanservice.getcentralpolicyprovinceid(id, this.provinceid).subscribe(result => {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, { planId: this.id }])
+      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, { planId: this.id, watch: watch }])
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])

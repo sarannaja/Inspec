@@ -401,7 +401,7 @@ const ExternalOrganization = [
           { path: 'centralpolicy/detailcentralpolicyprovince/department/:result', component: DetailCentralPolicyProvinceDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/:id/:provinceid/:watch', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/inspectorministry/:id/:provinceid', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/inspectordepartment/:id/:provinceid', component: InspectionPlanDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
@@ -554,7 +554,7 @@ const ExternalOrganization = [
     ModalModule.forRoot(),
     // SelectSSSModule
     NgSelectModule,
-    
+
   ], exports: [
     ThaiDatePipe,
     SnotifyModule

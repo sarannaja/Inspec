@@ -32,7 +32,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
   loading = false;
 
   selectedProvince: any = "allprovince"
-  
+
   constructor(private router: Router, private inspectionplanservice: InspectionplaneventService,
     private provinceservice: ProvinceService,
     private authorize: AuthorizeService,
@@ -156,9 +156,9 @@ export class InspectionPlanEventAllComponent implements OnInit {
         eventClick: function (event) {
           //console.log(event);
           //console.log('this.role_id', self.role_id);
-
+          var watch = 1;
           if (event.roleCreatedBy == 3) {
-            window.location.href = self.url + event.id + '/' + event.provinceid;
+            window.location.href = self.url + event.id + '/' + event.provinceid + '/' + watch;
           } else if (event.roleCreatedBy == 6) {
             window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
           } else if (event.roleCreatedBy == 10) {

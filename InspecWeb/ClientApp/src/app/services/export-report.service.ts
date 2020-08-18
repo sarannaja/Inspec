@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Calendar } from 'src/app/services/modelaof/reportInspectionplan';
+import { NgIf } from '@angular/common';
+import { data } from 'jquery';
 @Injectable({
   providedIn: 'root'
 })
@@ -253,6 +255,23 @@ export class ExportReportService {
 
     return this.http.get<any>(this.url + "/getImportReportFiscalYearRelations/" + fiscalYearId);
   }
+  getImportReportprovinceFiscalYearRelations(fiscalYearId, regionid) {
+    console.log("fiscalYearId: ", fiscalYearId);
+
+    return this.http.get<any>(this.url + "/getImportReportprovinceFiscalYearRelations/" + fiscalYearId + "/" + regionid);
+  }
+
+  getImportReportdepartmentFiscalYearRelations(provinceid) {
+    console.log("fiscalYearId: ", provinceid);
+
+    return this.http.get<any>(this.url + "/getImportReportdepartmentFiscalYearRelations/" + provinceid);
+  }
+
+  getImportReportpeopleFiscalYearRelations(departmentid, provinceid) {
+    console.log("fiscalYearId: ", departmentid);
+
+    return this.http.get<any>(this.url + "/getImportReportpeopleFiscalYearRelations/" + departmentid + "/" + provinceid);
+  }
 
   sendToCommander(reportID, value) {
     console.log("reportIddd: ", reportID);
@@ -301,5 +320,101 @@ export class ExportReportService {
 
   getCommander() {
     return this.http.get<any>(this.url + "/getCommander");
+  }
+
+  CreateReportCalendar(res, regionId, provinceId, departmentId, peopleId, date) {
+
+    var inputdate;
+    if (date && date.date != null) {
+      inputdate = date.date.year + '-' + date.date.month + '-' + date.date.day;
+    } else {
+      inputdate = null;
+    }
+
+    console.log("resresres", res);
+    var monthNamesThai = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤษจิกายน", "ธันวาคม"];
+    var calendar: Array<any> = res
+    var centralPolicyUser: Array<any> = []
+    var maptest: Array<any> =
+      calendar.map((item, index) => {
+        var ddd = new Date(item.startDate)
+        var startDate = ddd.getDate() + " " + monthNamesThai[ddd.getMonth()] + " " + (ddd.getFullYear() + 543)
+        return {
+          index: index + 1,
+          startDate,
+          title: item.centralPolicy.title,
+          status: item.inspectionPlanEvent.status,
+          province: item.inspectionPlanEvent.province.name,
+          namecreatedby: item.inspectionPlanEvent.user.prefix + " " + item.inspectionPlanEvent.user.name,
+          phonenumbercreatedby: item.inspectionPlanEvent.user.phoneNumber,
+          ///////////
+          nameinvited: item.inspectionPlanEvent.centralPolicyUsers.filter(
+            (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
+          ).filter(result => {
+            return result.centralPolicyId == item.centralPolicyId
+          }).map(result => {
+            return result.user.prefix + " " + result.user.name + " " + result.user.phoneNumber + " " + result.status
+          }).toString().replace(',', "\n"),
+        }
+      })
+    console.log("maptestmaptest", maptest);
+
+    var provinceId2 = provinceId
+    var departmentId2 = departmentId
+    var peopleId2 = peopleId
+
+    if (provinceId == null) {
+      provinceId2 = 0;
+    }
+    if (departmentId == null) {
+      departmentId2 = 0;
+    }
+    if (peopleId == null) {
+      peopleId2 = "0";
+    }
+    const formData = {
+      reportCalendarData: maptest,
+      regionId: regionId,
+      provinceId: provinceId2,
+      departmentId: departmentId2,
+      peopleId: peopleId2,
+      date: inputdate
+    }
+    return this.http.post<any>(this.url + "/CreateReportCalendar", formData)
+  }
+
+  getCelendarReportById(regionId, provinceId, departmentId, peopleId, date) {
+
+    var inputdate;
+    if (date && date.date != null) {
+      inputdate = date.date.year + '-' + date.date.month + '-' + date.date.day;
+    } else {
+      inputdate = null;
+    }
+    // alert(inputdate)
+
+    var provinceId2 = provinceId
+    var departmentId2 = departmentId
+    var peopleId2 = peopleId
+    if (provinceId == null) {
+      provinceId2 = 0;
+    }
+    if (departmentId == null) {
+      departmentId2 = 0;
+    }
+    if (peopleId == null) {
+      peopleId2 = "0";
+    }
+
+    const formData = {
+      regionId: regionId,
+      provinceId: provinceId2,
+      departmentId: departmentId2,
+      peopleId: peopleId2,
+      date: inputdate
+    }
+
+    return this.http.post<any>(this.url + "/getCelendarReportById", formData);
   }
 }

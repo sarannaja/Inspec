@@ -293,29 +293,7 @@ export class DetailSubjecteventComponent implements OnInit {
     // await this.getUserPeople();
     this.getDepartmentdata();
   }
-  openModal2(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
-    this.subjectid = subjectid
-    this.departmentService.getalldepartdata().subscribe(res => {
-      this.department = res.map((item, index) => {
-        return {
-          value: item.id,
-          label: item.name
-        }
-      })
 
-      console.log(this.department);
-      var data: any[] = departmentSelected.map(result => {
-        return result.provincialDepartment.id
-      })
-
-      this.departmentSelect = _.filter(this.department, (v) => !_.includes(
-        data, v.value
-      ))
-
-
-      this.modalRef = this.modalService.show(template);
-    })
-  }
 
   openModal3(template: TemplateRef<any>, subjectid) {
     this.subjectid = subjectid
@@ -437,7 +415,7 @@ export class DetailSubjecteventComponent implements OnInit {
         label: item.provincialDepartment.name,
       }
     })
-    console.log("select",this.select);
+    console.log("select", this.select);
     this.checkTypeReport = 0;
     this.modalRef = this.modalService.show(template);
   }
@@ -924,8 +902,7 @@ export class DetailSubjecteventComponent implements OnInit {
       ])
     })
   }
-
-  openModalSubject(template: TemplateRef<any>, subjectid) {
+  openModalSubject2(template: TemplateRef<any>, subjectid) {
     this.departmentService.getalldepartdata().subscribe(res => {
       this.department = res.map((item, index) => {
         return {
@@ -933,22 +910,87 @@ export class DetailSubjecteventComponent implements OnInit {
           label: item.name
         }
       })
+
+      this.departmentSelect = this.department;
+
+      console.log("subjectid:", subjectid);
+
+      this.FormSubject = this.fb.group({
+        DepartmentId: new FormControl(null, [Validators.required]),
+        subjectId: subjectid,
+        box: 0,
+        type: "คำถามปลายปิด",
+        name: new FormControl(null, [Validators.required]),
+        ProvincialDepartmentId: new FormArray([]),
+        inputanswerclose: this.fb.array([
+          this.initanswerclose()
+        ])
+      })
+
+      this.modalRef = this.modalService.show(template);
     })
-    console.log("subjectid:", subjectid);
-    this.modalRef = this.modalService.show(template);
-    this.FormSubject = this.fb.group({
-      DepartmentId: new FormControl(null, [Validators.required]),
-      subjectId: subjectid,
-      box: 0,
-      type: "คำถามปลายปิด",
-      name: new FormControl(null, [Validators.required]),
-      ProvincialDepartmentId: new FormArray([]),
-      inputanswerclose: this.fb.array([
-        this.initanswerclose()
-      ])
-    })
+
   }
 
+  openModalSubject(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
+    this.departmentService.getalldepartdata().subscribe(res => {
+      this.department = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+
+      console.log(this.department);
+      var data: any[] = departmentSelected.map(result => {
+        return result.provincialDepartment.id
+      })
+
+      this.departmentSelect = _.filter(this.department, (v) => !_.includes(
+        data, v.value
+      ))
+
+      console.log("subjectid:", subjectid);
+
+      this.FormSubject = this.fb.group({
+        DepartmentId: new FormControl(null, [Validators.required]),
+        subjectId: subjectid,
+        box: 0,
+        type: "คำถามปลายปิด",
+        name: new FormControl(null, [Validators.required]),
+        ProvincialDepartmentId: new FormArray([]),
+        inputanswerclose: this.fb.array([
+          this.initanswerclose()
+        ])
+      })
+
+    })
+
+    this.modalRef = this.modalService.show(template);
+  }
+  openModal2(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
+    this.subjectid = subjectid
+    this.departmentService.getalldepartdata().subscribe(res => {
+      this.department = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+
+      console.log(this.department);
+      var data: any[] = departmentSelected.map(result => {
+        return result.provincialDepartment.id
+      })
+
+      this.departmentSelect = _.filter(this.department, (v) => !_.includes(
+        data, v.value
+      ))
+
+
+      this.modalRef = this.modalService.show(template);
+    })
+  }
 
   initanswerclose() {
     return this.fb.group({
@@ -982,8 +1024,9 @@ export class DetailSubjecteventComponent implements OnInit {
   }
 
   storeSubject(value) {
+    // alert("123")
     // this.spinner.show();
-    console.log(value);
+    console.log("valuevaluevaluevaluevaluevaluevaluevalue",value);
     this.subjectservice.addSubjectRole3(value).subscribe(response => {
 
       this.AddForm.reset();

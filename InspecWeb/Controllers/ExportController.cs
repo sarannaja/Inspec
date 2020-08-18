@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
@@ -1325,7 +1327,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
                 .Include(x => x.User)
-                 //.Where(x => x.ProvinceId == provinceId && x.Status == "ส่งแล้ว")
+                //.Where(x => x.ProvinceId == provinceId && x.Status == "ส่งแล้ว")
                 .Where(x => x.SendCommander == userID && x.Status == "ส่งแล้ว")
                 .ToList();
 
@@ -1359,6 +1361,49 @@ namespace InspecWeb.Controllers
             .Include(x => x.Province)
             .Where(x => x.FiscalYearId == fiscalYearId)
             .ToList();
+
+            return Ok(new { importFiscalYearRelations });
+        }
+
+        [HttpGet("getImportReportprovinceFiscalYearRelations/{fiscalYearId}/{regionid}")]
+        public IActionResult GetImportReportprovinceFiscalYearRelations(long fiscalYearId, long regionid)
+        {
+            var importFiscalYearRelations = _context.FiscalYearRelations
+            .Include(x => x.Region)
+            .Include(x => x.Province)
+            .Where(x => x.FiscalYearId == fiscalYearId && x.RegionId == regionid)
+            .ToList();
+
+            return Ok(new { importFiscalYearRelations });
+        }
+
+        [HttpGet("getImportReportdepartmentFiscalYearRelations/{provinceid}")]
+        public IActionResult GetImportReportdepartmentFiscalYearRelations(long provinceid)
+        {
+            var importFiscalYearRelations = _context.ProvincialDepartmentProvince
+                .Include(x => x.ProvincialDepartment)
+                .Where(x => x.ProvinceId == provinceid)
+                //.Include(x => x.Region)
+                //.Include(x => x.Province)
+                //.Where(x => x.FiscalYearId == fiscalYearId && x.RegionId == regionid)
+                .ToList();
+
+            return Ok(new { importFiscalYearRelations });
+        }
+
+        [HttpGet("getImportReportpeopleFiscalYearRelations/{departmentid}/{provinceid}")]
+        public IActionResult GetImportReportpeopleFiscalYearRelations(long departmentid, long provinceid)
+        {
+            var importFiscalYearRelations = _context.Users
+                .Where(x => x.ProvincialDepartmentId == departmentid)
+                .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
+
+                //.Include(x => x.ProvincialDepartment)
+                //.Where(x => x.ProvinceId == provinceid)
+                //.Include(x => x.Region)
+                //.Include(x => x.Province)
+                //.Where(x => x.FiscalYearId == fiscalYearId && x.RegionId == regionid)
+                .ToList();
 
             return Ok(new { importFiscalYearRelations });
         }
@@ -1559,6 +1604,459 @@ namespace InspecWeb.Controllers
                 .Where(x => x.Role_id == 8)
                 .ToList();
             return Ok(new { data });
+        }
+
+
+        [HttpPost("getCelendarReportById")]
+        public IActionResult GetCelendarReportById([FromBody] ExportCalendarViewModel model)
+        {
+
+            if (model.provinceId == 0) //รายเขต
+            {
+                var regiondata = _context.Regions
+                .Where(m => m.Id == model.regionId)
+                .FirstOrDefault();
+
+                var regions = _context.FiscalYearRelations
+                .Where(m => m.RegionId == model.regionId).ToList();
+                List<object> calendar = new List<object>();
+                foreach (var region in regions)
+                {
+
+                    if (model.date != null)
+                    {
+                        //data.Where(x => x.StartDate <= model.date && x.EndDate >= model.date);
+                        var data = _context.CentralPolicyEvents
+                            .Include(m => m.CentralPolicy)
+                            .Include(m => m.InspectionPlanEvent)
+                            .ThenInclude(m => m.User)
+                            .Include(m => m.InspectionPlanEvent)
+                            .ThenInclude(m => m.CentralPolicyUsers)
+                            .ThenInclude(m => m.User)
+                            .Include(m => m.InspectionPlanEvent)
+                            .ThenInclude(m => m.Province)
+                            .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
+                            .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                            .ToList();
+                        calendar.Add(data);
+                    }
+                    else { 
+                    var data = _context.CentralPolicyEvents
+                    .Include(m => m.CentralPolicy)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.User)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.CentralPolicyUsers)
+                    .ThenInclude(m => m.User)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.Province)
+                    .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
+                    .ToList();
+                        calendar.Add(data);
+                    }
+
+
+
+                }
+                return Ok(calendar[0]);
+            }
+
+            else if (model.departmentId == 0) //รายจังหวัด
+            {
+                if (model.date != null)
+                {
+                    var calendar = _context.CentralPolicyEvents
+                    .Include(m => m.CentralPolicy)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.User)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.CentralPolicyUsers)
+                    .ThenInclude(m => m.User)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.Province)
+                    .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
+                     .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                    .ToList();
+                    return Ok(calendar);
+                }
+                else
+                {
+                    var calendar = _context.CentralPolicyEvents
+             .Include(m => m.CentralPolicy)
+             .Include(m => m.InspectionPlanEvent)
+             .ThenInclude(m => m.User)
+             .Include(m => m.InspectionPlanEvent)
+             .ThenInclude(m => m.CentralPolicyUsers)
+             .ThenInclude(m => m.User)
+             .Include(m => m.InspectionPlanEvent)
+             .ThenInclude(m => m.Province)
+             .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
+             .ToList();
+                    return Ok(calendar);
+                }
+             
+            }
+
+
+            else if (model.peopleId == "0") //รายหน่วยงาน ต้องดักจังหวัดเพิ่ม
+            {
+                if (model.date != null)
+                {
+                    var calendar = _context.CentralPolicyEvents
+                    .Include(m => m.CentralPolicy)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.User)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.CentralPolicyUsers)
+                    .ThenInclude(m => m.User)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.Province)
+                    .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
+                      .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                    .ToList();
+
+                    return Ok(calendar);
+                } else
+                {
+                    var calendar = _context.CentralPolicyEvents
+   .Include(m => m.CentralPolicy)
+   .Include(m => m.InspectionPlanEvent)
+   .ThenInclude(m => m.User)
+   .Include(m => m.InspectionPlanEvent)
+   .ThenInclude(m => m.CentralPolicyUsers)
+   .ThenInclude(m => m.User)
+   .Include(m => m.InspectionPlanEvent)
+   .ThenInclude(m => m.Province)
+   .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
+   .ToList();
+
+                    return Ok(calendar);
+                }
+            }
+
+            else //รายบุคคล
+            {
+                if (model.date != null)
+                {
+                    var calendar = _context.CentralPolicyEvents
+                    .Include(m => m.CentralPolicy)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.User)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.CentralPolicyUsers)
+                    .ThenInclude(m => m.User)
+                    .Include(m => m.InspectionPlanEvent)
+                    .ThenInclude(m => m.Province)
+                    .Where(m => m.InspectionPlanEvent.CreatedBy == model.peopleId)
+                                   .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                    .ToList();
+
+                    return Ok(calendar);
+                } else
+                {
+                    var calendar = _context.CentralPolicyEvents
+     .Include(m => m.CentralPolicy)
+     .Include(m => m.InspectionPlanEvent)
+     .ThenInclude(m => m.User)
+     .Include(m => m.InspectionPlanEvent)
+     .ThenInclude(m => m.CentralPolicyUsers)
+     .ThenInclude(m => m.User)
+     .Include(m => m.InspectionPlanEvent)
+     .ThenInclude(m => m.Province)
+     .Where(m => m.InspectionPlanEvent.CreatedBy == model.peopleId)
+     .ToList();
+
+                    return Ok(calendar);
+                }
+            }
+        }
+
+        [HttpPost("CreateReportCalendar")]
+        public IActionResult CreateReportCalendar([FromBody] ExportCalendarViewModel model)
+        {
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/Uploads/";
+            var filename = "กำหนดการตรวจราชการ " + DateTime.Now.ToString("dd MM yyyy") + ".docx";
+            var createfile = filePath + filename;
+
+            if (model.provinceId == 0)
+            {
+                var regiondata = _context.Regions
+            .Where(m => m.Id == model.regionId)
+            .FirstOrDefault();
+
+                using (DocX document = DocX.Create(createfile))
+                {
+                    // Add a title
+                    document.PageLayout.Orientation = Orientation.Landscape;
+                    var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายเขต : " + regiondata.Name);
+                    reportType.FontSize(16d);
+                    reportType.SpacingBefore(15d);
+                    reportType.SpacingAfter(15d);
+                    reportType.Bold();
+                    reportType.Alignment = Alignment.center;
+
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
+                    var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    year.Alignment = Alignment.center;
+
+                    int dataCount = 0;
+                    dataCount = model.reportCalendarData.Count();
+                    dataCount += 1;
+                    System.Console.WriteLine("Data Count: " + dataCount);
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 35f, 100f, 100f, 100f, 100f, 100f, 100f, 200f };
+                    var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+
+                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
+                    row.Cells[2].Paragraphs.First().Append("จังหวัด");
+                    row.Cells[3].Paragraphs.First().Append("เรื่อง");
+                    row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
+                    row.Cells[5].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
+                    row.Cells[6].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม/หน่วยงาน");
+                    //row.Cells[8].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    //row.Cells[9].Paragraphs.First().Append("สถานะการเข้าร่วม");
+                    // Add rows in the table.
+                    int j = 0;
+                    for (int k = 0; k < model.reportCalendarData.Count(); k++)
+                    {
+                        j += 1;
+
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString());
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
+                        t.Rows[j].Cells[7].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                    }
+
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
+            }
+
+            else if (model.departmentId == 0)
+            {
+                var regiondata = _context.Provinces
+                    .Where(m => m.Id == model.provinceId)
+                    .FirstOrDefault();
+
+                using (DocX document = DocX.Create(createfile))
+                {
+                    // Add a title
+                    document.PageLayout.Orientation = Orientation.Landscape;
+                    var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายจังหวัด : " + regiondata.Name);
+                    reportType.FontSize(16d);
+                    reportType.SpacingBefore(15d);
+                    reportType.SpacingAfter(15d);
+                    reportType.Bold();
+                    reportType.Alignment = Alignment.center;
+
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
+                    var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    year.Alignment = Alignment.center;
+
+                    int dataCount = 0;
+                    dataCount = model.reportCalendarData.Count();
+                    dataCount += 1;
+                    System.Console.WriteLine("Data Count: " + dataCount);
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 35f, 100f, 100f, 100f, 100f, 100f, 200f };
+                    var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+
+                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
+                    row.Cells[2].Paragraphs.First().Append("เรื่อง");
+                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
+                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
+                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม/หน่วยงาน");
+                    //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
+                    // Add rows in the table.
+                    int j = 0;
+                    for (int k = 0; k < model.reportCalendarData.Count(); k++)
+                    {
+                        j += 1;
+
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                    }
+
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
+            }
+
+            else if (model.peopleId == "0")
+            {
+                var regiondata = _context.ProvincialDepartment
+                    .Where(m => m.Id == model.departmentId)
+                    .FirstOrDefault();
+
+                using (DocX document = DocX.Create(createfile))
+                {
+                    // Add a title
+                    document.PageLayout.Orientation = Orientation.Landscape;
+                    var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายหน่วยงาน : " + regiondata.Name);
+                    reportType.FontSize(16d);
+                    reportType.SpacingBefore(15d);
+                    reportType.SpacingAfter(15d);
+                    reportType.Bold();
+                    reportType.Alignment = Alignment.center;
+
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
+                    var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    year.Alignment = Alignment.center;
+
+                    int dataCount = 0;
+                    dataCount = model.reportCalendarData.Count();
+                    dataCount += 1;
+                    System.Console.WriteLine("Data Count: " + dataCount);
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 35f, 100f, 100f, 100f, 100f, 100f, 200f };
+                    var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+
+                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
+                    row.Cells[2].Paragraphs.First().Append("เรื่อง");
+                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
+                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
+                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม/หน่วยงาน");
+                    //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
+                    // Add rows in the table.
+                    int j = 0;
+                    for (int k = 0; k < model.reportCalendarData.Count(); k++)
+                    {
+                        j += 1;
+
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                    }
+
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
+            }
+
+            else
+            {
+                var regiondata = _context.Users
+                    .Where(m => m.Id == model.peopleId)
+                    .FirstOrDefault();
+
+                using (DocX document = DocX.Create(createfile))
+                {
+                    // Add a title
+                    document.PageLayout.Orientation = Orientation.Landscape;
+                    var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายบุคคล : " + regiondata.Prefix + " " + regiondata.Name);
+                    reportType.FontSize(16d);
+                    reportType.SpacingBefore(15d);
+                    reportType.SpacingAfter(15d);
+                    reportType.Bold();
+                    reportType.Alignment = Alignment.center;
+
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
+                    var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    year.Alignment = Alignment.center;
+
+                    int dataCount = 0;
+                    dataCount = model.reportCalendarData.Count();
+                    dataCount += 1;
+                    System.Console.WriteLine("Data Count: " + dataCount);
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 35f, 100f, 100f, 100f, 100f, 100f, 200f };
+                    var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+
+                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
+                    row.Cells[2].Paragraphs.First().Append("เรื่อง");
+                    row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
+                    row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
+                    row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม/หน่วยงาน");
+                    //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
+                    // Add rows in the table.
+                    int j = 0;
+                    for (int k = 0; k < model.reportCalendarData.Count(); k++)
+                    {
+                        j += 1;
+
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                    }
+
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
+            }
+
+            return Ok(new { data = filename });
         }
     }
 }
