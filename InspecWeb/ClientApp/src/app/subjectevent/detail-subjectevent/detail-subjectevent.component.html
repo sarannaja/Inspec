@@ -4,8 +4,8 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นการตรวจติดตาม</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/subjectevent']">ประเด็นการตรวจติดตาม</a></li>
       <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
@@ -56,7 +56,7 @@
           <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate == null">
             <!-- null -->
             <div class="col-6">
-              <label>วันที่แต้งเตือน</label>
+              <label>วันที่แจ้งเตือน</label>
               <my-date-picker-th formControlName="notificationsubjectdate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
@@ -98,10 +98,18 @@
                         <div class="row">
                           <i class="fa fa-tags" style="margin-top: 5px;"></i>
                           <h4 style="margin-left: 15px;">ประเด็นการตรวจติดตาม</h4>
+
+                          <!-- <button style="margin-top: -10px; margin-left: 10px;"
+                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
+                            type="button" class="btn btn-info"
+                            (click)="openModalSubject(modalcreatesuject,items.id,items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups)">เพิ่มประเด็นการตรวจติดตาม
+                            <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
+                          </button> -->
+
                           <button style="margin-top: -10px; margin-left: 10px;"
-                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
-                            class="btn btn-info"
-                            (click)="openModalSubject(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
+                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'"
+                            type="button" class="btn btn-info"
+                            (click)="openModalSubject2(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
                           <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
@@ -171,6 +179,8 @@
                           </div>
                         </div> -->
                       </div>
+
+                      <div *ngIf="items.subquestionCentralPolicyProvinces.length == 0" style="margin-top: 10px;"></div>
 
                       <div *ngIf="items.subquestionCentralPolicyProvinces.length != 0;" style="margin-left: 25px;">
                         <div class="col-12 row collapse" id="departments{{i}}"
@@ -1023,7 +1033,7 @@
               [items]="select" formControlName="provincialDepartmentId">
               <!-- (ngModelChange)="addsubjectdepartment2($event,'add')"
               (deselected)="addsubjectdepartment2($event,'remove')" -->
-            </ng-select>
+              </ng-select>
             </div>
           </div>
         </div>

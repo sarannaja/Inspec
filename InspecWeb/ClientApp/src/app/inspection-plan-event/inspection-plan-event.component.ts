@@ -231,8 +231,9 @@ export class InspectionPlanEventComponent implements OnInit {
           // }
           // else {
           // alert(event.roleCreatedBy)
+          var watch = 0;
           if (event.roleCreatedBy == 3) {
-            window.location.href = self.url + event.id + '/' + event.provinceid;
+            window.location.href = self.url + event.id + '/' + event.provinceid + '/' + watch;
           } else if (event.roleCreatedBy == 6) {
             window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
           } else if (event.roleCreatedBy == 10) {

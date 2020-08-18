@@ -1096,6 +1096,7 @@ namespace InspecWeb.Controllers
                 Type = subjectdata.Type,
                 Status = subjectdata.Status,
                 Explanation = subjectdata.Explanation,
+                CreatedBy = subjectdata.CreatedBy,
             };
             _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvince);
             _context.SaveChanges();
@@ -1405,6 +1406,7 @@ namespace InspecWeb.Controllers
                     .Include(m => m.Province)
                     .Include(m => m.CentralPolicy)
                     .ThenInclude(m => m.FiscalYear)
+                       .OrderByDescending(m => m.Id)
                     //.Include(m => m.SubjectCentralPolicyProvinces)
                     //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
                     .Where(m => m.Type == "NoMaster").ToList();
