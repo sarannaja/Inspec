@@ -62,6 +62,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.InspectionPlanEvent)
                 .Where(x => x.CreatedBy == userId)
+                .OrderByDescending(x => x.Id)
                 .ToList();
 
             //var ebook = _context.CentralPolicyEvents
@@ -87,6 +88,7 @@ namespace InspecWeb.Controllers
             .Include(x => x.ElectronicBook)
             .ThenInclude(x => x.User)
             .Where(x => x.UserId == userId)
+            .OrderByDescending(x => x.Id)
             .ToList();
 
             return Ok(electronicBookInvite);
@@ -1439,6 +1441,7 @@ namespace InspecWeb.Controllers
             .Include(x => x.UserCreate)
             .Where(x => x.ProvinceId == provinceId)
             .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
+            .OrderByDescending(x => x.Id)
             // .Where(m => m.ElectronicBook.ElectronicBookGroups
             // .Any(x => x.CentralPolicyEvent.CentralPolicy.CentralPolicyProvinces
             // .Any(m => m.SubjectCentralPolicyProvinces
@@ -1941,6 +1944,7 @@ namespace InspecWeb.Controllers
             .Include(x => x.UserProvincialDepartment)
             .Where(x => x.ProvincialDepartmentId == provincialDepartmentId)
             .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
+            .OrderByDescending(x => x.Id)
             .ToList();
             return Ok(ebookProvince);
         }

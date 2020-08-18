@@ -214,8 +214,9 @@ export class ExportReportService {
     return this.http.get<any>(this.url + "/getCommanderReport/" + provinceId + "/" + userID);
   }
 
-  postImportReport(value, userId, file: FileList) {
+  postImportReport(value, userId, file: FileList, departmentId) {
     const formData = new FormData();
+    console.log("DepartmentReport: ", departmentId);
 
     for (var i = 0; i < value.centralPolicyEvent.length; i++) {
       formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
@@ -232,6 +233,7 @@ export class ExportReportService {
     formData.append('suggestion', value.suggestion);
     formData.append('command', value.command);
     formData.append('UserId', userId);
+    formData.append('DepartmentId', departmentId);
 
     for (var i = 0; i < file.length; i++) {
       formData.append("files", file[i]);
@@ -301,5 +303,333 @@ export class ExportReportService {
 
   getCommander() {
     return this.http.get<any>(this.url + "/getCommander");
+  }
+
+  getAllImportedReport() {
+    return this.http.get<any>(this.url + "/getAllImportedReport");
+  }
+
+  getDepartments() {
+    return this.http.get<any>(this.url + "/getDepartments");
+  }
+
+  getRegions() {
+    return this.http.get<any>(this.url + "/getRegions");
+  }
+
+  getZones() {
+    return this.http.get<any>(this.url + "/getZones");
+  }
+
+  getProvinces() {
+    return this.http.get<any>(this.url + "/getProvinces");
+  }
+
+  getAllReportByDepartment(value) {
+    console.log("Department: ", value);
+    var departmentId = value.department;
+
+    return this.http.get<any>(this.url + "/getAllReportByDepartment/" + departmentId);
+  }
+
+  reportDepartment(res, reportType) {
+    var exportData: any = [];
+    console.log("REPORT RES: ", res);
+    console.log("Report Type: ", reportType);
+
+    var subjectData: any = [];
+    var department: any;
+    var command: any;
+    var commandDate: any;
+    department = res.reports[0].department.name;
+    exportData = res.reports.map((item, index) => {
+      subjectData = [];
+      item.importReportGroups.forEach(element => {
+        element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
+          element2.subjectCentralPolicyProvinces.forEach(element3 => {
+            if (element3.name == null || element3.name == "null" || element3.name == "") {
+              subjectData = "-"
+            } else {
+              subjectData = subjectData + element3.name + "\n";
+            }
+          });
+        });
+      });
+      console.log("subJAAA: ", subjectData);
+
+      if (item.reportCommanders.length == 0) {
+        command = "ไม่มี";
+      } else {
+        command = item.reportCommanders[0].command;
+        commandDate = item.reportCommanders[0].createAt;
+      }
+
+      return {
+        dateReport: item.createAt,
+        subject: subjectData,
+        createBy: item.user.prefix + item.user.name,
+        status: item.status,
+        command: command,
+        dateCommand: commandDate,
+      }
+    });
+    console.log("ExportDATA: ", exportData);
+    const formData = {
+      allReport: exportData,
+      reportType: reportType,
+      reportDepartment: department,
+    }
+    return this.http.post<any>(this.url + "/exportAllDepartmentReport", formData)
+  }
+
+  getAllReportByRegionId(value) {
+    console.log("Region: ", value);
+    var regionId = value.region;
+
+    return this.http.get<any>(this.url + "/getAllReportByRegion/" + regionId);
+  }
+
+  getAllReportByZoneId(value) {
+    console.log("Zone: ", value);
+    var zoneId = value.zone;
+
+    return this.http.get<any>(this.url + "/getAllReportByZone/" + zoneId);
+  }
+
+  getAllReportProvinceId(value) {
+    console.log("provinceId: ", value);
+    var provinceId = value.province;
+
+    return this.http.get<any>(this.url + "/getAllReportByProvince/" + provinceId);
+  }
+
+  getAllReportDay(value) {
+
+    var dateReport: Array<any> = value.inputdate.map((item, index) => {
+      return {
+        startDate: item.start_date.date.year + '-' + item.start_date.date.month + '-' + item.start_date.date.day,
+      }
+    })
+    console.log("DATENAJA: ", dateReport);
+
+    const formData = new FormData();
+    formData.append('startDate', dateReport[0].startDate);
+
+    return this.http.post<any>(this.url + "/getAllReportByDay", formData);
+  }
+
+  reportRegion(res, reportType) {
+    var exportData: any = [];
+    console.log("REPORT RES: ", res);
+    console.log("Report Type: ", reportType);
+
+    var subjectData: any = [];
+    var provinceData: any = [];
+    var region: any;
+    var regionId: any;
+    var command: any;
+    var commandDate: any;
+    region = res.reports[0].region.name;
+    regionId = res.reports[0].region.id;
+
+    exportData = res.reports.map((item, index) => {
+      subjectData = [];
+      item.importReportGroups.forEach(element => {
+        element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
+          element2.subjectCentralPolicyProvinces.forEach(element3 => {
+            if (element3.name == null || element3.name == "null" || element3.name == "") {
+              subjectData = "-"
+            } else {
+              subjectData = subjectData + element3.name + "\n";
+            }
+          });
+        });
+      });
+      console.log("subJAAA: ", subjectData);
+
+      if (item.reportCommanders.length == 0) {
+        command = "ไม่มี";
+      } else {
+        command = item.reportCommanders[0].command;
+        commandDate = item.reportCommanders[0].createAt;
+      }
+
+      return {
+        dateReport: item.createAt,
+        subject: subjectData,
+        createBy: item.user.prefix + item.user.name,
+        status: item.status,
+        command: command,
+        dateCommand: commandDate,
+        provinceReport: item.province.name,
+      }
+    });
+    console.log("ExportDATA: ", exportData);
+    const formData = {
+      allReport: exportData,
+      reportType: reportType,
+      reportRegion: region,
+      reportRegionId: regionId,
+    }
+    return this.http.post<any>(this.url + "/exportAllRegionReport", formData)
+  }
+
+  reportProvince(res, reportType) {
+    var exportData: any = [];
+    console.log("REPORT RES: ", res);
+    console.log("Report Type: ", reportType);
+
+    var subjectData: any = [];
+    var provinceData: any = [];
+    var province: any;
+    var command: any;
+    var commandDate: any;
+    province = res.reports[0].province.name;
+
+    exportData = res.reports.map((item, index) => {
+      subjectData = [];
+      item.importReportGroups.forEach(element => {
+        element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
+          element2.subjectCentralPolicyProvinces.forEach(element3 => {
+            if (element3.name == null || element3.name == "null" || element3.name == "") {
+              subjectData = "-"
+            } else {
+              subjectData = subjectData + element3.name + "\n";
+            }
+          });
+        });
+      });
+      console.log("subJAAA: ", subjectData);
+
+      if (item.reportCommanders.length == 0) {
+        command = "ไม่มี";
+      } else {
+        command = item.reportCommanders[0].command;
+        commandDate = item.reportCommanders[0].createAt;
+      }
+
+      return {
+        dateReport: item.createAt,
+        subject: subjectData,
+        createBy: item.user.prefix + item.user.name,
+        status: item.status,
+        command: command,
+        dateCommand: commandDate,
+        provinceReport: item.province.name,
+      }
+    });
+    console.log("ExportDATA: ", exportData);
+    const formData = {
+      allReport: exportData,
+      reportType: reportType,
+      reportProvince: province,
+    }
+    return this.http.post<any>(this.url + "/exportAllProvinceReport", formData)
+  }
+
+  reportDay(res, reportType) {
+    var exportData: any = [];
+    console.log("REPORT RES: ", res);
+    console.log("Report Type: ", reportType);
+
+    var subjectData: any = [];
+    var provinceData: any = [];
+    var date: any;
+    var command: any;
+    var commandDate: any;
+    date = res.reports[0].createAt;
+
+    exportData = res.reports.map((item, index) => {
+      subjectData = [];
+      item.importReportGroups.forEach(element => {
+        element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
+          element2.subjectCentralPolicyProvinces.forEach(element3 => {
+            if (element3.name == null || element3.name == "null" || element3.name == "") {
+              subjectData = "-"
+            } else {
+              subjectData = subjectData + element3.name + "\n";
+            }
+          });
+        });
+      });
+      console.log("subJAAA: ", subjectData);
+
+      if (item.reportCommanders.length == 0) {
+        command = "ไม่มี";
+      } else {
+        command = item.reportCommanders[0].command;
+        commandDate = item.reportCommanders[0].createAt;
+      }
+
+      return {
+        dateReport: item.createAt,
+        subject: subjectData,
+        createBy: item.user.prefix + item.user.name,
+        status: item.status,
+        command: command,
+        dateCommand: commandDate,
+        provinceReport: item.province.name,
+      }
+    });
+    console.log("ExportDATA: ", exportData);
+    const formData = {
+      allReport: exportData,
+      reportType: reportType,
+      reportDate: date,
+    }
+    return this.http.post<any>(this.url + "/exportAllDayReport", formData)
+  }
+
+  reportZone(res, reportType) {
+    var exportData: any = [];
+    console.log("REPORT RES: ", res);
+    console.log("Report Type: ", reportType);
+
+    var subjectData: any = [];
+    var provinceData: any = [];
+    var zone: any;
+    var command: any;
+    var commandDate: any;
+    zone = res.reports[0].zone.name;
+
+    exportData = res.reports.map((item, index) => {
+      subjectData = [];
+      item.importReportGroups.forEach(element => {
+        element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
+          element2.subjectCentralPolicyProvinces.forEach(element3 => {
+            if (element3.name == null || element3.name == "null" || element3.name == "") {
+              subjectData = "-"
+            } else {
+              subjectData = subjectData + element3.name + "\n";
+            }
+          });
+        });
+      });
+      console.log("subJAAA: ", subjectData);
+
+      if (item.reportCommanders.length == 0) {
+        command = "ไม่มี";
+      } else {
+        command = item.reportCommanders[0].command;
+        commandDate = item.reportCommanders[0].createAt;
+      }
+
+      return {
+        dateReport: item.createAt,
+        subject: subjectData,
+        createBy: item.user.prefix + item.user.name,
+        status: item.status,
+        command: command,
+        dateCommand: commandDate,
+        provinceReport: item.province.name,
+      }
+    });
+    console.log("ExportDATA: ", exportData);
+    const formData = {
+      allReport: exportData,
+      reportType: reportType,
+      reportZone: zone,
+    }
+    return this.http.post<any>(this.url + "/exportAllZoneReport", formData)
   }
 }
