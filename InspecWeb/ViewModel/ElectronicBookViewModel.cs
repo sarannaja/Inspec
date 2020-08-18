@@ -24,6 +24,9 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "Description")]
         public string Description { get; set; }
 
+        [JsonProperty(PropertyName = "User")]
+        public string User { get; set; }
+
         [JsonProperty(PropertyName = "SubjectCentralPolicyProvinceId")]
         public long SubjectCentralPolicyProvinceId { get; set; }
 

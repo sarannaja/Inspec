@@ -54,6 +54,11 @@ namespace InspecWeb.Models
 
         public string Status { get; set; }
 
+        [ForeignKey("Commander")]
+        [Description("FK: Commander")]
+        public string SendCommander { get; set; }
+        public virtual ApplicationUser Commander { get; set; }
+
         public ICollection<ImportReportGroup> ImportReportGroups { get; set; }
         public ICollection<ReportCommander> ReportCommanders { get; set; }
         public ICollection<ImportReportFile> ImportReportFiles { get; set; }

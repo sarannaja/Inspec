@@ -16,8 +16,11 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title mb-0">รายละเอียด</h4>
+        <button class="btn btn-primary float-right" (click)="printReport()" title="ปริ้นสมุดตรวจอิเล็กทรอนิกส์">
+          <i class="fas fa-print" style="font-size:large;"></i>
+        </button>
         <label style="margin-top: 20px;">กำหนดการสมุดตรวจ
-          {{electronicBookData.electronicBook.startDate | thaidate: 'year'}}</label>
+          {{electronicBookData.electronicBook.startDate | thaidate: 'short'}}</label>
         <!-- <div *ngIf="electronicBookData.electronicBook.provinceStatus == 'ส่งสมุดตรวจให้จังหวัดแล้ว'" class="row"
           style="float: right; margin: 20px;">
           <h3 style="color: green;">ส่งสมุดตรวจแล้ว</h3><i class="fas fa-check-circle"
@@ -41,8 +44,8 @@
               (click)="openModal(addSuggestionModal, item.centralPolicyEvent.id)">เพิ่มคำแนะนำ</button> -->
             <div class="col-12 collapse" id="centralPolicys{{i}}" style="margin-left: 5px;">
               <div>
-                <label>- วันที่: {{item.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'year'}} ถึง
-                  {{item.centralPolicyEvent.inspectionPlanEvent.endDate  | thaidate: 'year'}}</label>
+                <label>- วันที่: {{item.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'short'}} ถึง
+                  {{item.centralPolicyEvent.inspectionPlanEvent.endDate  | thaidate: 'short'}}</label>
               </div>
               <div>
                 <label>- จังหวัด: {{item.centralPolicyEvent.inspectionPlanEvent.province.name}}</label>
@@ -77,29 +80,67 @@
           </div>
         </div>
         <div *ngIf="electronicBookData.electronicBook.centralPolicy == null">
-          <div *ngIf="electronicBookData.ebookInvite.length == 0">
+          <h4>ผู้ตรวจราชการจากกำหนดการตรวจ</h4>
+          <div
+            *ngIf="electronicBookData.ebookInvite.length == 0 || electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
             <u>ผู้ตรวจราชการกระทรวง:</u>
             <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
               <label *ngIf="items.user.role_id == 6">- {{items.user.prefix}} {{items.user.name}} -
                 {{items.user.ministries.name}}</label>
             </div>
           </div>
-          <div *ngIf="electronicBookData.ebookInvite.length == 0">
+          <div
+            *ngIf="electronicBookData.ebookInvite.length == 0 || electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
             <u>ผู้ตรวจราชการกรม:</u>
             <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
               <label *ngIf="items.user.role_id == 10">- {{items.user.prefix}} {{items.user.name}} -
                 {{items.user.departments.name}}</label>
             </div>
           </div>
-          <div *ngIf="electronicBookData.ebookInvite.length == 0">
+          <div
+            *ngIf="electronicBookData.ebookInvite.length == 0 || electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
             <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
             <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
               <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
                 {{items.user.side}}</label>
             </div>
           </div>
+          <br>
+          <div
+            *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
+            <h4>ผู้ตรวจราชการเพิ่มเติม</h4>
+            <div
+              *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
+              <u>ผู้ตรวจราชการกระทรวง:</u>
+              <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
+                <label *ngIf="items.user.role_id == 6">- {{items.user.prefix}} {{items.user.name}} -
+                  {{items.user.ministries.name}}</label>
+                <i *ngIf="items.user.role_id == 6" class="align-middle ml-2 fas fa-fw fa-trash-alt pointer"
+                  (click)="openDeleteModal(deleteMoreInviteModal, items.id)" title="ลบผู้ตาวจราชการอิเล็กทรอนิกส์"></i>
+              </div>
+            </div>
+            <div
+              *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
+              <u>ผู้ตรวจราชการกรม:</u>
+              <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
+                <label *ngIf="items.user.role_id == 10">- {{items.user.prefix}} {{items.user.name}} -
+                  {{items.user.departments.name}}</label>
+                <i *ngIf="items.user.role_id == 10" class="align-middle ml-2 fas fa-fw fa-trash-alt pointer"
+                  (click)="openDeleteModal(deleteMoreInviteModal, items.id)" title="ลบผู้ตาวจราชการอิเล็กทรอนิกส์"></i>
+              </div>
+            </div>
+            <!-- <div
+              *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
+              <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
+              <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
+                <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
+                  {{items.user.side}}</label>
+              </div>
+            </div> -->
+          </div>
 
-          <div *ngIf="electronicBookData.ebookInvite.length > 0">
+          <div
+            *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ใช้งานจริง' || electronicBookData.electronicBook.status == 'ส่งสมุดตรวจแล้ว'">
             <u>ผู้ตรวจราชการกระทรวง:</u>
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
               id="ministryInvite" data-toggle="collapse" [attr.data-target]="'#ministryInvites'" aria-expanded="false"
@@ -148,7 +189,8 @@
               </div>
             </div>
           </div>
-          <div *ngIf="electronicBookData.ebookInvite.length > 0">
+          <div
+            *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ใช้งานจริง' || electronicBookData.electronicBook.status == 'ส่งสมุดตรวจแล้ว'">
             <u>ผู้ตรวจราชการกรม:</u>
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
               id="Role10Invite" data-toggle="collapse" [attr.data-target]="'#Role10Invites'" aria-expanded="false"
@@ -198,7 +240,8 @@
               </div>
             </div>
           </div>
-          <div *ngIf="electronicBookData.ebookInvite.length > 0">
+          <div
+            *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ใช้งานจริง' || electronicBookData.electronicBook.status == 'ส่งสมุดตรวจแล้ว'">
             <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
               id="peopleInvite" data-toggle="collapse" [attr.data-target]="'#peopleInvites'" aria-expanded="false"
@@ -223,6 +266,9 @@
               placeholder="ไม่มีข้อมูล" readonly></textarea>
           </div>
         </div>
+        <button
+          *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง' && electronicBookData.electronicBook.status != 'ส่งสมุดตรวจแล้ว'"
+          class="btn btn-success" (click)="openInviteModal(modalInviteMinistryPeople)">เชิญผู้ตรวจเพิ่มเติม</button>
         <br>
         <hr>
         <br>
@@ -281,7 +327,8 @@
                 <label style="margin-left: 10px;">ใช้งาน</label>
               </div>
             </div>
-            <label for="" *ngIf="electronicBookData.electronicBook.electronicBookFiles.length > 0">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
+            <label for=""
+              *ngIf="electronicBookData.electronicBook.electronicBookFiles.length > 0">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
             <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
               style="margin-top: 5px; margin-left: 5px;">
               <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
@@ -439,11 +486,15 @@
         </div>
 
         <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
-          <button *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง'" style="align-self: center;"
-            type="submit" class="btn btn-danger" style="margin-right: 45px;"
-            (click)="openModal(editSuggestionModal)">แก้ไขสมุดตรวจ</button>
           <button
+            *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง' && electronicBookData.electronicBook.status != 'ส่งสมุดตรวจแล้ว'"
+            style="align-self: center;" type="submit" class="btn btn-danger" style="margin-right: 45px;"
+            (click)="openModal(editSuggestionModal)">แก้ไขสมุดตรวจ</button>
+          <!-- <button
             *ngIf="allMinistry.length == approveMinistry.length && allMinistry.length != 0 && electronicBookData.electronicBook.provinceStatus != 'หัวหน้าส่วนจังหวัดแนบลายมือชื่อแล้ว' && electronicBookData.electronicBook.provinceStatus != 'หน่วยรับตรวจดำเนินการแล้ว'"
+            class="btn btn-primary" style="margin-right: 45px;" (click)="openModal(confirmModal)">ส่งสมุดตรวจ</button> -->
+          <button
+            *ngIf="allMinistry.length == approveMinistry.length && allMinistry.length != 0 && electronicBookData.electronicBookAccept.length == 0"
             class="btn btn-primary" style="margin-right: 45px;" (click)="openModal(confirmModal)">ส่งสมุดตรวจ</button>
           <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
         </div>
@@ -550,6 +601,59 @@
             คุณต้องการส่งสมุดตรวจใช่หรือไม่ ?
           </p>
           <button type="button" class="btn btn-primary btnMargin" (click)="sendToProvince(electId)">
+            ใช่
+          </button>
+          <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+            ไม่ใช่
+          </button>
+        </div>
+      </ng-template>
+
+      <ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="Form2" (ngSubmit)="storeMorePeople(Form2.value)">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">เชิญผู้ร่วมตรวจราชการ</h5>
+              <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body m-3">
+              <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+                [items]="MinistrySelect" name="UserMinistryId" formControlName="UserMinistryId">
+              </ng-select>
+              <br>
+              <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+                [items]="DepartmentSelect" name="UserDepartmentId" formControlName="UserDepartmentId">
+              </ng-select>
+              <!-- <br>
+              <label class="form-label">เชิญผู้ตรวจราชการภาคประชาชน</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+                [items]="PeopleSelect" name="UserPeopleId" formControlName="UserPeopleId">
+              </ng-select> -->
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">บันทึก</button>
+              <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+          </div>
+        </form>
+        <!-- </div> -->
+      </ng-template>
+
+      <ng-template #deleteMoreInviteModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+          <i class="fa fa-info-circle delete-icon"></i>
+          <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+            ลบข้อมูล
+          </p>
+          <p style="font-size: medium; color: #545454;">
+            คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+          </p>
+          <button type="button" class="btn btn-primary btnMargin" (click)="deleteMoreInvited(inviteId)">
             ใช่
           </button>
           <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">

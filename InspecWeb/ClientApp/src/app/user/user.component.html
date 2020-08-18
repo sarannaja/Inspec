@@ -52,29 +52,32 @@
                         <tr *ngFor="let item of resultuser; let i = index">
                             <td>{{i + 1}}</td>
                             <td>
-                                <img *ngIf="item.img != null" src="{{imgprofileUrl}}/{{item.img}}" class="img-fluid  mb-2" width="90px" alt="รูป">
-                                <img *ngIf="item.img == null" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2" width="90px" alt="รูป">
+                                <img *ngIf="item.img != null" src="{{imgprofileUrl}}/{{item.img}}"
+                                    class="img-fluid  mb-2" width="90px" alt="รูป">
+                                <img *ngIf="item.img == null" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                                    width="90px" alt="รูป">
                             </td>
                             <td><i class="align-middle fas fa-fw fa-address-card"></i> {{item.prefix + item.name}}</td>
                             <td>{{item.position}}</td>
                             <td *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10">
                                 <li *ngFor="let item2 of item.userRegion; let i2 = index">
-                                    {{item2.region.name}}
+                                    {{item2.region.name == "เขตตรวจราชส่วนกลาง" ? "ส่วนกลาง" :item2.region.name.replace(re2, '')}}
                                 </li>
                             </td>
                             <td *ngIf="roleId != 7">
-                                <li *ngIf="roleId == 1 ||roleId == 2 ||roleId == 3 || roleId == 4|| roleId == 5 || roleId == 6 || roleId == 8 || roleId == 9 || roleId == 10">
+                                <li
+                                    *ngIf="roleId == 1 ||roleId == 2 ||roleId == 3 || roleId == 4|| roleId == 5 || roleId == 6 || roleId == 8 || roleId == 9 || roleId == 10">
                                     {{item.ministries.name}}
-                                </li> 
-                                <li *ngIf="roleId == 9 || roleId == 10" >
+                                </li>
+                                <li *ngIf="roleId == 9 || roleId == 10">
                                     {{item.departments.name}}
                                 </li>
-                                <li *ngIf="roleId == 9" >
+                                <li *ngIf="roleId == 9">
                                     {{item.provincialDepartments.name}}
                                 </li>
                             </td>
                             <td *ngIf="roleId == 4 || roleId == 5 || roleId == 7 || roleId == 9">
-                                    {{item.userProvince[0].province.name}}
+                                {{item.userProvince[0].province.name}}
                             </td>
                             <td *ngIf="roleId == 7">{{item.side}}</td>
                             <td>{{item.phoneNumber}}</td>
@@ -83,12 +86,12 @@
                                 <div *ngIf="item.active == 1;else elseBlock">
                                     <button class="btn btn-success btn-sm" disabled>ใช้งาน</button>
                                 </div>
-                                <ng-template #elseBlock> 
+                                <ng-template #elseBlock>
                                     <button class="btn btn-danger btn-sm" disabled>พ้นหน้าที่</button>
                                 </ng-template>
                             </td>
                             <td>
-                            <!-- <button class="btn btn-secondary btn-pill btn-sm" title="เปลี่ยนสิทธิ์การใช้งาน">
+                                <!-- <button class="btn btn-secondary btn-pill btn-sm" title="เปลี่ยนสิทธิ์การใช้งาน">
                                 <i class="align-middle fas fa-fw fa-map-marked"
                                     (click)="openchangeModal(modalchangeUser, item.id,item.fiscalYearId,item.userRegion,item.userProvince[0].province.id,item.ministryId
                                     ,item.departmentId,item.provincialDepartmentId,item.side,item.commandnumber,
@@ -105,8 +108,7 @@
                             </button>
 
                                 <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขช้อมูล">
-                                    <i class="align-middle fas fa-fw fa-pen"
-                                        (click)="openeditModal(modaleditUser, item.id,item.fiscalYearId,item.userRegion,item.userProvince[0].provinceId,item.ministryId
+                                    <i class="align-middle fas fa-fw fa-pen" (click)="openeditModal(modaleditUser, item.id,item.fiscalYearId,item.userRegion,item.userProvince[0].provinceId,item.ministryId
                                         ,item.departmentId,item.provincialDepartmentId,item.side,item.commandnumber,
                                         item.commandnumberdate,item.email,item.prefix,item.firstnameth,item.lastnameth,item.position,item.phoneNumber,
                                         item.startdate,item.enddate,item.img)">
@@ -118,7 +120,7 @@
                                         (click)="openModal(modaldeleteuser, item.id)">
                                     </i>
                                 </button>
-                               
+
                             </td>
                         </tr>
                     </tbody>
@@ -161,11 +163,12 @@
 
                     <div class="form-group">
                         <label>เขตตรวจราชการ*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"   [items]="selectdataregion"
-                            name="UserRegion" formControlName="UserRegion"  >
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"
+                            [items]="selectdataregion" name="UserRegion" formControlName="UserRegion">
                         </ng-select>
                     </div>
                 </div>
+
 
                 <div class="form-group" *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
                     <div class="row">                   
@@ -186,28 +189,34 @@
                           </ng-select>
                         </div> 
                     </div>
+
                 </div>
 
                 <div class="form-group" *ngIf="roleId == 9;">
                     <label>หน่วยงานภูมิภาค*</label>
-                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค" formControlName="ProvincialDepartmentId"
-                      [items]="selectdataprovincialdepartment"  >
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค"
+                        formControlName="ProvincialDepartmentId" [items]="selectdataprovincialdepartment">
                     </ng-select>
                 </div>
 
-                <div class="form-group" *ngIf="roleId == 4 || roleId == 5|| roleId == 7 || roleId == 9;"><!-- จังหวัดหลายอัน -->
+                <div class="form-group" *ngIf="roleId == 4 || roleId == 5|| roleId == 7 || roleId == 9;">
+                    <!-- จังหวัดหลายอัน -->
                     <label>จังหวัด*</label>
-                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="UserProvince"   [items]="selectdataprovince"  >
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด"
+                        formControlName="UserProvince" [items]="selectdataprovince">
                     </ng-select>
                 </div>
 
-                <div class="form-group" *ngIf="roleId == 7;"><!-- ด้าน -->
+                <div class="form-group" *ngIf="roleId == 7;">
+                    <!-- ด้าน -->
                     <label>ด้าน*</label>
-                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกด้าน" formControlName="Side"   [items]="selectdataside"  >
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกด้าน" formControlName="Side"
+                        [items]="selectdataside">
                     </ng-select>
                 </div>
 
                 <div class="form-group">
+
                     <div class="row">                   
                         <label class="form-label col-6">ตามคำสั่งเลขที่</label>
                         <label class="form-label col-6">ลงวันที่ตามคำสั่งเลขที่</label>
@@ -223,6 +232,7 @@
                             </my-date-picker-th>
                         </div> 
                     </div>
+
                 </div>
   
                 <div class="form-group">
@@ -239,21 +249,25 @@
                             <input type="text" formControlName="Prefix" class="form-control" required placeholder="กรุณากรอกคำนำหน้า">
                         </div> 
                     </div>
+
                 </div>
-             
+
                 <div class="form-group">
                     <div class="row">                   
+
                         <label class="form-label col-6">ชื่อ(TH)*</label>
                         <label class="form-label col-6">นามสกุล(TH)*</label>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <input type="text" formControlName="FName" class="form-control" required placeholder="กรุณากรอกชื่อ(TH)">
+                            <input type="text" formControlName="FName" class="form-control" required
+                                placeholder="กรุณากรอกชื่อ(TH)">
                         </div>
-                        
+
                         <div class="col-6">
-                            <input type="text" formControlName="LName" class="form-control" required placeholder="กรุณากรอกนามสกุล(TH)">
-                        </div> 
+                            <input type="text" formControlName="LName" class="form-control" required
+                                placeholder="กรุณากรอกนามสกุล(TH)">
+                        </div>
                     </div>
                 </div>
 
@@ -383,12 +397,13 @@
                     <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค" formControlName="ProvincialDepartmentId"
                       [items]="selectdataprovincialdepartment"  >
                     </ng-select>
+
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">วันที่เริ่มต้น*</label>
-                    <my-date-picker-th formControlName="Startdate"
-                           [options]="myDatePickerOptions" required [(ngModel)]="date" placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                    <my-date-picker-th formControlName="Startdate" [options]="myDatePickerOptions" required
+                        [(ngModel)]="date" placeholder="กรุณาเลือกวันที่เริ่มต้น">
                     </my-date-picker-th>
                 </div>
 
@@ -403,6 +418,7 @@
                         <span class="form-check-label">กำหนด Username เอง
                         </span>
                     </label>
+
                 </div>
 
                 <div class="form-group">
@@ -424,116 +440,127 @@
 <!-- BEGIN edit modal -->
 <ng-template #modaleditUser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="addForm" (ngSubmit)="updateuser(addForm.value)">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">แก้ไขผู้ใช้</h3>
-                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body m-3">
-    
-                    <div class="form-group">
-                        <label>สิทธิ์การใช้งาน : {{rolename}}</label>
-                    </div>
-    
-                    <div class="form-group" *ngIf="roleId == 3">
-                        <label>กระทรวง : สำนักนายกรัฐมนตรี</label>
-                    </div>
-    
-                    <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
+    <form [formGroup]="addForm" (ngSubmit)="updateuser(addForm.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">แก้ไขผู้ใช้</h3>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
 
-                        <!-- <div class="form-group">
+                <div class="form-group">
+                    <label>สิทธิ์การใช้งาน : {{rolename}}</label>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 3">
+                    <label>กระทรวง : สำนักนายกรัฐมนตรี</label>
+                </div>
+
+                <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
+
+                    <!-- <div class="form-group">
                             <label>ปี*</label>
                             <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปี"   [items]="selectdatafiscalyear"
                                 name="FiscalYear" formControlName="FiscalYear"
                             (change)="getDataRegions($event)">
                             </ng-select>
                         </div> -->
-    
-                        <div class="form-group">
-                            <label>เขตตรวจราชการ*</label>
-                            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"   [items]="selectdataregion"
-                                name="UserRegion" formControlName="UserRegion"  >
-                            </ng-select>
+
+                    <div class="form-group">
+                        <label>เขตตรวจราชการ*</label>
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"
+                            [items]="selectdataregion" name="UserRegion" formControlName="UserRegion">
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div class="form-group"
+                    *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
+                    <label>กระทรวง*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง"
+                        [(ngModel)]="MinistryId" formControlName="MinistryId" [items]="selectdataministry"
+                        (change)="getDataDepartments($event)">
+                    </ng-select>
+                </div>
+
+                <div class="form-group"
+                    *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
+                    <label>หน่วยงาน/กรม</label>
+                    <ng-select bindLabel="label" bindValue="value" [(ngModel)]="DepartmentId"
+                        placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId"
+                        [items]="selectdatadeparment" (change)="getProvincialDepartments($event)">
+                    </ng-select>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 9;">
+                    <label>หน่วยงานภูมิภาค</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค"
+                        formControlName="ProvincialDepartmentId" [items]="selectdataprovincialdepartment">
+                    </ng-select>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 4 || roleId == 5|| roleId == 7 || roleId == 9;">
+                    <!-- จังหวัดหลายอัน -->
+                    <label>จังหวัด*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด"
+                        formControlName="UserProvince" [items]="selectdataprovince">
+                    </ng-select>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 7;">
+                    <!-- ด้าน -->
+                    <label>ด้าน*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกด้าน" formControlName="Side"
+                        [items]="selectdataside">
+                    </ng-select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ตามคำสั่งเลขที่</label>
+                    <input type="text" formControlName="Commandnumber" class="form-control"
+                        placeholder="กรุณากรอกตามคำสั่งเลขที่">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ลงวันที่ตามคำสั่งเลขที่</label>
+                    <my-date-picker-th formControlName="Commandnumberdate" [options]="myDatePickerOptions"
+                        placeholder="กรุณาเลือกวันที่">
+                    </my-date-picker-th>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">อีเมล*</label>
+                    <input type="email" formControlName="Email" class="form-control" required
+                        placeholder="กรุณากรอกอีเมล">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">คำนำหน้า*</label>
+                    <input type="text" formControlName="Prefix" class="form-control" required
+                        placeholder="กรุณากรอกคำนำหน้า">
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label class="form-label col-6">ชื่อ(TH)*</label>
+                        <label class="form-label col-6">นามสกุล(TH)*</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" formControlName="FName" class="form-control" required
+                                placeholder="กรุณากรอกชื่อ(TH)">
+                        </div>
+
+                        <div class="col-6">
+                            <input type="text" formControlName="LName" class="form-control" required
+                                placeholder="กรุณากรอกนามสกุล(TH)">
                         </div>
                     </div>
-    
-                    <div class="form-group" *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
-                        <label>กระทรวง*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง" [(ngModel)]="MinistryId" formControlName="MinistryId"
-                           [items]="selectdataministry"  (change)="getDataDepartments($event)">
-                        </ng-select>
-                    </div>            
-    
-                    <div class="form-group" *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
-                        <label>หน่วยงาน/กรม</label>
-                        <ng-select bindLabel="label" bindValue="value" [(ngModel)]="DepartmentId" placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId"
-                          [items]="selectdatadeparment"
-                       (change)="getProvincialDepartments($event)"  >
-                        </ng-select>
-                    </div>
-    
-                    <div class="form-group" *ngIf="roleId == 9;">
-                        <label>หน่วยงานภูมิภาค</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค" formControlName="ProvincialDepartmentId"
-                          [items]="selectdataprovincialdepartment"  >
-                        </ng-select>
-                    </div>
-    
-                    <div class="form-group" *ngIf="roleId == 4 || roleId == 5|| roleId == 7 || roleId == 9;"><!-- จังหวัดหลายอัน -->
-                        <label>จังหวัด*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="UserProvince"   
-                        [items]="selectdataprovince"  >
-                        </ng-select>
-                    </div>
-    
-                    <div class="form-group" *ngIf="roleId == 7;"><!-- ด้าน -->
-                        <label>ด้าน*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกด้าน" formControlName="Side"   [items]="selectdataside"  >
-                        </ng-select>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">ตามคำสั่งเลขที่</label>
-                        <input type="text" formControlName="Commandnumber" class="form-control" placeholder="กรุณากรอกตามคำสั่งเลขที่">
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">ลงวันที่ตามคำสั่งเลขที่</label>
-                        <my-date-picker-th formControlName="Commandnumberdate"
-                               [options]="myDatePickerOptions" placeholder="กรุณาเลือกวันที่">
-                        </my-date-picker-th>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">อีเมล*</label>
-                        <input type="email" formControlName="Email" class="form-control" required placeholder="กรุณากรอกอีเมล">
-                    </div>
-                 
-                    <div class="form-group">
-                        <label class="form-label">คำนำหน้า*</label>
-                        <input type="text" formControlName="Prefix" class="form-control" required placeholder="กรุณากรอกคำนำหน้า">
-                    </div>
-    
-                    <div class="form-group">
-                        <div class="row">                   
-                            <label class="form-label col-6">ชื่อ(TH)*</label>
-                            <label class="form-label col-6">นามสกุล(TH)*</label>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="text" formControlName="FName" class="form-control" required placeholder="กรุณากรอกชื่อ(TH)">
-                            </div>
-                            
-                            <div class="col-6">
-                                <input type="text" formControlName="LName" class="form-control" required placeholder="กรุณากรอกนามสกุล(TH)">
-                            </div> 
-                        </div>
-                    </div>
-    
-                    <!-- <div class="form-group">
+                </div>
+
+                <!-- <div class="form-group">
                         <div class="row">                   
                             <label class="form-label col-6">ชื่อ(EN)*</label>
                             <label class="form-label col-6">นามสกุล(EN)*</label>
@@ -548,164 +575,179 @@
                             </div> 
                         </div>
                     </div> -->
-    
-                    <div class="form-group">
-                        <label class="form-label">ตำแหน่ง*</label>
-                        <input type="text" formControlName="Position" class="form-control" required placeholder="กรุณากรอกตำแหน่ง">
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">โทรศัพท์*</label>
-                        <input type="number" max="10" formControlName="PhoneNumber" class="form-control" required placeholder="กรุณากรอกโทรศัพท์">
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">วันที่เริ่มต้น*</label>
-                        <my-date-picker-th formControlName="Startdate"
-                               [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่เริ่มต้น">
-                        </my-date-picker-th>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">วันที่สิ้นสุด</label>
-                        <my-date-picker-th formControlName="Enddate"
-                               [options]="myDatePickerOptions" placeholder="กรุณาเลือกวันที่สิ้นสุด">
-                        </my-date-picker-th>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label w-100">รูปโปรไฟล์</label>
-                        <img *ngIf="img != null" src="{{imgprofileUrl}}/{{img}}" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
-                        <img *ngIf="img == null" src="{{imgprofileUrl}}/user.png" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
-                        <input type="file" (change)="uploadFile($event)" required accept="image/jpeg, image/png" />
-                        <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
-                    </div>
-    
+
+                <div class="form-group">
+                    <label class="form-label">ตำแหน่ง*</label>
+                    <input type="text" formControlName="Position" class="form-control" required
+                        placeholder="กรุณากรอกตำแหน่ง">
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">บันทึก</button>
-                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+
+                <div class="form-group">
+                    <label class="form-label">โทรศัพท์*</label>
+                    <input type="number" max="10" formControlName="PhoneNumber" class="form-control" required
+                        placeholder="กรุณากรอกโทรศัพท์">
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">วันที่เริ่มต้น*</label>
+                    <my-date-picker-th formControlName="Startdate" [options]="myDatePickerOptions" required
+                        placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                    </my-date-picker-th>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">วันที่สิ้นสุด</label>
+                    <my-date-picker-th formControlName="Enddate" [options]="myDatePickerOptions"
+                        placeholder="กรุณาเลือกวันที่สิ้นสุด">
+                    </my-date-picker-th>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label w-100">รูปโปรไฟล์</label>
+                    <img *ngIf="img != null" src="{{imgprofileUrl}}/{{img}}" class="img-fluid rounded-circle mb-2"
+                        width="90px" alt="รูปโปรไฟล์">
+                    <img *ngIf="img == null" src="{{imgprofileUrl}}/user.png" class="img-fluid rounded-circle mb-2"
+                        width="90px" alt="รูปโปรไฟล์">
+                    <input type="file" (change)="uploadFile($event)" required accept="image/jpeg, image/png" />
+                    <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
+                </div>
+
             </div>
-            <!-- </div> -->
-        </form>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!-- </div> -->
+    </form>
 </ng-template>
 <!-- END edit modal -->
 
 <!-- BEGIN modalchangeUser modal -->
 <ng-template #modalchangeUser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="addForm" (ngSubmit)="updateuser(addForm.value)">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">เปลี่ยนสิทธิ์ผู้ใช้</h3>
-                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <form [formGroup]="addForm" (ngSubmit)="updateuser(addForm.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">เปลี่ยนสิทธิ์ผู้ใช้</h3>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+
+                <div class="form-group">
+                    <label>สิทธิ์การใช้งาน*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ"
+                        [items]="selectdatarole" formControlName="Role_id">
+                    </ng-select>
                 </div>
-                <div class="modal-body m-3">
-    
-                    <div class="form-group">
-                        <label>สิทธิ์การใช้งาน*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ"    
-                        [items]="selectdatarole" formControlName="Role_id"  >
-                        </ng-select>          
-                    </div>
-    
-                    <div class="form-group" *ngIf="roleId == 3">
-                        <label>กระทรวง : สำนักนายกรัฐมนตรี</label>
-                    </div>
-    
-                    <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
-                        <!-- <div class="form-group">
+
+                <div class="form-group" *ngIf="roleId == 3">
+                    <label>กระทรวง : สำนักนายกรัฐมนตรี</label>
+                </div>
+
+                <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
+                    <!-- <div class="form-group">
                             <label>ปี*</label>
                             <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปี"   [items]="selectdatafiscalyear"
                                 name="FiscalYear" formControlName="FiscalYear"
                             (change)="getDataRegions($event)">
                             </ng-select>
                         </div> -->
-    
-                        <div class="form-group">
-                            <label>เขตตรวจราชการ*</label>
-                            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"   [items]="selectdataregion"
-                                name="UserRegion" formControlName="UserRegion"  >
-                            </ng-select>
+
+                    <div class="form-group">
+                        <label>เขตตรวจราชการ*</label>
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"
+                            [items]="selectdataregion" name="UserRegion" formControlName="UserRegion">
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div class="form-group"
+                    *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
+                    <label>กระทรวง*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง"
+                        formControlName="MinistryId" [items]="selectdataministry" (change)="getDataDepartments($event)">
+                    </ng-select>
+                </div>
+
+                <div class="form-group"
+                    *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
+                    <label>หน่วยงาน/กรม</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม"
+                        formControlName="DepartmentId" [items]="selectdatadeparment"
+                        (change)="getProvincialDepartments($event)">
+                    </ng-select>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 9;">
+                    <label>หน่วยงานภูมิภาค</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค"
+                        formControlName="ProvincialDepartmentId" [items]="selectdataprovincialdepartment">
+                    </ng-select>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 4 || roleId == 5|| roleId == 7 || roleId == 9;">
+                    <!-- จังหวัดหลายอัน -->
+                    <label>จังหวัด*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด"
+                        formControlName="UserProvince" [items]="selectdataprovince">
+                    </ng-select>
+                </div>
+
+                <div class="form-group" *ngIf="roleId == 7;">
+                    <!-- ด้าน -->
+                    <label>ด้าน*</label>
+                    <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกด้าน" formControlName="Side"
+                        [items]="selectdataside">
+                    </ng-select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ตามคำสั่งเลขที่</label>
+                    <input type="text" formControlName="Commandnumber" class="form-control"
+                        placeholder="กรุณากรอกตามคำสั่งเลขที่">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ลงวันที่ตามคำสั่งเลขที่</label>
+                    <my-date-picker-th formControlName="Commandnumberdate" [options]="myDatePickerOptions"
+                        placeholder="กรุณาเลือกวันที่">
+                    </my-date-picker-th>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">อีเมล*</label>
+                    <input type="email" formControlName="Email" class="form-control" required
+                        placeholder="กรุณากรอกอีเมล">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">คำนำหน้า*</label>
+                    <input type="text" formControlName="Prefix" class="form-control" required
+                        placeholder="กรุณากรอกคำนำหน้า">
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label class="form-label col-6">ชื่อ(TH)*</label>
+                        <label class="form-label col-6">นามสกุล(TH)*</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" formControlName="FName" class="form-control" required
+                                placeholder="กรุณากรอกชื่อ(TH)">
+                        </div>
+
+                        <div class="col-6">
+                            <input type="text" formControlName="LName" class="form-control" required
+                                placeholder="กรุณากรอกนามสกุล(TH)">
                         </div>
                     </div>
-    
-                    <div class="form-group" *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
-                        <label>กระทรวง*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง" formControlName="MinistryId"
-                           [items]="selectdataministry"  (change)="getDataDepartments($event)">
-                        </ng-select>
-                    </div>            
-    
-                    <div class="form-group" *ngIf="roleId == 1 || roleId == 2  || roleId == 6 ||roleId == 8 || roleId == 9 || roleId == 10;">
-                        <label>หน่วยงาน/กรม</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId"
-                          [items]="selectdatadeparment"
-                       (change)="getProvincialDepartments($event)"  >
-                        </ng-select>
-                    </div>
-    
-                    <div class="form-group" *ngIf="roleId == 9;">
-                        <label>หน่วยงานภูมิภาค</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค" formControlName="ProvincialDepartmentId"
-                          [items]="selectdataprovincialdepartment"  >
-                        </ng-select>
-                    </div>
-    
-                    <div class="form-group" *ngIf="roleId == 4 || roleId == 5|| roleId == 7 || roleId == 9;"><!-- จังหวัดหลายอัน -->
-                        <label>จังหวัด*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="UserProvince"   [items]="selectdataprovince"  >
-                        </ng-select>
-                    </div>
-    
-                    <div class="form-group" *ngIf="roleId == 7;"><!-- ด้าน -->
-                        <label>ด้าน*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกด้าน" formControlName="Side"   [items]="selectdataside"  >
-                        </ng-select>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">ตามคำสั่งเลขที่</label>
-                        <input type="text" formControlName="Commandnumber" class="form-control" placeholder="กรุณากรอกตามคำสั่งเลขที่">
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">ลงวันที่ตามคำสั่งเลขที่</label>
-                        <my-date-picker-th formControlName="Commandnumberdate"
-                               [options]="myDatePickerOptions" placeholder="กรุณาเลือกวันที่">
-                        </my-date-picker-th>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">อีเมล*</label>
-                        <input type="email" formControlName="Email" class="form-control" required placeholder="กรุณากรอกอีเมล">
-                    </div>
-                 
-                    <div class="form-group">
-                        <label class="form-label">คำนำหน้า*</label>
-                        <input type="text" formControlName="Prefix" class="form-control" required placeholder="กรุณากรอกคำนำหน้า">
-                    </div>
-    
-                    <div class="form-group">
-                        <div class="row">                   
-                            <label class="form-label col-6">ชื่อ(TH)*</label>
-                            <label class="form-label col-6">นามสกุล(TH)*</label>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="text" formControlName="FName" class="form-control" required placeholder="กรุณากรอกชื่อ(TH)">
-                            </div>
-                            
-                            <div class="col-6">
-                                <input type="text" formControlName="LName" class="form-control" required placeholder="กรุณากรอกนามสกุล(TH)">
-                            </div> 
-                        </div>
-                    </div>
-    
-                    <!-- <div class="form-group">
+                </div>
+
+                <!-- <div class="form-group">
                         <div class="row">                   
                             <label class="form-label col-6">ชื่อ(EN)*</label>
                             <label class="form-label col-6">นามสกุล(EN)*</label>
@@ -720,46 +762,49 @@
                             </div> 
                         </div>
                     </div> -->
-    
-                    <div class="form-group">
-                        <label class="form-label">ตำแหน่ง*</label>
-                        <input type="text" formControlName="Position" class="form-control" required placeholder="กรุณากรอกตำแหน่ง">
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">โทรศัพท์*</label>
-                        <input type="number" max="10" formControlName="PhoneNumber" class="form-control" required placeholder="กรุณากรอกโทรศัพท์">
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">วันที่เริ่มต้น*</label>
-                        <my-date-picker-th formControlName="Startdate"
-                               [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่เริ่มต้น">
-                        </my-date-picker-th>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label">วันที่สิ้นสุด</label>
-                        <my-date-picker-th formControlName="Enddate"
-                               [options]="myDatePickerOptions" placeholder="กรุณาเลือกวันที่สิ้นสุด">
-                        </my-date-picker-th>
-                    </div>
-    
-                    <div class="form-group">
-                        <label class="form-label w-100">รูปโปรไฟล์</label>
-                        <img src="{{imgprofileUrl}}/{{img}}" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
-                        <input type="file" (change)="uploadFile($event)" required accept="image/jpeg, image/png" />
-                        <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
-                    </div>
-    
+
+                <div class="form-group">
+                    <label class="form-label">ตำแหน่ง*</label>
+                    <input type="text" formControlName="Position" class="form-control" required
+                        placeholder="กรุณากรอกตำแหน่ง">
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">บันทึก</button>
-                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+
+                <div class="form-group">
+                    <label class="form-label">โทรศัพท์*</label>
+                    <input type="number" max="10" formControlName="PhoneNumber" class="form-control" required
+                        placeholder="กรุณากรอกโทรศัพท์">
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">วันที่เริ่มต้น*</label>
+                    <my-date-picker-th formControlName="Startdate" [options]="myDatePickerOptions" required
+                        placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                    </my-date-picker-th>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">วันที่สิ้นสุด</label>
+                    <my-date-picker-th formControlName="Enddate" [options]="myDatePickerOptions"
+                        placeholder="กรุณาเลือกวันที่สิ้นสุด">
+                    </my-date-picker-th>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label w-100">รูปโปรไฟล์</label>
+                    <img src="{{imgprofileUrl}}/{{img}}" class="img-fluid rounded-circle mb-2" width="90px"
+                        alt="รูปโปรไฟล์">
+                    <input type="file" (change)="uploadFile($event)" required accept="image/jpeg, image/png" />
+                    <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
+                </div>
+
             </div>
-            <!-- </div> -->
-        </form>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!-- </div> -->
+    </form>
 </ng-template>
 <!-- END modalchangeUser modal -->
 
@@ -768,16 +813,16 @@
     <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
         <i class="fa fa-info-circle delete-icon"></i>
         <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
-          ลบข้อมูล
+            ลบข้อมูล
         </p>
         <p style="font-size: medium; color: #545454;">
-          คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+            คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
         </p>
         <button type="button" class="btn btn-primary btnMargin" (click)="deleteuser(id)">
-          ใช่
+            ใช่
         </button>
         <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
-          ไม่ใช่
+            ไม่ใช่
         </button>
     </div>
 </ng-template>

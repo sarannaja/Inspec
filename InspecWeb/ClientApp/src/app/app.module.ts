@@ -378,7 +378,7 @@ const ExternalOrganization = [
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'login', component: LoginComponent },
-      { path: 'answersubject/outsider/:id', component: AnswerOutsiderComponent },
+      { path: 'answersubject/outsider/:id/:userid', component: AnswerOutsiderComponent },
       { path: 'ty', component: AnswerOutsideThankComponent },
       { path: 'training/external/register', component: ExternalRegisterComponent },
       {

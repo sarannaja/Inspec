@@ -287,13 +287,14 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + 'proceed/' + eid);
   }
 
-  getCentralPolicyEbook() {
-    return this.http.get<any>(this.url + "centralPolicyEbook")
+  getCentralPolicyEbook(userId) {
+    return this.http.get<any>(this.url + "centralPolicyEbook/" + userId)
   }
 
-  getCentralPolicyEbook2(startDate) {
+  getCentralPolicyEbook2(startDate, userId) {
     const formData = new FormData();
     formData.append('startDate', startDate);
+    formData.append('User', userId);
     return this.http.post<any>(this.url + "centralPolicyEbook2", formData)
   }
 
@@ -503,6 +504,9 @@ export class ElectronicbookService {
   }
 
   addSubjectEventFile(value, file: FileList, electronicbookid, centralproid, signatureFiles: FileList) {
+
+    // alert(JSON.stringify(value.notificationpeoplequestiondate))
+
     console.log("Description: ", value.description);
     console.log("File Type: ", value.fileType);
     const formData = new FormData();
@@ -515,6 +519,13 @@ export class ElectronicbookService {
     formData.append('Type', value.fileType);
 
 
+    formData.append('NotificationSubjectDate', value.notificationsubjectdate);
+    formData.append('DeadlineSubjectDate', value.deadlinesubjectdate);
+
+    formData.append('NotificationPeopleQuestiontDate', value.notificationpeoplequestiondate);
+    formData.append('DeadlinePeopleQuestiontDate', value.deadlinepeoplequestiondate);
+
+    // console.log("PDID: ", formData.getAll("provincialDepartmentIdAr"));
 
     function getFileExtension2(filename) {
       return filename.split('.').pop();
@@ -710,6 +721,31 @@ export class ElectronicbookService {
     formData.append('provincialDepartmentId', provincialId);
 
     return this.http.post<any>(this.url + "GetElectronicBookDepartmentById", formData);
+  }
+
+  inviteMorePeople(value, electID) {
+    console.log("inviteMore: ", value);
+    console.log("ElectID: ", electID);
+    const formData = new FormData();
+    formData.append('ElectID', electID);
+
+    if (value.UserMinistryId != null) {
+      for (var i = 0; i < value.UserMinistryId.length; i++) {
+        formData.append("userId", value.UserMinistryId[i]);
+      }
+    }
+
+    if (value.UserDepartmentId != null) {
+      for (var i = 0; i < value.UserDepartmentId.length; i++) {
+        formData.append("userId", value.UserDepartmentId[i]);
+      }
+    }
+
+    return this.http.post(this.url + 'inviteMorePeople', formData)
+  }
+
+  deleteMoreInvitedPeople(id) {
+    return this.http.delete(this.url + 'deleteMoreInvited/' + id)
   }
 }
 

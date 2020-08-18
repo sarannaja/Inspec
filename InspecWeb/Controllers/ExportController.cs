@@ -1316,8 +1316,8 @@ namespace InspecWeb.Controllers
             return Ok(new { data });
         }
 
-        [HttpGet("getCommanderReport/{provinceId}")]
-        public IActionResult GetCommanderReport(long provinceId)
+        [HttpGet("getCommanderReport/{provinceId}/{userID}")]
+        public IActionResult GetCommanderReport(long provinceId, string userID)
         {
             System.Console.WriteLine("ProvinceId: " + provinceId);
             var commanderReport = _context.ImportReports
@@ -1325,7 +1325,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
                 .Include(x => x.User)
-                .Where(x => x.ProvinceId == provinceId && x.Status == "ส่งแล้ว")
+                 //.Where(x => x.ProvinceId == provinceId && x.Status == "ส่งแล้ว")
+                .Where(x => x.SendCommander == userID && x.Status == "ส่งแล้ว")
                 .ToList();
 
             return Ok(new { commanderReport });
@@ -1460,6 +1461,7 @@ namespace InspecWeb.Controllers
                .FirstOrDefault();
             {
                 importReport.Status = "ส่งแล้ว";
+                importReport.SendCommander = model.Commander;
             }
             _context.Entry(importReport).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
@@ -1548,6 +1550,15 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("Edit 3");
 
             return Ok(new { status = true });
+        }
+
+        [HttpGet("getCommander")]
+        public IActionResult GetCommander()
+        {
+            var data = _context.Users
+                .Where(x => x.Role_id == 8)
+                .ToList();
+            return Ok(new { data });
         }
     }
 }

@@ -39,6 +39,8 @@ namespace InspecWeb.ViewModel
         public string Answer { get; set; }
 
         public string Description { get; set; }
+
+        public string SenderUserId { get; set; }
     }
 
     public class inputanswer
@@ -46,6 +48,8 @@ namespace InspecWeb.ViewModel
         public long Id { get; set; }
 
         public long SubquestionCentralPolicyProvinceId { get; set; }
+
+        public long AnswerSubquestionStatusId { get; set; }
 
         public string UserId { get; set; }
 

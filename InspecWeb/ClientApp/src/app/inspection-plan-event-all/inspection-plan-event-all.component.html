@@ -18,7 +18,7 @@
         <div class="form-group col-md-12">
           <div class="mb-12">
             <select [(ngModel)]="selectedProvince" (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2" >
-              <option value="allprovince">จังหวัดทั้งหมด</option>
+              <option value="allprovince">ทุกจังหวัด</option>
               <option *ngFor="let item of resultuserregion; let i = index" value="{{item.id}}">
                 {{item.name}}
               </option>

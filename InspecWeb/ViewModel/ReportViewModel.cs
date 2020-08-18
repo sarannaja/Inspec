@@ -6,9 +6,38 @@ using System.Threading.Tasks;
 namespace InspecWeb.ViewModel
 {
     public class ReportViewModel
-    { 
+    {
 
     }
+
+    public class reportsubject
+    {
+        public string type { get; set; }
+
+        public string fiscalyear { get; set; }
+
+        public string title { get; set; }
+
+        public Subject[] Subject { get; set; }
+    }
+
+    public class Subject
+    {
+        public string name { get; set; }
+
+        public string explanation { get; set; }
+
+        public string[] provincialDepartment { get; set; }
+
+        public string[] namesubquestion { get; set; }
+
+    }
+
+    //public class subquestion1
+    //{
+    //    public string namesubquestion { get; set; }
+
+    //}
 
     public class reportperformance
     {

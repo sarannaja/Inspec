@@ -57,13 +57,14 @@
                 {{item.centralPolicy}}
               </td>
               <td>
-                วันที่ {{item.startDate | thaidate: 'year'}}</td>
+                วันที่ {{item.startDate | thaidate: 'short'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
               <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
               <!-- <td *ngIf="item.provinceStatus == null">{{ item.status }}</td>
               <td *ngIf="item.provinceStatus != null">{{ item.provinceStatus }}</td> -->
               <td *ngIf="item.status == 'ใช้งานจริง'">ใช้งาน</td>
               <td *ngIf="item.status == 'ร่างกำหนดการ'">ร่าง</td>
+              <td *ngIf="item.status == 'ส่งสมุดตรวจแล้ว'">{{item.status}}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-search-plus pointer" (click)="gotoDetail(item.id)"
                   title="จัดการสมุดตรวจอิเล็กทรอนิกส์"></i>

@@ -48,59 +48,63 @@ export class CentralPolicyComponent implements OnInit {
             // this.resultuser = result;
             //console.log("test" , this.resultuser);
             this.role_id = result[0].role_id
+            if (result[0].role_id == 1) {
+              console.log("in1",this.role_id);
+              this.dtOptions = {
+                pagingType: 'full_numbers',
+                columnDefs: [
+                  {
+                    targets: [7],
+                    orderable: false
+                  }
+                ],
+                "language": {
+                  "lengthMenu": "แสดง  _MENU_  รายการ",
+                  "search": "ค้นหา:",
+                  "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+                  "infoEmpty": "แสดง 0 ของ 0 รายการ",
+                  "zeroRecords": "ไม่พบข้อมูล",
+                  "paginate": {
+                    "first": "หน้าแรก",
+                    "last": "หน้าสุดท้าย",
+                    "next": "ต่อไป",
+                    "previous": "ย้อนกลับ"
+                  },
+                }
+        
+              };
+            } else {
+              console.log("in2",this.role_id);
+              
+              this.dtOptions = {
+                pagingType: 'full_numbers',
+                columnDefs: [
+                  {
+                    targets: [6],
+                    orderable: false
+                  }
+                ],
+                "language": {
+                  "lengthMenu": "แสดง  _MENU_  รายการ",
+                  "search": "ค้นหา:",
+                  "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+                  "infoEmpty": "แสดง 0 ของ 0 รายการ",
+                  "zeroRecords": "ไม่พบข้อมูล",
+                  "paginate": {
+                    "first": "หน้าแรก",
+                    "last": "หน้าสุดท้าย",
+                    "next": "ต่อไป",
+                    "previous": "ย้อนกลับ"
+                  },
+                }
+        
+              };
+            }
             // alert(this.role_id)
           })
       })
 
-    if (this.role_id == 1) {
-      this.dtOptions = {
-        pagingType: 'full_numbers',
-        columnDefs: [
-          {
-            targets: [7],
-            orderable: false
-          }
-        ],
-        "language": {
-          "lengthMenu": "แสดง  _MENU_  รายการ",
-          "search": "ค้นหา:",
-          "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-          "infoEmpty": "แสดง 0 ของ 0 รายการ",
-          "zeroRecords": "ไม่พบข้อมูล",
-          "paginate": {
-            "first": "หน้าแรก",
-            "last": "หน้าสุดท้าย",
-            "next": "ต่อไป",
-            "previous": "ย้อนกลับ"
-          },
-        }
-
-      };
-    } else {
-      this.dtOptions = {
-        pagingType: 'full_numbers',
-        columnDefs: [
-          {
-            targets: [7],
-            orderable: false
-          }
-        ],
-        "language": {
-          "lengthMenu": "แสดง  _MENU_  รายการ",
-          "search": "ค้นหา:",
-          "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-          "infoEmpty": "แสดง 0 ของ 0 รายการ",
-          "zeroRecords": "ไม่พบข้อมูล",
-          "paginate": {
-            "first": "หน้าแรก",
-            "last": "หน้าสุดท้าย",
-            "next": "ต่อไป",
-            "previous": "ย้อนกลับ"
-          },
-        }
-
-      };
-    }
+   
     this.getFiscalyear()
     // this.getCurrentYear()
   }
@@ -131,7 +135,7 @@ export class CentralPolicyComponent implements OnInit {
     this.centralpolicyservice.getcentralpolicydata()
       .subscribe(async result => {
         // this.resultcentralpolicy = result.map(result2=>{
-        //   return 
+        //   return
         // })
         const doAsync = () => {
           return new Promise((resolve, reject) => {
@@ -156,7 +160,7 @@ export class CentralPolicyComponent implements OnInit {
               }
 
               resolve(array)
-              // return 
+              // return
             }, 300)
           })
         }
