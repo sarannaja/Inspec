@@ -182,6 +182,9 @@ import { ElectronicBookDepartmentComponent } from './electronic-book-department/
 import { ElectronicBookDepartmentDetailComponent } from './electronic-book-department/electronic-book-department-detail/electronic-book-department-detail.component';
 import { InspectionPlanEventAllComponent } from './inspection-plan-event-all/inspection-plan-event-all.component';
 import { NotofyService } from './services/notofy.service';
+import { CircularletterComponent } from './circularletter/circularletter.component';
+import { InformationinspectionComponent } from './informationinspection/informationinspection.component';
+import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
 
 
 
@@ -351,6 +354,9 @@ const ExternalOrganization = [
     ElectronicBookDepartmentComponent,
     ElectronicBookDepartmentDetailComponent,
     InspectionPlanEventAllComponent,
+    CircularletterComponent,
+    InformationinspectionComponent,
+    ApprovaldocumentComponent,
   ],
 
   imports: [
@@ -534,6 +540,9 @@ const ExternalOrganization = [
           { path: 'ministry/department/:id/provincialdepartment', component: ProvincialDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbookdepartment', component: ElectronicBookDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/departmentdetail/:id', component: ElectronicBookDepartmentDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/circularletter', component: CircularletterComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/informationinspection', component: InformationinspectionComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/approvaldocument', component: ApprovaldocumentComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

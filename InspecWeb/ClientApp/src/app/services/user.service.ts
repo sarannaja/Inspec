@@ -132,9 +132,18 @@ export class UserService {
       }
 
       if (userData.MinistryId == null) { 
-        formData.append('MinistryId', '1');
+        if(roleId == 4 || roleId == 5){
+          formData.append('MinistryId', '13');
+        }else{
+          formData.append('MinistryId', '1');
+        }
+       
       } else {
-        formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+        if(roleId == 4 || roleId == 5){
+          formData.append('MinistryId', '13');
+        }else{
+          formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+        }
       }
 
       if (userData.DepartmentId == null) {
@@ -189,7 +198,7 @@ export class UserService {
     formData.append('Alley','');
     formData.append('Postalcode','');
     formData.append('Img',userData.Img);
-
+    alert(userData.Img);
     //<!-- ด้าน -->
     if(userData.Side != null){
     formData.append('Side',userData.Side); 
@@ -197,8 +206,13 @@ export class UserService {
       formData.append('Side',null);
     }
     //<!-- END ด้าน -->
+
+    if(userData.Startdate != null){
     formData.append('startdate', userData.Startdate.date.year + '-' + userData.Startdate.date.month + '-' + userData.Startdate.date.day);
-    
+    }else{
+      formData.append('startdate',null)
+    }
+
     if(userData.Enddate != null){
     formData.append('enddate', userData.Enddate.date.year + '-' + userData.Enddate.date.month + '-' + userData.Enddate.date.day);
     }else{

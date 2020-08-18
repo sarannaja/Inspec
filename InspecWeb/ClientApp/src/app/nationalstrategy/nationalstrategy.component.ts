@@ -2,6 +2,8 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { NationalstrategyService } from '../services/nationalstrategy.service';
+import { UserService } from '../services/user.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-nationalstrategy',
@@ -17,26 +19,58 @@ export class NationalstrategyComponent implements OnInit {
   Form : FormGroup
   files: string[] = []
   loading = false;
+  role_id:any;
   dtOptions: DataTables.Settings = {};
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private nationalstrategyservice: NationalstrategyService,
-    public share: NationalstrategyService) { }
+  constructor(private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private nationalstrategyservice: NationalstrategyService,
+    public share: NationalstrategyService,
+    private userService: UserService,
+    private authorize: AuthorizeService,
+    ) { }
 
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [5],
-          orderable: false
-        }
-      ]
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
-    this.nationalstrategyservice.getnationalstrategy().subscribe(result=>{
-    this.resultnationalstrategy = result
-    this.loading = true
+
+    this.form();
+    this.getdata();
+  }
+
+  getdata(){
+    //<!-- เช็ค role  -->
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userService.getuserfirstdata(result.sub)
+          .subscribe(result => {
+            this.role_id = result[0].role_id
+          })
     })
+    //<!-- END เช็ค role -->
+
+   this.nationalstrategyservice.getnationalstrategy().subscribe(result=>{
+   this.resultnationalstrategy = result
+   this.loading = true
+   })
+  }
+
+  form(){
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
       link: new FormControl(null, [Validators.required]),
@@ -47,9 +81,7 @@ export class NationalstrategyComponent implements OnInit {
     this.delid = id;
     this.title = title;
     this.link = link;
-    console.log(this.delid);
-    console.log(this.title);
-    console.log(this.link);
+
     
     this.modalRef = this.modalService.show(template);
   }
@@ -63,38 +95,19 @@ export class NationalstrategyComponent implements OnInit {
   }
 
   storeNationalstrategy(value) {
-    // alert(JSON.stringify(value));
     this.nationalstrategyservice.addNationalstrategy(value, this.Form.value.files).subscribe(response => {
-      console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.nationalstrategyservice.getnationalstrategy().subscribe(result => {
         this.resultnationalstrategy = result
-        console.log(this.resultnationalstrategy);
       })
     })
   }
-  //  deleteNationalstrategy(value) {
-  //    this.nationalstrategyservice.deleteNationalstrategy(value).subscribe(response => {
-  //      console.log(value);
-  //      this.modalRef.hide()
-  //      this.nationalstrategyservice.getnationalstrategy().subscribe(result => {
-  //        this.resultnationalstrategy = result
-  //        console.log(this.resultnationalstrategy);
-  //      })
-  //    })
-  //  }
-  // editNationalstrategy(value,delid) {
-  //   console.log(value);
-  //   this.nationalstrategyservice.editNationalstrategy(value,delid).subscribe(response => {
-  //     this.Form.reset()
-  //     this.modalRef.hide()
-  //     this.nationalstrategyservice.getnationalstrategy().subscribe(result => {
-  //       this.resultnationalstrategy = result
-       
-  //     })
-  //   })
-  // }
+
+  update(){
+    
+  }
+
 
 }
 
