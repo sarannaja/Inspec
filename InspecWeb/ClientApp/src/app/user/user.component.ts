@@ -25,6 +25,8 @@ export class UserComponent implements OnInit {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
+  re2 = /ตรวจราชการ/g
+  re3 = /เขตตรวจราช/g
   MinistryId
   DepartmentId
   modalRef: BsModalRef;
@@ -374,6 +376,8 @@ export class UserComponent implements OnInit {
     this.userService.getuserdata(this.roleId)
       .subscribe(result => {
         this.resultuser = result;
+        console.log('resultuser',result);
+        
         this.loading = true
         this.spinner.hide();
        // console.log("userdata", this.resultuser);

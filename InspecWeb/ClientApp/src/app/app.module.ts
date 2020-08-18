@@ -182,6 +182,9 @@ import { ElectronicBookDepartmentComponent } from './electronic-book-department/
 import { ElectronicBookDepartmentDetailComponent } from './electronic-book-department/electronic-book-department-detail/electronic-book-department-detail.component';
 import { InspectionPlanEventAllComponent } from './inspection-plan-event-all/inspection-plan-event-all.component';
 import { NotofyService } from './services/notofy.service';
+import { CircularletterComponent } from './circularletter/circularletter.component';
+import { InformationinspectionComponent } from './informationinspection/informationinspection.component';
+import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 
@@ -353,6 +356,9 @@ const ExternalOrganization = [
     ElectronicBookDepartmentComponent,
     ElectronicBookDepartmentDetailComponent,
     InspectionPlanEventAllComponent,
+    CircularletterComponent,
+    InformationinspectionComponent,
+    ApprovaldocumentComponent,
     AllReportComponent,
     AllReportDetailComponent,
   ],
@@ -538,6 +544,9 @@ const ExternalOrganization = [
           { path: 'ministry/department/:id/provincialdepartment', component: ProvincialDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbookdepartment', component: ElectronicBookDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/departmentdetail/:id', component: ElectronicBookDepartmentDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/circularletter', component: CircularletterComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/informationinspection', component: InformationinspectionComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/approvaldocument', component: ApprovaldocumentComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
         ]

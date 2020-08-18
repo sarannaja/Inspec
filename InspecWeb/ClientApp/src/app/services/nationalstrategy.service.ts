@@ -14,8 +14,7 @@ export class NationalstrategyService {
   addNationalstrategy(nationalstrategyData, file: FileList){
      alert(JSON.stringify(nationalstrategyData))
     const formData = new FormData();
-    formData.append('title',nationalstrategyData.title);
-    formData.append('link',nationalstrategyData.link);
+    formData.append('Title',nationalstrategyData.title);
     for (var iii = 0; iii < file.length; iii++) {
       formData.append("files", file[iii]);
     }
@@ -26,14 +25,15 @@ export class NationalstrategyService {
     return this.http.delete(this.url + id);
   }
 
-  editNationalstrategy(nationalstrategyData,id) {
-    console.log(nationalstrategyData);
-
+  editNationalstrategy(nationalstrategyData,file: FileList,id) {
     const formData = new FormData();
-    // alert(JSON.stringify(governmentinspectionplanData))
-    formData.append('title',nationalstrategyData.title);
-    formData.append('link',nationalstrategyData.link);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
+    formData.append('Id',nationalstrategyData.title);
+    formData.append('Title',nationalstrategyData.title);
+
+    for (var iii = 0; iii < file.length; iii++) {
+      formData.append("files", file[iii]);
+    }
+
     return this.http.put(this.url+id, formData);
   }
 }

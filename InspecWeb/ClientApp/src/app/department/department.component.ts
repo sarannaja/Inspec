@@ -40,21 +40,26 @@ export class DepartmentComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.detdata();
+    this.getdata();
     this.Form = this.fb.group({
       Name: new FormControl(null, [Validators.required]),
     })
   }
 
-  detdata(){
+  getdata(){
 
     this.ministryservice.getministryfirst(this.id).subscribe(result=>{
       this.ministryname = result
     })
 
-    this.departmentService.getdepartmentsdata(this.id).subscribe(result=>{
+    this.departmentService.getdepartmentsdata(this.id)
+
+    .subscribe(result=>{
+      console.log("data",result);
       this.resultdepartment = result
+
       this.loading = true;
+
     })
 
   }
@@ -89,7 +94,7 @@ export class DepartmentComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
-      this.detdata();
+      this.getdata();
     })
   }
 
@@ -100,7 +105,7 @@ export class DepartmentComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
-      this.detdata();
+      this.getdata();
     })
   }
 
@@ -110,7 +115,7 @@ export class DepartmentComponent implements OnInit {
      // alert(3);
       this.modalRef.hide()
       this.loading = false
-      this.detdata();
+      this.getdata();
     })
   }
 

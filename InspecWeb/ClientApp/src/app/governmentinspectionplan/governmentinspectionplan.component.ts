@@ -2,6 +2,8 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { GorvermentinspectionplanService } from '../services/governmentinspectionplan.service';
+import { UserService } from '../services/user.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-governmentinspectionplan',
@@ -17,10 +19,14 @@ export class GovernmentinspectionplanComponent implements OnInit {
   Form : FormGroup
   files: string[] = []
   loading = false;
+  role_id:any;
   dtOptions: DataTables.Settings = {};
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private governmentinspectionplanservice: GorvermentinspectionplanService,
-    public share: GorvermentinspectionplanService) { }
+    public share: GorvermentinspectionplanService,
+    private userService: UserService,
+    private authorize: AuthorizeService,
+    ) { }
 
   ngOnInit() {
     this.dtOptions = {
@@ -47,6 +53,16 @@ export class GovernmentinspectionplanComponent implements OnInit {
       
 
     };
+     //<!-- เช็ค role -->
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userService.getuserfirstdata(result.sub)
+          .subscribe(result => {
+            this.role_id = result[0].role_id
+          })
+    })
+    //<!-- END เช็ค role -->
+
     this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result=>{
     this.resultgovernmentinspectionplan = result
     this.loading = true
