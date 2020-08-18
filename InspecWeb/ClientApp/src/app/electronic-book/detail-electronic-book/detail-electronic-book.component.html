@@ -176,9 +176,12 @@
                         ngModel="{{items.description}}" placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
                     <div class="col-2" style="text-align: center;">
-                      <div>
+                      <div *ngIf="items.user.signature != null">
                         <img class="rounded" *ngIf="items.user.role_id == 6"
                           src="{{downloadUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
+                      </div>
+                      <div *ngIf="items.user.signature == null" class="mt-4">
+                        <label class="text-primary" style="font-weight: bold;">{{items.user.name}}</label>
                       </div>
                       <div>
                         <label for="" style="font-size: small;">ลายมือชื่อผู้ตรวจ</label>
@@ -227,9 +230,12 @@
                         ngModel="{{items.description}}" placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
                     <div class="col-2" style="text-align: center;">
-                      <div>
+                      <div *ngIf="items.user.signature != null">
                         <img class="rounded" *ngIf="items.user.role_id == 10"
                           src="{{downloadUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
+                      </div>
+                      <div *ngIf="items.user.signature == null" class="mt-4">
+                        <label class="text-primary" style="font-weight: bold;">{{items.user.name}}</label>
                       </div>
                       <div>
                         <label for="" style="font-size: small;">ลายมือชื่อผู้ตรวจ</label>
@@ -416,9 +422,12 @@
                       </textarea>
                     </div>
                     <div class="col-2" style="text-align: center;">
-                      <div>
+                      <div *ngIf="items2.user.signature != null">
                         <img class="rounded" src="{{downloadUrl}}/{{items2.user.signature}}" alt=""
                           style="width: 100px; height: 100px;">
+                      </div>
+                      <div *ngIf="items2.user.signature == null" class="mt-4">
+                        <label class="text-primary" style="font-weight: bold;">{{items2.user.name}}</label>
                       </div>
                       <div>
                         <label for="" style="font-size: small;">ลายมือชื่อ</label>
@@ -472,10 +481,15 @@
                         <img class="rounded" src="{{downloadUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
                           style="width: 100px; height: 100px;">
                       </div>
-                      <div>
+                      <div *ngIf="items.userProvincialDepartment.signature != null">
                         <!-- <label for="" style="font-size: small;">ลายมือชื่อ</label> -->
                         <label for="" style="font-size: small;">{{items.userProvincialDepartment.prefix}} -
                           {{items.userProvincialDepartment.name}}</label>
+                      </div>
+                      <div *ngIf="items.userProvincialDepartment.signature == null">
+                        <label class="text-primary"
+                          style="font-weight: bold;">{{items.userProvincialDepartment.name}}</label>
+                        <label for="" style="font-size: small;">ลายมือชื่อ</label>
                       </div>
                     </div>
                   </div>
@@ -620,20 +634,25 @@
               </button>
             </div>
             <div class="modal-body m-3">
-              <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
-                [items]="MinistrySelect" name="UserMinistryId" formControlName="UserMinistryId">
-              </ng-select>
-              <br>
-              <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
-                [items]="DepartmentSelect" name="UserDepartmentId" formControlName="UserDepartmentId">
-              </ng-select>
-              <!-- <br>
+              <div *ngIf="role_id == 3 || role_id == 6">
+                <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+                  [items]="MinistrySelect" name="UserMinistryId" formControlName="UserMinistryId">
+                </ng-select>
+
+                <br>
+              </div>
+              <div *ngIf="role_id == 3 || role_id == 6 || role_id == 10">
+                <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+                  [items]="DepartmentSelect" name="UserDepartmentId" formControlName="UserDepartmentId">
+                </ng-select>
+                <!-- <br>
               <label class="form-label">เชิญผู้ตรวจราชการภาคประชาชน</label>
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
                 [items]="PeopleSelect" name="UserPeopleId" formControlName="UserPeopleId">
               </ng-select> -->
+              </div>
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">บันทึก</button>

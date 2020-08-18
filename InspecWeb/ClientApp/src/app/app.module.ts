@@ -185,6 +185,8 @@ import { NotofyService } from './services/notofy.service';
 import { CircularletterComponent } from './circularletter/circularletter.component';
 import { InformationinspectionComponent } from './informationinspection/informationinspection.component';
 import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
+import { AllReportComponent } from './all-report/all-report.component';
+import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 
 
 
@@ -357,6 +359,8 @@ const ExternalOrganization = [
     CircularletterComponent,
     InformationinspectionComponent,
     ApprovaldocumentComponent,
+    AllReportComponent,
+    AllReportDetailComponent,
   ],
 
   imports: [
@@ -543,6 +547,8 @@ const ExternalOrganization = [
           { path: 'supportgovernment/circularletter', component: CircularletterComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/informationinspection', component: InformationinspectionComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/approvaldocument', component: ApprovaldocumentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -563,7 +569,7 @@ const ExternalOrganization = [
     ModalModule.forRoot(),
     // SelectSSSModule
     NgSelectModule,
-    
+
   ], exports: [
     ThaiDatePipe,
     SnotifyModule
