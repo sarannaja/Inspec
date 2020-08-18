@@ -48,6 +48,12 @@ namespace InspecWeb.ViewModel
         public long subjectid { get; set; }
 
         public string reporttype { get; set; }
+
+        public long provincialDepartmentId { get; set; }
+
+        public long CentralPolicyProvinceId { get; set; }
+
+        public long SubjectGroupId { get; set; }
     }
 
     public class reportsuggestions

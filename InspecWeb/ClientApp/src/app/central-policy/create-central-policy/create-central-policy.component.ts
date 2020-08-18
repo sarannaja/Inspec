@@ -24,7 +24,9 @@ export class CreateCentralPolicyComponent implements OnInit {
 
   private myDatePickerOptions: IMyOptions = {
     // other options...
+    
     dateFormat: 'dd/mm/yyyy',
+    // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
   };
 
   // Initialized to specific date (09.10.2018).

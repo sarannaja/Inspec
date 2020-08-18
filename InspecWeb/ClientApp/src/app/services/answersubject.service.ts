@@ -117,13 +117,14 @@ export class AnswersubjectService {
     }
     return this.http.post(this.url + "addfiles", formData);
   }
-  addStatus(StatusData, SubjectCentralPolicyProvinceId, UserId) {
+  addStatus(StatusData, SubjectCentralPolicyProvinceId, UserId, subjectGroupId) {
     const formData = new FormData();
     console.log("Suggestion", StatusData);
     console.log("SubjectCentralPolicyProvinceId", SubjectCentralPolicyProvinceId);
     console.log("UserId", UserId);
 
     formData.append('SubjectCentralPolicyProvinceId', SubjectCentralPolicyProvinceId);
+    formData.append('subjectGroupId', subjectGroupId);
     formData.append('UserId', UserId);
     formData.append('Status', StatusData.Status);
 
@@ -144,9 +145,10 @@ export class AnswersubjectService {
     formData.append('description', Answerdata[0].Description);
     return this.http.put(this.url + id, formData);
   }
-  editStatus(Statusdata, id) {
+  editStatus(Statusdata, id, subjectGroupId) {
     const formData = new FormData();
     formData.append('status', Statusdata.Status);
+    formData.append('subjectGroupId', subjectGroupId);
     return this.http.put(this.url + "editstatus/" + id, formData);
   }
   editStatusrole7(Statusdata, id) {
