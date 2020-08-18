@@ -104,6 +104,13 @@
                             (click)="openModalSubject(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
+                          <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
+                            <button  type="button" *ngIf="item.answerSubquestions.length != 0 && subjectgroupstatus == 'รายงานแล้ว' && iii == 0"
+                            (click)="reportModal(modalreportreportperformance, item.subjectCentralPolicyProvinceGroups)"
+                            style="margin-left: 20px; font-size: small;"
+                            class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
+                          </button>
+                          </div>
                           <!-- <i class="fas fa-plus-circle pointer"
                             style="font-size:22px; color: green; margin-left: 10px; margin-bottom: -5px;"
                             (click)="openModal(modalcreatesuject)"></i> -->
@@ -237,12 +244,12 @@
                         <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;" id="question{{i}}"
                           data-toggle="collapse" [attr.data-target]="'#questions' + i" aria-expanded="false"
                           aria-controls="questions"></i>
-                        <button type="button" *ngIf="item.answerSubquestions.length != 0"
+                        <!-- <button  type="button" *ngIf="item.answerSubquestions.length != 0 && subjectgroupstatus == 'รายงานแล้ว' "
                           (click)="reportModal(modalreportreportperformance, item.subjectCentralPolicyProvinceGroups)"
                           style="margin-left: 20px; font-size: small;"
                           class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
-                        </button>
-                        <button class="btn btn-danger" id="graph{{i}}" data-toggle="collapse" type="button"
+                        </button> -->
+                        <button *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="btn btn-danger" id="graph{{i}}" data-toggle="collapse" type="button"
                           [attr.data-target]="'#graphs' + i" aria-expanded="false" aria-controls="graphs"
                           style="margin-left: 20px; font-size: small;">แสดงกราฟ
                           <!-- <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i> -->
@@ -315,15 +322,15 @@
                       <div class="col-12" *ngIf="item.answerSubquestions.length != 0">
                         <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
                           <!-- <u>ตัวเลือกคำถาม</u> -->
-                          <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
-                            <div *ngFor="let item3 of item2.answerSubquestions;let iii = index">
+                          <!-- <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index"> -->
+                            <div *ngFor="let item3 of item.answerSubquestions;let iii = index">
                               <div *ngIf="item3.answerSubquestionStatus.status == 'ใช้งานจริง'" class="row">
                                 <div class="col-2">{{iii+1}}. โดย {{item3.user.name}}</div>
                                 <div class="col-5">ตอบ {{item3.answer}}</div>
                                 <div class="col-5">คำอธิบาย {{item3.description}}</div>
                               </div>
                             </div>
-                          </div>
+                          <!-- </div> -->
                         </td>
                       </div>
                       <div class="col-12">
@@ -1007,13 +1014,13 @@
         <input style="margin-left: 10px;" type="radio" name="report" (change)="report3($event)" value="รายเขต">
         <label style="margin-left: 10px;">รายเขต</label>
       </div>
-      <form [formGroup]="" *ngIf="checkTypeReport== 1" (ngSubmit)="storeInspectionPlan(FormOther.value)">
+      <form [formGroup]="FormReport" *ngIf="checkTypeReport== 1" (ngSubmit)="storeReport2(FormReport.value)">
         <div class="row">
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>หน่วยงาน</label>
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
-              [items]="select">
+              [items]="select" formControlName="provincialDepartmentId">
               <!-- (ngModelChange)="addsubjectdepartment2($event,'add')"
               (deselected)="addsubjectdepartment2($event,'remove')" -->
             </ng-select>
@@ -1021,21 +1028,21 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="submit" class="btn btn-primary">ออกรายงาน</button>
           <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
         </div>
       </form>
-      <form [formGroup]="" *ngIf="checkTypeReport== 2" (ngSubmit)="storeInsectionPlan(FormOther.value)">
+      <form *ngIf="checkTypeReport== 2" (ngSubmit)="storeReport3()">
         <div class="row">
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label>เรื่อง2</label>
-              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง">
+              <label>จังหวัด</label>
+              <input type="text" value="{{provincename}}" class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="submit" class="btn btn-primary">ออกรายงาน</button>
           <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
         </div>
       </form>

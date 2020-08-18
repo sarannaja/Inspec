@@ -585,12 +585,64 @@ namespace InspecWeb.Controllers
         }
         // PUT api/values/5
         [HttpPut("editstatus/{id}")]
-        public void Put2(long id, string status)
+        public void Put2(long id, string status,long subjectGroupId)
         {
+
+
+            if (status == "ใช้งานจริง")
+            {
+                var answer = _context.AnswerSubquestionStatuses
+               .Where(m => m.Id == id)
+               .FirstOrDefault();
+
+                var subjects = _context.AnswerSubquestionStatuses
+                    .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                    .Include(m => m.User)
+                    .OrderBy(m => m.User.ProvincialDepartmentId)
+                    .Select(m => m.User.ProvincialDepartmentId)
+                    .ToList(); //department answer
+
+                long n = 0;
+                long checkn = 0;
+                var count = 0;
+                foreach (var subject in subjects)
+                {
+                    checkn = subject;
+                    if (n != checkn)
+                    {
+                        n = checkn;
+                        count++;
+                    }
+                    else
+                    {
+                        n = checkn;
+                    }
+
+                }
+                var subque = _context.SubquestionCentralPolicyProvinces
+                  .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                  .FirstOrDefault();
+
+                var invited_depart = _context.SubjectCentralPolicyProvinceGroups
+                           .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id).Count(); //department invited
+
+                if(count == invited_depart)
+                {
+                    var subjectgroupdata = _context.SubjectGroups.Find(subjectGroupId);
+                    subjectgroupdata.Status = "รายงานแล้ว";
+                    _context.Entry(subjectgroupdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                System.Console.WriteLine("answer.SubjectCentralPolicyProvinceId" + answer.SubjectCentralPolicyProvinceId);
+                System.Console.WriteLine("subque.Id" + subque.Id);
+                System.Console.WriteLine("Count" + count);
+                System.Console.WriteLine("invited_depart" + invited_depart);
+            }
+
             var statusdata = _context.AnswerSubquestionStatuses.Find(id);
-            statusdata.Status = status;
-            _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+                statusdata.Status = status;
+                _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
 
         }
         // PUT api/values/5
@@ -634,7 +686,7 @@ namespace InspecWeb.Controllers
         }
         // POST api/values
         [HttpPost("addstatus")]
-        public IActionResult Post5(long SubjectCentralPolicyProvinceId, string UserId, string Status)
+        public IActionResult Post5(long SubjectCentralPolicyProvinceId, string UserId, string Status, long subjectGroupId)
         {
             System.Console.WriteLine("in", UserId);
             var date = DateTime.Now;
@@ -648,6 +700,58 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in2");
             _context.AnswerSubquestionStatuses.Add(Statusdata);
             _context.SaveChanges();
+
+            if (Status == "ใช้งานจริง")
+            {
+                var answer = _context.AnswerSubquestionStatuses
+               .Where(m => m.Id == Statusdata.Id)
+               .FirstOrDefault();
+
+                var subjects = _context.AnswerSubquestionStatuses
+                    .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                    .Include(m => m.User)
+                    .OrderBy(m => m.User.ProvincialDepartmentId)
+                    .Select(m => m.User.ProvincialDepartmentId)
+                    .ToList(); //department answer
+
+                long n = 0;
+                long checkn = 0;
+                var count = 0;
+                foreach (var subject in subjects)
+                {
+                    checkn = subject;
+                    if (n != checkn)
+                    {
+                        n = checkn;
+                        count++;
+                    }
+                    else
+                    {
+                        n = checkn;
+                    }
+
+                }
+                var subque = _context.SubquestionCentralPolicyProvinces
+                  .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                  .FirstOrDefault();
+
+                var invited_depart = _context.SubjectCentralPolicyProvinceGroups
+                           .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id).Count(); //department invited
+
+                if (count == invited_depart)
+                {
+                    var subjectgroupdata = _context.SubjectGroups.Find(subjectGroupId);
+                    subjectgroupdata.Status = "รายงานแล้ว";
+                    _context.Entry(subjectgroupdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+                System.Console.WriteLine("answer.SubjectCentralPolicyProvinceId" + answer.SubjectCentralPolicyProvinceId);
+                System.Console.WriteLine("subque.Id" + subque.Id);
+                System.Console.WriteLine("Count" + count);
+                System.Console.WriteLine("invited_depart" + invited_depart);
+            }
+
+
 
             return Ok(Statusdata);
         }

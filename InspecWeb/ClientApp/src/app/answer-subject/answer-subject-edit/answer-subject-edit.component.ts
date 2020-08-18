@@ -15,6 +15,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 export class AnswerSubjectEditComponent implements OnInit {
 
   id: any
+  subjectGroupId: any
   editid: any
   delid: any
   userid: string
@@ -107,10 +108,11 @@ export class AnswerSubjectEditComponent implements OnInit {
   getSubjectdetail() {
     this.answersubjectservice.getsubjectdetaildata(this.id).subscribe(result => {
       this.resultsubjectdetail = result
+      this.subjectGroupId = this.resultsubjectdetail.subjectGroupId
       this.province = this.resultsubjectdetail.centralPolicyProvince.province.name
       // this.resultsubquestion = this.resultsubjectdetail.subquestionCentralPolicyProvinces
       // this.loading = true
-      console.log(this.resultsubquestion);
+      console.log("123",this.subjectGroupId);
       // this.loading = true;
       this.spinner.hide();
       // this.addvalue();
@@ -172,7 +174,7 @@ export class AnswerSubjectEditComponent implements OnInit {
   editstatus(value) {
     // this.spinner.show();
     console.log(value);
-    this.answersubjectservice.editStatus(value, this.resultanswerstatus.id).subscribe(result => {
+    this.answersubjectservice.editStatus(value, this.resultanswerstatus.id,this.subjectGroupId).subscribe(result => {
       this.storefile()
       this.Form.reset();
       this.Formstatus.reset();

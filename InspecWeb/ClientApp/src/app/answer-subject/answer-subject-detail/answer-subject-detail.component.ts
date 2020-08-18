@@ -14,6 +14,7 @@ import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.ser
 export class AnswerSubjectDetailComponent implements OnInit {
 
   id: any
+  subjectGroupId: any
   userid: string
   resultsubjectdetail: any = []
   resultsubquestion: any = []
@@ -81,10 +82,11 @@ export class AnswerSubjectDetailComponent implements OnInit {
   getSubjectdetail() {
     this.answersubjectservice.getsubjectdetaildata(this.id).subscribe(result => {
       this.resultsubjectdetail = result
+      this.subjectGroupId = this.resultsubjectdetail.subjectGroupId
       this.province = this.resultsubjectdetail.centralPolicyProvince.province.name
       this.resultsubquestion = this.resultsubjectdetail.subquestionCentralPolicyProvinces
       // this.loading = true
-      console.log(this.province);
+      console.log("123", this.subjectGroupId);
       // this.loading = true;
       this.spinner.hide();
       this.addvalue();
@@ -159,7 +161,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
     // this.storeansweruser(value, value2)
   }
   storestatus(value2) {
-    this.answersubjectservice.addStatus(value2, this.id, this.userid).subscribe(result => {
+    this.answersubjectservice.addStatus(value2, this.id, this.userid, this.subjectGroupId).subscribe(result => {
       console.log("result", result.id);
       var statusid = result.id
       this.storeansweruser(statusid)

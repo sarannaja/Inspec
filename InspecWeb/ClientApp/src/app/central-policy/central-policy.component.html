@@ -98,10 +98,10 @@
               <!-- <td *ngIf="item.status == 'ร่างกำหนดการ';">{{ item.title }}</td> -->
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{item.fiscalYear.year}}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'year' }} -
-                  {{ item2.endDate | thaidate: 'year' }}</div>
+                <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'short' }} -
+                  {{ item2.endDate | thaidate: 'short' }}</div>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                {{item.updateAt | thaidate: 'year'}}</td>
+                {{item.updateAt | thaidate: 'short'}}</td>
               <td *ngIf="item.status == 'ร่างกำหนดการ'  && role_id == 1"
                 (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ร่าง</td>
               <td *ngIf="item.status == 'ใช้งานจริง' && role_id == 1  "

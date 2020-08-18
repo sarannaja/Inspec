@@ -99,12 +99,12 @@ export class ReportPerformanceComponent implements OnInit {
         console.log(result);
       })
   }
-  storeReport(value) {
-    console.log(value);
-    this.reportservice.createReport(value).subscribe(res => {
-      console.log("export: ", res);
-      window.open(this.url + "Uploads/" + res.data);
-      // this.modalRef.hide();
-    })
-  }
+  // storeReport(value) {
+  //   console.log(value);
+  //   this.reportservice.createReport(value).subscribe(res => {
+  //     console.log("export: ", res);
+  //     window.open(this.url + "Uploads/" + res.data);
+  //     // this.modalRef.hide();
+  //   })
+  // }
 }
