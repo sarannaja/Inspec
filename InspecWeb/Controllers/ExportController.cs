@@ -2677,6 +2677,7 @@ namespace InspecWeb.Controllers {
                 document.Save ();
                 Console.WriteLine ("\tCreated: InsertHorizontalLine.docx\n");
             }
+            return Ok (new { data = filename });
         }
     }
 }

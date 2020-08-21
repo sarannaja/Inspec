@@ -187,7 +187,7 @@ import { InformationinspectionComponent } from './informationinspection/informat
 import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
-
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 
@@ -566,6 +566,7 @@ const ExternalOrganization = [
         ]
       }
     ]),
+    TimepickerModule.forRoot(),
     ModalModule.forRoot(),
     // SelectSSSModule
     NgSelectModule,
