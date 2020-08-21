@@ -37,6 +37,12 @@
               <label>ระยะเวลา</label>
             </div>
 
+            <!-- <div class="24hr-example">
+              <input class="form-control" placeholder="24hr format" aria-label="24hr format" [ngxTimepicker]="fullTime" [format]="24"
+                readonly>
+              <ngx-material-timepicker #fullTime></ngx-material-timepicker>
+            </div> -->
+
             <div class="col-12 col-xl-3">
               <br>
               <label>จังหวัด</label>
@@ -47,7 +53,8 @@
               <div class="form-group row" *ngFor="let item of t.controls; let i = index">
                 <form class="form-group row col-12" [formGroup]="item">
                   <div class="col-xl-3">
-                    <my-date-picker-th formControlName="start_date_plan" (dateChanged)="startdate($event,i)"   [options]="myDatePickerOptions" required>
+                    <my-date-picker-th formControlName="start_date_plan" (dateChanged)="startdate($event,i)"
+                      [options]="myDatePickerOptions" required>
                     </my-date-picker-th>
                   </div>
                   <div class="col-12 col-xl-1">
@@ -57,7 +64,8 @@
                   </div>
                   <div class="col-12 col-xl-3">
                     <div class="form-group">
-                      <my-date-picker-th formControlName="end_date_plan" (dateChanged)="enddate($event,i)"   [options]="myDatePickerOptions" required>
+                      <my-date-picker-th formControlName="end_date_plan" (dateChanged)="enddate($event,i)"
+                        [options]="myDatePickerOptions" required>
                       </my-date-picker-th>
                     </div>
                   </div>
@@ -65,8 +73,9 @@
 
                   <div class="col-12 col-xl-2">
                     <div class="form-group">
-                      <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="selectdataprovince"
-                          formControlName="provinces"(change)="selectedprovince($event,i,item)">
+                      <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+                        [items]="selectdataprovince" formControlName="provinces"
+                        (change)="selectedprovince($event,i,item)">
                       </ng-select>
                     </div>
                   </div>

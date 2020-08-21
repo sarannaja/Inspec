@@ -235,9 +235,9 @@ export class InspectionPlanEventComponent implements OnInit {
           if (event.roleCreatedBy == 3) {
             window.location.href = self.url + event.id + '/' + event.provinceid + '/' + watch;
           } else if (event.roleCreatedBy == 6) {
-            window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
+            window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid + '/' + watch;
           } else if (event.roleCreatedBy == 10) {
-            window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid;
+            window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid + '/' + watch;
           }
           // }
           // else
