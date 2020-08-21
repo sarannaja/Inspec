@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { delay } from 'lodash';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-list-training-register',
@@ -46,7 +46,20 @@ export class ListTrainingRegisterComponent implements OnInit {
           targets: [3, 4],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
 
@@ -180,10 +193,18 @@ export class ListTrainingRegisterComponent implements OnInit {
 
     this.trainingservice.getregistertrainingpeopledata(id)
       .subscribe(result => {
-        // alert(JSON.stringify(result))
+        // alert("123")
+        // console.log("etc", result);
+
+        this.birthdate = moment().diff(result.birthDate, 'years');
+
         this.peopledetail = result
         this.loading = true
+        // alert(this.birthdate)
       })
+
+    // alert(this.peopledetail)
+
 
     // alert(JSON.stringify(this.peopledetail))
 

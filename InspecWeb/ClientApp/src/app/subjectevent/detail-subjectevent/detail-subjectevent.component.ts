@@ -140,6 +140,8 @@ export class DetailSubjecteventComponent implements OnInit {
   get s() { return this.f.fileData as FormArray }
 
   filterboxdepartments: any = []
+  checkTypeReport: any;
+  select = []
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -239,13 +241,10 @@ export class DetailSubjecteventComponent implements OnInit {
       ]),
     })
 
-    // this.FormReport = this.fb.group({
-    //   type: new FormControl(null, [Validators.required]),
-    //   title: new FormControl(null, [Validators.required]),
-    //   name: new FormControl(null, [Validators.required]),
-    //   explanation: new FormControl(null, [Validators.required]),
-
-    // })
+    this.FormReport = this.fb.group({
+      type: new FormControl(null, [Validators.required]),
+      provincialDepartmentId: new FormControl(null, [Validators.required])
+    })
     await this.getDetailCentralPolicyProvince()
     await this.getsubjecteventDetail();
     // await this.getMinistryPeople();
@@ -291,29 +290,7 @@ export class DetailSubjecteventComponent implements OnInit {
     // await this.getUserPeople();
     this.getDepartmentdata();
   }
-  openModal2(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
-    this.subjectid = subjectid
-    this.departmentService.getalldepartdata().subscribe(res => {
-      this.department = res.map((item, index) => {
-        return {
-          value: item.id,
-          label: item.name
-        }
-      })
 
-      console.log(this.department);
-      var data: any[] = departmentSelected.map(result => {
-        return result.provincialDepartment.id
-      })
-
-      this.departmentSelect = _.filter(this.department, (v) => !_.includes(
-        data, v.value
-      ))
-
-
-      this.modalRef = this.modalService.show(template);
-    })
-  }
 
   openModal3(template: TemplateRef<any>, subjectid) {
     this.subjectid = subjectid
@@ -428,7 +405,35 @@ export class DetailSubjecteventComponent implements OnInit {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
   }
-
+  reportModal(template: TemplateRef<any>, provincialDepartment) {
+    this.select = provincialDepartment.map((item, index) => {
+      return {
+        value: item.provincialDepartment.id,
+        label: item.provincialDepartment.name,
+      }
+    })
+    console.log("select", this.select);
+    this.checkTypeReport = 0;
+    this.modalRef = this.modalService.show(template);
+  }
+  report1(value) {
+    // alert(myradio)
+    this.checkTypeReport = 1;
+    this.FormReport.patchValue({
+      type: this.checkTypeReport,
+    })
+  }
+  report2(value) {
+    // alert(myradio)
+    this.checkTypeReport = 2;
+    this.FormReport.patchValue({
+      type: this.checkTypeReport,
+    })
+  }
+  report3(value) {
+    // alert(myradio)
+    this.checkTypeReport = 3;
+  }
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
       .subscribe(result => {
@@ -900,8 +905,7 @@ export class DetailSubjecteventComponent implements OnInit {
       ])
     })
   }
-
-  openModalSubject(template: TemplateRef<any>, subjectid) {
+  openModalSubject2(template: TemplateRef<any>, subjectid) {
     this.departmentService.getalldepartdata().subscribe(res => {
       this.department = res.map((item, index) => {
         return {
@@ -909,22 +913,87 @@ export class DetailSubjecteventComponent implements OnInit {
           label: item.name
         }
       })
+
+      this.departmentSelect = this.department;
+
+      console.log("subjectid:", subjectid);
+
+      this.FormSubject = this.fb.group({
+        DepartmentId: new FormControl(null, [Validators.required]),
+        subjectId: subjectid,
+        box: 0,
+        type: "คำถามปลายปิด",
+        name: new FormControl(null, [Validators.required]),
+        ProvincialDepartmentId: new FormArray([]),
+        inputanswerclose: this.fb.array([
+          this.initanswerclose()
+        ])
+      })
+
+      this.modalRef = this.modalService.show(template);
     })
-    console.log("subjectid:", subjectid);
-    this.modalRef = this.modalService.show(template);
-    this.FormSubject = this.fb.group({
-      DepartmentId: new FormControl(null, [Validators.required]),
-      subjectId: subjectid,
-      box: 0,
-      type: "คำถามปลายปิด",
-      name: new FormControl(null, [Validators.required]),
-      ProvincialDepartmentId: new FormArray([]),
-      inputanswerclose: this.fb.array([
-        this.initanswerclose()
-      ])
-    })
+
   }
 
+  openModalSubject(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
+    this.departmentService.getalldepartdata().subscribe(res => {
+      this.department = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+
+      console.log(this.department);
+      var data: any[] = departmentSelected.map(result => {
+        return result.provincialDepartment.id
+      })
+
+      this.departmentSelect = _.filter(this.department, (v) => !_.includes(
+        data, v.value
+      ))
+
+      console.log("subjectid:", subjectid);
+
+      this.FormSubject = this.fb.group({
+        DepartmentId: new FormControl(null, [Validators.required]),
+        subjectId: subjectid,
+        box: 0,
+        type: "คำถามปลายปิด",
+        name: new FormControl(null, [Validators.required]),
+        ProvincialDepartmentId: new FormArray([]),
+        inputanswerclose: this.fb.array([
+          this.initanswerclose()
+        ])
+      })
+
+    })
+
+    this.modalRef = this.modalService.show(template);
+  }
+  openModal2(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
+    this.subjectid = subjectid
+    this.departmentService.getalldepartdata().subscribe(res => {
+      this.department = res.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      })
+
+      console.log(this.department);
+      var data: any[] = departmentSelected.map(result => {
+        return result.provincialDepartment.id
+      })
+
+      this.departmentSelect = _.filter(this.department, (v) => !_.includes(
+        data, v.value
+      ))
+
+
+      this.modalRef = this.modalService.show(template);
+    })
+  }
 
   initanswerclose() {
     return this.fb.group({
@@ -958,8 +1027,9 @@ export class DetailSubjecteventComponent implements OnInit {
   }
 
   storeSubject(value) {
+    // alert("123")
     // this.spinner.show();
-    console.log(value);
+    console.log("valuevaluevaluevaluevaluevaluevaluevalue",value);
     this.subjectservice.addSubjectRole3(value).subscribe(response => {
 
       this.AddForm.reset();
@@ -975,7 +1045,22 @@ export class DetailSubjecteventComponent implements OnInit {
       // this.modalRef.hide();
     })
   }
-
+  storeReport2(value) {
+    console.log(value);
+    this.reportservice.createReporttype1(value).subscribe(result => {
+      this.FormQuestion.reset();
+      this.modalRef.hide();
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReport3() {
+    console.log(this.provinceid);
+    this.reportservice.createReporttype2(this.FormReport.value,this.provinceid,this.id,this.subjectgroupid).subscribe(result => {
+      this.FormQuestion.reset();
+      this.modalRef.hide();
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
   storeQuestion(value) {
     this.centralpolicyservice.addPeoplequestion(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId, value).subscribe(res => {
       this.FormQuestion.reset();

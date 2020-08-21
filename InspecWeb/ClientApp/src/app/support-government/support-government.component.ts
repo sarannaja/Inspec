@@ -42,9 +42,8 @@ export class SupportGovernmentComponent implements OnInit {
     },
     {
       id:6,
-      name: 'กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ อาทิ ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการตรวจราชการ พ.ศ.2551 ระเบียบสำนักนายกรัฐมนตรีว่าด้วยคณะกรรมการ ธรรมาภิบาลจังหวัด พ.ศ. 2552 และที่แก้ไขเพิ่มเติม ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการกำกับติดตามการปฏิบัติราชการในภูมิภาค',
-      // link:'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=12796&pagename=content1',
-      link:'#',
+      name: 'กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ',
+      link:'/supportgovernment/circularletter',
       forblank:0
     },
     {
@@ -56,7 +55,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:8,
       name: 'ข้อมูลประกอบการตรวจราชการ',
-      link:'#',
+      link:'/supportgovernment/informationinspection',
       forblank:0
     },
     {
@@ -80,7 +79,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:12,
       name: 'แบบขออนุมัติเดินทางไปราชการ แบบขอยืมเงินทดรองราชการ สัญญาขอยืมเงิน และแบบรายงานการเดินทางไปราชการ ฯลฯ',
-      link:'#',
+      link:'/supportgovernment/approvaldocument',
       forblank:0
     },
   ]

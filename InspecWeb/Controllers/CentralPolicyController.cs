@@ -1265,6 +1265,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(x => x.AnswerSubquestions)
                 .ThenInclude(x => x.AnswerSubquestionStatus)
+                .ThenInclude(x => x.User)
 
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(x => x.AnswerSubquestionOutsiders)

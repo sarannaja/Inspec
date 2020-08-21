@@ -28,12 +28,19 @@ export class InstructionorderComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [5],
-          orderable: false
-        }
-      ]
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
     this.instructionorderservice.getinstructionorder().subscribe(result=>{
@@ -56,12 +63,7 @@ export class InstructionorderComponent implements OnInit {
     this.order = order;
     this.createBy = createBy;
     this.detail = detail;
-    console.log(this.delid);
-    console.log(this.name);
-    console.log(this.year);
-    console.log(this.order);
-    console.log(this.createBy);
-    console.log(this.detail);
+
     
     this.modalRef = this.modalService.show(template);
   }

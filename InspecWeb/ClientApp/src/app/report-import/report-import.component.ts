@@ -40,6 +40,7 @@ export class ReportImportComponent implements OnInit {
   provinceData: any = [];
   reportId: any;
   form: FormGroup;
+  departmentId: any;
 
   constructor(
     private router: Router,
@@ -61,11 +62,15 @@ export class ReportImportComponent implements OnInit {
   ngOnInit() {
     this.authorize.getUser()
       .subscribe(result => {
+        console.log("res user: ", result);
+
         this.userid = result.sub
+
         console.log(result);
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.role_id = result[0].role_id
+            this.departmentId = result[0].departmentId;
           })
       })
     this.dtOptions = {
@@ -162,7 +167,7 @@ export class ReportImportComponent implements OnInit {
 
   storeReport(value) {
     console.log("Report Value: ", value);
-    this.exportReportService.postImportReport(value, this.userid, this.form.value.files).subscribe(res => {
+    this.exportReportService.postImportReport(value, this.userid, this.form.value.files, this.departmentId).subscribe(res => {
       this.reportForm.reset();
       this.loading = false;
       this.getImportedReport();

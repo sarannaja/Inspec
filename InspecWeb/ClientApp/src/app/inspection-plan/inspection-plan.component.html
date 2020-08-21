@@ -4,7 +4,7 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">กำหนดการตรวจราชการ</a></li>
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจราชการ</a></li> -->
     </ol>
@@ -28,15 +28,15 @@
             <input style="width: 12%;" class="form-control" value="{{timelineData.endDate | thaidate: 'short'}}"
               readonly>
 
-            <i *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'" (click)="openModal(modalChangeDate)"
-              style="margin-left: 5px;margin-top: 8px;" title="แก้ไขวันที่ตรวจราชการ"
-              class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
-            <i *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'"
+            <i *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+              (click)="openModal(modalChangeDate)" style="margin-left: 5px;margin-top: 8px;"
+              title="แก้ไขวันที่ตรวจราชการ" class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
+            <i *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
               class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" title="ลบกำหนดการตรวจราชการนี้"
               style="margin-left: 5px;margin-top: 8px;" (click)="openModal(modalDeleteDate)"></i>
 
             <div class="form-group col-12" style="margin-top:10px;"
-              *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'">
+              *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ' && watch == 0">
               <div class="mb-3">
                 <input type="radio" [value]="'ร่างกำหนดการ'" [(ngModel)]="timelineData.status">
                 <label style="margin-left: 10px;">ร่าง</label>
@@ -55,8 +55,10 @@
 
             </div>
 
+            <div *ngIf="watch == 1" style="margin-bottom:60px;"></div>
+
             <div class="form-group col-12" style="margin-top:10px;"
-              *ngIf="role_id == 3 && timelineData.status == 'ใช้งานจริง'">
+              *ngIf="role_id == 3 && timelineData.status == 'ใช้งานจริง' && watch == 0">
               <div class="mb-3">
                 <input type="radio" value="ร่างกำหนดการ" [checked]="timelineData.status == 'ร่างกำหนดการ'" disabled>
                 <label style="margin-left: 10px;">ร่าง</label>
@@ -85,14 +87,14 @@
             <!-- <button *ngIf="role_id == 3 && data.length != 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
             style="margin-top: -60px;" class="btn btn-primary">เชิญผู้ตรวจราชการกระทรวง</button> -->
 
-            <i *ngIf="role_id == 3 && data.length != 0" (click)="openModal(modalInviteMinistryPeople)"
+            <i *ngIf="role_id == 3 && data.length != 0 && watch == 0" (click)="openModal(modalInviteMinistryPeople)"
               title="เพิ่มผู้ร่วมตรวจ" style="margin-top: -60px;"
               class="align-middle fas fa-fw fa-user-plus pointer"></i>
 
             &nbsp;&nbsp;
 
             <button class="btn btn-primary" title="เพิ่มเรื่องที่ตรวจติดตาม" style="margin-top: -60px;"
-              *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ'"
+              *ngIf="role_id == 3 && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
               (click)="openModal(modalCentralPolicyEventRelation)">
               <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
 
@@ -208,17 +210,19 @@
 
               <td>
                 <!-- <i *ngIf="item.centralPolicy.class == 'แผนการตรวจ'" class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subject(item.centralPolicyId,item.title)"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-envelope pointer"
-                  (click)="DetailCentralPolicy(item.centralPolicyId)"></i>
+                <i *ngIf="watch == 0" class="align-middle mr-2 fas fa-fw fa-envelope pointer"
+                  (click)="DetailCentralPolicy(item.centralPolicyId, 0)"></i>
+                <i *ngIf="watch == 1" class="align-middle mr-2 fas fa-fw fa-search pointer"
+                  (click)="DetailCentralPolicy(item.centralPolicyId, 1)"></i>
 
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจประจำปี' && timelineData.status == 'ร่างกำหนดการ'"
+                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจประจำปี' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicyEvent, item.id)"></i>
 
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ'"
+                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="openModaledit(ModalEditCentralPolicy,item.id)"></i>
-                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ'"
+                <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
               </td>
@@ -433,7 +437,8 @@
         <br>
         <label class="form-label">เชิญหน่วยรับตรวจ</label>
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
-          [items]="ProvincialDepartmentSelect" name="UserProvincialDepartmentId" formControlName="UserProvincialDepartmentId">
+          [items]="ProvincialDepartmentSelect" name="UserProvincialDepartmentId"
+          formControlName="UserProvincialDepartmentId">
         </ng-select>
 
       </div>

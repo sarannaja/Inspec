@@ -37,7 +37,7 @@
               </div>
             </div> -->
           <div class="col-12 row">
-            <div class="form-group col-6">
+            <div class="form-group col-3">
               <label>ปีงบประมาณ*</label>
               <select class="form-control select2" data-toggle="select2" formControlName="year">
                 <option value=null>กรุณาเลือกปีงบประมาณ</option>
@@ -78,7 +78,7 @@
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label>เรื่อง</label>
+              <label>เรื่องที่ตรวจ</label>
               <!-- <input type="text" value="{{resultdetailcentralpolicy.title}}" formControlName="title"
                   class="form-control" placeholder="กรุณากรอกเรื่อง"> -->
               <textarea cols="30" rows="2" type="text" value="{{resultdetailcentralpolicy.title}}"
@@ -111,7 +111,7 @@
           </div>
 
           <div class="col-12">
-            <label>กำหนดระยะเวลา</label>
+            <label>ระยะเวลาการตรวจ</label>
           </div>
           <div class="col-12 mb-0">
             <div class="" *ngFor="let item of d.value; let i = index">
@@ -150,7 +150,7 @@
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label>จังหวัด</label>
+              <label>พื้นที่การตรวจติดตาม {{selected.length}} จังหวัด</label>
               <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true" id="selected"
                     [items]="selectdataprovince" [(ngModel)]="selected" name="ProvinceId" formControlName="ProvinceId"
                    >

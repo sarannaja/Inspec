@@ -26,10 +26,10 @@ namespace InspecWeb.Controllers
         [HttpGet("api/[controller]/[action]/{id}")]
         public IActionResult getnotifications(string id)
         {
-             var Notifications = _context.Notifications
-                .Include(m => m.CentralPolicy)
-                .Where(m => m.UserID == id);
-             return Ok(Notifications); 
+            var Notifications = _context.Notifications
+               .Include(m => m.CentralPolicy)
+               .Where(m => m.UserID == id);
+            return Ok(Notifications);
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]
@@ -45,7 +45,7 @@ namespace InspecWeb.Controllers
         [HttpGet("api/[controller]/[action]/{id}")]
         public IActionResult getnotificationsforexecutiveorder(long id)
         {
-            var executiveorder = _context.ExecutiveOrders       
+            var executiveorder = _context.ExecutiveOrders
                .Where(m => m.Id == id);
             return Ok(executiveorder);
 
@@ -54,11 +54,11 @@ namespace InspecWeb.Controllers
         // POST api/values
         [Route("api/[controller]")]
         [HttpPost]
-        public Notification Post(long CentralPolicyId, long ProvinceId,string UserId, long Status,long xe)
+        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe)
         {
             var date = DateTime.Now;
-           var notificationdata = new Notification(); //save ลง base แจ้งเตือน
-            if (Status == 1 ||Status == 5)
+            var notificationdata = new Notification(); //save ลง base แจ้งเตือน
+            if (Status == 1 || Status == 5)
             {
                 _context.Notifications.Add(new Notification
                 {
@@ -71,17 +71,17 @@ namespace InspecWeb.Controllers
                     xe = xe
                 });
                 _context.SaveChanges();
-   
+
             }
-            if (Status == 2 || Status == 6 || Status == 8 || Status == 9)
+            if (Status == 2 || Status == 6 || Status == 9)
             {
-                var inspectionplans = _context.InspectionPlanEvents                   
+                var inspectionplans = _context.InspectionPlanEvents
                     .Include(m => m.CentralPolicyEvents)
                     .ThenInclude(m => m.CentralPolicy)
                     .Where(m => m.ProvinceId == ProvinceId)
                     .Where(m => m.CentralPolicyEvents.Any(i => i.CentralPolicy.Id == CentralPolicyId))
                     .FirstOrDefault();
-                                     
+
                 _context.Notifications.Add(new Notification
                 {
                     UserID = inspectionplans.CreatedBy,
@@ -101,7 +101,7 @@ namespace InspecWeb.Controllers
                .Where(m => m.ProvinceId == ProvinceId)
                .Where(m => m.User.Role_id == 9 || m.User.Role_id == 5)
                .ToList();
-               
+
                 foreach (var item in users)
                 {
                     _context.Notifications.Add(new Notification
@@ -118,17 +118,47 @@ namespace InspecWeb.Controllers
                 }
             }
 
+            // แจ้งเตือนผู้ร่วมตรวจเมื่อได้รับสมุดตรวจ
             if (Status == 7)
             {
-
+                System.Console.WriteLine("User NotiJa: " + UserId);
+                System.Console.WriteLine("User NotiJa2: " + xe);
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = UserId,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe
+                });
+                _context.SaveChanges();
             }
+            if (Status == 8)
+            {
+                var electData = _context.ElectronicBooks
+                    .Where(x => x.Id == xe)
+                    .FirstOrDefault();
 
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = electData.CreatedBy,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe
+                });
+                _context.SaveChanges();
+            }
             //<!-- แจ้งข้อสั่งการ -->
             if (Status == 10)
             {
                 //System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
-               
-                var ExecutiveOrderAnswersdata = _context.ExecutiveOrderAnswers                 
+
+                var ExecutiveOrderAnswersdata = _context.ExecutiveOrderAnswers
                   .Where(m => m.ExecutiveOrderId == xe)
                   .ToList();
 
@@ -155,25 +185,25 @@ namespace InspecWeb.Controllers
             //<!-- ตอบรับข้อสั่งการ -->
             if (Status == 11)
             {
-               // System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
+                // System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
 
                 var ExecutiveOrderdata = _context.ExecutiveOrders
                   .Where(m => m.Id == xe)
                   .First();
 
 
-                    _context.Notifications.Add(new Notification
-                    {
-                        UserID = ExecutiveOrderdata.UserID,
-                        CentralPolicyId = CentralPolicyId,
-                        ProvinceId = ProvinceId,
-                        status = Status,
-                        noti = 1,
-                        CreatedAt = date,
-                        xe = xe,
-                    });
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = ExecutiveOrderdata.UserID,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe,
+                });
 
-                    _context.SaveChanges();
+                _context.SaveChanges();
 
 
             }
@@ -186,7 +216,7 @@ namespace InspecWeb.Controllers
 
                 foreach (var item in RequestOrderAnswers)
                 {
-                   // System.Console.WriteLine("st10 USERID : " + item.UserID);
+                    // System.Console.WriteLine("st10 USERID : " + item.UserID);
 
                     _context.Notifications.Add(new Notification
                     {
@@ -307,12 +337,12 @@ namespace InspecWeb.Controllers
 
         [Route("api/[controller]/{id}")]
         [HttpPut]
-        public void Put(long id,string update) 
+        public void Put(long id, string update)
         {
             var Notification = _context.Notifications.Find(id);
-                Notification.noti = 0;
-                _context.Entry(Notification).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
+            Notification.noti = 0;
+            _context.Entry(Notification).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
 
         }
 
