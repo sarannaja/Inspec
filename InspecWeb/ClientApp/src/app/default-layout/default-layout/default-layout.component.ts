@@ -32,6 +32,8 @@ export class DefaultLayoutComponent implements OnInit {
   Form: FormGroup;
   Prefix: any;
   Name: any;
+  FName: any;
+  LName: any;
   Position: any;
   PhoneNumber: any;
   Email: any;
@@ -99,6 +101,18 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
+
+    this.Form.patchValue({
+      Prefix: this.Prefix,
+      FName: this.FName,
+      LName: this.LName,
+      Position: this.Position,
+      PhoneNumber: this.PhoneNumber,
+      Email: this.Email,
+      Formprofile: 1,
+      files: this.files,
+      Img: this.Img,
+    });
     this.modalRef = this.modalService.show(template);
   }
 
@@ -121,12 +135,14 @@ export class DefaultLayoutComponent implements OnInit {
   profileform() {
     this.Form = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
-      Name: new FormControl(null, [Validators.required]),
+      FName: new FormControl(null, [Validators.required]),
+      LName: new FormControl(null, [Validators.required]),
       Position: new FormControl(null, [Validators.required]),
       PhoneNumber: new FormControl(null, [Validators.required]),
       Email: new FormControl(null, [Validators.required]),
       files: new FormControl(null, [Validators.required]),
       files2: new FormControl(null, [Validators.required]),
+      Img: this.Img,
       Formprofile: 1,
     })
   }
@@ -162,10 +178,13 @@ export class DefaultLayoutComponent implements OnInit {
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.resultuser = result;
+            console.log('data',result);
 
             this.role_id = result[0].role_id
             this.Prefix = result[0].prefix
             this.Name = result[0].name
+            this.FName = result[0].firstnameth
+            this.LName = result[0].lastnameth
             this.Position = result[0].position
             this.PhoneNumber = result[0].phoneNumber
             this.Email = result[0].email
@@ -173,12 +192,14 @@ export class DefaultLayoutComponent implements OnInit {
 
             this.Form.patchValue({
               Prefix: this.Prefix,
-              Name: this.Name,
+              FName: this.Name,
+              LName: this.Name,
               Position: this.Position,
               PhoneNumber: this.PhoneNumber,
               Email: this.Email,
               Formprofile: 1,
               files: this.files,
+              Img:this.Img,
             });
 
             if (this.role_id == 1) {

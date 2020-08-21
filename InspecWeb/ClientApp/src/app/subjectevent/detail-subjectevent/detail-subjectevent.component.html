@@ -4,8 +4,8 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นการตรวจติดตาม</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/subjectevent']">ประเด็นการตรวจติดตาม</a></li>
       <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นการตรวจติดตาม</li>
     </ol>
   </nav>
@@ -51,6 +51,38 @@
               <span> {{ resultdate.startDate | thaidate: 'year' }} - {{ resultdate.endDate | thaidate: 'year' }}</span>
             </div>
           </div>
+
+
+          <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate == null">
+            <!-- null -->
+            <div class="col-6">
+              <label>วันที่แจ้งเตือน</label>
+              <my-date-picker-th formControlName="notificationsubjectdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+            <div class="col-6">
+              <label>วันกำหนดส่ง</label>
+              <my-date-picker-th formControlName="deadlinesubjectdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate != null">
+            <!-- not null -->
+            <div class="col-6">
+              <label>วันที่แต้งเตือน</label>
+              <my-date-picker-th [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
+                (dateChanged)="onStartDateChanged($event)">
+              </my-date-picker-th>
+            </div>
+            <div class="col-6">
+              <label>วันกำหนดส่ง</label>
+              <my-date-picker-th [selDate]="deadlinesubjectDate" [options]="myDatePickerOptions" required
+                (dateChanged)="onEndDateChanged($event)">
+              </my-date-picker-th>
+            </div>
+          </div>
+
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <button type="button" class="btn btn-success" (click)="storeReport()">รายงานประเด็นตรวจติดตาม</button>
@@ -66,12 +98,27 @@
                         <div class="row">
                           <i class="fa fa-tags" style="margin-top: 5px;"></i>
                           <h4 style="margin-left: 15px;">ประเด็นการตรวจติดตาม</h4>
+
+                          <!-- <button style="margin-top: -10px; margin-left: 10px;"
+                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
+                            type="button" class="btn btn-info"
+                            (click)="openModalSubject(modalcreatesuject,items.id,items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups)">เพิ่มประเด็นการตรวจติดตาม
+                            <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
+                          </button> -->
+
                           <button style="margin-top: -10px; margin-left: 10px;"
-                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
-                            class="btn btn-info"
-                            (click)="openModalSubject(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
+                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'"
+                            type="button" class="btn btn-info"
+                            (click)="openModalSubject2(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
+                          <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
+                            <button  type="button" *ngIf="item.answerSubquestions.length != 0 && subjectgroupstatus == 'รายงานแล้ว' && iii == 0"
+                            (click)="reportModal(modalreportreportperformance, item.subjectCentralPolicyProvinceGroups)"
+                            style="margin-left: 20px; font-size: small;"
+                            class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
+                          </button>
+                          </div>
                           <!-- <i class="fas fa-plus-circle pointer"
                             style="font-size:22px; color: green; margin-left: 10px; margin-bottom: -5px;"
                             (click)="openModal(modalcreatesuject)"></i> -->
@@ -132,6 +179,8 @@
                           </div>
                         </div> -->
                       </div>
+
+                      <div *ngIf="items.subquestionCentralPolicyProvinces.length == 0" style="margin-top: 10px;"></div>
 
                       <div *ngIf="items.subquestionCentralPolicyProvinces.length != 0;" style="margin-left: 25px;">
                         <div class="col-12 row collapse" id="departments{{i}}"
@@ -205,12 +254,12 @@
                         <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;" id="question{{i}}"
                           data-toggle="collapse" [attr.data-target]="'#questions' + i" aria-expanded="false"
                           aria-controls="questions"></i>
-                        <button *ngIf="item.answerSubquestions.length != 0" class="btn btn-primary" id="answer{{i}}"
-                          data-toggle="collapse" type="button" [attr.data-target]="'#answers' + i" aria-expanded="false"
-                          aria-controls="answers" style="margin-left: 20px; font-size: small;">แสดงคำตอบ
-                          <!-- <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i> -->
-                        </button>
-                        <button class="btn btn-danger" id="graph{{i}}" data-toggle="collapse" type="button"
+                        <!-- <button  type="button" *ngIf="item.answerSubquestions.length != 0 && subjectgroupstatus == 'รายงานแล้ว' "
+                          (click)="reportModal(modalreportreportperformance, item.subjectCentralPolicyProvinceGroups)"
+                          style="margin-left: 20px; font-size: small;"
+                          class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
+                        </button> -->
+                        <button *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="btn btn-danger" id="graph{{i}}" data-toggle="collapse" type="button"
                           [attr.data-target]="'#graphs' + i" aria-expanded="false" aria-controls="graphs"
                           style="margin-left: 20px; font-size: small;">แสดงกราฟ
                           <!-- <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i> -->
@@ -280,31 +329,18 @@
                           </div>
                         </td>
                       </div>
-                      <div class="col-12 collapse" id="answers{{i}}">
+                      <div class="col-12" *ngIf="item.answerSubquestions.length != 0">
                         <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
                           <!-- <u>ตัวเลือกคำถาม</u> -->
-                          <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
-                            <div *ngFor="let item3 of item2.answerSubquestions;let iii = index">
-                              <div class="row">
-                                <div class="col-10">
-                                  <!-- <div class="col-0"
-                                    *ngIf="item.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                                    <input style="margin-left: 10px;margin-top: 11px;" type="radio" disabled>
-                                  </div> -->
-                                  <div class="col-9" *ngIf="item.id == item3.subquestionCentralPolicyProvinceId">
-                                    <input type="text" value="{{item3.answer}}" class="form-control"
-                                      placeholder="กรุณากรอกเรื่อง" readonly>
-                                  </div>
-
-                                  <!-- <div class="col-1"
-                                    *ngIf="item2.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
-                                    <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                      (click)="editModal2(modaleditsubquestionclosechoice, item3.id, item3.name)"></i>
-                                  </div> -->
-                                </div>
+                          <!-- <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index"> -->
+                            <div *ngFor="let item3 of item.answerSubquestions;let iii = index">
+                              <div *ngIf="item3.answerSubquestionStatus.status == 'ใช้งานจริง'" class="row">
+                                <div class="col-2">{{iii+1}}. โดย {{item3.user.name}}</div>
+                                <div class="col-5">ตอบ {{item3.answer}}</div>
+                                <div class="col-5">คำอธิบาย {{item3.description}}</div>
                               </div>
                             </div>
-                          </div>
+                          <!-- </div> -->
                         </td>
                       </div>
                       <div class="col-12">
@@ -338,22 +374,79 @@
               <label style="margin-left: 10px;">ไม่มอบหมายให้จังหวัด</label>
             </div>
           </div> -->
+          <hr>
+
+
+
+          <div class="form-group" *ngIf="subjectgroupland == 'ลงพื้นที่'" style="margin-top: 10px;">
+            <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
+              <!-- null -->
+              <div class="col-6">
+                <label>วันที่แต้งเตือน</label>
+                <my-date-picker-th formControlName="notificationpeoplequestiondate" [options]="myDatePickerOptions"
+                  required>
+                </my-date-picker-th>
+              </div>
+              <div class="col-6">
+                <label>วันกำหนดส่ง</label>
+                <my-date-picker-th formControlName="deadlinepeoplequestiondate" [options]="myDatePickerOptions"
+                  required>
+                </my-date-picker-th>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionDeadlineDate != null">
+              <!-- not null -->
+              <div class="col-6">
+                <label>วันที่แต้งเตือน</label>
+                <my-date-picker-th [selDate]="notificationpeoplequestionDate" [options]="myDatePickerOptions" required
+                  (dateChanged)="onStartDateChanged2($event)">
+                </my-date-picker-th>
+              </div>
+              <div class="col-6">
+                <label>วันกำหนดส่ง</label>
+                <my-date-picker-th [selDate]="deadlinepeoplequestionDate" [options]="myDatePickerOptions" required
+                  (dateChanged)="onEndDateChanged2($event)">
+                </my-date-picker-th>
+              </div>
+            </div>
+
+            <br>
+            <div class="col-md-6">
+              <div class="row">
+                <i class="fa fa-tags" style="margin-top: 15px;"></i>
+                <h4 style="margin-top: 10px;margin-left: 15px;">คำถามภาคประชาชน</h4> &nbsp;&nbsp;
+                <button *ngIf="role_id == 3" type="button" class="btn btn-success btn-xs"
+                  (click)="openModalQuestionPeople(modalQuestionPeople)">เพิ่มคำถาม</button>
+              </div>
+              <br>
+              <div *ngFor="let item3 of questionpeople; let i = index">
+                <label style="margin-left: 5px;">ข้อที่ {{i+1}})
+                  {{item3.questionPeople}}<br></label>
+                <div *ngFor="let item4 of item3.answerCentralPolicyProvinces;">
+                  <label style="margin-left: 10px;"> - {{item4.answer}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <!-- {{subjectgroupland}} -->
 
           <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
-              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <label style="margin-left: 10px;">ร่าง</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" formControlName="status">
-              <label style="margin-left: 10px;">ใช้งานจริง</label>
+              <label style="margin-left: 10px;">ใช้งาน</label>
             </div>
           </div>
           <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ใช้งานจริง'">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" formControlName="status" disabled>
-              <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+              <label style="margin-left: 10px;">ร่าง</label>
               <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" formControlName="status"
                 disabled>
-              <label style="margin-left: 10px;">ใช้งานจริง</label>
+              <label style="margin-left: 10px;">ใช้งาน</label>
             </div>
           </div>
 
@@ -455,6 +548,62 @@
     </div>
   </div>
 </div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalQuestionPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="FormQuestion" (ngSubmit)="storeQuestion(FormQuestion.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">คำถามที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label>ประเด็นคำถาม</label>
+            <textarea cols="30" rows="5" formControlName="question" class="form-control"
+              placeholder="กรุณากรอกคำถามภาคประชาชน">
+          </textarea>
+          </div>
+        </div>
+
+        <!-- <div class="form-group row">
+          <div class="col-12 col-xl-12">
+            <label>วันที่แจ้งเตือน</label>
+          </div>
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <my-date-picker-th formControlName="notificationdate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-12 col-xl-12">
+            <label>วันกำหนดส่ง</label>
+          </div>
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <my-date-picker-th formControlName="deadlinedate" [options]="myDatePickerOptions" required>
+              </my-date-picker-th>
+            </div>
+          </div>
+        </div> -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
 
 <!-- BEGIN primary modal -->
 <ng-template #modaldelsubject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -855,7 +1004,77 @@
     </button>
   </div>
 </ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modalreportreportperformance class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">รายงานผลการดำเนินการของหน่วยรับตรวจ</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body m-3">
+      <div class="mb-3">
+        <input type="radio" name="report" (change)="report1($event)" value="รายหน่วยงาน">
+        <label style="margin-left: 10px;">รายหน่วยงาน</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="report2($event)" value="รายจังหวัด">
+        <label style="margin-left: 10px;">รายจังหวัด</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="report3($event)" value="รายเขต">
+        <label style="margin-left: 10px;">รายเขต</label>
+      </div>
+      <form [formGroup]="FormReport" *ngIf="checkTypeReport== 1" (ngSubmit)="storeReport2(FormReport.value)">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>หน่วยงาน</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
+              [items]="select" formControlName="provincialDepartmentId">
+              <!-- (ngModelChange)="addsubjectdepartment2($event,'add')"
+              (deselected)="addsubjectdepartment2($event,'remove')" -->
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+      <form *ngIf="checkTypeReport== 2" (ngSubmit)="storeReport3()">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>จังหวัด</label>
+              <input type="text" value="{{provincename}}" class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+      <form [formGroup]="" *ngIf="checkTypeReport== 3" (ngSubmit)="storeInspectionPlan(FormOther.value)">
+        <div class="row">
 
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>เรื่อง3</label>
+              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</ng-template>
 <!-- END primary modal -->
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>

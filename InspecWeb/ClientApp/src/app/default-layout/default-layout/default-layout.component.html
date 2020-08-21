@@ -311,27 +311,38 @@
 
                 <div class="form-group">
                     <label class="form-label">อีเมล*</label>
-                    <input type="email" formControlName="Email" value="{{Email}}" readonly class="form-control" placeholder="กรุณากรอกอีเมล">
+                    <input type="email" formControlName="Email" readonly class="form-control" placeholder="กรุณากรอกอีเมล">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">คำนำหน้า*</label>
-                    <input type="text" formControlName="Prefix" value="{{Prefix}}" class="form-control" placeholder="กรุณากรอกคำนำหน้า">
+                    <input type="text" formControlName="Prefix"  class="form-control" placeholder="กรุณากรอกคำนำหน้า">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">ชื่อ-นามสกุล(TH)*</label>
-                    <input type="text" formControlName="Name" value="{{Name}}" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล(TH)">
+                    <div class="row">                   
+                        <label class="form-label col-6">ชื่อ(TH)*</label>
+                        <label class="form-label col-6">นามสกุล(TH)*</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" formControlName="FName" class="form-control" required placeholder="กรุณากรอกชื่อ(TH)">
+                        </div>
+                        
+                        <div class="col-6">
+                            <input type="text" formControlName="LName" class="form-control" required placeholder="กรุณากรอกนามสกุล(TH)">
+                        </div> 
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">ตำแหน่ง*</label>
-                    <input type="text" formControlName="Position" value="{{Position}}" class="form-control" placeholder="กรุณากรอกตำแหน่ง">
+                    <input type="text" formControlName="Position"  class="form-control" placeholder="กรุณากรอกตำแหน่ง">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">เบอร์โทร*</label>
-                    <input type="tel" formControlName="PhoneNumber" value="{{PhoneNumber}}" class="form-control" placeholder="กรุณากรอกเบอร์โทร">
+                    <input type="tel" formControlName="PhoneNumber" class="form-control" placeholder="กรุณากรอกเบอร์โทร">
                 </div>
 
                 <div class="form-group">

@@ -155,7 +155,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   userProvince: any[] = []
   listfiles: any = [];
   fileData: any = [{ ebookFile: '', fileDescription: '' }];
-
+  watch
 
   get f() { return this.form.controls }
   get s() { return this.f.fileData as FormArray }
@@ -177,6 +177,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.downloadUrl = baseUrl + '/Uploads';
     this.urllink = baseUrl + 'answersubject/outsider/';
     this.planId = activatedRoute.snapshot.paramMap.get('planId')
+    this.watch = activatedRoute.snapshot.paramMap.get('watch')
   }
 
   async ngOnInit() {
@@ -264,7 +265,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     // this.getDetailCentralPolicy()
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
-    this.getquestion();
+    // this.getquestion();
 
     this.getMinistryPeople();
     // this.getUserPeople();
@@ -1241,7 +1242,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.centralpolicyservice.addPeoplequestion(this.id, this.planId, value).subscribe(res => {
       this.FormQuestion.reset();
       this.modalRef.hide();
-      this.getquestion();
+      // this.getquestion();
     })
   }
   getquestion() {

@@ -57,13 +57,14 @@
             <!-- <td>{{item.subjectCentralPolicyProvinces[0].status}}</td> -->
 
             <td *ngIf="item.status == 'ร่างกำหนดการ'">ร่าง</td>
-            <td *ngIf="item.status == 'ใช้งานจริง'">ใช้งาน</td>
+            <td *ngIf="item.status == 'ใช้งานจริง'">ส่งหน่วยรับตรวจ</td>
+            <td *ngIf="item.status == 'รายงานแล้ว'">รายงานแล้ว</td>
 
             <td>
               <i *ngIf="item.status == 'ร่างกำหนดการ'" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                 (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
 
-              <i *ngIf="item.status == 'ใช้งานจริง'" class="align-middle mr-2 fas fa-fw fa-search pointer"
+              <i *ngIf="item.status == 'ใช้งานจริง' || item.status == 'รายงานแล้ว'" class="align-middle mr-2 fas fa-fw fa-search pointer"
                 (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
 
               <i *ngIf="item.status == 'ร่างกำหนดการ'" class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>

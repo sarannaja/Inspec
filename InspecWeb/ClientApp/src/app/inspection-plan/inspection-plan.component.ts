@@ -11,6 +11,7 @@ import { NotificationService } from '../services/notification.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { Log } from 'oidc-client';
+import * as _ from 'lodash'
 @Component({
   selector: 'app-inspection-plan',
   templateUrl: './inspection-plan.component.html',
@@ -22,6 +23,10 @@ export class InspectionPlanComponent implements OnInit {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
+  ProvincialDepartmentSelect: any[] = []
+  DepartmentSelect: any[] = []
+  MinistrySelect: any[] = []
+  PeopleSelect: any[] = []
   resultdepartmentpeople: any = []
   resultpeople: any = []
   resultinspectionplan: any = []
@@ -46,11 +51,13 @@ export class InspectionPlanComponent implements OnInit {
   timelineData: any = [];
   ScheduleData: any = [];
   resultministrypeople: any = []
+  resultprovincialdepartmentpeople: any = []
   resultdetailcentralpolicy: any = []
   resultfiscalyear: any = []
   selectdataministrypeople: any = [];
   selectdatapeople: any = [];
   selectdatadepartmentpeople: any = [];
+  selectdataprovincialdepartmentpeople: any = [];
   startDate: any;
   endDate: any;
   startDate2: any;
@@ -66,6 +73,10 @@ export class InspectionPlanComponent implements OnInit {
   departmentuserdata: any = [];
   peopleuserdata: any = [];
   provincialdepartmentuserdata: any = [];
+  userProvince: any[] = []
+  ministryId
+  watch
+
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
@@ -75,6 +86,7 @@ export class InspectionPlanComponent implements OnInit {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
+    this.watch = activatedRoute.snapshot.paramMap.get('watch')
     this.url = baseUrl + 'inspectionplanevent';
   }
 
@@ -93,6 +105,8 @@ export class InspectionPlanComponent implements OnInit {
             // this.resultuser = result;
             //console.log("test" , this.resultuser);
             this.role_id = result[0].role_id
+            this.userProvince = result[0].userProvince
+            this.ministryId = result[0].ministryId
             // alert(this.role_id)
           })
       })
@@ -129,9 +143,10 @@ export class InspectionPlanComponent implements OnInit {
     this.getpeopleuser();
     this.getprovincialdepartmentuser();
 
-    await this.getMinistryPeople();
-    await this.getDepartmentPeople();
-    await this.getUserPeople();
+    // await this.getMinistryPeople();
+    // await this.getDepartmentPeople();
+    // await this.getUserPeople();
+    // await this.getProvincialDepartmentPeople();
 
     this.Form = this.fb.group({
       CentralpolicyId: new FormControl(null, [Validators.required]),
@@ -163,6 +178,7 @@ export class InspectionPlanComponent implements OnInit {
       UserPeopleId: new FormControl(null),
       UserMinistryId: new FormControl(null),
       UserDepartmentId: new FormControl(null),
+      UserProvincialDepartmentId: new FormControl(null),
     })
     this.EditForm = this.fb.group({
       title: new FormControl(null),
@@ -197,6 +213,12 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   async openModal(template: TemplateRef<any>) {
+
+    this.getMinistryPeople();
+    this.getDepartmentPeople();
+    this.getUserPeople();
+    this.getProvincialDepartmentPeople();
+
     this.checkInspec = null;
     this.modalRef = this.modalService.show(template);
   }
@@ -229,12 +251,13 @@ export class InspectionPlanComponent implements OnInit {
   EditInspectionPlan(id: any) {
     this.router.navigate(['/inspectionplan/editinspectionplan', id])
   }
-  DetailCentralPolicy(id: any) {
+  DetailCentralPolicy(id: any, watch) {
+    // alert(watch)
     this.inspectionplanservice.getcentralpolicyprovinceid(id, this.provinceid).subscribe(result => {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, { planId: this.id }])
+      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, { planId: this.id, watch: watch }])
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])
@@ -348,35 +371,85 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   async getMinistryPeople() {
+
     await this.userservice.getuserdata(6).subscribe(async result => {
       // alert(JSON.stringify(result))
-
+      this.selectdataministrypeople = []
       this.resultministrypeople = result // All
       console.log("Ministry: ", this.resultministrypeople);
       for (var i = 0; i < this.resultministrypeople.length; i++) {
-        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+        var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        if (checked > 0) {
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+        }
       }
+
+      var data: any[] = this.ministryuserdata.map(result => {
+        return result.user.id
+      })
+      this.MinistrySelect = _.filter(this.selectdataministrypeople, (v) => !_.includes(
+        data, v.value
+      ))
       // alert(JSON.stringify(this.selectdataministrypeople))
     })
   }
   async getUserPeople() {
+    this.selectdatapeople = []
     await this.userservice.getuserdata(7).subscribe(async result => {
       this.resultpeople = result
       console.log("tttt:", this.resultpeople);
       for (var i = 0; i < this.resultpeople.length; i++) {
         await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].side + " - " + this.resultpeople[i].name })
       }
+
+      var data: any[] = this.peopleuserdata.map(result => {
+        return result.user.id
+      })
+      this.PeopleSelect = _.filter(this.selectdatapeople, (v) => !_.includes(
+        data, v.value
+      ))
+
     })
   }
   async getDepartmentPeople() {
+    this.selectdatadepartmentpeople = []
     await this.userservice.getuserdata(10).subscribe(async result => {
       this.resultdepartmentpeople = result // All
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-        await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+        if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+        }
       }
+
+      var data: any[] = this.departmentuserdata.map(result => {
+        return result.user.id
+      })
+      this.DepartmentSelect = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+        data, v.value
+      ))
+
     })
   }
+  async getProvincialDepartmentPeople() {
+    this.selectdataprovincialdepartmentpeople = []
+    await this.userservice.getuserdata(9).subscribe(async result => {
+      this.resultprovincialdepartmentpeople = result
+      console.log("tttt:", this.resultprovincialdepartmentpeople);
+      for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
+        await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+      }
 
+      console.log("this.provincialdepartmentuserdata", this.provincialdepartmentuserdata);
+
+      var data: any[] = this.provincialdepartmentuserdata.map(result => {
+        return result.user.id
+      })
+      this.ProvincialDepartmentSelect = _.filter(this.selectdataprovincialdepartmentpeople, (v) => !_.includes(
+        data, v.value
+      ))
+
+    })
+  }
   getDetailCentralpolicy() {
     this.inspectionplanservice.getcentralpolicyeventdata(this.editid)
       .subscribe(result => {
@@ -417,9 +490,6 @@ export class InspectionPlanComponent implements OnInit {
     });
   }
   async storeMinistryPeople(value: any) {
-
-
-
     // alert(JSON.stringify(value))
     // console.log("storeMinistryPeople", this.data)
     console.log("data", this.data[0]);
@@ -442,11 +512,16 @@ export class InspectionPlanComponent implements OnInit {
           // }
           // this.getCentralPolicyProvinceUser();
           // alert(response);
+          this.Form2.reset()
+          this.modalRef.hide()
+
+          this.getministryuser();
+          this.getdepartmentuser();
+          this.getpeopleuser();
+          this.getprovincialdepartmentuser();
         })
       })
     }
-    this.Form2.reset()
-    this.modalRef.hide()
   }
 
   changeplanstatus(value) {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CorePush.Apple;
+using CorePush.Google;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
@@ -421,6 +423,69 @@ namespace InspecWeb.Controllers
 
             return Ok(mobileObj);
         }
+        [HttpGet("mobilenotification2/{userId}/{message}")]
+        public async Task<IActionResult> SendNotificationMobile(string userId, string message)
+        {
+            // IActionResult OpmUserProvince = null;
+            var mobileObj = _context.UserTokenMobiles
+                            .Where(w => w.UserID == userId)
+                            .ToArray();
+
+            foreach (var item in mobileObj)
+            {
+                var p8privateKey = "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgpaXr/CZEsUSHeky8aQQ6teO4cDSsLwVq3j7PWdpr6wOgCgYIKoZIzj0DAQehRANCAAQe9meUPmcbinwleRVTxlolByUcfJjX9uxhYie57KxZJZZEfYrM4/U/IAcDu3EiWWBoKYmsVtDMTBGbFTfVCUvo";
+                if (item.DeviceType == "ios")
+                {
+                    using (var apn = new ApnSender(p8privateKey, "7D37LMN3C4", "RVLQ6T4Y33", "inspec.opm", ApnServerType.Production))
+                    {
+                        // await apn.SendAsync(item.Token,message );
+                        await apn.SendAsync(new { alert = message }, item.Token);
+                    }
+
+                }
+                else
+                {
+                    using (var fcm = new FcmSender("AAAAzLUSLHk:APA91bEPP7_VRyQf7nFxKPTpZ6BYZ_yk7A0sXEWTOo--4i8kykZpmZnxzneKB5jdkRj8hJIPGu7Nfsvtu81YM2bZ3zFGOS8oTV_QGPWMcuUimytm8GOOjA9OT6_4nxLLQ1oPZOEep8Jb", "879211195513"))
+                    {
+                        await fcm.SendAsync(item.Token, message);
+                    }
+                }
+
+            }
+
+            return Ok(mobileObj);
+        }
+
 
     }
+}
+
+public class GoogleNotification
+{
+    public class DataPayload
+    {
+        // Add your custom properties as needed
+        [JsonProperty("message")]
+        public string Message { get; set; }
+    }
+
+    [JsonProperty("priority")]
+    public string Priority { get; set; } = "high";
+
+    [JsonProperty("data")]
+    public DataPayload Data { get; set; }
+}
+
+public class AppleNotification
+{
+    public class ApsPayload
+    {
+        [JsonProperty("alert")]
+        public string AlertBody { get; set; }
+    }
+
+    // Your custom properties as needed
+
+    [JsonProperty("aps")]
+    public ApsPayload Aps { get; set; }
 }

@@ -15,9 +15,10 @@
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">แผนการตรวจราชการประจำปี</h5>
-        <div class="float-right">
-          <!-- <button class="btn btn-primary" (click)="openModal(modalGovernmentinspectionplan)"
-            style="margin-top: -60px;">เพิ่มแผนการตรวจราชการประจำปี</button> -->
+        <div *ngIf="role_id == 1" class="float-right">
+          <button class="btn btn-pill btn-warning btn-lg" title="เพิ่มข้อมูล" (click)="openModal(modalGovernmentinspectionplan)"
+          style="margin-top: -60px;"><i class="align-middle fas fa-fw fa-plus"></i>
+          </button>
         </div>
       </div>
       <div class="card-body">
@@ -39,9 +40,11 @@
               <td>{{ item.year }}</td>
               <td>{{ item.title }}</td>
               <td ><a *ngIf="item.file != 'NULL' " href="assets/GovernmentinspectionplanFile/{{item.file}}" download>{{ item.file }}</a></td>
-              <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
+              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
+              <ng-template #elseBlock>
+                <td></td>
+              </ng-template>
               <td>
-              
                 <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล">
                   <i class="align-middle  fas fa-fw fa-pen"
                     (click)="openModal(modaleditGovernmentinspectionplan, item.id, item.year, item.title, item.file)">

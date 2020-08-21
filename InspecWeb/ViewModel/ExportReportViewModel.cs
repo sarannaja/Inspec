@@ -31,6 +31,32 @@ namespace InspecWeb.ViewModel
 
         public printReport2[] printReport2 { get; set; }
 
+        public allReport[] allReport { get; set; }
+
+        [JsonProperty(PropertyName = "reportType")]
+        public string reportType { get; set; }
+
+        [JsonProperty(PropertyName = "reportDepartment")]
+        public string reportDepartment { get; set; }
+
+        [JsonProperty(PropertyName = "reportRegion")]
+        public string reportRegion { get; set; }
+
+        [JsonProperty(PropertyName = "reportRegionId")]
+        public long reportRegionId { get; set; }
+
+        [JsonProperty(PropertyName = "reportProvince")]
+        public string reportProvince { get; set; }
+
+        [JsonProperty(PropertyName = "reportDate")]
+        public DateTime reportDate { get; set; }
+
+        [JsonProperty(PropertyName = "startDate")]
+        public DateTime startDate { get; set; }
+
+        [JsonProperty(PropertyName = "reportZone")]
+        public string reportZone { get; set; }
+
     }
 
     public class reportData
@@ -115,5 +141,29 @@ namespace InspecWeb.ViewModel
         public string departmentSign { get; set; }
         [JsonProperty(PropertyName = "departmentDate")]
         public DateTime departmentDate { get; set; }
+    }
+
+    public class allReport
+    {
+        [JsonProperty(PropertyName = "dateReport")]
+        public DateTime dateReport { get; set; }
+
+        [JsonProperty(PropertyName = "subject")]
+        public string subject { get; set; }
+
+        [JsonProperty(PropertyName = "createBy")]
+        public string createBy { get; set; }
+
+        [JsonProperty(PropertyName = "status")]
+        public string status { get; set; }
+
+        [JsonProperty(PropertyName = "command")]
+        public string command { get; set; }
+
+        [JsonProperty(PropertyName = "dateCommand")]
+        public DateTime dateCommand { get; set; }
+
+        [JsonProperty(PropertyName = "provinceReport")]
+        public string provinceReport { get; set; }
     }
 }

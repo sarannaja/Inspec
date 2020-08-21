@@ -1,15 +1,22 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 import * as Excel from "exceljs/dist/exceljs.min.js";
 import * as ExcelProper from "exceljs";
 import * as fs from 'file-saver';
 import { Calendar } from 'src/app/services/modelaof/reportInspectionplan';
+import { ExportReportService } from 'src/app/services/export-report.service';
+
+interface addInput {
+  id: number;
+  name: string;
+}
+
 
 @Component({
   selector: 'app-report-inspection-plan-event',
@@ -35,15 +42,37 @@ export class ReportInspectionPlanEventComponent implements OnInit {
   Form2: FormGroup;
   Form3: FormGroup;
   Form4: FormGroup;
+  reportForm: FormGroup;
   owner: any
+  fiscalYearId: any;
+  regionId: any;
+  fiscalYearData: any = [];
+  regionData: any = [];
+  provinceData: any = [];
+  departmentData: any = [];
+  provinceId: any;
+  peopleData: any;
+  departmentId: any;
+  url = ""
+  downloadUrl: any;
+  inputdate: any = [{ start_date: '', end_date: '' }];
+
+  get f() { return this.reportForm.controls }
+  get d() { return this.f.inputdate as FormArray }
+
   constructor(
     private spinner: NgxSpinnerService,
     private inspectionplanservice: InspectionplaneventService,
+    private exportReportService: ExportReportService,
     private userService: UserService,
     private authorize: AuthorizeService,
     private modalService: BsModalService,
     private fb: FormBuilder,
-  ) { }
+    @Inject('BASE_URL') baseUrl: string,
+  ) {
+    this.url = baseUrl,
+      this.downloadUrl = baseUrl + '/Uploads';
+  }
 
   ngOnInit() {
     // this.ExportProvince(1)
@@ -58,21 +87,36 @@ export class ReportInspectionPlanEventComponent implements OnInit {
           })
       })
 
-    this.Form = this.fb.group({
+    // this.Form = this.fb.group({
+    //   region: new FormControl(null, [Validators.required]),
+    // });
+
+    // this.Form2 = this.fb.group({
+    //   province: new FormControl(null, [Validators.required]),
+    // });
+
+    // this.Form3 = this.fb.group({
+    //   people: new FormControl(null, [Validators.required]),
+    // });
+
+    // this.Form4 = this.fb.group({
+    //   provincialdepartment: new FormControl(null, [Validators.required]),
+    // });
+
+    this.reportForm = this.fb.group({
+      fiscalYear: new FormControl(null, [Validators.required]),
       region: new FormControl(null, [Validators.required]),
-    });
-
-    this.Form2 = this.fb.group({
       province: new FormControl(null, [Validators.required]),
-    });
-
-    this.Form3 = this.fb.group({
+      department: new FormControl(null, [Validators.required]),
       people: new FormControl(null, [Validators.required]),
-    });
+      inputdate: new FormArray([]),
+      // start_date: new FormControl(null, [Validators.required]),
+    })
 
-    this.Form4 = this.fb.group({
-      provincialdepartment: new FormControl(null, [Validators.required]),
-    });
+    this.d.push(this.fb.group({
+      start_date: '',
+      end_date: '',
+    }))
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -81,9 +125,28 @@ export class ReportInspectionPlanEventComponent implements OnInit {
           targets: [2],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        // "info": "แสดง _PAGE_ ของ _PAGES_ รายการ",
+        // "info": "แสดง _PAGE_ ของ _PAGES_ รายการ จาก _TOTAL_ แถว",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        // "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
+
+    // this.getImportedReport();
+    this.getImportFiscalYears();
 
     this.inspectionplanservice.getscheduledata(this.userid)
       .subscribe(result => {
@@ -95,12 +158,13 @@ export class ReportInspectionPlanEventComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.getprovince();
-    this.getregion();
-    this.getpeople();
-    this.getprovincialdepartment();
+    // this.getprovince();
+    // this.getregion();
+    // this.getpeople();
+    // this.getprovincialdepartment();
     this.modalRef = this.modalService.show(template);
   }
+
   getprovincialdepartment() {
     this.inspectionplanservice.getprovincialdepartment().subscribe(response => {
       this.resultprovincialdepartment = response
@@ -125,7 +189,7 @@ export class ReportInspectionPlanEventComponent implements OnInit {
     this.inspectionplanservice.getregion(this.userid).subscribe(response => {
       this.resultregion = response
       this.selectregion = this.resultregion.map((item, index) => {
-        return { value: item.region.id, label: item.region.name }
+        return { value: item.id, label: item.name }
       })
     })
   }
@@ -599,4 +663,108 @@ export class ReportInspectionPlanEventComponent implements OnInit {
     // const subTitleRow = worksheet.addRow(['Date : ' + this.datePipe.transform(new Date(), 'medium')]);
   }
 
+  selectFiscalYear(value) {
+    this.fiscalYearId = value.value;
+    this.getImportFiscalYearRelations();
+  }
+  selectRegion(value) {
+    this.regionId = value.value;
+    this.exportReportService.getImportReportprovinceFiscalYearRelations(this.fiscalYearId, this.regionId).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.provinceId === thing.provinceId) === i
+      );
+      console.log("uniqueProvinces: ", uniqueRegion);
+
+      this.provinceData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.province.id,
+          label: item.province.name
+        }
+      })
+    })
+  }
+
+  selectProvince(value) {
+    this.provinceId = value.value;
+    this.exportReportService.getImportReportdepartmentFiscalYearRelations(this.provinceId).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.provincialDepartmentId === thing.provincialDepartmentId) === i
+      );
+      console.log("uniqueDepartments: ", uniqueRegion);
+
+      this.departmentData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.provincialDepartment.id,
+          label: item.provincialDepartment.name
+        }
+      })
+    })
+  }
+  selectDepartment(value) {
+    this.departmentId = value.value
+    this.exportReportService.getImportReportpeopleFiscalYearRelations(this.departmentId, this.provinceId).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.id === thing.id) === i
+      );
+      console.log("uniquePeoples: ", uniqueRegion);
+
+      this.peopleData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.prefix + " " + item.name
+        }
+      })
+    })
+  }
+  getImportFiscalYearRelations() {
+    this.exportReportService.getImportReportFiscalYearRelations(this.fiscalYearId).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.importFiscalYearRelations.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      );
+      console.log("uniqueRegions: ", uniqueRegion);
+
+      this.regionData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      })
+    })
+  }
+
+  getImportFiscalYears() {
+    this.exportReportService.getImportReportFiscalYears().subscribe(res => {
+      console.log("fiscalYear1: ", res);
+      this.fiscalYearData = res.importFiscalYear.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.year
+        }
+      })
+      console.log("fiscalYear: ", this.fiscalYearData);
+    })
+  }
+
+  ExportAll(value) {
+    // alert(JSON.stringify(value.inputdate))
+    this.exportReportService.getCelendarReportById(value.region, value.province, value.department, value.people, this.inputdate).subscribe(res => {
+
+      this.exportReportService.CreateReportCalendar(res, value.region, value.province, value.department, value.people, this.inputdate).subscribe(res => {
+        window.open(this.url + "Uploads/" + res.data);
+      })
+
+    })
+  }
 }

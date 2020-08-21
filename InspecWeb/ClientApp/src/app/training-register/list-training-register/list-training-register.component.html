@@ -45,7 +45,7 @@
 
                 <span class="pointer text-primary" (click)="openModal(modaldetail, item.id)">{{ item.name }}</span>
               </td>
-              <td class="ellipsis">{{ item.createdAt | thaidate:'year'}}</td>
+              <td class="ellipsis">{{ item.createdAt | thaidate:'short'}}</td>
               <td>
                 <span (click)="openModal(modalCondition, item.id,item,i)"><i
                     [ngClass]="item.register_status == true ?'align-middle mr-2 fas fa fa-info-circle  pointer text-success':'align-middle mr-2 fas fa fa-info-circle  pointer text-muted'"
@@ -215,8 +215,11 @@
                       <ng-container *ngIf="item.conditionType == 2;else cthird">
                         {{ item.name }}
                         <br>
-                        <span class="badge badge-light"><label class="text-success form-text">คุณสมบัติอยู่ในเกณฑ์
-                            {{item.training.birthDate}}</label></span>
+                        <span class="badge badge-light"><label class="text-success form-text">อายุผู้สมัคร
+                            {{birthdate}} ปี
+                          </label></span>
+                        <!-- <span class="badge badge-light"><label class="text-success form-text">คุณสมบัติอยู่ในเกณฑ์
+                            {{birthdate | thaidate: 'year' }}</label></span> -->
                       </ng-container>
                     </ng-template>
                     <ng-template #mthird>
@@ -275,9 +278,9 @@
           <label class="form-text">ท่านเป็นผู้มีอายุราชการเหลือไม่น้อยกว่า 1 ปี ใช่หรือไม่</label>
 
           <input *ngIf="peopledetail.type == 'in'" type="text" value="ใช่" class="form-control" readonly
-          placeholder="กรุณากรอกชื่อ-นามสกุล">
+            placeholder="กรุณากรอกชื่อ-นามสกุล">
           <input *ngIf="peopledetail.type == 'out'" type="text" value="ไม่" class="form-control" readonly
-          placeholder="กรุณากรอกชื่อ-นามสกุล">
+            placeholder="กรุณากรอกชื่อ-นามสกุล">
           <!-- <input type="radio" formControlName="type" name="type" value="in">
           <label for="r_in">&nbsp;&nbsp;ใช่</label><br>
           <input type="radio" formControlName="type" name="type" value="out">

@@ -587,6 +587,32 @@ namespace InspecWeb.Controllers
                 }
                 _context.SaveChanges();
             }
+
+            if (model.UserProvincialDepartmentId != null)
+            {
+                foreach (var id in model.UserProvincialDepartmentId)
+                {
+                    System.Console.WriteLine("CENTRALID: " + model.CentralPolicyId);
+                    System.Console.WriteLine("LOOP: " + id);
+                    System.Console.WriteLine("PLANID: " + model.planId);
+
+                    var centralpolicyuserdata = new CentralPolicyUser
+                    {
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                        UserId = id,
+                        Status = "รอการตอบรับ",
+                        DraftStatus = "ร่างกำหนดการ",
+                        //ElectronicBookId = model.ElectronicBookId,
+                        InspectionPlanEventId = model.planId,
+                        InvitedBy = inviteby.Prefix + " " + inviteby.Name,
+                    };
+                    _context.CentralPolicyUsers.Add(centralpolicyuserdata);
+                }
+                _context.SaveChanges();
+            }
+
         }
 
         // GET api/values/5
@@ -740,7 +766,7 @@ namespace InspecWeb.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("usersinvited/{id}/{planid}")]
+        [HttpGet("getcentralpolicyfromprovince/{id}/{planid}")]
         public IActionResult GetUsers2(string id, long planid)
         {
             var centralpolicyuserdata = _context.CentralPolicyUsers
@@ -1014,11 +1040,81 @@ namespace InspecWeb.Controllers
         }
 
         [HttpPut("sendassign/{id}")]
-        public void PutAssign(long id, string assign)
+        public void PutAssign(long id, string assign, string department, string position, string phone, string email, string userid)
         {
-            (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
-                ForEach(x => x.Forward = assign);
-            (from t in _context.CentralPolicyUsers where t.Id == id select t).ToList().
+
+            //var CentralPolicyUsersdata = _context.CentralPolicyUsers.Find(id);
+            //CentralPolicyUsersdata.ForwardName = assign;
+            //CentralPolicyUsersdata.ForwardDepartment = department;
+            //CentralPolicyUsersdata.ForwardPosition = position;
+            //CentralPolicyUsersdata.ForwardPhone = phone;
+            //CentralPolicyUsersdata.ForwardEmail = email;
+            //_context.Entry(CentralPolicyUsersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //_context.SaveChanges();
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+                ForEach(x => x.ForwardName = assign);
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+                ForEach(x => x.ForwardDepartment = department);
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+                ForEach(x => x.ForwardPosition = position);
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+                ForEach(x => x.ForwardPhone = phone);
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+                ForEach(x => x.ForwardEmail = email);
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+               ForEach(x => x.Status = "มอบหมาย");
+            _context.SaveChanges();
+        }
+
+        [HttpPut("sendassigninternal/{id}")]
+        public void PutAssigninternal(long id, string userid, string assignuserid)
+        {
+            var peopleinvitedatas = _context.CentralPolicyUsers
+                .Where(m => m.InspectionPlanEventId == id && m.UserId == userid).ToList();
+
+
+            var userdata = _context.Users.Find(userid);
+            
+            foreach(var peopleinvitedata in peopleinvitedatas) { 
+                var CentralPolicyGroupdata = new CentralPolicyGroup
+                {
+                };
+                _context.CentralPolicyGroups.Add(CentralPolicyGroupdata);
+                _context.SaveChanges();
+
+                var CentralPolicyUserdata = new CentralPolicyUser
+                {
+                    CentralPolicyId = peopleinvitedata.CentralPolicyId,
+                    ProvinceId = peopleinvitedata.ProvinceId,
+                    InspectionPlanEventId = peopleinvitedata.InspectionPlanEventId,
+                    CentralPolicyGroupId = CentralPolicyGroupdata.Id,
+                    UserId = assignuserid,
+                    Status = "รอการตอบรับ",
+                    ForwardName = "ถูกมอบหมาย",
+                    InvitedBy = userdata.Prefix + " " + userdata.Name,
+                    DraftStatus = "ร่างกำหนดการ"
+                };
+                _context.CentralPolicyUsers.Add(CentralPolicyUserdata);
+                _context.SaveChanges();
+            }
+            //var CentralPolicyUsersdata = _context.CentralPolicyUsers.Find(id);
+            //CentralPolicyUsersdata.ForwardName = assign;
+            //CentralPolicyUsersdata.ForwardDepartment = department;
+            //CentralPolicyUsersdata.ForwardPosition = position;
+            //CentralPolicyUsersdata.ForwardPhone = phone;
+            //CentralPolicyUsersdata.ForwardEmail = email;
+            //_context.Entry(CentralPolicyUsersdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //_context.SaveChanges();
+
+
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
                ForEach(x => x.Status = "มอบหมาย");
             _context.SaveChanges();
         }
@@ -1169,6 +1265,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(x => x.AnswerSubquestions)
                 .ThenInclude(x => x.AnswerSubquestionStatus)
+                .ThenInclude(x => x.User)
 
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(x => x.AnswerSubquestionOutsiders)
@@ -1178,6 +1275,7 @@ namespace InspecWeb.Controllers
                 .Where(m => m.CentralPolicyProvinceId == id).ToList();
 
             var subjectgroup = _context.SubjectGroups
+                .Include(m => m.SubjectGroupPeopleQuestions)
                 .Where(m => m.Id == subjectgroupid).FirstOrDefault();
 
             return Ok(new { subjectgroup, subjectcentralpolicyprovincedata });
@@ -1187,12 +1285,12 @@ namespace InspecWeb.Controllers
         [HttpGet("getquestionpeople/{cenproid}/{planid}")]
         public IActionResult getquestionpeople(long cenproid, long planid)
         {
-            var cenid = _context.CentralPolicyProvinces
-                .Where(m => m.Id == cenproid).FirstOrDefault();
+            //var cenid = _context.CentralPolicyProvinces
+            //    .Where(m => m.Id == cenproid).FirstOrDefault();
 
             var cenprolicyevent = _context.CentralPolicyEvents
                 .Where(m => m.InspectionPlanEventId == planid)
-                .Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
+                //.Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
                 .FirstOrDefault();
 
             var question = _context.CentralPolicyEventQuestions
@@ -1208,11 +1306,16 @@ namespace InspecWeb.Controllers
         [HttpPost("addPeoplequestion")]
         public IActionResult addPeoplequestion(CentralPolicyEventQuestionViewModel model)
         {
-            var cenid = _context.CentralPolicyProvinces
-            .Where(m => m.Id == model.cenproid).FirstOrDefault();
+            //var cenid = _context.CentralPolicyProvinces
+            //.Where(m => m.Id == model.cenproid).FirstOrDefault();
+
+            //var cenprolicyevent = _context.CentralPolicyEvents
+            //    .Where(m => m.InspectionPlanEventId == model.planid && m.CentralPolicyId == cenid.CentralPolicyId)
+            //    //.Where(m => m.CentralPolicyId == cenid.Id)
+            //    .FirstOrDefault();
 
             var cenprolicyevent = _context.CentralPolicyEvents
-                .Where(m => m.InspectionPlanEventId == model.planid && m.CentralPolicyId == cenid.CentralPolicyId)
+                .Where(m => m.Id == model.planid)
                 //.Where(m => m.CentralPolicyId == cenid.Id)
                 .FirstOrDefault();
 
@@ -1220,8 +1323,8 @@ namespace InspecWeb.Controllers
             {
                 CentralPolicyEventId = cenprolicyevent.Id,
                 QuestionPeople = model.question,
-                NotificationDate = model.notificationdate,
-                DeadlineDate = model.deadlinedate
+                //NotificationDate = model.notificationdate,
+                //DeadlineDate = model.deadlinedate
             };
 
             _context.CentralPolicyEventQuestions.Add(CentralPolicyEventQuestiondata);
@@ -1247,6 +1350,22 @@ namespace InspecWeb.Controllers
 
             _context.CentralPolicyUsers.Remove(departmentdata);
             _context.SaveChanges();
+        }
+
+        [HttpGet("usersinvited/{id}/{planid}")]
+        public IActionResult GetUsers3(string id, long planid)
+        {
+            var centralpolicyuserdata = _context.CentralPolicyUsers
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyDates)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyProvinces)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.FiscalYear)
+                .Where(m => m.InspectionPlanEventId == planid)
+                .Where(m => m.UserId == id);
+
+            return Ok(centralpolicyuserdata);
         }
     }
 }
