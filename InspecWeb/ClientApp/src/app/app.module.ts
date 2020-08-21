@@ -193,6 +193,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 
 
@@ -382,6 +383,8 @@ const ExternalOrganization = [
     NgxSpinnerModule,
     DataTablesModule,
     BrowserAnimationsModule,
+    NgxMaterialTimepickerModule,
+
     RouterModule.forRoot([
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -417,8 +420,8 @@ const ExternalOrganization = [
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid/:watch', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
-          { path: 'inspectionplan/inspectorministry/:id/:provinceid', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
-          { path: 'inspectionplan/inspectordepartment/:id/:provinceid', component: InspectionPlanDepartmentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/inspectorministry/:id/:provinceid/:watch', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/inspectordepartment/:id/:provinceid/:watch', component: InspectionPlanDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },

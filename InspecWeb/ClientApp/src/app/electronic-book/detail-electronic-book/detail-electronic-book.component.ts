@@ -46,9 +46,13 @@ export class DetailElectronicBookComponent implements OnInit {
   peopleuserdata: any = [];
   PeopleSelect: any = [];
   MinistrySelect: any = [];
+  MinistrySelectSame: any = [];
   DepartmentSelect: any = [];
+  DepartmentSelectSame: any = [];
   inviteId: any;
   url: any;
+  ministryId: any;
+  departmentId: any;
 
 
   constructor(
@@ -82,7 +86,11 @@ export class DetailElectronicBookComponent implements OnInit {
         // alert(this.userid)
         this.userservice.getuserfirstdata(this.userid)
           .subscribe(result => {
-            this.role_id = result[0].role_id
+            console.log("test ja: ", result);
+
+            this.role_id = result[0].role_id;
+            this.ministryId = result[0].ministryId;
+            this.departmentId = result[0].departmentId;
             // alert(this.role_id)
           })
       })
@@ -219,9 +227,19 @@ export class DetailElectronicBookComponent implements OnInit {
         user: userInvite
       })
 
-      await this.getDepartmentPeople();
-      await this.getMinistryPeople();
-      await this.getUserPeople();
+      if (this.role_id == 3) {
+        await this.getDepartmentPeople();
+        await this.getMinistryPeople();
+        await this.getUserPeople();
+      }
+
+      if (this.role_id == 6) {
+        await this.getMinistryPeopleRole6();
+        await this.getDepartmentPeopleRole6();
+      }
+      if (this.role_id == 10) {
+        await this.getDepartmentPeopleRole10();
+      }
     })
     this.spinner.hide();
   }
@@ -302,6 +320,30 @@ export class DetailElectronicBookComponent implements OnInit {
       ))
     })
   }
+
+  async getMinistryPeopleRole6() {
+    this.selectdataministrypeople = [];
+    await this.userservice.getuserdataSameMinistry(6, this.ministryId).subscribe(async result => {
+      this.resultministrypeople = result // All
+      console.log("Ministry6: ", this.resultministrypeople);
+      for (var i = 0; i < this.resultministrypeople.length; i++) {
+        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+      }
+
+      var data: any[] = this.invitedPeopleData.map(result => {
+        return result.user.id
+      })
+      var data2: any[] = this.peopleuserdata.map(result => {
+        return result.user.id
+      })
+      this.MinistrySelectSame = _.filter(this.selectdataministrypeople, (v) => !_.includes(
+        data, v.value
+      ))
+      this.MinistrySelectSame = _.filter(this.selectdataministrypeople, (v) => !_.includes(
+        data2, v.value
+      ))
+    })
+  }
   async getDepartmentPeople() {
     this.selectdatadepartmentpeople = [];
     await this.userservice.getuserdata(10).subscribe(async result => {
@@ -320,6 +362,55 @@ export class DetailElectronicBookComponent implements OnInit {
         data, v.value
       ))
       this.DepartmentSelect = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+        data2, v.value
+      ))
+    })
+  }
+
+  async getDepartmentPeopleRole6() {
+    this.selectdatadepartmentpeople = [];
+    await this.userservice.getuserdataDepartmentInMinistry(10, this.ministryId).subscribe(async result => {
+      this.resultdepartmentpeople = result // All
+      console.log("in 6department: ", this.resultdepartmentpeople);
+
+      for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
+        await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+      }
+
+      var data: any[] = this.invitedPeopleData.map(result => {
+        return result.user.id
+      })
+      var data2: any[] = this.peopleuserdata.map(result => {
+        return result.user.id
+      })
+      this.DepartmentSelectSame = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+        data, v.value
+      ))
+      this.DepartmentSelectSame = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+        data2, v.value
+      ))
+    })
+  }
+  async getDepartmentPeopleRole10() {
+    this.selectdatadepartmentpeople = [];
+    await this.userservice.getuserdataDepartmentInDepartment(10, this.departmentId).subscribe(async result => {
+      this.resultdepartmentpeople = result // All
+      console.log("in10asdfasdfsdfsdfsadfasdfs: ", result);
+
+      for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
+        await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+      }
+
+      var data: any[] = this.invitedPeopleData.map(result => {
+        return result.user.id
+      })
+      var data2: any[] = this.peopleuserdata.map(result => {
+        return result.user.id
+      })
+      this.DepartmentSelectSame = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+        data, v.value
+      ))
+      this.DepartmentSelectSame = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
         data2, v.value
       ))
     })
