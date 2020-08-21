@@ -18,7 +18,7 @@
                 <h5 class="card-title mb-0">รายละเอียด</h5>
             </div>
             <div *ngIf="resultQuestionPeople != null" class="card-body">
-                <form [formGroup]="Form" (ngSubmit)="storeanswer(Formstatus.value)">
+                <form [formGroup]="Form" (ngSubmit)="storestatus(Formstatus.value)">
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-6">
                             เรื่อง : {{resultQuestionPeople[0].centralPolicyEvent.centralPolicy.title}}

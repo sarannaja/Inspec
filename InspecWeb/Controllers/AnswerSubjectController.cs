@@ -346,15 +346,21 @@ namespace InspecWeb.Controllers
             return Ok(subjectdata);
         }
         // GET api/values/5
-        [HttpGet("centralpolicyprovince/{id}")]
-        public IActionResult Get6(long id)
+        [HttpGet("centralpolicyprovince/{id}/{inspectionPlanEventId}")]
+        public IActionResult Get6(long id,long inspectionPlanEventId)
         {
             var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Where(m => m.Id == id)
                 .First();
 
             var CentralPolicyEventdata = _context.CentralPolicyEvents
+                .Where(m => m.InspectionPlanEventId == inspectionPlanEventId)
                 .Where(m => m.CentralPolicyId == centralpolicyprovincedata.CentralPolicyId && m.InspectionPlanEvent.ProvinceId == centralpolicyprovincedata.ProvinceId).First();
+
+            System.Console.WriteLine("centralpolicyprovincedata.CentralPolicyId" + centralpolicyprovincedata.CentralPolicyId);
+
+            System.Console.WriteLine("centralpolicyprovincedata.ProvinceId" + centralpolicyprovincedata.ProvinceId);
+            System.Console.WriteLine("CentralPolicyEventdata.Id" + CentralPolicyEventdata.Id);
 
             var question = _context.CentralPolicyEventQuestions
                 .Include(m => m.CentralPolicyEvent)
@@ -362,7 +368,8 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyEvent)
                 .ThenInclude(m => m.InspectionPlanEvent)
                 .ThenInclude(m => m.Province)
-                .Where(m => m.CentralPolicyEventId == CentralPolicyEventdata.Id).ToList();
+                .Where(m => m.CentralPolicyEventId == CentralPolicyEventdata.Id)
+                .ToList();
 
             return Ok(question);
         }
@@ -561,6 +568,7 @@ namespace InspecWeb.Controllers
                 {
                     CentralPolicyProvinceId = answer.CentralPolicyProvinceId,
                     CentralPolicyEventQuestionId = answer.CentralPolicyEventQuestionId,
+                    AnswerCentralPolicyProvinceStatusId = answer.AnswerCentralPolicyProvinceStatusId,
                     UserId = answer.UserId,
                     Answer = answer.Answer,
                     CreatedAt = date
@@ -772,7 +780,8 @@ namespace InspecWeb.Controllers
             _context.AnswerCentralPolicyProvinceStatuses.Add(Statusdata);
             _context.SaveChanges();
 
-            return Ok(new { status = true });
+            //return Ok(new { status = true });
+            return Ok(Statusdata);
         }
         // GET api/values/5
         [HttpGet("answerstatus/{id}/{userid}")]

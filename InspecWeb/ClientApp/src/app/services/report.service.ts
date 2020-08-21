@@ -70,6 +70,23 @@ export class ReportService {
     formData.append('reporttype', reportdata.type);
     return this.http.post<any>(this.url + "reportperformance", formData)
   }
+  createReportQuestionnaire(planid) {
+    const formData = new FormData();
+    formData.append('planid', planid);
+    return this.http.post<any>(this.url + "reportquestionnaire", formData)
+  }
+  createReportCommenttype1(ReportCommentdata) {
+    const formData = new FormData();
+    formData.append('userid', ReportCommentdata.userid);
+    formData.append('reporttype', ReportCommentdata.type);
+    return this.http.post<any>(this.url + "reportcomment", formData)
+  }
+  createReportCommenttype2(ReportCommentdata, provinceid) {
+    const formData = new FormData();
+    formData.append('reporttype', ReportCommentdata.type);
+    formData.append('provinceid', provinceid);
+    return this.http.post<any>(this.url + "reportcomment", formData)
+  }
   createReport2() {
     // const formData = new FormData();
     // formData.append('provinceid', reportdata.provinceid);
