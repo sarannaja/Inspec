@@ -15,6 +15,7 @@ import { GetQuestionPeople } from 'src/app/services/nikmodel/answarrole7';
 export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
 
   id
+  inspectionPlanEventId
   userid
   centralPolicyEventId
   status
@@ -32,6 +33,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
     private authorize: AuthorizeService
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
+    this.inspectionPlanEventId = activatedRoute.snapshot.paramMap.get('inspectionplaneventid')
   }
   get f() { return this.Form.controls; }
   get t() { return this.f.result as FormArray; }
@@ -53,7 +55,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
     this.getAnsweruser()
   }
   getQuestionPeople() {
-    this.answersubjectservice.getcentralpolicyprovince(this.id)
+    this.answersubjectservice.getcentralpolicyprovince(this.id,this.inspectionPlanEventId)
       .subscribe(result => {
         // console.log(result);
         this.loading = true

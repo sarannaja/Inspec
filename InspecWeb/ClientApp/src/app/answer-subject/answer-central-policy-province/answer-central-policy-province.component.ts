@@ -13,6 +13,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 export class AnswerCentralPolicyProvinceComponent implements OnInit {
 
   id: any
+  inspectionPlanEventId: any
   userid: any
   Form: FormGroup
   Formstatus: FormGroup
@@ -26,6 +27,7 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
     private authorize: AuthorizeService
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
+    this.inspectionPlanEventId = activatedRoute.snapshot.paramMap.get('inspectionplaneventid')
   }
   get f() { return this.Form.controls; }
   get t() { return this.f.result as FormArray; }
@@ -48,7 +50,7 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
     this.getQuestionPeople()
   }
   getQuestionPeople() {
-    this.answersubjectservice.getcentralpolicyprovince(this.id)
+    this.answersubjectservice.getcentralpolicyprovince(this.id, this.inspectionPlanEventId)
       .subscribe(result => {
         this.resultQuestionPeople = result
         this.spinner.hide();
@@ -63,6 +65,7 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
       this.t.push(this.fb.group({
         CentralPolicyProvinceId: [parseInt(this.id)],
         CentralPolicyEventQuestionId: [this.resultQuestionPeople[i].id],
+        AnswerCentralPolicyProvinceStatusId: [],
         UserId: [this.userid],
         Question: [this.resultQuestionPeople[i].questionPeople],
         Answer: [""]
@@ -71,16 +74,24 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
     // console.log("Form",this.t.value);
 
   }
-  storeanswer(valuestatus) {
-    this.spinner.show();
+  storestatus(valuestatus) {
+    this.answersubjectservice.addStatusrole7(valuestatus, this.resultQuestionPeople[0].centralPolicyEventId, this.userid).subscribe(result => {
+      console.log("result", result.id);
+      var statusid = result.id
+      this.storeanswer(statusid);
+      this.spinner.show();
+
+    })
+  }
+  storeanswer(statusid) {
+    for (let i = 0; i < this.t.value.length; i++) {
+      this.t.at(i).patchValue({
+        AnswerCentralPolicyProvinceStatusId: statusid
+      })
+    }
     console.log("Form", this.t.value);
     this.answersubjectservice.addAnswercentralpolicyprovince(this.t.value).subscribe(result => {
       console.log("result", result);
-      this.storestatus(valuestatus)
-    })
-  }
-  storestatus(valuestatus) {
-    this.answersubjectservice.addStatusrole7(valuestatus, this.resultQuestionPeople[0].centralPolicyEventId, this.userid).subscribe(result => {
       this.spinner.hide();
       this.Form.reset();
       this.Formstatus.reset();
