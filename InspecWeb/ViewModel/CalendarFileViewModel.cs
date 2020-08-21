@@ -16,6 +16,7 @@ namespace InspecWeb.ViewModel
         public List<IFormFile> signatureFiles { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
+        public string Suggestion { get; set; }
         public DateTime NotificationSubjectDate { get; set; }
         public DateTime DeadlineSubjectDate { get; set; }
         public DateTime NotificationPeopleQuestiontDate { get; set; }

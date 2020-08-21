@@ -1143,9 +1143,9 @@ namespace InspecWeb.Controllers
         [HttpPost("subjectevent")]
         public IActionResult PostSubjectEvent([FromBody] subjectevent model)
         {
-            var roleid = _context.Users
+            var userdata = _context.Users
              .Where(m => m.Id == model.CreatedBy)
-             .Select(m => m.Role_id)
+             //.Select(m => m.Role_id)
              .FirstOrDefault();
 
             System.Console.WriteLine("in");
@@ -1159,7 +1159,8 @@ namespace InspecWeb.Controllers
                 CreatedAt = date,
                 CreatedBy = model.CreatedBy,
                 Status = "ร่างกำหนดการ",
-                RoleCreatedBy = roleid.ToString(),
+                RoleCreatedBy = userdata.Role_id.ToString(),
+                ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
             };
             _context.InspectionPlanEvents.Add(inspectionplanevent);
             _context.SaveChanges();
@@ -1188,6 +1189,14 @@ namespace InspecWeb.Controllers
                     HaveSubject = 1,
                 };
                 _context.CentralPolicyEvents.Add(CentralPolicyEventsdata);
+                _context.SaveChanges();
+
+                var SubjectGroupPeopleQuestiondata = new SubjectGroupPeopleQuestion
+                {
+                    SubjectGroupId = SubjectGroupdata.Id,
+                    CentralPolicyEventId = CentralPolicyEventsdata.Id,
+                };
+                _context.SubjectGroupPeopleQuestions.Add(SubjectGroupPeopleQuestiondata);
                 _context.SaveChanges();
 
                 var subjectcen = _context.SubjectCentralPolicyProvinces
@@ -1805,7 +1814,7 @@ namespace InspecWeb.Controllers
             //    //_context.SaveChanges();
             //}
 
-            var year = _context.FiscalYears
+            var year = _context.FiscalYearNew
                 .Where(m => m.Year == DateTime.Now.Year + 543).FirstOrDefault();
             System.Console.WriteLine("year" + year.Id);
             //if(year == null)

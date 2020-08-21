@@ -17,6 +17,7 @@ import { SubquestionService } from 'src/app/services/subquestion.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import * as _ from 'lodash';
 import { ReportService } from 'src/app/services/report.service';
+import { AnyAaaaRecord } from 'dns';
 @Component({
   selector: 'app-detail-subjectevent',
   templateUrl: './detail-subjectevent.component.html',
@@ -55,6 +56,7 @@ export class DetailSubjecteventComponent implements OnInit {
   EditForm4: FormGroup;
   FormSubject: FormGroup;
   FormReport: FormGroup;
+  FormReportComment: FormGroup;
   AddForm: FormGroup;
   selectpeople: Array<any>
   selectministrypeople: Array<any>
@@ -141,7 +143,9 @@ export class DetailSubjecteventComponent implements OnInit {
 
   filterboxdepartments: any = []
   checkTypeReport: any;
+  checkTypeReportPeople: any;
   select = []
+  answerpeople: any = []
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -213,6 +217,8 @@ export class DetailSubjecteventComponent implements OnInit {
 
       notificationpeoplequestiondate: new FormControl(null),
       deadlinepeoplequestiondate: new FormControl(null),
+
+      suggestion: new FormControl(null),
     })
 
 
@@ -240,10 +246,13 @@ export class DetailSubjecteventComponent implements OnInit {
         // this.initdepartment()
       ]),
     })
-
     this.FormReport = this.fb.group({
       type: new FormControl(null, [Validators.required]),
       provincialDepartmentId: new FormControl(null, [Validators.required])
+    })
+    this.FormReportComment = this.fb.group({
+      type: new FormControl(null, [Validators.required]),
+      userid: new FormControl(null, [Validators.required])
     })
     await this.getDetailCentralPolicyProvince()
     await this.getsubjecteventDetail();
@@ -416,6 +425,10 @@ export class DetailSubjecteventComponent implements OnInit {
     this.checkTypeReport = 0;
     this.modalRef = this.modalService.show(template);
   }
+  reportModalComment(template: TemplateRef<any>) {
+    this.checkTypeReportPeople = 0;
+    this.modalRef = this.modalService.show(template);
+  }
   report1(value) {
     // alert(myradio)
     this.checkTypeReport = 1;
@@ -433,6 +446,20 @@ export class DetailSubjecteventComponent implements OnInit {
   report3(value) {
     // alert(myradio)
     this.checkTypeReport = 3;
+  }
+  reportcomment1(value) {
+    // alert(myradio)
+    this.checkTypeReportPeople = 1;
+    this.FormReportComment.patchValue({
+      type: this.checkTypeReportPeople,
+    })
+  }
+  reportcomment2(value) {
+    // alert(myradio)
+    this.checkTypeReportPeople = 2;
+    this.FormReportComment.patchValue({
+      type: this.checkTypeReportPeople,
+    })
   }
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
@@ -527,7 +554,8 @@ export class DetailSubjecteventComponent implements OnInit {
         // alert(JSON.stringify(this.subjectgroup.status))
         this.form.patchValue({
           // questionPeople: this.centralpolicyprovincedata.questionPeople,
-          status: this.subjectgroup.status
+          status: this.subjectgroup.status,
+          suggestion: this.subjectgroup.suggestion
         })
 
         this.getquestion();
@@ -906,11 +934,11 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   openModalSubject2(template: TemplateRef<any>, subjectid) {
-    this.departmentService.getalldepartdata().subscribe(res => {
+    this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.id,
-          label: item.name
+          value: item.provincialDepartmentId,
+          label: item.provincialDepartment.name
         }
       })
 
@@ -936,11 +964,11 @@ export class DetailSubjecteventComponent implements OnInit {
   }
 
   openModalSubject(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
-    this.departmentService.getalldepartdata().subscribe(res => {
+    this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.id,
-          label: item.name
+          value: item.provincialDepartmentId,
+          label: item.provincialDepartment.name
         }
       })
 
@@ -973,11 +1001,11 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   openModal2(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
     this.subjectid = subjectid
-    this.departmentService.getalldepartdata().subscribe(res => {
+    this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.id,
-          label: item.name
+          value: item.provincialDepartmentId,
+          label: item.provincialDepartment.name
         }
       })
 
@@ -1029,7 +1057,7 @@ export class DetailSubjecteventComponent implements OnInit {
   storeSubject(value) {
     // alert("123")
     // this.spinner.show();
-    console.log("valuevaluevaluevaluevaluevaluevaluevalue",value);
+    console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
     this.subjectservice.addSubjectRole3(value).subscribe(response => {
 
       this.AddForm.reset();
@@ -1045,7 +1073,7 @@ export class DetailSubjecteventComponent implements OnInit {
       // this.modalRef.hide();
     })
   }
-  storeReport2(value) {
+  storeReportPerformance(value) {
     console.log(value);
     this.reportservice.createReporttype1(value).subscribe(result => {
       this.FormQuestion.reset();
@@ -1053,11 +1081,27 @@ export class DetailSubjecteventComponent implements OnInit {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }
-  storeReport3() {
+  storeReportPerformance2() {
     console.log(this.provinceid);
-    this.reportservice.createReporttype2(this.FormReport.value,this.provinceid,this.id,this.subjectgroupid).subscribe(result => {
+    this.reportservice.createReporttype2(this.FormReport.value, this.provinceid, this.id, this.subjectgroupid).subscribe(result => {
       this.FormQuestion.reset();
       this.modalRef.hide();
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportQuestionnaire() {
+    this.reportservice.createReportQuestionnaire(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportComment(value) {
+    console.log(value);
+    this.reportservice.createReportCommenttype1(value).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportComment2() {
+    this.reportservice.createReportCommenttype2(this.FormReportComment.value, this.provinceid).subscribe(result => {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }
@@ -1071,7 +1115,17 @@ export class DetailSubjecteventComponent implements OnInit {
   getquestion() {
     this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
       this.questionpeople = res;
+      this.questionpeople.forEach(element => {
+        this.answerpeople.push(element.answerCentralPolicyProvinces)
+      });
+      this.select = this.questionpeople[0].answerCentralPolicyProvinces.map((item, index) => {
+        return {
+          value: item.user.id,
+          label: item.user.name,
+        }
+      })
       console.log("question: ", this.questionpeople);
+      console.log("test", this.answerpeople);
     })
   }
 

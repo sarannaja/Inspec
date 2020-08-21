@@ -28,6 +28,16 @@ namespace InspecWeb.Controllers
                                select P;
             return provincialdepartmentdata;
         }
+
+        // GET: api/values
+        //[HttpGet("provincialdepartment")]
+        //public IActionResult Getprovincialdepartment()
+        //{
+        //    var provincialdepartmentdata =  _context.ProvincialDepartmentProvince
+        //                                   .Include(m => m.ProvincialDepartment).ToList();
+        //    return Ok(provincialdepartmentdata);
+        //}
+
         //สำหรับใช้ตรงข้อมูลสนับสนุน
         [HttpGet("departmentsforsupport/{id}")]
         public IActionResult GetDepartments(long id)
@@ -119,7 +129,10 @@ namespace InspecWeb.Controllers
             var departmentdata = new Department
             {
                 MinistryId = request.MinistryId,
-                Name = request.Name,         
+                Name = request.Name,
+                NameEN = request.NameEN,
+                ShortnameEN = request.ShortnameEN,
+                ShortnameTH = request.ShortnameTH,
                 CreatedAt = date
             };
 
@@ -136,9 +149,13 @@ namespace InspecWeb.Controllers
             Console.WriteLine("department 1 :" + id +"///"+ request.Name);
             var department = _context.Departments.Find(id);
                 department.Name = request.Name;
-      
-            _context.Entry(department).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+                department.NameEN = request.NameEN;
+                department.ShortnameEN = request.ShortnameEN;
+                department.ShortnameTH = request.ShortnameTH;
+
+
+                _context.Entry(department).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
 
         }
 
@@ -163,4 +180,8 @@ public class DepartmentRequest
     public long MinistryId { get; set; }
 
     public string Name { get; set; }
+    public string NameEN { get; set; }
+    public string ShortnameEN { get; set; }
+    public string ShortnameTH { get; set; }
+
 }

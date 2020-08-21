@@ -30,8 +30,8 @@ export class AnswersubjectService {
   getsubjectdetaildata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "subjectdetail/" + id)
   }
-  getcentralpolicyprovince(id): Observable<GetQuestionPeople[]> {
-    return this.http.get<GetQuestionPeople[]>(this.url + "centralpolicyprovince/" + id)
+  getcentralpolicyprovince(id,inspectionPlanEventId): Observable<GetQuestionPeople[]> {
+    return this.http.get<GetQuestionPeople[]>(this.url + "centralpolicyprovince/" + id + "/" + inspectionPlanEventId)
   }
   getAnsweruser(userid) {
     return this.http.get<any>(this.url + "answeruser/" + userid)
@@ -70,10 +70,6 @@ export class AnswersubjectService {
   }
   addAnswercentralpolicyprovince(answercentralpolicyprovincedata) {
     console.log("answerdata", answercentralpolicyprovincedata);
-    // const formData = new FormData();
-    // formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
-    // formData.append('UserId', userid);
-    // formData.append('Answer', answerdata.AnswerPeople);
     const formData = {
       inputanswercentralpolicyprovince: answercentralpolicyprovincedata,
     }
@@ -136,7 +132,7 @@ export class AnswersubjectService {
     formData.append('UserId', UserId);
     formData.append('Status', StatusData.Status);
 
-    return this.http.post(this.url + "addstatusrole7", formData);
+    return this.http.post<any>(this.url + "addstatusrole7", formData);
   }
   editAnswer(Answerdata, id) {
     console.log(Answerdata[0].Description);

@@ -29,7 +29,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>ชื่อกรม</th>
+                            <th>ชื่อกรม(TH)</th>
+                            <th>ชื่อกรมย่อ(TH)</th>
+                            <th>ชื่อกรม(EN)</th>
+                            <th>ชื่อกรมย่อ(EN)</th>
                             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
@@ -37,13 +40,19 @@
                         <tr *ngFor="let item of resultdepartment; let i = index">
                             <td>{{ i + 1 }}</td>
                             <td (click)="viewProvincialDepartment(item.id)" class="pointer">{{ item.name }}</td>
+                            <td>{{item.shortnameTH}}</td>
+                            <td>{{item.nameEN}}</td>
+                            <td>{{item.shortnameEN}}</td>
                             <td>
-                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                  (click)="editModal(modaleditDepartment, item.id,item.name)">
-                                </i>
-                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                                  (click)="deleteModal(modaldeleteDepartment, item.id)">
-                                </i>
+                              <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล"
+                               (click)="editModal(modaleditDepartment, item.id,item.name,item.nameEN,item.shortnameEN,item.shortnameTH)">
+                                <i class="align-middle fas fa-fw fa-pen pointer"></i>
+                              </button>
+                              <button class="btn btn-danger btn-pill btn-sm" title="แก้ไขข้อมูล" 
+                                (click)="deleteModal(modaldeleteDepartment, item.id)">
+                                <i class="align-middle fas fa-fw fa-trash-alt pointer"></i>
+                              </button>
+                                
                             </td>
                         </tr>
                     </tbody>
@@ -65,9 +74,24 @@
 
         <div class="modal-body m-3">
             <div class="form-group">
-                <label for="Name" class="form-label">ชื่อ</label>
+                <label for="Name" class="form-label">ชื่อกรม(TH)</label>
                 <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
-            </div>         
+            </div>
+            <div class="form-group">
+              <label for="xx" class="form-label">ชื่อย่อกรม(TH)</label>
+              <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+              <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="ชื่อย่อกรม(TH)">
+            </div>
+            <div class="form-group">
+              <label for="xx" class="form-label">ชื่อกรม(EN)</label>
+              <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+              <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อกรม(EN)">
+            </div>
+            <div class="form-group">
+              <label for="xx" class="form-label">ชื่อย่อกรม(EN)</label>
+              <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+              <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="ชื่อย่อกรม(EN)">
+            </div>       
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -91,10 +115,25 @@
         </div>
 
         <div class="modal-body m-3">
-            <div class="form-group">
-                <label for="Name" class="form-label">ชื่อ</label>
-                <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
-            </div>         
+          <div class="form-group">
+            <label for="Name" class="form-label">ชื่อกรม(TH)</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
+          </div>  
+          <div class="form-group">
+            <label for="xx" class="form-label">ชื่อย่อกรม(TH)</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="ชื่อย่อกรม(TH)">
+          </div>
+          <div class="form-group">
+            <label for="xx" class="form-label">ชื่อกรม(EN)</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อกรม(EN)">
+          </div>
+          <div class="form-group">
+            <label for="xx" class="form-label">ชื่อย่อกรม(EN)</label>
+            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+            <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="ชื่อย่อกรม(EN)">
+          </div>       
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>

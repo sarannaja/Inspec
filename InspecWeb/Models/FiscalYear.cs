@@ -20,8 +20,8 @@ namespace InspecWeb.Models
         public long Id { get; set; }
 
         [Required]
-        [Description("ชื่อปีงบประมาณ")]
-        public int Year { get; set; }
+        [Description("คำสั่งเขตตรวจ")]
+        public string Year { get; set; }
 
 
         [Description("วันที่สร้าง")]

@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { IMyOptions } from 'mydatepicker-th';
 import { DepartmentService } from '../services/department.service';
 import { FiscalyearService } from '../services/fiscalyear.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-user',
@@ -25,8 +26,7 @@ export class UserComponent implements OnInit {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
-  re2 = /ตรวจราชการ/g
-  re3 = /เขตตรวจราช/g
+  re2 = /เขตตรวจราชการที่/g
   MinistryId
   DepartmentId
   modalRef: BsModalRef;
@@ -117,25 +117,30 @@ export class UserComponent implements OnInit {
   dataside: any = [
     {
       id: 'วิชาการ',
-      name: 'วิชาการ'
+      name: 'วิชาการ',
+      shortnameEN : 'aca'
     },
     {
       id: 'สังคม',
-      name: 'สังคม'
+      name: 'สังคม',
+      shortnameEN : 'soc'
     },
     {
       id: 'สิ่งแวดล้อม',
-      name: 'สิ่งแวดล้อม'
+      name: 'สิ่งแวดล้อม',
+      shortnameEN : 'env'
     },
     {
       id: 'เศรษฐกิจ',
-      name: 'เศรษฐกิจ'
+      name: 'เศรษฐกิจ',
+      shortnameEN : 'eco'
     },
   ]
   fiscalYearId: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
 
   constructor(
+    private _NotofyService: NotofyService,
     private modalService: BsModalService,
     private router: Router,
     private provinceService: ProvinceService,
@@ -247,8 +252,9 @@ export class UserComponent implements OnInit {
   }
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, side,
-    commandnumber, commandnumberdate, email, prefix, fname,lname, position, phoneNumber, startdate, enddate, img) {
+    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img) {
     //alert(UserProvince);
+    // console.log("gg",item.userProvince,'userprovince',UserProvince);
     this.addForm.reset()
     this.id = id;
     this.img = img;
@@ -292,7 +298,13 @@ export class UserComponent implements OnInit {
       UserRegion: userRegion.map(result => {
         return result.regionId
       }),
-      UserProvince: UserProvince,
+      UserProvince: this.roleId == 9 ? UserProvince.map(result => {
+        console.log("gg", result);
+
+        return result.provinceId
+      }) : UserProvince,
+
+      // UserProvince: UserProvince,
       files: new FormControl(null, [Validators.required]),
       Startdate: this.time(startdate),
       Enddate: this.ed,
@@ -303,9 +315,12 @@ export class UserComponent implements OnInit {
       Img: img,
     })
     this.DepartmentId = departmentId
-    this.getDataDepartments({ value: departmentId })
+    // console.log(' value: departmentId', departmentId);
+
+    this.getDataDepartments({ value: ministryId })
+    this.getProvincialDepartments({ value: departmentId })
     this.MinistryId = ministryId
-  
+
     this.modalRef = this.modalService.show(template);
   }
 
@@ -376,11 +391,11 @@ export class UserComponent implements OnInit {
     this.userService.getuserdata(this.roleId)
       .subscribe(result => {
         this.resultuser = result;
-        console.log('resultuser',result);
-        
+        //console.log('resultuser', result);
+
         this.loading = true
         this.spinner.hide();
-       // console.log("userdata", this.resultuser);
+        // console.log("userdata", this.resultuser);
       })
   }
 
@@ -425,13 +440,13 @@ export class UserComponent implements OnInit {
     this.ministryService.getministry()
       .subscribe(result => {
 
-        if(this.roleId != 1 && this.roleId != 2){
+        if (this.roleId != 1 && this.roleId != 2) {
           this.selectdataministry = result.filter((item, index) => {
             return item.id != 1
           }).map((item, index) => {
             return { value: item.id, label: item.name }
           })
-        }else{
+        } else {
           this.selectdataministry = result.map((item, index) => {
             return { value: item.id, label: item.name }
           })
@@ -444,6 +459,8 @@ export class UserComponent implements OnInit {
   getDataDepartments(event) {
     this.departmentService.getdepartmentsforuserdata(event.value)
       .subscribe(result => {
+        console.log('result', result);
+
         this.selectdatadeparment = result.map((item, index) => {
           return { value: item.id, label: item.name }
         })
@@ -476,13 +493,14 @@ export class UserComponent implements OnInit {
       this.addForm.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
       this.getUser()
     })
   }
 
   updateuser(value) {
     // alert(1);
-    this.userService.editprofile(value, this.addForm.value.files,null, this.id).subscribe(response => {
+    this.userService.editprofile(value, this.addForm.value.files, null, this.id).subscribe(response => {
       //alert(3);
       this.addForm.reset()
       this.modalRef.hide()

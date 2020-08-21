@@ -36,6 +36,17 @@ namespace InspecWeb.Models
         public string Name { get; set; }
 
         [Required]
+        [Description("ชื่อจังหวัดอังกฤษ")]
+        public string NameEN { get; set; }
+
+       
+        [Description("ชื่อจังหวัดอังกฤษย่อ")]
+        public string ShortnameEN { get; set; }
+
+        [Description("ชื่อจังหวัดย่อ")]
+        public string ShortnameTH { get; set; }
+
+        [Required]
         [Description("ลิ้งค์")]
         public string Link { get; set; }
 

@@ -2,6 +2,7 @@
   <h1 class="header-title">
     ผู้สมัครเข้าร่วมอบรม
   </h1>
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
@@ -14,6 +15,10 @@
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">ผู้สมัครเข้าร่วมอบรม</h5>
         <div class="float-right">
+          <button class="btn btn-primary" title="รายงานผู้สมัครเข้าร่วมอบรม" style="margin-top: -60px;"
+          (click)="Report()"> <i
+              class="align-middle fas fa-fw fa-download pointer"></i>
+          </button>
           <!-- <button class="btn btn-primary" (click)="CreateTraining()"
                       style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button> -->
           <br>
@@ -389,5 +394,4 @@
     <!-- </div> -->
   </ng-template>
   <!-- END primary modal -->
-
 </div>

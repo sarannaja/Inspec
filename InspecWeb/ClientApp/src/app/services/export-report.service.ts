@@ -747,4 +747,16 @@ export class ExportReportService {
 
     return this.http.post<any>(this.url + "/getCelendarReportById", formData);
   }
+
+
+  CreateReportTrainingRegister(trainingid) {
+
+    // alert(trainingid)
+
+    const formData = {
+      TrainingId: trainingid,
+    }
+
+    return this.http.post<any>(this.url + "/CreateReportTrainingRegister", formData)
+  }
 }

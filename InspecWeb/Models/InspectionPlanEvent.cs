@@ -24,7 +24,7 @@ namespace InspecWeb.Models
         [ForeignKey("ProvincialDepartment")]
         [Description("FK: หน่วยงานส่วนภูมิถาค")]
         public long ProvincialDepartmentIdCreatedBy { get; set; }
-        public virtual ProvincialDepartment ProvincialDepartments { get; set; }
+        public virtual ProvincialDepartment ProvincialDepartment { get; set; }
 
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]
