@@ -107,17 +107,18 @@
                           </button> -->
 
                           <button style="margin-top: -10px; margin-left: 10px;"
-                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'"
-                            type="button" class="btn btn-info"
+                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
+                            class="btn btn-info"
                             (click)="openModalSubject2(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
                           <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
-                            <button  type="button" *ngIf="item.answerSubquestions.length != 0 && subjectgroupstatus == 'รายงานแล้ว' && iii == 0"
-                            (click)="reportModal(modalreportreportperformance, item.subjectCentralPolicyProvinceGroups)"
-                            style="margin-left: 20px; font-size: small;"
-                            class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
-                          </button>
+                            <button type="button"
+                              *ngIf="item.answerSubquestions.length != 0 && subjectgroupstatus == 'รายงานแล้ว' && iii == 0"
+                              (click)="reportModal(modalreportreportperformance, item.subjectCentralPolicyProvinceGroups)"
+                              style="margin-left: 20px; font-size: small;"
+                              class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
+                            </button>
                           </div>
                           <!-- <i class="fas fa-plus-circle pointer"
                             style="font-size:22px; color: green; margin-left: 10px; margin-bottom: -5px;"
@@ -259,9 +260,9 @@
                           style="margin-left: 20px; font-size: small;"
                           class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
                         </button> -->
-                        <button *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="btn btn-danger" id="graph{{i}}" data-toggle="collapse" type="button"
-                          [attr.data-target]="'#graphs' + i" aria-expanded="false" aria-controls="graphs"
-                          style="margin-left: 20px; font-size: small;">แสดงกราฟ
+                        <button *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="btn btn-danger" id="graph{{i}}"
+                          data-toggle="collapse" type="button" [attr.data-target]="'#graphs' + i" aria-expanded="false"
+                          aria-controls="graphs" style="margin-left: 20px; font-size: small;">แสดงกราฟ
                           <!-- <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i> -->
                         </button>
                         <!-- <button (click)="showGraph(item,item.id)">
@@ -333,13 +334,13 @@
                         <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
                           <!-- <u>ตัวเลือกคำถาม</u> -->
                           <!-- <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index"> -->
-                            <div *ngFor="let item3 of item.answerSubquestions;let iii = index">
-                              <div *ngIf="item3.answerSubquestionStatus.status == 'ใช้งานจริง'" class="row">
-                                <div class="col-2">{{iii+1}}. โดย {{item3.user.name}}</div>
-                                <div class="col-5">ตอบ {{item3.answer}}</div>
-                                <div class="col-5">คำอธิบาย {{item3.description}}</div>
-                              </div>
+                          <div *ngFor="let item3 of item.answerSubquestions;let iii = index">
+                            <div *ngIf="item3.answerSubquestionStatus.status == 'ใช้งานจริง'" class="row">
+                              <div class="col-2">{{iii+1}}. โดย {{item3.user.name}}</div>
+                              <div class="col-5">ตอบ {{item3.answer}}</div>
+                              <div class="col-5">คำอธิบาย {{item3.description}}</div>
                             </div>
+                          </div>
                           <!-- </div> -->
                         </td>
                       </div>
@@ -428,8 +429,9 @@
                 </div>
               </div>
             </div>
+            <hr>
           </div>
-          <hr>
+
           <!-- {{subjectgroupland}} -->
 
           <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
@@ -448,6 +450,13 @@
                 disabled>
               <label style="margin-left: 10px;">ใช้งาน</label>
             </div>
+          </div>
+
+          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="row form-group" style="margin-left: 2px;">
+            <i class="fa fa-tags" style="margin-top: 5px;"></i>
+            <h4 style="margin-left: 15px;">ข้อเสนอแนะ</h4>
+            <textarea cols="30" rows="2" type="text" formControlName="suggestion" class="form-control"
+              placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
           </div>
 
           <br>
@@ -1030,8 +1039,8 @@
             <div class="form-group">
               <label>หน่วยงาน</label>
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
-              [items]="select" formControlName="provincialDepartmentId">
-              <!-- (ngModelChange)="addsubjectdepartment2($event,'add')"
+                [items]="select" formControlName="provincialDepartmentId">
+                <!-- (ngModelChange)="addsubjectdepartment2($event,'add')"
               (deselected)="addsubjectdepartment2($event,'remove')" -->
               </ng-select>
             </div>

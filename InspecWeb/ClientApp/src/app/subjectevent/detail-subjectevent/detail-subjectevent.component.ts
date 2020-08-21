@@ -213,6 +213,8 @@ export class DetailSubjecteventComponent implements OnInit {
 
       notificationpeoplequestiondate: new FormControl(null),
       deadlinepeoplequestiondate: new FormControl(null),
+
+      suggestion: new FormControl(null),
     })
 
 
@@ -527,7 +529,8 @@ export class DetailSubjecteventComponent implements OnInit {
         // alert(JSON.stringify(this.subjectgroup.status))
         this.form.patchValue({
           // questionPeople: this.centralpolicyprovincedata.questionPeople,
-          status: this.subjectgroup.status
+          status: this.subjectgroup.status,
+          suggestion: this.subjectgroup.suggestion
         })
 
         this.getquestion();
@@ -906,11 +909,11 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   openModalSubject2(template: TemplateRef<any>, subjectid) {
-    this.departmentService.getalldepartdata().subscribe(res => {
+    this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.id,
-          label: item.name
+          value: item.provincialDepartmentId,
+          label: item.provincialDepartment.name
         }
       })
 
@@ -936,11 +939,11 @@ export class DetailSubjecteventComponent implements OnInit {
   }
 
   openModalSubject(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
-    this.departmentService.getalldepartdata().subscribe(res => {
+    this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.id,
-          label: item.name
+          value: item.provincialDepartmentId,
+          label: item.provincialDepartment.name
         }
       })
 
@@ -973,11 +976,11 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   openModal2(template: TemplateRef<any>, subjectid, departmentSelected: any[] = []) {
     this.subjectid = subjectid
-    this.departmentService.getalldepartdata().subscribe(res => {
+    this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.id,
-          label: item.name
+          value: item.provincialDepartmentId,
+          label: item.provincialDepartment.name
         }
       })
 

@@ -587,15 +587,13 @@ namespace InspecWeb.Controllers
         [HttpPut("editstatus/{id}")]
         public void Put2(long id, string status,long subjectGroupId)
         {
-
-
             if (status == "ใช้งานจริง")
             {
                 var answer = _context.AnswerSubquestionStatuses
-               .Where(m => m.Id == id)
-               .FirstOrDefault();
+                .Where(m => m.Id == id)
+                .FirstOrDefault();
 
-                var subjects = _context.AnswerSubquestionStatuses
+                var AnswerSubquestionStatuses = _context.AnswerSubquestionStatuses
                     .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
                     .Include(m => m.User)
                     .OrderBy(m => m.User.ProvincialDepartmentId)
@@ -605,9 +603,9 @@ namespace InspecWeb.Controllers
                 long n = 0;
                 long checkn = 0;
                 var count = 0;
-                foreach (var subject in subjects)
+                foreach (var AnswerSubquestionStatus in AnswerSubquestionStatuses)
                 {
-                    checkn = subject;
+                    checkn = AnswerSubquestionStatus;
                     if (n != checkn)
                     {
                         n = checkn;
@@ -617,8 +615,8 @@ namespace InspecWeb.Controllers
                     {
                         n = checkn;
                     }
-
                 }
+
                 var subque = _context.SubquestionCentralPolicyProvinces
                   .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
                   .FirstOrDefault();
@@ -626,13 +624,28 @@ namespace InspecWeb.Controllers
                 var invited_depart = _context.SubjectCentralPolicyProvinceGroups
                            .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id).Count(); //department invited
 
-                if(count == invited_depart)
+                if (count == invited_depart)
+                {
+                    var subjectdata = _context.SubjectCentralPolicyProvinces.Find(answer.SubjectCentralPolicyProvinceId);
+                    subjectdata.CheckAnswer = 1;
+                    _context.Entry(subjectdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+                var subjectall = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.SubjectGroupId == subjectGroupId && m.Type == "NoMaster").Count();
+
+                var subjectcheckanswer = _context.SubjectCentralPolicyProvinces
+               .Where(m => m.SubjectGroupId == subjectGroupId && m.Type == "NoMaster" && m.CheckAnswer == 1).Count();
+
+                if (subjectall == subjectcheckanswer)
                 {
                     var subjectgroupdata = _context.SubjectGroups.Find(subjectGroupId);
                     subjectgroupdata.Status = "รายงานแล้ว";
                     _context.Entry(subjectgroupdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     _context.SaveChanges();
                 }
+
                 System.Console.WriteLine("answer.SubjectCentralPolicyProvinceId" + answer.SubjectCentralPolicyProvinceId);
                 System.Console.WriteLine("subque.Id" + subque.Id);
                 System.Console.WriteLine("Count" + count);
@@ -707,7 +720,7 @@ namespace InspecWeb.Controllers
                .Where(m => m.Id == Statusdata.Id)
                .FirstOrDefault();
 
-                var subjects = _context.AnswerSubquestionStatuses
+                var AnswerSubquestionStatuses = _context.AnswerSubquestionStatuses
                     .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
                     .Include(m => m.User)
                     .OrderBy(m => m.User.ProvincialDepartmentId)
@@ -717,9 +730,9 @@ namespace InspecWeb.Controllers
                 long n = 0;
                 long checkn = 0;
                 var count = 0;
-                foreach (var subject in subjects)
+                foreach (var AnswerSubquestionStatuse in AnswerSubquestionStatuses)
                 {
-                    checkn = subject;
+                    checkn = AnswerSubquestionStatuse;
                     if (n != checkn)
                     {
                         n = checkn;
@@ -732,19 +745,34 @@ namespace InspecWeb.Controllers
 
                 }
                 var subque = _context.SubquestionCentralPolicyProvinces
-                  .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
-                  .FirstOrDefault();
+                    .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                    .FirstOrDefault();
 
                 var invited_depart = _context.SubjectCentralPolicyProvinceGroups
                            .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id).Count(); //department invited
 
                 if (count == invited_depart)
                 {
+                    var subjectdata = _context.SubjectCentralPolicyProvinces.Find(answer.SubjectCentralPolicyProvinceId);
+                    subjectdata.CheckAnswer = 1;
+                    _context.Entry(subjectdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+                var subjectall = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.SubjectGroupId == subjectGroupId && m.Type == "NoMaster").Count();
+
+                var subjectcheckanswer = _context.SubjectCentralPolicyProvinces
+               .Where(m => m.SubjectGroupId == subjectGroupId && m.Type == "NoMaster" && m.CheckAnswer == 1).Count();
+
+                if (subjectall == subjectcheckanswer)
+                {
                     var subjectgroupdata = _context.SubjectGroups.Find(subjectGroupId);
                     subjectgroupdata.Status = "รายงานแล้ว";
                     _context.Entry(subjectgroupdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     _context.SaveChanges();
                 }
+
                 System.Console.WriteLine("answer.SubjectCentralPolicyProvinceId" + answer.SubjectCentralPolicyProvinceId);
                 System.Console.WriteLine("subque.Id" + subque.Id);
                 System.Console.WriteLine("Count" + count);
