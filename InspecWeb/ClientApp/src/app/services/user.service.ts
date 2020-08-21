@@ -107,7 +107,14 @@ export class UserService {
 
       if (userData.UserProvince != null) {
         // alert(userData.UserProvince);
+        if(roleId == 9){
+          for (var i = 0; i < userData.UserProvince.length; i++) {
+            formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+          }
+        }else{
           formData.append('UserProvinceId', userData.UserProvince); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+        }
+          
       } else {
        // alert(1);
         formData.append('UserProvinceId', '1');
@@ -234,7 +241,14 @@ export class UserService {
     }
 
     if (userData.UserProvince != null) {
+       // alert(userData.UserProvince);
+       if(userData.Role_id == 9){
+        for (var i = 0; i < userData.UserProvince.length; i++) {
+          formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+        }
+      }else{
         formData.append('UserProvinceId', userData.UserProvince); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+      }
     } else {
       formData.append('UserProvinceId', '1');
     }
@@ -258,10 +272,20 @@ export class UserService {
     }
 
     if (userData.MinistryId == null) { 
-      formData.append('MinistryId', '1');
+      if(userData.Role_id == 4 || userData.Role_id == 5){
+        formData.append('MinistryId', '13');
+      }else{
+        formData.append('MinistryId', '1');
+      }
+     
     } else {
-      formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+      if(userData.Role_id == 4 || userData.Role_id == 5){
+        formData.append('MinistryId', '13');
+      }else{
+        formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+      }
     }
+
 
     if (userData.DepartmentId == null) {
       formData.append('DepartmentId', '1');

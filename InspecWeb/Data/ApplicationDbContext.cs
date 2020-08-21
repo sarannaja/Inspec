@@ -156,7 +156,11 @@ namespace InspecWeb.Data
         public DbSet<Circularletter> Circularletters { get; set; } //<!-- กฎหมาย ระเบียบ หนังสือเวียนต่าง ๆ -->
 
         public DbSet<SubjectGroupPeopleQuestion> SubjectGroupPeopleQuestions { get; set; }
-        
+
+        public DbSet<Typeexaminationplan> Typeexaminationplans { get; set; } //<!-- ประเภทแผนการตรวจ -->
+        public DbSet<FiscalYearNew> FiscalYearNew { get; set; } //<!-- ปีงบประมาณที่แท้จริง -->
+        public DbSet<Side> Sides { get; set; } //<!-- ด้าน -->
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -415,6 +419,9 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
             builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
             builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
+            builder.ApplyConfiguration(new FiscalYearNewSeeder());//ปีที่แท้
+            builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
+            builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
         }
     }
 }

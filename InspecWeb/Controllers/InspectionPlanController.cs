@@ -95,7 +95,7 @@ namespace InspecWeb.Controllers
             //           //.ThenInclude(m => m.SubjectCentralPolicyProvinces)
             //           .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid)).ToList();
 
-            var year2 = _context.FiscalYears
+            var year2 = _context.FiscalYearNew
                 .Where(m => m.Year == year).FirstOrDefault();
 
             var fiscalyearData = _context.FiscalYears
@@ -118,7 +118,7 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] InspectionPlanViewModel model)
         {
-            var year = _context.FiscalYears
+            var year = _context.FiscalYearNew
                 .Where(m => m.Year == model.FiscalYearId).FirstOrDefault();
             System.Console.WriteLine("year" + year.Id);
             //if(year == null)

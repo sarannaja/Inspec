@@ -39,8 +39,9 @@
     
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- <None Remove="ClientApp\src\assets\favicon.ico" /> -->
+  <ItemGroup><!-- <None Remove="ClientApp\src\assets\favicon.ico" /> -->
+  
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

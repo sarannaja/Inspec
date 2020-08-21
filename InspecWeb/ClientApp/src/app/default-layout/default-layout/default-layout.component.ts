@@ -178,7 +178,7 @@ export class DefaultLayoutComponent implements OnInit {
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.resultuser = result;
-            console.log('data',result);
+            //console.log('data',result);
 
             this.role_id = result[0].role_id
             this.Prefix = result[0].prefix
