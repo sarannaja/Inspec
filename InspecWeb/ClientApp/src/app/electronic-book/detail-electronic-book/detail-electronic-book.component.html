@@ -273,7 +273,7 @@
           </div>
         </div>
         <button
-          *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง' && electronicBookData.electronicBook.status != 'ส่งสมุดตรวจแล้ว'"
+          *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง' && electronicBookData.electronicBook.status != 'ส่งสมุดตรวจแล้ว' && electronicBookData.electronicBook.centralPolicy == null"
           class="btn btn-success" (click)="openInviteModal(modalInviteMinistryPeople)">เชิญผู้ตรวจเพิ่มเติม</button>
         <br>
         <hr>
@@ -634,7 +634,7 @@
               </button>
             </div>
             <div class="modal-body m-3">
-              <div *ngIf="role_id == 3 || role_id == 6">
+              <div *ngIf="role_id == 3">
                 <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
                   [items]="MinistrySelect" name="UserMinistryId" formControlName="UserMinistryId">
@@ -642,17 +642,39 @@
 
                 <br>
               </div>
-              <div *ngIf="role_id == 3 || role_id == 6 || role_id == 10">
+
+              <div *ngIf="role_id == 6">
+                <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+                  [items]="MinistrySelectSame" name="UserMinistryId" formControlName="UserMinistryId">
+                </ng-select>
+
+                <br>
+              </div>
+              <div *ngIf="role_id == 3">
                 <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
                   [items]="DepartmentSelect" name="UserDepartmentId" formControlName="UserDepartmentId">
                 </ng-select>
-                <!-- <br>
+              </div>
+              <div *ngIf="role_id == 6">
+                <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+                  [items]="DepartmentSelectSame" name="UserDepartmentId" formControlName="UserDepartmentId">
+                </ng-select>
+              </div>
+              <div *ngIf="role_id == 10">
+                <label class="form-label">เชิญผู้ตรวจราชการกรม</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+                  [items]="DepartmentSelectSame" name="UserDepartmentId" formControlName="UserDepartmentId">
+                </ng-select>
+              </div>
+              <!-- <br>
               <label class="form-label">เชิญผู้ตรวจราชการภาคประชาชน</label>
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
                 [items]="PeopleSelect" name="UserPeopleId" formControlName="UserPeopleId">
               </ng-select> -->
-              </div>
+
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">บันทึก</button>

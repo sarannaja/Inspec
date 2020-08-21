@@ -20,6 +20,16 @@ namespace InspecWeb.Models
         [Description("ชื่อกระทรวง")]
         public string Name { get; set; }
 
+        [Description("ชื่อกระทรวงแบบย่อ")]
+        public string ShortnameTH { get; set; }
+
+        [Required]
+        [Description("ชื่อกระทรวงอังกฤษ")]
+        public string NameEN { get; set; }
+
+        [Description("ชื่อกระทรวงอังกฤษแบบย่อ")]
+        public string ShortnameEN { get; set; }
+
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }

@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MinistryService } from '../services/ministry.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-ministry',
@@ -21,88 +22,82 @@ export class MinistryComponent implements OnInit {
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private ministryservice: MinistryService,
     private router:Router,
-    public share: MinistryService) { }
+    public share: MinistryService,
+    private _NotofyService: NotofyService,) { }
   ngOnInit() {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [3],
-          orderable: false
-        }
-      ]
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
+    this.getdata();
 
+    this.Form = this.fb.group({
+      Name: new FormControl(null, [Validators.required]),
+      NameEN: new FormControl(null, [Validators.required]),
+      ShortnameEN: new FormControl(null, [Validators.required]),
+      ShortnameTH: new FormControl(null, [Validators.required]),
+    })
+  }
+
+  getdata(){
     this.ministryservice.getministry().subscribe(result=>{
       this.resultministry = result
       this.loading = true;
     })
-    this.Form = this.fb.group({
-      "ministryname": new FormControl(null, [Validators.required]),
-    })
   }
-  openModal(template: TemplateRef<any>, id, name) {
+  openModal(template: TemplateRef<any>, id, Name,NameEN,ShortnameEN,ShortnameTH) {
+    this.Form.reset()
     this.delid = id;
-    this.name = name;
-    console.log(this.delid);
-    console.log(this.name);
-    
+    this.Form.patchValue({
+      Name: Name,
+      NameEN : NameEN,
+      ShortnameEN : ShortnameEN,
+      ShortnameTH : ShortnameTH
+
+    })
     this.modalRef = this.modalService.show(template);
   }
   storeMinistry(value) {
     this.ministryservice.addMinistry(value).subscribe(response => {
-      console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-      this.ministryservice.getministry().subscribe(result => {
-        this.resultministry = result
-        this.loading = true;
-        console.log(this.resultministry);
-      })
+      this.getdata()
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
     })
   }
   deleteMinistry(value) {
     this.ministryservice.deleteMinistry(value).subscribe(response => {
-      console.log(value);
+      this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-      this.ministryservice.getministry().subscribe(result => {
-        this.resultministry = result
-        this.loading = true;
-        console.log(this.resultministry);
-      })
+      this.getdata()
+      this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
-  editModal(template: TemplateRef<any>, id, name) {
-    this.delid = id;
-    this.name = name
-    console.log(this.delid);
-    console.log(this.name);
 
-    this.modalRef = this.modalService.show(template);
-    this.EditForm = this.fb.group({
-      "ministryname": new FormControl(null, [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
-    })
-    this.EditForm.patchValue({
-      "ministryname": name
-    })
-  }
   editMinistry(value,delid) {
-    console.clear();
-    console.log(value);
+   
     this.ministryservice.editMinistry(value,delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-      this.ministryservice.getministry().subscribe(result => {
-        this.resultministry = result
-        this.loading = true;
-       
-      })
+      this.getdata()
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
 

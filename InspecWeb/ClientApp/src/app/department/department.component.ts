@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { MinistryService } from '../services/ministry.service';
 import { DepartmentService } from '../services/department.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-department',
@@ -35,14 +36,35 @@ export class DepartmentComponent implements OnInit {
     private modalService: BsModalService,
     private ministryservice: MinistryService,
     private departmentService: DepartmentService,
+    private _NotofyService: NotofyService,
     ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
    }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+
+    };
     this.getdata();
     this.Form = this.fb.group({
       Name: new FormControl(null, [Validators.required]),
+      NameEN: new FormControl(null, [Validators.required]),
+      ShortnameEN: new FormControl(null, [Validators.required]),
+      ShortnameTH: new FormControl(null, [Validators.required]),
     })
   }
 
@@ -55,7 +77,7 @@ export class DepartmentComponent implements OnInit {
     this.departmentService.getdepartmentsdata(this.id)
 
     .subscribe(result=>{
-      console.log("data",result);
+      //console.log("data",result);
       this.resultdepartment = result
 
       this.loading = true;
@@ -76,11 +98,14 @@ export class DepartmentComponent implements OnInit {
    this.modalRef = this.modalService.show(template);
   }
 
-  editModal(template: TemplateRef<any>, id,Name) {
+  editModal(template: TemplateRef<any>, id,Name,NameEN,ShortnameEN,ShortnameTH) {
    // alert(id);
     this.departmentId = id;
     this.Form.patchValue({
       Name: Name,
+      NameEN : NameEN,
+      ShortnameEN : ShortnameEN,
+      ShortnameTH : ShortnameTH
       
     })
    this.modalRef = this.modalService.show(template);
@@ -95,6 +120,7 @@ export class DepartmentComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
     })
   }
 
@@ -106,6 +132,7 @@ export class DepartmentComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
 
@@ -116,6 +143,7 @@ export class DepartmentComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
 

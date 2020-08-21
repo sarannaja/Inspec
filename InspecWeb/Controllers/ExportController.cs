@@ -19,7 +19,8 @@ using Image = Xceed.Document.NET.Image;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace InspecWeb.Controllers {
+namespace InspecWeb.Controllers
+{
     [Route("api/[controller]")]
     public class ExportController : Controller
     {

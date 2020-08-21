@@ -342,14 +342,30 @@ namespace InspecWeb.Controllers {
                 _context.SaveChanges();
 
 
-
-                var userprovincedata = new UserProvince
+                if (model.Role_id == 9)
+                {
+                    foreach (var item in model.UserProvince)
                     {
-                       UserID = user.Id,
+                        var userprovincedata = new UserProvince
+                        {
+                            UserID = user.Id,
+                            ProvinceId = item
+                        };
+                        System.Console.WriteLine("testuser : 111.2");
+                        _context.UserProvinces.Add(userprovincedata);
+                        _context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    var userprovincedata = new UserProvince
+                    {
+                        UserID = user.Id,
                         ProvinceId = model.UserProvinceId
                     };
                     _context.UserProvinces.Add(userprovincedata);
                     _context.SaveChanges();
+                }
               // }
                System.Console.WriteLine("testuser : 5");
             }
@@ -557,21 +573,38 @@ namespace InspecWeb.Controllers {
                     _context.SaveChanges();
 
 
-
-                    var userprovincedata = new UserProvince
+                    if (model.Role_id == 9)
                     {
-                        UserID = editId,
-                        ProvinceId = model.UserProvinceId
-                    };
-                    _context.UserProvinces.Add(userprovincedata);
-                    _context.SaveChanges();
-                    // }
-                    System.Console.WriteLine("testuser12: ");
+                        foreach (var item in model.UserProvince)
+                        {
+                            var userprovincedata = new UserProvince
+                            {
+                                UserID = editId,
+                                ProvinceId = item
+                            };
+                            System.Console.WriteLine("testuser : 12.1");
+                            _context.UserProvinces.Add(userprovincedata);
+                            _context.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        var userprovincedata = new UserProvince
+                        {
+                            UserID = editId,
+                            ProvinceId = model.UserProvinceId
+                        };
+                        System.Console.WriteLine("testuser : 12.2");
+                        _context.UserProvinces.Add(userprovincedata);
+                        _context.SaveChanges();
+                    }
+
+                    System.Console.WriteLine("testuser13: ");
                 }
             }
             _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-            System.Console.WriteLine("testuser13 : ");
+            System.Console.WriteLine("testuser14 : ");
             return Ok (new { status = true });
         }
 
@@ -592,6 +625,44 @@ namespace InspecWeb.Controllers {
             var userdata = _context.ApplicationUsers.Find (id);
             _context.ApplicationUsers.Remove (userdata);
             _context.SaveChanges ();
+        }
+
+        [HttpGet("api/[controller]/[action]/{id}/{ministryId}")]
+        public IEnumerable<ApplicationUser> getuserSameMinistry(long id, long ministryId)
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Include(x => x.Departments)
+                .Include(x => x.ProvincialDepartments)
+                .Where(m => m.Role_id == id && m.MinistryId == ministryId)
+                .Where(m => m.Active == 1)
+                .Where(m => m.Email != "admin@inspec.go.th").OrderByDescending(m => m.CreatedAt);
+
+            return users;
+        }
+
+        [HttpGet("api/[controller]/[action]/{id}/{departmentId}")]
+        public IEnumerable<ApplicationUser> getuserSameDepartment(long id, long departmentId)
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Include(x => x.Departments)
+                .Include(x => x.ProvincialDepartments)
+                .Where(m => m.Role_id == id && m.DepartmentId == departmentId)
+                .Where(m => m.Active == 1)
+                .Where(m => m.Email != "admin@inspec.go.th").OrderByDescending(m => m.CreatedAt);
+
+            return users;
         }
 
         [Route ("[controller]/[action]")]

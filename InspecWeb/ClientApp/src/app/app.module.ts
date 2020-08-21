@@ -185,11 +185,15 @@ import { NotofyService } from './services/notofy.service';
 import { CircularletterComponent } from './circularletter/circularletter.component';
 import { InformationinspectionComponent } from './informationinspection/informationinspection.component';
 import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
+import { FiscalyearnewComponent } from './fiscalyearnew/fiscalyearnew.component';
+import { SideComponent } from './side/side.component';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 
 
@@ -359,6 +363,8 @@ const ExternalOrganization = [
     CircularletterComponent,
     InformationinspectionComponent,
     ApprovaldocumentComponent,
+    FiscalyearnewComponent,
+    SideComponent,
     AllReportComponent,
     AllReportDetailComponent,
   ],
@@ -377,6 +383,8 @@ const ExternalOrganization = [
     NgxSpinnerModule,
     DataTablesModule,
     BrowserAnimationsModule,
+    NgxMaterialTimepickerModule,
+
     RouterModule.forRoot([
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -412,8 +420,8 @@ const ExternalOrganization = [
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/:id/:provinceid/:watch', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
-          { path: 'inspectionplan/inspectorministry/:id/:provinceid', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
-          { path: 'inspectionplan/inspectordepartment/:id/:provinceid', component: InspectionPlanDepartmentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/inspectorministry/:id/:provinceid/:watch', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/inspectordepartment/:id/:provinceid/:watch', component: InspectionPlanDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
@@ -547,6 +555,8 @@ const ExternalOrganization = [
           { path: 'supportgovernment/circularletter', component: CircularletterComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/informationinspection', component: InformationinspectionComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/approvaldocument', component: ApprovaldocumentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'fiscalyearnew', component: FiscalyearnewComponent, canActivate: [AuthorizeGuard] },
+          { path: 'side', component: SideComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
         ]
@@ -566,6 +576,7 @@ const ExternalOrganization = [
         ]
       }
     ]),
+    TimepickerModule.forRoot(),
     ModalModule.forRoot(),
     // SelectSSSModule
     NgSelectModule,

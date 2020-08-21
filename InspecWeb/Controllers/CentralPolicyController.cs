@@ -719,7 +719,7 @@ namespace InspecWeb.Controllers
         {
             var year = DateTime.Now.Year;
 
-            var fiscalyearData = _context.FiscalYears
+            var fiscalyearData = _context.FiscalYearNew
                 .Where(m => m.Year == year + 543).FirstOrDefault();
 
             //var fiscalyearData = _context.FiscalYears

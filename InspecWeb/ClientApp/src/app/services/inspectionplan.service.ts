@@ -92,16 +92,18 @@ export class InspectionplanService {
     return this.http.post(this.url, formData);
   }
 
-  inspectionplansprovince(provinceid, userid, start_date_plan_i, end_date_plan_i) {
+  inspectionplansprovince(provinceid, userid, start_date_plan_i: Date, end_date_plan_i: Date) {
 
-    // alert(start_date_plan_i)
+    // alert(start_date_plan_i, end_date_plan_istart_date_plan_i, end_date_plan_i)
+    console.log(' Date.parse(start_date_plan_i.toString()).toString()', Date.parse(start_date_plan_i.toString()).toString());
+
     // alert(end_date_plan_i)
 
     const formData = new FormData();
     formData.append('provinceid', provinceid);
     formData.append('userid', userid);
-    formData.append('start_date_plan', start_date_plan_i);
-    formData.append('end_date_plan', end_date_plan_i);
+    formData.append('start_date_plan', Date.parse(start_date_plan_i.toString()).toString());
+    formData.append('end_date_plan', Date.parse(end_date_plan_i.toString()).toString());
     return this.http.post(this.url + "inspectionprovince", formData);
 
   }

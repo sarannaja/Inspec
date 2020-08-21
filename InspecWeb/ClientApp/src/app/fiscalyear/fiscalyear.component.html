@@ -14,10 +14,10 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">งบประมาณปี</h5>
+        <h5 class="card-title">คำสั่งกำหนดเขตตรวจราชการ</h5>
         <div class="float-right">
           <button class="btn btn-primary" (click)="openModal(modalFiscalyear)"
-            style="margin-top: -60px;">เพิ่มปีงบประมาณ</button>
+            style="margin-top: -60px;">เพิ่มข้อมูล</button>
         </div>
       </div>
       <div class="card-body">
@@ -26,7 +26,7 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>ชื่อปีงบประมาณ</th>
+              <th>คำสั่งกำหนดเขตตรวจราชการ</th>
               <th>ระยะเวลา</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -35,17 +35,21 @@
             <tr *ngFor="let item of resultfiscalyear; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ item.year }}</td>
-              <td *ngIf="item.startDate != null; else elseBlock">{{ item.startDate | thaidate:'year'}} -
-                {{ item.endDate | thaidate:'year'}}</td>
+              <td *ngIf="item.startDate != null; else elseBlock">{{ item.startDate | thaidate:'short'}} -
+                {{ item.endDate | thaidate:'short'}}</td>
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-map pointer" (click)="DetailFiscalYear(item.id)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="editModal(modaleditFiscalyear, item.id, item.year)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteFiscalyear, item.id)"></i>
+                <button class="btn btn-warning btn-pill btn-sm" title="การเชื่อมเขตตรวจ" (click)="DetailFiscalYear(item.id)">
+                  <i class="align-middle fas fa-fw fa-map"></i>
+                </button>
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้ออมูล" (click)="editModal(modaleditFiscalyear, item.id, item.year)">
+                  <i class="align-middle  fas fa-fw fa-pen "></i>
+                </button>
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้ออมูล" (click)="openModal(modaldeleteFiscalyear, item.id)">
+                  <i class="align-middle  fas fa-fw fa-trash-alt "></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -60,17 +64,17 @@
     <form [formGroup]="Form" (ngSubmit)="storeFiscalyear(Form.value)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">จัดการปีงบประมาณ</h5>
+          <h5 class="modal-title">คำสั่งกำหนดเขตตรวจราชการ</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label class="form-label">ปีงบประมาณ</label>
-            <input type="number"
+            <label class="form-label">คำสั่งกำหนดเขตตรวจราชการ</label>
+            <input type="text"
               onKeyPress="if(this.value.length==4) return false;if(this.value.which === 69) return event.preventDefault();;"
-              formControlName="fiscalyear" class="form-control" placeholder="กรุณากรอกปีงบประมาณ">
+              formControlName="fiscalyear" class="form-control" placeholder="กรุณากรอก">
           </div>
           <div class="form-group row">
             <div class="col-12 col-xl-12">
@@ -138,10 +142,10 @@
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ปีงบประมาณ</label>
+            <label for="test" class="form-label">คำสั่งกำหนดเขตตรวจราชการ</label>
             <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
             <input type="text" value="{{year}}" formControlName="fiscalyear" class="form-control"
-              placeholder="กรุณากรอกชื่อจังหวัด">
+              placeholder="กรุณากรอก">
           </div>
         </div>
         <div class="modal-footer">
