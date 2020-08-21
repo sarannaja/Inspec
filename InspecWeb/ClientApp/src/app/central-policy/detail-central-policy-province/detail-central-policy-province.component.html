@@ -64,7 +64,7 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญผู้ตรวจราชการกระทรวง</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3" type="button" (click)="openModal(modalInviteMinistryPeople)"
+              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
                 class="btn btn-primary">เชิญ</button>
             </div>
           </div>
@@ -86,7 +86,7 @@
                       <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
                         disabled>{{items.status}}</button>
                       &nbsp;&nbsp;&nbsp;
-                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3"
+                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3 && watch == 0"
                         (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
 
                     </div>
@@ -99,7 +99,7 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญผู้ตรวจราชการกรม</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3" type="button" (click)="openModal(modalInviteDepartmentPeople)"
+              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModal(modalInviteDepartmentPeople)"
                 class="btn btn-primary">เชิญ</button>
             </div>
           </div>
@@ -121,7 +121,7 @@
                       <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
                         disabled>{{items.status}}</button>
                       &nbsp;&nbsp;&nbsp;
-                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3"
+                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3 && watch == 0"
                         (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
                     </div>
                   </div>
@@ -133,7 +133,7 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3" type="button" class="btn btn-primary"
+              <button *ngIf="role_id == 3 && watch == 0" type="button" class="btn btn-primary"
                 (click)="openModal(modalInvitePeople)">เชิญ</button>
               <!-- &nbsp;&nbsp;
               <button *ngIf="role_id == 3" type="button" class="btn btn-success"
@@ -141,7 +141,7 @@
             </div>
           </div>
 
-          <div class="row" style="margin-top: 10px; margin-bottom: 30px;">
+          <div class="row" style="margin-top: 10px;">
             <div class="col-12">
               <div *ngIf="role7Count == 1" class="card col-6" style="border-width: 0.5px; padding: 10px;">
                 <div class="row" *ngFor="let items of resultcentralpolicyuser;let ii = index">
@@ -160,7 +160,7 @@
                       <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
                         disabled>{{items.status}}</button>
                       &nbsp;&nbsp;&nbsp;
-                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3"
+                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3 && watch == 0"
                         (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
                     </div>
                   </div>
@@ -170,10 +170,10 @@
             </div>
           </div>
 
-          <div class="row" style="margin-top: 10px;">
+          <div class="row" style="margin-top: -10px;">
             <div class="col-md-6">
               <u>เชิญหน่วยรับตรวจ</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3" type="button" (click)="openModal(modalInviteProvincialDepartmentPeople)"
+              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModal(modalInviteProvincialDepartmentPeople)"
                 class="btn btn-primary">เชิญ</button>
             </div>
           </div>
@@ -195,7 +195,7 @@
                       <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
                         disabled>{{items.status}}</button>
                       &nbsp;&nbsp;&nbsp;
-                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3"
+                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3 && watch == 0"
                         (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
                     </div>
                   </div>
@@ -237,8 +237,8 @@
           </div>
 
           <div class="col-12">
-            <label *ngIf="role_id == 3" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
-            <input *ngIf="role_id == 3" type="file" multiple (change)="uploadFile2($event)"
+            <label *ngIf="role_id == 3 && watch == 0" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
+            <input *ngIf="role_id == 3 && watch == 0" type="file" multiple (change)="uploadFile2($event)"
               style="margin-bottom: 10px;">
             <!-- <div class="col-4">
               <select class="selectpicker form-control" data-live-search="true"
@@ -301,13 +301,15 @@
           </div> -->
 
           <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
-            <button *ngIf="role_id == 3" style="align-self: center;" type="submit" class="btn btn-primary"
+            <button *ngIf="watch == 0" style="align-self: center;" type="submit" class="btn btn-primary"
               style="margin-right: 45px;">บันทึก</button>
 
-            <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
-              (click)="back()" style="margin-right: 45px;">บันทึก</button>
+            <!-- <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
+              (click)="back()" style="margin-right: 45px;">บันทึก</button> -->
             <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
-            <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+            <button *ngIf="watch == 0" type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+
+            <button *ngIf="watch == 1" type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
           </div>
           <!-- <div class="col-12 col-xl-12">
             <div class="form-group">

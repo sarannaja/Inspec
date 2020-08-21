@@ -43,8 +43,8 @@
               <br>
               <span *ngFor="let item of resultdetailcentralpolicy.centralPolicyDates; let i = index">ช่วงที่
                 {{i+1}})
-                {{ item.startDate | thaidate: 'year' }} -
-                {{ item.endDate | thaidate: 'year' }}<br></span>
+                {{ item.startDate | thaidate: 'short' }} -
+                {{ item.endDate | thaidate: 'short' }}<br></span>
             </div>
           </div>
 

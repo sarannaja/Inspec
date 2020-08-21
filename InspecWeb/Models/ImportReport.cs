@@ -31,6 +31,16 @@ namespace InspecWeb.Models
         public long ProvinceId { get; set; }
         public virtual Province Province { get; set; }
 
+        [ForeignKey("Department")]
+        [Description("FK: หน่วยงาน")]
+        public long DepartmentId { get; set; }
+        public virtual Department Department { get; set; }
+
+        [ForeignKey("Zone")]
+        [Description("FK: ภาค")]
+        public long ZoneId { get; set; }
+        public virtual Sector Zone { get; set; }
+
         //[ForeignKey("CentralPolicyEvent")]
         //[Description("FK: แผนการตรวจ")] public long centralPolicyEventId { get; set; }
         //public virtual CentralPolicyEvent CentralPolicyEvent { get; set; }

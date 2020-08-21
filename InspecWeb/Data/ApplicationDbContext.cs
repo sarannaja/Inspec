@@ -422,6 +422,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new FiscalYearNewSeeder());//ปีที่แท้
             builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
             builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
+
         }
     }
 }

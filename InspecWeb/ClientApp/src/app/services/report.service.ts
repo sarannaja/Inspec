@@ -47,29 +47,7 @@ export class ReportService {
         }),
       }
     })
-    // for (var i = 0; i < test.length; i++) {
-    //   for(var ii = 0; ii < test[i].namesubquestion.length; ii++){
-    //     test2.push({
-    //       name: test[i].name,
-    //       explanation: test[i].name,
-    //       namesubquestion: test[i].namesubquestion[ii].name
-    //     })
-    //   }
-
-    // }
     console.log("test", test);
-
-    // const formData = new FormData();
-    // formData.append('type', resultdetailcentralpolicy.type);
-    // formData.append('fiscalyear', resultdetailcentralpolicy.fiscalYear.year);
-    // formData.append('title', resultdetailcentralpolicy.title);
-    // for (var i = 0; i < resultdetailcentralpolicyprovince.length; i++) {
-    //   formData.append('name', resultdetailcentralpolicyprovince[i].name);
-    //   formData.append('explanation', resultdetailcentralpolicyprovince[i].explanation);
-    //   for (var ii = 0; ii < resultdetailcentralpolicyprovince[i].subquestionCentralPolicyProvinces.length; ii++) {
-    //     formData.append('namesubquestion', resultdetailcentralpolicyprovince[i].subquestionCentralPolicyProvinces[ii].name);
-    //   }
-    // }
     const formData = {
       type: resultdetailcentralpolicy.type,
       fiscalyear: resultdetailcentralpolicy.fiscalYear.year,
@@ -78,13 +56,36 @@ export class ReportService {
     }
     return this.http.post<any>(this.url + "reportsubject", formData)
   }
-  createReport(reportdata) {
+  createReporttype1(reportdata) {
     const formData = new FormData();
-    formData.append('provinceid', reportdata.provinceid);
-    formData.append('centralpolicyid', reportdata.centralpolicyid);
-    formData.append('subjectid', reportdata.subjectid);
-    formData.append('reporttype', reportdata.reporttype);
+    formData.append('provincialDepartmentId', reportdata.provincialDepartmentId);
+    formData.append('reporttype', reportdata.type);
     return this.http.post<any>(this.url + "reportperformance", formData)
+  }
+  createReporttype2(reportdata, provinceid, CentralPolicyProvinceId, SubjectGroupId) {
+    const formData = new FormData();
+    formData.append('CentralPolicyProvinceId', CentralPolicyProvinceId);
+    formData.append('SubjectGroupId', SubjectGroupId);
+    formData.append('provinceid', provinceid);
+    formData.append('reporttype', reportdata.type);
+    return this.http.post<any>(this.url + "reportperformance", formData)
+  }
+  createReportQuestionnaire(planid) {
+    const formData = new FormData();
+    formData.append('planid', planid);
+    return this.http.post<any>(this.url + "reportquestionnaire", formData)
+  }
+  createReportCommenttype1(ReportCommentdata) {
+    const formData = new FormData();
+    formData.append('userid', ReportCommentdata.userid);
+    formData.append('reporttype', ReportCommentdata.type);
+    return this.http.post<any>(this.url + "reportcomment", formData)
+  }
+  createReportCommenttype2(ReportCommentdata, provinceid) {
+    const formData = new FormData();
+    formData.append('reporttype', ReportCommentdata.type);
+    formData.append('provinceid', provinceid);
+    return this.http.post<any>(this.url + "reportcomment", formData)
   }
   createReport2() {
     // const formData = new FormData();

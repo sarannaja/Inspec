@@ -1096,6 +1096,7 @@ namespace InspecWeb.Controllers
                 Type = subjectdata.Type,
                 Status = subjectdata.Status,
                 Explanation = subjectdata.Explanation,
+                CreatedBy = subjectdata.CreatedBy,
             };
             _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvince);
             _context.SaveChanges();
@@ -1142,9 +1143,9 @@ namespace InspecWeb.Controllers
         [HttpPost("subjectevent")]
         public IActionResult PostSubjectEvent([FromBody] subjectevent model)
         {
-            var roleid = _context.Users
+            var userdata = _context.Users
              .Where(m => m.Id == model.CreatedBy)
-             .Select(m => m.Role_id)
+             //.Select(m => m.Role_id)
              .FirstOrDefault();
 
             System.Console.WriteLine("in");
@@ -1158,7 +1159,8 @@ namespace InspecWeb.Controllers
                 CreatedAt = date,
                 CreatedBy = model.CreatedBy,
                 Status = "ร่างกำหนดการ",
-                RoleCreatedBy = roleid.ToString(),
+                RoleCreatedBy = userdata.Role_id.ToString(),
+                ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
             };
             _context.InspectionPlanEvents.Add(inspectionplanevent);
             _context.SaveChanges();
@@ -1187,6 +1189,14 @@ namespace InspecWeb.Controllers
                     HaveSubject = 1,
                 };
                 _context.CentralPolicyEvents.Add(CentralPolicyEventsdata);
+                _context.SaveChanges();
+
+                var SubjectGroupPeopleQuestiondata = new SubjectGroupPeopleQuestion
+                {
+                    SubjectGroupId = SubjectGroupdata.Id,
+                    CentralPolicyEventId = CentralPolicyEventsdata.Id,
+                };
+                _context.SubjectGroupPeopleQuestions.Add(SubjectGroupPeopleQuestiondata);
                 _context.SaveChanges();
 
                 var subjectcen = _context.SubjectCentralPolicyProvinces
@@ -1405,6 +1415,7 @@ namespace InspecWeb.Controllers
                     .Include(m => m.Province)
                     .Include(m => m.CentralPolicy)
                     .ThenInclude(m => m.FiscalYear)
+                       .OrderByDescending(m => m.Id)
                     //.Include(m => m.SubjectCentralPolicyProvinces)
                     //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
                     .Where(m => m.Type == "NoMaster").ToList();

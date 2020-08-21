@@ -245,10 +245,21 @@ export class DetailElectronicBookComponent implements OnInit {
     // } else {
     this.electronicBookService.editSuggestion(value, this.electId).subscribe(res => {
       console.log("Edit Suggestion: ", res);
+      if (value.Status == "ใช้งานจริง") {
+        console.log("NOTI: ", value.Status);
+
+        value.user.forEach(element => {
+          this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, element, 7, this.electId)
+            .subscribe(response => {
+              console.log("Noti res: ", response);
+            })
+        });
+      }
       this.getElectronicBookDetail();
       this.modalRef.hide();
     })
     // }
+
   }
 
   closeModal() {

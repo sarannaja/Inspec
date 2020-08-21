@@ -40,6 +40,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyEvents)
                 .ThenInclude(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyDates)
+                .OrderByDescending(m => m.Id)
                 .Where(m => m.ProvinceId == provinceid)
                 .Where(m => m.Id == id).ToList();
             //.Where(m => m.CentralPolicyEvents.Any(i => i.InspectionPlanEventId == id));
@@ -52,6 +53,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.CentralPolicyProvinces)
                 .Include(x => x.CentralPolicy)
                 .ThenInclude(x => x.FiscalYear)
+                .OrderByDescending(m => m.Id)
                 .Where(m => m.InspectionPlanEvent.Id == id)
                 .Where(m => m.InspectionPlanEvent.ProvinceId == provinceid)
                 .Where(m => m.CentralPolicy.CentralPolicyProvinces.Any(m => m.ProvinceId == provinceid))
@@ -284,9 +286,9 @@ namespace InspecWeb.Controllers
         [HttpPost("inspectionprovince")]
         public object Post(long provinceid, string userid, DateTime start_date_plan, DateTime end_date_plan)
         {
-            var roleid = _context.Users
+            var userdata = _context.Users
       .Where(m => m.Id == userid)
-      .Select(m => m.Role_id)
+      //.Select(m => m.Role_id)
       .FirstOrDefault();
 
             var date = DateTime.Now;
@@ -299,7 +301,8 @@ namespace InspecWeb.Controllers
                 StartDate = start_date_plan,
                 EndDate = end_date_plan,
                 Status = "ร่างกำหนดการ",
-                RoleCreatedBy = roleid.ToString(),
+                RoleCreatedBy = userdata.Role_id.ToString(),
+                ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
             };
 
             _context.InspectionPlanEvents.Add(InspectionPlanEventdata);
