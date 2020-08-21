@@ -191,6 +191,7 @@ import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
+import {NgxPrintModule} from 'ngx-print';
 
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
@@ -377,6 +378,7 @@ const ExternalOrganization = [
     // SelectModule,
     ReactiveFormsModule,
     ChartsModule,
+    NgxPrintModule,
     MyDatePickerTHModule,
     // BrowserModule,
     SnotifyModule,
