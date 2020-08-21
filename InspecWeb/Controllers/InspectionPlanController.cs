@@ -52,7 +52,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyProvinces)
                 .Include(x => x.CentralPolicy)
-                .ThenInclude(x => x.FiscalYear)
+                .ThenInclude(x => x.FiscalYearNew)
                 .OrderByDescending(m => m.Id)
                 .Where(m => m.InspectionPlanEvent.Id == id)
                 .Where(m => m.InspectionPlanEvent.ProvinceId == provinceid)
@@ -100,8 +100,8 @@ namespace InspecWeb.Controllers
             var year2 = _context.FiscalYearNew
                 .Where(m => m.Year == year).FirstOrDefault();
 
-            var fiscalyearData = _context.FiscalYears
-                .Where(m => m.Id == year2.Id).FirstOrDefault();
+            //var fiscalyearData = _context.FiscalYears
+            //    .Where(m => m.Id == year2.Id).FirstOrDefault();
                                  //.OrderByDescending(x => x.Year)
                                  //.FirstOrDefault();
 
@@ -111,7 +111,7 @@ namespace InspecWeb.Controllers
                        //.Include(m => m.FiscalYear)
                        //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(m => m.Type == "NoMaster")))
                        //.Where(m => m.CentralPolicyProvinces.Any(i => i.SubjectCentralPolicyProvinces.Any(i => i.CentralPolicyProvince.ProvinceId == provinceid)))
-                       .Where(m => m.FiscalYearId == fiscalyearData.Id)
+                       .Where(m => m.FiscalYearNewId == year2.Id)
                        .Where(m => m.CentralPolicyProvinces.Any(i => i.ProvinceId == provinceid && i.Active == 1))
                        .ToList();
         }
@@ -136,7 +136,7 @@ namespace InspecWeb.Controllers
             {
                 Title = model.Title,
                 Type = model.Type,
-                FiscalYearId = year.Id,
+                FiscalYearNewId = year.Id,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
                 Status = model.Status,
@@ -406,7 +406,7 @@ namespace InspecWeb.Controllers
         {
             var centralpolicydata = _context.CentralPolicyEvents
                 .Include(m => m.CentralPolicy)
-                .ThenInclude(m => m.FiscalYear)
+                .ThenInclude(m => m.FiscalYearNew)
                 .Where(m => m.Id == id)
                 .FirstOrDefault();
 
@@ -441,7 +441,7 @@ namespace InspecWeb.Controllers
             CentralPolicydata.Title = title;
             CentralPolicydata.StartDate = startdate;
             CentralPolicydata.EndDate = enddate;
-            CentralPolicydata.FiscalYearId = year;
+            CentralPolicydata.FiscalYearNewId = year;
 
             _context.Entry(CentralPolicydata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();

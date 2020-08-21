@@ -189,7 +189,7 @@ import { FiscalyearnewComponent } from './fiscalyearnew/fiscalyearnew.component'
 import { SideComponent } from './side/side.component';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
-
+import {NgxPrintModule} from 'ngx-print';
 
 
 
@@ -376,6 +376,7 @@ const ExternalOrganization = [
     // SelectModule,
     ReactiveFormsModule,
     ChartsModule,
+    NgxPrintModule,
     MyDatePickerTHModule,
     // BrowserModule,
     SnotifyModule,

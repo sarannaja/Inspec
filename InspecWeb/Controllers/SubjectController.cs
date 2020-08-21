@@ -1414,7 +1414,7 @@ namespace InspecWeb.Controllers
             var subjectgroupsdatas = _context.SubjectGroups
                     .Include(m => m.Province)
                     .Include(m => m.CentralPolicy)
-                    .ThenInclude(m => m.FiscalYear)
+                    .ThenInclude(m => m.FiscalYearNew)
                        .OrderByDescending(m => m.Id)
                     //.Include(m => m.SubjectCentralPolicyProvinces)
                     //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
@@ -1830,7 +1830,7 @@ namespace InspecWeb.Controllers
             {
                 Title = model.Title,
                 Type = "อื่นๆ",
-                FiscalYearId = year.Id,
+                FiscalYearNewId = year.Id,
                 Status = "ใช้งานจริง",
                 CreatedAt = date,
                 CreatedBy = model.CreatedBy,

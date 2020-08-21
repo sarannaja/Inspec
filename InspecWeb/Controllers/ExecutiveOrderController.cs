@@ -372,7 +372,7 @@ namespace InspecWeb.Controllers {
                 .Include (m => m.CentralPolicy)
                 .ThenInclude (m => m.CentralPolicyDates)
                 .Include (m => m.CentralPolicy)
-                .ThenInclude (x => x.FiscalYear)
+                .ThenInclude (x => x.FiscalYearNew)
                 .ToList ();
 
             List<object> termsList = new List<object> ();
