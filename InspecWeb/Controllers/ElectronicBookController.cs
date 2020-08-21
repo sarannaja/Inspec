@@ -1480,6 +1480,7 @@ namespace InspecWeb.Controllers
             var SubjectGroupsdata = _context.SubjectGroups.Find(model.ElectronicBookId);
             ////CentralPolicyProvincedata.Step = model.Step;
             SubjectGroupsdata.Status = model.Status;
+            SubjectGroupsdata.Suggestion = model.Suggestion;
 
             SubjectGroupsdata.SubjectNotificationDate = model.NotificationSubjectDate;
             SubjectGroupsdata.SubjectDeadlineDate = model.DeadlineSubjectDate;

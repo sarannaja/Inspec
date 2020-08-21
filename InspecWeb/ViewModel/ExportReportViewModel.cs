@@ -57,6 +57,7 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "reportZone")]
         public string reportZone { get; set; }
 
+        public long TrainingId { get; set; }
     }
 
     public class reportData

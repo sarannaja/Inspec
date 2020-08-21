@@ -96,6 +96,6 @@ namespace InspecWeb.Models
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
-
+        public ICollection<TrainingRegisterCondition> TrainingRegisterConditions { get; set; }
     }
 }
