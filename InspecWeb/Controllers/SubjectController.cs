@@ -1814,7 +1814,7 @@ namespace InspecWeb.Controllers
             //    //_context.SaveChanges();
             //}
 
-            var year = _context.FiscalYears
+            var year = _context.FiscalYearNew
                 .Where(m => m.Year == DateTime.Now.Year + 543).FirstOrDefault();
             System.Console.WriteLine("year" + year.Id);
             //if(year == null)

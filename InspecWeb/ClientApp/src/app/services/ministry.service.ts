@@ -18,18 +18,23 @@ export class MinistryService {
   }
   addMinistry(ministryData) {
     const formData = new FormData();
-    formData.append('name', ministryData.ministryname);
+    formData.append('Name', ministryData.Name);
+    formData.append('NameEN', ministryData.NameEN);
+    formData.append('ShortnameEN', ministryData.ShortnameEN);
+    formData.append('ShortnameTH', ministryData.ShortnameTH);
     return this.http.post(this.url, formData);
   }
   deleteMinistry(id) {
     return this.http.delete(this.url + id);
   }
   editMinistry(ministryData, id) {
-    console.log(ministryData);
+    //console.log(ministryData);
 
     const formData = new FormData();
-    formData.append('name', ministryData.ministryname);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
+    formData.append('Name', ministryData.Name);
+    formData.append('NameEN', ministryData.NameEN);
+    formData.append('ShortnameEN', ministryData.ShortnameEN);
+    formData.append('ShortnameTH', ministryData.ShortnameTH);
     return this.http.put(this.url + id, formData);
   }
 

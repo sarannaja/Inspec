@@ -185,8 +185,11 @@ import { NotofyService } from './services/notofy.service';
 import { CircularletterComponent } from './circularletter/circularletter.component';
 import { InformationinspectionComponent } from './informationinspection/informationinspection.component';
 import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
+import { FiscalyearnewComponent } from './fiscalyearnew/fiscalyearnew.component';
+import { SideComponent } from './side/side.component';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
+
 
 
 
@@ -359,6 +362,8 @@ const ExternalOrganization = [
     CircularletterComponent,
     InformationinspectionComponent,
     ApprovaldocumentComponent,
+    FiscalyearnewComponent,
+    SideComponent,
     AllReportComponent,
     AllReportDetailComponent,
   ],
@@ -547,6 +552,8 @@ const ExternalOrganization = [
           { path: 'supportgovernment/circularletter', component: CircularletterComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/informationinspection', component: InformationinspectionComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/approvaldocument', component: ApprovaldocumentComponent, canActivate: [AuthorizeGuard] },
+          { path: 'fiscalyearnew', component: FiscalyearnewComponent, canActivate: [AuthorizeGuard] },
+          { path: 'side', component: SideComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
         ]

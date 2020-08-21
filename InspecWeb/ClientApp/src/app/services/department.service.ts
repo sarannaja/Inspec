@@ -42,6 +42,9 @@ export class DepartmentService {
     const formData = new FormData();
     formData.append('MinistryId', ministryid);
     formData.append('Name', departmentdata.Name);
+    formData.append('NameEN', departmentdata.NameEN);
+    formData.append('ShortnameEN', departmentdata.ShortnameEN);
+    formData.append('ShortnameTH', departmentdata.ShortnameTH);
     return this.http.post(this.url, formData);
 
   }
@@ -54,6 +57,9 @@ export class DepartmentService {
      //alert(2 + ':' + id);
     const formData = new FormData();
     formData.append('Name', departmentdata.Name);
+    formData.append('NameEN', departmentdata.NameEN);
+    formData.append('ShortnameEN', departmentdata.ShortnameEN);
+    formData.append('ShortnameTH', departmentdata.ShortnameTH);
     return this.http.put(this.url + id, formData);
   }
   

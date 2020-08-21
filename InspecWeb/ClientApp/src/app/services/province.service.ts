@@ -30,9 +30,12 @@ export class ProvinceService {
    // alert(2 +":" +provinceData.Provincegroup);
     const formData = new FormData();
     formData.append('Name', provinceData.provincename);
+    formData.append('NameEN', provinceData.NameEN);
     formData.append('Link', provinceData.provincelink)
     formData.append('SectorId', provinceData.Sector);
     formData.append('ProvincesGroupId', provinceData.Provincegroup);
+    formData.append('ShortnameEN', provinceData.ShortnameEN);
+    formData.append('ShortnameTH', provinceData.ShortnameTH);
 
     return this.http.post(this.url, formData);
   }
@@ -43,9 +46,12 @@ export class ProvinceService {
     //console.log(provinceData);
     const formData = new FormData();
     formData.append('name', provinceData.provincename);
+    formData.append('NameEN', provinceData.NameEN);
     formData.append('link', provinceData.provincelink)
     formData.append('SectorId', provinceData.Sector);
     formData.append('ProvincesGroupId', provinceData.Provincegroup);
+    formData.append('ShortnameEN', provinceData.ShortnameEN);
+    formData.append('ShortnameTH', provinceData.ShortnameTH);
     return this.http.put(this.url+id, formData);
   }
   getRegionMock(){

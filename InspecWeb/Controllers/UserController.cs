@@ -342,14 +342,30 @@ namespace InspecWeb.Controllers {
                 _context.SaveChanges();
 
 
-
-                var userprovincedata = new UserProvince
+                if (model.Role_id == 9)
+                {
+                    foreach (var item in model.UserProvince)
                     {
-                       UserID = user.Id,
+                        var userprovincedata = new UserProvince
+                        {
+                            UserID = user.Id,
+                            ProvinceId = item
+                        };
+                        System.Console.WriteLine("testuser : 111.2");
+                        _context.UserProvinces.Add(userprovincedata);
+                        _context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    var userprovincedata = new UserProvince
+                    {
+                        UserID = user.Id,
                         ProvinceId = model.UserProvinceId
                     };
                     _context.UserProvinces.Add(userprovincedata);
                     _context.SaveChanges();
+                }
               // }
                System.Console.WriteLine("testuser : 5");
             }
@@ -557,21 +573,38 @@ namespace InspecWeb.Controllers {
                     _context.SaveChanges();
 
 
-
-                    var userprovincedata = new UserProvince
+                    if (model.Role_id == 9)
                     {
-                        UserID = editId,
-                        ProvinceId = model.UserProvinceId
-                    };
-                    _context.UserProvinces.Add(userprovincedata);
-                    _context.SaveChanges();
-                    // }
-                    System.Console.WriteLine("testuser12: ");
+                        foreach (var item in model.UserProvince)
+                        {
+                            var userprovincedata = new UserProvince
+                            {
+                                UserID = editId,
+                                ProvinceId = item
+                            };
+                            System.Console.WriteLine("testuser : 12.1");
+                            _context.UserProvinces.Add(userprovincedata);
+                            _context.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        var userprovincedata = new UserProvince
+                        {
+                            UserID = editId,
+                            ProvinceId = model.UserProvinceId
+                        };
+                        System.Console.WriteLine("testuser : 12.2");
+                        _context.UserProvinces.Add(userprovincedata);
+                        _context.SaveChanges();
+                    }
+
+                    System.Console.WriteLine("testuser13: ");
                 }
             }
             _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-            System.Console.WriteLine("testuser13 : ");
+            System.Console.WriteLine("testuser14 : ");
             return Ok (new { status = true });
         }
 

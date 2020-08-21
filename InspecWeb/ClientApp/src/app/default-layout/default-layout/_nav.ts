@@ -110,13 +110,37 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         icon: 'fa-long-arrow-alt-right',
         url: '/fiscalyear',
+        name: 'คำสั่งกำหนดเขตตรวจราชการ',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/fiscalyearnew',
         name: 'ปีงบประมาณ',
         ex_link: '0'
       },
       {
         icon: 'fa-long-arrow-alt-right',
         url: '/region',
-        name: 'เขตตรวจราชการ',
+        name: 'ชื่อเขตตรวจราชการ',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/',
+        name: 'ประเภทแผนการตรวจ',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '',
+        name: 'ภาค',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/',
+        name: 'กลุ่มจังหวัด',
         ex_link: '0'
       },
       {
@@ -129,6 +153,12 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         icon: 'fa-long-arrow-alt-right',
         url: '/ministry',
         name: 'กระทรวง/กรม',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-long-arrow-alt-right',
+        url: '/side',
+        name: 'ด้านของภาคประชาชน',
         ex_link: '0'
       },
     ]

@@ -93,7 +93,7 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public FiscalYear Post(int year, DateTime startdate,DateTime enddate)
+        public FiscalYear Post(string year, DateTime startdate,DateTime enddate)
         {
             var date = DateTime.Now;
 
@@ -136,7 +136,7 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, int year)
+        public void Put(long id, string year)
         {
             var fiscalyear = _context.FiscalYears.Find(id);
             fiscalyear.Year = year;

@@ -16,7 +16,7 @@
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">กระทรวง</h5>
         <div class="float-right">
-          <button class="btn btn-primary" (click)="openModal(modalMinistry,1,1)"
+          <button class="btn btn-primary" (click)="openModal(modalMinistry)"
             style="margin-top: -60px;">เพิ่มข้อมูล</button>
         </div>
       </div>
@@ -26,7 +26,10 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>ชื่อกระทรวง</th>
+              <th>กระทรวง(TH)</th>
+              <th>กระทรวงย่อ(TH)</th>
+              <th>กระทรวง(EN)</th>
+              <th>กระทรวงย่อ(EN)</th>
               <th>วันที่สร้าง</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -35,16 +38,21 @@
             <tr *ngFor="let item of resultministry; let i = index">
               <td>{{ i + 1 }}</td>
               <td class="pointer" (click)="viewDepartment(item.id)">{{item.name}}</td>
+              <td>{{item.shortnameTH}}</td>
+              <td>{{item.nameEN}}</td>
+              <td>{{item.shortnameEN}}</td>
               <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>
               <td>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="editModal(modaleditMinistry, item.id, item.name)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteMinistry, item.id)"></i>
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้ออมูล" 
+                    (click)="openModal(modaleditMinistry, item.id, item.name,item.nameEN,item.shortnameEN,item.shortnameTH)">
+                  <i class="align-middle fas fa-fw fa-pen "></i>
+                </button>
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldeleteMinistry, item.id)">
+                  <i class="align-middle fas fa-fw fa-trash-alt"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -66,9 +74,24 @@
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="test" class="form-label">ชื่อกระทรวง</label>
+          <label for="Name" class="form-label">ชื่อกระทรวง(TH)</label>
           <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-          <input type="text" formControlName="ministryname" class="form-control" placeholder="กรุณากรอกชื่อกระทรวง">
+          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อกระทรวง(TH)">
+        </div>
+        <div class="form-group">
+          <label for="xx" class="form-label">ชื่อย่อกระทรวง(TH)</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="ชื่อย่อกระทรวง(TH)">
+        </div>
+        <div class="form-group">
+          <label for="xx" class="form-label">ชื่อกระทรวง(EN)</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อกระทรวง(EN)">
+        </div>
+        <div class="form-group">
+          <label for="xx" class="form-label">ชื่อย่อกระทรวง(EN)</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="ชื่อย่อกระทรวง(EN)">
         </div>
       </div>
       <div class="modal-footer">
@@ -104,7 +127,7 @@
 <!-- BEGIN primary modal -->
 <ng-template #modaleditMinistry class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-  <form [formGroup]="EditForm" (ngSubmit)="editMinistry(EditForm.value,delid)">
+  <form [formGroup]="Form" (ngSubmit)="editMinistry(Form.value,delid)">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">จัดการกระทรวง</h5>
@@ -114,10 +137,24 @@
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="test" class="form-label">ชื่อกระทรวง</label>
+          <label for="Name" class="form-label">ชื่อกระทรวง(TH)</label>
           <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-          <input type="text" value="{{name}}" formControlName="ministryname" class="form-control"
-            placeholder="กรุณากรอกชื่อกระทรวง">
+          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อกระทรวง(TH)">
+        </div>
+        <div class="form-group">
+          <label for="xx" class="form-label">ชื่อย่อกระทรวง(TH)</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="ชื่อย่อกระทรวง(TH)">
+        </div>
+        <div class="form-group">
+          <label for="xx" class="form-label">ชื่อกระทรวง(EN)</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อกระทรวง(EN)">
+        </div>
+        <div class="form-group">
+          <label for="xx" class="form-label">ชื่อย่อกระทรวง(EN)</label>
+          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
+          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="ชื่อย่อกระทรวง(EN)">
         </div>
       </div>
       <div class="modal-footer">
