@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { delay } from 'lodash';
 import * as moment from 'moment';
+import { ExportReportService } from 'src/app/services/export-report.service';
 
 @Component({
   selector: 'app-list-training-register',
@@ -25,14 +26,18 @@ export class ListTrainingRegisterComponent implements OnInit {
   resulttrainingCondition: any[] = []
   people: any[] = []
   condition: any[] = []
+  url = ""
+
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
+    private exportReportService: ExportReportService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-    this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+    this.url = baseUrl,
+      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
   }
 
 
@@ -387,7 +392,9 @@ export class ListTrainingRegisterComponent implements OnInit {
 
   }
 
-
-
-
+  Report() {
+    this.exportReportService.CreateReportTrainingRegister(this.trainingid).subscribe(res => {
+      window.open(this.url + "Uploads/" + res.data);
+    })
+  }
 }

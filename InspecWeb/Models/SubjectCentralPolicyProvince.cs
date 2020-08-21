@@ -39,6 +39,7 @@ namespace InspecWeb.Models
         public string Explanation { get; set; }
         //[Description("มอบหมายเขต , มอบหมายจังหวัด , มอบหมายหน่วยงาน")]
         //public string Step { get; set; }
+        public long CheckAnswer { get; set; }
 
         //[Description("ลิ้ง")]
         //public string link { get; set; }
