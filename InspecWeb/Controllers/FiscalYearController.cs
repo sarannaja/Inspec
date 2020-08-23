@@ -25,7 +25,7 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var fiscalyeardata = from P in _context.FiscalYears
+            var fiscalyeardata = from P in _context.FiscalYearNew
                                  select P;
             return Ok(fiscalyeardata);
 
@@ -34,7 +34,7 @@ namespace InspecWeb.Controllers
         [HttpGet("getCurrentYear")]
         public IActionResult GetCurrentYear()
         {
-            var fiscalyearData = _context.FiscalYears
+            var fiscalyearData = _context.FiscalYearNew
                 .OrderByDescending(x => x.Year)
                 .ToList();
 
@@ -174,7 +174,7 @@ namespace InspecWeb.Controllers
         [HttpGet("getCurrentFiscalYear")]
         public IActionResult GetCurrentFiscalYear()
         {
-            var fiscalyearData = _context.FiscalYears
+            var fiscalyearData = _context.FiscalYearNew
                 .OrderByDescending(x => x.Year)
                 .FirstOrDefault();
 

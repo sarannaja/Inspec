@@ -37,7 +37,7 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
-       // public ICollection<CentralPolicy> CentralPolicies { get; set; }
-      
+        public ICollection<CentralPolicy> CentralPolicies { get; set; }
+
     }
 }
