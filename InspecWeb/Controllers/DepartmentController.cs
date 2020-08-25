@@ -28,6 +28,16 @@ namespace InspecWeb.Controllers
                                select P;
             return provincialdepartmentdata;
         }
+
+        // GET: api/values
+        //[HttpGet("provincialdepartment")]
+        //public IActionResult Getprovincialdepartment()
+        //{
+        //    var provincialdepartmentdata =  _context.ProvincialDepartmentProvince
+        //                                   .Include(m => m.ProvincialDepartment).ToList();
+        //    return Ok(provincialdepartmentdata);
+        //}
+
         //สำหรับใช้ตรงข้อมูลสนับสนุน
 
 

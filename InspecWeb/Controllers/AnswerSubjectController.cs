@@ -346,15 +346,21 @@ namespace InspecWeb.Controllers
             return Ok(subjectdata);
         }
         // GET api/values/5
-        [HttpGet("centralpolicyprovince/{id}")]
-        public IActionResult Get6(long id)
+        [HttpGet("centralpolicyprovince/{id}/{inspectionPlanEventId}")]
+        public IActionResult Get6(long id,long inspectionPlanEventId)
         {
             var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Where(m => m.Id == id)
                 .First();
 
             var CentralPolicyEventdata = _context.CentralPolicyEvents
+                .Where(m => m.InspectionPlanEventId == inspectionPlanEventId)
                 .Where(m => m.CentralPolicyId == centralpolicyprovincedata.CentralPolicyId && m.InspectionPlanEvent.ProvinceId == centralpolicyprovincedata.ProvinceId).First();
+
+            System.Console.WriteLine("centralpolicyprovincedata.CentralPolicyId" + centralpolicyprovincedata.CentralPolicyId);
+
+            System.Console.WriteLine("centralpolicyprovincedata.ProvinceId" + centralpolicyprovincedata.ProvinceId);
+            System.Console.WriteLine("CentralPolicyEventdata.Id" + CentralPolicyEventdata.Id);
 
             var question = _context.CentralPolicyEventQuestions
                 .Include(m => m.CentralPolicyEvent)
@@ -362,7 +368,8 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyEvent)
                 .ThenInclude(m => m.InspectionPlanEvent)
                 .ThenInclude(m => m.Province)
-                .Where(m => m.CentralPolicyEventId == CentralPolicyEventdata.Id).ToList();
+                .Where(m => m.CentralPolicyEventId == CentralPolicyEventdata.Id)
+                .ToList();
 
             return Ok(question);
         }
@@ -561,6 +568,7 @@ namespace InspecWeb.Controllers
                 {
                     CentralPolicyProvinceId = answer.CentralPolicyProvinceId,
                     CentralPolicyEventQuestionId = answer.CentralPolicyEventQuestionId,
+                    AnswerCentralPolicyProvinceStatusId = answer.AnswerCentralPolicyProvinceStatusId,
                     UserId = answer.UserId,
                     Answer = answer.Answer,
                     CreatedAt = date
@@ -585,12 +593,77 @@ namespace InspecWeb.Controllers
         }
         // PUT api/values/5
         [HttpPut("editstatus/{id}")]
-        public void Put2(long id, string status)
+        public void Put2(long id, string status,long subjectGroupId)
         {
+            if (status == "ใช้งานจริง")
+            {
+                var answer = _context.AnswerSubquestionStatuses
+                .Where(m => m.Id == id)
+                .FirstOrDefault();
+
+                var AnswerSubquestionStatuses = _context.AnswerSubquestionStatuses
+                    .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                    .Include(m => m.User)
+                    .OrderBy(m => m.User.ProvincialDepartmentId)
+                    .Select(m => m.User.ProvincialDepartmentId)
+                    .ToList(); //department answer
+
+                long n = 0;
+                long checkn = 0;
+                var count = 0;
+                foreach (var AnswerSubquestionStatus in AnswerSubquestionStatuses)
+                {
+                    checkn = AnswerSubquestionStatus;
+                    if (n != checkn)
+                    {
+                        n = checkn;
+                        count++;
+                    }
+                    else
+                    {
+                        n = checkn;
+                    }
+                }
+
+                var subque = _context.SubquestionCentralPolicyProvinces
+                  .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                  .FirstOrDefault();
+
+                var invited_depart = _context.SubjectCentralPolicyProvinceGroups
+                           .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id).Count(); //department invited
+
+                if (count == invited_depart)
+                {
+                    var subjectdata = _context.SubjectCentralPolicyProvinces.Find(answer.SubjectCentralPolicyProvinceId);
+                    subjectdata.CheckAnswer = 1;
+                    _context.Entry(subjectdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+                var subjectall = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.SubjectGroupId == subjectGroupId && m.Type == "NoMaster").Count();
+
+                var subjectcheckanswer = _context.SubjectCentralPolicyProvinces
+               .Where(m => m.SubjectGroupId == subjectGroupId && m.Type == "NoMaster" && m.CheckAnswer == 1).Count();
+
+                if (subjectall == subjectcheckanswer)
+                {
+                    var subjectgroupdata = _context.SubjectGroups.Find(subjectGroupId);
+                    subjectgroupdata.Status = "รายงานแล้ว";
+                    _context.Entry(subjectgroupdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+                System.Console.WriteLine("answer.SubjectCentralPolicyProvinceId" + answer.SubjectCentralPolicyProvinceId);
+                System.Console.WriteLine("subque.Id" + subque.Id);
+                System.Console.WriteLine("Count" + count);
+                System.Console.WriteLine("invited_depart" + invited_depart);
+            }
+
             var statusdata = _context.AnswerSubquestionStatuses.Find(id);
-            statusdata.Status = status;
-            _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+                statusdata.Status = status;
+                _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
 
         }
         // PUT api/values/5
@@ -634,7 +707,7 @@ namespace InspecWeb.Controllers
         }
         // POST api/values
         [HttpPost("addstatus")]
-        public IActionResult Post5(long SubjectCentralPolicyProvinceId, string UserId, string Status)
+        public IActionResult Post5(long SubjectCentralPolicyProvinceId, string UserId, string Status, long subjectGroupId)
         {
             System.Console.WriteLine("in", UserId);
             var date = DateTime.Now;
@@ -648,6 +721,73 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in2");
             _context.AnswerSubquestionStatuses.Add(Statusdata);
             _context.SaveChanges();
+
+            if (Status == "ใช้งานจริง")
+            {
+                var answer = _context.AnswerSubquestionStatuses
+               .Where(m => m.Id == Statusdata.Id)
+               .FirstOrDefault();
+
+                var AnswerSubquestionStatuses = _context.AnswerSubquestionStatuses
+                    .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                    .Include(m => m.User)
+                    .OrderBy(m => m.User.ProvincialDepartmentId)
+                    .Select(m => m.User.ProvincialDepartmentId)
+                    .ToList(); //department answer
+
+                long n = 0;
+                long checkn = 0;
+                var count = 0;
+                foreach (var AnswerSubquestionStatuse in AnswerSubquestionStatuses)
+                {
+                    checkn = AnswerSubquestionStatuse;
+                    if (n != checkn)
+                    {
+                        n = checkn;
+                        count++;
+                    }
+                    else
+                    {
+                        n = checkn;
+                    }
+
+                }
+                var subque = _context.SubquestionCentralPolicyProvinces
+                    .Where(m => m.SubjectCentralPolicyProvinceId == answer.SubjectCentralPolicyProvinceId)
+                    .FirstOrDefault();
+
+                var invited_depart = _context.SubjectCentralPolicyProvinceGroups
+                           .Where(m => m.SubquestionCentralPolicyProvinceId == subque.Id).Count(); //department invited
+
+                if (count == invited_depart)
+                {
+                    var subjectdata = _context.SubjectCentralPolicyProvinces.Find(answer.SubjectCentralPolicyProvinceId);
+                    subjectdata.CheckAnswer = 1;
+                    _context.Entry(subjectdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+                var subjectall = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.SubjectGroupId == subjectGroupId && m.Type == "NoMaster").Count();
+
+                var subjectcheckanswer = _context.SubjectCentralPolicyProvinces
+               .Where(m => m.SubjectGroupId == subjectGroupId && m.Type == "NoMaster" && m.CheckAnswer == 1).Count();
+
+                if (subjectall == subjectcheckanswer)
+                {
+                    var subjectgroupdata = _context.SubjectGroups.Find(subjectGroupId);
+                    subjectgroupdata.Status = "รายงานแล้ว";
+                    _context.Entry(subjectgroupdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+                System.Console.WriteLine("answer.SubjectCentralPolicyProvinceId" + answer.SubjectCentralPolicyProvinceId);
+                System.Console.WriteLine("subque.Id" + subque.Id);
+                System.Console.WriteLine("Count" + count);
+                System.Console.WriteLine("invited_depart" + invited_depart);
+            }
+
+
 
             return Ok(Statusdata);
         }
@@ -668,7 +808,8 @@ namespace InspecWeb.Controllers
             _context.AnswerCentralPolicyProvinceStatuses.Add(Statusdata);
             _context.SaveChanges();
 
-            return Ok(new { status = true });
+            //return Ok(new { status = true });
+            return Ok(Statusdata);
         }
         // GET api/values/5
         [HttpGet("answerstatus/{id}/{userid}")]

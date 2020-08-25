@@ -87,21 +87,22 @@ export class AnswerPeopleComponent implements OnInit {
   //   })
   //   // this.router.navigate(['/answerpeople/list', id])
   // }
-  getCentralpolicyprovince(cenid, proid) {
+  getCentralpolicyprovince(cenid, proid, inspectionplaneventid) {
+    //alert(inspectionplaneventid)
     this.inspectionplanservice.getcentralpolicyprovinceid(cenid, proid).subscribe(result => {
       if (this.resultanswersubject.length == 0) {
-        this.router.navigate(['/answerpeople/centralpolicyprovince/' + result])
+        this.router.navigate(['/answerpeople/centralpolicyprovince/' + result + '/' + inspectionplaneventid])
       }
       else {
         for (var i = 0; i < this.resultanswersubject.length; i++) {
           if (this.resultanswersubject[i].centralPolicyProvinceId == result) {
             // alert("me1 inedit")
-            this.router.navigate(['/answerpeople/editcentralpolicyprovince/' + result])
+            this.router.navigate(['/answerpeople/editcentralpolicyprovince/' + result + '/' + inspectionplaneventid])
             break;
           }
           else {
             // alert("me2 indetail")
-            this.router.navigate(['/answerpeople/centralpolicyprovince/' + result])
+            this.router.navigate(['/answerpeople/centralpolicyprovince/' + result + '/' + inspectionplaneventid])
           }
         }
       }

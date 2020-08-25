@@ -251,9 +251,9 @@ namespace InspecWeb.Controllers
 
             //_context.InspectionPlanEvents.Add(inspectionplanevent);
             //_context.SaveChanges();
-            var roleid = _context.Users
+            var userdata = _context.Users
                 .Where(m => m.Id == model.CreatedBy)
-                .Select(m => m.Role_id)
+                //.Select(m => m.Role_id)
                 .FirstOrDefault();
 
             foreach (var item2 in model.input)
@@ -280,8 +280,9 @@ namespace InspecWeb.Controllers
                         ProvinceId = item2.ProvinceId,
                         CreatedAt = date,
                         CreatedBy = model.CreatedBy,
-                        RoleCreatedBy = roleid.ToString(),
-                        Status = "ร่างกำหนดการ"
+                        RoleCreatedBy = userdata.Role_id.ToString(),
+                        Status = "ร่างกำหนดการ",
+                        ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
                     };
                     _context.InspectionPlanEvents.Add(inspectionplanevent);
                     _context.SaveChanges();
@@ -372,6 +373,7 @@ namespace InspecWeb.Controllers
             var inspectionplans = _context.CentralPolicyProvinces
                                 .Include(m => m.Province)
                                 .Include(m => m.CentralPolicy)
+                                     .OrderByDescending(m => m.Id)
                                 .Where(m => m.CentralPolicy.Class == "แผนการตรวจประจำปี" || m.CentralPolicy.Class == "แผนการตรวจ")
                                 .ToList();
 

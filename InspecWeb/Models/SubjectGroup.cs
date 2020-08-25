@@ -31,6 +31,8 @@ namespace InspecWeb.Models
         public string Type { get; set; }
         public string Land { get; set; }
 
+        public string Suggestion { get; set; }
+
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]
         public DateTime? StartDate { get; set; }

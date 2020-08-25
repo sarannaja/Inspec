@@ -191,6 +191,9 @@ import { SectorComponent } from './sector/sector.component';
 import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
 import { ProvincesgroupComponent } from './provincesgroup/provincesgroup.component';
 import { NumberDirective } from './services/numbers-only.directive';
+import { AllReportComponent } from './all-report/all-report.component';
+import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
+
 
 
 
@@ -368,7 +371,9 @@ const ExternalOrganization = [
     SectorComponent,
     TypeexamibationplanComponent,
     ProvincesgroupComponent,
-    NumberDirective
+    NumberDirective,
+    AllReportComponent,
+    AllReportDetailComponent,
   ],
 
   imports: [
@@ -419,7 +424,7 @@ const ExternalOrganization = [
           { path: 'centralpolicy/detailcentralpolicyprovince/department/:result', component: DetailCentralPolicyProvinceDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment', component: SupportGovernmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicy', component: CentralPolicyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'inspectionplan/:id/:provinceid', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'inspectionplan/:id/:provinceid/:watch', component: InspectionPlanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/inspectorministry/:id/:provinceid', component: InspectionPlanMinistryComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplan/inspectordepartment/:id/:provinceid', component: InspectionPlanDepartmentComponent, canActivate: [AuthorizeGuard] },
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
@@ -503,7 +508,7 @@ const ExternalOrganization = [
           { path: 'informationoperation', component: InformationoperationComponent, canActivate: [AuthorizeGuard] },
           { path: 'nationalstrategy', component: NationalstrategyComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerpeople/detail/:id', component: AnswerPeopleDetailComponent, canActivate: [AuthorizeGuard] },
-          { path: 'answerpeople/centralpolicyprovince/:result', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/centralpolicyprovince/:result/:inspectionplaneventid', component: AnswerCentralPolicyProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/invited', component: InvitedElectronicBookComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionplaneventprovince/:id', component: InspectionPlanEventProvinceComponent, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
@@ -536,7 +541,7 @@ const ExternalOrganization = [
           { path: 'exportrequestorderforinspector', component: RequestOrderExport3Component, canActivate: [AuthorizeGuard] },
           { path: 'log', component: LogComponent, canActivate: [AuthorizeGuard] },
           { path: 'answersubject/edit/:id', component: AnswerSubjectEditComponent, canActivate: [AuthorizeGuard] },
-          { path: 'answerpeople/editcentralpolicyprovince/:result', component: AnswerCentralPolicyProvinceEditComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerpeople/editcentralpolicyprovince/:result/:inspectionplaneventid', component: AnswerCentralPolicyProvinceEditComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbook/provincedetail/:id', component: ElectronicBookProvinceDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportimport/detail/:id', component: ReportImportDeatailComponent, canActivate: [AuthorizeGuard] },
           { path: 'commanderreport/detail/:id', component: CommanderReportDetailComponent, canActivate: [AuthorizeGuard] },
@@ -560,6 +565,8 @@ const ExternalOrganization = [
           { path: 'sector', component: SectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'typeexamibationplan', component: TypeexamibationplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'provincesgroup', component: ProvincesgroupComponent, canActivate: [AuthorizeGuard] },
+          { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -580,7 +587,7 @@ const ExternalOrganization = [
     ModalModule.forRoot(),
     // SelectSSSModule
     NgSelectModule,
-    
+
   ], exports: [
     ThaiDatePipe,
     SnotifyModule

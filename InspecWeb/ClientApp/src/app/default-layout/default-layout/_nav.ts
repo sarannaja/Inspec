@@ -39,6 +39,11 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
+    icon: 'fa-file-alt',
+    name: "ทะเบียนรายงานผลการตรวจราชการ",
+    url: '/allreport',
+  },
+  {
     icon: 'fa-hand-point-up',
     name: "ข้อสั่งการถึงผู้ตรวจราชการ",
     IDchildren: 'executiveorderdata',
@@ -1091,21 +1096,21 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     IDchildren: 'electronicbook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    url: '/electronicbook/invited',
-    // children: [
-    //   {
-    //     ex_link: '0',
-    //     icon: 'fa-long-arrow-alt-right',
-    //     url: '/electronicbook',
-    //     name: 'สร้างเอง'
-    //   },
-    //   {
-    //     ex_link: '0',
-    //     icon: 'fa-long-arrow-alt-right',
-    //     url: '/electronicbook/invited',
-    //     name: 'ถูกเชิญ'
-    //   },
-    // ]
+    // url: '/electronicbook/invited',
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook',
+        name: 'สร้างเอง'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook/invited',
+        name: 'ถูกส่ง'
+      },
+    ]
   },
   {
     icon: 'fa-list-alt',
@@ -1205,12 +1210,12 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     name: "ปฏิทินการตรวจราชการ",
     // bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
   },
-  {
-    IDchildren: 'electronicbook',
-    icon: 'fa-book',
-    name: "สมุดตรวจอิเล็กทรอนิกส์",
-    url: '/electronicbook/invited',
-  },
+  // {
+  //   IDchildren: 'electronicbook',
+  //   icon: 'fa-book',
+  //   name: "สมุดตรวจอิเล็กทรอนิกส์",
+  //   url: '/electronicbook/invited',
+  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
@@ -1555,20 +1560,20 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     url: '/electronicbook/invited',
-    // children: [
-    //   {
-    //     ex_link: '0',
-    //     icon: 'fa-long-arrow-alt-right',
-    //     url: '/electronicbook',
-    //     name: 'สร้างเอง'
-    //   },
-    //   {
-    //     ex_link: '0',
-    //     icon: 'fa-long-arrow-alt-right',
-    //     url: '/electronicbook/invited',
-    //     name: 'ถูกเชิญ'
-    //   },
-    // ]
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook',
+        name: 'สร้างเอง'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/electronicbook/invited',
+        name: 'ถูกส่ง'
+      },
+    ]
   },
   // {
   //   icon: 'fa-book',

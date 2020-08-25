@@ -47,10 +47,10 @@
             <!-- (click)="Subquestion()" -->
             <td class="pointer" (click)="DetailSubject(item.id)">
               <div *ngFor="let item2 of item.subjectDateCentralPolicyProvinces;">
-                {{ item2.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
-                {{ item2.centralPolicyDateProvince.endDate | thaidate: 'year' }}</div>
+                {{ item2.centralPolicyDateProvince.startDate | thaidate: 'short' }} -
+                {{ item2.centralPolicyDateProvince.endDate | thaidate: 'short' }}</div>
             </td>
-            <td class="pointer" (click)="DetailSubject(item.id)">{{ item.updateAt | thaidate: 'year' }}</td>
+            <td class="pointer" (click)="DetailSubject(item.id)">{{ item.updateAt | thaidate: 'short' }}</td>
             <!-- <td class="pointer" (click)="DetailSubject(item.id)">{{item.status}}</td> -->
             <td>
               <div class="row">

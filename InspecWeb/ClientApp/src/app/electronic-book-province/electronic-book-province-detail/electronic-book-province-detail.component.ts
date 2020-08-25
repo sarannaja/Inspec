@@ -235,6 +235,10 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   postSignature(value) {
     this.electronicBookService.provinceAddSignature(value, this.form.value.files, this.electId, this.userid, this.userProvinceId).subscribe(res => {
       // console.log("signatureRES: ", res);
+      this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, this.userid, 8, this.electId)
+        .subscribe(response => {
+          console.log("Noti res: ", response);
+        })
       this.getElectronicBookDetail();
       this.Form.reset();
       this.modalRef.hide();
