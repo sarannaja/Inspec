@@ -16,11 +16,11 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("FiscalYear")]
+        [ForeignKey("FiscalYearNew")]
         [Description("FK: ปีงบประมาณ")]
-        public long FiscalYearId { get; set; }
+        public long FiscalYearNewId { get; set; }
 
-        public virtual FiscalYear FiscalYear { get; set; }
+        public virtual FiscalYearNew FiscalYearNew { get; set; }
 
         //[ForeignKey("InspectionPlanEvent")]
         //[Description("FK: Event การตรวจ")]

@@ -764,6 +764,44 @@ namespace InspecWeb.Controllers {
             _context.SaveChanges ();
         }
 
+        [HttpGet("api/[controller]/[action]/{id}/{ministryId}")]
+        public IEnumerable<ApplicationUser> getuserSameMinistry(long id, long ministryId)
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Include(x => x.Departments)
+                .Include(x => x.ProvincialDepartments)
+                .Where(m => m.Role_id == id && m.MinistryId == ministryId)
+                .Where(m => m.Active == 1)
+                .Where(m => m.Email != "admin@inspec.go.th").OrderByDescending(m => m.CreatedAt);
+
+            return users;
+        }
+
+        [HttpGet("api/[controller]/[action]/{id}/{departmentId}")]
+        public IEnumerable<ApplicationUser> getuserSameDepartment(long id, long departmentId)
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Include(x => x.Departments)
+                .Include(x => x.ProvincialDepartments)
+                .Where(m => m.Role_id == id && m.DepartmentId == departmentId)
+                .Where(m => m.Active == 1)
+                .Where(m => m.Email != "admin@inspec.go.th").OrderByDescending(m => m.CreatedAt);
+
+            return users;
+        }
+
         [Route ("[controller]/[action]")]
         public async Task<IActionResult> Create () {
             string result = string.Empty;

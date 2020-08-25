@@ -49,7 +49,7 @@ namespace InspecWeb.Controllers
             //return centralpolicydata;
 
             return _context.CentralPolicies
-                   .Include(m => m.FiscalYear)
+                   .Include(m => m.FiscalYearNew)
                    .Include(m => m.CentralPolicyProvinces)
                    .ThenInclude(x => x.Province)
                    .Include(m => m.CentralPolicyDates)
@@ -62,7 +62,7 @@ namespace InspecWeb.Controllers
         public IActionResult Get(long id)
         {
             var centralpolicydata = _context.CentralPolicies
-                .Include(m => m.FiscalYear)
+                .Include(m => m.FiscalYearNew)
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
@@ -79,11 +79,11 @@ namespace InspecWeb.Controllers
         public IActionResult Get2(long id)
         {
             var centralpolicydata = _context.CentralPolicies
-                .Include(m => m.FiscalYear)
+                .Include(m => m.FiscalYearNew)
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
-                .Where(m => m.FiscalYearId == id && m.Class == "แผนการตรวจประจำปี").ToList();
+                .Where(m => m.FiscalYearNewId == id && m.Class == "แผนการตรวจประจำปี").ToList();
 
             return Ok(centralpolicydata);
             //return "value";
@@ -115,7 +115,7 @@ namespace InspecWeb.Controllers
             {
                 Title = model.Title,
                 Type = model.Type,
-                FiscalYearId = model.FiscalYearId,
+                FiscalYearNewId = model.FiscalYearNewId,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
                 Status = model.Status,
@@ -257,7 +257,7 @@ namespace InspecWeb.Controllers
             {
                 centralpolicydata.Title = model.Title;
                 centralpolicydata.Type = model.Type;
-                centralpolicydata.FiscalYearId = model.FiscalYearId;
+                centralpolicydata.FiscalYearNewId = model.FiscalYearNewId;
                 centralpolicydata.StartDate = model.StartDate;
                 centralpolicydata.EndDate = model.EndDate;
                 centralpolicydata.Status = model.Status;
@@ -728,7 +728,7 @@ namespace InspecWeb.Controllers
 
             var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Include(m => m.CentralPolicy)
-                .Where(m => m.CentralPolicy.FiscalYearId == fiscalyearData.Id)
+                .Where(m => m.CentralPolicy.FiscalYearNewId == fiscalyearData.Id)
                 .Where(m => m.ProvinceId == id && m.Active == 1)
                 .ToList();
 
@@ -775,7 +775,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyProvinces)
                 .Include(m => m.CentralPolicy)
-                .ThenInclude(m => m.FiscalYear)
+                .ThenInclude(m => m.FiscalYearNew)
                 .Where(m => m.InspectionPlanEventId == planid)
                 .Where(m => m.UserId == id);
 
@@ -829,7 +829,7 @@ namespace InspecWeb.Controllers
             .Where(m => m.Id == centralpolicyprovince.ProvinceId).FirstOrDefault();
 
             var centralpolicydata = _context.CentralPolicies
-            .Include(x => x.FiscalYear)
+            .Include(x => x.FiscalYearNew)
             .Include(m => m.CentralPolicyDates)
             .Include(m => m.CentralPolicyFiles)
             .Include(m => m.CentralPolicyProvinces)
@@ -1363,7 +1363,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.CentralPolicyProvinces)
                 .Include(m => m.CentralPolicy)
-                .ThenInclude(m => m.FiscalYear)
+                .ThenInclude(m => m.FiscalYearNew)
                 .Where(m => m.InspectionPlanEventId == planid)
                 .Where(m => m.UserId == id);
 
