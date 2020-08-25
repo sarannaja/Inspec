@@ -44,13 +44,11 @@ export class InspectionplaneventService {
   addInspectionplanevent(inspectionplaneventData, userid) {
     // alert(JSON.stringify(inspectionplaneventData.input))
 
-    var input = inspectionplaneventData.input.map((item, index) => {
-      console.log(item.start_date_plan.jsdate);
-      var start_date_plan: Date = item.start_date_plan.jsdate
-      var end_date_plan: Date = item.end_date_plan.jsdate
+    var input: any[] = inspectionplaneventData.input.map((item, index) => {
+      // console.log(
       return {
-        StartPlanDate: start_date_plan,
-        EndPlanDate: end_date_plan,
+        StartPlanDate: item.start_date_plan,
+        EndPlanDate: item.end_date_plan,
         ProvinceId: item.provinces,
         // CentralPolicyId: item.centralpolicies,
       }
@@ -61,10 +59,16 @@ export class InspectionplaneventService {
       input: input,
       CreatedBy: userid,
     }
-    console.log('FORMDATA: ' + formData);
+    console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);
   }
+  addInspectionplanevent2(formData) {
+    // alert(JSON.stringify(inspectionplaneventData.input))
 
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post(this.url, formData);
+  }
   deleteInspectionplanevent(id) {
     return this.http.delete(this.url + id);
   }

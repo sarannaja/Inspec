@@ -292,12 +292,7 @@ namespace InspecWeb.Controllers {
 
             return InspectionPlanEventdata.Id;
         }
-        public DateTime datejsjstodotnet (long date) {
-
-            var datejstodot = new DateTime (1970, 1, 1, 0, 0, 0, 0); // epoch start
-            datejstodot = datejstodot.AddMilliseconds (date).Date; // you have to get this from JS of course
-            return datejstodot;
-        }
+        
         // GET api/values/5
         [HttpGet ("getcentralpolicyprovinceid/{centralpolicyid}/{provinceid}")]
         public IActionResult GetCentralpolicyprovinceid (long centralpolicyid, long provinceid) {

@@ -120,11 +120,26 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   storeInspectionPlanEvent(value) {
     console.log("Store : ", value);
     // alert(JSON.stringify(value))
-    this.inspectionplaneventservice.addInspectionplanevent(value, this.userid)
+    var input: any[] = value.input.map((item, index) => {
+      // console.log
+      return {
+        StartPlanDate: item.start_date_plan,
+        EndPlanDate: item.end_date_plan,
+        ProvinceId: item.provinces,
+        // CentralPolicyId: item.centralpolicies,
+      }
+    })
+    // alert(JSON.stringify(input))
+    const formData = {
+      Name: value.title,
+      input: input,
+      CreatedBy: this.userid,
+    }
+    this.inspectionplaneventservice.addInspectionplanevent2(formData)
       .subscribe(response => {
-        console.log(value);
-        this.Form.reset()
-        this.router.navigate(['inspectionplanevent'])
+        console.log('response', response);
+        // this.Form.reset()
+        // this.router.navigate(['inspectionplanevent'])
       })
   }
 
@@ -188,7 +203,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   back() {
     window.history.back();
   }
-
+  //inpecplanevent
   Gotoinspecplan(provinceid, i) {
 
     // alert(this.start_date_plan[i])
@@ -204,21 +219,28 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       })
   }
 
-  startdate(event, i) {
-    console.log("event", event);
+  startdate(event: Date, i) {
+    console.log("event", event.toJSON());
+    this.t.at(i).patchValue({
+      start_date_plan: event.toJSON(),
+    })
     // this.start_date_plan_i[i] = event.date.year + '-' + event.date.month + '-' + event.date.day;
     this.start_date_plan_i[i] = event
     // alert(JSON.stringify(event))
   }
-  enddate(event, i) {
-    console.log("event", event);
+  enddate(event: Date, i) {
+    console.log("event", event.toJSON());
     // this.start_date_plan_i[i] = event;
+    this.t.at(i).patchValue({
+
+      end_date_plan: event.toJSON(),
+    })
     // this.end_date_plan_i[i] = event.date.year + '-' + event.date.month + '-' + event.date.day;
     this.end_date_plan_i[i] = event;
+
     // alert(JSON.stringify(event))
   }
   TestTimeChange() {
-
     console.log(this.t.at(0).get('start_date_plan').value);
 
   }

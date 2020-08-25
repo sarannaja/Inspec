@@ -92,16 +92,16 @@ export class InspectionplanService {
     console.log('FORMDATA POST: ', formData);
     return this.http.post(this.url, formData);
   }
-  changeDateTodotnet(date:Date){
-    // var date = new Date();
-    var day = date.getDate();       // yields date
-    var month = date.getMonth() + 1;    // yields month (add one as '.getMonth()' is zero indexed)
-    var year1 = date.getFullYear();  // yields year1
-    var hour = date.getHours();     // yields hours 
-    var minute = date.getMinutes(); // yields minutes
-    var second = date.getSeconds(); // yields seconds
-    return day + "/" + month + "/" + year1 + " " + hour + ':' + minute + ':' + second;
-  }
+  // changeDateTodotnet(date:Date){
+  //   // var date = new Date();
+  //   var day = date.getDate();       // yields date
+  //   var month = date.getMonth() + 1;    // yields month (add one as '.getMonth()' is zero indexed)
+  //   var year1 = date.getFullYear();  // yields year1
+  //   var hour = date.getHours();     // yields hours 
+  //   var minute = date.getMinutes(); // yields minutes
+  //   var second = date.getSeconds(); // yields seconds
+  //   return day + "/" + month + "/" + year1 + " " + hour + ':' + minute + ':' + second;
+  // }
   inspectionplansprovince(provinceid, userid, start_date_plan_i: Date, end_date_plan_i: Date) {
    
     console.log(' Date.parse(start_date_plan_i.toString()).toString()',start_date_plan_i);

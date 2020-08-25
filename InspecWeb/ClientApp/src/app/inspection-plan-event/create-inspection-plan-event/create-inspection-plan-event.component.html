@@ -57,9 +57,9 @@
                       [options]="myDatePickerOptions" required>
                     </my-date-picker-th>
                     <timepicker (ngModelChange)="TestTimeChange()" [ngModelOptions]="{standalone: true}"
-                      (ngModelChange)="startdate($event,i)" [(ngModel)]=" start_date_plan_i[i]" [showMeridian]="false">
+                      (ngModelChange)="startdate($event,i)" [(ngModel)]="start_date_plan_i[i]" [showMeridian]="false">
                     </timepicker>
-                    <pre class="alert alert-info">Time is: {{  start_date_plan_i[i]  }}</pre>
+                    <!-- <pre class="alert alert-info">Time is: {{  start_date_plan_i[i]  }}</pre> -->
                   </div>
                   <div class="col-12 col-xl-1">
                     <div class="form-group" align="center">
@@ -72,8 +72,9 @@
                         [options]="myDatePickerOptions" required>
                       </my-date-picker-th>
                       <timepicker [ngModelOptions]="{standalone: true}" [(ngModel)]="end_date_plan_i[i] "
-                        (ngModelChange)="enddate($event,i)" [showMeridian]="false"></timepicker>
-                      <pre class="alert alert-info">Time is: {{  end_date_plan_i[i]    }}</pre>
+                        (ngModelChange)="enddate($event,i)" [showMeridian]="false">
+                      </timepicker>
+                      <!-- <pre class="alert alert-info">Time is: {{  end_date_plan_i[i]    }}</pre> -->
 
 
                     </div>
@@ -102,6 +103,7 @@
                     <div class="form-group">
                       <!-- {{provincename[i]}}
                       &nbsp;&nbsp; -->
+
                       <button type="button" (click)="Gotoinspecplan(provinceid[i],i)"
                         class="btn btn-info">กำหนดรายละเอียด</button>
                     </div>
