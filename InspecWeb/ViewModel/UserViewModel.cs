@@ -35,7 +35,7 @@ namespace InspecWeb.ViewModel
         public string Rold { get; set; }
         public string Alley { get; set; }
         public string Postalcode { get; set; }
-        public string Side { get; set; }
+        public long SideId { get; set; }
         public string Img { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? Startdate { get; set; }
@@ -56,6 +56,8 @@ namespace InspecWeb.ViewModel
         public long UserProvinceId { get; set; }
 
         public long UserRegionId { get; set; } //สำหรับทำ array  
+
+        public long Autocreateuser { get; set; } //20200823
     }
 
     public class UserArray

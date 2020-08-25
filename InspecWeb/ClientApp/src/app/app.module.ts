@@ -187,6 +187,10 @@ import { InformationinspectionComponent } from './informationinspection/informat
 import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
 import { FiscalyearnewComponent } from './fiscalyearnew/fiscalyearnew.component';
 import { SideComponent } from './side/side.component';
+import { SectorComponent } from './sector/sector.component';
+import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
+import { ProvincesgroupComponent } from './provincesgroup/provincesgroup.component';
+import { NumberDirective } from './services/numbers-only.directive';
 
 
 
@@ -361,6 +365,10 @@ const ExternalOrganization = [
     ApprovaldocumentComponent,
     FiscalyearnewComponent,
     SideComponent,
+    SectorComponent,
+    TypeexamibationplanComponent,
+    ProvincesgroupComponent,
+    NumberDirective
   ],
 
   imports: [
@@ -549,6 +557,9 @@ const ExternalOrganization = [
           { path: 'supportgovernment/approvaldocument', component: ApprovaldocumentComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyearnew', component: FiscalyearnewComponent, canActivate: [AuthorizeGuard] },
           { path: 'side', component: SideComponent, canActivate: [AuthorizeGuard] },
+          { path: 'sector', component: SectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'typeexamibationplan', component: TypeexamibationplanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'provincesgroup', component: ProvincesgroupComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

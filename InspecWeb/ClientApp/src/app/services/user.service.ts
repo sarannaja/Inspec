@@ -74,12 +74,15 @@ export class UserService {
       formData.append('Rold','');
       formData.append('Alley','');
       formData.append('Postalcode','');
+      formData.append('Autocreateuser',userData.Autocreateuser); // 20200823
+      formData.append('UserName',userData.UserName); // 20200823
+      //alert(userData.Autocreateuser);
 
       //<!-- ด้าน -->
-      if(userData.Side != null){
-      formData.append('Side',userData.Side); 
+      if(userData.SideId != null){
+      formData.append('SideId',userData.SideId); 
       }else{
-        formData.append('Side',null);
+        formData.append('SideId','1');
       }
       //<!-- END ด้าน -->
       formData.append('Img','');
@@ -99,6 +102,7 @@ export class UserService {
 
       if(userData.UserRegion != null){
         for (var i = 0; i < userData.UserRegion.length; i++) {
+          //alert(userData.UserRegion[i]);
           formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน
         }
       }else{
@@ -210,7 +214,7 @@ export class UserService {
     if(userData.Side != null){
     formData.append('Side',userData.Side); 
     }else{
-      formData.append('Side',null);
+      formData.append('Side','1');
     }
     //<!-- END ด้าน -->
 
