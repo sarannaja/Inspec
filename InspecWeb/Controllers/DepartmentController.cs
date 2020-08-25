@@ -29,6 +29,8 @@ namespace InspecWeb.Controllers
             return provincialdepartmentdata;
         }
         //สำหรับใช้ตรงข้อมูลสนับสนุน
+
+
         [HttpGet("departmentsforsupport/{id}")]
         public IActionResult GetDepartments(long id)
         {

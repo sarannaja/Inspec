@@ -41,18 +41,18 @@
               <td>{{item.shortnameTH}}</td>
               <td>{{item.nameEN}}</td>
               <td>{{item.shortnameEN}}</td>
-              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
+              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'short'}}</td>
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>
               <td>
-                <!-- <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้ออมูล" 
-                    (click)="openModal(modaleditMinistry, item.id, item.name,item.nameEN,item.shortnameEN,item.shortnameTH)">
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้ออมูล" 
+                    (click)="openModal(modaledit, item.id, item.name,item.nameEN,item.shortnameEN,item.shortnameTH)">
                   <i class="align-middle fas fa-fw fa-pen "></i>
                 </button>
-                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldeleteMinistry, item.id)">
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldelete, item.id)">
                   <i class="align-middle fas fa-fw fa-trash-alt"></i>
-                </button> -->
+                </button>
               </td>
             </tr>
           </tbody>
@@ -100,7 +100,7 @@
 <!-- END primary modal -->
 
 <!-- BEGIN primary modal -->
-<ng-template #modaldeleteMinistry class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<ng-template #modaldelete class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
     <i class="fa fa-info-circle delete-icon"></i>
     <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
@@ -109,7 +109,7 @@
     <p style="font-size: medium; color: #545454;">
       คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
     </p>
-    <button type="button" class="btn btn-primary btnMargin" (click)="deleteMinistry(delid)">
+    <button type="button" class="btn btn-primary btnMargin" (click)="delete(delid)">
       ใช่
     </button>
     <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
@@ -120,11 +120,11 @@
 <!-- END primary modal -->
 
 <!-- BEGIN primary modal -->
-<ng-template #modaleditMinistry class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <form [formGroup]="Form" (ngSubmit)="editMinistry(Form.value,delid)">
+<ng-template #modaledit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="Form" (ngSubmit)="edit(Form.value,delid)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการด้าน</h5>
+        <h5 class="modal-title">ประเภทด้านภาคประชาชน</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
