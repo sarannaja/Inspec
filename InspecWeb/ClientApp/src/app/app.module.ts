@@ -190,6 +190,9 @@ import { SideComponent } from './side/side.component';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 import {NgxPrintModule} from 'ngx-print';
+import { AnswerRecommendationinSpectorComponent } from './answer-subject/answer-recommendationin-spector/answer-recommendationin-spector.component';
+import { AnswerRecommendationinSpectorDetailComponent } from './answer-subject/answer-recommendationin-spector-detail/answer-recommendationin-spector-detail.component';
+import { AnswerRecommendationinSpectorEditComponent } from './answer-subject/answer-recommendationin-spector-edit/answer-recommendationin-spector-edit.component';
 
 
 
@@ -366,6 +369,9 @@ const ExternalOrganization = [
     SideComponent,
     AllReportComponent,
     AllReportDetailComponent,
+    AnswerRecommendationinSpectorComponent,
+    AnswerRecommendationinSpectorDetailComponent,
+    AnswerRecommendationinSpectorEditComponent,
   ],
 
   imports: [
@@ -557,6 +563,9 @@ const ExternalOrganization = [
           { path: 'side', component: SideComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector', component: AnswerRecommendationinSpectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector/detail/:id', component: AnswerRecommendationinSpectorDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector/edit/:id', component: AnswerRecommendationinSpectorEditComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
