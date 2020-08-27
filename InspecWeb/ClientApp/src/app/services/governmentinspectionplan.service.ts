@@ -10,7 +10,7 @@ export class GorvermentinspectionplanService {
   url = "";
 
   constructor(private http:HttpClient,@Inject('BASE_URL')  baseUrl: string) { 
-    this.url = baseUrl + 'api/governmentinspectionplan';
+    this.url = baseUrl + 'api/governmentinspectionplan/';
   }
 
 
@@ -18,26 +18,32 @@ export class GorvermentinspectionplanService {
     return this.http.get(this.url)
   }
   addGovernmentinspectionplan(governmentinspectionplanData, file: FileList){
-     alert(JSON.stringify(governmentinspectionplanData))
+    // alert(JSON.stringify(governmentinspectionplanData))
     const formData = new FormData();
     formData.append('year',governmentinspectionplanData.year);
     formData.append('title',governmentinspectionplanData.title);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
     return this.http.post(this.url, formData);
   }
   deleteGovernmentinspectionplan(id) {
     return this.http.delete(this.url + id);
   }
-  editGovernmentinspectionplan(governmentinspectionplanData,id) {
-    console.log(governmentinspectionplanData);
+  editGovernmentinspectionplan(governmentinspectionplanData, file: FileList,id,filesname) {
 
     const formData = new FormData();
-    // alert(JSON.stringify(governmentinspectionplanData))
     formData.append('year', governmentinspectionplanData.year);
     formData.append('title',governmentinspectionplanData.title);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
+    formData.append('filesname',filesname);
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+        //alert(file[iii]);
+      }
+    }
     return this.http.put(this.url+id, formData);
   }
 }

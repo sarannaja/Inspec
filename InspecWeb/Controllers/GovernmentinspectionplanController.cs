@@ -74,22 +74,24 @@ namespace InspecWeb.Controllers
             //// path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "/assets" + "//GovernmentinspectionplanFile//";
 
-
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-            ////foreach (var formFile in data.files)
+            if (model.files != null)
             {
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                ////foreach (var formFile in data.files)
                 {
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + ext))
-                    {
-                        await formFile.Value.CopyToAsync(stream);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                        filesname = random + ext;
+                    if (formFile.Value.Length > 0)
+                    {
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+
+                            filesname = random + ext;
+                        }
                     }
                 }
             }
@@ -110,14 +112,51 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string year, string title, string file)
+        public async Task<IActionResult> Put([FromForm] GovernmentinspectionplanViewModel model,long id)
         {
-            var governmentinspectionplan = _context.Governmentinspectionplans.Find(id);
-            governmentinspectionplan.Year = year;
-            governmentinspectionplan.Title = title;
-            _context.Entry(governmentinspectionplan).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            var date = DateTime.Now;
+            var filesname = model.filesname;
+            var random = RandomString(15);
+            //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
+            if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//GovernmentinspectionplanFile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "/assets" + "//GovernmentinspectionplanFile//"); //สร้าง Folder Upload ใน wwwroot
+            }
 
+            ////var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            //// path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "/assets" + "//GovernmentinspectionplanFile//";
+
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                ////foreach (var formFile in data.files)
+                {
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+
+                            filesname = random + ext;
+                        }
+                    }
+                }
+            }
+
+            var governmentinspectionplan = _context.Governmentinspectionplans.Find(id);
+                governmentinspectionplan.Year = model.Year;
+                governmentinspectionplan.Title = model.Title;
+                governmentinspectionplan.File = filesname;
+                _context.Entry(governmentinspectionplan).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+
+                return Ok(governmentinspectionplan);
         }
 
         // DELETE api/values/5

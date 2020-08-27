@@ -126,7 +126,7 @@ export class EditCentralPolicyComponent implements OnInit {
         this.resultdetailcentralpolicy = result;
         console.log("RES EDIT: ", this.resultdetailcentralpolicy);
 
-        this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearId.toString();
+        this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearNewId.toString();
 
 
         this.resultdetailcentralpolicy.centralPolicyDates.forEach(element => {
@@ -167,12 +167,12 @@ export class EditCentralPolicyComponent implements OnInit {
 
 
 
-        console.log("year: ", this.resultdetailcentralpolicy.fiscalYearId);
+        console.log("year: ", this.resultdetailcentralpolicy.fiscalYearNewId);
 
 
         this.EditForm.patchValue({
           title: this.resultdetailcentralpolicy.title,
-          year: this.resultdetailcentralpolicy.fiscalYearId.toString(),
+          year: this.resultdetailcentralpolicy.fiscalYearNewId.toString(),
           type: this.resultdetailcentralpolicy.type,
           status: this.resultdetailcentralpolicy.status,
           ProvinceId: this.selected
@@ -222,7 +222,8 @@ export class EditCentralPolicyComponent implements OnInit {
       .subscribe(response => {
         console.log("res: ", response);
         this.EditForm.reset()
-        this.router.navigate(['centralpolicy'])
+        // this.router.navigate(['centralpolicy'])
+        window.history.back();
       })
   }
 

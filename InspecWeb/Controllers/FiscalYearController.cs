@@ -25,7 +25,7 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var fiscalyeardata = from P in _context.FiscalYearNew
+            var fiscalyeardata = from P in _context.FiscalYears
                                  select P;
             return Ok(fiscalyeardata);
 

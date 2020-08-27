@@ -81,7 +81,7 @@
             <label for="test" class="form-label">รายละเอียด </label>
             <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
             <label for="test" class="form-label">ไฟล์แนบ </label><br>
-            <input type="file"multiple (change)="uploadFile($event)">
+            <input type="file" (change)="uploadFile($event)">
           </div>
         </div>
         <div class="modal-footer">
@@ -135,7 +135,8 @@
             <label for="test" class="form-label">รายละเอียด </label>
             <input type="text" value="{{title}}"formControlName="title" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
             <label for="test" class="form-label">ไฟล์แนบ </label><br>
-            <input type="file">
+            <a *ngIf="filesname != null " href="assets/GovernmentinspectionplanFile/{{filesname}}" download>{{ filesname }}</a>
+            <input type="file" (change)="uploadFile($event)">
         </div>
       </div>
       <div class="modal-footer">

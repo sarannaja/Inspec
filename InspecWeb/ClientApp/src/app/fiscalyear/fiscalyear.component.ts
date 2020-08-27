@@ -43,22 +43,30 @@ export class FiscalyearComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [3],
-          orderable: false
-        }
-      ]
-    }
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+
+    };
 
 
     this.Form = this.fb.group({
       "fiscalyear": new FormControl(null, [Validators.required]),
       "startdate": new FormControl(null, [Validators.required]),
       "enddate": new FormControl(null, [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
 
     //แก้ไข
