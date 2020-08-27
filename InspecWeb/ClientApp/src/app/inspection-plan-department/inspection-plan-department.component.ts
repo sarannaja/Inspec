@@ -4,13 +4,14 @@ import { CentralpolicyService } from '../services/centralpolicy.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { NotificationService } from '../services/notification.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { Log } from 'oidc-client';
+import * as _ from 'lodash'
 @Component({
   selector: 'app-inspection-plan-department',
   templateUrl: './inspection-plan-department.component.html',
@@ -22,7 +23,11 @@ export class InspectionPlanDepartmentComponent implements OnInit {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };
-
+  ProvincialDepartmentSelect: any[] = []
+  DepartmentSelect: any[] = []
+  MinistrySelect: any[] = []
+  PeopleSelect: any[] = []
+  resultdepartmentpeople: any = []
   resultpeople: any = []
   resultinspectionplan: any = []
   resultcentralpolicy: any = []
@@ -32,6 +37,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
   name: any
   modalRef: BsModalRef;
   selectdatacentralpolicy: any[] = []
+  FormOther: FormGroup
   Form: FormGroup
   Form2: FormGroup
   EditForm: FormGroup
@@ -45,9 +51,13 @@ export class InspectionPlanDepartmentComponent implements OnInit {
   timelineData: any = [];
   ScheduleData: any = [];
   resultministrypeople: any = []
+  resultprovincialdepartmentpeople: any = []
   resultdetailcentralpolicy: any = []
   resultfiscalyear: any = []
   selectdataministrypeople: any = [];
+  selectdatapeople: any = [];
+  selectdatadepartmentpeople: any = [];
+  selectdataprovincialdepartmentpeople: any = [];
   startDate: any;
   endDate: any;
   startDate2: any;
@@ -57,6 +67,15 @@ export class InspectionPlanDepartmentComponent implements OnInit {
   rolecreatedby
   delid
   editid
+  checkInspec: Boolean;
+  year
+  ministryuserdata: any = [];
+  departmentuserdata: any = [];
+  peopleuserdata: any = [];
+  provincialdepartmentuserdata: any = [];
+  userProvince: any[] = []
+  ministryId
+  watch
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
@@ -67,6 +86,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
+    this.watch = activatedRoute.snapshot.paramMap.get('watch')
     this.url = baseUrl + 'inspectionplanevent';
   }
 
@@ -85,6 +105,8 @@ export class InspectionPlanDepartmentComponent implements OnInit {
             // this.resultuser = result;
             //console.log("test" , this.resultuser);
             this.role_id = result[0].role_id
+            this.userProvince = result[0].userProvince
+            this.ministryId = result[0].ministryId
             // alert(this.role_id)
           })
       })
@@ -96,14 +118,35 @@ export class InspectionPlanDepartmentComponent implements OnInit {
           targets: [3],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
 
     this.getCurrentYear();
-    this.getinspectionplanservice();
     this.getTimeline();
     this.getScheduleData();
-    await this.getMinistryPeople();
+
+    this.getministryuser();
+    this.getdepartmentuser();
+    this.getpeopleuser();
+    this.getprovincialdepartmentuser();
+
+    // await this.getMinistryPeople();
+    // await this.getDepartmentPeople();
+    // await this.getUserPeople();
+    // await this.getProvincialDepartmentPeople();
 
     this.Form = this.fb.group({
       CentralpolicyId: new FormControl(null, [Validators.required]),
@@ -115,13 +158,27 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       deadlinedate: new FormControl(null, [Validators.required]),
     })
 
+    this.FormOther = this.fb.group({
+      title: new FormControl(null, [Validators.required]),
+      start_date: new FormControl(null, [Validators.required]),
+      end_date: new FormControl(null, [Validators.required]),
+      year: new FormControl(1, [Validators.required]),
+      type: new FormControl("อื่นๆ", [Validators.required]),
+      // files: new FormControl(null, [Validators.required]),
+      ProvinceId: new FormControl(1, [Validators.required]),
+      // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      input: new FormArray([])
+    })
     // this.Form.patchValue({
     //   startdate: this.timelineData.startDate,
     //   enddate: this.timelineData.endDate
     // })
 
     this.Form2 = this.fb.group({
-      UserPeopleId: new FormControl(null, [Validators.required]),
+      UserPeopleId: new FormControl(null),
+      UserMinistryId: new FormControl(null),
+      UserDepartmentId: new FormControl(null),
+      UserProvincialDepartmentId: new FormControl(null),
     })
     this.EditForm = this.fb.group({
       title: new FormControl(null),
@@ -136,6 +193,8 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       this.timelineData = res.timelineData;
       this.startDate = this.time(this.timelineData.startDate)
       this.endDate = this.time(this.timelineData.endDate)
+      this.year = this.getyear(this.timelineData.startDate)
+      // alert(JSON.stringify(this.year))
     })
   }
 
@@ -149,10 +208,18 @@ export class InspectionPlanDepartmentComponent implements OnInit {
     this.inspectionplanservice.getScheduleData(this.id, this.provinceid).subscribe(res => {
       console.log("ScheduleData: ", res);
       this.ScheduleData = res;
+      this.getinspectionplanservice();
     })
   }
 
   async openModal(template: TemplateRef<any>) {
+
+    this.getMinistryPeople();
+    this.getDepartmentPeople();
+    this.getUserPeople();
+    this.getProvincialDepartmentPeople();
+
+    this.checkInspec = null;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -184,12 +251,13 @@ export class InspectionPlanDepartmentComponent implements OnInit {
   EditInspectionPlan(id: any) {
     this.router.navigate(['/inspectionplan/editinspectionplan', id])
   }
-  DetailCentralPolicy(id: any) {
+  DetailCentralPolicy(id: any, watch) {
+    // alert(watch)
     this.inspectionplanservice.getcentralpolicyprovinceid(id, this.provinceid).subscribe(result => {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/department', result, { planId: this.id }])
+      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/department', result, { planId: this.id, watch: watch }])
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])
@@ -206,6 +274,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
 
       this.Form.reset()
       this.modalRef.hide()
+      // this.modalService.show('modaldeleteProvince');
 
       for (let i = 0; i < CentralpolicyId.length; i++) {
         this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
@@ -222,6 +291,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       this.loading = false;
       this.data = [];
       this.getinspectionplanservice()
+
     })
   }
 
@@ -259,12 +329,13 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       });
       // this.loading = true;
       console.log("RESULTS: ", this.data);
-      // await this.inspectionplanservice.getcentralpolicydata(this.provinceid)
-      //   .subscribe(async result => {
-      //     this.resultcentralpolicy = result //All
-      //     await this.getRecycled()
-      //     // alert(JSON.stringify(this.resultcentralpolicy))
-      //   })
+      await this.inspectionplanservice.getcentralpolicydata(this.provinceid, this.year)
+        .subscribe(async result => {
+          this.resultcentralpolicy = result //All
+          await this.getRecycled()
+          // alert(JSON.stringify(this.resultcentralpolicy))
+        })
+      this.loading = true;
     })
 
   }
@@ -300,18 +371,85 @@ export class InspectionPlanDepartmentComponent implements OnInit {
   }
 
   async getMinistryPeople() {
+
     await this.userservice.getuserdata(6).subscribe(async result => {
       // alert(JSON.stringify(result))
-
+      this.selectdataministrypeople = []
       this.resultministrypeople = result // All
       console.log("Ministry: ", this.resultministrypeople);
       for (var i = 0; i < this.resultministrypeople.length; i++) {
-        await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+        var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        if (checked > 0) {
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+        }
       }
+
+      var data: any[] = this.ministryuserdata.map(result => {
+        return result.user.id
+      })
+      this.MinistrySelect = _.filter(this.selectdataministrypeople, (v) => !_.includes(
+        data, v.value
+      ))
       // alert(JSON.stringify(this.selectdataministrypeople))
     })
   }
+  async getUserPeople() {
+    this.selectdatapeople = []
+    await this.userservice.getuserdata(7).subscribe(async result => {
+      this.resultpeople = result
+      console.log("tttt:", this.resultpeople);
+      for (var i = 0; i < this.resultpeople.length; i++) {
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].side + " - " + this.resultpeople[i].name })
+      }
 
+      var data: any[] = this.peopleuserdata.map(result => {
+        return result.user.id
+      })
+      this.PeopleSelect = _.filter(this.selectdatapeople, (v) => !_.includes(
+        data, v.value
+      ))
+
+    })
+  }
+  async getDepartmentPeople() {
+    this.selectdatadepartmentpeople = []
+    await this.userservice.getuserdata(10).subscribe(async result => {
+      this.resultdepartmentpeople = result // All
+      for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
+        if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+        }
+      }
+
+      var data: any[] = this.departmentuserdata.map(result => {
+        return result.user.id
+      })
+      this.DepartmentSelect = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+        data, v.value
+      ))
+
+    })
+  }
+  async getProvincialDepartmentPeople() {
+    this.selectdataprovincialdepartmentpeople = []
+    await this.userservice.getuserdata(9).subscribe(async result => {
+      this.resultprovincialdepartmentpeople = result
+      console.log("tttt:", this.resultprovincialdepartmentpeople);
+      for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
+        await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+      }
+
+      console.log("this.provincialdepartmentuserdata", this.provincialdepartmentuserdata);
+
+      var data: any[] = this.provincialdepartmentuserdata.map(result => {
+        return result.user.id
+      })
+      this.ProvincialDepartmentSelect = _.filter(this.selectdataprovincialdepartmentpeople, (v) => !_.includes(
+        data, v.value
+      ))
+
+    })
+  }
   getDetailCentralpolicy() {
     this.inspectionplanservice.getcentralpolicyeventdata(this.editid)
       .subscribe(result => {
@@ -351,22 +489,37 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       this.resultfiscalyear = result
     });
   }
-  storeMinistryPeople(value: any) {
+  async storeMinistryPeople(value: any) {
+    // alert(JSON.stringify(value))
     // console.log("storeMinistryPeople", this.data)
-    // alert(JSON.stringify(this.data[0].centralPolicyId))
+    console.log("data", this.data[0]);
+
     for (let j = 0; j < this.data.length; j++) {
-      let UserPeopleId: any[] = value.UserPeopleId
-      this.centralpolicyservice.addCentralpolicyUser(value, this.data[j].centralPolicyId, this.userid, this.id).subscribe(response => {
-        console.log(value);
-        this.Form.reset()
-        this.modalRef.hide()
-        // for (let i = 0; i < UserPeopleId.length; i++) {
-        //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
-        //     .subscribe(response => {
-        //       console.log(response);
-        //     })
-        // }
-        // this.getCentralPolicyProvinceUser();
+
+      // alert(JSON.stringify(this.data[j].centralPolicyId))
+
+      // let UserPeopleId: any[] = value.UserPeopleId
+      await this.inspectionplanservice.getcentralpolicyprovinceid(this.data[j].centralPolicyId, this.data[j].inspectionPlanEvent.provinceId).subscribe(result => {
+
+        this.centralpolicyservice.addCentralpolicyUser(value, result, this.userid, this.id).subscribe(response => {
+          console.log(value);
+
+          // for (let i = 0; i < UserPeopleId.length; i++) {
+          //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
+          //     .subscribe(response => {
+          //       console.log(response);
+          //     })
+          // }
+          // this.getCentralPolicyProvinceUser();
+          // alert(response);
+          this.Form2.reset()
+          this.modalRef.hide()
+
+          this.getministryuser();
+          this.getdepartmentuser();
+          this.getpeopleuser();
+          this.getprovincialdepartmentuser();
+        })
       })
     }
   }
@@ -405,6 +558,18 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       year: ssss.getFullYear(),
       month: ssss.getMonth() + 1,
       day: ssss.getDate()
+    }
+    console.log("newDate: ", new_date);
+
+    return new_date
+  }
+
+  getyear(date) {
+    console.log("Date: ", date);
+
+    let ssss = new Date(date)
+    var new_date = {
+      year: ssss.getFullYear(),
     }
     console.log("newDate: ", new_date);
 
@@ -465,4 +630,67 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       this.getinspectionplanservice()
     })
   }
+
+  inspect(myradio) {
+    // alert(myradio)
+    this.checkInspec = true;
+  }
+  notInspec(value) {
+    // alert(value)
+    this.checkInspec = false;
+  }
+
+  storeInspectionPlan(value) {
+    console.log("FORM: ", value);
+    this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.provinceid, this.startDate, this.endDate, this.year).subscribe(response => {
+      console.log("create Inspection plan: ", value);
+      // this.Form.reset()
+      // window.history.back();
+
+      this.FormOther.reset()
+      this.modalRef.hide()
+
+      this.loading = false;
+      this.data = [];
+      this.getinspectionplanservice()
+    })
+  }
+
+  getministryuser() {
+    this.centralpolicyservice.getcentralpolicyministrydata(this.id).subscribe(result => {
+      this.ministryuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.ministryuserdata", this.ministryuserdata);
+    })
+  }
+  getdepartmentuser() {
+    this.centralpolicyservice.getcentralpolicydepartmentdata(this.id).subscribe(result => {
+      this.departmentuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.departmentuserdata", this.departmentuserdata);
+    })
+  }
+
+  getprovincialdepartmentuser() {
+    this.centralpolicyservice.getcentralpolicyprovincialdepartmentdata(this.id).subscribe(result => {
+      this.provincialdepartmentuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.departmentuserdata", this.departmentuserdata);
+    })
+  }
+
+  getpeopleuser() {
+    this.centralpolicyservice.getcentralpolicypeopledata(this.id).subscribe(result => {
+      this.peopleuserdata = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.user.id === thing.user.id) === i
+      );
+      console.log("this.peopleuserdata", this.peopleuserdata);
+    })
+  }
+  // var distinctThings: any[] = result.filter(
+  //       (thing, i, arr) => arr.findIndex(t => t.id === thing.id) === i
+  //     );
 }

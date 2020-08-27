@@ -43,10 +43,12 @@ export class InspectionplaneventService {
 
   addInspectionplanevent(inspectionplaneventData, userid) {
     // alert(JSON.stringify(inspectionplaneventData.input))
-    var input = inspectionplaneventData.input.map((item, index) => {
+
+    var input: any[] = inspectionplaneventData.input.map((item, index) => {
+      // console.log(
       return {
-        StartPlanDate: item.start_date_plan.date.year + '-' + item.start_date_plan.date.month + '-' + item.start_date_plan.date.day,
-        EndPlanDate: item.end_date_plan.date.year + '-' + item.end_date_plan.date.month + '-' + item.end_date_plan.date.day,
+        StartPlanDate: item.start_date_plan,
+        EndPlanDate: item.end_date_plan,
         ProvinceId: item.provinces,
         // CentralPolicyId: item.centralpolicies,
       }
@@ -57,10 +59,16 @@ export class InspectionplaneventService {
       input: input,
       CreatedBy: userid,
     }
-    console.log('FORMDATA: ' + formData);
+    console.log('FORMDATA: ', formData);
     return this.http.post(this.url, formData);
   }
+  addInspectionplanevent2(formData) {
+    // alert(JSON.stringify(inspectionplaneventData.input))
 
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post(this.url, formData);
+  }
   deleteInspectionplanevent(id) {
     return this.http.delete(this.url + id);
   }

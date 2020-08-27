@@ -42,17 +42,20 @@
                             <td>{{item.name }}</td>
                             <td>
                               <span (click)="openDetailModal(modaldetailDepartment,item.id, item.name)" class="pointer">
-                              <i class="align-middle mr-2 fas fa-fw fa-search"></i>
+                              <i class="align-middle fas fa-fw fa-search"></i>
                               ดูรายละเอียด
                               </span>
                             </td>
                             <td>
-                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                  (click)="editModal(modaleditDepartment, item.id,item.name)">
-                                </i>
-                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                                  (click)="deleteModal(modaldeleteDepartment, item.id)">
-                                </i>
+                              <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" 
+                                (click)="editModal(modaleditDepartment, item.id,item.name)">
+                                <i class="align-middle fas fa-fw fa-pen"></i>
+                              </button>
+                              <button class="btn btn-danger btn-pill btn-sm" title="แก้ไขข้อมูล" 
+                                (click)="deleteModal(modaldeleteDepartment, item.id)">
+                                <i class="align-middle fas fa-fw fa-trash-alt "></i>
+                              </button>
+                                
                             </td>
                         </tr>
                     </tbody>
@@ -167,7 +170,7 @@
           </div>
           <div class="modal-body m-3">
             <span *ngFor="let item of resultdetail;let i = index">
-              {{item.name}}
+              <label class="badge badge-success mr-1">{{item.name}}</label>
               <span *ngIf="(i+1) != resultdetail.length">,</span>
             </span>
         </div>

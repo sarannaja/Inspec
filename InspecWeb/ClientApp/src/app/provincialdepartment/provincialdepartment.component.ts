@@ -6,6 +6,7 @@ import { MinistryService } from '../services/ministry.service';
 import { DepartmentService } from '../services/department.service';
 import { ProvincialDepartmentService } from '../services/provincialdepartment.service';
 import { ProvinceService } from '../services/province.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-provincialdepartment',
@@ -40,14 +41,31 @@ export class ProvincialDepartmentComponent implements OnInit {
     private departmentService: DepartmentService,
     private provinceService: ProvinceService,
     private provincialDepartmentService: ProvincialDepartmentService,
+    private _NotofyService: NotofyService,
     ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
    }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+    };
     this.getdata();
     this.getDataProvinces();
-    //alert(this.id);
+   
     this.Form = this.fb.group({
       Name: new FormControl(null, [Validators.required]),
       Province: new FormControl(null, [Validators.required]),
@@ -65,7 +83,7 @@ export class ProvincialDepartmentComponent implements OnInit {
     })
 
     this.provincialDepartmentService.getprovincialdepartmentdata(this.id).subscribe(result=>{
-      console.log(result);
+      //console.log(result);
       this.resultprovincialdepartment = result
       this.loading = true;
     })
@@ -97,7 +115,7 @@ export class ProvincialDepartmentComponent implements OnInit {
   editModal(template: TemplateRef<any>, id,Name) {
    // alert(id);
    this.provincialDepartmentService.getdetaildata(id).subscribe(response => {
-    console.log('datadetail',response)
+    //console.log('datadetail',response)
     this.resultdetail = response;
     this.provincialdepartmentId = id;
     this.Form.patchValue({
@@ -129,6 +147,7 @@ storeprovincialDepartment(value) {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
     })
   }
 
@@ -140,6 +159,7 @@ storeprovincialDepartment(value) {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
 
@@ -150,6 +170,7 @@ storeprovincialDepartment(value) {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
 

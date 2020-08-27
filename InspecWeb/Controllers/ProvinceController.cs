@@ -40,6 +40,19 @@ namespace InspecWeb.Controllers
           
         }
 
+        // GET: api/values
+        [HttpGet("getonlyprovince")]
+        public IActionResult Getonlyprovince()
+        {
+
+
+            var provincedata = _context.Provinces
+                .ToList();
+            return Ok(provincedata);
+
+
+        }
+
         //<!-- Get ภาค 20200720 -->
         [HttpGet("getsectordata")]
         public IActionResult getsectordata()
@@ -69,9 +82,12 @@ namespace InspecWeb.Controllers
             var provincedata = new Province
             {
                 Name = request.Name,
+                NameEN = request.NameEN,
                 Link = request.Link,
                 SectorId = request.SectorId,
                 ProvincesGroupId = request.ProvincesGroupId,
+                ShortnameEN = request.ShortnameEN,
+                ShortnameTH = request.ShortnameTH,
                 CreatedAt = date
             };
             Console.WriteLine("province 2 :" + request.ProvincesGroupId);
@@ -90,6 +106,9 @@ namespace InspecWeb.Controllers
             province.Link = request.Link;
             province.SectorId = request.SectorId;
             province.ProvincesGroupId = request.ProvincesGroupId;
+            province.NameEN = request.NameEN;
+            province.ShortnameEN = request.ShortnameEN;
+            province.ShortnameTH = request.ShortnameTH;
             _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
@@ -114,4 +133,8 @@ public class ProviceRequest
     public long ProvincesGroupId { get; set; }
     public string Name { get; set; }
     public string Link { get; set; }
+    public string NameEN { get; set; }
+
+    public string ShortnameEN { get; set; }
+    public string ShortnameTH { get; set; }
 }

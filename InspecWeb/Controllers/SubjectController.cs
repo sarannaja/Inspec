@@ -170,6 +170,9 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] SubjectViewModel model)
         {
+            var userdata = _context.Users
+                .Where(p => p.Id == model.UserID).FirstOrDefault();
+
             var date = DateTime.Now;
             long GetSubjectID = 0;
             List<object> termsList = new List<object>();
@@ -262,7 +265,11 @@ namespace InspecWeb.Controllers
                                 ProvinceId = provinceId,
                                 Type = "Master",
                                 Land = "Master",
-                                Status = "Master"
+                                Status = "Master",
+
+                                ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
+                                CreatedBy = userdata.Id,
+                                RoleCreatedBy = userdata.Role_id,
                             };
                             _context.SubjectGroups.Add(SubjectGroupdata);
                             _context.SaveChanges();
@@ -1176,6 +1183,10 @@ namespace InspecWeb.Controllers
                     Land = model.Land,
                     StartDate = model.startdate,
                     EndDate = model.enddate,
+
+                    ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
+                    CreatedBy = userdata.Id,
+                    RoleCreatedBy = userdata.Role_id,
                 };
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();
@@ -1403,6 +1414,7 @@ namespace InspecWeb.Controllers
                            .Where(m => m.Id == id)
                            .FirstOrDefault();
 
+            if(user.Role_id == 3) { 
             //var inspectionplans = _context.InspectionPlanEvents
             //                    .Include(m => m.Province)
             //                    .Include(m => m.CentralPolicyEvents)
@@ -1414,10 +1426,11 @@ namespace InspecWeb.Controllers
             var subjectgroupsdatas = _context.SubjectGroups
                     .Include(m => m.Province)
                     .Include(m => m.CentralPolicy)
-                    .ThenInclude(m => m.FiscalYear)
-                       .OrderByDescending(m => m.Id)
+                    .ThenInclude(m => m.FiscalYearNew)
+                    .OrderByDescending(m => m.Id)
                     //.Include(m => m.SubjectCentralPolicyProvinces)
                     //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+                    .Where(p => p.RoleCreatedBy == 3)
                     .Where(m => m.Type == "NoMaster").ToList();
 
             List<object> termsList = new List<object>();
@@ -1430,8 +1443,69 @@ namespace InspecWeb.Controllers
                 }
             }
             return Ok(termsList);
+            } else if(user.Role_id == 6)
+            {
+                //var inspectionplans = _context.InspectionPlanEvents
+                //                    .Include(m => m.Province)
+                //                    .Include(m => m.CentralPolicyEvents)
+                //                    .ThenInclude(m => m.CentralPolicy)
+                //                    .ThenInclude(m => m.CentralPolicyProvinces)
+                //                    .Where(m => m.RoleCreatedBy == "3")
+                //                    .ToList();
 
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        //.Include(m => m.SubjectCentralPolicyProvinces)
+                        //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+                        .Where(p => p.RoleCreatedBy == 6)
+                        .Where(m => m.Type == "NoMaster").ToList();
 
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+            else if (user.Role_id == 10)
+            {
+                //var inspectionplans = _context.InspectionPlanEvents
+                //                    .Include(m => m.Province)
+                //                    .Include(m => m.CentralPolicyEvents)
+                //                    .ThenInclude(m => m.CentralPolicy)
+                //                    .ThenInclude(m => m.CentralPolicyProvinces)
+                //                    .Where(m => m.RoleCreatedBy == "3")
+                //                    .ToList();
+
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        //.Include(m => m.SubjectCentralPolicyProvinces)
+                        //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+                        .Where(p => p.RoleCreatedBy == 10)
+                        .Where(m => m.Type == "NoMaster").ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+            return Ok("nothing");
             //var subjectgroupsdata = _context.SubjectGroups
             //    .Include(m => m.Province)
             //    .Include(m => m.CentralPolicy)
@@ -1473,6 +1547,10 @@ namespace InspecWeb.Controllers
         [HttpPost("subjecteventnoland")]
         public IActionResult PostSubjectEventNoLand([FromBody] subjectevent model)
         {
+            var userdata = _context.Users
+               .Where(m => m.Id == model.CreatedBy)
+               //.Select(m => m.Role_id)
+               .FirstOrDefault();
 
             var date = DateTime.Now;
 
@@ -1485,8 +1563,11 @@ namespace InspecWeb.Controllers
                     ProvinceId = model.ProvinceId,
                     Type = "NoMaster",
                     Status = "ร่างกำหนดการ",
-                    Land = model.Land
+                    Land = model.Land,
 
+                    ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
+                    CreatedBy = userdata.Id,
+                    RoleCreatedBy = userdata.Role_id,
                 };
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();
@@ -1625,6 +1706,10 @@ namespace InspecWeb.Controllers
         [HttpPost("postsubjecteventfromcalendar")]
         public IActionResult Postsubjecteventfromcalendar([FromBody] subjectevent model)
         {
+            var userdata = _context.Users
+               .Where(m => m.Id == model.CreatedBy)
+               //.Select(m => m.Role_id)
+               .FirstOrDefault();
             //foreach (var id in model.CentralpolicySelect.centralPolicyeventId) {
             //    //var province = _context.CentralPolicyEvents.Find(model.CentralpolicyId2);
             //    //province.HaveSubject = 1;
@@ -1648,6 +1733,10 @@ namespace InspecWeb.Controllers
                     Land = model.Land,
                     StartDate = centralpolicyeventdate.StartDate,
                     EndDate = centralpolicyeventdate.EndDate,
+
+                    ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
+                    CreatedBy = userdata.Id,
+                    RoleCreatedBy = userdata.Role_id,
                 };
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();
@@ -1813,8 +1902,12 @@ namespace InspecWeb.Controllers
             //    //_context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             //    //_context.SaveChanges();
             //}
+            var userdata = _context.Users
+         .Where(m => m.Id == model.CreatedBy)
+         //.Select(m => m.Role_id)
+         .FirstOrDefault();
 
-            var year = _context.FiscalYears
+            var year = _context.FiscalYearNew
                 .Where(m => m.Year == DateTime.Now.Year + 543).FirstOrDefault();
             System.Console.WriteLine("year" + year.Id);
             //if(year == null)
@@ -1830,7 +1923,7 @@ namespace InspecWeb.Controllers
             {
                 Title = model.Title,
                 Type = "อื่นๆ",
-                FiscalYearId = year.Id,
+                FiscalYearNewId = year.Id,
                 Status = "ใช้งานจริง",
                 CreatedAt = date,
                 CreatedBy = model.CreatedBy,
@@ -1864,6 +1957,10 @@ namespace InspecWeb.Controllers
                 Type = "NoMaster",
                 Status = "ร่างกำหนดการ",
                 Land = "ไม่ลงพื้นที่",
+
+                ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
+                CreatedBy = userdata.Id,
+                RoleCreatedBy = userdata.Role_id,
             };
             _context.SubjectGroups.Add(SubjectGroupdata);
             _context.SaveChanges();

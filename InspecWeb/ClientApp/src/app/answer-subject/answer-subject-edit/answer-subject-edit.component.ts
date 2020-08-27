@@ -35,6 +35,7 @@ export class AnswerSubjectEditComponent implements OnInit {
   status: any
   listfiles: any = []
   fileData: any = [{ AnswerSubjectFile: '', fileDescription: '' }];
+  printstatus: any
 
   constructor(
     private modalService: BsModalService,
@@ -68,6 +69,7 @@ export class AnswerSubjectEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.printstatus = 0
     this.spinner.show();
     this.Form = this.fb.group({
       result: new FormArray([]),
@@ -112,7 +114,7 @@ export class AnswerSubjectEditComponent implements OnInit {
       this.province = this.resultsubjectdetail.centralPolicyProvince.province.name
       // this.resultsubquestion = this.resultsubjectdetail.subquestionCentralPolicyProvinces
       // this.loading = true
-      console.log("123",this.subjectGroupId);
+      console.log("123", this.subjectGroupId);
       // this.loading = true;
       this.spinner.hide();
       // this.addvalue();
@@ -174,7 +176,7 @@ export class AnswerSubjectEditComponent implements OnInit {
   editstatus(value) {
     // this.spinner.show();
     console.log(value);
-    this.answersubjectservice.editStatus(value, this.resultanswerstatus.id,this.subjectGroupId).subscribe(result => {
+    this.answersubjectservice.editStatus(value, this.resultanswerstatus.id, this.subjectGroupId).subscribe(result => {
       this.storefile()
       this.Form.reset();
       this.Formstatus.reset();
@@ -225,7 +227,16 @@ export class AnswerSubjectEditComponent implements OnInit {
     })
   }
   printPage() {
+    this.printstatus = 1
+    setTimeout(() => {
+      this.printPage2()
+    }, 1000);
+  }
+  printPage2() {
     window.print();
+    setTimeout(() => {
+      this.printstatus = 0
+    }, 800);
   }
   back() {
     window.history.back();
