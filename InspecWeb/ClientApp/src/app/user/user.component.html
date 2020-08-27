@@ -37,6 +37,7 @@
                         <tr>
                             <th>ที่</th>
                             <th>รูป</th>
+                            <th>UserName</th>
                             <th>ชื่อ-นามสกุล</th>
                             <th>ตำแหน่ง</th>
                             <th *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10">เขตตรวจ</th>
@@ -44,7 +45,7 @@
                             <th *ngIf="roleId == 4 || roleId == 5 || roleId == 7 || roleId == 9">จังหวัด</th>
                             <th *ngIf="roleId == 7">ด้าน</th>
                             <th>โทรศัพท์</th>
-                            <th>อีเมลล์</th>
+                            <th *ngIf="roleId == 1">อีเมลล์</th>
                             <th>สถานะ</th>
                             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
@@ -58,7 +59,11 @@
                                 <img *ngIf="item.img == null" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
                                     width="90px" alt="รูป">
                             </td>
-                            <td><i class="align-middle fas fa-fw fa-address-card"></i> {{item.prefix + item.name}}</td>
+                            <td>{{item.userName}}</td>
+                            <td>
+                                <!-- <i class="align-middle fas fa-fw fa-address-card"></i>  -->
+                                {{item.prefix + item.name}}
+                            </td>
                             <td>{{item.position}}</td>
                             <td *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10">
                                 <label class="badge badge-warning mr-1"
@@ -87,7 +92,7 @@
                             </td>
                             <td *ngIf="roleId == 7">{{item.side}}</td>
                             <td>{{item.phoneNumber}}</td>
-                            <td>{{item.email}}</td>
+                            <td *ngIf="roleId == 1">{{item.email}}</td>
                             <td>
                                 <div *ngIf="item.active == 1;else elseBlock">
                                     <label class="badge badge-success mr-1">ใช้งาน</label>

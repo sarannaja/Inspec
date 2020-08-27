@@ -20,6 +20,7 @@ export class GovernmentinspectionplanComponent implements OnInit {
   files: string[] = []
   loading = false;
   role_id:any;
+  filesname: any;
   dtOptions: DataTables.Settings = {};
 
   constructor(private modalService: BsModalService, private fb: FormBuilder, private governmentinspectionplanservice: GorvermentinspectionplanService,
@@ -29,6 +30,7 @@ export class GovernmentinspectionplanComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.getdata();
     this.dtOptions = {
       pagingType: 'full_numbers',
       "language": {
@@ -62,25 +64,25 @@ export class GovernmentinspectionplanComponent implements OnInit {
           })
     })
     //<!-- END เช็ค role -->
-
-    this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result=>{
-    this.resultgovernmentinspectionplan = result
-    this.loading = true
-    })
     this.Form = this.fb.group({
       year: new FormControl(null, [Validators.required]),
       title: new FormControl(null, [Validators.required]),
       files : new FormControl(null, [Validators.required])
     })
   }
-  openModal(template: TemplateRef<any>, id, year,title) {
+
+  getdata(){
+    this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result=>{
+      this.resultgovernmentinspectionplan = result
+      this.loading = true
+      })
+  }
+  openModal(template: TemplateRef<any>, id, year,title,filesname) {
     this.delid = id;
     this.year = year;
-    this.title = title
-  //  console.log(this.delid);
-   // console.log(this.year);
-   // console.log(this.title);
-    
+    this.title = title;
+    this.filesname = filesname;
+
     this.modalRef = this.modalService.show(template);
   }
   uploadFile(event) {
@@ -94,36 +96,29 @@ export class GovernmentinspectionplanComponent implements OnInit {
 
   storeGovernmentinspectionplan(value) {
     // alert(JSON.stringify(value));
+    this.loading = false
     this.governmentinspectionplanservice.addGovernmentinspectionplan(value, this.Form.value.files).subscribe(response => {
      // console.log(value);
       this.Form.reset()
       this.modalRef.hide()
-      this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result => {
-        this.resultgovernmentinspectionplan = result
-       // console.log(this.resultgovernmentinspectionplan);
-      })
+      this.getdata()
     })
   }
   deleteGovernmentinspectionplan(value) {
+    this.loading = false
     this.governmentinspectionplanservice.deleteGovernmentinspectionplan(value).subscribe(response => {
      // console.log(value);
       this.modalRef.hide()
-      this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result => {
-        this.resultgovernmentinspectionplan = result
-       // console.log(this.resultgovernmentinspectionplan);
-      })
+      this.getdata()
     })
   }
   editGovernmentinspectionplan(value,delid) {
     // console.clear();
-    // console.log(value);
-    this.governmentinspectionplanservice.editGovernmentinspectionplan(value,delid).subscribe(response => {
+    this.loading = false
+    this.governmentinspectionplanservice.editGovernmentinspectionplan(value, this.Form.value.files,delid,this.filesname).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
-      this.governmentinspectionplanservice.getgovernmentinspectionplan().subscribe(result => {
-        this.resultgovernmentinspectionplan = result
-       
-      })
+      this.getdata()
     })
   }
 
