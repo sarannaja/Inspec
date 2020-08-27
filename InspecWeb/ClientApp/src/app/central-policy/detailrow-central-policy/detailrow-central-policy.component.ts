@@ -96,7 +96,7 @@ export class DetailrowCentralPolicyComponent implements OnInit {
         this.resultdetailcentralpolicy = result;
         console.log("RES EDIT: ", this.resultdetailcentralpolicy.centralPolicyFiles);
 
-        this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearId.toString();
+        this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearNewId.toString();
 
 
         this.resultdetailcentralpolicy.centralPolicyDates.forEach(element => {
@@ -119,12 +119,12 @@ export class DetailrowCentralPolicyComponent implements OnInit {
 
 
 
-        console.log("year: ", this.resultdetailcentralpolicy.fiscalYearId);
+        console.log("year: ", this.resultdetailcentralpolicy.fiscalYearNewId);
 
 
         this.EditForm.patchValue({
           title: this.resultdetailcentralpolicy.title,
-          year: this.resultdetailcentralpolicy.fiscalYearId.toString(),
+          year: this.resultdetailcentralpolicy.fiscalYearNewId.toString(),
           type: this.resultdetailcentralpolicy.type,
           status: this.resultdetailcentralpolicy.status,
           ProvinceId: this.selected
