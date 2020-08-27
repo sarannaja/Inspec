@@ -194,7 +194,7 @@ import { NumberDirective } from './services/numbers-only.directive';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import {NgxPrintModule} from 'ngx-print';
+import { NgxPrintModule } from 'ngx-print';
 import { AnswerRecommendationinSpectorComponent } from './answer-subject/answer-recommendationin-spector/answer-recommendationin-spector.component';
 import { AnswerRecommendationinSpectorDetailComponent } from './answer-subject/answer-recommendationin-spector-detail/answer-recommendationin-spector-detail.component';
 import { AnswerRecommendationinSpectorEditComponent } from './answer-subject/answer-recommendationin-spector-edit/answer-recommendationin-spector-edit.component';
@@ -207,7 +207,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
 import { NamePlateComponent } from './name-plate/name-plate.component';
 import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
-
+import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-label-preview.component';
 
 
 
@@ -390,6 +390,8 @@ const ExternalOrganization = [
     ConfirmationDialogComponent,
     NamePlateComponent,
     NamePlatePreviewComponent,
+    NameLabelPreviewComponent,
+
   ],
 
   imports: [
@@ -591,6 +593,7 @@ const ExternalOrganization = [
           { path: 'answerrecommendationinspector/edit/:id', component: AnswerRecommendationinSpectorEditComponent, canActivate: [AuthorizeGuard] },
           { path: 'nameplate/:id', component: NamePlateComponent, canActivate: [AuthorizeGuard] },
           { path: 'nameplatepreview', component: NamePlatePreviewComponent, canActivate: [AuthorizeGuard] },
+          { path: 'namelabelpreview', component: NameLabelPreviewComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
