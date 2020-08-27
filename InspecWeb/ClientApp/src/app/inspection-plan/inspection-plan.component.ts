@@ -162,10 +162,10 @@ export class InspectionPlanComponent implements OnInit {
       title: new FormControl(null, [Validators.required]),
       start_date: new FormControl(null, [Validators.required]),
       end_date: new FormControl(null, [Validators.required]),
-      year: new FormControl(1, [Validators.required]),
-      type: new FormControl("อื่นๆ", [Validators.required]),
+      // year: new FormControl(1, [Validators.required]),
+      // type: new FormControl("อื่นๆ", [Validators.required]),
       // files: new FormControl(null, [Validators.required]),
-      ProvinceId: new FormControl(1, [Validators.required]),
+      ProvinceId: new FormControl(this.provinceid, [Validators.required]),
       // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       input: new FormArray([])
     })
@@ -649,6 +649,10 @@ export class InspectionPlanComponent implements OnInit {
 
       this.FormOther.reset()
       this.modalRef.hide()
+
+      this.FormOther.patchValue({
+        ProvinceId: this.provinceid,
+      })
 
       this.loading = false;
       this.data = [];
