@@ -167,7 +167,7 @@ import { ReportSuggestionsComponent } from './report/report-suggestions/report-s
 import { ReportSuggestionResultComponent } from './report/report-suggestion-result/report-suggestion-result.component';
 import { ReportQuestionnaireComponent } from './report/report-questionnaire/report-questionnaire.component';
 import { ReportCommentComponent } from './report/report-comment/report-comment.component';
-import {CookieService} from 'ngx-cookie-service'
+import { CookieService } from 'ngx-cookie-service'
 import { ElectronicBookOtherComponent } from './electronic-book-province/electronic-book-other/electronic-book-other.component';
 import { ElectronicBookOtherDetailComponent } from './electronic-book-province/electronic-book-other/electronic-book-other-detail/electronic-book-other-detail.component';
 import { ProvinceService } from './services/province.service';
@@ -200,9 +200,11 @@ import { AnswerRecommendationinSpectorDetailComponent } from './answer-subject/a
 import { AnswerRecommendationinSpectorEditComponent } from './answer-subject/answer-recommendationin-spector-edit/answer-recommendationin-spector-edit.component';
 
 
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { ConfirmationDialogService } from './services/confirmation-dialog/confirmation-dialog.service';
 
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
 
 
 
@@ -382,6 +384,7 @@ const ExternalOrganization = [
     AnswerRecommendationinSpectorComponent,
     AnswerRecommendationinSpectorDetailComponent,
     AnswerRecommendationinSpectorEditComponent,
+    ConfirmationDialogComponent
   ],
 
   imports: [
@@ -602,6 +605,7 @@ const ExternalOrganization = [
     ModalModule.forRoot(),
     // SelectSSSModule
     NgSelectModule,
+    NgbModule,
 
   ], exports: [
     ThaiDatePipe,
@@ -609,14 +613,16 @@ const ExternalOrganization = [
     // SelectSSSModule
     // DatePipe
   ],
+  entryComponents: [ConfirmationDialogComponent],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     ExcelGeneraterService,
-    DatePipe,CookieService,
+    DatePipe, CookieService,
     ProvinceService,
-    NotofyService
+    NotofyService,
+    ConfirmationDialogService
     // UserManager
 
   ],

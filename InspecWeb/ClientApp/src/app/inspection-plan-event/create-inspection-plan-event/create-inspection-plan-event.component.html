@@ -56,28 +56,38 @@
                     <my-date-picker-th formControlName="start_date_plan" (dateChanged)="startdate($event.jsdate,i)"
                       [options]="myDatePickerOptions" required>
                     </my-date-picker-th>
-                    <timepicker (ngModelChange)="TestTimeChange()" [ngModelOptions]="{standalone: true}"
-                      (ngModelChange)="startdate($event,i)" [(ngModel)]=" start_date_plan_i[i]" [showMeridian]="false">
+                    <timepicker *ngIf="t.at(i).get('start_date_plan').value" [ngModelOptions]="{standalone: true}"
+                      (isValid)="isValid = $event" [(ngModel)]="start_date_plan_i[i]"
+                      (ngModelChange)="starttime($event,i)" [showMeridian]="false">
                     </timepicker>
-                    <pre class="alert alert-info">Time is: {{  start_date_plan_i[i]  }}</pre>
+                    <!-- <pre class="alert alert-info">Time is: {{  start_date_plan_i[i]  }}</pre> -->
                   </div>
-                  <div class="col-12 col-xl-1">
-                    <div class="form-group" align="center">
-                      ถึง
+                  <ng-container *ngIf="t.at(i).get('start_date_plan').value">
+                    <div class="col-12 col-xl-1">
+                      <div class="form-group" align="center">
+                        ถึง
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-12 col-xl-3">
-                    <div class="form-group">
-                      <my-date-picker-th formControlName="end_date_plan" (dateChanged)="enddate($event.jsdate,i)"
-                        [options]="myDatePickerOptions" required>
-                      </my-date-picker-th>
-                      <timepicker [ngModelOptions]="{standalone: true}" [(ngModel)]="end_date_plan_i[i] "
-                        (ngModelChange)="enddate($event,i)" [showMeridian]="false"></timepicker>
-                      <pre class="alert alert-info">Time is: {{  end_date_plan_i[i]    }}</pre>
+                    <div class="col-12 col-xl-3">
+                      <div class="form-group">
+                        <my-date-picker-th formControlName="end_date_plan" [options]="myDatePickerOptions_i[i]" required
+                          (dateChanged)="enddate($event.jsdate,i)">
+                        </my-date-picker-th>
+                        <timepicker *ngIf="t.at(i).get('end_date_plan').value && this.end_date_plan_i[i]"
+                          (isValid)="isValid = $event" [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="end_date_plan_i[i]" (ngModelChange)="endtime($event,i)" [showMeridian]="false">
+                        </timepicker>
+                        <!-- <timepicker *ngIf="t.at(i).get('end_date_plan').value"
+                         [ngModelOptions]="{standalone: true}" [(ngModel)]="end_date_plan_i[i]"
+                          (ngModelChange)="enddate($event,i)" [showMeridian]="false">
+                        </timepicker> -->
+                        <!-- <pre class="alert alert-info">Time is: {{  end_date_plan_i[i]    }}</pre> -->
 
 
+                      </div>
                     </div>
-                  </div>
+                  </ng-container>
+
 
 
                   <div class="col-12 col-xl-2">
@@ -102,6 +112,7 @@
                     <div class="form-group">
                       <!-- {{provincename[i]}}
                       &nbsp;&nbsp; -->
+
                       <button type="button" (click)="Gotoinspecplan(provinceid[i],i)"
                         class="btn btn-info">กำหนดรายละเอียด</button>
                     </div>

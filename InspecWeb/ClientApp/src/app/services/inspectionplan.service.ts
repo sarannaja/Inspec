@@ -56,6 +56,7 @@ export class InspectionplanService {
   addInspectionPlan(InspectionPlanData, userid, inspectionplaneventid, yearId, startDate, endDate, year) {
     // alert(JSON.stringify(InspectionPlanData))
     // alert(year.year);
+ 
     console.log("inspectData : ", InspectionPlanData);
     console.log("sDate: ", startDate);
     console.log("eDate: ", endDate);
@@ -91,19 +92,29 @@ export class InspectionplanService {
     console.log('FORMDATA POST: ', formData);
     return this.http.post(this.url, formData);
   }
-
+  // changeDateTodotnet(date:Date){
+  //   // var date = new Date();
+  //   var day = date.getDate();       // yields date
+  //   var month = date.getMonth() + 1;    // yields month (add one as '.getMonth()' is zero indexed)
+  //   var year1 = date.getFullYear();  // yields year1
+  //   var hour = date.getHours();     // yields hours 
+  //   var minute = date.getMinutes(); // yields minutes
+  //   var second = date.getSeconds(); // yields seconds
+  //   return day + "/" + month + "/" + year1 + " " + hour + ':' + minute + ':' + second;
+  // }
   inspectionplansprovince(provinceid, userid, start_date_plan_i: Date, end_date_plan_i: Date) {
+   
+    console.log(' Date.parse(start_date_plan_i.toString()).toString()',start_date_plan_i);
 
-    // alert(start_date_plan_i, end_date_plan_istart_date_plan_i, end_date_plan_i)
-    console.log(' Date.parse(start_date_plan_i.toString()).toString()', Date.parse(start_date_plan_i.toString()).toString());
-
-    // alert(end_date_plan_i)
-
+    // After this construct a string with the above results as below
+    // var start_date_plan = 
+    // var end_date_plan =  day + "/" + month + "/" + year1 + " " + hour + ':' + minute + ':' + second;
+    //  alert(this.changeDateTodotnet(start_date_plan_i))
     const formData = new FormData();
     formData.append('provinceid', provinceid);
     formData.append('userid', userid);
-    formData.append('start_date_plan', Date.parse(start_date_plan_i.toString()).toString());
-    formData.append('end_date_plan', Date.parse(end_date_plan_i.toString()).toString());
+    formData.append('start_date_plan',start_date_plan_i.toJSON());
+    formData.append('end_date_plan',end_date_plan_i.toJSON());
     return this.http.post(this.url + "inspectionprovince", formData);
 
   }
