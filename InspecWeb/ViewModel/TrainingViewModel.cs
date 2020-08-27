@@ -29,6 +29,8 @@ namespace InspecWeb.ViewModel
 
         public List<IFormFile> files { get; set; }
 
+        public long[] RegisterId { get; set; }
+
     }
 
     public class TrainingphaseViewModel

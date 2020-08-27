@@ -119,8 +119,8 @@ export class TrainingService {
 
     // const formData = new FormData();
     const formData = {
-      traningregistercondition:trainingregisterlistData,
-      traningregisterid:id
+      traningregistercondition: trainingregisterlistData,
+      traningregisterid: id
     }
 
     // formData.append('traningregisterid', id);
@@ -410,6 +410,17 @@ export class TrainingService {
 
   //-------------------------------------
 
+  printNamePlate(registerId) {
+    console.log("RegisID: ", registerId);
+
+    const formData = new FormData();
+    for (var i = 0; i < registerId.length; i++) {
+      formData.append('RegisterId', registerId[i]);
+    }
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + "printNamePlate", formData);
+  }
 
 }
 

@@ -98,14 +98,52 @@ namespace InspecWeb.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut]
-        public async Task<IActionResult> Put([FromForm] NationalstrategyViewModel model)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromForm] NationalstrategyViewModel model,long id)
         {
-            var nationalstrategy = _context.Nationalstrategies.Find(model.Id);
+            var nationalstrategy = _context.Nationalstrategies.Find(id);
             nationalstrategy.Title = model.Title;
-            
+
+            var filesname = model.namefile;
+            var random = RandomString(15);
+
+            System.Console.WriteLine("1 : ");
+            //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
+            if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//NationalstrategyFile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "/assets" + "//NationalstrategyFile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            ////var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            //// path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "/assets" + "//NationalstrategyFile//";
+
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                ////foreach (var formFile in data.files)
+                {
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+
+                            filesname = random + ext;
+                        }
+                        System.Console.WriteLine("2 : ");
+                    }
+                }
+            }
+
             _context.Entry(nationalstrategy).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+            System.Console.WriteLine("3 : ");
             return Ok(nationalstrategy);
         }
 

@@ -70,6 +70,43 @@ export class ReportService {
     formData.append('reporttype', reportdata.type);
     return this.http.post<any>(this.url + "reportperformance", formData)
   }
+  createReportQuestionnaire(planid) {
+    const formData = new FormData();
+    formData.append('planid', planid);
+    return this.http.post<any>(this.url + "reportquestionnaire", formData)
+  }
+  createReportsuggestions(subjectgroupsid) {
+    const formData = new FormData();
+    formData.append('subjectgroupsid', subjectgroupsid);
+    return this.http.post<any>(this.url + "reportsuggestions", formData)
+  }
+  createReportSuggestionsResulttype1(ReportSuggestionsResultdata, provinceId) {
+    const formData = new FormData();
+    formData.append('reporttype', ReportSuggestionsResultdata.type);
+    formData.append('SubjectGroupId', ReportSuggestionsResultdata.SubjectGroupId);
+    formData.append('provincialDepartmentId', ReportSuggestionsResultdata.provincialDepartmentId);
+    formData.append('provinceId', provinceId);
+    return this.http.post<any>(this.url + "reportsuggestionsresult", formData)
+  }
+  createReportSuggestionsResulttype2(ReportSuggestionsResultdata, provinceId) {
+    const formData = new FormData();
+    formData.append('reporttype', ReportSuggestionsResultdata.type);
+    formData.append('SubjectGroupId', ReportSuggestionsResultdata.SubjectGroupId);
+    formData.append('provinceId', provinceId);
+    return this.http.post<any>(this.url + "reportsuggestionsresult", formData)
+  }
+  createReportCommenttype1(ReportCommentdata) {
+    const formData = new FormData();
+    formData.append('userid', ReportCommentdata.userid);
+    formData.append('reporttype', ReportCommentdata.type);
+    return this.http.post<any>(this.url + "reportcomment", formData)
+  }
+  createReportCommenttype2(ReportCommentdata, provinceid) {
+    const formData = new FormData();
+    formData.append('reporttype', ReportCommentdata.type);
+    formData.append('provinceid', provinceid);
+    return this.http.post<any>(this.url + "reportcomment", formData)
+  }
   createReport2() {
     // const formData = new FormData();
     // formData.append('provinceid', reportdata.provinceid);

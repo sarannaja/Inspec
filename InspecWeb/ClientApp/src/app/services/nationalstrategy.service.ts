@@ -12,7 +12,7 @@ export class NationalstrategyService {
     return this.http.get(this.url)
   }
   addNationalstrategy(nationalstrategyData, file: FileList){
-     alert(JSON.stringify(nationalstrategyData))
+     //alert(JSON.stringify(nationalstrategyData))
     const formData = new FormData();
     formData.append('Title',nationalstrategyData.title);
     for (var iii = 0; iii < file.length; iii++) {
@@ -27,14 +27,18 @@ export class NationalstrategyService {
 
   editNationalstrategy(nationalstrategyData,file: FileList,id) {
     const formData = new FormData();
-    formData.append('Id',nationalstrategyData.title);
     formData.append('Title',nationalstrategyData.title);
+    formData.append('namefile',nationalstrategyData.namefile);
 
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
-
     return this.http.put(this.url+id, formData);
+  }
+  delete(id){
+    return this.http.delete(this.url+id);
   }
 }
 

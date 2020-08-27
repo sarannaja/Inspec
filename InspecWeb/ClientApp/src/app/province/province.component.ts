@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../services/Pipe/alert.service';
 import { SnotifyService, SnotifyToastConfig, SnotifyPosition } from 'ng-snotify';
 import { NgxSpinnerService } from "ngx-spinner";
+import { NotofyService } from '../services/notofy.service';
 
 
 @Component({
@@ -36,11 +37,27 @@ export class ProvinceComponent implements OnInit {
     private router: Router,
     private snotifyService: NotificationService,
     private snotifyService2: SnotifyService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private _NotofyService: NotofyService,
   ) { }
 
   ngOnInit() {
-    
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+    };
     this.spinner.show();  
     this.getDataProvincesGroup();
     this.getDataSector();
@@ -50,15 +67,17 @@ export class ProvinceComponent implements OnInit {
       provincelink: new FormControl(null, [Validators.required]),
       Sector: new FormControl(null, [Validators.required]),
       Provincegroup: new FormControl(null, [Validators.required]),
+      NameEN: new FormControl(null, [Validators.required]),
+      ShortnameEN: new FormControl(null, [Validators.required]),
+      ShortnameTH: new FormControl(null, [Validators.required]),
     })
 
   }
   getdata(){
     this.provinceservice.getprovincedata().subscribe(result => {
-      console.log('data',result);
+      //console.log('data',result);
       this.spinner.hide();
       this.resultprovince = result
-
       this.loading = true;
     })
   }
@@ -100,6 +119,7 @@ export class ProvinceComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
     })
   }
 
@@ -110,10 +130,11 @@ export class ProvinceComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
 
-  editModal(template: TemplateRef<any>, id, name, link,Sector,Provincegroup) {
+  editModal(template: TemplateRef<any>, id, name, link,Sector,Provincegroup,NameEN,ShortnameEN,ShortnameTH) {
     this.delid = id;
    // console.log('Sector : ' + JSON.stringify(Sector));
     this.EditForm = this.fb.group({
@@ -121,13 +142,19 @@ export class ProvinceComponent implements OnInit {
       provincelink: new FormControl(null, [Validators.required]),
       Sector: new FormControl(null, [Validators.required]),
       Provincegroup: new FormControl(null, [Validators.required]),
+      NameEN: new FormControl(null, [Validators.required]),
+      ShortnameEN: new FormControl(null, [Validators.required]),
+      ShortnameTH: new FormControl(null, [Validators.required]),
     })
 
     this.EditForm.patchValue({
       provincename: name,
       provincelink: link,
       Provincegroup:Provincegroup,
-      Sector:Sector
+      Sector:Sector,
+      NameEN: NameEN,
+      ShortnameEN : ShortnameEN,
+      ShortnameTH : ShortnameTH,
     })
 
     this.modalRef = this.modalService.show(template);
@@ -139,6 +166,7 @@ export class ProvinceComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false
       this.getdata();
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
 }

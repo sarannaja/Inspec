@@ -60,13 +60,16 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public Ministry Post(string name)
+        public Ministry Post(string Name,string NameEN,string ShortnameEN,string ShortnameTH)
         {
             var date = DateTime.Now;
 
             var Ministrydata = new Ministry
             {
-                Name = name,
+                Name = Name,
+                NameEN = NameEN,
+                ShortnameEN = ShortnameEN,
+                ShortnameTH = ShortnameTH,
                 CreatedAt = date
             };
 
@@ -78,10 +81,13 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name)
+        public void Put(long id, string Name, string NameEN, string ShortnameEN, string ShortnameTH)
         {
             var Ministry = _context.Ministries.Find(id);
-            Ministry.Name = name;
+            Ministry.Name = Name;
+            Ministry.NameEN = NameEN;
+            Ministry.ShortnameEN = ShortnameEN;
+            Ministry.ShortnameTH = ShortnameTH;
             _context.Entry(Ministry).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

@@ -19,7 +19,8 @@ using Image = Xceed.Document.NET.Image;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace InspecWeb.Controllers {
+namespace InspecWeb.Controllers
+{
     [Route("api/[controller]")]
     public class ExportController : Controller
     {
@@ -221,7 +222,7 @@ namespace InspecWeb.Controllers {
 
             var centralPolicyData = _context.CentralPolicies
                 .Where(x => x.Id == centralPolicyProvinceData.CentralPolicyId)
-                .Include(x => x.FiscalYear)
+                .Include(x => x.FiscalYearNew)
                 .FirstOrDefault();
             System.Console.WriteLine("2");
 
@@ -261,7 +262,7 @@ namespace InspecWeb.Controllers {
                 title.FontSize(16d);
                 title.Bold();
 
-                var year = document.InsertParagraph("รอบการตรวจราชการที่..............." + "ปีงบประมาณ พ.ศ. " + centralPolicyData.FiscalYear.Year);
+                var year = document.InsertParagraph("รอบการตรวจราชการที่..............." + "ปีงบประมาณ พ.ศ. " + centralPolicyData.FiscalYearNew.Year);
                 year.Alignment = Alignment.center;
                 year.SpacingAfter(10d);
                 year.FontSize(16d);

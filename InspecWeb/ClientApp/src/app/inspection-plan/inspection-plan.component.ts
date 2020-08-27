@@ -182,7 +182,7 @@ export class InspectionPlanComponent implements OnInit {
     })
     this.EditForm = this.fb.group({
       title: new FormControl(null),
-      year: new FormControl(null),
+      // year: new FormControl(null),
       type: new FormControl('อื่นๆ'),
     });
   }

@@ -30,8 +30,8 @@ export class AnswersubjectService {
   getsubjectdetaildata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "subjectdetail/" + id)
   }
-  getcentralpolicyprovince(id): Observable<GetQuestionPeople[]> {
-    return this.http.get<GetQuestionPeople[]>(this.url + "centralpolicyprovince/" + id)
+  getcentralpolicyprovince(id, inspectionPlanEventId): Observable<GetQuestionPeople[]> {
+    return this.http.get<GetQuestionPeople[]>(this.url + "centralpolicyprovince/" + id + "/" + inspectionPlanEventId)
   }
   getAnsweruser(userid) {
     return this.http.get<any>(this.url + "answeruser/" + userid)
@@ -60,6 +60,18 @@ export class AnswersubjectService {
   getAnsweroutsider(id, userid) {
     return this.http.get<any>(this.url + "answersoutsider/" + id + "/" + userid)
   }
+  getRecommendationinspector(userid) {
+    return this.http.get<any>(this.url + "recommendationinspector/" + userid)
+  }
+  getRecommendationinspectordetail(id) {
+    return this.http.get<any>(this.url + "recommendationinspectordetail/" + id)
+  }
+  getRecommendationinspectoruser(userid) {
+    return this.http.get<any>(this.url + "recommendationinspectoruser/" + userid)
+  }
+  getAnswerRecommendationinspectoruser(userid, id) {
+    return this.http.get<any>(this.url + "answerrecommendationinspectoruser/" + id + "/" + userid)
+  }
   addAnswer(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {
@@ -70,10 +82,6 @@ export class AnswersubjectService {
   }
   addAnswercentralpolicyprovince(answercentralpolicyprovincedata) {
     console.log("answerdata", answercentralpolicyprovincedata);
-    // const formData = new FormData();
-    // formData.append('CentralPolicyProvinceId', centralpolicyprovinceId);
-    // formData.append('UserId', userid);
-    // formData.append('Answer', answerdata.AnswerPeople);
     const formData = {
       inputanswercentralpolicyprovince: answercentralpolicyprovincedata,
     }
@@ -136,7 +144,15 @@ export class AnswersubjectService {
     formData.append('UserId', UserId);
     formData.append('Status', StatusData.Status);
 
-    return this.http.post(this.url + "addstatusrole7", formData);
+    return this.http.post<any>(this.url + "addstatusrole7", formData);
+  }
+  addRecommendationinspector(RecommendationinspectorData, UserId) {
+    const formData = new FormData();
+    formData.append('SubjectGroupId', RecommendationinspectorData.SubjectGroupId);
+    formData.append('UserId', UserId);
+    formData.append('Answer', RecommendationinspectorData.Answer)
+    formData.append('Status', RecommendationinspectorData.Status);
+    return this.http.post<any>(this.url + "addrecommendationinspector", formData);
   }
   editAnswer(Answerdata, id) {
     console.log(Answerdata[0].Description);
@@ -166,5 +182,11 @@ export class AnswersubjectService {
   }
   deleteFile(id) {
     return this.http.delete(this.url + "deleteanswerfile/" + id);
+  }
+  editAnswerRecommendationinspector(AnswerRecommendationinspector, id) {
+    const formData = new FormData();
+    formData.append('Answer', AnswerRecommendationinspector.Answer);
+    formData.append('Status', AnswerRecommendationinspector.Status);
+    return this.http.put(this.url + "editanswerrecommendationinspector/" + id, formData);
   }
 }

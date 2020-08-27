@@ -74,12 +74,15 @@ export class UserService {
       formData.append('Rold','');
       formData.append('Alley','');
       formData.append('Postalcode','');
+      formData.append('Autocreateuser',userData.Autocreateuser); // 20200823
+      formData.append('UserName',userData.UserName); // 20200823
+      //alert(userData.Autocreateuser);
 
       //<!-- ด้าน -->
-      if(userData.Side != null){
-      formData.append('Side',userData.Side); 
+      if(userData.SideId != null){
+      formData.append('SideId',userData.SideId); 
       }else{
-        formData.append('Side',null);
+        formData.append('SideId','1');
       }
       //<!-- END ด้าน -->
       formData.append('Img','');
@@ -99,6 +102,7 @@ export class UserService {
 
       if(userData.UserRegion != null){
         for (var i = 0; i < userData.UserRegion.length; i++) {
+          //alert(userData.UserRegion[i]);
           formData.append('UserRegion', userData.UserRegion[i]); //เขตที่รับผิดชอบมีได้หลายอัน
         }
       }else{
@@ -107,7 +111,14 @@ export class UserService {
 
       if (userData.UserProvince != null) {
         // alert(userData.UserProvince);
+        if(roleId == 9){
+          for (var i = 0; i < userData.UserProvince.length; i++) {
+            formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+          }
+        }else{
           formData.append('UserProvinceId', userData.UserProvince); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+        }
+          
       } else {
        // alert(1);
         formData.append('UserProvinceId', '1');
@@ -203,7 +214,7 @@ export class UserService {
     if(userData.Side != null){
     formData.append('Side',userData.Side); 
     }else{
-      formData.append('Side',null);
+      formData.append('Side','1');
     }
     //<!-- END ด้าน -->
 
@@ -234,7 +245,16 @@ export class UserService {
     }
 
     if (userData.UserProvince != null) {
+       // alert(userData.UserProvince);
+       if(userData.Role_id == 9){
+        for (var i = 0; i < userData.UserProvince.length; i++) {
+          alert(1);
+          formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+        }
+      }else{
+        alert(2);
         formData.append('UserProvinceId', userData.UserProvince); //จังหวัดที่รับผิดชอบมีได้หลายอัน
+      }
     } else {
       formData.append('UserProvinceId', '1');
     }
@@ -258,10 +278,20 @@ export class UserService {
     }
 
     if (userData.MinistryId == null) { 
-      formData.append('MinistryId', '1');
+      if(userData.Role_id == 4 || userData.Role_id == 5){
+        formData.append('MinistryId', '13');
+      }else{
+        formData.append('MinistryId', '1');
+      }
+     
     } else {
-      formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+      if(userData.Role_id == 4 || userData.Role_id == 5){
+        formData.append('MinistryId', '13');
+      }else{
+        formData.append('MinistryId', userData.MinistryId); //กระทรวงมีได้อันเดียว
+      }
     }
+
 
     if (userData.DepartmentId == null) {
       formData.append('DepartmentId', '1');
@@ -321,4 +351,25 @@ export class UserService {
     return this.http.get<any[]>(this.base + 'publicsectoradvisor')
   }
   //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
+
+  getuserdataSameMinistry(id: any, ministryId): Observable<any[]> { //role6
+    return this.http.get<any[]>(this.base + "getuserSameMinistry/" + id + "/" + ministryId)
+  }
+
+  getuserdataDepartmentInMinistry(id: any, ministryId): Observable<any[]> { //role10
+    return this.http.get<any[]>(this.base + "getuserSameMinistry/" + id + "/" + ministryId)
+  }
+  getuserdataDepartmentInDepartment(id: any, departmentId): Observable<any[]> { //role10
+    return this.http.get<any[]>(this.base + "getuserSameDepartment/" + id + "/" + departmentId)
+  }
+
+  password(data,id){
+   
+      const formData = new FormData();
+      formData.append('Id', id);
+      formData.append('Password', data.Password);
+     
+      return this.http.put<any>(`${this.url}answerexecutiveorder`, formData);
+    
+  }
 }

@@ -17,6 +17,7 @@ import { SubquestionService } from 'src/app/services/subquestion.service';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import * as _ from 'lodash';
 import { ReportService } from 'src/app/services/report.service';
+import { AnyAaaaRecord } from 'dns';
 @Component({
   selector: 'app-detail-subjectevent',
   templateUrl: './detail-subjectevent.component.html',
@@ -55,6 +56,8 @@ export class DetailSubjecteventComponent implements OnInit {
   EditForm4: FormGroup;
   FormSubject: FormGroup;
   FormReport: FormGroup;
+  FormReportComment: FormGroup;
+  FormReportSuggestionsResult: FormGroup;
   AddForm: FormGroup;
   selectpeople: Array<any>
   selectministrypeople: Array<any>
@@ -141,7 +144,11 @@ export class DetailSubjecteventComponent implements OnInit {
 
   filterboxdepartments: any = []
   checkTypeReport: any;
+  checkTypeReportPeople: any;
+  checkTypeSuggestionsresult: any
   select = []
+  answerpeople: any = []
+  answerRecommenDationInspectors: any = []
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -242,10 +249,18 @@ export class DetailSubjecteventComponent implements OnInit {
         // this.initdepartment()
       ]),
     })
-
     this.FormReport = this.fb.group({
       type: new FormControl(null, [Validators.required]),
       provincialDepartmentId: new FormControl(null, [Validators.required])
+    })
+    this.FormReportComment = this.fb.group({
+      type: new FormControl(null, [Validators.required]),
+      userid: new FormControl(null, [Validators.required])
+    })
+    this.FormReportSuggestionsResult = this.fb.group({
+      type: new FormControl(null, [Validators.required]),
+      provincialDepartmentId: new FormControl(null, [Validators.required]),
+      SubjectGroupId: this.subjectgroupid
     })
     await this.getDetailCentralPolicyProvince()
     await this.getsubjecteventDetail();
@@ -418,6 +433,20 @@ export class DetailSubjecteventComponent implements OnInit {
     this.checkTypeReport = 0;
     this.modalRef = this.modalService.show(template);
   }
+  reportModalSuggestionsresult(template: TemplateRef<any>) {
+    this.checkTypeSuggestionsresult = 0;
+    this.select = this.answerRecommenDationInspectors.map((item, index) => {
+      return {
+        value: item.id,
+        label: item.name,
+      }
+    })
+    this.modalRef = this.modalService.show(template);
+  }
+  reportModalComment(template: TemplateRef<any>) {
+    this.checkTypeReportPeople = 0;
+    this.modalRef = this.modalService.show(template);
+  }
   report1(value) {
     // alert(myradio)
     this.checkTypeReport = 1;
@@ -435,6 +464,34 @@ export class DetailSubjecteventComponent implements OnInit {
   report3(value) {
     // alert(myradio)
     this.checkTypeReport = 3;
+  }
+  reportsuggestionsresult1(value) {
+    // alert(myradio)
+    this.checkTypeSuggestionsresult = 1;
+    this.FormReportSuggestionsResult.patchValue({
+      type: this.checkTypeSuggestionsresult,
+    })
+  }
+  reportsuggestionsresult2(value) {
+    // alert(myradio)
+    this.checkTypeSuggestionsresult = 2;
+    this.FormReportSuggestionsResult.patchValue({
+      type: this.checkTypeSuggestionsresult,
+    })
+  }
+  reportcomment1(value) {
+    // alert(myradio)
+    this.checkTypeReportPeople = 1;
+    this.FormReportComment.patchValue({
+      type: this.checkTypeReportPeople,
+    })
+  }
+  reportcomment2(value) {
+    // alert(myradio)
+    this.checkTypeReportPeople = 2;
+    this.FormReportComment.patchValue({
+      type: this.checkTypeReportPeople,
+    })
   }
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
@@ -532,9 +589,17 @@ export class DetailSubjecteventComponent implements OnInit {
           status: this.subjectgroup.status,
           suggestion: this.subjectgroup.suggestion
         })
+        var test: any = [];
+        this.subjectgroup.answerRecommenDationInspectors.forEach(element => {
+          test.push(element.user.provincialDepartments)
+        });
+        // console.log("test: ", test);
+        this.answerRecommenDationInspectors = test.filter(
+          (thing, i, arr) => arr.findIndex(t => t === thing) === i
+        );
+        console.log("uniqueanswerRecommenDationInspectors: ", this.answerRecommenDationInspectors);
 
         this.getquestion();
-
       })
   }
   storeFiles(value) {
@@ -1032,7 +1097,7 @@ export class DetailSubjecteventComponent implements OnInit {
   storeSubject(value) {
     // alert("123")
     // this.spinner.show();
-    console.log("valuevaluevaluevaluevaluevaluevaluevalue",value);
+    console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
     this.subjectservice.addSubjectRole3(value).subscribe(response => {
 
       this.AddForm.reset();
@@ -1048,7 +1113,7 @@ export class DetailSubjecteventComponent implements OnInit {
       // this.modalRef.hide();
     })
   }
-  storeReport2(value) {
+  storeReportPerformance(value) {
     console.log(value);
     this.reportservice.createReporttype1(value).subscribe(result => {
       this.FormQuestion.reset();
@@ -1056,11 +1121,42 @@ export class DetailSubjecteventComponent implements OnInit {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }
-  storeReport3() {
+  storeReportPerformance2() {
     console.log(this.provinceid);
-    this.reportservice.createReporttype2(this.FormReport.value,this.provinceid,this.id,this.subjectgroupid).subscribe(result => {
+    this.reportservice.createReporttype2(this.FormReport.value, this.provinceid, this.id, this.subjectgroupid).subscribe(result => {
       this.FormQuestion.reset();
       this.modalRef.hide();
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportQuestionnaire() {
+    this.reportservice.createReportQuestionnaire(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportsuggestions() {
+    this.reportservice.createReportsuggestions(this.subjectgroupid).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportSuggestionsResulttype1(value) {
+    this.reportservice.createReportSuggestionsResulttype1(value, this.provinceid).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportSuggestionsResulttype2(value) {
+    this.reportservice.createReportSuggestionsResulttype2(value, this.provinceid).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportComment(value) {
+    console.log(value);
+    this.reportservice.createReportCommenttype1(value).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportComment2() {
+    this.reportservice.createReportCommenttype2(this.FormReportComment.value, this.provinceid).subscribe(result => {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }
@@ -1074,7 +1170,17 @@ export class DetailSubjecteventComponent implements OnInit {
   getquestion() {
     this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
       this.questionpeople = res;
+      this.questionpeople.forEach(element => {
+        this.answerpeople.push(element.answerCentralPolicyProvinces)
+      });
+      this.select = this.questionpeople[0].answerCentralPolicyProvinces.map((item, index) => {
+        return {
+          value: item.user.id,
+          label: item.user.name,
+        }
+      })
       console.log("question: ", this.questionpeople);
+      console.log("test", this.answerpeople);
     })
   }
 
