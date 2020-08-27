@@ -18,18 +18,17 @@ export class FiscalyearnewComponent implements OnInit {
     dateFormat: 'dd/mm/yyyy',
   };
   data: any[] = []
-  delid:any
-  name:any
-  modalRef:BsModalRef;
-  Form : FormGroup
-  EditForm: FormGroup;
+  delid: any
+  name: any
+  modalRef: BsModalRef;
+  Form: FormGroup
   loading = false;
   dtOptions: DataTables.Settings = {};
-
-  constructor(private modalService: BsModalService, private fb: FormBuilder, 
+  date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
+  constructor(private modalService: BsModalService, private fb: FormBuilder,
     private fiscalyearnewservice: FiscalyearnewService,
-    private router:Router,
-    private _NotofyService: NotofyService,) { }
+    private router: Router,
+    private _NotofyService: NotofyService, ) { }
   ngOnInit() {
 
     this.dtOptions = {
@@ -58,19 +57,19 @@ export class FiscalyearnewComponent implements OnInit {
     })
   }
 
-  getdata(){
-    this.fiscalyearnewservice.getdata().subscribe(result=>{
+  getdata() {
+    this.fiscalyearnewservice.getdata().subscribe(result => {
       this.data = result
       this.loading = true;
     })
   }
-  openModal(template: TemplateRef<any>, id, Year,Startdate,Enddate) {
+  openModal(template: TemplateRef<any>, id, Year, Startdate, Enddate) {
     this.Form.reset()
     this.delid = id;
     this.Form.patchValue({
       Year: Year,
-      Startdate :  this.time(Startdate),
-      Enddate :  this.time(Enddate),
+      Startdate: this.time(Startdate),
+      Enddate: Enddate ? this.time(Enddate) : null,
     })
     this.modalRef = this.modalService.show(template);
   }
@@ -93,8 +92,8 @@ export class FiscalyearnewComponent implements OnInit {
     })
   }
 
-  edit(value,delid) { 
-    this.fiscalyearnewservice.update(value,delid).subscribe(response => {
+  edit(value, delid) {
+    this.fiscalyearnewservice.update(value, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
