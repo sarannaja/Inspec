@@ -111,7 +111,7 @@ export class NationalstrategyComponent implements OnInit {
 
   updateNationalstrategy(value,id){
     this.loading = false
-    this.nationalstrategyservice.editNationalstrategy(value, this.Form.value.files,id).subscribe(response => {
+    this.nationalstrategyservice.editNationalstrategy(value, this.Form.value.files,id,this.namefile).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.nationalstrategyservice.getnationalstrategy().subscribe(result => {
