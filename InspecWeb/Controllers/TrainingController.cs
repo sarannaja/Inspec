@@ -353,7 +353,8 @@ namespace InspecWeb.Controllers
         [HttpPut("registerlist2")]
         public void EditRegisterList2(long[] traningregisterid, long status)
         {
-            foreach (var id in traningregisterid) {
+            foreach (var id in traningregisterid)
+            {
                 var training = _context.TrainingRegisters.Find(id);
                 training.Status = status;
 
@@ -374,12 +375,14 @@ namespace InspecWeb.Controllers
             {
                 System.Console.WriteLine("TEST" + eachmodel.id);
                 System.Console.WriteLine("TEST" + eachmodel.status);
-                
+
                 var traningregisterconditiondata = _context.TrainingRegisterConditions
                     .Where(m => m.RegisterId == training.Id && m.ConditionId == eachmodel.id).FirstOrDefault();
 
-                if (traningregisterconditiondata == null) { 
-                    if (eachmodel.status) {
+                if (traningregisterconditiondata == null)
+                {
+                    if (eachmodel.status)
+                    {
                         var Trainingdata = new TrainingRegisterCondition
                         {
                             RegisterId = training.Id,
@@ -389,7 +392,8 @@ namespace InspecWeb.Controllers
 
                         _context.TrainingRegisterConditions.Add(Trainingdata);
                         _context.SaveChanges();
-                    } else
+                    }
+                    else
                     {
                         var Trainingdata = new TrainingRegisterCondition
                         {
@@ -401,7 +405,8 @@ namespace InspecWeb.Controllers
                         _context.TrainingRegisterConditions.Add(Trainingdata);
                         _context.SaveChanges();
                     }
-                } else
+                }
+                else
                 {
                     if (eachmodel.status)
                     {
@@ -929,30 +934,30 @@ namespace InspecWeb.Controllers
 
         }
 
-       // POST api/training/program/trainingid
-       //[HttpPost("program/save/{trainingid}")]
-       // public TrainingProgram InsertTrainingProgram(long trainingid, long programtype, string programtopic, string programdetail, DateTime programdate, string minutestart, string minuteend, string lecturername)
-       // {
-       //     var date = DateTime.Now;
-       //     System.Console.WriteLine("Start InsertTrainingProgram");
-       //     var trainingdata = new TrainingProgram
-       //     {
-       //         TrainingId = trainingid,
-       //         ProgramType = programtype,
-       //         ProgramDetail = programdetail,
-       //         ProgramDate = programdate,
-       //         MinuteStartDate = minutestart,
-       //         MinuteEndDate = minuteend,
-       //         LecturerId = lecturername,
-       //         ProgramTopic = programtopic,
-       //         CreatedAt = date
-       //     };
+        // POST api/training/program/trainingid
+        //[HttpPost("program/save/{trainingid}")]
+        // public TrainingProgram InsertTrainingProgram(long trainingid, long programtype, string programtopic, string programdetail, DateTime programdate, string minutestart, string minuteend, string lecturername)
+        // {
+        //     var date = DateTime.Now;
+        //     System.Console.WriteLine("Start InsertTrainingProgram");
+        //     var trainingdata = new TrainingProgram
+        //     {
+        //         TrainingId = trainingid,
+        //         ProgramType = programtype,
+        //         ProgramDetail = programdetail,
+        //         ProgramDate = programdate,
+        //         MinuteStartDate = minutestart,
+        //         MinuteEndDate = minuteend,
+        //         LecturerId = lecturername,
+        //         ProgramTopic = programtopic,
+        //         CreatedAt = date
+        //     };
 
-       //     _context.TrainingPrograms.Add(trainingdata);
-       //     _context.SaveChanges();
+        //     _context.TrainingPrograms.Add(trainingdata);
+        //     _context.SaveChanges();
 
-       //     return trainingdata;
-       // }
+        //     return trainingdata;
+        // }
 
         // POST api/values
         [HttpPost("program")]
@@ -1367,6 +1372,21 @@ namespace InspecWeb.Controllers
 
             return Ok(districtdata);
 
+        }
+
+        [HttpPost("printNamePlate")]
+        public IActionResult PrintNamePlate(TrainingViewModel model)
+        {
+            List<object> termsList = new List<object>();
+
+            foreach (var id in model.RegisterId)
+            {
+                var registerData = _context.TrainingRegisters
+                    .Where(x => x.Id == id)
+                    .FirstOrDefault();
+                termsList.Add(registerData);
+            }
+            return Ok(termsList);
         }
 
 

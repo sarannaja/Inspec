@@ -167,7 +167,7 @@ import { ReportSuggestionsComponent } from './report/report-suggestions/report-s
 import { ReportSuggestionResultComponent } from './report/report-suggestion-result/report-suggestion-result.component';
 import { ReportQuestionnaireComponent } from './report/report-questionnaire/report-questionnaire.component';
 import { ReportCommentComponent } from './report/report-comment/report-comment.component';
-import {CookieService} from 'ngx-cookie-service'
+import { CookieService } from 'ngx-cookie-service'
 import { ElectronicBookOtherComponent } from './electronic-book-province/electronic-book-other/electronic-book-other.component';
 import { ElectronicBookOtherDetailComponent } from './electronic-book-province/electronic-book-other/electronic-book-other-detail/electronic-book-other-detail.component';
 import { ProvinceService } from './services/province.service';
@@ -193,7 +193,9 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { NamePlateComponent } from './name-plate/name-plate.component';
+import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
 
 
 
@@ -367,6 +369,8 @@ const ExternalOrganization = [
     SideComponent,
     AllReportComponent,
     AllReportDetailComponent,
+    NamePlateComponent,
+    NamePlatePreviewComponent,
   ],
 
   imports: [
@@ -559,6 +563,8 @@ const ExternalOrganization = [
           { path: 'side', component: SideComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'nameplate/:id', component: NamePlateComponent, canActivate: [AuthorizeGuard] },
+          { path: 'nameplatepreview', component: NamePlatePreviewComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -592,7 +598,7 @@ const ExternalOrganization = [
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     ExcelGeneraterService,
-    DatePipe,CookieService,
+    DatePipe, CookieService,
     ProvinceService,
     NotofyService
     // UserManager
