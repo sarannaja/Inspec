@@ -26,6 +26,18 @@ namespace InspecWeb.Models
         public long ProvinceId { get; set; }
         public virtual Province Province { get; set; }
 
+        [ForeignKey("ProvincialDepartment")]
+        [Description("FK: หน่วยงานส่วนภูมิถาค")]
+        public long ProvincialDepartmentIdCreatedBy { get; set; }
+        public virtual ProvincialDepartment ProvincialDepartment { get; set; }
+
+        [ForeignKey("User")]
+        [Description("FK: User")]
+        public string CreatedBy { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
+        public long RoleCreatedBy { get; set; }
+
         [Description("ร่าง , ใช้งานจริง")]
         public string Status { get; set; }
         public string Type { get; set; }
