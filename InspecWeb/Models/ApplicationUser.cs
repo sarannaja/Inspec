@@ -53,9 +53,15 @@ namespace InspecWeb.Models
         [Description("เบอร์โทรเลข")]
         public string Telegraphnumber { get; set; }
 
-        [Description("ด้านการทำงาน")]
-        public string Side { get; set; }
 
+        // ***
+        //เพื่มเมื่อ 23-08-2020
+        [ForeignKey(" Side")]
+        [Description("FK: ประเภทด้านภาคประชาชน")]
+        public long SideId { get; set; }
+        public virtual Side Sides { get; set; }
+        // ***
+       
         [ForeignKey("Ministry")]
         [Description("FK: กระทรวง")]
         public long MinistryId { get; set; }
@@ -140,6 +146,10 @@ namespace InspecWeb.Models
         //20200722
         [Description("ปีงบประมาณ")]
         public long FiscalYearId { get; set; }
+
+        //20200823
+        [Description("สร้างuserอัตโนมัติหรือไม่")]
+        public long Autocreateuser { get; set; }
 
 
     }

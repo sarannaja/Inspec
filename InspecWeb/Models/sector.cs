@@ -20,7 +20,6 @@ namespace InspecWeb.Models
         [Description("ชื่อภาค")]
         public string Name { get; set; }
 
-
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }

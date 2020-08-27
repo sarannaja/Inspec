@@ -57,6 +57,7 @@ export class DetailSubjecteventComponent implements OnInit {
   FormSubject: FormGroup;
   FormReport: FormGroup;
   FormReportComment: FormGroup;
+  FormReportSuggestionsResult: FormGroup;
   AddForm: FormGroup;
   selectpeople: Array<any>
   selectministrypeople: Array<any>
@@ -144,8 +145,10 @@ export class DetailSubjecteventComponent implements OnInit {
   filterboxdepartments: any = []
   checkTypeReport: any;
   checkTypeReportPeople: any;
+  checkTypeSuggestionsresult: any
   select = []
   answerpeople: any = []
+  answerRecommenDationInspectors: any = []
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -253,6 +256,11 @@ export class DetailSubjecteventComponent implements OnInit {
     this.FormReportComment = this.fb.group({
       type: new FormControl(null, [Validators.required]),
       userid: new FormControl(null, [Validators.required])
+    })
+    this.FormReportSuggestionsResult = this.fb.group({
+      type: new FormControl(null, [Validators.required]),
+      provincialDepartmentId: new FormControl(null, [Validators.required]),
+      SubjectGroupId: this.subjectgroupid
     })
     await this.getDetailCentralPolicyProvince()
     await this.getsubjecteventDetail();
@@ -425,6 +433,16 @@ export class DetailSubjecteventComponent implements OnInit {
     this.checkTypeReport = 0;
     this.modalRef = this.modalService.show(template);
   }
+  reportModalSuggestionsresult(template: TemplateRef<any>) {
+    this.checkTypeSuggestionsresult = 0;
+    this.select = this.answerRecommenDationInspectors.map((item, index) => {
+      return {
+        value: item.id,
+        label: item.name,
+      }
+    })
+    this.modalRef = this.modalService.show(template);
+  }
   reportModalComment(template: TemplateRef<any>) {
     this.checkTypeReportPeople = 0;
     this.modalRef = this.modalService.show(template);
@@ -446,6 +464,20 @@ export class DetailSubjecteventComponent implements OnInit {
   report3(value) {
     // alert(myradio)
     this.checkTypeReport = 3;
+  }
+  reportsuggestionsresult1(value) {
+    // alert(myradio)
+    this.checkTypeSuggestionsresult = 1;
+    this.FormReportSuggestionsResult.patchValue({
+      type: this.checkTypeSuggestionsresult,
+    })
+  }
+  reportsuggestionsresult2(value) {
+    // alert(myradio)
+    this.checkTypeSuggestionsresult = 2;
+    this.FormReportSuggestionsResult.patchValue({
+      type: this.checkTypeSuggestionsresult,
+    })
   }
   reportcomment1(value) {
     // alert(myradio)
@@ -557,9 +589,17 @@ export class DetailSubjecteventComponent implements OnInit {
           status: this.subjectgroup.status,
           suggestion: this.subjectgroup.suggestion
         })
+        var test: any = [];
+        this.subjectgroup.answerRecommenDationInspectors.forEach(element => {
+          test.push(element.user.provincialDepartments)
+        });
+        // console.log("test: ", test);
+        this.answerRecommenDationInspectors = test.filter(
+          (thing, i, arr) => arr.findIndex(t => t === thing) === i
+        );
+        console.log("uniqueanswerRecommenDationInspectors: ", this.answerRecommenDationInspectors);
 
         this.getquestion();
-
       })
   }
   storeFiles(value) {
@@ -1091,6 +1131,21 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   storeReportQuestionnaire() {
     this.reportservice.createReportQuestionnaire(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportsuggestions() {
+    this.reportservice.createReportsuggestions(this.subjectgroupid).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportSuggestionsResulttype1(value) {
+    this.reportservice.createReportSuggestionsResulttype1(value, this.provinceid).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportSuggestionsResulttype2(value) {
+    this.reportservice.createReportSuggestionsResulttype2(value, this.provinceid).subscribe(result => {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }

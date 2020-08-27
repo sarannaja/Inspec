@@ -257,7 +257,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, { planId: this.id, watch: watch }])
+      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/ministry', result, { planId: this.id, watch: watch }])
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])

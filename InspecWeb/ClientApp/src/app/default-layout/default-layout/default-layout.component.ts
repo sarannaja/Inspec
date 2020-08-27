@@ -39,6 +39,7 @@ export class DefaultLayoutComponent implements OnInit {
   Email: any;
   files: any;
   Img: any;
+  UserName: any;
   Formprofile: any;
   resultnotifications: any[] = [];
   resultnotificationscount: any[] = [];
@@ -144,6 +145,9 @@ export class DefaultLayoutComponent implements OnInit {
       files2: new FormControl(null, [Validators.required]),
       Img: this.Img,
       Formprofile: 1,
+      UserName: new FormControl(null, [Validators.required]),
+      Password: new FormControl(null, [Validators.required]),
+      PassWordconfirm: new FormControl(null, [Validators.required]),
     })
   }
 
@@ -189,6 +193,7 @@ export class DefaultLayoutComponent implements OnInit {
             this.PhoneNumber = result[0].phoneNumber
             this.Email = result[0].email
             this.Img = result[0].img
+            this.UserName = result[0].userName
 
             this.Form.patchValue({
               Prefix: this.Prefix,
@@ -200,6 +205,7 @@ export class DefaultLayoutComponent implements OnInit {
               Formprofile: 1,
               files: this.files,
               Img:this.Img,
+              UserName : this.UserName
             });
 
             if (this.role_id == 1) {
@@ -224,11 +230,6 @@ export class DefaultLayoutComponent implements OnInit {
               this.nav = InspectorDepartment // ผู้ตรวจกรม
             }
             // this.bridge2.push(bridge)
-
-            console.log(
-
-
-            );
           })
       })
   }
@@ -240,6 +241,10 @@ export class DefaultLayoutComponent implements OnInit {
       this.modalRef.hide()
       this.getuserinfo();
     })
+  }
+
+  password(value){
+
   }
 
   bridge(name) {

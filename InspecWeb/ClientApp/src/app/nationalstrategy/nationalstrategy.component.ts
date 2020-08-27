@@ -20,6 +20,7 @@ export class NationalstrategyComponent implements OnInit {
   files: string[] = []
   loading = false;
   role_id:any;
+  namefile :any;
   dtOptions: DataTables.Settings = {};
 
   constructor(private modalService: BsModalService, 
@@ -73,14 +74,16 @@ export class NationalstrategyComponent implements OnInit {
   form(){
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
-      link: new FormControl(null, [Validators.required]),
       files : new FormControl(null, [Validators.required])
     })
   }
-  openModal(template: TemplateRef<any>, id, title, link) {
+  openModal(template: TemplateRef<any>, id, title,namefile) {
     this.delid = id;
     this.title = title;
-    this.link = link;
+    this.namefile = namefile;
+    this.Form.patchValue({
+      title: title
+    });
 
     
     this.modalRef = this.modalService.show(template);
@@ -95,17 +98,38 @@ export class NationalstrategyComponent implements OnInit {
   }
 
   storeNationalstrategy(value) {
+    this.loading = false
     this.nationalstrategyservice.addNationalstrategy(value, this.Form.value.files).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.nationalstrategyservice.getnationalstrategy().subscribe(result => {
         this.resultnationalstrategy = result
+        this.loading = true
       })
     })
   }
 
-  update(){
-    
+  updateNationalstrategy(value,id){
+    this.loading = false
+    this.nationalstrategyservice.editNationalstrategy(value, this.Form.value.files,id).subscribe(response => {
+      this.Form.reset()
+      this.modalRef.hide()
+      this.nationalstrategyservice.getnationalstrategy().subscribe(result => {
+        this.resultnationalstrategy = result
+        this.loading = true
+      })
+    })
+  }
+  delete(id){
+    this.loading = false
+    this.nationalstrategyservice.delete(id).subscribe(response => {
+      this.Form.reset()
+      this.modalRef.hide()
+      this.nationalstrategyservice.getnationalstrategy().subscribe(result => {
+        this.resultnationalstrategy = result
+        this.loading = true
+      })
+    })
   }
 
 

@@ -160,6 +160,7 @@ namespace InspecWeb.Data
         public DbSet<Typeexaminationplan> Typeexaminationplans { get; set; } //<!-- ประเภทแผนการตรวจ -->
         public DbSet<FiscalYearNew> FiscalYearNew { get; set; } //<!-- ปีงบประมาณที่แท้จริง -->
         public DbSet<Side> Sides { get; set; } //<!-- ด้าน -->
+        public DbSet<AnswerRecommenDationInspector> AnswerRecommenDationInspectors { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)

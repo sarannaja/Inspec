@@ -19,10 +19,10 @@ export class TrainingSurveyComponent implements OnInit {
   mainUrl: string;
   trainingid: any;
 
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
@@ -31,7 +31,7 @@ export class TrainingSurveyComponent implements OnInit {
     }
 
   ngOnInit() {
-    
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -63,6 +63,6 @@ export class TrainingSurveyComponent implements OnInit {
     this.router.navigate(['/training/survey/chart/',trainingid])
   }
 
-  
+
 
 }

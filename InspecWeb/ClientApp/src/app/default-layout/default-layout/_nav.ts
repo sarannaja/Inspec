@@ -30,7 +30,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   },
   {
     icon: 'fa-calendar',
-    url: "/inspectionplanevent",
+    url: '/inspectionplanevent/all',
     name: "ปฏิทินการตรวจราชการ"
   },
   {
@@ -127,19 +127,19 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/',
+        url: '/typeexamibationplan',
         name: 'ประเภทแผนการตรวจ',
         ex_link: '0'
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '',
+        url: '/sector',
         name: 'ภาค',
         ex_link: '0'
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/',
+        url: '/provincesgroup',
         name: 'กลุ่มจังหวัด',
         ex_link: '0'
       },
@@ -371,6 +371,12 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       // {
       //   ex_link: '0',
       //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/nameplate',
+      //   name: 'ป้ายตั้งโต๊ะผู้เข้าอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
       //   url: '/training/document',
       //   name: 'เอกสารประกอบการฝึกอบรม'
       // },
@@ -440,7 +446,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
   },
   {
     icon: 'fa-calendar',
-    url: "/inspectionplanevent",
+    url: '/inspectionplanevent/all',
     name: "ปฏิทินการตรวจราชการ"
   },
   {
@@ -1091,7 +1097,56 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
       },
     ]
   },
+  {
+    IDchildren: 'subject',
+    icon: 'fa-file',
+    name: "ประเด็นการตรวจติดตาม",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/subjectevent',
+        name: 'ประเด็นการตรวจติดตาม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportsubject',
+        name: 'รายงานประเด็นการตรวจติดตาม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportperformance',
+        name: 'รายงานผลการดำเนินการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportsuggestions',
+        name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportsuggestionsresult',
+        name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportquestionnaire',
+        name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportcomment',
+        name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
 
+    ]
+  },
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',
@@ -1429,6 +1484,11 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     name: "ประเด็นตรวจติดตาม"
   },
   {
+    icon: 'fa-file',
+    url: "/answerrecommendationinspector",
+    name: "ข้อเสนอแนะของผู้ตรวจราชการ"
+  },
+  {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
@@ -1554,7 +1614,56 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
       },
     ]
   },
+  {
+    IDchildren: 'subject',
+    icon: 'fa-file',
+    name: "ประเด็นการตรวจติดตาม",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/subjectevent',
+        name: 'ประเด็นการตรวจติดตาม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportsubject',
+        name: 'รายงานประเด็นการตรวจติดตาม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportperformance',
+        name: 'รายงานผลการดำเนินการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportsuggestions',
+        name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportsuggestionsresult',
+        name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportquestionnaire',
+        name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/reportcomment',
+        name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+      },
 
+    ]
+  },
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',
