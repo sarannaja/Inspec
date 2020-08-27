@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Niramit';
+    src: local('Niramit SemiBold Italic'), local('Niramit-SemiBold-Italic'),
+        url('Niramit-SemiBoldItalic.woff2') format('woff2'),
+        url('Niramit-SemiBoldItalic.woff') format('woff'),
+        url('Niramit-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+    /* font-size: 8000px; */
+  }
