@@ -74,12 +74,7 @@ export class DetailFiscalyearComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [3],
-          orderable: false
-        }
-      ]
+     
     }
     this.Form = this.fb.group({
       RegionId: new FormControl(null, [Validators.required]),
