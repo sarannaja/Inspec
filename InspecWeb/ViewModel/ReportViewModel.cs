@@ -96,19 +96,19 @@ namespace InspecWeb.ViewModel
         public long provinceId { get; set; }
     }
 
-    public class reportquestionnaire
-    {
-        public long planid { get; set; }
+    // public class reportquestionnaire
+    // {
+    //     public long planid { get; set; }
 
-    }
+    // }
 
-    public class reportcomment
-    {
-        public string userid { get; set; }
+    // public class reportcomment
+    // {
+    //     public string userid { get; set; }
 
-        public string reporttype { get; set; }
+    //     public string reporttype { get; set; }
 
-        public long provinceid { get; set; }
+    //     public long provinceid { get; set; }
 
-    }
+    // }
 }
