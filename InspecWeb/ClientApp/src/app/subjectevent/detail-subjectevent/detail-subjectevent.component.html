@@ -100,15 +100,14 @@
                           <h4 style="margin-left: 15px;">ประเด็นการตรวจติดตาม</h4>
 
                           <!-- <button style="margin-top: -10px; margin-left: 10px;"
-                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
+                            *ngIf="subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
                             type="button" class="btn btn-info"
                             (click)="openModalSubject(modalcreatesuject,items.id,items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button> -->
 
                           <button style="margin-top: -10px; margin-left: 10px;"
-                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
-                            class="btn btn-info"
+                            *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button" class="btn btn-info"
                             (click)="openModalSubject2(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
@@ -135,7 +134,7 @@
                               (click)="editModal3(modaleditsubject, items.id, items.name)"></i>
                           </div> -->
                           <!-- && i != 0 -->
-                          <!-- <div class="col-1" *ngIf="role_id == 3 && i != 0">
+                          <!-- <div class="col-1" *ngIf="i != 0">
                             <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                               (click)="delsubjectModal(modaldelsubject, items.id)"></i>
                           </div> -->
@@ -150,16 +149,16 @@
                         </h5>
                         <div class="row" style="margin-left: 10px;">
                           <button
-                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
+                            *ngIf="subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
                             type="button"
                             (click)="openModal2(modalInviteDepartment, items.id,items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups)"
                             class="btn btn-primary btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
                           <button
-                            *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length == 0"
+                            *ngIf="subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length == 0"
                             type="button" (click)="openAlertModal(alertModal)" class="btn btn-primary btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
-                          <button *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
+                          <button *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
                             (click)="openAddModalQuestionsclose(modalQuestionsclose,items.id)"
                             class="btn btn-success btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มคำถาม</button>
@@ -192,7 +191,7 @@
                                 <span class="">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
                               </div>
                               <div class="col-1">
-                                <i *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'"
+                                <i *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'"
                                   class="align-middle mr-2 fas fa-fw fa-trash-alt pointer col-1"
                                   (click)="DelModal(modaldeleteProvincial, itemss.id)"></i>
                               </div>
@@ -275,12 +274,12 @@
                               placeholder="กรุณากรอกเรื่อง" readonly>
                           </div>
                           <div class="col-0"
-                            *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
+                            *ngIf="item.type == 'คำถามปลายปิด' && subjectgroupstatus == 'ร่างกำหนดการ'">
                             <i style="margin-top: 15px;" class="align-middle mr-2 fas fa-fw fa-pen pointer"
                               (click)="editModal(modaleditsubquestionclose, item.id, item.name)"></i>
                           </div>
                           <div class="col-0"
-                            *ngIf="item.type == 'คำถามปลายปิด' && role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
+                            *ngIf="item.type == 'คำถามปลายปิด' && subjectgroupstatus == 'ร่างกำหนดการ'">
                             <i style="margin-top: 15px;" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                               (click)="delquestionModal(modaldelquestion, item.id)"></i>
                           </div>
@@ -417,14 +416,13 @@
               <div class="row">
                 <i class="fa fa-tags" style="margin-top: 15px;"></i>
                 <h4 style="margin-top: 10px;margin-left: 15px;">คำถามภาคประชาชน</h4> &nbsp;&nbsp;
-                <button *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
-                  class="btn btn-success btn-xs"
+                <button *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button" class="btn btn-success btn-xs"
                   (click)="openModalQuestionPeople(modalQuestionPeople)">เพิ่มคำถาม</button>
-                <button *ngIf="role_id == 3 && subjectgroupstatus == 'ใช้งานจริง'" style="margin-right: 15px;"
-                  type="button" class="btn btn-success btn-xs"
+                <button *ngIf="subjectgroupstatus == 'ใช้งานจริง'" style="margin-right: 15px;" type="button"
+                  class="btn btn-success btn-xs"
                   (click)="storeReportQuestionnaire()">รายงานแบบสอบถามความคิดเห็น</button>
-                <button *ngIf="role_id == 3 && subjectgroupstatus == 'ใช้งานจริง' && answerpeople.length != 0"
-                  type="button" class="btn btn-success btn-xs"
+                <button *ngIf="subjectgroupstatus == 'ใช้งานจริง' && answerpeople.length != 0" type="button"
+                  class="btn btn-success btn-xs"
                   (click)="reportModalComment(modalreportcomment)">รายงานความคิดเห็น</button>
               </div>
               <br>
@@ -442,7 +440,7 @@
 
           <!-- {{subjectgroupland}} -->
 
-          <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
+          <div class="form-group col-12" *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" checked formControlName="status">
               <label style="margin-left: 10px;">ร่าง</label>
@@ -450,7 +448,7 @@
               <label style="margin-left: 10px;">ใช้งาน</label>
             </div>
           </div>
-          <div class="form-group col-12" *ngIf="role_id == 3 && subjectgroupstatus == 'ใช้งานจริง'">
+          <div class="form-group col-12" *ngIf="subjectgroupstatus == 'ใช้งานจริง'">
             <div class="mb-3">
               <input type="radio" name="status" value="ร่างกำหนดการ" formControlName="status" disabled>
               <label style="margin-left: 10px;">ร่าง</label>
@@ -484,11 +482,11 @@
           </div>
 
           <div class="col-12">
-            <label *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'"
+            <label *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'"
               class="form-label w-100">แนบไฟล์ประเด็นการตรวจติดตาม</label>
-            <input *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'" type="file" multiple
-              (change)="uploadFile2($event)" style="margin-bottom: 10px;">
-            <!-- <div class="col-4" *ngIf="role_id == 3 && subjectgroupstatus == 'ร่างกำหนดการ'">
+            <input *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="file" multiple (change)="uploadFile2($event)"
+              style="margin-bottom: 10px;">
+            <!-- <div class="col-4" *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'">
               <select class="selectpicker form-control" data-live-search="true"
                 (change)="checkType($event.target.value)" formControlName="fileType">
                 <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
@@ -528,9 +526,9 @@
           </div>
 
 
-          <!-- <label *ngIf="role_id == 3 && signatureFile.length <= 0" class="form-label w-100"
+          <!-- <label *ngIf="signatureFile.length <= 0" class="form-label w-100"
             style="margin-top: 30px;">แนบไฟล์ลายมือชื่อ</label>
-          <input *ngIf="role_id == 3 && signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)"
+          <input *ngIf="signatureFile.length <= 0" type="file" multiple (change)="uploadFile2($event)"
             style="margin-bottom: 10px;">
 
           <div class="row">
@@ -548,10 +546,10 @@
           </div> -->
           <div *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" class="form-group col col-lg-12"
             style="margin-top: 20px; text-align: center;">
-            <button *ngIf="role_id == 3" style="align-self: center;" type="submit" class="btn btn-primary"
+            <button style="align-self: center;" type="submit" class="btn btn-primary"
               style="margin-right: 45px;">บันทึก</button>
-            <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
-              (click)="back()" style="margin-right: 45px;">บันทึก</button>
+            <!-- <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
+              (click)="back()" style="margin-right: 45px;">บันทึก</button> -->
             <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
           </div>
 

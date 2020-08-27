@@ -151,7 +151,7 @@ export class InspectionplanService {
     formData.append('ceneventid', ceneventid);
     formData.append('startdate', startdate.year + '-' + startdate.month + '-' + startdate.day);
     formData.append('enddate', enddate.year + '-' + enddate.month + '-' + enddate.day);
-    formData.append('year', value.year);
+    // formData.append('year', value.year);
     formData.append('title', value.title);
     return this.http.post(this.url + "editcentralpolicy", formData);
   }

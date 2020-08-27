@@ -113,6 +113,12 @@ namespace InspecWeb.Controllers {
         [HttpPost]
         public IActionResult Post([FromBody] InspectionPlanViewModel model)
         {
+
+            var userdata = _context.Users
+              .Where(m => m.Id == model.UserID)
+              //.Select(m => m.Role_id)
+              .FirstOrDefault();
+
             var year = _context.FiscalYearNew
                 .Where(m => m.Year == model.FiscalYearId).FirstOrDefault();
             System.Console.WriteLine("year" + year.Id);
@@ -157,7 +163,11 @@ namespace InspecWeb.Controllers {
                 ProvinceId = model.ProvinceId,
                 Type = "Master",
                 Land = "Master",
-                Status = "Master"
+                Status = "Master",
+
+                ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
+                CreatedBy = userdata.Id,
+                RoleCreatedBy = userdata.Role_id,
             };
             _context.SubjectGroups.Add (SubjectGroupdata);
             _context.SaveChanges ();
@@ -395,7 +405,7 @@ namespace InspecWeb.Controllers {
 
         // POST api/values
         [HttpPost ("editcentralpolicy")]
-        public void Editcentralpolicy (long ceneventid, DateTime startdate, DateTime enddate, long year, string title) {
+        public void Editcentralpolicy (long ceneventid, DateTime startdate, DateTime enddate, string title) {
             // var InspectionPlanEventsdata = _context.InspectionPlanEvents
             //     .Find(cenid);
             // InspectionPlanEventsdata.StartDate = startdate;
@@ -417,7 +427,7 @@ namespace InspecWeb.Controllers {
             CentralPolicydata.Title = title;
             CentralPolicydata.StartDate = startdate;
             CentralPolicydata.EndDate = enddate;
-            CentralPolicydata.FiscalYearNewId = year;
+            //CentralPolicydata.FiscalYearNewId = year;
 
             _context.Entry (CentralPolicydata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges ();

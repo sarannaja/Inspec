@@ -40,6 +40,19 @@ namespace InspecWeb.Controllers
           
         }
 
+        // GET: api/values
+        [HttpGet("getonlyprovince")]
+        public IActionResult Getonlyprovince()
+        {
+
+
+            var provincedata = _context.Provinces
+                .ToList();
+            return Ok(provincedata);
+
+
+        }
+
         //<!-- Get ภาค 20200720 -->
         [HttpGet("getsectordata")]
         public IActionResult getsectordata()
