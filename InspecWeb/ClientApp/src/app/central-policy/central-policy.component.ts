@@ -154,11 +154,8 @@ export class CentralPolicyComponent implements OnInit {
                     array.push({ ...result[i1], count: resultCount });
                   }
                 })
-
-
                 // }, 100 * i1 + 1)
               }
-
               resolve(array)
               // return
             }, 300)
@@ -216,10 +213,6 @@ export class CentralPolicyComponent implements OnInit {
                     array.push({ ...result[i1], count: resultCount });
                   }
                   // }
-
-
-
-
                 })
 
 
@@ -269,7 +262,7 @@ export class CentralPolicyComponent implements OnInit {
                 this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
                   console.log('result[i1]', result[i1], i1);
 
-                  if (this.role_id != 1  && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
+                  if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
                     array.push({ ...result[i1], count: resultCount });
                   } else if (this.role_id == 1 || this.role_id == 2) {
                     array.push({ ...result[i1], count: resultCount });
@@ -318,13 +311,24 @@ export class CentralPolicyComponent implements OnInit {
     this.loading = false;
     this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
       console.log(value);
+      console.log(this.selectfiscalyearid);
       this.modalRef.hide()
       if (this.selectfiscalyearid == "currentfiscalyear") {
+        console.log("1");
         this.getCurrentCentralPolicy(this.currentyear);
+        this.spinner.show();
       } else if (this.selectfiscalyearid == "allfiscalyear") {
+        console.log("2");
         this.getCentralPolicy();
+        this.spinner.show();
+      } else if (this.selectfiscalyearid == null) {
+        console.log("3");
+        this.getCurrentCentralPolicy(this.currentyear);
+        this.spinner.show();
       } else {
+        console.log("4");
         this.getSelectfiscalyear();
+        this.spinner.show();
       }
       // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
       //   this.resultcentralpolicy = result

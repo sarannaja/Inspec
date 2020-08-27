@@ -171,7 +171,7 @@ export class CentralpolicyService {
       formData.append('AddProvince', addProvince[i]);
     }
 
-    formData.append('FiscalYearId', centralpolicyData.year);
+    formData.append('FiscalYearNewId', centralpolicyData.year);
     formData.append('Status', centralpolicyData.status);
     formData.append('UserID', userId);
     for (var ii = 0; ii < inputdate.length; ii++) {
