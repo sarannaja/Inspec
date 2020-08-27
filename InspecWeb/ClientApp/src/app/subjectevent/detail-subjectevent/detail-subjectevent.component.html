@@ -461,10 +461,24 @@
           </div>
 
           <div *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="row form-group" style="margin-left: 2px;">
-            <i class="fa fa-tags" style="margin-top: 5px;"></i>
-            <h4 style="margin-left: 15px;">ข้อเสนอแนะ</h4>
+            <div class="row">
+              <i class="fa fa-tags" style="margin-top: 5px;"></i>
+              <h4 style="margin-left: 15px;">ข้อเสนอแนะ</h4>
+              <button type="button" style="margin-bottom: 10px; margin-left: 20px; font-size: small;"
+                class="btn btn-primary" (click)="storeReportsuggestions()">รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ
+              </button>
+              <button type="button" style="margin-bottom: 10px; margin-left: 20px; font-size: small;"
+                class="btn btn-primary"
+                (click)="reportModalSuggestionsresult(modalreportsuggestionsresult)">รายงานผลการดำเนินการตามข้อเสนอแนะ
+              </button>
+            </div>
             <textarea cols="30" rows="2" type="text" formControlName="suggestion" class="form-control"
               placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
+            <div *ngFor="let item of subjectgroup.answerRecommenDationInspectors; let i = index">
+              <br>
+              <label style="margin-left: 10px;"> - {{item.answersuggestion}} โดย : {{item.user.name}} จังหัวด :
+                {{item.user.province.name}}</label>
+            </div>
           </div>
 
           <br>
@@ -546,19 +560,18 @@
               </div>
             </div>
           </div> -->
-          <div *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" class="form-group col col-lg-12"
-            style="margin-top: 20px; text-align: center;">
+          <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
             <button *ngIf="role_id == 3" style="align-self: center;" type="submit" class="btn btn-primary"
               style="margin-right: 45px;">บันทึก</button>
-            <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
-              (click)="back()" style="margin-right: 45px;">บันทึก</button>
+            <!-- <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
+              (click)="back()" style="margin-right: 45px;">บันทึก</button> -->
             <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
           </div>
 
-          <div *ngIf="subjectgroupstatus == 'ใช้งานจริง'" class="form-group col col-lg-12"
+          <!-- <div *ngIf="subjectgroupstatus == 'ใช้งานจริง'" class="form-group col col-lg-12"
             style="margin-top: 20px; text-align: center;">
             <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
-          </div>
+          </div> -->
 
         </form>
       </div>
@@ -1089,6 +1102,60 @@
       </form>
     </div>
 
+  </div>
+</ng-template>
+<!-- END primary modal -->
+<!-- BEGIN primary modal -->
+<ng-template #modalreportsuggestionsresult class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body m-3">
+      <div class="mb-3">
+        <input type="radio" name="report" (change)="reportsuggestionsresult1($event)" value="รายหน่วยงาน">
+        <label style="margin-left: 10px;">รายหน่วยงาน</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="reportsuggestionsresult2($event)"
+          value="รายจังหวัด">
+        <label style="margin-left: 10px;">รายจังหวัด</label>
+      </div>
+      <form [formGroup]="FormReportSuggestionsResult" *ngIf="checkTypeSuggestionsresult== 1"
+        (ngSubmit)="storeReportSuggestionsResulttype1(FormReportSuggestionsResult.value)">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>รายหน่วยงาน</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือก" [multiple]="false"
+                [items]="select" formControlName="provincialDepartmentId">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+      <form [formGroup]="FormReportSuggestionsResult" *ngIf="checkTypeSuggestionsresult== 2"
+        (ngSubmit)="storeReportSuggestionsResulttype2(FormReportSuggestionsResult.value)">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>จังหวัด</label>
+              <input type="text" value="{{provincename}}" class="form-control" placeholder="กรุณากรอกเรื่อง" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+    </div>
   </div>
 </ng-template>
 <!-- END primary modal -->

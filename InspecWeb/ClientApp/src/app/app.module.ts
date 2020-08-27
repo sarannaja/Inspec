@@ -194,8 +194,11 @@ import { NumberDirective } from './services/numbers-only.directive';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-
 import {NgxPrintModule} from 'ngx-print';
+import { AnswerRecommendationinSpectorComponent } from './answer-subject/answer-recommendationin-spector/answer-recommendationin-spector.component';
+import { AnswerRecommendationinSpectorDetailComponent } from './answer-subject/answer-recommendationin-spector-detail/answer-recommendationin-spector-detail.component';
+import { AnswerRecommendationinSpectorEditComponent } from './answer-subject/answer-recommendationin-spector-edit/answer-recommendationin-spector-edit.component';
+
 
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
@@ -376,6 +379,9 @@ const ExternalOrganization = [
     NumberDirective,
     AllReportComponent,
     AllReportDetailComponent,
+    AnswerRecommendationinSpectorComponent,
+    AnswerRecommendationinSpectorDetailComponent,
+    AnswerRecommendationinSpectorEditComponent,
   ],
 
   imports: [
@@ -572,6 +578,9 @@ const ExternalOrganization = [
           { path: 'provincesgroup', component: ProvincesgroupComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector', component: AnswerRecommendationinSpectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector/detail/:id', component: AnswerRecommendationinSpectorDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector/edit/:id', component: AnswerRecommendationinSpectorEditComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

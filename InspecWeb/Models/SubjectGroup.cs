@@ -58,5 +58,6 @@ namespace InspecWeb.Models
         public DateTime? PeopleQuestionDeadlineDate { get; set; }
         public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
         public ICollection<SubjectGroupPeopleQuestion> SubjectGroupPeopleQuestions { get; set; }
+        public ICollection<AnswerRecommenDationInspector> AnswerRecommenDationInspectors { get; set; }
     }
 }

@@ -65,6 +65,8 @@ namespace InspecWeb.ViewModel
         public long subjectid { get; set; }
 
         public string reporttype { get; set; }
+
+        public long subjectgroupsid { get; set; }
     }
 
     public class reportquestionnaire
@@ -81,5 +83,16 @@ namespace InspecWeb.ViewModel
 
         public long provinceid { get; set; }
 
+    }
+
+    public class reportsuggestionsresult
+    {
+        public long SubjectGroupId { get; set; }
+
+        public string reporttype { get; set; }
+
+        public long provincialDepartmentId { get; set; }
+
+        public long provinceId { get; set; }
     }
 }

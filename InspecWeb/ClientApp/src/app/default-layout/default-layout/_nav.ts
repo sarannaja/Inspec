@@ -1429,6 +1429,11 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     name: "ประเด็นตรวจติดตาม"
   },
   {
+    icon: 'fa-file',
+    url: "/answerrecommendationinspector",
+    name: "ข้อเสนอแนะของผู้ตรวจราชการ"
+  },
+  {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ"
