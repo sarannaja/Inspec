@@ -348,7 +348,7 @@ namespace InspecWeb.Controllers
         }
         // GET api/values/5
         [HttpGet("centralpolicyprovince/{id}/{inspectionPlanEventId}")]
-        public IActionResult Get6(long id,long inspectionPlanEventId)
+        public IActionResult Get6(long id, long inspectionPlanEventId)
         {
             var centralpolicyprovincedata = _context.CentralPolicyProvinces
                 .Where(m => m.Id == id)
@@ -594,7 +594,7 @@ namespace InspecWeb.Controllers
         }
         // PUT api/values/5
         [HttpPut("editstatus/{id}")]
-        public void Put2(long id, string status,long subjectGroupId)
+        public void Put2(long id, string status, long subjectGroupId)
         {
             if (status == "ใช้งานจริง")
             {
@@ -662,9 +662,9 @@ namespace InspecWeb.Controllers
             }
 
             var statusdata = _context.AnswerSubquestionStatuses.Find(id);
-                statusdata.Status = status;
-                _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
+            statusdata.Status = status;
+            _context.Entry(statusdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
 
         }
         // PUT api/values/5
@@ -866,6 +866,100 @@ namespace InspecWeb.Controllers
                 .Where(m => m.SubquestionCentralPolicyProvince.SubjectCentralPolicyProvinceId == id && m.SenderUserId == userid)
                 .ToList();
             return Ok(answerdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("recommendationinspector/{userid}")]
+        public IActionResult GetRecommendationinspector(string userid)
+        {
+            var userdata = _context.Users
+                .Where(m => m.Id == userid).First();
+
+            var province = _context.UserProvinces
+                .Where(m => m.UserID == userid).First();
+
+            var provincialdepartment = _context.ProvincialDepartment
+               .Where(m => m.DepartmentId == userdata.DepartmentId).First();
+
+            var centralpolicyprovincedata = _context.SubjectGroups
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
+                .Where(m => m.Type == "NoMaster")
+                .Where(m => m.Suggestion != "null")
+                .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId))))
+                .Where(m => m.ProvinceId == province.ProvinceId)
+                .ToList();
+
+            return Ok(centralpolicyprovincedata);
+        }
+
+        // GET api/values/5
+        [HttpGet("recommendationinspectordetail/{id}")]
+        public IActionResult GetRecommendationinspector2(long id)
+        {
+            var centralpolicyprovincedata = _context.SubjectGroups
+                .Include(m => m.CentralPolicy)
+                .Include(m => m.Province)
+                .Include(m => m.AnswerRecommenDationInspectors)
+                .Where(m => m.Id == id)
+                .FirstOrDefault();
+            return Ok(centralpolicyprovincedata);
+        }
+        // POST api/values
+        [HttpPost("addrecommendationinspector")]
+        public IActionResult Post7(long SubjectGroupId, string UserId, string Answer, string Status)
+        {
+            System.Console.WriteLine("in", UserId);
+            var date = DateTime.Now;
+            var AnswerRecommenDationInspectorData = new AnswerRecommenDationInspector
+            {
+                SubjectGroupId = SubjectGroupId,
+                UserId = UserId,
+                Answersuggestion = Answer,
+                Status = Status,
+                CreatedAt = date
+            };
+            System.Console.WriteLine("in2");
+            _context.AnswerRecommenDationInspectors.Add(AnswerRecommenDationInspectorData);
+            _context.SaveChanges();
+
+            return Ok(new { status = true });
+            //return Ok(Statusdata);
+        }
+        // GET api/values/5
+        [HttpGet("recommendationinspectoruser/{userid}")]
+        public IActionResult Get11(string userid)
+        {
+            var answeruserdata = _context.AnswerRecommenDationInspectors
+                .Where(m => m.UserId == userid)
+                .ToList();
+
+            return Ok(answeruserdata);
+        }
+        // GET api/values/5
+        [HttpGet("answerrecommendationinspectoruser/{id}/{userid}")]
+        public IActionResult Get12(string userid, long id)
+        {
+            var answeruserdata = _context.AnswerRecommenDationInspectors
+                .Where(m => m.SubjectGroupId == id)
+                .Where(m => m.UserId == userid)
+                .FirstOrDefault();
+
+            return Ok(answeruserdata);
+        }
+        // PUT api/values/5
+        [HttpPut("editanswerrecommendationinspector/{id}")]
+        public IActionResult Put5(long id, string Answer, string Status)
+        {
+
+            var AnswerRecommenDationInspectordata = _context.AnswerRecommenDationInspectors.Find(id);
+            AnswerRecommenDationInspectordata.Answersuggestion = Answer;
+            AnswerRecommenDationInspectordata.Status = Status;
+            _context.Entry(AnswerRecommenDationInspectordata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(new { status = true });
+
         }
     }
 }

@@ -201,18 +201,17 @@
                         <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
                     </div>
                     <ng-template #elseBlock>
-                        <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+                        <!-- <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
                             <button style="align-self: center;" type="button" class="btn btn-primary"
                                 style="margin-right: 45px;" printSectionId="testprint" ngxPrint
                                 [useExistingCss]="true">ปิ้นคำถาม</button>
-                            <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
                             <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
-                        </div>
-                        <!-- <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+                        </div> -->
+                        <div *ngIf="printstatus == 0" class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
                             <button style="align-self: center;" type="button" class="btn btn-primary"
                                 style="margin-right: 45px;" (click)="printPage()">ปิ้นคำถาม</button>
                             <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
-                        </div> -->
+                        </div>
                     </ng-template>
                 </form>
             </div>

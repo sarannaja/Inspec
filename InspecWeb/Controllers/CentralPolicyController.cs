@@ -1276,6 +1276,9 @@ namespace InspecWeb.Controllers
 
             var subjectgroup = _context.SubjectGroups
                 .Include(m => m.SubjectGroupPeopleQuestions)
+                .Include(m => m.AnswerRecommenDationInspectors)
+                .ThenInclude(m => m.User)
+                .ThenInclude(m => m.Province)
                 .Where(m => m.Id == subjectgroupid).FirstOrDefault();
 
             return Ok(new { subjectgroup, subjectcentralpolicyprovincedata });
