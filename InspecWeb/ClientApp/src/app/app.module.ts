@@ -167,7 +167,7 @@ import { ReportSuggestionsComponent } from './report/report-suggestions/report-s
 import { ReportSuggestionResultComponent } from './report/report-suggestion-result/report-suggestion-result.component';
 import { ReportQuestionnaireComponent } from './report/report-questionnaire/report-questionnaire.component';
 import { ReportCommentComponent } from './report/report-comment/report-comment.component';
-import {CookieService} from 'ngx-cookie-service'
+import { CookieService } from 'ngx-cookie-service'
 import { ElectronicBookOtherComponent } from './electronic-book-province/electronic-book-other/electronic-book-other.component';
 import { ElectronicBookOtherDetailComponent } from './electronic-book-province/electronic-book-other/electronic-book-other-detail/electronic-book-other-detail.component';
 import { ProvinceService } from './services/province.service';
@@ -187,16 +187,23 @@ import { InformationinspectionComponent } from './informationinspection/informat
 import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
 import { FiscalyearnewComponent } from './fiscalyearnew/fiscalyearnew.component';
 import { SideComponent } from './side/side.component';
+import { SectorComponent } from './sector/sector.component';
+import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
+import { ProvincesgroupComponent } from './provincesgroup/provincesgroup.component';
+import { NumberDirective } from './services/numbers-only.directive';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-
 import {NgxPrintModule} from 'ngx-print';
-
-
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-
-
+import { AnswerRecommendationinSpectorComponent } from './answer-subject/answer-recommendationin-spector/answer-recommendationin-spector.component';
+import { AnswerRecommendationinSpectorDetailComponent } from './answer-subject/answer-recommendationin-spector-detail/answer-recommendationin-spector-detail.component';
+import { AnswerRecommendationinSpectorEditComponent } from './answer-subject/answer-recommendationin-spector-edit/answer-recommendationin-spector-edit.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { ConfirmationDialogService } from './services/confirmation-dialog/confirmation-dialog.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
+import { NamePlateComponent } from './name-plate/name-plate.component';
+import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
 
 
 const ExternalOrganization = [
@@ -366,8 +373,18 @@ const ExternalOrganization = [
     ApprovaldocumentComponent,
     FiscalyearnewComponent,
     SideComponent,
+    SectorComponent,
+    TypeexamibationplanComponent,
+    ProvincesgroupComponent,
+    NumberDirective,
     AllReportComponent,
     AllReportDetailComponent,
+    AnswerRecommendationinSpectorComponent,
+    AnswerRecommendationinSpectorDetailComponent,
+    AnswerRecommendationinSpectorEditComponent,
+    ConfirmationDialogComponent,
+    NamePlateComponent,
+    NamePlatePreviewComponent,
   ],
 
   imports: [
@@ -559,8 +576,16 @@ const ExternalOrganization = [
           { path: 'supportgovernment/approvaldocument', component: ApprovaldocumentComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyearnew', component: FiscalyearnewComponent, canActivate: [AuthorizeGuard] },
           { path: 'side', component: SideComponent, canActivate: [AuthorizeGuard] },
+          { path: 'sector', component: SectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'typeexamibationplan', component: TypeexamibationplanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'provincesgroup', component: ProvincesgroupComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector', component: AnswerRecommendationinSpectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector/detail/:id', component: AnswerRecommendationinSpectorDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'answerrecommendationinspector/edit/:id', component: AnswerRecommendationinSpectorEditComponent, canActivate: [AuthorizeGuard] },
+          { path: 'nameplate/:id', component: NamePlateComponent, canActivate: [AuthorizeGuard] },
+          { path: 'nameplatepreview', component: NamePlatePreviewComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -582,6 +607,7 @@ const ExternalOrganization = [
     ModalModule.forRoot(),
     // SelectSSSModule
     NgSelectModule,
+    NgbModule,
 
   ], exports: [
     ThaiDatePipe,
@@ -589,14 +615,16 @@ const ExternalOrganization = [
     // SelectSSSModule
     // DatePipe
   ],
+  entryComponents: [ConfirmationDialogComponent],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     ExcelGeneraterService,
-    DatePipe,CookieService,
+    DatePipe, CookieService,
     ProvinceService,
-    NotofyService
+    NotofyService,
+    ConfirmationDialogService
     // UserManager
 
   ],

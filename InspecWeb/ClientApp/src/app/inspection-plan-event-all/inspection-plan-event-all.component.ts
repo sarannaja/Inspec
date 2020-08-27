@@ -24,7 +24,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
   url = "";
   resultinspectionplanevent: any = []
   inspectionplancalendar: any = []
-  resultuserregion: any = []
+  resultuserregion: any[] = []
   delid: any
   modalRef: BsModalRef;
   userid: string
@@ -59,7 +59,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
   }
 
   getprovince() {
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getonlyprovince()
       .subscribe(result => {
         //console.log("this.resultuserregion", result);
         this.resultuserregion = result
@@ -89,13 +89,23 @@ export class InspectionPlanEventAllComponent implements OnInit {
           }
 
           if (item.centralPolicyEvents.length != 0) {
+            var name = ""
+            for (var i = 0; i < item.centralPolicyEvents.length; i++) {
+              if (i == (item.centralPolicyEvents.length - 1)) {
+                name = name + item.centralPolicyEvents[i].centralPolicy.title
+              } else {
+                name = name + item.centralPolicyEvents[i].centralPolicy.title + ", "
+              }
+            }
             return {
               id: item.id,
               title: item.province.name,
-              name: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+              name: item.province.name + " : " + name,
               provinceid: item.province.id,
-              start: moment(item.startDate).format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
-              end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
+              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+              start: moment(item.startDate), //.format("YYYY-MM-DD"),
+              end: moment(item.endDate), //.format("YYYY-MM-DD"),
               color: colorJa,
               roleCreatedBy: roleCreatedBy,
             }
@@ -106,8 +116,10 @@ export class InspectionPlanEventAllComponent implements OnInit {
               title: item.province.name,
               provinceid: item.province.id,
               name: '',
-              start: moment(item.startDate).format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
-              end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
+              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+              start: moment(item.startDate), //.format("YYYY-MM-DD"),
+              end: moment(item.endDate), //.format("YYYY-MM-DD"),
               color: colorJa,
               roleCreatedBy: roleCreatedBy,
             }
@@ -160,9 +172,9 @@ export class InspectionPlanEventAllComponent implements OnInit {
           if (event.roleCreatedBy == 3) {
             window.location.href = self.url + event.id + '/' + event.provinceid + '/' + watch;
           } else if (event.roleCreatedBy == 6) {
-            window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid;
+            window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid + '/' + watch;
           } else if (event.roleCreatedBy == 10) {
-            window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid;
+            window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid + '/' + watch;
           }
         },
         eventRender: function (event, element, view) {

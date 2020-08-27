@@ -666,23 +666,22 @@ namespace InspecWeb.Controllers
             }
             return Ok(new { data = filename });
         }
-        [HttpGet("reportsuggestions")]
-        public IActionResult CreateReport2()
+        [HttpPost("reportsuggestions")]
+        public IActionResult CreateReport2([FromForm] reportsuggestions model)
         {
-            //var provincedata = _context.Provinces
-            //    .Where(m => m.Id == model.provinceid)
-            //    .FirstOrDefault();
+            var reportsuggestionsdata = _context.SubjectGroups
+                 .Include(m => m.CentralPolicy)
+                 .Include(m => m.Province)
+                 .Include(m => m.SubjectCentralPolicyProvinces)
+                 .ThenInclude(m => m.SubquestionCentralPolicyProvinces)
+                 .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
+                 .ThenInclude(m => m.ProvincialDepartment)
+                 .Include(m => m.AnswerRecommenDationInspectors)
+                 .Where(m => m.Id == model.subjectgroupsid)
+                 .FirstOrDefault();
 
-            //System.Console.WriteLine("1" + provincedata.Name);
-            //var centralpolicydata = _context.CentralPolicies
-            //    .Where(m => m.Id == model.centralpolicyid)
-            //    .FirstOrDefault();
-
-            //System.Console.WriteLine("2" + centralpolicydata.Title);
-            //var subjectdata = _context.SubjectCentralPolicyProvinces
-            //    .Where(m => m.Id == model.subjectid)
-            //    .FirstOrDefault();
-            //System.Console.WriteLine("3" + subjectdata.Name);
+            var testData = reportsuggestionsdata.SubjectCentralPolicyProvinces.ToArray();
+            System.Console.WriteLine("3" + reportsuggestionsdata.Suggestion);
 
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
@@ -709,105 +708,103 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("5");
 
                 // Add a title
-                document.InsertParagraph("รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ (รายประเด็น)")
+
+                for (int i = 0; i < testData.Length; i++)
+                {
+                    document.InsertParagraph("รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ (รายประเด็น)")
                     .FontSize(16d)
                     .SpacingBefore(15d)
                     .SpacingAfter(15d)
                     .Bold()
                     .Alignment = Alignment.center;
 
-                System.Console.WriteLine("6");
-                // Insert a title paragraph.
-                var year = document.InsertParagraph("รอบการตรวจราชการที่....................เดือน....................ปี....................");
-                year.Alignment = Alignment.center;
-                year.SpacingAfter(10d);
-                year.FontSize(16d);
+                    System.Console.WriteLine("6");
+                    // Insert a title paragraph.
+                    var year = document.InsertParagraph("รอบการตรวจราชการที่....................เดือน....................ปี....................");
+                    year.Alignment = Alignment.center;
+                    year.SpacingAfter(10d);
+                    year.FontSize(16d);
 
-                //var inspector = document.InsertParagraph("หน่วยงาน.................... เขต.................... จังหวัด : ");
-                //inspector.Alignment = Alignment.center;
-                //inspector.SpacingAfter(30d);
-                //inspector.FontSize(16d);
+                    var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : " + reportsuggestionsdata.CentralPolicy.Title);
+                    //region.Alignment = Alignment.center;
+                    region.SpacingAfter(10d);
+                    region.FontSize(16d);
+                    region.Bold();
 
-
-                var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : ");
-                //region.Alignment = Alignment.center;
-                region.SpacingAfter(30d);
-                region.FontSize(16d);
-                region.Bold();
-
-                var region2 = document.InsertParagraph("ประเด็นการตรวจติดตาม : ");
-                //region2.Alignment = Alignment.center;
-                region2.SpacingAfter(30d);
-                region2.FontSize(16d);
-                region2.Bold();
-
-
-                var region4 = document.InsertParagraph("ข้อเสนอแนะระดับนโยบาย");
-                //region4.Alignment = Alignment.center;
-                region4.SpacingAfter(30d);
-                region4.FontSize(16d);
-                region4.Bold();
-                region4.UnderlineStyle(UnderlineStyle.dash);
+                    var region2 = document.InsertParagraph("ประเด็นการตรวจติดตาม : " + testData[i].Name);
+                    //region2.Alignment = Alignment.center;
+                    region2.SpacingAfter(30d);
+                    region2.FontSize(16d);
+                    region2.Bold();
 
 
 
-                int dataCount = 0;
-                //dataCount = model.reportData.Length;
-                //dataCount += 1;
-                System.Console.WriteLine("Data Count: " + dataCount);
-                // Add a table in a document of 1 row and 3 columns.
-                var columnWidths = new float[] { 300f, 300f, 300f, 300f };
-                var t = document.InsertTable(5, columnWidths.Length);
 
-                System.Console.WriteLine("8");
-
-                // Set the table's column width and background 
-                t.SetWidths(columnWidths);
-                t.AutoFit = AutoFit.Contents;
-
-                var row = t.Rows.First();
-
-                // Fill in the columns of the first row in the table.
-                //for (int i = 0; i < row.Cells.Count; ++i)
-                //{
-                row.Cells[0].Paragraphs.First().Append("จังหวัด");
-                row.Cells[1].Paragraphs.First().Append("ผต.นร./ผต.กท. (เจ้าของเรื่อง)");
-                row.Cells[2].Paragraphs.First().Append("ข้อเสนอแนะของ ผต.");
-                row.Cells[3].Paragraphs.First().Append("หน่วยงานที่เกี่ยวข้อง (หน่วยรับดำเนินการ)");
+                    //var region4 = document.InsertParagraph("ข้อเสนอแนะระดับนโยบาย");
+                    ////region4.Alignment = Alignment.center;
+                    //region4.SpacingAfter(30d);
+                    //region4.FontSize(16d);
+                    //region4.Bold();
+                    //region4.UnderlineStyle(UnderlineStyle.dash);
 
 
-                //System.Console.WriteLine("9999: ");
-                //System.Console.WriteLine("9: ");
+                    var testData2 = testData[i].SubquestionCentralPolicyProvinces;
+                    var testData3 = testData2.ToArray();
+                    var testData4 = testData3[0].SubjectCentralPolicyProvinceGroups.ToArray();
 
-                //}
-                // Add rows in the table.
-                //int j = 0;
-                //for (int i = 0; i < model.reportData.Length; i++)
-                //{
-                //    j += 1;
-                //    //System.Console.WriteLine(i+=1);
+                    int dataCount = 0;
+                    dataCount = testData4.Count();
+                    dataCount += 1;
+                    System.Console.WriteLine("Data Count: " + dataCount);
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 300f, 300f, 300f, 300f };
+                    var t = document.InsertTable(dataCount, columnWidths.Length);
 
-                //    System.Console.WriteLine("JJJJJ: " + j);
-                //    System.Console.WriteLine("9.1: " + model.reportData[i].subject);
-                //    t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData[i].subject);
-                //    System.Console.WriteLine("9.2: " + model.reportData[i].detail);
-                //    t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportData[i].detail);
-                //    System.Console.WriteLine("9.3: " + model.reportData[i].suggestion);
-                //    t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportData[i].suggestion);
-                //    System.Console.WriteLine("9.4: " + model.reportData[i].problem);
-                //    t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportData[i].problem);
-                //    System.Console.WriteLine("9.5: " + model.reportData[i].department);
-                //    t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportData[i].department);
-                //    System.Console.WriteLine("9.6: " + model.reportData[i].opinionPeople);
-                //    t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportData[i].opinionPeople);
-                //    System.Console.WriteLine("10");
-                //}
+                    System.Console.WriteLine("8");
 
-                // Set a blank border for the table's top/bottom borders.
-                //var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
-                //t.SetBorder(TableBorderType.Bottom, blankBorder);
-                //t.SetBorder(TableBorderType.Top, blankBorder);
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
 
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+                    //for (int i = 0; i < row.Cells.Count; ++i)
+                    //{
+                    row.Cells[0].Paragraphs.First().Append("จังหวัด");
+                    row.Cells[1].Paragraphs.First().Append("ผต.นร./ผต.กท. (เจ้าของเรื่อง)");
+                    row.Cells[2].Paragraphs.First().Append("ข้อเสนอแนะของ ผต.");
+                    row.Cells[3].Paragraphs.First().Append("หน่วยงานที่เกี่ยวข้อง (หน่วยรับดำเนินการ)");
+
+
+                    //System.Console.WriteLine("9999: ");
+                    //System.Console.WriteLine("9: ");
+
+                    //}
+                    // Add rows in the table.
+                    int j = 0;
+                    for (int ii = 0; ii < testData4.Length; ii++)
+                    {
+                        j += 1;
+                        //System.Console.WriteLine(i+=1);
+
+                        System.Console.WriteLine("JJJJJ: " + j);
+                        System.Console.WriteLine("9.1: " + reportsuggestionsdata.Province.Name);
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(reportsuggestionsdata.Province.Name);
+                        System.Console.WriteLine("9.2: " + ".....");
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(".....");
+                        System.Console.WriteLine("9.3: " + reportsuggestionsdata.Suggestion);
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(reportsuggestionsdata.Suggestion);
+                        System.Console.WriteLine("9.4: " + testData4[ii].ProvincialDepartment.Name);
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(testData4[ii].ProvincialDepartment.Name);
+                        System.Console.WriteLine("10");
+                    }
+
+                    // Set a blank border for the table's top/bottom borders.
+                    var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                    //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                    //t.SetBorder(TableBorderType.Top, blankBorder);
+                }
                 System.Console.WriteLine("11");
                 document.Save();
                 Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
@@ -815,23 +812,10 @@ namespace InspecWeb.Controllers
             //}
             return Ok(new { data = filename });
         }
-        [HttpGet("reportsuggestionsresult")]
-        public IActionResult CreateReport3()
+        [HttpPost("reportsuggestionsresult")]
+        public IActionResult CreateReport3([FromForm] reportsuggestionsresult model)
         {
-            //var provincedata = _context.Provinces
-            //    .Where(m => m.Id == model.provinceid)
-            //    .FirstOrDefault();
 
-            //System.Console.WriteLine("1" + provincedata.Name);
-            //var centralpolicydata = _context.CentralPolicies
-            //    .Where(m => m.Id == model.centralpolicyid)
-            //    .FirstOrDefault();
-
-            //System.Console.WriteLine("2" + centralpolicydata.Title);
-            //var subjectdata = _context.SubjectCentralPolicyProvinces
-            //    .Where(m => m.Id == model.subjectid)
-            //    .FirstOrDefault();
-            //System.Console.WriteLine("3" + subjectdata.Name);
 
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
@@ -844,171 +828,319 @@ namespace InspecWeb.Controllers
 
             System.Console.WriteLine("3");
             System.Console.WriteLine("in create");
-            //if (model.reporttype == "รายหน่วยงาน")
-            //{
-            using (DocX document = DocX.Create(createfile))
+            if (model.reporttype == "1")
             {
-                System.Console.WriteLine("4");
-                //Image image = document.AddImage(myImageFullPath);
-                //Picture picture = image.CreatePicture(85, 85);
-                //var logo = document.InsertParagraph();
-                //logo.AppendPicture(picture).Alignment = Alignment.center;
 
 
-                System.Console.WriteLine("5");
+                var data = _context.AnswerRecommenDationInspectors
+                    .Include(m => m.SubjectGroup)
+                    .ThenInclude(m => m.CentralPolicy)
+                    .Include(m => m.SubjectGroup)
+                    .ThenInclude(m => m.SubjectCentralPolicyProvinces)
+                    .Include(m => m.User)
+                    .ThenInclude(m => m.Province)
+                    .Include(m => m.User)
+                    .ThenInclude(m => m.ProvincialDepartments)
+                    .Where(m => m.SubjectGroupId == model.SubjectGroupId)
+                    .Where(m => m.User.ProvincialDepartmentId == model.provincialDepartmentId);
 
-                // Add a title
-                document.InsertParagraph("รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ")
-                    .FontSize(16d)
-                    .SpacingBefore(15d)
-                    .SpacingAfter(15d)
-                    .Bold()
-                    .Alignment = Alignment.center;
+                var ProvincialDepartmentdata = _context.ProvincialDepartment
+                    .Where(m => m.Id == model.provincialDepartmentId)
+                    .FirstOrDefault();
 
-                System.Console.WriteLine("6");
-                // Insert a title paragraph.
-                var year = document.InsertParagraph("รอบการตรวจราชการที่....................เดือน....................ปี....................");
-                year.Alignment = Alignment.center;
-                year.SpacingAfter(10d);
-                year.FontSize(16d);
+                var Provincedata = _context.Provinces
+                    .Where(m => m.Id == model.provinceId)
+                    .FirstOrDefault();
 
-                var inspector = document.InsertParagraph("หน่วยงาน....................จังหวัด : ");
-                inspector.Alignment = Alignment.center;
-                inspector.SpacingAfter(30d);
-                inspector.FontSize(16d);
-
-
-                var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : ");
-                //region.Alignment = Alignment.center;
-                region.SpacingAfter(30d);
-                region.FontSize(16d);
-                region.Bold();
-
-                var region2 = document.InsertParagraph("ประเด็นการตรวจติดตาม : ");
-                //region2.Alignment = Alignment.center;
-                region2.SpacingAfter(30d);
-                region2.FontSize(16d);
-                region2.Bold();
+                var testData = data.ToArray();
 
 
-                var region4 = document.InsertParagraph("ข้อเสนอแนะระดับพื้นที่");
-                //region4.Alignment = Alignment.center;
-                region4.SpacingAfter(30d);
-                region4.FontSize(16d);
-                region4.Bold();
-                region4.UnderlineStyle(UnderlineStyle.singleLine);
+                using (DocX document = DocX.Create(createfile))
+                {
+                    System.Console.WriteLine("4");
+                    var type = "รายหน่วยงาน";
+                    //Image image = document.AddImage(myImageFullPath);
+                    //Picture picture = image.CreatePicture(85, 85);
+                    //var logo = document.InsertParagraph();
+                    //logo.AppendPicture(picture).Alignment = Alignment.center;
+
+
+                    System.Console.WriteLine("5");
+
+                    // Add a title
+                    int j = 0;
+                    for (int i = 0; i < testData.Length; i++)
+                    {
+                        j += 1;
+                        var testData2 = testData[i].SubjectGroup.SubjectCentralPolicyProvinces.ToArray();
+                        for (int ii = 0; ii < testData2.Length; ii++)
+                        {
+
+                            document.InsertParagraph("รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ : " + type)
+                            .FontSize(16d)
+                            .SpacingBefore(15d)
+                            .SpacingAfter(15d)
+                            .Bold()
+                            .Alignment = Alignment.center;
+
+                            System.Console.WriteLine("6");
+                            // Insert a title paragraph.
+                            var year = document.InsertParagraph("รอบการตรวจราชการที่....................เดือน....................ปี....................");
+                            year.Alignment = Alignment.center;
+                            year.SpacingAfter(10d);
+                            year.FontSize(16d);
+
+                            System.Console.WriteLine("6.1");
+                            var inspector = document.InsertParagraph("หน่วยงาน : " + ProvincialDepartmentdata.Name + "จังหวัด : " + Provincedata.Name);
+                            inspector.Alignment = Alignment.center;
+                            inspector.SpacingAfter(30d);
+                            inspector.FontSize(16d);
+
+                            System.Console.WriteLine("6.2");
+                            var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : " + testData[i].SubjectGroup.CentralPolicy.Title);
+                            //region.Alignment = Alignment.center;
+                            region.SpacingAfter(10d);
+                            region.FontSize(16d);
+                            region.Bold();
+
+                            System.Console.WriteLine("6.3");
+                            var region2 = document.InsertParagraph("ประเด็นการตรวจติดตาม : " + testData2[ii].Name);
+                            //region2.Alignment = Alignment.center;
+                            region2.SpacingAfter(10d);
+                            region2.FontSize(16d);
+                            region2.Bold();
+
+
+                            //var region4 = document.InsertParagraph("ข้อเสนอแนะระดับพื้นที่");
+                            ////region4.Alignment = Alignment.center;
+                            //region4.SpacingAfter(30d);
+                            //region4.FontSize(16d);
+                            //region4.Bold();
+                            //region4.UnderlineStyle(UnderlineStyle.singleLine);
 
 
 
-                int dataCount = 0;
-                //dataCount = model.reportData.Length;
-                //dataCount += 1;
-                System.Console.WriteLine("Data Count: " + dataCount);
-                // Add a table in a document of 1 row and 3 columns.
-                var columnWidths = new float[] { 300f, 300f, 300f, 300f, 300f };
-                var t = document.InsertTable(5, columnWidths.Length);
+                            int dataCount = 0;
+                            dataCount = testData.Length;
+                            dataCount += 1;
+                            System.Console.WriteLine("Data Count: " + dataCount);
+                            // Add a table in a document of 1 row and 3 columns.
+                            var columnWidths = new float[] { 300f, 300f, 300f, 300f };
+                            var t = document.InsertTable(dataCount, columnWidths.Length);
 
-                System.Console.WriteLine("8");
+                            System.Console.WriteLine("8");
 
-                // Set the table's column width and background 
-                t.SetWidths(columnWidths);
-                t.AutoFit = AutoFit.Contents;
+                            // Set the table's column width and background 
+                            t.SetWidths(columnWidths);
+                            t.AutoFit = AutoFit.Contents;
 
-                var row = t.Rows.First();
+                            var row = t.Rows.First();
 
-                // Fill in the columns of the first row in the table.
-                //for (int i = 0; i < row.Cells.Count; ++i)
-                //{
-                row.Cells[0].Paragraphs.First().Append("ลำดับที่");
-                row.Cells[1].Paragraphs.First().Append("ผต.นร./ผต.กท. (เจ้าของเรื่อง)");
-                row.Cells[2].Paragraphs.First().Append("ข้อเสนอแนะของ ผต.");
-                row.Cells[3].Paragraphs.First().Append("การดำเนินงานของหน่วยงาน");
-                row.Cells[4].Paragraphs.First().Append("เอกสารแนบ (เป็น Link ให้อ่านเพิ่มเติม)");
-
-
-                //System.Console.WriteLine("9999: ");
-                //System.Console.WriteLine("9: ");
-
-                //}
-                // Add rows in the table.
-                //int j = 0;
-                //for (int i = 0; i < model.reportData.Length; i++)
-                //{
-                //    j += 1;
-                //    //System.Console.WriteLine(i+=1);
-
-                //    System.Console.WriteLine("JJJJJ: " + j);
-                //    System.Console.WriteLine("9.1: " + model.reportData[i].subject);
-                //    t.Rows[j].Cells[0].Paragraphs[0].Append(model.reportData[i].subject);
-                //    System.Console.WriteLine("9.2: " + model.reportData[i].detail);
-                //    t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportData[i].detail);
-                //    System.Console.WriteLine("9.3: " + model.reportData[i].suggestion);
-                //    t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportData[i].suggestion);
-                //    System.Console.WriteLine("9.4: " + model.reportData[i].problem);
-                //    t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportData[i].problem);
-                //    System.Console.WriteLine("9.5: " + model.reportData[i].department);
-                //    t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportData[i].department);
-                //    System.Console.WriteLine("9.6: " + model.reportData[i].opinionPeople);
-                //    t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportData[i].opinionPeople);
-                //    System.Console.WriteLine("10");
-                //}
-
-                // Set a blank border for the table's top/bottom borders.
-                //var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
-                //t.SetBorder(TableBorderType.Bottom, blankBorder);
-                //t.SetBorder(TableBorderType.Top, blankBorder);
-
-                var region11 = document.InsertParagraph("หัวข้อการตรวจติดตาม : ");
-                //region.Alignment = Alignment.center;
-                region11.SpacingAfter(30d);
-                region11.FontSize(16d);
-                region11.Bold();
-
-                var region22 = document.InsertParagraph("ประเด็นการตรวจติดตาม : ");
-                //region2.Alignment = Alignment.center;
-                region22.SpacingAfter(30d);
-                region22.FontSize(16d);
-                region22.Bold();
+                            // Fill in the columns of the first row in the table.
+                            //for (int i = 0; i < row.Cells.Count; ++i)
+                            //{
+                            //row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                            row.Cells[0].Paragraphs.First().Append("ผต.นร./ผต.กท. (เจ้าของเรื่อง)");
+                            row.Cells[1].Paragraphs.First().Append("ข้อเสนอแนะของ ผต.");
+                            row.Cells[2].Paragraphs.First().Append("การดำเนินงานของหน่วยงาน");
+                            row.Cells[3].Paragraphs.First().Append("เอกสารแนบ (เป็น Link ให้อ่านเพิ่มเติม)");
 
 
-                var region33 = document.InsertParagraph("ข้อเสนอแนะระดับนโยบาย");
-                //region4.Alignment = Alignment.center;
-                region33.SpacingAfter(30d);
-                region33.FontSize(16d);
-                region33.Bold();
-                region33.UnderlineStyle(UnderlineStyle.singleLine);
+                            //System.Console.WriteLine("9999: ");
+                            //System.Console.WriteLine("9: ");
 
-                int dataCount2 = 0;
-                //dataCount = model.reportData.Length;
-                //dataCount += 1;
-                System.Console.WriteLine("Data Count: " + dataCount);
-                // Add a table in a document of 1 row and 3 columns.
-                var columnWidths2 = new float[] { 300f, 300f, 300f, 300f, 300f };
-                var t2 = document.InsertTable(5, columnWidths.Length);
+                            //}
+                            // Add rows in the table.
+                            //int j = 0;
+                            //for (int i = 0; i < model.reportData.Length; i++)
+                            //{
 
-                System.Console.WriteLine("8");
+                            //    //System.Console.WriteLine(i+=1);
 
-                // Set the table's column width and background 
-                t2.SetWidths(columnWidths);
-                t2.AutoFit = AutoFit.Contents;
+                            System.Console.WriteLine("JJJJJ: " + j);
+                            System.Console.WriteLine("9.1: " + ".........");
+                            t.Rows[j].Cells[0].Paragraphs[0].Append(".........");
+                            System.Console.WriteLine("9.2: " + testData[i].SubjectGroup.Suggestion);
+                            t.Rows[j].Cells[1].Paragraphs[0].Append(testData[i].SubjectGroup.Suggestion);
+                            System.Console.WriteLine("9.3: " + testData[i].Answersuggestion);
+                            t.Rows[j].Cells[2].Paragraphs[0].Append(testData[i].Answersuggestion);
+                            System.Console.WriteLine("9.4: " + ".......");
+                            t.Rows[j].Cells[3].Paragraphs[0].Append(".........");
+                            System.Console.WriteLine("10");
+                            //}
 
-                var row2 = t2.Rows.First();
+                            // Set a blank border for the table's top/bottom borders.
+                            var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                            //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                            //t.SetBorder(TableBorderType.Top, blankBorder);
+                        }
+                    }
 
-                // Fill in the columns of the first row in the table.
-                //for (int i = 0; i < row.Cells.Count; ++i)
-                //{
-                row2.Cells[0].Paragraphs.First().Append("ลำดับที่");
-                row2.Cells[1].Paragraphs.First().Append("ผต.นร./ผต.กท. (เจ้าของเรื่อง)");
-                row2.Cells[2].Paragraphs.First().Append("ข้อเสนอแนะของ ผต.");
-                row2.Cells[3].Paragraphs.First().Append("การดำเนินงานของหน่วยงาน");
-                row2.Cells[4].Paragraphs.First().Append("เอกสารแนบ (เป็น Link ให้อ่านเพิ่มเติม)");
-
-
-                System.Console.WriteLine("11");
-                document.Save();
-                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                    System.Console.WriteLine("11");
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
             }
-            //}
+            if (model.reporttype == "2")
+            {
+
+                var data = _context.AnswerRecommenDationInspectors
+                     .Include(m => m.SubjectGroup)
+                     .ThenInclude(m => m.CentralPolicy)
+                     .Include(m => m.SubjectGroup)
+                     .ThenInclude(m => m.SubjectCentralPolicyProvinces)
+                     .Include(m => m.User)
+                     .ThenInclude(m => m.Province)
+                     .Include(m => m.User)
+                     .ThenInclude(m => m.ProvincialDepartments)
+                     .Where(m => m.SubjectGroupId == model.SubjectGroupId)
+                     .Where(m => m.User.ProvinceId == model.provinceId);
+
+                var ProvincialDepartmentdata = _context.ProvincialDepartment
+                    .Where(m => m.Id == model.provincialDepartmentId)
+                    .FirstOrDefault();
+
+                var Provincedata = _context.Provinces
+                    .Where(m => m.Id == model.provinceId)
+                    .FirstOrDefault();
+
+                var regiondata = _context.FiscalYearRelations
+                    .Include(m => m.Region)
+                    .Where(m => m.ProvinceId == Provincedata.Id)
+                    .FirstOrDefault();
+
+                var testData = data.ToArray();
+
+
+                using (DocX document = DocX.Create(createfile))
+                {
+                    System.Console.WriteLine("4");
+                    var type = "รายจังหวัด";
+                    //Image image = document.AddImage(myImageFullPath);
+                    //Picture picture = image.CreatePicture(85, 85);
+                    //var logo = document.InsertParagraph();
+                    //logo.AppendPicture(picture).Alignment = Alignment.center;
+
+
+                    System.Console.WriteLine("5");
+
+                    // Add a title
+                    int j = 0;
+                    for (int i = 0; i < testData.Length; i++)
+                    {
+                        j += 1;
+                        var testData2 = testData[i].SubjectGroup.SubjectCentralPolicyProvinces.ToArray();
+                        for (int ii = 0; ii < testData2.Length; ii++)
+                        {
+
+                            document.InsertParagraph("รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ : " + type)
+                            .FontSize(16d)
+                            .SpacingBefore(15d)
+                            .SpacingAfter(15d)
+                            .Bold()
+                            .Alignment = Alignment.center;
+
+                            System.Console.WriteLine("6");
+                            // Insert a title paragraph.
+                            var year = document.InsertParagraph("รอบการตรวจราชการที่....................เดือน....................ปี....................");
+                            year.Alignment = Alignment.center;
+                            year.SpacingAfter(10d);
+                            year.FontSize(16d);
+
+                            System.Console.WriteLine("6.1");
+                            var inspector = document.InsertParagraph("เขต : " + regiondata.Region.Name + "จังหวัด : " + Provincedata.Name);
+                            inspector.Alignment = Alignment.center;
+                            inspector.SpacingAfter(30d);
+                            inspector.FontSize(16d);
+
+                            System.Console.WriteLine("6.2");
+                            var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : " + testData[i].SubjectGroup.CentralPolicy.Title);
+                            //region.Alignment = Alignment.center;
+                            region.SpacingAfter(10d);
+                            region.FontSize(16d);
+                            region.Bold();
+
+                            System.Console.WriteLine("6.3");
+                            var region2 = document.InsertParagraph("ประเด็นการตรวจติดตาม : " + testData2[ii].Name);
+                            //region2.Alignment = Alignment.center;
+                            region2.SpacingAfter(10d);
+                            region2.FontSize(16d);
+                            region2.Bold();
+
+
+                            //var region4 = document.InsertParagraph("ข้อเสนอแนะระดับพื้นที่");
+                            ////region4.Alignment = Alignment.center;
+                            //region4.SpacingAfter(30d);
+                            //region4.FontSize(16d);
+                            //region4.Bold();
+                            //region4.UnderlineStyle(UnderlineStyle.singleLine);
+
+
+
+                            int dataCount = 0;
+                            dataCount = testData.Length;
+                            dataCount += 1;
+                            System.Console.WriteLine("Data Count: " + dataCount);
+                            // Add a table in a document of 1 row and 3 columns.
+                            var columnWidths = new float[] { 300f, 300f, 300f, 300f, 300f };
+                            var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                            System.Console.WriteLine("8");
+
+                            // Set the table's column width and background 
+                            t.SetWidths(columnWidths);
+                            t.AutoFit = AutoFit.Contents;
+
+                            var row = t.Rows.First();
+
+                            // Fill in the columns of the first row in the table.
+                            //for (int i = 0; i < row.Cells.Count; ++i)
+                            //{
+                            //row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                            row.Cells[0].Paragraphs.First().Append("ผต.นร./ผต.กท. (เจ้าของเรื่อง)");
+                            row.Cells[1].Paragraphs.First().Append("ข้อเสนอแนะของ ผต.");
+                            row.Cells[2].Paragraphs.First().Append("หน่วยรับดำเนินการ");
+                            row.Cells[3].Paragraphs.First().Append("การดำเนินงานของหน่วยงาน");
+                            row.Cells[4].Paragraphs.First().Append("เอกสารแนบ (เป็น Link ให้อ่านเพิ่มเติม)");
+
+
+                            //System.Console.WriteLine("9999: ");
+                            //System.Console.WriteLine("9: ");
+
+                            //}
+                            // Add rows in the table.
+                            //int j = 0;
+                            //for (int i = 0; i < model.reportData.Length; i++)
+                            //{
+
+                            //    //System.Console.WriteLine(i+=1);
+
+                            System.Console.WriteLine("JJJJJ: " + j);
+                            System.Console.WriteLine("9.1: " + ".........");
+                            t.Rows[j].Cells[0].Paragraphs[0].Append(".........");
+                            System.Console.WriteLine("9.2: " + testData[i].SubjectGroup.Suggestion);
+                            t.Rows[j].Cells[1].Paragraphs[0].Append(testData[i].SubjectGroup.Suggestion);
+                            System.Console.WriteLine("9.3: " + testData[i].SubjectGroup.Suggestion);
+                            t.Rows[j].Cells[2].Paragraphs[0].Append(testData[i].User.ProvincialDepartments.Name);
+                            System.Console.WriteLine("9.4: " + testData[i].Answersuggestion);
+                            t.Rows[j].Cells[3].Paragraphs[0].Append(testData[i].Answersuggestion);
+                            System.Console.WriteLine("9.5: " + ".......");
+                            t.Rows[j].Cells[4].Paragraphs[0].Append(".........");
+                            System.Console.WriteLine("10");
+                            //}
+
+                            // Set a blank border for the table's top/bottom borders.
+                            var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                            //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                            //t.SetBorder(TableBorderType.Top, blankBorder);
+                        }
+                    }
+
+                    System.Console.WriteLine("11");
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                }
+            }
             return Ok(new { data = filename });
         }
         [HttpPost("reportquestionnaire")]
@@ -1416,16 +1548,20 @@ namespace InspecWeb.Controllers
         [HttpGet("test")]
         public IActionResult test()
         {
-            var answerdata = _context.AnswerCentralPolicyProvinces
-                .Include(m => m.CentralPolicyProvince)
-                .ThenInclude(m => m.CentralPolicy)
-                .Include(m => m.CentralPolicyEventQuestion)
-                .Include(m => m.User)
-                .Where(m => m.User.ProvinceId == 1)
-                .ToList();
+            var data = _context.AnswerRecommenDationInspectors
+                     .Include(m => m.SubjectGroup)
+                     .ThenInclude(m => m.CentralPolicy)
+                     .Include(m => m.SubjectGroup)
+                     .ThenInclude(m => m.SubjectCentralPolicyProvinces)
+                     .Include(m => m.User)
+                     .ThenInclude(m => m.Province)
+                     .Include(m => m.User)
+                     .ThenInclude(m => m.ProvincialDepartments)
+                     .Where(m => m.SubjectGroupId == 5)
+                     .Where(m => m.User.ProvinceId == 1);
 
-            return Ok(answerdata);
-            //return Ok(new { user, CentralPolicyEvents });
+            return Ok(data);
+            //return Ok(new { data });
         }
     }
 }

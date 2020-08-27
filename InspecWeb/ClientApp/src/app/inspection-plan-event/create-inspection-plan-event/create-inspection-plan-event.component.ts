@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { SubjectService } from 'src/app/services/subject.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
+import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog/confirmation-dialog.service';
 
 interface addInput {
   id: number;
@@ -23,10 +24,13 @@ interface addInput {
 })
 export class CreateInspectionPlanEventComponent implements OnInit {
   url = "";
-  private myDatePickerOptions: IMyOptions = {
+  myDatePickerOptions: IMyOptions = {
     // other options...
-    dateFormat: 'dd/mm/yyyy',
+    // dateFormat: 'dd/mm/yyyy',
+
   };
+  myDatePickerOptions_i: IMyOptions[] = []
+
   userid: string
   files: string[] = []
   resultinspectionplan: any = []
@@ -43,12 +47,15 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   selectdatacentralpolicy: Array<any>
   id: any = 1
   provincename: any = []
-  provinceid: any = []
+  provinceid: any[] = []
   input: any = [{ start_date_plan: '', end_date_plan: '', province: '' }]
-  start_date_plan_i: any = []
-  end_date_plan_i: any = []
+  start_date_plan_i: Date[] = []
+  start_time_plan_i: Date[] = []
+  end_time_plan_i: Date[] = []
+  end_date_plan_i: Date[] = []
   bsValue: Date = new Date()
   mytime: Date = new Date()
+  boxId: any = 0
   constructor(
     private fb: FormBuilder, private authorize: AuthorizeService,
     private router: Router, private inspectionplaneventservice: InspectionplaneventService,
@@ -57,6 +64,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     private subjectservice: SubjectService,
     private provinceservice: ProvinceService,
     private inspectionplanservice: InspectionplanService,
+    private _dialog: ConfirmationDialogService,
     @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl;
   }
@@ -65,15 +73,14 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
-        console.log(result);
+        //console.log(result);
         // alert(this.userid)
       })
 
     this.Form = this.fb.group({
       //title: new FormControl(null, [Validators.required]),
       input: new FormArray([])
-      // start_date: new FormControl(null, [Validators.required]),
-      // end_date: new FormControl(null, [Validators.required]),
+    
     });
     this.t.push(this.fb.group({
       start_date_plan: '',
@@ -91,7 +98,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
         return { value: item.province.id, label: item.province.name }
       })
 
-      console.log(this.resultprovince);
+      //console.log(this.resultprovince);
     })
 
   }
@@ -109,7 +116,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
 
     this.subjectservice.storesubjectprovince(id, this.province[i].value)
       .subscribe(result => {
-        console.log("storesubjectprovince : " + result);
+        //console.log("storesubjectprovince : " + result);
 
         // this.router.navigate([]).then(result => {  window.open(this.url + 'centralpolicy/detailcentralpolicyprovince/' + result, '_blank'); });
         window.open(this.url + 'centralpolicy/detailcentralpolicyprovince/' + result);
@@ -118,16 +125,64 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   }
 
   storeInspectionPlanEvent(value) {
-    console.log("Store : ", value);
+    //console.log("Store : ", value);
     // alert(JSON.stringify(value))
-    this.inspectionplaneventservice.addInspectionplanevent(value, this.userid)
-      .subscribe(response => {
-        console.log(value);
-        this.Form.reset()
-        this.router.navigate(['inspectionplanevent'])
-      })
-  }
+    const start_date_plan_i: any[] = this.start_date_plan_i
+    const end_date_plan_i: any[] = this.end_date_plan_i
+    var count = 0
+    for (let i = 0; i < value.input.length; i++) {
+      if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
+        
 
+
+        this.inspectionplanservice.inspectionplansprovince(value.input[i].provinces, this.userid, start_date_plan_i[i], end_date_plan_i[i])
+          .subscribe(result => {
+            //console.log("storesubjectprovince : " + result);
+            var id = result
+            var watch = 0;
+            // value.input.length == 1 ? this.removeThem() : count != value.input.length - 1 ? count++ : this.removeThem()
+
+          })
+      } else {
+        // addT.push(this.t.at(i).value)
+      }
+    }
+    this.removeThem()
+
+  }
+  removeThem() {
+    var count = 0
+    for (let i = 0; i < this.t.length; i++) {
+      if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
+      
+
+        this.t.removeAt(i)
+
+        var starts = new Set(this.start_date_plan_i);
+        starts.delete(this.start_date_plan_i[i]);
+        this.start_date_plan_i = Array.from(starts);
+
+        var ends = new Set(this.end_date_plan_i);
+        ends.delete(this.end_date_plan_i[i]);
+        this.end_date_plan_i = Array.from(ends);
+      
+        count++
+      } else {
+      }
+    }
+    // alert(this.t.length)
+    if (this.t.length == 0) {
+      this.back()
+    } else {
+      this._dialog.confirm('ยังมีข้อมูลบางตัวที่มีวันและเวลาเริ่มต้นน้อยกว่าวันที่สิ้นสุด', 'ยังมีข้อมูลบางตัวที่มีวันและเวลาเริ่มต้นน้อยกว่าวันที่สิ้นสุด', false, 'ปิด')
+        .then(result => {
+
+        })
+    }
+  }
+  checkfoGotothem() {
+
+  }
   append() {
     this.t.push(this.fb.group({
       start_date_plan: '',
@@ -149,7 +204,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.provinceid[i] = event.value;
 
     // alert(JSON.stringify(event));
-    console.log("item", item);
+    //console.log("item", item);
     this.t.at(i).get('resultcentralpolicy').patchValue([1, 2])
 
     this.centralpolicyservice.getcentralpolicyfromprovince(event.value)
@@ -160,7 +215,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
           return { value: item.centralPolicy.id, label: item.centralPolicy.title }
         })
         this.t.at(i).get('resultcentralpolicy').patchValue(this.selectdatacentralpolicy)
-        console.log("t", this.t.value);
+        //console.log("t", this.t.value);
       })
   }
 
@@ -170,15 +225,10 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.centralpolicyservice.getdetailcentralpolicydata(event.value)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result
-        console.log(this.resultdetailcentralpolicy.title);
+        //console.log(this.resultdetailcentralpolicy.title);
         this.t.at(i).get('resultdetailcentralpolicy').patchValue({ id: this.resultdetailcentralpolicy.id, title: this.resultdetailcentralpolicy.title })
-        // alert(JSON.stringify(this.resultdetailcentralpolicy))
-        // this.resultdetailcentralpolicy = this.resultdetailcentralpolicy.map((item, index) => {
-        //   return { value: item.id, label: item.title }
-        // })
+      
 
-        // this.t.at(i).get('resultdetailcentralpolicy').patchValue(this.resultdetailcentralpolicy)
-        console.log("t", this.t.value);
       })
   }
 
@@ -188,38 +238,90 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   back() {
     window.history.back();
   }
-
+  //inpecplanevent
   Gotoinspecplan(provinceid, i) {
 
-    // alert(this.start_date_plan[i])
-    // alert(this.end_date_plan[i])
-    // alert(provinceid)
+  
 
-    this.inspectionplanservice.inspectionplansprovince(provinceid, this.userid, this.start_date_plan_i[i], this.end_date_plan_i[i])
-      .subscribe(result => {
-        console.log("storesubjectprovince : " + result);
-        var id = result
-        var watch = 0;
-        window.open(this.url + 'inspectionplan/' + id + '/' + provinceid + '/' + watch);
-      })
+    this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])
+      ? this.inspectionplanservice.inspectionplansprovince(provinceid, this.userid, this.start_date_plan_i[i], this.end_date_plan_i[i])
+        .subscribe(result => {
+          var id = result
+          var watch = 0;
+          this.t.length == 1 ? this.append() : null
+
+          this.t.removeAt(i)
+
+          var starts = new Set(this.start_date_plan_i);
+          starts.delete(this.start_date_plan_i[i]);
+          this.start_date_plan_i = Array.from(starts);
+
+          var ends = new Set(this.end_date_plan_i);
+          ends.delete(this.end_date_plan_i[i]);
+          this.end_date_plan_i = Array.from(ends);
+
+          window.open(this.url + 'inspectionplan/' + id + '/' + provinceid + '/' + watch);
+        }) : this._dialog.confirm('ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', 'ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', false, 'ปิด')
+          .then(result => {
+
+          })
   }
 
   startdate(event, i) {
-    console.log("event", event);
-    // this.start_date_plan_i[i] = event.date.year + '-' + event.date.month + '-' + event.date.day;
+    this.end_date_plan_i ? this.checkStarttoResetEndDate(i) : null
     this.start_date_plan_i[i] = event
+    this.disableDate_i(event, i)
+
+    //console.log(this.start_date_plan_i[i]);
+
     // alert(JSON.stringify(event))
   }
+  starttime(event, i) {
+    this.start_date_plan_i[i] = event
+
+  }
+
   enddate(event, i) {
-    console.log("event", event);
-    // this.start_date_plan_i[i] = event;
-    // this.end_date_plan_i[i] = event.date.year + '-' + event.date.month + '-' + event.date.day;
-    this.end_date_plan_i[i] = event;
-    // alert(JSON.stringify(event))
+
+    this.end_date_plan_i[i] = event
+
+
   }
-  TestTimeChange() {
 
-    console.log(this.t.at(0).get('start_date_plan').value);
+  async endtime(event: any, i) {
+    //console.log('this.end_date_plan_i[i]', this.end_date_plan_i[i]);
+  }
 
+  dateChecked(startDate: Date, endDate: Date) {
+    //console.log(startDate.toString(), endDate.toString());
+
+    return Date.parse(startDate.toString()) <= Date.parse(endDate.toString())
+    // ? true : false
+  }
+
+  checkStarttoResetEndDate(index) {
+    this.t.at(index).get('end_date_plan').reset()
+    this.end_date_plan_i[index] = void 0;
+  }
+
+
+
+
+
+  setDateTime(date: Date) {
+    var time = new Date(date)
+    time.setHours(time.getHours() + 7)
+    return time
+  }
+
+  disableDate_i(date: any, i) {
+    //console.log(date.getFullYear(), date.getMonth() + 1, date.getDate());
+
+    this.myDatePickerOptions_i[i] = {
+      disableDateRanges: [{
+        end: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() - 1 },
+        begin: { year: date.getFullYear() - 10, month: date.getMonth() + 1, day: date.getDate() - 1 }
+      }]
+    }
   }
 }
