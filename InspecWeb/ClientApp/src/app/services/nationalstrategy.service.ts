@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NationalstrategyService {
-  url = "https://localhost:5001/api/nationalstrategy/";
+  url = "";
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,@Inject('BASE_URL')  baseUrl: string) { 
+    this.url = baseUrl + 'api/nationalstrategy/';
+  }
   getnationalstrategy(){
     return this.http.get(this.url)
   }
@@ -25,14 +27,15 @@ export class NationalstrategyService {
     return this.http.delete(this.url + id);
   }
 
-  editNationalstrategy(nationalstrategyData,file: FileList,id) {
+  editNationalstrategy(nationalstrategyData,file: FileList,id,namefile) {
     const formData = new FormData();
     formData.append('Title',nationalstrategyData.title);
-    formData.append('namefile',nationalstrategyData.namefile);
-
+    formData.append('namefile',namefile);
+    //alert(namefile);
     if(file != null){
       for (var iii = 0; iii < file.length; iii++) {
         formData.append("files", file[iii]);
+       // alert(file[iii]); 
       }
     }
     return this.http.put(this.url+id, formData);

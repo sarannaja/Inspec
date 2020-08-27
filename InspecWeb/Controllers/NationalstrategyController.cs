@@ -107,7 +107,7 @@ namespace InspecWeb.Controllers
             var filesname = model.namefile;
             var random = RandomString(15);
 
-            System.Console.WriteLine("1 : ");
+            System.Console.WriteLine("1 : "+ model.namefile);
             //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
             if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//NationalstrategyFile//"))
             {
@@ -120,6 +120,7 @@ namespace InspecWeb.Controllers
 
             if (model.files != null)
             {
+                System.Console.WriteLine("1.2 : " + model.namefile);
                 foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
                 ////foreach (var formFile in data.files)
                 {
@@ -136,12 +137,12 @@ namespace InspecWeb.Controllers
 
                             filesname = random + ext;
                         }
-                        System.Console.WriteLine("2 : ");
+                        System.Console.WriteLine("2 : "+ filesname);
                     }
                 }
             }
-
-            _context.Entry(nationalstrategy).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            nationalstrategy.File = filesname;
+           _context.Entry(nationalstrategy).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
             System.Console.WriteLine("3 : ");
             return Ok(nationalstrategy);
