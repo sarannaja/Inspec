@@ -198,17 +198,12 @@ import {NgxPrintModule} from 'ngx-print';
 import { AnswerRecommendationinSpectorComponent } from './answer-subject/answer-recommendationin-spector/answer-recommendationin-spector.component';
 import { AnswerRecommendationinSpectorDetailComponent } from './answer-subject/answer-recommendationin-spector-detail/answer-recommendationin-spector-detail.component';
 import { AnswerRecommendationinSpectorEditComponent } from './answer-subject/answer-recommendationin-spector-edit/answer-recommendationin-spector-edit.component';
-
-
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ConfirmationDialogService } from './services/confirmation-dialog/confirmation-dialog.service';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
 import { NamePlateComponent } from './name-plate/name-plate.component';
 import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
-
-
 
 
 const ExternalOrganization = [
