@@ -248,9 +248,11 @@ export class UserService {
        // alert(userData.UserProvince);
        if(userData.Role_id == 9){
         for (var i = 0; i < userData.UserProvince.length; i++) {
+          alert(1);
           formData.append('UserProvince', userData.UserProvince[i]); //จังหวัดที่รับผิดชอบมีได้หลายอัน
         }
       }else{
+        alert(2);
         formData.append('UserProvinceId', userData.UserProvince); //จังหวัดที่รับผิดชอบมีได้หลายอัน
       }
     } else {
@@ -349,4 +351,25 @@ export class UserService {
     return this.http.get<any[]>(this.base + 'publicsectoradvisor')
   }
   //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
+
+  getuserdataSameMinistry(id: any, ministryId): Observable<any[]> { //role6
+    return this.http.get<any[]>(this.base + "getuserSameMinistry/" + id + "/" + ministryId)
+  }
+
+  getuserdataDepartmentInMinistry(id: any, ministryId): Observable<any[]> { //role10
+    return this.http.get<any[]>(this.base + "getuserSameMinistry/" + id + "/" + ministryId)
+  }
+  getuserdataDepartmentInDepartment(id: any, departmentId): Observable<any[]> { //role10
+    return this.http.get<any[]>(this.base + "getuserSameDepartment/" + id + "/" + departmentId)
+  }
+
+  password(data,id){
+   
+      const formData = new FormData();
+      formData.append('Id', id);
+      formData.append('Password', data.Password);
+     
+      return this.http.put<any>(`${this.url}answerexecutiveorder`, formData);
+    
+  }
 }

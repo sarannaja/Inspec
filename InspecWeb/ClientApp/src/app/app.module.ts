@@ -194,14 +194,8 @@ import { NumberDirective } from './services/numbers-only.directive';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-
 import {NgxPrintModule} from 'ngx-print';
-
-
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-
-
-
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent

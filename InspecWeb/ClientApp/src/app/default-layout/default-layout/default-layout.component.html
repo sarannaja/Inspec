@@ -243,11 +243,11 @@
                             <i class="align-middle fas fa-cog"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item pointer" (click)="openModal(modalProfile)">
+                            <a class="dropdown-item pointer" (click)="openModal(modalpassword)">
                                 <i class="align-middle mr-1 fas fa-fw fa-user"></i> จัดการโปรไฟล์
                             </a>
                             <a class="dropdown-item pointer">
-                                <i class="align-middle mr-1 fas fa-fw fa-user"></i> จัดการ PassWord
+                                <i class="align-middle fas fa-fw fa-key"></i> จัดการรหัสผ่าน
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item pointer" (click)="Logout()">
@@ -362,6 +362,41 @@
                     <small class="form-text text-muted">แนบลายเซ็น</small>
                 </div>
 
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!-- </div> -->
+    </form>
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalpassword class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="Form" (ngSubmit)="editprofile(Form.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">จัดการข้อมูล</h3>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                <div class="form-group">
+                    <label class="form-label">UserName*</label>
+                    <input type="text" formControlName="UserName" readonly class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">PassWord*</label>
+                    <input type="password" formControlName="PassWord" readonly class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">PassWordconfirm*</label>
+                    <input type="password" formControlName="PassWordconfirm" readonly class="form-control">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">บันทึก</button>

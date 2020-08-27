@@ -209,11 +209,12 @@ export class UserComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, side,
-    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img) {
-    //alert(UserProvince);
+  openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, SideId,
+    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img,Autocreateuser) {
+    alert(SideId);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
     this.addForm.reset()
+    this.Autocreateuser = Autocreateuser; // สร้าง UerName เองหรือป่าว
     this.id = id;
     this.img = img;
     this.regionService.getregiondataforuser(fiscalYearId).subscribe(res => {
@@ -267,10 +268,11 @@ export class UserComponent implements OnInit {
       Startdate: this.time(startdate),
       Enddate: this.ed,
       Commandnumber: commandnumber,
-      Side: side,
+      SideId: SideId,
       Commandnumberdate: this.cd,
       Formprofile: 0,
       Img: img,
+      Autocreateuser : Autocreateuser, //แพตข้อมูลว่าสร้าง UerName เองหรือป่าว
     })
     this.DepartmentId = departmentId
     // console.log(' value: departmentId', departmentId);
@@ -443,6 +445,10 @@ export class UserComponent implements OnInit {
       this.loading = false
       this.getUser()
     })
+  }
+
+  resetpassword(id){
+
   }
 
   userform() {
