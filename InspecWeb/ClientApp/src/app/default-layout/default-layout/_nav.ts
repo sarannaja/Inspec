@@ -371,6 +371,12 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       // {
       //   ex_link: '0',
       //   icon: 'fa-long-arrow-alt-right',
+      //   url: '/nameplate',
+      //   name: 'ป้ายตั้งโต๊ะผู้เข้าอบรม'
+      // },
+      // {
+      //   ex_link: '0',
+      //   icon: 'fa-long-arrow-alt-right',
       //   url: '/training/document',
       //   name: 'เอกสารประกอบการฝึกอบรม'
       // },

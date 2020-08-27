@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../services/user.service';
 import { ExportReportService } from '../services/export-report.service';
 import { NotificationService } from '../services/notification.service';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-all-report',

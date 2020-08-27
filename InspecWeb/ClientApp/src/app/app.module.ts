@@ -205,6 +205,9 @@ import { ConfirmationDialogService } from './services/confirmation-dialog/confir
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
+import { NamePlateComponent } from './name-plate/name-plate.component';
+import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
+
 
 
 
@@ -384,7 +387,9 @@ const ExternalOrganization = [
     AnswerRecommendationinSpectorComponent,
     AnswerRecommendationinSpectorDetailComponent,
     AnswerRecommendationinSpectorEditComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    NamePlateComponent,
+    NamePlatePreviewComponent,
   ],
 
   imports: [
@@ -584,6 +589,8 @@ const ExternalOrganization = [
           { path: 'answerrecommendationinspector', component: AnswerRecommendationinSpectorComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerrecommendationinspector/detail/:id', component: AnswerRecommendationinSpectorDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'answerrecommendationinspector/edit/:id', component: AnswerRecommendationinSpectorEditComponent, canActivate: [AuthorizeGuard] },
+          { path: 'nameplate/:id', component: NamePlateComponent, canActivate: [AuthorizeGuard] },
+          { path: 'nameplatepreview', component: NamePlatePreviewComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

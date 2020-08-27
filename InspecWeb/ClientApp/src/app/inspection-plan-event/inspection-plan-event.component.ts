@@ -172,8 +172,8 @@ export class InspectionPlanEventComponent implements OnInit {
             provinceid: item.province.id,
             // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
             // title: item.province.name + "," + item.centralPolicyEvents[0].centralPolicy.title,
-            start: moment(item.startDate).format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
-            end: moment(item.endDate).add(1, 'days').format("YYYY-MM-DD"), //.format("YYYY-MM-DD"),
+            start: moment(item.startDate), //.format("YYYY-MM-DD"),
+            end: moment(item.endDate).add(1, 'days'), //.format("YYYY-MM-DD"),
           }
         })
         this.getcalendar();
