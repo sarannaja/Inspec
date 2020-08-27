@@ -127,19 +127,19 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/',
+        url: '/typeexamibationplan',
         name: 'ประเภทแผนการตรวจ',
         ex_link: '0'
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '',
+        url: '/sector',
         name: 'ภาค',
         ex_link: '0'
       },
       {
         icon: 'fa-long-arrow-alt-right',
-        url: '/',
+        url: '/provincesgroup',
         name: 'กลุ่มจังหวัด',
         ex_link: '0'
       },

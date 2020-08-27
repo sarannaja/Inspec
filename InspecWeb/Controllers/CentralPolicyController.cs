@@ -645,7 +645,7 @@ namespace InspecWeb.Controllers
                 .OrderBy(m => m.User.Ministries.Name)
                 .OrderBy(m => m.User.Departments.Name)
                 .OrderBy(m => m.User.ProvincialDepartments.Name)
-                .OrderBy(m => m.User.Side)
+                .OrderBy(m => m.User.SideId)
                 .Where(m => m.CentralPolicyId == centralpolicyprovince.CentralPolicyId && m.InspectionPlanEventId == planId);
 
             return Ok(centralpolicyuserdata);

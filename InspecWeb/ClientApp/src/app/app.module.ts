@@ -187,6 +187,10 @@ import { InformationinspectionComponent } from './informationinspection/informat
 import { ApprovaldocumentComponent } from './approvaldocument/approvaldocument.component';
 import { FiscalyearnewComponent } from './fiscalyearnew/fiscalyearnew.component';
 import { SideComponent } from './side/side.component';
+import { SectorComponent } from './sector/sector.component';
+import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
+import { ProvincesgroupComponent } from './provincesgroup/provincesgroup.component';
+import { NumberDirective } from './services/numbers-only.directive';
 import { AllReportComponent } from './all-report/all-report.component';
 import { AllReportDetailComponent } from './all-report/all-report-detail/all-report-detail.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
@@ -366,6 +370,10 @@ const ExternalOrganization = [
     ApprovaldocumentComponent,
     FiscalyearnewComponent,
     SideComponent,
+    SectorComponent,
+    TypeexamibationplanComponent,
+    ProvincesgroupComponent,
+    NumberDirective,
     AllReportComponent,
     AllReportDetailComponent,
   ],
@@ -559,6 +567,9 @@ const ExternalOrganization = [
           { path: 'supportgovernment/approvaldocument', component: ApprovaldocumentComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyearnew', component: FiscalyearnewComponent, canActivate: [AuthorizeGuard] },
           { path: 'side', component: SideComponent, canActivate: [AuthorizeGuard] },
+          { path: 'sector', component: SectorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'typeexamibationplan', component: TypeexamibationplanComponent, canActivate: [AuthorizeGuard] },
+          { path: 'provincesgroup', component: ProvincesgroupComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport', component: AllReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'allreport/detail/:id', component: AllReportDetailComponent, canActivate: [AuthorizeGuard] },
         ]
