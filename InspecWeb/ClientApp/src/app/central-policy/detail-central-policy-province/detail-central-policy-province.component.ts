@@ -358,7 +358,9 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.delid = id;
     this.modalRef = this.modalService.show(template);
   }
-
+  openModalforwarddetail(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
   async openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);

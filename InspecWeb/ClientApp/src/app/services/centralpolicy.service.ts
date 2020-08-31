@@ -273,6 +273,18 @@ export class CentralpolicyService {
 
     return this.http.put(this.url + "acceptcentralpolicy/" + id, formData);
   }
+
+  acceptCentralpolicy2(answer, id, userid, data) {
+    const formData = new FormData();
+
+    formData.append('status', answer);
+    formData.append('id', id);
+    formData.append('userid', userid);
+    formData.append('report', data.answer);
+
+    return this.http.put(this.url + "acceptcentralpolicy2/" + id, formData);
+  }
+
   getdetailcentralpolicyprovincedata(id): Observable<any> {
     // alert('hi')
     return this.http.get<any>(this.url + "centralpolicyprovince/" + id)

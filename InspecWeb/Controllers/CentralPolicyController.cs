@@ -767,6 +767,18 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
 
+        // PUT api/values/5
+        [HttpPut("acceptcentralpolicy2/{id}")]
+        public void PutStatus2(long id, string status, string userid, string report)
+        {
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+              ForEach(x => x.Status = status);
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+              ForEach(x => x.Report = report);
+
+            _context.SaveChanges();
+        }
         // GET api/values/5
         [HttpGet("getcentralpolicyfromprovince/{id}/{planid}")]
         public IActionResult GetUsers2(string id, long planid)

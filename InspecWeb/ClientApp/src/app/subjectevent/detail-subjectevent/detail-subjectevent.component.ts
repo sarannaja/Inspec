@@ -18,6 +18,7 @@ import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import * as _ from 'lodash';
 import { ReportService } from 'src/app/services/report.service';
 import { AnyAaaaRecord } from 'dns';
+import { NotofyService } from 'src/app/services/notofy.service';
 @Component({
   selector: 'app-detail-subjectevent',
   templateUrl: './detail-subjectevent.component.html',
@@ -164,6 +165,7 @@ export class DetailSubjecteventComponent implements OnInit {
     private userService: UserService,
     private subquestionservice: SubquestionService,
     private reportservice: ReportService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
@@ -664,6 +666,7 @@ export class DetailSubjecteventComponent implements OnInit {
   storeDepartment(value) {
     // alert(this.subjectid)
     this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
       console.log(value);
       this.Form2.reset()
       this.modalRef.hide()
@@ -693,6 +696,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editsubquestionclose(value, id) {
     this.subjectservice.editsubquestionprovince(value, id).subscribe(response => {
+      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
       console.log(value);
       this.EditForm.reset()
       this.modalRef.hide()
@@ -705,6 +709,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editsubquestionclosechoice(value, id) {
     this.subjectservice.editsubquestionchoiceprovince(value, id).subscribe(response => {
+      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
       console.log(value);
       this.EditForm2.reset()
       this.modalRef.hide()
@@ -865,6 +870,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   deleteProvinceial(value) {
     this.subjectservice.deleteProvincial(value).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
       this.loading = false
@@ -916,6 +922,7 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   deletequestion(value) {
     this.subjectservice.deletequestionrole3(value).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
       this.loading = false
@@ -1090,6 +1097,7 @@ export class DetailSubjecteventComponent implements OnInit {
   AddQuestionsclose(value) {
     console.log(value);
     this.subquestionservice.addSubquestioncloseevent(value).subscribe(result => {
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
       console.log(result);
       this.FormAddQuestionsclose.reset()
       this.modalRef.hide()
@@ -1102,7 +1110,7 @@ export class DetailSubjecteventComponent implements OnInit {
     // this.spinner.show();
     console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
     this.subjectservice.addSubjectRole3(value).subscribe(response => {
-
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
       this.AddForm.reset();
       this.modalRef.hide();
       this.getDetailCentralPolicyProvince();
