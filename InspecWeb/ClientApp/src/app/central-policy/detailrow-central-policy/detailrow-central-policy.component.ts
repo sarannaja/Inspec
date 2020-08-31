@@ -22,14 +22,14 @@ export class DetailrowCentralPolicyComponent implements OnInit {
   id: any;
   fiscalYearId: any;
   year: any;
-  resultdetailcentralpolicy: any = []
-  resultfiscalyear: any = []
-  resultfiscalyearId: any = []
-  fiscalYearIdString: any = [];
-  resultprovince: any = []
+  resultdetailcentralpolicy: any = {}
+  resultfiscalyear: any[] = []
+  resultfiscalyearId: any[] = []
+  fiscalYearIdString: any[] = [];
+  resultprovince: any[] = []
   EditForm: FormGroup;
-  selectdataprovince: Array<any>
-  provinceId: any[];
+  selectdataprovince: Array<any>=[]
+  provinceId: any[]=[];
   form: FormGroup;
   fileStatus = false;
   loading = false;
@@ -38,11 +38,11 @@ export class DetailrowCentralPolicyComponent implements OnInit {
   delid: any;
   modalRef: BsModalRef;
   userid: string;
-  oldProvince: any = [];
-  addProvince: any = [];
-  removeProvince: any = [];
+  oldProvince: any[] = [];
+  addProvince: any[] = [];
+  removeProvince: any[] = [];
   disable = true;
-  selected: any = [];
+  selected: any[] = [];
   downloadUrl: any;
 
   constructor(
@@ -130,23 +130,24 @@ export class DetailrowCentralPolicyComponent implements OnInit {
           ProvinceId: this.selected
         });
         this.EditForm.controls.ProvinceId.disable();
+        // this.spinner.hide();
       });
   }
-  getProvince() {
-    this.provinceservice.getprovincedata().subscribe(result => {
-      this.resultprovince = result
-      this.selectdataprovince = this.resultprovince.map((item, index) => {
-        return { value: item.id, label: item.name }
-      })
-      // this.spinner.hide();
-    })
-    this.loading = true;
-  }
+  // getProvince() {
+  //   this.provinceservice.getprovincedata2().subscribe(result => {
+  //     this.resultprovince = result
+  //     // this.selectdataprovince = this.resultprovince.map((item, index) => {
+  //     //   return { value: item.id, label: item.name }
+  //     // })
+  //     this.spinner.hide();
+  //   })
+  //   this.loading = true;
+  // }
   back() {
     window.history.back();
   }
   getDataProvince() {
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.selectdataprovince = result.map(result => {
           // console.log(

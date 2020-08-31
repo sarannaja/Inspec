@@ -18,6 +18,9 @@ export class ProvinceService {
   getprovincedata(): Observable<Province[]> {
     return this.http.get<Province[]>(this.url)
   }
+  getprovincedata2(): Observable<Province[]> {
+    return this.http.get<Province[]>(this.url + "centralpolicyprovinces")
+  }
   getonlyprovince(): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'getonlyprovince')
   }
