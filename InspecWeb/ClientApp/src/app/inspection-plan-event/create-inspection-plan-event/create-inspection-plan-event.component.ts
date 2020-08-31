@@ -11,6 +11,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { SubjectService } from 'src/app/services/subject.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog/confirmation-dialog.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 interface addInput {
   id: number;
@@ -65,6 +66,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     private provinceservice: ProvinceService,
     private inspectionplanservice: InspectionplanService,
     private _dialog: ConfirmationDialogService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl;
   }
@@ -80,7 +82,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.Form = this.fb.group({
       //title: new FormControl(null, [Validators.required]),
       input: new FormArray([])
-    
+
     });
     this.t.push(this.fb.group({
       start_date_plan: '',
@@ -132,7 +134,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     var count = 0
     for (let i = 0; i < value.input.length; i++) {
       if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
-        
+
 
 
         this.inspectionplanservice.inspectionplansprovince(value.input[i].provinces, this.userid, start_date_plan_i[i], end_date_plan_i[i])
@@ -141,7 +143,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
             var id = result
             var watch = 0;
             // value.input.length == 1 ? this.removeThem() : count != value.input.length - 1 ? count++ : this.removeThem()
-
+            this._NotofyService.onSuccess("เพื่มข้อมูล",)
           })
       } else {
         // addT.push(this.t.at(i).value)
@@ -154,7 +156,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     var count = 0
     for (let i = 0; i < this.t.length; i++) {
       if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
-      
+
 
         this.t.removeAt(i)
 
@@ -165,7 +167,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
         var ends = new Set(this.end_date_plan_i);
         ends.delete(this.end_date_plan_i[i]);
         this.end_date_plan_i = Array.from(ends);
-      
+
         count++
       } else {
       }
@@ -227,7 +229,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
         this.resultdetailcentralpolicy = result
         //console.log(this.resultdetailcentralpolicy.title);
         this.t.at(i).get('resultdetailcentralpolicy').patchValue({ id: this.resultdetailcentralpolicy.id, title: this.resultdetailcentralpolicy.title })
-      
+
 
       })
   }
@@ -241,11 +243,12 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   //inpecplanevent
   Gotoinspecplan(provinceid, i) {
 
-  
+
 
     this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])
       ? this.inspectionplanservice.inspectionplansprovince(provinceid, this.userid, this.start_date_plan_i[i], this.end_date_plan_i[i])
         .subscribe(result => {
+          this._NotofyService.onSuccess("เพื่มข้อมูล",)
           var id = result
           var watch = 0;
           this.t.length == 1 ? this.append() : null

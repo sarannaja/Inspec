@@ -86,6 +86,7 @@ namespace InspecWeb.Controllers {
                 .Include(s => s.Ministries)
                 .Include(x => x.Departments)
                 .Include(x => x.ProvincialDepartments)
+                .Include(p => p.Sides)
                 .Where(m => m.Role_id == id)
                 .Where(m => m.Active == 1)
                 .Where(m => m.Email != "admin@inspec.go.th");
