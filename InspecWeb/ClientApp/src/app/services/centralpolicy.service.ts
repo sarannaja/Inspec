@@ -355,10 +355,15 @@ export class CentralpolicyService {
   }
 
   addDepartment(data, subjectid) {
+    // alert(data.DepartmentId)
     const formData = {
       DepartmentId: data.DepartmentId,
       SubjectCentralPolicyProvinceId: subjectid,
     }
+    // const formData = new FormData();
+    // formData.append('SubjectCentralPolicyProvinceId', subjectid);
+    // formData.append('DepartmentId', data.DepartmentId);
+
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + "adddepartment", formData);
   }

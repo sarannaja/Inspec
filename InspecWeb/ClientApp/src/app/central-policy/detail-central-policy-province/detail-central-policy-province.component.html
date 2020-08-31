@@ -148,7 +148,7 @@
 
                   <div class="row col-12">
                     <div class="col-9" *ngIf="items.user.role_id == 7">
-                      {{items.user.side}} - {{items.user.prefix}} {{items.user.name}}
+                      {{items.user.sides.name}} - {{items.user.prefix}} {{items.user.name}}
                     </div>
                     <div class="col-3" *ngIf="items.user.role_id == 7">
                       <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"

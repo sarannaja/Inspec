@@ -642,6 +642,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.ProvincialDepartments)
                 .Include(m => m.User)
                 .ThenInclude(m => m.UserProvince)
+                .Include(p => p.User)
+                .ThenInclude(p => p.Sides)
                 .OrderBy(m => m.User.Ministries.Name)
                 .OrderBy(m => m.User.Departments.Name)
                 .OrderBy(m => m.User.ProvincialDepartments.Name)
@@ -1133,6 +1135,8 @@ namespace InspecWeb.Controllers
         [HttpPost("adddepartment")]
         public void Post2([FromBody] SubjectCentralPolicyProvinceGroupModel model)
         {
+            System.Console.WriteLine("model.SubjectCentralPolicyProvinceId" + model.SubjectCentralPolicyProvinceId);
+
             var subjectdata = _context.SubjectCentralPolicyProvinces
                 .Where(m => m.Id == model.SubjectCentralPolicyProvinceId).FirstOrDefault();
 

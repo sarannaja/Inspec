@@ -527,43 +527,43 @@ export class DetailSubjecteventComponent implements OnInit {
         //   })
         // }
 
-        this.resultdetailcentralpolicyprovince.forEach(element => {
-          var subquestionCentralPolicyProvinces: any[] = element.subquestionCentralPolicyProvinces
-          var subquestionChoicef: any[] = []
+        // this.resultdetailcentralpolicyprovince.forEach(element => {
+        //   var subquestionCentralPolicyProvinces: any[] = element.subquestionCentralPolicyProvinces
+        //   var subquestionChoicef: any[] = []
 
-          subquestionCentralPolicyProvinces
-            .filter(element2 => {
-              return element2.type == "คำถามปลายปิด"
-            })
-            .forEach(result => {
-              var data: any[] = result.subquestionChoiceCentralPolicyProvinces
-              var data2: any[]
-              var dataanswer: any[] = result.answerSubquestions
-              var dataanswer2: any[]
-              data2 = data.map(result => {
-                return result.name
-              })
-              console.log("result", result);
+        //   subquestionCentralPolicyProvinces
+        //     .filter(element2 => {
+        //       return element2.type == "คำถามปลายปิด"
+        //     })
+        //     .forEach(result => {
+        //       var data: any[] = result.subquestionChoiceCentralPolicyProvinces
+        //       var data2: any[]
+        //       var dataanswer: any[] = result.answerSubquestions
+        //       var dataanswer2: any[]
+        //       data2 = data.map(result => {
+        //         return result.name
+        //       })
+        //       console.log("result", result);
 
-              dataanswer2 = dataanswer.map(result => {
-                return result.answer
-              })
-              var reasult1 = {}
-              dataanswer2.forEach(
-                function (x) {
-                  reasult1[x] = (reasult1[x] || 0) + 1;
-                });
+        //       dataanswer2 = dataanswer.map(result => {
+        //         return result.answer
+        //       })
+        //       var reasult1 = {}
+        //       dataanswer2.forEach(
+        //         function (x) {
+        //           reasult1[x] = (reasult1[x] || 0) + 1;
+        //         });
 
-              this.subquestionChoice.push(
-                { question: data2, answer: dataanswer2.length == 0 ? 0 : dataanswer2, data: Object.values(reasult1) }
-              )
+        //       this.subquestionChoice.push(
+        //         { question: data2, answer: dataanswer2.length == 0 ? 0 : dataanswer2, data: Object.values(reasult1) }
+        //       )
 
-            })
-          console.log(this.subquestionChoice);
+        //     })
+        //   console.log(this.subquestionChoice);
 
 
-        })
-        console.log('subquestionChoice', this.subquestionChoice);
+        // })
+        // console.log('subquestionChoice', this.subquestionChoice);
         this.getCalendarFile();
       })
   }
@@ -662,6 +662,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
 
   storeDepartment(value) {
+    // alert(this.subjectid)
     this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
       console.log(value);
       this.Form2.reset()
@@ -977,7 +978,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.provincialDepartmentId,
+          value: item.provincialDepartmentID,
           label: item.provincialDepartment.name
         }
       })
@@ -1007,7 +1008,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.provincialDepartmentId,
+          value: item.provincialDepartmentID,
           label: item.provincialDepartment.name
         }
       })
@@ -1044,12 +1045,12 @@ export class DetailSubjecteventComponent implements OnInit {
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.provincialDepartmentId,
+          value: item.provincialDepartmentID,
           label: item.provincialDepartment.name
         }
       })
 
-      console.log(this.department);
+
       var data: any[] = departmentSelected.map(result => {
         return result.provincialDepartment.id
       })
@@ -1057,7 +1058,9 @@ export class DetailSubjecteventComponent implements OnInit {
       this.departmentSelect = _.filter(this.department, (v) => !_.includes(
         data, v.value
       ))
-
+      console.log("this.department", this.department);
+      console.log("departmentSelected", departmentSelected);
+      console.log("departmentSelect", this.departmentSelect);
 
       this.modalRef = this.modalService.show(template);
     })
