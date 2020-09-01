@@ -150,7 +150,8 @@ namespace InspecWeb.Models
         //20200823
         [Description("สร้างuserอัตโนมัติหรือไม่")]
         public long Autocreateuser { get; set; }
-
+        [Description("pw")]
+        public string Pw { get; set; }
 
     }
 

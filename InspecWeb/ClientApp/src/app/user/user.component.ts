@@ -70,7 +70,7 @@ export class UserComponent implements OnInit {
   Side: any;
   ed: any;
   cd: any;
-  Autocreateuser:any = 1
+  Autocreateuser: any = 1
   //<!-- END input -->
   datarole: any = [
     {
@@ -179,6 +179,7 @@ export class UserComponent implements OnInit {
     })
   }
   get f() { return this.addForm.value }
+  // get t() { return this.addForm }
   getData() {
     this.spinner.show();
     this.getUser();
@@ -198,20 +199,21 @@ export class UserComponent implements OnInit {
     //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
   }
 
-  openModal(template: TemplateRef<any>, IDdelete,UserName) {
+  openModal(template: TemplateRef<any>, IDdelete, UserName, Pw) {
     this.addForm.reset()
     this.id = IDdelete;//ID สำหรับลบ
     this.addForm.patchValue({
       Role_id: this.roleId,
-      Autocreateuser : this.Autocreateuser,
+      Autocreateuser: this.Autocreateuser,
       UserName: UserName,
+      Pw: Pw
     })
     this.modalRef = this.modalService.show(template);
   }
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, SideId,
-    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img,Autocreateuser) {
-    alert(SideId);
+    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser) {
+    // alert(SideId);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
     this.addForm.reset()
     this.Autocreateuser = Autocreateuser; // สร้าง UerName เองหรือป่าว
@@ -272,7 +274,7 @@ export class UserComponent implements OnInit {
       Commandnumberdate: this.cd,
       Formprofile: 0,
       Img: img,
-      Autocreateuser : Autocreateuser, //แพตข้อมูลว่าสร้าง UerName เองหรือป่าว
+      Autocreateuser: Autocreateuser, //แพตข้อมูลว่าสร้าง UerName เองหรือป่าว
     })
     this.DepartmentId = departmentId
     // console.log(' value: departmentId', departmentId);
@@ -296,7 +298,7 @@ export class UserComponent implements OnInit {
       })
   }
 
-  getRolename(){
+  getRolename() {
     if (this.roleId == 1) {
       this.rolename = 'ผู้ดูแลระบบ'
     } else if (this.roleId == 2) {
@@ -380,7 +382,7 @@ export class UserComponent implements OnInit {
   getDataDepartments(event) {
     this.departmentService.getdepartmentsforuserdata(event.value)
       .subscribe(result => {
-        console.log('result', result);
+        //   console.log('result', result);
 
         this.selectdatadeparment = result.map((item, index) => {
           return { value: item.id, label: item.name }
@@ -418,24 +420,35 @@ export class UserComponent implements OnInit {
   }
   //เพิ่ม user
   store(value) {
-    this.userService.addUser(value, this.addForm.value.files, this.roleId).subscribe(response => {
-      this.addForm.reset()
-      this.modalRef.hide()
-      this.loading = false
-      this._NotofyService.onSuccess("เพื่มข้อมูล")
-      this.getUser()
+    this.addForm.patchValue({
+      Autocreateuser: this.Autocreateuser,
     })
+    this.userService.addUser(this.addForm.value, this.addForm.value.files, this.roleId)
+      .subscribe(response => {
+        this.addForm.reset()
+        this.modalRef.hide()
+        this.loading = false
+        this._NotofyService.onSuccess("เพื่มข้อมูล")
+        this.getUser()
+      })
   }
 
   updateuser(value) {
     // alert(1);
-    this.userService.editprofile(value, this.addForm.value.files, null, this.id).subscribe(response => {
-      //alert(3);
-      this.addForm.reset()
-      this.modalRef.hide()
-      this.loading = false
-      this.getUser()
-    })
+    this.userService.editprofile(value, this.addForm.value.files, null, this.id)
+      .subscribe(response => {
+        // this.userService.changepassword(this.id)
+        // .subscribe(result=>{
+        //   console.log('result changepassword' , result);
+          
+        // })
+        // // alert(3);
+        this.addForm.reset()
+        this.modalRef.hide()
+        this.loading = false
+        this._NotofyService.onSuccess("แก้ไขข้อมูล")
+        this.getUser()
+      })
   }
 
   //ลบ user
@@ -447,7 +460,7 @@ export class UserComponent implements OnInit {
     })
   }
 
-  resetpassword(id){
+  resetpassword(id) {
 
   }
 
@@ -479,6 +492,7 @@ export class UserComponent implements OnInit {
       Img: new FormControl(null),
       UserName: new FormControl(null, [Validators.required]),
       Autocreateuser: new FormControl(null, [Validators.required]),
+      Pw: new FormControl(null),
       // con1: new FormControl(null, [Validators.required]),
       // con2: new FormControl(null, [Validators.required]),
     })
