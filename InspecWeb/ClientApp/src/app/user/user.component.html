@@ -61,12 +61,15 @@
                             </td>
                             <td>{{item.userName}}</td>
                             <td>
+                                <a (mouseover)="getDataRegions()" (mouseout)="getDataRegions()">
+                                    {{item.prefix + item.name}}
+                                </a>
                                 <!-- <i class="align-middle fas fa-fw fa-address-card"></i>  -->
-                                {{item.prefix + item.name}}
+                                
                             </td>
                             <td>{{item.position}}</td>
                             <td *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10">
-                                <label class="badge badge-warning mr-1"
+                                <label class="badge badge-warning mr-1" 
                                     *ngFor="let item2 of item.userRegion; let i2 = index">
                                     {{item2.region.name == "เขตตรวจราชส่วนกลาง" ? "ส่วนกลาง" :item2.region.name.replace(re2, '')}}
                                 </label>

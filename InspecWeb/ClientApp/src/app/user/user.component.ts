@@ -332,10 +332,9 @@ export class UserComponent implements OnInit {
 
       })
   }
-
   getDataRegions() {
     this.regionService.getregiondataforuser(1).subscribe(res => {
-      var uniqueRegion: any = [];
+      let uniqueRegion: any = [];
       uniqueRegion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
       );
@@ -347,7 +346,7 @@ export class UserComponent implements OnInit {
       })
     })
   }
-
+(mouseover)="changeText=true" (mouseout)="changeText=false"
   getDataProvinces() {
     this.provinceService.getprovincedata()
       .subscribe(result => {
