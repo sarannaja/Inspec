@@ -334,19 +334,22 @@ export class UserComponent implements OnInit {
   }
   getDataRegions() {
     this.regionService.getregiondataforuser(1).subscribe(res => {
-      let uniqueRegion: any = [];
-      uniqueRegion = res.importFiscalYearRelations.filter(
+      // let uniqueRegion: any = [];
+      this.selectdataregion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
-      );
-      this.selectdataregion = uniqueRegion.map((item, index) => {
+      ).map((item, index) => {
+
         return {
           value: item.region.id,
           label: item.region.name
         }
-      })
+      });
+      console.log(this.selectdataregion);
+
+      //  = uniqueRegion
     })
   }
-(mouseover)="changeText=true" (mouseout)="changeText=false"
+
   getDataProvinces() {
     this.provinceService.getprovincedata()
       .subscribe(result => {
@@ -439,7 +442,7 @@ export class UserComponent implements OnInit {
         // this.userService.changepassword(this.id)
         // .subscribe(result=>{
         //   console.log('result changepassword' , result);
-          
+
         // })
         // // alert(3);
         this.addForm.reset()
