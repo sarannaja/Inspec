@@ -1,0 +1,77 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">บัตรผู้ร่วมอบรม</a></li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">บัตรผู้ร่วมอบรม</h5>
+        <div class="float-right">
+          <button id="btn-export" class="btn btn-primary" (click)="print()" style="margin-top: -60px;">
+            <i class="fas fa-print mr-2"></i>พิมพ์ป้ายชื่อ
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="book" id="print-section">
+          <div *ngFor="let item of printData; let i = index">
+            <div class="page" style="page-break-after: always;">
+              <table cellpadding="0" cellspacing="0" align="center" style="width: 100%; height: 1000px; ">
+                <tr>
+                  <td style="text-align: center; background-color: white; max-width: 300px; text-overflow: ellipsis;">
+
+                    <img src="img/sky.jpg" style="width: 5.78cm;height: 8.48cm;" />
+                    <h1 style="font-size: 30px; white-space: nowrap; position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-overflow: ellipsis;
+                    white-space: nowrap;">
+                      <!-- <br>
+                      <br> -->
+
+                      6301001
+                      <br>
+                      {{item.name}}
+                      <br>
+                      <span style="font-size: 30px;">
+                        ({{item.nickname}})</span>
+                      <br>
+                      <br>
+                      <!-- <div style="background-color: dodgerblue; border-radius: 20px;"> -->
+                      <span style="font-size: 30px;">
+                        {{item.department}}</span>
+                      <!-- </div> -->
+
+                      <br>
+                      <span style="font-size: 14px; max-width: 4cm;">
+                        หลักสูตรผู้ตรวจราชการระดับกระทรวง
+                      </span>
+                      <br>
+                      <!-- <div style="margin-top: -18px;"> -->
+                      <span style="font-size: 14px;">
+                        ประจำปีงบประมาณ พ.ศ. {{item.training.year}}
+                      </span>
+                      <!-- </div> -->
+
+                    </h1>
+
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

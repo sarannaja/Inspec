@@ -58,6 +58,8 @@ namespace InspecWeb.ViewModel
         public long UserRegionId { get; set; } //สำหรับทำ array  
 
         public long Autocreateuser { get; set; } //20200823
+
+        public string Pw { get; set; } // 20200830
     }
 
     public class UserArray

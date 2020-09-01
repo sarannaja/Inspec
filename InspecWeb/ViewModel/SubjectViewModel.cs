@@ -59,9 +59,10 @@ namespace InspecWeb.ViewModel
 
     public class subjectevent
     {
+     
         public long[] CentralpolicyId { get; set; }
         public CentralpolicyModel[] CentralpolicySelect { get; set; }
-        //public long[] CentralPolicyeventId { get; set; }
+        //public CentralPolicyeventId[] CentralPolicyeventId { get; set; }
         public long ProvinceId { get; set; }
 
         public DateTime startdate { get; set; }
@@ -79,6 +80,6 @@ namespace InspecWeb.ViewModel
     {
         public long centralpolicyId { get; set; }
         public long centralPolicyeventId { get; set; }
-      
+
     }
     }

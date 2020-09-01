@@ -56,7 +56,7 @@
             <div class="mb-12">
               <select (change)="selectprovince($event.target.value)" class="form-control select2" data-toggle="select2"
                 formControlName="province">
-                <option value="allprovince">จังหวัดทั้งหมด</option>
+                <option value="allprovince">ทุกจังหวัด</option>
                 <option *ngFor="let item of resultuserregion; let i = index" value="{{item.province.id}}">
                   {{item.province.name}}
                 </option>
