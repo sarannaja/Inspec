@@ -70,13 +70,13 @@
           </div>
           <div class="row" style="margin-top: 10px;">
             <div class="col-12">
-              <div *ngIf="role6Count == 1" class="card col-6" style="border-width: 0.5px; padding: 5px;">
+              <div *ngIf="role6Count == 1" class="card col-12" style="border-width: 0.5px; padding: 5px;">
                 <div class="row" *ngFor="let items of resultcentralpolicyuser;let i = index">
                   <div class="row col-12">
-                    <div class="col-9" *ngIf="items.user.role_id == 6">
+                    <div class="col-4" *ngIf="items.user.role_id == 6">
                       {{items.user.ministries.name}} - {{items.user.prefix}} {{items.user.name}}
                     </div>
-                    <div class="col-3" *ngIf="items.user.role_id == 6">
+                    <div class="col-8" *ngIf="items.user.role_id == 6">
                       <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
                         disabled>{{items.status}}</button>
                       <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
@@ -85,9 +85,26 @@
                         disabled>{{items.status}}</button>
                       <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
                         disabled>{{items.status}}</button>
+
+
+
                       &nbsp;&nbsp;&nbsp;
+                      <!-- <i class=" align-middle mr-2 fas fa-fw fa-search pointer"
+                        (click)="openModalforwarddetail(modalforwarddetail, items.id)"></i> -->
                       <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3 && watch == 0"
                         (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
+                      &nbsp;&nbsp;&nbsp;
+                      <span *ngIf="items.report != null">
+                        {{items.report}}
+                      </span>
+                      <!-- มอบหมายให้ นายศรัณญ์ สาพรหม เบอร์ติดต่อ 0894161768 -->
+                      <span *ngIf="items.status == 'มอบหมาย'">
+                        มอบหมายให้ {{items.forwardName}} เบอร์ติดต่อ {{items.forwardPhone}}
+                      </span>
+
+                      <span *ngIf="items.forwardName == 'ถูกมอบหมาย'">
+                        ถูกมอยหมายโดย {{items.invitedBy}}
+                      </span>
 
                     </div>
                   </div>
@@ -148,7 +165,7 @@
 
                   <div class="row col-12">
                     <div class="col-9" *ngIf="items.user.role_id == 7">
-                      {{items.user.side}} - {{items.user.prefix}} {{items.user.name}}
+                      {{items.user.sides.name}} - {{items.user.prefix}} {{items.user.name}}
                     </div>
                     <div class="col-3" *ngIf="items.user.role_id == 7">
                       <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
@@ -173,8 +190,8 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญหน่วยรับตรวจ</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModal(modalInviteProvincialDepartmentPeople)"
-                class="btn btn-primary">เชิญ</button>
+              <button *ngIf="role_id == 3 && watch == 0" type="button"
+                (click)="openModal(modalInviteProvincialDepartmentPeople)" class="btn btn-primary">เชิญ</button>
             </div>
           </div>
           <div class="row" style="margin-top: 10px;">
@@ -237,7 +254,8 @@
           </div>
 
           <div class="col-12">
-            <label *ngIf="role_id == 3 && watch == 0" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
+            <label *ngIf="role_id == 3 && watch == 0" class="form-label w-100"
+              style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
             <input *ngIf="role_id == 3 && watch == 0" type="file" multiple (change)="uploadFile2($event)"
               style="margin-bottom: 10px;">
             <!-- <div class="col-4">
@@ -642,5 +660,22 @@
     </div>
   </form>
   <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+
+<!-- BEGIN primary modal -->
+<ng-template #modalforwarddetail class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">รายละเอียดการมอบหมาย</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body m-3">
+      1111111
+    </div>
+  </div>
 </ng-template>
 <!-- END primary modal -->

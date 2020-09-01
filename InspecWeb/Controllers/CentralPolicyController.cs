@@ -642,6 +642,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.ProvincialDepartments)
                 .Include(m => m.User)
                 .ThenInclude(m => m.UserProvince)
+                .Include(p => p.User)
+                .ThenInclude(p => p.Sides)
                 .OrderBy(m => m.User.Ministries.Name)
                 .OrderBy(m => m.User.Departments.Name)
                 .OrderBy(m => m.User.ProvincialDepartments.Name)
@@ -765,6 +767,18 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
 
+        // PUT api/values/5
+        [HttpPut("acceptcentralpolicy2/{id}")]
+        public void PutStatus2(long id, string status, string userid, string report)
+        {
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+              ForEach(x => x.Status = status);
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+              ForEach(x => x.Report = report);
+
+            _context.SaveChanges();
+        }
         // GET api/values/5
         [HttpGet("getcentralpolicyfromprovince/{id}/{planid}")]
         public IActionResult GetUsers2(string id, long planid)
@@ -1133,6 +1147,8 @@ namespace InspecWeb.Controllers
         [HttpPost("adddepartment")]
         public void Post2([FromBody] SubjectCentralPolicyProvinceGroupModel model)
         {
+            System.Console.WriteLine("model.SubjectCentralPolicyProvinceId" + model.SubjectCentralPolicyProvinceId);
+
             var subjectdata = _context.SubjectCentralPolicyProvinces
                 .Where(m => m.Id == model.SubjectCentralPolicyProvinceId).FirstOrDefault();
 

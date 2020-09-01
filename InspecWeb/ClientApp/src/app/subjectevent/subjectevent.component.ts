@@ -9,6 +9,7 @@ import { UserService } from '../services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { Router } from '@angular/router';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-subjectevent',
@@ -58,6 +59,7 @@ export class SubjecteventComponent implements OnInit {
     private fb: FormBuilder,
     private inspectionplanservice: InspectionplanService,
     private router: Router,
+    private _NotofyService: NotofyService,
   ) { }
 
   ngOnInit() {
@@ -233,6 +235,7 @@ export class SubjecteventComponent implements OnInit {
     if (value.land == "ลงพื้นที่") {
       this.subjectservice.subjectevent(value, this.userid)
         .subscribe(result => {
+          this._NotofyService.onSuccess("เพื่มข้อมูล",)
           this.loading = false;
           this.modalRef.hide();
           this.Form.reset()
@@ -242,6 +245,7 @@ export class SubjecteventComponent implements OnInit {
     } else if (value.land == "ไม่ลงพื้นที่") {
       this.subjectservice.subjecteventnoland(value, this.userid)
         .subscribe(result => {
+          this._NotofyService.onSuccess("เพื่มข้อมูล",)
           this.loading = false;
           this.modalRef.hide();
           this.Form.reset()
@@ -255,6 +259,7 @@ export class SubjecteventComponent implements OnInit {
     // alert(JSON.stringify(value))
     this.subjectservice.postsubjecteventfromcalendar(value, this.userid)
       .subscribe(result => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล",)
         this.loading = false;
         this.modalRef.hide();
         this.Form2.reset()
@@ -268,6 +273,7 @@ export class SubjecteventComponent implements OnInit {
 
     this.subjectservice.subjecteventnolandOther(value, this.userid)
       .subscribe(result => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล",)
         this.loading = false;
         this.modalRef.hide();
         this.Form.reset()

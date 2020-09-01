@@ -1720,8 +1720,9 @@ namespace InspecWeb.Controllers
             foreach (var cenid in model.CentralpolicySelect)
             {
                 var centralpolicyeventdate = _context.CentralPolicyEvents
-                    .Where(m => m.CentralPolicyId == cenid.centralpolicyId)
-                    .Where(m => m.InspectionPlanEvent.ProvinceId == model.ProvinceId)
+                    //.Where(m => m.CentralPolicyId == cenid.centralpolicyId)
+                    //.Where(m => m.InspectionPlanEvent.ProvinceId == model.ProvinceId)
+                    .Where(p => p.Id == cenid.centralPolicyeventId)
                     .FirstOrDefault();
 
                 var SubjectGroupdata = new SubjectGroup

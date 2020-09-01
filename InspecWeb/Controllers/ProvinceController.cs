@@ -34,12 +34,20 @@ namespace InspecWeb.Controllers
 
             var provincedata = _context.Provinces
                              .Include(p => p.Sectors)
-                             .Include(p => p.ProvincesGroups);
+                             .Include(p => p.ProvincesGroups)
+                             .FirstOrDefault();
             return Ok(provincedata);
 
-          
+
         }
 
+        [HttpGet("centralpolicyprovinces")]
+        public IActionResult Get2()
+        {
+            var provincedata = _context.Provinces;
+
+            return Ok(provincedata);
+        }
         // GET: api/values
         [HttpGet("getonlyprovince")]
         public IActionResult Getonlyprovince()
@@ -78,7 +86,7 @@ namespace InspecWeb.Controllers
         public Province Post([FromForm] ProviceRequest request)
         {
             var date = DateTime.Now;
-            Console.WriteLine("province 1 :" + request.SectorId + " : "+ request.Link + " : " + request.Name);
+            Console.WriteLine("province 1 :" + request.SectorId + " : " + request.Link + " : " + request.Name);
             var provincedata = new Province
             {
                 Name = request.Name,
@@ -99,7 +107,7 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put([FromForm] ProviceRequest request,long id)
+        public void Put([FromForm] ProviceRequest request, long id)
         {
             var province = _context.Provinces.Find(id);
             province.Name = request.Name;

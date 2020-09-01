@@ -37,6 +37,7 @@ export class UserCentralPolicyComponent implements OnInit {
   checkType: any;
   peopletype: any;
 
+  report: string = '';
   ministryId
   userProvince: any[] = []
 
@@ -126,6 +127,7 @@ export class UserCentralPolicyComponent implements OnInit {
         this.resultcentralpolicy = result
         this.status = result[0].status
         this.ForwardName = result[0].forwardName
+        this.report = result[0].report
 
         this.loading = true;
         this.spinner.hide();
@@ -145,6 +147,10 @@ export class UserCentralPolicyComponent implements OnInit {
   }
 
   openModal2(template: TemplateRef<any>, answer) {
+
+    this.Form.patchValue({
+      answer: this.report
+    })
 
     this.getministryuser();
     this.getdepartmentuser();
@@ -194,7 +200,7 @@ export class UserCentralPolicyComponent implements OnInit {
   }
 
   storeAccept(answer) {
-    // console.log("this.resultcentralpolicy.centralPolicy.id", this.resultcentralpolicy);
+    console.log("this.resultcentralpolicy.centralPolicy.id", this.resultcentralpolicy);
 
     this.centralpolicyservice.acceptCentralpolicy(answer, this.id, this.userid)
       .subscribe(response => {
@@ -220,6 +226,25 @@ export class UserCentralPolicyComponent implements OnInit {
         // this.router.navigate(['calendaruser'])
       })
   }
+
+  storeAccept2(value, answer) {
+    // alert(JSON.stringify(value))
+    this.centralpolicyservice.acceptCentralpolicy2(answer, this.id, this.userid, value)
+      .subscribe(response => {
+        console.log(response);
+
+        let CentralpolicyId: any[] = this.resultcentralpolicy
+        for (let i = 0; i < CentralpolicyId.length; i++) {
+          this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, 1)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+        this.modalRef.hide()
+        this.getstatus();
+      })
+  }
+
   getScheduleData() {
     this.inspectionplanservice.getScheduleData(this.id, this.provinceid).subscribe(res => {
       console.log("ScheduleData: ", res);
