@@ -69,12 +69,20 @@
                             </td>
                             <td>{{item.position}}</td>
                             <td *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10">
-                                <a (mouseover)="getDataRegions($event)" (mouseout)="getDataRegions($event)"> <label
-                                        class="badge badge-warning mr-1"
-                                        *ngFor="let item2 of item.userRegion; let i2 = index">
+                                <ng-template #popToolipProvince>
+                                    <div [innerHtml]="html" style="font-size: large;"></div>
+                                </ng-template>
+                                <ng-container *ngFor="let item2 of item.userRegion; let i2 = index">
+
+
+                                    <span [tooltip]="popToolipProvince"
+                                        (mouseover)="getDataRegionsForTooltip(regionShow)" (mouseout)="html=null"
+                                        class="badge badge-warning mr-1" #regionShow [id]="item2.region.id">
                                         {{item2.region.name == "เขตตรวจราชส่วนกลาง" ? "ส่วนกลาง" :item2.region.name.replace(re2, '')}}
-                                    </label>
-                                </a>
+                                    </span>
+                                </ng-container>
+
+
                             </td>
                             <td *ngIf="roleId != 7">
                                 <div

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject, SecurityContext } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -15,6 +15,8 @@ import { DepartmentService } from '../services/department.service';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { NotofyService } from '../services/notofy.service';
 import { SideService } from '../services/side.service';
+import { DomSanitizer } from '@angular/platform-browser';
+// import { SecurityContext } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-user',
@@ -118,7 +120,9 @@ export class UserComponent implements OnInit {
 
   fiscalYearId: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
-
+  title: string = 'รายชิ่อจังหวัด';
+  content: string = 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus.';
+  html: string;
   constructor(
     private _NotofyService: NotofyService,
     private modalService: BsModalService,
@@ -133,9 +137,12 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private spinner: NgxSpinnerService,
     private sideservice: SideService,
+    private sanitizer: DomSanitizer,
 
     @Inject('BASE_URL') baseUrl: string
   ) {
+    this.html = sanitizer.sanitize(SecurityContext.HTML, this.html);
+
     this.subscription = this.userService.getUserNav()
       .subscribe(
         result => {
@@ -338,15 +345,31 @@ export class UserComponent implements OnInit {
       this.selectdataregion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
       ).map((item, index) => {
-
         return {
           value: item.region.id,
           label: item.region.name
         }
       });
       console.log(this.selectdataregion);
-
       //  = uniqueRegion
+    })
+  }
+
+
+  getDataRegionsForTooltip(event) {
+    this.regionService.getregiondataforuser(1).subscribe(res => {
+      // this.html =
+      //   `<span class="badge" >${res.importFiscalYearRelations.filter(
+      //     // (thing, i, arr) => arr.findIndex(t => t.regionId == event.id) === i
+      //     (resultf) => resultf.region.id == event.id
+      //   ).map((item, index) => `${item.province.name}`)}<br></span>`
+      // console.log(this.html, event.id);
+      this.html =
+        res.importFiscalYearRelations.filter(
+          // (thing, i, arr) => arr.findIndex(t => t.regionId == event.id) === i
+          (resultf) => resultf.region.id == event.id
+        ).map((item, index) => `<span class="badge" >${item.province.name}</span>`)
+      console.log(this.html, event.id);
     })
   }
 
