@@ -53,6 +53,7 @@ namespace InspecWeb.Controllers
                    .Include(m => m.CentralPolicyProvinces)
                    .ThenInclude(x => x.Province)
                    .Include(m => m.CentralPolicyDates)
+                   .OrderByDescending(m => m.Id)
                    .Where(m => m.Class == "แผนการตรวจประจำปี")
                    .ToList();
         }
@@ -83,6 +84,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
+                .OrderByDescending(m => m.Id)
                 .Where(m => m.FiscalYearNewId == id && m.Class == "แผนการตรวจประจำปี").ToList();
 
             return Ok(centralpolicydata);

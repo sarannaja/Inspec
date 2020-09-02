@@ -50,7 +50,7 @@ export class ReportService {
     console.log("test", test);
     const formData = {
       type: resultdetailcentralpolicy.type,
-      fiscalyear: resultdetailcentralpolicy.fiscalYear.year,
+      fiscalyear: resultdetailcentralpolicy.fiscalYearNew.year,
       title: resultdetailcentralpolicy.title,
       Subject: test,
     }

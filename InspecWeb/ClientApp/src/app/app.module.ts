@@ -204,6 +204,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
 import { NamePlateComponent } from './name-plate/name-plate.component';
 import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
+import { SortPipe } from './services/Pipe/sort';
 
 
 const ExternalOrganization = [
@@ -327,6 +328,7 @@ const ExternalOrganization = [
     ReportSubjectComponent,
     CentralPolicyFiscalyearComponent,
     CommanderReportComponent,
+    SortPipe,
     // DatePipe
     InfoDepartmentComponent,
     InfoVillageComponent,
@@ -624,9 +626,9 @@ const ExternalOrganization = [
     DatePipe, CookieService,
     ProvinceService,
     NotofyService,
-    ConfirmationDialogService
+    ConfirmationDialogService,
     // UserManager
-
+    SortPipe
   ],
 
   bootstrap: [AppComponent]

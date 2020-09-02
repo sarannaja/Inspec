@@ -45,69 +45,75 @@ export class CentralPolicyComponent implements OnInit {
         this.userid = result.sub
         console.log(result);
         // alert(this.userid)
-        this.userService.getuserfirstdata(this.userid)
-          .subscribe(result => {
-            // this.resultuser = result;
-            //console.log("test" , this.resultuser);
-            this.role_id = result[0].role_id
-            if (result[0].role_id == 1) {
-              console.log("in1", this.role_id);
-              this.dtOptions = {
-                pagingType: 'full_numbers',
-                columnDefs: [
-                  {
-                    targets: [7],
-                    orderable: false
-                  }
-                ],
-                "language": {
-                  "lengthMenu": "แสดง  _MENU_  รายการ",
-                  "search": "ค้นหา:",
-                  "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-                  "infoEmpty": "แสดง 0 ของ 0 รายการ",
-                  "zeroRecords": "ไม่พบข้อมูล",
-                  "paginate": {
-                    "first": "หน้าแรก",
-                    "last": "หน้าสุดท้าย",
-                    "next": "ต่อไป",
-                    "previous": "ย้อนกลับ"
-                  },
-                }
 
-              };
-            } else {
-              console.log("in2", this.role_id);
-
-              this.dtOptions = {
-                pagingType: 'full_numbers',
-                columnDefs: [
-                  {
-                    targets: [6],
-                    orderable: false
-                  }
-                ],
-                "language": {
-                  "lengthMenu": "แสดง  _MENU_  รายการ",
-                  "search": "ค้นหา:",
-                  "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-                  "infoEmpty": "แสดง 0 ของ 0 รายการ",
-                  "zeroRecords": "ไม่พบข้อมูล",
-                  "paginate": {
-                    "first": "หน้าแรก",
-                    "last": "หน้าสุดท้าย",
-                    "next": "ต่อไป",
-                    "previous": "ย้อนกลับ"
-                  },
-                }
-
-              };
-            }
-            // alert(this.role_id)
-          })
       })
+    setTimeout(() => {
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+          // this.resultuser = result;
+          //console.log("test" , this.resultuser);
+          this.role_id = result[0].role_id
+          if (result[0].role_id == 1) {
+            console.log("in1", this.role_id);
+            this.dtOptions = {
+              pagingType: 'full_numbers',
+              columnDefs: [
+                {
+                  targets: [7],
+                  orderable: false
+                }
+              ],
+              "language": {
+                "lengthMenu": "แสดง  _MENU_  รายการ",
+                "search": "ค้นหา:",
+                "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+                "infoEmpty": "แสดง 0 ของ 0 รายการ",
+                "zeroRecords": "ไม่พบข้อมูล",
+                "paginate": {
+                  "first": "หน้าแรก",
+                  "last": "หน้าสุดท้าย",
+                  "next": "ต่อไป",
+                  "previous": "ย้อนกลับ"
+                },
+              }
+
+            };
+          } else {
+            console.log("in2", this.role_id);
+
+            this.dtOptions = {
+              pagingType: 'full_numbers',
+              columnDefs: [
+                {
+                  targets: [6],
+                  orderable: false
+                }
+              ],
+              "language": {
+                "lengthMenu": "แสดง  _MENU_  รายการ",
+                "search": "ค้นหา:",
+                "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+                "infoEmpty": "แสดง 0 ของ 0 รายการ",
+                "zeroRecords": "ไม่พบข้อมูล",
+                "paginate": {
+                  "first": "หน้าแรก",
+                  "last": "หน้าสุดท้าย",
+                  "next": "ต่อไป",
+                  "previous": "ย้อนกลับ"
+                },
+              }
+
+            };
+          }
+
+          // alert(this.role_id)
+        })
+      this.getFiscalyear()
+    }, 200)
 
 
-    this.getFiscalyear()
+
+
     // this.getCurrentYear()
   }
 
@@ -142,7 +148,7 @@ export class CentralPolicyComponent implements OnInit {
         const doAsync = () => {
           return new Promise((resolve, reject) => {
             setTimeout(() => {
-              var array: any[] = []
+              let array: any[] = []
               for (let i1 = 0; i1 < result.length; i1++) {
                 //console.log('this.id[i1]', this.id[i1]);
                 console.log("result", result[0], i1);
@@ -168,62 +174,71 @@ export class CentralPolicyComponent implements OnInit {
           setTimeout(() => {
             this.loading = true;
 
-          }, 100)
+          }, 500)
         })
-        if (this.role_id != 1 && this.role_id == 2) {
-          // this.resultcentralpolicy = []
-          // result.forEach(element => {
-          //   // if (element.status == "ใช้งานจริง") {
-          //   //   this.resultcentralpolicy.push(element);
-          //   // }
-          //   this.resultcentralpolicy.push({ ...element, count: 0 });
-          // });
+        // if (this.role_id != 1 && this.role_id == 2) {
+        //   // this.resultcentralpolicy = []
+        //   // result.forEach(element => {
+        //   //   // if (element.status == "ใช้งานจริง") {
+        //   //   //   this.resultcentralpolicy.push(element);
+        //   //   // }
+        //   //   this.resultcentralpolicy.push({ ...element, count: 0 });
+        //   // });
 
-          doAsync().then(res => {
-            this.resultcentralpolicy = res
-            setTimeout(() => {
-              this.loading = true;
+        //   doAsync().then(res => {
+        //     this.resultcentralpolicy = res
+        //     setTimeout(() => {
+        //       this.loading = true;
 
-            }, 100)
-          })
-          console.log("data", this.resultcentralpolicy);
-        }
+        //     }, 100)
+        //   })
+        //   console.log("data", this.resultcentralpolicy);
+        // }
 
 
         this.spinner.hide();
       })
   }
+  get result17() {
+    console.log(this.resultcentralpolicy);
+
+    return this.resultcentralpolicy.filter(result => result.id == 17)
+  }
   getCurrentCentralPolicy(currentyear) {
     this.resultcentralpolicy = []
     this.centralpolicyservice.getcentralpolicyfiscalyeardata(currentyear.id)
       .subscribe(result => {
-        // this.resultcentralpolicy = result
+        // console.log("eiei",result);
         const doAsync = () => {
           return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              var array: any[] = []
-              for (let i1 = 0; i1 < result.length; i1++) {
-                //console.log('this.id[i1]', this.id[i1]);
-                console.log("result", result[0], i1);
+            // setTimeout(() => {
+            let array: any[] = []
+            for (let i1 = 0; i1 < result.length; i1++) {
+              //console.log('this.id[i1]', this.id[i1]);
+              // console.log("result", result[0], i1);
 
-                this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id).subscribe(resultCount => {
-                  console.log('result[i1]', result[i1], i1);
+              this.centralpolicyservice.getcentralpolicysubjectcount(result[i1].id)
+                .subscribe((resultCount) => {
+                  // console.log('result[i1]', result[i1], i1);
                   // if (result[i1].status == "ใช้งานจริง") {
                   if (this.role_id != 1 && this.role_id != 2 && result[i1].status == "ใช้งานจริง") {
+                    console.log('ใช้งานจริง', { ...result[i1], count: resultCount });
+
                     array.push({ ...result[i1], count: resultCount });
                   } else if (this.role_id == 1 || this.role_id == 2) {
+                    console.log('ไม่ใช้งานจริง', { ...result[i1], count: resultCount });
                     array.push({ ...result[i1], count: resultCount });
                   }
                   // }
                 })
 
 
-                // }, 100 * i1 + 1)
-              }
+              // }, 100 * i1 + 1)
+            }
 
-              resolve(array)
-              // return
-            }, 300)
+            resolve(array)
+            // return
+            // }, 300)
           })
         }
         doAsync().then(res => {
@@ -231,18 +246,18 @@ export class CentralPolicyComponent implements OnInit {
           setTimeout(() => {
             this.loading = true;
 
-          }, 100)
+          }, 500)
         })
-        if (this.role_id != 1 && this.role_id != 2) {
+        // if (this.role_id != 1 && this.role_id != 2) {
 
-          doAsync().then(res => {
-            this.resultcentralpolicy = res
-            setTimeout(() => {
-              this.loading = true;
+        //   doAsync().then(res => {
+        //     this.resultcentralpolicy = res
+        //     setTimeout(() => {
+        //       this.loading = true;
 
-            }, 100)
-          })
-        }
+        //     }, 1000)
+        //   })
+        // }
 
         // this.loading = true;
         this.spinner.hide();
@@ -256,7 +271,7 @@ export class CentralPolicyComponent implements OnInit {
         const doAsync = () => {
           return new Promise((resolve, reject) => {
             setTimeout(() => {
-              var array: any[] = []
+              let array: any[] = []
               for (let i1 = 0; i1 < result.length; i1++) {
                 //console.log('this.id[i1]', this.id[i1]);
                 console.log("result", result[0], i1);
@@ -285,25 +300,25 @@ export class CentralPolicyComponent implements OnInit {
           setTimeout(() => {
             this.loading = true;
 
-          }, 100)
+          }, 500)
         })
-        if (this.role_id != 1 && this.role_id != 2) {
-          // this.resultcentralpolicy = []
-          // result.forEach(element => {
-          //   // if (element.status == "ใช้งานจริง") {
-          //   //   this.resultcentralpolicy.push(element);
-          //   // }
-          //   this.resultcentralpolicy.push(element);
-          // });
-          // console.log("data", this.resultcentralpolicy);
-          doAsync().then(res => {
-            this.resultcentralpolicy = res
-            setTimeout(() => {
-              this.loading = true;
+        // if (this.role_id != 1 && this.role_id != 2) {
+        //   // this.resultcentralpolicy = []
+        //   // result.forEach(element => {
+        //   //   // if (element.status == "ใช้งานจริง") {
+        //   //   //   this.resultcentralpolicy.push(element);
+        //   //   // }
+        //   //   this.resultcentralpolicy.push(element);
+        //   // });
+        //   // console.log("data", this.resultcentralpolicy);
+        //   doAsync().then(res => {
+        //     this.resultcentralpolicy = res
+        //     setTimeout(() => {
+        //       this.loading = true;
 
-            }, 100)
-          })
-        }
+        //     }, 100)
+        //   })
+        // }
 
         // this.loading = true;
         this.spinner.hide();
