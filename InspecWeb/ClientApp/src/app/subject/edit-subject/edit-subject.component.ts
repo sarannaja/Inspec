@@ -159,6 +159,7 @@ export class EditSubjectComponent implements OnInit {
           explanation: this.resultsubjectdetail.explanation,
           centralPolicyDateId: this.datetime
         })
+        this.EditForm.controls.centralPolicyDateId.disable();
         this.times = []
         for (var i = 0; i < this.resultsubjectdetail.subjectDateCentralPolicyProvinces.length; i++) {
           let d: Date = new Date(this.resultsubjectdetail.subjectDateCentralPolicyProvinces[i].centralPolicyDateProvince.startDate)
@@ -434,6 +435,7 @@ export class EditSubjectComponent implements OnInit {
     this.subjectservice.adddeleteDate(this.times, value, this.resultsubjectdetail.id).subscribe(result => {
       this.FormAddDate.reset()
       this.modalRef.hide()
+      this.datetime = []
       this.getSubjectDetail()
     })
   }

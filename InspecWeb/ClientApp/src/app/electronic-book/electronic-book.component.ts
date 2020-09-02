@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { UserService } from '../services/user.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-electronic-book',
@@ -30,6 +31,7 @@ export class ElectronicBookComponent implements OnInit {
     private inspectionplanservice: InspectionplanService,
     private spinner: NgxSpinnerService,
     private userService: UserService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string
   ) { }
 
@@ -99,6 +101,7 @@ export class ElectronicBookComponent implements OnInit {
       console.log('Delete Res: ', result);
       this.loading = false;
       this.modalRef.hide();
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       this.getElectronicBook();
     });
   }

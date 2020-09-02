@@ -10,6 +10,7 @@ import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-electronic-book-province-detail',
@@ -54,6 +55,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
     private authorize: AuthorizeService,
     private notificationService: NotificationService,
     private departmentService: DepartmentService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id')
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
@@ -242,6 +244,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
       this.getElectronicBookDetail();
       this.Form.reset();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("รับทราบรายการสมุดตรวจ",)
     })
   }
 

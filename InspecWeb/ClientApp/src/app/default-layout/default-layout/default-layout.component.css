@@ -1,3 +1,11 @@
 .pointer {
-    cursor:pointer;
+  cursor: pointer;
+}
+
+@media print {
+
+  html,
+  footer {
+    display: none;
+  }
 }
