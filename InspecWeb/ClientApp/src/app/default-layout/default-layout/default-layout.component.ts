@@ -102,7 +102,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-
+   // alert(1);
     this.Form.patchValue({
       Prefix: this.Prefix,
       FName: this.FName,

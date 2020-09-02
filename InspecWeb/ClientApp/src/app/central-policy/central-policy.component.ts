@@ -6,6 +6,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { FiscalyearService } from '../services/fiscalyear.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-central-policy',
@@ -33,7 +34,8 @@ export class CentralPolicyComponent implements OnInit {
     private modalService: BsModalService,
     private authorize: AuthorizeService,
     private userService: UserService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private _NotofyService: NotofyService) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -312,6 +314,7 @@ export class CentralPolicyComponent implements OnInit {
     this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
       console.log(value);
       console.log(this.selectfiscalyearid);
+      this._NotofyService.onSuccess("ลบข้อมูล")
       this.modalRef.hide()
       if (this.selectfiscalyearid == "currentfiscalyear") {
         console.log("1");

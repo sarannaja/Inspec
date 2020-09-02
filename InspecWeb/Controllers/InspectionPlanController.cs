@@ -117,7 +117,7 @@ namespace InspecWeb.Controllers {
               .Where(m => m.Id == model.UserID)
               //.Select(m => m.Role_id)
               .FirstOrDefault();
-
+            System.Console.WriteLine("FiscalYearId" + model.FiscalYearId);
             var year = _context.FiscalYearNew
                 .Where (m => m.Year == model.FiscalYearId).FirstOrDefault ();
             System.Console.WriteLine ("year" + year.Id);
@@ -132,7 +132,7 @@ namespace InspecWeb.Controllers {
             System.Console.WriteLine ("222" + model.Type);
             var centralpolicydata = new CentralPolicy {
                 Title = model.Title,
-                Type = model.Type,
+                Type = "อื่นๆ",
                 FiscalYearNewId = year.Id,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,

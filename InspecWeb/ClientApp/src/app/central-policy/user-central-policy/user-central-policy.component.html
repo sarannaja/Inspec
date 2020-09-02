@@ -244,12 +244,24 @@
     <p style="font-size: medium; color: #545454;">
       คุณต้องการเปลี่ยนสถานะเป็นปฏิเสธกำหนดการตรวจนี้ใช่หรือไม่ ?
     </p>
-    <button type="button" class="btn btn-primary btnMargin" (click)="storeAccept(answer)">
-      ใช่
-    </button>
-    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
-      ไม่ใช่
-    </button>
+
+    <form [formGroup]="Form" (ngSubmit)="storeAccept2(Form.value,answer)">
+
+      <br>
+      <div class="form-group">
+        <label>เหตุผลที่เปลี่ยนแปลงสถานะ</label>
+        <textarea cols="30" rows="2" type="text" formControlName="answer" class="form-control"
+          placeholder="กรุณากรอกเหตุผลที่เปลี่ยนแปลงสถานะ"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btnMargin">
+        ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+        ไม่ใช่
+      </button>
+
+    </form>
   </div>
 </ng-template>
 <!-- END primary modal -->
@@ -263,12 +275,24 @@
     <p style="font-size: medium; color: #545454;">
       คุณต้องการเปลี่ยนสถานะเป็นตอบรับกำหนดการตรวจนี้ใช่หรือไม่ ?
     </p>
-    <button type="button" class="btn btn-primary btnMargin" (click)="storeAccept(answer)">
-      ใช่
-    </button>
-    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
-      ไม่ใช่
-    </button>
+
+    <form [formGroup]="Form" (ngSubmit)="storeAccept2(Form.value,answer)">
+
+      <br>
+      <div class="form-group">
+        <label>เหตุผลที่เปลี่ยนแปลงสถานะ</label>
+        <textarea cols="30" rows="2" type="text" formControlName="answer" class="form-control"
+          placeholder="กรุณากรอกเหตุผลที่เปลี่ยนแปลงสถานะ"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btnMargin">
+        ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+        ไม่ใช่
+      </button>
+
+    </form>
   </div>
 </ng-template>
 <!-- END primary modal -->

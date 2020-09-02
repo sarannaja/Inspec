@@ -31,7 +31,7 @@
 
             <!-- All_User -->
             <div class="card-body">
-                <table *ngIf="loading" class="table table-striped table-hover table-responsive" datatable
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
                     [dtOptions]="dtOptions">
                     <thead>
                         <tr>
@@ -61,15 +61,20 @@
                             </td>
                             <td>{{item.userName}}</td>
                             <td>
-                                <!-- <i class="align-middle fas fa-fw fa-address-card"></i>  -->
+
                                 {{item.prefix + item.name}}
+
+                                <!-- <i class="align-middle fas fa-fw fa-address-card"></i>  -->
+
                             </td>
                             <td>{{item.position}}</td>
                             <td *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10">
-                                <label class="badge badge-warning mr-1"
-                                    *ngFor="let item2 of item.userRegion; let i2 = index">
-                                    {{item2.region.name == "เขตตรวจราชส่วนกลาง" ? "ส่วนกลาง" :item2.region.name.replace(re2, '')}}
-                                </label>
+                                <a (mouseover)="getDataRegions($event)" (mouseout)="getDataRegions($event)"> <label
+                                        class="badge badge-warning mr-1"
+                                        *ngFor="let item2 of item.userRegion; let i2 = index">
+                                        {{item2.region.name == "เขตตรวจราชส่วนกลาง" ? "ส่วนกลาง" :item2.region.name.replace(re2, '')}}
+                                    </label>
+                                </a>
                             </td>
                             <td *ngIf="roleId != 7">
                                 <div
@@ -114,7 +119,7 @@
 
                                 <button class="btn btn-success btn-pill btn-sm" title="username password">
                                     <i class="align-middle fas fa-fw fa-key"
-                                        (click)="openModal(modalpassword, item.id,item.userName)">
+                                        (click)="openModal(modalpassword, item.id,item.userName,item.pw)">
                                     </i>
                                 </button>
 
@@ -311,7 +316,7 @@
 
                         <div class="col-6">
                             <input type="text" max="10" formControlName="PhoneNumber" class="form-control" required
-                                placeholder="กรุณากรอกโทรศัพท์" numbersOnly >
+                                placeholder="กรุณากรอกโทรศัพท์" numbersOnly>
                         </div>
                     </div>
                 </div>
@@ -339,17 +344,17 @@
                 <!-- Begin ปาล์ม -->
                 <div class="form-group">
                     <label class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"  
-                        [(ngModel)]="Autocreateuser" id="1" name="1" [value]="1"  >
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="Autocreateuser" id="1" name="1" [value]="1">
                         <span class="form-check-label">กำหนด UserName อัติโนมัติ</span>
                     </label>
                     <label class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"  
-                        [(ngModel)]="Autocreateuser" id="0" name="0" [value]="0" >
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="Autocreateuser" id="0" name="0" [value]="0">
                         <span class="form-check-label">กำหนด UserName เอง</span>
                     </label>
                     <input *ngIf="Autocreateuser != 1" type="text" formControlName="UserName" class="form-control"
-                         placeholder="กรุณากรอก UserName">
+                        placeholder="กรุณากรอก UserName">
                 </div>
                 <!-- END ปาล์ม -->
 
@@ -474,7 +479,7 @@
 <!-- BEGIN edit modal -->
 <ng-template #modaleditUser class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-<form [formGroup]="addForm" (ngSubmit)="updateuser(addForm.value)">
+    <form [formGroup]="addForm" (ngSubmit)="updateuser(addForm.value)">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">แก้ไขผู้ใช้</h3>
@@ -487,7 +492,7 @@
                 <div class="form-group">
                     <label>สิทธิ์การใช้งาน : {{rolename}}</label>
                 </div>
- 
+
                 <div class="form-group" *ngIf="roleId == 3">
                     <label>กระทรวง : สำนักนายกรัฐมนตรี</label>
                 </div>
@@ -642,11 +647,11 @@
 
                         <div class="col-6">
                             <input type="text" max="10" formControlName="PhoneNumber" class="form-control" required
-                                placeholder="กรุณากรอกโทรศัพท์" numbersOnly >
+                                placeholder="กรุณากรอกโทรศัพท์" numbersOnly>
                         </div>
                     </div>
                 </div>
-    
+
                 <div class="form-group">
                     <div class="row">
                         <label class="form-label col-6">วันที่เริ่มต้น*</label>
@@ -670,17 +675,17 @@
                 <!-- Begin ปาล์ม -->
                 <div class="form-group">
                     <label class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"  
-                        [(ngModel)]="Autocreateuser" id="1" name="1" [value]="1"  >
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="Autocreateuser" id="1" name="1" [value]="1">
                         <span class="form-check-label">กำหนด UserName อัติโนมัติ</span>
                     </label>
                     <label class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"  
-                        [(ngModel)]="Autocreateuser" id="0" name="0" [value]="0" >
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="Autocreateuser" id="0" name="0" [value]="0">
                         <span class="form-check-label">กำหนด UserName เอง</span>
                     </label>
                     <input *ngIf="Autocreateuser != 1" type="text" formControlName="UserName" class="form-control"
-                            placeholder="กรุณากรอก UserName">
+                        placeholder="กรุณากรอก UserName">
                 </div>
                 <!-- END ปาล์ม -->
 
@@ -741,8 +746,12 @@
 
                 <div class="form-group">
                     <label class="form-label">UserName*</label>
-                    <input type="text" formControlName="UserName" class="form-control" required readonly
-                        placeholder="กรุณากรอก UserName">
+                    <input type="text" formControlName="UserName" class="form-control" readonly placeholder="">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">password*</label>
+                    <input type="text" formControlName="Pw" class="form-control" readonly placeholder="">
                 </div>
 
             </div>

@@ -12,6 +12,7 @@ import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { Log } from 'oidc-client';
 import * as _ from 'lodash'
+import { NotofyService } from '../services/notofy.service';
 @Component({
   selector: 'app-inspection-plan',
   templateUrl: './inspection-plan.component.html',
@@ -80,6 +81,7 @@ export class InspectionPlanComponent implements OnInit {
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
+    private _NotofyService: NotofyService,
     private fiscalyearservice: FiscalyearService,
     @Inject('BASE_URL') baseUrl: string,
     private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
@@ -162,10 +164,10 @@ export class InspectionPlanComponent implements OnInit {
       title: new FormControl(null, [Validators.required]),
       start_date: new FormControl(null, [Validators.required]),
       end_date: new FormControl(null, [Validators.required]),
-      year: new FormControl(1, [Validators.required]),
-      type: new FormControl("อื่นๆ", [Validators.required]),
+      // year: new FormControl(1, [Validators.required]),
+      // type: new FormControl("อื่นๆ", [Validators.required]),
       // files: new FormControl(null, [Validators.required]),
-      ProvinceId: new FormControl(1, [Validators.required]),
+      ProvinceId: new FormControl(this.provinceid, [Validators.required]),
       // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       input: new FormArray([])
     })
@@ -214,10 +216,10 @@ export class InspectionPlanComponent implements OnInit {
 
   async openModal(template: TemplateRef<any>) {
 
-    this.getMinistryPeople();
-    this.getDepartmentPeople();
-    this.getUserPeople();
-    this.getProvincialDepartmentPeople();
+    await this.getMinistryPeople();
+    await this.getDepartmentPeople();
+    await this.getUserPeople();
+    await this.getProvincialDepartmentPeople();
 
     this.checkInspec = null;
     this.modalRef = this.modalService.show(template);
@@ -270,7 +272,7 @@ export class InspectionPlanComponent implements OnInit {
     let CentralpolicyId: any[] = value.CentralpolicyId
     // alert(JSON.stringify(value))
     this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid, this.startDate, this.endDate).subscribe(response => {
-
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
 
       this.Form.reset()
       this.modalRef.hide()
@@ -377,13 +379,18 @@ export class InspectionPlanComponent implements OnInit {
       this.selectdataministrypeople = []
       this.resultministrypeople = result // All
       console.log("Ministry: ", this.resultministrypeople);
-      for (var i = 0; i < this.resultministrypeople.length; i++) {
-        var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
-        if (checked > 0) {
+      if (this.role_id == 3) {
+        for (var i = 0; i < this.resultministrypeople.length; i++) {
           await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
         }
+      } else {
+        for (var i = 0; i < this.resultministrypeople.length; i++) {
+          var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          if (checked > 0) {
+            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+          }
+        }
       }
-
       var data: any[] = this.ministryuserdata.map(result => {
         return result.user.id
       })
@@ -398,10 +405,18 @@ export class InspectionPlanComponent implements OnInit {
     await this.userservice.getuserdata(7).subscribe(async result => {
       this.resultpeople = result
       console.log("tttt:", this.resultpeople);
-      for (var i = 0; i < this.resultpeople.length; i++) {
-        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].side + " - " + this.resultpeople[i].name })
+      if (this.role_id == 3) {
+        for (var i = 0; i < this.resultpeople.length; i++) {
+          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name })
+        }
+      } else {
+        for (var i = 0; i < this.resultpeople.length; i++) {
+          var checked = _.filter(this.resultpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          if (checked > 0) {
+            await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name })
+          }
+        }
       }
-
       var data: any[] = this.peopleuserdata.map(result => {
         return result.user.id
       })
@@ -415,12 +430,20 @@ export class InspectionPlanComponent implements OnInit {
     this.selectdatadepartmentpeople = []
     await this.userservice.getuserdata(10).subscribe(async result => {
       this.resultdepartmentpeople = result // All
-      for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-        if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+      if (this.role_id == 3) {
+        for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
           await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
         }
+      } else {
+        for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
+          var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          if (checked > 0) {
+            if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+            }
+          }
+        }
       }
-
       var data: any[] = this.departmentuserdata.map(result => {
         return result.user.id
       })
@@ -435,10 +458,18 @@ export class InspectionPlanComponent implements OnInit {
     await this.userservice.getuserdata(9).subscribe(async result => {
       this.resultprovincialdepartmentpeople = result
       console.log("tttt:", this.resultprovincialdepartmentpeople);
-      for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
-        await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+      if (this.role_id == 3) {
+        for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
+          await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+        }
+      } else {
+        for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
+          var checked = _.filter(this.resultprovincialdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          if (checked > 0) {
+            await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+          }
+        }
       }
-
       console.log("this.provincialdepartmentuserdata", this.provincialdepartmentuserdata);
 
       var data: any[] = this.provincialdepartmentuserdata.map(result => {
@@ -522,12 +553,14 @@ export class InspectionPlanComponent implements OnInit {
         })
       })
     }
+    this._NotofyService.onSuccess("เพื่มข้อมูล",)
   }
 
   changeplanstatus(value) {
     // alert(this.timelineData.id)
 
     this.inspectionplanservice.changeplanstatus(this.timelineData.id).subscribe(response => {
+      this._NotofyService.onSuccess("เปลี่ยนสถานะ",)
       // console.log(value);
       // this.Form.reset()
       this.modalRef.hide()
@@ -599,12 +632,14 @@ export class InspectionPlanComponent implements OnInit {
   EditCentralPolicy(value) {
     console.log(value);
     this.inspectionplanservice.editcentralpolicy(this.editid, this.startDate2, this.endDate2, value).subscribe(response => {
+      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
       this.modalRef.hide()
       this.getinspectionplanservice();
     })
   }
   deleteDate() {
     this.inspectionplanservice.deleteplandate(this.id).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       this.modalRef.hide()
       this.router.navigate(['inspectionplanevent'])
     })
@@ -643,12 +678,17 @@ export class InspectionPlanComponent implements OnInit {
   storeInspectionPlan(value) {
     console.log("FORM: ", value);
     this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.provinceid, this.startDate, this.endDate, this.year).subscribe(response => {
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
       console.log("create Inspection plan: ", value);
       // this.Form.reset()
       // window.history.back();
 
       this.FormOther.reset()
       this.modalRef.hide()
+
+      this.FormOther.patchValue({
+        ProvinceId: this.provinceid,
+      })
 
       this.loading = false;
       this.data = [];

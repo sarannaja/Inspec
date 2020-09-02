@@ -1,0 +1,1 @@
+git pull && dotnet publish InspecWeb.csproj -o publish

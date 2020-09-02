@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace InspecWebSQWEQWEQWEQWE.Controllers {
+namespace InspecWeb.Controllers {
     [Route ("api/[controller]")]
     [ApiController]
     public class MangeUserController : ControllerBase {

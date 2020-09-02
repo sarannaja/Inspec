@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as _ from 'lodash';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-edit-central-policy',
@@ -22,7 +23,7 @@ export class EditCentralPolicyComponent implements OnInit {
 
   private myDatePickerOptions: IMyOptions = {
     // other options...
-    dateFormat: 'dd/mm/yyyy',
+    dateFormat: 'dd/mm/yyyy'
   };
 
   id: any;
@@ -47,11 +48,12 @@ export class EditCentralPolicyComponent implements OnInit {
   oldProvince: any = [];
   addProvince: any = [];
   removeProvince: any = [];
-  oldSelected:any[] = []
+  oldSelected: any[] = []
   selected: any = [];
   downloadUrl: any;
   fileData: any = [{ CentralpolicyFile: '', fileDescription: '' }];
   listfiles: any = [];
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -65,7 +67,7 @@ export class EditCentralPolicyComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authorize: AuthorizeService,
     private external: ExternalOrganizationService,
-    
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -84,11 +86,11 @@ export class EditCentralPolicyComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.EditForm = this.fb.group({
-      title: new FormControl(null),
-      year: new FormControl(null),
-      type: new FormControl(null),
+      title: new FormControl("", [Validators.required]),
+      year: new FormControl("", [Validators.required]),
+      type: new FormControl("", [Validators.required]),
       files: new FormControl(null),
-      ProvinceId: new FormControl(null),
+      ProvinceId: new FormControl(null, [Validators.required]),
       status: new FormControl(),
       input: new FormArray([]),
       inputdate: new FormArray([]),
@@ -158,7 +160,7 @@ export class EditCentralPolicyComponent implements OnInit {
           if (element.active == 1) {
             this.selected.push(element.provinceId);
             this.oldSelected.push(element.provinceId);
-            
+
             this.oldProvince.push(element.provinceId);
           }
 
@@ -200,7 +202,7 @@ export class EditCentralPolicyComponent implements OnInit {
         return { value: item.id, label: item.name }
       })
       console.log("spinner");
-      
+
       this.spinner.hide();
     })
     this.loading = true;
@@ -217,19 +219,30 @@ export class EditCentralPolicyComponent implements OnInit {
 
     this.addProvince = _.differenceBy(this.selected, this.oldProvince);
     console.log("Add Value => ", this.addProvince);
+    this.submitted = true;
+    if (this.EditForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.spinner.show();
+      this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id, this.userid, this.removeProvince, this.addProvince)
+        .subscribe(response => {
+          console.log("res: ", response);
+          this.EditForm.reset()
+          this.spinner.hide();
+          // this.router.navigate(['centralpolicy'])
+          this._NotofyService.onSuccess("แก้ไขข้อมูล")
+          window.history.back();
+        })
+    }
 
-    this.centralpolicyservice.editCentralpolicy(value, this.form.value.files, this.id, this.userid, this.removeProvince, this.addProvince)
-      .subscribe(response => {
-        console.log("res: ", response);
-        this.EditForm.reset()
-        // this.router.navigate(['centralpolicy'])
-        window.history.back();
-      })
   }
 
   appenddate() {
     let date: Date = new Date();
     this.d.push(this.fb.group({
+      // start_date: new FormControl("", [Validators.required]),
+      // end_date: new FormControl("", [Validators.required]),
       // start_date: {
       //   year: date.getFullYear(),
       //   month: date.getMonth() + 1,
@@ -254,7 +267,7 @@ export class EditCentralPolicyComponent implements OnInit {
   public onClearUndo() {
     this.EditForm.get('ProvinceId').patchValue(this.oldSelected);
   }
-  
+
   // deleteDate(i) {
   //   let date: Date = new Date();
   //   let dArray: any = [];
@@ -281,7 +294,7 @@ export class EditCentralPolicyComponent implements OnInit {
     console.log("fff:", this.form.value.files)
     this.form.get('files').updateValueAndValidity()
   }
-  
+
   uploadFile2(event) {
     var file = (event.target as HTMLInputElement).files;
     for (let i = 0, numFiles = file.length; i < numFiles; i++) {
@@ -369,7 +382,7 @@ export class EditCentralPolicyComponent implements OnInit {
   //   console.log(this.provinceservice.getRegionMock());
   // }
   getDataProvince() {
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.external.getProvinceRegion()
           .subscribe(result2 => {
@@ -389,7 +402,7 @@ export class EditCentralPolicyComponent implements OnInit {
             })
             console.log(this.selectdataprovince);
           })
-          this.spinner.hide();
+        this.spinner.hide();
       })
     // console.log(this.provinceservice.getRegionMock());
   }
