@@ -32,8 +32,15 @@ namespace InspecWeb {
             services.AddDbContext<ApplicationDbContext> (options =>
                 options.UseSqlServer (
                     Configuration.GetConnectionString ("DefaultConnection")));
-
-            services.AddDefaultIdentity<ApplicationUser> (options => options.SignIn.RequireConfirmedAccount = true)
+          
+            services.AddDefaultIdentity<ApplicationUser> (options => {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireDigit = false;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext> ();
 
             services.AddIdentityServer ()
@@ -89,7 +96,7 @@ namespace InspecWeb {
                 app.UseHsts ();
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection ();
             app.UseStaticFiles ();
             if (!env.IsDevelopment ()) {
                 app.UseSpaStaticFiles ();
