@@ -10,6 +10,7 @@ import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-detail-invited-electronic-book',
@@ -45,6 +46,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
     private authorize: AuthorizeService,
     private notificationService: NotificationService,
     private departmentService: DepartmentService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id');
     this.ebookInviteId = activatedRoute.snapshot.paramMap.get('ebookInviteId');
@@ -154,6 +156,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
       this.getElectronicBookDetail();
       this.getElectronicBookInviteOpinion();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("ลงนามสมุดตรวจอิเล็กทรอนิกส์",)
     })
   }
 

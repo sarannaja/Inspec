@@ -17,6 +17,7 @@ import { FiscalyearService } from 'src/app/services/fiscalyear.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 interface addInput {
   id: number;
@@ -68,6 +69,7 @@ export class CreateElectronicBookComponent implements OnInit {
     private notificationService: NotificationService,
     private inspectionplanservice: InspectionplanService,
     private external: ExternalOrganizationService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.url = baseUrl;
@@ -150,6 +152,8 @@ export class CreateElectronicBookComponent implements OnInit {
       this.electronicBookService.createElectronicBook2(value, this.userid).subscribe(res => {
         console.log("eBookRes: ", res);
 
+        this._NotofyService.onSuccess("เพื่มข้อมูล",);
+
         // if (value.fileData != null) {
         //   for (var iii = 0; iii < value.fileData.length; iii++) {
         //     console.log("Loop: ", value.fileData[iii]);
@@ -171,6 +175,7 @@ export class CreateElectronicBookComponent implements OnInit {
       this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid)
         .subscribe(res => {
           console.log("eBookRes: ", res);
+          this._NotofyService.onSuccess("เพื่มข้อมูล",);
           window.history.back();
         })
     }

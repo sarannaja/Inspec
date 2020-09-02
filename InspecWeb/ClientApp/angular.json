@@ -30,7 +30,9 @@
               "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
               "node_modules/fullcalendar/dist/fullcalendar.min.css",
               "src/assets/jvectormap/jquery-jvectormap.min.css",
-              "src/assets/fontend/fonts/ionicons/css/ionicons.min.css"
+              "src/assets/fontend/fonts/ionicons/css/ionicons.min.css",
+              "src/assets/fonts/Niramit/style.css",
+              "src/assets/fonts/sarabun/fonts/thsarabunnew.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
