@@ -4,7 +4,7 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจราชการ</a></li>
     </ol>
   </nav>
@@ -89,7 +89,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of resultcentralpolicy; let i = index">
+            <tr *ngFor="let item of resultcentralpolicy|sort:'desc':'id'; let i = index">
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ i + 1 }}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ item.type }}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
