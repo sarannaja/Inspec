@@ -4,9 +4,9 @@
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
+            <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="/answersubject">แผนตรวจราชการ</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">ประเด็นนโยบายย่อย</a></li>
             <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบายย่อย</li>
         </ol>
     </nav>
@@ -41,7 +41,7 @@
                                 {{ item.centralPolicyDateProvince.endDate | thaidate: 'year' }}<br></span>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 10px;">
+                    <div *ngIf="resultansweroutsider.length != 0" class="row" style="margin-top: 10px;">
                         <div class="col-12">
                             <u>ผู้ตอบคำถามจากหน่วยงานภายนอก
                                 <i class="fas fa-chevron-down pointer" style="margin-left: 5px; font-size: large;"
@@ -60,8 +60,9 @@
                                     <div *ngFor="let items of resultansweroutsider; let ii = index">
                                         <div class="row"
                                             *ngIf="items.subquestionCentralPolicyProvinceId == item.subquestionCentralPolicyProvinceId">
-                                            <div class="col-3">ตอบ {{items.answer}}</div>
-                                            <div class="col-7">คำอธิบาย {{items.description}}</div>
+                                            <div class="col-3">ตอบ : {{items.answer}}</div>
+                                            <div class="col-5">คำอธิบาย : {{items.description}}</div>
+                                            <div class="col-4">โดย : {{items.name}} </div>
                                         </div>
                                     </div>
                                 </div>

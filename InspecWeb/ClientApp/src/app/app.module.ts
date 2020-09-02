@@ -207,6 +207,8 @@ import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-
 import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-label-preview.component';
 // import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SortPipe } from './services/Pipe/sort';
+
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -329,6 +331,7 @@ const ExternalOrganization = [
     ReportSubjectComponent,
     CentralPolicyFiscalyearComponent,
     CommanderReportComponent,
+    SortPipe,
     // DatePipe
     InfoDepartmentComponent,
     InfoVillageComponent,
@@ -631,9 +634,9 @@ const ExternalOrganization = [
     DatePipe, CookieService,
     ProvinceService,
     NotofyService,
-    ConfirmationDialogService
+    ConfirmationDialogService,
     // UserManager
-
+    SortPipe
   ],
 
   bootstrap: [AppComponent]

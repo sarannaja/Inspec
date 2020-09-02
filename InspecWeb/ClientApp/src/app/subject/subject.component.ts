@@ -10,6 +10,7 @@ import { CentralpolicyService } from '../services/centralpolicy.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-subject',
@@ -54,7 +55,8 @@ export class SubjectComponent implements OnInit {
     public share: SubjectService,
     private spinner: NgxSpinnerService,
     private authorize: AuthorizeService,
-    private userService: UserService) {
+    private userService: UserService,
+    private _NotofyService: NotofyService) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.name = activatedRoute.snapshot.paramMap.get('name')
   }
@@ -247,6 +249,7 @@ export class SubjectComponent implements OnInit {
       console.log(result);
       this.modalRef.hide()
       this.getSubject();
+      this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
 }
