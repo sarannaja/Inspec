@@ -590,6 +590,20 @@ namespace InspecWeb.Controllers
                     }
 
 
+                    var i4 = document.InsertParagraph();
+                    if (files.Count() > 3)
+                    {
+                        for (var j = 1; j < 4; j++)
+                        {
+
+                            Image image3 = document.AddImage(filePath + files[j].Name);
+                            Picture picture111 = image3.CreatePicture(90, 90);
+
+                            i4.AppendPicture(picture111).Alignment = Alignment.center;
+                            i4.SpacingAfter(20d);
+
+                        }
+                    }
 
 
                     // หัวข้อสมุดตรวจ
@@ -605,25 +619,12 @@ namespace InspecWeb.Controllers
                         {
                             var subject = document.InsertParagraph();
                             subject.Append(data.Name).FontSize(18).Alignment = Alignment.center;
-                            subject.SpacingAfter(40d);
+                            subject.SpacingAfter(20d);
                         }
                     }
 
 
-                    var i4 = document.InsertParagraph();
-                    if (files.Count() > 3)
-                    {
-                        for (var j = 1; j < 4; j++)
-                        {
-
-                            Image image3 = document.AddImage(filePath + files[j].Name);
-                            Picture picture111 = image3.CreatePicture(90, 90);
-
-                            i4.AppendPicture(picture111).Alignment = Alignment.center;
-                            i4.SpacingAfter(20d);
-
-                        }
-                    }
+                 
 
                     // รูปภาพสมุดตรวจรูปแรก
                     //var i3 = document.InsertParagraph();
