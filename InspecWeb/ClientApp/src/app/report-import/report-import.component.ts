@@ -9,6 +9,7 @@ import { UserService } from '../services/user.service';
 import { ExportReportService } from '../services/export-report.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NotificationService } from '../services/notification.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-report-import',
@@ -53,6 +54,7 @@ export class ReportImportComponent implements OnInit {
     private exportReportService: ExportReportService,
     private notificationService: NotificationService,
     @Inject('BASE_URL') baseUrl: string,
+    private _NotofyService: NotofyService,
     private fb: FormBuilder,
   ) {
     this.url = baseUrl,
@@ -172,6 +174,7 @@ export class ReportImportComponent implements OnInit {
       this.loading = false;
       this.getImportedReport();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
 
       // this.notificationService.addNotification(1, 1, this.userid, 14, res.importId)
       //   .subscribe(response => {
@@ -194,14 +197,18 @@ export class ReportImportComponent implements OnInit {
     // alert(this.delid);
     this.exportReportService.deleteReport(this.delid).subscribe(res => {
       console.log("Delete Data: ", res);
+      this.loading = false;
+      this.getImportedReport();
       this.modalRef.hide();
-      this.spinner.show();
+      this._NotofyService.onSuccess("ลบข้อมูล",)
 
-      setTimeout(() => {
-        this.loading = false;
-        this.getImportedReport();
-        this.spinner.hide();
-      }, 300);
+      // this.spinner.show();
+      // setTimeout(() => {
+      //   this.loading = false;
+
+      //   this.spinner.hide();
+
+      // }, 300);
     })
   }
 

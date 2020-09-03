@@ -10,6 +10,7 @@ import { SubjectService } from '../services/subject.service';
 import { DepartmentService } from '../services/department.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-subquestion',
@@ -42,6 +43,7 @@ export class SubquestionComponent implements OnInit {
   selectdatacentralpolicy: Array<any>
   listfiles: any = []
   fileData: any = [{ SubjectFile: '', fileDescription: '' }];
+  submitted = false;
 
   constructor(
     private modalService: BsModalService,
@@ -53,7 +55,8 @@ export class SubquestionComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private authorize: AuthorizeService,
-    ) {
+    private _NotofyService: NotofyService
+  ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.name = activatedRoute.snapshot.paramMap.get('name')
     this.form = this.fb.group({
@@ -64,17 +67,17 @@ export class SubquestionComponent implements OnInit {
 
   ngOnInit() {
     this.authorize.getUser()
-    .subscribe(result => {
-      this.userid = result.sub
-      console.log(result);
-      // alert(this.userid)
-    })
+      .subscribe(result => {
+        this.userid = result.sub
+        console.log(result);
+        // alert(this.userid)
+      })
 
     this.Form = this.fb.group({
-      name: new FormControl(null, [Validators.required]),
-      centralpolicydateid: new FormControl(null, [Validators.required]),
+      name: new FormControl("", [Validators.required]),
+      centralpolicydateid: new FormControl("", [Validators.required]),
       status: new FormControl("ใช้งานจริง", [Validators.required]),
-      explanation: new FormControl(null, [Validators.required]),
+      explanation: new FormControl("", [Validators.required]),
       inputsubjectdepartment: this.fb.array([
         this.initdepartment()
       ]),
@@ -82,7 +85,7 @@ export class SubquestionComponent implements OnInit {
     this.Formfile = this.fb.group({
       centralpolicydateid: new FormControl(null, [Validators.required]),
       // files: [null]
-      fileData: new FormArray([]),
+      fileData: this.fb.array([]),
       fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
     })
     this.getTimeCentralPolicy()
@@ -99,7 +102,14 @@ export class SubquestionComponent implements OnInit {
   get ff() { return this.Formfile.controls }
   get s() { return this.ff.fileData as FormArray }
 
+  get fv() { return this.f.inputsubjectdepartment }
+  get tv() { return this.fv as FormArray }
 
+  getinputquestionclose(index = 0, indextvff = 0) {
+    let tvf = (this.tv.controls[index].get('inputquestionclose') as FormArray).controls
+    let tvftvff = (tvf[indextvff].get('inputanswerclose') as FormArray).controls
+    return { tvf, tvftvff }
+  }
 
   openModalDelete(template: TemplateRef<any>, i) {
     console.log(i);
@@ -109,7 +119,7 @@ export class SubquestionComponent implements OnInit {
 
   initdepartment() {
     return this.fb.group({
-      departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      departmentId: [null, [Validators.required]],
       // inputquestionopen: this.fb.array([
       //   this.initquestionopen()
       // ]),
@@ -120,13 +130,13 @@ export class SubquestionComponent implements OnInit {
   }
   initquestionopen() {
     return this.fb.group({
-      questionopen: [null, [Validators.required, Validators.pattern('[0-9]{3}')]]
+      questionopen: [null, [Validators.required]]
 
     })
   }
   initquestionclose() {
     return this.fb.group({
-      questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      questionclose: [null, [Validators.required]],
       inputanswerclose: this.fb.array([
         this.initanswerclose()
       ])
@@ -134,7 +144,7 @@ export class SubquestionComponent implements OnInit {
   }
   initanswerclose() {
     return this.fb.group({
-      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      answerclose: [null, [Validators.required]],
     })
   }
   // addsubjectdepartment(value) {
@@ -245,25 +255,32 @@ export class SubquestionComponent implements OnInit {
     // });
   }
   storeSubject(value) {
-    this.spinner.show();
     console.log(value);
-    this.subjectservice.addSubject(value, this.id, this.userid).subscribe(response => {
-      console.log("Response : ", response);
-      this.resultdsubjectid.push(response.getSubjectID)
-      response.termsList.forEach(element => {
-        this.resultdsubjectid.push(element)
-      });
-      console.log("Response2 : ", this.resultdsubjectid);
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.spinner.show();
+      this.subjectservice.addSubject(value, this.id, this.userid).subscribe(response => {
+        console.log("Response : ", response);
+        this.resultdsubjectid.push(response.getSubjectID)
+        response.termsList.forEach(element => {
+          this.resultdsubjectid.push(element)
+        });
+        console.log("Response2 : ", this.resultdsubjectid);
 
-      if (response.getSubjectID != 0) {
-        this.storefiles();
-      } else {
-        this.Form.reset();
-        this.Formfile.reset();
-        this.spinner.hide();
-        window.history.back();
-      }
-    })
+        if (response.getSubjectID != 0) {
+          this.storefiles();
+        } else {
+          this.Form.reset();
+          this.Formfile.reset();
+          this.spinner.hide();
+          window.history.back();
+        }
+      })
+    }
+
   }
   uploadFile(event) {
     var file = (event.target as HTMLInputElement).files;
@@ -287,6 +304,8 @@ export class SubquestionComponent implements OnInit {
         SubjectFile: file[i],
         fileDescription: '',
       }))
+      // console.log(this.);
+
     }
     console.log("listfiles: ", this.Formfile.value);
     console.log("eiei: ", this.s.controls);
