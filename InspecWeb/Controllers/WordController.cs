@@ -103,7 +103,7 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("id" + model.id);
             //System.Console.WriteLine("ProvinId" + model.ProvinId);
             System.Console.WriteLine("elecId"+ model.elecId);
-
+            //return 1;
             var result = new List<WordsubjectViewModel>();
             var files = new List<WordfileViewModel>();
 
@@ -124,8 +124,8 @@ namespace InspecWeb.Controllers
             var file = _context.ElectronicBookFiles.Where(x => x.ElectronicBookId == model.elecId).Where(x=> x.Type == "image/jpeg" || x.Type == "image/png" || x.Type =="image/jpg").ToList();
           
             var plan = _context.ElectronicBookGroups.Where(x => x.ElectronicBookId == model.elecId).Include(x=> x.CentralPolicyEvent).ThenInclude(x=>x.CentralPolicy).ToList();
-           
-            //return file;
+
+          
             //// var detailbook = _context.ElectronicBooks.Where(x => x.Id == electornicbookgroup.ElectronicBookId).FirstOrDefault();
             //////return detailbook;
             //var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId).FirstOrDefault();
@@ -150,6 +150,7 @@ namespace InspecWeb.Controllers
 
             }
 
+         
             foreach (var data in plan)
             {
                 result.Add(new WordsubjectViewModel
@@ -158,6 +159,8 @@ namespace InspecWeb.Controllers
                 });
 
             }
+
+            //return result;
             //return files;
             //return file;
 
@@ -196,10 +199,10 @@ namespace InspecWeb.Controllers
 
                     Image image = document.AddImage(myImageFullPath);
 
-                    Image image2 = document.AddImage(filePath + files[0].Name);
+                    //Image image2 = document.AddImage(filePath + files[0].Name);
                     Picture picture = image.CreatePicture(90, 90);
 
-                    Picture picture3 = image2.CreatePicture(150, 300);
+                    //Picture picture3 = image2.CreatePicture(150, 300);
                     var i = document.InsertParagraph();
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
@@ -239,9 +242,9 @@ namespace InspecWeb.Controllers
 
 
                     //รูปภาพสมุดตรวจรูปแรก
-                    var i3 = document.InsertParagraph();
-                    i3.AppendPicture(picture3).Alignment = Alignment.center;
-                    i3.SpacingAfter(40d);
+                    //var i3 = document.InsertParagraph();
+                    //i3.AppendPicture(picture3).Alignment = Alignment.center;
+                    //i3.SpacingAfter(40d);
 
 
 

@@ -441,6 +441,7 @@ namespace InspecWeb.Controllers
             user.Active = 1;
             user.Commandnumberdate = model.Commandnumberdate;//ลงวันที่คำสั่ง
             user.Pw = passwordrandom;
+            user.Commandnumber = model.Commandnumber;
 
             //ข้อมูลรอง
             user.Educational = model.Educational;
@@ -847,9 +848,9 @@ namespace InspecWeb.Controllers
                 }
 
                 var filePath3 = _environment.WebRootPath + "//Signature//";
-                if (model.files != null)
+                if (model.files2 != null)
                 {
-                    foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                    foreach (var formFile in model.files2.Select((value, index) => new { Value = value, Index = index }))
                     {
                         var random = RandomString(10);
                         string filePath4 = formFile.Value.FileName;
@@ -906,6 +907,7 @@ namespace InspecWeb.Controllers
                 userdata.Enddate = model.Enddate;
                 userdata.Active = 1;
                 userdata.Commandnumberdate = model.Commandnumberdate;//ลงวันที่คำสั่ง  
+                userdata.Commandnumber = model.Commandnumber;
 
                 //ข้อมูลรอง
                 userdata.Educational = model.Educational;
@@ -1040,9 +1042,12 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
             System.Console.WriteLine("testuser13.2 : " + userdata.UserName);
 
-          
-            var tresult = await _userManager.RemovePasswordAsync(userdata);
-            await _userManager.AddPasswordAsync(userdata, passwordrandom);
+
+            if (model.Formprofile != 1) // 1 คือแก้ไขจากตัวuser เอง
+            {
+                var tresult = await _userManager.RemovePasswordAsync(userdata);
+                await _userManager.AddPasswordAsync(userdata, passwordrandom);
+            }
 
             //<!-- ปามมาไหม่ -->
             //var change = _userManager.GenerateChangeEmailTokenAsync(userdata, model.Email).Result;

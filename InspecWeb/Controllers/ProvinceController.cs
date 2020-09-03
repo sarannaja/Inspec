@@ -28,13 +28,14 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-
+            //<!-- ห้ามลบ -->
             //var message = new Message(new string[] { "mrbuctico@gmail.com" }, "Test email", "This is the content from our email.");
             //_emailSender.SendEmail(message);
+            //<!-- END ห้ามลบ -->
 
             var provincedata = _context.Provinces
                              .Include(p => p.Sectors)
-                             .Include(p => p.ProvincesGroups);                     
+                             .Include(p => p.ProvincesGroups);
             return Ok(provincedata);
 
 
