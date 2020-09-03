@@ -34,8 +34,7 @@ namespace InspecWeb.Controllers
 
             var provincedata = _context.Provinces
                              .Include(p => p.Sectors)
-                             .Include(p => p.ProvincesGroups)
-                             .FirstOrDefault();
+                             .Include(p => p.ProvincesGroups);                     
             return Ok(provincedata);
 
 

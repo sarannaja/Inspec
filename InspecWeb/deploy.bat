@@ -1,5 +1,5 @@
-REM cmd.exe /c "start cmd.exe /c pause"
-
+﻿REM cmd.exe /c "start cmd.exe /c pause"
+cd C:\Inspec\InspecWeb
 :choice
 set /P c= git pull ? [Y/N]
 if /I "%c%" EQU "N" goto :somewhere
