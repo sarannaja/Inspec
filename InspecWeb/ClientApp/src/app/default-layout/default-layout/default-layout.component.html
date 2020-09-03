@@ -243,11 +243,11 @@
                             <i class="align-middle fas fa-cog"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item pointer" (click)="openModal(modalpassword)">
+                            <a class="dropdown-item pointer" (click)="openModal(modalProfile)">
                                 <i class="align-middle mr-1 fas fa-fw fa-user"></i> จัดการโปรไฟล์
                             </a>
                             <a class="dropdown-item pointer">
-                                <i class="align-middle fas fa-fw fa-key"></i> จัดการรหัสผ่าน
+                                <i class="align-middle fas fa-fw fa-key" (click)="openModal(modalpassword)"></i> จัดการรหัสผ่าน
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item pointer" (click)="Logout()">
@@ -358,7 +358,7 @@
                 <div class="form-group">
                     <label class="form-label w-100">แนบลายเซ็น</label>
                  
-                    <input type="file" (change)="uploadFile($event)" >
+                    <input type="file" (change)="uploadFile2($event)" >
                     <small class="form-text text-muted">แนบลายเซ็น</small>
                 </div>
 

@@ -19,7 +19,7 @@ export class ProvincialDepartmentComponent implements OnInit {
   resultdetail: any = []
   selectedProvince: any[] = []
   id :any;
-  selectdataprovince: Array<any>=[]
+  selectdataprovince:any[]=[]
   ministryname:data = {}
   departmentname:data = {}
 
@@ -83,7 +83,7 @@ export class ProvincialDepartmentComponent implements OnInit {
     })
 
     this.provincialDepartmentService.getprovincialdepartmentdata(this.id).subscribe(result=>{
-      //console.log(result);
+      console.log(result);
       this.resultprovincialdepartment = result
       this.loading = true;
     })
@@ -93,6 +93,7 @@ export class ProvincialDepartmentComponent implements OnInit {
   getDataProvinces() {
     this.provinceService.getprovincedata()
       .subscribe(result => {
+        console.log(result);
         this.selectdataprovince = result.map((item, index) => {
           return { value: item.id, label: item.name }
         })

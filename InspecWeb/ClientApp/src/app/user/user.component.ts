@@ -19,7 +19,10 @@ import { SideService } from '../services/side.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
+  host: {
+    "(window:resize)": "onWindowResize($event)"
+  }
 })
 export class UserComponent implements OnInit {
 
@@ -116,6 +119,11 @@ export class UserComponent implements OnInit {
 
   ]
 
+  isMobile: boolean = false;
+  width: number = window.innerWidth;
+  height: number = window.innerHeight;
+  mobileWidth: number = 900;
+
   fiscalYearId: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
 
@@ -178,6 +186,13 @@ export class UserComponent implements OnInit {
       Role_id: this.roleId
     })
   }
+  onWindowResize(event) {
+    this.width = event.target.innerWidth;
+    this.height = event.target.innerHeight;
+    this.isMobile = this.width < this.mobileWidth;
+    console.log(this.width);
+
+  }
   get f() { return this.addForm.value }
   // get t() { return this.addForm }
   getData() {
@@ -213,7 +228,7 @@ export class UserComponent implements OnInit {
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, SideId,
     commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser) {
-    // alert(SideId);
+    // alert(commandnumber +"///"+commandnumberdate);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
     this.addForm.reset()
     this.Autocreateuser = Autocreateuser; // สร้าง UerName เองหรือป่าว
