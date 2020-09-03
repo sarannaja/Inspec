@@ -112,7 +112,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "DOC" + DateTime.Now.ToString("dddd_dd_MMMM_yyyy") + ".docx";
+            var filename = "DOC" + DateTime.Now.ToString("dddd_dd_MMMM_yyyy_HH:mm:ss") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
             //var CentralPolicyProvince = _context.CentralPolicyProvinces.Where(x => x.Id == model.ProvinId).FirstOrDefault();
