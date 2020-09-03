@@ -150,6 +150,7 @@ namespace InspecWeb.Controllers
 
             }
 
+            //return files;
          
             foreach (var data in plan)
             {
@@ -199,10 +200,12 @@ namespace InspecWeb.Controllers
 
                     Image image = document.AddImage(myImageFullPath);
 
-                    //Image image2 = document.AddImage(filePath + files[0].Name);
+                  
+                  
+
                     Picture picture = image.CreatePicture(90, 90);
 
-                    //Picture picture3 = image2.CreatePicture(150, 300);
+                   
                     var i = document.InsertParagraph();
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
@@ -242,10 +245,17 @@ namespace InspecWeb.Controllers
 
 
                     //รูปภาพสมุดตรวจรูปแรก
-                    //var i3 = document.InsertParagraph();
-                    //i3.AppendPicture(picture3).Alignment = Alignment.center;
-                    //i3.SpacingAfter(40d);
+                        if (files.Count() > 0)
+                        {
+                            Image image2 = document.AddImage(filePath + files[0].Name);
+                            Picture picture3 = image2.CreatePicture(150, 300);
+                            var i3 = document.InsertParagraph();
+                            i3.AppendPicture(picture3).Alignment = Alignment.center;
+                            i3.SpacingAfter(40d);
+                        }
 
+                     
+                    
 
 
                     //// รายละเอียดสมุดตรวจอิเล็กทรอนิดส์
@@ -315,10 +325,10 @@ namespace InspecWeb.Controllers
 
                     Image image = document.AddImage(myImageFullPath);
 
-                    Image image2 = document.AddImage(filePath + files[0].Name);
+                   
                     Picture picture = image.CreatePicture(90, 90);
 
-                    Picture picture3 = image2.CreatePicture(150, 300);
+                
                     var i = document.InsertParagraph();
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
@@ -359,9 +369,15 @@ namespace InspecWeb.Controllers
 
 
                     //รูปภาพสมุดตรวจรูปแรก
-                    var i3 = document.InsertParagraph();
-                    i3.AppendPicture(picture3).Alignment = Alignment.center;
-                    i3.SpacingAfter(40d);
+                    if (files.Count() > 0)
+                    {
+                        Image image2 = document.AddImage(filePath + files[0].Name);
+                        Picture picture3 = image2.CreatePicture(150, 300);
+                        var i3 = document.InsertParagraph();
+                        i3.AppendPicture(picture3).Alignment = Alignment.center;
+                        i3.SpacingAfter(40d);
+                    }
+
 
 
 
@@ -438,12 +454,15 @@ namespace InspecWeb.Controllers
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
 
 
-                    var i3 = document.InsertParagraph();
-                    Image image2 = document.AddImage(filePath + files[0].Name);
-                    Picture picture10 = image2.CreatePicture(150, 300);
+                    if (files.Count() > 0)
+                    {
+                        Image image2 = document.AddImage(filePath + files[0].Name);
+                        Picture picture3 = image2.CreatePicture(150, 300);
+                        var i3 = document.InsertParagraph();
+                        i3.AppendPicture(picture3).Alignment = Alignment.center;
+                        i3.SpacingAfter(40d);
+                    }
 
-                    i3.AppendPicture(picture10).Alignment = Alignment.center;
-                    i3.SpacingAfter(20d);
 
 
                     var i4 = document.InsertParagraph();
@@ -561,12 +580,15 @@ namespace InspecWeb.Controllers
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
 
-                    var i3 = document.InsertParagraph();
-                    Image image2 = document.AddImage(filePath + file[0].Name);
-                    Picture picture10 = image2.CreatePicture(150, 300);
+                    if (files.Count() > 0)
+                    {
+                        Image image2 = document.AddImage(filePath + files[0].Name);
+                        Picture picture3 = image2.CreatePicture(150, 300);
+                        var i3 = document.InsertParagraph();
+                        i3.AppendPicture(picture3).Alignment = Alignment.center;
+                        i3.SpacingAfter(40d);
+                    }
 
-                    i3.AppendPicture(picture10).Alignment = Alignment.center;
-                    i3.SpacingAfter(20d);
 
 
 
@@ -589,12 +611,12 @@ namespace InspecWeb.Controllers
 
 
                     var i4 = document.InsertParagraph();
-                    if (files.Count > 3)
+                    if (files.Count() > 3)
                     {
                         for (var j = 1; j < 4; j++)
                         {
 
-                            Image image3 = document.AddImage(filePath + file[j].Name);
+                            Image image3 = document.AddImage(filePath + files[j].Name);
                             Picture picture111 = image3.CreatePicture(90, 90);
 
                             i4.AppendPicture(picture111).Alignment = Alignment.center;
@@ -754,16 +776,19 @@ namespace InspecWeb.Controllers
 
                         ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
                         ii.SpacingAfter(20d);
-                    
 
 
 
-                    var i3 = document.InsertParagraph();
-                    Image image2 = document.AddImage(filePath + file[0].Name);
-                    Picture picture10 = image2.CreatePicture(150, 300);
 
-                    i3.AppendPicture(picture10).Alignment = Alignment.center;
-                    i3.SpacingAfter(20d);
+                    if (files.Count() > 0)
+                    {
+                        Image image2 = document.AddImage(filePath + files[0].Name);
+                        Picture picture3 = image2.CreatePicture(150, 300);
+                        var i3 = document.InsertParagraph();
+                        i3.AppendPicture(picture3).Alignment = Alignment.center;
+                        i3.SpacingAfter(40d);
+                    }
+
 
                     //var i4 = document.InsertParagraph();
 
@@ -859,26 +884,29 @@ namespace InspecWeb.Controllers
 
                         ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
                         ii.SpacingAfter(20d);
-                    
 
 
 
-                    var i3 = document.InsertParagraph();
-                    Image image2 = document.AddImage(filePath + file[0].Name);
-                    Picture picture10 = image2.CreatePicture(150, 300);
 
-                    i3.AppendPicture(picture10).Alignment = Alignment.center;
-                    i3.SpacingAfter(20d);
+                    if (files.Count() > 0)
+                    {
+                        Image image2 = document.AddImage(filePath + files[0].Name);
+                        Picture picture3 = image2.CreatePicture(150, 300);
+                        var i3 = document.InsertParagraph();
+                        i3.AppendPicture(picture3).Alignment = Alignment.center;
+                        i3.SpacingAfter(40d);
+                    }
+
 
 
                     var i4 = document.InsertParagraph();
 
-                    if (file.Count() > 2)
+                    if (files.Count() > 2)
                     {
                         for (var j = 1; j < 3; j++)
                         {
 
-                            Image image3 = document.AddImage(filePath + file[j].Name);
+                            Image image3 = document.AddImage(filePath + files[j].Name);
                             Picture picture111 = image3.CreatePicture(90, 90);
 
                             i4.AppendPicture(picture111).Alignment = Alignment.center;
@@ -973,25 +1001,28 @@ namespace InspecWeb.Controllers
 
                         ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
                         ii.SpacingAfter(20d);
-                    
 
 
-                    var i3 = document.InsertParagraph();
-                    Image image2 = document.AddImage(filePath + file[0].Name);
-                    Picture picture10 = image2.CreatePicture(150, 300);
 
-                    i3.AppendPicture(picture10).Alignment = Alignment.center;
-                    i3.SpacingAfter(20d);
+                    if (files.Count() > 0)
+                    {
+                        Image image2 = document.AddImage(filePath + files[0].Name);
+                        Picture picture3 = image2.CreatePicture(150, 300);
+                        var i3 = document.InsertParagraph();
+                        i3.AppendPicture(picture3).Alignment = Alignment.center;
+                        i3.SpacingAfter(40d);
+                    }
+
 
 
                     var i4 = document.InsertParagraph();
 
-                    if (file.Count() > 3)
+                    if (files.Count() > 3)
                     {
                         for (var j = 1; j < 4; j++)
                         {
 
-                            Image image3 = document.AddImage(filePath + file[j].Name);
+                            Image image3 = document.AddImage(filePath + files[j].Name);
                             Picture picture111 = image3.CreatePicture(90, 90);
 
                             i4.AppendPicture(picture111).Alignment = Alignment.center;
