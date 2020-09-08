@@ -1490,7 +1490,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
   },
   {
     icon: 'fa-calendar',
-    url: "/inspectionplanevent",
+    url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ"
   },
   {

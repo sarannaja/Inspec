@@ -157,5 +157,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
     //   this.router.navigate(['calendaruser'])
     // })
   }
-
+  back() {
+    window.history.back();
+  }
 }
