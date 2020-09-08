@@ -1179,7 +1179,9 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   getquestion() {
+    // alert(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId)
     this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
+      // alert(JSON.stringify(res))
       this.questionpeople = res;
       this.questionpeople.forEach(element => {
         this.answerpeople.push(element.answerCentralPolicyProvinces)

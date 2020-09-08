@@ -70,7 +70,7 @@
           <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.subjectNotificationDate != null">
             <!-- not null -->
             <div class="col-6">
-              <label>วันที่แต้งเตือน</label>
+              <label>วันที่แจ้งเตือน</label>
               <my-date-picker-th [selDate]="notificationsubjectDate" [options]="myDatePickerOptions" required
                 (dateChanged)="onStartDateChanged($event)">
               </my-date-picker-th>
@@ -382,7 +382,7 @@
             <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
               <!-- null -->
               <div class="col-6">
-                <label>วันที่แต้งเตือน</label>
+                <label>วันที่แจ้งเตือน</label>
                 <my-date-picker-th formControlName="notificationpeoplequestiondate" [options]="myDatePickerOptions"
                   required>
                 </my-date-picker-th>
@@ -398,7 +398,7 @@
             <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionDeadlineDate != null">
               <!-- not null -->
               <div class="col-6">
-                <label>วันที่แต้งเตือน</label>
+                <label>วันที่แจ้งเตือน</label>
                 <my-date-picker-th [selDate]="notificationpeoplequestionDate" [options]="myDatePickerOptions" required
                   (dateChanged)="onStartDateChanged2($event)">
                 </my-date-picker-th>
@@ -559,10 +559,9 @@
               </div>
             </div>
           </div> -->
-          <div *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" class="form-group col col-lg-12"
-            style="margin-top: 20px; text-align: center;">
-            <button style="align-self: center;" type="submit" class="btn btn-primary"
-              style="margin-right: 45px;">บันทึก</button>
+          <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+            <button *ngIf="subjectgroupstatus != 'ใช้งานจริง'" style="align-self: center;" type="submit"
+              class="btn btn-primary" style="margin-right: 45px;">บันทึก</button>
             <!-- <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
               (click)="back()" style="margin-right: 45px;">บันทึก</button> -->
             <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>

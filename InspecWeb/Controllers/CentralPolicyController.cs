@@ -1309,17 +1309,17 @@ namespace InspecWeb.Controllers
             //var cenid = _context.CentralPolicyProvinces
             //    .Where(m => m.Id == cenproid).FirstOrDefault();
 
-            var cenprolicyevent = _context.CentralPolicyEvents
-                .Where(m => m.InspectionPlanEventId == planid)
-                //.Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
-                .FirstOrDefault();
+            //var cenprolicyevent = _context.CentralPolicyEvents
+            //    .Where(m => m.InspectionPlanEventId == planid)
+            //    //.Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
+            //    .FirstOrDefault();
 
             var question = _context.CentralPolicyEventQuestions
                 .Include(m => m.CentralPolicyEvent)
                 .Include(m => m.AnswerCentralPolicyProvinces)
                 .ThenInclude(m => m.User)
                 .ThenInclude(m => m.Province)
-                .Where(m => m.CentralPolicyEventId == cenprolicyevent.Id)
+                .Where(m => m.CentralPolicyEventId == planid)
                 .ToList();
 
             return Ok(question);
