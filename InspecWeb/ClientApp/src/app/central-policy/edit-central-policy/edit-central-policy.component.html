@@ -4,7 +4,7 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="#">Tables</a></li> -->
       <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">แผนตรวจราชการ</a></li>
       <li class="breadcrumb-item active" aria-current="page">แก้ไขแผนตรวจราชการ</li>
@@ -278,7 +278,7 @@
           <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
             <form class="form-group row col-12" [formGroup]="itemTest">
               <div class="col-4">
-                <label formControlName="CentralpolicyFile">ไฟล์ที่ {{i + 1}})
+                <label class="textellipsis" formControlName="CentralpolicyFile">ไฟล์ที่ {{i + 1}})
                   {{itemTest.controls.CentralpolicyFile.value.name}}</label>
               </div>
               <div class="col-8">
@@ -294,7 +294,7 @@
               <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
                 style="margin-top: 10px;">
                 <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
-                  <span>ไฟล์ที่
+                  <span class="textellipsis">ไฟล์ที่
                     {{i+1}})
                     {{ item2.name }}<br>
                   </span>

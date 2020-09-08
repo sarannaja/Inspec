@@ -205,6 +205,10 @@ import { ConfirmationDialogComponent } from './services/confirmation-dialog/Conf
 import { NamePlateComponent } from './name-plate/name-plate.component';
 import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
 import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-label-preview.component';
+// import { PopoverModule } from 'ngx-bootstrap/popover';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SortPipe } from './services/Pipe/sort';
+
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -327,6 +331,7 @@ const ExternalOrganization = [
     ReportSubjectComponent,
     CentralPolicyFiscalyearComponent,
     CommanderReportComponent,
+    SortPipe,
     // DatePipe
     InfoDepartmentComponent,
     InfoVillageComponent,
@@ -402,6 +407,7 @@ const ExternalOrganization = [
     // BrowserModule,
     SnotifyModule,
     NgxSpinnerModule,
+    // PopoverModule.forRoot(),
     DataTablesModule,
     BrowserAnimationsModule,
     NgxMaterialTimepickerModule,
@@ -611,6 +617,7 @@ const ExternalOrganization = [
     // SelectSSSModule
     NgSelectModule,
     NgbModule,
+    TooltipModule.forRoot(),
 
   ], exports: [
     ThaiDatePipe,
@@ -627,9 +634,9 @@ const ExternalOrganization = [
     DatePipe, CookieService,
     ProvinceService,
     NotofyService,
-    ConfirmationDialogService
+    ConfirmationDialogService,
     // UserManager
-
+    SortPipe
   ],
 
   bootstrap: [AppComponent]

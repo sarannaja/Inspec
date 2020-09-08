@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ExportReportService } from 'src/app/services/export-report.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-report-import-deatail',
@@ -43,6 +44,7 @@ export class ReportImportDeatailComponent implements OnInit {
     private notificationService: NotificationService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string,
+    private _NotofyService: NotofyService,
     private fb: FormBuilder,
   ) {
     this.reportId = activatedRoute.snapshot.paramMap.get('id')
@@ -134,6 +136,7 @@ export class ReportImportDeatailComponent implements OnInit {
       console.log("sended: ", res);
       this.getReportImportById();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("ส่งรายงานผลการตรวจ",)
     })
   }
 
@@ -142,6 +145,7 @@ export class ReportImportDeatailComponent implements OnInit {
       this.reportForm.reset();
       this.getReportImportById();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
     })
   }
 
@@ -150,7 +154,7 @@ export class ReportImportDeatailComponent implements OnInit {
       console.log("cenData: ", res);
       this.centralPolicyEvent = res.map((item, index) => {
         return {
-          value: item.id,
+          value: item.centralPolicyId,
           label: item.centralPolicy.title + "  -  " + "จังหวัด: " + item.inspectionPlanEvent.province.name
         }
       })

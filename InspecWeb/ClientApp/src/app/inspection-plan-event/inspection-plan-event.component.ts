@@ -229,6 +229,7 @@ export class InspectionPlanEventComponent implements OnInit {
         navLinks: true,
         editable: false,
         eventLimit: false,
+        // displayEventTime: (event) => { return 'xxxx' },
         eventClick: function (event) {
           // alert(JSON.stringify(event))
           console.log(event);
@@ -258,8 +259,9 @@ export class InspectionPlanEventComponent implements OnInit {
         // },
 
         eventRender: function (event, element, view) {
-          console.log(element);
-
+          console.log(element, element.find('span.fc-time'), event);
+          var date = moment(event.start).format('HH:mm')
+          element.find('span.fc-time').text(date)
           element.find('span.fc-title').attr('data-toggle', 'tooltip');
           element.find('span.fc-title').attr('title', event.name);
         },

@@ -23,7 +23,8 @@ export class EditCentralPolicyComponent implements OnInit {
 
   private myDatePickerOptions: IMyOptions = {
     // other options...
-    dateFormat: 'dd/mm/yyyy'
+    dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false
   };
 
   id: any;
@@ -54,6 +55,7 @@ export class EditCentralPolicyComponent implements OnInit {
   fileData: any = [{ CentralpolicyFile: '', fileDescription: '' }];
   listfiles: any = [];
   submitted = false;
+  statusfile = true;
 
   constructor(
     private fb: FormBuilder,
@@ -123,6 +125,7 @@ export class EditCentralPolicyComponent implements OnInit {
   }
 
   getDetailCentralpolicy() {
+
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result;
@@ -130,31 +133,30 @@ export class EditCentralPolicyComponent implements OnInit {
 
         this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearNewId.toString();
 
-
-        this.resultdetailcentralpolicy.centralPolicyDates.forEach(element => {
-          console.log("element: ", element.startDate)
-          const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
-          let sDate: Date = new Date(element.startDate);
-          let eDate: Date = new Date(element.endDate)
-          console.log("EEE", sDate);
-
-
-
-          this.d.push(this.fb.group({
-            start_date: {
-              year: sDate.getFullYear(),
-              month: sDate.getMonth() + 1,
-              day: sDate.getDate()
-            },
-            end_date: {
-              year: eDate.getFullYear(),
-              month: eDate.getMonth() + 1,
-              day: eDate.getDate()
-            }
-          }))
-          // console.log("check: ", this.d.controls);
-        });
-
+        if (this.statusfile == true) {
+          this.resultdetailcentralpolicy.centralPolicyDates.forEach(element => {
+            console.log("element: ", element.startDate)
+            const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
+            let sDate: Date = new Date(element.startDate);
+            let eDate: Date = new Date(element.endDate)
+            console.log("EEE", sDate);
+  
+            this.d.push(this.fb.group({
+              start_date: {
+                year: sDate.getFullYear(),
+                month: sDate.getMonth() + 1,
+                day: sDate.getDate()
+              },
+              end_date: {
+                year: eDate.getFullYear(),
+                month: eDate.getMonth() + 1,
+                day: eDate.getDate()
+              }
+            }))
+            // console.log("check: ", this.d.controls);
+          });
+        }
+       
         this.resultdetailcentralpolicy.centralPolicyProvinces.forEach(element => {
           console.log("element: ", element);
           if (element.active == 1) {
@@ -166,7 +168,6 @@ export class EditCentralPolicyComponent implements OnInit {
 
         });
         console.log("SELECTED: ", this.selected);
-
 
 
         console.log("year: ", this.resultdetailcentralpolicy.fiscalYearNewId);
@@ -181,7 +182,6 @@ export class EditCentralPolicyComponent implements OnInit {
         });
       });
   }
-
   getFiscalyear() {
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
@@ -337,7 +337,8 @@ export class EditCentralPolicyComponent implements OnInit {
   }
 
   deleteFile() {
-    // alert(this.delid);
+    // alert("onDelete");
+    this.statusfile = false;
     this.centralpolicyservice.deleteFile(this.delid)
       .subscribe(response => {
         console.log("res: ", response);

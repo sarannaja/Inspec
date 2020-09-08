@@ -187,7 +187,7 @@ export class UserService {
   }
 
   editprofile(userData, file: FileList, file2: FileList, userId) {
-   // alert('2 :' + userData.Autocreateuser)
+    alert('2 :' +  userData.Commandnumber)
     console.log("servicelog: ", userData);
     const formData = new FormData();
     formData.append('Role_id', userData.Role_id); //role

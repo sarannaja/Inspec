@@ -4,10 +4,10 @@
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบาย</a></li>
-            <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบาย</li>
+            <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="/answersubject">แผนตรวจราชการ</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">ประเด็นนโยบายย่อย</a></li>
+            <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบายย่อย</li>
         </ol>
     </nav>
 </div>
@@ -209,7 +209,7 @@
                         </div> -->
                         <div *ngIf="printstatus == 0" class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
                             <button style="align-self: center;" type="button" class="btn btn-primary"
-                                style="margin-right: 45px;" (click)="printPage()">ปิ้นคำถาม</button>
+                                style="margin-right: 45px;" (click)="printPage()">พิมพ์</button>
                             <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
                         </div>
                     </ng-template>
