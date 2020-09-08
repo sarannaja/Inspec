@@ -76,4 +76,7 @@ export class ExternalOrganizationService {
     var putdata = { UserID: body.sub, Session: body.sid }
     return this.http.put(this.baseUrl + `api/NotificationMobile`, putdata)
   }
+  word():Observable<any>{
+    return this.http.get<any>(this.baseUrl + "api/ExternalOrganization/worddistrict")
+  }
 }

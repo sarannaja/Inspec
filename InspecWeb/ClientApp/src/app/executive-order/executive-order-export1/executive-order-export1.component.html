@@ -17,11 +17,10 @@
           <h3 class="card-title">รายงานข้อสั่งการของผู้บริหาร</h3><br>
             <div class="row">
               <div class="col-4">
-               
                 <select style="margin-bottom: 0px;" (change)="changexcutive($event)" class="form-control select2 " data-toggle="select2">
                   <option  [value]="">-- กรุณาเลือกชื่อผู้สั่งการ --</option>
-                <option *ngFor="let item of userdata" [value]="item.id">{{item.prefix}} {{item.name}}</option>
-            </select>   
+                  <option *ngFor="let item of userdata" [value]="item.id">{{item.prefix}} {{item.name}}</option>
+                </select>   
               </div>
               <div class="col-2">
                 <button class="btn btn-primary" 
@@ -29,9 +28,7 @@
               </div> 
               </div>  
             </div> 
-
         </div>
-        
       </div>
     </div>
   

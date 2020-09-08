@@ -256,7 +256,7 @@ namespace InspecWeb.Controllers {
 
         //<!-- ยกเลิกข้อสั่งการ -->
         [HttpPut("cancelexecutiveorder")]
-        public async Task<IActionResult> PutCancelExecute([FromForm] ExecutiveViewModel model)
+        public IActionResult PutCancelExecute([FromForm] ExecutiveViewModel model)
         {
             var date = DateTime.Now;
             var executiveordersdata = _context.ExecutiveOrders.Find(model.id);
@@ -274,7 +274,7 @@ namespace InspecWeb.Controllers {
 
         //<!-- รับทราบข้อสั่งการ -->
         [HttpPut("gotitexecutiveorder")]
-        public async Task<IActionResult> PutgotitExecute([FromForm] ExecutiveViewModel model)
+        public IActionResult PutgotitExecute([FromForm] ExecutiveViewModel model)
         {
             var date = DateTime.Now;
             var executiveordersdata = _context.ExecutiveOrders.Find(model.id);
@@ -468,26 +468,22 @@ namespace InspecWeb.Controllers {
                 for (int i = 0; i < Eexcutive1.Count; i++) {
                     j += 1;
                     //System.Console.WriteLine(i+=1);
-                    var username = _context.ApplicationUsers
-                        .Where(m => m.Id == Eexcutive1[i].UserID)
-                        .Select(m => m.Name)
-                        .FirstOrDefault();
+                    //long setid = 0;
+                    //setid = Eexcutive1[i].UserID;
+                    //var username = _context.ExecutiveOrderAnswers
+                    //    .Where(m => m.ExecutiveOrderId == )
+                    //    .Select(m => m.Name)
+                    //    .FirstOrDefault();
                     System.Console.WriteLine ("JJJJJ: " + j);
                     //System.Console.WriteLine("9.1: ");
-                    t.Rows[j].Cells[0].Paragraphs[0].Append (j.ToString ());
-                    //System.Console.WriteLine("9.2: " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[1].Paragraphs[0].Append (Eexcutive1[i].Commanded_date.ToString ());
-                    // System.Console.WriteLine("9.3: " + model.reportData[i].suggestion);
-                    t.Rows[j].Cells[2].Paragraphs[0].Append (Eexcutive1[i].Subject);
-                    // System.Console.WriteLine("9.4: " +Eexcutive1[i].CentralPolicy.Title);
-                    t.Rows[j].Cells[3].Paragraphs[0].Append (Eexcutive1[i]+" ");
-                    // System.Console.WriteLine("9.5: " + Eexcutive1[i].CentralPolicy.Status);
-                    t.Rows[j].Cells[4].Paragraphs[0].Append (Eexcutive1[i].CreatedAt.ToString ());
-                    // System.Console.WriteLine("9.6: " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[5].Paragraphs[0].Append (username);
-                    // System.Console.WriteLine("10:  " + Eexcutive1[i].CreatedAt);
-                    t.Rows[j].Cells[6].Paragraphs[0].Append (Eexcutive1[i] + " ");
-                    // System.Console.WriteLine("10: +Eexcutive1[i].AnswerDetail");
+                    t.Rows[j].Cells[0].Paragraphs[0].Append (j.ToString ()); //ลำดับ                
+                    t.Rows[j].Cells[1].Paragraphs[0].Append (Eexcutive1[i].Commanded_date.ToString ());// วัน/เดือน/ปีที่มีข้อสั่งการ                  
+                    t.Rows[j].Cells[2].Paragraphs[0].Append (Eexcutive1[i].Subject); // ประเด็น/เรื่อง                 
+                    t.Rows[j].Cells[3].Paragraphs[0].Append (Eexcutive1[i]+" "); // สถานะเรื่อง                 
+                    t.Rows[j].Cells[4].Paragraphs[0].Append (Eexcutive1[i].CreatedAt.ToString ()); // วัน/เดือน/ปีที่แจ้งข้อสั่งการ           
+                    t.Rows[j].Cells[5].Paragraphs[0].Append ("");   //ผู้รับข้อสั่งการ             
+                    t.Rows[j].Cells[6].Paragraphs[0].Append (Eexcutive1[i] + " "); //การดำเนินการ
+
 
                 }
 

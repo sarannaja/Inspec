@@ -28,7 +28,7 @@ export class ExecutiveOrderExport1Component implements OnInit {
     this.userService.getuserdata(8)
       .subscribe(result => {
         this.userdata = result;
-        console.log(result);
+        //console.log(result);
 
       })
 
@@ -38,7 +38,7 @@ export class ExecutiveOrderExport1Component implements OnInit {
 
     this.executiveorderService.getexcutive1(userid.target.value)
       .subscribe(result => {
-        console.log('result', result);
+      //  console.log('result', result);
         window.open(this.url + "reportexecutive/" + result.data);
       })
     this.getuserinfo();
