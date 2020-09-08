@@ -13,6 +13,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using static InspecWeb.ViewModel.ExternalOtpsViewModel;
+using ClosedXML.Excel; //excel
+using System.IO; //excel
+using Microsoft.AspNetCore.Hosting;
+using Xceed.Words.NET;
+using Xceed.Document.NET;
+using System.Drawing;
 
 namespace InspecWeb.Controllers
 {
@@ -23,15 +29,17 @@ namespace InspecWeb.Controllers
         private readonly IHttpClientFactory _clientFactory;
         private static UserManager<ApplicationUser> _userManager;
         private static ApplicationDbContext _context;
-
+        public static IWebHostEnvironment _environment;
         public ExternalOrganizationController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            IHttpClientFactory clientFactory)
+            IHttpClientFactory clientFactory,
+            IWebHostEnvironment environment)
         {
             _context = context;
             _userManager = userManager;
             _clientFactory = clientFactory;
+            _environment = environment;
         }
 
         // GET api/values/5
@@ -454,6 +462,146 @@ namespace InspecWeb.Controllers
             }
 
             return Ok(mobileObj);
+        }
+
+        // <!-- excel -->
+        [HttpGet("excelOtpsMinisters")]
+        public IActionResult excelOtpsMinisters()
+        {
+
+            List<OtpsMinisters> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<List<OtpsMinisters>>(jsonString.Result);
+                });
+            task.Wait();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("ข้อมูลรายชื่อคณะรัฐมนตรี");
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "รายชื่อคณะรัฐมนตรี";
+                worksheet.Cell(currentRow, 2).Value = "ตำแหน่ง";
+                foreach (var data in model)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = data.Name;
+                    worksheet.Cell(currentRow, 2).Value = data.Position;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "OtpsMinisters.xlsx");
+                }
+            }
+        }
+        // <!-- END excel -->
+
+        [HttpGet("worddistrict")] // 9.5.9 (1)รายข้อสั่งการผู้บริหาร
+        public IActionResult worddistrict()
+        {
+
+            List<OtpsMinisters> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+                .ContinueWith((taskwithresponse) =>
+                {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<List<OtpsMinisters>>(jsonString.Result);
+                });
+            task.Wait();
+
+
+
+            System.Console.WriteLine("1 : ");
+
+            if (!Directory.Exists(_environment.WebRootPath + "//reportOtpsMinisters//")) //ถ้ามีไฟล์อยู่แล้ว
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportOtpsMinisters//"); //สร้าง Folder reportexecutive ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/reportOtpsMinisters/"; // เก็บไฟล์ logo 
+            var filename = "OtpsMinisters" + ".docx"; // ชื่อไฟล์
+            var createfile = filePath + filename; //
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("2");
+
+            using (DocX document = DocX.Create(createfile)) //สร้าง
+            {
+
+
+                System.Console.WriteLine("3");
+
+                // Add a title
+                document.InsertParagraph("ข้อมูลรายชื่อคณะรัฐมนตรี").FontSize(16d)
+                    .SpacingBefore(15d)
+                    .SpacingAfter(15d)
+                    .Bold() //ตัวหนา
+                    .Alignment = Alignment.center;
+
+
+
+                int dataCount = 0;
+                dataCount = model.Count; //เอาที่ select มาใช้
+                dataCount += 1;
+                System.Console.WriteLine("Data Count: " + dataCount);
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 100f, 300f, 300f };
+                var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                System.Console.WriteLine("4");
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                row.Cells[1].Paragraphs.First().Append("รายชื่อคณะรัฐมนตรี");
+                row.Cells[2].Paragraphs.First().Append("ตำแหน่ง");
+
+
+                // Add rows in the table.
+                int j = 0;
+                for (int i = 0; i < model.Count; i++)
+                {
+                    j += 1;
+
+                    System.Console.WriteLine("5: " + j);
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(model[i].Name.ToString());
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model[i].Position.ToString());
+
+
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                System.Console.WriteLine("6");
+                document.Save(); //save เอกสาร
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+
+                return Ok(new { data = filename });
+            }
         }
 
 

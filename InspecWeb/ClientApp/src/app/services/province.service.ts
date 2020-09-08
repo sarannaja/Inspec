@@ -405,6 +405,10 @@ export class ProvinceService {
 
     ]
   }
+
+  wordprovince():Observable<any>{
+    return this.http.get<any>(this.url + "wordprovince")
+  }
 }
 export interface Province {
   id: number;

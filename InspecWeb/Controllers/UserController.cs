@@ -1060,7 +1060,7 @@ namespace InspecWeb.Controllers
 
         //<!-- แก้ไขพาสเวิด -->
         [HttpPut("api/[controller]/password")]
-        public async Task<IActionResult> Putpassword([FromForm] UserViewModel model)
+        public IActionResult Putpassword([FromForm] UserViewModel model)
         {
             var date = DateTime.Now;
 
