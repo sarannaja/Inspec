@@ -267,7 +267,7 @@ namespace InspecWeb.Controllers
 
         //<!-- ยกเลิกข้อสั่งการ -->
         [HttpPut("cancelrequestorder")]
-        public async Task<IActionResult> PutCancel([FromForm] RequestViewModel model)
+        public IActionResult PutCancel([FromForm] RequestViewModel model)
         {
             var date = DateTime.Now;
             var requestordersdata = _context.RequestOrders.Find(model.id);
@@ -285,7 +285,7 @@ namespace InspecWeb.Controllers
 
         //<!-- รับทราบข้อสั่งการ -->
         [HttpPut("gotitrequestorder")]
-        public async Task<IActionResult> Putgotit([FromForm] RequestViewModel model)
+        public IActionResult Putgotit([FromForm] RequestViewModel model)
         {
             var date = DateTime.Now;
             var requestordersdata = _context.RequestOrders.Find(model.id);

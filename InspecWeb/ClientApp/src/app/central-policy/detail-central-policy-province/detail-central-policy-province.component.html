@@ -193,6 +193,19 @@
                       &nbsp;&nbsp;&nbsp;
                       <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3 && watch == 0"
                         (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
+
+                        &nbsp;&nbsp;&nbsp;
+                        <span *ngIf="items.report != null">
+                          เหตุผลที่เปลี่ยนแปลงสถานะ {{items.report}}
+                        </span>
+                        <!-- มอบหมายให้ นายศรัณญ์ สาพรหม เบอร์ติดต่อ 0894161768 -->
+                        <span *ngIf="items.status == 'มอบหมาย' && items.forwardName != null">
+                          มอบหมายให้ {{items.forwardName}} เบอร์ติดต่อ {{items.forwardPhone}}
+                        </span>
+
+                        <span *ngIf="items.forwardName == 'ถูกมอบหมาย'">
+                          ถูกมอยหมายโดย {{items.invitedBy}}
+                        </span>
                     </div>
                   </div>
                 </div>

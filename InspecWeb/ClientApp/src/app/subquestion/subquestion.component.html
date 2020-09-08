@@ -93,7 +93,7 @@
                       </ng-select>
                       <div class="form-group" *ngIf="submitted && tv.at(iv).get('departmentId').invalid"
                         [ngStyle]="submitted && tv.at(iv).get('departmentId').invalid ? {color: '#dc3545'}:{color: ''} ">
-                        <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
+                        <div style="font-size: 80%;">กรุณาเลือกหน่วยงาน</div>
                       </div>
                       <br>
                       <label>ประเด็นการตรวจติดตาม</label>
@@ -141,7 +141,7 @@
                                 <div class="form-group"
                                   *ngIf="submitted && getinputquestionclose(iv).tvf[ix].get('questionclose').invalid"
                                   [ngStyle]="submitted && getinputquestionclose(iv).tvf[ix].get('questionclose').invalid ? {color: '#dc3545'}:{color: ''} ">
-                                  <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
+                                  <div style="font-size: 80%;">กรุณากรอกคำถาม</div>
                                 </div>
                               </div>
                               <div class="col-1">
@@ -175,7 +175,7 @@
                                       <div class="form-group"
                                         *ngIf="submitted && getinputquestionclose(iv,ix).tvftvff[iy].get('answerclose').invalid"
                                         [ngStyle]="submitted && getinputquestionclose(iv,ix).tvftvff[iy].get('answerclose').invalid ? {color: '#dc3545'}:{color: ''} ">
-                                        <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
+                                        <div style="font-size: 80%;">กรุณากรอกคำตอบให้เลือก</div>
                                       </div>
                                     </div>
                                     <div class="col-1">

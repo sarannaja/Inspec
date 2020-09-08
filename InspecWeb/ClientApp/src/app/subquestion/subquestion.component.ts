@@ -276,6 +276,7 @@ export class SubquestionComponent implements OnInit {
           this.Form.reset();
           this.Formfile.reset();
           this.spinner.hide();
+          this._NotofyService.onSuccess("เพื่มข้อมูล")
           window.history.back();
         }
       })
@@ -320,6 +321,7 @@ export class SubquestionComponent implements OnInit {
       this.Form.reset();
       this.Formfile.reset();
       this.spinner.hide();
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
       window.history.back();
     })
   }
