@@ -54,5 +54,15 @@
  input[value="Add Z"]{
       background-color: #7f7fff;
  }
+.textellipsis {
+    white-space:nowrap; 
+    width:100%; 
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+.inputfiles{
+    margin: 0px;
+  }
+  
  
  

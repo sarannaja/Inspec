@@ -28,6 +28,7 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>หัวข้อการตรวจ</label>
+                <label style="color: red;">*</label>
                 <!-- <input type="text" value="{{resultsubjectdetail.name}}" formControlName="name" class="form-control"
                   placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
                 <textarea cols="30" rows="2" type="text" value="{{resultsubjectdetail.name}}" formControlName="name"
@@ -39,6 +40,7 @@
               </div>
               <div class="form-group">
                 <label>คำชี้แจง</label>
+                <label style="color: red;">*</label>
                 <!-- <input type="text" value="{{resultsubjectdetail.explanation}}" formControlName="explanation"
                   class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
                 <textarea cols="30" rows="2" type="text" value="{{resultsubjectdetail.explanation}}"
@@ -50,6 +52,7 @@
               </div>
               <div class="form-group">
                 <label>ระยะเวลาการตรวจ</label>
+                <label style="color: red;">*</label>
                 <div class="row">
                   <div class="col-11">
                     <ng-select bindLabel="label" bindValue="value" multiple="true" id="datetime" [(ngModel)]="datetime"
@@ -77,6 +80,7 @@
                   <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
                     <div class="row" style="margin-left: 2px;">
                       <label>ผู้ให้ข้อมูล</label>
+                      <label style="color: red;">*</label>
                       &nbsp;&nbsp;
                       <button class="btn btn-primary" type="button" style="margin-top: -8px;" title="เพิ่มผู้ให้ข้อมูล"
                         (click)="openAddDepartmentModal(modalInviteDepartment,item.id,item.box,item.subjectCentralPolicyProvinceGroups)">
@@ -114,6 +118,7 @@
                     </div> -->
                     <div>
                       <label>ประเด็นการตรวจติดตาม</label>
+                      <label style="color: red;">*</label>
                       &nbsp;&nbsp;
                       <!-- <button class="btn btn-info" type="button"
                         (click)="openAddModalQuestionsclose(modalQuestionsclose,item.box)">เพิ่มคำถาม</button> -->
@@ -206,7 +211,7 @@
               <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
                 <form class="form-group row col-12" [formGroup]="itemTest">
                   <div class="col-4">
-                    <label formControlName="SubjectFile">ไฟล์ที่ {{i + 1}})
+                    <label class="textellipsis" formControlName="SubjectFile">ไฟล์ที่ {{i + 1}})
                       {{itemTest.controls.SubjectFile.value.name}}</label>
                   </div>
                   <div class="col-8">
