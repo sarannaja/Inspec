@@ -11,7 +11,17 @@
 .pointer {
     cursor:pointer;
 }
+.textellipsis {
+    white-space:nowrap; 
+    width:100%; 
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+.inputfiles{
+    margin: 0px;
+  }
 /* input:read-only {
   background-color: #;
 }
      */
+     
