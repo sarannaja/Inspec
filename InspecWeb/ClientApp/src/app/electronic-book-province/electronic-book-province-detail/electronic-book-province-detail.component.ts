@@ -42,6 +42,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   acceptDepartmentInvite: any = [];
   userProvinceId: any;
   checkProvince = false;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -78,7 +79,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
             console.log("user naja: ", result);
             this.role_id = result[0].role_id
             this.signature = result[0].signature
-            this.userProvinceId = result[0].provinceId
+            this.userProvinceId = result[0].userProvince[0].provinceId
             // alert(this.role_id)
           })
       })
@@ -235,6 +236,11 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   }
 
   postSignature(value) {
+    this.submitted = true;
+    if (this.submitForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
     this.electronicBookService.provinceAddSignature(value, this.form.value.files, this.electId, this.userid, this.userProvinceId).subscribe(res => {
       // console.log("signatureRES: ", res);
       this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, this.userid, 8, this.electId)
@@ -246,6 +252,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
       this.modalRef.hide();
       this._NotofyService.onSuccess("รับทราบรายการสมุดตรวจ",)
     })
+  }
   }
 
   sendToOtherProvince(value) {

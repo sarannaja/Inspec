@@ -340,8 +340,12 @@
                 <div class="form-group" style="margin-top: 20px;">
                   <label>รายละเอียด</label>
                   <textarea cols="30" rows="5" formControlName="description" class="form-control container"
-                    placeholder="รายละเอียดเพิ่มเติม">
+                    placeholder="รายละเอียดเพิ่มเติม"
+                    [ngClass]="{ 'is-invalid': submitted && submitForm.controls.description.errors }">
                   </textarea>
+                  <div *ngIf="submitted && submitForm.controls.description.errors" class="invalid-feedback">
+                    <div *ngIf="submitForm.controls.description.errors.required">กรุณากรอกรายละเอียด</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -384,10 +388,17 @@
 
               <div class="col-12 col-xl-12">
                 <div class="form-group">
-                  <label class="form-label">หน่วยรับตรวจ*</label>
+                  <label class="form-label">หน่วยรับตรวจ</label>
+                  <label style="color: red;">*</label>
                   <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยรับตรวจ" [multiple]="false"
-                    [items]="provincialDepartmentData" name="province" formControlName="provincialDepartment">
+                    [items]="provincialDepartmentData" name="province" formControlName="provincialDepartment"
+                    [ngClass]="{ 'is-invalid': submitted2 && otherDepartmentForm.controls.provincialDepartment.errors }">
                   </ng-select>
+                  <div *ngIf="submitted2 && otherDepartmentForm.controls.provincialDepartment.errors"
+                    class="invalid-feedback">
+                    <div *ngIf="otherDepartmentForm.controls.provincialDepartment.errors.required">
+                      กรุณาเลือกหน่วยรับตรวจ</div>
+                  </div>
                 </div>
               </div>
 
@@ -396,9 +407,14 @@
                 <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;"> -->
                 <div class="form-group" style="margin-top: 20px;">
                   <label>รายละเอียด</label>
+                  <label style="color: red;">*</label>
                   <textarea cols="30" rows="5" formControlName="description" class="form-control container"
-                    placeholder="รายละเอียดเพิ่มเติม">
+                    placeholder="รายละเอียดเพิ่มเติม"
+                    [ngClass]="{ 'is-invalid': submitted2 && otherDepartmentForm.controls.description.errors }">
                   </textarea>
+                  <div *ngIf="submitted2 && otherDepartmentForm.controls.description.errors" class="invalid-feedback">
+                    <div *ngIf="otherDepartmentForm.controls.description.errors.required">กรุณากรอกรายละเอียด</div>
+                  </div>
                 </div>
               </div>
             </div>

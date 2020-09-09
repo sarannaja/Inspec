@@ -234,8 +234,12 @@
                     <div class="form-group">
                       <h4><i class="fas fa-comment-dots" style="margin-right: 5px;"></i> ลงความเห็น</h4>
                       <textarea cols="30" rows="5" formControlName="opinion" class="form-control container"
-                        placeholder="กรุณาลงความเห็นเพิ่มเติม">
+                        placeholder="กรุณาลงความเห็นเพิ่มเติม"
+                        [ngClass]="{ 'is-invalid': submitted && approveForm.controls.opinion.errors }">
                       </textarea>
+                      <div *ngIf="submitted && approveForm.controls.opinion.errors" class="invalid-feedback">
+                        <div *ngIf="approveForm.controls.opinion.errors.required">กรุณากรอกรายละเอียด</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -243,12 +247,18 @@
               <div class="form-group col-md-12">
                 <div class="mb-12">
                   <input type="radio" name="accept" value="เห็นด้วย"
-                    [checked]="electronicBookData.electronicBook.status == 'เห็นด้วย'" formControlName="accept">
+                    [checked]="electronicBookData.electronicBook.status == 'เห็นด้วย'" formControlName="accept"
+                    [ngClass]="{ 'is-invalid': submitted && approveForm.controls.accept.errors }">
                   <label style="margin-left: 10px;">เห็นด้วย</label>
                   <input style="margin-left: 10px;" type="radio" name="accept" value="ไม่เห็นด้วย"
-                    [checked]="electronicBookData.electronicBook.status == 'ไม่เห็นด้วย'" formControlName="accept">
+                    [checked]="electronicBookData.electronicBook.status == 'ไม่เห็นด้วย'" formControlName="accept"
+                    [ngClass]="{ 'is-invalid': submitted && approveForm.controls.accept.errors }">
                   <label style="margin-left: 10px;">ไม่เห็นด้วย</label>
+                  <div *ngIf="submitted && approveForm.controls.accept.errors" class="invalid-feedback">
+                    <div *ngIf="approveForm.controls.accept.errors.required">กรุณาลงความเห็น</div>
+                  </div>
                 </div>
+
               </div>
             </div>
             <div class="modal-footer" style="text-align: center;">
