@@ -345,15 +345,30 @@
                       <textarea cols="30" rows="5" style="border-radius: 15px;" class="form-control container"
                         [(ngModel)]='items.description' placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
-                    <div class="col-2" style="text-align: center;">
+                    <!-- <div class="col-2" style="text-align: center;">
                       <div>
                         <img class="rounded" src="{{downloadUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
                           style="width: 100px; height: 100px;">
                       </div>
                       <div>
+                        <label for="" style="font-size: small;">{{items.userProvincialDepartment.prefix}} -
+                          {{items.userProvincialDepartment.name}}</label>
+                      </div>
+                    </div> -->
+                    <div class="col-2" style="text-align: center;">
+                      <div *ngIf="items.userProvincialDepartment.signature != null">
+                        <img class="rounded" src="{{downloadUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
+                          style="width: 100px; height: 100px;">
+                      </div>
+                      <div *ngIf="items.userProvincialDepartment.signature != null">
                         <!-- <label for="" style="font-size: small;">ลายมือชื่อ</label> -->
                         <label for="" style="font-size: small;">{{items.userProvincialDepartment.prefix}} -
                           {{items.userProvincialDepartment.name}}</label>
+                      </div>
+                      <div *ngIf="items.userProvincialDepartment.signature == null" class="mt-4">
+                        <label class="text-primary"
+                          style="font-weight: bold;">{{items.userProvincialDepartment.name}}</label>
+                        <label for="" style="font-size: small;">ลายมือชื่อ</label>
                       </div>
                     </div>
                   </div>
@@ -397,8 +412,12 @@
                 <div class="form-group" style="margin-top: 20px;">
                   <label>รายละเอียด</label>
                   <textarea cols="30" rows="5" formControlName="description" class="form-control container"
-                    placeholder="รายละเอียดเพิ่มเติม">
+                    placeholder="รายละเอียดเพิ่มเติม"
+                    [ngClass]="{ 'is-invalid': submitted && submitForm.controls.description.errors }">
                   </textarea>
+                  <div *ngIf="submitted && submitForm.controls.description.errors" class="invalid-feedback">
+                    <div *ngIf="submitForm.controls.description.errors.required">กรุณกรอกรายละเอียด</div>
+                  </div>
                 </div>
               </div>
             </div>

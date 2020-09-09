@@ -383,7 +383,7 @@
         </div> -->
 
         <div
-          *ngIf="electronicBookData.electronicBookAccept != null && electronicBookData.electronicBook.provinceType == 'ส่งให้จังหวัด'">
+          *ngIf="electronicBookData.electronicBookAccept.length > 0 && electronicBookData.electronicBook.provinceType == 'ส่งให้จังหวัด'">
           <hr>
           <div class="col-12 ml-2">
             <div class="row">
@@ -477,7 +477,7 @@
                         [(ngModel)]='items.description' placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
                     <div class="col-2" style="text-align: center;">
-                      <div>
+                      <div *ngIf="items.userProvincialDepartment.signature != null">
                         <img class="rounded" src="{{downloadUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
                           style="width: 100px; height: 100px;">
                       </div>
@@ -486,7 +486,7 @@
                         <label for="" style="font-size: small;">{{items.userProvincialDepartment.prefix}} -
                           {{items.userProvincialDepartment.name}}</label>
                       </div>
-                      <div *ngIf="items.userProvincialDepartment.signature == null">
+                      <div *ngIf="items.userProvincialDepartment.signature == null" class="mt-4">
                         <label class="text-primary"
                           style="font-weight: bold;">{{items.userProvincialDepartment.name}}</label>
                         <label for="" style="font-size: small;">ลายมือชื่อ</label>

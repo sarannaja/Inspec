@@ -33,6 +33,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
   opinionData: any = [];
   downloadUrl: any;
   signature: any;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -80,8 +81,8 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
     })
 
     this.approveForm = this.fb.group({
-      opinion: new FormControl(null, [Validators.required]),
-      accept: new FormControl("เห็นด้วย", [Validators.required]),
+      opinion: new FormControl("", [Validators.required]),
+      accept: new FormControl("", [Validators.required]),
     })
 
     this.suggestionForm = this.fb.group({
@@ -150,14 +151,20 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
   }
 
   addOpinion(value) {
-    this.electronicBookService.addOpinion(value, this.ebookInviteId).subscribe(res => {
-      console.log('Opinion:', res);
-      this.approveForm.reset();
-      this.getElectronicBookDetail();
-      this.getElectronicBookInviteOpinion();
-      this.modalRef.hide();
-      this._NotofyService.onSuccess("ลงนามสมุดตรวจอิเล็กทรอนิกส์",)
-    })
+    this.submitted = true;
+    if (this.approveForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.electronicBookService.addOpinion(value, this.ebookInviteId).subscribe(res => {
+        console.log('Opinion:', res);
+        this.approveForm.reset();
+        this.getElectronicBookDetail();
+        this.getElectronicBookInviteOpinion();
+        this.modalRef.hide();
+        this._NotofyService.onSuccess("ลงนามสมุดตรวจอิเล็กทรอนิกส์",)
+      })
+    }
   }
 
   closeModal() {

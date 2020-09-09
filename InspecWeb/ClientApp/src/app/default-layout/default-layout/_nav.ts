@@ -840,7 +840,7 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
   },
   {
     icon: 'fa-book',
-    url: "/electronicbook",
+    url: "/electronicbookprovince",
     name: "สมุดตรวจอิเล็กทรอนิกส์"
   },
   {
