@@ -10,6 +10,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
+import { IMyOptions } from 'mydatepicker-th';
 
 @Component({
   selector: 'app-subjectevent',
@@ -17,7 +18,12 @@ import { NotofyService } from '../services/notofy.service';
   styleUrls: ['./subjectevent.component.css']
 })
 export class SubjecteventComponent implements OnInit {
+  myDatePickerOptions: IMyOptions = {
+    // other options...
 
+    dateFormat: 'dd/mm/yyyy',
+    // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
+  };
   dtOptions: DataTables.Settings = {};
   loading = false;
   modalRef: BsModalRef;
@@ -27,25 +33,25 @@ export class SubjecteventComponent implements OnInit {
   resultsubjectevent: any = [];
   Form: FormGroup;
   Form2: FormGroup;
-  checkInspec: Boolean;
+  checkInspec: boolean;
   checkType: any;
   selectdataprovince: Array<any>
   userid: string;
   resultprovince: any = [];
-  province: any = []
-  provincename: any = []
-  provinceid: any = []
+  province: any[] = []
+  provincename: any[] = []
+  provinceid: any[] = []
   selectdatacentralpolicy: Array<any>
 
   selectdataprovince2: Array<any>
   selectdatacentralpolicy2: Array<any>
-  province2: any = []
-  provincename2: any = []
-  provinceid2: any = []
+  province2: any[] = []
+  provincename2: any[] = []
+  provinceid2: any[] = []
 
   CentralPolicyEvents: Array<any> = []
   subjectgroupsdatas: Array<any> = []
-  checkOther: Boolean;
+  checkOther: boolean;
 
   // ceneventid
 
@@ -230,7 +236,7 @@ export class SubjecteventComponent implements OnInit {
   }
   storeCentralPolicy(value) {
     // alert(JSON.stringify(value))
-    console.log('storeCentralPolicy',value, this.userid);
+    console.log('storeCentralPolicy', value, this.userid);
 
     if (value.land == "ลงพื้นที่") {
       this.subjectservice.subjectevent(value, this.userid)
