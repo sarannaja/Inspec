@@ -11,7 +11,6 @@
             <div class="d-table-cell align-middle">
 
                 <div class="text-center mt-4">          
-                    <p style="font-size:16px;">ระบบจัดการฐานข้อมูลหลักสูตรตามกรอบมาตรฐานคุณวุฒิ</p>
                     @* <p style="font-size:16px;">เพื่อสนับสนุนการกำกับและติดตามการปฏิบัติราชการในภูมิภาค</p>             *@
                 </div>
 
@@ -25,12 +24,12 @@
                             <form method="post">
                                 <div class="form-group">
                                     <label></label>                           
-                                    <input asp-for="Input.Username" class="form-control form-control-lg" placeholder="UserName"/>
+                                    <input asp-for="Input.Username" class="form-control form-control-lg" placeholder="กรอกชื่อผู้ใช้"/>
                                     <span asp-validation-for="Input.Username" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
                                     <label></label>
-                                    <input asp-for="Input.Password" class="form-control form-control-lg" placeholder="Password"/>
+                                    <input asp-for="Input.Password" class="form-control form-control-lg" placeholder="กรอกรหัสผ่าน"/>
                                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     <small>
                                         @*<a href="javascript:void(0)">Forgot password?</a>*@
