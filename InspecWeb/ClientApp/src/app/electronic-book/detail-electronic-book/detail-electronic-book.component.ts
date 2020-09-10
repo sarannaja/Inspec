@@ -129,19 +129,32 @@ export class DetailElectronicBookComponent implements OnInit {
       this.electronicBookData = result;
       this.peopleuserdata = result.ebookInvite;
 
-      var provincialDepartments: any = [];
-      await result.electronicBookGroup.forEach(async element => {
-        await element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(async element2 => {
-          console.log("LOOP: ", element2.id);
-          await element2.subjectCentralPolicyProvinces.forEach(async element3 => {
-            await element3.subquestionCentralPolicyProvinces.forEach(async element4 => {
-              await element4.subjectCentralPolicyProvinceGroups.forEach(async element5 => {
-                await provincialDepartments.push(element5.provincialDepartmentId)
+      var provincialDepartments: any[] = [];
+      // await result.electronicBookGroup.forEach(async element => {
+      //   await element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(async element2 => {
+      //     console.log("LOOP: ", element2.id);
+      //     await element2.subjectCentralPolicyProvinces.forEach(async element3 => {
+      //       await element3.subquestionCentralPolicyProvinces.forEach(async element4 => {
+      //         await element4.subjectCentralPolicyProvinceGroups.forEach(async element5 => {
+      //           await provincialDepartments.push(element5.provincialDepartmentId)
+      //         });
+      //       });
+      //     });
+      //   });
+      // });
+
+      result.electronicBookGroup.forEach(element => {
+        element.provincialDepartmentId.forEach(element2 => {
+          element2.forEach(element3 => {
+            element3.forEach(element4 => {
+              element4.forEach(element5 => {
+                provincialDepartments.push(element5)
               });
             });
           });
         });
       });
+
 
       console.log("provincialDepartment: ", provincialDepartments);
       this.provincialDepartmentId = provincialDepartments.filter(
@@ -151,7 +164,7 @@ export class DetailElectronicBookComponent implements OnInit {
 
       var provinces: any = [];
       await result.electronicBookGroup.forEach(element => {
-        provinces.push(element.centralPolicyEvent.inspectionPlanEvent.provinceId)
+        provinces.push(element.provinceId)
       });
       // console.log("allProvices: ", provinces);
 
@@ -162,7 +175,7 @@ export class DetailElectronicBookComponent implements OnInit {
 
       this.inspectionPlanEventId = result.electronicBookGroup.map((item, index) => {
         return {
-          inspectionPlanEventId: item.centralPolicyEvent.inspectionPlanEventId
+          inspectionPlanEventId: item.inspectionPlanEventId
         }
       })
 
@@ -269,7 +282,7 @@ export class DetailElectronicBookComponent implements OnInit {
         console.log("NOTI: ", value.Status);
 
         value.user.forEach(element => {
-          this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, element, 7, this.electId)
+          this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element, 7, this.electId)
             .subscribe(response => {
               console.log("Noti res: ", response);
             })

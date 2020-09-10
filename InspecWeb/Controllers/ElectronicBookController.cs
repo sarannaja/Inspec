@@ -157,6 +157,27 @@ namespace InspecWeb.Controllers
             // .Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups
             // .Any(m => m.ProvincialDepartmentId == user.ProvincialDepartmentId)))))
 
+             .Select(x => new
+             {
+                 user = x.CentralPolicyEvent.CentralPolicy.CentralPolicyUser,
+                 provincialDepartmentId = x.CentralPolicyEvent.CentralPolicy.CentralPolicyProvinces
+                 .Select(m => m.SubjectCentralPolicyProvinces
+                 .Select(n => n.SubquestionCentralPolicyProvinces
+                 .Select(b => b.SubjectCentralPolicyProvinceGroups
+                 .Select(v => v.ProvincialDepartmentId)))),
+                 inspectionPlanProvinceName = x.CentralPolicyEvent.InspectionPlanEvent.Province.Name,
+                 centralPolicyTitle = x.CentralPolicyEvent.CentralPolicy.Title,
+                 inspectionPlanEventDate = new
+                 {
+                     startDate = x.CentralPolicyEvent.InspectionPlanEvent.StartDate,
+                     endDate = x.CentralPolicyEvent.InspectionPlanEvent.EndDate
+                 },
+                 inspectionPlanEventProvince = x.CentralPolicyEvent.InspectionPlanEvent.Province,
+                 inspectionPlanEventId = x.CentralPolicyEvent.InspectionPlanEventId,
+                 provinceId = x.CentralPolicyEvent.InspectionPlanEvent.ProvinceId,
+                 centralPolicyId = x.CentralPolicyEvent.CentralPolicyId
+             })
+
             .ToList();
 
             var electronicBookSuggestion = _context.ElectronicBookSuggestGroups
@@ -1954,7 +1975,23 @@ namespace InspecWeb.Controllers
             .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
             .OrderByDescending(x => x.Id)
             .ToList();
-            return Ok(ebookProvince);
+
+            var provinceData = _context.ElectronicBookProvincialDepartments
+            .Include(x => x.ElectronicBook)
+            .ThenInclude(x => x.ElectronicBookGroups)
+            .ThenInclude(x => x.CentralPolicyEvent)
+            .ThenInclude(x => x.CentralPolicy)
+            .ThenInclude(x => x.CentralPolicyProvinces)
+            .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+            .Where(x => x.ProvincialDepartmentId == provincialDepartmentId)
+            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
+            .OrderByDescending(x => x.Id)
+            .Select(x => new
+            {
+                provinceId = x.ElectronicBook.ElectronicBookGroups.Select(m => m.CentralPolicyEvent.InspectionPlanEvent.ProvinceId)
+            })
+             .ToList();
+            return Ok(new { ebookProvince, provinceData });
         }
 
         [HttpPost("addDepartmentSignature")]

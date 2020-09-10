@@ -129,7 +129,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
       var provinces: any = [];
 
       result.electronicBookGroup.forEach(element => {
-        provinces.push(element.centralPolicyEvent.inspectionPlanEvent.provinceId)
+        provinces.push(element.provinceId)
       });
       // console.log("allProvices: ", provinces);
 
@@ -140,7 +140,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
 
       this.inspectionPlanEventId = result.electronicBookGroup.map((item, index) => {
         return {
-          inspectionPlanEventId: item.centralPolicyEvent.inspectionPlanEventId
+          inspectionPlanEventId: item.inspectionPlanEventId
         }
       })
 
@@ -245,6 +245,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
         this.getElectronicBookDetail();
         this.getElectronicBookProvincialDepartment();
         this.Form.reset();
+        this.submitted = false;
         this.modalRef.hide();
         this._NotofyService.onSuccess("รับทราบรายการสมุดตรวจ",)
       })

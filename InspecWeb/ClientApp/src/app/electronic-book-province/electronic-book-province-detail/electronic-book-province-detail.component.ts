@@ -116,7 +116,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
       var provinces: any = [];
 
       result.electronicBookGroup.forEach(element => {
-        provinces.push(element.centralPolicyEvent.inspectionPlanEvent.provinceId)
+        provinces.push(element.provinceId)
       });
       // console.log("allProvices: ", provinces);
 
@@ -127,7 +127,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
 
       this.inspectionPlanEventId = result.electronicBookGroup.map((item, index) => {
         return {
-          inspectionPlanEventId: item.centralPolicyEvent.inspectionPlanEventId
+          inspectionPlanEventId: item.inspectionPlanEventId
         }
       })
 
@@ -243,7 +243,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
     } else {
     this.electronicBookService.provinceAddSignature(value, this.form.value.files, this.electId, this.userid, this.userProvinceId).subscribe(res => {
       // console.log("signatureRES: ", res);
-      this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, this.userid, 8, this.electId)
+      this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, this.userid, 8, this.electId)
         .subscribe(response => {
           console.log("Noti res: ", response);
         })

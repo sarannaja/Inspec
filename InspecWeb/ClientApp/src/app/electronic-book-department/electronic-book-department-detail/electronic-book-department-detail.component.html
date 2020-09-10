@@ -33,17 +33,17 @@
               readonly>
           </div>
           <div *ngFor="let item of electronicBookData.electronicBookGroup; let i = index" class="col-12">
-            <label>{{i+1}}) {{item.centralPolicyEvent.centralPolicy.title}}</label>
+            <label>{{i+1}}) {{item.centralPolicyTitle}}</label>
             <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
               id="centralPolicy{{i}}" data-toggle="collapse" [attr.data-target]="'#centralPolicys' + i"
               aria-expanded="false" aria-controls="centralPolicys"></i>
             <div class="col-12 collapse" id="centralPolicys{{i}}" style="margin-left: 5px;">
               <div>
-                <label>- วันที่: {{item.centralPolicyEvent.inspectionPlanEvent.startDate | thaidate: 'short'}} ถึง
-                  {{item.centralPolicyEvent.inspectionPlanEvent.endDate  | thaidate: 'short'}}</label>
+                <label>- วันที่: {{item.inspectionPlanEventDate.startDate | thaidate: 'short'}} ถึง
+                  {{item.inspectionPlanEventDate.endDate  | thaidate: 'short'}}</label>
               </div>
               <div>
-                <label>- จังหวัด: {{item.centralPolicyEvent.inspectionPlanEvent.province.name}}</label>
+                <label>- จังหวัด: {{item.inspectionPlanProvinceName}}</label>
               </div>
               <!-- <div>
                 <label>- ประเด็นนโยบายย่อย:</label>

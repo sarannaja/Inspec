@@ -101,7 +101,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
       console.log("RES: ", result);
       this.inspectionPlanEventId = result.electronicBookGroup.map((item, index) => {
         return {
-          inspectionPlanEventId: item.centralPolicyEvent.inspectionPlanEventId
+          inspectionPlanEventId: item.inspectionPlanEventId
         }
       })
 
@@ -159,6 +159,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
       this.electronicBookService.addOpinion(value, this.ebookInviteId).subscribe(res => {
         console.log('Opinion:', res);
         this.approveForm.reset();
+        this.submitted = false;
         this.getElectronicBookDetail();
         this.getElectronicBookInviteOpinion();
         this.modalRef.hide();

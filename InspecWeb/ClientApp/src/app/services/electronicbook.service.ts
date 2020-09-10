@@ -691,7 +691,7 @@ export class ElectronicbookService {
 
   getSendedElectronicBookDepartment(provincialDepartmentId) {
     console.log("provincialDepartmentId: ", provincialDepartmentId);
-    return this.http.get<any[]>(this.url + "electronicbookdepartment/" + provincialDepartmentId)
+    return this.http.get<any>(this.url + "electronicbookdepartment/" + provincialDepartmentId)
   }
 
   departmentAddSignature(value, file: FileList, electId, userId, electProvincialId) {
