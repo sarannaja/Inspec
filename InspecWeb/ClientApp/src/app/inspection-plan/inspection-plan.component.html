@@ -301,7 +301,7 @@
       <form [formGroup]="FormOther" *ngIf="checkInspec == false" (ngSubmit)="storeInspectionPlan(FormOther.value)">
         <div class="row">
           <div class="col-12 col-xl-12">
-            <label>กำหนดระยะเวลา</label>
+            <label>กำหนดระยะเวลา</label> <label style="color: red;">*</label>
           </div>
 
           <div class="col-12 col-xl-5">
@@ -326,8 +326,12 @@
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label>เรื่อง</label>
-              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง">
+              <label>เรื่อง</label> <label style="color: red;">*</label>
+              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                [ngClass]="{ 'is-invalid': submitted && FormOther.controls.title.errors }">
+              <div *ngIf="submitted && FormOther.controls.title.errors" class="invalid-feedback">
+                <div *ngIf="FormOther.controls.title.errors.required">กรุณากรอกเรื่องที่ตรวจ</div>
+              </div>
             </div>
           </div>
         </div>
@@ -343,8 +347,12 @@
           <label class="form-label">แผนการตรวจราชการประจำปี</label>
           <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี"
             [multiple]="true" [items]="selectdatacentralpolicy" name="CentralpolicyId"
+            [ngClass]="{ 'is-invalid': submitted && Form.controls.CentralpolicyId.errors }"
             formControlName="CentralpolicyId">
           </ng-select>
+          <div *ngIf="submitted && Form.controls.CentralpolicyId.errors" class="invalid-feedback">
+            <div *ngIf="Form.controls.CentralpolicyId.errors.required">กรุณาเลือกแผนการตรวจราชการประจำปี</div>
+          </div>
         </div>
 
         <div class="form-group row">
