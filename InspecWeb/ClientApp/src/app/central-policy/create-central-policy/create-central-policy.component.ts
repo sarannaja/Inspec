@@ -23,7 +23,7 @@ interface addInput {
 })
 export class CreateCentralPolicyComponent implements OnInit {
 
-  private myDatePickerOptions: IMyOptions = {
+  myDatePickerOptions: IMyOptions = {
     // other options...
 
     dateFormat: 'dd/mm/yyyy',

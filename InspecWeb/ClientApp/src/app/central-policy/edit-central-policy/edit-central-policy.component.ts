@@ -21,7 +21,7 @@ import { NotofyService } from 'src/app/services/notofy.service';
 })
 export class EditCentralPolicyComponent implements OnInit {
 
-  private myDatePickerOptions: IMyOptions = {
+  myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
     showClearDateBtn: false
@@ -140,7 +140,7 @@ export class EditCentralPolicyComponent implements OnInit {
             let sDate: Date = new Date(element.startDate);
             let eDate: Date = new Date(element.endDate)
             console.log("EEE", sDate);
-  
+
             this.d.push(this.fb.group({
               start_date: {
                 year: sDate.getFullYear(),
@@ -156,7 +156,7 @@ export class EditCentralPolicyComponent implements OnInit {
             // console.log("check: ", this.d.controls);
           });
         }
-       
+
         this.resultdetailcentralpolicy.centralPolicyProvinces.forEach(element => {
           console.log("element: ", element);
           if (element.active == 1) {
