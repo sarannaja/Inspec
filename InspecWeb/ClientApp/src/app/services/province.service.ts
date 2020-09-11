@@ -15,7 +15,7 @@ export class ProvinceService {
     this.url = baseUrl + 'api/province/';
   }
 
-  getprovincedata(): Observable<any[]> {
+  getprovincedata2(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
   }
   getprovincedata2(): Observable<Province[]> {

@@ -377,7 +377,7 @@ export class CreateElectronicBookComponent implements OnInit {
     this.EbookForm.get('ProvinceId').patchValue([]);
   }
   getDataProvince() {
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.external.getProvinceRegion()
           .subscribe(result2 => {

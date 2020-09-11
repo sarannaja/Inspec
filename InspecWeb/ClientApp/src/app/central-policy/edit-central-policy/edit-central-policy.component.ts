@@ -196,7 +196,7 @@ export class EditCentralPolicyComponent implements OnInit {
     })
   }
   getProvince() {
-    this.provinceservice.getprovincedata().subscribe(result => {
+    this.provinceservice.getprovincedata2().subscribe(result => {
       this.resultprovince = result
       this.selectdataprovince = this.resultprovince.map((item, index) => {
         return { value: item.id, label: item.name }
@@ -359,7 +359,7 @@ export class EditCentralPolicyComponent implements OnInit {
   }
 
   // getDataProvince() {
-  //   this.provinceservice.getprovincedata()
+  //   this.provinceservice.getprovincedata2()
   //     .subscribe(result => {
   //       this.selectdataprovince = result.map(result => {
   //         console.log(
