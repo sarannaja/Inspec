@@ -5,7 +5,15 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+
+      <li *ngIf="watch == 0" class="breadcrumb-item"><a [routerLink]="['/inspectionplanevent']">ปฏิทินการตรวจราชการ</a>
+      </li>
+      <li *ngIf="watch == 1" class="breadcrumb-item"><a
+          [routerLink]="['/inspectionplanevent/all']">ปฏิทินการตรวจราชการ</a></li>
+
       <li class="breadcrumb-item"><a href="javascript:void(0)">กำหนดการตรวจราชการ</a></li>
+
+
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจราชการ</a></li> -->
     </ol>
   </nav>

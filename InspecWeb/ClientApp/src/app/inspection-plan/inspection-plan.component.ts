@@ -155,23 +155,23 @@ export class InspectionPlanComponent implements OnInit {
     this.Form = this.fb.group({
       CentralpolicyId: new FormControl(null, [Validators.required]),
 
-      startdate: new FormControl(null, [Validators.required]),
-      enddate: new FormControl(null, [Validators.required]),
+      // startdate: new FormControl(null, [Validators.required]),
+      // enddate: new FormControl(null, [Validators.required]),
 
-      notificationdate: new FormControl(null, [Validators.required]),
-      deadlinedate: new FormControl(null, [Validators.required]),
+      // notificationdate: new FormControl(null, [Validators.required]),
+      // deadlinedate: new FormControl(null, [Validators.required]),
     })
 
     this.FormOther = this.fb.group({
       title: new FormControl(null, [Validators.required]),
-      start_date: new FormControl(null, [Validators.required]),
-      end_date: new FormControl(null, [Validators.required]),
+      // start_date: new FormControl(null, [Validators.required]),
+      // end_date: new FormControl(null, [Validators.required]),
       // year: new FormControl(1, [Validators.required]),
       // type: new FormControl("อื่นๆ", [Validators.required]),
       // files: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(this.provinceid, [Validators.required]),
       // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
-      input: new FormArray([])
+      // input: new FormArray([])
     })
     // this.Form.patchValue({
     //   startdate: this.timelineData.startDate,
@@ -684,9 +684,13 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   storeInspectionPlan(value) {
+
+    // this.FormOther.patchValue({
+    //   ProvinceId: this.provinceid,
+    // })
     this.submitted = true;
-    if (this.Form.invalid) {
-      console.log("in1");
+    if (this.FormOther.invalid) {
+      console.log("this.FormOther", this.FormOther);
       return;
     } else {
       console.log("FORM: ", value);
