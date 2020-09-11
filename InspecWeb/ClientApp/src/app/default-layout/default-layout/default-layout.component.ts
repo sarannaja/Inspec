@@ -1,3 +1,5 @@
+
+
 import { Router } from '@angular/router';
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -72,7 +74,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.getuserinfo();
     this.getnotifications();
     // this.getplancount();
-    // this.checkactive(this.nav[0].url);
+    this.checkactive(this.nav[0].url);
     this.isMobile = this.width < this.mobileWidth;
     // this.urlActive = this.nav[0].url
   }
@@ -83,14 +85,12 @@ export class DefaultLayoutComponent implements OnInit {
     console.log(this.width);
 
   }
-  checkactive(url, check: any = null) {
+  checkactive(url) {
     this.urlActive = url
-    // if(this.isMobile){
-    console.log('check', check);
+    if (this.isMobile) {
+      this.toggled = !this.toggled;
 
-    check && !check.children ? this.toggled = !this.toggled : null;
-
-    // }
+    }
   }
 
   userNav(url, id): void {
