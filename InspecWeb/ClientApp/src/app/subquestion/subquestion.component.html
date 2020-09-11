@@ -12,7 +12,7 @@
     </ol>
   </nav>
 </div>
-<div class="row">
+<div class="">
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
@@ -20,13 +20,13 @@
       </div>
       <div class="card-body">
         <form [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
-          <div class="">
             <div class="col-12 col-xl-12">
               <br>
             </div>
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>หัวข้อการตรวจ</label>
+                <label style="color: red;">*</label>
                 <!-- <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"> -->
                 <textarea cols="30" rows="2" type="text" formControlName="name" class="form-control"
                   placeholder="กรุณากรอกชื่อเรื่อง" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"></textarea>
@@ -36,6 +36,7 @@
               </div>
               <div class="form-group">
                 <label>คำชี้แจง</label>
+                <label style="color: red;">*</label>
                 <!-- <input type="text" formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง"> -->
                 <textarea cols="30" rows="2" type="text" formControlName="explanation" class="form-control"
                   placeholder="กรุณากรอกคำชี้แจง"
@@ -46,6 +47,7 @@
               </div>
               <div class="form-group">
                 <label>ระยะเวลาการตรวจ</label>
+                <label style="color: red;">*</label>
                 <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"
                   [items]="times" name="ํTime" formControlName="centralpolicydateid"
                   [ngClass]="{ 'is-invalid': submitted && f.centralpolicydateid.errors }">
@@ -75,6 +77,7 @@
                           <label>ชุดที่ {{iv + 1}}</label>
                           <br>
                           <label>ผู้ให้ข้อมูล</label>
+                          <label style="color: red;">*</label>
                         </div>
                         <div class="col-1" *ngIf="iv == 0; else elseBlock">
                           <!-- <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="addV()" value="Add V"></i> -->
@@ -93,10 +96,11 @@
                       </ng-select>
                       <div class="form-group" *ngIf="submitted && tv.at(iv).get('departmentId').invalid"
                         [ngStyle]="submitted && tv.at(iv).get('departmentId').invalid ? {color: '#dc3545'}:{color: ''} ">
-                        <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
+                        <div style="font-size: 80%;">กรุณาเลือกหน่วยงาน</div>
                       </div>
                       <br>
                       <label>ประเด็นการตรวจติดตาม</label>
+                      <label style="color: red;">*</label>
                       <br>
                       <!-- <label>คำถามปลายเปิด</label> -->
                       <!-- <div formArrayName="inputquestionopen">
@@ -141,7 +145,7 @@
                                 <div class="form-group"
                                   *ngIf="submitted && getinputquestionclose(iv).tvf[ix].get('questionclose').invalid"
                                   [ngStyle]="submitted && getinputquestionclose(iv).tvf[ix].get('questionclose').invalid ? {color: '#dc3545'}:{color: ''} ">
-                                  <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
+                                  <div style="font-size: 80%;">กรุณากรอกคำถาม</div>
                                 </div>
                               </div>
                               <div class="col-1">
@@ -175,7 +179,7 @@
                                       <div class="form-group"
                                         *ngIf="submitted && getinputquestionclose(iv,ix).tvftvff[iy].get('answerclose').invalid"
                                         [ngStyle]="submitted && getinputquestionclose(iv,ix).tvftvff[iy].get('answerclose').invalid ? {color: '#dc3545'}:{color: ''} ">
-                                        <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
+                                        <div style="font-size: 80%;">กรุณากรอกคำตอบให้เลือก</div>
                                       </div>
                                     </div>
                                     <div class="col-1">
@@ -268,17 +272,17 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label w-100">แนบไฟล์</label>
-                <input type="file" multiple (change)="uploadFile2($event)">
+                <input class="inputfiles" type="file" multiple (change)="uploadFile2($event)">
               </div>
             </div>
             <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
-              <form class="form-group row col-12" [formGroup]="itemTest">
+              <form class="row col-12" [formGroup]="itemTest">
                 <div class="col-4">
-                  <label formControlName="SubjectFile">ไฟล์ที่ {{i + 1}})
+                  <label class="textellipsis" formControlName="SubjectFile">ไฟล์ที่ {{i + 1}})
                     {{itemTest['controls'].SubjectFile.value.name}}</label>
                 </div>
                 <div class="col-8">
-                  <input formControlName="fileDescription" class="form-control" type="text" placeholder="ใส่คำอธิบาย">
+                  <input formControlName="fileDescription" class="form-control inputfiles" type="text" placeholder="ใส่คำอธิบาย">
                 </div>
               </form>
             </div>
@@ -305,7 +309,6 @@
               <button style="margin-right: 15px;" type="submit" class="btn btn-primary">บันทึก</button>
               <button style="margin-left: 15px;" type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
             </div>
-          </div>
         </form>
       </div>
     </div>

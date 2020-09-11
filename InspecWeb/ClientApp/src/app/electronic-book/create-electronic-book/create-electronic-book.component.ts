@@ -35,6 +35,7 @@ export class CreateElectronicBookComponent implements OnInit {
   userid: any;
   form: FormGroup;
   EbookForm: FormGroup;
+  EbookForm2: FormGroup;
   fileStatus: any;
   centralPolicyEbook: Array<any>;
   inputdate: any = [{ start_date: '', end_date: '' }];
@@ -46,11 +47,18 @@ export class CreateElectronicBookComponent implements OnInit {
   province: any[] = [];
   selectedProvince = [];
   provinceData: any = [];
+  submitted = false;
+  submitted2 = false;
 
   get f() { return this.EbookForm.controls }
   get d() { return this.f.inputdate as FormArray }
 
   get s() { return this.f.fileData as FormArray }
+
+  get f2() { return this.EbookForm2.controls }
+  get d2() { return this.f2.inputdate as FormArray }
+
+  get s2() { return this.f2.fileData as FormArray }
 
   constructor(
     private fb: FormBuilder,
@@ -88,23 +96,45 @@ export class CreateElectronicBookComponent implements OnInit {
     })
 
     this.EbookForm = this.fb.group({
-      centralPolicyEventId: new FormControl(null, [Validators.required]),
+      centralPolicyEventId: new FormControl("", [Validators.required]),
       inputdate: new FormArray([]),
-      checkDetail: new FormControl(null, [Validators.required]),
-      Problem: new FormControl(null, [Validators.required]),
-      Suggestion: new FormControl(null, [Validators.required]),
+      checkDetail: new FormControl("", [Validators.required]),
+      Problem: new FormControl("", [Validators.required]),
+      Suggestion: new FormControl("", [Validators.required]),
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
-      fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
-      description: new FormControl(null, [Validators.required]),
-      ebookType: new FormControl("สร้างจากแผนการตรวจราชการ", [Validators.required]),
-      provincialDepartment: new FormControl(null, [Validators.required]),
-      centralPolicy: new FormControl(null, [Validators.required]),
+      // fileType: new FormControl("เลือกประเภทเอกสารแนบ"),
+      // description: new FormControl(null, [Validators.required]),
+      // ebookType: new FormControl("สร้างจากแผนการตรวจราชการ", [Validators.required]),
+      // provincialDepartment: new FormControl(null, [Validators.required]),
+      // centralPolicy: new FormControl("", [Validators.required]),
       fileData: new FormArray([]),
-      SendToProvince: new FormControl(null, [Validators.required]),
-      ProvinceId: new FormControl(null, [Validators.required]),
+      SendToProvince: new FormControl(""),
+      // ProvinceId: new FormControl(null, [Validators.required]),
+    });
+
+    this.EbookForm2 = this.fb.group({
+      // centralPolicyEventId: new FormControl("", [Validators.required]),
+      inputdate: new FormArray([]),
+      checkDetail: new FormControl("", [Validators.required]),
+      Problem: new FormControl("", [Validators.required]),
+      Suggestion: new FormControl("", [Validators.required]),
+      Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
+      // fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
+      // description: new FormControl(null, [Validators.required]),
+      // ebookType: new FormControl("สร้างจากแผนการตรวจราชการ", [Validators.required]),
+      provincialDepartment: new FormControl("", [Validators.required]),
+      centralPolicy: new FormControl("", [Validators.required]),
+      fileData: new FormArray([]),
+      SendToProvince: new FormControl(""),
+      ProvinceId: new FormControl("", [Validators.required]),
     });
 
     this.d.push(this.fb.group({
+      start_date: '',
+      end_date: '',
+    }))
+
+    this.d2.push(this.fb.group({
       start_date: '',
       end_date: '',
     }))
@@ -142,78 +172,125 @@ export class CreateElectronicBookComponent implements OnInit {
   }
 
   storeElectronicBook(value) {
-
-    console.log("File with desctiption: ", value);
-    console.log("checkType: ", this.checkTypeCreate);
-
-    // true = สร้างจากแผนการตรวจ
-    if (this.checkTypeCreate == true) {
-      console.log("Form: ", value);
-      this.electronicBookService.createElectronicBook2(value, this.userid).subscribe(res => {
-        console.log("eBookRes: ", res);
-
-        this._NotofyService.onSuccess("เพื่มข้อมูล",);
-
-        // if (value.fileData != null) {
-        //   for (var iii = 0; iii < value.fileData.length; iii++) {
-        //     console.log("Loop: ", value.fileData[iii]);
-        //     const formData = new FormData();
-        //     formData.append("files2", value.fileData[iii].ebookFile);
-        //     formData.append("fileDescription2", value.fileData[iii].fileDescription);
-        //     this.electronicBookService.addElectronicBookImage(formData, res.eBookID).subscribe(res => {
-        //       console.log("imageRes: ", res);
-
-        //     })
-        //   }
-        // }
-
-        window.history.back();
-
-      })
+    // console.log("File with desctiption: ", value);
+    // console.log("checkType: ", this.checkTypeCreate);
+    this.submitted = true;
+    if (this.EbookForm.invalid) {
+      console.log("in1");
+      return;
     } else {
-      console.log("Form: ", value);
-      this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid)
-        .subscribe(res => {
+      // true = สร้างจากแผนการตรวจ
+      if (this.checkTypeCreate == true) {
+        console.log("Form: ", value);
+        this.electronicBookService.createElectronicBook2(value, this.userid).subscribe(res => {
           console.log("eBookRes: ", res);
+
           this._NotofyService.onSuccess("เพื่มข้อมูล",);
+
+          // if (value.fileData != null) {
+          //   for (var iii = 0; iii < value.fileData.length; iii++) {
+          //     console.log("Loop: ", value.fileData[iii]);
+          //     const formData = new FormData();
+          //     formData.append("files2", value.fileData[iii].ebookFile);
+          //     formData.append("fileDescription2", value.fileData[iii].fileDescription);
+          //     this.electronicBookService.addElectronicBookImage(formData, res.eBookID).subscribe(res => {
+          //       console.log("imageRes: ", res);
+
+          //     })
+          //   }
+          // }
+
           window.history.back();
+
         })
+      } else {
+        console.log("Form: ", value);
+        this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid)
+          .subscribe(res => {
+            console.log("eBookRes: ", res);
+            this._NotofyService.onSuccess("เพื่มข้อมูล",);
+            window.history.back();
+          })
+      }
     }
   }
 
   storeElectronicBook2(value) {
-
-    console.log("File with desctiption: ", value);
-
-    if (this.checkTypeCreate == true) {
-      console.log("Form: ", value);
-      this.electronicBookService.createElectronicBook(value, this.userid).subscribe(res => {
-        console.log("eBookRes: ", res);
-
-        // if (value.fileData != null) {
-        //   for (var iii = 0; iii < value.fileData.length; iii++) {
-        //     console.log("Loop: ", value.fileData[iii]);
-        //     const formData = new FormData();
-        //     formData.append("files2", value.fileData[iii].ebookFile);
-        //     formData.append("fileDescription2", value.fileData[iii].fileDescription);
-        //     // this.electronicBookService.addElectronicBookImage(formData, res.eBookID).subscribe(res => {
-        //     //   console.log("imageRes: ", res);
-
-        //     // })
-        //   }
-        // }
-
-        // window.history.back();
-
-      })
+    // console.log("File with desctiption: ", value);
+    // console.log("checkType: ", this.checkTypeCreate);
+    this.submitted2 = true;
+    if (this.EbookForm2.invalid) {
+      console.log("in2");
+      return;
     } else {
-      console.log("Form: ", value);
-      this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid).subscribe(res => {
-        console.log("eBookRes: ", res);
-        // window.history.back();
-      })
+      // true = สร้างจากแผนการตรวจ
+      if (this.checkTypeCreate == true) {
+        console.log("Form: ", value);
+        this.electronicBookService.createElectronicBook2(value, this.userid).subscribe(res => {
+          console.log("eBookRes: ", res);
+
+          this._NotofyService.onSuccess("เพื่มข้อมูล",);
+
+          // if (value.fileData != null) {
+          //   for (var iii = 0; iii < value.fileData.length; iii++) {
+          //     console.log("Loop: ", value.fileData[iii]);
+          //     const formData = new FormData();
+          //     formData.append("files2", value.fileData[iii].ebookFile);
+          //     formData.append("fileDescription2", value.fileData[iii].fileDescription);
+          //     this.electronicBookService.addElectronicBookImage(formData, res.eBookID).subscribe(res => {
+          //       console.log("imageRes: ", res);
+
+          //     })
+          //   }
+          // }
+
+          window.history.back();
+
+        })
+      } else {
+        console.log("Form: ", value);
+        this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid)
+          .subscribe(res => {
+            console.log("eBookRes: ", res);
+            this._NotofyService.onSuccess("เพื่มข้อมูล",);
+            window.history.back();
+          })
+      }
     }
   }
+
+  // storeElectronicBook2(value) {
+  //   console.log("File with desctiption: ", value);
+  //   if (this.checkTypeCreate == true) {
+  //     console.log("Form: ", value);
+  //     this.electronicBookService.createElectronicBook(value, this.userid).subscribe(res => {
+  //       console.log("eBookRes: ", res);
+
+  //       // if (value.fileData != null) {
+  //       //   for (var iii = 0; iii < value.fileData.length; iii++) {
+  //       //     console.log("Loop: ", value.fileData[iii]);
+  //       //     const formData = new FormData();
+  //       //     formData.append("files2", value.fileData[iii].ebookFile);
+  //       //     formData.append("fileDescription2", value.fileData[iii].fileDescription);
+  //       //     // this.electronicBookService.addElectronicBookImage(formData, res.eBookID).subscribe(res => {
+  //       //     //   console.log("imageRes: ", res);
+
+  //       //     // })
+  //       //   }
+  //       // }
+
+  //       // window.history.back();
+
+  //     })
+  //   } else {
+  //     console.log("Form: ", value);
+  //     this.electronicBookService.createElectronicBookOwn(value, this.form.value.files, this.userid).subscribe(res => {
+  //       console.log("eBookRes: ", res);
+  //       // window.history.back();
+  //     })
+  //   }
+  // }
+
   checkType(type) {
     // alert(type)
     this.fileType = type;
@@ -300,7 +377,7 @@ export class CreateElectronicBookComponent implements OnInit {
     this.EbookForm.get('ProvinceId').patchValue([]);
   }
   getDataProvince() {
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.external.getProvinceRegion()
           .subscribe(result2 => {

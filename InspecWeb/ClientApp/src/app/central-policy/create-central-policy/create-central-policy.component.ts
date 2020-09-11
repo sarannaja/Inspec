@@ -23,10 +23,11 @@ interface addInput {
 })
 export class CreateCentralPolicyComponent implements OnInit {
 
-  private myDatePickerOptions: IMyOptions = {
+  myDatePickerOptions: IMyOptions = {
     // other options...
 
     dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false
     // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
   };
 
@@ -109,7 +110,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     }))
     //แก้ไข
 
-    // this.provinceservice.getprovincedata()
+    // this.provinceservice.getprovincedata2()
     // .subscribe(result => {
     //   this.resultprovince = result
 

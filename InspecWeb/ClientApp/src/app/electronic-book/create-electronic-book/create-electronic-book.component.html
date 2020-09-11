@@ -32,17 +32,24 @@
 
             <div class="col-12 col-xl-12">
               <label>เลือกกำหนดการ</label>
+              <label style="color: red;">*</label>
             </div>
             <div class="col-12">
               <div class="form-group row" *ngFor="let item of d.controls; let i = index">
-                <form class="form-group row col-12" [formGroup]="item">
-                  <div class="col-12 col-xl-3">
+                <form class="form-group row col-12 d-flex justify-content-between" [formGroup]="item">
+                  <div class="col-12 col-xl-6">
                     <div class="form-group">
                       <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
                         [options]="myDatePickerOptions" onchange="" required (dateChanged)="onStartDateChanged($event)">
                       </my-date-picker-th>
+                      <div class="form-group" *ngIf="submitted && d.at(i).invalid"
+                        [ngStyle]="submitted && d.at(i).invalid ? {color: '#dc3545'}:{color: ''} ">
+                        <!-- <div *ngIf="submitted && d.at(i).invalid" class="invalid-feedback"> -->
+                        <div style="font-size: 80%;">กรุณาเลือกกำหนดการ</div>
+                      </div>
                     </div>
                   </div>
+
                   <!-- <div class="col-12 col-xl-1">
                     <div class="form-group" align="center">
                       ถึง
@@ -63,10 +70,15 @@
               <div class="form-group">
                 <div class="form-group">
                   <label class="form-label">แผนการตรวจราชการ</label>
+                  <label style="color: red;">*</label>
                   <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการ"
                     [multiple]="true" [items]="centralPolicyEbook" name="centralPolicyEventId"
-                    formControlName="centralPolicyEventId">
+                    formControlName="centralPolicyEventId"
+                    [ngClass]="{ 'is-invalid': submitted && f.centralPolicyEventId.errors }">
                   </ng-select>
+                  <div *ngIf="submitted && f.centralPolicyEventId.errors" class="invalid-feedback">
+                    <div *ngIf="f.centralPolicyEventId.errors.required">ไม่มีแผนการตรวจราชการ</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -74,27 +86,39 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ผลการตรวจ</label>
+                <label style="color: red;">*</label>
                 <textarea cols="30" rows="5" formControlName="checkDetail" class="form-control"
-                  placeholder="กรุณากรอกผลการตรวจ">
+                  placeholder="กรุณากรอกผลการตรวจ" [ngClass]="{ 'is-invalid': submitted && f.checkDetail.errors }">
                 </textarea>
+                <div *ngIf="submitted && f.checkDetail.errors" class="invalid-feedback">
+                  <div *ngIf="f.checkDetail.errors.required">กรุณกรอกผลการตรวจ</div>
+                </div>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ปัญหาและอุปสรรค</label>
+                <label style="color: red;">*</label>
                 <textarea cols="30" rows="5" formControlName="Problem" class="form-control"
-                  placeholder="กรุณากรอกปัญหาและอุปสรรค">
+                  placeholder="กรุณากรอกปัญหาและอุปสรรค" [ngClass]="{ 'is-invalid': submitted && f.Problem.errors }">
                 </textarea>
+                <div *ngIf="submitted && f.Problem.errors" class="invalid-feedback">
+                  <div *ngIf="f.Problem.errors.required">กรุณกรอกปัญหาและอุปสรรค</div>
+                </div>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ข้อเสนอแนะ</label>
+                <label style="color: red;">*</label>
                 <textarea cols="30" rows="5" formControlName="Suggestion" class="form-control"
-                  placeholder="กรุณากรอกข้อเสนอแนะ">
+                  placeholder="กรุณากรอกข้อเสนอแนะ" [ngClass]="{ 'is-invalid': submitted && f.Suggestion.errors }">
                 </textarea>
+                <div *ngIf="submitted && f.Suggestion.errors" class="invalid-feedback">
+                  <div *ngIf="f.Suggestion.errors.required">กรุณกรอกข้อเสนอแนะ</div>
+                </div>
               </div>
             </div>
 
@@ -176,17 +200,21 @@
 
 
         <!-- ==================== สร้างเอง ==================== -->
-        <form *ngIf="checkTypeCreate == false" [formGroup]="EbookForm"
-          (ngSubmit)="storeElectronicBook(EbookForm.value)">
+        <form *ngIf="checkTypeCreate == false" [formGroup]="EbookForm2"
+          (ngSubmit)="storeElectronicBook2(EbookForm2.value)">
           <div>
             <div class="col-12 col-xl-12">
               <div class="form-group">
-                <div class="form-group">
-                  <label class="form-label">ประเด็นนโยบาย</label>
-                  <input class="form-control" type="text" formControlName="centralPolicy"
-                    placeholder="กรุณากรอกประเด็นนโยบาย">
+                <label class="form-label">ประเด็นนโยบาย</label>
+                <label style="color: red;">*</label>
+                <input class="form-control" type="text" formControlName="centralPolicy"
+                  placeholder="กรุณากรอกประเด็นนโยบาย"
+                  [ngClass]="{ 'is-invalid': submitted2 && f2.centralPolicy.errors }">
+                <div *ngIf="submitted2 && f2.centralPolicy.errors" class="invalid-feedback">
+                  <div *ngIf="f2.centralPolicy.errors.required">กรุณกรอกประเด็นนโยบาย</div>
                 </div>
               </div>
+
             </div>
 
             <!-- <div class="col-12 col-xl-12">
@@ -201,9 +229,11 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>พื้นที่การตรวจติดตาม {{selectedProvince.length}} จังหวัด</label>
+                <label style="color: red;">*</label>
                 <ng-select [items]="province" [multiple]="true" bindLabel="label" groupBy="region"
                   [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
-                  [(ngModel)]="selectedProvince" formControlName="ProvinceId">
+                  [(ngModel)]="selectedProvince" formControlName="ProvinceId"
+                  [ngClass]="{ 'is-invalid': submitted2 && f2.ProvinceId.errors }">
                   <ng-template ng-header-tmp>
                     <div>
                       <button type="button" class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
@@ -220,32 +250,49 @@
                       [ngModel]="item$.selected" /> {{item.name}}
                   </ng-template>
                 </ng-select>
+                <div *ngIf="submitted2 && f2.ProvinceId.errors" class="invalid-feedback">
+                  <div *ngIf="f2.ProvinceId.errors.required">กรุณาเลือกพื้นที่การตรวจติดตาม</div>
+                </div>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label class="form-label">หน่วยรับตรวจ</label>
+                <label style="color: red;">*</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยรับตรวจ" [multiple]="true"
-                  [items]="provincialDepartmentData" name="province" formControlName="provincialDepartment">
+                  [items]="provincialDepartmentData" name="province" formControlName="provincialDepartment"
+                  [ngClass]="{ 'is-invalid': submitted2 && f2.provincialDepartment.errors }">
                 </ng-select>
+                <div *ngIf="submitted2 && f2.provincialDepartment.errors" class="invalid-feedback">
+                  <div *ngIf="f2.provincialDepartment.errors.required">กรุณาเลือกพื้นที่การตรวจติดตาม</div>
+                </div>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <label>กำหนดการ</label>
+              <label style="color: red;">*</label>
             </div>
 
             <div class="col-12">
-              <div class="form-group row" *ngFor="let item of d.controls; let i = index">
+              <div class="form-group row" *ngFor="let item of d2.controls; let i = index">
                 <form class="form-group row col-12" [formGroup]="item">
-                  <div class="col-12 col-xl-3">
+                  <div class="col-12 col-xl-6">
                     <div class="form-group">
-                      <!-- <my-date-picker-th formControlName="start_date"   [items]="myDatePickerOptions" required>
-                      </my-date-picker-th> -->
+
                       <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
                         [options]="myDatePickerOptions" required>
                       </my-date-picker-th>
+
+                      <!-- <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
+                        [options]="myDatePickerOptions" onchange="" required (dateChanged)="onStartDateChanged($event)">
+                      </my-date-picker-th> -->
+                      <div class="form-group" *ngIf="submitted2 && d2.at(i).invalid"
+                        [ngStyle]="submitted2 && d2.at(i).invalid ? {color: '#dc3545'}:{color: ''} ">
+                        <!-- <div *ngIf="submitted && d.at(i).invalid" class="invalid-feedback"> -->
+                        <div style="font-size: 80%;">กรุณาเลือกกำหนดการ</div>
+                      </div>
                     </div>
                   </div>
                   <!-- <div class="col-12 col-xl-1">
@@ -267,27 +314,39 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ผลการตรวจ</label>
+                <label style="color: red;">*</label>
                 <textarea cols="30" rows="5" formControlName="checkDetail" class="form-control"
-                  placeholder="กรุณากรอกผลการตรวจ">
+                  placeholder="กรุณากรอกผลการตรวจ" [ngClass]="{ 'is-invalid': submitted2 && f2.checkDetail.errors }">
                 </textarea>
+                <div *ngIf="submitted2 && f2.checkDetail.errors" class="invalid-feedback">
+                  <div *ngIf="f2.checkDetail.errors.required">กรุณากรอกผลการตรวจ</div>
+                </div>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ปัญหาและอุปสรรค</label>
+                <label style="color: red;">*</label>
                 <textarea cols="30" rows="5" formControlName="Problem" class="form-control"
-                  placeholder="กรุณากรอกปัญหาและอุปสรรค">
+                  placeholder="กรุณากรอกปัญหาและอุปสรรค" [ngClass]="{ 'is-invalid': submitted2 && f2.Problem.errors }">
                 </textarea>
+                <div *ngIf="submitted2 && f2.Problem.errors" class="invalid-feedback">
+                  <div *ngIf="f2.Problem.errors.required">กรุณากรอกปัญหาและอุปสรรค</div>
+                </div>
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ข้อเสนอแนะ</label>
+                <label style="color: red;">*</label>
                 <textarea cols="30" rows="5" formControlName="Suggestion" class="form-control"
-                  placeholder="กรุณากรอกข้อเสนอแนะ">
+                  placeholder="กรุณากรอกข้อเสนอแนะ" [ngClass]="{ 'is-invalid': submitted2 && f2.Suggestion.errors }">
                 </textarea>
+                <div *ngIf="submitted2 && f2.Suggestion.errors" class="invalid-feedback">
+                  <div *ngIf="f2.Suggestion.errors.required">กรุณากรอกข้อเสนอแนะ</div>
+                </div>
               </div>
             </div>
 

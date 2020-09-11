@@ -39,11 +39,6 @@
     
   </ItemGroup>
 
-  <ItemGroup><!-- <None Remove="ClientApp\src\assets\favicon.ico" /> -->
-  
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
   <ItemGroup>
     <Content Include="ClientApp\src\assets\favicon.ico">
       <ExcludeFromSingleFile>false</ExcludeFromSingleFile>
@@ -75,7 +70,7 @@
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
       <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>

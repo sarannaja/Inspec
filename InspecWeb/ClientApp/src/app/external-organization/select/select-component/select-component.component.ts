@@ -15,7 +15,7 @@ export class SelectComponentComponent implements OnInit {
     this.getDataProvince()
   }
   getDataProvince() {
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.province = result.map(result => {
           console.log(

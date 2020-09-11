@@ -1,5 +1,6 @@
 <!-- <ng-snotify></ng-snotify> -->
-<div id="page-content-wrapper" class="wrapper">
+
+<div id="page-content-wrapper" class="wrapper prompt">
 
     <nav id="sidebar" class="sidebar" [ngClass]="{'toggled': toggled}">
         <a class="sidebar-brand" [routerLink]="['/main']">
@@ -23,8 +24,9 @@
             </div>
 
             <ul class="sidebar-nav">
-                <li *ngFor="let item of nav;" (click)="checkactive(item.url,item.children)"
-                    [ngClass]="item.url == urlActive ? 'sidebar-item active':'sidebar-item'" >
+
+                <li *ngFor="let item of nav;" (click)="checkactive(item.url,item)"
+                    [ngClass]="item.url == urlActive ? 'sidebar-item active':'sidebar-item'">
 
                     <a *ngIf="item.children == null;" class="sidebar-link" [routerLink]="[item.url]">
                         <i [ngClass]="classIcon+item.icon"></i>
@@ -46,13 +48,16 @@
                                     class="sidebar-link" href="{{childItem.url}}"> -->
 
                                 <a *ngIf="childItem.ex_link == '1'" target="_blank"
-                                    (click)="checkactive(childItem.url,false)" class="sidebar-link"
+
+                                    (click)="checkactive(childItem.url,item)" class="sidebar-link"
+
                                     href="{{childItem.url}}">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
                                 <a *ngIf="childItem.ex_link == '0' && childItem.ex_link!='user' "
-                                    (click)="checkactive(childItem.url,false)" class="sidebar-link"
+
+                                    (click)="checkactive(childItem.url,item)" class="sidebar-link"
                                     [routerLink]="[childItem.url]">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
@@ -171,6 +176,7 @@
                             <div class="list-group">
                                 <ng-container *ngFor="let item of resultnotifications">
                                     <a href="javascript:void(0)" class="list-group-item "
+
                                         (click)="detailnotifications(item.id)">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-2">
@@ -198,6 +204,7 @@
                                                     <span *ngIf="item.status == 10">
                                                         test10
                                                     </span>
+
                                                 </div>
                                                 <div class="text-muted small mt-1">
                                                     {{item.createdAt | thaidate: 'year' }}</div>

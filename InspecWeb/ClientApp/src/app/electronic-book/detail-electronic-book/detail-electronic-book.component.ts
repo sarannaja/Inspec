@@ -295,8 +295,17 @@ export class DetailElectronicBookComponent implements OnInit {
   sendToProvince(electId) {
     this.electronicBookService.sendToProvince(electId, this.userid, this.provinceId, this.provincialDepartmentId).subscribe(res => {
       console.log("sended: ", res);
+      // for noti to province and provincialdepartment.
+      // this.provinceId.forEach(element => {
+      //   this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, element, 7, this.electId)
+      //     .subscribe(response => {
+      //       console.log("Noti res: ", response);
+      //     })
+      // });
+
       this.getElectronicBookDetail();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("ส่งสมุดตรวจ",)
     })
   }
 

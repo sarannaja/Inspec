@@ -363,6 +363,9 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   }
 
   async openModal(template: TemplateRef<any>) {
+
+    this.Form.reset();
+
     this.modalRef = this.modalService.show(template);
     this.getDepartmentPeople();
     this.getMinistryPeople();
@@ -693,7 +696,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           if (element.user.role_id == 9) {
             this.role9Count = 1
           }
-          if (element.user.role_id == 10 && this.ministryId == element.user.ministryId) {
+          if (element.user.role_id == 10) {
             this.role10Count = 1
           }
         });

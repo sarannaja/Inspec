@@ -99,7 +99,7 @@ export class CreateInspectionPlanComponent implements OnInit {
     }))
     //แก้ไข
 
-    // this.provinceservice.getprovincedata().subscribe(result => {
+    // this.provinceservice.getprovincedata2().subscribe(result => {
     //   this.resultprovince = result
 
     //   this.selectdataprovince = this.resultprovince.map((item, index) => {
