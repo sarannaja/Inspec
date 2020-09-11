@@ -51,6 +51,7 @@ export class DefaultLayoutComponent implements OnInit {
   width: number = window.innerWidth;
   height: number = window.innerHeight;
   mobileWidth: number = 900;
+  lockNav:boolean = false
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
