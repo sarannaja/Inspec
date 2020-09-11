@@ -96,13 +96,13 @@
                 </div>
               </td>           
               <td> 
-                <!-- <button *ngIf="item2.beaware_date != null" type="button" class="btn btn-circle btn-warning" 
-                (click)="exportexecutive2(item2.id,item2.userID)" title="รายงานผลข้อสั่งการ">
-                รายงานผล
-              </button>   -->
-               <!-- <i *ngIf="item.answerdetail != null" class="align-middle mr-2 fas fa -fw fa-download pointer"
-                title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร">
-              </i>  -->
+
+              <div *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
+                <button *ngIf="item2.beaware_date != null" (click)="exportexecutive2(item2.id,item2.userID)" 
+                  title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร">
+                  <i class=" fas fa-fw fa-download"></i> 
+                </button>
+              </div>   
 
                 <!-- สำหรับผู้สร้างข้อสั่งการ -->
                 <div *ngIf="role_id == 8 && item.cancel == 0">
