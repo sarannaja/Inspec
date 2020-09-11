@@ -4,8 +4,14 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">กำหนดการตรวจราชการ</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+
+      <li *ngIf="watch == 0" class="breadcrumb-item"><a [routerLink]="['/inspectionplanevent']">ปฏิทินการตรวจราชการ</a>
+      </li>
+      <li *ngIf="watch == 1" class="breadcrumb-item"><a
+          [routerLink]="['/inspectionplanevent/all']">ปฏิทินการตรวจราชการ</a></li>
+
+      <li class="breadcrumb-item" (click)="back()"><a>กำหนดการตรวจราชการ</a></li>
       <li class="breadcrumb-item active" aria-current="page">รายละเอียดกำหนดการตรวจ</li>
     </ol>
   </nav>
@@ -194,18 +200,18 @@
                       <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 3 && watch == 0"
                         (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
 
-                        &nbsp;&nbsp;&nbsp;
-                        <span *ngIf="items.report != null">
-                          เหตุผลที่เปลี่ยนแปลงสถานะ {{items.report}}
-                        </span>
-                        <!-- มอบหมายให้ นายศรัณญ์ สาพรหม เบอร์ติดต่อ 0894161768 -->
-                        <span *ngIf="items.status == 'มอบหมาย' && items.forwardName != null">
-                          มอบหมายให้ {{items.forwardName}} เบอร์ติดต่อ {{items.forwardPhone}}
-                        </span>
+                      &nbsp;&nbsp;&nbsp;
+                      <span *ngIf="items.report != null">
+                        เหตุผลที่เปลี่ยนแปลงสถานะ {{items.report}}
+                      </span>
+                      <!-- มอบหมายให้ นายศรัณญ์ สาพรหม เบอร์ติดต่อ 0894161768 -->
+                      <span *ngIf="items.status == 'มอบหมาย' && items.forwardName != null">
+                        มอบหมายให้ {{items.forwardName}} เบอร์ติดต่อ {{items.forwardPhone}}
+                      </span>
 
-                        <span *ngIf="items.forwardName == 'ถูกมอบหมาย'">
-                          ถูกมอยหมายโดย {{items.invitedBy}}
-                        </span>
+                      <span *ngIf="items.forwardName == 'ถูกมอบหมาย'">
+                        ถูกมอยหมายโดย {{items.invitedBy}}
+                      </span>
                     </div>
                   </div>
                 </div>

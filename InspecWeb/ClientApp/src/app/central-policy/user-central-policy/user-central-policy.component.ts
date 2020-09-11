@@ -323,9 +323,14 @@ export class UserCentralPolicyComponent implements OnInit {
       this.resultministrypeople = result // All
       console.log("Ministry: ", this.resultministrypeople);
       for (var i = 0; i < this.resultministrypeople.length; i++) {
-        if (this.ministryId == this.resultministrypeople[i].ministryId) {
-          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+
+        var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        if (checked > 0) {
+          if (this.ministryId == this.resultministrypeople[i].ministryId) {
+            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+          }
         }
+
       }
 
       var data: any[] = this.ministryuserdata.map(result => {
@@ -352,8 +357,11 @@ export class UserCentralPolicyComponent implements OnInit {
     await this.userService.getuserdata(10).subscribe(async result => {
       this.resultdepartmentpeople = result // All
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-        if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
-          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+        var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+        if (checked > 0) {
+          if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+            await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+          }
         }
       }
 
