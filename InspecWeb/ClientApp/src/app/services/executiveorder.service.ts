@@ -136,7 +136,7 @@ export class ExecutiveorderService {
   }
 
   exportExecutive(userId) {
-    console.log("in service: ", userId);
+    //console.log("in service: ", userId);
 
     const formData = {
       userId: userId,
@@ -145,8 +145,8 @@ export class ExecutiveorderService {
 
     return this.http.post<any>(this.url + "/exportexecutive", formData)
   }
-  getexcutive2(id): Observable<any> {
-    return this.http.get<any>(this.url + "export2/" + id)
+  getexcutive2(id,userId): Observable<any> {
+    return this.http.get<any>(this.url + "export2/" + id + "/" +userId)
   }
 }
 

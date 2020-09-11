@@ -71,6 +71,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.profileform();
     this.getuserinfo();
     this.getnotifications();
+    this.urlActive = this.router.url;
     // this.getplancount();
     this.checkactive(this.nav[0].url);
     this.isMobile = this.width < this.mobileWidth;
@@ -83,9 +84,11 @@ export class DefaultLayoutComponent implements OnInit {
     console.log(this.width);
 
   }
+
   checkactive(url, check: any = null) {
     this.urlActive = url
     // if(this.isMobile){
+
 
     check != null ? this.toggled = !this.toggled : null;
 

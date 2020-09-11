@@ -1,4 +1,5 @@
 <!-- <ng-snotify></ng-snotify> -->
+
 <div id="page-content-wrapper" class="wrapper prompt">
 
     <nav id="sidebar" class="sidebar" [ngClass]="{'toggled': toggled}">
@@ -23,6 +24,7 @@
             </div>
 
             <ul class="sidebar-nav">
+
                 <li *ngFor="let item of nav;" (click)="checkactive(item.url,item)"
                     [ngClass]="item.url == urlActive ? 'sidebar-item active':'sidebar-item'">
 
@@ -46,12 +48,15 @@
                                     class="sidebar-link" href="{{childItem.url}}"> -->
 
                                 <a *ngIf="childItem.ex_link == '1'" target="_blank"
+
                                     (click)="checkactive(childItem.url,item)" class="sidebar-link"
+
                                     href="{{childItem.url}}">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
                                 <a *ngIf="childItem.ex_link == '0' && childItem.ex_link!='user' "
+
                                     (click)="checkactive(childItem.url,item)" class="sidebar-link"
                                     [routerLink]="[childItem.url]">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
@@ -169,8 +174,9 @@
                             </div>
 
                             <div class="list-group">
-                                <div *ngFor="let item of resultnotifications">
-                                    <a href="javascript:void(0)" class="list-group-item"
+                                <ng-container *ngFor="let item of resultnotifications">
+                                    <a href="javascript:void(0)" class="list-group-item "
+
                                         (click)="detailnotifications(item.id)">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-2">
@@ -184,17 +190,28 @@
                                             <div class="col-10">
                                                 <div class="text-dark">
                                                     <span *ngIf="item.status == 1">เรื่องตรวจ</span>
+                                                    <span *ngIf="item.status == 2">เรื่องตรวจ2</span>
+                                                    <span *ngIf="item.status == 3">เรื่องตรวจ3</span>
+                                                    <span *ngIf="item.status == 4">เรื่องตรวจ4</span>
+                                                    <span *ngIf="item.status == 5">เรื่องตรวจ5</span>
+                                                    <span *ngIf="item.status == 6">เรื่องตรวจ6</span>
+                                                    <span *ngIf="item.status == 7">เรื่องตรวจ7</span>
+                                                    <span *ngIf="item.status == 8">เรื่องตรวจ8</span>
+                                                    <span *ngIf="item.status == 9">เรื่องตรวจ9</span>
                                                     <span *ngIf="item.status == 10">ข้อสั่งการ</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
-                                                    <span *ngIf="item.status == 10">test10</span>
+                                                    <span *ngIf="item.status == 10">
+                                                        test10
+                                                    </span>
+
                                                 </div>
                                                 <div class="text-muted small mt-1">
                                                     {{item.createdAt | thaidate: 'year' }}</div>
                                             </div>
                                         </div>
                                     </a>
-                                </div>
+                                </ng-container>
                                 <!-- <a href="javascript:void(0)" class="list-group-item">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-2">
