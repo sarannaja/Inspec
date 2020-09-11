@@ -11,10 +11,9 @@ router.post("/", function (req, res, next) {
   let pull = `git pull
   `
   let deployProd = `
+  iisreset /stop
   dotnet publish InspecWeb.csproj -o publish
-echo "publish success"
-iisreset /start
-echo "start server
+  iisreset /start
   `
 
   nodeCmd.get(gitpull ?tofol+pull+deployProd : tofol+deployProd , (err, data, stderr) => res.json(data)
