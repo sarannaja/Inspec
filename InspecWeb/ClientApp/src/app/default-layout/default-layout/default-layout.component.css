@@ -9,3 +9,15 @@
     display: none;
   }
 }
+.item {
+  display: flex;
+  align-items: center;
+  margin: 6px 2px;
+  height: 50px;
+  /* background: orange; */
+}
+.list-group{
+  max-height: 300px;
+  overflow:scroll;
+  -webkit-overflow-scrolling: touch;
+}

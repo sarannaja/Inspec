@@ -322,10 +322,10 @@ export class ExecutiveOrderComponent implements OnInit {
   //<!-- END รายงานผล -->
 
 
-  exportexecutive2(id) {
-    this.executiveorderService.getexcutive2(id)
+  exportexecutive2(id,userId) {
+    this.executiveorderService.getexcutive2(id,userId)
       .subscribe(result => {
-        console.log('result', result);
+       // console.log('result', result);
         window.open(this.url + "reportexecutive/" + result.data);
       })
     this.getuserinfo();

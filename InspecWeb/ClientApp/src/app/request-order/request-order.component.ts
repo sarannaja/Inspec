@@ -126,7 +126,7 @@ export class RequestOrderComponent implements OnInit {
             if (this.role_id == 5 || this.role_id == 4) { //แจ้งคำร้องขอ
               this.requestOrderService.getrequestordercommandeddata(this.userid)
                 .subscribe(result => {  
-                  console.log('data',result);            
+                //  console.log('data',result);            
                   this.getDatauser();
                     this.resultrequestorder = result;
                   this.loading = true;      
@@ -334,10 +334,8 @@ export class RequestOrderComponent implements OnInit {
   
     //<!-- รายงานผล -->
     storeanswerrequestorder(value) {
-      alert(1);
       this.requestOrderService.answerrequestorder(value, this.awnserForm.value.files, this.idrequestorderanswer)
         .subscribe(result => {
-          alert(3);
           this.awnserForm.reset();
           this.loading = false;
           this.getuserinfo()
@@ -345,5 +343,13 @@ export class RequestOrderComponent implements OnInit {
         })
     }
     //<!-- END รายงานผล -->
+
+    exportexecutive2(id,userId) {
+      this.requestOrderService.getrequest2(id,userId)
+        .subscribe(result => {
+          window.open(this.url + "reportrequestorder/" + result.data);
+        })
+      this.getuserinfo();
+    }
 
 }
