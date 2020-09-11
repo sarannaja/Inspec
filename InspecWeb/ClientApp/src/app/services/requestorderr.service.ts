@@ -96,7 +96,7 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
 
       //สำหรับตอบกลับ
     answerrequestorder(requestorderData, file: FileList, idrequestderanswer) {
-    alert(2);
+   // alert(2);
     const formData = new FormData();
     formData.append('RequestOrderAnswerId', idrequestderanswer);
     formData.append('Answerdetail', requestorderData.Answerdetail);
@@ -130,7 +130,7 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
     return this.http.post<any>(this.url + "exportrequest3",boby)
   }
 
-  getrequest2(id){
-    return this.http.get<any>(this.url + "exportrequest2/" + id)
+  getrequest2(id,userId){
+    return this.http.get<any>(this.url + "exportrequest2/" + id + "/" + userId)
   }
 }
