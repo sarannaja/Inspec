@@ -83,10 +83,11 @@ export class DefaultLayoutComponent implements OnInit {
     console.log(this.width);
 
   }
-  checkactive(url) {
+  checkactive(url, check: any = null) {
     this.urlActive = url
     // if(this.isMobile){
-      this.toggled = !this.toggled;
+
+    check != null ? this.toggled = !this.toggled : null;
 
     // }
   }
@@ -102,7 +103,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-   // alert(1);
+    // alert(1);
     this.Form.patchValue({
       Prefix: this.Prefix,
       FName: this.FName,
@@ -204,8 +205,8 @@ export class DefaultLayoutComponent implements OnInit {
               Email: this.Email,
               Formprofile: 1,
               files: this.files,
-              Img:this.Img,
-              UserName : this.UserName
+              Img: this.Img,
+              UserName: this.UserName
             });
 
             if (this.role_id == 1) {
@@ -236,14 +237,14 @@ export class DefaultLayoutComponent implements OnInit {
   //End getuser
   //for
   editprofile(value) {
-    this.userService.editprofile(value, this.Form.value.files, this.Form.value.files2,this.userid).subscribe(response => {
+    this.userService.editprofile(value, this.Form.value.files, this.Form.value.files2, this.userid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.getuserinfo();
     })
   }
 
-  password(value){
+  password(value) {
 
   }
 
