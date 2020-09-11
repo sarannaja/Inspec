@@ -403,17 +403,17 @@ export class UserComponent implements OnInit {
     this.ministryService.getministry()
       .subscribe(result => {
 
-        if (this.roleId != 1 && this.roleId != 2) {
-          this.selectdataministry = result.filter((item, index) => {
-            return item.id != 1
-          }).map((item, index) => {
-            return { value: item.id, label: item.name }
-          })
-        } else {
+        // if (this.roleId != 1 && this.roleId != 2) {
+        //   this.selectdataministry = result.filter((item, index) => {
+        //     return item.id != 1
+        //   }).map((item, index) => {
+        //     return { value: item.id, label: item.name }
+        //   })
+        // } else {
           this.selectdataministry = result.map((item, index) => {
             return { value: item.id, label: item.name }
           })
-        }
+        // }
 
 
       });
