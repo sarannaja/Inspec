@@ -1,3 +1,5 @@
+
+
 import { Router } from '@angular/router';
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -84,15 +86,12 @@ export class DefaultLayoutComponent implements OnInit {
     console.log(this.width);
 
   }
-
-  checkactive(url, check: any = null) {
+  checkactive(url) {
     this.urlActive = url
-    // if(this.isMobile){
+    if (this.isMobile) {
+      this.toggled = !this.toggled;
 
-
-    check != null ? this.toggled = !this.toggled : null;
-
-    // }
+    }
   }
 
   userNav(url, id): void {
