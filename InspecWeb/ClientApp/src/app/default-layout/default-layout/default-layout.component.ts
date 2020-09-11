@@ -72,7 +72,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.getuserinfo();
     this.getnotifications();
     // this.getplancount();
-    this.checkactive(this.nav[0].url);
+    // this.checkactive(this.nav[0].url);
     this.isMobile = this.width < this.mobileWidth;
     // this.urlActive = this.nav[0].url
   }
@@ -86,8 +86,9 @@ export class DefaultLayoutComponent implements OnInit {
   checkactive(url, check: any = null) {
     this.urlActive = url
     // if(this.isMobile){
+    console.log('check', check);
 
-    check != null ? this.toggled = !this.toggled : null;
+    check && !check.children ? this.toggled = !this.toggled : null;
 
     // }
   }

@@ -1,5 +1,5 @@
 <!-- <ng-snotify></ng-snotify> -->
-<div id="page-content-wrapper" class="wrapper prompt">
+<div id="page-content-wrapper" class="wrapper">
 
     <nav id="sidebar" class="sidebar" [ngClass]="{'toggled': toggled}">
         <a class="sidebar-brand" [routerLink]="['/main']">
@@ -34,8 +34,8 @@
                     <div *ngIf="item.children != null;">
                         <a href="#{{item.IDchildren}}" data-toggle="collapse" class="sidebar-link collapsed">
                             <i [ngClass]="classIcon+item.icon"></i>
-                            <span class="align-middle">{{item.name}} {{item.bridge ? bridge(item.name).test:null}}
-                            </span>
+                            <!-- <span class="align-middle">{{item.name}} {{item.bridge ? bridge(item.name).test:null}}
+                            </span> -->
                         </a>
                         <ul *ngFor="let childItem of item.children;" id="{{item.IDchildren}}"
                             class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
@@ -45,14 +45,13 @@
                                 <!-- <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,childItem.ex_link)"
                                     class="sidebar-link" href="{{childItem.url}}"> -->
 
-                                <a *ngIf="childItem.ex_link == '1'" target="_blank"
-                                    (click)="checkactive(childItem.url,item)" class="sidebar-link"
-                                    href="{{childItem.url}}">
+                                <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(item.url)"
+                                    class="sidebar-link" href="{{childItem.url}}">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
                                 <a *ngIf="childItem.ex_link == '0' && childItem.ex_link!='user' "
-                                    (click)="checkactive(childItem.url,item)" class="sidebar-link"
+                                    (click)="checkactive(item.url,item)" class="sidebar-link"
                                     [routerLink]="[childItem.url]">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
