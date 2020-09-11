@@ -85,10 +85,10 @@ export class DefaultLayoutComponent implements OnInit {
   }
   checkactive(url) {
     this.urlActive = url
-    if(this.isMobile){
+    // if(this.isMobile){
       this.toggled = !this.toggled;
 
-    }
+    // }
   }
 
   userNav(url, id): void {
