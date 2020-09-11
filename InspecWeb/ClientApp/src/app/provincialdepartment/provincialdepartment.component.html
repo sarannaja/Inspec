@@ -1,71 +1,71 @@
 <div class="header">
-    <h1 class="header-title">
-        ระบบตรวจราชการอิเล็กทรอนิกส์
-    </h1>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"> <a href="#">จัดการฐานข้อมูล</a></li>
-            <li class="breadcrumb-item"><a [routerLink]="['/ministry']">กระทรวง</a></li>
-            <li class="breadcrumb-item"><a [routerLink]="['/ministry/'+departmentname.id+'/department']">กรม</a></li>
-            <li class="breadcrumb-item active">หน่วยงานส่วนภูมิภาค</li>
-        </ol>
-    </nav>
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"> <a href="#">จัดการฐานข้อมูล</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/ministry']">กระทรวง</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/ministry/'+departmentname.id+'/department']">กรม</a></li>
+      <li class="breadcrumb-item active">หน่วยงานส่วนภูมิภาค</li>
+    </ol>
+  </nav>
 </div>
 
 <form class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header" style="margin-bottom: -40px;">
-                <h4 class="card-title">กระทรวง : {{ministryname.name}}</h4> 
-                <h4 class="card-title">กรม : {{departmentname.name}}</h4> 
-                <div class="float-right">
-                    <button class="btn btn-primary" (click)="openModal(modalDepartment,departmentname.id)"
-                      style="margin-top: -60px;">เพิ่มข้อมูล</button>
-                </div>             
-            </div> 
-           <br>
-            <div class="card-body">
-                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-                    [dtOptions]="dtOptions">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>ชื่อหน่วยงานส่วนภูมิภาค</th>
-                            <th>จังหวัดภายใต้</th>
-                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of resultprovincialdepartment; let i = index">
-                            <td>{{ i + 1 }}</td>
-                            <td>{{item.name }}</td>
-                            <td>
-                              <span (click)="openDetailModal(modaldetailDepartment,item.id, item.name)" class="pointer">
-                              <i class="align-middle fas fa-fw fa-search"></i>
-                              ดูรายละเอียด
-                              </span>
-                            </td>
-                            <td>
-                              <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" 
-                                (click)="editModal(modaleditDepartment, item.id,item.name)">
-                                <i class="align-middle fas fa-fw fa-pen"></i>
-                              </button>
-                              <button class="btn btn-danger btn-pill btn-sm" title="แก้ไขข้อมูล" 
-                                (click)="deleteModal(modaldeleteDepartment, item.id)">
-                                <i class="align-middle fas fa-fw fa-trash-alt "></i>
-                              </button>
-                                
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h4 class="card-title">กระทรวง : {{ministryname.name}}</h4>
+        <h4 class="card-title">กรม : {{departmentname.name}}</h4>
+        <div class="float-right">
+          <button class="btn btn-primary" (click)="openModal(modalDepartment,departmentname.id)"
+            style="margin-top: -60px;">เพิ่มข้อมูล</button>
         </div>
-    </div>
+      </div>
+      <br>
+      <div class="card-body">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อหน่วยงานส่วนภูมิภาค</th>
+              <th>จังหวัดภายใต้</th>
+              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultprovincialdepartment; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{item.name }}</td>
+              <td>
+                <span (click)="openDetailModal(modaldetailDepartment,item.id, item.name)" class="pointer">
+                  <i class="align-middle fas fa-fw fa-search"></i>
+                  ดูรายละเอียด
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล"
+                  (click)="editModal(modaleditDepartment, item.id,item.name)">
+                  <i class="align-middle fas fa-fw fa-pen"></i>
+                </button>
+                <button class="btn btn-danger btn-pill btn-sm" title="แก้ไขข้อมูล"
+                  (click)="deleteModal(modaldeleteDepartment, item.id)">
+                  <i class="align-middle fas fa-fw fa-trash-alt "></i>
+                </button>
 
-<!-- BEGIN primary modal -->
-<ng-template #modalDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEGIN primary modal -->
+  <ng-template #modalDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <form [formGroup]="Form" (ngSubmit)="storeprovincialDepartment(Form.value)">
       <div class="modal-content">
         <div class="modal-header">
@@ -76,20 +76,45 @@
         </div>
 
         <div class="modal-body m-3">
-            <div class="form-group">
-                <label for="Name" class="form-label">ชื่อ</label>
-                <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
-            </div> 
-            
-            <div class="form-group">
-              <label>จังหวัด*</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="Province"   
+          <div class="form-group">
+            <label for="Name" class="form-label">ชื่อ</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
+          </div>
+
+          <div class="form-group">
+            <label>จังหวัด*</label>
+            <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="Province"
               [items]="selectdataprovince" [multiple]="true">
-              </ng-select>
-            </div>
+            </ng-select> -->
+
+            <ng-select [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
+              [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
+              formControlName="Province">
+              <!-- <ng-template >
+                -->
+              <ng-template ng-header-tmp>
+                <div>
+                  <button type="button" class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
+                  <button type="button" class="btn btn-link" (click)="onClearAll()">ล้าง</button>
+                </div>
+
+              </ng-template>
+              <!-- <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                  <input type="checkbox" /> เลือกทั้งหมด
+                </ng-template> -->
+              <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                  [ngModel]="item$.selected" /> {{item.region }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                  [ngModel]="item$.selected" /> {{item.name}}
+              </ng-template>
+            </ng-select>
+          </div>
         </div>
 
-       
+
 
 
         <div class="modal-footer">
@@ -103,7 +128,7 @@
   <!-- END primary modal -->
 
   <!-- BEGIN primary modal -->
-<ng-template #modaleditDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <ng-template #modaleditDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <form [formGroup]="Form" (ngSubmit)="updateprovincialDepartment(Form.value)">
       <div class="modal-content">
         <div class="modal-header">
@@ -114,17 +139,40 @@
         </div>
 
         <div class="modal-body m-3">
-            <div class="form-group">
-                <label for="Name" class="form-label">ชื่อ</label>
-                <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
-            </div> 
-            
-            <div class="form-group">
-              <label>จังหวัด*</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="Province"   
-              [items]="selectdataprovince" [(ngModel)]="selectedProvince" [multiple]="true">
-              </ng-select>
-            </div>
+          <div class="form-group">
+            <label for="Name" class="form-label">ชื่อ</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
+          </div>
+
+          <div class="form-group">
+            <label>จังหวัด*</label>
+            <ng-select [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
+              [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
+              formControlName="Province">
+              <!-- <ng-template >
+              -->
+              <ng-template ng-header-tmp>
+                <div>
+                  <button type="button" class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
+                  <button type="button" class="btn btn-link" (click)="onClearAll()">ล้าง</button>
+                </div>
+
+              </ng-template>
+              <!-- <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                <input type="checkbox" /> เลือกทั้งหมด
+              </ng-template> -->
+              <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                  [ngModel]="item$.selected" /> {{item.region }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                  [ngModel]="item$.selected" /> {{item.name}}
+              </ng-template>
+            </ng-select>
+
+
+          </div>
 
         </div>
         <div class="modal-footer">
@@ -138,7 +186,7 @@
   <!-- END primary modal -->
 
   <!-- BEGIN primary modal -->
-<ng-template #modaldeleteDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <ng-template #modaldeleteDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
       <i class="fa fa-info-circle delete-icon"></i>
       <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
@@ -157,27 +205,24 @@
   </ng-template>
   <!-- END primary modal -->
 
-    <!-- BEGIN primary modal -->
-<ng-template #modaldetailDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-body">
-    <div class="col-md-12">
-      
-          <div class="modal-header">
-            <h5 class="modal-title">จังหวัดภายใต้หน่วยงานส่วนภูมิภาค</h5>
-            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body m-3">
-            <span *ngFor="let item of resultdetail;let i = index">
-              <label class="badge badge-success mr-1">{{item.name}}</label>
-              <span *ngIf="(i+1) != resultdetail.length">,</span>
-            </span>
+  <!-- BEGIN primary modal -->
+  <ng-template #modaldetailDepartment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body">
+      <div class="col-md-12">
+
+        <div class="modal-header">
+          <h5 class="modal-title">จังหวัดภายใต้หน่วยงานส่วนภูมิภาค</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body m-3">
+          <span *ngFor="let item of resultdetail;let i = index">
+            <label class="badge badge-success mr-1">{{item.name}}</label>
+            <span *ngIf="(i+1) != resultdetail.length">,</span>
+          </span>
+        </div>
+      </div>
     </div>
-</div>
-</ng-template>
-<!-- END primary modal -->
-
-
-  
+  </ng-template>
+  <!-- END primary modal -->

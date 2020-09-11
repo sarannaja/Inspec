@@ -110,7 +110,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     }))
     //แก้ไข
 
-    // this.provinceservice.getprovincedata()
+    // this.provinceservice.getprovincedata2()
     // .subscribe(result => {
     //   this.resultprovince = result
 

@@ -1,5 +1,5 @@
 <!-- <ng-snotify></ng-snotify> -->
-<div id="page-content-wrapper" class="wrapper">
+<div id="page-content-wrapper" class="wrapper prompt">
 
     <nav id="sidebar" class="sidebar" [ngClass]="{'toggled': toggled}">
         <a class="sidebar-brand" [routerLink]="['/main']">
@@ -23,7 +23,7 @@
             </div>
 
             <ul class="sidebar-nav">
-                <li *ngFor="let item of nav;" (click)="checkactive(item.url)"
+                <li *ngFor="let item of nav;" (click)="checkactive(item.url,item)"
                     [ngClass]="item.url == urlActive ? 'sidebar-item active':'sidebar-item'">
 
                     <a *ngIf="item.children == null;" class="sidebar-link" [routerLink]="[item.url]">
@@ -45,8 +45,9 @@
                                 <!-- <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,childItem.ex_link)"
                                     class="sidebar-link" href="{{childItem.url}}"> -->
 
-                                <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,item)"
-                                    class="sidebar-link" href="{{childItem.url}}">
+                                <a *ngIf="childItem.ex_link == '1'" target="_blank"
+                                    (click)="checkactive(childItem.url,item)" class="sidebar-link"
+                                    href="{{childItem.url}}">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
 

@@ -162,7 +162,7 @@ export class ExternalRegisterComponent implements OnInit {
   }
 
   getDataProvinces() {
-    this.provinceService.getprovincedata()
+    this.provinceService.getprovincedata2()
       .subscribe(result => {
         this.selectdataprovince = result.map((item, index) => {
           return { value: item.id, label: item.name }

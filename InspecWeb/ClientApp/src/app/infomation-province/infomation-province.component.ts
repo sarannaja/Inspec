@@ -38,7 +38,7 @@ export class InfomationProvinceComponent implements OnInit {
 
   getdata(){
     this.spinner.show();
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.spinner.hide();
         this.resultprovince = result
