@@ -23,6 +23,7 @@ export class InspectionPlanComponent implements OnInit {
   private myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false
   };
   ProvincialDepartmentSelect: any[] = []
   DepartmentSelect: any[] = []
@@ -77,6 +78,7 @@ export class InspectionPlanComponent implements OnInit {
   userProvince: any[] = []
   ministryId
   watch
+  submitted = false;
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
@@ -269,32 +271,38 @@ export class InspectionPlanComponent implements OnInit {
     this.router.navigate(['/acceptcentralpolicy', id])
   }
   storeCentralPolicyEventRelation(value) {
-    let CentralpolicyId: any[] = value.CentralpolicyId
-    // alert(JSON.stringify(value))
-    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid, this.startDate, this.endDate).subscribe(response => {
-      this._NotofyService.onSuccess("เพื่มข้อมูล",)
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      let CentralpolicyId: any[] = value.CentralpolicyId
+      // alert(JSON.stringify(value))
+      this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid, this.startDate, this.endDate).subscribe(response => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล",)
 
-      this.Form.reset()
-      this.modalRef.hide()
-      // this.modalService.show('modaldeleteProvince');
+        this.Form.reset()
+        this.modalRef.hide()
+        // this.modalService.show('modaldeleteProvince');
 
-      for (let i = 0; i < CentralpolicyId.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
-          .subscribe(response => {
-            console.log(response);
-          })
-      }
-      // alert("OK")
-      // this.loading = false
-      // this.inspectionplanservice.getinspectionplandata(this.id).subscribe(result => {
-      //   this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      //   console.log(this.resultinspectionplan[0].centralPolicyEvents.centralPolicy);
-      // })
-      this.loading = false;
-      this.data = [];
-      this.getinspectionplanservice()
+        for (let i = 0; i < CentralpolicyId.length; i++) {
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+        // alert("OK")
+        // this.loading = false
+        // this.inspectionplanservice.getinspectionplandata(this.id).subscribe(result => {
+        //   this.resultinspectionplan = result[0].centralPolicyEvents //Chose
+        //   console.log(this.resultinspectionplan[0].centralPolicyEvents.centralPolicy);
+        // })
+        this.loading = false;
+        this.data = [];
+        this.getinspectionplanservice()
 
-    })
+      })
+    }
   }
 
   async getinspectionplanservice() {
@@ -676,24 +684,30 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   storeInspectionPlan(value) {
-    console.log("FORM: ", value);
-    this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.provinceid, this.startDate, this.endDate, this.year).subscribe(response => {
-      this._NotofyService.onSuccess("เพื่มข้อมูล",)
-      console.log("create Inspection plan: ", value);
-      // this.Form.reset()
-      // window.history.back();
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      console.log("FORM: ", value);
+      this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.provinceid, this.startDate, this.endDate, this.year).subscribe(response => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล",)
+        console.log("create Inspection plan: ", value);
+        // this.Form.reset()
+        // window.history.back();
 
-      this.FormOther.reset()
-      this.modalRef.hide()
+        this.FormOther.reset()
+        this.modalRef.hide()
 
-      this.FormOther.patchValue({
-        ProvinceId: this.provinceid,
+        this.FormOther.patchValue({
+          ProvinceId: this.provinceid,
+        })
+
+        this.loading = false;
+        this.data = [];
+        this.getinspectionplanservice()
       })
-
-      this.loading = false;
-      this.data = [];
-      this.getinspectionplanservice()
-    })
+    }
   }
 
   getministryuser() {
