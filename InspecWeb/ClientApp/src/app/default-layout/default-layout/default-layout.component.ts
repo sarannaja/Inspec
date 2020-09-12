@@ -109,7 +109,7 @@ export class DefaultLayoutComponent implements OnInit {
   checkactive(url) {
     this.urlActive = url
     this.router.navigate([url])
-    //ถ้าใช่โทรศัพท์ให้เปิดปิด  toggled เมื่อเปิดลิ้งใหม่
+    //ถ้าใช่โทรศัพท์ให้เปิดปิด  toggled เมื่อเปิดลิ้งใหม่ ถ้าไม่ใช่เช็คว่า nav ถูก ล็อคมั้ยถ้าล็อคก็ปิดไม่ได้เมื่อมันเย้
     this.isMobile ? (this.toggled = !this.toggled) : (this.lockNav ? null : this.toggled = !this.toggled)
   }
 
