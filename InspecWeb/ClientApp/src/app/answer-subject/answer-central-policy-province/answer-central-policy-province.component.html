@@ -4,9 +4,9 @@
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">คำถามภาคประชาชน</a></li>
+            <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">แผนตรวจราชการ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">คำถามภาคประชาชน</li>
         </ol>
     </nav>
 </div>
@@ -66,6 +66,11 @@
                                                             placeholder="กรุณาตอบคำถาม" formControlName="Answer"
                                                             name="Answer"></textarea>
                                                     </div>
+                                                </div>
+                                                <div class="form-group"
+                                                    *ngIf="submitted && t.at(i).get('Answer').invalid"
+                                                    [ngStyle]="submitted && t.at(i).get('Answer').invalid ? {color: '#dc3545'}:{color: ''} ">
+                                                    <div style="font-size: 80%;">กรุณาตอบคำถาม</div>
                                                 </div>
                                             </div>
                                         </td>

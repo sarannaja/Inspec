@@ -6,6 +6,7 @@ import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Answerrole7List } from 'src/app/services/nikmodel/answerrole7list';
 import { GetQuestionPeople } from 'src/app/services/nikmodel/answarrole7';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-answer-central-policy-province-edit',
@@ -24,13 +25,15 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   Form: FormGroup
   Formstatus: FormGroup
   loading = false;
+  submitted = false;
 
   constructor(
     private answersubjectservice: AnswersubjectService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private fb: FormBuilder,
-    private authorize: AuthorizeService
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.inspectionPlanEventId = activatedRoute.snapshot.paramMap.get('inspectionplaneventid')
@@ -55,7 +58,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
     this.getAnsweruser()
   }
   getQuestionPeople() {
-    this.answersubjectservice.getcentralpolicyprovince(this.id,this.inspectionPlanEventId)
+    this.answersubjectservice.getcentralpolicyprovince(this.id, this.inspectionPlanEventId)
       .subscribe(result => {
         // console.log(result);
         this.loading = true
@@ -89,25 +92,32 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
         CentralPolicyEventQuestionId: [this.resultanswer[i].centralPolicyEventQuestionId],
         UserId: [this.userid],
         Question: [this.resultanswer[i].centralPolicyEventQuestion.questionPeople],
-        Answer: [this.resultanswer[i].answer]
+        Answer: [this.resultanswer[i].answer, Validators.required]
       }))
     }
     console.log(this.t.value);
 
   }
   editanswer(value) {
-    console.log(this.t.value);
-    console.log(value);
-    this.spinner.show();
-    this.answersubjectservice.editAnswerrole7(this.t.value).subscribe(result => {
-      this.editStatus(value)
-    })
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      console.log(this.t.value);
+      console.log(value);
+      this.spinner.show();
+      this.answersubjectservice.editAnswerrole7(this.t.value).subscribe(result => {
+        this.editStatus(value)
+      })
+    }
   }
   editStatus(value) {
     this.answersubjectservice.editStatusrole7(value, this.centralPolicyEventId).subscribe(result => {
       this.Form.reset();
       this.Formstatus.reset();
       this.spinner.hide();
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       window.history.back();
     })
   }

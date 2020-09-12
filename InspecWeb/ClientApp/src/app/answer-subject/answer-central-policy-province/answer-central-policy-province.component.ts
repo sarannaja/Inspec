@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-answer-central-policy-province',
@@ -18,13 +19,15 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
   Form: FormGroup
   Formstatus: FormGroup
   resultQuestionPeople: any = []
+  submitted = false;
 
   constructor(
     private answersubjectservice: AnswersubjectService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private fb: FormBuilder,
-    private authorize: AuthorizeService
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.inspectionPlanEventId = activatedRoute.snapshot.paramMap.get('inspectionplaneventid')
@@ -68,20 +71,25 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
         AnswerCentralPolicyProvinceStatusId: [],
         UserId: [this.userid],
         Question: [this.resultQuestionPeople[i].questionPeople],
-        Answer: [""]
+        Answer: ["", Validators.required]
       }))
     }
     // console.log("Form",this.t.value);
 
   }
   storestatus(valuestatus) {
-    this.answersubjectservice.addStatusrole7(valuestatus, this.resultQuestionPeople[0].centralPolicyEventId, this.userid).subscribe(result => {
-      console.log("result", result.id);
-      var statusid = result.id
-      this.storeanswer(statusid);
-      this.spinner.show();
-
-    })
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.answersubjectservice.addStatusrole7(valuestatus, this.resultQuestionPeople[0].centralPolicyEventId, this.userid).subscribe(result => {
+        console.log("result", result.id);
+        var statusid = result.id
+        this.storeanswer(statusid);
+        this.spinner.show();
+      })
+    }
   }
   storeanswer(statusid) {
     for (let i = 0; i < this.t.value.length; i++) {
@@ -95,6 +103,7 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
       this.spinner.hide();
       this.Form.reset();
       this.Formstatus.reset();
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
       window.history.back();
     })
   }
