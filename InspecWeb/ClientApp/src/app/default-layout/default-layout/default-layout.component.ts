@@ -1,14 +1,14 @@
 
 
 import { Router } from '@angular/router';
-import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
+import { Component, OnInit, Inject, TemplateRef, HostListener } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { superAdmin, Centraladmin, Inspector, Provincialgovernor, Adminprovince, InspectorMinistry, publicsector, president, InspectorDepartment, InspectorExamination } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
-
+import { Location } from "@angular/common";
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -20,6 +20,16 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 
 export class DefaultLayoutComponent implements OnInit {
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    // console.log('event', event);
+
+    event.keyCode === 37 ? this.toggled = true : event.keyCode === 39 ? this.toggled = false : null
+    // if (event.keyCode === 37) {
+    //   this.toggled = true
+    //   // do your code here**
+    // }
+  }
   toggled = false;
   classIcon = "align-middle mr-2 fas fa-fw "
   urlActive = ""
@@ -51,7 +61,7 @@ export class DefaultLayoutComponent implements OnInit {
   width: number = window.innerWidth;
   height: number = window.innerHeight;
   mobileWidth: number = 900;
-  lockNav:boolean = false
+  lockNav: boolean = true
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -59,24 +69,33 @@ export class DefaultLayoutComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
     private fb: FormBuilder,
+    private locationx: Location,
     @Inject('BASE_URL') baseUrl: string
   ) {
+    this.urlActive = location.pathname;
+
     this.imgprofileUrl = baseUrl + '/imgprofile';
   }
   // 0C-54-15-66-C2-D6
 
 
-  onToggle() {
+  onToggle(value: any = null) {
     this.toggled = !this.toggled;
   }
+  onLockNav() {
+    this.lockNav = !this.lockNav
+  }
+
   ngOnInit() {
     this.nav = superAdmin;
     this.profileform();
     this.getuserinfo();
     this.getnotifications();
-    this.urlActive = this.router.url;
+
+
+    // this.urlActive = this.router.url;
     // this.getplancount();
-    this.checkactive(this.nav[0].url);
+    // this.checkactive(this.nav[0].url);
     this.isMobile = this.width < this.mobileWidth;
     // this.urlActive = this.nav[0].url
   }
@@ -89,10 +108,9 @@ export class DefaultLayoutComponent implements OnInit {
   }
   checkactive(url) {
     this.urlActive = url
-    if (this.isMobile) {
-      this.toggled = !this.toggled;
-
-    }
+    this.router.navigate([url])
+    //ถ้าใช่โทรศัพท์ให้เปิดปิด  toggled เมื่อเปิดลิ้งใหม่
+    this.isMobile ? (this.toggled = !this.toggled) : (this.lockNav ? null : this.toggled = !this.toggled)
   }
 
   userNav(url, id): void {
