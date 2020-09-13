@@ -666,7 +666,6 @@ namespace InspecWeb.Controllers
                 // Set the table's column width and background 
                 t.SetWidths(columnWidths);
                 t.AutoFit = AutoFit.Contents;
-
                 var row = t.Rows.First();
 
                 row.Cells[0].Paragraphs.First().Append("ลำดับที่");

@@ -208,6 +208,7 @@ import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-
 // import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SortPipe } from './services/Pipe/sort';
+import { DateLengthComponent } from './services/components/date-length/date-length.component';
 
 
 const ExternalOrganization = [
@@ -391,7 +392,7 @@ const ExternalOrganization = [
     NamePlateComponent,
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,
-
+    DateLengthComponent,
   ],
 
   imports: [
