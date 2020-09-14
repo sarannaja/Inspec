@@ -145,7 +145,7 @@ namespace InspecWeb.Controllers
         [HttpGet("otps/ministers")]
         public IActionResult OnGetOtpsMinisters()
         {
-            List<ExternalOrganizationNew> model = null;
+            List<OtpsMinisters> model = null;
             var client = new HttpClient();
             var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) =>
@@ -153,7 +153,7 @@ namespace InspecWeb.Controllers
                     var response = taskwithresponse.Result;
                     var jsonString = response.Content.ReadAsStringAsync();
                     jsonString.Wait();
-                    model = JsonConvert.DeserializeObject<List<ExternalOrganizationNew>>(jsonString.Result);
+                    model = JsonConvert.DeserializeObject<List<OtpsMinisters>>(jsonString.Result);
                 });
             task.Wait();
             return Ok(model);
@@ -666,7 +666,6 @@ namespace InspecWeb.Controllers
                 // Set the table's column width and background 
                 t.SetWidths(columnWidths);
                 t.AutoFit = AutoFit.Contents;
-
                 var row = t.Rows.First();
 
                 row.Cells[0].Paragraphs.First().Append("ลำดับที่");

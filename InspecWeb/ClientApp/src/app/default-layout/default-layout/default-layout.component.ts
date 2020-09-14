@@ -22,13 +22,8 @@ import { Location } from "@angular/common";
 export class DefaultLayoutComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
-    // console.log('event', event);
-
     event.keyCode === 37 ? this.toggled = true : event.keyCode === 39 ? this.toggled = false : null
-    // if (event.keyCode === 37) {
-    //   this.toggled = true
-    //   // do your code here**
-    // }
+
   }
   toggled = false;
   classIcon = "align-middle mr-2 fas fa-fw "
