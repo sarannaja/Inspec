@@ -10,6 +10,7 @@ import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-electronic-book-province-detail',
@@ -41,6 +42,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   acceptDepartmentInvite: any = [];
   userProvinceId: any;
   checkProvince = false;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -54,6 +56,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
     private authorize: AuthorizeService,
     private notificationService: NotificationService,
     private departmentService: DepartmentService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id')
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
@@ -76,7 +79,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
             console.log("user naja: ", result);
             this.role_id = result[0].role_id
             this.signature = result[0].signature
-            this.userProvinceId = result[0].provinceId
+            this.userProvinceId = result[0].userProvince[0].provinceId
             // alert(this.role_id)
           })
       })
@@ -233,6 +236,11 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   }
 
   postSignature(value) {
+    this.submitted = true;
+    if (this.submitForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
     this.electronicBookService.provinceAddSignature(value, this.form.value.files, this.electId, this.userid, this.userProvinceId).subscribe(res => {
       // console.log("signatureRES: ", res);
       this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, this.userid, 8, this.electId)
@@ -242,7 +250,9 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
       this.getElectronicBookDetail();
       this.Form.reset();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("รับทราบรายการสมุดตรวจ",)
     })
+  }
   }
 
   sendToOtherProvince(value) {

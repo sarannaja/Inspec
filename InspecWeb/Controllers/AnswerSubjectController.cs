@@ -248,12 +248,13 @@ namespace InspecWeb.Controllers
         [HttpGet("userpeople/{userid}")]
         public IActionResult Get5(string userid)
         {
-            var subjectcentralpolicyprovinceusergroupsdata = _context.SubjectCentralPolicyProvinceUserGroups
-                .Where(m => m.UserId == userid);
+            //var subjectcentralpolicyprovinceusergroupsdata = _context.SubjectCentralPolicyProvinceUserGroups
+            //    .Where(m => m.UserId == userid);
 
 
             var centralpolicydata = _context.CentralPolicyUsers
                 .Include(m => m.CentralPolicy)
+                .Where(m => m.InspectionPlanEvent.Status == "ใช้งานจริง")
                 .Where(m => m.UserId == userid).ToList();
 
             //var centralpolicyprovincedata = _context.CentralPolicyProvinces
@@ -294,6 +295,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("provincialdepartment.Id" + id);
 
                 var subjectdata = _context.SubjectCentralPolicyProvinces
+                        .Include(m => m.SubjectDateCentralPolicyProvinces)
                         .Include(m => m.SubquestionCentralPolicyProvinces)
                         .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                         .ThenInclude(m => m.ProvincialDepartment)

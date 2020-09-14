@@ -47,10 +47,10 @@ namespace InspecWeb.Controllers
         {
             var requestorderdata = _context.RequestOrders
                   .Include(m => m.RequestOrderFiles)
-             .Include(m => m.RequestOrderAnswers)
-             .ThenInclude(m => m.User)
-             .Where(m => m.publics == 1)
-             .ToList();
+                 .Include(m => m.RequestOrderAnswers)
+                 .ThenInclude(m => m.User)
+                 .Where(m => m.publics == 1)
+                 .ToList();
             return requestorderdata;
         }
         //<!-- END Get ข้อสั่ง Role แอดมิน-->
@@ -267,7 +267,7 @@ namespace InspecWeb.Controllers
 
         //<!-- ยกเลิกข้อสั่งการ -->
         [HttpPut("cancelrequestorder")]
-        public async Task<IActionResult> PutCancel([FromForm] RequestViewModel model)
+        public IActionResult PutCancel([FromForm] RequestViewModel model)
         {
             var date = DateTime.Now;
             var requestordersdata = _context.RequestOrders.Find(model.id);
@@ -285,7 +285,7 @@ namespace InspecWeb.Controllers
 
         //<!-- รับทราบข้อสั่งการ -->
         [HttpPut("gotitrequestorder")]
-        public async Task<IActionResult> Putgotit([FromForm] RequestViewModel model)
+        public IActionResult Putgotit([FromForm] RequestViewModel model)
         {
             var date = DateTime.Now;
             var requestordersdata = _context.RequestOrders.Find(model.id);
@@ -371,6 +371,364 @@ namespace InspecWeb.Controllers
             return Ok(new { Id = model.id });
         }
         //<!-- END รายงาน -->
+
+        [HttpPost("exportrequest1")] 
+        public IActionResult Getexport1([FromBody] UserViewModel body)
+        {
+            var userId = body.Id;
+
+            var users = _context.Users
+                .Where(m => m.Id == userId)
+                .FirstOrDefault();
+
+
+            var Eexcutive1 = _context.RequestOrderAnswers
+                .Include(m => m.RequestOrder)
+                .Include(m => m.RequestOrderAnswerDetails)
+                .Where(m => m.RequestOrder.Draft == 0)
+                .Where(m => m.RequestOrder.UserID == userId).ToList();
+
+
+            System.Console.WriteLine("export1 : " + userId);
+
+            if (!Directory.Exists(_environment.WebRootPath + "//reportrequestorder//")) //ถ้ามีไฟล์อยู่แล้ว
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportrequestorder//"); //สร้าง Folder reportexecutive ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/reportrequestorder/"; // เก็บไฟล์ logo 
+            var filename = "ทะเบียนคำร้องขอจากหน่วยงานของรัฐ" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var createfile = filePath + filename; //
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+            using (DocX document = DocX.Create(createfile)) //สร้าง
+            {
+
+
+                System.Console.WriteLine("5");
+
+                // Add a title
+                document.InsertParagraph("ทะเบียนคำร้องขอจากหน่วยงานของรัฐ/หน่วยรับตรวจ").FontSize(16d)
+                    .SpacingBefore(15d)
+                    .SpacingAfter(15d)
+                    .Bold() //ตัวหนา
+                    .Alignment = Alignment.center;
+
+                var name = document.InsertParagraph(users.Name);
+                name.Alignment = Alignment.center;
+                name.SpacingAfter(10d);
+                name.FontSize(12d); //ขนาดตัวอักษร      
+                System.Console.WriteLine("7");
+
+                int dataCount = 0;
+                dataCount = Eexcutive1.Count; //เอาที่ select มาใช้
+                dataCount += 1;
+                System.Console.WriteLine("Data Count: " + dataCount);
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 300f, 300f, 300f, 300f, 300f, 300f, 300f };
+                var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                System.Console.WriteLine("8");
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+
+                // Fill in the columns of the first row in the table.
+                //for (int i = 0; i < row.Cells.Count; ++i)
+                //{
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปีที่มีคำร้องขอ");
+                row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง");
+                row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
+                row.Cells[4].Paragraphs.First().Append("ผู้รับคำร้องขอ");                            
+                row.Cells[5].Paragraphs.First().Append("การดำเนินการ");
+                row.Cells[6].Paragraphs.First().Append("วัน/เดือน/ที่รับทราบคำร้องขอ");
+
+
+                // Add rows in the table.
+                int j = 0;
+                for (int i = 0; i < Eexcutive1.Count; i++)
+                {
+                    j += 1;
+                    //System.Console.WriteLine(i+=1);
+
+                    var users2 = _context.Users
+                       .Where(m => m.Id == Eexcutive1[i].UserID)
+                       .FirstOrDefault();
+
+                    System.Console.WriteLine("9.1: ");
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());               
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive1[i].RequestOrder.Commanded_date.ToString());            
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(Eexcutive1[i].RequestOrder.Subject);              
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive1[i].Status.ToString());                           
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(users2.Name);            
+                    t.Rows[j].Cells[5].Paragraphs[0].Append("-"); 
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(Eexcutive1[i].beaware_date.ToString());          
+
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                System.Console.WriteLine("11");
+                document.Save(); //save เอกสาร
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+
+                return Ok(new { data = filename });
+            }
+        }
+        [HttpPost("exportrequest3")] 
+        public IActionResult Getexport3([FromBody] UserViewModel body)
+        {
+            System.Console.WriteLine("id " + body.Id);
+            var userId = body.Id;
+
+            var Eexcutive3 = _context.RequestOrderAnswers
+                .Include(m => m.RequestOrder)
+                .Include(m => m.RequestOrderAnswerDetails)
+                .Where(m => m.RequestOrder.Draft == 0)
+                .Where(m => m.RequestOrder.UserID == userId).ToList();
+
+            var users = _context.Users
+                .Where(m => m.Id == userId)
+                .FirstOrDefault();
+
+            System.Console.WriteLine("export_ : " + userId);
+
+            if (!Directory.Exists(_environment.WebRootPath + "//reportrequestorder//")) //ถ้ามีไฟล์อยู่แล้ว
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportrequestorder//"); //สร้าง Folder reportexecutive ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/reportrequestorder/"; // เก็บไฟล์ logo 
+            var filename = "ทะเบียนคำร้องขอจากหน่วยงานของรัฐ/หน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var createfile = filePath + filename; //
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+            using (DocX document = DocX.Create(createfile)) //สร้าง
+            {
+
+                System.Console.WriteLine("5");
+
+                // Add a title
+                document.InsertParagraph("ทะเบียนคำร้องขอจากหน่วยงานของรัฐ/หน่วยรับตรวจ").FontSize(16d)
+                    .SpacingBefore(15d)
+                    .SpacingAfter(15d)
+                    .Bold() //ตัวหนา
+                    .Alignment = Alignment.center;
+
+                var name = document.InsertParagraph(users.Name);
+                name.Alignment = Alignment.center;
+                name.SpacingAfter(10d);
+                name.FontSize(12d); //ขนาดตัวอักษร      
+                System.Console.WriteLine("7");
+
+                int dataCount = 0;
+                dataCount = Eexcutive3.Count; //เอาที่ select มาใช้
+                dataCount += 1;
+                System.Console.WriteLine("Data Count: " + dataCount);
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 300f, 300f, 300f, 300f, 300f, 300f, 300f };
+                var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                System.Console.WriteLine("8");
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+
+                // Fill in the columns of the first row in the table.
+                //for (int i = 0; i < row.Cells.Count; ++i)
+                //{
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี ที่มีคำร้องขอ");
+                row.Cells[2].Paragraphs.First().Append("ผู้แจ้ง คำร้องขอ/ หน่วยงาน");
+                row.Cells[3].Paragraphs.First().Append("ประเด็น/เรื่อง");
+                row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
+                row.Cells[5].Paragraphs.First().Append("วัน/เดือน/ปี ที่รับทราบคำร้องขอ");
+                row.Cells[6].Paragraphs.First().Append("การดำเนินการ");
+
+                // Add rows in the table.
+                int j = 0;
+                for (int i = 0; i < Eexcutive3.Count; i++)
+                {
+                    j += 1;
+                    //System.Console.WriteLine(i+=1);
+                    var username = _context.ApplicationUsers
+                        .Where(m => m.Id == Eexcutive3[i].RequestOrder.UserID)
+                        .Select(m => m.Name)
+                        .FirstOrDefault();
+                    System.Console.WriteLine("JJJJJ: " + j);
+
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive3[i].RequestOrder.Commanded_date.ToString());
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(username);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive3[i].RequestOrder.Subject);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(Eexcutive3[i].Status);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(Eexcutive3[i].beaware_date.ToString());
+                    t.Rows[j].Cells[6].Paragraphs[0].Append("");
+
+
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                System.Console.WriteLine("11");
+                document.Save(); //save เอกสาร
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+
+                return Ok(new { data = filename });
+            }
+        }
+
+        [HttpGet("export2/{id}/{userId}")]
+        public IActionResult export2(long id, string userId)
+        {
+
+            //var exportexcutiveorderdata = _context.ExecutiveOrders
+            //    .Where(m => m.Id == id)
+            //   .FirstOrDefault();
+
+            var exportexcutiveorderdata = _context.RequestOrderAnswers
+                .Include(m => m.RequestOrder)
+                .Include(m => m.RequestOrderAnswerDetails)
+                .Where(m => m.RequestOrder.Draft == 0)
+                .Where(m => m.RequestOrder.UserID == userId)
+                .FirstOrDefault();
+
+            //ผู้สั่งการ
+            var users = _context.Users
+              .Where(m => m.Id == exportexcutiveorderdata.RequestOrder.UserID)
+               .FirstOrDefault();
+
+            //ผู้รับข้อสั่งการ
+            var username = _context.ApplicationUsers
+                        .Where(m => m.Id == userId)
+                        .Select(m => m.Name)
+                        .FirstOrDefault();
+
+            System.Console.WriteLine("export2 : " + id);
+
+            if (!Directory.Exists(_environment.WebRootPath + "//reportrequestorder//")) //ถ้ามีไฟล์อยู่แล้ว
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportrequestorder//"); //สร้าง Folder reportexecutive ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/reportrequestorder/"; // เก็บไฟล์ logo 
+            var filename = "รายงานคำร้องขอของหน่วยงานของรัฐ/หน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var createfile = filePath + filename; //
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+            using (DocX document = DocX.Create(createfile)) //สร้าง
+
+            {
+                //System.Console.WriteLine("4");
+                //Image image = document.AddImage(myImageFullPath);
+                //Picture picture = image.CreatePicture(85, 85);
+                //var logo = document.InsertParagraph();
+                //logo.AppendPicture(picture).Alignment = Alignment.center;
+
+                System.Console.WriteLine("5");
+
+                // Add a title
+                document.InsertParagraph("รายงานคำร้องขอของหน่วยงานของรัฐ/หน่วยรับตรวจ (รายเรื่อง)").FontSize(16d)
+                    .SpacingBefore(15d)
+                    .SpacingAfter(15d)
+                    .Bold() //ตัวหนา
+                    .Alignment = Alignment.center;
+
+                var name = document.InsertParagraph(users.Name);
+                name.Alignment = Alignment.center;
+                name.SpacingAfter(10d);
+                name.FontSize(16d); //ขนาดตัวอักษร
+                name.Bold();
+                System.Console.WriteLine("7");
+
+                //object v = Bold();
+                //string a = "รายละเอียด" + v;
+                //string b = exportexcutiveorderdata.Subjectdetail;
+
+
+                document.InsertParagraph(" วันที่มีคำร้องขอ   " + exportexcutiveorderdata.RequestOrder.Commanded_date + "   วันที่แจ้งคำร้องขอ   " + exportexcutiveorderdata.RequestOrder.CreatedAt).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.center;
+
+                document.InsertParagraph("เรื่อง  " + exportexcutiveorderdata.RequestOrder.Subject).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+
+                document.InsertParagraph("ผู้รับคำร้องขอ   " + username).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("รายละเอียด  ").FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("\n\n");
+
+                document.InsertParagraph("การดำเนินการตามข้อสั่งการ").FontSize(16d)
+                   .SpacingBefore(15d)
+                   .SpacingAfter(15d)
+                   .Bold() //ตัวหนา
+                   .Alignment = Alignment.center;
+
+                document.InsertParagraph("วันที่มีข้อสั่งการ  " + exportexcutiveorderdata.RequestOrder.Commanded_date + "  วันที่แจ้งข้อสั่งการ  " + exportexcutiveorderdata.beaware_date).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.center;
+
+                document.InsertParagraph("รายละเอียด ").FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("ปัญหา/อุปสรรค ").FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("ข้อเสนอแนะ ").FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
+                .Alignment = Alignment.left;
+
+                System.Console.WriteLine("11");
+                document.Save(); //save เอกสาร
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+
+                return Ok(new { data = filename });
+            }
+        }
     }
 }
 

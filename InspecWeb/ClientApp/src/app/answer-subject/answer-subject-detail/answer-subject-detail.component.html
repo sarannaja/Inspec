@@ -4,9 +4,9 @@
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
+            <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="/answersubject">แผนตรวจราชการ</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">ประเด็นนโยบายย่อย</a></li>
             <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบายย่อย</li>
         </ol>
     </nav>
@@ -41,7 +41,7 @@
                                 {{ item.centralPolicyDateProvince.endDate | thaidate: 'year' }}<br></span>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 10px;">
+                    <div *ngIf="resultansweroutsider.length != 0" class="row" style="margin-top: 10px;">
                         <div class="col-12">
                             <u>ผู้ตอบคำถามจากหน่วยงานภายนอก
                                 <i class="fas fa-chevron-down pointer" style="margin-left: 5px; font-size: large;"
@@ -60,8 +60,9 @@
                                     <div *ngFor="let items of resultansweroutsider; let ii = index">
                                         <div class="row"
                                             *ngIf="items.subquestionCentralPolicyProvinceId == item.subquestionCentralPolicyProvinceId">
-                                            <div class="col-3">ตอบ {{items.answer}}</div>
-                                            <div class="col-7">คำอธิบาย {{items.description}}</div>
+                                            <div class="col-3">ตอบ : {{items.answer}}</div>
+                                            <div class="col-5">คำอธิบาย : {{items.description}}</div>
+                                            <div class="col-4">โดย : {{items.name}} </div>
                                         </div>
                                     </div>
                                 </div>
@@ -91,6 +92,7 @@
                                         <td style="border-top: none; width: 50%;"
                                             *ngIf="item.value.Type == 'คำถามปลายปิด'else elseBlock">
                                             <u>คำตอบ</u>
+                                            <small style="color: red;">*</small>
                                             <div [formGroup]="item">
                                                 <div>
                                                     <div class="col-12 " *ngFor="let items of item.value.Choice">
@@ -106,7 +108,11 @@
                                                                 (click)="Test(i,items.name)" class="form-control"
                                                                 readonly>
                                                         </div>
-
+                                                    </div>
+                                                    <div class="form-group"
+                                                        *ngIf="submitted && t.at(i).get('Answer').invalid"
+                                                        [ngStyle]="submitted && t.at(i).get('Answer').invalid ? {color: '#dc3545'}:{color: ''} ">
+                                                        <div style="font-size: 80%;">กรุณาเลือกคำตอบ</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,10 +135,16 @@
                                     <div class="row col-12" style="margin-top: 10px; width: 100%;">
                                         <td style="border-top: none; width: 100%;">
                                             <u>คำอธิบายคำตอบ</u>
+                                            <small style="color: red;">*</small>
                                             <div [formGroup]="item">
                                                 <textarea cols="100%" rows="2" class="form-control"
                                                     placeholder="กรุณากรอกคำอธิบาย" formControlName="Description"
                                                     name="Description"></textarea>
+                                                <div class="form-group"
+                                                    *ngIf="submitted && t.at(i).get('Description').invalid"
+                                                    [ngStyle]="submitted && t.at(i).get('Description').invalid ? {color: '#dc3545'}:{color: ''} ">
+                                                    <div style="font-size: 80%;">กรุณากรอกคำอธิบาย</div>
+                                                </div>
                                             </div>
                                         </td>
                                     </div>
@@ -145,15 +157,13 @@
                     <form [formGroup]="Formstatus">
                         <div class="col-12 col-xl-12" style="margin-top: 20px;">
                             <div class="form-group">
-                                <div class="form-group col-md-3">
-                                    <div class="mb-3">
-                                        <input type="radio" name="Status" value="ร่างกำหนดการ" checked
-                                            formControlName="Status">
-                                        <label style="margin-left: 10px;">ร่างกำหนดการ</label>
-                                        <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
-                                            formControlName="Status">
-                                        <label style="margin-left: 10px;">ใช้งานจริง</label>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <input type="radio" name="Status" value="ร่างกำหนดการ" checked
+                                        formControlName="Status">
+                                    <label style="margin-left: 10px;">ร่างกำหนดการ</label>
+                                    <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
+                                        formControlName="Status">
+                                    <label style="margin-left: 10px;">ใช้งานจริง</label>
                                 </div>
                             </div>
                         </div>
@@ -169,7 +179,7 @@
                     <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
                         <form class="form-group row col-12" [formGroup]="itemTest">
                             <div class="col-4">
-                                <label formControlName="AnswerSubjectFile">ไฟล์ที่ {{i + 1}})
+                                <label class="textellipsis" formControlName="AnswerSubjectFile">ไฟล์ที่ {{i + 1}})
                                     {{itemTest.controls.AnswerSubjectFile.value.name}}</label>
                             </div>
                             <div class="col-8">

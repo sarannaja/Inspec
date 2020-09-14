@@ -10,6 +10,7 @@ import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-electronic-book-department-detail',
@@ -43,6 +44,8 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
   electProvincialID: any;
   userProvincialDepartmentId: any;
   checkProvincialDepartment = false;
+  submitted = false;
+  submitted2 = false;
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +59,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
     private authorize: AuthorizeService,
     private notificationService: NotificationService,
     private departmentService: DepartmentService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id')
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
@@ -94,7 +98,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
     });
 
     this.submitForm = this.fb.group({
-      description: new FormControl(null, [Validators.required]),
+      description: new FormControl("", [Validators.required]),
     });
 
     this.form = this.fb.group({
@@ -117,7 +121,11 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
   getElectronicBookDetail() {
     this.electronicBookService.getElectronicBookDetail(this.electId).subscribe(result => {
       console.log("RESProvince: ", result);
-      this.electAcceptId = result.electronicBookAccept.id;
+
+      // console.log("Filter Provincial: ", result.electronicBook.electronicBookProvincialDepartments.filter(x => x.provincialDepartmentId == this.provincialID));
+      // var acceptId = result.electronicBook.electronicBookProvincialDepartments.filter(x => x.provincialDepartmentId == this.provincialID);
+      // this.electAcceptId = acceptId;
+
       var provinces: any = [];
 
       result.electronicBookGroup.forEach(element => {
@@ -227,23 +235,36 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
   }
 
   postSignature(value) {
-    this.electronicBookService.departmentAddSignature(value, this.form.value.files, this.electId, this.userid, this.electProvincialID).subscribe(res => {
-      // console.log("signatureRES: ", res);
-      this.getElectronicBookDetail();
-      this.getElectronicBookProvincialDepartment();
-      this.Form.reset();
-      this.modalRef.hide();
-    })
+    this.submitted = true;
+    if (this.submitForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.electronicBookService.departmentAddSignature(value, this.form.value.files, this.electId, this.userid, this.electProvincialID).subscribe(res => {
+        // console.log("signatureRES: ", res);
+        this.getElectronicBookDetail();
+        this.getElectronicBookProvincialDepartment();
+        this.Form.reset();
+        this.modalRef.hide();
+        this._NotofyService.onSuccess("รับทราบรายการสมุดตรวจ",)
+      })
+    }
   }
 
   sendToOtherProvince(value) {
     console.log("Value: ", value);
-
-    this.electronicBookService.sendToOtherProvince(value, this.userid, this.electAcceptId).subscribe(res => {
-      console.log("sended: ", res);
-      this.getElectronicBookDetail();
-      this.modalRef.hide();
-    })
+    this.submitted2 = true;
+    if (this.otherDepartmentForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.electronicBookService.sendToOtherProvince(value, this.userid, this.electAcceptId).subscribe(res => {
+        console.log("sended: ", res);
+        this.getElectronicBookDetail();
+        this.modalRef.hide();
+        this._NotofyService.onSuccess("ส่งต่อสมุดตรวจ",)
+      })
+    }
   }
 
   getProvincialDepartment() {

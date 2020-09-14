@@ -10,6 +10,7 @@ import { IMyDate } from 'mydatepicker-th';
 import { DepartmentService } from 'src/app/services/department.service';
 import { SubquestionService } from 'src/app/services/subquestion.service';
 import * as _ from 'lodash';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-edit-subject',
@@ -56,14 +57,29 @@ export class EditSubjectComponent implements OnInit {
   modalRef: BsModalRef;
   listfiles: any = []
   fileData: any = [{ SubjectFile: '', fileDescription: '' }];
+  submitted = false;
+
+  get fe() { return this.EditForm.controls; }
+  get faed() { return this.FormAddEditDepartment.controls; }
+  get fec() { return this.FormEditChoices.controls; }
 
   get f() { return this.FormAddQuestionsopen.controls; }
   get t() { return this.f.ProvincialDepartmentId as FormArray; }
   get ff() { return this.FormAddQuestionsclose.controls; }
   get tt() { return this.ff.ProvincialDepartmentId as FormArray; }
-  
+
+  get fadq() { return this.FormAddDepartmentQuestion.controls; }
+  get fv() { return this.fadq.inputsubjectdepartment }
+  get tv() { return this.fv as FormArray }
+
   get fff() { return this.Formfile.controls }
   get s() { return this.fff.fileData as FormArray }
+
+  getinputquestionclose(index = 0, indextvff = 0) {
+    let tvf = (this.tv.controls[index].get('inputquestionclose') as FormArray).controls
+    let tvftvff = (tvf[indextvff].get('inputanswerclose') as FormArray).controls
+    return { tvf, tvftvff }
+  }
 
   constructor(
     private modalService: BsModalService,
@@ -75,6 +91,7 @@ export class EditSubjectComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private departmentservice: DepartmentService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.downloadUrl = baseUrl + '/Uploads';
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -88,10 +105,10 @@ export class EditSubjectComponent implements OnInit {
     this.spinner.show();
     this.getSubjectDetail()
     this.EditForm = this.fb.group({
-      name: new FormControl(null, [Validators.required]),
+      name: new FormControl("", [Validators.required]),
       centralPolicyDateId: new FormControl(null, [Validators.required]),
       status: new FormControl("ใช้งานจริง", [Validators.required]),
-      explanation: new FormControl(null, [Validators.required]),
+      explanation: new FormControl("", [Validators.required]),
       // questionopen: new FormControl(null, [Validators.required]),
       // questionclose: new FormControl(null, [Validators.required]),
       // answerclose: new FormControl(null, [Validators.required]),
@@ -111,7 +128,7 @@ export class EditSubjectComponent implements OnInit {
   }
   initdepartment() {
     return this.fb.group({
-      departmentId: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      departmentId: [null, [Validators.required]],
       // inputquestionopen: this.fb.array([
       //   this.initquestionopen()
       // ]),
@@ -128,7 +145,7 @@ export class EditSubjectComponent implements OnInit {
   }
   initquestionclose() {
     return this.fb.group({
-      questionclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      questionclose: ["", [Validators.required]],
       inputanswerclose: this.fb.array([
         this.initanswerclose()
       ])
@@ -136,7 +153,7 @@ export class EditSubjectComponent implements OnInit {
   }
   initanswerclose() {
     return this.fb.group({
-      answerclose: [null, [Validators.required, Validators.pattern('[0-9]{3}')]],
+      answerclose: [""],
     })
   }
   getSubjectDetail() {
@@ -159,6 +176,7 @@ export class EditSubjectComponent implements OnInit {
           explanation: this.resultsubjectdetail.explanation,
           centralPolicyDateId: this.datetime
         })
+        this.EditForm.controls.centralPolicyDateId.disable();
         this.times = []
         for (var i = 0; i < this.resultsubjectdetail.subjectDateCentralPolicyProvinces.length; i++) {
           let d: Date = new Date(this.resultsubjectdetail.subjectDateCentralPolicyProvinces[i].centralPolicyDateProvince.startDate)
@@ -262,11 +280,11 @@ export class EditSubjectComponent implements OnInit {
     })
   }
   openAddDepartmentModal(
-    template: TemplateRef<any>, 
-    subquestionCentralPolicyProvincesId, 
-    inputbox, 
+    template: TemplateRef<any>,
+    subquestionCentralPolicyProvincesId,
+    inputbox,
     departmentSelected: any[] = []
-    ) {
+  ) {
     this.subquestionCentralPolicyProvincesId = subquestionCentralPolicyProvincesId
     console.log(this.subquestionCentralPolicyProvincesId);
     console.log((inputbox));
@@ -307,7 +325,7 @@ export class EditSubjectComponent implements OnInit {
     this.filterboxdepartments.forEach(element => {
       element.subjectCentralPolicyProvinceGroups.forEach(element2 => {
         if (element.box == inputbox) {
-          console.log("testbenz", element2.provincialDepartmentId)
+          console.log("test", element2.provincialDepartmentId)
           this.t.push(this.fb.group({ ProvincialDepartmentId: element2.provincialDepartmentId }))
         }
         console.log("element2", element2);
@@ -324,7 +342,7 @@ export class EditSubjectComponent implements OnInit {
       subjectId: this.id,
       box: inputbox,
       type: "คำถามปลายปิด",
-      name: new FormControl(null, [Validators.required]),
+      name: new FormControl("", [Validators.required]),
       ProvincialDepartmentId: new FormArray([]),
       inputanswerclose: this.fb.array([
         this.initanswerclose()
@@ -333,7 +351,7 @@ export class EditSubjectComponent implements OnInit {
     this.filterboxdepartments.forEach(element => {
       element.subjectCentralPolicyProvinceGroups.forEach(element2 => {
         if (element.box == inputbox) {
-          console.log("testbenz", element2.provincialDepartmentId)
+          console.log("test", element2.provincialDepartmentId)
           this.tt.push(this.fb.group({ ProvincialDepartmentId: element2.provincialDepartmentId }))
         }
         console.log("element2", element2);
@@ -375,7 +393,7 @@ export class EditSubjectComponent implements OnInit {
     this.editname = name
     this.modalRef = this.modalService.show(template);
     this.FormEditChoices = this.fb.group({
-      name: new FormControl(null, [Validators.required]),
+      name: new FormControl("", [Validators.required]),
     })
     this.FormEditChoices.patchValue({
       name: name
@@ -434,17 +452,25 @@ export class EditSubjectComponent implements OnInit {
     this.subjectservice.adddeleteDate(this.times, value, this.resultsubjectdetail.id).subscribe(result => {
       this.FormAddDate.reset()
       this.modalRef.hide()
+      this.datetime = []
       this.getSubjectDetail()
     })
   }
   AddDepartment(value) {
-    console.log(value);
-    this.centralpolicyservice.addeditDepartment(value, this.id).subscribe(response => {
+    this.submitted = true;
+    if (this.FormAddEditDepartment.invalid) {
+      console.log("in1");
+      return;
+    } else {
       console.log(value);
-      this.FormAddEditDepartment.reset()
-      this.modalRef.hide()
-      this.getSubjectDetail();
-    })
+      this.centralpolicyservice.addeditDepartment(value, this.id).subscribe(response => {
+        console.log(value);
+        this.FormAddEditDepartment.reset()
+        this.modalRef.hide()
+        this.getSubjectDetail();
+      })
+    }
+
   }
   AddQuestionsopen(value) {
     console.log(value);
@@ -456,25 +482,32 @@ export class EditSubjectComponent implements OnInit {
     })
   }
   AddQuestionsclose(value) {
-    var arr: any[] = value.inputanswerclose
-    // console.log(value.inputanswerclose);
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].answerclose == null || arr[i].answerclose == "") {
-        arr[i].answerclose = 'โปรดบะรุ'
-
+    this.submitted = true;
+    if (this.FormAddQuestionsclose.get('name').invalid) {
+      console.log("in1");
+      return;
+    } else {
+      var arr: any[] = value.inputanswerclose
+      console.log(value.inputanswerclose);
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].answerclose == "" || arr[i].answerclose == null) {
+          arr[i].answerclose = 'โปรดระบุ'
+        }
       }
+      this.subquestionservice.addSubquestionclose(value, arr).subscribe(result => {
+        console.log(result);
+        this.FormAddQuestionsclose.reset()
+        this.modalRef.hide()
+        this.getSubjectDetail()
+      })
+      console.log(arr);
     }
-    this.subquestionservice.addSubquestionclose(value, arr).subscribe(result => {
-      console.log(result);
-      this.FormAddQuestionsclose.reset()
-      this.modalRef.hide()
-      this.getSubjectDetail()
-    })
-    console.log(arr);
-
   }
   AddChoices(value) {
-    console.log(value);
+    console.log(value.name);
+    if (value.name == null) {
+      value.name = 'โปรดระบุ'
+    }
     this.subjectservice.addChoices(value).subscribe(response => {
       this.FormAddChoices.reset()
       this.modalRef.hide()
@@ -482,18 +515,36 @@ export class EditSubjectComponent implements OnInit {
     })
   }
   AddDepartmentQuestion(value) {
-    var Boxcount
-    for (var i = 0; i < this.filterboxdepartments.length; i++) {
-      Boxcount = this.filterboxdepartments[i].box + 1
+    console.log(value.inputsubjectdepartment[0].inputquestionclose);
+    this.submitted = true;
+    if (this.FormAddDepartmentQuestion.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      var Boxcount
+      var arr: any[]
+      for (var i = 0; i < this.filterboxdepartments.length; i++) {
+        Boxcount = this.filterboxdepartments[i].box + 1
+      }
+      console.log("Boxcount", Boxcount);
+      for (var i = 0; i < value.inputsubjectdepartment[0].inputquestionclose.length; i++) {
+        for (var ii = 0; ii < value.inputsubjectdepartment[0].inputquestionclose[i].inputanswerclose.length; ii++) {
+          arr = value.inputsubjectdepartment[0].inputquestionclose[i].inputanswerclose[ii]
+        }
+      }
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].answerclose == "" || arr[i].answerclose == null) {
+          arr[i].answerclose = 'โปรดระบุ'
+        }
+      }
+      console.log("arr", arr);
+      this.subjectservice.AddDepartmentQuestion(value, Boxcount, this.id).subscribe(result => {
+        console.log(result);
+        this.FormAddDepartmentQuestion.reset()
+        this.modalRef.hide()
+        this.getSubjectDetail()
+      })
     }
-    console.log("Boxcount", Boxcount);
-    console.log(value);
-    this.subjectservice.AddDepartmentQuestion(value, Boxcount, this.id).subscribe(result => {
-      console.log(result);
-      this.FormAddDepartmentQuestion.reset()
-      this.modalRef.hide()
-      this.getSubjectDetail()
-    })
   }
   AddFile() {
     this.resultdsubjectid = []
@@ -535,17 +586,25 @@ export class EditSubjectComponent implements OnInit {
     })
   }
   EditSubject(value, id) {
-    this.spinner.show();
-    console.log(id);
-    console.log(value);
-    // console.log("map: ", this.resultsubjectdetail);
-    var CentralPolicyDateId: any = []
-    var departmentId: any = []
-    this.subjectservice.editSubject2(value, id).subscribe(response => {
-      this.AddFile();
-      this.spinner.hide();
-      window.history.back();
-    })
+    this.submitted = true;
+    if (this.EditForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.spinner.show();
+      console.log(id);
+      console.log(value);
+      // console.log("map: ", this.resultsubjectdetail);
+      var CentralPolicyDateId: any = []
+      var departmentId: any = []
+      this.subjectservice.editSubject2(value, id).subscribe(response => {
+        this.AddFile();
+        this.spinner.hide();
+        this._NotofyService.onSuccess("เพื่มข้อมูล")
+        window.history.back();
+      })
+    }
+
     // CentralPolicyDateId = this.resultsubjectdetail.subjectDateCentralPolicyProvinces.map((item, index) => {
     //   return {
     //     centralpolicydateid: item.id
@@ -572,11 +631,17 @@ export class EditSubjectComponent implements OnInit {
   EditChoices(value, editid) {
     console.log(editid);
     console.log(value);
-    this.subjectservice.editChoices(value, editid).subscribe(response => {
-      this.FormEditChoices.reset()
-      this.modalRef.hide()
-      this.getSubjectDetail()
-    })
+    this.submitted = true
+    if (this.FormEditChoices.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.subjectservice.editChoices(value, editid).subscribe(response => {
+        this.FormEditChoices.reset()
+        this.modalRef.hide()
+        this.getSubjectDetail()
+      })
+    }
   }
 
   addX() {

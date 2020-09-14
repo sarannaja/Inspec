@@ -18,6 +18,7 @@ import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import * as _ from 'lodash';
 import { ReportService } from 'src/app/services/report.service';
 import { AnyAaaaRecord } from 'dns';
+import { NotofyService } from 'src/app/services/notofy.service';
 @Component({
   selector: 'app-detail-subjectevent',
   templateUrl: './detail-subjectevent.component.html',
@@ -164,6 +165,7 @@ export class DetailSubjecteventComponent implements OnInit {
     private userService: UserService,
     private subquestionservice: SubquestionService,
     private reportservice: ReportService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
@@ -527,43 +529,43 @@ export class DetailSubjecteventComponent implements OnInit {
         //   })
         // }
 
-        this.resultdetailcentralpolicyprovince.forEach(element => {
-          var subquestionCentralPolicyProvinces: any[] = element.subquestionCentralPolicyProvinces
-          var subquestionChoicef: any[] = []
+        // this.resultdetailcentralpolicyprovince.forEach(element => {
+        //   var subquestionCentralPolicyProvinces: any[] = element.subquestionCentralPolicyProvinces
+        //   var subquestionChoicef: any[] = []
 
-          subquestionCentralPolicyProvinces
-            .filter(element2 => {
-              return element2.type == "คำถามปลายปิด"
-            })
-            .forEach(result => {
-              var data: any[] = result.subquestionChoiceCentralPolicyProvinces
-              var data2: any[]
-              var dataanswer: any[] = result.answerSubquestions
-              var dataanswer2: any[]
-              data2 = data.map(result => {
-                return result.name
-              })
-              console.log("result", result);
+        //   subquestionCentralPolicyProvinces
+        //     .filter(element2 => {
+        //       return element2.type == "คำถามปลายปิด"
+        //     })
+        //     .forEach(result => {
+        //       var data: any[] = result.subquestionChoiceCentralPolicyProvinces
+        //       var data2: any[]
+        //       var dataanswer: any[] = result.answerSubquestions
+        //       var dataanswer2: any[]
+        //       data2 = data.map(result => {
+        //         return result.name
+        //       })
+        //       console.log("result", result);
 
-              dataanswer2 = dataanswer.map(result => {
-                return result.answer
-              })
-              var reasult1 = {}
-              dataanswer2.forEach(
-                function (x) {
-                  reasult1[x] = (reasult1[x] || 0) + 1;
-                });
+        //       dataanswer2 = dataanswer.map(result => {
+        //         return result.answer
+        //       })
+        //       var reasult1 = {}
+        //       dataanswer2.forEach(
+        //         function (x) {
+        //           reasult1[x] = (reasult1[x] || 0) + 1;
+        //         });
 
-              this.subquestionChoice.push(
-                { question: data2, answer: dataanswer2.length == 0 ? 0 : dataanswer2, data: Object.values(reasult1) }
-              )
+        //       this.subquestionChoice.push(
+        //         { question: data2, answer: dataanswer2.length == 0 ? 0 : dataanswer2, data: Object.values(reasult1) }
+        //       )
 
-            })
-          console.log(this.subquestionChoice);
+        //     })
+        //   console.log(this.subquestionChoice);
 
 
-        })
-        console.log('subquestionChoice', this.subquestionChoice);
+        // })
+        // console.log('subquestionChoice', this.subquestionChoice);
         this.getCalendarFile();
       })
   }
@@ -662,7 +664,9 @@ export class DetailSubjecteventComponent implements OnInit {
 
 
   storeDepartment(value) {
+    // alert(this.subjectid)
     this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
       console.log(value);
       this.Form2.reset()
       this.modalRef.hide()
@@ -692,6 +696,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editsubquestionclose(value, id) {
     this.subjectservice.editsubquestionprovince(value, id).subscribe(response => {
+      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
       console.log(value);
       this.EditForm.reset()
       this.modalRef.hide()
@@ -704,6 +709,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editsubquestionclosechoice(value, id) {
     this.subjectservice.editsubquestionchoiceprovince(value, id).subscribe(response => {
+      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
       console.log(value);
       this.EditForm2.reset()
       this.modalRef.hide()
@@ -864,6 +870,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   deleteProvinceial(value) {
     this.subjectservice.deleteProvincial(value).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
       this.loading = false
@@ -915,6 +922,7 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   deletequestion(value) {
     this.subjectservice.deletequestionrole3(value).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
       this.loading = false
@@ -977,7 +985,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.provincialDepartmentId,
+          value: item.provincialDepartmentID,
           label: item.provincialDepartment.name
         }
       })
@@ -1007,7 +1015,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.provincialDepartmentId,
+          value: item.provincialDepartmentID,
           label: item.provincialDepartment.name
         }
       })
@@ -1044,12 +1052,12 @@ export class DetailSubjecteventComponent implements OnInit {
     this.departmentService.getdepartmentdata(this.provinceid).subscribe(res => {
       this.department = res.map((item, index) => {
         return {
-          value: item.provincialDepartmentId,
+          value: item.provincialDepartmentID,
           label: item.provincialDepartment.name
         }
       })
 
-      console.log(this.department);
+
       var data: any[] = departmentSelected.map(result => {
         return result.provincialDepartment.id
       })
@@ -1057,7 +1065,9 @@ export class DetailSubjecteventComponent implements OnInit {
       this.departmentSelect = _.filter(this.department, (v) => !_.includes(
         data, v.value
       ))
-
+      console.log("this.department", this.department);
+      console.log("departmentSelected", departmentSelected);
+      console.log("departmentSelect", this.departmentSelect);
 
       this.modalRef = this.modalService.show(template);
     })
@@ -1087,6 +1097,7 @@ export class DetailSubjecteventComponent implements OnInit {
   AddQuestionsclose(value) {
     console.log(value);
     this.subquestionservice.addSubquestioncloseevent(value).subscribe(result => {
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
       console.log(result);
       this.FormAddQuestionsclose.reset()
       this.modalRef.hide()
@@ -1099,7 +1110,7 @@ export class DetailSubjecteventComponent implements OnInit {
     // this.spinner.show();
     console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
     this.subjectservice.addSubjectRole3(value).subscribe(response => {
-
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
       this.AddForm.reset();
       this.modalRef.hide();
       this.getDetailCentralPolicyProvince();
@@ -1168,7 +1179,9 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   getquestion() {
+    // alert(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId)
     this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
+      // alert(JSON.stringify(res))
       this.questionpeople = res;
       this.questionpeople.forEach(element => {
         this.answerpeople.push(element.answerCentralPolicyProvinces)

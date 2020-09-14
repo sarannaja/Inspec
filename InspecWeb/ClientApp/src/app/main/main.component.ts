@@ -55,18 +55,18 @@ export class MainComponent implements OnInit {
         this.userid = result.sub
         // window.postMessage(result.sub, result.sub)
         this._CookieService.set('UserIdMobile', result.sub)
-        console.log('UserMMo', result);
+       // console.log('UserMMo', result);
 
         this._external.putUserToken(result).subscribe(result => {
-          console.log('resultUserMMo', result);
+         // console.log('resultUserMMo', result);
 
         })
         // this.setUserCookie(result.sub)
-        console.log("this._CookieService.get('idsrv.session')", this._CookieService.get('idsrv.session'));
+       // console.log("this._CookieService.get('idsrv.session')", this._CookieService.get('idsrv.session'));
 
 
         //alert(this.role_id);
-        console.log("user", result);
+        //console.log("user", result);
       })
   }
 
@@ -89,7 +89,7 @@ export class MainComponent implements OnInit {
       // alert("1" + JSON.stringify(results))
       this.exportregistration = results
       // alert("2" + JSON.stringify(this.exportregistration))
-      console.log("res: ", this.exportregistration);
+     // console.log("res: ", this.exportregistration);
 
     })
   }

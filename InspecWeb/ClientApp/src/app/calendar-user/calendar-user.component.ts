@@ -279,8 +279,8 @@ export class CalendarUserComponent implements OnInit {
             provinceid: item2.provinceId,
             // id: result.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
             // title: result.province.name + ", " + result.centralPolicyEvents[0].centralPolicy.title,
-            start: moment(item2.inspectionPlanEvent.startDate).format("YYYY-MM-DD"),  //.format("YYYY-MM-DD"),
-            end: moment(item2.inspectionPlanEvent.endDate).add(1, 'days').format("YYYY-MM-DD"),  //.format("YYYY-MM-DD"),
+            start: moment(item2.inspectionPlanEvent.startDate),  //.format("YYYY-MM-DD"),
+            end: moment(item2.inspectionPlanEvent.endDate),  //.format("YYYY-MM-DD"),
             // status: test,
             color: colorJa
           }
@@ -306,7 +306,7 @@ export class CalendarUserComponent implements OnInit {
             // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
             // title: item.province.name + "," + item.centralPolicyEvents[0].centralPolicy.title,
             start: moment(item.startDate), //.format("YYYY-MM-DD"),
-            end: moment(item.endDate).add(1, 'days') //.format("YYYY-MM-DD"),
+            end: moment(item.endDate) //.format("YYYY-MM-DD"),
           }
         })
         this.getcalendar();
@@ -373,6 +373,9 @@ export class CalendarUserComponent implements OnInit {
         // },
 
         eventRender: function (event, element, view) {
+          console.log(element, element.find('span.fc-time'), event);
+          var date = moment(event.start).format('HH:mm')
+          element.find('span.fc-time').text(date)
           //console.log(element);
           element.find('span.fc-title').attr('data-toggle', 'tooltip');
           element.find('span.fc-title').attr('title', event.title);

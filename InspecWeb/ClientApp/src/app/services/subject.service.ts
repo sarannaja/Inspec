@@ -414,11 +414,21 @@ export class SubjectService {
   }
 
   postsubjecteventfromcalendar(value, userid) {
+    // alert(JSON.stringify(value))
+    console.log("valuevaluevaluevaluevaluevaluevalue",value);
+
+    var CentralpolicySelect2 = []
+    CentralpolicySelect2 = value.CentralpolicyId2.map((item, index) => {
+      return {
+        centralpolicyId: item.centralPolicyId,
+        CentralPolicyeventId: item.centralPolicyeventId,
+      }
+    })
 
     const formData = {
       Land: "ลงพื้นที่",
-      CentralpolicySelect: value.CentralpolicyId2,
-      // CentralPolicyeventId:value.CentralpolicyId2[0].centralPolicyeventId ,
+      CentralpolicySelect: CentralpolicySelect2,
+      // CentralPolicyeventId:value.centralPolicyeventId,
       ProvinceId: parseInt(value.province2),
       CreatedBy: userid
     }

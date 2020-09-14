@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject, SecurityContext } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -15,11 +15,16 @@ import { DepartmentService } from '../services/department.service';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { NotofyService } from '../services/notofy.service';
 import { SideService } from '../services/side.service';
+import { DomSanitizer } from '@angular/platform-browser';
+// import { SecurityContext } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
+  host: {
+    "(window:resize)": "onWindowResize($event)"
+  }
 })
 export class UserComponent implements OnInit {
 
@@ -70,7 +75,7 @@ export class UserComponent implements OnInit {
   Side: any;
   ed: any;
   cd: any;
-  Autocreateuser:any = 1
+  Autocreateuser: any = 1
   //<!-- END input -->
   datarole: any = [
     {
@@ -116,9 +121,17 @@ export class UserComponent implements OnInit {
 
   ]
 
+  isMobile: boolean = false;
+  width: number = window.innerWidth;
+  height: number = window.innerHeight;
+  mobileWidth: number = 900;
+  user9proIndex: any = null
+
   fiscalYearId: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
-
+  title: string = 'รายชิ่อจังหวัด';
+  content: string = 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus.';
+  html: string;
   constructor(
     private _NotofyService: NotofyService,
     private modalService: BsModalService,
@@ -133,9 +146,12 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private spinner: NgxSpinnerService,
     private sideservice: SideService,
+    private sanitizer: DomSanitizer,
 
     @Inject('BASE_URL') baseUrl: string
   ) {
+    this.html = sanitizer.sanitize(SecurityContext.HTML, this.html);
+
     this.subscription = this.userService.getUserNav()
       .subscribe(
         result => {
@@ -178,7 +194,15 @@ export class UserComponent implements OnInit {
       Role_id: this.roleId
     })
   }
+  onWindowResize(event) {
+    this.width = event.target.innerWidth;
+    this.height = event.target.innerHeight;
+    this.isMobile = this.width < this.mobileWidth;
+    console.log(this.width);
+
+  }
   get f() { return this.addForm.value }
+  // get t() { return this.addForm }
   getData() {
     this.spinner.show();
     this.getUser();
@@ -198,20 +222,21 @@ export class UserComponent implements OnInit {
     //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
   }
 
-  openModal(template: TemplateRef<any>, IDdelete,UserName) {
+  openModal(template: TemplateRef<any>, IDdelete, UserName, Pw) {
     this.addForm.reset()
     this.id = IDdelete;//ID สำหรับลบ
     this.addForm.patchValue({
       Role_id: this.roleId,
-      Autocreateuser : this.Autocreateuser,
+      Autocreateuser: this.Autocreateuser,
       UserName: UserName,
+      Pw: Pw
     })
     this.modalRef = this.modalService.show(template);
   }
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, SideId,
-    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img,Autocreateuser) {
-    alert(SideId);
+    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser) {
+    // alert(commandnumber +"///"+commandnumberdate);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
     this.addForm.reset()
     this.Autocreateuser = Autocreateuser; // สร้าง UerName เองหรือป่าว
@@ -272,7 +297,7 @@ export class UserComponent implements OnInit {
       Commandnumberdate: this.cd,
       Formprofile: 0,
       Img: img,
-      Autocreateuser : Autocreateuser, //แพตข้อมูลว่าสร้าง UerName เองหรือป่าว
+      Autocreateuser: Autocreateuser, //แพตข้อมูลว่าสร้าง UerName เองหรือป่าว
     })
     this.DepartmentId = departmentId
     // console.log(' value: departmentId', departmentId);
@@ -295,8 +320,9 @@ export class UserComponent implements OnInit {
         // console.log("userdata", this.resultuser);
       })
   }
+  userpro(user: any[]) { return user.filter(((result, index) => index < 3)) }
 
-  getRolename(){
+  getRolename() {
     if (this.roleId == 1) {
       this.rolename = 'ผู้ดูแลระบบ'
     } else if (this.roleId == 2) {
@@ -330,24 +356,42 @@ export class UserComponent implements OnInit {
 
       })
   }
-
   getDataRegions() {
     this.regionService.getregiondataforuser(1).subscribe(res => {
-      var uniqueRegion: any = [];
-      uniqueRegion = res.importFiscalYearRelations.filter(
+      // let uniqueRegion: any = [];
+      this.selectdataregion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
-      );
-      this.selectdataregion = uniqueRegion.map((item, index) => {
+      ).map((item, index) => {
         return {
           value: item.region.id,
           label: item.region.name
         }
-      })
+      });
+      console.log(this.selectdataregion);
+      //  = uniqueRegion
+    })
+  }
+
+
+  getDataRegionsForTooltip(event) {
+    this.regionService.getregiondataforuser(1).subscribe(res => {
+      // this.html =
+      //   `<span class="badge" >${res.importFiscalYearRelations.filter(
+      //     // (thing, i, arr) => arr.findIndex(t => t.regionId == event.id) === i
+      //     (resultf) => resultf.region.id == event.id
+      //   ).map((item, index) => `${item.province.name}`)}<br></span>`
+      // console.log(this.html, event.id);
+      this.html =
+        res.importFiscalYearRelations.filter(
+          // (thing, i, arr) => arr.findIndex(t => t.regionId == event.id) === i
+          (resultf) => resultf.region.id == event.id
+        ).map((item, index) => `<span class="badge" >${item.province.name}</span>`)
+      console.log(this.html, event.id);
     })
   }
 
   getDataProvinces() {
-    this.provinceService.getprovincedata()
+    this.provinceService.getprovincedata2()
       .subscribe(result => {
         this.selectdataprovince = result.map((item, index) => {
           return { value: item.id, label: item.name }
@@ -361,17 +405,17 @@ export class UserComponent implements OnInit {
     this.ministryService.getministry()
       .subscribe(result => {
 
-        if (this.roleId != 1 && this.roleId != 2) {
-          this.selectdataministry = result.filter((item, index) => {
-            return item.id != 1
-          }).map((item, index) => {
-            return { value: item.id, label: item.name }
-          })
-        } else {
-          this.selectdataministry = result.map((item, index) => {
-            return { value: item.id, label: item.name }
-          })
-        }
+        // if (this.roleId != 1 && this.roleId != 2) {
+        //   this.selectdataministry = result.filter((item, index) => {
+        //     return item.id != 1
+        //   }).map((item, index) => {
+        //     return { value: item.id, label: item.name }
+        //   })
+        // } else {
+        this.selectdataministry = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+        // }
 
 
       });
@@ -380,7 +424,7 @@ export class UserComponent implements OnInit {
   getDataDepartments(event) {
     this.departmentService.getdepartmentsforuserdata(event.value)
       .subscribe(result => {
-        console.log('result', result);
+        //   console.log('result', result);
 
         this.selectdatadeparment = result.map((item, index) => {
           return { value: item.id, label: item.name }
@@ -418,24 +462,35 @@ export class UserComponent implements OnInit {
   }
   //เพิ่ม user
   store(value) {
-    this.userService.addUser(value, this.addForm.value.files, this.roleId).subscribe(response => {
-      this.addForm.reset()
-      this.modalRef.hide()
-      this.loading = false
-      this._NotofyService.onSuccess("เพื่มข้อมูล")
-      this.getUser()
+    this.addForm.patchValue({
+      Autocreateuser: this.Autocreateuser,
     })
+    this.userService.addUser(this.addForm.value, this.addForm.value.files, this.roleId)
+      .subscribe(response => {
+        this.addForm.reset()
+        this.modalRef.hide()
+        this.loading = false
+        this._NotofyService.onSuccess("เพื่มข้อมูล")
+        this.getUser()
+      })
   }
 
   updateuser(value) {
     // alert(1);
-    this.userService.editprofile(value, this.addForm.value.files, null, this.id).subscribe(response => {
-      //alert(3);
-      this.addForm.reset()
-      this.modalRef.hide()
-      this.loading = false
-      this.getUser()
-    })
+    this.userService.editprofile(value, this.addForm.value.files, null, this.id)
+      .subscribe(response => {
+        // this.userService.changepassword(this.id)
+        // .subscribe(result=>{
+        //   console.log('result changepassword' , result);
+
+        // })
+        // // alert(3);
+        this.addForm.reset()
+        this.modalRef.hide()
+        this.loading = false
+        this._NotofyService.onSuccess("แก้ไขข้อมูล")
+        this.getUser()
+      })
   }
 
   //ลบ user
@@ -447,7 +502,7 @@ export class UserComponent implements OnInit {
     })
   }
 
-  resetpassword(id){
+  resetpassword(id) {
 
   }
 
@@ -479,6 +534,7 @@ export class UserComponent implements OnInit {
       Img: new FormControl(null),
       UserName: new FormControl(null, [Validators.required]),
       Autocreateuser: new FormControl(null, [Validators.required]),
+      Pw: new FormControl(null),
       // con1: new FormControl(null, [Validators.required]),
       // con2: new FormControl(null, [Validators.required]),
     })

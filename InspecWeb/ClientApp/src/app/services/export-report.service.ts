@@ -237,8 +237,10 @@ export class ExportReportService {
     formData.append('UserId', userId);
     formData.append('DepartmentId', departmentId);
 
-    for (var i = 0; i < file.length; i++) {
-      formData.append("files", file[i]);
+    if (file != null) {
+      for (var i = 0; i < file.length; i++) {
+        formData.append("files", file[i]);
+      }
     }
 
     return this.http.post<any>(this.url + "/addImportReport", formData);

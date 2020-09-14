@@ -9,6 +9,8 @@ import { UserService } from '../services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { Router } from '@angular/router';
+import { NotofyService } from '../services/notofy.service';
+import { IMyOptions } from 'mydatepicker-th';
 
 @Component({
   selector: 'app-subjectevent',
@@ -16,7 +18,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./subjectevent.component.css']
 })
 export class SubjecteventComponent implements OnInit {
+  myDatePickerOptions: IMyOptions = {
+    // other options...
 
+    dateFormat: 'dd/mm/yyyy',
+    // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
+  };
   dtOptions: DataTables.Settings = {};
   loading = false;
   modalRef: BsModalRef;
@@ -26,28 +33,30 @@ export class SubjecteventComponent implements OnInit {
   resultsubjectevent: any = [];
   Form: FormGroup;
   Form2: FormGroup;
+  Form3: FormGroup;
   checkInspec: Boolean;
   checkType: any;
   selectdataprovince: Array<any>
   userid: string;
   resultprovince: any = [];
-  province: any = []
-  provincename: any = []
-  provinceid: any = []
+  province: any[] = []
+  provincename: any[] = []
+  provinceid: any[] = []
   selectdatacentralpolicy: Array<any>
 
   selectdataprovince2: Array<any>
   selectdatacentralpolicy2: Array<any>
-  province2: any = []
-  provincename2: any = []
-  provinceid2: any = []
+  province2: any[] = []
+  provincename2: any[] = []
+  provinceid2: any[] = []
 
   CentralPolicyEvents: Array<any> = []
   subjectgroupsdatas: Array<any> = []
   checkOther: Boolean;
-
+  submitted = false;
   // ceneventid
-
+  submittedtime = false;
+  submittedradio = false;
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
@@ -58,6 +67,7 @@ export class SubjecteventComponent implements OnInit {
     private fb: FormBuilder,
     private inspectionplanservice: InspectionplanService,
     private router: Router,
+    private _NotofyService: NotofyService,
   ) { }
 
   ngOnInit() {
@@ -94,16 +104,21 @@ export class SubjecteventComponent implements OnInit {
 
     this.Form = this.fb.group({
       "CentralpolicyId": new FormControl(null, [Validators.required]),
-      "startdate": new FormControl(null, [Validators.required]),
-      "enddate": new FormControl(null, [Validators.required]),
+      "startdate": new FormControl(null),
+      "enddate": new FormControl(null),
       "province": new FormControl(null, [Validators.required]),
       "land": new FormControl(null),
-      "centralPolicyOther": new FormControl(null)
+      // "centralPolicyOther": new FormControl(null, [Validators.required])
     })
 
     this.Form2 = this.fb.group({
       "CentralpolicyId2": new FormControl(null, [Validators.required]),
       "province2": new FormControl(null, [Validators.required]),
+    })
+
+    this.Form3 = this.fb.group({
+      "centralPolicyOther": new FormControl(null, [Validators.required]),
+      "province": new FormControl(null, [Validators.required]),
     })
 
     // this.getCentralPolicy();
@@ -122,6 +137,10 @@ export class SubjecteventComponent implements OnInit {
 
   }
   openModal(template: TemplateRef<any>) {
+    this.submitted = false;
+    this.submittedtime = false;
+    this.submittedradio = false;
+
     this.checkInspec = null;
     this.checkType = 0;
     this.modalRef = this.modalService.show(template);
@@ -227,53 +246,100 @@ export class SubjecteventComponent implements OnInit {
     // }
   }
   storeCentralPolicy(value) {
-    // alert(JSON.stringify(value))
-    console.log('storeCentralPolicy',value, this.userid);
+    // alert(JSON.stringify(this.Form.invalid))
+    // alert(this.Form.value.startdate)
+    console.log('storeCentralPolicy', value, this.userid);
 
-    if (value.land == "ลงพื้นที่") {
-      this.subjectservice.subjectevent(value, this.userid)
+    this.submitted = true;
+
+    if (this.Form.value.province == null || this.Form.value.CentralpolicyId == null) {
+      if (value.land == null) {
+        this.submittedradio = true;
+      }
+      // return;
+    } else {
+      // alert("else1")
+      if (value.land == null) {
+        this.submittedradio = true;
+      }
+      this.submitted = false;
+      if (value.land == "ลงพื้นที่") {
+        // alert("else2")
+        // alert(value.land)
+        if (this.Form.value.startdate != null || this.Form.value.enddate != null) {
+          // alert(this.Form.value.startdate)
+          // alert("if")
+          this.subjectservice.subjectevent(value, this.userid)
+            .subscribe(result => {
+              this._NotofyService.onSuccess("เพื่มข้อมูล",)
+              this.loading = false;
+              this.modalRef.hide();
+              this.Form.reset()
+              // this.resultcentralpolicy = result
+              this.getSubjectevent();
+            })
+        } else {
+          // alert("else3")
+          // alert("else")
+          this.submittedtime = true;
+          // return;
+        }
+      } else if (value.land == "ไม่ลงพื้นที่") {
+        this.subjectservice.subjecteventnoland(value, this.userid)
+          .subscribe(result => {
+            this._NotofyService.onSuccess("เพื่มข้อมูล",)
+            this.loading = false;
+            this.modalRef.hide();
+            this.Form.reset()
+            // this.resultcentralpolicy = result
+            this.getSubjectevent();
+          })
+      }
+    }
+  }
+
+  storeCentralPolicy2(value) {
+
+    this.submitted = true;
+    if (this.Form2.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.submitted = false;
+      // alert(JSON.stringify(value))
+      this.subjectservice.postsubjecteventfromcalendar(value, this.userid)
         .subscribe(result => {
+          this._NotofyService.onSuccess("เพื่มข้อมูล",)
           this.loading = false;
           this.modalRef.hide();
-          this.Form.reset()
-          // this.resultcentralpolicy = result
-          this.getSubjectevent();
-        })
-    } else if (value.land == "ไม่ลงพื้นที่") {
-      this.subjectservice.subjecteventnoland(value, this.userid)
-        .subscribe(result => {
-          this.loading = false;
-          this.modalRef.hide();
-          this.Form.reset()
+          this.Form2.reset()
           // this.resultcentralpolicy = result
           this.getSubjectevent();
         })
     }
   }
 
-  storeCentralPolicy2(value) {
-    // alert(JSON.stringify(value))
-    this.subjectservice.postsubjecteventfromcalendar(value, this.userid)
-      .subscribe(result => {
-        this.loading = false;
-        this.modalRef.hide();
-        this.Form2.reset()
-        // this.resultcentralpolicy = result
-        this.getSubjectevent();
-      })
-  }
-
   storeCentralPolicy3(value) {
+
+    // alert("!23")
     console.log("FORM JA: ", value);
 
-    this.subjectservice.subjecteventnolandOther(value, this.userid)
-      .subscribe(result => {
-        this.loading = false;
-        this.modalRef.hide();
-        this.Form.reset()
-        // this.resultcentralpolicy = result
-        this.getSubjectevent();
-      })
+    this.submitted = true;
+    if (this.Form3.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.submitted = false;
+      this.subjectservice.subjecteventnolandOther(value, this.userid)
+        .subscribe(result => {
+          this._NotofyService.onSuccess("เพื่มข้อมูล",)
+          this.loading = false;
+          this.modalRef.hide();
+          this.Form3.reset()
+          // this.resultcentralpolicy = result
+          this.getSubjectevent();
+        })
+    }
   }
 
   inspect(myradio) {

@@ -21,6 +21,7 @@ export class InfomationProvinceComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
+  url = "";
 
   constructor(
     private fb: FormBuilder,
@@ -32,34 +33,39 @@ export class InfomationProvinceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("in");
-    // this.onSuccess()
-    // this.snotifyService.onSuccess("test")
+    this.getdata();
+  }
+
+  getdata(){
     this.spinner.show();
-
-    this.Form = this.fb.group({
-      "provincename": new FormControl(null, [Validators.required]),
-      "provincelink": new FormControl(null, [Validators.required])
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
-    })
-
-    //แก้ไข
-
-
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.spinner.hide();
         this.resultprovince = result
         this.loading = true
-        console.log(this.resultprovince);
+       // console.log(this.resultprovince);
       })
-    this.Form.patchValue({
-      // test: "testest"
-    })
   }
 
   District(id) {
     this.router.navigate(['/infodistrict', id])
   }
 
+   //<!-- excel -->
+   excel(){
+    window.location.href = '/api/province/excelprovince';
+  }
+  //<!-- END excel -->
+
+  //<!-- Word -->
+  word() {
+    this.provinceservice.wordprovince()
+      .subscribe(result => {
+        //alert(result.data);
+        //console.log('result', result);
+        window.open("reportprovince/" + result.data);
+        this.getdata();
+      })
+  }
+  //<!-- END Word -->
 }

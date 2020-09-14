@@ -197,7 +197,9 @@ export class InspectionPlanEventProvinceComponent implements OnInit {
 
         eventRender: function (event, element, view) {
           console.log(element);
-
+          console.log(element, element.find('span.fc-time'), event);
+          var date = moment(event.start).format('HH:mm')
+          element.find('span.fc-time').text(date)
           element.find('span.fc-title').attr('data-toggle', 'tooltip');
           element.find('span.fc-title').attr('title', event.title);
         },

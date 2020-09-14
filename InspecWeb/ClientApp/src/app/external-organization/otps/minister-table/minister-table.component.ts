@@ -184,4 +184,19 @@ export class MinisterTableComponent implements OnInit {
 
       console.log('data',this.dataindata)
   }
+
+    //<!-- excel -->
+    excel(){
+      window.location.href = '/api/ExternalOrganization/excelOtpsMinisters/';
+    }
+    //<!-- END excel -->
+  
+    //<!-- Word -->
+    word() {
+      this.externalOrganizationService.word()
+        .subscribe(result => {
+          window.open("reportOtpsMinisters/" + result.data);
+        })
+    }
+    //<!-- END Word -->
 }

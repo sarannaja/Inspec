@@ -9,6 +9,7 @@ import { ProvinceService, Province } from 'src/app/services/province.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 interface addInput {
   id: number;
@@ -22,10 +23,11 @@ interface addInput {
 })
 export class CreateCentralPolicyComponent implements OnInit {
 
-  private myDatePickerOptions: IMyOptions = {
+  myDatePickerOptions: IMyOptions = {
     // other options...
-    
+
     dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false
     // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
   };
 
@@ -52,6 +54,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   fileStatus: any;
   fileData: any = [{ CentralpolicyFile: '', fileDescription: '' }];
   listfiles: any = [];
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -63,6 +66,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     private authorize: AuthorizeService,
     private external: ExternalOrganizationService,
     private spinner: NgxSpinnerService,
+    private _NotofyService: NotofyService
   ) {
     this.form = this.fb.group({
       name: [''],
@@ -80,12 +84,12 @@ export class CreateCentralPolicyComponent implements OnInit {
       })
 
     this.Form = this.fb.group({
-      title: new FormControl(null, [Validators.required]),
+      title: new FormControl("", [Validators.required]),
       // start_date: new FormControl(null, [Validators.required]),
       // end_date: new FormControl(null, [Validators.required]),
-      year: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      year: new FormControl("", [Validators.required]),
+      type: new FormControl("", [Validators.required]),
+      files: new FormControl(null),
       ProvinceId: new FormControl(null, [Validators.required]),
       status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       input: new FormArray([]),
@@ -101,12 +105,12 @@ export class CreateCentralPolicyComponent implements OnInit {
     }))
 
     this.d.push(this.fb.group({
-      start_date: '',
-      end_date: '',
+      start_date: new FormControl("", [Validators.required]),
+      end_date: new FormControl("", [Validators.required]),
     }))
     //แก้ไข
 
-    // this.provinceservice.getprovincedata()
+    // this.provinceservice.getprovincedata2()
     // .subscribe(result => {
     //   this.resultprovince = result
 
@@ -128,6 +132,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     })
     // this.addInput()
   }
+
   inspec(event) {
     console.log(event);
 
@@ -164,19 +169,29 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
   storeCentralpolicy(value) {
     console.log(value);
-    this.spinner.show();
-    // // alert(JSON.stringify(value))
-    this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
-      .subscribe(response => {
-        console.log(response);
-        this.Form.reset()
-        this.spinner.hide();
-        this.router.navigate(['centralpolicy'])
-        // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
-        //   this.centralpolicyservice = result
-        //   console.log(this.resultcentralpolicy);
-        // })
-      })
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      console.log("in2");
+      this.spinner.show();
+      // // alert(JSON.stringify(value))
+      this.centralpolicyservice.addCentralpolicy(value, this.form.value.files, this.userid)
+        .subscribe(response => {
+          console.log(response);
+          this.Form.reset()
+          this.spinner.hide();
+          this._NotofyService.onSuccess("เพื่มข้อมูล")
+          window.history.back();
+          // this.router.navigate(['centralpolicy'])
+          // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+          //   this.centralpolicyservice = result
+          //   console.log(this.resultcentralpolicy);
+          // })
+        })
+    }
+
   }
 
   addFile(event) {
@@ -203,9 +218,10 @@ export class CreateCentralPolicyComponent implements OnInit {
   }
 
   appenddate() {
+    // console.log(this.d.at(0).invalid);
     this.d.push(this.fb.group({
-      start_date: '',
-      end_date: '',
+      start_date: new FormControl("", [Validators.required]),
+      end_date: new FormControl("", [Validators.required]),
     }))
   }
   remove(index: number) {
@@ -222,7 +238,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     this.Form.get('ProvinceId').patchValue([]);
   }
   getDataProvince() {
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.external.getProvinceRegion()
           .subscribe(result2 => {
@@ -242,7 +258,7 @@ export class CreateCentralPolicyComponent implements OnInit {
             })
             console.log(this.province);
           })
-          this.spinner.hide();
+        this.spinner.hide();
       })
     // console.log(this.provinceservice.getRegionMock());
   }

@@ -15,14 +15,14 @@
   <div class="col-12">
     <div class="card">
 
-      <div *ngIf="role_id == 3; else elseBlock" class="card-header" style="margin-bottom: -40px;">
+      <!-- <div *ngIf="role_id == 3; else elseBlock" class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
         <div class="float-right">
           <button *ngIf="role_id == 3" class="btn btn-primary" (click)="createElectronicBook()"
             style="margin-top: -60px;">สร้างสมุดตรวจอิเล็กทรอนิกส์</button>
         </div>
-      </div>
-      <ng-template #elseBlock>
+      </div> -->
+      <ng-template >
         <div class="card-header">
           <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
         </div>
@@ -35,7 +35,7 @@
       <div class="col-lg-3" *ngFor="let items of Data">
         <div class="card" style="margin-top: 10px; text-align: center;">
           <div style="padding-top: 10px; align-self: center;">
-            <img [src]="getImagePath(items.name)" alt="photo" class="imgSize"
+            <img [src]="url + 'Theme/' + items.name" alt="photo" class="imgSize"
             (click)="exportToWord(items.id)" >
             <br>
             <span class="badge badge-warning text-center"

@@ -7,6 +7,7 @@ import { DepartmentService } from '../services/department.service';
 import { ProvincialDepartmentService } from '../services/provincialdepartment.service';
 import { ProvinceService } from '../services/province.service';
 import { NotofyService } from '../services/notofy.service';
+import { ExternalOrganizationService } from '../services/external-organization.service';
 
 @Component({
   selector: 'app-provincialdepartment',
@@ -18,14 +19,14 @@ export class ProvincialDepartmentComponent implements OnInit {
   resultprovincialdepartment: any = []
   resultdetail: any = []
   selectedProvince: any[] = []
-  id :any;
-  selectdataprovince: Array<any>=[]
-  ministryname:data = {}
-  departmentname:data = {}
+  id: any;
+  selectdataprovince: any[] = []
+  ministryname: data = {}
+  departmentname: data = {}
 
-  provincialdepartmentId :any;
-  departmentId:any;
-  ministryid:any;
+  provincialdepartmentId: any;
+  departmentId: any;
+  ministryid: any;
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
@@ -34,17 +35,18 @@ export class ProvincialDepartmentComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router:Router,
-    private activatedRoute : ActivatedRoute,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private modalService: BsModalService,
     private ministryservice: MinistryService,
     private departmentService: DepartmentService,
     private provinceService: ProvinceService,
     private provincialDepartmentService: ProvincialDepartmentService,
+    private external: ExternalOrganizationService,
     private _NotofyService: NotofyService,
-    ) {
+  ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
-   }
+  }
 
   ngOnInit() {
     this.dtOptions = {
@@ -65,25 +67,25 @@ export class ProvincialDepartmentComponent implements OnInit {
     };
     this.getdata();
     this.getDataProvinces();
-   
+
     this.Form = this.fb.group({
       Name: new FormControl(null, [Validators.required]),
       Province: new FormControl(null, [Validators.required]),
     })
   }
 
-  getdata(){
+  getdata() {
 
-    this.ministryservice.getministryfirst2(this.id).subscribe(result=>{
+    this.ministryservice.getministryfirst2(this.id).subscribe(result => {
       this.ministryname = result
     })
 
-    this.departmentService.getdepartmentsfirst(this.id).subscribe(result=>{
+    this.departmentService.getdepartmentsfirst(this.id).subscribe(result => {
       this.departmentname = result
     })
 
-    this.provincialDepartmentService.getprovincialdepartmentdata(this.id).subscribe(result=>{
-      //console.log(result);
+    this.provincialDepartmentService.getprovincialdepartmentdata(this.id).subscribe(result => {
+      console.log(result);
       this.resultprovincialdepartment = result
       this.loading = true;
     })
@@ -91,15 +93,47 @@ export class ProvincialDepartmentComponent implements OnInit {
   }
 
   getDataProvinces() {
-    this.provinceService.getprovincedata()
-      .subscribe(result => {
-        this.selectdataprovince = result.map((item, index) => {
-          return { value: item.id, label: item.name }
-        })
+    // this.provinceService.getprovincedata2()
+    //   .subscribe(result => {
+    //     console.log(result);
+    //     this.selectdataprovince = result.map((item, index) => {
+    //       return { value: item.id, label: item.name }
+    //     })
 
+    //   })
+    this.provinceService.getprovincedata2()
+      .subscribe(result => {
+        this.external.getProvinceRegion()
+          .subscribe(result2 => {
+            this.selectdataprovince = result.map(result => {
+              console.log(
+                result.name
+              );
+              var region = result2.filter(
+                (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+              )[0].region
+              console.log(
+                region
+              );
+
+
+              return { ...result, region: region, label: result.name, value: result.id }
+            })
+            console.log(this.selectdataprovince);
+          })
+        // this.spinner.hide();
       })
+
+  }
+  public onSelectAll() {
+    var selected = this.selectdataprovince.map(item => item.id);
+    this.Form.get('Province').patchValue(selected);
+    this.selectedProvince = selected
   }
 
+  public onClearAll() {
+    this.Form.get('Province').patchValue([]);
+  }
   openModal(template: TemplateRef<any>, departmentId) {
     this.Form.reset()
     this.departmentId = departmentId;
@@ -107,42 +141,42 @@ export class ProvincialDepartmentComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  deleteModal(template: TemplateRef<any>, deleteID){
-   this.departmentId =  deleteID
-   this.modalRef = this.modalService.show(template);
+  deleteModal(template: TemplateRef<any>, deleteID) {
+    this.departmentId = deleteID
+    this.modalRef = this.modalService.show(template);
   }
 
-  editModal(template: TemplateRef<any>, id,Name) {
-   // alert(id);
-   this.provincialDepartmentService.getdetaildata(id).subscribe(response => {
-    //console.log('datadetail',response)
-    this.resultdetail = response;
-    this.provincialdepartmentId = id;
-    this.Form.patchValue({
-      Name : Name,
-      Province: response.map(result=> {return result.provinceId}),
-      
+  editModal(template: TemplateRef<any>, id, Name) {
+    // alert(id);
+    this.provincialDepartmentService.getdetaildata(id).subscribe(response => {
+      //console.log('datadetail',response)
+      this.resultdetail = response;
+      this.provincialdepartmentId = id;
+      this.Form.patchValue({
+        Name: Name,
+        Province: response.map(result => { return result.provinceId }),
+
+      })
+      this.selectedProvince = response.map(result => { return result.provinceId })
     })
-    this.selectedProvince =  response.map(result=> {return result.provinceId})
-  })
-   
-   this.modalRef = this.modalService.show(template);
- }
 
-openDetailModal(template: TemplateRef<any>, id,name) {
+    this.modalRef = this.modalService.show(template);
+  }
 
-  this.provincialDepartmentService.getdetaildata(id).subscribe(response => {
-    console.log('datadetail',response)
-    this.resultdetail = response;
-  })
-  this.modalRef = this.modalService.show(template);
-}
+  openDetailModal(template: TemplateRef<any>, id, name) {
+
+    this.provincialDepartmentService.getdetaildata(id).subscribe(response => {
+      console.log('datadetail', response)
+      this.resultdetail = response;
+    })
+    this.modalRef = this.modalService.show(template);
+  }
 
 
-storeprovincialDepartment(value) {
- 
-    this.provincialDepartmentService.addProvincialDepartment(value,this.departmentId).subscribe(response => {
-     
+  storeprovincialDepartment(value) {
+
+    this.provincialDepartmentService.addProvincialDepartment(value, this.departmentId).subscribe(response => {
+
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
@@ -151,9 +185,9 @@ storeprovincialDepartment(value) {
     })
   }
 
-  updateprovincialDepartment(value){
-   //alert(1)
-    this.provincialDepartmentService.updateProvincialDepartment(value,this.provincialdepartmentId).subscribe(response => {
+  updateprovincialDepartment(value) {
+    //alert(1)
+    this.provincialDepartmentService.updateProvincialDepartment(value, this.provincialdepartmentId).subscribe(response => {
       //alert(3)
       this.Form.reset()
       this.modalRef.hide()
@@ -164,9 +198,9 @@ storeprovincialDepartment(value) {
   }
 
   deleteprovincialDepartment(value) {
-   
+
     this.provincialDepartmentService.deleteProvincialDepartment(value).subscribe(response => {
-     
+
       this.modalRef.hide()
       this.loading = false
       this.getdata();
@@ -180,7 +214,7 @@ storeprovincialDepartment(value) {
 
 }
 
-export interface data{
+export interface data {
   id?: number;
   name?: string;
 };

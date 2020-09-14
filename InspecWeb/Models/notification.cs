@@ -37,7 +37,7 @@ namespace InspecWeb.Models
         [Description("การแจ้งเตือน")]
         public long noti { get; set; }
 
-        [Description("เรื่องคำร้อง")]
+        [Description("xxx")]
         public long xe { get; set; }
 
         [Description("วันที่ส่งแจ้งเตือน")]

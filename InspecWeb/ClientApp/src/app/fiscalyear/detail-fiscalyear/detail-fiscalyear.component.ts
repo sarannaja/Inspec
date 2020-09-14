@@ -178,7 +178,7 @@ export class DetailFiscalyearComponent implements OnInit {
           }
         }
       });
-    this.provinceservice.getprovincedata()
+    this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.provinces = []
         this.resultprovince = result

@@ -816,6 +816,7 @@ namespace InspecWeb.Controllers
                 }
             }
             System.Console.WriteLine("Finish Update Suggestion");
+            _context.SaveChanges();
         }
 
         [HttpPut("editSuggestionown")]

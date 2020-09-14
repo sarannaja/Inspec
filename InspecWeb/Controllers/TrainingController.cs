@@ -31,7 +31,6 @@ namespace InspecWeb.Controllers
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
-
         private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
 

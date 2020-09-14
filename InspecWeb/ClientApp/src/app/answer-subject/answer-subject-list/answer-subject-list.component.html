@@ -4,10 +4,9 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="/centralpolicy">แผนตรวจราชการ</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบายย่อย</a></li>
-      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+      <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">แผนตรวจราชการ</a></li>
+      <li class="breadcrumb-item active" aria-current="page">ประเด็นนโยบายย่อย</li>
     </ol>
   </nav>
 </div>
@@ -26,8 +25,8 @@
         [dtOptions]="dtOptions">
         <thead>
           <tr>
-            <th>#</th>
-            <th style="width: 50%;">ชื่อประเด็นนโยบายย่อย</th>
+            <th>ที่</th>
+            <th style="width: 50%;">หัวข้อการตรวจ</th>
             <th>ระยะเวลา</th>
             <!-- <th>สถานะ</th> -->
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -59,7 +58,7 @@
             </td>
             <!-- <td>{{item.status}}</td> -->
             <td>
-              <i class=" align-middle mr-2 fas fa-fw fa-pen pointer" (click)="Subjectdetail(item.id)"></i>
+              <i title="ตอบคำถามประเด็นนโยบายย่อย" class=" align-middle mr-2 fas fa-fw fa-pen pointer" (click)="Subjectdetail(item.id)"></i>
               <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subjectdetail(item.id)"></i> -->
               <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditSubject(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"

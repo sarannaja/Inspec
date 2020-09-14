@@ -20,7 +20,7 @@
       </div>
       <div class="card-body">
         <form [formGroup]="EditForm" (ngSubmit)="EditSubject(EditForm.value,resultsubjectdetail.id)">
-          <div class="row">
+          <div class="">
             <div class="col-12 col-xl-12">
               <br>
             </div>
@@ -28,20 +28,31 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>หัวข้อการตรวจ</label>
+                <label style="color: red;">*</label>
                 <!-- <input type="text" value="{{resultsubjectdetail.name}}" formControlName="name" class="form-control"
                   placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
                 <textarea cols="30" rows="2" type="text" value="{{resultsubjectdetail.name}}" formControlName="name"
-                  class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"></textarea>
+                  class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"
+                  [ngClass]="{ 'is-invalid': submitted && fe.name.errors }"></textarea>
+                <div *ngIf="submitted && fe.name.errors" class="invalid-feedback">
+                  <div *ngIf="fe.name.errors.required">กรุณากรอกชื่อเรื่อง</div>
+                </div>
               </div>
               <div class="form-group">
                 <label>คำชี้แจง</label>
+                <label style="color: red;">*</label>
                 <!-- <input type="text" value="{{resultsubjectdetail.explanation}}" formControlName="explanation"
                   class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
                 <textarea cols="30" rows="2" type="text" value="{{resultsubjectdetail.explanation}}"
-                  formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง"></textarea>
+                  formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง"
+                  [ngClass]="{ 'is-invalid': submitted && fe.explanation.errors }"></textarea>
+                <div *ngIf="submitted && fe.explanation.errors" class="invalid-feedback">
+                  <div *ngIf="fe.explanation.errors.required">กรุณากรอกคำชี้แจง</div>
+                </div>
               </div>
               <div class="form-group">
                 <label>ระยะเวลาการตรวจ</label>
+                <label style="color: red;">*</label>
                 <div class="row">
                   <div class="col-11">
                     <ng-select bindLabel="label" bindValue="value" multiple="true" id="datetime" [(ngModel)]="datetime"
@@ -69,6 +80,7 @@
                   <div class="col-12 col-xl-12" *ngFor="let item of filterboxdepartments; let i2 = index">
                     <div class="row" style="margin-left: 2px;">
                       <label>ผู้ให้ข้อมูล</label>
+                      <label style="color: red;">*</label>
                       &nbsp;&nbsp;
                       <button class="btn btn-primary" type="button" style="margin-top: -8px;" title="เพิ่มผู้ให้ข้อมูล"
                         (click)="openAddDepartmentModal(modalInviteDepartment,item.id,item.box,item.subjectCentralPolicyProvinceGroups)">
@@ -106,6 +118,7 @@
                     </div> -->
                     <div>
                       <label>ประเด็นการตรวจติดตาม</label>
+                      <label style="color: red;">*</label>
                       &nbsp;&nbsp;
                       <!-- <button class="btn btn-info" type="button"
                         (click)="openAddModalQuestionsclose(modalQuestionsclose,item.box)">เพิ่มคำถาม</button> -->
@@ -198,7 +211,7 @@
               <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
                 <form class="form-group row col-12" [formGroup]="itemTest">
                   <div class="col-4">
-                    <label formControlName="SubjectFile">ไฟล์ที่ {{i + 1}})
+                    <label class="textellipsis" formControlName="SubjectFile">ไฟล์ที่ {{i + 1}})
                       {{itemTest.controls.SubjectFile.value.name}}</label>
                   </div>
                   <div class="col-8">
@@ -246,13 +259,17 @@
                 </div>
               </div>
             </div>
-            <div class="form-group row" style="margin-top: 10px;">
+            <!-- <div class="form-group row" style="margin-top: 10px;">
               <div class="col-sm-5 ml-sm-auto">
                 <button type="submit" class="btn btn-primary">บันทึก</button>
               </div>
               <div class="col-sm-5 ml-sm-auto">
                 <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
               </div>
+            </div> -->
+            <div class="form-group" style="text-align: center; justify-content: center;">
+              <button style="margin-right: 15px;" type="submit" class="btn btn-primary">บันทึก</button>
+              <button style="margin-left: 15px;" type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
             </div>
           </div>
         </form>
@@ -299,7 +316,10 @@
           <label for="test" class="form-label">คำถาม</label>
           <!-- <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกคำถาม"> -->
           <textarea cols="30" rows="2" type="text" formControlName="name" class="form-control"
-            placeholder="กรุณากรอกคำถาม"></textarea>
+            placeholder="กรุณากรอกคำถาม" [ngClass]="{ 'is-invalid': submitted && ff.name.errors }"></textarea>
+          <div *ngIf="submitted && ff.name.errors" class="invalid-feedback">
+            <div *ngIf="ff.name.errors.required">กรุณากรอกคำถาม</div>
+          </div>
           <div formArrayName="inputanswerclose">
             <div *ngFor="let X of FormAddQuestionsclose['controls'].inputanswerclose['controls']; let ix=index">
               <div formGroupName="{{ix}}">
@@ -433,7 +453,10 @@
         <div class="form-group">
           <label for="test" class="form-label">คำตอบ</label>
           <input type="text" value="{{editname}}" formControlName="name" class="form-control"
-            placeholder="กรุณากรอกคำตอบ">
+            placeholder="กรุณากรอกคำตอบ" [ngClass]="{ 'is-invalid': submitted && fec.name.errors }">
+          <div *ngIf="submitted && fec.name.errors" class="invalid-feedback">
+            <div *ngIf="fec.name.errors.required">กรุณากรอกคำตอบ</div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -483,8 +506,12 @@
       </div>
       <div class="modal-body m-3">
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
-          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId">
+          [items]="departmentSelect" name="DepartmentId" formControlName="DepartmentId"
+          [ngClass]="{ 'is-invalid': submitted && faed.DepartmentId.errors }">
         </ng-select>
+        <div *ngIf="submitted && faed.DepartmentId.errors" class="invalid-feedback">
+          <div *ngIf="faed.DepartmentId.errors.required">กรุณาหน่วยงาน</div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -517,8 +544,7 @@
             <div class="form-group">
               <label>ผู้ให้ข้อมูล</label>
               <div formArrayName="inputsubjectdepartment">
-                <div
-                  *ngFor="let V of FormAddDepartmentQuestion['controls'].inputsubjectdepartment['controls']; let iv=index">
+                <div *ngFor="let V of tv.controls; let iv=index">
                   <div formGroupName="{{iv}}">
                     <!-- <div class="row">
                       <div class="col-2">
@@ -541,6 +567,10 @@
                     <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
                       [items]="department" name="departmentId" formControlName="departmentId">
                     </ng-select>
+                    <div class="form-group" *ngIf="submitted && tv.at(iv).get('departmentId').invalid"
+                    [ngStyle]="submitted && tv.at(iv).get('departmentId').invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกหน่วยงาน</div>
+                  </div>
                     <br>
                     <!-- <label>ประเด็นการตรวจติดตาม</label>
                     <br> -->
@@ -579,6 +609,11 @@
                                 placeholder="กรุณากรอกคำถาม"> -->
                               <textarea cols="30" rows="2" type="text" formControlName="questionclose"
                                 class="form-control" placeholder="กรุณากรอกคำถาม"></textarea>
+                                <div class="form-group"
+                                *ngIf="submitted && getinputquestionclose(iv).tvf[ix].get('questionclose').invalid"
+                                [ngStyle]="submitted && getinputquestionclose(iv).tvf[ix].get('questionclose').invalid ? {color: '#dc3545'}:{color: ''} ">
+                                <div style="font-size: 80%;">กรุณากรอกคำถาม</div>
+                              </div>
                             </div>
                             <div class="col-1">
                               <div class="col-1 margin-plus-icon" *ngIf="ix == 0; else elseBlock">

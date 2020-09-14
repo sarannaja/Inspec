@@ -4,10 +4,10 @@
     </h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการ</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">ประเด็นนโยบาย</a></li>
-            <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบาย</li>
+            <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="/answersubject">แผนตรวจราชการ</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">ประเด็นนโยบายย่อย</a></li>
+            <li class="breadcrumb-item active" aria-current="page">รายละเอียดประเด็นนโยบายย่อย</li>
         </ol>
     </nav>
 </div>
@@ -101,15 +101,13 @@
                         <!-- <form [formGroup]="Formstatus"> -->
                         <div *ngIf="status == 'ร่างกำหนดการ'" class="col-12 col-xl-12" style="margin-top: 20px;">
                             <div class="form-group">
-                                <div class="form-group col-md-3">
-                                    <div class="mb-3">
+                                <div class="form-group col-md-6">
                                         <input type="radio" name="Status" value="ร่างกำหนดการ" checked
                                             formControlName="Status">
                                         <label style="margin-left: 10px;">ร่างกำหนดการ</label>
                                         <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
                                             formControlName="Status">
                                         <label style="margin-left: 10px;">ใช้งานจริง</label>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +145,7 @@
                         <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
                             <form class="form-group row col-12" [formGroup]="itemTest">
                                 <div class="col-4">
-                                    <label formControlName="AnswerSubjectFile">ไฟล์ที่ {{i + 1}})
+                                    <label class="textellipsis" formControlName="AnswerSubjectFile">ไฟล์ที่ {{i + 1}})
                                         {{itemTest.controls.AnswerSubjectFile.value.name}}</label>
                                 </div>
                                 <div class="col-8">
@@ -209,7 +207,7 @@
                         </div> -->
                         <div *ngIf="printstatus == 0" class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
                             <button style="align-self: center;" type="button" class="btn btn-primary"
-                                style="margin-right: 45px;" (click)="printPage()">ปิ้นคำถาม</button>
+                                style="margin-right: 45px;" (click)="printPage()">พิมพ์</button>
                             <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
                         </div>
                     </ng-template>

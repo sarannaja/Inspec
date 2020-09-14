@@ -44,11 +44,11 @@ export class ElectronicBookProvinceComponent implements OnInit {
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             // this.resultuser = result;
-            //console.log("test" , this.resultuser);
+            console.log("test" , result);
             console.log("provinceId: ", result);
 
             this.role_id = result[0].role_id
-            this.provinceId = result[0].provinceId
+            this.provinceId = result[0].userProvince[0].provinceId
             this.provincialDepartmentID = result[0].provincialDepartmentId
             this.getElectronicBook();
           })

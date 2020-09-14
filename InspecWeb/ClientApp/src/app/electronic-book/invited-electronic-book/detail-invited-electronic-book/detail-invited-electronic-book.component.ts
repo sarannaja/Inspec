@@ -10,6 +10,7 @@ import { ElectronicbookService } from 'src/app/services/electronicbook.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { DepartmentService } from 'src/app/services/department.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-detail-invited-electronic-book',
@@ -32,6 +33,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
   opinionData: any = [];
   downloadUrl: any;
   signature: any;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -45,6 +47,7 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
     private authorize: AuthorizeService,
     private notificationService: NotificationService,
     private departmentService: DepartmentService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id');
     this.ebookInviteId = activatedRoute.snapshot.paramMap.get('ebookInviteId');
@@ -78,8 +81,8 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
     })
 
     this.approveForm = this.fb.group({
-      opinion: new FormControl(null, [Validators.required]),
-      accept: new FormControl("เห็นด้วย", [Validators.required]),
+      opinion: new FormControl("", [Validators.required]),
+      accept: new FormControl("", [Validators.required]),
     })
 
     this.suggestionForm = this.fb.group({
@@ -148,13 +151,20 @@ export class DetailInvitedElectronicBookComponent implements OnInit {
   }
 
   addOpinion(value) {
-    this.electronicBookService.addOpinion(value, this.ebookInviteId).subscribe(res => {
-      console.log('Opinion:', res);
-      this.approveForm.reset();
-      this.getElectronicBookDetail();
-      this.getElectronicBookInviteOpinion();
-      this.modalRef.hide();
-    })
+    this.submitted = true;
+    if (this.approveForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.electronicBookService.addOpinion(value, this.ebookInviteId).subscribe(res => {
+        console.log('Opinion:', res);
+        this.approveForm.reset();
+        this.getElectronicBookDetail();
+        this.getElectronicBookInviteOpinion();
+        this.modalRef.hide();
+        this._NotofyService.onSuccess("ลงนามสมุดตรวจอิเล็กทรอนิกส์",)
+      })
+    }
   }
 
   closeModal() {

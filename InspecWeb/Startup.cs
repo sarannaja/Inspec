@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
@@ -32,19 +32,26 @@ namespace InspecWeb {
             services.AddDbContext<ApplicationDbContext> (options =>
                 options.UseSqlServer (
                     Configuration.GetConnectionString ("DefaultConnection")));
-          
-            services.AddDefaultIdentity<ApplicationUser> (options => {
-                    options.SignIn.RequireConfirmedAccount = false;
-                    options.Password.RequiredLength = 8;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireDigit = false;
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext> ();
 
+           
+
+            //<!-- เช็ทพาสเวิร์ด -->
+            services.AddDefaultIdentity<ApplicationUser>(options => {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            //<!-- เช็ทพาสเวิร์ด
             services.AddIdentityServer ()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext> ();
+
+           // services.AddIdentity<ApplicationUser, IdentityRole>()
+           //.AddEntityFrameworkStores<ApplicationDbContext>()
+           //.AddDefaultTokenProviders();
 
             services.AddAuthentication ()
                 .AddIdentityServerJwt ();

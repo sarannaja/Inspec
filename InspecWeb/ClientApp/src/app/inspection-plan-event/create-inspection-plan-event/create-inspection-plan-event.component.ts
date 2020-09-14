@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { IMyOptions } from 'mydatepicker-th';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { InspectionplaneventService } from 'src/app/services/inspectionplanevent.service';
 import { ProvinceService } from 'src/app/services/province.service';
 
@@ -11,6 +12,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { SubjectService } from 'src/app/services/subject.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog/confirmation-dialog.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 interface addInput {
   id: number;
@@ -65,6 +67,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     private provinceservice: ProvinceService,
     private inspectionplanservice: InspectionplanService,
     private _dialog: ConfirmationDialogService,
+    private _NotofyService: NotofyService,
+    private _location: Location,
     @Inject('BASE_URL') baseUrl: string) {
     this.url = baseUrl;
   }
@@ -80,7 +84,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.Form = this.fb.group({
       //title: new FormControl(null, [Validators.required]),
       input: new FormArray([])
-    
+
     });
     this.t.push(this.fb.group({
       start_date_plan: '',
@@ -127,12 +131,11 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   storeInspectionPlanEvent(value) {
     //console.log("Store : ", value);
     // alert(JSON.stringify(value))
-    const start_date_plan_i: any[] = this.start_date_plan_i
-    const end_date_plan_i: any[] = this.end_date_plan_i
+    let start_date_plan_i: any[] = this.start_date_plan_i
+    let end_date_plan_i: any[] = this.end_date_plan_i
     var count = 0
     for (let i = 0; i < value.input.length; i++) {
       if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
-        
 
 
         this.inspectionplanservice.inspectionplansprovince(value.input[i].provinces, this.userid, start_date_plan_i[i], end_date_plan_i[i])
@@ -141,7 +144,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
             var id = result
             var watch = 0;
             // value.input.length == 1 ? this.removeThem() : count != value.input.length - 1 ? count++ : this.removeThem()
-
+            this._NotofyService.onSuccess("เพื่มข้อมูล",)
           })
       } else {
         // addT.push(this.t.at(i).value)
@@ -151,28 +154,41 @@ export class CreateInspectionPlanEventComponent implements OnInit {
 
   }
   removeThem() {
-    var count = 0
+    let count = 0
     for (let i = 0; i < this.t.length; i++) {
       if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
-      
+
 
         this.t.removeAt(i)
 
-        var starts = new Set(this.start_date_plan_i);
+        let starts = new Set(this.start_date_plan_i);
         starts.delete(this.start_date_plan_i[i]);
         this.start_date_plan_i = Array.from(starts);
 
-        var ends = new Set(this.end_date_plan_i);
+        let ends = new Set(this.end_date_plan_i);
         ends.delete(this.end_date_plan_i[i]);
         this.end_date_plan_i = Array.from(ends);
-      
+
         count++
       } else {
       }
     }
     // alert(this.t.length)
     if (this.t.length == 0) {
-      this.back()
+      // setTimeout(()=>thi)
+      this._dialog.confirm('ต้องการเพิ่มข้อมูลต่อหรือไม่', 'ตอนนี้ข้อมูลของคุณเพิ่มเรียบร้อยแล้วคุณต้องการเพิ่มข้อมูลต่อหรือไม่', 'เพิ่มต่อ', 'ไม่เพิ่มต่อ')
+        .then((result: any) => {
+          result.status ? this.t.push(this.fb.group({
+            start_date_plan: '',
+            end_date_plan: '',
+            provinces: [],
+            centralpolicies: [],
+            resultcentralpolicy: [],
+            resultdetailcentralpolicy: ''
+          })) : this.back()
+
+        })
+
     } else {
       this._dialog.confirm('ยังมีข้อมูลบางตัวที่มีวันและเวลาเริ่มต้นน้อยกว่าวันที่สิ้นสุด', 'ยังมีข้อมูลบางตัวที่มีวันและเวลาเริ่มต้นน้อยกว่าวันที่สิ้นสุด', false, 'ปิด')
         .then(result => {
@@ -227,7 +243,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
         this.resultdetailcentralpolicy = result
         //console.log(this.resultdetailcentralpolicy.title);
         this.t.at(i).get('resultdetailcentralpolicy').patchValue({ id: this.resultdetailcentralpolicy.id, title: this.resultdetailcentralpolicy.title })
-      
+
 
       })
   }
@@ -236,16 +252,18 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.t.removeAt(index);
   }
   back() {
-    window.history.back();
+    this._location.back()
+    // window.history.back();
   }
   //inpecplanevent
   Gotoinspecplan(provinceid, i) {
 
-  
+
 
     this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])
       ? this.inspectionplanservice.inspectionplansprovince(provinceid, this.userid, this.start_date_plan_i[i], this.end_date_plan_i[i])
         .subscribe(result => {
+          this._NotofyService.onSuccess("เพื่มข้อมูล",)
           var id = result
           var watch = 0;
           this.t.length == 1 ? this.append() : null

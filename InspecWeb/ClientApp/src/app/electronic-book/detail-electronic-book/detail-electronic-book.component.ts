@@ -13,6 +13,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { DepartmentService } from 'src/app/services/department.service';
 import * as _ from 'lodash';
 import { ElectronicbookreportService } from 'src/app/services/electronicbookreport.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-detail-electronic-book',
@@ -68,6 +69,7 @@ export class DetailElectronicBookComponent implements OnInit {
     private notificationService: NotificationService,
     private departmentService: DepartmentService,
     private electronicBookReportService: ElectronicbookreportService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id')
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
@@ -275,6 +277,7 @@ export class DetailElectronicBookComponent implements OnInit {
       }
       this.getElectronicBookDetail();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
     })
     // }
 
@@ -292,8 +295,17 @@ export class DetailElectronicBookComponent implements OnInit {
   sendToProvince(electId) {
     this.electronicBookService.sendToProvince(electId, this.userid, this.provinceId, this.provincialDepartmentId).subscribe(res => {
       console.log("sended: ", res);
+      // for noti to province and provincialdepartment.
+      // this.provinceId.forEach(element => {
+      //   this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, element, 7, this.electId)
+      //     .subscribe(response => {
+      //       console.log("Noti res: ", response);
+      //     })
+      // });
+
       this.getElectronicBookDetail();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("ส่งสมุดตรวจ",)
     })
   }
 
@@ -315,7 +327,7 @@ export class DetailElectronicBookComponent implements OnInit {
       this.MinistrySelect = _.filter(this.selectdataministrypeople, (v) => !_.includes(
         data, v.value
       ))
-      this.MinistrySelect = _.filter(this.selectdataministrypeople, (v) => !_.includes(
+      this.MinistrySelect = _.filter(this.MinistrySelect, (v) => !_.includes(
         data2, v.value
       ))
     })
@@ -339,7 +351,7 @@ export class DetailElectronicBookComponent implements OnInit {
       this.MinistrySelectSame = _.filter(this.selectdataministrypeople, (v) => !_.includes(
         data, v.value
       ))
-      this.MinistrySelectSame = _.filter(this.selectdataministrypeople, (v) => !_.includes(
+      this.MinistrySelectSame = _.filter(this.MinistrySelectSame, (v) => !_.includes(
         data2, v.value
       ))
     })
@@ -361,7 +373,7 @@ export class DetailElectronicBookComponent implements OnInit {
       this.DepartmentSelect = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
         data, v.value
       ))
-      this.DepartmentSelect = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+      this.DepartmentSelect = _.filter(this.DepartmentSelect, (v) => !_.includes(
         data2, v.value
       ))
     })
@@ -386,7 +398,7 @@ export class DetailElectronicBookComponent implements OnInit {
       this.DepartmentSelectSame = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
         data, v.value
       ))
-      this.DepartmentSelectSame = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+      this.DepartmentSelectSame = _.filter(this.DepartmentSelectSame, (v) => !_.includes(
         data2, v.value
       ))
     })
@@ -410,7 +422,7 @@ export class DetailElectronicBookComponent implements OnInit {
       this.DepartmentSelectSame = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
         data, v.value
       ))
-      this.DepartmentSelectSame = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
+      this.DepartmentSelectSame = _.filter(this.DepartmentSelectSame, (v) => !_.includes(
         data2, v.value
       ))
     })
@@ -433,7 +445,7 @@ export class DetailElectronicBookComponent implements OnInit {
       this.PeopleSelect = _.filter(this.selectdatapeople, (v) => !_.includes(
         data, v.value
       ))
-      this.PeopleSelect = _.filter(this.selectdatapeople, (v) => !_.includes(
+      this.PeopleSelect = _.filter(this.PeopleSelect, (v) => !_.includes(
         data2, v.value
       ))
 
@@ -452,6 +464,7 @@ export class DetailElectronicBookComponent implements OnInit {
       this.getElectronicBookDetail();
       this.Form2.reset();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("เพื่มข้อมูล",)
     })
   }
 
@@ -465,6 +478,7 @@ export class DetailElectronicBookComponent implements OnInit {
     this.electronicBookService.deleteMoreInvitedPeople(this.inviteId).subscribe(res => {
       this.getElectronicBookDetail();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("ลบข้อมูล",)
     })
   }
 

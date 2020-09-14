@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@ang
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-answer-subject-detail',
@@ -28,6 +29,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
   answar = [{ test: "1212", benz: "121212" }]
   listfiles: any = []
   fileData: any = [{ AnswerSubjectFile: '', fileDescription: '' }];
+  submitted = false;
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -36,6 +38,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
     private fb: FormBuilder,
     private authorize: AuthorizeService,
     private spinner: NgxSpinnerService,
+    private _NotofyService: NotofyService
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.form = this.fb.group({
@@ -112,9 +115,9 @@ export class AnswerSubjectDetailComponent implements OnInit {
         SubquestionCentralPolicyProvinceId: [this.resultsubquestion[i].id],
         AnswerSubquestionStatusId: [],
         Question: [this.resultsubquestion[i].name],
-        Answer: [""],
+        Answer: ["", [Validators.required]],
         Choice: [test],
-        Description: [""],
+        Description: ["", Validators.required],
         Type: [this.resultsubquestion[i].type]
       }))
     }
@@ -156,8 +159,14 @@ export class AnswerSubjectDetailComponent implements OnInit {
 
   // }
   storeanswer(value, value2) {
-    this.spinner.show();
-    this.storestatus(value2)
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.spinner.show();
+      this.storestatus(value2)
+    }
     // this.storeansweruser(value, value2)
   }
   storestatus(value2) {
@@ -182,6 +191,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
       console.log("result", result);
       // this.storestatus(value2)
       this.storefile()
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
     })
   }
   storefile() {

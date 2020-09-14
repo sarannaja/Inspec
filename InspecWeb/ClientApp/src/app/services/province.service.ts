@@ -15,8 +15,11 @@ export class ProvinceService {
     this.url = baseUrl + 'api/province/';
   }
 
-  getprovincedata(): Observable<Province[]> {
-    return this.http.get<Province[]>(this.url)
+  getprovincedata(): Observable<any[]> {
+    return this.http.get<any[]>(this.url)
+  }
+  getprovincedata2(): Observable<Province[]> {
+    return this.http.get<Province[]>(this.url + "centralpolicyprovinces")
   }
   getonlyprovince(): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'getonlyprovince')
@@ -401,6 +404,10 @@ export class ProvinceService {
 
 
     ]
+  }
+
+  wordprovince():Observable<any>{
+    return this.http.get<any>(this.url + "wordprovince")
   }
 }
 export interface Province {

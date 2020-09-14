@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/services/user.service';
 import { ExportReportService } from 'src/app/services/export-report.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-commander-report-detail',
@@ -39,6 +40,7 @@ export class CommanderReportDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userservice: UserService,
     @Inject('BASE_URL') baseUrl: string,
+    private _NotofyService: NotofyService,
     private fb: FormBuilder,
   ) {
     this.reportId = activatedRoute.snapshot.paramMap.get('id')
@@ -105,6 +107,7 @@ export class CommanderReportDetailComponent implements OnInit {
       console.log("commanded: ", res);
       this.getReportImportById();
       this.modalRef.hide();
+      this._NotofyService.onSuccess("บันทึกข้อสั่งการ",)
     })
   }
 }

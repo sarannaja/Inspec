@@ -31,18 +31,36 @@ export class InfoDistrictComponent implements OnInit {
     this.name = activatedRoute.snapshot.paramMap.get('name')
   }
 
-  ngOnInit() {
+  ngOnInit() { 
+    this.getdata();
+  }
 
-    // alert(this.name)
-
+  getdata(){
     this.districtservice.getdistrictdata(this.id).subscribe(result => {
       this.resultdistrict = result
       this.titleprovince = result[0].province.name
       this.loading = true
-      console.log(this.resultdistrict);
+     // console.log(this.resultdistrict);
     })
   }
   Subdistrict(id){
     this.router.navigate(['/infosubdistrict',id])
   }
+   //<!-- excel -->
+   excel(){
+    window.location.href = '/api/district/exceldistrict/'+ this.id;
+  }
+  //<!-- END excel -->
+
+  //<!-- Word -->
+  word() {
+    this.districtservice.worddistrict(this.id)
+      .subscribe(result => {
+       // alert(result.data);
+        //console.log('result', result);
+        window.open("reportdistrict/" + result.data);
+        this.getdata();
+      })
+  }
+  //<!-- END Word -->
 }

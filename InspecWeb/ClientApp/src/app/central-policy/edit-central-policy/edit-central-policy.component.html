@@ -4,7 +4,7 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="test02.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
       <!-- <li class="breadcrumb-item"><a href="#">Tables</a></li> -->
       <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">แผนตรวจราชการ</a></li>
       <li class="breadcrumb-item active" aria-current="page">แก้ไขแผนตรวจราชการ</li>
@@ -15,10 +15,10 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h5 class="card-title">แก้ไขแผนตรวจราชการ</h5>
+        <strong class="card-title">แก้ไขแผนตรวจราชการ</strong>
       </div>
-      <div class="card-body">
-        <form [formGroup]="EditForm" (ngSubmit)="EditCentralpolicy(EditForm.value)">
+      <form [formGroup]="EditForm" (ngSubmit)="EditCentralpolicy(EditForm.value)">
+        <div class="card-body">
           <!-- <div class="row"> -->
           <!-- <div class="col-12 col-xl-12">
               <br>
@@ -36,128 +36,153 @@
                 </div>
               </div>
             </div> -->
-          <div class="col-12 row">
-            <div class="form-group col-3">
-              <label>ปีงบประมาณ*</label>
-              <select class="form-control select2" data-toggle="select2" formControlName="year">
-                <option value=null>กรุณาเลือกปีงบประมาณ</option>
-                <option *ngFor="let item of fiscalYearIdString; let i = index" value="{{item.id}}"
-                  [selected]="item.id == fiscalYearId">{{item.year}}
-                </option>
-              </select>
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label>ปีงบประมาณ*</label>
+                <label style="color: red;">*</label>
+                <select class="form-control select2" data-toggle="select2" formControlName="year"
+                  [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+                  <option value="">กรุณาเลือกปีงบประมาณ</option>
+                  <option *ngFor="let item of fiscalYearIdString; let i = index" value="{{item.id}}"
+                    [selected]="item.id == fiscalYearId">{{item.year}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+                  <div *ngIf="f.year.errors.required">กรุณาเลือกปีงบประมาณ</div>
+                </div>
+              </div>
             </div>
-            <div class="form-group col-6">
-              <label>ประเภทแผนการตรวจ*</label>
-              <select class="form-control select2" data-toggle="select2" [value]='resultdetailcentralpolicy.type'
-                formControlName="type">
-                <option value=null>กรุณาเลือกประเภทแผนการตรวจ</option>
-                <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
-                <option value="การตรวจราชการตามภารกิจปกติของหน่วยงาน">การตรวจราชการตามภารกิจปกติของหน่วยงาน</option>
-                <option value="การตรวจราชการกรณีพิเศษ">การตรวจราชการกรณีพิเศษ</option>
-              </select>
-
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>ประเภทแผนการตรวจ*</label>
+                <label style="color: red;">*</label>
+                <select class="form-control select2" data-toggle="select2" [value]='resultdetailcentralpolicy.type'
+                  formControlName="type" [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                  <option value="">กรุณาเลือกประเภทแผนการตรวจ</option>
+                  <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
+                  <option value="การตรวจราชการตามภารกิจปกติของหน่วยงาน">การตรวจราชการตามภารกิจปกติของหน่วยงาน</option>
+                  <option value="การตรวจราชการกรณีพิเศษ">การตรวจราชการกรณีพิเศษ</option>
+                </select>
+                <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                  <div *ngIf="f.type.errors.required">กรุณาเลือกปีงบประมาณ</div>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- <div class="col-12 col-xl-12">
+          <div class="row">
+            <div class="col-sm-12">
               <div class="form-group">
-                <label>ประเภท*</label>
-                <div class="form-group col-md-3">
-                  <div class="mb-3">
-                    <select class="form-control select2" data-toggle="select2" [value]='resultdetailcentralpolicy.type'
-                      formControlName="type">
-                      <option value=null>กรุณาเลือกประเภทแผนการตรวจ</option>
-                      <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
-                      <option value="การตรวจราชการตามภารกิจปกติของหน่วยงาน">การตรวจราชการตามภารกิจปกติของหน่วยงาน
-                      </option>
-                      <option value="การตรวจราชการกรณีพิเศษ">การตรวจราชการกรณีพิเศษ</option>
-                    </select>
+                <label>เรื่องที่ตรวจ</label>
+                <small style="color: red;">*</small>
+                <textarea cols="30" rows="2" type="text" value="{{resultdetailcentralpolicy.title}}"
+                  formControlName="title" class="form-control" placeholder="กรุณากรอกประเด็นนโยบาย"
+                  [ngClass]="{ 'is-invalid': submitted && f.title.errors }"></textarea>
+                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                  <div *ngIf="f.title.errors.required">กรุณากรอกเรื่องที่ตรวจ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input type="radio" name="status" value="ร่างกำหนดการ"
+                  [checked]="resultdetailcentralpolicy.status == 'ร่างกำหนดการ'" formControlName="status">
+                <label style="margin-left: 10px;">ร่าง</label>
+                <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
+                  [checked]="resultdetailcentralpolicy.status == 'ใช้งานจริง'" formControlName="status">
+                <label style="margin-left: 10px;">ใช้งาน</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>ระยะเวลาการตรวจ</label>
+            <small style="color: red;">*</small>
+            <div class="form-group">
+              <div *ngFor="let item of d.value; let i = index">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <div [formGroup]="item">
+                        <my-date-picker-th [selDate]="item.start_date" (dateChanged)="onStartDateChanged($event, i)"
+                          [options]="myDatePickerOptions" required>
+                        </my-date-picker-th>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <div class="form-group">
+                      <div align="center">
+                        ถึง
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <div [formGroup]="item">
+                        <my-date-picker-th [selDate]="item.end_date" (dateChanged)="onEndDateChanged($event, i)"
+                          [options]="myDatePickerOptions" required>
+                        </my-date-picker-th>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <div class="form-group">
+                      <div *ngIf="i == 0; else elseBlock">
+                        <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appenddate()"></i>
+                      </div>
+                      <ng-template #elseBlock>
+                        <div>
+                          <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeY(i)" value="i"></i>
+                        </div>
+                      </ng-template>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div> -->
-
-          <div class="col-12 col-xl-12">
-            <div class="form-group">
-              <label>เรื่องที่ตรวจ</label>
-              <!-- <input type="text" value="{{resultdetailcentralpolicy.title}}" formControlName="title"
-                  class="form-control" placeholder="กรุณากรอกเรื่อง"> -->
-              <textarea cols="30" rows="2" type="text" value="{{resultdetailcentralpolicy.title}}"
-                formControlName="title" class="form-control" placeholder="กรุณากรอกประเด็นนโยบาย"></textarea>
             </div>
           </div>
-
-          <div class="col-12 col-xl-12">
-            <div class="form-group">
-              <div class="form-group col-md-3">
-                <div class="mb-3">
-                  <input type="radio" name="status" value="ร่างกำหนดการ"
-                    [checked]="resultdetailcentralpolicy.status == 'ร่างกำหนดการ'" formControlName="status">
-                  <label style="margin-left: 10px;">ร่าง</label>
-                  <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง"
-                    [checked]="resultdetailcentralpolicy.status == 'ใช้งานจริง'" formControlName="status">
-                  <label style="margin-left: 10px;">ใช้งาน</label>
-                </div>
-                <!-- <ng-template #elseBlock>
-                    <div class="mb-3">
-                      <input type="radio" name="status" value="ร่างกำหนดการ" formControlName="status">
-                      <label style="margin-left: 10px;">ร่างกำหนดการ</label>
-                      <input style="margin-left: 10px;" type="radio" name="status" value="ใช้งานจริง" checked
-                        formControlName="status">
-                      <label style="margin-left: 10px;">ใช้งานจริง</label>
-                    </div>
-                  </ng-template> -->
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12">
-            <label>ระยะเวลาการตรวจ</label>
-          </div>
-          <div class="col-12 mb-0">
+          <!-- <div class="col-12">
             <div class="" *ngFor="let item of d.value; let i = index">
-              <form class="form-group row col-12" [formGroup]="item">
-                <div class="col-5">
-                  <div class="form-group">
+              <form [formGroup]="item">
+                <div class="row d-flex justify-content-between">
+                  <div class="form-group col-5">
                     <my-date-picker-th [selDate]="item.start_date" (dateChanged)="onStartDateChanged($event, i)"
                       [options]="myDatePickerOptions" required>
                     </my-date-picker-th>
                   </div>
-                </div>
-                <div class="col-1">
-                  <div class="form-group" style="text-align: center;">
-                    ถึง
-                  </div>
-                </div>
-                <div class="col-5">
+
                   <div class="form-group">
+                    <div align="center">
+                      ถึง
+                    </div>
+                  </div>
+                  <div class="form-group col-5">
                     <my-date-picker-th [selDate]="item.end_date" (dateChanged)="onEndDateChanged($event, i)"
                       [options]="myDatePickerOptions" required>
                     </my-date-picker-th>
                   </div>
-                </div>
-                <div class="col-1" *ngIf="i == 0; else elseBlock">
-                  <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appenddate()"></i>
-                  <!-- <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="deleteDate(i)"></i> -->
-                </div>
-                <ng-template #elseBlock>
-                  <div class="col-1" *ngIf="i != 0">
-                    <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeY(i)" value="i"></i>
+                  <div *ngIf="i == 0; else elseBlock">
+                    <i class="align-middle mr-2 far fa-fw fa-plus-square" (click)="appenddate()"></i>
                   </div>
-                </ng-template>
+                  <ng-template #elseBlock>
+                    <div *ngIf="i != 0">
+                      <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="removeY(i)" value="i"></i>
+                    </div>
+                  </ng-template>
+                </div>
               </form>
             </div>
-          </div>
-
-          <div class="col-12 col-xl-12">
+          </div> -->
+          <!-- <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>พื้นที่การตรวจติดตาม {{selected.length}} จังหวัด</label>
-              <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true" id="selected"
-                    [items]="selectdataprovince" [(ngModel)]="selected" name="ProvinceId" formControlName="ProvinceId"
-                   >
-                </ng-select> -->
+              <label style="color: red;">*</label>
               <ng-select [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
                 [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
-                [(ngModel)]="selected" formControlName="ProvinceId">
+                [(ngModel)]="selected" formControlName="ProvinceId"
+                [ngClass]="{ 'is-invalid': submitted && f.ProvinceId.errors }">
                 <ng-template ng-header-tmp>
 
                   <div>
@@ -176,9 +201,38 @@
                     [ngModel]="item$.selected" /> {{item.name}}
                 </ng-template>
               </ng-select>
+              <div *ngIf="submitted && f.ProvinceId.errors" class="invalid-feedback">
+                <div *ngIf="f.ProvinceId.errors.required">กรุณาเลือกจังหวัด</div>
+              </div>
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label>พื้นที่การตรวจติดตาม {{selected.length}} จังหวัด</label>
+            <small style="color: red;">*</small>
+            <ng-select [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
+              [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
+              [(ngModel)]="selected" formControlName="ProvinceId"
+              [ngClass]="{ 'is-invalid': submitted && f.ProvinceId.errors }">
+              <ng-template ng-header-tmp>
+                <div>
+                  <button class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
+                  <button class="btn btn-link" (click)="onClearUndo()">เลือกตามเดิม</button>
+                  <button class="btn btn-link" (click)="onClearAll()">ล้าง</button>
+                </div>
+              </ng-template>
+              <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                  [ngModel]="item$.selected" /> {{item.region }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
+                  [ngModel]="item$.selected" /> {{item.name}}
+              </ng-template>
+            </ng-select>
+            <div *ngIf="submitted && f.ProvinceId.errors" class="invalid-feedback">
+              <div *ngIf="f.ProvinceId.errors.required">กรุณาเลือกจังหวัด</div>
             </div>
           </div>
-
           <!-- <div class="col-12 col-xl-12">
                 <div class="form-group">
                   <label>ประเด็น</label>
@@ -247,16 +301,15 @@
                   <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
                 </div>
               </div> -->
-          <div class="col-12 col-xl-12">
-            <div class="form-group">
-              <label class="form-label w-100">แนบไฟล์</label>
-              <input type="file" multiple (change)="uploadFile2($event)" style="margin-bottom: 10px;">
-            </div>
+
+          <div class="form-group">
+            <label class="form-label w-100">แนบไฟล์</label>
+            <input type="file" multiple (change)="uploadFile2($event)" style="margin-bottom: 10px;">
           </div>
           <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
-            <form class="form-group row col-12" [formGroup]="itemTest">
+            <form class="row col-12" [formGroup]="itemTest">
               <div class="col-4">
-                <label formControlName="CentralpolicyFile">ไฟล์ที่ {{i + 1}})
+                <label class="textellipsis" formControlName="CentralpolicyFile">ไฟล์ที่ {{i + 1}})
                   {{itemTest.controls.CentralpolicyFile.value.name}}</label>
               </div>
               <div class="col-8">
@@ -266,20 +319,18 @@
           </div>
           <!-- formControlName="files" -->
           <!-- <small *ngIf="fileStatus == false" class="form-text text-muted">{{resultdetailcentralpolicy?.centralPolicyFiles[0]?.name}}</small> -->
-          <div class="col-12">
-            <div class="form-group">
-              <u>ไฟล์แนบ</u><br>
-              <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
-                style="margin-top: 10px;">
-                <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
-                  <span>ไฟล์ที่
-                    {{i+1}})
-                    {{ item2.name }}<br>
-                  </span>
-                </a>
-                <i class="fas fa-fw fa-trash-alt pointer col-1" style="font-size: larger;"
-                  (click)="openModal(modaldeleteCentralPolicy, item2.id)"></i>
-              </div>
+          <div class="form-group">
+            <u>ไฟล์แนบ</u><br>
+            <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
+              style="margin-top: 10px;">
+              <a download href="{{downloadUrl}}/{{item2.name}}" class="col-6">
+                <span class="textellipsis">ไฟล์ที่
+                  {{i+1}})
+                  {{ item2.name }}<br>
+                </span>
+              </a>
+              <i class="fas fa-fw fa-trash-alt pointer col-1" style="font-size: larger;"
+                (click)="openModal(modaldeleteCentralPolicy, item2.id)"></i>
             </div>
           </div>
           <!-- <hr> -->
@@ -296,8 +347,8 @@
             <button style="margin-left: 15px;" type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
           </div>
           <!-- </div> -->
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

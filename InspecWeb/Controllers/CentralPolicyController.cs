@@ -53,6 +53,7 @@ namespace InspecWeb.Controllers
                    .Include(m => m.CentralPolicyProvinces)
                    .ThenInclude(x => x.Province)
                    .Include(m => m.CentralPolicyDates)
+                   .OrderByDescending(m => m.Id)
                    .Where(m => m.Class == "แผนการตรวจประจำปี")
                    .ToList();
         }
@@ -83,6 +84,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
+                .OrderByDescending(m => m.Id)
                 .Where(m => m.FiscalYearNewId == id && m.Class == "แผนการตรวจประจำปี").ToList();
 
             return Ok(centralpolicydata);
@@ -642,6 +644,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.ProvincialDepartments)
                 .Include(m => m.User)
                 .ThenInclude(m => m.UserProvince)
+                .Include(p => p.User)
+                .ThenInclude(p => p.Sides)
                 .OrderBy(m => m.User.Ministries.Name)
                 .OrderBy(m => m.User.Departments.Name)
                 .OrderBy(m => m.User.ProvincialDepartments.Name)
@@ -765,6 +769,18 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
 
+        // PUT api/values/5
+        [HttpPut("acceptcentralpolicy2/{id}")]
+        public void PutStatus2(long id, string status, string userid, string report)
+        {
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+              ForEach(x => x.Status = status);
+
+            (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
+              ForEach(x => x.Report = report);
+
+            _context.SaveChanges();
+        }
         // GET api/values/5
         [HttpGet("getcentralpolicyfromprovince/{id}/{planid}")]
         public IActionResult GetUsers2(string id, long planid)
@@ -1133,6 +1149,8 @@ namespace InspecWeb.Controllers
         [HttpPost("adddepartment")]
         public void Post2([FromBody] SubjectCentralPolicyProvinceGroupModel model)
         {
+            System.Console.WriteLine("model.SubjectCentralPolicyProvinceId" + model.SubjectCentralPolicyProvinceId);
+
             var subjectdata = _context.SubjectCentralPolicyProvinces
                 .Where(m => m.Id == model.SubjectCentralPolicyProvinceId).FirstOrDefault();
 
@@ -1291,17 +1309,17 @@ namespace InspecWeb.Controllers
             //var cenid = _context.CentralPolicyProvinces
             //    .Where(m => m.Id == cenproid).FirstOrDefault();
 
-            var cenprolicyevent = _context.CentralPolicyEvents
-                .Where(m => m.InspectionPlanEventId == planid)
-                //.Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
-                .FirstOrDefault();
+            //var cenprolicyevent = _context.CentralPolicyEvents
+            //    .Where(m => m.InspectionPlanEventId == planid)
+            //    //.Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
+            //    .FirstOrDefault();
 
             var question = _context.CentralPolicyEventQuestions
                 .Include(m => m.CentralPolicyEvent)
                 .Include(m => m.AnswerCentralPolicyProvinces)
                 .ThenInclude(m => m.User)
                 .ThenInclude(m => m.Province)
-                .Where(m => m.CentralPolicyEventId == cenprolicyevent.Id)
+                .Where(m => m.CentralPolicyEventId == planid)
                 .ToList();
 
             return Ok(question);
