@@ -6,6 +6,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.service';
 import { NotofyService } from 'src/app/services/notofy.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-answer-subject-detail',
@@ -26,6 +27,8 @@ export class AnswerSubjectDetailComponent implements OnInit {
   Formstatus: FormGroup;
   form: FormGroup;
   province: any
+  provinceid: any
+  centralPolicyProvinceId: any
   answar = [{ test: "1212", benz: "121212" }]
   listfiles: any = []
   fileData: any = [{ AnswerSubjectFile: '', fileDescription: '' }];
@@ -38,7 +41,8 @@ export class AnswerSubjectDetailComponent implements OnInit {
     private fb: FormBuilder,
     private authorize: AuthorizeService,
     private spinner: NgxSpinnerService,
-    private _NotofyService: NotofyService
+    private _NotofyService: NotofyService,
+    private notificationService: NotificationService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.form = this.fb.group({
@@ -87,6 +91,8 @@ export class AnswerSubjectDetailComponent implements OnInit {
       this.resultsubjectdetail = result
       this.subjectGroupId = this.resultsubjectdetail.subjectGroupId
       this.province = this.resultsubjectdetail.centralPolicyProvince.province.name
+      this.provinceid = this.resultsubjectdetail.centralPolicyProvince.provinceId
+      this.centralPolicyProvinceId = this.resultsubjectdetail.centralPolicyProvinceId
       this.resultsubquestion = this.resultsubjectdetail.subquestionCentralPolicyProvinces
       // this.loading = true
       console.log("123", this.subjectGroupId);
@@ -173,6 +179,12 @@ export class AnswerSubjectDetailComponent implements OnInit {
     this.answersubjectservice.addStatus(value2, this.id, this.userid, this.subjectGroupId).subscribe(result => {
       console.log("result", result.id);
       var statusid = result.id
+      if (value2.Status == "ใช้งานจริง") {
+        this.notificationService.addNotification(this.centralPolicyProvinceId, this.provinceid, this.userid, 6, 1)
+          .subscribe(response => {
+            console.log("innoti", response);
+          })
+      }
       this.storeansweruser(statusid)
     })
   }
