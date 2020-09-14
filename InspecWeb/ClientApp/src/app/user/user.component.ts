@@ -235,7 +235,7 @@ export class UserComponent implements OnInit {
   }
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, SideId,
-    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser,signature) {
+    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser,signature,userName) {
     // alert(commandnumber +"///"+commandnumberdate);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
     this.addForm.reset()
@@ -299,6 +299,7 @@ export class UserComponent implements OnInit {
       Img: img,
       Signature:signature,
       Autocreateuser: Autocreateuser, //แพตข้อมูลว่าสร้าง UerName เองหรือป่าว
+      UserName: userName
     })
     this.DepartmentId = departmentId
     // console.log(' value: departmentId', departmentId);
@@ -498,13 +499,20 @@ export class UserComponent implements OnInit {
   deleteuser(value) {
     this.userService.deleteUser(value).subscribe(response => {
       this.modalRef.hide()
-      this.loading = false
+      this.loading = false     
       this.getUser()
     })
   }
 
   resetpassword(id) {
-
+    alert(1);
+    this.userService.resetpassword(id).subscribe(response => {
+      alert(3);
+      this.modalRef.hide()
+      this.loading = false
+      this._NotofyService.onSuccess("รีเซ็ต Password ")
+      this.getUser()
+    })
   }
 
   userform() {

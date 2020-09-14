@@ -368,13 +368,12 @@ export class UserService {
     return this.http.get<any[]>(this.base + "getuserSameDepartment/" + id + "/" + departmentId)
   }
 
-  password(data, id) {
-
+  resetpassword(id) {
+    alert(2);
     const formData = new FormData();
-    formData.append('Id', id);
-    formData.append('Password', data.Password);
-
-    return this.http.put<any>(`${this.url}answerexecutiveorder`, formData);
+    formData.append('id', id);
+    
+    return this.http.put(`${this.base}resetpassword`, formData);
 
   }
 }
