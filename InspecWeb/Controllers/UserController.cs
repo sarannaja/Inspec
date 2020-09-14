@@ -1534,6 +1534,7 @@ namespace InspecWeb.Controllers
                         //ปาม2020
                         var userprovince = _context.FiscalYearRelations
                                     .Include(m => m.FiscalYear)
+                                    
                                     .Where(m => m.RegionId == item )
                                     .ToList();
 
