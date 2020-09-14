@@ -27,7 +27,8 @@ export class CreateCentralPolicyComponent implements OnInit {
     // other options...
 
     dateFormat: 'dd/mm/yyyy',
-    showClearDateBtn: false
+    showClearDateBtn: false,
+    editableDateField: false
     // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
   };
 
