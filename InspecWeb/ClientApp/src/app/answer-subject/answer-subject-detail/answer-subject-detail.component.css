@@ -17,3 +17,9 @@
     align-items: center;
     margin-top: 5px;
 }
+.textellipsis {
+  white-space:nowrap; 
+  width:100%; 
+  overflow:hidden;
+  text-overflow:ellipsis;
+}

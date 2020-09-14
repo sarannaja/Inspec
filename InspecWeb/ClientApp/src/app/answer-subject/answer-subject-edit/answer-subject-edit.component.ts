@@ -6,6 +6,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-answer-subject-edit',
@@ -45,7 +46,8 @@ export class AnswerSubjectEditComponent implements OnInit {
     private fb: FormBuilder,
     private authorize: AuthorizeService,
     private spinner: NgxSpinnerService,
-    @Inject('BASE_URL') baseUrl: string
+    @Inject('BASE_URL') baseUrl: string,
+    private _NotofyService: NotofyService
   ) {
     this.downloadUrl = baseUrl + '/Uploads';
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -178,6 +180,7 @@ export class AnswerSubjectEditComponent implements OnInit {
     console.log(value);
     this.answersubjectservice.editStatus(value, this.resultanswerstatus.id, this.subjectGroupId).subscribe(result => {
       this.storefile()
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       this.Form.reset();
       this.Formstatus.reset();
       // this.spinner.hide();

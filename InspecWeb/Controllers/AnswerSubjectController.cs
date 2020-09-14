@@ -295,6 +295,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("provincialdepartment.Id" + id);
 
                 var subjectdata = _context.SubjectCentralPolicyProvinces
+                        .Include(m => m.SubjectDateCentralPolicyProvinces)
                         .Include(m => m.SubquestionCentralPolicyProvinces)
                         .ThenInclude(m => m.SubjectCentralPolicyProvinceGroups)
                         .ThenInclude(m => m.ProvincialDepartment)

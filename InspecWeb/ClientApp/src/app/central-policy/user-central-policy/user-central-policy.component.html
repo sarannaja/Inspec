@@ -4,8 +4,12 @@
   </h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/calendaruser']">ปฏิทินการตรวจราชการ</a>
+      </li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">กำหนดการตรวจราชการ</a></li>
+      <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">แผนตรวจราชการประจำปี</a></li> -->
     </ol>
   </nav>
 </div>

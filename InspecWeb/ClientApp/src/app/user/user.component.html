@@ -101,9 +101,19 @@
                                 </div>
                             </td>
                             <td *ngIf="roleId == 4 || roleId == 5 || roleId == 7 || roleId == 9">
-                                <div *ngFor="let item of item.userProvince">
-                                    <label class="badge badge-info mr-1">{{item.province.name}}</label>
+                                <ng-container *ngIf="user9proIndex == i">
+                                    <div *ngFor="let item9 of item.userProvince  ; let indexProvince = idnex">
+                                        <label class="badge badge-info mr-1">
+                                            {{item9.province.name}}
+                                        </label>
+                                    </div>
+                                </ng-container>
+                                <div *ngFor="let item9 of userpro(item.userProvince)  ; let indexProvince = idnex">
+                                    <label class="badge badge-info mr-1">{{item9.province.name}}</label>
                                 </div>
+                                <span href="javascript:void(0)"  *ngIf="item.userProvince.length> 3 && i!=user9proIndex"
+                                    (click)="user9proIndex = i" class="badge
+                                    badge-info mr-1">อื่นๆ</span>
                             </td>
                             <td *ngIf="roleId == 7">{{item.sides.name}}</td>
                             <td>{{item.phoneNumber}}</td>
@@ -670,7 +680,7 @@
                     <div class="row">
                         <div class="col-6">
                             <my-date-picker-th formControlName="Startdate" [options]="myDatePickerOptions" required
-                                 placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                                placeholder="กรุณาเลือกวันที่เริ่มต้น">
                             </my-date-picker-th>
                         </div>
 

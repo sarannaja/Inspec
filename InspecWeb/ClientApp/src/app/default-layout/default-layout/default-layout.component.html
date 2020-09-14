@@ -1,5 +1,5 @@
 <!-- <ng-snotify></ng-snotify> -->
-<div  id="page-content-wrapper" class="wrapper">
+<div id="page-content-wrapper" (keydown)="handleKeyboardEvent($event)" class="wrapper">
 
     <nav id="sidebar" class="sidebar" [ngClass]="{'toggled': toggled}">
         <a class="sidebar-brand" [routerLink]="['/main']">
@@ -7,31 +7,35 @@
             &nbsp;
             สตร.
         </a>
-        <div  class="sidebar-content">
+        <div class="sidebar-content">
             <div class="sidebar-user">
 
                 <!-- กรณณีมีรูป-->
-                <img *ngIf="Img != null && Img != '';"
-                    src="{{imgprofileUrl}}/{{Img}}" class="img-fluid rounded-circle mb-2" alt="รูปโปรไฟล์"/>
+                <img *ngIf="!Img && Img != '' else ImageProFiletemRef" src="{{imgprofileUrl}}/{{Img}}"
+                    class="img-fluid rounded-circle mb-2" alt="รูปโปรไฟล์" />
 
                 <!-- กรณณีไม่มีรูป-->
-                <img *ngIf="Img == null || Img == '';"
-                    src="{{imgprofileUrl}}/user.png" class="img-fluid rounded-circle mb-2" alt="รูปโปรไฟล์"/>
+                <ng-template #ImageProFiletemRef>
+                    <img src="{{imgprofileUrl}}/user.png" class="img-fluid rounded-circle mb-2" alt="รูปโปรไฟล์" />
+                </ng-template>
+
 
                 <div class="font-weight-bold">{{Prefix}} {{Name}}</div>
                 <small>{{Position}}</small>
             </div>
 
             <ul class="sidebar-nav">
-                <li *ngFor="let item of nav;" (click)="checkactive(item.url)"
-                    [ngClass]="item.url == urlActive ? 'sidebar-item active':'sidebar-item'">
+                <li *ngFor="let item of nav;" [ngClass]=" item.url==urlActive ? 'sidebar-item active' :'sidebar-item'">
 
-                    <a *ngIf="item.children == null;" class="sidebar-link" [routerLink]="[item.url]">
-                        <i [ngClass]="classIcon+item.icon"></i>
-                        <span class="align-middle">{{item.name}}  {{item.bridge != null?item.bridge:null}} </span>
-                    </a>
+                    <ng-template #childrenNull>
+                        <a (click)="checkactive(item.url)" class="sidebar-link">
+                            <i [ngClass]="classIcon+item.icon"></i>
+                            <span class="align-middle">{{item.name}} {{item.bridge != null?item.bridge:null}} </span>
+                        </a>
+                    </ng-template>
 
-                    <div *ngIf="item.children != null;">
+
+                    <div *ngIf="item.children else childrenNull">
                         <a href="#{{item.IDchildren}}" data-toggle="collapse" class="sidebar-link collapsed">
                             <i [ngClass]="classIcon+item.icon"></i>
                             <span class="align-middle">{{item.name}} {{item.bridge ? bridge(item.name).test:null}}
@@ -41,11 +45,9 @@
                             class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
                             <li [ngClass]="childItem.url == urlActive ? 'sidebar-item active':'sidebar-item' ">
 
-                            <!-- ปามทำไว้ --> <!-- <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,childItem.ex_link)"
-                                    class="sidebar-link" href="{{childItem.url}}"> -->
+                                <!-- ปามทำไว้ -->
 
-                                <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url,childItem.ex_link)"
-
+                                <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url)"
                                     class="sidebar-link" href="{{childItem.url}}">
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
@@ -61,6 +63,7 @@
                                     <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
+
                             </li>
                         </ul>
                     </div>
@@ -70,9 +73,28 @@
     </nav>
     <div class="main">
         <nav class="navbar navbar-expand navbar-theme">
-            <a title="ย่อ/ขยาย" (click)="onToggle()" class="sidebar-toggle d-flex mr-2">
-                <i class="hamburger align-self-center"></i>
-            </a>
+            <ng-container *ngIf="isMobile else NavLock">
+                <a title="ย่อ/ขยาย" (click)="onToggle()" class="sidebar-toggle d-flex mr-2">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+
+            </ng-container>
+            <ng-template #NavLock>
+                <a title="ย่อ/ขยาย" (click)="onToggle()" class="sidebar-toggle d-flex mr-2">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+                <a *ngIf="lockNav else lockNavTemRef" title="ปลดล็อค" (click)="onLockNav() "
+                    class="sidebar-toggle d-flex mr-2">
+                    <i class="fa fa-lock align-self-center"></i>
+                </a>
+                <ng-template #lockNavTemRef>
+                    <a title="ล็อค" (click)="onLockNav() " class="sidebar-toggle d-flex mr-2">
+                        <i class="fa fa-lock-open align-self-center"></i>
+                    </a>
+                </ng-template>
+
+            </ng-template>
+
 
             <!-- <form class="form-inline d-none d-sm-inline-block">
               <input class="form-control form-control-lite" type="text" placeholder="Search projects...">
@@ -169,23 +191,27 @@
 
                             <div class="list-group">
                                 <div *ngFor="let item of resultnotifications">
-                                    <a href="javascript:void(0)" class="list-group-item" (click)="detailnotifications(item.id)">
+                                    <a href="javascript:void(0)" class="list-group-item"
+                                        (click)="detailnotifications(item.id)">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-2">
-                                                <i *ngIf="item.noti == 0" class="ml-1 text-warning fas fa-fw fa-envelope-open"></i>
-                                                <i *ngIf="item.noti == 1" class="ml-1 text-danger fas fa-fw fa-bell"></i>
+                                                <i *ngIf="item.noti == 0"
+                                                    class="ml-1 text-warning fas fa-fw fa-envelope-open"></i>
+                                                <i *ngIf="item.noti == 1"
+                                                    class="ml-1 text-danger fas fa-fw fa-bell"></i>
                                                 <!-- <i class="ml-1 text-primary fas fa-fw fa-building"></i>
                                                 <i class="ml-1 text-success fas fa-fw fa-bell-slash"></i> -->
                                             </div>
                                             <div class="col-10">
                                                 <div class="text-dark">
-                                                   <span *ngIf="item.status == 1">เรื่องตรวจ</span>
-                                                   <span *ngIf="item.status == 10">ข้อสั่งการ</span>
+                                                    <span *ngIf="item.status == 1">เรื่องตรวจ</span>
+                                                    <span *ngIf="item.status == 10">ข้อสั่งการ</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
-                                                   <span *ngIf="item.status == 10">test10</span>
+                                                    <span *ngIf="item.status == 10">test10</span>
                                                 </div>
-                                                <div class="text-muted small mt-1">{{item.createdAt | thaidate: 'year' }}</div>
+                                                <div class="text-muted small mt-1">
+                                                    {{item.createdAt | thaidate: 'year' }}</div>
                                             </div>
                                         </div>
                                     </a>
@@ -246,7 +272,8 @@
                                 <i class="align-middle mr-1 fas fa-fw fa-user"></i> จัดการโปรไฟล์
                             </a>
                             <a class="dropdown-item pointer">
-                                <i class="align-middle fas fa-fw fa-key" (click)="openModal(modalpassword)"></i> จัดการรหัสผ่าน
+                                <i class="align-middle fas fa-fw fa-key" (click)="openModal(modalpassword)"></i>
+                                จัดการรหัสผ่าน
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item pointer" (click)="Logout()">
@@ -313,44 +340,49 @@
 
                 <div class="form-group">
                     <label class="form-label">อีเมล*</label>
-                    <input type="email" formControlName="Email" readonly class="form-control" placeholder="กรุณากรอกอีเมล">
+                    <input type="email" formControlName="Email" readonly class="form-control"
+                        placeholder="กรุณากรอกอีเมล">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">คำนำหน้า*</label>
-                    <input type="text" formControlName="Prefix"  class="form-control" placeholder="กรุณากรอกคำนำหน้า">
+                    <input type="text" formControlName="Prefix" class="form-control" placeholder="กรุณากรอกคำนำหน้า">
                 </div>
 
                 <div class="form-group">
-                    <div class="row">                   
+                    <div class="row">
                         <label class="form-label col-6">ชื่อ(TH)*</label>
                         <label class="form-label col-6">นามสกุล(TH)*</label>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <input type="text" formControlName="FName" class="form-control" required placeholder="กรุณากรอกชื่อ(TH)">
+                            <input type="text" formControlName="FName" class="form-control" required
+                                placeholder="กรุณากรอกชื่อ(TH)">
                         </div>
-                        
+
                         <div class="col-6">
-                            <input type="text" formControlName="LName" class="form-control" required placeholder="กรุณากรอกนามสกุล(TH)">
-                        </div> 
+                            <input type="text" formControlName="LName" class="form-control" required
+                                placeholder="กรุณากรอกนามสกุล(TH)">
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">ตำแหน่ง*</label>
-                    <input type="text" formControlName="Position"  class="form-control" placeholder="กรุณากรอกตำแหน่ง">
+                    <input type="text" formControlName="Position" class="form-control" placeholder="กรุณากรอกตำแหน่ง">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">เบอร์โทร*</label>
-                    <input type="tel" formControlName="PhoneNumber" class="form-control" placeholder="กรุณากรอกเบอร์โทร">
+                    <input type="tel" formControlName="PhoneNumber" class="form-control"
+                        placeholder="กรุณากรอกเบอร์โทร">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label w-100">รูปโปรไฟล์</label>
-                    <img src="{{imgprofileUrl}}/{{Img}}" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
-                    <input type="file" (change)="uploadFile($event)" >
+                    <img src="{{imgprofileUrl}}/{{Img}}" class="img-fluid rounded-circle mb-2" width="90px"
+                        alt="รูปโปรไฟล์">
+                    <input type="file" (change)="uploadFile($event)">
                     <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
                 </div>
 
@@ -358,6 +390,7 @@
                     <label class="form-label w-100">แนบลายเซ็น</label>
                     <img *ngIf="Signature != null" src="{{SignatureUrl}}/{{Signature}}" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
                     <input type="file" (change)="uploadFile2($event)" >
+                    <input type="file" (change)="uploadFile2($event)">
                     <small class="form-text text-muted">แนบลายเซ็น</small>
                 </div>
 

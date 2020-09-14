@@ -17,15 +17,25 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
-.fc-event{
+.fc-event {
   cursor: pointer;
+}
+
+* {
+  font-family: "Prompt", sans-serif;
 }
 @import "~ng-snotify/styles/material";
 
 @import "./assets/dist/css/modern.css";
 
 .prompt {
-  font-family: 'Prompt', sans-serif;
+  font-family: "Prompt", sans-serif;
+}
+.card-title {
+  font-family: "Prompt", sans-serif;
+}
+.header-title {
+  font-family: "Prompt", sans-serif;
 }
 
 /* thai */

@@ -5,7 +5,6 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
-        <!-- <li class="breadcrumb-item active"><a href="javascript:void(0)">แผนการตรวจราชการ</a></li> -->
         <li class="breadcrumb-item active" aria-current="page">แผนการตรวจราชการ</li>
       </ol>
     </nav>
@@ -26,9 +25,9 @@
           [dtOptions]="dtOptions">
           <thead>
             <tr>
-              <th>#</th>
+              <th>ที่</th>
               <th>แผนการตรวจราชการ</th>
-              <th width="40%">ประเด็นนโยบาย</th>
+              <th width="40%">เรื่องที่ตรวจ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -38,8 +37,7 @@
               <td>{{item.centralPolicy.type}}</td>
               <td class="pointer" (click)="Subjectlist(item.id)">{{ item.centralPolicy.title }}</td>
               <td>
-                <i class="align-middle mr-2 fas fa-file-medical pointer" (click)="Subjectlist(item.id)"></i>
-               
+                <i title="รายละเอียด" class="align-middle mr-2 fas fa-file-medical pointer" (click)="Subjectlist(item.id)"></i>
               </td>
             </tr>
           </tbody>

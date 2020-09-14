@@ -125,6 +125,7 @@ export class UserComponent implements OnInit {
   width: number = window.innerWidth;
   height: number = window.innerHeight;
   mobileWidth: number = 900;
+  user9proIndex: any = null
 
   fiscalYearId: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
@@ -320,6 +321,7 @@ export class UserComponent implements OnInit {
         // console.log("userdata", this.resultuser);
       })
   }
+  userpro(user: any[]) { return user.filter(((result, index) => index < 3)) }
 
   getRolename() {
     if (this.roleId == 1) {
@@ -411,9 +413,9 @@ export class UserComponent implements OnInit {
         //     return { value: item.id, label: item.name }
         //   })
         // } else {
-          this.selectdataministry = result.map((item, index) => {
-            return { value: item.id, label: item.name }
-          })
+        this.selectdataministry = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
         // }
 
 
