@@ -388,7 +388,8 @@
 
                 <div class="form-group">
                     <label class="form-label w-100">แนบลายเซ็น</label>
-
+                    <img *ngIf="Signature != null" src="{{SignatureUrl}}/{{Signature}}" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
+                    <input type="file" (change)="uploadFile2($event)" >
                     <input type="file" (change)="uploadFile2($event)">
                     <small class="form-text text-muted">แนบลายเซ็น</small>
                 </div>
