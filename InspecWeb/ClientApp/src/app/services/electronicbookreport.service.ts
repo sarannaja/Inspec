@@ -49,7 +49,7 @@ export class ElectronicbookreportService {
     console.log("CHECK: ", exportData);
     var subjectData: any = [];
     subjectData = electronicBookData.electronicBookGroup.map((item, index) => {
-      return item.centralPolicyEvent.centralPolicy.title + " " + "(ตรวจ ณ สถานที่ จังหวัด: " + item.centralPolicyEvent.inspectionPlanEvent.province.name + ")"
+      return item.centralPolicyTitle + " " + "(ตรวจ ณ สถานที่ จังหวัด: " + item.inspectionPlanProvinceName + ")"
     })
     console.log("CHECK2: ", subjectData);
 

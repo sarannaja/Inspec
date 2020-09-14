@@ -6,6 +6,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../services/user.service';
+import { forEach } from 'lodash';
 
 @Component({
   selector: 'app-electronic-book-department',
@@ -45,10 +46,13 @@ export class ElectronicBookDepartmentComponent implements OnInit {
           .subscribe(result => {
             // this.resultuser = result;
             //console.log("test" , this.resultuser);
-            console.log("provinceId: ", result);
+            console.log("user res: ", result);
 
             this.role_id = result[0].role_id
-            this.provinceId = result[0].provinceId
+            // this.provinceId = result[0].provinceId
+            this.provinceId = result[0].userProvince.map((item, index) => {
+              return item.provinceId
+            })
             this.provincialDepartmentID = result[0].provincialDepartmentId
             this.getElectronicBook();
           })
@@ -87,9 +91,24 @@ export class ElectronicBookDepartmentComponent implements OnInit {
 
   getElectronicBook() {
     this.electronicBookService.getSendedElectronicBookDepartment(this.provincialDepartmentID).subscribe(results => {
-      // console.log("res: ", results);
-      this.electronicBookData = results;
-      console.log("ELECTDATA: ", this.electronicBookData);
+      console.log("res Department: ", results);
+      console.log("provinceID: ", this.provinceId);
+
+      // let filterData = results.provinceData.filter(x => x.provinceId == this.provinceId);
+      this.electronicBookData = [];
+      for (let index = 0; index < results.ebookProvince.length; index++) {
+        this.provinceId.forEach(element => {
+          console.log(results.provinceData[index].provinceId.includes(element));
+
+          if (results.provinceData[index].provinceId.includes(element) == true) {
+            this.electronicBookData.push(results.ebookProvince[index])
+          }
+        });
+      }
+
+      // console.log("filtered: ", filterData);
+      // this.electronicBookData = results.ebookProvince;
+      // console.log("ELECTDATA: ", this.electronicBookData);
 
       this.loading = true;
     })
@@ -115,12 +134,12 @@ export class ElectronicBookDepartmentComponent implements OnInit {
     this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID }])
   }
 
-  gotoDetail(id) {
-    this.router.navigate(['/electronicbook/departmentdetail/' + id])
+  gotoDetail(id, ebookProvincialDepartmentId) {
+    this.router.navigate(['/electronicbook/departmentdetail/' + id, {electronicBookProvincialDepartmentId: ebookProvincialDepartmentId}])
   }
 
   gotoTheme(id, elecId) {
-    this.router.navigate(['/electronicbook/theme/' + id ,{electronicBookId: elecId}])
+    this.router.navigate(['/electronicbook/theme/' + id, { electronicBookId: elecId }])
   }
 
   gotoEdit2(id, elecId) {
@@ -132,7 +151,7 @@ export class ElectronicBookDepartmentComponent implements OnInit {
     // })
     // alert(this.centralpolicyprovinceid)
 
-    this.router.navigate(['/electronicbook/edit/' + id ,{electronicBookId: elecId}])
+    this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId }])
   }
 
 }

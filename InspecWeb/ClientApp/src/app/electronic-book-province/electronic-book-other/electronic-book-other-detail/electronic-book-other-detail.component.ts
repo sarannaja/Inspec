@@ -39,6 +39,7 @@ export class ElectronicBookOtherDetailComponent implements OnInit {
   electAcceptId: any;
   otherID: any;
   checkAccept = false;
+  otherData: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -98,6 +99,7 @@ export class ElectronicBookOtherDetailComponent implements OnInit {
 
     this.getElectronicBookDetail();
     this.getProvincialDepartment();
+    this.getElectronicBookOtherById();
     setTimeout(() => {
       this.spinner.hide();
     }, 300);
@@ -106,20 +108,28 @@ export class ElectronicBookOtherDetailComponent implements OnInit {
   getElectronicBookDetail() {
     this.electronicBookService.getElectronicBookDetail(this.electId).subscribe(result => {
       console.log("RESProvince: ", result);
-      this.electAcceptId = result.electronicBookAccept.id;
+      this.electronicBookData = result;
+      this.Form.patchValue({
+        detail: result.electronicBook.detail,
+        problem: result.electronicBook.problem,
+        suggestion: result.electronicBook.suggestion
+      })
+      // this.electAcceptId = result.electronicBookAccept.id;
       var provinces: any = [];
 
-      result.electronicBookAccept.electronicBookOtherAccepts.forEach(element => {
-        console.log("ele", element);
-        console.log("AcceptID: ", this.otherID);
+      result.electronicBookDepartment.forEach(element2 => {
+        element2.electronicBookOtherAccepts.forEach(element => {
+          console.log("ele", element);
+          console.log("AcceptID: ", this.otherID);
 
-        if (element.id == this.otherID && element.status == "ดำเนินการแล้ว") {
-          this.checkAccept = true;
-        }
+          if (element.id == this.otherID && element.status == "ดำเนินการแล้ว") {
+            this.checkAccept = true;
+          }
+        });
       });
       console.log("Check Accept: ", this.checkAccept);
       result.electronicBookGroup.forEach(element => {
-        provinces.push(element.centralPolicyEvent.inspectionPlanEvent.provinceId)
+        provinces.push(element.provinceId)
       });
       // console.log("allProvices: ", provinces);
 
@@ -130,13 +140,11 @@ export class ElectronicBookOtherDetailComponent implements OnInit {
 
       this.inspectionPlanEventId = result.electronicBookGroup.map((item, index) => {
         return {
-          inspectionPlanEventId: item.centralPolicyEvent.inspectionPlanEventId
+          inspectionPlanEventId: item.inspectionPlanEventId
         }
       })
 
       this.getInvitedPeople(this.inspectionPlanEventId);
-
-      this.electronicBookData = result;
       // console.log("provinceDataXXXXX: ", this.electronicBookData);
 
       this.electronicBookData.ebookInvite.forEach(element => {
@@ -153,13 +161,6 @@ export class ElectronicBookOtherDetailComponent implements OnInit {
       });
 
       // console.log("Approved: ", this.approveMinistry.length);
-
-
-      this.Form.patchValue({
-        detail: result.electronicBook.detail,
-        problem: result.electronicBook.problem,
-        suggestion: result.electronicBook.suggestion
-      })
     })
   }
 
@@ -217,9 +218,10 @@ export class ElectronicBookOtherDetailComponent implements OnInit {
   }
 
   postSignature(value) {
-    this.electronicBookService.agreeOtherDepartment(value, this.userid, this.electAcceptId).subscribe(res => {
+    this.electronicBookService.agreeOtherDepartment(value, this.userid, this.otherID).subscribe(res => {
       // console.log("signatureRES: ", res);
       this.getElectronicBookDetail();
+      this.getElectronicBookOtherById();
       this.Form.reset();
       this.modalRef.hide();
     })
@@ -234,6 +236,13 @@ export class ElectronicBookOtherDetailComponent implements OnInit {
           label: item.name
         }
       })
+    })
+  }
+
+  getElectronicBookOtherById() {
+    this.electronicBookService.getElectronicBookOtherById(this.otherID).subscribe(res => {
+      console.log("res OTHER => ", res);
+      this.otherData = res;
     })
   }
 

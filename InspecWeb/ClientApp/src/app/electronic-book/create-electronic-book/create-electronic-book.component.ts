@@ -34,6 +34,7 @@ export class CreateElectronicBookComponent implements OnInit {
   url: any;
   userid: any;
   form: FormGroup;
+  form2: FormGroup;
   EbookForm: FormGroup;
   EbookForm2: FormGroup;
   fileStatus: any;
@@ -43,7 +44,10 @@ export class CreateElectronicBookComponent implements OnInit {
   checkTypeCreate: any;
   provincialDepartmentData: any = [];
   listfiles: any = [];
+  listfiles2: any = [];
+  listfiles3: any = [];
   fileData: any = [{ ebookFile: '', fileDescription: '', type: '' }];
+  fileData2: any = [{ ebookFile: '', fileDescription: '', type: '' }];
   province: any[] = [];
   selectedProvince = [];
   provinceData: any = [];
@@ -54,11 +58,13 @@ export class CreateElectronicBookComponent implements OnInit {
   get d() { return this.f.inputdate as FormArray }
 
   get s() { return this.f.fileData as FormArray }
+  get g() { return this.f.fileData2 as FormArray }
 
   get f2() { return this.EbookForm2.controls }
   get d2() { return this.f2.inputdate as FormArray }
 
   get s2() { return this.f2.fileData as FormArray }
+  get g2() { return this.f2.fileData2 as FormArray }
 
   constructor(
     private fb: FormBuilder,
@@ -95,6 +101,10 @@ export class CreateElectronicBookComponent implements OnInit {
       files: [null]
     })
 
+    this.form2 = this.fb.group({
+      files2: [null]
+    })
+
     this.EbookForm = this.fb.group({
       centralPolicyEventId: new FormControl("", [Validators.required]),
       inputdate: new FormArray([]),
@@ -108,6 +118,7 @@ export class CreateElectronicBookComponent implements OnInit {
       // provincialDepartment: new FormControl(null, [Validators.required]),
       // centralPolicy: new FormControl("", [Validators.required]),
       fileData: new FormArray([]),
+      fileData2: new FormArray([]),
       SendToProvince: new FormControl(""),
       // ProvinceId: new FormControl(null, [Validators.required]),
     });
@@ -125,6 +136,7 @@ export class CreateElectronicBookComponent implements OnInit {
       provincialDepartment: new FormControl("", [Validators.required]),
       centralPolicy: new FormControl("", [Validators.required]),
       fileData: new FormArray([]),
+      fileData2: new FormArray([]),
       SendToProvince: new FormControl(""),
       ProvinceId: new FormControl("", [Validators.required]),
     });
@@ -330,6 +342,66 @@ export class CreateElectronicBookComponent implements OnInit {
     for (let i = 0, numFiles = file.length; i < numFiles; i++) {
       this.listfiles.push(file[i])
       this.s.push(this.fb.group({
+        ebookFile: file[i],
+        fileDescription: '',
+        type: file[i].type,
+      }))
+    }
+    console.log("listfiles: ", this.EbookForm.value);
+    console.log("eiei: ", this.s.controls);
+
+
+    this.form.patchValue({
+      files: this.listfiles
+    });
+
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
+  }
+
+  uploadFile3(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles2.push(file[i])
+      this.g.push(this.fb.group({
+        ebookFile: file[i],
+        fileDescription: '',
+        type: file[i].type,
+      }))
+    }
+
+    this.form2.patchValue({
+      files2: this.listfiles
+    });
+
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
+  }
+
+  uploadFile4(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles2.push(file[i])
+      this.g2.push(this.fb.group({
+        ebookFile: file[i],
+        fileDescription: '',
+        type: file[i].type,
+      }))
+    }
+
+    this.form2.patchValue({
+      files2: this.listfiles
+    });
+
+    // console.log("listfiles", this.Formfile.get('files'));
+    // this.Formfile.get('files').updateValueAndValidity()
+  }
+
+  uploadFile5(event) {
+    var file = (event.target as HTMLInputElement).files;
+    for (let i = 0, numFiles = file.length; i < numFiles; i++) {
+      this.listfiles.push(file[i])
+      this.s2.push(this.fb.group({
         ebookFile: file[i],
         fileDescription: '',
         type: file[i].type,

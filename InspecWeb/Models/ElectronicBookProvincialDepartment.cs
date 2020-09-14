@@ -48,5 +48,7 @@ namespace InspecWeb.Models
         [Description("FK: UserCreate")]
         public string CreateBy { get; set; }
         public virtual ApplicationUser UserCreate { get; set; }
+
+        public ICollection<ElectronicBookOtherAccept> ElectronicBookOtherAccepts { get; set; }
     }
 }

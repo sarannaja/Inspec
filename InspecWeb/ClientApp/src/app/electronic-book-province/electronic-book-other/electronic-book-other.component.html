@@ -37,8 +37,8 @@
             <tr *ngFor="let item of electronicBookData; let i = index">
               <td>{{ i + 1 }}</td>
               <td class="pointer">
-                วันที่ {{item.electronicBookAccept.electronicBook.startDate | thaidate: 'year'}} ถึง
-                {{item.electronicBookAccept.electronicBook.endDate | thaidate: 'year'}}</td>
+                วันที่ {{item.electronicBookProvincialDepartment.electronicBook.startDate | thaidate: 'year'}} ถึง
+                {{item.electronicBookProvincialDepartment.electronicBook.endDate | thaidate: 'year'}}</td>
               <!-- <td>{{ item.electronicBook.detail }}</td> -->
               <!-- <td>{{ item.subjectGroup.province.name }}</td> -->
               <td>{{ item.userCreate.prefix }} {{item.userCreate.name}} - {{item.userCreate.provincialDepartments.name}}
@@ -47,7 +47,7 @@
               <td>{{ item.status }}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                  (click)="gotoDetail(item.electronicBookAccept.electronicBook.id, item.id)"></i>
+                  (click)="gotoDetail(item.electronicBookProvincialDepartment.electronicBook.id, item.id)"></i>
               </td>
             </tr>
           </tbody>

@@ -16,10 +16,10 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("ElectronicBookAccept")]
-        [Description("FK: ElectronicBookAccept")]
-        public long ElectronicBookAcceptId { get; set; }
-        public virtual ElectronicBookAccept ElectronicBookAccept { get; set; }
+        [ForeignKey("ElectronicBookProvincialDepartment")]
+        [Description("FK: ElectronicBookProvincialDepartment")]
+        public long ElectronicBookProvincialDepartmentId { get; set; }
+        public virtual ElectronicBookProvincialDepartment ElectronicBookProvincialDepartment { get; set; }
 
         [ForeignKey("User")]
         [Description("FK: หน่วยรับตรวจอื่นที่มารับทราบ")]

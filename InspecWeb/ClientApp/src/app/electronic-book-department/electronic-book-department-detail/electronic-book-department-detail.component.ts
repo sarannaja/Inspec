@@ -46,6 +46,8 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
   checkProvincialDepartment = false;
   submitted = false;
   submitted2 = false;
+  electronicBookProvincialDepartmentId: any;
+  provincialData: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +64,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
     private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id')
+    this.electronicBookProvincialDepartmentId = activatedRoute.snapshot.paramMap.get('electronicBookProvincialDepartmentId')
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
     this.downloadUrl = baseUrl + '/Uploads';
   }
@@ -78,7 +81,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
         // this.provincialID = result;
         // console.log("signatureProvince: ", this.signature);
       })
-
+    // alert(this.electronicBookProvincialDepartmentId)
     this.userservice.getuserfirstdata(this.userid)
       .subscribe(result2 => {
         console.log("UserData2: ", result2);
@@ -112,6 +115,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
 
     this.getElectronicBookDetail();
     this.getProvincialDepartment();
+    this.getElectronicBookProvincialDepartmentById();
 
     setTimeout(() => {
       this.spinner.hide();
@@ -121,15 +125,15 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
   getElectronicBookDetail() {
     this.electronicBookService.getElectronicBookDetail(this.electId).subscribe(result => {
       console.log("RESProvince: ", result);
-
+      this.electronicBookData = result;
       // console.log("Filter Provincial: ", result.electronicBook.electronicBookProvincialDepartments.filter(x => x.provincialDepartmentId == this.provincialID));
       // var acceptId = result.electronicBook.electronicBookProvincialDepartments.filter(x => x.provincialDepartmentId == this.provincialID);
-      // this.electAcceptId = acceptId;
+      // this.electAcceptId = result.electronicBookAccept[0].id;
 
       var provinces: any = [];
 
       result.electronicBookGroup.forEach(element => {
-        provinces.push(element.centralPolicyEvent.inspectionPlanEvent.provinceId)
+        provinces.push(element.provinceId)
       });
       // console.log("allProvices: ", provinces);
 
@@ -140,13 +144,13 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
 
       this.inspectionPlanEventId = result.electronicBookGroup.map((item, index) => {
         return {
-          inspectionPlanEventId: item.centralPolicyEvent.inspectionPlanEventId
+          inspectionPlanEventId: item.inspectionPlanEventId
         }
       })
 
       this.getInvitedPeople(this.inspectionPlanEventId);
 
-      this.electronicBookData = result;
+
       // console.log("provinceDataXXXXX: ", this.electronicBookData);
 
       this.electronicBookData.electronicBookDepartment.forEach(element => {
@@ -245,6 +249,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
         this.getElectronicBookDetail();
         this.getElectronicBookProvincialDepartment();
         this.Form.reset();
+        this.submitted = false;
         this.modalRef.hide();
         this._NotofyService.onSuccess("รับทราบรายการสมุดตรวจ",)
       })
@@ -258,7 +263,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
       console.log("in1");
       return;
     } else {
-      this.electronicBookService.sendToOtherProvince(value, this.userid, this.electAcceptId).subscribe(res => {
+      this.electronicBookService.sendToOtherProvince(value, this.userid, this.electronicBookProvincialDepartmentId).subscribe(res => {
         console.log("sended: ", res);
         this.getElectronicBookDetail();
         this.modalRef.hide();
@@ -288,6 +293,13 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
       // this.ebookProvincialDepartment.patchValue({
       //   opinion: res.description
       // })
+    })
+  }
+
+  getElectronicBookProvincialDepartmentById() {
+    this.electronicBookService.getElectronicBookProvincialDepartmentById(this.electronicBookProvincialDepartmentId).subscribe(res => {
+      console.log("res provincial => ", res);
+      this.provincialData = res;
     })
   }
 
