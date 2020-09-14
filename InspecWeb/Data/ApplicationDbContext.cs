@@ -343,9 +343,9 @@ namespace InspecWeb.Data
            .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ElectronicBookOtherAccept>()
-           .HasOne(p => p.ElectronicBookAccept)
+           .HasOne(p => p.ElectronicBookProvincialDepartment)
            .WithMany(b => b.ElectronicBookOtherAccepts)
-           .HasForeignKey(p => p.ElectronicBookAcceptId)
+           .HasForeignKey(p => p.ElectronicBookProvincialDepartmentId)
            .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ElectronicBookProvincialDepartment>()

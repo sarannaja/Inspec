@@ -188,10 +188,10 @@
           <br>
         </div>
 
-        <!-- <div class="form-group" *ngIf="electronicBookData.electronicBookAccept.electronicBookOtherAccepts.length > 0"
+        <div class="form-group" *ngIf="provincialData.electronicBookOtherAccepts.length > 0"
           style="margin-left: 15px; margin-right: 21px;">
           <h4>ส่งต่อให้หน่วยรับตรวจ</h4>
-          <div *ngFor="let items of electronicBookData.electronicBookAccept.electronicBookOtherAccepts; let i = index">
+          <div *ngFor="let items of provincialData.electronicBookOtherAccepts; let i = index" class="ml-2">
             <div class="row">
               <h5 style="margin-top: 15px;">{{i + 1}}) {{items.provincialDepartment.name}}</h5>
               <h5 *ngIf="items.status == 'ดำเนินการแล้ว'"
@@ -208,7 +208,7 @@
             <br>
           </div>
           <hr>
-        </div> -->
+        </div>
 
 
         <!-- <div class="form-group" *ngIf="electronicBookData.electronicBookSuggestion.length > 0"
@@ -314,8 +314,8 @@
             (click)="openModal(addSignature)">รับทราบรายการสมุดตรวจ</button>
           <!-- <button *ngIf="signature == null" class="btn btn-primary" style="margin-right: 45px;"
             (click)="openAlertModal(signatureModal)">รับทราบรายการสมุดตรวจ</button> -->
-          <!-- <button class="btn btn-success" style="margin-right: 45px;"
-            (click)="openModal(sendToOtherModal)">ส่งต่อให้หน่วยรับตรวจอื่น</button> -->
+          <button *ngIf="provincialData.electronicBookOtherAccepts.length == 0" class="btn btn-success" style="margin-right: 45px;"
+            (click)="openModal(sendToOtherModal)">ส่งต่อให้หน่วยรับตรวจอื่น</button>
           <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
         </div>
         <div *ngIf="electronicBookData.electronicBookDepartment.status == 'ดำเนินการแล้ว'"

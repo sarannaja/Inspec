@@ -53,6 +53,5 @@ namespace InspecWeb.Models
 
         // [Required]
         public ICollection<ElectronicBookProvinceApproveFile> ElectronicBookProvinceApproveFiles { get; set; }
-        public ICollection<ElectronicBookOtherAccept> ElectronicBookOtherAccepts { get; set; }
     }
 }

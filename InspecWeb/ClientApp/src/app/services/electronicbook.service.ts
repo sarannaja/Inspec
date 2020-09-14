@@ -439,6 +439,16 @@ export class ElectronicbookService {
       }
     }
 
+    if (value.fileData2 != null) {
+      for (var iii = 0; iii < value.fileData2.length; iii++) {
+        var filename: string = value.fileData2[iii].ebookFile.name;
+        console.log('.ebookFile.name', value.fileData2[iii].ebookFile.name);
+        console.log('getFileExtension2', getFileExtension2(filename));
+        formData.append("files", value.fileData2[iii].ebookFile, `${value.fileData2[iii].fileDescription}.${getFileExtension2(filename)}`);
+        // formData.append("fileDescription", value.fileData[iii].fileDescription);
+      }
+    }
+
     var sendOrNot: any;
     if (value.SendToProvince == true) {
       sendOrNot = "ส่งให้จังหวัด";
@@ -613,6 +623,8 @@ export class ElectronicbookService {
     // alert(value.description);
     // alert( value.fileType)
     console.log("Add EBook: ", value);
+    console.log("File document: ", value.fileData);
+    console.log("File image: ", value.fileData2);
 
     var inputdate: Array<any> = value.inputdate.map((item, index) => {
       return {
@@ -656,6 +668,16 @@ export class ElectronicbookService {
         console.log('.ebookFile.name', value.fileData[iii].ebookFile.name);
         console.log('getFileExtension2', getFileExtension2(filename));
         formData.append("files", value.fileData[iii].ebookFile, `${value.fileData[iii].fileDescription}.${getFileExtension2(filename)}`);
+        // formData.append("fileDescription", value.fileData[iii].fileDescription);
+      }
+    }
+
+    if (value.fileData2 != null) {
+      for (var iii = 0; iii < value.fileData2.length; iii++) {
+        var filename: string = value.fileData2[iii].ebookFile.name;
+        console.log('.ebookFile.name', value.fileData2[iii].ebookFile.name);
+        console.log('getFileExtension2', getFileExtension2(filename));
+        formData.append("files", value.fileData2[iii].ebookFile, `${value.fileData2[iii].fileDescription}.${getFileExtension2(filename)}`);
         // formData.append("fileDescription", value.fileData[iii].fileDescription);
       }
     }
@@ -747,6 +769,14 @@ export class ElectronicbookService {
 
   deleteMoreInvitedPeople(id) {
     return this.http.delete(this.url + 'deleteMoreInvited/' + id)
+  }
+
+  getElectronicBookProvincialDepartmentById(electID) {
+    return this.http.get(this.url + "getElectronicBookDepartmentById/" + electID)
+  }
+
+  getElectronicBookOtherById(electID) {
+    return this.http.get(this.url + "getElectronicBookOtherById/" + electID)
   }
 }
 

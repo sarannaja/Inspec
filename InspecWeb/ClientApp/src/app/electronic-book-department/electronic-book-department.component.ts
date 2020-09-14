@@ -91,7 +91,7 @@ export class ElectronicBookDepartmentComponent implements OnInit {
 
   getElectronicBook() {
     this.electronicBookService.getSendedElectronicBookDepartment(this.provincialDepartmentID).subscribe(results => {
-      console.log("res: ", results);
+      console.log("res Department: ", results);
       console.log("provinceID: ", this.provinceId);
 
       // let filterData = results.provinceData.filter(x => x.provinceId == this.provinceId);
@@ -134,8 +134,8 @@ export class ElectronicBookDepartmentComponent implements OnInit {
     this.router.navigate(['/electronicbook/edit/' + id, { electronicBookId: elecId, centralPolicyUserId: centralPolicyUserID }])
   }
 
-  gotoDetail(id) {
-    this.router.navigate(['/electronicbook/departmentdetail/' + id])
+  gotoDetail(id, ebookProvincialDepartmentId) {
+    this.router.navigate(['/electronicbook/departmentdetail/' + id, {electronicBookProvincialDepartmentId: ebookProvincialDepartmentId}])
   }
 
   gotoTheme(id, elecId) {
