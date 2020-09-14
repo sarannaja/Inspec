@@ -440,9 +440,8 @@ namespace InspecWeb.Controllers
                         }
                     }
                 }
-                else if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 8)
+                else if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 8 || model.Role_id == 11)
                 {
-
                     Username = model.Email;
                 }
                 else if (model.Role_id == 7)
@@ -829,7 +828,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("testuser : 5");
             }
 
-            return Ok(new { status = true });
+            return Ok(new { password = user.Pw });
 
         }
 
@@ -1532,9 +1531,10 @@ namespace InspecWeb.Controllers
                         System.Console.WriteLine("testuser9 : ");
 
 
-
+                        //ปาม2020
                         var userprovince = _context.FiscalYearRelations
-                                    .Where(m => m.RegionId == item)
+                                    .Include(m => m.FiscalYear)
+                                    .Where(m => m.RegionId == item )
                                     .ToList();
 
 
@@ -1548,12 +1548,13 @@ namespace InspecWeb.Controllers
                     }
                 }
                 FiscalYearRelation[] terms = termsList.ToArray();
-
+                System.Console.WriteLine("testuser10.2 :");
                 if (terms.Count() != 0)
                 {
+                    System.Console.WriteLine("testuser10.3 :" + editId);
                     foreach (var x in terms)
                     {
-
+                        System.Console.WriteLine("testuser10.4 :" + x.ProvinceId);
                         var userprovincedata = new UserProvince
                         {
                             UserID = editId,
@@ -1632,26 +1633,20 @@ namespace InspecWeb.Controllers
             return Ok(new { status = true, password = passwordrandom });
         }
 
-        //<!-- แก้ไขพาสเวิด -->
-        [HttpPut("api/[controller]/password")]
-        public IActionResult Putpassword([FromForm] UserViewModel model)
+        //ปาม2020
+        //<!-- resetpassword -->
+        [HttpPut("api/[controller]/resetpassword")]
+        public async Task<IActionResult> resetpassword([FromForm] string id)
         {
-            var date = DateTime.Now;
+            System.Console.WriteLine("momo"+id);
+            var passwordrandom = RandomString(8);
+            var userdata = _context.Users.Find(id);         
+            var tresult = await _userManager.RemovePasswordAsync(userdata);
+            await _userManager.AddPasswordAsync(userdata, passwordrandom);
 
-            //var data = _context.Users.Find(model.Id);
-            //{
-            //    data.Status = "รายงานผลเรียบร้อย";
-            //};
-            //_context.Entry(executiveorderanswerdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            //_context.SaveChanges();
-
-
-
-
-
-            return Ok(new { Id = model.Id });
+            return Ok(new { Id = id });
         }
-        //<!-- END แก้ไขพาสเวิด -->
+        //<!-- END resetpassword -->
 
         [Route("api/[controller]/{id}")]
         [HttpDelete]

@@ -40,7 +40,7 @@
             <tr *ngFor="let item of resultprovince; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{item.sectors.name}}</td>
-              <th>{{item.provincesGroups.name}}</th>
+              <td>{{item.provincesGroups.name}}</td>
               <td class="pointer" (click)="District(item.id,item.name)" title="อำเภอภายใต้คลิก">{{ item.name }}</td>
               <td><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></td>
               <ng-template #elseBlock>
