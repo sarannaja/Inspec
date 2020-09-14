@@ -234,7 +234,7 @@ export class UserComponent implements OnInit {
   }
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, SideId,
-    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser) {
+    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser,signature) {
     // alert(commandnumber +"///"+commandnumberdate);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
     this.addForm.reset()
@@ -296,6 +296,7 @@ export class UserComponent implements OnInit {
       Commandnumberdate: this.cd,
       Formprofile: 0,
       Img: img,
+      Signature:signature,
       Autocreateuser: Autocreateuser, //แพตข้อมูลว่าสร้าง UerName เองหรือป่าว
     })
     this.DepartmentId = departmentId
@@ -384,7 +385,7 @@ export class UserComponent implements OnInit {
           // (thing, i, arr) => arr.findIndex(t => t.regionId == event.id) === i
           (resultf) => resultf.region.id == event.id
         ).map((item, index) => `<span class="badge" >${item.province.name}</span>`)
-      console.log(this.html, event.id);
+     // console.log(this.html, event.id);
     })
   }
 
@@ -530,6 +531,7 @@ export class UserComponent implements OnInit {
       Commandnumberdate: new FormControl(null),
       Formprofile: 0,
       Img: new FormControl(null),
+      Signature: new FormControl(null),
       UserName: new FormControl(null, [Validators.required]),
       Autocreateuser: new FormControl(null, [Validators.required]),
       Pw: new FormControl(null),
