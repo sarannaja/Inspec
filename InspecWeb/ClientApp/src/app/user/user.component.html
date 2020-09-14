@@ -54,9 +54,11 @@
                         <tr *ngFor="let item of resultuser; let i = index">
                             <td>{{i + 1}}</td>
                             <td>
-                                <img *ngIf="item.img != null" src="/{{imgprofileUrl}}/{{item.img}}"
-                                    class="img-fluid  mb-2" width="90px" alt="รูป">
-                                <img *ngIf="item.img == null" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                                <div *ngIf="item.img != null">
+                                    <img *ngIf="item.img != 'null'" src="{{imgprofileUrl}}/{{item.img}}"
+                                        class="img-fluid  mb-2" width="90px" alt="รูป">
+                                </div>
+                                <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
                                     width="90px" alt="รูป">
                             </td>
                             <td>{{item.userName}}</td>
@@ -113,7 +115,7 @@
                                     (click)="user9proIndex = i" class="badge
                                     badge-info mr-1">อื่นๆ</span>
                             </td>
-                            <td *ngIf="roleId == 7">{{item.side}}</td>
+                            <td *ngIf="roleId == 7">{{item.sides.name}}</td>
                             <td>{{item.phoneNumber}}</td>
                             <td *ngIf="roleId == 1">{{item.email}}</td>
                             <td>
@@ -144,7 +146,7 @@
                                 <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" (click)="openeditModal(modaleditUser, item.id,item.fiscalYearId,item.userRegion,roleId==9? item.userProvince:item.userProvince[0].provinceId,item.ministryId
                                         ,item.departmentId,item.provincialDepartmentId,item.sideId,item.commandnumber,
                                         item.commandnumberdate,item.email,item.prefix,item.firstnameth,item.lastnameth,item.position,item.phoneNumber,
-                                        item.startdate,item.enddate,item.img,item.autocreateuser)">
+                                        item.startdate,item.enddate,item.img,item.autocreateuser,item.signature)">
                                     <i class="align-middle fas fa-fw fa-pen"></i>
                                 </button>
 
@@ -709,9 +711,11 @@
 
                 <div class="form-group">
                     <label class="form-label w-100">รูปโปรไฟล์</label>
-                    <img *ngIf="img != null" src="{{imgprofileUrl}}/{{img}}" class="img-fluid rounded-circle mb-2"
-                        width="90px" alt="รูปโปรไฟล์">
-                    <img *ngIf="img == null" src="{{imgprofileUrl}}/user.png" class="img-fluid rounded-circle mb-2"
+                    <div *ngIf="img != null">
+                        <img *ngIf="img != 'null'" src="{{imgprofileUrl}}/{{img}}" class="img-fluid rounded-circle mb-2"
+                            width="90px" alt="รูปโปรไฟล์">
+                    </div>
+                    <img *ngIf="img == null || img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid rounded-circle mb-2"
                         width="90px" alt="รูปโปรไฟล์">
                     <input type="file" (change)="uploadFile($event)" required accept="image/jpeg, image/png" />
                     <small class="form-text text-muted">สำหรับรูปโปรไฟล์</small>
