@@ -13,7 +13,9 @@ import { RegionComponent } from '../modals/region/region.component';
   styleUrls: ['./minister-table.component.css']
 })
 export class MinisterTableComponent implements OnInit {
-  dtOptions: DataTables.Settings = {};
+  dtOptions: DataTables.Settings = {
+    responsive: true
+  };
   ministers: Array<Ministers>
   cabinets: Array<Cabinets>
   cabinetDrop: Array<any>
@@ -157,8 +159,8 @@ export class MinisterTableComponent implements OnInit {
   }
 
   openModalRegion(region: any) {
-    console.log('region modal',region);
-    
+    console.log('region modal', region);
+
     this.modalRef = this.modalService.show(RegionComponent, {
       initialState: {
         title: `${region.name} ${region.id}`,
@@ -182,21 +184,21 @@ export class MinisterTableComponent implements OnInit {
       return result.fiscalYears[0].year == year
     })
 
-      console.log('data',this.dataindata)
+    console.log('data', this.dataindata)
   }
 
-    //<!-- excel -->
-    excel(){
-      window.location.href = '/api/ExternalOrganization/excelOtpsMinisters/';
-    }
-    //<!-- END excel -->
-  
-    //<!-- Word -->
-    word() {
-      this.externalOrganizationService.word()
-        .subscribe(result => {
-          window.open("reportOtpsMinisters/" + result.data);
-        })
-    }
-    //<!-- END Word -->
+  //<!-- excel -->
+  excel() {
+    window.location.href = '/api/ExternalOrganization/excelOtpsMinisters/';
+  }
+  //<!-- END excel -->
+
+  //<!-- Word -->
+  word() {
+    this.externalOrganizationService.word()
+      .subscribe(result => {
+        window.open("reportOtpsMinisters/" + result.data);
+      })
+  }
+  //<!-- END Word -->
 }
