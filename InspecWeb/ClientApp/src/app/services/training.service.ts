@@ -421,7 +421,9 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + "printNamePlate", formData);
   }
-
+  getTrainingPlan(trainingphaseid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'plan/' + trainingphaseid)
+  }
 }
 
 

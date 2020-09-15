@@ -44,6 +44,8 @@
                                     (click)="openModal(modalProgram, item.id)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
                                     (click)="openModal(modaldelete, item.id)"></i>
+                                <i class="align-middle mr-2 fa fa-list-alt pointer" title="ตารางกิจกรรม"
+                                    (click)="gotoPlanTraining(item.id)"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -78,7 +80,7 @@
                         </div>
                         <div class="input-group">
                             <div class="form-group col-5">
-                                <my-date-picker-th formControlName="startdate"    [options]="myDatePickerOptions" required>
+                                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
 
                             </div>
@@ -91,7 +93,7 @@
 
                             <div class="form-group col-5">
 
-                                <my-date-picker-th formControlName="enddate"    [options]="myDatePickerOptions" required>
+                                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
 
                             </div>

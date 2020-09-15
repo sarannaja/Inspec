@@ -208,6 +208,7 @@ import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-
 // import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SortPipe } from './services/Pipe/sort';
+import { PlanTrainingComponent } from './training/plan-training/plan-training.component';
 
 
 const ExternalOrganization = [
@@ -391,7 +392,7 @@ const ExternalOrganization = [
     NamePlateComponent,
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,
-
+    PlanTrainingComponent,
   ],
 
   imports: [
@@ -476,6 +477,7 @@ const ExternalOrganization = [
           { path: 'training/survey/chart/:id', component: ChartTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/:id', component: PhaseTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/condition/:id', component: TrainingConditionComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/phase/plan/:id', component: PlanTrainingComponent, canActivate: [AuthorizeGuard] },
 
 
           //---------------

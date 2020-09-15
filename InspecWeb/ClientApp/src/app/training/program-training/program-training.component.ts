@@ -73,8 +73,8 @@ export class ProgramTrainingComponent implements OnInit {
       mEnd: new FormControl(null, [Validators.required]),
       programtopic: new FormControl(null, [Validators.required]),
       programdetail: new FormControl(null, [Validators.required]),
-      programlocation: new FormControl(null,[Validators.required]),
-      programtodress: new FormControl(null,[Validators.required]),
+      programlocation: new FormControl(null, [Validators.required]),
+      programtodress: new FormControl(null, [Validators.required]),
       lecturername: new FormControl(null, [Validators.required]),
     })
     this.Formfile = this.fb.group({
