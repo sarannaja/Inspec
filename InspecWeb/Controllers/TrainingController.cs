@@ -520,6 +520,8 @@ namespace InspecWeb.Controllers
 
             var trainingdata = new TrainingRegister
             {
+                UserName = model.username,
+                ProvincialDepartmentId = model.departmentid,
                 TrainingId = model.trainingid,
                 Name = model.name,
                 Phone = model.phone,
@@ -527,7 +529,7 @@ namespace InspecWeb.Controllers
                 Position = model.position,
                 Department = model.department,
                 Status = 0,
-                UserId = "TEST",
+                UserId = model.userid,
                 UserType = 1,
                 Email = model.email,
                 CreatedAt = date,
