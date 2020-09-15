@@ -15,7 +15,7 @@ router.post("/", function (req, res, next) {
   let pull = `git pull
   `
   let deployProd = `
-  cd C:\\Inspec\\InspecWeb
+  cd C:\\\Inspec\\InspecWeb
   iisreset /stop
   dotnet publish InspecWeb.csproj -o publish
   iisreset /start
