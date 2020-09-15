@@ -130,6 +130,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(r => r.Province)
                 .Include(s => s.Province)
                 .Include(s => s.Ministries)
+                .Include(s => s.ProvincialDepartments)
                 .Where(m => m.Id == id)
                 .Where(m => m.Active == 1).FirstOrDefault();
 

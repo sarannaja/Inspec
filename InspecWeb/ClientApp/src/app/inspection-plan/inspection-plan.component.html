@@ -18,7 +18,7 @@
     </ol>
   </nav>
 </div>
-<div class="row">
+<div class="row" *ngIf="loading">
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
@@ -428,7 +428,7 @@
 <ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
   <form [formGroup]="Form2" (ngSubmit)="storeMinistryPeople(Form2.value)">
-    <div class="modal-content">
+    <div class="modal-content" *ngIf="loading">
       <div class="modal-header">
         <h5 class="modal-title">เชิญผู้ร่วมตรวจราชการ</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
@@ -645,3 +645,6 @@
   </form>
 </ng-template>
 <!-- END primary modal -->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
