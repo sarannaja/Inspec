@@ -209,6 +209,7 @@ import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SortPipe } from './services/Pipe/sort';
 import { DateLengthComponent } from './services/components/date-length/date-length.component';
+import { PlanTrainingComponent } from './training/plan-training/plan-training.component';
 
 
 const ExternalOrganization = [
@@ -393,6 +394,7 @@ const ExternalOrganization = [
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,
     DateLengthComponent,
+    PlanTrainingComponent,
   ],
 
   imports: [
@@ -477,6 +479,7 @@ const ExternalOrganization = [
           { path: 'training/survey/chart/:id', component: ChartTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/:id', component: PhaseTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/condition/:id', component: TrainingConditionComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/phase/plan/:id', component: PlanTrainingComponent, canActivate: [AuthorizeGuard] },
 
 
           //---------------

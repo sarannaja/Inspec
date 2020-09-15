@@ -1389,9 +1389,19 @@ namespace InspecWeb.Controllers
             return Ok(termsList);
         }
 
+        //GET api/Training/plan
+        [HttpGet("plan/{id}")]
+        public IActionResult Plan(long id)
+        {
+            var districtdata = _context.TrainingProgramLecturers
+                .Include(m => m.TrainingProgram)
+                .ThenInclude(m => m.TrainingPhase)
+                .Include(m => m.TrainingLecturer)
+                .Where(m => m.TrainingProgram.TrainingPhaseId == id);
 
+            return Ok(districtdata);
+
+        }
     }
-
-
 
 }
