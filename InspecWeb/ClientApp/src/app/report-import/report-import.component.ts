@@ -42,6 +42,7 @@ export class ReportImportComponent implements OnInit {
   reportId: any;
   form: FormGroup;
   departmentId: any;
+  submitted: any;
 
   constructor(
     private router: Router,
@@ -168,19 +169,26 @@ export class ReportImportComponent implements OnInit {
   }
 
   storeReport(value) {
-    console.log("Report Value: ", value);
-    this.exportReportService.postImportReport(value, this.userid, this.form.value.files, this.departmentId).subscribe(res => {
-      this.reportForm.reset();
-      this.loading = false;
-      this.getImportedReport();
-      this.modalRef.hide();
-      this._NotofyService.onSuccess("เพื่มข้อมูล",)
 
-      // this.notificationService.addNotification(1, 1, this.userid, 14, res.importId)
-      //   .subscribe(response => {
-      //     console.log("Noti: ", response);
-      //   });
-    })
+    this.submitted = true;
+    if (this.reportForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      console.log("Report Value: ", value);
+      this.exportReportService.postImportReport(value, this.userid, this.form.value.files, this.departmentId).subscribe(res => {
+        this.reportForm.reset();
+        this.loading = false;
+        this.getImportedReport();
+        this.modalRef.hide();
+        this._NotofyService.onSuccess("เพื่มข้อมูล",)
+
+        // this.notificationService.addNotification(1, 1, this.userid, 14, res.importId)
+        //   .subscribe(response => {
+        //     console.log("Noti: ", response);
+        //   });
+      })
+    }
   }
 
   editReport(value) {

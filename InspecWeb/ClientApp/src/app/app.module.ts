@@ -209,6 +209,8 @@ import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SortPipe } from './services/Pipe/sort';
 import { DateLengthComponent } from './services/components/date-length/date-length.component';
+import { TrainingLoginComponent } from './training-login/training-login.component';
+import { TrainingLoginSuccessComponent } from './training-login/training-login-success/training-login-success.component';
 
 
 const ExternalOrganization = [
@@ -393,6 +395,8 @@ const ExternalOrganization = [
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,
     DateLengthComponent,
+    TrainingLoginComponent,
+    TrainingLoginSuccessComponent,
   ],
 
   imports: [
@@ -611,7 +615,9 @@ const ExternalOrganization = [
         children: [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
         ]
-      }
+      },
+      { path: 'training/login/:phaseid', component: TrainingLoginComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/login-success', component: TrainingLoginSuccessComponent, canActivate: [AuthorizeGuard] },
     ]),
     TimepickerModule.forRoot(),
     ModalModule.forRoot(),
