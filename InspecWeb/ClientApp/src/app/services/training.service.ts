@@ -144,10 +144,13 @@ export class TrainingService {
   }
 
   //insert training register font-end
-  addTrainingRegister(trainingData, trainingid, files: FileList, CertificationFiles: FileList, idcardFiles: FileList, GovernmentpassportFiles: FileList) {
+  addTrainingRegister(trainingData, trainingid, files: FileList, CertificationFiles: FileList, idcardFiles: FileList, GovernmentpassportFiles: FileList, userid, username, departmentid) {
     //alert('Service:' + JSON.stringify(trainingData))
     //alert(trainingid)
     const formData = new FormData();
+    formData.append('departmentid', departmentid);
+    formData.append('username', username);
+    formData.append('userid', userid);
     formData.append('trainingid', trainingid);
     formData.append('name', trainingData.name);
     formData.append('cardid', trainingData.cardid);

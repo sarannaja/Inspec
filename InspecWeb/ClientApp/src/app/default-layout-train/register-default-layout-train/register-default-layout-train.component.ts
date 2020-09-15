@@ -48,6 +48,9 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
   Img: any;
   Form: FormGroup;
   mainUrl: string;
+  department
+  username
+  departmentid
   // constructor() { }
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -139,6 +142,8 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
         //alert(this.userid)
         this.UserService.getuserfirstdata(this.userid)
           .subscribe(result => {
+
+
             this.resultuser = result;
             //console.log("test" , this.resultuser);
             this.role_id = result[0].role_id
@@ -150,6 +155,10 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
             this.Email = result[0].email
             this.Img = result[0].img
 
+            this.username = result[0].userName
+            this.department = result[0].provincialDepartments.name
+            this.departmentid = result[0].provincialDepartments.id
+            // alert(this.username)
             this.Form.patchValue({
               Prefix: this.Prefix,
               name: this.Name,
@@ -158,6 +167,8 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
               phone: this.PhoneNumber,
               email: this.Email,
               Formprofile: 1,
+              department: this.department
+              // departmentid: this.departmentid
               //files: this.files,
             });
 
@@ -179,7 +190,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
   storeTraining(value) {
     // alert(JSON.stringify(value.retireddate))
-    this.trainingservice.addTrainingRegister(value, this.trainingid, this.Form.value.files, this.Form.value.CertificationFiles, this.Form.value.idcardFiles, this.Form.value.GovernmentpassportFiles).subscribe(response => {
+    this.trainingservice.addTrainingRegister(value, this.trainingid, this.Form.value.files, this.Form.value.CertificationFiles, this.Form.value.idcardFiles, this.Form.value.GovernmentpassportFiles, this.userid, this.username, this.departmentid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.loading = false;
