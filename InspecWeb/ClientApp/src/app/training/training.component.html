@@ -29,7 +29,7 @@
               <th width="35%">ชื่อหลักสูตรการอบรม</th>
               <th width="15%">คำอธิบายหลักสูตรการอบรม</th>
               <th width="15%">ระยะเวลา</th>
-              <th width="15%">การจัดการ</th>
+              <!-- <th width="15%">การจัดการ</th> -->
               <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -74,6 +74,8 @@
                 <br>
               </td>
               <td>
+                <i class="align-middle mr-2 fas fa-fw fa-list pointer" data-toggle="tooltip" title="เมนูตั้งค่า"
+                  (click)="gotoManageTraining(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดการ"
                   (click)="gotoPhaseTraining(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>

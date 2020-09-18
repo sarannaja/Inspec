@@ -64,6 +64,8 @@ import { ProgramTrainingRegisterComponent } from './training-register/program-tr
 import { ChartTrainingSurveyComponent } from './training-survey/chart-training-survey/chart-training-survey.component';
 import { PhaseTrainingComponent } from './training/phase-training/phase-training.component';
 import { TrainingConditionComponent } from './training-condition/training-condition.component';
+import { TrainingManageComponent } from './training-manage/training-manage.component';
+import { TrainingProgramLoginComponent } from './training-programlogin/training-programlogin.component';
 
 //----------------
 
@@ -271,6 +273,8 @@ const ExternalOrganization = [
     ChartTrainingSurveyComponent,
     PhaseTrainingComponent,
     TrainingConditionComponent,
+    TrainingManageComponent,
+    TrainingProgramLoginComponent,
     //---------------
     ThaiDatePipe,
     SubjectComponent,
@@ -476,7 +480,9 @@ const ExternalOrganization = [
           { path: 'training/survey/chart/:id', component: ChartTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/:id', component: PhaseTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/condition/:id', component: TrainingConditionComponent, canActivate: [AuthorizeGuard] },
-
+          { path: 'training/manage/:id', component: TrainingManageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
+          
 
           //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
