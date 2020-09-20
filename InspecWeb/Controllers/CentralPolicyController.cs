@@ -50,9 +50,13 @@ namespace InspecWeb.Controllers
 
             return _context.CentralPolicies
                    .Include(m => m.FiscalYearNew)
+                   .Include(m => m.Typeexaminationplan)
                    .Include(m => m.CentralPolicyProvinces)
                    .ThenInclude(x => x.Province)
                    .Include(m => m.CentralPolicyDates)
+                   .Include(m => m.User)
+                   .ThenInclude(m => m.Ministries)
+                   .ThenInclude(m => m.Departments)
                    .OrderByDescending(m => m.Id)
                    .Where(m => m.Class == "แผนการตรวจประจำปี")
                    .ToList();
@@ -64,12 +68,16 @@ namespace InspecWeb.Controllers
         {
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.FiscalYearNew)
+                .Include(m => m.Typeexaminationplan)
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
                 .Include(m => m.CentralPolicyFiles)
                 .Include(m => m.Subjects)
                 .ThenInclude(m => m.Subquestions)
+                .Include(m => m.User)
+                .ThenInclude(m => m.Ministries)
+                .ThenInclude(m => m.Departments)
                 .Where(m => m.Id == id).FirstOrDefault();
 
             return Ok(centralpolicydata);
@@ -81,11 +89,16 @@ namespace InspecWeb.Controllers
         {
             var centralpolicydata = _context.CentralPolicies
                 .Include(m => m.FiscalYearNew)
+                .Include(m => m.Typeexaminationplan)
                 .Include(m => m.CentralPolicyProvinces)
                 .ThenInclude(x => x.Province)
                 .Include(m => m.CentralPolicyDates)
+                .Include(m => m.User)
+                .ThenInclude(m => m.Ministries)
+                .ThenInclude(m => m.Departments)
                 .OrderByDescending(m => m.Id)
                 .Where(m => m.FiscalYearNewId == id && m.Class == "แผนการตรวจประจำปี").ToList();
+
 
             return Ok(centralpolicydata);
             //return "value";
@@ -116,7 +129,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata = new CentralPolicy
             {
                 Title = model.Title,
-                Type = model.Type,
+                TypeexaminationplanId = model.TypeexaminationplanId,
                 FiscalYearNewId = model.FiscalYearNewId,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
@@ -258,7 +271,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicies.Find(editId);
             {
                 centralpolicydata.Title = model.Title;
-                centralpolicydata.Type = model.Type;
+                centralpolicydata.TypeexaminationplanId = model.TypeexaminationplanId;
                 centralpolicydata.FiscalYearNewId = model.FiscalYearNewId;
                 centralpolicydata.StartDate = model.StartDate;
                 centralpolicydata.EndDate = model.EndDate;
@@ -680,7 +693,7 @@ namespace InspecWeb.Controllers
         {
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
-                            //.ThenInclude(m => m.UserProvince)
+                 //.ThenInclude(m => m.UserProvince)
                  .ThenInclude(s => s.Departments)
                 .OrderBy(s => s.User.Departments.Name)
                 .Where(m => m.InspectionPlanEventId == id)
@@ -1096,8 +1109,9 @@ namespace InspecWeb.Controllers
 
 
             var userdata = _context.Users.Find(userid);
-            
-            foreach(var peopleinvitedata in peopleinvitedatas) { 
+
+            foreach (var peopleinvitedata in peopleinvitedatas)
+            {
                 var CentralPolicyGroupdata = new CentralPolicyGroup
                 {
                 };

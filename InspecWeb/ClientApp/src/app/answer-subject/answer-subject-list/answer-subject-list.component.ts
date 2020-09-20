@@ -34,7 +34,7 @@ export class AnswerSubjectListComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [3],
+          targets: [2],
           orderable: false
         }
       ],

@@ -9,6 +9,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { IMyOptions } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-program-training',
@@ -290,5 +291,4 @@ export class ProgramTrainingComponent implements OnInit {
         })
     })
   }
-
 }

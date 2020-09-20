@@ -1316,6 +1316,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.CentralPolicy)
                 .Include(m => m.CentralPolicyEventQuestion)
                 .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)         
                 .ThenInclude(m => m.Province)
                 .Where(m => m.UserId == model.userid)
                 .ToList();

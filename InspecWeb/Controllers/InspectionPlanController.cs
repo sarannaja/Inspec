@@ -132,7 +132,7 @@ namespace InspecWeb.Controllers {
             System.Console.WriteLine ("222" + model.Type);
             var centralpolicydata = new CentralPolicy {
                 Title = model.Title,
-                Type = "อื่นๆ",
+                TypeexaminationplanId = 3,
                 FiscalYearNewId = year.Id,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,

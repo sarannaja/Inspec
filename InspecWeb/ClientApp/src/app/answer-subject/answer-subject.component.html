@@ -1,51 +1,57 @@
 <div class="header">
-    <h1 class="header-title">
-      ระบบตรวจราชการอิเล็กทรอนิกส์
-    </h1>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
-        <li class="breadcrumb-item active" aria-current="page">แผนการตรวจราชการ</li>
-      </ol>
-    </nav>
-  </div>
-  <!-- <form class="row"> -->
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">แผนการตรวจราชการ</h5>
-        <br>
-        <div class="float-right">
-          <!-- <button class="btn btn-primary" (click)="openModal(modalProvince)"
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
+      <li class="breadcrumb-item active" aria-current="page">แผนการตรวจราชการ</li>
+    </ol>
+  </nav>
+</div>
+<!-- <form class="row"> -->
+<div class="col-12">
+  <div class="card">
+    <div class="card-header" style="margin-bottom: -40px;">
+      <h5 class="card-title">แผนการตรวจราชการ</h5>
+      <br>
+      <div class="float-right">
+        <!-- <button class="btn btn-primary" (click)="openModal(modalProvince)"
             style="margin-top: -60px;">เพิ่มจังหวัด</button> -->
-        </div>
-      </div>
-      <div class="card-body">
-        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-          [dtOptions]="dtOptions">
-          <thead>
-            <tr>
-              <th>ที่</th>
-              <th>แผนการตรวจราชการ</th>
-              <th width="40%">เรื่องที่ตรวจ</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of resultuserdetail; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{item.centralPolicy.type}}</td>
-              <td class="pointer" (click)="Subjectlist(item.id)">{{ item.centralPolicy.title }}</td>
-              <td>
-                <i title="รายละเอียด" class="align-middle mr-2 fas fa-file-medical pointer" (click)="Subjectlist(item.id)"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
+    <div class="card-body">
+      <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+        [dtOptions]="dtOptions">
+        <thead>
+          <tr>
+            <th>ที่</th>
+            <th width="30%">แผนการตรวจราชการ</th>
+            <th width="30%">เรื่องที่ตรวจ</th>
+            <th width="40%">วันที่ตรวจ</th>
+            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of resultuserdetail; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{item.centralPolicy.typeexaminationplan.name}}</td>
+            <td>{{ item.centralPolicy.title }}</td>
+            <td>
+              <div>{{ item.startDate | thaidate: 'short' }} -
+                {{ item.endDate | thaidate: 'short' }}</div>
+            </td>
+            <td>
+              <i title="รายละเอียด" class="align-middle mr-2 fas fa-file-medical pointer"
+                (click)="Subjectlist(item.id)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <ng-snotify></ng-snotify>
-  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
-    <p style="font-size: 20px; color: white">Loading...</p>
-  </ngx-spinner>
+</div>
+<ng-snotify></ng-snotify>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

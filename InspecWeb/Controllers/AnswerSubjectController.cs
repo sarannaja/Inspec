@@ -235,6 +235,7 @@ namespace InspecWeb.Controllers
 
             var centralpolicyprovincedata = _context.SubjectGroups
                 .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Typeexaminationplan)
                 .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId))))
@@ -254,6 +255,7 @@ namespace InspecWeb.Controllers
 
             var centralpolicydata = _context.CentralPolicyUsers
                 .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Typeexaminationplan)
                 .Where(m => m.InspectionPlanEvent.Status == "ใช้งานจริง")
                 .Where(m => m.UserId == userid).ToList();
 

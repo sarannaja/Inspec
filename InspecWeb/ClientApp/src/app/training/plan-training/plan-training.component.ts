@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TrainingService } from 'src/app/services/training.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-plan-training',
@@ -17,7 +18,7 @@ export class PlanTrainingComponent implements OnInit {
   resulttrainingplan: any[] = []
   loading = false;
   dtOptions: DataTables.Settings = {};
-
+  chars: any[] = []
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
@@ -37,6 +38,19 @@ export class PlanTrainingComponent implements OnInit {
   getTrainingplan() {
     this.trainingservice.getTrainingPlan(this.trainingphaseid).subscribe(result => {
       this.resulttrainingplan = result
+
+      this.chars = result.map(result2 => { return { ...result2, programDate: result2.trainingProgram.programDate } })
+      this.chars = _.chain(this.chars)
+        .groupBy("programDate")
+        // `key` is group's name (color), `value` is the array of objects
+        .map((value, key) => ({ programDate: key, value: value  }))
+        .value()
+      // chars = _.orderBy(chars, ['programDate'], ['asc']); // Use Lodash to sort array by 'name'
+
+      // this.setState({ characters: chars })
+      console.log('chars', this.chars);
+
+
       this.loading = true
       this.dtOptions = {
         // pagingType: 'full_numbers',
@@ -45,7 +59,7 @@ export class PlanTrainingComponent implements OnInit {
         lengthChange: false,
         info: false,
         paging: false,
-        ordering:false,
+        ordering: false,
         // columnDefs: [
         //   {
         //     targets: "_all",
