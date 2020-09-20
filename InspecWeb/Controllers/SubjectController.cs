@@ -1280,6 +1280,7 @@ namespace InspecWeb.Controllers
                             Status = "ใช้งานจริง",
                             SubjectGroupId = SubjectGroupdata.Id,
                             CreatedBy = subcen.CreatedBy,
+                            Explanation = subcen.Explanation
                         };
                         //subjectId = SubjectCentralPolicyProvincedata.Id;
                         //departId = checkdepart;
@@ -1644,6 +1645,7 @@ namespace InspecWeb.Controllers
                             Status = "ใช้งานจริง",
                             SubjectGroupId = SubjectGroupdata.Id,
                             CreatedBy = subcen.CreatedBy,
+                            Explanation = subcen.Explanation
                         };
                         //subjectId = SubjectCentralPolicyProvincedata.Id;
                         //departId = checkdepart;
@@ -1686,6 +1688,7 @@ namespace InspecWeb.Controllers
                                     Status = "ใช้งานจริง",
                                     SubjectGroupId = SubjectGroupdata.Id,
                                     CreatedBy = subcen.CreatedBy,
+                                    Explanation = subcen.Explanation
                                 };
                                 //subjectId = SubjectCentralPolicyProvincedata.Id;
                                 Console.WriteLine("subque2", subque);
@@ -1804,6 +1807,7 @@ namespace InspecWeb.Controllers
                             Status = "ใช้งานจริง",
                             SubjectGroupId = SubjectGroupdata.Id,
                             CreatedBy = subcen.CreatedBy,
+                            Explanation = subcen.Explanation
                         };
                         _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata2);
                         _context.SaveChanges();
@@ -1839,6 +1843,7 @@ namespace InspecWeb.Controllers
                             Status = "ใช้งานจริง",
                             SubjectGroupId = SubjectGroupdata.Id,
                             CreatedBy = subcen.CreatedBy,
+                            Explanation = subcen.Explanation
                         };
                         //subjectId = SubjectCentralPolicyProvincedata.Id;
                         //departId = checkdepart;
@@ -1923,7 +1928,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata1 = new CentralPolicy
             {
                 Title = model.Title,
-                Type = "อื่นๆ",
+                TypeexaminationplanId = 3,
                 FiscalYearNewId = year.Id,
                 Status = "ใช้งานจริง",
                 CreatedAt = date,

@@ -209,6 +209,9 @@ import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SortPipe } from './services/Pipe/sort';
 import { DateLengthComponent } from './services/components/date-length/date-length.component';
+import { PlanTrainingComponent } from './training/plan-training/plan-training.component';
+import { TrainingLoginComponent } from './training-login/training-login.component';
+import { TrainingLoginSuccessComponent } from './training-login/training-login-success/training-login-success.component';
 
 
 const ExternalOrganization = [
@@ -393,6 +396,9 @@ const ExternalOrganization = [
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,
     DateLengthComponent,
+    PlanTrainingComponent,
+    TrainingLoginComponent,
+    TrainingLoginSuccessComponent,
   ],
 
   imports: [
@@ -477,6 +483,7 @@ const ExternalOrganization = [
           { path: 'training/survey/chart/:id', component: ChartTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/:id', component: PhaseTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/condition/:id', component: TrainingConditionComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/phase/plan/:id', component: PlanTrainingComponent, canActivate: [AuthorizeGuard] },
 
 
           //---------------
@@ -611,7 +618,9 @@ const ExternalOrganization = [
         children: [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
         ]
-      }
+      },
+      { path: 'training/login/:phaseid', component: TrainingLoginComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/login-success', component: TrainingLoginSuccessComponent, canActivate: [AuthorizeGuard] },
     ]),
     TimepickerModule.forRoot(),
     ModalModule.forRoot(),

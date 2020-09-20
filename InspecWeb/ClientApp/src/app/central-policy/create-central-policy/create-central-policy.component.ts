@@ -10,6 +10,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotofyService } from 'src/app/services/notofy.service';
+import { TypeexamibationplanService } from 'src/app/services/typeexamibationplan.service';
 
 interface addInput {
   id: number;
@@ -38,6 +39,7 @@ export class CreateCentralPolicyComponent implements OnInit {
   resultcentralpolicy: any = []
   resultfiscalyear: any = []
   resultprovince: any = []
+  resulttypeexamibationplan: any = []
   delid: any
   title: any
   start_date: any
@@ -67,7 +69,8 @@ export class CreateCentralPolicyComponent implements OnInit {
     private authorize: AuthorizeService,
     private external: ExternalOrganizationService,
     private spinner: NgxSpinnerService,
-    private _NotofyService: NotofyService
+    private _NotofyService: NotofyService,
+    private typeexamibationplanservice: TypeexamibationplanService
   ) {
     this.form = this.fb.group({
       name: [''],
@@ -122,18 +125,25 @@ export class CreateCentralPolicyComponent implements OnInit {
     //   console.log(this.resultprovince);
     // })
     this.getDataProvince();
-    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
-      // alert(JSON.stringify(result))
-      this.resultfiscalyear = result
-      console.log(this.resultcentralpolicy);
-    })
-
+    this.getfiscalyear();
+    this.getTypeexamibationplan();
     this.Form.patchValue({
       // กรณีจะแก้ไข
     })
     // this.addInput()
   }
-
+  getTypeexamibationplan() {
+    this.typeexamibationplanservice.getdata().subscribe(result => {
+      this.resulttypeexamibationplan = result
+    })
+  }
+  getfiscalyear() {
+    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+      // alert(JSON.stringify(result))
+      this.resultfiscalyear = result
+      console.log(this.resultcentralpolicy);
+    })
+  }
   inspec(event) {
     console.log(event);
 
@@ -257,7 +267,18 @@ export class CreateCentralPolicyComponent implements OnInit {
 
               return { ...result, region: region, label: result.name, value: result.id }
             })
-            console.log(this.province);
+            console.log("test1: ", this.province);
+
+            this.province.sort((a, b) => {
+              if(a.provincesGroupId > b.provincesGroupId) {
+                return 1;
+              } else if(a.provincesGroupId < b.provincesGroupId) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
+            console.log("test2: ", this.province);
           })
         this.spinner.hide();
       })

@@ -25,6 +25,9 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "FiscalYearNewId")]
         public long FiscalYearNewId { get; set; }
 
+        [JsonProperty(PropertyName = "TypeexaminationplanId")]
+        public long TypeexaminationplanId { get; set; }
+
         [JsonProperty(PropertyName = "Status")]
         public string Status { get; set; }
 

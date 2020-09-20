@@ -9,6 +9,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { IMyOptions } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-program-training',
@@ -73,8 +74,8 @@ export class ProgramTrainingComponent implements OnInit {
       mEnd: new FormControl(null, [Validators.required]),
       programtopic: new FormControl(null, [Validators.required]),
       programdetail: new FormControl(null, [Validators.required]),
-      programlocation: new FormControl(null,[Validators.required]),
-      programtodress: new FormControl(null,[Validators.required]),
+      programlocation: new FormControl(null, [Validators.required]),
+      programtodress: new FormControl(null, [Validators.required]),
       lecturername: new FormControl(null, [Validators.required]),
     })
     this.Formfile = this.fb.group({
@@ -290,5 +291,4 @@ export class ProgramTrainingComponent implements OnInit {
         })
     })
   }
-
 }

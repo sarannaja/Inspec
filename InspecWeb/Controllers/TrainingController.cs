@@ -519,6 +519,8 @@ namespace InspecWeb.Controllers
 
             var trainingdata = new TrainingRegister
             {
+                UserName = model.username,
+                ProvincialDepartmentId = model.departmentid,
                 TrainingId = model.trainingid,
                 Name = model.name,
                 Phone = model.phone,
@@ -526,7 +528,7 @@ namespace InspecWeb.Controllers
                 Position = model.position,
                 Department = model.department,
                 Status = 0,
-                UserId = "TEST",
+                UserId = model.userid,
                 UserType = 1,
                 Email = model.email,
                 CreatedAt = date,
@@ -1389,9 +1391,19 @@ namespace InspecWeb.Controllers
             return Ok(termsList);
         }
 
+        //GET api/Training/plan
+        [HttpGet("plan/{id}")]
+        public IActionResult Plan(long id)
+        {
+            var districtdata = _context.TrainingProgramLecturers
+                .Include(m => m.TrainingProgram)
+                .ThenInclude(m => m.TrainingPhase)
+                .Include(m => m.TrainingLecturer)
+                .Where(m => m.TrainingProgram.TrainingPhaseId == id);
 
+            return Ok(districtdata);
+
+        }
     }
-
-
 
 }

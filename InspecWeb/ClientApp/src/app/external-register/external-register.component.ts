@@ -55,6 +55,7 @@ export class ExternalRegisterComponent implements OnInit {
   imgprofileUrl: any;
   Startdate: any;
   Enddate: any;
+  date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
   //END name input
   datarole: any = [
     {
@@ -200,8 +201,9 @@ export class ExternalRegisterComponent implements OnInit {
   }
   //เพิ่ม user
   adduser(value) {
+    // alert(JSON.stringify(value.Startdate))
     //alert(1);
-    this.userService.addUser(value, this.addForm.value.files,11).subscribe(response => {
+    this.userService.addUser(value, this.addForm.value.files, 11).subscribe(response => {
       //alert(3);
       this.addForm.reset()
       // this.modalRef.hide()
@@ -227,8 +229,8 @@ export class ExternalRegisterComponent implements OnInit {
       SubdistrictId: new FormControl(null),
       DistrictId: new FormControl(null),
       files: new FormControl(null, [Validators.required]),
-      Startdate: new FormControl(null, [Validators.required]),
-      Enddate: new FormControl(null, [Validators.required]),
+      Startdate: new FormControl(this.date, [Validators.required]),
+      // Enddate: new FormControl(null, [Validators.required]),
     })
   }
 

@@ -108,6 +108,11 @@
                     </div>
                   </ng-template>
 
+                  <div class="form-group" *ngIf="submitted && t.at(i).invalid"
+                    [ngStyle]="submitted && t.at(i).invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณากรอกข้อมูลให้ครบถ้วน</div>
+                  </div>
+
                   <div class="col-12 col-xl-2" *ngIf="provincename[i] != null">
                     <div class="form-group">
                       <!-- {{provincename[i]}}

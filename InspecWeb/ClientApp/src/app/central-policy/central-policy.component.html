@@ -79,10 +79,11 @@
           <thead>
             <tr>
               <th width="5%">ที่</th>
-              <th windth="25%">แผนการตรวจราชการ</th>
-              <th width="20%">เรื่องที่ตรวจ(จำนวนหัวข้อ)</th>
+              <th windth="15%">แผนการตรวจราชการ</th>
+              <th width="15%">เรื่องที่ตรวจ(จำนวนหัวข้อ)</th>
               <th>ปี</th>
               <th width="10%">ระยะเวลาการตรวจ</th>
+              <th width="10%">ผู้สร้างแผน</th>
               <th width="10%">ปรับปรุงล่าสุด</th>
               <th *ngIf="role_id == 1">สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -91,7 +92,7 @@
           <tbody>
             <tr *ngFor="let item of resultcentralpolicy|sort:'desc':'id'; let i = index">
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ i + 1 }}</td>
-              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ item.type }}</td>
+              <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{ item.typeexaminationplan.name }}</td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
                 {{ item.title }}( {{item.count}} )</td>
               <!-- *ngIf="item.status == 'ใช้งานจริง';" -->
@@ -100,6 +101,16 @@
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
                 <div *ngFor="let item2 of item.centralPolicyDates;">{{ item2.startDate | thaidate: 'short' }} -
                   {{ item2.endDate | thaidate: 'short' }}</div>
+              </td>
+              <!-- <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">{{item.user.name}}</td> -->
+              <td>
+                <div>
+                    <label class="badge badge-secondary mr-1">{{item.user.ministries.name}}</label>
+                </div>
+                <div>
+                  <label class="badge badge-secondary mr-1">{{item.user.departments.name}}</label>
+              </div>
+            </td>
               <td (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
                 {{item.updateAt | thaidate: 'short'}}</td>
               <td *ngIf="item.status == 'ร่างกำหนดการ'  && role_id == 1"
