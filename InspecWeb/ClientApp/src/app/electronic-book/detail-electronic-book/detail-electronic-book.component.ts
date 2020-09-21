@@ -310,9 +310,16 @@ export class DetailElectronicBookComponent implements OnInit {
       console.log("sended: ", res);
       // for noti to province and provincialdepartment.
       // this.provinceId.forEach(element => {
-      //   this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, 1, element, 7, this.electId)
+      //   this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, element, element, 17, this.electId)
       //     .subscribe(response => {
-      //       console.log("Noti res: ", response);
+      //       console.log("Noti provice: ", response);
+      //     })
+      // });
+
+      // this.provincialDepartmentId.forEach(element => {
+      //   this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, element, element, 18, element)
+      //     .subscribe(response => {
+      //       console.log("Noti provice: ", response);
       //     })
       // });
 

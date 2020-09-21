@@ -17,15 +17,16 @@ export class TrainingLoginService {
     return this.http.get(this.url + "getTrainingByPhaseId/" + trainingPhaseId);
   }
 
-  signInTraining(trainingData, trainingPhaseId) {
+  signInTraining(trainingData, trainingPhaseId, trainingProgramLoginId) {
     console.log("Training Data: ", trainingData);
     console.log("Training PhaseId: ", trainingPhaseId);
 
     const formData = new FormData();
     formData.append('username', trainingData.username);
     formData.append('trainingPhaseId', trainingPhaseId);
+    formData.append('trainingProgramLoginId', trainingProgramLoginId);
 
     console.log('FORMDATA: ', formData);
-    return this.http.post(this.url + "trainingSignin", formData);
+    return this.http.post<any>(this.url + "trainingSignin", formData);
   }
 }

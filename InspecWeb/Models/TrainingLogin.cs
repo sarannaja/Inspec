@@ -29,5 +29,9 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? RegisterDate { get; set; }
 
+        [Required]
+        [Description("ช่วงการอบรม")]
+        public long TrainingProgramLoginId { get; set; }
+
     }
 }
