@@ -1,12 +1,12 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
       <li class="breadcrumb-item">
         <a [routerLink]="['/calendaruser']">ปฏิทินการตรวจราชการ</a>
       </li>
-      <li class="breadcrumb-item" (click)="back()"><a>กำหนดการตรวจราชการ</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">กำหนดการตรวจราชการ</a></li>
       <li class="breadcrumb-item active" aria-current="page">ตอบรับการตรวจ</li>
     </ol>
   </nav>
@@ -227,9 +227,9 @@
                     <div class="row" style="margin-left: 47px; margin-top: 10px;">
                       <h5>
                         <u style="margin-top: 20px;">หน่วยงานผู้ให้ข้อมูล</u>
-                        <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;"
-                          id="department{{i}}" data-toggle="collapse" [attr.data-target]="'#departments' + i"
-                          aria-expanded="false" aria-controls="departments"></i>
+                        <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;" id="department{{i}}"
+                          data-toggle="collapse" [attr.data-target]="'#departments' + i" aria-expanded="false"
+                          aria-controls="departments"></i>
                       </h5>
                       <div class="row" style="margin-left: 10px;">
                       </div>

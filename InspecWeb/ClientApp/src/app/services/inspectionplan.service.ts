@@ -157,6 +157,11 @@ export class InspectionplanService {
     return this.http.get<any[]>(this.url + 'getcentralpolicyeventdata/' + id)
   }
 
+  getCentralPolicyEvent(id): Observable<any[]> {
+    // return this.http.get<any[]>(this.url)
+    return this.http.get<any[]>(this.url + 'getcentralpolicyeventdataid/' + id)
+  }
+
   editcentralpolicy(ceneventid, startdate, enddate, value) {
     const formData = new FormData();
     formData.append('ceneventid', ceneventid);

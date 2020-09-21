@@ -390,6 +390,29 @@ namespace InspecWeb.Controllers
                 }
             }
 
+            //มอบหมาย
+            if (Status == 19)
+            {
+                var users = _context.Users
+                     .Where(m => m.Id == UserId).First();
+
+
+                System.Console.WriteLine("USERID : " + users.Id);
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = users.Id,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe,
+                });
+
+                _context.SaveChanges();
+
+            }
+
             return notificationdata;
         }
 

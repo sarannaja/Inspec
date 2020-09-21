@@ -370,10 +370,44 @@ namespace InspecWeb.Controllers {
         // DELETE api/values/5
         [HttpDelete ("deletecentralpolicyevent/{id}")]
         public void Deletecentralpolicyevent (long id) {
+            var group = _context.SubjectGroupPeopleQuestions.Where(p => p.CentralPolicyEventId == id).FirstOrDefault();
+            if(group != null)
+            {
+
+                //var subjectgroupdata = _context.SubjectGroups.Where(p => p.Id == group.SubjectGroupId).FirstOrDefault();
+
+                var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
+                    .Where(p => p.SubjectGroupId == group.SubjectGroupId).ToList();
+
+                foreach (var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
+                {
+                    var delsubjectCentralPolicyProvincesdata = _context.SubjectCentralPolicyProvinces.Find(SubjectCentralPolicyProvincesdata.Id);
+                    _context.SubjectCentralPolicyProvinces.Remove(delsubjectCentralPolicyProvincesdata);
+                    _context.SaveChanges();
+                }
+
+                var SubjectGroupPeopleQuestionsdata = _context.SubjectGroupPeopleQuestions.Find(group.Id);
+                _context.SubjectGroupPeopleQuestions.Remove(SubjectGroupPeopleQuestionsdata);
+                _context.SaveChanges();
+
+                var subject = _context.SubjectGroups.Find(group.SubjectGroupId);
+                _context.SubjectGroups.Remove(subject);
+                _context.SaveChanges();
+
+                var InspectionPlanEventsdata = _context.CentralPolicyEvents.Find(id);
+
+                _context.CentralPolicyEvents.Remove(InspectionPlanEventsdata);
+                _context.SaveChanges();
+
+    
+
+            } else { 
+
             var InspectionPlanEventsdata = _context.CentralPolicyEvents.Find (id);
 
             _context.CentralPolicyEvents.Remove (InspectionPlanEventsdata);
             _context.SaveChanges ();
+            }
         }
 
         // DELETE api/values/5
@@ -395,6 +429,17 @@ namespace InspecWeb.Controllers {
                 .FirstOrDefault ();
 
             return Ok (centralpolicydata);
+        }
+
+        // GET api/values/5
+        [HttpGet("getcentralpolicyeventdataid/{id}")]
+        public IActionResult Getcentralpolicyeventdataid(long id)
+        {
+            var centralpolicydata = _context.SubjectGroupPeopleQuestions
+                .Where(p => p.SubjectGroupId == id).FirstOrDefault();
+
+            var idid = centralpolicydata.CentralPolicyEventId;
+            return Ok(idid);
         }
 
         // POST api/values

@@ -280,7 +280,7 @@ export class UserCentralPolicyComponent implements OnInit {
 
       let CentralpolicyId2: any[] = this.resultcentralpolicy
       for (let i = 0; i < CentralpolicyId2.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId2[i].centralPolicyId, this.provinceid, value.UserId, 17, 1)
+        this.notificationService.addNotification(CentralpolicyId2[i].centralPolicyId, this.provinceid, value.UserId, 19, 1)
           .subscribe(response => {
             console.log(response);
           })

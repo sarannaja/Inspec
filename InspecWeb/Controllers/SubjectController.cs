@@ -2063,6 +2063,7 @@ namespace InspecWeb.Controllers
             {
                 Title = model.Title,
                 // Type = "อื่นๆ", comment ไว้ก่อนมันพัง
+                TypeexaminationplanId = 3,
                 FiscalYearNewId = year.Id,
                 Status = "ใช้งานจริง",
                 CreatedAt = date,
@@ -2194,20 +2195,26 @@ namespace InspecWeb.Controllers
         [HttpDelete("delsubjecteventnoland/{id}")]
         public void Delsubjecteventnoland(long id)
         {
+            var subjectgroupdata = _context.SubjectGroups.Where(p => p.Id == id).FirstOrDefault();
 
-            //var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
-            //    .Where(p => p.SubjectGroupId == id).ToList();
 
-            //foreach (var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
-            //{
-            //    var delsubjectCentralPolicyProvincesdata = _context.SubjectCentralPolicyProvinces.Find(id);
-            //    _context.SubjectCentralPolicyProvinces.Remove(delsubjectCentralPolicyProvincesdata);
-            //    _context.SaveChanges();
-            //}
+            var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
+                .Where(p => p.SubjectGroupId == id).ToList();
+
+            foreach (var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
+            {
+                var delsubjectCentralPolicyProvincesdata = _context.SubjectCentralPolicyProvinces.Find(SubjectCentralPolicyProvincesdata.Id);
+                _context.SubjectCentralPolicyProvinces.Remove(delsubjectCentralPolicyProvincesdata);
+                _context.SaveChanges();
+            }
 
             var subjectdata = _context.SubjectGroups.Find(id);
             _context.SubjectGroups.Remove(subjectdata);
             _context.SaveChanges();
+
+            
+
+
         }
     }
 }
