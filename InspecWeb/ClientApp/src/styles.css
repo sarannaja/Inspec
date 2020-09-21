@@ -2,6 +2,8 @@
 
 /* Provide sufficient contrast against white background */
 /* @import "./assets/fontend/css/style.css"; */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "./assets/fontend/fonts/flaticon/font/flaticon.css";
 a {

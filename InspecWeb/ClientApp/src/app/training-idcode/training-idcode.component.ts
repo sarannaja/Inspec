@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingService } from '../services/training.service';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-training-idcode',
@@ -32,7 +32,7 @@ export class TrainingIDCodeComponent implements OnInit {
     'Episode IX – The Rise of Skywalker'
   ];
 
- 
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -80,8 +80,10 @@ export class TrainingIDCodeComponent implements OnInit {
     })
   }
   drop(event: CdkDragDrop<string[]>) {
+    console.log(event);
+
     moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
   }
 
-  
+
 }
