@@ -29,26 +29,27 @@ export class NotificationService {
   getnotificationsdatastatus10(id: any): Observable<any> {
     return this.http.get<any>(this.url + 'getnotificationsdatastatus10/' + id)
   }
-  
+
   getnotificationsforexecutiveorderdata(id: any): Observable<any> {
     this.testLoop('getnotificationsforexecutiveorderdata')
     return this.http.get<any>(this.url + 'getnotificationsforexecutiveorder/' + id)
   }
-  
+
   addNotification(CentralPolicyId, ProvinceId, UserId, status, xe) {
+    // alert(status)
     this.testLoop('addNotification')
-    
+
     var formData = new FormData();
-    
+
     formData.append('CentralPolicyId', CentralPolicyId);
     formData.append('ProvinceId', ProvinceId);
     formData.append('UserId', UserId);
     formData.append('Status', status);
     formData.append('xe', xe);
-    
+
     return this.http.post(this.url, formData);
   }
-  
+
   updateNotification(id) {
     this.testLoop('updateNotification')
     const formData = new FormData();

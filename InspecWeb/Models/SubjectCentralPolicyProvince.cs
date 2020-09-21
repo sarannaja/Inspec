@@ -62,5 +62,8 @@ namespace InspecWeb.Models
         // public ICollection<ElectronicBookSuggestGroup> ElectronicBookSuggestGroups { get; set; }
         public ICollection<SubjectCentralPolicyProvinceFile> SubjectCentralPolicyProvinceFiles { get; set; }
         public ICollection<SuggestionSubject> SuggestionSubjects { get; set; }
+        public ICollection<AnswerSubquestionFile> AnswerSubquestionFiles { get; set; }
+        public ICollection<AnswerSubquestionStatus> AnswerSubquestionStatuses { get; set; }
+
     }
 }
