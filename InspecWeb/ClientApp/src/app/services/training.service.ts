@@ -141,34 +141,34 @@ export class TrainingService {
 
     const formData = new FormData();
 
-    if(trainingregisterlistData.approve1 == null){
+    if (trainingregisterlistData.approve1 == null) {
       trainingregisterlistData.approve1 = 0;
     }
-    if(trainingregisterlistData.approve2 == null){
+    if (trainingregisterlistData.approve2 == null) {
       trainingregisterlistData.approve2 = 0;
     }
-    if(trainingregisterlistData.approve3 == null){
+    if (trainingregisterlistData.approve3 == null) {
       trainingregisterlistData.approve3 = 0;
     }
-    if(trainingregisterlistData.approve4 == null){
+    if (trainingregisterlistData.approve4 == null) {
       trainingregisterlistData.approve4 = 0;
     }
-    if(trainingregisterlistData.approve5 == null){
+    if (trainingregisterlistData.approve5 == null) {
       trainingregisterlistData.approve5 = 0;
     }
-    if(trainingregisterlistData.approve6 == null){
+    if (trainingregisterlistData.approve6 == null) {
       trainingregisterlistData.approve6 = 0;
     }
-    if(trainingregisterlistData.approve7 == null){
+    if (trainingregisterlistData.approve7 == null) {
       trainingregisterlistData.approve7 = 0;
     }
-    if(trainingregisterlistData.approve8 == null){
+    if (trainingregisterlistData.approve8 == null) {
       trainingregisterlistData.approve8 = 0;
     }
-    if(trainingregisterlistData.approve9 == null){
+    if (trainingregisterlistData.approve9 == null) {
       trainingregisterlistData.approve9 = 0;
     }
-    if(trainingregisterlistData.approve10 == null){
+    if (trainingregisterlistData.approve10 == null) {
       trainingregisterlistData.approve10 = 0;
     }
 
@@ -476,6 +476,67 @@ export class TrainingService {
   getchecktrainingregister(id, userid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'checktrainingregister/' + id + '/' + userid)
   }
+
+
+  //Update Group
+  editRegisterGroup2(trainingregisterlistData, id) {
+
+    // alert(trainingregisterlistData.approve1)
+    console.log(trainingregisterlistData);
+
+    const formData = new FormData();
+
+    if (trainingregisterlistData.approve1 == null) {
+      trainingregisterlistData.approve1 = 0;
+    }
+    if (trainingregisterlistData.approve2 == null) {
+      trainingregisterlistData.approve2 = 0;
+    }
+    if (trainingregisterlistData.approve3 == null) {
+      trainingregisterlistData.approve3 = 0;
+    }
+    if (trainingregisterlistData.approve4 == null) {
+      trainingregisterlistData.approve4 = 0;
+    }
+    if (trainingregisterlistData.approve5 == null) {
+      trainingregisterlistData.approve5 = 0;
+    }
+    if (trainingregisterlistData.approve6 == null) {
+      trainingregisterlistData.approve6 = 0;
+    }
+    if (trainingregisterlistData.approve7 == null) {
+      trainingregisterlistData.approve7 = 0;
+    }
+    if (trainingregisterlistData.approve8 == null) {
+      trainingregisterlistData.approve8 = 0;
+    }
+    if (trainingregisterlistData.approve9 == null) {
+      trainingregisterlistData.approve9 = 0;
+    }
+    if (trainingregisterlistData.approve10 == null) {
+      trainingregisterlistData.approve10 = 0;
+    }
+
+    // alert(trainingregisterlistData.approve1)
+    formData.append('approve1', trainingregisterlistData.approve1);
+    formData.append('approve2', trainingregisterlistData.approve2);
+    formData.append('approve3', trainingregisterlistData.approve3);
+    formData.append('approve4', trainingregisterlistData.approve4);
+    formData.append('approve5', trainingregisterlistData.approve5);
+    formData.append('approve6', trainingregisterlistData.approve6);
+    formData.append('approve7', trainingregisterlistData.approve7);
+    formData.append('approve8', trainingregisterlistData.approve8);
+    formData.append('approve9', trainingregisterlistData.approve9);
+    formData.append('approve10', trainingregisterlistData.approve10);
+
+    for (var iii = 0; iii < id.length; iii++) {
+      formData.append("traningregisterid", id[iii]);
+    }
+
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'register2/group/', formData);
+  }
+
 }
 
 

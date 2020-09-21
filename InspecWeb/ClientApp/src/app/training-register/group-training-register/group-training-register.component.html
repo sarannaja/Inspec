@@ -124,13 +124,19 @@
 
 
 
-              <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th width="10%">
+                <button class="btn btn-sm btn-info" (click)="(openModal(modalApprove2))">จัดกลุ่ม</button>
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of resulttraining; let i = index">
               <td>{{ i + 1 }}</td>
-              <td class="ellipsis">{{ item.name }}</td>
+              <td class="ellipsis">
+
+                <input type="checkbox" (change)="addsPeople2(item.id)"> &nbsp;&nbsp;&nbsp;
+
+                {{ item.name }}</td>
               <!-- <td class="ellipsis">{{ item.createdAt | thaidate:'year'}}</td> -->
 
 
@@ -233,8 +239,7 @@
               <td>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                                 (click)="RegisterTraining()"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-edit pointer"
-                  (click)="openModal(modalApprove, item.id)"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-edit pointer" (click)="openModal(modalApprove, item.id)"></i>
               </td>
             </tr>
           </tbody>
@@ -402,4 +407,163 @@
   </ng-template>
   <!-- END primary modal -->
 
+
+   <!-- BEGIN primary modal -->
+   <ng-template #modalApprove2 class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="Form" (ngSubmit)="editRegisterList2(Form.value)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+
+
+          <table *ngIf="loading" class="table table-responsive-lg">
+            <thead>
+              <tr>
+                <th class="text-center">ช่วงที่</th>
+                <th class="text-center">จัดกลุ่ม</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resulttrainingPhasetable; let i = index">
+                <td class="text-center">{{ item.phaseNo }}</td>
+                <td class="text-center">
+                  <div class="form-group">
+                    <!-- <label for="test" class="form-label">จัดกลุ่ม</label> -->
+                    <select *ngIf="item.group == 1" class="form-control select2" data-toggle="select2"
+                      formControlName="approve1">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <!-- <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                      <option value=4>กลุ่ม 4</option>
+                      <option value=5>กลุ่ม 5</option>
+                      <option value=6>กลุ่ม 6</option>
+                      <option value=7>กลุ่ม 7</option>
+                      <option value=8>กลุ่ม 8</option>
+                      <option value=9>กลุ่ม 9</option>
+                      <option value=10>กลุ่ม 10</option> -->
+                    </select>
+
+                    <select *ngIf="item.group == 2" class="form-control select2" data-toggle="select2"
+                      formControlName="approve2">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                    </select>
+
+                    <select *ngIf="item.group == 3" class="form-control select2" data-toggle="select2"
+                      formControlName="approve3">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                    </select>
+
+
+                    <select *ngIf="item.group == 4" class="form-control select2" data-toggle="select2"
+                      formControlName="approve4">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                      <option value=4>กลุ่ม 4</option>
+                    </select>
+
+                    <select *ngIf="item.group == 5" class="form-control select2" data-toggle="select2"
+                      formControlName="approve5">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                      <option value=4>กลุ่ม 4</option>
+                      <option value=5>กลุ่ม 5</option>
+                    </select>
+
+
+                    <select *ngIf="item.group == 6" class="form-control select2" data-toggle="select2"
+                      formControlName="approve6">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                      <option value=4>กลุ่ม 4</option>
+                      <option value=5>กลุ่ม 5</option>
+                      <option value=6>กลุ่ม 6</option>
+                    </select>
+
+                    <select *ngIf="item.group == 7" class="form-control select2" data-toggle="select2"
+                      formControlName="approve7">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                      <option value=4>กลุ่ม 4</option>
+                      <option value=5>กลุ่ม 5</option>
+                      <option value=6>กลุ่ม 6</option>
+                      <option value=7>กลุ่ม 7</option>
+                    </select>
+                    <select *ngIf="item.group == 8" class="form-control select2" data-toggle="select2"
+                      formControlName="approve8">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                      <option value=4>กลุ่ม 4</option>
+                      <option value=5>กลุ่ม 5</option>
+                      <option value=6>กลุ่ม 6</option>
+                      <option value=7>กลุ่ม 7</option>
+                      <option value=8>กลุ่ม 8</option>
+                    </select>
+
+                    <select *ngIf="item.group == 9" class="form-control select2" data-toggle="select2"
+                      formControlName="approve9">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                      <option value=4>กลุ่ม 4</option>
+                      <option value=5>กลุ่ม 5</option>
+                      <option value=6>กลุ่ม 6</option>
+                      <option value=7>กลุ่ม 7</option>
+                      <option value=8>กลุ่ม 8</option>
+                      <option value=9>กลุ่ม 9
+                      <option>
+                    </select>
+
+                    <select *ngIf="item.group == 10" class="form-control select2" data-toggle="select2"
+                      formControlName="approve10">
+                      <option value=null>--กรุณาเลือกกลุ่ม--</option>
+                      <option value=1>กลุ่ม 1</option>
+                      <option value=2>กลุ่ม 2</option>
+                      <option value=3>กลุ่ม 3</option>
+                      <option value=4>กลุ่ม 4</option>
+                      <option value=5>กลุ่ม 5</option>
+                      <option value=6>กลุ่ม 6</option>
+                      <option value=7>กลุ่ม 7</option>
+                      <option value=8>กลุ่ม 8</option>
+                      <option value=10>กลุ่ม 10
+                      <option>
+
+                    </select>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+    </form>
+    <!-- </div> -->
+  </ng-template>
+  <!-- END primary modal -->
 </div>

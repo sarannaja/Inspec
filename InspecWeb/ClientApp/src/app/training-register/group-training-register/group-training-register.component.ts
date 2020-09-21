@@ -22,6 +22,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
   Form: any;
   resulttrainingPhase: any;
   resulttrainingPhasetable: any[] = []
+  people: any[] = []
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
@@ -135,6 +136,49 @@ export class GroupTrainingRegisterComponent implements OnInit {
       })
 
     })
+  }
+
+  editRegisterList2(value) {
+    // alert(JSON.stringify(value));
+    // console.clear();
+    // console.log("kkkk" + JSON.stringify(value));
+    this.trainingservice.editRegisterGroup2(value, this.people).subscribe(response => {
+      this.Form.reset()
+      this.modalRef.hide()
+      this.loading = false
+
+      this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(res => {
+        this.resulttraining = res.filter(result => {
+          return result.status == 1
+        })
+        this.loading = true
+        this.modalRef.hide()
+      })
+      this.people = []
+    })
+  }
+
+  addsPeople2(value) {
+    // //console.log('item.id');
+    // var subject = value.vaule
+    this.people = this.addPeople(this.people, value)
+    //console.log(this.people);
+  }
+
+  addPeople(array: any[], value) {
+    var distinctThings: any[] = array.filter(
+      (thing, i, arr) => arr.findIndex(t => t === value) === i
+    );
+    // //console.log('distinctThings', distinctThings);
+    if (distinctThings.length != 0) {
+      var s = new Set(array);
+      s.delete(value);
+      return Array.from(s);
+    } else {
+      var s = new Set(array);
+      s.add(value);
+      return Array.from(s);
+    }
   }
 
 }
