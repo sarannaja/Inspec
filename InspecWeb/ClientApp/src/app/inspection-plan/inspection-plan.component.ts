@@ -393,13 +393,42 @@ export class InspectionPlanComponent implements OnInit {
       console.log("Ministry: ", this.resultministrypeople);
       if (this.role_id == 3) {
         for (var i = 0; i < this.resultministrypeople.length; i++) {
-          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+
+          // alert(JSON.stringify(this.resultministrypeople[i].userRegion))
+
+          var userregion = "";
+          for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
+
+            if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+              this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+            }
+
+            if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
+              userregion += this.resultministrypeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
+            }
+          }
+
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
         }
       } else {
         for (var i = 0; i < this.resultministrypeople.length; i++) {
           var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           if (checked > 0) {
-            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+
+            var userregion = "";
+            for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
+              if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
+                userregion += this.resultministrypeople[i].userRegion[j].region.name
+              } else {
+                userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
+              }
+            }
+
+            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
           }
         }
       }
@@ -448,14 +477,41 @@ export class InspectionPlanComponent implements OnInit {
       this.resultdepartmentpeople = result // All
       if (this.role_id == 3) {
         for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+
+          var userregion = "";
+          for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+
+            if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+              this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+            }
+
+            if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+            }
+          }
+
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
         }
       } else {
         for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
           var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           if (checked > 0) {
             if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
-              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+
+              var userregion = "";
+              for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+                if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+                  userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+                } else {
+                  userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+                }
+              }
+
+              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
             }
           }
         }

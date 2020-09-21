@@ -35,11 +35,12 @@
           <button (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
             class="btn btn-danger">ปฏิเสธ</button>
           &nbsp;&nbsp;
-          <button *ngIf="role_id == 6 && ForwardName != 'ถูกมอบหมาย'" (click)="openModal(assignModal)" value="มอบหมาย"
-            class="btn btn-success">มอบหมาย</button>
 
-          <button *ngIf="role_id == 10 && ForwardName != 'ถูกมอบหมาย'" (click)="openModal(assigndepartModal)"
-            value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
+          <button *ngIf="role_id == 6 && ForwardName != 'ถูกมอบหมาย' && ForwardCount == 0"
+            (click)="openModal(assignModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
+
+          <button *ngIf="role_id == 10 && ForwardName != 'ถูกมอบหมาย' && ForwardCount == 0"
+            (click)="openModal(assigndepartModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
           <!-- <button *ngIf="role_id != 7 && role_id != 9 && ForwardName != 'ถูกมอบหมาย'" (click)="openModal(assignModal)" value="มอบหมาย"
             class="btn btn-success">มอบหมาย</button> -->
         </div>
@@ -51,8 +52,25 @@
             <button (click)="openModal2(changetoaccept,'ตอบรับ')" value="ปฏิเสธ" *ngIf="status == 'ปฏิเสธ'"
               style="margin-top: -10px;" type="button" class="btn btn-primary btn-xs">เปลี่ยนแปลงการตอบรับเชิญ</button>
             &nbsp;&nbsp;
-            <h4>สถานะ : {{status}}</h4>
+
+            <button *ngIf="role_id == 6 && ForwardName != 'ถูกมอบหมาย' && ForwardCount == 0"
+              (click)="openModal(assignModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
+
+            <button *ngIf="role_id == 10 && ForwardName != 'ถูกมอบหมาย'  && ForwardCount == 0"
+              (click)="openModal(assigndepartModal)" value="มอบหมาย" class="btn btn-success">มอบหมาย</button>
+
+            <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusacceptModal,'ตอบรับ')" value="ตอบรับ"
+              class="btn btn-primary">ตอบรับ</button>
+            &nbsp;&nbsp;
+            <button *ngIf="status == 'มอบหมาย'" (click)="openModal2(changestatusrefuseModal,'ปฏิเสธ')" value="ปฏิเสธ"
+              class="btn btn-danger">ปฏิเสธ</button>
+            &nbsp;&nbsp;
+
+            <h4>สถานะปัจจุบัน : {{status}}</h4>
           </div>
+
+
+
         </ng-template>
 
 
