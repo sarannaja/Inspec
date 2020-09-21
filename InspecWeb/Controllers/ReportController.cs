@@ -324,6 +324,7 @@ namespace InspecWeb.Controllers
                     .Include(m => m.User)
                     .ThenInclude(m => m.Province)
                     .Where(m => m.User.ProvincialDepartmentId == model.provincialDepartmentId)
+                    .Where(m => m.SubquestionCentralPolicyProvince.SubjectCentralPolicyProvince.SubjectGroupId == model.SubjectGroupId)
                     .ToList();
 
                 var regiondata = _context.FiscalYearRelations
@@ -1316,6 +1317,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.CentralPolicy)
                 .Include(m => m.CentralPolicyEventQuestion)
                 .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)         
                 .ThenInclude(m => m.Province)
                 .Where(m => m.UserId == model.userid)
                 .ToList();

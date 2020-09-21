@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -25,9 +23,9 @@
         [dtOptions]="dtOptions">
         <thead>
           <tr>
-            <th>ที่</th>
-            <th style="width: 50%;">หัวข้อการตรวจ</th>
-            <th>ระยะเวลา</th>
+            <th width="10%">ที่</th>
+            <th width="80%">หัวข้อการตรวจ</th>
+            <!-- <th>ระยะเวลา</th> -->
             <!-- <th>สถานะ</th> -->
             <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
@@ -51,11 +49,11 @@
 
               </div>
             </td>
-            <td>
+            <!-- <td>
               <div *ngFor="let item2 of item.subjectDateCentralPolicyProvinces;">
                 {{ item2.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
                 {{ item2.centralPolicyDateProvince.endDate | thaidate: 'year' }}</div>
-            </td>
+            </td> -->
             <!-- <td>{{item.status}}</td> -->
             <td>
               <i title="ตอบคำถามประเด็นนโยบายย่อย" class=" align-middle mr-2 fas fa-fw fa-pen pointer" (click)="Subjectdetail(item.id)"></i>

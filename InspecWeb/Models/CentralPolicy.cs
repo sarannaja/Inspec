@@ -22,6 +22,12 @@ namespace InspecWeb.Models
 
         public virtual FiscalYearNew FiscalYearNew { get; set; }
 
+        [ForeignKey("Typeexaminationplan")]
+        [Description("FK: ประเภทแผนการตรวจ")]
+        public long TypeexaminationplanId { get; set; }
+
+        public virtual Typeexaminationplan Typeexaminationplan { get; set; }
+
         //[ForeignKey("InspectionPlanEvent")]
         //[Description("FK: Event การตรวจ")]
         //public long InspectionPlanEventId { get; set; }
@@ -43,17 +49,18 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-        [Required]
+        [ForeignKey("User")]
         [Description("คนที่สร้างนโยบายกลาง")]
         public string CreatedBy { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         [Description("สถานะ")]
         public string Status { get; set; }
 
-        [Required]
-        [Description("ประเภท")]
-        public string Type { get; set; }
+        //[Required]
+        //[Description("ประเภท")]
+        //public string Type { get; set; }
 
         [Required]
         [Description("ประเภทหลัก 1.CentralPolicy 2.Inspectionplan")]

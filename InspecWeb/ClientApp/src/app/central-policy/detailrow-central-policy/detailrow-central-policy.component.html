@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -24,12 +22,18 @@
               <label>ปีงบประมาณ : {{resultdetailcentralpolicy.fiscalYearNew.year}}</label>
             </div>
             <div class="form-group col-6">
-              <label>ประเภทแผนการตรวจ : {{resultdetailcentralpolicy.type}}</label>
+              <label>ประเภทแผนการตรวจ : {{resultdetailcentralpolicy.typeexaminationplan.name}}</label>
             </div>
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>เรื่อง : {{resultdetailcentralpolicy.title}}</label>
+            </div>
+          </div>
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>ผู้สร้างแผน : {{resultdetailcentralpolicy.user.prefix}} {{resultdetailcentralpolicy.user.name}}
+                {{resultdetailcentralpolicy.user.ministries.name}} {{resultdetailcentralpolicy.user.departments.name}}</label>
             </div>
           </div>
           <div class="col-12 col-xl-12">

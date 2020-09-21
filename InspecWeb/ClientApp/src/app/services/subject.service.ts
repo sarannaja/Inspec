@@ -423,7 +423,7 @@ export class SubjectService {
   }
 
   getsubjectevent(id) {
-    return this.http.get(this.url + "getevent/" + id)
+    return this.http.get<any[]>(this.url + "getevent/" + id)
   }
 
   geteventfromcalendar(id): Observable<any> {

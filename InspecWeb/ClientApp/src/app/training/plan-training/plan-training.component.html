@@ -15,7 +15,8 @@
                 <h1 style="text-align: center;">
                     กำหนดการช่วงที่ {{resulttrainingplan[0].trainingProgram.trainingPhase.phaseNo}}
                 </h1>
-                <h3>ระหว่างวันที่ {{resulttrainingplan[0].trainingProgram.trainingPhase.startDate | thaidate:'year'}} -
+                <h3 *ngIf="loading">ระหว่างวันที่
+                    {{resulttrainingplan[0].trainingProgram.trainingPhase.startDate | thaidate:'year'}} -
                     {{resulttrainingplan[0].trainingProgram.trainingPhase.endDate | thaidate:'year'}}</h3>
                 <div class="float-right">
                     <button class="btn btn-primary" (click)="openModal(modalProgram)"
@@ -23,7 +24,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                <table *ngIf="loading" class="table table-bordered table-responsive-lg" datatable
                     [dtOptions]="dtOptions">
                     <thead>
                         <tr>
@@ -31,16 +32,34 @@
                             <th class="text-center">กิจกรรม</th>
                             <th class="text-center">วิทยากร</th>
                             <th class="text-center">สถานที่/เตรียมตัว</th>
+                            <!-- <th id="par" colspan="1" scope="colgroup">Paris</th> -->
                         </tr>
                     </thead>
+
                     <tbody>
-                        <tr *ngFor="let item of resulttrainingplan; let i = index">
-                            <td class="text-center">{{item.trainingProgram.minuteStartDate}}-{{item.trainingProgram.minuteEndDate}}
-                            </td>
-                            <td class="text-center">{{item.trainingProgram.programTopic}}</td>
-                            <td class="text-center">{{item.trainingLecturer.lecturerName}}</td>
-                            <td class="text-center">{{item.trainingProgram.programLocation}}/{{item.trainingProgram.programToDress}}</td>
-                        </tr>
+                        <!-- <caption>Delivery slots:</caption> -->
+                        <ng-container *ngFor="let item1 of chars|sort:'asc':'programDate';">
+                            <tr>
+                                <th id="{{item1.programDate}}" class="span" colspan="5" scope="colgroup">
+                                    {{item1.programDate|thaidate}}
+                                </th>
+                            </tr>
+                            <tr *ngFor="let item of item1.value |sort:'desc':'minuteStartDate'; let i = index">
+                                <td class="text-center" headers="{{item1.programDate}}">
+                                    {{item.trainingProgram.minuteStartDate}}-{{item.trainingProgram.minuteEndDate}}
+                                </td>
+                                <td class="text-center">{{item.trainingProgram.programTopic}}</td>
+                                <td class="text-center">{{item.trainingLecturer.lecturerName}}</td>
+                                <td class="text-center">
+                                    {{item.trainingProgram.programLocation}}/{{item.trainingProgram.programToDress}}
+                                </td>
+                            </tr>
+                        </ng-container>
+
+                        <ng-template>
+
+                        </ng-template>
+
                     </tbody>
                 </table>
 

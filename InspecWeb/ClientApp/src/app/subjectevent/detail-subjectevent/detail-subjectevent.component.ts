@@ -144,7 +144,13 @@ export class DetailSubjecteventComponent implements OnInit {
       { data: [2, 2], label: 'หน่วยงาน B', stack: 'a' },
     ]
   }
-
+  showChart: number[] = []
+  checkChart(id: number) { return (this.showChart.find(res => id == res) ? true : false) }
+  closeChart(id: number) {
+    var removeIndex = this.showChart.map(function (item) { return item }).indexOf(id);
+    console.log('removeIndex',removeIndex,'this.showChart.length',this.showChart.length);
+    this.showChart = this.showChart.splice(removeIndex, 1 );
+  }
   listfiles: any = [];
   fileData: any = [{ ebookFile: '', fileDescription: '' }];
 
@@ -192,7 +198,7 @@ export class DetailSubjecteventComponent implements OnInit {
           })
       })
 
-    console.log("ID: ", this.id);
+    //console.log("ID: ", this.id);
 
     this.FormQuestion = this.fb.group({
       // notificationdate: new FormControl(null, [Validators.required]),
@@ -341,7 +347,7 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   showGraph(item, id) {
-    console.log('id', id);
+    //console.log('id', id);
     var barchartAllset: any
     var dataE: Array<any> = item.subquestionChoiceCentralPolicyProvinces
       .map(element => console.log('element', this.chartLabel(element))
@@ -439,7 +445,7 @@ export class DetailSubjecteventComponent implements OnInit {
         label: item.provincialDepartment.name,
       }
     })
-    console.log("select", this.select);
+    //console.log("select", this.select);
     this.checkTypeReport = 0;
     this.modalRef = this.modalService.show(template);
   }
@@ -506,7 +512,7 @@ export class DetailSubjecteventComponent implements OnInit {
   getDetailCentralPolicyProvince() {
     this.centralpolicyservice.getdetailcentralpolicyprovincedata(this.id)
       .subscribe(result => {
-        console.log("123", result);
+        //console.log("123", result);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
         // this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
@@ -553,7 +559,7 @@ export class DetailSubjecteventComponent implements OnInit {
         //       data2 = data.map(result => {
         //         return result.name
         //       })
-        //       console.log("result", result);
+        //       //console.log("result", result);
 
         //       dataanswer2 = dataanswer.map(result => {
         //         return result.answer
@@ -569,11 +575,11 @@ export class DetailSubjecteventComponent implements OnInit {
         //       )
 
         //     })
-        //   console.log(this.subquestionChoice);
+        //   //console.log(this.subquestionChoice);
 
 
         // })
-        // console.log('subquestionChoice', this.subquestionChoice);
+        // //console.log('subquestionChoice', this.subquestionChoice);
         this.getCalendarFile();
       })
   }
@@ -583,7 +589,7 @@ export class DetailSubjecteventComponent implements OnInit {
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.subjectgroup = result.subjectgroup
 
-        console.log("this.subjectgroup", this.subjectgroup);
+        //console.log("this.subjectgroup", this.subjectgroup);
 
         this.notificationsubjectDate = this.time(this.subjectgroup.subjectNotificationDate)
         this.deadlinesubjectDate = this.time(this.subjectgroup.subjectDeadlineDate)
@@ -594,7 +600,7 @@ export class DetailSubjecteventComponent implements OnInit {
         // alert(JSON.stringify(this.resultdate))
         this.subjectgroupstatus = this.subjectgroup.status
         this.subjectgroupland = this.subjectgroup.land
-        console.log("result", result);
+        //console.log("result", result);
         // alert(JSON.stringify(this.subjectgroup.status))
         if (this.subjectgroup.suggestion != null) {
           this.form.patchValue({
@@ -612,11 +618,11 @@ export class DetailSubjecteventComponent implements OnInit {
         this.subjectgroup.answerRecommenDationInspectors.forEach(element => {
           test.push(element.user.provincialDepartments)
         });
-        // console.log("test: ", test);
+        // //console.log("test: ", test);
         this.answerRecommenDationInspectors = test.filter(
           (thing, i, arr) => arr.findIndex(t => t === thing) === i
         );
-        console.log("uniqueanswerRecommenDationInspectors: ", this.answerRecommenDationInspectors);
+        //console.log("uniqueanswerRecommenDationInspectors: ", this.answerRecommenDationInspectors);
 
         this.getquestion();
       })
@@ -676,17 +682,17 @@ export class DetailSubjecteventComponent implements OnInit {
     // if(value.status == "ใช้งานจริง"){
     //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
     //   .subscribe(response => {
-    //     console.log(response);
+    //     //console.log(response);
     //   })
     // }
     this.electronicBookService.addSubjectEventFile(value, this.form.value.files, this.subjectgroupid, this.id, this.form.value.signatureFiles).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.Form.reset()
 
       if (value.status == "ใช้งานจริง") {
         this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
           .subscribe(response => {
-            console.log(response);
+            //console.log(response);
           })
       }
       window.history.back();
@@ -703,7 +709,7 @@ export class DetailSubjecteventComponent implements OnInit {
     // alert(this.subjectid)
     this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
       this._NotofyService.onSuccess("เพื่มข้อมูล",)
-      console.log(value);
+      //console.log(value);
       this.Form2.reset()
       this.modalRef.hide()
       this.getsubjecteventDetail();
@@ -713,7 +719,7 @@ export class DetailSubjecteventComponent implements OnInit {
   storepeopleanswer(value) {
     let UserPeopleanswerId: any[] = value.peopleanswer
     this.centralpolicyservice.addPeopleAnswer(value, this.subjectid).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.Form3.reset()
       this.modalRef.hide()
 
@@ -721,7 +727,7 @@ export class DetailSubjecteventComponent implements OnInit {
       for (let i = 0; i < UserPeopleanswerId.length; i++) {
         this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1)
           .subscribe(response => {
-            console.log(response);
+            //console.log(response);
 
           })
       }
@@ -733,7 +739,7 @@ export class DetailSubjecteventComponent implements OnInit {
   editsubquestionclose(value, id) {
     this.subjectservice.editsubquestionprovince(value, id).subscribe(response => {
       this._NotofyService.onSuccess("แก้ไขข้อมูล",)
-      console.log(value);
+      //console.log(value);
       this.EditForm.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
@@ -746,7 +752,7 @@ export class DetailSubjecteventComponent implements OnInit {
   editsubquestionclosechoice(value, id) {
     this.subjectservice.editsubquestionchoiceprovince(value, id).subscribe(response => {
       this._NotofyService.onSuccess("แก้ไขข้อมูล",)
-      console.log(value);
+      //console.log(value);
       this.EditForm2.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
@@ -758,7 +764,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editsubject(value, id) {
     this.subjectservice.editsubjectchoiceprovince(value, id).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.EditForm3.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
@@ -770,7 +776,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editsubjectquestionopen(value, id) {
     this.subjectservice.editsubjectquestionopenchoiceprovince(value, id).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.EditForm4.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
@@ -782,7 +788,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editAnswer(value, id) {
     this.subjectservice.editAnswer(value, id).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.editAnswerForm.reset()
       this.modalRef.hide()
       this.getDetailCentralPolicyProvince();
@@ -801,8 +807,8 @@ export class DetailSubjecteventComponent implements OnInit {
   // async getRecycledMinistryPeople() {
   //   this.selectdataministrypeople = []
   //   this.ministryPeople = this.allMinistryPeople
-  //   console.log("MINISTRY: ", this.ministryPeople);
-  //   console.log("allMinistry: ", this.resultministrypeople);
+  //   //console.log("MINISTRY: ", this.ministryPeople);
+  //   //console.log("allMinistry: ", this.resultministrypeople);
   //   if (this.ministryPeople.length == 0) {
   //     for (var i = 0; i < this.resultministrypeople.length; i++) {
   //       await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].name })
@@ -821,7 +827,7 @@ export class DetailSubjecteventComponent implements OnInit {
   //       }
   //     }
   //   }
-  //   // console.log("TEST: ", this.selectdataministrypeople);
+  //   // //console.log("TEST: ", this.selectdataministrypeople);
   // }
 
   // async getUserPeople() {
@@ -829,7 +835,7 @@ export class DetailSubjecteventComponent implements OnInit {
   //     // alert(JSON.stringify(result))
   //     this.resultpeople = result
   //     // alert(JSON.stringify(this.resultpeople))
-  //     console.log("tttt:", this.resultpeople);
+  //     //console.log("tttt:", this.resultpeople);
 
   //   })
   // }
@@ -839,8 +845,8 @@ export class DetailSubjecteventComponent implements OnInit {
   //   test = this.resultpeople;
   //   this.selectdatapeople = []
   //   this.userPeople = this.allUserPeople
-  //   console.log("user: ", this.userPeople);
-  //   console.log("allUser: ", this.resultpeople);
+  //   //console.log("user: ", this.userPeople);
+  //   //console.log("allUser: ", this.resultpeople);
 
   //   if (this.userPeople.length == 0) {
   //     for (var i = 0; i < this.resultpeople.length; i++) {
@@ -860,7 +866,7 @@ export class DetailSubjecteventComponent implements OnInit {
   //       }
   //     }
   //   }
-  //   console.log("TEST: ", this.selectdatapeople);
+  //   //console.log("TEST: ", this.selectdatapeople);
   // }
 
   uploadFile(event) {
@@ -870,7 +876,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.form.patchValue({
       files: file
     });
-    console.log("fff:", this.form.value.files)
+    //console.log("fff:", this.form.value.files)
     this.form.get('files').updateValueAndValidity()
   }
 
@@ -883,15 +889,15 @@ export class DetailSubjecteventComponent implements OnInit {
         fileDescription: '',
       }))
     }
-    console.log("listfiles: ", this.form.value);
-    console.log("eiei: ", this.s.controls);
+    //console.log("listfiles: ", this.form.value);
+    //console.log("eiei: ", this.s.controls);
 
 
     this.form.patchValue({
       files: this.listfiles
     });
 
-    // console.log("listfiles", this.Formfile.get('files'));
+    // //console.log("listfiles", this.Formfile.get('files'));
     // this.Formfile.get('files').updateValueAndValidity()
   }
 
@@ -899,7 +905,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.electronicBookService.getSubjectEventFile(this.subjectgroupid, this.id).subscribe(res => {
       this.carlendarFile = res.carlendarFile;
       this.signatureFile = res.signatureFile;
-      console.log("calendarFile: ", res);
+      //console.log("calendarFile: ", res);
 
     })
   }
@@ -907,7 +913,7 @@ export class DetailSubjecteventComponent implements OnInit {
   deleteProvinceial(value) {
     this.subjectservice.deleteProvincial(value).subscribe(response => {
       this._NotofyService.onSuccess("ลบข้อมูล",)
-      console.log(value);
+      //console.log(value);
       this.modalRef.hide()
       this.loading = false
 
@@ -918,7 +924,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   deletepeopleanswer(value) {
     this.subjectservice.deletePeopleanswer(value).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.modalRef.hide()
       this.loading = false
 
@@ -949,7 +955,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   deletesubject(value) {
     this.subjectservice.deletesubjectrole3(value).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.modalRef.hide()
       this.loading = false
       this.getDetailCentralPolicyProvince();
@@ -959,7 +965,7 @@ export class DetailSubjecteventComponent implements OnInit {
   deletequestion(value) {
     this.subjectservice.deletequestionrole3(value).subscribe(response => {
       this._NotofyService.onSuccess("ลบข้อมูล",)
-      console.log(value);
+      //console.log(value);
       this.modalRef.hide()
       this.loading = false
       this.getsubjecteventDetail();
@@ -968,7 +974,7 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   deleteoption(value) {
     this.subjectservice.deleteoptionrole3(value).subscribe(response => {
-      console.log(value);
+      //console.log(value);
       this.modalRef.hide()
       this.loading = false
       this.getDetailCentralPolicyProvince();
@@ -984,14 +990,14 @@ export class DetailSubjecteventComponent implements OnInit {
             label: item.name,
           }
         })
-        console.log(result);
+        //console.log(result);
       })
   }
 
   getAnswer2() {
     this.centralpolicyservice.getAnswer(this.id).subscribe(res => {
       this.answerData = res;
-      console.log("answer: ", this.answerData);
+      //console.log("answer: ", this.answerData);
     })
   }
 
@@ -1004,7 +1010,7 @@ export class DetailSubjecteventComponent implements OnInit {
     this.fileType = type;
   }
   openAddModalQuestionsclose(template: TemplateRef<any>, subjectid) {
-    console.log("subjectid:", subjectid);
+    //console.log("subjectid:", subjectid);
     this.modalRef = this.modalService.show(template);
     this.FormAddQuestionsclose = this.fb.group({
       subjectId: subjectid,
@@ -1028,7 +1034,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
       this.departmentSelect = this.department;
 
-      console.log("subjectid:", subjectid);
+      //console.log("subjectid:", subjectid);
 
       this.FormSubject = this.fb.group({
         DepartmentId: new FormControl(null, [Validators.required]),
@@ -1056,7 +1062,7 @@ export class DetailSubjecteventComponent implements OnInit {
         }
       })
 
-      console.log(this.department);
+      //console.log(this.department);
       var data: any[] = departmentSelected.map(result => {
         return result.provincialDepartment.id
       })
@@ -1065,7 +1071,7 @@ export class DetailSubjecteventComponent implements OnInit {
         data, v.value
       ))
 
-      console.log("subjectid:", subjectid);
+      //console.log("subjectid:", subjectid);
 
       this.FormSubject = this.fb.group({
         DepartmentId: new FormControl(null, [Validators.required]),
@@ -1101,9 +1107,9 @@ export class DetailSubjecteventComponent implements OnInit {
       this.departmentSelect = _.filter(this.department, (v) => !_.includes(
         data, v.value
       ))
-      console.log("this.department", this.department);
-      console.log("departmentSelected", departmentSelected);
-      console.log("departmentSelect", this.departmentSelect);
+      //console.log("this.department", this.department);
+      //console.log("departmentSelected", departmentSelected);
+      //console.log("departmentSelect", this.departmentSelect);
 
       this.modalRef = this.modalService.show(template);
     })
@@ -1131,10 +1137,10 @@ export class DetailSubjecteventComponent implements OnInit {
     control.removeAt(index);
   }
   AddQuestionsclose(value) {
-    console.log(value);
+    //console.log(value);
     this.subquestionservice.addSubquestioncloseevent(value).subscribe(result => {
       this._NotofyService.onSuccess("เพื่มข้อมูล",)
-      console.log(result);
+      //console.log(result);
       this.FormAddQuestionsclose.reset()
       this.modalRef.hide()
       this.getsubjecteventDetail()
@@ -1144,7 +1150,7 @@ export class DetailSubjecteventComponent implements OnInit {
   storeSubject(value) {
     // alert("123")
     // this.spinner.show();
-    console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
+    //console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
     this.subjectservice.addSubjectRole3(value).subscribe(response => {
       this._NotofyService.onSuccess("เพื่มข้อมูล",)
       this.AddForm.reset();
@@ -1155,13 +1161,13 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   storeReport() {
     this.reportservice.createReportSubject(this.resultdetailcentralpolicy, this.resultdetailcentralpolicyprovince).subscribe(result => {
-      console.log("export: ", result);
+      //console.log("export: ", result);
       window.open(this.downloadUrl + "/" + result.data);
       // this.modalRef.hide();
     })
   }
   storeReportPerformance(value) {
-    console.log(value);
+    //console.log(value);
     this.reportservice.createReporttype1(value).subscribe(result => {
       this.FormQuestion.reset();
       this.modalRef.hide();
@@ -1169,7 +1175,7 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   storeReportPerformance2() {
-    console.log(this.provinceid);
+    //console.log(this.provinceid);
     this.reportservice.createReporttype2(this.FormReport.value, this.provinceid, this.id, this.subjectgroupid).subscribe(result => {
       this.FormQuestion.reset();
       this.modalRef.hide();
@@ -1197,7 +1203,7 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   storeReportComment(value) {
-    console.log(value);
+    //console.log(value);
     this.reportservice.createReportCommenttype1(value).subscribe(result => {
       window.open(this.downloadUrl + "/" + result.data);
     })
@@ -1228,13 +1234,13 @@ export class DetailSubjecteventComponent implements OnInit {
           label: item.user.name,
         }
       })
-      console.log("question: ", this.questionpeople);
-      console.log("test", this.answerpeople);
+      //console.log("question: ", this.questionpeople);
+      //console.log("test", this.answerpeople);
     })
   }
 
   time(date) {
-    console.log("Date: ", date);
+    //console.log("Date: ", date);
 
     let ssss = new Date(date)
     var new_date = {
@@ -1242,7 +1248,7 @@ export class DetailSubjecteventComponent implements OnInit {
       month: ssss.getMonth() + 1,
       day: ssss.getDate()
     }
-    console.log("newDate: ", new_date);
+    //console.log("newDate: ", new_date);
 
     return new_date
   }
@@ -1251,25 +1257,25 @@ export class DetailSubjecteventComponent implements OnInit {
     // alert(JSON.stringify(event))
     this.notificationsubjectDate = event.date;
     // this.notificationpeoplequestionDate = event.date;
-    // console.log("SS: ", this.startDate);
+    // //console.log("SS: ", this.startDate);
   }
   onStartDateChanged2(event: IMyDateModel) {
     // alert(JSON.stringify(event))
     // this.notificationsubjectDate = event.date;
     this.notificationpeoplequestionDate = event.date;
-    // console.log("SS: ", this.startDate);
+    // //console.log("SS: ", this.startDate);
   }
 
   onEndDateChanged(event: IMyDateModel) {
     // alert(JSON.stringify(event))]
     this.deadlinesubjectDate = event.date;
     // this.deadlinepeoplequestionDate = event.date;
-    // console.log("EE: ", this.endDate);
+    // //console.log("EE: ", this.endDate);
   }
   onEndDateChanged2(event: IMyDateModel) {
     // alert(JSON.stringify(event))]
     // this.deadlinesubjectDate = event.date;
     this.deadlinepeoplequestionDate = event.date;
-    // console.log("EE: ", this.endDate);
+    // //console.log("EE: ", this.endDate);
   }
 }

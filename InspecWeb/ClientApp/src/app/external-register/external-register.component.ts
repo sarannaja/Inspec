@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service'; // ผู้ใช้
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subscription } from 'rxjs/internal/Subscription';
 import { IMyOptions } from 'mydatepicker-th';
+import { DepartmentService } from '../services/department.service';
 
 @Component({
   selector: 'app-external-register',
@@ -56,6 +57,7 @@ export class ExternalRegisterComponent implements OnInit {
   Startdate: any;
   Enddate: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
+  selectdataprovincialdepartment: Array<any>
   //END name input
   datarole: any = [
     {
@@ -96,16 +98,16 @@ export class ExternalRegisterComponent implements OnInit {
     },
 
   ]
-  datadeparment: any = [
-    {
-      id: 1,
-      name: 'กองทัพไทย'
-    },
-    {
-      id: 2,
-      name: 'สำนักงานรัฐมนตรีกระทรวงการคลัง'
-    },
-  ]
+  // datadeparment: any = [
+  //   {
+  //     id: 1,
+  //     name: 'กองทัพไทย'
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'สำนักงานรัฐมนตรีกระทรวงการคลัง'
+  //   },
+  // ]
 
   constructor(
     private modalService: BsModalService,
@@ -117,6 +119,7 @@ export class ExternalRegisterComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private spinner: NgxSpinnerService,
+    private departmentService: DepartmentService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.subscription = this.userService.getUserNav()
@@ -151,9 +154,9 @@ export class ExternalRegisterComponent implements OnInit {
     this.selectdatarole = this.datarole.map((item, index) => {
       return { value: item.id, label: item.name }
     })
-    this.selectdatadeparment = this.datadeparment.map((item, index) => {
-      return { value: item.id, label: item.name }
-    })
+    // this.selectdatadeparment = this.datadeparment.map((item, index) => {
+    //   return { value: item.id, label: item.name }
+    // })
 
   }
 
@@ -201,6 +204,8 @@ export class ExternalRegisterComponent implements OnInit {
   }
   //เพิ่ม user
   adduser(value) {
+    console.log(value);
+
     // alert(JSON.stringify(value.Startdate))
     //alert(1);
     this.userService.addUser(value, this.addForm.value.files, 11).subscribe(response => {
@@ -238,4 +243,23 @@ export class ExternalRegisterComponent implements OnInit {
     window.history.back()
   }
 
+  getDataDepartments(event) {
+    this.departmentService.getdepartmentsforuserdata(event.value)
+      .subscribe(result => {
+        //   console.log('result', result);
+
+        this.selectdatadeparment = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      })
+  }
+
+  getProvincialDepartments(event) {
+    this.userService.getprovincialdepartment(event.value)
+      .subscribe(result => {
+        this.selectdataprovincialdepartment = result.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      })
+  }
 }

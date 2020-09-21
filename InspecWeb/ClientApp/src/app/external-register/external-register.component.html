@@ -53,39 +53,49 @@
 
           <div class="container col-10 rounded-lg border">
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label>เขตตรวจราชการ*</label>
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ" [multiple]="true"   [items]="selectdataregion"
                 name="UserRegion" formControlName="UserRegion"  >
               </ng-select>
-            </div>
-
+            </div> -->
+            <br>
             <div class="form-group">
               <label>กระทรวง*</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง" formControlName="MinistryId"   [items]="selectdataministry"
-                 >
+              <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกระทรวง"
+                formControlName="MinistryId" [items]="selectdataministry">
+              </ng-select> -->
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กระทรวง"
+                formControlName="MinistryId" [items]="selectdataministry" (change)="getDataDepartments($event)">
               </ng-select>
             </div>
 
             <div class="form-group">
               <label>หน่วยงาน/กรม</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม" formControlName="DepartmentId"
-                  [items]="selectdatadeparment"  >
+              <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม"
+                formControlName="DepartmentId" [items]="selectdatadeparment">
+              </ng-select> -->
+
+
+
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน/กรม"
+                formControlName="DepartmentId" [items]="selectdatadeparment"
+                (change)="getProvincialDepartments($event)">
               </ng-select>
             </div>
 
             <div class="form-group">
               <label>หน่วยงานภูมิภาค</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค" formControlName="DepartmentId"
-                  [items]="selectdatadeparment"  >
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงานภูมิภาค"
+                formControlName="ProvincialDepartmentId" [items]="selectdataprovincialdepartment">
               </ng-select>
             </div>
 
             <div class="form-group">
               <!-- จังหวัดหลายอัน -->
               <label>จังหวัด*</label>
-              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="UserProvince"   [items]="selectdataprovince"
-                 >
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด"
+                formControlName="UserProvince" [items]="selectdataprovince">
               </ng-select>
             </div>
 
