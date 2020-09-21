@@ -22,6 +22,12 @@ namespace InspecWeb.Models
 
         public virtual FiscalYearNew FiscalYearNew { get; set; }
 
+        [ForeignKey("Typeexaminationplan")]
+        [Description("FK: ประเภทแผนการตรวจ")]
+        public long TypeexaminationplanId { get; set; }
+
+        public virtual Typeexaminationplan Typeexaminationplan { get; set; }
+
         //[ForeignKey("InspectionPlanEvent")]
         //[Description("FK: Event การตรวจ")]
         //public long InspectionPlanEventId { get; set; }
@@ -43,17 +49,18 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
-        [Required]
+        [ForeignKey("User")]
         [Description("คนที่สร้างนโยบายกลาง")]
         public string CreatedBy { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         [Description("สถานะ")]
         public string Status { get; set; }
 
-        [Required]
-        [Description("ประเภท")]
-        public string Type { get; set; }
+        //[Required]
+        //[Description("ประเภท")]
+        //public string Type { get; set; }
 
         [Required]
         [Description("ประเภทหลัก 1.CentralPolicy 2.Inspectionplan")]
@@ -68,7 +75,7 @@ namespace InspecWeb.Models
         public ICollection<CentralPolicyUser> CentralPolicyUser { get; set; }
         public ICollection<CentralPolicyDate> CentralPolicyDates { get; set; }
         public ICollection<CentralPolicyProvince> CentralPolicyProvinces { get; set; }
-        public ICollection<SubjectGroup> SubjectGroups { get; set; }
+        //public ICollection<SubjectGroup> SubjectGroups { get; set; }
         public ICollection<CentralPolicyEvent> CentralPolicyEvents { get; set; }
         //public ICollection<ExecutiveOrder> ExecutiveOrders { get; set; }
         //public ICollection<RequestOrder> RequestOrders { get; set; }

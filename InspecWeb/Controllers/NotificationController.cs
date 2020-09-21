@@ -99,7 +99,7 @@ namespace InspecWeb.Controllers
                 var users = _context.UserProvinces
                .Include(m => m.User)
                .Where(m => m.ProvinceId == ProvinceId)
-               .Where(m => m.User.Role_id == 9 || m.User.Role_id == 5)
+               .Where(m => m.User.Role_id == 9 || m.User.Role_id == 5 || m.User.Role_id == 7)
                .ToList();
 
                 foreach (var item in users)
@@ -330,6 +330,29 @@ namespace InspecWeb.Controllers
 
                     _context.SaveChanges();
                 }
+            }
+
+            //มอบหมาย
+            if (Status == 17)
+            {
+                var users = _context.Users
+                     .Where(m => m.Id == UserId).First();
+
+       
+                    System.Console.WriteLine("USERID : " + users.Id);
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = users.Id,
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe,
+                    });
+
+                    _context.SaveChanges();
+                
             }
 
             return notificationdata;

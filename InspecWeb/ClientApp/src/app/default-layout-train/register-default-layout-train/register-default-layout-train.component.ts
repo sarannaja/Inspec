@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-
+import { NotofyService } from 'src/app/services/notofy.service';
 @Component({
   selector: 'app-register-default-layout-train',
   templateUrl: './register-default-layout-train.component.html',
@@ -51,6 +51,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
   department
   username
   departmentid
+  check: any
   // constructor() { }
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -60,6 +61,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
     public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     this.downloadUrl = baseUrl + 'Uploads'
@@ -89,6 +91,20 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
     // };
     this.getuserinfo();
+
+    // alert(this.userid)
+    // alert(this.trainingid)
+    this.trainingservice.getchecktrainingregister(this.trainingid, this.userid)
+      .subscribe(result => {
+        this.check = result
+
+        if (this.check == true) {
+          this.router.navigate(['/train/']);
+          this._NotofyService.onError("สมัครแล้ว")
+        }
+      })
+
+
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       cardid: new FormControl(null, [Validators.required]),

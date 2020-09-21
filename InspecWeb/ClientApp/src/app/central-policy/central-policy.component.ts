@@ -59,13 +59,14 @@ export class CentralPolicyComponent implements OnInit {
               pagingType: 'full_numbers',
               columnDefs: [
                 {
-                  targets: [7],
+                  targets: [8],
                   orderable: false
                 }
               ],
               "language": {
                 "lengthMenu": "แสดง  _MENU_  รายการ",
                 "search": "ค้นหา:",
+                "infoFiltered": "ไม่พบข้อมูล",
                 "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
                 "infoEmpty": "แสดง 0 ของ 0 รายการ",
                 "zeroRecords": "ไม่พบข้อมูล",
@@ -85,7 +86,7 @@ export class CentralPolicyComponent implements OnInit {
               pagingType: 'full_numbers',
               columnDefs: [
                 {
-                  targets: [6],
+                  targets: [7],
                   orderable: false
                 }
               ],

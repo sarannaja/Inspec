@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -34,7 +32,7 @@
         <tbody>
           <tr *ngFor="let item of resultuserdetail; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ item.centralPolicy.type }}</td>
+            <td>{{item.centralPolicy.typeexaminationplan.name}}</td>
             <td>{{ item.centralPolicy.title }}</td>
             <td>
               <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="Subjectlist(item.centralPolicyId,item.provinceId)"></i> -->

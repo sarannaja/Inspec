@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
@@ -259,10 +257,13 @@
                           style="margin-left: 20px; font-size: small;"
                           class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
                         </button> -->
-                        <button *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="btn btn-danger" id="graph{{i}}"
+                        <!-- <button *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="btn btn-danger" id="graph{{i}}"
                           data-toggle="collapse" type="button" [attr.data-target]="'#graphs' + i" aria-expanded="false"
                           aria-controls="graphs" style="margin-left: 20px; font-size: small;">แสดงกราฟ
-                          <!-- <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i> -->
+                        </button> -->
+                        <button *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="btn btn-danger" type="button"
+                          (click)="checkChart(item.id)? closeChart(item.id): showChart.push(item.id)"
+                          style="margin-left: 20px; font-size: small;">{{checkChart(item.id)? 'ย่อกราฟ':'แสดงกราฟ'}}
                         </button>
                         <!-- <button (click)="showGraph(item,item.id)">
                           กราฟคำตอบปลายปิด
@@ -345,14 +346,22 @@
                       </div>
                       <div class="col-12">
                         <div class="row">
-                          <div class="collapse col-9" id="graphs{{i}}" style="margin-left: 10px; margin-top: 5px;">
+                          <ng-container *ngIf="checkChart(item.id)">
+                            <app-subject-detail-chart [subjectCenProG]="item">
+
+                            </app-subject-detail-chart>
+                          </ng-container>
+
+                          <!-- <div class="collapse col-9" id="graphs{{i}}" style="margin-left: 10px; margin-top: 5px;">
                             <div class="chartjs-container">
                               <canvas baseChart [datasets]="barchartAllset.barChartData" [labels]="barchartAllset.label"
                                 [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend"
                                 [chartType]="barChartType">
                               </canvas>
                             </div>
-                          </div>
+
+
+                          </div> -->
                           <!-- <div class="collapse col-1" id="test{{i}}">
                             <i class="align-middle mr-2 fas fa-fw fa-pen pointer" style="padding-top: 10px;"></i>
                           </div> -->
@@ -559,6 +568,12 @@
               </div>
             </div>
           </div> -->
+
+          <div class="form-group" *ngIf="submitted"
+            [ngStyle]="submitted ? {color: '#dc3545'}:{color: ''} ">
+            <div style="font-size: 22px;">*กรุณาเลือกวันแจ้งเตือนและวันกำหนดส่งให้ครบถ้วน</div>
+          </div>
+
           <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
             <button *ngIf="subjectgroupstatus != 'ใช้งานจริง'" style="align-self: center;" type="submit"
               class="btn btn-primary" style="margin-right: 45px;">บันทึก</button>
@@ -1163,7 +1178,7 @@
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">รยงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
+      <h5 class="modal-title">รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
       <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>

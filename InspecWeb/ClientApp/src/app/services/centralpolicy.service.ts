@@ -60,7 +60,7 @@ export class CentralpolicyService {
     const formData = new FormData();
     formData.append('UserID', userid);
     formData.append('Title', centralpolicyData.title);
-    formData.append('Type', centralpolicyData.type);
+    formData.append('TypeexaminationplanId', centralpolicyData.type);
     for (var i = 0; i < centralpolicyData.ProvinceId.length; i++) {
       formData.append('ProvinceId', centralpolicyData.ProvinceId[i]);
     }
@@ -157,7 +157,7 @@ export class CentralpolicyService {
 
     const formData = new FormData();
     formData.append('Title', centralpolicyData.title);
-    formData.append('Type', centralpolicyData.type);
+    formData.append('TypeexaminationplanId', centralpolicyData.type);
 
     for (var i = 0; i < centralpolicyData.ProvinceId.length; i++) {
       formData.append('ProvinceId', centralpolicyData.ProvinceId[i]);
@@ -456,6 +456,12 @@ export class CentralpolicyService {
 
   getcentralpolicyprovincialdepartmentdata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "provincialdepartment/" + id);
+  }
+
+
+  getSubjectgroupidfromplanid(cenproid, planid): Observable<any> {
+    // alert('hi')
+    return this.http.get<any>(this.url + "getSubjectgroupidfromplanid/" + cenproid + "/" + planid)
   }
 
 }

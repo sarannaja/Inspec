@@ -725,7 +725,7 @@ namespace InspecWeb.Data.Seeders
                    {
                        Id = 72,
                        SectorId = 1,
-                       ProvincesGroupId = 3,
+                       ProvincesGroupId = 2,
                        Name = "อ่างทอง",
                        NameEN = "angthong",
                        ShortnameEN = "atg",

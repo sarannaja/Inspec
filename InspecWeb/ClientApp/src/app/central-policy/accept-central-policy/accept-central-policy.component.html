@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
@@ -205,6 +203,119 @@
             </div>
           </div>
         </div>
+
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-12">
+            <table class="table table-default table-responsive-sm tableborder">
+              <tbody *ngFor="let items of resultdetailcentralpolicyprovince;let i = index">
+                <tr>
+                  <div class="" style="margin-top: 10px;">
+                    <td style="border-top: none; width: 1%;">
+                      <div class="row">
+                        <i class="fa fa-tags" style="margin-top: 5px;"></i>
+                        <h4 style="margin-left: 15px;">ประเด็นการตรวจติดตาม</h4>
+                      </div>
+
+                      <div class="row" style="margin-top: 10px;">
+                        <div class="col-10" style="margin-left: 35px;">
+                          <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                            readonly>
+                        </div>
+                      </div>
+                    </td>
+                    <div class="row" style="margin-left: 47px; margin-top: 10px;">
+                      <h5>
+                        <u style="margin-top: 20px;">หน่วยงานผู้ให้ข้อมูล</u>
+                        <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;"
+                          id="department{{i}}" data-toggle="collapse" [attr.data-target]="'#departments' + i"
+                          aria-expanded="false" aria-controls="departments"></i>
+                      </h5>
+                      <div class="row" style="margin-left: 10px;">
+                      </div>
+                    </div>
+
+                    <div *ngIf="items.subquestionCentralPolicyProvinces.length == 0" style="margin-top: 10px;"></div>
+
+                    <div *ngIf="items.subquestionCentralPolicyProvinces.length != 0;" style="margin-left: 25px;">
+                      <div class="col-12 row collapse" id="departments{{i}}"
+                        *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
+                        <div class="col-6">
+                          <div class="row col-12">
+                            <div class="">
+                              <span class="">{{ii + 1}}. {{itemss.provincialDepartment.name}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </tr>
+
+
+                <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
+                  <div class="" *ngIf="item.type == 'คำถามปลายปิด'" style="margin-left: 34px;">
+                    <td style="border-top: none; width: 1%;">
+                      <u>คำถาม</u>
+                      <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: large;" id="question{{i}}"
+                        data-toggle="collapse" [attr.data-target]="'#questions' + i" aria-expanded="false"
+                        aria-controls="questions"></i>
+                      <div class="row">
+                        <div class="col-9" *ngIf="item.type == 'คำถามปลายปิด'">
+                          <input style="margin-top: 10px;" type="text" value="{{item.name}}" class="form-control"
+                            placeholder="กรุณากรอกเรื่อง" readonly>
+                        </div>
+                        <div class="col-0">
+                        </div>
+                        <div class="col-0">
+                        </div>
+                      </div>
+                    </td>
+                    <div class="col-12 collapse" id="questions{{i}}">
+                      <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
+                        <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index">
+                          <div *ngFor="let item3 of item2.subquestionChoiceCentralPolicyProvinces;let iii = index">
+                            <div class="row">
+                              <div class="row col-10">
+                                <div class="col-0"
+                                  *ngIf="item.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                                  <input style="margin-left: 10px;margin-top: 11px;" type="radio" disabled>
+                                </div>
+                                <div class="col-9"
+                                  *ngIf="item.type == 'คำถามปลายปิด' && item.id == item3.subquestionCentralPolicyProvinceId">
+                                  <input type="text" value="{{item3.name}}" class="form-control"
+                                    placeholder="กรุณากรอกเรื่อง" readonly>
+                                </div>
+
+                                <div class="col-1">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </div>
+                    <div class="col-12" *ngIf="item.answerSubquestions.length != 0">
+                      <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
+                        <div *ngFor="let item3 of item.answerSubquestions;let iii = index">
+                          <div *ngIf="item3.answerSubquestionStatus.status == 'ใช้งานจริง'" class="row">
+                            <div class="col-2">{{iii+1}}. โดย {{item3.user.name}}</div>
+                            <div class="col-5">ตอบ {{item3.answer}}</div>
+                            <div class="col-5">คำอธิบาย {{item3.description}}</div>
+                          </div>
+                        </div>
+                      </td>
+                    </div>
+                  </div>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+
         <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
         <br>
       </div>

@@ -12,7 +12,7 @@ namespace InspecWeb.Data.Seeders
         public void Configure(EntityTypeBuilder<ProvincesGroup> builder)
         {
             builder.HasData(
-                new ProvincesGroup { Id = 1, Name = "ไม่มีกลุ่มจังหวัด" },
+                new ProvincesGroup { Id = 1, Name = "ส่วนกลาง" },
                 new ProvincesGroup { Id = 2, Name = "ภาคกลางตอนบน" },
                 new ProvincesGroup { Id = 3, Name = "ภาคกลางปริมณฑล" },
                 new ProvincesGroup { Id = 4, Name = "ภาคกลางตอนล่าง 1" },
