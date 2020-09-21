@@ -218,7 +218,9 @@ import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-
 import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-label-preview.component';
 import { TrainingLoginComponent } from './training-login/training-login.component';
 import { TrainingLoginSuccessComponent } from './training-login/training-login-success/training-login-success.component';
-
+import { QRCodeModule } from 'angularx-qrcode';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DemoMaterialModule } from './materail-module';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -640,10 +642,12 @@ const ExternalOrganization = [
     NgSelectModule,
     NgbModule,
     TooltipModule.forRoot(),
-
+    QRCodeModule,
   ], exports: [
     ThaiDatePipe,
-    SnotifyModule
+    SnotifyModule,
+    // DragDropModule,
+    DemoMaterialModule,
     // SelectSSSModule
     // DatePipe
   ],

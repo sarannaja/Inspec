@@ -36,10 +36,20 @@
                             <td class="ellipsis">
                                 1 ก.ย. 2563
                             </td>
-                            <td class="text-center"><a target="_blank" href="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4"><img src="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4" width="50px" /></a></td>
-                            <td class="text-center"><a target="_blank" href="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4"><img src="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4" width="50px" /></a></td>
                             <td class="text-center">
-                                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="openModal(modalProgramLogin, 1)"></i>
+                                <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                    <qrcode  id="qrcode0" [qrdata]="'testtetet'" [size]="256" [level]="'M'"></qrcode>
+
+                                </a>
+
+                            </td>
+                            <td class="text-center"><a target="_blank"
+                                    href="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4"><img
+                                        src="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4"
+                                        width="50px" /></a></td>
+                            <td class="text-center">
+                                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                    (click)="openModal(modalProgramLogin, 1)"></i>
                             </td>
 
                         </tr>
@@ -48,10 +58,14 @@
                             <td class="ellipsis">
                                 2 ก.ย. 2563
                             </td>
-                            <td class="text-center"><a target="_blank" href="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4"><img src="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4" width="50px" /></a></td>
+                            <td class="text-center"><a target="_blank"
+                                    href="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4"><img
+                                        src="https://lh3.googleusercontent.com/VqQSMGTL8QjufgZ9IEp-rlGsFk_bqO-A9CxQTFn9X9FG3GEJYFGN9XnC960ImPuCWo4"
+                                        width="50px" /></a></td>
                             <td></td>
-                            <td class="text-center"> 
-                                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="openModal(modalProgramLogin, 1)"></i>
+                            <td class="text-center">
+                                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                    (click)="openModal(modalProgramLogin, 1)"></i>
                             </td>
                         </tr>
                         <tr>
@@ -62,7 +76,8 @@
                             <td></td>
                             <td></td>
                             <td class="text-center">
-                                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="openModal(modalProgramLogin, 1)"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                    (click)="openModal(modalProgramLogin, 1)"></i>
                             </td>
                         </tr>
                         <tr>
@@ -73,7 +88,8 @@
                             <td></td>
                             <td></td>
                             <td class="text-center">
-                                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="openModal(modalProgramLogin, 1)"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                    (click)="openModal(modalProgramLogin, 1)"></i>
                             </td>
                         </tr>
                         <tr>
@@ -84,7 +100,8 @@
                             <td></td>
                             <td></td>
                             <td class="text-center">
-                                <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="openModal(modalProgramLogin, 1)"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                    (click)="openModal(modalProgramLogin, 1)"></i>
                             </td>
                         </tr>
 
@@ -97,37 +114,35 @@
 </div>
 
 
-    <!-- BEGIN primary modal -->
-    <ng-template #modalProgramLogin class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">กำหนดช่วงเวลาอบรม</h5>
-                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body m-3">
-                    <div class="form-group">
-                        <label for="conditiontype" class="form-label">ช่วงเวลาอบรม</label>
-                        <select class="form-control" formControlName="conditiontype" (change)="selectInput($event)">
-                            <option value=null>กรุณาเลือกช่วงเวลาอบรม</option>
-                            <option value=1>เช้า</option>
-                            <option value=2>บ่าย</option>
-                            <option value=3>ทั้งวัน</option>
-                        </select>
-                    </div>
-                   
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">บันทึก</button>
-                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
-                        data-dismiss="modal">ปิด</button>
-                </div>
+<!-- BEGIN primary modal -->
+<ng-template #modalProgramLogin class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+    <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">กำหนดช่วงเวลาอบรม</h5>
+                <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </form>
-        <!-- </div> -->
-    </ng-template>
-    <!-- END primary modal -->
+            <div class="modal-body m-3">
+                <div class="form-group">
+                    <label for="conditiontype" class="form-label">ช่วงเวลาอบรม</label>
+                    <select class="form-control" formControlName="conditiontype" (change)="selectInput($event)">
+                        <option value=null>กรุณาเลือกช่วงเวลาอบรม</option>
+                        <option value=1>เช้า</option>
+                        <option value=2>บ่าย</option>
+                        <option value=3>ทั้งวัน</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </form>
+    <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->

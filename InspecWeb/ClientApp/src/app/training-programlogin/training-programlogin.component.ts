@@ -3,7 +3,9 @@ import { TrainingService } from '../services/training.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-
+import html2canvas from 'html2canvas';
+import * as fs from 'file-saver';
+// import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-training-programlogin',
   templateUrl: './training-programlogin.component.html',
@@ -18,21 +20,21 @@ export class TrainingProgramLoginComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   mainUrl: string;
   Form: FormGroup;
-  
-  
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  qrdata = 'http://google.com';
+
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-      this.mainUrl = baseUrl,
+    this.mainUrl = baseUrl,
       this.trainingid = activatedRoute.snapshot.paramMap.get('id')
-    }
+  }
 
   ngOnInit() {
-    
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -45,11 +47,11 @@ export class TrainingProgramLoginComponent implements OnInit {
     };
 
     this.trainingservice.gettrainingsurveycountdata()
-    .subscribe(result => {
-      this.resulttraining = result
-      this.loading = true;
-      console.log(this.resulttraining);
-    })
+      .subscribe(result => {
+        this.resulttraining = result
+        this.loading = true;
+        console.log(this.resulttraining);
+      })
 
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
@@ -60,40 +62,43 @@ export class TrainingProgramLoginComponent implements OnInit {
     })
   }
 
-  GotoSurveyTrainingList(trainingid){
-    this.router.navigate(['/training/surveylist/',trainingid])
+  GotoSurveyTrainingList(trainingid) {
+    this.router.navigate(['/training/surveylist/', trainingid])
   }
 
-  GotoPreviewTraining(trainingid){
-    this.router.navigate(['/training/survey/preview/',trainingid])
+  GotoPreviewTraining(trainingid) {
+    this.router.navigate(['/training/survey/preview/', trainingid])
   }
 
   openModal(template: TemplateRef<any>, id) {
-   // this.delid = id;
-   // console.log(this.delid);
+    // this.delid = id;
+    // console.log(this.delid);
 
-   this.modalRef = this.modalService.show(template);
- }
+    this.modalRef = this.modalService.show(template);
+  }
 
- storeTraining(value) {
-  //alert(JSON.stringify(value))
-  this.trainingservice.addTrainingCondition(value, this.trainingid).subscribe(response => {
-    console.log(value);
-    this.Form.reset()
-    this.modalRef.hide()
-    this.loading = false;
-    //this.router.navigate(['/training/surveylist/',trainingid])
-    //this.router.navigate(['training'])
-    this.trainingservice.getTrainingCondition(this.trainingid)
-    .subscribe(result => {
-      this.resulttraining = result
-      this.loading = true
-      //console.log(this.resulttraining);
+  storeTraining(value) {
+    //alert(JSON.stringify(value))
+    this.trainingservice.addTrainingCondition(value, this.trainingid).subscribe(response => {
+      console.log(value);
+      this.Form.reset()
+      this.modalRef.hide()
+      this.loading = false;
+      //this.router.navigate(['/training/surveylist/',trainingid])
+      //this.router.navigate(['training'])
+      this.trainingservice.getTrainingCondition(this.trainingid)
+        .subscribe(result => {
+          this.resulttraining = result
+          this.loading = true
+          //console.log(this.resulttraining);
+        })
+
     })
+  }
 
-  })
-}
-
-  
-
+  downloadQrCode(idQrcode,filename) {
+    const image = html2canvas(document.querySelector('#' + idQrcode)).then(
+      canvas => fs.saveAs(canvas.toDataURL(), filename)
+    );
+  }
 }
