@@ -396,23 +396,18 @@
         <input style="margin-left: 10px;" type="radio" name="report" (change)="report3($event)" value="รายเขต">
         <label style="margin-left: 10px;">รายเขต</label>
         <form [formGroup]="FormReporttype2" *ngIf="checkTypeRepor2== 1"
-          (ngSubmit)="storeReportPerformance(FormReport.value)">
+          (ngSubmit)="storeReportPerformance(FormReporttype2.value)">
           <div class="row">
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>เรื่องที่ตรวจ</label>
-                <select class="form-control select2" data-toggle="select2" (change)="select2($event.target.value )">
-                  <option value="">กรุณาเลือกเรื่องที่ตรวจ</option>
-                  <option *ngFor="let item of resultsubjectevent;  let i = index" [value]="item.id">
-                    {{item.centralPolicy.title}}
-                  </option>
-                </select>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select2($event)">
+              </ng-select>
                 <br>
                 <label>หน่วยงาน</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
-                  [items]="select" formControlName="provincialDepartmentId">
-                  <!-- (ngModelChange)="addsubjectdepartment2($event,'add')"
-              (deselected)="addsubjectdepartment2($event,'remove')" -->
+                  [items]="selectprovincialDepartment" formControlName="provincialDepartmentId">
                 </ng-select>
               </div>
             </div>

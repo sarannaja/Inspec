@@ -61,6 +61,7 @@ export class SubjecteventComponent implements OnInit {
   downloadUrl: any
   checkTypeReport: any
   selectreporttype: Array<any>
+  selectprovincialDepartment: any = [];
   //reporttype1
   subjectgroupidtype1: any
   centralPolicyIdtype1: any
@@ -70,6 +71,10 @@ export class SubjecteventComponent implements OnInit {
   //reporttype2
   FormReporttype2: FormGroup;
   checkTypeRepor2: any
+  subjectgroupidtype2: any
+  centralPolicyIdtype2: any
+  provinceIdtype2: any
+  centralpolicyprovinceidtype2: any
   //reporttype3
   subjectgroupidtype3: any
   //reporttype5
@@ -143,7 +148,8 @@ export class SubjecteventComponent implements OnInit {
 
     this.FormReporttype2 = this.fb.group({
       type: new FormControl(null, [Validators.required]),
-      provincialDepartmentId: new FormControl(null, [Validators.required])
+      provincialDepartmentId: new FormControl(null, [Validators.required]),
+      SubjectGroupId: new FormControl(null, [Validators.required])
     })
     // this.getCentralPolicy();
     this.getSubjectevent();
@@ -159,12 +165,12 @@ export class SubjecteventComponent implements OnInit {
       console.log(this.resultprovince);
     })
     this.selectreporttype = [
-      { label : "รายงานแบบประเด็นการตรวจติดตาม", value : "1"},
-      { label : "รายงานผลการดำเนินการของหน่วยรับตรวจ", value : "2"},
-      { label : "รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ", value : "3"},
-      { label : "รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ", value : "4"},
-      { label : "รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน", value : "5"},
-      { label : "รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน", value : "6"}
+      { label: "รายงานแบบประเด็นการตรวจติดตาม", value: "1" },
+      { label: "รายงานผลการดำเนินการของหน่วยรับตรวจ", value: "2" },
+      { label: "รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ", value: "3" },
+      { label: "รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ", value: "4" },
+      { label: "รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน", value: "5" },
+      { label: "รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน", value: "6" }
     ]
   }
   openModal(template: TemplateRef<any>) {
@@ -417,6 +423,7 @@ export class SubjecteventComponent implements OnInit {
   reporttype(event) {
     console.log(event.value);
     this.checkTypeReport = event.value;
+    this.checkTypeRepor2 = 0;
   }
   ////reporttype1start////
   rssj(id): any {
@@ -456,24 +463,51 @@ export class SubjecteventComponent implements OnInit {
     // alert(myradio)
     this.checkTypeRepor2 = 1;
     this.FormReporttype2.patchValue({
-      type: this.checkTypeReport,
+      type: this.checkTypeRepor2,
     })
   }
-  select2(id) {
+  select2(event) {
     var resultdetailcentralpolicyprovince: any = []
-    this.subjectgroupidtype1 = this.rssj(id).id,
-      this.centralPolicyIdtype1 = this.rssj(id).centralPolicyId,
-      this.provinceIdtype1 = this.rssj(id).provinceId
-    this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype1, this.provinceIdtype1).subscribe(result => {
-      this.centralpolicyprovinceidtype1 = result
-      this.centralpolicyservice.getSubjecteventdetaildata(this.centralpolicyprovinceidtype1, this.subjectgroupidtype1)
+    var provincialDepartments: any[] = [];
+    this.subjectgroupidtype2 = this.rssj(event.value).id,
+      this.centralPolicyIdtype2 = this.rssj(event.value).centralPolicyId,
+      this.provinceIdtype2 = this.rssj(event.value).provinceId
+      this.FormReporttype2.patchValue({
+        SubjectGroupId: this.subjectgroupidtype2,
+      })
+    this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype2, this.provinceIdtype2).subscribe(result => {
+      this.centralpolicyprovinceidtype2 = result
+      this.centralpolicyservice.getSubjecteventdetaildata(this.centralpolicyprovinceidtype2, this.subjectgroupidtype2)
         .subscribe(result => {
           resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
           console.log(resultdetailcentralpolicyprovince);
-          resultdetailcentralpolicyprovince.subquestionCentralPolicyProvinces.forEach(element => {
-
+          resultdetailcentralpolicyprovince.forEach(element => {
+            element.subquestionCentralPolicyProvinces.forEach(element2 => {
+              element2.subjectCentralPolicyProvinceGroups.forEach(element3 => {
+                provincialDepartments.push(element3)
+              })
+            });
           });
+          this.selectprovincialDepartment = provincialDepartments.map((item, index) => {
+            return {
+              value: item.provincialDepartment.id,
+              label: item.provincialDepartment.name,
+            }
+          })
+          console.log("selectprovincialDepartment: ", this.selectprovincialDepartment);
+          this.selectprovincialDepartment = this.selectprovincialDepartment.filter(
+            (thing, i, arr) => arr.findIndex(t => t.value === thing.value) === i
+          );
+          console.log("uniqueProvincialDepartment: ", this.selectprovincialDepartment);
         })
+    })
+  }
+  storeReportPerformance(value) {
+    console.log(value);
+    this.reportservice.createReporttype1(value).subscribe(result => {
+      this.FormReporttype2.reset();
+      this.modalRef.hide();
+      window.open(this.downloadUrl + "/" + result.data);
     })
   }
   ////reporttype2end/////
