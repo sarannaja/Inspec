@@ -619,7 +619,7 @@ const ExternalOrganization = [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
         ]
       },
-      { path: 'training/login/:phaseid', component: TrainingLoginComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/login/:phaseid/:dateid', component: TrainingLoginComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/login-success', component: TrainingLoginSuccessComponent, canActivate: [AuthorizeGuard] },
     ]),
     TimepickerModule.forRoot(),

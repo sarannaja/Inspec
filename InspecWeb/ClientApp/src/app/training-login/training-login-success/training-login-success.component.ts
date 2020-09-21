@@ -31,4 +31,8 @@ export class TrainingLoginSuccessComponent implements OnInit {
       username: new FormControl("", [Validators.required]),
     })
   }
+
+  accept() {
+    window.history.back();
+  }
 }
