@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Inject} from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrainingService } from '../../services/training.service';
 import { Router } from '@angular/router';
@@ -22,18 +22,18 @@ export class GroupTrainingRegisterComponent implements OnInit {
   Form: any;
   resulttrainingPhase: any;
   resulttrainingPhasetable: any[] = []
-  
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
-    }
-    
-    
+    this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+  }
+
+
 
   ngOnInit() {
 
@@ -41,7 +41,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [3,4],
+          targets: [3, 4],
           orderable: false
         }
       ]
@@ -49,35 +49,46 @@ export class GroupTrainingRegisterComponent implements OnInit {
     };
 
     this.Form = this.fb.group({
-      "approve": new FormControl(null, [Validators.required]),
-      
+      "approve1": new FormControl(null),
+      "approve2": new FormControl(null),
+      "approve3": new FormControl(null),
+      "approve4": new FormControl(null),
+      "approve5": new FormControl(null),
+
+      "approve6": new FormControl(null),
+      "approve7": new FormControl(null),
+      "approve8": new FormControl(null),
+      "approve9": new FormControl(null),
+      "approve10": new FormControl(null),
     })
-    
+
 
     this.trainingservice.getregistertrainingdata(this.trainingid)
-    .subscribe(result => {
-      this.resulttraining = result
-      this.loading = true
-      //console.log(this.resulttraining);
+      .subscribe(res => {
+        this.resulttraining = res.filter(result => {
+          return result.status == 1
+        })
+        this.loading = true
+        console.log("resulttraining", this.resulttraining);
 
-    })
+      })
 
     this.trainingservice.getTrainingPhaseCount(this.trainingid)
-    .subscribe(result => {
-      this.resulttrainingPhase = result
-      console.log(this.resulttrainingPhase);
+      .subscribe(result => {
+        this.resulttrainingPhase = result
+        console.log(this.resulttrainingPhase);
 
-    })
+      })
 
     this.trainingservice.getTrainingPhase(this.trainingid)
       .subscribe(result => {
         this.resulttrainingPhasetable = result
         this.loading = true
-        //console.log(this.resulttraining);
+        console.log("resulttrainingPhasetable", this.resulttrainingPhasetable);
       })
-    
-    
-    
+
+
+
 
     // this.trainingservice.gettrainingdata2(id)
     // .subscribe(result => {
@@ -99,6 +110,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
   // }
 
   openModal(template: TemplateRef<any>, id) {
+    // alert(id)
     this.delid = id;
     console.log(this.delid);
 
@@ -113,11 +125,15 @@ export class GroupTrainingRegisterComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
-      this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(result => {
-        this.resulttraining = result
+
+      this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(res => {
+        this.resulttraining = res.filter(result => {
+          return result.status == 1
+        })
         this.loading = true
         this.modalRef.hide()
       })
+
     })
   }
 

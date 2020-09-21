@@ -71,5 +71,7 @@ namespace InspecWeb.Models
         public ICollection<SubjectCentralPolicyProvince> SubjectCentralPolicyProvinces { get; set; }
         public ICollection<SubjectGroupPeopleQuestion> SubjectGroupPeopleQuestions { get; set; }
         public ICollection<AnswerRecommenDationInspector> AnswerRecommenDationInspectors { get; set; }
+
+        public ICollection<SubjectEventFile> SubjectEventFiles { get; set; }
     }
 }

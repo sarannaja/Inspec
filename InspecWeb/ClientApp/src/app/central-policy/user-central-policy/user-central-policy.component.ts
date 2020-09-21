@@ -33,6 +33,7 @@ export class UserCentralPolicyComponent implements OnInit {
   answer
   status
   ForwardName
+  ForwardCount
   role_id
   checkType: any;
   peopletype: any;
@@ -127,6 +128,9 @@ export class UserCentralPolicyComponent implements OnInit {
         this.resultcentralpolicy = result
         this.status = result[0].status
         this.ForwardName = result[0].forwardName
+
+        this.ForwardCount = result[0].forwardCount
+
         this.report = result[0].report
 
         this.loading = true;
@@ -274,6 +278,14 @@ export class UserCentralPolicyComponent implements OnInit {
     this.centralpolicyservice.sendAssignInternal(value, this.id, this.userid).subscribe(response => {
       console.log(response);
 
+      let CentralpolicyId2: any[] = this.resultcentralpolicy
+      for (let i = 0; i < CentralpolicyId2.length; i++) {
+        this.notificationService.addNotification(CentralpolicyId2[i].centralPolicyId, this.provinceid, value.UserId, 17, 1)
+          .subscribe(response => {
+            console.log(response);
+          })
+      }
+
       let CentralpolicyId: any[] = this.resultcentralpolicy
       for (let i = 0; i < CentralpolicyId.length; i++) {
         this.notificationService.addNotification(CentralpolicyId[i].centralPolicyId, this.provinceid, this.userid, 2, 1)
@@ -281,7 +293,7 @@ export class UserCentralPolicyComponent implements OnInit {
             console.log(response);
           })
       }
-
+      this.assigninternalForm.reset()
       this.modalRef.hide();
       // this.router.navigate(['calendaruser'])
       this.getstatus();
@@ -297,6 +309,7 @@ export class UserCentralPolicyComponent implements OnInit {
   }
 
   checktype(value) {
+    this.assigninternalForm.reset()
     // alert(JSON.stringify(value))
     if (value == "ผู้ตรวจกระทรวง") {
       this.peopletype = 1;

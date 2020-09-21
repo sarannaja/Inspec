@@ -19,13 +19,21 @@ import * as _ from 'lodash';
 import { ReportService } from 'src/app/services/report.service';
 import { AnyAaaaRecord } from 'dns';
 import { NotofyService } from 'src/app/services/notofy.service';
+import { ReturnStatement } from '@angular/compiler';
 @Component({
   selector: 'app-detail-subjectevent',
   templateUrl: './detail-subjectevent.component.html',
   styleUrls: ['./detail-subjectevent.component.css']
 })
 export class DetailSubjecteventComponent implements OnInit {
+  myDatePickerOptions: IMyOptions = {
+    // other options...
+    // dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
+  };
 
+  submitted = false;
   notificationsubjectDate: any;
   deadlinesubjectDate: any;
   notificationpeoplequestionDate: any;
@@ -501,11 +509,11 @@ export class DetailSubjecteventComponent implements OnInit {
         console.log("123", result);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
-        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        // this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
         this.provincename = result.provincedata.name
         this.provinceid = result.provincedata.id
         this.resultuser = result.userdata
-        this.electronicbookid = result.centralPolicyEventdata.electronicBookId
+        // this.electronicbookid = result.centralPolicyEventdata.electronicBookId
         // this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.centralpolicyprovincedata = result.centralpolicyprovince
         // this.form.patchValue({
@@ -582,15 +590,24 @@ export class DetailSubjecteventComponent implements OnInit {
         this.notificationpeoplequestionDate = this.time(this.subjectgroup.peopleQuestionNotificationDate)
         this.deadlinepeoplequestionDate = this.time(this.subjectgroup.peopleQuestionDeadlineDate)
 
+        this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
+        // alert(JSON.stringify(this.resultdate))
         this.subjectgroupstatus = this.subjectgroup.status
         this.subjectgroupland = this.subjectgroup.land
         console.log("result", result);
         // alert(JSON.stringify(this.subjectgroup.status))
+        if (this.subjectgroup.suggestion != null) {
+          this.form.patchValue({
+            // questionPeople: this.centralpolicyprovincedata.questionPeople,
+            status: this.subjectgroup.status,
+            suggestion: this.subjectgroup.suggestion
+          })
+        }
+
         this.form.patchValue({
-          // questionPeople: this.centralpolicyprovincedata.questionPeople,
           status: this.subjectgroup.status,
-          suggestion: this.subjectgroup.suggestion
         })
+
         var test: any = [];
         this.subjectgroup.answerRecommenDationInspectors.forEach(element => {
           test.push(element.user.provincialDepartments)
@@ -605,6 +622,25 @@ export class DetailSubjecteventComponent implements OnInit {
       })
   }
   storeFiles(value) {
+    // alert(this.notificationsubjectDate.year)
+    // return;
+    if (this.subjectgroupland == 'ลงพื้นที่') {
+      if (this.notificationpeoplequestionDate.year == 1970 || this.deadlinepeoplequestionDate.year == 1970) {
+        if (this.form.value.notificationpeoplequestiondate == null || this.form.value.deadlinepeoplequestiondate == null) {
+          this.submitted = true;
+          return;
+        }
+      }
+    }
+
+
+    if (this.notificationsubjectDate.year == 1970 || this.deadlinesubjectDate.year == 1970) {
+      if (this.form.value.notificationsubjectdate == null || this.form.value.deadlinesubjectdate == null) {
+        // alert("2")
+        this.submitted = true;
+        return;
+      }
+    }
     // if (this.form.value.notificationsubjectdate == null) {
     //   alert("if")
     //   this.form.value.notificationsubjectdate = this.notificationsubjectDate

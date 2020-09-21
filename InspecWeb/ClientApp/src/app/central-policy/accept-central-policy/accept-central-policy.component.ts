@@ -15,6 +15,8 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./accept-central-policy.component.css']
 })
 export class AcceptCentralPolicyComponent implements OnInit {
+  subjectgroupid
+  subjectgroup: any = []
   resultuser: any = []
   id
   resultdetailcentralpolicy: any = []
@@ -94,6 +96,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
     this.getDetailCentralPolicy()
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
+    this.getsubjecteventDetail();
   }
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
@@ -134,7 +137,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
         console.log("123", result);
         // alert(JSON.stringify(result))
         this.resultdetailcentralpolicy = result.centralpolicydata
-        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        // this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         this.resultuser = result.userdata
         // this.electronicbookid = result.centraresultcentralpolicyuserlPolicyEventdata.electronicBookId
 
@@ -159,5 +162,24 @@ export class AcceptCentralPolicyComponent implements OnInit {
   }
   back() {
     window.history.back();
+  }
+
+
+  getsubjecteventDetail() {
+
+    this.centralpolicyservice.getSubjectgroupidfromplanid(this.centralpolicyproviceid, this.planid)
+      .subscribe(result => {
+
+        console.log("resultresultresult", result);
+
+        // if (result == false) {
+
+        // } else {
+        this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+        // }
+      })
+
+
+
   }
 }

@@ -458,4 +458,10 @@ export class CentralpolicyService {
     return this.http.get<any[]>(this.url + "provincialdepartment/" + id);
   }
 
+
+  getSubjectgroupidfromplanid(cenproid, planid): Observable<any> {
+    // alert('hi')
+    return this.http.get<any>(this.url + "getSubjectgroupidfromplanid/" + cenproid + "/" + planid)
+  }
+
 }
