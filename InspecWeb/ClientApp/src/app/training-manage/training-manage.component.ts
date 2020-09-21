@@ -59,9 +59,27 @@ export class TrainingManageComponent implements OnInit {
     this.router.navigate(['/training/survey/preview/',trainingid])
   }
 
-  gotoIDCodeTraining(trainingid){
-    this.router.navigate(['/training/idcode/', trainingid])
+  gotoIDCodeTraining(){
+    this.router.navigate(['/training/idcode/', this.trainingid])
   }
+
+  gotoNamePlateTraining(){
+    this.router.navigate(['/nameplate/', this.trainingid])
+  }
+
+  gotoConditionTraining(){
+    this.router.navigate(['/training/condition/', this.trainingid])
+  }
+
+  gotoRegisterListTraining(){
+    this.router.navigate(['/training/registerlist/', this.trainingid])
+  }
+
+  gotoLecturerListTraining(){
+    this.router.navigate(['/training/lecturerlist/', this.trainingid])
+  }
+
+  
   
 
 }

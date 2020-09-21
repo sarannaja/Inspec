@@ -45,7 +45,9 @@
                             กำหนดคุณสมบัติ
                         </td> 
                         <td>
-                            <a href="{{mainUrl}}training/condition/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดคุณสมบัติ"
+                            (click)="gotoConditionTraining()"></i>
+                            <!-- <a href="{{mainUrl}}training/condition/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                     <tr>
@@ -54,7 +56,9 @@
                             ตรวจสอบคุณสมบัติผู้สมัคร
                         </td> 
                         <td>
-                            <a href="{{mainUrl}}training/registerlist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="ตรวจสอบคุณสมบัติผู้สมัคร"
+                            (click)="gotoRegisterListTraining()"></i>
+                            <!-- <a href="{{mainUrl}}training/registerlist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                     <tr>
@@ -72,9 +76,9 @@
                             ออกรหัสเข้าอบรม
                         </td> 
                         <td>
-                            <i class="align-middle mr-2 fas fa-fw fa-list pointer" data-toggle="tooltip" title="การจัดการ"
-                            (click)="gotoIDCodeTraining({{trainingid}})"></i>
-                            <a href="{{mainUrl}}training/surveylist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="ออกรหัสเข้าอบรม"
+                            (click)="gotoIDCodeTraining()"></i>
+                            <!-- <a href="{{mainUrl}}training/surveylist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                     <tr>
@@ -83,7 +87,9 @@
                             บัตรผู้ร่วมอบรม
                         </td> 
                         <td>
-                            <a href="{{mainUrl}}nameplate/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="บัตรผู้ร่วมอบรม"
+                            (click)="gotoNamePlateTraining()"></i>
+                            <!-- <a href="{{mainUrl}}nameplate/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                     <tr>
@@ -101,7 +107,9 @@
                             แบบประเมินหลักสูตรวิทยากร
                         </td> 
                         <td>
-                            <a href="{{mainUrl}}training/lecturerlist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="บัตรผู้ร่วมอบรม"
+                            (click)="gotoLecturerListTraining()"></i>
+                            <!-- <a href="{{mainUrl}}training/lecturerlist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                     <tr>

@@ -214,6 +214,17 @@ export class TrainingService {
     return this.http.post(this.url + 'trainingsurvey/' + trainingid, formData);
   }
 
+  //insert training survey topic
+  addTrainingsurveytopic(trainingData) {
+    //alert(JSON.stringify(trainingData))
+    //alert(trainingid)
+    const formData = new FormData();
+    formData.append('name', trainingData.name);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'trainingsurveytopic/add', formData);
+  }
+
   editTrainingSurvey(trainingregisterlistData, id) {
     console.log(trainingregisterlistData);
 
@@ -310,6 +321,10 @@ export class TrainingService {
   //--------zone training lecturer-------
   gettraininglecturer(): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'lecturer')
+  }
+
+  gettraininglecturerlist(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'lecturerlist/' + trainingid)
   }
 
   addTraininglecturer(trainingData) {

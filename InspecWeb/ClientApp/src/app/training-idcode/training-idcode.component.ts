@@ -64,34 +64,5 @@ export class TrainingIDCodeComponent implements OnInit {
     })
   }
 
-  addsPeoples(value) {
-    // //console.log('item.id');
-    // var subject = value.vaule
-    this.people = this.addPeople(this.people, value)
-    console.log("test => ", this.people);
-  }
-
-  addPeople(array: any[], value) {
-    var distinctThings: any[] = array.filter(
-      (thing, i, arr) => arr.findIndex(t => t === value) === i
-    );
-    // //console.log('distinctThings', distinctThings);
-    if (distinctThings.length != 0) {
-      var s = new Set(array);
-      s.delete(value);
-      return Array.from(s);
-    } else {
-      var s = new Set(array);
-      s.add(value);
-      return Array.from(s);
-    }
-  }
-
-  gotoPreview() {
-    this.router.navigate(['/nameplatepreview', { selectedPeople: this.people }]);
-  }
-
-  gotoLabelPreview() {
- this.router.navigate(['/namelabelpreview', { selectedPeople: this.people }]);
-  }
+  
 }

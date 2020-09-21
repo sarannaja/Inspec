@@ -371,7 +371,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         ex_link: '0',
         icon: 'fa-long-arrow-alt-right',
-        url: '/training/lecturer',
+        url: '/training/survey',
         name: 'แบบประเมิน'
       },
       // {

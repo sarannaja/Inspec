@@ -476,7 +476,7 @@ const ExternalOrganization = [
           { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/register', component: TrainingRegisterComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/registerlist/:id', component: ListTrainingRegisterComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/survey/:id', component: TrainingSurveyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/survey', component: TrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/surveylist/:id', component: ListTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/survey/preview/:id', component: PreviewTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/document', component: TrainingDocumentComponent, canActivate: [AuthorizeGuard] },

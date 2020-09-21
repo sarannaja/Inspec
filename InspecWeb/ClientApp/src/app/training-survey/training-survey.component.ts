@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { TrainingService } from '../services/training.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -18,6 +18,7 @@ export class TrainingSurveyComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   mainUrl: string;
   trainingid: any;
+  Form: FormGroup;
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
@@ -27,7 +28,7 @@ export class TrainingSurveyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.mainUrl = baseUrl
-      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+      // this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     }
 
   ngOnInit() {
@@ -42,6 +43,10 @@ export class TrainingSurveyComponent implements OnInit {
       ]
 
     };
+    this.Form = this.fb.group({
+      name: new FormControl(null, [Validators.required]),
+      
+    })
 
     this.trainingservice.gettrainingsurveycountdata()
     .subscribe(result => {
@@ -61,6 +66,32 @@ export class TrainingSurveyComponent implements OnInit {
 
   GotoChartTraining(trainingid){
     this.router.navigate(['/training/survey/chart/',trainingid])
+  }
+
+  openModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+   // console.log(this.delid);
+
+   this.modalRef = this.modalService.show(template);
+  }
+
+  storeTraining(value) {
+    //alert(JSON.stringify(value))
+    this.trainingservice.addTrainingsurveytopic(value).subscribe(response => {
+      console.log(value);
+      this.Form.reset()
+      this.modalRef.hide()
+      this.loading = false;
+      //this.router.navigate(['/training/surveylist/',trainingid])
+      //this.router.navigate(['training'])
+      this.trainingservice.gettrainingsurveycountdata()
+      .subscribe(result => {
+        this.resulttraining = result
+        this.loading = true
+        //console.log(this.resulttraining);
+      })
+
+    })
   }
 
 

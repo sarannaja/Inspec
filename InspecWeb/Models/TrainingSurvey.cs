@@ -19,10 +19,10 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("Training")]
-        [Description("FK: หลักสูตรอบรม")]
-        public long TrainingId { get; set; }
-        public virtual Training Training { get; set; }
+        [ForeignKey("TrainingSurveyTopic")]
+        [Description("FK: เรื่องหลักสูตรอบรม")]
+        public long TrainingSurveyTopicId { get; set; }
+        public virtual TrainingSurveyTopic TrainingSurveyTopic { get; set; }
 
         [Required]
         [Description("หัวข้อประเมิน")]

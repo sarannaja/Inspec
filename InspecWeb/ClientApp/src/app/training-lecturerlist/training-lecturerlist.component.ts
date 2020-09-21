@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { TrainingService } from '../services/training.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
@@ -12,6 +12,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class TrainingLecturerListComponent implements OnInit {
 
   resulttraining: any[] = []
+  trainingid: string;
   modalRef: BsModalRef;
   delid: any
   loading = false;
@@ -20,15 +21,18 @@ export class TrainingLecturerListComponent implements OnInit {
   mainUrl: string;
   Form: FormGroup;
   EditForm: FormGroup;
+  selectdatalecturer: any[] = []
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
     private trainingservice: TrainingService,
     public share: TrainingService, 
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.downloadUrl = baseUrl + '/Uploads'
       this.mainUrl = baseUrl
+      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     }
 
   ngOnInit() {
@@ -55,9 +59,11 @@ export class TrainingLecturerListComponent implements OnInit {
       
     })
 
-    this.trainingservice.gettraininglecturer()
+    this.trainingservice.gettraininglecturerlist(this.trainingid)
     .subscribe(result => {
-      this.resulttraining = result
+      this.resulttraining = result.filter(
+        (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
+      );
       this.loading = true;
       console.log(this.resulttraining);
     })
