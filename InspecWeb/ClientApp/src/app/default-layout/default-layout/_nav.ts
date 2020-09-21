@@ -368,6 +368,12 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         url: '/training/lecturer',
         name: 'วิทยากรอบรม'
       },
+      {
+        ex_link: '0',
+        icon: 'fa-long-arrow-alt-right',
+        url: '/training/lecturer',
+        name: 'แบบประเมิน'
+      },
       // {
       //   ex_link: '0',
       //   icon: 'fa-long-arrow-alt-right',

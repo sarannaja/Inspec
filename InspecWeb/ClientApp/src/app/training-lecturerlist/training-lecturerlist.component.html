@@ -1,0 +1,189 @@
+<div class="header">
+    <h1 class="header-title">
+        จัดการหลักสูตรการอบรม
+    </h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+            <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+        </ol>
+    </nav>
+</div>
+<form class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h5 class="card-title">จัดการหลักสูตรการอบรม</h5>
+                <div class="float-right">
+                    <button class="btn btn-primary" (click)="openModal(modalTraining)"
+                        style="margin-top: -60px;">เพิ่มวิทยากร</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                    [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th width="20%">ชื่อวิทยากร</th>
+                            <th width="20%">เบอร์โทรศัพท์</th>
+                            <th width="20%">E-mail</th>
+                            <th width="20%">ประวัติการศึกษา</th>
+                            <th width="15%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of resulttraining; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td class="ellipsis">{{ item.lecturerName }}</td>
+                            <td>{{ item.phone }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.education }}</td>
+                            <!-- <td><img src="{{downloadUrl}}/{{item.image}}" width="160" height="130"></td> -->
+                            <td>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                (click)="editModal(modaleditTraining, item.id, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience)"></i>
+                                
+                                <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                    (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>-->
+                                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                                    (click)="openModal(modaldeleteTraining, item.id)"></i> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ประวัติวิทยากร</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+                        <label for="test" class="form-label">ประเภทผู้ดำเนินรายการ</label>
+                        <select class="form-control select2" data-toggle="select2" formControlName="approve">
+                            <option value=null>กรุณาเลือกประเภทผู้ดำเนินรายการ</option>
+                            <option value=1>วิทยากร</option>
+                            <option value=2>ผู้ฝึกสอน</option>
+                        </select>
+                        <br>
+                        <label for="test" class="form-label">ชื่อวิทยากร</label>
+                        <input type="text" formControlName="lecturername" class="form-control"
+                            placeholder="กรุณากรอกชื่อวิทยากร">
+                        <br>
+                        <label class="form-label w-100">รูปวิทยากร</label>
+                        <input type="file" (change)="uploadFile($event)" Accept=".jpg, .jpeg, .png">
+                        <small class="form-text text-muted">สำหรับแนบไฟล์ .jpg .png เท่านั้น</small>
+                        <br>
+                        <label for="test" class="form-label">เบอร์โทรศัพท์</label>
+                        <input type="text" formControlName="lecturerphone" class="form-control"
+                            placeholder="กรุณากรอกเบอร์โทรศัพท์">
+                        <br>
+                        <label for="test" class="form-label">E-mail</label>
+                        <input type="text" formControlName="lectureremail" class="form-control"
+                            placeholder="กรุณากรอก E-mail">
+                        <br>
+                        <label for="test" class="form-label">ประวัติการศึกษา</label>
+                        <textarea formControlName="education" class="form-control"
+                            placeholder="กรุณากรอกประวัติการศึกษา"></textarea>
+                        <br>
+                        <label for="test" class="form-label">ประวัติการทำงาน</label>
+                        <textarea formControlName="workhistory" class="form-control"
+                            placeholder="กรุณากรอกประวัติการทำงาน"></textarea>
+                        <br>
+                        <label for="test" class="form-label">ประสบการณ์บรรยาย</label>
+                        <textarea formControlName="experience" class="form-control"
+                            placeholder="กรุณากรอกประสบการณ์บรรยาย"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modaldeleteTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+            <i class="fa fa-info-circle delete-icon"></i>
+            <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+                ลบข้อมูล
+            </p>
+            <p style="font-size: medium; color: #545454;">
+                คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+            </p>
+            <button type="button" class="btn btn-primary btnMargin" (click)="deleteTraining(delid)">
+                ใช่
+            </button>
+            <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+                ไม่ใช่
+            </button>
+        </div>
+    </ng-template>
+    <!-- END primary modal -->
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modaleditTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value,delid)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">จัดการจังหวัด</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+                        <label for="test" class="form-label">ชื่อวิทยากร</label>
+                        <input type="text" formControlName="lecturername" class="form-control"
+                            placeholder="กรุณากรอกชื่อวิทยากร">
+                        <br>
+                        <label for="test" class="form-label">เบอร์โทรศัพท์</label>
+                        <input type="text" formControlName="lecturerphone" class="form-control"
+                            placeholder="กรุณากรอกเบอร์โทรศัพท์">
+                        <br>
+                        <label for="test" class="form-label">E-mail</label>
+                        <input type="text" formControlName="lectureremail" class="form-control"
+                            placeholder="กรุณากรอก E-mail">
+                        <br>
+                        <label for="test" class="form-label">ประวัติการศึกษา</label>
+                        <textarea formControlName="education" class="form-control"
+                            placeholder="กรุณากรอกประวัติการศึกษา"></textarea>
+                        <br>
+                        <label for="test" class="form-label">ประวัติการทำงาน</label>
+                        <textarea formControlName="workhistory" class="form-control"
+                            placeholder="กรุณากรอกประวัติการทำงาน"></textarea>
+                        <br>
+                        <label for="test" class="form-label">ประสบการณ์บรรยาย</label>
+                        <textarea formControlName="experience" class="form-control"
+                            placeholder="กรุณากรอกประสบการณ์บรรยาย"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->

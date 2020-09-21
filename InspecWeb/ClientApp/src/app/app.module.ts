@@ -64,6 +64,11 @@ import { ProgramTrainingRegisterComponent } from './training-register/program-tr
 import { ChartTrainingSurveyComponent } from './training-survey/chart-training-survey/chart-training-survey.component';
 import { PhaseTrainingComponent } from './training/phase-training/phase-training.component';
 import { TrainingConditionComponent } from './training-condition/training-condition.component';
+import { TrainingManageComponent } from './training-manage/training-manage.component';
+import { TrainingProgramLoginComponent } from './training-programlogin/training-programlogin.component';
+import { TrainingLecturerListComponent } from './training-lecturerlist/training-lecturerlist.component';
+
+import { TrainingIDCodeComponent } from './training-idcode/training-idcode.component';
 
 //----------------
 
@@ -202,17 +207,17 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ConfirmationDialogService } from './services/confirmation-dialog/confirmation-dialog.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
-import { NamePlateComponent } from './name-plate/name-plate.component';
-import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
-import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-label-preview.component';
+
 // import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SortPipe } from './services/Pipe/sort';
 import { DateLengthComponent } from './services/components/date-length/date-length.component';
 import { PlanTrainingComponent } from './training/plan-training/plan-training.component';
+import { NamePlateComponent } from './name-plate/name-plate.component';
+import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
+import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-label-preview.component';
 import { TrainingLoginComponent } from './training-login/training-login.component';
 import { TrainingLoginSuccessComponent } from './training-login/training-login-success/training-login-success.component';
-
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -275,6 +280,11 @@ const ExternalOrganization = [
     ChartTrainingSurveyComponent,
     PhaseTrainingComponent,
     TrainingConditionComponent,
+    TrainingManageComponent,
+    TrainingProgramLoginComponent,
+    
+    TrainingLecturerListComponent,
+    TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,
     SubjectComponent,
@@ -392,10 +402,10 @@ const ExternalOrganization = [
     AnswerRecommendationinSpectorDetailComponent,
     AnswerRecommendationinSpectorEditComponent,
     ConfirmationDialogComponent,
+    DateLengthComponent,
     NamePlateComponent,
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,
-    DateLengthComponent,
     PlanTrainingComponent,
     TrainingLoginComponent,
     TrainingLoginSuccessComponent,
@@ -484,8 +494,10 @@ const ExternalOrganization = [
           { path: 'training/phase/:id', component: PhaseTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/condition/:id', component: TrainingConditionComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/plan/:id', component: PlanTrainingComponent, canActivate: [AuthorizeGuard] },
-
-
+          { path: 'training/manage/:id', component: TrainingManageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/lecturerlist/:id', component: TrainingLecturerListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/idcode/:id', component: TrainingIDCodeComponent, canActivate: [AuthorizeGuard] },
           //---------------
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },

@@ -1,0 +1,98 @@
+<div class="header">
+  <h1 class="header-title">
+    ระบบตรวจราชการอิเล็กทรอนิกส์
+  </h1>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="javascript:void(0)">บัตรผู้ร่วมอบรม</a></li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">ออกรหัสเข้าอบรม</h5>
+        <div class="float-right">
+          <div>
+            <div>
+              <button id="btn-export" class="btn btn-primary" (click)="gotoLabelPreview()" style="margin-top: -60px;">
+                <i class="fas fa-print mr-2"></i>พิมพ์ป้ายชื่อ
+              </button>
+              &nbsp;&nbsp;
+              <button id="btn-export" class="btn btn-primary" (click)="gotoPreview()" style="margin-top: -60px;">
+                <i class="fas fa-print mr-2"></i>พิมพ์ป้ายตั้งโต๊ะ
+              </button>
+            </div>
+            <div style="margin-top: -10px;">
+              <label class="text-primary" style="font-weight: bold;">เลือก: {{people.length}} คน</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="card-header col-12">
+        <button class="btn btn-success" (click)="exportReport()">Export <i
+            class="align-middle mr-2 fas fa-fw fa-file-export pointer"></i>
+        </button>
+      </div> -->
+
+      <div class="card-body">
+
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th width="5%">#</th>
+              <th width="30%">ชื่อ-นามสกุล</th>
+              <th width="10%">วันที่สมัคร</th>
+              <th width="20%">ตรววจสอบคุณสมบัติ</th>
+              <th width="20%">สิทธิ์การรับฝึกอบรม</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of trainingRegisterData; let i = index">
+              <td>{{ i + 1 }}</td>
+
+              <td class="ellipsis">
+
+                <input type="checkbox" (change)="addsPeoples(item.id)"> &nbsp;&nbsp;&nbsp;
+
+                <span class="pointer text-primary" (click)="openModal(modaldetail, item.id)">{{ item.name }}</span>
+              </td>
+              <td class="ellipsis">{{ item.createdAt | thaidate:'short'}}</td>
+              <td>
+                <span (click)="openModal(modalCondition, item.id,item,i)"><i
+                    [ngClass]="item.register_status == true ?'align-middle mr-2 fas fa fa-info-circle  pointer text-success':'align-middle mr-2 fas fa fa-info-circle  pointer text-muted'"
+                    aria-hidden="true"></i>
+                  <label
+                    [ngClass]="item.register_status == true ?' pointer text-success':' pointer text-muted'">{{item.register_status == true ? "ตรวจสอบคุณสมบัติแล้ว" : "รอการตรวจสอบคุณสมบัติ"}}</label></span>
+              </td>
+              <td>
+                <ng-container *ngIf="item.status == 0;else second">
+                  <i class="align-middle mr-2 fas fa fa-info-circle text-muted" aria-hidden="true"></i><label
+                    class="text-muted">รอการอนุมัติ</label>
+                </ng-container>
+                <ng-template #second>
+                  <ng-container *ngIf="item.status == 1;else third">
+                    <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success"></i><label
+                      class="text-success">ได้รับสิทธิ์</label>
+
+                  </ng-container>
+                </ng-template>
+                <ng-template #third>
+                  <ng-container *ngIf="item.status == 2;else four">
+
+                    <i class="align-middle mr-2 fas fa-fw fa-times-circle text-danger"></i><label
+                      class="text-danger">ไม่ได้รับสิทธิ์</label>
+
+                  </ng-container>
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
