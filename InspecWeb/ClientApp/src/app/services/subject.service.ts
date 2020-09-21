@@ -369,8 +369,10 @@ export class SubjectService {
       Land: value.land,
       CentralpolicyId: value.CentralpolicyId,
       ProvinceId: parseInt(value.province),
-      startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
-      enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      // startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      // enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      startdate: value.startdate,
+      enddate: value.enddate,
       CreatedBy: userid
     }
     return this.http.post<any>(this.url + 'subjectevent', formData);
@@ -415,7 +417,7 @@ export class SubjectService {
 
   postsubjecteventfromcalendar(value, userid) {
     // alert(JSON.stringify(value))
-    console.log("valuevaluevaluevaluevaluevaluevalue",value);
+    console.log("valuevaluevaluevaluevaluevaluevalue", value);
 
     var CentralpolicySelect2 = []
     CentralpolicySelect2 = value.CentralpolicyId2.map((item, index) => {

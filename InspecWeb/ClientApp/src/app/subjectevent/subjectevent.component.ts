@@ -34,8 +34,8 @@ export class SubjecteventComponent implements OnInit {
   Form: FormGroup;
   Form2: FormGroup;
   Form3: FormGroup;
-  checkInspec: Boolean;
-  checkType: any;
+  checkInspec: boolean;
+  checkType: any = "ลงพื้นที่";
   selectdataprovince: Array<any>
   userid: string;
   resultprovince: any = [];
@@ -80,12 +80,7 @@ export class SubjecteventComponent implements OnInit {
     // this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
-      // columnDefs: [
-      //   {
-      //     targets: [3],
-      //     orderable: false
-      //   }
-      // ]
+      ordering:false,
       "language": {
         "lengthMenu": "แสดง  _MENU_  รายการ",
         "search": "ค้นหา:",
@@ -362,7 +357,14 @@ export class SubjecteventComponent implements OnInit {
   other() {
     this.checkType = 3;
   }
+  startdate_enddate(event) {
+    this.Form.patchValue({
+      startdate: event.start_date,
+      enddate: event.end_date,
+    })
+    console.log(this.Form.value);
 
+  }
   Subjectevent(id, centralPolicyId, provinceId) {
     this.inspectionplanservice.getcentralpolicyprovinceid(centralPolicyId, provinceId).subscribe(result => {
       // this.centralpolicyprovinceid = result

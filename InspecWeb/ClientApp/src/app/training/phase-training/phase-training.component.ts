@@ -230,5 +230,7 @@ export class PhaseTrainingComponent implements OnInit {
   gotoProgramTraining(id) {
     this.router.navigate(['/training/phase/program/' + this.trainingid + '/' + id])
   }
-
+  gotoPlanTraining(id) {
+    this.router.navigate(['/training/phase/plan/' + id])
+  }
 }

@@ -7,6 +7,8 @@ namespace InspecWeb.ViewModel
 {
     public class TrainingRegisterViewModel
     {
+        public long departmentid { get; set; }
+        public string username { get; set; }
         public string name { get; set; }
         public long trainingid { get; set; }
         public string phone { get; set; }

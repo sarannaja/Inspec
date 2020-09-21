@@ -187,7 +187,7 @@ export class UserService {
   }
 
   editprofile(userData, file: FileList, file2: FileList, userId) {
-    alert('2 :' +  userData.Commandnumber)
+  //  alert('2 :' +  userData.Commandnumber)
     console.log("servicelog: ", userData);
     const formData = new FormData();
     formData.append('Role_id', userData.Role_id); //role
@@ -209,6 +209,7 @@ export class UserService {
     formData.append('Alley', '');
     formData.append('Postalcode', '');
     formData.append('Img', userData.Img);
+    formData.append('Signature', userData.Signature);
     formData.append('Autocreateuser', userData.Autocreateuser); // 20200823
     formData.append('UserName', userData.UserName); // 20200823
    // alert(userData.Img);
@@ -317,7 +318,7 @@ export class UserService {
         formData.append("files", file[iii]);
       }
     } else {
-      formData.append("files", null);
+      formData.append("files", userData.Img);
     }
 
     if (file2 != null) {
@@ -325,7 +326,7 @@ export class UserService {
         formData.append("files2", file2[iii]);
       }
     } else {
-      formData.append("files2", null);
+      formData.append("files2", userData.Signature);
     }
 
     let path = this.base + userId;
@@ -367,13 +368,12 @@ export class UserService {
     return this.http.get<any[]>(this.base + "getuserSameDepartment/" + id + "/" + departmentId)
   }
 
-  password(data, id) {
-
+  resetpassword(id) {
+    alert(2);
     const formData = new FormData();
-    formData.append('Id', id);
-    formData.append('Password', data.Password);
-
-    return this.http.put<any>(`${this.url}answerexecutiveorder`, formData);
+    formData.append('id', id);
+    
+    return this.http.put(`${this.base}resetpassword`, formData);
 
   }
 }

@@ -14,7 +14,7 @@ namespace InspecWeb.Controllers {
     [Route ("api/[controller]")]
     [ApiController]
     public class MangeUserController : ControllerBase {
-          public static IWebHostEnvironment _environment;
+        public static IWebHostEnvironment _environment;
 
         private static Random random = new Random ();
         public static string RandomString (int length) {
@@ -33,7 +33,8 @@ namespace InspecWeb.Controllers {
             _environment = environment;
 
         }
-        [HttpPost ("testest")]
+
+        [HttpPost ("resetpassword")]
         public async Task<ActionResult> ResetUserPassword (string id, string Password) {
             //     Find User
             var user = await _context.Users.Where (x => x.Id == id).SingleOrDefaultAsync ();
@@ -45,6 +46,8 @@ namespace InspecWeb.Controllers {
             await _userManager.AddPasswordAsync (user, Password);
             return Ok (new { id = id, Password });
         }
+
+       
 
     }
 }

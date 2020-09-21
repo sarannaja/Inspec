@@ -22,13 +22,8 @@ import { Location } from "@angular/common";
 export class DefaultLayoutComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent): void {
-    // console.log('event', event);
-
     event.keyCode === 37 ? this.toggled = true : event.keyCode === 39 ? this.toggled = false : null
-    // if (event.keyCode === 37) {
-    //   this.toggled = true
-    //   // do your code here**
-    // }
+
   }
   toggled = false;
   classIcon = "align-middle mr-2 fas fa-fw "
@@ -38,6 +33,7 @@ export class DefaultLayoutComponent implements OnInit {
   role_id: any
   nav: any
   imgprofileUrl: any;
+  SignatureUrl:any;
   resultuser: any[];
   resultfirstuser: any[] = [];
   modalRef: BsModalRef;
@@ -51,6 +47,7 @@ export class DefaultLayoutComponent implements OnInit {
   Email: any;
   files: any;
   Img: any;
+  Signature:any;
   UserName: any;
   Formprofile: any;
   resultnotifications: any[] = [];
@@ -75,6 +72,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.urlActive = location.pathname;
 
     this.imgprofileUrl = baseUrl + '/imgprofile';
+    this.SignatureUrl = baseUrl + '/Signature';
   }
   // 0C-54-15-66-C2-D6
 
@@ -135,6 +133,7 @@ export class DefaultLayoutComponent implements OnInit {
       Formprofile: 1,
       files: this.files,
       Img: this.Img,
+      Signature:this.Signature,
     });
     this.modalRef = this.modalService.show(template);
   }
@@ -166,6 +165,7 @@ export class DefaultLayoutComponent implements OnInit {
       files: new FormControl(null, [Validators.required]),
       files2: new FormControl(null, [Validators.required]),
       Img: this.Img,
+      Signature:this.Signature,
       Formprofile: 1,
       UserName: new FormControl(null, [Validators.required]),
       Password: new FormControl(null, [Validators.required]),
@@ -204,7 +204,7 @@ export class DefaultLayoutComponent implements OnInit {
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.resultuser = result;
-            //console.log('data',result);
+          //  console.log('dataxx',result);
 
             this.role_id = result[0].role_id
             this.Prefix = result[0].prefix
@@ -215,6 +215,7 @@ export class DefaultLayoutComponent implements OnInit {
             this.PhoneNumber = result[0].phoneNumber
             this.Email = result[0].email
             this.Img = result[0].img
+            this.Signature = result[0].signature
             this.UserName = result[0].userName
 
             this.Form.patchValue({
@@ -227,6 +228,7 @@ export class DefaultLayoutComponent implements OnInit {
               Formprofile: 1,
               files: this.files,
               Img: this.Img,
+              Signature:this.Signature,
               UserName: this.UserName
             });
 

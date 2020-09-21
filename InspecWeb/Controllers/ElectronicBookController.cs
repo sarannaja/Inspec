@@ -157,6 +157,27 @@ namespace InspecWeb.Controllers
             // .Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups
             // .Any(m => m.ProvincialDepartmentId == user.ProvincialDepartmentId)))))
 
+             .Select(x => new
+             {
+                 user = x.CentralPolicyEvent.CentralPolicy.CentralPolicyUser,
+                 provincialDepartmentId = x.CentralPolicyEvent.CentralPolicy.CentralPolicyProvinces
+                 .Select(m => m.SubjectCentralPolicyProvinces
+                 .Select(n => n.SubquestionCentralPolicyProvinces
+                 .Select(b => b.SubjectCentralPolicyProvinceGroups
+                 .Select(v => v.ProvincialDepartmentId)))),
+                 inspectionPlanProvinceName = x.CentralPolicyEvent.InspectionPlanEvent.Province.Name,
+                 centralPolicyTitle = x.CentralPolicyEvent.CentralPolicy.Title,
+                 inspectionPlanEventDate = new
+                 {
+                     startDate = x.CentralPolicyEvent.InspectionPlanEvent.StartDate,
+                     endDate = x.CentralPolicyEvent.InspectionPlanEvent.EndDate
+                 },
+                 inspectionPlanEventProvince = x.CentralPolicyEvent.InspectionPlanEvent.Province,
+                 inspectionPlanEventId = x.CentralPolicyEvent.InspectionPlanEventId,
+                 provinceId = x.CentralPolicyEvent.InspectionPlanEvent.ProvinceId,
+                 centralPolicyId = x.CentralPolicyEvent.CentralPolicyId
+             })
+
             .ToList();
 
             var electronicBookSuggestion = _context.ElectronicBookSuggestGroups
@@ -181,11 +202,12 @@ namespace InspecWeb.Controllers
             var electronicBookAccept = _context.ElectronicBookAccepts
                 .Include(x => x.User)
                 .Include(x => x.ElectronicBookProvinceApproveFiles)
-                .Include(x => x.ElectronicBookOtherAccepts)
-                .ThenInclude(x => x.ProvincialDepartment)
 
-                .Include(x => x.ElectronicBookOtherAccepts)
-                .ThenInclude(x => x.User)
+                //.Include(x => x.ElectronicBookOtherAccepts)
+                //.ThenInclude(x => x.ProvincialDepartment)
+
+                //.Include(x => x.ElectronicBookOtherAccepts)
+                //.ThenInclude(x => x.User)
 
                 .Include(x => x.Province)
 
@@ -196,6 +218,11 @@ namespace InspecWeb.Controllers
             .Include(x => x.UserCreate)
             .Include(x => x.UserProvincialDepartment)
             .Include(x => x.ProvincialDepartments)
+
+            .Include(x => x.ElectronicBookOtherAccepts)
+            .ThenInclude(x => x.ProvincialDepartment)
+            .Include(x => x.ElectronicBookOtherAccepts)
+            .ThenInclude(x => x.User)
 
             .Where(x => x.ElectronicBookId == electID)
             .ToList();
@@ -1413,7 +1440,7 @@ namespace InspecWeb.Controllers
         {
             var ElectronicBook = new ElectronicBookOtherAccept
             {
-                ElectronicBookAcceptId = model.electAcceptId,
+                ElectronicBookProvincialDepartmentId = model.electAcceptId,
                 ProvincialDepartmentId = model.provincialDepartmentId,
                 CreateBy = model.userCreate,
                 CreatedAt = DateTime.Now,
@@ -1459,7 +1486,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetElectronicbookOtherProvince(long provincialDepartmentId)
         {
             var ebookOtherProvince = _context.ElectronicBookOtherAccepts
-            .Include(x => x.ElectronicBookAccept)
+            .Include(x => x.ElectronicBookProvincialDepartment)
             .ThenInclude(x => x.ElectronicBook)
             .Include(x => x.User)
             .Include(x => x.UserCreate)
@@ -1658,7 +1685,7 @@ namespace InspecWeb.Controllers
         public void PutAgreeOtherDepartment([FromForm] ElectronicBookViewModel model)
         {
             var electronicBookAcceptData = _context.ElectronicBookOtherAccepts
-                .Where(x => x.ElectronicBookAcceptId == model.electAcceptId)
+                .Where(x => x.Id == model.electAcceptId)
                 .FirstOrDefault();
 
             {
@@ -1954,7 +1981,23 @@ namespace InspecWeb.Controllers
             .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
             .OrderByDescending(x => x.Id)
             .ToList();
-            return Ok(ebookProvince);
+
+            var provinceData = _context.ElectronicBookProvincialDepartments
+            .Include(x => x.ElectronicBook)
+            .ThenInclude(x => x.ElectronicBookGroups)
+            .ThenInclude(x => x.CentralPolicyEvent)
+            .ThenInclude(x => x.CentralPolicy)
+            .ThenInclude(x => x.CentralPolicyProvinces)
+            .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+            .Where(x => x.ProvincialDepartmentId == provincialDepartmentId)
+            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
+            .OrderByDescending(x => x.Id)
+            .Select(x => new
+            {
+                provinceId = x.ElectronicBook.ElectronicBookGroups.Select(m => m.CentralPolicyEvent.InspectionPlanEvent.ProvinceId)
+            })
+             .ToList();
+            return Ok(new { ebookProvince, provinceData });
         }
 
         [HttpPost("addDepartmentSignature")]
@@ -2038,6 +2081,11 @@ namespace InspecWeb.Controllers
         public IActionResult GetElectronicBookDepartmentById(ElectronicBookViewModel model)
         {
             var ebookInvite = _context.ElectronicBookProvincialDepartments
+                .Include(x => x.ElectronicBookOtherAccepts)
+                .ThenInclude(x => x.ProvincialDepartment)
+
+                .Include(x => x.ElectronicBookOtherAccepts)
+                .ThenInclude(x => x.User)
             .Where(x => x.ElectronicBookId == model.ElectID && x.ProvincialDepartmentId == model.provincialDepartmentId)
             .FirstOrDefault();
 
@@ -2070,6 +2118,33 @@ namespace InspecWeb.Controllers
 
             _context.ElectronicBookInvites.Remove(invitedData);
             _context.SaveChanges();
+        }
+
+        [HttpGet("getElectronicBookDepartmentById/{electID}")]
+        public IActionResult GetEBookDepartmentById(long electID)
+        {
+            var electronicBookProvincialDepartmentData = _context.ElectronicBookProvincialDepartments
+                .Include(x => x.ElectronicBookOtherAccepts)
+                .ThenInclude(x => x.ProvincialDepartment)
+
+                .Include(x => x.ElectronicBookOtherAccepts)
+                .ThenInclude(x => x.User)
+                .Where(x => x.Id == electID)
+                .FirstOrDefault();
+            return Ok(electronicBookProvincialDepartmentData);
+        }
+
+        [HttpGet("getElectronicBookOtherById/{electID}")]
+        public IActionResult GetEBookOtherById(long electID)
+        {
+            var electronicBookOtherData = _context.ElectronicBookOtherAccepts
+                .Include(x => x.ElectronicBookProvincialDepartment)
+                .Include(x => x.UserCreate)
+                .Include(x => x.ProvincialDepartment)
+                .Include(x => x.User)
+                .Where(x => x.Id == electID)
+                .FirstOrDefault();
+            return Ok(electronicBookOtherData);
         }
     }
 }

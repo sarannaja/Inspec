@@ -145,7 +145,7 @@ namespace InspecWeb.Controllers
         [HttpGet("otps/ministers")]
         public IActionResult OnGetOtpsMinisters()
         {
-            List<ExternalOrganizationNew> model = null;
+            List<OtpsMinisters> model = null;
             var client = new HttpClient();
             var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) =>
@@ -153,7 +153,7 @@ namespace InspecWeb.Controllers
                     var response = taskwithresponse.Result;
                     var jsonString = response.Content.ReadAsStringAsync();
                     jsonString.Wait();
-                    model = JsonConvert.DeserializeObject<List<ExternalOrganizationNew>>(jsonString.Result);
+                    model = JsonConvert.DeserializeObject<List<OtpsMinisters>>(jsonString.Result);
                 });
             task.Wait();
             return Ok(model);
@@ -511,11 +511,11 @@ namespace InspecWeb.Controllers
         }
         // <!-- END excel คณะรัฐบาล-->
 
-        [HttpGet("worddistrict")] 
+        [HttpGet("worddistrict")]
         public IActionResult worddistrict()
         {
 
-            List<ExternalOrganizationNew> model = null;
+            List<ExternalOrganizationNew> model = new List<ExternalOrganizationNew>();
             var client = new HttpClient();
             var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) =>
@@ -610,8 +610,8 @@ namespace InspecWeb.Controllers
         [HttpGet("wordotps")]
         public IActionResult wordotps()
         {
-
-            List<ExternalOrganizationNew> model = null;
+            //before List<ExternalOrganizationNew> model = null;
+            List<ExternalOrganizationNew> model = new List<ExternalOrganizationNew>();
             var client = new HttpClient();
             var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
                 .ContinueWith((taskwithresponse) =>
@@ -642,7 +642,7 @@ namespace InspecWeb.Controllers
             using (DocX document = DocX.Create(createfile)) //สร้าง
             {
 
-                
+
                 System.Console.WriteLine("3");
 
                 // Add a title
@@ -652,7 +652,7 @@ namespace InspecWeb.Controllers
                     .Bold() //ตัวหนา
                     .Alignment = Alignment.center;
 
-              
+
                 int dataCount = 0;
                 dataCount = model.Count; //เอาที่ select มาใช้
                 dataCount += 1;
@@ -666,7 +666,6 @@ namespace InspecWeb.Controllers
                 // Set the table's column width and background 
                 t.SetWidths(columnWidths);
                 t.AutoFit = AutoFit.Contents;
-
                 var row = t.Rows.First();
 
                 row.Cells[0].Paragraphs.First().Append("ลำดับที่");
@@ -700,6 +699,7 @@ namespace InspecWeb.Controllers
                 return Ok(new { data = filename });
             }
         }
+
 
 
     }

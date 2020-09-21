@@ -38,12 +38,12 @@ export class InfomationProvinceComponent implements OnInit {
 
   getdata(){
     this.spinner.show();
-    this.provinceservice.getprovincedata2()
+    this.provinceservice.getprovincedata()
       .subscribe(result => {
         this.spinner.hide();
         this.resultprovince = result
         this.loading = true
-       // console.log(this.resultprovince);
+       // console.log("momo",this.resultprovince);
       })
   }
 

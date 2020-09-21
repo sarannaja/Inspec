@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { SuggestionsubjectService } from 'src/app/services/suggestionsubject.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { NotofyService } from 'src/app/services/notofy.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-answer-subject-edit',
@@ -27,6 +28,8 @@ export class AnswerSubjectEditComponent implements OnInit {
   resultanswerstatus: any = []
   resultanswerfiles: any = []
   province: any
+  provinceid: any
+  centralPolicyProvinceId: any
   Form: FormGroup
   Formstatus: FormGroup
   Formfile: FormGroup
@@ -47,7 +50,8 @@ export class AnswerSubjectEditComponent implements OnInit {
     private authorize: AuthorizeService,
     private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string,
-    private _NotofyService: NotofyService
+    private _NotofyService: NotofyService,
+    private notificationService: NotificationService,
   ) {
     this.downloadUrl = baseUrl + '/Uploads';
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -114,6 +118,8 @@ export class AnswerSubjectEditComponent implements OnInit {
       this.resultsubjectdetail = result
       this.subjectGroupId = this.resultsubjectdetail.subjectGroupId
       this.province = this.resultsubjectdetail.centralPolicyProvince.province.name
+      this.provinceid = this.resultsubjectdetail.centralPolicyProvince.provinceId
+      this.centralPolicyProvinceId = this.resultsubjectdetail.centralPolicyProvinceId
       // this.resultsubquestion = this.resultsubjectdetail.subquestionCentralPolicyProvinces
       // this.loading = true
       console.log("123", this.subjectGroupId);
@@ -177,8 +183,14 @@ export class AnswerSubjectEditComponent implements OnInit {
   }
   editstatus(value) {
     // this.spinner.show();
-    console.log(value);
+    console.log("123", value.Status);
     this.answersubjectservice.editStatus(value, this.resultanswerstatus.id, this.subjectGroupId).subscribe(result => {
+      if (value.Status == "ใช้งานจริง") {
+        this.notificationService.addNotification(this.centralPolicyProvinceId, this.provinceid, this.userid, 6, 1)
+          .subscribe(response => {
+            console.log("innoti", response);
+          })
+      }
       this.storefile()
       this._NotofyService.onSuccess("แก้ไขข้อมูล")
       this.Form.reset();

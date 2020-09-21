@@ -7,6 +7,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Answerrole7List } from 'src/app/services/nikmodel/answerrole7list';
 import { GetQuestionPeople } from 'src/app/services/nikmodel/answarrole7';
 import { NotofyService } from 'src/app/services/notofy.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-answer-central-policy-province-edit',
@@ -26,6 +27,8 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   Formstatus: FormGroup
   loading = false;
   submitted = false;
+  provinceid: any
+  centralPolicyProvinceId: any
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -33,7 +36,8 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private fb: FormBuilder,
     private authorize: AuthorizeService,
-    private _NotofyService: NotofyService
+    private _NotofyService: NotofyService,
+    private notificationService: NotificationService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.inspectionPlanEventId = activatedRoute.snapshot.paramMap.get('inspectionplaneventid')
@@ -63,6 +67,8 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
         // console.log(result);
         this.loading = true
         this.resultQuestionPeople = result
+        this.provinceid = this.resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.provinceId
+        this.centralPolicyProvinceId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
       })
   }
   getAnsweruser() {
@@ -114,6 +120,12 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   }
   editStatus(value) {
     this.answersubjectservice.editStatusrole7(value, this.centralPolicyEventId).subscribe(result => {
+      if (value.Status == "ใช้งานจริง") {
+        this.notificationService.addNotification(this.centralPolicyProvinceId, this.provinceid, this.userid, 6, 1)
+          .subscribe(response => {
+            console.log("innoti", response);
+          })
+      }
       this.Form.reset();
       this.Formstatus.reset();
       this.spinner.hide();

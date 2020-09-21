@@ -139,7 +139,8 @@
           </div>
 
           <div *ngIf="checkInspec == true">
-            <div class="form-group row">
+            <app-date-length (value)="startdate_enddate($event)"></app-date-length>
+            <!-- <div class="form-group row">
               <div class="col-12 col-xl-12">
                 <label>กำหนดระยะเวลา</label>
 
@@ -167,7 +168,8 @@
                   </my-date-picker-th>
                 </div>
               </div>
-            </div>
+            </div> -->
+
           </div>
 
           <!-- <div *ngIf="checkInspec == false">

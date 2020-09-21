@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="form-group col-md-5 col-xl-5 col-sm-5">
+        <label for="start_date">เลือกวันที่เริ่มต้น</label>
+        <my-date-picker-th (dateChanged)="startdate($event.jsdate)" [options]="myDatePickerOptions" required>
+        </my-date-picker-th>
+        <timepicker *ngIf="start_date" [ngModelOptions]="{standalone: true}" (isValid)="isValid = $event"
+            [(ngModel)]="start_date" (ngModelChange)="starttime($event)" [showMeridian]="false">
+        </timepicker>
+        <!-- <pre class="alert alert-info">Time is: {{  start_date_plan_i[i]  }}</pre> -->
+    </div>
+    <div *ngIf="start_date" class="col-2 form-group mt-4" align="center">
+        ถึง
+    </div>
+    <ng-container *ngIf="start_date">
+        <div class="form-group col-md-5 col-xl-5 col-sm-5">
+            <label for="start_date">เลือกวันที่สิ้นสุด</label>
+
+            <my-date-picker-th [options]="myDatePickerOptionsEnddate" required (dateChanged)="enddate($event.jsdate)">
+            </my-date-picker-th>
+            <timepicker *ngIf="end_date" (isValid)="isValid = $event" [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="end_date" (ngModelChange)="endtime($event)" [showMeridian]="false">
+            </timepicker>
+
+
+        </div>
+    </ng-container>
+</div>

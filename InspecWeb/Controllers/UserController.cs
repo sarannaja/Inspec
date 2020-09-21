@@ -130,6 +130,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(r => r.Province)
                 .Include(s => s.Province)
                 .Include(s => s.Ministries)
+                .Include(s => s.ProvincialDepartments)
                 .Where(m => m.Id == id)
                 .Where(m => m.Active == 1).FirstOrDefault();
 
@@ -265,95 +266,249 @@ namespace InspecWeb.Controllers
                 {
 
                     // count จำนวน
-                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.MinistryId == model.MinistryId);
+                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.MinistryId == model.MinistryId).Count();
+                    var num2 = "0";
+                    //ชื่อกระทรวง
+                    var ministrydata = _context.Ministries.Find(model.MinistryId);
 
-                    var numx = usercount.Count() + 1;
-
-                    if (usercount.Count() >= 10)
+                    //ถ้าเกิดยังไม่มี username ในกระทรวงนี้
+                    if (usercount == 0)
                     {
-                        num = numx.ToString();
+                        num = "0" + 1.ToString();
+
+                        Username = ministrydata.ShortnameEN + "_" + namerole + num;
                     }
                     else
                     {
-                        num = "0" + numx.ToString();
+                        for (var i = 1; i <= usercount; i++)
+                        {
+
+                            if (i >= 10)
+                            {
+                                num = i.ToString();
+                            }
+                            else
+                            {
+                                num = "0" + i.ToString();
+                            }
+
+                            //เอาUsername ไปเช็คในระบบ
+                            var CheckUsername = ministrydata.ShortnameEN + "_" + namerole + num;
+                            var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                            //ถ้าไม่มีในระบบ
+                            if (usercount2 == 0)
+                            {
+
+                                Username = ministrydata.ShortnameEN + "_" + namerole + num;
+
+                                break;
+                            }
+                            else
+                            {
+                                var num3 = i + 1;
+                                if (num3 >= 10)
+                                {
+                                    num2 = num3.ToString();
+                                }
+                                else
+                                {
+                                    num2 = "0" + num3.ToString();
+                                }
+                                Username = ministrydata.ShortnameEN + "_" + namerole + num2;
+                            }
+
+                        }
+
                     }
-
-                    var ministrydata = _context.Ministries.Find(model.MinistryId);
-
-                    Username = ministrydata.ShortnameEN + "_" + namerole + num;
-
                 }
                 else if (model.Role_id == 10)
                 {
 
                     // count จำนวน
-                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.DepartmentId == model.DepartmentId);
+                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.DepartmentId == model.DepartmentId).Count();
+                    var num2 = "0";
+                    //ชื่อกรม
+                    var departmentdata = _context.Departments.Find(model.DepartmentId);
 
-                    var numx = usercount.Count() + 1;
-
-                    if (usercount.Count() >= 10)
+                    //ถ้าเกิดยังไม่มี username ในกรมนี้
+                    if (usercount == 0)
                     {
-                        num = numx.ToString();
+                        num = "0" + 1.ToString();
+
+                        Username = departmentdata.ShortnameEN + "_" + namerole + num;
                     }
                     else
                     {
-                        num = "0" + numx.ToString();
+                        for (var i = 1; i <= usercount; i++)
+                        {
+
+                            if (i >= 10)
+                            {
+                                num = i.ToString();
+                            }
+                            else
+                            {
+                                num = "0" + i.ToString();
+                            }
+
+                            //เอาUsername ไปเช็คในระบบ
+                            var CheckUsername = departmentdata.ShortnameEN + "_" + namerole + num;
+                            var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                            //ถ้าไม่มีในระบบ
+                            if (usercount2 == 0)
+                            {
+
+                                Username = departmentdata.ShortnameEN + "_" + namerole + num;
+
+                                break;
+                            }
+                            else
+                            {
+                                var num3 = i + 1;
+                                if (num3 >= 10)
+                                {
+                                    num2 = num3.ToString();
+                                }
+                                else
+                                {
+                                    num2 = "0" + num3.ToString();
+                                }
+                                Username = departmentdata.ShortnameEN + "_" + namerole + num2;
+                            }
+
+                        }
                     }
-
-                    var departmentdata = _context.Departments.Find(model.DepartmentId);
-
-                    Username = departmentdata.ShortnameEN + "_" + namerole + num;
                 }
                 else if (model.Role_id == 4 || model.Role_id == 5)
                 {
-
                     // count จำนวน
                     var usercount = _context.Users.Where(m => m.Role_id == model.Role_id)
                         .Include(m => m.UserProvince)
-                         .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId));
+                        .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId)).Count();
+                    var num2 = "0";
+                    //ชื่อ จังหวัด
+                    var provincedata = _context.Provinces.Find(model.UserProvinceId);
 
-                    var numx = usercount.Count() + 1;
-
-                    if (usercount.Count() >= 10)
+                    //ถ้าเกิดยังไม่มี username ในกรมนี้
+                    if (usercount == 0)
                     {
-                        num = numx.ToString();
+                        num = "0" + 1.ToString();
+
+                        Username = provincedata.ShortnameEN + "_" + namerole + num;
                     }
                     else
                     {
-                        num = "0" + numx.ToString();
+                        for (var i = 1; i <= usercount; i++)
+                        {
+
+                            if (i >= 10)
+                            {
+                                num = i.ToString();
+                            }
+                            else
+                            {
+                                num = "0" + i.ToString();
+                            }
+
+                            //เอาUsername ไปเช็คในระบบ
+                            var CheckUsername = provincedata.ShortnameEN + "_" + namerole + num;
+                            var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                            //ถ้าไม่มีในระบบ
+                            if (usercount2 == 0)
+                            {
+
+                                Username = provincedata.ShortnameEN + "_" + namerole + num;
+
+                                break;
+                            }
+                            else
+                            {
+                                var num3 = i + 1;
+                                if (num3 >= 10)
+                                {
+                                    num2 = num3.ToString();
+                                }
+                                else
+                                {
+                                    num2 = "0" + num3.ToString();
+                                }
+                                Username = provincedata.ShortnameEN + "_" + namerole + num2;
+                            }
+
+                        }
                     }
-
-                    var provincedata = _context.Provinces.Find(model.UserProvinceId);
-
-                    Username = provincedata.ShortnameEN + "_" + namerole + num;
                 }
-                else if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 8)
+                else if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 8 || model.Role_id == 11)
                 {
-
                     Username = model.Email;
                 }
                 else if (model.Role_id == 7)
                 {
                     // count จำนวน
                     var usercount = _context.Users.Where(m => m.Role_id == model.Role_id)
-                     .Include(m => m.UserProvince)
-                      .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId));
+                        .Include(m => m.UserProvince)
+                        .Where(m => m.SideId == model.SideId)
+                        .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId)).Count();
+                    var num2 = "0";
+                    //ชื่อ ด้าน
+                    var sidedata = _context.Sides.Find(model.SideId);
+                    //ชื่อ จังหวัด
+                    var provincedata = _context.Provinces.Find(model.UserProvinceId);
 
-                    var numx = usercount.Count() + 1;
-
-                    if (usercount.Count() >= 10)
+                    //ถ้าเกิดยังไม่มี username ในด้านนี้
+                    if (usercount == 0)
                     {
-                        num = numx.ToString();
+                        num = "0" + 1.ToString();
+
+                        Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
                     }
                     else
                     {
-                        num = "0" + numx.ToString();
+                        for (var i = 1; i <= usercount; i++)
+                        {
+
+                            if (i >= 10)
+                            {
+                                num = i.ToString();
+                            }
+                            else
+                            {
+                                num = "0" + i.ToString();
+                            }
+
+                            //เอาUsername ไปเช็คในระบบ
+                            var CheckUsername = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                            var usercount2 = _context.Users
+                                .Where(m => m.UserName == CheckUsername)
+                                .Where(m => m.Role_id == model.Role_id).Count();
+
+                            //ถ้าไม่มีในระบบ
+                            if (usercount2 == 0)
+                            {
+
+                                Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+
+                                break;
+                            }
+                            else
+                            {
+                                var num3 = i + 1;
+                                if (num3 >= 10)
+                                {
+                                    num2 = num3.ToString();
+                                }
+                                else
+                                {
+                                    num2 = "0" + num3.ToString();
+                                }
+                                Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num2;
+                            }
+
+                        }
                     }
-
-                    var sidedata = _context.Sides.Find(model.SideId);
-                    var provincedata = _context.Provinces.Find(model.UserProvinceId);
-
-                    Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
                 }
                 else if (model.Role_id == 9)
                 {
@@ -361,51 +516,130 @@ namespace InspecWeb.Controllers
                     //เช้คว่าเลือกมาแบบหลายจังหวัดหรือไม่
                     if (model.UserProvince.Count() > 1)
                     {
-                        var usercount = _context.Users.Where(m => m.Role_id == model.Role_id && m.UserProvince.Count > 1)
-                            .Include(m => m.UserProvince);
+                        // count จำนวน
+                        var usercount = _context.Users
+                            .Where(m => m.Role_id == model.Role_id && m.UserProvince.Count > 1)
+                            .Where(m => m.DepartmentId == model.DepartmentId).Count();
+                        var num2 = "0";
+                        //ชื่อกรม
+                        var departmentdata = _context.Departments.Find(model.DepartmentId);
 
-                        System.Console.WriteLine("testuser : 1.19 " + usercount.Count());
-
-                        var numx = usercount.Count() + 1;
-
-                        if (usercount.Count() >= 10)
+                        //ถ้าเกิดยังไม่มี username ในหลายจังหวัดนี้
+                        if (usercount == 0)
                         {
-                            num = numx.ToString();
+                            num = "0" + 1.ToString();
+
+                            Username = departmentdata.ShortnameEN + "_" + "reg" + num;
                         }
                         else
                         {
-                            num = "0" + numx.ToString();
-                        }
-                        var departmentdata = _context.Departments.Find(model.DepartmentId);
+                            for (var i = 1; i <= usercount; i++)
+                            {
 
-                        Username = departmentdata.ShortnameEN + "_" + "reg" + num;
+                                if (i >= 10)
+                                {
+                                    num = i.ToString();
+                                }
+                                else
+                                {
+                                    num = "0" + i.ToString();
+                                }
+
+                                //เอาUsername ไปเช็คในระบบ
+                                var CheckUsername = departmentdata.ShortnameEN + "_" + "reg" + num;
+                                var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                                //ถ้าไม่มีในระบบ
+                                if (usercount2 == 0)
+                                {
+
+                                    Username = departmentdata.ShortnameEN + "_" + "reg" + num;
+
+                                    break;
+                                }
+                                else
+                                {
+                                    var num3 = i + 1;
+                                    if (num3 >= 10)
+                                    {
+                                        num2 = num3.ToString();
+                                    }
+                                    else
+                                    {
+                                        num2 = "0" + num3.ToString();
+                                    }
+                                    Username = departmentdata.ShortnameEN + "_" + "reg" + num2;
+                                }
+
+                            }
+                        }
                     }
                     else
                     {
                         foreach (var item2 in model.UserProvince)
                         {
+                            // count จำนวน
                             var usercount = _context.Users.Where(m => m.Role_id == model.Role_id && m.UserProvince.Count <= 1)
                              .Include(m => m.UserProvince)
-                              .Where(x => x.UserProvince.Any(x => x.ProvinceId == item2));
-
-                            System.Console.WriteLine("testuser : 1.20 " + usercount.Count());
-                            var numx = usercount.Count() + 1;
-
-                            if (usercount.Count() >= 10)
-                            {
-                                num = numx.ToString();
-                            }
-                            else
-                            {
-                                num = "0" + numx.ToString();
-                            }
-
+                              .Where(x => x.UserProvince.Any(x => x.ProvinceId == item2))
+                              .Where(m => m.DepartmentId == model.DepartmentId).Count();
+                            var num2 = "0";
+                            //ชื่อกรม
+                            var departmentdata = _context.Departments.Find(model.DepartmentId);
+                            //ชื่อจังหวัด
                             long setid = 0;
                             setid = item2;
                             var provincedata = _context.Provinces.Find(setid);
-                            var departmentdata = _context.Departments.Find(model.DepartmentId);
 
-                            Username = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                            //ถ้าเกิดยังไม่มี username ในหลายจังหวัดนี้
+                            if (usercount == 0)
+                            {
+                                num = "0" + 1.ToString();
+
+                                Username = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                            }
+                            else
+                            {
+                                for (var i = 1; i <= usercount; i++)
+                                {
+
+                                    if (i >= 10)
+                                    {
+                                        num = i.ToString();
+                                    }
+                                    else
+                                    {
+                                        num = "0" + i.ToString();
+                                    }
+
+                                    //เอาUsername ไปเช็คในระบบ
+                                    var CheckUsername = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                                    var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                                    //ถ้าไม่มีในระบบ
+                                    if (usercount2 == 0)
+                                    {
+
+                                        Username = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        var num3 = i + 1;
+                                        if (num3 >= 10)
+                                        {
+                                            num2 = num3.ToString();
+                                        }
+                                        else
+                                        {
+                                            num2 = "0" + num3.ToString();
+                                        }
+                                        Username = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num2;
+                                    }
+
+                                }
+                            }
                         }
 
                     }
@@ -595,7 +829,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("testuser : 5");
             }
 
-            return Ok(new { status = true });
+            return Ok(new { password = user.Pw });
 
         }
 
@@ -603,7 +837,6 @@ namespace InspecWeb.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromForm] UserViewModel model, String editId)
         {
-            // Console.WriteLine ("momomo :" + model.Formprofile);
 
             var userdata = _context.Users.Find(editId);
             userdata.Img = model.Img;
@@ -640,73 +873,231 @@ namespace InspecWeb.Controllers
                 namerole = "indep";
             }
 
+            //สร้าง username อัติโนมัติ
             if (model.Autocreateuser == 1)
             {
                 if (model.Role_id == 3 || model.Role_id == 6)
                 {
 
-                    // count จำนวน
-                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.MinistryId == model.MinistryId);
-
-                    var numx = usercount.Count() + 1;
-
-                    if (usercount.Count() >= 10)
+                    var check = _context.Users.Where(m => m.Id == editId).Where(m => m.MinistryId == model.MinistryId);
+                    //ถ้าไม่มีการแก้ไข กระทรวง
+                    if (check.Count() >= 1)
                     {
-                        num = numx.ToString();
+                        Username = check.Select(m => m.UserName).FirstOrDefault();
                     }
+                    //ถ้ามีการแก้ไข กระทรวง
                     else
                     {
-                        num = "0" + numx.ToString();
+
+                        // count จำนวน
+                        var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.MinistryId == model.MinistryId).Count();
+                        var num2 = "0";
+                        //ชื่อกระทรวง
+                        var ministrydata = _context.Ministries.Find(model.MinistryId);
+
+                        //ถ้าเกิดยังไม่มี username ในกระทรวงนี้
+                        if (usercount == 0)
+                        {
+                            num = "0" + 1.ToString();
+
+                            Username = ministrydata.ShortnameEN + "_" + namerole + num;
+                        }
+                        else
+                        {
+                            for (var i = 1; i <= usercount; i++)
+                            {
+
+                                if (i >= 10)
+                                {
+                                    num = i.ToString();
+                                }
+                                else
+                                {
+                                    num = "0" + i.ToString();
+                                }
+
+                                //เอาUsername ไปเช็คในระบบ
+                                var CheckUsername = ministrydata.ShortnameEN + "_" + namerole + num;
+                                var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                                //ถ้าไม่มีในระบบ
+                                if (usercount2 == 0)
+                                {
+
+                                    Username = ministrydata.ShortnameEN + "_" + namerole + num;
+
+                                    break;
+                                }
+                                else
+                                {
+                                    var num3 = i + 1;
+                                    if (num3 >= 10)
+                                    {
+                                        num2 = num3.ToString();
+                                    }
+                                    else
+                                    {
+                                        num2 = "0" + num3.ToString();
+                                    }
+                                    Username = ministrydata.ShortnameEN + "_" + namerole + num2;
+                                }
+
+                            }
+                        }
+
                     }
-
-                    var ministrydata = _context.Ministries.Find(model.MinistryId);
-
-                    Username = ministrydata.ShortnameEN + "_" + namerole + num;
-
                 }
+
                 else if (model.Role_id == 10)
                 {
 
-                    // count จำนวน
-                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.DepartmentId == model.DepartmentId);
+                    var check = _context.Users.Where(m => m.Id == editId).Where(m => m.DepartmentId == model.DepartmentId);
 
-                    var numx = usercount.Count() + 1;
-
-                    if (usercount.Count() >= 10)
+                    //ถ้าไม่มีการแก้ไข กรม
+                    if (check.Count() >= 1)
                     {
-                        num = numx.ToString();
+                        Username = check.Select(m => m.UserName).FirstOrDefault();
                     }
+                    //ถ้ามีการแก้ไขกรม
                     else
                     {
-                        num = "0" + numx.ToString();
+
+                        // count จำนวน
+                        var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.DepartmentId == model.DepartmentId).Count();
+                        var num2 = "0";
+                        //ชื่อกรม
+                        var departmentdata = _context.Departments.Find(model.DepartmentId);
+
+                        //ถ้าเกิดยังไม่มี username ในกรมนี้
+                        if (usercount == 0)
+                        {
+                            num = "0" + 1.ToString();
+
+                            Username = departmentdata.ShortnameEN + "_" + namerole + num;
+                        }
+                        else
+                        {
+                            for (var i = 1; i <= usercount; i++)
+                            {
+
+                                if (i >= 10)
+                                {
+                                    num = i.ToString();
+                                }
+                                else
+                                {
+                                    num = "0" + i.ToString();
+                                }
+
+                                //เอาUsername ไปเช็คในระบบ
+                                var CheckUsername = departmentdata.ShortnameEN + "_" + namerole + num;
+                                var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                                //ถ้าไม่มีในระบบ
+                                if (usercount2 == 0)
+                                {
+
+                                    Username = departmentdata.ShortnameEN + "_" + namerole + num;
+
+                                    break;
+                                }
+                                else
+                                {
+                                    var num3 = i + 1;
+                                    if (num3 >= 10)
+                                    {
+                                        num2 = num3.ToString();
+                                    }
+                                    else
+                                    {
+                                        num2 = "0" + num3.ToString();
+                                    }
+                                    Username = departmentdata.ShortnameEN + "_" + namerole + num2;
+                                }
+
+                            }
+                        }
+
                     }
 
-                    var departmentdata = _context.Departments.Find(model.DepartmentId);
-
-                    Username = departmentdata.ShortnameEN + "_" + namerole + num;
                 }
                 else if (model.Role_id == 4 || model.Role_id == 5)
                 {
-
-                    // count จำนวน
-                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id)
+                    var check = _context.Users
                         .Include(m => m.UserProvince)
-                         .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId));
+                        .Where(m => m.Id == editId)
+                        .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId));
 
-                    var numx = usercount.Count() + 1;
-
-                    if (usercount.Count() >= 10)
+                    //ถ้าไม่มีการแก้ไข จังหวัด
+                    if (check.Count() >= 1)
                     {
-                        num = numx.ToString();
+                        Username = check.Select(m => m.UserName).FirstOrDefault();
                     }
+                    //ถ้ามีการแก้ไข จังหวัด
                     else
                     {
-                        num = "0" + numx.ToString();
+
+                        // count จำนวน
+                        var usercount = _context.Users.Where(m => m.Role_id == model.Role_id)
+                            .Include(m => m.UserProvince)
+                            .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId)).Count();
+                        var num2 = "0";
+                        //ชื่อ จังหวัด
+                        var provincedata = _context.Provinces.Find(model.UserProvinceId);
+
+                        //ถ้าเกิดยังไม่มี username ในกรมนี้
+                        if (usercount == 0)
+                        {
+                            num = "0" + 1.ToString();
+
+                            Username = provincedata.ShortnameEN + "_" + namerole + num;
+                        }
+                        else
+                        {
+                            for (var i = 1; i <= usercount; i++)
+                            {
+
+                                if (i >= 10)
+                                {
+                                    num = i.ToString();
+                                }
+                                else
+                                {
+                                    num = "0" + i.ToString();
+                                }
+
+                                //เอาUsername ไปเช็คในระบบ
+                                var CheckUsername = provincedata.ShortnameEN + "_" + namerole + num;
+                                var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                                //ถ้าไม่มีในระบบ
+                                if (usercount2 == 0)
+                                {
+
+                                    Username = provincedata.ShortnameEN + "_" + namerole + num;
+
+                                    break;
+                                }
+                                else
+                                {
+                                    var num3 = i + 1;
+                                    if (num3 >= 10)
+                                    {
+                                        num2 = num3.ToString();
+                                    }
+                                    else
+                                    {
+                                        num2 = "0" + num3.ToString();
+                                    }
+                                    Username = provincedata.ShortnameEN + "_" + namerole + num2;
+                                }
+
+                            }
+                        }
+
                     }
 
-                    var provincedata = _context.Provinces.Find(model.UserProvinceId);
 
-                    Username = provincedata.ShortnameEN + "_" + namerole + num;
                 }
                 else if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 8)
                 {
@@ -715,26 +1106,87 @@ namespace InspecWeb.Controllers
                 }
                 else if (model.Role_id == 7)
                 {
-                    // count จำนวน
-                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id)
-                     .Include(m => m.UserProvince)
-                      .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId));
 
-                    var numx = usercount.Count() + 1;
+                    var check = _context.Users
+                       .Include(m => m.UserProvince)
+                       .Where(m => m.Id == editId)
+                       .Where(m => m.SideId == model.SideId)
+                       .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId));
 
-                    if (usercount.Count() >= 10)
+                    //ถ้าไม่มีการแก้ไข ด้าน และ จังหวัด
+                    if (check.Count() >= 1)
                     {
-                        num = numx.ToString();
+                        Username = check.Select(m => m.UserName).FirstOrDefault();
                     }
+                    //ถ้ามีการแก้ไข ด้าน และ จังหวัด
                     else
                     {
-                        num = "0" + numx.ToString();
+
+                        // count จำนวน
+                        var usercount = _context.Users.Where(m => m.Role_id == model.Role_id)
+                            .Include(m => m.UserProvince)
+                            .Where(m => m.SideId == model.SideId)
+                            .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId)).Count();
+                        var num2 = "0";
+                        //ชื่อ ด้าน
+                        var sidedata = _context.Sides.Find(model.SideId);
+                        //ชื่อ จังหวัด
+                        var provincedata = _context.Provinces.Find(model.UserProvinceId);
+
+                        //ถ้าเกิดยังไม่มี username ในด้านนี้
+                        if (usercount == 0)
+                        {
+                            num = "0" + 1.ToString();
+
+                            Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                        }
+                        else
+                        {
+                            for (var i = 1; i <= usercount; i++)
+                            {
+
+                                if (i >= 10)
+                                {
+                                    num = i.ToString();
+                                }
+                                else
+                                {
+                                    num = "0" + i.ToString();
+                                }
+
+                                //เอาUsername ไปเช็คในระบบ
+                                var CheckUsername = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                                var usercount2 = _context.Users
+                                    .Where(m => m.UserName == CheckUsername)
+                                    .Where(m => m.Role_id == model.Role_id).Count();
+
+                                //ถ้าไม่มีในระบบ
+                                if (usercount2 == 0)
+                                {
+
+                                    Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+
+                                    break;
+                                }
+                                else
+                                {
+                                    var num3 = i + 1;
+                                    if (num3 >= 10)
+                                    {
+                                        num2 = num3.ToString();
+                                    }
+                                    else
+                                    {
+                                        num2 = "0" + num3.ToString();
+                                    }
+                                    Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num2;
+                                }
+
+                            }
+                        }
+
                     }
 
-                    var sidedata = _context.Sides.Find(model.SideId);
-                    var provincedata = _context.Provinces.Find(model.UserProvinceId);
-
-                    Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
                 }
                 else if (model.Role_id == 9)
                 {
@@ -742,51 +1194,166 @@ namespace InspecWeb.Controllers
                     //เช้คว่าเลือกมาแบบหลายจังหวัดหรือไม่
                     if (model.UserProvince.Count() > 1)
                     {
-                        var usercount = _context.Users.Where(m => m.Role_id == model.Role_id && m.UserProvince.Count > 1)
-                            .Include(m => m.UserProvince);
 
-                        System.Console.WriteLine("testuser : 1.19 " + usercount.Count());
+                        var check = _context.Users
+                                    .Where(m => m.Id == editId && m.UserProvince.Count > 1)
+                                    .Where(m => m.DepartmentId == model.DepartmentId); ;
 
-                        var numx = usercount.Count() + 1;
-
-                        if (usercount.Count() >= 10)
+                        //ถ้าไม่มีการแก้ไข เลือกจังหวัดเยอะกว่า1
+                        if (check.Count() >= 1)
                         {
-                            num = numx.ToString();
+                            Username = check.Select(m => m.UserName).FirstOrDefault();
                         }
+                        //ถ้ามีการแก้ไข เลือกจังหวัดเยอะกว่า1
                         else
                         {
-                            num = "0" + numx.ToString();
-                        }
-                        var departmentdata = _context.Departments.Find(model.DepartmentId);
 
-                        Username = departmentdata.ShortnameEN + "_" + "reg" + num;
+                            // count จำนวน
+                            var usercount = _context.Users
+                                .Where(m => m.Role_id == model.Role_id && m.UserProvince.Count > 1)
+                                .Where(m => m.DepartmentId == model.DepartmentId).Count();
+                            var num2 = "0";
+                            //ชื่อกรม
+                            var departmentdata = _context.Departments.Find(model.DepartmentId);
+
+                            //ถ้าเกิดยังไม่มี username ในหลายจังหวัดนี้
+                            if (usercount == 0)
+                            {
+                                num = "0" + 1.ToString();
+
+                                Username = departmentdata.ShortnameEN + "_" + "reg" + num;
+                            }
+                            else
+                            {
+                                for (var i = 1; i <= usercount; i++)
+                                {
+
+                                    if (i >= 10)
+                                    {
+                                        num = i.ToString();
+                                    }
+                                    else
+                                    {
+                                        num = "0" + i.ToString();
+                                    }
+
+                                    //เอาUsername ไปเช็คในระบบ
+                                    var CheckUsername = departmentdata.ShortnameEN + "_" + "reg" + num;
+                                    var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                                    //ถ้าไม่มีในระบบ
+                                    if (usercount2 == 0)
+                                    {
+
+                                        Username = departmentdata.ShortnameEN + "_" + "reg" + num;
+
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        var num3 = i + 1;
+                                        if (num3 >= 10)
+                                        {
+                                            num2 = num3.ToString();
+                                        }
+                                        else
+                                        {
+                                            num2 = "0" + num3.ToString();
+                                        }
+                                        Username = departmentdata.ShortnameEN + "_" + "reg" + num2;
+                                    }
+
+                                }
+                            }
+
+                        }
+
                     }
+                    //มีจังหวัดเดียว
                     else
                     {
                         foreach (var item2 in model.UserProvince)
                         {
-                            var usercount = _context.Users.Where(m => m.Role_id == model.Role_id && m.UserProvince.Count <= 1)
-                             .Include(m => m.UserProvince)
-                              .Where(x => x.UserProvince.Any(x => x.ProvinceId == item2));
 
-                            System.Console.WriteLine("testuser : 1.20 " + usercount.Count());
-                            var numx = usercount.Count() + 1;
+                            var check = _context.Users.Where(m => m.Id == editId && m.UserProvince.Count <= 1)
+                                     .Include(m => m.UserProvince)
+                                     .Where(x => x.UserProvince.Any(x => x.ProvinceId == item2))
+                                     .Where(m => m.DepartmentId == model.DepartmentId);
 
-                            if (usercount.Count() >= 10)
+                            //ถ้าไม่มีการแก้ไข จังหวัด
+                            if (check.Count() >= 1)
                             {
-                                num = numx.ToString();
+                                Username = check.Select(m => m.UserName).FirstOrDefault();
                             }
+                            //ถ้ามีการแก้ไข จังหวัด
                             else
                             {
-                                num = "0" + numx.ToString();
+
+                                // count จำนวน
+                                var usercount = _context.Users.Where(m => m.Role_id == model.Role_id && m.UserProvince.Count <= 1)
+                                 .Include(m => m.UserProvince)
+                                  .Where(x => x.UserProvince.Any(x => x.ProvinceId == item2))
+                                  .Where(m => m.DepartmentId == model.DepartmentId).Count();
+                                var num2 = "0";
+                                //ชื่อกรม
+                                var departmentdata = _context.Departments.Find(model.DepartmentId);
+                                //ชื่อจังหวัด
+                                long setid = 0;
+                                setid = item2;
+                                var provincedata = _context.Provinces.Find(setid);
+
+                                //ถ้าเกิดยังไม่มี username ในหลายจังหวัดนี้
+                                if (usercount == 0)
+                                {
+                                    num = "0" + 1.ToString();
+
+                                    Username = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                                }
+                                else
+                                {
+                                    for (var i = 1; i <= usercount; i++)
+                                    {
+
+                                        if (i >= 10)
+                                        {
+                                            num = i.ToString();
+                                        }
+                                        else
+                                        {
+                                            num = "0" + i.ToString();
+                                        }
+
+                                        //เอาUsername ไปเช็คในระบบ
+                                        var CheckUsername = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                                        var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                                        //ถ้าไม่มีในระบบ
+                                        if (usercount2 == 0)
+                                        {
+
+                                            Username = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            var num3 = i + 1;
+                                            if (num3 >= 10)
+                                            {
+                                                num2 = num3.ToString();
+                                            }
+                                            else
+                                            {
+                                                num2 = "0" + num3.ToString();
+                                            }
+                                            Username = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num2;
+                                        }
+
+                                    }
+                                }
+
                             }
 
-                            long setid = 0;
-                            setid = item2;
-                            var provincedata = _context.Provinces.Find(setid);
-                            var departmentdata = _context.Departments.Find(model.DepartmentId);
-
-                            Username = departmentdata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
                         }
 
                     }
@@ -794,6 +1361,7 @@ namespace InspecWeb.Controllers
                 }
 
             }
+            //สร้าง username เอง
             else
             {
                 Username = model.UserName;
@@ -864,6 +1432,12 @@ namespace InspecWeb.Controllers
                             using (var stream = System.IO.File.Create(filePath3 + random + filename))
                             {
                                 await formFile.Value.CopyToAsync(stream);
+                            }
+                            //<!-- ลบไฟล์ออกจากโฟลเดอร์ -->
+                            string fullPath = _environment.WebRootPath + "//Signature//" + model.Signature;
+                            if (System.IO.File.Exists(fullPath))
+                            {
+                                System.IO.File.Delete(fullPath);
                             }
 
                             userdata.Signature = random + filename;
@@ -955,11 +1529,15 @@ namespace InspecWeb.Controllers
                         _context.UserRegions.Add(userregiondata);
                         _context.SaveChanges();
 
-                        System.Console.WriteLine("testuser9 : ");
 
+                        var FiscalYearF = _context.FiscalYears.First();
 
-
+                        System.Console.WriteLine("testuser9 : " + FiscalYearF.Id);
+                        //ปาม2020
                         var userprovince = _context.FiscalYearRelations
+                                    .Where(w => w.FiscalYear.Id == FiscalYearF.Id)
+                                    .Include(m => m.FiscalYear)
+
                                     .Where(m => m.RegionId == item)
                                     .ToList();
 
@@ -974,12 +1552,13 @@ namespace InspecWeb.Controllers
                     }
                 }
                 FiscalYearRelation[] terms = termsList.ToArray();
-
+                System.Console.WriteLine("testuser10.2 :");
                 if (terms.Count() != 0)
                 {
+                    System.Console.WriteLine("testuser10.3 :" + editId);
                     foreach (var x in terms)
                     {
-
+                        System.Console.WriteLine("testuser10.4 :" + x.ProvinceId);
                         var userprovincedata = new UserProvince
                         {
                             UserID = editId,
@@ -1058,26 +1637,20 @@ namespace InspecWeb.Controllers
             return Ok(new { status = true, password = passwordrandom });
         }
 
-        //<!-- แก้ไขพาสเวิด -->
-        [HttpPut("api/[controller]/password")]
-        public IActionResult Putpassword([FromForm] UserViewModel model)
+        //ปาม2020
+        //<!-- resetpassword -->
+        [HttpPut("api/[controller]/resetpassword")]
+        public async Task<IActionResult> resetpassword([FromForm] string id)
         {
-            var date = DateTime.Now;
+            System.Console.WriteLine("momo" + id);
+            var passwordrandom = RandomString(8);
+            var userdata = _context.Users.Find(id);
+            var tresult = await _userManager.RemovePasswordAsync(userdata);
+            await _userManager.AddPasswordAsync(userdata, passwordrandom);
 
-            //var data = _context.Users.Find(model.Id);
-            //{
-            //    data.Status = "รายงานผลเรียบร้อย";
-            //};
-            //_context.Entry(executiveorderanswerdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            //_context.SaveChanges();
-
-
-
-
-
-            return Ok(new { Id = model.Id });
+            return Ok(new { Id = id });
         }
-        //<!-- END แก้ไขพาสเวิด -->
+        //<!-- END resetpassword -->
 
         [Route("api/[controller]/{id}")]
         [HttpDelete]
