@@ -49,18 +49,18 @@
 
                                 <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url)"
                                     class="sidebar-link" href="{{childItem.url}}">
-                                    <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
+                                    <i [ngClass]="classIcon2+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
                                 <a *ngIf="childItem.ex_link == '0' && childItem.ex_link!='user' "
                                     (click)="checkactive(childItem.url)" class="sidebar-link"
                                     [routerLink]="[childItem.url]">
-                                    <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
+                                    <i [ngClass]="classIcon2+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
                                 <a *ngIf="childItem.ex_link == 'user'" (click)="userNav(childItem.url,childItem.id)"
                                     class="sidebar-link">
-                                    <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
+                                    <i [ngClass]="classIcon2+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
 

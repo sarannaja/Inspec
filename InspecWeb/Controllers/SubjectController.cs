@@ -2062,7 +2062,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata1 = new CentralPolicy
             {
                 Title = model.Title,
-                Type = "อื่นๆ",
+                // Type = "อื่นๆ", comment ไว้ก่อนมันพัง
                 FiscalYearNewId = year.Id,
                 Status = "ใช้งานจริง",
                 CreatedAt = date,
