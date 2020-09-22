@@ -27,13 +27,14 @@ export class DefaultLayoutComponent implements OnInit {
   }
   toggled = false;
   classIcon = "align-middle mr-2 fas fa-fw "
+  classIcon2 = "align-middle mr-2 far "
   urlActive = ""
   classtap = 'sidebar-header'
   userid: any
   role_id: any
   nav: any
   imgprofileUrl: any;
-  SignatureUrl:any;
+  SignatureUrl: any;
   resultuser: any[];
   resultfirstuser: any[] = [];
   modalRef: BsModalRef;
@@ -47,7 +48,7 @@ export class DefaultLayoutComponent implements OnInit {
   Email: any;
   files: any;
   Img: any;
-  Signature:any;
+  Signature: any;
   UserName: any;
   Formprofile: any;
   resultnotifications: any[] = [];
@@ -133,7 +134,7 @@ export class DefaultLayoutComponent implements OnInit {
       Formprofile: 1,
       files: this.files,
       Img: this.Img,
-      Signature:this.Signature,
+      Signature: this.Signature,
     });
     this.modalRef = this.modalService.show(template);
   }
@@ -165,7 +166,7 @@ export class DefaultLayoutComponent implements OnInit {
       files: new FormControl(null, [Validators.required]),
       files2: new FormControl(null, [Validators.required]),
       Img: this.Img,
-      Signature:this.Signature,
+      Signature: this.Signature,
       Formprofile: 1,
       UserName: new FormControl(null, [Validators.required]),
       Password: new FormControl(null, [Validators.required]),
@@ -185,14 +186,17 @@ export class DefaultLayoutComponent implements OnInit {
       })
   }
 
-  detailnotifications(id) {
+  detailnotifications(id,statusid) {
     this.notificationService.updateNotification(id)
       .subscribe(result => {
-        this.nav = superAdmin;
-        this.profileform();
-        this.getuserinfo();
-        this.getnotifications();
-        this.checkactive(this.nav[0].url);
+        if(statusid == 20){
+        this.router.navigate(['/commanderreport/detail/'+id])
+        }
+        // this.nav = superAdmin;
+        // this.profileform();
+        // this.getuserinfo();
+        // this.getnotifications();
+        // this.checkactive(this.nav[0].url);
       })
   }
 
@@ -204,7 +208,7 @@ export class DefaultLayoutComponent implements OnInit {
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.resultuser = result;
-          //  console.log('dataxx',result);
+            //  console.log('dataxx',result);
 
             this.role_id = result[0].role_id
             this.Prefix = result[0].prefix
@@ -228,7 +232,7 @@ export class DefaultLayoutComponent implements OnInit {
               Formprofile: 1,
               files: this.files,
               Img: this.Img,
-              Signature:this.Signature,
+              Signature: this.Signature,
               UserName: this.UserName
             });
 

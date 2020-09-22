@@ -1534,6 +1534,7 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("DDDDD");
             var CentralPolicyEvents = _context.CentralPolicyEvents
                 .Include(m => m.InspectionPlanEvent)
+                .ThenInclude(p => p.Province)
                 .Include(m => m.CentralPolicy)
                 .Where(m => m.InspectionPlanEvent.ProvinceId == id)
                 .ToList();
@@ -2030,6 +2031,153 @@ namespace InspecWeb.Controllers
             return Ok(new { Status = true });
         }
 
+        // POST api/values
+        [HttpPost("postsubjecteventOtherland")]
+        public IActionResult PostsubjecteventOtherland([FromBody] subjectevent model)
+        {
+            var userdata = _context.Users
+         .Where(m => m.Id == model.CreatedBy)
+         .FirstOrDefault();
+
+
+            var year = _context.FiscalYearNew
+                .Where(m => m.Year == DateTime.Now.Year + 543).FirstOrDefault();
+            System.Console.WriteLine("year" + year.Id);
+            System.Console.WriteLine("111");
+            System.Console.WriteLine("TITLE: " + model.Title);
+            var date = DateTime.Now;
+
+            var inspectionplanevent = new InspectionPlanEvent
+            {
+                StartDate = model.startdate,
+                EndDate = model.enddate,
+                ProvinceId = model.ProvinceId,
+                CreatedAt = date,
+                CreatedBy = model.CreatedBy,
+                Status = "ร่างกำหนดการ",
+                RoleCreatedBy = userdata.Role_id.ToString(),
+                ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
+            };
+            _context.InspectionPlanEvents.Add(inspectionplanevent);
+            _context.SaveChanges();
+
+            var centralpolicydata1 = new CentralPolicy
+            {
+                Title = model.Title,
+                // Type = "อื่นๆ", comment ไว้ก่อนมันพัง
+                TypeexaminationplanId = 3,
+                FiscalYearNewId = year.Id,
+                Status = "ใช้งานจริง",
+                CreatedAt = date,
+                CreatedBy = model.CreatedBy,
+                Class = "ประเด็นการตรวจติดตาม",
+            };
+            System.Console.WriteLine("3");
+            _context.CentralPolicies.Add(centralpolicydata1);
+            _context.SaveChanges();
+            System.Console.WriteLine("4");
+
+            var CentralPolicyEventsdata = new CentralPolicyEvent
+            {
+                CentralPolicyId = centralpolicydata1.Id,
+                InspectionPlanEventId = inspectionplanevent.Id,
+                StartDate = model.startdate,
+                EndDate = model.enddate,
+                HaveSubject = 1,
+            };
+            _context.CentralPolicyEvents.Add(CentralPolicyEventsdata);
+            _context.SaveChanges();
+
+            var centralpolicyprovincedata = new CentralPolicyProvince
+            {
+                ProvinceId = model.ProvinceId,
+                CentralPolicyId = centralpolicydata1.Id,
+                Step = "มอบหมายหน่วยงาน",
+                Status = "ร่างกำหนดการ"
+            };
+            _context.CentralPolicyProvinces.Add(centralpolicyprovincedata);
+            _context.SaveChanges();
+
+            //var centralpolicyeventdate = _context.CentralPolicyEvents
+            //    .Where(m => m.CentralPolicyId == centralpolicydata1.Id)
+            //    .Where(m => m.InspectionPlanEvent.ProvinceId == model.ProvinceId)
+            //    .FirstOrDefault();
+
+            var SubjectGroupdata = new SubjectGroup
+            {
+                CentralPolicyId = centralpolicydata1.Id,
+                ProvinceId = model.ProvinceId,
+                Type = "NoMaster",
+                Status = "ร่างกำหนดการ",
+
+                Land = model.Land,
+                StartDate = model.startdate,
+                EndDate = model.enddate,
+
+                ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
+                CreatedBy = userdata.Id,
+                RoleCreatedBy = userdata.Role_id,
+            };
+            _context.SubjectGroups.Add(SubjectGroupdata);
+            _context.SaveChanges();
+
+            var SubjectGroupPeopleQuestiondata = new SubjectGroupPeopleQuestion
+            {
+                SubjectGroupId = SubjectGroupdata.Id,
+                CentralPolicyEventId = CentralPolicyEventsdata.Id,
+            };
+            _context.SubjectGroupPeopleQuestions.Add(SubjectGroupPeopleQuestiondata);
+            _context.SaveChanges();
+
+            var subjectdata = new SubjectCentralPolicyProvince
+            {
+                Name = model.Title,
+                CentralPolicyProvinceId = centralpolicyprovincedata.Id,
+                Type = "NoMaster",
+                Status = "ใช้งานจริง",
+                SubjectGroupId = SubjectGroupdata.Id,
+                CreatedBy = model.CreatedBy,
+            };
+            _context.SubjectCentralPolicyProvinces.Add(subjectdata);
+            _context.SaveChanges();
+
+            var subjectcen = _context.SubjectCentralPolicyProvinces
+                .Where(m => m.CentralPolicyProvince.CentralPolicyId == centralpolicydata1.Id)
+                .Where(m => m.Type == "Master")
+                .Where(m => m.Status == "ใช้งานจริง")
+                .ToList();
+
+            foreach (var subcen in subjectcen)
+            {
+                var cenpro = _context.CentralPolicyProvinces
+                    .Where(m => m.CentralPolicyId == centralpolicydata1.Id && m.ProvinceId == model.ProvinceId).FirstOrDefault();
+
+                var subques = _context.SubquestionCentralPolicyProvinces
+                    .Where(m => m.SubjectCentralPolicyProvinceId == subcen.Id).ToList();
+
+
+                var centralpolicydata = _context.CentralPolicies
+                    .Where(m => m.Id == centralpolicydata1.Id).FirstOrDefault();
+
+                System.Console.WriteLine("before if");
+                if (centralpolicydata.Class == "แผนการตรวจ")
+                {
+                    System.Console.WriteLine("in if");
+                    var SubjectCentralPolicyProvincedata2 = new SubjectCentralPolicyProvince
+                    {
+                        Name = subcen.Name,
+                        CentralPolicyProvinceId = cenpro.Id,
+                        Type = "NoMaster",
+                        Status = "ใช้งานจริง",
+                        SubjectGroupId = SubjectGroupdata.Id,
+                    };
+                    _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata2);
+                    _context.SaveChanges();
+                }
+            }
+            return Ok(new { Status = true });
+        }
+
         // PUT api/values/5
         [HttpPut("editsubject2/{id}")]
         public void Put3([FromForm] SubjectViewModel model, long id)
@@ -2044,7 +2192,27 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
         }
+        // DELETE api/values/5
+        [HttpDelete("delsubjecteventnoland/{id}")]
+        public void Delsubjecteventnoland(long id)
+        {
+            var subjectgroupdata = _context.SubjectGroups.Where(p => p.Id == id).FirstOrDefault();
 
+
+            var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
+                .Where(p => p.SubjectGroupId == id).ToList();
+
+            foreach (var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
+            {
+                var delsubjectCentralPolicyProvincesdata = _context.SubjectCentralPolicyProvinces.Find(SubjectCentralPolicyProvincesdata.Id);
+                _context.SubjectCentralPolicyProvinces.Remove(delsubjectCentralPolicyProvincesdata);
+                _context.SaveChanges();
+            }
+
+            var subjectdata = _context.SubjectGroups.Find(id);
+            _context.SubjectGroups.Remove(subjectdata);
+            _context.SaveChanges();
+        }
         // GET api/values/5
         [HttpGet("geteventprovice/{id}/{provinceid}")]
         public IActionResult Geteventprovice(string id, long provinceid)

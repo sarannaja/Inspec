@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
@@ -70,7 +68,28 @@
                 class="align-middle mr-2 fas fa-fw fa-search pointer"
                 (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
 
-              <i *ngIf="item.status == 'ร่างกำหนดการ'" class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
+                (click)="openModal(modaldeleteProvince, item.id,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจ'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
+                (click)="openModal(modaldeleteProvince, item.id,'ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจ'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
 
             </td>
           </tr>
@@ -97,12 +116,12 @@
           <label class="ml-2">เพิ่มประเด็นการตรวจติดตาม</label>
         </div>
         <div class="row">
-          <input class="ml-2" type="radio" name="land" (change)="notType($event)" value="ไม่ลงพื้นที่">
-          <label class="ml-2">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</label>
-        </div>
-        <div class="row">
           <input class="ml-2" type="radio" name="land" (change)="other($event)" value="ไม่ลงพื้นที่">
           <label class="ml-2">เพิ่มประเด็นการตรวจติดตามอื่นๆ</label>
+        </div>
+        <div class="row">
+          <input class="ml-2" type="radio" name="land" (change)="notType($event)" value="ไม่ลงพื้นที่">
+          <label class="ml-2">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</label>
         </div>
       </div>
 
@@ -126,7 +145,7 @@
           <div *ngIf="submitted && Form.controls.CentralpolicyId.errors" class="invalid-feedback">
             <div *ngIf="Form.controls.CentralpolicyId.errors.required">กรุณาเลือกประเด็นการตรวจติดตาม</div>
           </div>
-          <br>
+          <!-- <br> -->
           <br>
           <div class="mb-3">
             <input type="radio" name="land" (change)="inspect($event)" value="ลงพื้นที่" formControlName="land">
@@ -235,7 +254,24 @@
           </div>
 
           <br>
-          <br>
+
+          <div class="mb-3">
+            <input type="radio" name="land" (change)="inspect($event)" value="ลงพื้นที่" formControlName="land">
+            <label style="margin-left: 10px;">ลงพื้นที่</label>
+            <input style="margin-left: 10px;" type="radio" name="land" (change)="notInspec($event)" value="ไม่ลงพื้นที่"
+              formControlName="land">
+            <label style="margin-left: 10px;">ไม่ลงพื้นที่</label>
+          </div>
+          <div class="form-group" [ngStyle]="submittedradio ? {color: '#dc3545'}:{color: ''} ">
+            <div *ngIf="submittedradio == true" style="font-size: 80%;">กรุณาประเภทการตรวจ
+            </div>
+          </div>
+          <div *ngIf="checkInspec == true">
+            <app-date-length (value)="startdate_enddate3($event)"></app-date-length>
+          </div>
+
+          <!-- <br>
+          <br> -->
           <!-- <div class="mb-3">
             <input type="radio" name="land" (change)="inspect($event)" value="ลงพื้นที่" formControlName="land">
             <label style="margin-left: 10px;">ลงพื้นที่</label>

@@ -49,20 +49,20 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     IDchildren: 'executiveorderdata',
     children: [
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorder',
         name: 'ข้อสั่งการถึงผู้ตรวจราชการ',
         ex_link: '0',
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorderexport1',
         name: 'รายงานข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorderexport3',
         name: 'ทะเบียนข้อสั่งการของผู้บริหาร',
         ex_link: '0',
@@ -76,20 +76,20 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     IDchildren: 'requestorderdata',
     children: [
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/requestorder',
         name: 'แจ้งข้อมูลถึงผู้ตรวจราชการ',
         ex_link: '0',
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/exportrequestorderforadminprovince',
         name: 'รายงานแจ้งข้อมูลถึงผู้ตรวจราชการ',
         ex_link: '0',
 
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/exportrequestorderforinspector',
         name: 'ทะเบียนแจ้งข้อมูลถึงผู้ตรวจราชการ',
         ex_link: '0',
@@ -108,55 +108,55 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     IDchildren: 'basicdata',
     children: [
       {
-        icon: 'fa-long-arrow-alt-right',
-        url: '/fiscalyear',
-        name: 'คำสั่งกำหนดเขตตรวจราชการ',
-        ex_link: '0'
-      },
-      {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/fiscalyearnew',
         name: 'ปีงบประมาณ',
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/region',
         name: 'ชื่อเขตตรวจราชการ',
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/typeexamibationplan',
         name: 'ประเภทแผนการตรวจ',
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
+        url: '/fiscalyear',
+        name: 'กำหนดเขตตรวจราชการ',
+        ex_link: '0'
+      },
+      {
+        icon: 'fa-file',
         url: '/sector',
         name: 'ภาค',
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/provincesgroup',
         name: 'กลุ่มจังหวัด',
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'จังหวัด',
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/ministry',
         name: 'กระทรวง/กรม',
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/side',
         name: 'ด้านของภาคประชาชน',
         ex_link: '0'
@@ -169,70 +169,70 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     IDchildren: 'userdata',
     children: [
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/1',
         name: 'ผู้ดูแลระบบ',
         ex_link: 'user',
         id: '1'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/2',
         name: 'ผู้ดูแลแผนการตรวจราชการ',
         ex_link: 'user',
         id: '2'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/3',
         name: 'ผู้ตรวจราชการสำนักนายกรัฐมนตรี',
         ex_link: 'user',
         id: '3'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/6',
         name: 'ผู้ตรวจราชการกระทรวง',
         ex_link: 'user',
         id: '6'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/10',
         name: 'ผู้ตรวจราชการกรม',
         ex_link: 'user',
         id: '10'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/9',
         name: 'หน่วยงานตรวจ',
         ex_link: 'user',
         id: '9'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/4',
         name: 'ผู้ว่าราชการจังหวัด',
         ex_link: 'user',
         id: '4'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/5',
         name: 'หัวหน้าสำนักงานจังหวัด',
         ex_link: 'user',
         id: '5'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/7',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน',
         ex_link: 'user',
         id: '7'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/user/8',
         name: 'ผู้บริหาร/นายก/รองนายก',
         ex_link: 'user',
@@ -252,31 +252,31 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/nationalstrategy',
         name: 'ยุทธศาตร์ชาติ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
         name: 'แผนการปฏิรูปประเทศ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
         name: 'แผนแม่บทต่าง ๆ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.soc.go.th/bb_main01.htm',
         name: 'นโยบายรัฐบาล'
       },
@@ -289,13 +289,13 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/instructionorder',
         name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspectionorder',
         name: 'คำสั่งการตรวจราชการประจำปี'
       },
@@ -308,43 +308,43 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/otps',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/officerinspection',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         // url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         url: '/advisercivilsector',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
@@ -358,43 +358,43 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'จัดอบรมหลักสูตร'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training/lecturer',
         name: 'วิทยากรอบรม'
       },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/nameplate',
       //   name: 'ป้ายตั้งโต๊ะผู้เข้าอบรม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/document',
       //   name: 'เอกสารประกอบการฝึกอบรม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/register',
       //   name: 'ผู้สมัครเข้าร่วมอบรม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/survey',
       //   name: 'ประเมินผลการฝึกอบรม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/report',
       //   name: 'รายงาน'
       // },
@@ -408,13 +408,13 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/train',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'ประวัติการฝึกอบรม'
       },
@@ -461,43 +461,43 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
@@ -510,37 +510,37 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'จัดอบรมหลักสูตร'
       },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/lecturer',
       //   name: 'วิทยากรอบรม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/document',
       //   name: 'เอกสารประกอบการฝึกอบรม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/register',
       //   name: 'ผู้สมัครเข้าร่วมอบรม'
       // },
       // {
       //   ex_link: '1',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/survey',
       //   name: 'ประเมินผลการฝึกอบรม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/training/report',
       //   name: 'รายงาน'
       // },
@@ -554,13 +554,13 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'ประวัติการฝึกอบรม'
       },
@@ -591,25 +591,25 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     children: [
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/subjectevent',
       //   name: 'ประเด็นการตรวจติดตาม'
       // },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspectionplanevent/all',
         name: 'ปฏิทินการตรวจราชการรวม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspectionplanevent',
         name: 'ปฏิทินการตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/reportinspectionplanevent',
         name: 'รายงานกำหนดการตรวจราชการ'
       },
@@ -622,43 +622,43 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/subjectevent',
         name: 'ประเด็นการตรวจติดตาม'
       },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsubject',
       //   name: 'รายงานประเด็นการตรวจติดตาม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportperformance',
       //   name: 'รายงานผลการดำเนินการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsuggestions',
       //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsuggestionsresult',
       //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportquestionnaire',
       //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportcomment',
       //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       // },
@@ -685,13 +685,13 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     // children: [
     //   {
     //     ex_link: '0',
-    //     icon: 'fa-long-arrow-alt-right',
+    //     icon: 'fa-file',
     //     url: '/reportexport',
     //     name: 'Export'
     //   },
     //   {
     //     ex_link: '0',
-    //     icon: 'fa-long-arrow-alt-right',
+    //     icon: 'fa-file',
     //     url: '/reportimport',
     //     name: 'Import'
     //   },
@@ -703,20 +703,20 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     IDchildren: 'executiveorderdata',
     children: [
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorder',
         name: 'ข้อสั่งการถึงผู้ตรวจราชการ',
         ex_link: '0',
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorderexport1',
         name: 'รายงานข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorderexport3',
         name: 'ทะเบียนข้อสั่งการของผู้บริหาร',
         ex_link: '0',
@@ -730,20 +730,20 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     IDchildren: 'requestorderdata',
     children: [
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/requestorder',
         name: 'แจ้งข้อมูลถึงผู้ตรวจราชการ',
         ex_link: '0',
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/exportrequestorderforadminprovince',
         name: 'รายงานคำร้องขอของหน่วยรับตรวจ',
         ex_link: '0',
 
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/exportrequestorderforinspector',
         name: 'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
         ex_link: '0',
@@ -763,43 +763,43 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
@@ -818,13 +818,13 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'ประวัติการฝึกอบรม'
       },
@@ -855,43 +855,43 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
@@ -910,13 +910,13 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'ประวัติการฝึกอบรม'
       },
@@ -950,20 +950,20 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     IDchildren: 'requestorderdata',
     children: [
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/requestorder',
         name: 'แจ้งข้อมูลถึงผู้ตรวจราชการ',
         ex_link: '0',
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/exportrequestorderforadminprovince',
         name: 'รายงานคำร้องขอของหน่วยรับตรวจ',
         ex_link: '0',
 
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'exportrequestorderforinspector',
         name: 'ทะเบียนคำร้องขอของหน่วยรับตรวจ',
         ex_link: '0',
@@ -988,43 +988,43 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
@@ -1048,13 +1048,13 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'ประวัติการฝึกอบรม'
       },
@@ -1085,13 +1085,13 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspectionplanevent',
         name: 'สร้างเอง'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/calendaruser',
         name: 'ถูกเชิญ'
       },
@@ -1104,43 +1104,43 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/subjectevent',
         name: 'ประเด็นการตรวจติดตาม'
       },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsubject',
       //   name: 'รายงานประเด็นการตรวจติดตาม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportperformance',
       //   name: 'รายงานผลการดำเนินการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsuggestions',
       //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsuggestionsresult',
       //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportquestionnaire',
       //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportcomment',
       //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       // },
@@ -1155,13 +1155,13 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/electronicbook',
         name: 'สร้างเอง'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/electronicbook/invited',
         name: 'ถูกส่ง'
       },
@@ -1179,43 +1179,43 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
@@ -1234,13 +1234,13 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'ประวัติการฝึกอบรม'
       },
@@ -1283,43 +1283,43 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
@@ -1337,13 +1337,13 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'ประวัติการฝึกอบรม'
       },
@@ -1367,20 +1367,20 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     IDchildren: 'executiveorderdata',
     children: [
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorder',
         name: 'ข้อสั่งการถึงผู้ตรวจราชการ',
         ex_link: '0',
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorderexport1',
         name: 'รายงานข้อสั่งการของผู้บริหาร',
         ex_link: '0',
 
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/executiveorderexport3',
         name: 'ทะเบียนข้อสั่งการของผู้บริหาร',
         ex_link: '0',
@@ -1405,43 +1405,43 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
@@ -1459,13 +1459,13 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training',
         name: 'ประวัติการฝึกอบรม'
       },
@@ -1506,13 +1506,13 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: "/electronicbookdepartment",
         name: 'รอดำเนินการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/electronicbook/other',
         name: 'ถูกส่งต่อ'
       },
@@ -1530,43 +1530,43 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },
@@ -1602,13 +1602,13 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspectionplanevent',
         name: 'สร้างเอง'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/calendaruser',
         name: 'ถูกเชิญ'
       },
@@ -1621,43 +1621,43 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/subjectevent',
         name: 'ประเด็นการตรวจติดตาม'
       },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsubject',
       //   name: 'รายงานประเด็นการตรวจติดตาม'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportperformance',
       //   name: 'รายงานผลการดำเนินการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsuggestions',
       //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportsuggestionsresult',
       //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportquestionnaire',
       //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       // },
       // {
       //   ex_link: '0',
-      //   icon: 'fa-long-arrow-alt-right',
+      //   icon: 'fa-file',
       //   url: '/reportcomment',
       //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       // },
@@ -1672,13 +1672,13 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     children: [
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/electronicbook',
         name: 'สร้างเอง'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/electronicbook/invited',
         name: 'ถูกส่ง'
       },
@@ -1701,43 +1701,43 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     children: [
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1558&parent=1232&directory=13214&pagename=content1',
         name: 'คณะรัฐมนตรี'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/inspector',
         name: 'ผู้ตรวจราชการ'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/province',
         name: 'เจ้าหน้าที่ประจำเขตตรวจราชการ'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/external/ggc-opm',
         name: 'คณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '#',
         name: 'เคลือข่ายคณะกรรมการธรรมมาภิบาลจังหวัด'
       },
       {
         ex_link: '1',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: 'http://www.opm.go.th/opmportal/index.asp?pageid=1427&parent=1232&directory=14727&pagename=content1',
         name: 'ที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
       },

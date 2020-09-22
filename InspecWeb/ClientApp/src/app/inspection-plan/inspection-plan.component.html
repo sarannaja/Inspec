@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
@@ -233,6 +231,11 @@
                 <i *ngIf="role_id == 3 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
+
+                  <i *ngIf="role_id == 3 && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+                  class="align-middle mr-2 fas fa-fw fa-trash pointer"
+                  (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
+
               </td>
             </tr>
           </tbody>
@@ -435,7 +438,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body m-3">
+      <div class="modal-body m-12">
         <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
           [items]="MinistrySelect" name="UserMinistryId" formControlName="UserMinistryId">

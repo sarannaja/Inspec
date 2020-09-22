@@ -105,6 +105,10 @@ export class CommanderReportDetailComponent implements OnInit {
   sendCommand(value) {
     this.exportReportService.sendCommand(this.reportId, value, this.userid).subscribe(res => {
       console.log("commanded: ", res);
+      this.notificationService.addNotification(this.reportData.importData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, this.userid, 9, this.reportId)
+        .subscribe(response => {
+          console.log("Noti res: ", response);
+        });
       this.getReportImportById();
       this.modalRef.hide();
       this._NotofyService.onSuccess("บันทึกข้อสั่งการ",)

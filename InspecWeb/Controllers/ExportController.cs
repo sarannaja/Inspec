@@ -2127,7 +2127,6 @@ namespace InspecWeb.Controllers
         [HttpPost("getCelendarReportById")]
         public IActionResult GetCelendarReportById([FromBody] ExportCalendarViewModel model)
         {
-
             if (model.provinceId == 0) //รายเขต
             {
                 var regiondata = _context.Regions
@@ -2144,31 +2143,51 @@ namespace InspecWeb.Controllers
                     {
                         //data.Where(x => x.StartDate <= model.date && x.EndDate >= model.date);
                         var data = _context.CentralPolicyEvents
-                            .Include(m => m.CentralPolicy)
-                            .Include(m => m.InspectionPlanEvent)
-                            .ThenInclude(m => m.User)
+                            //.Include(m => m.CentralPolicy)
+                            //.Include(m => m.InspectionPlanEvent)
+                            //.ThenInclude(m => m.User)
                             .Include(m => m.InspectionPlanEvent)
                             .ThenInclude(m => m.CentralPolicyUsers)
                             .ThenInclude(m => m.User)
-                            .Include(m => m.InspectionPlanEvent)
-                            .ThenInclude(m => m.Province)
+                            //.Include(m => m.InspectionPlanEvent)
+                            //.ThenInclude(m => m.Province)
                             .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
                             .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                                             .Select(x => new {
+                                                 centralPolicyId = x.CentralPolicyId,
+                                                 startDate = x.StartDate,
+                                                 title = x.CentralPolicy.Title,
+                                                 status = x.InspectionPlanEvent.Status,
+                                                 province = x.InspectionPlanEvent.Province.Name,
+                                                 namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                                 phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                                 nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                             })
                             .ToList();
                         calendar.Add(data);
                     }
                     else
                     {
                         var data = _context.CentralPolicyEvents
-                            .Include(m => m.CentralPolicy)
-                            .Include(m => m.InspectionPlanEvent)
-                            .ThenInclude(m => m.User)
+                            //.Include(m => m.CentralPolicy)
+                            //.Include(m => m.InspectionPlanEvent)
+                            //.ThenInclude(m => m.User)
                             .Include(m => m.InspectionPlanEvent)
                             .ThenInclude(m => m.CentralPolicyUsers)
                             .ThenInclude(m => m.User)
-                            .Include(m => m.InspectionPlanEvent)
-                            .ThenInclude(m => m.Province)
+                            //.Include(m => m.InspectionPlanEvent)
+                            //.ThenInclude(m => m.Province)
                             .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
+                                             .Select(x => new {
+                                                 centralPolicyId = x.CentralPolicyId,
+                                                 startDate = x.StartDate,
+                                                 title = x.CentralPolicy.Title,
+                                                 status = x.InspectionPlanEvent.Status,
+                                                 province = x.InspectionPlanEvent.Province.Name,
+                                                 namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                                 phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                                 nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                             })
                             .ToList();
                         calendar.Add(data);
                     }
@@ -2181,31 +2200,51 @@ namespace InspecWeb.Controllers
                 if (model.date != null)
                 {
                     var calendar = _context.CentralPolicyEvents
-                        .Include(m => m.CentralPolicy)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.User)
+                        //.Include(m => m.CentralPolicy)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.User)
                         .Include(m => m.InspectionPlanEvent)
                         .ThenInclude(m => m.CentralPolicyUsers)
                         .ThenInclude(m => m.User)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.Province)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                                         .Select(x => new {
+                                             centralPolicyId = x.CentralPolicyId,
+                                             startDate = x.StartDate,
+                                             title = x.CentralPolicy.Title,
+                                             status = x.InspectionPlanEvent.Status,
+                                             province = x.InspectionPlanEvent.Province.Name,
+                                             namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                             phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                             nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                         })
                         .ToList();
                     return Ok(calendar);
                 }
                 else
                 {
                     var calendar = _context.CentralPolicyEvents
-                        .Include(m => m.CentralPolicy)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.User)
+                        //.Include(m => m.CentralPolicy)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.User)
                         .Include(m => m.InspectionPlanEvent)
                         .ThenInclude(m => m.CentralPolicyUsers)
                         .ThenInclude(m => m.User)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.Province)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
+                                         .Select(x => new {
+                                             centralPolicyId = x.CentralPolicyId,
+                                             startDate = x.StartDate,
+                                             title = x.CentralPolicy.Title,
+                                             status = x.InspectionPlanEvent.Status,
+                                             province = x.InspectionPlanEvent.Province.Name,
+                                             namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                             phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                             nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                         })
                         .ToList();
                     return Ok(calendar);
                 }
@@ -2216,16 +2255,26 @@ namespace InspecWeb.Controllers
                 if (model.date != null)
                 {
                     var calendar = _context.CentralPolicyEvents
-                        .Include(m => m.CentralPolicy)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.User)
+                        //.Include(m => m.CentralPolicy)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.User)
                         .Include(m => m.InspectionPlanEvent)
                         .ThenInclude(m => m.CentralPolicyUsers)
                         .ThenInclude(m => m.User)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.Province)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                                         .Select(x => new {
+                                             centralPolicyId = x.CentralPolicyId,
+                                             startDate = x.StartDate,
+                                             title = x.CentralPolicy.Title,
+                                             status = x.InspectionPlanEvent.Status,
+                                             province = x.InspectionPlanEvent.Province.Name,
+                                             namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                             phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                             nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                         })
                         .ToList();
 
                     return Ok(calendar);
@@ -2233,15 +2282,25 @@ namespace InspecWeb.Controllers
                 else
                 {
                     var calendar = _context.CentralPolicyEvents
-                        .Include(m => m.CentralPolicy)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.User)
+                        //.Include(m => m.CentralPolicy)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.User)
                         .Include(m => m.InspectionPlanEvent)
                         .ThenInclude(m => m.CentralPolicyUsers)
                         .ThenInclude(m => m.User)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.Province)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
+                                         .Select(x => new {
+                                             centralPolicyId = x.CentralPolicyId,
+                                             startDate = x.StartDate,
+                                             title = x.CentralPolicy.Title,
+                                             status = x.InspectionPlanEvent.Status,
+                                             province = x.InspectionPlanEvent.Province.Name,
+                                             namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                             phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                             nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                         })
                         .ToList();
 
                     return Ok(calendar);
@@ -2252,16 +2311,26 @@ namespace InspecWeb.Controllers
                 if (model.date != null)
                 {
                     var calendar = _context.CentralPolicyEvents
-                        .Include(m => m.CentralPolicy)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.User)
+                        //.Include(m => m.CentralPolicy)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.User)
                         .Include(m => m.InspectionPlanEvent)
                         .ThenInclude(m => m.CentralPolicyUsers)
                         .ThenInclude(m => m.User)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.Province)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.CreatedBy == model.peopleId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                                         .Select(x => new {
+                                             centralPolicyId = x.CentralPolicyId,
+                                             startDate = x.StartDate,
+                                             title = x.CentralPolicy.Title,
+                                             status = x.InspectionPlanEvent.Status,
+                                             province = x.InspectionPlanEvent.Province.Name,
+                                             namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                             phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                             nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                         })
                         .ToList();
 
                     return Ok(calendar);
@@ -2269,15 +2338,25 @@ namespace InspecWeb.Controllers
                 else
                 {
                     var calendar = _context.CentralPolicyEvents
-                        .Include(m => m.CentralPolicy)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.User)
+                        //.Include(m => m.CentralPolicy)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.User)
                         .Include(m => m.InspectionPlanEvent)
                         .ThenInclude(m => m.CentralPolicyUsers)
                         .ThenInclude(m => m.User)
-                        .Include(m => m.InspectionPlanEvent)
-                        .ThenInclude(m => m.Province)
+                        //.Include(m => m.InspectionPlanEvent)
+                        //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.CreatedBy == model.peopleId)
+                                         .Select(x => new {
+                                             centralPolicyId = x.CentralPolicyId,
+                                             startDate = x.StartDate,
+                                             title = x.CentralPolicy.Title,
+                                             status = x.InspectionPlanEvent.Status,
+                                             province = x.InspectionPlanEvent.Province.Name,
+                                             namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                             phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                             nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                         })
                         .ToList();
 
                     return Ok(calendar);
@@ -2341,7 +2420,7 @@ namespace InspecWeb.Controllers
                     row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
                     row.Cells[5].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
                     row.Cells[6].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม/หน่วยงาน");
+                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม");
                     //row.Cells[8].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[9].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -2408,7 +2487,7 @@ namespace InspecWeb.Controllers
                     row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
                     row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
                     row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม/หน่วยงาน");
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม");
                     //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -2474,7 +2553,7 @@ namespace InspecWeb.Controllers
                     row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
                     row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
                     row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม/หน่วยงาน");
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม");
                     //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -2540,7 +2619,7 @@ namespace InspecWeb.Controllers
                     row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
                     row.Cells[4].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
                     row.Cells[5].Paragraphs.First().Append("หมายเลขติดต่อ");
-                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม/หน่วยงาน");
+                    row.Cells[6].Paragraphs.First().Append("ผู้เข้าร่วม");
                     //row.Cells[7].Paragraphs.First().Append("หมายเลขติดต่อ");
                     //row.Cells[8].Paragraphs.First().Append("สถานะการเข้าร่วม");
                     // Add rows in the table.
@@ -2945,5 +3024,34 @@ namespace InspecWeb.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet("testaof/{id}")]
+        public IActionResult testtesttt(long id)
+        {
+            var calendar = _context.CentralPolicyEvents
+                 //.Include(m => m.CentralPolicy)
+                 //.Include(m => m.InspectionPlanEvent)
+                 //.ThenInclude(m => m.User)
+                 .Include(m => m.InspectionPlanEvent)
+                 .ThenInclude(m => m.CentralPolicyUsers)
+                 .ThenInclude(m => m.User)
+                 //.Include(m => m.InspectionPlanEvent)
+                 //.ThenInclude(m => m.Province)
+                 .Where(m => m.InspectionPlanEvent.ProvinceId == id)
+                 .Select(x => new {
+                     centralPolicyId = x.CentralPolicyId,
+                    startDate = x.StartDate,
+                    title = x.CentralPolicy.Title,
+                    status = x.InspectionPlanEvent.Status,
+                     province = x.InspectionPlanEvent.Province.Name,
+                     namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                     phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                     nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                 })
+                 .ToList();
+            return Ok(calendar);
+        }
+
+  
     }
 }

@@ -88,6 +88,8 @@ namespace InspecWeb.ViewModel
         public long trainingPhaseId { get; set; }
 
         public DateTime registerDate { get; set; }
+
+        public long trainingProgramLoginId { get; set; }
     }
 
 }

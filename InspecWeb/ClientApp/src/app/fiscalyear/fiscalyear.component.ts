@@ -1,10 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { Router } from '@angular/router';
 import { IMyOptions } from 'mydatepicker-th';
 import { NgxSpinnerService } from "ngx-spinner";
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-fiscalyear',
@@ -14,15 +15,22 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class FiscalyearComponent implements OnInit {
 
   resultfiscalyear: any[] = []
+  fileset:any[] = []
   delid: any
   year: any
+  startdate: any
+  enddate: any
+  orderdate: any
   modalRef: BsModalRef;
   Form: FormGroup
-  EditForm: FormGroup;
   loading = false;
+  ed: any;
+  sd: any;
+  od:any;
+  fileUrl :any;
   dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
-  private myDatePickerOptions: IMyOptions = {
+  public myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
     showTodayBtn: true
@@ -39,11 +47,17 @@ export class FiscalyearComponent implements OnInit {
     private fiscalyearservice: FiscalyearService,
     public share: FiscalyearService, 
     private router: Router,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    @Inject('BASE_URL') baseUrl: string,
+    private _NotofyService: NotofyService,
+    ) { 
+      this.fileUrl = baseUrl + '/Setinspectionareafile';
+    }
 
   ngOnInit() {
     this.spinner.show();
-
+    this.getdata();
+    this.Formx();
     this.dtOptions = {
       pagingType: 'full_numbers',
       "language": {
@@ -61,87 +75,105 @@ export class FiscalyearComponent implements OnInit {
       }
 
     };
-
-
-    this.Form = this.fb.group({
-      "fiscalyear": new FormControl(null, [Validators.required]),
-      "startdate": new FormControl(null, [Validators.required]),
-      "enddate": new FormControl(null, [Validators.required]),
-    })
-
-    //แก้ไข
-    this.Form.patchValue({
-      // test: "testest"
-    })
-
+  }
+  getdata(){
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
       this.loading = true;
       this.spinner.hide();
       console.log(this.resultfiscalyear);
-
     })
   }
-  openModal(template: TemplateRef<any>, id, year) {
+  openModal(template: TemplateRef<any>, id, year,orderdate,startdate,enddate,setinspectionareaFiles) {
     this.delid = id;
-    this.year = year;
-    console.log(this.delid);
-    console.log(this.year);
+    this.fileset = setinspectionareaFiles;
+    if (orderdate == null) {
+      this.od = orderdate;
+    } else {
+      this.od = this.time(orderdate);
+    }
 
+    if (startdate == null) {
+      this.sd = startdate;
+    } else {
+      this.sd = this.time(startdate);
+    }
+
+    if (enddate == null) {
+      this.ed = enddate;
+    } else {
+      this.ed = this.time(enddate);
+    }
+
+    this.Form.patchValue({
+      year : year,
+      orderdate: this.od,
+      startdate : this.sd,
+      enddate : this.ed,
+    })
     this.modalRef = this.modalService.show(template);
   }
+
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Form.patchValue({
+      files: file
+    });
+    this.Form.get('files').updateValueAndValidity()
+
+  }
+
   storeFiscalyear(value) {
-    this.fiscalyearservice.addFiscalyear(value).subscribe(response => {
-      console.log(value);
+    this.fiscalyearservice.addFiscalyear(value,this.Form.value.files).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-      this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
-        this.resultfiscalyear = result
-        this.loading = true;
-        console.log(this.resultfiscalyear);
-      })
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
+      this.getdata();
     })
   }
   deleteFiscalyear(value) {
     this.fiscalyearservice.deleteFiscalyear(value).subscribe(response => {
-      console.log(value);
       this.modalRef.hide()
       this.loading = false;
-      this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
-        this.resultfiscalyear = result
-        this.loading = true;
-        console.log(this.resultfiscalyear);
-      })
+      this._NotofyService.onSuccess("ลบข้อมูล")
+      this.getdata();
     })
   }
-  editModal(template: TemplateRef<any>, id, year) {
-    this.delid = id;
-    this.year = year
-    console.log(this.delid);
-    console.log(this.year);
-
-    this.modalRef = this.modalService.show(template);
-    this.EditForm = this.fb.group({
-      "fiscalyear": new FormControl(null, [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
-    })
-    this.EditForm.patchValue({
-      "fiscalyear": year
-    })
-  }
+  // editModal(template: TemplateRef<any>, id, year) {
+  //   this.delid = id;
+  //   this.year = year
+  //   this.modalRef = this.modalService.show(template);
+  //   this.EditForm = this.fb.group({
+  //     "fiscalyear": new FormControl(null, [Validators.required]),
+  //   })
+  //   this.EditForm.patchValue({
+  //     "fiscalyear": year
+  //   })
+  // }
   editFiscalyear(value, delid) {
-    console.clear();
-    console.log(value);
-    this.fiscalyearservice.editFiscalyear(value, delid).subscribe(response => {
+    this.fiscalyearservice.editFiscalyear(value,this.Form.value.files, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-      this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
-        this.resultfiscalyear = result
-        this.loading = true;
-      })
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
+      this.getdata();
     })
+  }
+  Formx(){
+    this.Form = this.fb.group({
+      year: new FormControl(null, [Validators.required]),
+      startdate: new FormControl(null, [Validators.required]),
+      enddate: new FormControl(null, [Validators.required]),
+      orderdate: new FormControl(null, [Validators.required]),
+      files: new FormControl(null, [Validators.required]),
+    })
+  }
+
+  time(date) {
+    var ssss = new Date(date)
+    var new_date = { date: { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() } }
+    return new_date
   }
 
   DetailFiscalYear(id: any) {

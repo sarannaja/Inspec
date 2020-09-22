@@ -1,13 +1,10 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">จัดการฐานข้อมูล</a></li>
       <li class="breadcrumb-item"><a [routerLink]="['/fiscalyear']">คำสั่งกำหนดเขตตรวจราชการ</a></li>
       <li class="breadcrumb-item active">จัดการความสัมพันธ์</li>
-      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
   </nav>
 </div>
@@ -18,7 +15,7 @@
         <h5 class="card-title">จัดการความสัมพันธ์</h5>
         <div class="float-right">
           <button class="btn btn-primary" (click)="openModal(modalDetailFiscalyear)"
-            style="margin-top: -60px;">เพิ่มจัดการความสัมพันธ์</button>
+            style="margin-top: -60px;">เพิ่มความสัมพันธ์</button>
         </div>
       </div>
       <div class="card-body">
@@ -37,14 +34,19 @@
               <td>{{ i + 1 }}</td>
               <td>{{ items.region.name }} </td>
               <td>
-                <span *ngFor="let item of items.province; let i = index">{{ item.name }}
+                <span *ngFor="let item of items.province; let i = index">
+                  <label class="badge badge-info mr-1">{{item.name}}</label>
                 </span>
               </td>
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openModalEdit(modaleditDetailFiscalyear)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModalDelete(modaldeleteDetailFiscalyear, items.regionId)"></i>
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" 
+                  (click)="openModalEdit(modaleditDetailFiscalyear,items.id,items.region.id,items.province)">
+                  <i class="align-middle  fas fa-fw fa-pen "></i>
+                </button>
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" 
+                  (click)="openModalDelete(modaldeleteDetailFiscalyear, items.regionId)">
+                  <i class="align-middle  fas fa-fw fa-trash-alt "></i>
+                </button>             
               </td>
             </tr>
           </tbody>
@@ -111,7 +113,7 @@
   <!-- BEGIN primary modal -->
   <ng-template #modaleditDetailFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="Form" (ngSubmit)="AddRelation(Form.value)">
+    <form [formGroup]="Form" (ngSubmit)="EditRelation(Form.value,id)">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">จัดการความสัมพันธ์</h5>

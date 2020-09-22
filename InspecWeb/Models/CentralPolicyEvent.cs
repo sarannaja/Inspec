@@ -46,6 +46,8 @@ namespace InspecWeb.Models
         public long HaveSubject { get; set; }
 
         public ICollection<CentralPolicyEventQuestion> CentralPolicyEventQuestions { get; set; }
+
+        public ICollection<SubjectGroupPeopleQuestion> SubjectGroupPeopleQuestions { get; set; }
         //public ICollection<AnswerCentralPolicyProvince> AnswerCentralPolicyProvinces { get; set; }
         //[ForeignKey("ElectronicBook")]
         //[Description("FK: Event การตรวจ")]

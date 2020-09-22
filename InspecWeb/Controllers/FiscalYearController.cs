@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,20 +17,35 @@ namespace InspecWeb.Controllers
     [Route("api/[controller]")]
     public class FiscalYearController : Controller
     {
+        public static IWebHostEnvironment _environment;
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private readonly ApplicationDbContext _context;
 
-        public FiscalYearController(ApplicationDbContext context)
+        public FiscalYearController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: api/values
         [HttpGet]
         public IActionResult Get()
         {
-            var fiscalyeardata = from P in _context.FiscalYearNew
-                                 select P;
-            return Ok(fiscalyeardata);
+
+            var fiscalyearData = _context.FiscalYears
+                .Include(m => m.SetinspectionareaFiles)
+                .OrderBy(x => x.CreatedAt)
+                .ToList();
+            return Ok(fiscalyearData);
+
 
         }
 
@@ -93,22 +111,57 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public FiscalYear Post(string year, DateTime startdate,DateTime enddate)
+        public async Task<IActionResult> Post([FromForm] Setinspectionarea model)
         {
             var date = DateTime.Now;
 
             var fiscalyeardata = new FiscalYear
             {
-                Year = year,
-                StartDate = startdate,
-                EndDate = enddate,
+                Year = model.Year,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                Orderdate = model.Orderdate,
                 CreatedAt = date
             };
-
             _context.FiscalYears.Add(fiscalyeardata);
             _context.SaveChanges();
 
-            return fiscalyeardata;
+            if (!Directory.Exists(_environment.WebRootPath + "//Setinspectionareafile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Setinspectionareafile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "//Setinspectionareafile//";
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var SetinspectionareaFile = new SetinspectionareaFile
+                        {
+                            FiscalYearId = fiscalyeardata.Id,
+                            Name = random + filename,
+                            CreatedAt = date
+                        };
+                        _context.SetinspectionareaFiles.Add(SetinspectionareaFile);
+                        _context.SaveChanges();
+                    }
+                }
+                System.Console.WriteLine("testuser : 2");
+            }
+
+            return Ok(new { status = "ture" });
         }
 
         //POST api/values
@@ -136,12 +189,54 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string year)
+        public async Task<IActionResult> Put([FromForm] Setinspectionarea model, long id)
         {
+            var date = DateTime.Now;
             var fiscalyear = _context.FiscalYears.Find(id);
-            fiscalyear.Year = year;
+            fiscalyear.Year = model.Year;
+            fiscalyear.Orderdate = model.Orderdate;
+            fiscalyear.StartDate = model.StartDate;
+            fiscalyear.EndDate = model.EndDate;
+            fiscalyear.UpdateAt = date;
             _context.Entry(fiscalyear).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Setinspectionareafile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Setinspectionareafile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "//Setinspectionareafile//";
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var SetinspectionareaFile = new SetinspectionareaFile
+                        {
+                            FiscalYearId = id,
+                            Name = random + filename,
+                            CreatedAt = date
+                        };
+                        _context.SetinspectionareaFiles.Add(SetinspectionareaFile);
+                        _context.SaveChanges();
+                    }
+                }
+                System.Console.WriteLine("testuser : 2");
+            }
+
+            return Ok(new { status = "ture" });
 
         }
 
@@ -181,4 +276,16 @@ namespace InspecWeb.Controllers
             return Ok(fiscalyearData);
         }
     }
+}
+
+public class Setinspectionarea
+{
+    public long Id { get; set; }
+
+    public string Year { get; set; }
+    public DateTime? Orderdate { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
+    public List<IFormFile> files { get; set; }
+
 }

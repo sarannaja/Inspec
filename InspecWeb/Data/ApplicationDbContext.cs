@@ -161,6 +161,7 @@ namespace InspecWeb.Data
         public DbSet<FiscalYearNew> FiscalYearNew { get; set; } //<!-- ปีงบประมาณที่แท้จริง -->
         public DbSet<Side> Sides { get; set; } //<!-- ด้าน -->
         public DbSet<AnswerRecommenDationInspector> AnswerRecommenDationInspectors { get; set; }
+        public DbSet<SetinspectionareaFile> SetinspectionareaFiles { get; set; } //<!-- ไฟล์ของกำหนดเขตการตรวจ -->
 
         public DbSet<TrainingLogin> TrainingLogins { get; set; }
         
@@ -245,11 +246,17 @@ namespace InspecWeb.Data
             .HasForeignKey(p => p.CentralPolicyId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<CentralPolicyEvent>()
-            .HasOne(p => p.CentralPolicy)
-            .WithMany(b => b.CentralPolicyEvents)
-            .HasForeignKey(p => p.CentralPolicyId)
-            .OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<SubjectGroup>()
+            //.HasOne(p => p.Province)
+            //.WithMany(b => b.SubjectGroups)
+            //.HasForeignKey(p => p.ProvinceId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<CentralPolicyEvent>()
+            //.HasOne(p => p.CentralPolicy)
+            //.WithMany(b => b.CentralPolicyEvents)
+            //.HasForeignKey(p => p.CentralPolicyId)
+            //.OnDelete(DeleteBehavior.Cascade);
 
             //CentralPolicyProvince Cascade//
             builder.Entity<SubjectCentralPolicyProvince>()
@@ -280,6 +287,18 @@ namespace InspecWeb.Data
             builder.Entity<SubjectCentralPolicyProvinceFile>()
             .HasOne(p => p.SubjectCentralPolicyProvince)
             .WithMany(b => b.SubjectCentralPolicyProvinceFiles)
+            .HasForeignKey(p => p.SubjectCentralPolicyProvinceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<AnswerSubquestionFile>()
+            .HasOne(p => p.SubjectCentralPolicyProvince)
+            .WithMany(b => b.AnswerSubquestionFiles)
+            .HasForeignKey(p => p.SubjectCentralPolicyProvinceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<AnswerSubquestionStatus>()
+            .HasOne(p => p.SubjectCentralPolicyProvince)
+            .WithMany(b => b.AnswerSubquestionStatuses)
             .HasForeignKey(p => p.SubjectCentralPolicyProvinceId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -397,35 +416,86 @@ namespace InspecWeb.Data
             .HasForeignKey(p => p.ImportReportId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            //SubjectGroups Cascade//
-            // builder.Entity<SubjectCentralPolicyProvince>()
-            // .HasOne(p => p.SubjectGroup)
-            // .WithMany(b => b.SubjectCentralPolicyProvinces)
-            // .HasForeignKey(p => p.SubjectGroupId)
-            // .OnDelete(DeleteBehavior.Cascade);
+            //subjectgroups cascade//
+
+            builder.Entity<SubjectEventFile>()
+            .HasOne(p => p.SubjectGroup)
+            .WithMany(b => b.SubjectEventFiles)
+            .HasForeignKey(p => p.SubjectGroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<AnswerSubquestionFile>()
+            //.HasOne(p => p.SubjectGroup)
+            //.WithMany(b => b.AnswerSubquestionFiles)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<SubjectGroup>()
+            //.HasMany(p => p.SubjectCentralPolicyProvinces)
+            //.WithOne(b => b.SubjectGroup)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<SubjectGroupPeopleQuestion>()
+            //.HasOne(p => p.SubjectGroup)
+            //.WithMany(b => b.SubjectGroupPeopleQuestions)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<SubjectGroupPeopleQuestion>()
+            .HasOne(p => p.CentralPolicyEvent)
+            .WithMany(b => b.SubjectGroupPeopleQuestions)
+            .HasForeignKey(p => p.CentralPolicyEventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<AnswerRecommenDationInspector>()
+            .HasOne(p => p.SubjectGroup)
+            .WithMany(b => b.AnswerRecommenDationInspectors)
+            .HasForeignKey(p => p.SubjectGroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<SubjectCentralPolicyProvince>()
+            //.HasOne(p => p.SubjectGroup)
+            //.WithMany(b => b.SubjectCentralPolicyProvinces)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+
+
+            //builder.Entity<SubjectGroupPeopleQuestion>()
+            //.HasOne(p => p.SubjectGroup)
+            //.WithMany(b => b.SubjectGroupPeopleQuestions)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CentralPolicyEventQuestion>()
+            .HasOne(p => p.CentralPolicyEvent)
+            .WithMany(b => b.CentralPolicyEventQuestions)
+            .HasForeignKey(p => p.CentralPolicyEventId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
             //seed data
-            //builder.ApplyConfiguration(new SectorSeeder());
-            //builder.ApplyConfiguration(new ProvincesGroupSeeder());
-            //builder.ApplyConfiguration(new MinistrySeeder());
-            //builder.ApplyConfiguration(new DepartmentSeeder());
-            //builder.ApplyConfiguration(new ProvinceSeeder());
-            //builder.ApplyConfiguration(new RegionSeeder());
-            //builder.ApplyConfiguration(new FiscalYearSeeder());
-            //builder.ApplyConfiguration(new GovernmentinspectionplanSeeder());
-            //builder.ApplyConfiguration(new InspectionOrderSeeder());
-            //builder.ApplyConfiguration(new InstructionOrderSeeder());
-            //builder.ApplyConfiguration(new DistrictSeeder());
-            //builder.ApplyConfiguration(new SubdistrictSeeder());
-            //builder.ApplyConfiguration(new RelationSeeder());
-            //builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
-            //builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
-            //builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
-            //builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
-            //builder.ApplyConfiguration(new FiscalYearNewSeeder());//ปีที่แท้
-            //builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
-            //builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
+            builder.ApplyConfiguration(new SectorSeeder());
+            builder.ApplyConfiguration(new ProvincesGroupSeeder());
+            builder.ApplyConfiguration(new MinistrySeeder());
+            builder.ApplyConfiguration(new DepartmentSeeder());
+            builder.ApplyConfiguration(new ProvinceSeeder());
+            builder.ApplyConfiguration(new RegionSeeder());
+            builder.ApplyConfiguration(new FiscalYearSeeder());
+            builder.ApplyConfiguration(new GovernmentinspectionplanSeeder());
+            builder.ApplyConfiguration(new InspectionOrderSeeder());
+            builder.ApplyConfiguration(new InstructionOrderSeeder());
+            builder.ApplyConfiguration(new DistrictSeeder());
+            builder.ApplyConfiguration(new SubdistrictSeeder());
+            builder.ApplyConfiguration(new RelationSeeder());
+            builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
+            builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
+            builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
+            builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
+            builder.ApplyConfiguration(new FiscalYearNewSeeder());//ปีที่แท้
+            builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
+            builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
 
         }
     }

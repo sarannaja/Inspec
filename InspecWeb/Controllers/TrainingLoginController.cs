@@ -45,30 +45,47 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("Username: " + model.username);
             System.Console.WriteLine("PhaseId: " + model.trainingPhaseId);
+            System.Console.WriteLine("DateId: " + model.trainingProgramLoginId);
+
+            var trainingId = _context.TrainingPhases
+                .Where(x => x.Id == model.trainingPhaseId)
+                .Select(x => x.TrainingId)
+                .FirstOrDefault();
+
             var trainingRegisterData = _context.TrainingRegisters
-                .Where(x => x.UserId == model.username)
+                .Where(x => x.UserName == model.username && x.TrainingId == trainingId && x.Status == 1)
                 .FirstOrDefault();
 
             System.Console.WriteLine("Data: " + trainingRegisterData);
 
+            var trainingLoginData = _context.TrainingLogins
+                .Where(x => x.Username == model.username && x.TrainingPhaseId == model.trainingPhaseId && x.TrainingProgramLoginId == model.trainingProgramLoginId)
+                .FirstOrDefault();
+
             if (trainingRegisterData == null)
             {
-                return Ok(false);
+                return Ok(new { status = 100 });
             }
-            else
+            else if (trainingRegisterData != null && trainingLoginData != null)
+            {
+                return Ok(new { status = 200 });
+            }
+            else if (trainingRegisterData != null && trainingLoginData == null)
             {
                 var TrainingData = new TrainingLogin
                 {
                     Username = model.username,
                     TrainingPhaseId = model.trainingPhaseId,
                     RegisterDate = DateTime.Now,
+                    TrainingProgramLoginId = model.trainingProgramLoginId
                 };
 
                 _context.TrainingLogins.Add(TrainingData);
                 _context.SaveChanges();
 
-                return Ok(true);
+                return Ok(new { status = 300 });
             }
+            return Ok(true);
         }
 
     }

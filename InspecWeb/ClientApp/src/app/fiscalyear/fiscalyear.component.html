@@ -1,11 +1,10 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a [routerLink]="['/main']">จัดการฐานข้อมูล</a></li>
-      <li class="breadcrumb-item active">คำสั่งกำหนดเขตตรวจราชการ</li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item active">จัดการฐานข้อมูล</li>
+      <li class="breadcrumb-item active">กำหนดเขตตรวจราชการ</li>
     </ol>
   </nav>
 </div>
@@ -13,7 +12,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">คำสั่งกำหนดเขตตรวจราชการ</h5>
+        <h5 class="card-title">กำหนดเขตตรวจราชการ</h5>
         <div class="float-right">
           <button class="btn btn-primary" (click)="openModal(modalFiscalyear)"
             style="margin-top: -60px;">เพิ่มข้อมูล</button>
@@ -26,7 +25,9 @@
             <tr>
               <th>#</th>
               <th>คำสั่งกำหนดเขตตรวจราชการ</th>
+              <th>ลงวันที่</th>
               <th>ระยะเวลา</th>
+              <th>วันที่แก้ไข</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -34,19 +35,23 @@
             <tr *ngFor="let item of resultfiscalyear; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ item.year }}</td>
-              <td *ngIf="item.startDate != null; else elseBlock">{{ item.startDate | thaidate:'short'}} -
-                {{ item.endDate | thaidate:'short'}}</td>
+              <td>{{item.orderdate | thaidate:'short'}}</td>
+              <td *ngIf="item.startDate != null; else elseBlock">
+                {{ item.startDate | thaidate:'short'}} - {{ item.endDate | thaidate:'short'}}
+              </td>
               <ng-template #elseBlock>
-                <td></td>
+                <td>{{item.updateAt | thaidate:'short'}}</td>
               </ng-template>
+              <td></td>
               <td>
-                <button class="btn btn-warning btn-pill btn-sm" title="การเชื่อมเขตตรวจ" (click)="DetailFiscalYear(item.id)">
+                <button class="btn btn-warning btn-pill btn-sm" title="กำหนดเขตตรวจ" (click)="DetailFiscalYear(item.id)">
                   <i class="align-middle fas fa-fw fa-map"></i>
                 </button>
-                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้ออมูล" (click)="editModal(modaleditFiscalyear, item.id, item.year)">
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" 
+                  (click)="openModal(modaleditFiscalyear, item.id, item.year,item.orderdate,item.startDate,item.endDate,item.setinspectionareaFiles)">
                   <i class="align-middle  fas fa-fw fa-pen "></i>
                 </button>
-                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้ออมูล" (click)="openModal(modaldeleteFiscalyear, item.id)">
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldeleteFiscalyear, item.id)">
                   <i class="align-middle  fas fa-fw fa-trash-alt "></i>
                 </button>
               </td>
@@ -70,10 +75,28 @@
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label class="form-label">คำสั่งกำหนดเขตตรวจราชการ</label>
+
+            <div class="row">
+              <label class="form-label col-6">คำสั่งกำหนดเขตตรวจราชการ</label>
+              <label class="form-label col-6">ลงวันที่</label>
+          </div>
+          <div class="row">
+              <div class="col-6">
+                <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอก">
+              </div>
+
+              <div class="col-6">
+                  <my-date-picker-th formControlName="orderdate" [options]="myDatePickerOptions" required
+                      placeholder="กรุณาเลือกวันที่">
+                  </my-date-picker-th>
+              </div>
+          </div>
+
+            <!-- <label class="form-label">คำสั่งกำหนดเขตตรวจราชการ</label>
             <input type="text"
               onKeyPress="if(this.value.length==4) return false;if(this.value.which === 69) return event.preventDefault();;"
-              formControlName="fiscalyear" class="form-control" placeholder="กรุณากรอก">
+              formControlName="fiscalyear" class="form-control" placeholder="กรุณากรอก"> -->
+
           </div>
           <div class="form-group row">
             <div class="col-12 col-xl-12">
@@ -81,7 +104,7 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
+                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่เริ่มต้น">
                 </my-date-picker-th>
               </div>
             </div>
@@ -92,10 +115,17 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด">
                 </my-date-picker-th>
               </div>
             </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label w-100">ไฟล์</label>
+            <a href="{{fileUrl}}/user.png" download></a>
+            <input type="file" (change)="uploadFile($event)" />
+            <small class="form-text text-muted">ไฟล์</small>
           </div>
         </div>
         <div class="modal-footer">
@@ -131,20 +161,62 @@
   <!-- BEGIN primary modal -->
   <ng-template #modaleditFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="EditForm" (ngSubmit)="editFiscalyear(EditForm.value,delid)">
+    <form [formGroup]="Form" (ngSubmit)="editFiscalyear(Form.value,delid)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">จัดการปีงบประมาณ</h5>
+          <h5 class="modal-title">คำสั่งกำหนดเขตตรวจราชการ</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">คำสั่งกำหนดเขตตรวจราชการ</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" value="{{year}}" formControlName="fiscalyear" class="form-control"
-              placeholder="กรุณากรอก">
+            <div class="row">
+              <label class="form-label col-6">คำสั่งเลขที่</label>
+              <label class="form-label col-6">ลงวันที่</label>
+          </div>
+          <div class="row">
+              <div class="col-6">
+                <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอก">
+              </div>
+
+              <div class="col-6">
+                  <my-date-picker-th formControlName="orderdate" [options]="myDatePickerOptions"
+                      placeholder="กรุณาเลือกวันที่">
+                  </my-date-picker-th>
+              </div>
+          </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-12 col-xl-12">
+              <label>กำหนดระยะเวลา</label>
+            </div>
+            <div class="col-12 col-xl-5">
+              <div class="form-group">
+                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                </my-date-picker-th>
+              </div>
+            </div>
+            <div class="col-12 col-xl-2">
+              <div class="form-group" align="center">
+                ถึง
+              </div>
+            </div>
+            <div class="col-12 col-xl-5">
+              <div class="form-group">
+                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด">
+                </my-date-picker-th>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label w-100">ไฟล์</label>
+            <input type="file" (change)="uploadFile($event)" />
+            <small class="form-text text-muted">ไฟล์</small>
+            <div *ngFor="let item of fileset; let i = index">
+              <a href="{{fileUrl}}/{{item.name}}" download>{{i +1}}.{{item.name}}</a>
+            </div>
           </div>
         </div>
         <div class="modal-footer">

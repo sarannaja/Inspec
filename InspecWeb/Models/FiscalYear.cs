@@ -23,11 +23,17 @@ namespace InspecWeb.Models
         [Description("คำสั่งเขตตรวจ")]
         public string Year { get; set; }
 
+        [Description("ลงวันที่คำสั่ง")]
+        [DataType(DataType.Date)]
+        public DateTime? Orderdate { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
+        [Description("วันที่แก้ไข")]
+        [DataType(DataType.Date)]
+        public DateTime? UpdateAt { get; set; }
 
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]
@@ -39,6 +45,8 @@ namespace InspecWeb.Models
 
         //public ICollection<CentralPolicy> CentralPolicies { get; set; }
         public ICollection<FiscalYearRelation> FiscalYearRelations { get; set; }
-       
+
+        public ICollection<SetinspectionareaFile> SetinspectionareaFiles { get; set; }
+
     }
 }

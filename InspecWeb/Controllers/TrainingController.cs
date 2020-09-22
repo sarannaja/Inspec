@@ -192,7 +192,22 @@ namespace InspecWeb.Controllers
 
         }
 
+        //GET api/Training/trainingid
+        [HttpGet("checktrainingregister/{trainingid}/{userid}")]
+        public IActionResult Checktrainingregister(long trainingid, string userid)
+        {
+            var TrainingRegistersdata = _context.TrainingRegisters
+                //.Include(m => m.Training)
+                .Where(m => m.Id == trainingid)
+                .Where(p => p.UserId == userid).Count();
 
+            if(TrainingRegistersdata > 0) { 
+                return Ok(true);
+            } else
+            {
+                return Ok(false);
+            }
+        }
         // GET: api/values
         //[HttpGet]
         //public IEnumerable<TrainingRegister> GetTrainingRegsiter()
@@ -1403,6 +1418,48 @@ namespace InspecWeb.Controllers
 
             return Ok(districtdata);
 
+        }
+
+       // PUT api/training/register/group/:id
+       [HttpPut("register/group/{id}")]
+        public void EditRegisterGroup(long id, long approve1, long approve2, long approve3, long approve4, long approve5, long approve6, long approve7, long approve8, long approve9, long approve10)
+        {
+            var training = _context.TrainingRegisters.Find(id);
+            training.Group1 = approve1;
+            training.Group2 = approve2;
+            training.Group3 = approve3;
+            training.Group4 = approve4;
+            training.Group5 = approve5;
+            training.Group6 = approve6;
+            training.Group7 = approve7;
+            training.Group8 = approve8;
+            training.Group9 = approve9;
+            training.Group10 = approve10;
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        [HttpPut("register2/group")]
+        public void EditRegisterGroup2(long[] traningregisterid, long approve1, long approve2, long approve3, long approve4, long approve5, long approve6, long approve7, long approve8, long approve9, long approve10)
+        {
+            foreach (var id in traningregisterid)
+            {
+                var training = _context.TrainingRegisters.Find(id);
+                training.Group1 = approve1;
+                training.Group2 = approve2;
+                training.Group3 = approve3;
+                training.Group4 = approve4;
+                training.Group5 = approve5;
+                training.Group6 = approve6;
+                training.Group7 = approve7;
+                training.Group8 = approve8;
+                training.Group9 = approve9;
+                training.Group10 = approve10;
+
+                _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+            }
         }
     }
 

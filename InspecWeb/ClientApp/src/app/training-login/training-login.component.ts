@@ -15,7 +15,8 @@ export class TrainingLoginComponent implements OnInit {
   trainingPhaseId: any;
   trainingData: any = [];
   submitted = false;
-  fail = false;
+  fail = 0;
+  dateId: any;
 
   constructor(
     private fb: FormBuilder,
@@ -27,12 +28,15 @@ export class TrainingLoginComponent implements OnInit {
     this.downloadUrl = baseUrl + '/Uploads';
     this.url = baseUrl;
     this.trainingPhaseId = activatedRoute.snapshot.paramMap.get('phaseid')
+    this.dateId = activatedRoute.snapshot.paramMap.get('dateid')
   }
 
   ngOnInit() {
     this.Form = this.fb.group({
       username: new FormControl("", [Validators.required]),
     })
+    console.log("phaseID: ", this.trainingPhaseId);
+    console.log("dateID: ", this.dateId);
 
     this.getTrainingData();
   }
@@ -46,17 +50,21 @@ export class TrainingLoginComponent implements OnInit {
 
   TrainingSignin(value) {
     this.submitted = true;
-    this.fail = false;
+    this.fail = 0;
     if (this.Form.invalid) {
       console.log("in1");
       return;
     } else {
-      this.trainingLoginService.signInTraining(value, this.trainingPhaseId).subscribe(res => {
+      this.trainingLoginService.signInTraining(value, this.trainingPhaseId, this.dateId).subscribe(res => {
         console.log('RES => ', res);
-        if (res == true) {
-          this.router.navigate(['/training/login-success', { trainingName: this.trainingData.name }])
-        } else if (res == false) {
-          this.fail = true;
+        if (res.status == 300) {
+          this.router.navigate(['/training/login-success', { trainingName: this.trainingData.name + "รุ่นที่ " }])
+          this.fail = res.status;
+        } else if (res.status == 200) {
+          this.fail = res.status;
+        }
+        else if (res.status == 100) {
+          this.fail = res.status;
           console.log('fail', this.fail);
         }
       })

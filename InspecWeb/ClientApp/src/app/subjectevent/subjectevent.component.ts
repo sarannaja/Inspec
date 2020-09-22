@@ -94,6 +94,9 @@ export class SubjecteventComponent implements OnInit {
   centralPolicyIdtype5: any
   provinceIdtype5: any
   centralpolicyprovinceidtype5: any
+  delid: any
+  land
+  class
   //reporttype6
   FormReporttype6: FormGroup;
   checkTypeRepor6: any
@@ -134,7 +137,7 @@ export class SubjecteventComponent implements OnInit {
     // this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
-      ordering: false,
+      ordering: true,
       "language": {
         "lengthMenu": "แสดง  _MENU_  รายการ",
         "search": "ค้นหา:",
@@ -168,6 +171,9 @@ export class SubjecteventComponent implements OnInit {
     this.Form3 = this.fb.group({
       "centralPolicyOther": new FormControl(null, [Validators.required]),
       "province": new FormControl(null, [Validators.required]),
+      "land": new FormControl(null),
+      "startdate": new FormControl(null),
+      "enddate": new FormControl(null),
     })
 
     this.FormReporttype2 = this.fb.group({
@@ -206,7 +212,11 @@ export class SubjecteventComponent implements OnInit {
       { label: "รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน", value: "6" }
     ]
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>, id, land, classcen) {
+    this.class = classcen;
+    this.land = land;
+    this.delid = id;
+
     this.submitted = false;
     this.submittedtime = false;
     this.submittedradio = false;
@@ -275,23 +285,36 @@ export class SubjecteventComponent implements OnInit {
       .subscribe(result => {
 
         // alert(JSON.stringify(result.centralPolicyEvents))
-
         this.CentralPolicyEvents = result.centralPolicyEvents
         this.subjectgroupsdatas = result.subjectgroupsdatas
 
         this.selectdatacentralpolicy2 = this.CentralPolicyEvents.filter((item, index) => {
           return item.haveSubject == 0
         }).map((item, index) => {
-          return { value: { centralPolicyId: item.centralPolicy.id, centralPolicyeventId: item.id }, label: item.centralPolicy.title }
+          var start_date = (this.time(item.startDate).day) + "/" + (this.time(item.startDate).month) + "/" + (this.time(item.startDate).year + 543)
+          var end_date = (this.time(item.endDate).day) + "/" + (this.time(item.endDate).month) + "/" + (this.time(item.endDate).year + 543)
+          // alert(start_date)
+          return { value: { centralPolicyId: item.centralPolicy.id, centralPolicyeventId: item.id }, label: item.centralPolicy.title + " จังหวัด" + item.inspectionPlanEvent.province.name + " (" + start_date + " - " + end_date + ")" }
         })
-
         // alert(JSON.stringify(this.selectdatacentralpolicy2))
         // this.getRecycled()
-
-
-
       })
   }
+
+  time(date) {
+    console.log("Date: ", date);
+
+    let ssss = new Date(date)
+    var new_date = {
+      year: ssss.getFullYear(),
+      month: ssss.getMonth() + 1,
+      day: ssss.getDate()
+    }
+    console.log("newDate: ", new_date);
+    // alert(JSON.stringify(new_date))
+    return new_date
+  }
+
   getRecycled() {
     // alert(JSON.stringify(this.CentralPolicyEvents))
     this.selectdatacentralpolicy2 = []
@@ -322,6 +345,10 @@ export class SubjecteventComponent implements OnInit {
     // }
   }
   storeCentralPolicy(value) {
+
+    // alert(JSON.stringify(this.Form.value.startdate))
+    // alert(JSON.stringify(this.Form.value.enddate))
+
     // alert(JSON.stringify(this.Form.invalid))
     // alert(this.Form.value.startdate)
     console.log('storeCentralPolicy', value, this.userid);
@@ -375,7 +402,6 @@ export class SubjecteventComponent implements OnInit {
   }
 
   storeCentralPolicy2(value) {
-
     this.submitted = true;
     if (this.Form2.invalid) {
       console.log("in1");
@@ -397,24 +423,43 @@ export class SubjecteventComponent implements OnInit {
 
   storeCentralPolicy3(value) {
 
-    // alert("!23")
-    console.log("FORM JA: ", value);
+    console.log('storeCentralPolicy', value, this.userid);
 
     this.submitted = true;
-    if (this.Form3.invalid) {
-      console.log("in1");
-      return;
+
+    if (this.Form3.value.province == null || this.Form3.value.centralPolicyOther == null) {
+      if (value.land == null) {
+        this.submittedradio = true;
+      }
     } else {
+      if (value.land == null) {
+        this.submittedradio = true;
+      }
       this.submitted = false;
-      this.subjectservice.subjecteventnolandOther(value, this.userid)
-        .subscribe(result => {
-          this._NotofyService.onSuccess("เพื่มข้อมูล",)
-          this.loading = false;
-          this.modalRef.hide();
-          this.Form3.reset()
-          // this.resultcentralpolicy = result
-          this.getSubjectevent();
-        })
+      if (value.land == "ลงพื้นที่") {
+        if (this.Form3.value.startdate != null || this.Form3.value.enddate != null) {
+          this.subjectservice.subjecteventnolandOtherland(value, this.userid)
+            .subscribe(result => {
+              this._NotofyService.onSuccess("เพื่มข้อมูล",)
+              this.loading = false;
+              this.modalRef.hide();
+              this.Form3.reset();
+              this.getSubjectevent();
+            })
+        } else {
+          this.submittedtime = true;
+        }
+      } else if (value.land == "ไม่ลงพื้นที่") {
+        this.subjectservice.subjecteventnolandOther(value, this.userid)
+          .subscribe(result => {
+            this._NotofyService.onSuccess("เพื่มข้อมูล",)
+            this.loading = false;
+            this.modalRef.hide();
+            this.Form3.reset();
+            this.getSubjectevent();
+          })
+      }
+
     }
   }
 
@@ -439,6 +484,9 @@ export class SubjecteventComponent implements OnInit {
     this.checkType = 3;
   }
   startdate_enddate(event) {
+
+    // alert(JSON.stringify(event))
+
     this.Form.patchValue({
       startdate: event.start_date,
       enddate: event.end_date,
@@ -446,6 +494,15 @@ export class SubjecteventComponent implements OnInit {
     console.log(this.Form.value);
 
   }
+
+  startdate_enddate3(event) {
+    this.Form3.patchValue({
+      startdate: event.start_date,
+      enddate: event.end_date,
+    })
+    console.log(this.Form3.value);
+  }
+
   Subjectevent(id, centralPolicyId, provinceId) {
     this.inspectionplanservice.getcentralpolicyprovinceid(centralPolicyId, provinceId).subscribe(result => {
       // this.centralpolicyprovinceid = result
@@ -707,6 +764,56 @@ export class SubjecteventComponent implements OnInit {
       })
   }
   ////reporttype5end/////
+
+  deleteProvince(value) {
+    // alert(this.class)
+    if (this.land == "ไม่ลงพื้นที่") {
+
+      if (this.class == "แผนการตรวจประจำปี") {
+
+        this.subjectservice.delsubjecteventnoland(value)
+          .subscribe(result => {
+            this._NotofyService.onSuccess("ลบข้อมูล",)
+            // this.spinner.show();
+            this.modalRef.hide()
+            this.loading = false
+            this.getSubjectevent();
+          })
+
+      } else {
+        this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+          this._NotofyService.onSuccess("ลบข้อมูล",)
+          // this.spinner.show();
+          this.modalRef.hide()
+          this.loading = false
+          this.getSubjectevent();
+        })
+      }
+
+    } else if (this.land == "ลงพื้นที่") {
+      if (this.class == "แผนการตรวจประจำปี") {
+        this.inspectionplanservice.getCentralPolicyEvent(value).subscribe(response => {
+
+          this.inspectionplanservice.deleteCentralPolicyEvent(response).subscribe(response => {
+            this._NotofyService.onSuccess("ลบข้อมูล",)
+            // this.spinner.show();
+            this.modalRef.hide()
+            this.loading = false
+            this.getSubjectevent();
+
+          })
+        })
+      } else {
+        this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+          this._NotofyService.onSuccess("ลบข้อมูล",)
+          // this.spinner.show();
+          this.modalRef.hide()
+          this.loading = false
+          this.getSubjectevent();
+        })
+      }
+    }
+  }
   ////reporttype6start/////
   reporttyp61(value) {
     // alert(myradio)
