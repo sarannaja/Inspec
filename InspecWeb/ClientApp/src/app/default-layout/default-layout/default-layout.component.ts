@@ -227,9 +227,9 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 5) { //ask nik
         }
         else if (statusid == 6) { //ask nik
-          
+
           this.router.navigate(['/answersubject/list/' + xe])
-          https://localhost:5001/subjectevent/detail/1;subjectgroupid=1
+         // https://localhost:5001/subjectevent/detail/1;subjectgroupid=1
         }
         else if (statusid == 7) { //song
           this.router.navigate(['electronicbook/invitedetail/'+xe+';ebookInviteId=1' ])
