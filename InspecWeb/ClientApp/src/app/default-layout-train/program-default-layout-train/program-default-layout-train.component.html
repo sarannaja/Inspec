@@ -95,39 +95,43 @@
                 <label >กำหนดการ ช่วงที่ {{ phaseno }} : {{ detail }}</label>
                 <br>
                 <br>
+              <table *ngIf="loading" class="table table-bordered table-responsive-lg">
+              <thead>
+                  <tr>
+                      <th class="text-center">วันที่/เวลา</th>
+                      <th class="text-center">กิจกรรม</th>
+                      <th class="text-center">วิทยากร</th>
+                      <th class="text-center">สถานที่/เตรียมตัว</th>
+                      <!-- <th id="par" colspan="1" scope="colgroup">Paris</th> -->
+                  </tr>
+              </thead>
 
-                <table *ngIf="loading" class="table table-bordered table-responsive-lg">
-                  <thead>
+              <tbody>
+                  <!-- <caption>Delivery slots:</caption> -->
+                  <ng-container *ngFor="let item1 of chars|sort:'asc':'programDate';">
                       <tr>
-                          <th width="15%" class="text-center">วันที่/เวลา</th>
-                          <th width="45%" class="text-center">กิจกรรม</th>
-                          <th width="20%" class="text-center">วิทยากร</th>
-                          <th width="20%" class="text-center">สถานที่/การเตรียมตัว</th>
+                          <th id="{{item1.programDate}}" class="span" colspan="5" scope="colgroup">
+                              {{item1.programDate|thaidate}}
+                          </th>
                       </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                        <td [attr.colspan]="4">
-                            {{ programstartdate }}
-                        </td>
-                    </tr>
-                      <tr *ngFor="let item of resulttrainingprogram; let i = index">
-                          <td class="ellipsis">
-                              {{ item.programDate | thaidate:'year'}}
-                              <br>
-                              {{ item.minuteStartDate }} - {{ item.minuteEndDate }}
+                      <tr *ngFor="let item of item1.value |sort:'desc':'minuteStartDate'; let i = index">
+                          <td class="text-center" headers="{{item1.programDate}}">
+                              {{item.trainingProgram.minuteStartDate}}-{{item.trainingProgram.minuteEndDate}}
                           </td>
-                          <td class="ellipsis">{{ item.programDetail }}</td>
-                          <td class="ellipsis">
-
-
+                          <td class="text-center">{{item.trainingProgram.programTopic}}</td>
+                          <td class="text-center">{{item.trainingLecturer.lecturerName}}</td>
+                          <td class="text-center">
+                              {{item.trainingProgram.programLocation}}/{{item.trainingProgram.programToDress}}
                           </td>
-                          <td>{{ item.programLocation }}</td>
                       </tr>
+                  </ng-container>
 
-                  </tbody>
-              </table>
+                  <ng-template>
 
+                  </ng-template>
+
+              </tbody>
+          </table>
                 <br>
                 <br>
             </div>

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { async } from '@angular/core/testing';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-program-default-layout-train',
@@ -38,6 +39,7 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
   programstartdate: Date;
   trainingphaseid: string;
   phaseno: string;
+  chars: any[] = []
 
   // constructor() { }
   constructor(private modalService: BsModalService, 
@@ -105,16 +107,33 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
           //console.log(this.resulttraining);
         })
     })
+    this.trainingservice.getTrainingPlan(this.trainingphaseid).subscribe(result => {
 
-    
+      this.chars = result.map(result2 => { return { ...result2, programDate: result2.trainingProgram.programDate } })
+      this.chars = _.chain(this.chars)
+        .groupBy("programDate")
+        // `key` is group's name (color), `value` is the array of objects
+        .map((value, key) => ({ programDate: key, value: value  }))
+        .value()
+      // chars = _.orderBy(chars, ['programDate'], ['asc']); // Use Lodash to sort array by 'name'
+
+      // this.setState({ characters: chars })
+      console.log('chars', this.chars);
 
 
-    
-
-    
-
-
+      this.loading = true
+      // this.dtOptions = {
+      //   // pagingType: 'full_numbers',
+      //   searching: false,
+      //   pageLength: this.resulttrainingplan.length,
+      //   lengthChange: false,
+      //   info: false,
+      //   paging: false,
+      //   ordering: false,
+      // };
+    })
   }
+
 
 
 
