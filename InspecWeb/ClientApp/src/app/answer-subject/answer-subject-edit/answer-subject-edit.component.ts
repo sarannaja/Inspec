@@ -31,6 +31,7 @@ export class AnswerSubjectEditComponent implements OnInit {
   resultsubquestioncount: any = []
   province: any
   provinceid: any
+  centralPolicyId: any
   centralPolicyProvinceId: any
   Form: FormGroup
   Formstatus: FormGroup
@@ -122,6 +123,7 @@ export class AnswerSubjectEditComponent implements OnInit {
       this.subjectGroupId = this.resultsubjectdetail.subjectGroupId
       this.province = this.resultsubjectdetail.centralPolicyProvince.province.name
       this.provinceid = this.resultsubjectdetail.centralPolicyProvince.provinceId
+      this.centralPolicyId = this.resultsubjectdetail.centralPolicyProvince.centralPolicyId
       this.centralPolicyProvinceId = this.resultsubjectdetail.centralPolicyProvinceId
       // this.resultsubquestion = this.resultsubjectdetail.subquestionCentralPolicyProvinces
       // this.loading = true
@@ -198,7 +200,7 @@ export class AnswerSubjectEditComponent implements OnInit {
     console.log("123", value.Status);
     this.answersubjectservice.editStatus(value, this.resultanswerstatus.id, this.subjectGroupId).subscribe(result => {
       if (value.Status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.centralPolicyProvinceId, this.provinceid, this.userid, 6, 1)
+        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId)
           .subscribe(response => {
             console.log("innoti", response);
           })

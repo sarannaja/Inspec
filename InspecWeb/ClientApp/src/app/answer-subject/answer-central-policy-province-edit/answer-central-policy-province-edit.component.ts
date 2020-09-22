@@ -29,6 +29,8 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   submitted = false;
   provinceid: any
   centralPolicyProvinceId: any
+  subjectGroupId: any
+  centralPolicyId: any
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -69,6 +71,8 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
         this.resultQuestionPeople = result
         this.provinceid = this.resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.provinceId
         this.centralPolicyProvinceId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
+        this.subjectGroupId = this.resultQuestionPeople[0].centralPolicyEvent.subjectGroupPeopleQuestions[0].subjectGroupId
+        this.centralPolicyId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
       })
   }
   getAnsweruser() {
@@ -121,7 +125,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   editStatus(value) {
     this.answersubjectservice.editStatusrole7(value, this.centralPolicyEventId).subscribe(result => {
       if (value.Status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.centralPolicyProvinceId, this.provinceid, this.userid, 6, 1)
+        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId)
           .subscribe(response => {
             console.log("innoti", response);
           })

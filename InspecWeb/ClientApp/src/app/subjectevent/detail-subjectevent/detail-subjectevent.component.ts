@@ -148,8 +148,8 @@ export class DetailSubjecteventComponent implements OnInit {
   checkChart(id: number) { return (this.showChart.find(res => id == res) ? true : false) }
   closeChart(id: number) {
     var removeIndex = this.showChart.map(function (item) { return item }).indexOf(id);
-    console.log('removeIndex',removeIndex,'this.showChart.length',this.showChart.length);
-    this.showChart = this.showChart.splice(removeIndex, 1 );
+    console.log('removeIndex', removeIndex, 'this.showChart.length', this.showChart.length);
+    this.showChart = this.showChart.splice(removeIndex, 1);
   }
   listfiles: any = [];
   fileData: any = [{ ebookFile: '', fileDescription: '' }];
@@ -690,7 +690,7 @@ export class DetailSubjecteventComponent implements OnInit {
       this.Form.reset()
 
       if (value.status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, 1)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid)
           .subscribe(response => {
             //console.log(response);
           })
@@ -708,7 +708,7 @@ export class DetailSubjecteventComponent implements OnInit {
   storeDepartment(value) {
     // alert(this.subjectid)
     this.centralpolicyservice.addDepartment(value, this.subjectid).subscribe(response => {
-      this._NotofyService.onSuccess("เพื่มข้อมูล",)
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
       //console.log(value);
       this.Form2.reset()
       this.modalRef.hide()
@@ -738,7 +738,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editsubquestionclose(value, id) {
     this.subjectservice.editsubquestionprovince(value, id).subscribe(response => {
-      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       //console.log(value);
       this.EditForm.reset()
       this.modalRef.hide()
@@ -751,7 +751,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   editsubquestionclosechoice(value, id) {
     this.subjectservice.editsubquestionchoiceprovince(value, id).subscribe(response => {
-      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       //console.log(value);
       this.EditForm2.reset()
       this.modalRef.hide()
@@ -912,7 +912,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
   deleteProvinceial(value) {
     this.subjectservice.deleteProvincial(value).subscribe(response => {
-      this._NotofyService.onSuccess("ลบข้อมูล",)
+      this._NotofyService.onSuccess("ลบข้อมูล")
       //console.log(value);
       this.modalRef.hide()
       this.loading = false
@@ -964,7 +964,7 @@ export class DetailSubjecteventComponent implements OnInit {
   }
   deletequestion(value) {
     this.subjectservice.deletequestionrole3(value).subscribe(response => {
-      this._NotofyService.onSuccess("ลบข้อมูล",)
+      this._NotofyService.onSuccess("ลบข้อมูล")
       //console.log(value);
       this.modalRef.hide()
       this.loading = false
@@ -1139,7 +1139,7 @@ export class DetailSubjecteventComponent implements OnInit {
   AddQuestionsclose(value) {
     //console.log(value);
     this.subquestionservice.addSubquestioncloseevent(value).subscribe(result => {
-      this._NotofyService.onSuccess("เพื่มข้อมูล",)
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
       //console.log(result);
       this.FormAddQuestionsclose.reset()
       this.modalRef.hide()
@@ -1152,7 +1152,7 @@ export class DetailSubjecteventComponent implements OnInit {
     // this.spinner.show();
     //console.log("valuevaluevaluevaluevaluevaluevaluevalue", value);
     this.subjectservice.addSubjectRole3(value).subscribe(response => {
-      this._NotofyService.onSuccess("เพื่มข้อมูล",)
+      this._NotofyService.onSuccess("เพื่มข้อมูล")
       this.AddForm.reset();
       this.modalRef.hide();
       this.getDetailCentralPolicyProvince();

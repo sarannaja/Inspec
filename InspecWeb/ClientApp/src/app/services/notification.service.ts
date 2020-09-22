@@ -57,5 +57,10 @@ export class NotificationService {
     return this.http.put(this.url + id, formData);
   }
 
+  getinspactionsplaneven(id: any): Observable<any> {
+    //this.testLoop('getnotificationsdata')
+    return this.http.get<any>(this.url + 'getinspactionsplaneven/' + id)
+  }
+
 
 }

@@ -186,11 +186,53 @@ export class DefaultLayoutComponent implements OnInit {
       })
   }
 
-  detailnotifications(id,statusid) {
+  detailnotifications(id, statusid, xe, provinceId) {
     this.notificationService.updateNotification(id)
       .subscribe(result => {
-        if(statusid == 20){
-        this.router.navigate(['/commanderreport/detail/'+id])
+        if (statusid == 20) { //song
+          this.router.navigate(['/commanderreport/detail/' + xe])
+        }
+        else if (statusid == 9) { //song
+          this.router.navigate(['/reportimport/detail/' + xe])
+        }
+        else if (statusid == 16) { //song
+          this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
+        }
+        else if (statusid == 2) { //aof role6 and 10 มาทำต่อด้วย
+          if (this.role_id == 3) {
+            this.router.navigate(['/inspectionplan/' + xe + '/' + provinceId + '/0'])
+          } else if (this.role_id == 6) {
+            this.router.navigate(['/inspectionplan/ministry/' + xe + '/' + provinceId + '/0'])
+          } else if (this.role_id == 10) {
+            this.router.navigate(['/inspectionplan/department/' + xe + '/' + provinceId + '/0'])
+          }
+        }
+        else if (statusid == 3) { //aof role6 and 10 มาทำต่อด้วย
+          this.notificationService.getinspactionsplaneven(xe)
+            .subscribe(result => {
+              if (result.roleCreatedBy == "3") {
+                this.router.navigate(['/inspectionplan/' + xe + '/' + provinceId + '/1'])
+              } else if (result.roleCreatedBy == "6") {
+                this.router.navigate(['/inspectionplan/ministry/' + xe + '/' + provinceId + '/1'])
+              } else if (result.roleCreatedBy == "10") {
+                this.router.navigate(['/inspectionplan/department/' + xe + '/' + provinceId + '/1'])
+              }
+            })
+
+          //this.router.navigate(['/inspectionplan/' + xe + '/' + provinceId + '/1'])
+        }
+        else if (statusid == 4) { //ask nik
+          this.router.navigate(['/answersubject/list/' + xe])
+        }
+        else if (statusid == 5) { //ask nik
+        }
+        else if (statusid == 6) { //ask nik
+          
+          this.router.navigate(['/answersubject/list/' + xe])
+          https://localhost:5001/subjectevent/detail/1;subjectgroupid=1
+        }
+        else if (statusid == 7) { //song
+          this.router.navigate(['electronicbook/invitedetail/'+xe+';ebookInviteId=1' ])
         }
         // this.nav = superAdmin;
         // this.profileform();
