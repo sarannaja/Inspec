@@ -33,5 +33,9 @@ namespace InspecWeb.Models
         [Description("ช่วงการอบรม")]
         public long TrainingProgramLoginId { get; set; }
 
+        [Required]
+        [Description("ช่วงเช้า/บ่าย")]
+        public long DateType { get; set; }
+
     }
 }

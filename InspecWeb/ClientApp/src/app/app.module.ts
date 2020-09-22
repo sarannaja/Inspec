@@ -219,6 +219,8 @@ import { FusionChartsModule } from "angular-fusioncharts";
 import * as FusionCharts from "fusioncharts";
 import * as charts from "fusioncharts/fusioncharts.charts";
 import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import { TrainingLoginListComponent } from './training-login/training-login-list/training-login-list.component';
+import { TrainingLoginListDetailComponent } from './training-login/training-login-list/training-login-list-detail/training-login-list-detail.component';
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
@@ -408,6 +410,8 @@ const ExternalOrganization = [
     TrainingLoginComponent,
     TrainingLoginSuccessComponent,
     ChartComponent,
+    TrainingLoginListComponent,
+    TrainingLoginListDetailComponent
   ],
 
   imports: [
@@ -612,6 +616,8 @@ const ExternalOrganization = [
           { path: 'nameplate/:id', component: NamePlateComponent, canActivate: [AuthorizeGuard] },
           { path: 'nameplatepreview', component: NamePlatePreviewComponent, canActivate: [AuthorizeGuard] },
           { path: 'namelabelpreview', component: NameLabelPreviewComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/login/list/:trainingid', component: TrainingLoginListComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/login/list/detail/:programid', component: TrainingLoginListDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -628,7 +634,7 @@ const ExternalOrganization = [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
         ]
       },
-      { path: 'training/login/:phaseid/:dateid', component: TrainingLoginComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/login/:phaseid/:dateid/:datetype', component: TrainingLoginComponent, canActivate: [AuthorizeGuard] },
       { path: 'training/login-success', component: TrainingLoginSuccessComponent, canActivate: [AuthorizeGuard] },
     ]),
     TimepickerModule.forRoot(),
