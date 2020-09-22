@@ -96,8 +96,7 @@
 
                                 </div>
                                 <div *ngIf="roleId == 9">
-                                    <label
-                                        class="badge badge-secondary mr-1">{{item.provincialDepartments.name}}</label>
+                                    <label class="badge badge-secondary mr-1">{{item.provincialDepartments.name}}</label>
                                 </div>
                             </td>
                             <td *ngIf="roleId == 4 || roleId == 5 || roleId == 7 || roleId == 9">
@@ -187,13 +186,13 @@
                 </div>
 
                 <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
-                    <!-- <div class="form-group">
-                        <label>ปี*</label>
-                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปี"   [items]="selectdatafiscalyear"
+                    <div class="form-group">
+                        <label>คำสั่งกำหนดเขตตรวจราชการ*</label>
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกคำสั่งกำหนดเขตตรวจราชการ"   [items]="selectdatafiscalyear"
                             name="FiscalYear" formControlName="FiscalYear"
                         (change)="getDataRegions($event)">
                         </ng-select>
-                    </div> -->
+                    </div>
 
                     <div class="form-group">
                         <label>เขตตรวจราชการ*</label>
@@ -519,13 +518,13 @@
 
                 <div *ngIf="roleId == 3 || roleId == 6 || roleId == 8 || roleId == 10;">
 
-                    <!-- <div class="form-group">
-                            <label>ปี*</label>
-                            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปี"   [items]="selectdatafiscalyear"
+                    <div class="form-group">
+                            <label>คำสั่งกำหนดเขตตรวจราชการ*</label>
+                            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกคำสั่งกำหนดเขตตรวจราชการ"   [items]="selectdatafiscalyear"
                                 name="FiscalYear" formControlName="FiscalYear"
                             (change)="getDataRegions($event)">
                             </ng-select>
-                        </div> -->
+                        </div>
 
                     <div class="form-group">
                         <label>เขตตรวจราชการ*</label>

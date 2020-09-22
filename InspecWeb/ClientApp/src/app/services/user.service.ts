@@ -65,7 +65,6 @@ export class UserService {
     formData.append('Lastnameth', userData.LName); //ชื่อ
     formData.append('Position', userData.Position);//ตำแหน่ง
     formData.append('Educational', '');
-    formData.append('Commandnumber', userData.Commandnumber); //เลขที่คำสั่ง
     formData.append('Officephonenumber', '');
     formData.append('PhoneNumber', userData.PhoneNumber);
     formData.append('Telegraphnumber', '');
@@ -75,8 +74,13 @@ export class UserService {
     formData.append('Postalcode', '');
     formData.append('Autocreateuser', userData.Autocreateuser); // 20200823
     formData.append('UserName', userData.UserName); // 20200823
-    //alert(userData.Autocreateuser);
-
+     //<!-- เลขที่คำสั่ง 20200915 -->
+     if (userData.Commandnumber != null) {
+      formData.append('Commandnumber', userData.Commandnumber);
+    } else {
+      formData.append('Commandnumber', '');
+    }
+    //<!-- END เลขที่คำสั่ง 20200915 -->
     //<!-- ด้าน -->
     if (userData.SideId != null) {
       formData.append('SideId', userData.SideId);
@@ -188,7 +192,7 @@ export class UserService {
 
   editprofile(userData, file: FileList, file2: FileList, userId) {
   //  alert('2 :' +  userData.Commandnumber)
-    console.log("servicelog: ", userData);
+    //console.log("servicelog: ", userData);
     const formData = new FormData();
     formData.append('Role_id', userData.Role_id); //role
     formData.append('Prefix', userData.Prefix);
@@ -197,11 +201,8 @@ export class UserService {
     formData.append('Position', userData.Position);
     formData.append('PhoneNumber', userData.PhoneNumber);
     formData.append('Formprofile', userData.Formprofile);// สำหรับเช็ค user หรือแอดมิน เป็นคนเพิ่ม
-
     formData.append('Email', userData.Email); //email  
-
     formData.append('Educational', '');
-    formData.append('Commandnumber', userData.Commandnumber); //เลขที่คำสั่ง
     formData.append('Officephonenumber', '');
     formData.append('Telegraphnumber', '');
     formData.append('Housenumber', '');
@@ -212,7 +213,13 @@ export class UserService {
     formData.append('Signature', userData.Signature);
     formData.append('Autocreateuser', userData.Autocreateuser); // 20200823
     formData.append('UserName', userData.UserName); // 20200823
-   // alert(userData.Img);
+    //<!-- เลขที่คำสั่ง -->
+    if (userData.Commandnumber != null) {
+      formData.append('Commandnumber', userData.Commandnumber);
+    } else {
+      formData.append('Commandnumber', '');
+    }
+    //<!-- END เลขที่คำสั่ง -->
     //<!-- ด้าน -->
     if (userData.SideId != null) {
       formData.append('SideId', userData.SideId);
@@ -305,7 +312,7 @@ export class UserService {
     if (userData.FiscalYear == null) {
       formData.append('FiscalYearId', '1');
     } else {
-      formData.append('FiscalYearId', userData.FiscalYear);//ปีงบ
+      formData.append('FiscalYearId', userData.FiscalYear);//คำสั่งกำหนดเขตตรวจราชการ
     }
 
     if (userData.ProvincialDepartmentId == null) {
@@ -369,7 +376,6 @@ export class UserService {
   }
 
   resetpassword(id) {
-    alert(2);
     const formData = new FormData();
     formData.append('id', id);
     

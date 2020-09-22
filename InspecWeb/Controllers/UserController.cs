@@ -98,9 +98,9 @@ namespace InspecWeb.Controllers
                 .Include(p => p.Sides)
                 .Where(m => m.Role_id == id)
                 .Where(m => m.Active == 1)
-                .Where(m => m.Email != "admin@inspec.go.th");
-            //.OrderByDescending(m=>m.CreatedAt);
-
+                .Where(m => m.Email != "admin@inspec.go.th")
+                .OrderByDescending(m => m.CreatedAt);
+          
             return users;
         }
 
@@ -745,16 +745,16 @@ namespace InspecWeb.Controllers
                         UserID = user.Id,
                         RegionId = item
                     };
-                    System.Console.WriteLine("testuser : 3.2 :" + user.Id);
+                    System.Console.WriteLine("testuser : 3.2 :" + item);
                     _context.UserRegions.Add(userregiondata);
                     _context.SaveChanges();
 
                     System.Console.WriteLine("testuser : 3.3");
 
 
-
+                    //yochigang แก้ไข 20200915
                     var userprovince = _context.FiscalYearRelations
-                                .Where(m => m.RegionId == item)
+                                .Where(m => m.RegionId == item && m.FiscalYearId == model.FiscalYearId)
                                 .ToList();
 
                     // System.Console.WriteLine("UserRegion :" + item);
@@ -1475,12 +1475,12 @@ namespace InspecWeb.Controllers
                 userdata.Firstnameth = model.Firstnameth;
                 userdata.Lastnameth = model.Lastnameth;
                 userdata.Role_id = model.Role_id;
-                userdata.CreatedAt = DateTime.Now;
                 userdata.Startdate = model.Startdate;
                 userdata.Enddate = model.Enddate;
                 userdata.Active = 1;
                 userdata.Commandnumberdate = model.Commandnumberdate;//ลงวันที่คำสั่ง  
                 userdata.Commandnumber = model.Commandnumber;
+                //userdata.CreatedAt = model.CreatedAt;
 
                 //ข้อมูลรอง
                 userdata.Educational = model.Educational;
@@ -1531,10 +1531,9 @@ namespace InspecWeb.Controllers
                         System.Console.WriteLine("testuser9 : ");
 
 
-                        //ปาม2020
+                        //yochigang แก้ไข 20200915
                         var userprovince = _context.FiscalYearRelations
-                                    .Include(m => m.FiscalYear)
-                                    .Where(m => m.RegionId == item )
+                                    .Where(m => m.RegionId == item && m.FiscalYearId == model.FiscalYearId)
                                     .ToList();
 
 
@@ -1636,15 +1635,18 @@ namespace InspecWeb.Controllers
         //ปาม2020
         //<!-- resetpassword -->
         [HttpPut("api/[controller]/resetpassword")]
-        public async Task<IActionResult> resetpassword([FromForm] string id)
+        public async Task<IActionResult> resetpassword([FromForm] UserViewModel model)
         {
-            System.Console.WriteLine("momo"+id);
+            System.Console.WriteLine("momo"+model.Id);
             var passwordrandom = RandomString(8);
-            var userdata = _context.Users.Find(id);         
+            var userdata = _context.Users.Find(model.Id);
+            userdata.Pw = passwordrandom;
+            _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
             var tresult = await _userManager.RemovePasswordAsync(userdata);
             await _userManager.AddPasswordAsync(userdata, passwordrandom);
 
-            return Ok(new { Id = id });
+            return Ok(new { Id = model.Id });
         }
         //<!-- END resetpassword -->
 

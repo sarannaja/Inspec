@@ -209,7 +209,7 @@ export class UserComponent implements OnInit {
     this.getDataProvinces();
     this.getDataMinistries();
     this.getDatafiscalyear();
-    this.getDataRegions();
+    //this.getDatafiscalyear();
     this.getDataSide();
     this.getRolename();
 
@@ -358,8 +358,8 @@ export class UserComponent implements OnInit {
 
       })
   }
-  getDataRegions() {
-    this.regionService.getregiondataforuser(1).subscribe(res => {
+  getDataRegions($event) {
+    this.regionService.getregiondataforuser($event.value).subscribe(res => {
       // let uniqueRegion: any = [];
       this.selectdataregion = res.importFiscalYearRelations.filter(
         (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
@@ -505,9 +505,7 @@ export class UserComponent implements OnInit {
   }
 
   resetpassword(id) {
-    alert(1);
     this.userService.resetpassword(id).subscribe(response => {
-      alert(3);
       this.modalRef.hide()
       this.loading = false
       this._NotofyService.onSuccess("รีเซ็ต Password ")

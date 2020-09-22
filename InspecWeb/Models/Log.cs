@@ -29,8 +29,10 @@ namespace InspecWeb.Models
 
         [DataType(DataType.Date)]
         public DateTime? EventDate { get; set; }
-        public string ObjectType { get; set; }
-        
+        public string Detail { get; set; }
+
+        public long Allid { get; set; }
+
         // public ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

@@ -20,23 +20,42 @@ export class FiscalyearService {
   getcurrentyeardata(): Observable<any[]> {
     return this.http.get<any>(this.url + "getCurrentFiscalYear")
   }
-  addFiscalyear(fiscalyearData) {
+  addFiscalyear(data,file: FileList) {
     const formData = new FormData();
-    formData.append('year', fiscalyearData.fiscalyear);
-
-    formData.append('startdate', fiscalyearData.startdate.date.year + '-' + fiscalyearData.startdate.date.month + '-' + fiscalyearData.startdate.date.day);
-    formData.append('enddate', fiscalyearData.enddate.date.year + '-' + fiscalyearData.enddate.date.month + '-' + fiscalyearData.enddate.date.day);
+    formData.append('Year', data.year);
+    formData.append('StartDate', data.startdate.date.year + '-' + data.startdate.date.month + '-' + data.startdate.date.day);
+    formData.append('EndDate', data.enddate.date.year + '-' + data.enddate.date.month + '-' + data.enddate.date.day);
+    formData.append('Orderdate', data.orderdate.date.year + '-' + data.orderdate.date.month + '-' + data.orderdate.date.day);
     console.log('FORMDATA: ' + formData);
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    } else {
+      formData.append("files", null);
+    }
     return this.http.post(this.url, formData);
   }
   deleteFiscalyear(id) {
     return this.http.delete(this.url + id);
   }
-  editFiscalyear(fiscalyearData, id) {
-    console.log(fiscalyearData);
+  editFiscalyear(data,file: FileList, id) {
+    console.log(data);
     const formData = new FormData();
-    formData.append('year', fiscalyearData.fiscalyear);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
+    formData.append('Year', data.year);
+    formData.append('StartDate', data.startdate.date.year + '-' + data.startdate.date.month + '-' + data.startdate.date.day);
+    formData.append('EndDate', data.enddate.date.year + '-' + data.enddate.date.month + '-' + data.enddate.date.day);
+    formData.append('Orderdate', data.orderdate.date.year + '-' + data.orderdate.date.month + '-' + data.orderdate.date.day);
+    console.log('FORMDATA: ' + formData);
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    } else {
+      formData.append("files", null);
+    }
     return this.http.put(this.url + id, formData);
   }
 
