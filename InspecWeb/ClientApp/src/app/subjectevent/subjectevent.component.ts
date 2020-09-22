@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
 import { IMyOptions } from 'mydatepicker-th';
 import { ReportService } from '../services/report.service';
+import { ExportReportService } from '../services/export-report.service';
 
 @Component({
   selector: 'app-subjectevent',
@@ -75,8 +76,19 @@ export class SubjecteventComponent implements OnInit {
   centralPolicyIdtype2: any
   provinceIdtype2: any
   centralpolicyprovinceidtype2: any
+  selectdatacentralpolicytype2: Array<any>
+  fiscalYearData: any = [];
   //reporttype3
   subjectgroupidtype3: any
+  //reporttype4
+  checkTypeRepor4: any
+  FormReporttype4: FormGroup;
+  subjectgroupidtype4: any
+  centralPolicyIdtype4: any
+  provinceIdtype4: any
+  centralpolicyprovinceidtype4: any
+  answerRecommenDationInspectors: any = []
+  selectdatacentralpolicytype4: Array<any>
   //reporttype5
   subjectgroupidtype5: any
   centralPolicyIdtype5: any
@@ -85,6 +97,18 @@ export class SubjecteventComponent implements OnInit {
   delid: any
   land
   class
+  //reporttype6
+  FormReporttype6: FormGroup;
+  checkTypeRepor6: any
+  subjectgroupidtype6: any
+  centralPolicyIdtype6: any
+  provinceIdtype6: any
+  questionpeople: any = [];
+  answerpeople: any = []
+  centralpolicyprovinceidtype6: any
+  selectpeopletype6 = []
+  selectdatacentralpolicytype6: Array<any>
+
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
@@ -97,6 +121,7 @@ export class SubjecteventComponent implements OnInit {
     private router: Router,
     private _NotofyService: NotofyService,
     private reportservice: ReportService,
+    private exportReportService: ExportReportService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.downloadUrl = baseUrl + '/Uploads';
@@ -155,6 +180,15 @@ export class SubjecteventComponent implements OnInit {
       type: new FormControl(null, [Validators.required]),
       provincialDepartmentId: new FormControl(null, [Validators.required]),
       SubjectGroupId: new FormControl(null, [Validators.required])
+    })
+    this.FormReporttype4 = this.fb.group({
+      type: new FormControl(null, [Validators.required]),
+      provincialDepartmentId: new FormControl(null, [Validators.required]),
+      SubjectGroupId: new FormControl(null, [Validators.required]),
+    })
+    this.FormReporttype6 = this.fb.group({
+      type: new FormControl(null, [Validators.required]),
+      userid: new FormControl(null, [Validators.required])
     })
     // this.getCentralPolicy();
     this.getSubjectevent();
@@ -480,6 +514,7 @@ export class SubjecteventComponent implements OnInit {
     console.log(event.value);
     this.checkTypeReport = event.value;
     this.checkTypeRepor2 = 0;
+    this.checkTypeRepor6 = 0;
   }
   ////reporttype1start////
   rssj(id): any {
@@ -522,7 +557,31 @@ export class SubjecteventComponent implements OnInit {
       type: this.checkTypeRepor2,
     })
   }
-  select2(event) {
+  reporttyp22(value) {
+    // alert(myradio)
+    this.checkTypeRepor2 = 2;
+    this.FormReporttype2.patchValue({
+      type: this.checkTypeRepor2,
+    })
+  }
+  reporttyp23(value){
+    // alert(myradio)
+    this.checkTypeRepor2 = 3;
+    this.FormReporttype2.patchValue({
+      type: this.checkTypeRepor2,
+    })
+    this.exportReportService.getImportReportFiscalYears().subscribe(res => {
+      console.log("fiscalYear1: ", res);
+      this.fiscalYearData = res.importFiscalYear.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.year
+        }
+      })
+      console.log("fiscalYear: ", this.fiscalYearData);
+    })
+  }
+  select21(event) {
     var resultdetailcentralpolicyprovince: any = []
     var provincialDepartments: any[] = [];
     this.subjectgroupidtype2 = this.rssj(event.value).id,
@@ -558,9 +617,36 @@ export class SubjecteventComponent implements OnInit {
         })
     })
   }
+  select22province(event) {
+    console.log(event);
+    this.subjectservice.getsubjecteventprovince(this.userid, event.value).subscribe(result => {
+      console.log(result);
+      this.selectdatacentralpolicytype2 = result.map((item, index) => {
+        return { value: item.id, label: item.centralPolicy.title }
+      })
+    })
+  }
+  select22(event) {
+    this.subjectgroupidtype2 = this.rssj(event.value).id,
+      this.centralPolicyIdtype2 = this.rssj(event.value).centralPolicyId,
+      this.provinceIdtype2 = this.rssj(event.value).provinceId
+    this.FormReporttype2.patchValue({
+      SubjectGroupId: this.subjectgroupidtype2,
+    })
+    this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype2, this.provinceIdtype2).subscribe(result => {
+      this.centralpolicyprovinceidtype2 = result
+    })
+  }
   storeReportPerformance(value) {
     console.log(value);
     this.reportservice.createReporttype1(value).subscribe(result => {
+      this.FormReporttype2.reset();
+      this.modalRef.hide();
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportPerformance2() {
+    this.reportservice.createReporttype2(this.FormReporttype2.value, this.provinceIdtype2, this.centralpolicyprovinceidtype2).subscribe(result => {
       this.FormReporttype2.reset();
       this.modalRef.hide();
       window.open(this.downloadUrl + "/" + result.data);
@@ -577,6 +663,83 @@ export class SubjecteventComponent implements OnInit {
     })
   }
   ////reporttype3end/////
+  ////reporttype4start/////
+  reporttyp41(value) {
+    // alert(myradio)
+    this.checkTypeRepor4 = 1;
+    this.FormReporttype4.patchValue({
+      type: this.checkTypeRepor4,
+    })
+  }
+  reporttyp42(value) {
+    // alert(myradio)
+    this.checkTypeRepor4 = 2;
+    this.FormReporttype4.patchValue({
+      type: this.checkTypeRepor4,
+    })
+  }
+  select41(event) {
+    var subjectgroup: any = []
+    this.subjectgroupidtype4 = this.rssj(event.value).id,
+      this.centralPolicyIdtype4 = this.rssj(event.value).centralPolicyId,
+      this.provinceIdtype4 = this.rssj(event.value).provinceId
+    this.FormReporttype4.patchValue({
+      SubjectGroupId: this.subjectgroupidtype4
+    })
+    this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype4, this.provinceIdtype4).subscribe(result => {
+      this.centralpolicyprovinceidtype4 = result
+      this.centralpolicyservice.getSubjecteventdetaildata(this.centralpolicyprovinceidtype4, this.subjectgroupidtype4)
+        .subscribe(result => {
+          subjectgroup = result.subjectgroup
+          var test: any = [];
+          subjectgroup.answerRecommenDationInspectors.forEach(element => {
+            test.push(element.user.provincialDepartments)
+          });
+          this.answerRecommenDationInspectors = test.filter(
+            (thing, i, arr) => arr.findIndex(t => t === thing) === i
+          );
+          console.log("uniqueanswerRecommenDationInspectors: ", this.answerRecommenDationInspectors);
+          this.selectprovincialDepartment = this.answerRecommenDationInspectors.map((item, index) => {
+            return {
+              value: item.id,
+              label: item.name,
+            }
+          })
+          console.log("1111", this.selectprovincialDepartment);
+        })
+    })
+  }
+  select42province(event) {
+    console.log(event);
+    this.subjectservice.getsubjecteventprovince(this.userid, event.value).subscribe(result => {
+      console.log(result);
+      this.selectdatacentralpolicytype4 = result.map((item, index) => {
+        return { value: item.id, label: item.centralPolicy.title }
+      })
+    })
+  }
+  select42(event) {
+    this.subjectgroupidtype4 = this.rssj(event.value).id,
+      this.centralPolicyIdtype4 = this.rssj(event.value).centralPolicyId,
+      this.provinceIdtype4 = this.rssj(event.value).provinceId
+    this.FormReporttype4.patchValue({
+      SubjectGroupId: this.subjectgroupidtype4
+    })
+
+  }
+  storeReportSuggestionsResulttype1(value) {
+    this.reportservice.createReportSuggestionsResulttype1(value, this.provinceIdtype4).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportSuggestionsResulttype2(value) {
+    console.log(value);
+    
+    this.reportservice.createReportSuggestionsResulttype2(value, this.provinceIdtype4).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  ////reporttype4end/////
   ////reporttype5start/////
   select5(event) {
     this.subjectgroupidtype5 = this.rssj(event.value).id,
@@ -651,4 +814,78 @@ export class SubjecteventComponent implements OnInit {
       }
     }
   }
+  ////reporttype6start/////
+  reporttyp61(value) {
+    // alert(myradio)
+    this.checkTypeRepor6 = 1;
+    this.FormReporttype6.patchValue({
+      type: this.checkTypeRepor6,
+    })
+  }
+  reporttyp62(value) {
+    // alert(myradio)
+    this.checkTypeRepor6 = 2;
+    this.FormReporttype6.patchValue({
+      type: this.checkTypeRepor6,
+    })
+  }
+  select62province(event) {
+    console.log(event);
+    this.subjectservice.getsubjecteventprovince(this.userid, event.value).subscribe(result => {
+      console.log(result);
+      this.selectdatacentralpolicytype6 = result.map((item, index) => {
+        return { value: item.id, label: item.centralPolicy.title }
+      })
+    })
+  }
+
+  select61(event) {
+    var subjectgroup: any = []
+    this.subjectgroupidtype6 = this.rssj(event.value).id,
+      this.centralPolicyIdtype6 = this.rssj(event.value).centralPolicyId,
+      this.provinceIdtype6 = this.rssj(event.value).provinceId
+    // alert(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId)
+    this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype6, this.provinceIdtype6).subscribe(result => {
+      this.centralpolicyprovinceidtype6 = result
+      this.centralpolicyservice.getSubjecteventdetaildata(this.centralpolicyprovinceidtype6, this.subjectgroupidtype6)
+        .subscribe(result => {
+          subjectgroup = result.subjectgroup
+          this.centralpolicyservice.getquestionpeople(this.centralpolicyprovinceidtype6, subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
+            // alert(JSON.stringify(res))
+            this.questionpeople = res;
+            this.questionpeople.forEach(element => {
+              this.answerpeople.push(element.answerCentralPolicyProvinces)
+            });
+            this.selectpeopletype6 = this.questionpeople[0].answerCentralPolicyProvinces.map((item, index) => {
+              return {
+                value: item.user.id,
+                label: item.user.name,
+              }
+            })
+            console.log("question: ", this.questionpeople);
+            console.log("test", this.answerpeople);
+          })
+        })
+    })
+  }
+  select62(event) {
+    this.subjectgroupidtype6 = this.rssj(event.value).id,
+      this.centralPolicyIdtype6 = this.rssj(event.value).centralPolicyId,
+      this.provinceIdtype6 = this.rssj(event.value).provinceId
+    this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype6, this.provinceIdtype6).subscribe(result => {
+      this.centralpolicyprovinceidtype6 = result
+    })
+  }
+  storeReportComment(value) {
+    console.log(value);
+    this.reportservice.createReportCommenttype1(value, this.centralpolicyprovinceidtype6).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportComment2(value) {
+    this.reportservice.createReportCommenttype2(value, this.provinceIdtype6, this.centralpolicyprovinceidtype6).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  ////reporttype6end/////
 }

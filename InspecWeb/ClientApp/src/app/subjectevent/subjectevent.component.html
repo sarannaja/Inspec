@@ -427,9 +427,9 @@
       <div *ngIf="checkTypeReport == 2" class="mb-3">
         <input type="radio" name="report" (change)="reporttyp21($event)" value="รายหน่วยงาน">
         <label style="margin-left: 10px;">รายหน่วยงาน</label>
-        <input style="margin-left: 10px;" type="radio" name="report" (change)="report2($event)" value="รายจังหวัด">
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="reporttyp22($event)" value="รายจังหวัด">
         <label style="margin-left: 10px;">รายจังหวัด</label>
-        <input style="margin-left: 10px;" type="radio" name="report" (change)="report3($event)" value="รายเขต">
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="reporttyp23($event)" value="รายเขต">
         <label style="margin-left: 10px;">รายเขต</label>
         <form [formGroup]="FormReporttype2" *ngIf="checkTypeRepor2== 1"
           (ngSubmit)="storeReportPerformance(FormReporttype2.value)">
@@ -438,12 +438,56 @@
               <div class="form-group">
                 <label>เรื่องที่ตรวจ</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
-                  [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select2($event)">
+                  [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select21($event)">
                 </ng-select>
                 <br>
                 <label>หน่วยงาน</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
                   [items]="selectprovincialDepartment" formControlName="provincialDepartmentId">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </form>
+        <form [formGroup]="FormReporttype2" *ngIf="checkTypeRepor2== 2"
+          (ngSubmit)="storeReportPerformance2(FormReporttype2.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>จังหวัด</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+                  [items]="selectdataprovince" (change)="select22province($event)">
+                </ng-select>
+                <br>
+                <label>เรื่องที่ตรวจ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                  [items]="selectdatacentralpolicytype2" name="CentralpolicyId" (change)="select21($event)">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </form>
+        <form [formGroup]="FormReporttype2" *ngIf="checkTypeRepor2== 3"
+          (ngSubmit)="storeReportPerformance2(FormReporttype2.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>ปีงบประมาณ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"
+                  [items]="fiscalYearData" (change)="select22province($event)">
+                </ng-select>
+                <br>
+                <label>เรื่องที่ตรวจ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                  [items]="selectdatacentralpolicytype2" name="CentralpolicyId" (change)="select21($event)">
                 </ng-select>
               </div>
             </div>
@@ -461,12 +505,6 @@
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>เรื่องที่ตรวจ</label>
-              <!-- <select class="form-control select2" data-toggle="select2" (change)="select3($event.target.value )">
-                <option value="">กรุณาเลือกเรื่องที่ตรวจ</option>
-                <option *ngFor="let item of resultsubjectevent;  let i = index" [value]="item.id">
-                  {{item.centralPolicy.title}}
-                </option>
-              </select> -->
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
                 [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select3($event)">
               </ng-select>
@@ -479,18 +517,66 @@
         </div>
       </form>
       <!-- type3end -->
+      <!-- type4 -->
+      <div *ngIf="checkTypeReport == 4" class="mb-3">
+        <input type="radio" name="report" (change)="reporttyp41($event)" value="รายหน่วยงาน">
+        <label style="margin-left: 10px;">รายหน่วยงาน</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="reporttyp42($event)" value="รายจังหวัด">
+        <label style="margin-left: 10px;">รายจังหวัด</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="report3($event)" value="รายเขต">
+        <label style="margin-left: 10px;">รายเขต</label>
+        <form [formGroup]="FormReporttype4" *ngIf="checkTypeRepor4== 1"
+          (ngSubmit)="storeReportSuggestionsResulttype1(FormReporttype4.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>เรื่องที่ตรวจ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                  [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select41($event)">
+                </ng-select>
+                <br>
+                <label>หน่วยงาน</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
+                  [items]="selectprovincialDepartment" formControlName="provincialDepartmentId">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </form>
+        <form [formGroup]="FormReporttype4" *ngIf="checkTypeRepor4== 2"
+          (ngSubmit)="storeReportSuggestionsResulttype2(FormReporttype4.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>จังหวัด</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+                  [items]="selectdataprovince" (change)="select42province($event)">
+                </ng-select>
+                <br>
+                <label>เรื่องที่ตรวจ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                  [items]="selectdatacentralpolicytype4" name="CentralpolicyId" (change)="select42($event)">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </form>
+      </div>
+       <!-- type4end -->
       <!-- type5 -->
       <form *ngIf="checkTypeReport== 5">
         <div class="row">
           <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>เรื่องที่ตรวจ</label>
-              <!-- <select class="form-control select2" data-toggle="select2" (change)="select5($event.target.value )">
-                <option value="">กรุณาเลือกเรื่องที่ตรวจ</option>
-                <option *ngFor="let item of resultsubjectevent;  let i = index" [value]="item.id">
-                  {{item.centralPolicy.title}}
-                </option>
-              </select> -->
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
                 [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select5($event)">
               </ng-select>
@@ -503,6 +589,58 @@
         </div>
       </form>
       <!-- type5end -->
+      <!-- type6 -->
+      <div *ngIf="checkTypeReport == 6" class="mb-3">
+        <input type="radio" name="report" (change)="reporttyp61($event)" value="รายบุคคล">
+        <label style="margin-left: 10px;">รายบุคคล</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="reporttyp62($event)" value="รายจังหวัด">
+        <label style="margin-left: 10px;">รายจังหวัด</label>
+        <form [formGroup]="FormReporttype6" *ngIf="checkTypeRepor6== 1"
+          (ngSubmit)="storeReportComment(FormReporttype6.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>เรื่องที่ตรวจ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                  [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select61($event)">
+                </ng-select>
+                <br>
+                <label>รายบุคคล</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือก" [multiple]="false"
+                  [items]="selectpeopletype6" formControlName="userid">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </form>
+        <form [formGroup]="FormReporttype6" *ngIf="checkTypeRepor6== 2"
+          (ngSubmit)="storeReportComment2(FormReporttype6.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>จังหวัด</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+                  [items]="selectdataprovince" (change)="select62province($event)">
+                </ng-select>
+                <br>
+                <label>เรื่องที่ตรวจ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                  [items]="selectdatacentralpolicytype6" name="CentralpolicyId" (change)="select62($event)">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </form>
+      </div>
+      <!-- type6end -->
     </div>
   </div>
 </ng-template>

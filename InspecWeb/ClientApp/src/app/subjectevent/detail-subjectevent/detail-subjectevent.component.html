@@ -81,11 +81,11 @@
             </div>
           </div>
 
-          <div class="row" style="margin-top: 10px;">
+          <!-- <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <button type="button" class="btn btn-success" (click)="storeReport()">รายงานประเด็นตรวจติดตาม</button>
             </div>
-          </div>
+          </div> -->
           <div class="row" style="margin-top: 10px;">
             <div class="col-12">
               <table class="table table-default table-responsive-sm tableborder">
@@ -109,14 +109,14 @@
                             (click)="openModalSubject2(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
-                          <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
+                          <!-- <div *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
                             <button type="button"
                               *ngIf="item.answerSubquestions.length != 0 && subjectgroupstatus == 'รายงานแล้ว' && iii == 0"
                               (click)="reportModal(modalreportreportperformance, item.subjectCentralPolicyProvinceGroups)"
                               style="margin-left: 20px; font-size: small;"
                               class="btn btn-primary">รายงานผลการดำเนินการของหน่วยรับตรวจ
                             </button>
-                          </div>
+                          </div> -->
                           <!-- <i class="fas fa-plus-circle pointer"
                             style="font-size:22px; color: green; margin-left: 10px; margin-bottom: -5px;"
                             (click)="openModal(modalcreatesuject)"></i> -->
@@ -427,12 +427,12 @@
                 <h4 style="margin-top: 10px;margin-left: 15px;">คำถามภาคประชาชน</h4> &nbsp;&nbsp;
                 <button *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button" class="btn btn-success btn-xs"
                   (click)="openModalQuestionPeople(modalQuestionPeople)">เพิ่มคำถาม</button>
-                <button *ngIf="subjectgroupstatus == 'ใช้งานจริง'" style="margin-right: 15px;" type="button"
+                <!-- <button *ngIf="subjectgroupstatus == 'ใช้งานจริง'" style="margin-right: 15px;" type="button"
                   class="btn btn-success btn-xs"
-                  (click)="storeReportQuestionnaire()">รายงานแบบสอบถามความคิดเห็น</button>
-                <button *ngIf="subjectgroupstatus == 'ใช้งานจริง' && answerpeople.length != 0" type="button"
+                  (click)="storeReportQuestionnaire()">รายงานแบบสอบถามความคิดเห็น</button> -->
+                <!-- <button *ngIf="subjectgroupstatus == 'ใช้งานจริง' && answerpeople.length != 0" type="button"
                   class="btn btn-success btn-xs"
-                  (click)="reportModalComment(modalreportcomment)">รายงานความคิดเห็น</button>
+                  (click)="reportModalComment(modalreportcomment)">รายงานความคิดเห็น</button> -->
               </div>
               <br>
               <div *ngFor="let item3 of questionpeople; let i = index">
@@ -471,13 +471,13 @@
             <div class="row">
               <i class="fa fa-tags" style="margin-top: 5px;"></i>
               <h4 style="margin-left: 15px;">ข้อเสนอแนะ</h4>
-              <button type="button" style="margin-bottom: 10px; margin-left: 20px; font-size: small;"
+              <!-- <button type="button" style="margin-bottom: 10px; margin-left: 20px; font-size: small;"
                 class="btn btn-primary" (click)="storeReportsuggestions()">รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ
               </button>
               <button type="button" style="margin-bottom: 10px; margin-left: 20px; font-size: small;"
                 class="btn btn-primary"
                 (click)="reportModalSuggestionsresult(modalreportsuggestionsresult)">รายงานผลการดำเนินการตามข้อเสนอแนะ
-              </button>
+              </button> -->
             </div>
             <textarea cols="30" rows="2" type="text" formControlName="suggestion" class="form-control"
               placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>

@@ -63,10 +63,10 @@ export class ReportService {
     formData.append('SubjectGroupId', reportdata.SubjectGroupId)
     return this.http.post<any>(this.url + "reportperformance", formData)
   }
-  createReporttype2(reportdata, provinceid, CentralPolicyProvinceId, SubjectGroupId) {
+  createReporttype2(reportdata, provinceid, CentralPolicyProvinceId) {
     const formData = new FormData();
     formData.append('CentralPolicyProvinceId', CentralPolicyProvinceId);
-    formData.append('SubjectGroupId', SubjectGroupId);
+    formData.append('SubjectGroupId', reportdata.SubjectGroupId);
     formData.append('provinceid', provinceid);
     formData.append('reporttype', reportdata.type);
     return this.http.post<any>(this.url + "reportperformance", formData)
@@ -96,16 +96,18 @@ export class ReportService {
     formData.append('provinceId', provinceId);
     return this.http.post<any>(this.url + "reportsuggestionsresult", formData)
   }
-  createReportCommenttype1(ReportCommentdata) {
+  createReportCommenttype1(ReportCommentdata, CentralPolicyProvinceId) {
     const formData = new FormData();
     formData.append('userid', ReportCommentdata.userid);
     formData.append('reporttype', ReportCommentdata.type);
+    formData.append('CentralPolicyProvinceId', CentralPolicyProvinceId);
     return this.http.post<any>(this.url + "reportcomment", formData)
   }
-  createReportCommenttype2(ReportCommentdata, provinceid) {
+  createReportCommenttype2(ReportCommentdata, provinceid, CentralPolicyProvinceId) {
     const formData = new FormData();
     formData.append('reporttype', ReportCommentdata.type);
     formData.append('provinceid', provinceid);
+    formData.append('CentralPolicyProvinceId', CentralPolicyProvinceId);
     return this.http.post<any>(this.url + "reportcomment", formData)
   }
   createReport2() {
