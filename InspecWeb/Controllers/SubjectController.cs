@@ -1415,36 +1415,38 @@ namespace InspecWeb.Controllers
                            .Where(m => m.Id == id)
                            .FirstOrDefault();
 
-            if(user.Role_id == 3) { 
-            //var inspectionplans = _context.InspectionPlanEvents
-            //                    .Include(m => m.Province)
-            //                    .Include(m => m.CentralPolicyEvents)
-            //                    .ThenInclude(m => m.CentralPolicy)
-            //                    .ThenInclude(m => m.CentralPolicyProvinces)
-            //                    .Where(m => m.RoleCreatedBy == "3")
-            //                    .ToList();
-
-            var subjectgroupsdatas = _context.SubjectGroups
-                    .Include(m => m.Province)
-                    .Include(m => m.CentralPolicy)
-                    .ThenInclude(m => m.FiscalYearNew)
-                    .OrderByDescending(m => m.Id)
-                    //.Include(m => m.SubjectCentralPolicyProvinces)
-                    //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
-                    .Where(p => p.RoleCreatedBy == 3)
-                    .Where(m => m.Type == "NoMaster").ToList();
-
-            List<object> termsList = new List<object>();
-            foreach (var inspectionplan in subjectgroupsdatas)
+            if (user.Role_id == 3)
             {
-                for (int i = 0; i < userprovince.Count(); i++)
+                //var inspectionplans = _context.InspectionPlanEvents
+                //                    .Include(m => m.Province)
+                //                    .Include(m => m.CentralPolicyEvents)
+                //                    .ThenInclude(m => m.CentralPolicy)
+                //                    .ThenInclude(m => m.CentralPolicyProvinces)
+                //                    .Where(m => m.RoleCreatedBy == "3")
+                //                    .ToList();
+
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        //.Include(m => m.SubjectCentralPolicyProvinces)
+                        //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+                        .Where(p => p.RoleCreatedBy == 3)
+                        .Where(m => m.Type == "NoMaster").ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
                 {
-                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
-                        termsList.Add(inspectionplan);
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
                 }
+                return Ok(termsList);
             }
-            return Ok(termsList);
-            } else if(user.Role_id == 6)
+            else if (user.Role_id == 6)
             {
                 //var inspectionplans = _context.InspectionPlanEvents
                 //                    .Include(m => m.Province)
@@ -2040,6 +2042,98 @@ namespace InspecWeb.Controllers
             subjects.UpdateAt = date;
             _context.Entry(subjects).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+        }
+
+        // GET api/values/5
+        [HttpGet("geteventprovice/{id}/{provinceid}")]
+        public IActionResult Geteventprovice(string id, long provinceid)
+        {
+            var userprovince = _context.UserProvinces
+                       .Where(m => m.UserID == id)
+                       .ToList();
+
+            var user = _context.Users
+                           .Where(m => m.Id == id)
+                           .FirstOrDefault();
+
+            if (user.Role_id == 3)
+            {
+
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        //.Include(m => m.SubjectCentralPolicyProvinces)
+                        //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+                        .Where(p => p.RoleCreatedBy == 3)
+                        .Where(m => m.ProvinceId == provinceid)
+                        .Where(m => m.Type == "NoMaster").ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+            else if (user.Role_id == 6)
+            {
+
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        //.Include(m => m.SubjectCentralPolicyProvinces)
+                        //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+                        .Where(p => p.RoleCreatedBy == 6)
+                        .Where(m => m.ProvinceId == provinceid)
+                        .Where(m => m.Type == "NoMaster").ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+            else if (user.Role_id == 10)
+            {
+
+
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        //.Include(m => m.SubjectCentralPolicyProvinces)
+                        //.Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.Type != "Master"))
+                        .Where(p => p.RoleCreatedBy == 10)
+                        .Where(m => m.ProvinceId == provinceid)
+                        .Where(m => m.Type == "NoMaster").ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+            return Ok("nothing");
 
         }
     }

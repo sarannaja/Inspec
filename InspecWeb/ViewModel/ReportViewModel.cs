@@ -83,6 +83,8 @@ namespace InspecWeb.ViewModel
 
         public long provinceid { get; set; }
 
+        public long CentralPolicyProvinceId { get; set; }
+
     }
 
     public class reportsuggestionsresult

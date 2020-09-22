@@ -1132,14 +1132,14 @@ export class DetailSubjecteventComponent implements OnInit {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }
-  storeReportPerformance2() {
-    console.log(this.provinceid);
-    this.reportservice.createReporttype2(this.FormReport.value, this.provinceid, this.id, this.subjectgroupid).subscribe(result => {
-      this.FormQuestion.reset();
-      this.modalRef.hide();
-      window.open(this.downloadUrl + "/" + result.data);
-    })
-  }
+  // storeReportPerformance2() {
+  //   console.log(this.provinceid);
+  //   this.reportservice.createReporttype2(this.FormReport.value, this.provinceid, this.id, this.subjectgroupid).subscribe(result => {
+  //     this.FormQuestion.reset();
+  //     this.modalRef.hide();
+  //     window.open(this.downloadUrl + "/" + result.data);
+  //   })
+  // }
   storeReportQuestionnaire() {
     this.reportservice.createReportQuestionnaire(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(result => {
       window.open(this.downloadUrl + "/" + result.data);
@@ -1160,17 +1160,17 @@ export class DetailSubjecteventComponent implements OnInit {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }
-  storeReportComment(value) {
-    console.log(value);
-    this.reportservice.createReportCommenttype1(value).subscribe(result => {
-      window.open(this.downloadUrl + "/" + result.data);
-    })
-  }
-  storeReportComment2() {
-    this.reportservice.createReportCommenttype2(this.FormReportComment.value, this.provinceid).subscribe(result => {
-      window.open(this.downloadUrl + "/" + result.data);
-    })
-  }
+  // storeReportComment(value) {
+  //   console.log(value);
+  //   this.reportservice.createReportCommenttype1(value).subscribe(result => {
+  //     window.open(this.downloadUrl + "/" + result.data);
+  //   })
+  // }
+  // storeReportComment2() {
+  //   this.reportservice.createReportCommenttype2(this.FormReportComment.value, this.provinceid).subscribe(result => {
+  //     window.open(this.downloadUrl + "/" + result.data);
+  //   })
+  // }
   storeQuestion(value) {
     this.centralpolicyservice.addPeoplequestion(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId, value).subscribe(res => {
       this.FormQuestion.reset();
