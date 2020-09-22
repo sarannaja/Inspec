@@ -126,13 +126,13 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/fiscalyear',
         name: 'กำหนดเขตตรวจราชการ',
         ex_link: '0'
       },
       {
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/sector',
         name: 'ภาค',
         ex_link: '0'

@@ -202,6 +202,7 @@ export class DetailFiscalyearComponent implements OnInit {
 
   openModalEdit(template: TemplateRef<any>, id, region, province) {
     this.Form.reset()
+    this.id = id
    // this.checkedit = 1;
   //  alert(JSON.stringify(this.regions))
 
@@ -269,7 +270,15 @@ export class DetailFiscalyearComponent implements OnInit {
     })
   }
   EditRelation(value, id) {
+    this.fiscalyearService.editDetailFiscalyear(value, this.fiscalyearid,id).subscribe(response => {
+      this.valueRegionId = value.RegionId
+      this.valueProvinceId = value.ProvinceId
+      this.Form.reset()
+      this.modalRef.hide()
+      this.loading = false
+      this.getdataRelation()
 
+    })
   }
   deleteRelation(value) {
     this.fiscalyearService.deleteDetailFiscalyear(this.id, this.fiscalyearid).subscribe(response => {

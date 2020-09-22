@@ -203,7 +203,7 @@
                             <div class="list-group">
                                 <div *ngFor="let item of resultnotifications">
                                     <a href="javascript:void(0)" class="list-group-item"
-                                        (click)="detailnotifications(item.id)">
+                                        (click)="detailnotifications(item.id,item.status)">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-2">
                                                 <i *ngIf="item.noti == 0"
@@ -228,7 +228,7 @@
                                                     <span *ngIf="item.status == 11">รับทราบข้อสั่งการ</span>
                                                     <span *ngIf="item.status == 12">ข้อสั่งการ</span>
                                                     <span *ngIf="item.status == 13">ข้อสั่งการ</span>
-                                                    <span *ngIf="item.status == 20">ข้อสั่งการ</span>
+                                                    <span *ngIf="item.status == 20">รายงานผลการตรวจราชการ</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
                                                     <span *ngIf="item.status == 1">1</span>
