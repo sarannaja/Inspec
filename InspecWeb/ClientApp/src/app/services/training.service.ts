@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TrainingRegisterlist } from './toeymodel/trainingregisterlist';
 
 @Injectable({
   providedIn: 'root'
@@ -441,6 +442,9 @@ export class TrainingService {
   }
   getTrainingPlan(trainingphaseid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'plan/' + trainingphaseid)
+  }
+  getTrainingregisterlist(id){
+    return this.http.get<TrainingRegisterlist[]>(this.url + 'trainingregisterlist/get/'+id)
   }
 }
 

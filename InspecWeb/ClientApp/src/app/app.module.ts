@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -219,7 +219,7 @@ import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-
 import { TrainingLoginComponent } from './training-login/training-login.component';
 import { TrainingLoginSuccessComponent } from './training-login/training-login-success/training-login-success.component';
 import { QRCodeModule } from 'angularx-qrcode';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DemoMaterialModule } from './materail-module';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -284,9 +284,9 @@ const ExternalOrganization = [
     TrainingConditionComponent,
     TrainingManageComponent,
     TrainingProgramLoginComponent,
-    
+
     TrainingLecturerListComponent,
-    TrainingIDCodeComponent,
+    // TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,
     SubjectComponent,
@@ -414,7 +414,8 @@ const ExternalOrganization = [
   ],
 
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
@@ -499,8 +500,9 @@ const ExternalOrganization = [
           { path: 'training/manage/:id', component: TrainingManageComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturerlist/:id', component: TrainingLecturerListComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/idcode/:id', component: TrainingIDCodeComponent, canActivate: [AuthorizeGuard] },
+
           //---------------
+          { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
@@ -664,6 +666,7 @@ const ExternalOrganization = [
     // UserManager
     SortPipe
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   bootstrap: [AppComponent]
 })

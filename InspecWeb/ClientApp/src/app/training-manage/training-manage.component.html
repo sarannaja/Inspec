@@ -67,7 +67,9 @@
                             กำหนดช่วงเวลาอบรม
                         </td> 
                         <td>
-                            <a href="{{mainUrl}}training/programlogin/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดช่วงเวลาอบรม"
+                            (click)="gotoIDCodeTraining()"></i>
+                            <!-- <a href="{{mainUrl}}training/programlogin/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +100,9 @@
                             จัดกลุ่มผู้สมัคร
                         </td> 
                         <td>
-                            <a href="{{mainUrl}}training/register/program/group/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="จัดกลุ่มผู้สมัคร"
+                            (click)="gotogGroupTraining()"></i>
+                            <!-- <a href="{{mainUrl}}training/register/program/group/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                     <tr>

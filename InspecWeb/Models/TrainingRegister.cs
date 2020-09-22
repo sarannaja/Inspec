@@ -58,34 +58,34 @@ namespace InspecWeb.Models
         [Description("สถานะ")]
         public long Status { get; set; }
 
-        [Description("กลุ่ม 1")]
+        [Description("ช่วง 1")]
         public long Group1 { get; set; }
 
-        [Description("กลุ่ม 2")]
+        [Description("ช่วง 2")]
         public long Group2 { get; set; }
 
-        [Description("กลุ่ม 3")]
+        [Description("ช่วง 3")]
         public long Group3 { get; set; }
 
-        [Description("กลุ่ม 4")]
+        [Description("ช่วง 4")]
         public long Group4 { get; set; }
 
-        [Description("กลุ่ม 5")]
+        [Description("ช่วง 5")]
         public long Group5 { get; set; }
 
-        [Description("กลุ่ม 6")]
+        [Description("ช่วง 6")]
         public long Group6 { get; set; }
 
-        [Description("กลุ่ม 7")]
+        [Description("ช่วง 7")]
         public long Group7 { get; set; }
 
-        [Description("กลุ่ม 8")]
+        [Description("ช่วง 8")]
         public long Group8 { get; set; }
 
-        [Description("กลุ่ม 9")]
+        [Description("ช่วง 9")]
         public long Group9 { get; set; }
 
-        [Description("กลุ่ม 10")]
+        [Description("ช่วง 10")]
         public long Group10 { get; set; }
 
         public string Type { get; set; }
@@ -99,6 +99,17 @@ namespace InspecWeb.Models
         public string CollaboratorPhoneOffice { get; set; }
         public string CollaboratorEmail { get; set; }
         public virtual Training Training { get; set; }
+
+        [Description("รหัสประจำตัวผู้เข้าอบรม")]
+        public string IDCode { get; set; }
+
+        [Description("ลำดับผู้เข้าอบรม")]
+        public string NoIDCode { get; set; }
+
+        [Description("วันที่สร้างรหัสประจำตัวผู้เข้าอบรม")]
+        [DataType(DataType.Date)]
+        public DateTime? IDCodeCreatedAt { get; set; }
+
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
