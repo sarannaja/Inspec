@@ -290,7 +290,7 @@ export class InspectionPlanComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id)
             .subscribe(response => {
               console.log(response);
             })

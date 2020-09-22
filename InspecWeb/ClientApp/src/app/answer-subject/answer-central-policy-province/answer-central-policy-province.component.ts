@@ -23,6 +23,8 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
   submitted = false;
   provinceid: any
   centralPolicyProvinceId: any
+  subjectGroupId: any
+  centralPolicyId: any
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -62,6 +64,8 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
         this.resultQuestionPeople = result
         this.provinceid = this.resultQuestionPeople[0].centralPolicyEvent.inspectionPlanEvent.provinceId
         this.centralPolicyProvinceId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
+        this.subjectGroupId = this.resultQuestionPeople[0].centralPolicyEvent.subjectGroupPeopleQuestions[0].subjectGroupId
+        this.centralPolicyId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
         this.spinner.hide();
         this.addvalue();
       })
@@ -92,7 +96,7 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
       this.answersubjectservice.addStatusrole7(valuestatus, this.resultQuestionPeople[0].centralPolicyEventId, this.userid).subscribe(result => {
         console.log("result", result.id);
         if (valuestatus.Status == "ใช้งานจริง") {
-          this.notificationService.addNotification(this.centralPolicyProvinceId, this.provinceid, this.userid, 6, 1)
+          this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId)
             .subscribe(response => {
               console.log("innoti", response);
             })

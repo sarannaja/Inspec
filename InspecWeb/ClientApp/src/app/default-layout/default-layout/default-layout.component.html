@@ -203,7 +203,7 @@
                             <div class="list-group">
                                 <div *ngFor="let item of resultnotifications">
                                     <a href="javascript:void(0)" class="list-group-item"
-                                        (click)="detailnotifications(item.id,item.status)">
+                                        (click)="detailnotifications(item.id,item.status,item.xe,item.provinceId)">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-2">
                                                 <i *ngIf="item.noti == 0"
@@ -215,7 +215,7 @@
                                             </div>
                                             <div class="col-10">
                                                 <div class="text-dark">
-                                                    <span *ngIf="item.status == 1">เรื่องตรวจ</span>
+                                                    <span *ngIf="item.status == 16">เรื่องตรวจ</span>
                                                     <span *ngIf="item.status == 2">ตอบรับคำเชิญ</span>
                                                     <span *ngIf="item.status == 3">ผู้ตรวจกำลังจะตรวจ</span>
                                                     <span *ngIf="item.status == 4">มีประเด็น/คำถาม(หน่วยรับตรวจ)</span>
@@ -231,7 +231,7 @@
                                                     <span *ngIf="item.status == 20">รายงานผลการตรวจราชการ</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
-                                                    <span *ngIf="item.status == 1">1</span>
+                                                    <span *ngIf="item.status == 16">16</span>
                                                     <span *ngIf="item.status == 2">2</span>
                                                     <span *ngIf="item.status == 3">3</span>
                                                     <span *ngIf="item.status == 4">4</span>

@@ -373,6 +373,8 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyEvent)
                 .ThenInclude(m => m.InspectionPlanEvent)
                 .ThenInclude(m => m.Province)
+                .Include(m => m.CentralPolicyEvent)
+                .ThenInclude(m => m.SubjectGroupPeopleQuestions)
                 .Where(m => m.CentralPolicyEventId == CentralPolicyEventdata.Id)
                 .ToList();
 

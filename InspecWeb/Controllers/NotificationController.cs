@@ -469,5 +469,15 @@ namespace InspecWeb.Controllers
         }
 
 
+        [Route("api/[controller]/getinspactionsplaneven/{id}")]
+        [HttpGet]
+        public IActionResult getinspactionsplaneven(long id)
+        {
+            var data = _context.InspectionPlanEvents.Where(m => m.Id == id).FirstOrDefault();
+
+            return Ok(data);
+        }
+
+
     }
 }

@@ -28,6 +28,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
   form: FormGroup;
   province: any
   provinceid: any
+  centralPolicyId: any
   centralPolicyProvinceId: any
   answar = [{ test: "1212", benz: "121212" }]
   listfiles: any = []
@@ -92,6 +93,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
       this.subjectGroupId = this.resultsubjectdetail.subjectGroupId
       this.province = this.resultsubjectdetail.centralPolicyProvince.province.name
       this.provinceid = this.resultsubjectdetail.centralPolicyProvince.provinceId
+      this.centralPolicyId = this.resultsubjectdetail.centralPolicyProvince.centralPolicyId
       this.centralPolicyProvinceId = this.resultsubjectdetail.centralPolicyProvinceId
       this.resultsubquestion = this.resultsubjectdetail.subquestionCentralPolicyProvinces
       // this.loading = true
@@ -180,7 +182,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
       console.log("result", result.id);
       var statusid = result.id
       if (value2.Status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.centralPolicyProvinceId, this.provinceid, this.userid, 6, 1)
+        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId)
           .subscribe(response => {
             console.log("innoti", response);
           })
