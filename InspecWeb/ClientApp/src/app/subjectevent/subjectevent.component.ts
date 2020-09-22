@@ -83,7 +83,8 @@ export class SubjecteventComponent implements OnInit {
   provinceIdtype5: any
   centralpolicyprovinceidtype5: any
   delid: any
-
+  land
+  class
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
@@ -177,8 +178,9 @@ export class SubjecteventComponent implements OnInit {
       { label: "รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน", value: "6" }
     ]
   }
-  openModal(template: TemplateRef<any>, id) {
-
+  openModal(template: TemplateRef<any>, id, land, classcen) {
+    this.class = classcen;
+    this.land = land;
     this.delid = id;
 
     this.submitted = false;
@@ -526,9 +528,9 @@ export class SubjecteventComponent implements OnInit {
     this.subjectgroupidtype2 = this.rssj(event.value).id,
       this.centralPolicyIdtype2 = this.rssj(event.value).centralPolicyId,
       this.provinceIdtype2 = this.rssj(event.value).provinceId
-      this.FormReporttype2.patchValue({
-        SubjectGroupId: this.subjectgroupidtype2,
-      })
+    this.FormReporttype2.patchValue({
+      SubjectGroupId: this.subjectgroupidtype2,
+    })
     this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype2, this.provinceIdtype2).subscribe(result => {
       this.centralpolicyprovinceidtype2 = result
       this.centralpolicyservice.getSubjecteventdetaildata(this.centralpolicyprovinceidtype2, this.subjectgroupidtype2)
@@ -601,14 +603,52 @@ export class SubjecteventComponent implements OnInit {
   ////reporttype5end/////
 
   deleteProvince(value) {
+    // alert(this.class)
+    if (this.land == "ไม่ลงพื้นที่") {
 
-    this.subjectservice.delsubjecteventnoland(value)
-      .subscribe(result => {
-        this._NotofyService.onSuccess("ลบข้อมูล",)
-        // this.spinner.show();
-        this.modalRef.hide()
-        this.loading = false
-        this.getSubjectevent();
-      })
+      if (this.class == "แผนการตรวจประจำปี") {
+
+        this.subjectservice.delsubjecteventnoland(value)
+          .subscribe(result => {
+            this._NotofyService.onSuccess("ลบข้อมูล",)
+            // this.spinner.show();
+            this.modalRef.hide()
+            this.loading = false
+            this.getSubjectevent();
+          })
+
+      } else {
+        this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+          this._NotofyService.onSuccess("ลบข้อมูล",)
+          // this.spinner.show();
+          this.modalRef.hide()
+          this.loading = false
+          this.getSubjectevent();
+        })
+      }
+
+    } else if (this.land == "ลงพื้นที่") {
+      if (this.class == "แผนการตรวจประจำปี") {
+        this.inspectionplanservice.getCentralPolicyEvent(value).subscribe(response => {
+
+          this.inspectionplanservice.deleteCentralPolicyEvent(response).subscribe(response => {
+            this._NotofyService.onSuccess("ลบข้อมูล",)
+            // this.spinner.show();
+            this.modalRef.hide()
+            this.loading = false
+            this.getSubjectevent();
+
+          })
+        })
+      } else {
+        this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+          this._NotofyService.onSuccess("ลบข้อมูล",)
+          // this.spinner.show();
+          this.modalRef.hide()
+          this.loading = false
+          this.getSubjectevent();
+        })
+      }
+    }
   }
 }

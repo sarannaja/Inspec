@@ -150,7 +150,7 @@ namespace InspecWeb.Controllers
             .ThenInclude(x => x.InspectionPlanEvent)
             .ThenInclude(x => x.Province)
 
-            .Where(x => x.ElectronicBookId == electID)
+            .Where(x => x.ElectronicBookId == electID && x.CentralPolicyEvent.InspectionPlanEvent.Status == "ใช้งานจริง")
 
             // .Where(m => m.CentralPolicyEvent.CentralPolicy
             // .CentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinces
@@ -160,11 +160,21 @@ namespace InspecWeb.Controllers
              .Select(x => new
              {
                  user = x.CentralPolicyEvent.CentralPolicy.CentralPolicyUser,
-                 provincialDepartmentId = x.CentralPolicyEvent.CentralPolicy.CentralPolicyProvinces
-                 .Select(m => m.SubjectCentralPolicyProvinces
-                 .Select(n => n.SubquestionCentralPolicyProvinces
-                 .Select(b => b.SubjectCentralPolicyProvinceGroups
-                 .Select(v => v.ProvincialDepartmentId)))),
+
+                 //provincialDepartmentId = x.CentralPolicyEvent.CentralPolicy.CentralPolicyProvinces
+                 //    .Select(m => m.SubjectCentralPolicyProvinces
+                 //    .Select(n => n.SubquestionCentralPolicyProvinces
+                 //    .Select(b => b.SubjectCentralPolicyProvinceGroups
+                 //    .Select(v => v.ProvincialDepartmentId)))),
+
+
+                 provincialDepartmentId = x.CentralPolicyEvent.CentralPolicy.SubjectGroups
+                 .Where(x => x.Status == "ใช้งานจริง")
+                 .Select(x => x.SubjectCentralPolicyProvinces
+                 .Select(x => x.SubquestionCentralPolicyProvinces
+                 .Select(x => x.SubjectCentralPolicyProvinceGroups
+                 .Select(x => x.ProvincialDepartmentId)))),
+
                  inspectionPlanProvinceName = x.CentralPolicyEvent.InspectionPlanEvent.Province.Name,
                  centralPolicyTitle = x.CentralPolicyEvent.CentralPolicy.Title,
                  inspectionPlanEventDate = new

@@ -13,7 +13,7 @@
             <div class="m-sm-4">
               <div class="text-center">
                 <label style="font-size: x-large; font-weight: 600;">ลงชื่อเข้าร่วมอบรม</label><br>
-                <label class="mb-4" style="font-size: large; font-weight: 600;">โครงการ {{trainingData.name}}</label>
+                <label class="mb-4" style="font-size: large; font-weight: 600;">โครงการ {{trainingData.name}} รุ่นที่ {{trainingData.generation}}</label>
               </div>
               <form [formGroup]="Form" (ngSubmit)="TrainingSignin(Form.value)">
                 <div class="form-group">
@@ -23,7 +23,8 @@
                   <div *ngIf="submitted && Form.controls.username.errors" class="invalid-feedback">
                     <div *ngIf="Form.controls.username.errors.required">กรุณกรอกชื่อผู้ใช้</div>
                   </div>
-                  <div *ngIf="fail" style="color: red;" class="mt-1 ml-1">ขออภัย ไม่มีข้อมูลในระบบ</div>
+                  <div *ngIf="fail == 100" style="color: red;" class="mt-1 ml-1">ขออภัย ไม่มีข้อมูลในระบบ</div>
+                  <div *ngIf="fail == 200" style="color: red;" class="mt-1 ml-1">คุณได้ลงทะเบียนเข้าร่วมอบรมนี้แล้ว</div>
                 </div>
                 <div>
                 </div>

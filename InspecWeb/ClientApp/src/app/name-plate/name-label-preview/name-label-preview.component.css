@@ -88,3 +88,66 @@ body {
   white-space: nowrap;
   font-family: 'THSarabunNew', sans-serif;
 }
+
+.graph-7{
+  background: url('/../wwwroot/img/sky.jpg') no-repeat;
+}
+.graph-image img{
+  display: block;
+  width: 5.78cm;
+  height: 8.48cm;
+}
+
+@media print{
+  /* .graph-image img{display:inline;} */
+  .img-1{
+    left: 42.8% !important;
+
+  }
+  .img-2{
+    left: 52% !important;
+  }
+  .container {
+    position: relative;
+    text-align: center;
+    color: white;
+    left: -10%;
+  }
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+}
+
+.top-left {
+  position: absolute;
+  top: 25px;
+  left: 37%;
+}
+
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

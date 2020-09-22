@@ -1439,6 +1439,28 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
         }
+
+        [HttpPut("register2/group")]
+        public void EditRegisterGroup2(long[] traningregisterid, long approve1, long approve2, long approve3, long approve4, long approve5, long approve6, long approve7, long approve8, long approve9, long approve10)
+        {
+            foreach (var id in traningregisterid)
+            {
+                var training = _context.TrainingRegisters.Find(id);
+                training.Group1 = approve1;
+                training.Group2 = approve2;
+                training.Group3 = approve3;
+                training.Group4 = approve4;
+                training.Group5 = approve5;
+                training.Group6 = approve6;
+                training.Group7 = approve7;
+                training.Group8 = approve8;
+                training.Group9 = approve9;
+                training.Group10 = approve10;
+
+                _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+            }
+        }
     }
 
 }

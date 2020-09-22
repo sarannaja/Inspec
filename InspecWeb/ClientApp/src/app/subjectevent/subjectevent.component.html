@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
@@ -68,7 +68,27 @@
                 class="align-middle mr-2 fas fa-fw fa-search pointer"
                 (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
 
-              <i *ngIf="item.status == 'ร่างกำหนดการ'" (click)="openModal(modaldeleteProvince, item.id)"
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
+                (click)="openModal(modaldeleteProvince, item.id,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจ'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
+                (click)="openModal(modaldeleteProvince, item.id,'ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจ'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicy.class)"
                 class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
 
             </td>
@@ -418,8 +438,8 @@
               <div class="form-group">
                 <label>เรื่องที่ตรวจ</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
-                [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select2($event)">
-              </ng-select>
+                  [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select2($event)">
+                </ng-select>
                 <br>
                 <label>หน่วยงาน</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
