@@ -238,6 +238,9 @@ export class ProgramTrainingComponent implements OnInit {
   openModal(template: TemplateRef<any>, id) {
     this.delid = id;
     //console.log(this.delid);
+    this.Form.patchValue({
+      TrainingPhaseId: this.trainingid,
+    })
     this.modalRef = this.modalService.show(template);
   }
 
@@ -245,11 +248,11 @@ export class ProgramTrainingComponent implements OnInit {
   storeTraining(value) {
     //alert(JSON.stringify(value))   
     //alert(this.form.value.files)
-    console.log(value);
+    console.log("viewdata:", value);
     console.log(this.Formfile.value.files);
 
     this.trainingservice.addTrainingProgram(value, this.Formfile.value.files).subscribe(response => {
-      console.log(value);
+      console.log("viewadddata:", value);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;

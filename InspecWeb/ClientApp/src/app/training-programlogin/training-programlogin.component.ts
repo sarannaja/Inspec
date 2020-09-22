@@ -21,6 +21,8 @@ export class TrainingProgramLoginComponent implements OnInit {
   mainUrl: string;
   Form: FormGroup;
   qrdata = 'http://google.com';
+  programloginid: any;
+  programlogindb: any;
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
@@ -46,18 +48,17 @@ export class TrainingProgramLoginComponent implements OnInit {
 
     };
 
-    this.trainingservice.gettrainingsurveycountdata()
+    this.trainingservice.getTrainingProgramLogin(this.trainingid)
       .subscribe(result => {
-        this.resulttraining = result
+        this.resulttraining = result.filter(
+          (thing, i, arr) => arr.findIndex(t => t.programDate === thing.programDate) === i
+        );
         this.loading = true;
         console.log(this.resulttraining);
       })
 
     this.Form = this.fb.group({
-      name: new FormControl(null, [Validators.required]),
-      startyear: new FormControl(null, [Validators.required]),
-      endyear: new FormControl(null, [Validators.required]),
-      conditiontype: new FormControl(null, [Validators.required]),
+      programtype: new FormControl(null, [Validators.required]),
 
     })
   }
@@ -73,27 +74,75 @@ export class TrainingProgramLoginComponent implements OnInit {
   openModal(template: TemplateRef<any>, id) {
     // this.delid = id;
     // console.log(this.delid);
-
+    this.programloginid = id;
     this.modalRef = this.modalService.show(template);
   }
 
   storeTraining(value) {
-    //alert(JSON.stringify(value))
-    this.trainingservice.addTrainingCondition(value, this.trainingid).subscribe(response => {
-      console.log(value);
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      //this.router.navigate(['/training/surveylist/',trainingid])
-      //this.router.navigate(['training'])
-      this.trainingservice.getTrainingCondition(this.trainingid)
-        .subscribe(result => {
-          this.resulttraining = result
-          this.loading = true
-          //console.log(this.resulttraining);
-        })
+    this.trainingservice.getTrainingProgramLogin(this.programloginid).subscribe(
+      result => {
+        this.programlogindb = result
+        
+        if (this.programlogindb == null){
+          console.log("Insert");
+          //insert
+          //alert(JSON.stringify(value))
+          this.trainingservice.addTrainingProgramLogin(value, this.programloginid).subscribe(response => {
+            console.log(value);
+            this.Form.reset()
+            this.modalRef.hide()
+            this.loading = false;
+            //this.router.navigate(['/training/surveylist/',trainingid])
+            //this.router.navigate(['training'])
+            
+            this.trainingservice.getTrainingProgramLogin(this.trainingid)
+      .subscribe(result => {
+        this.resulttraining = result.filter(
+          (thing, i, arr) => arr.findIndex(t => t.programDate === thing.programDate) === i
+        );
+        this.loading = true;
+        console.log(this.resulttraining);
+      })
+          })
+  
+        }
+        else {
+          console.log("Update");
+          
+          //update
+          this.trainingservice.updateTrainingProgramLogin(value, this.programloginid).subscribe(response => {
+            console.log(value);
+            this.Form.reset()
+            this.modalRef.hide()
+            this.loading = false;
+            //this.router.navigate(['/training/surveylist/',trainingid])
+            //this.router.navigate(['training'])
+            
+            this.trainingservice.getTrainingProgramLogin(this.trainingid)
+      .subscribe(result => {
+        this.resulttraining = result.filter(
+          (thing, i, arr) => arr.findIndex(t => t.programDate === thing.programDate) === i
+        );
+        this.loading = true;
+        console.log(this.resulttraining);
+      })
+          })
+  
+  
+  
+        }
 
-    })
+
+        
+
+
+      }
+    )
+
+      
+
+      
+    
   }
 
   downloadQrCode(idQrcode,filename) {
@@ -101,4 +150,16 @@ export class TrainingProgramLoginComponent implements OnInit {
       canvas => fs.saveAs(canvas.toDataURL(), filename)
     );
   }
+
+  StringQRCode(phaseid, id, type){
+    // console.log("id", id);
+    // console.log("type", type);
+    
+    var textqrcode = this.mainUrl + phaseid + '/' + id + '/' + type ;
+    //console.log("xxx:",textqrcode);
+    return textqrcode;
+  }
+
+
+
 }

@@ -103,6 +103,18 @@ export class TrainingIDCodeComponent implements OnInit {
 
 
   }
+  UpdateIdCode(){
 
+    // alert(JSON.stringify(this.trainingRegisterlist))
+    // console.log(this.trainingRegisterlist);
+    
+    this._trainingservice.Updateidcode(this.trainingRegisterlist).subscribe(response => {
+      // this.Form.reset()
+      // this.modalRef.hide()
+      // this.loading = false
+
+      this.getData()
+    })
+  }
 
 }

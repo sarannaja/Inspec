@@ -20,7 +20,12 @@ namespace InspecWeb.Models
         public long Id { get; set; }
 
         [Description("วันที่อบรม")]
-        public string ProgramDate { get; set; }
+        public DateTime? ProgramDate { get; set; }
+
+        [ForeignKey("TrainingProgram")]
+        [Description("FK: ตารางโปรแกรมอบรม")]
+        public long TrainingProgramId { get; set; }
+        
 
         [Description("ช่วงเช้า")]
         public long Morning { get; set; }

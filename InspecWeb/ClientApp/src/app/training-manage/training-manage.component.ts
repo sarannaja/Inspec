@@ -83,8 +83,16 @@ export class TrainingManageComponent implements OnInit {
     this.router.navigate(['/training/programlogin/', this.trainingid])
   }
   
-  gotogGroupTraining(){
+  gotoGroupTraining(){
     this.router.navigate(['/training/register/program/group/', this.trainingid])
+  }
+
+  gotogLoginListTraining(){
+    this.router.navigate(['/training/login/list/', this.trainingid])
+  }
+
+  gotogReportTraining(){
+    this.router.navigate(['/training/report'])
   }
 
 }

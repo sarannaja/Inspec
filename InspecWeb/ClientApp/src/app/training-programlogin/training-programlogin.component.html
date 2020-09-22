@@ -20,7 +20,8 @@
             </div>
             <br />
             <div class="card-body">
-                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg">
+                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                [dtOptions]="dtOptions">
                     <thead>
                         <tr>
                             <th width="5%">#</th>
@@ -31,8 +32,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
+                        <tr *ngFor="let item of resulttraining; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <!-- <td>{{ item.id }}</td> -->
+                            <td>{{item.programDate | thaidate: 'short'}}</td>
+                            <td>
+                                
+
+                                <ng-container *ngIf="item.trainingProgramLoginQRCodes.morning != 0 ;">
+                                    <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                        <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.trainingProgramLoginQRCodes.id,1)" [size]="256" [level]="'M'"></qrcode>
+    
+                                    </a>
+                                    <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
+                                    <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                        <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
+    
+                                    </a> -->
+                                  </ng-container>
+                                  
+
+                            </td>
+                            <td>
+                                <ng-container *ngIf="item.trainingProgramLoginQRCodes.afternoon != 0 ;">
+                                    <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                        <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.trainingProgramLoginQRCodes.id,2)" [size]="256" [level]="'M'"></qrcode>
+    
+                                    </a>
+                                    <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
+                                    <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                        <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
+    
+                                    </a> -->
+                                  </ng-container>
+
+                            </td>
+                            <td class="text-center">
+                                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                    (click)="openModal(modalProgramLogin, item.id)"></i>
+                            </td>
+                        </tr>
+                            <!-- <td>1</td>
                             <td class="ellipsis">
                                 1 ก.ย. 2563
                             </td>
@@ -103,7 +143,7 @@
                                 <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                                     (click)="openModal(modalProgramLogin, 1)"></i>
                             </td>
-                        </tr>
+                        </tr> -->
 
                     </tbody>
                 </table>
@@ -128,7 +168,7 @@
             <div class="modal-body m-3">
                 <div class="form-group">
                     <label for="conditiontype" class="form-label">ช่วงเวลาอบรม</label>
-                    <select class="form-control" formControlName="conditiontype" (change)="selectInput($event)">
+                    <select class="form-control" formControlName="programtype">
                         <option value=null>กรุณาเลือกช่วงเวลาอบรม</option>
                         <option value=1>เช้า</option>
                         <option value=2>บ่าย</option>

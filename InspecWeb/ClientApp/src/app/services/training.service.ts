@@ -443,9 +443,61 @@ export class TrainingService {
   getTrainingPlan(trainingphaseid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'plan/' + trainingphaseid)
   }
-  getTrainingregisterlist(id){
-    return this.http.get<TrainingRegisterlist[]>(this.url + 'trainingregisterlist/get/'+id)
+  getTrainingregisterlist(id) {
+    return this.http.get<TrainingRegisterlist[]>(this.url + 'trainingregisterlist/get/' + id)
   }
+
+  Updateidcode(trainingRegisterlist) {
+    console.log("trainingRegisterlist", trainingRegisterlist);
+    var data: any = [];
+
+    data = trainingRegisterlist.map((item, index) => {
+      return {
+        id: item.id,
+        code: item.code
+      }
+    })
+    console.log("data", data);
+
+    // const formData = new FormData();
+    // for (var iii = 0; iii < data.length; iii++) {
+    //   formData.append("TrainingCode", data[iii]);
+    // }
+
+    const formData = {
+      TrainingCode: data
+    }
+
+    // console.log("test: ", formData.getAll("TrainingCode"));
+
+    console.log('FORMDATA: ', formData);
+    return this.http.put(this.url + 'Updateidcode', formData);
+  }
+
+  //---------zone training ProgramaLogin---------
+  //insert training condition list
+  addTrainingProgramLogin(trainingData, programloginid) {
+    //alert(JSON.stringify(trainingData))
+    //alert(trainingid)
+    const formData = new FormData();
+    formData.append('programlogintype', trainingData.programtype);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'programlogin/add/' + programloginid, formData);
+  }
+
+  getTrainingProgramLogin(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'TrainingProgramDate/get/' + trainingid)
+  }
+
+  updateTrainingProgramLogin(trainingData, programloginQRCodeid) {
+    const formData = new FormData();
+    formData.append('programlogintype', trainingData.programtype);
+    console.log('programloginQRCodeid: ' + programloginQRCodeid);
+    console.log('FORMDATA: ' + formData);
+    return this.http.put(this.url + 'programlogin/update/' + programloginQRCodeid, formData);
+  }
+  //-------end zone training ProgramaLogin-------
 }
 
 

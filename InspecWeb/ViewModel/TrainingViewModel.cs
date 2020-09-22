@@ -31,6 +31,7 @@ namespace InspecWeb.ViewModel
 
         public long[] RegisterId { get; set; }
 
+        public TrainingCode[] TrainingCode { get; set; }
     }
 
     public class TrainingphaseViewModel
@@ -90,4 +91,11 @@ namespace InspecWeb.ViewModel
         public DateTime registerDate { get; set; }
     }
 
+    public class TrainingCode
+    {
+        public long id { get; set; }
+
+        public string code { get; set; }
+
+    }
 }

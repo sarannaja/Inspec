@@ -68,7 +68,7 @@
                         </td> 
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดช่วงเวลาอบรม"
-                            (click)="gotoIDCodeTraining()"></i>
+                            (click)="gotoProgramLoginTraining()"></i>
                             <!-- <a href="{{mainUrl}}training/programlogin/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
@@ -101,11 +101,11 @@
                         </td> 
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="จัดกลุ่มผู้สมัคร"
-                            (click)="gotogGroupTraining()"></i>
+                            (click)="gotoGroupTraining()"></i>
                             <!-- <a href="{{mainUrl}}training/register/program/group/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>8</td>
                         <td class="ellipsis">
                             แบบประเมินหลักสูตรวิทยากร
@@ -113,7 +113,18 @@
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="บัตรผู้ร่วมอบรม"
                             (click)="gotoLecturerListTraining()"></i>
-                            <!-- <a href="{{mainUrl}}training/lecturerlist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
+                            <a href="{{mainUrl}}training/lecturerlist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td>8</td>
+                        <td class="ellipsis">
+                            รายชื่อผู้เข้าร่วมอบรม
+                        </td> 
+                        <td>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="บัตรผู้ร่วมอบรม"
+                            (click)="gotogLoginListTraining()"></i>
+                            <!-- <a href="{{mainUrl}}training/report"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                     <tr>
@@ -122,7 +133,9 @@
                             รายงาน
                         </td> 
                         <td>
-                            <a href="{{mainUrl}}training/report"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                            <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="รายงาน"
+                            (click)="gotogReportTraining()"></i>
+                            <!-- <a href="{{mainUrl}}training/report"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                         </td>
                     </tr>
                   </tbody>

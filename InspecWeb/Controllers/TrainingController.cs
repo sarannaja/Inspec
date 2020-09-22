@@ -980,10 +980,36 @@ namespace InspecWeb.Controllers
         [HttpGet("TrainingProgramDate/get/{trainingid}")]
         public IActionResult GetTrainingProgramDate(long trainingid)
         {
+            var result = new List<object>();
+
             var districtdata = _context.TrainingPrograms
                 .Include(m => m.TrainingPhase)
                 .ThenInclude(m => m.Training)
-                .Where(m => m.Id == trainingid);
+                .Include(m => m.TrainingProgramLoginQRCodes)
+                .Where(m => m.TrainingPhase.TrainingId == trainingid);
+
+            //foreach (var test in districtdata)
+            //{
+                
+            //    System.Console.WriteLine("in1");
+            //    var test2 = _context.TrainingProgramLoginQRCodes
+            //        .Where(x => x.ProgramDate == test.ProgramDate)
+            //        .ToList();
+
+            //    if (test2 != null) {
+            //        foreach (var test3 in test2)
+            //        {
+            //            System.Console.WriteLine("in2");
+            //            result.Add(new
+            //            {
+            //                Name = test.ProgramDate,
+            //                Count = test3.Morning,
+            //                Count2 = test3.Afternoon,
+            //            });
+            //        }
+            //    }
+
+            //}
 
             return Ok(districtdata);
 
@@ -1474,6 +1500,114 @@ namespace InspecWeb.Controllers
             return Ok(districtdata);
 
         }
+
+        // PUT : api/training/edit/:id
+        [HttpPut("Updateidcode")]
+        public void Updateidcode([FromBody] TrainingViewModel model)
+        {
+            foreach(var code in model.TrainingCode)
+            {
+                System.Console.WriteLine("ID" + code.id);
+                System.Console.WriteLine("Code" + code.code);
+                var training = _context.TrainingRegisters.Find(code.id);
+                training.IDCode = code.code;
+
+                _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+            }
+
+        }
+
+
+        // POST api/training/programlogin/add/trainingid
+        [HttpPost("programlogin/add/{programloginid}")]
+        public TrainingProgramLoginQRCode InsertTrainingProgramLogin(long programloginid, long programlogintype)
+        {
+            var date = DateTime.Now;
+            var vmorning = 0;
+            var vafternoon = 0;
+            if (programlogintype == 1)
+            {
+                vmorning = 1;
+                vafternoon = 0;
+            }
+            else if (programlogintype == 2)
+            {
+                vmorning = 0;
+                vafternoon = 1;
+            }
+            else if (programlogintype == 3)
+            {
+                vmorning = 1;
+                vafternoon = 1;
+            }
+            
+            var trainingdata = new TrainingProgramLoginQRCode
+            {
+
+                TrainingProgramId = programloginid,
+                Morning = vmorning,
+                Afternoon = vafternoon,
+
+                CreatedAt = date
+
+            };
+
+            _context.TrainingProgramLoginQRCodes.Add(trainingdata);
+            _context.SaveChanges();
+
+            return trainingdata;
+        }
+
+        // PUT : api/training/programlogin/update/:id
+        [HttpPut("programlogin/update/{id}")]
+        public void UpdateTrainingProgramLogin(long id, long programlogintype)
+        {
+            System.Console.WriteLine("programtype: " + programlogintype);
+            var date = DateTime.Now;
+            
+            var vmorning = 0;
+            var vafternoon = 0;
+            if (programlogintype == 1)
+            {
+                vmorning = 1;
+                vafternoon = 0;
+            }
+            else if (programlogintype == 2)
+            {
+                vmorning = 0;
+                vafternoon = 1;
+            }
+            else if (programlogintype == 3)
+            {
+                vmorning = 1;
+                vafternoon = 1;
+            }
+
+
+            var training = _context.TrainingProgramLoginQRCodes.Find(id);
+            training.Morning = vmorning;
+            training.Afternoon = vafternoon;
+            training.UpdatedAt = date;
+
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        //GET api/Training/plan
+        [HttpGet("programlogin/get/{id}")]
+        public IActionResult GetTrainingProgramLogin(long id)
+        {
+            var data = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.Id == id).FirstOrDefault();
+
+            return Ok(data);
+
+        }
+
+
+
     }
 
 }
