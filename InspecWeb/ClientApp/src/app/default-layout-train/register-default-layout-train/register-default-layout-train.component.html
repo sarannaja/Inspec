@@ -144,7 +144,7 @@
               <label>โปรดระบุวันที่ท่านเกษียณอายุราชการ</label><span class="star">*</span>
               <!-- <input type="text" value="" formControlName="retireddate" class="form-control"
                 placeholder="กรุณากรอกปี พ.ศ."> -->
-              <my-date-picker-th formControlName="retireddate"   [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="retireddate"   [options]="" required>
               </my-date-picker-th>
               <br>
 
@@ -155,17 +155,17 @@
 
               <label>ชื่อเล่น</label><span class="star">*</span>
               <input type="text" value="" formControlName="nickname" class="form-control"
-                placeholder="กรุณากรอกชื่อ-นามสกุล">
+                placeholder="กรุณากรอกชื่อเล่น">
               <br>
 
               <label>วันเกิด</label><span class="star">*</span>
-              <my-date-picker-th formControlName="birthdate"   [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="birthdate"   [options]="" required>
               </my-date-picker-th>
               <br>
 
               <label>หน่วยงาน/สังกัด</label><span class="star">*</span>
               <input type="text" value="" formControlName="department" class="form-control"
-                placeholder="กรุณากรอกหน่วยงาน/สังกัด">
+                placeholder="กรุณากรอกหน่วยงาน/สังกัด" readonly>
               <br>
 
               <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
@@ -190,7 +190,7 @@
 
               <label>เบอร์โทรสาร</label><span class="star">*</span>
               <input type="text" value="" formControlName="fax" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรศัพท์">
+                placeholder="กรุณากรอกเบอร์โทรสาร">
               <br>
 
               <label>E-mail</label><span class="star">*</span>

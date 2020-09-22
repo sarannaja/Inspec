@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
@@ -107,6 +105,11 @@
                       <i class="align-middle mr-2 far fa-fw fa-minus-square" (click)="remove(i)"></i>
                     </div>
                   </ng-template>
+
+                  <div class="form-group" *ngIf="submitted && t.at(i).invalid"
+                    [ngStyle]="submitted && t.at(i).invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณากรอกข้อมูลให้ครบถ้วน</div>
+                  </div>
 
                   <div class="col-12 col-xl-2" *ngIf="provincename[i] != null">
                     <div class="form-group">

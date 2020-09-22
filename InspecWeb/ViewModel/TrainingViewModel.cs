@@ -81,4 +81,15 @@ namespace InspecWeb.ViewModel
         public List<IFormFile> files { get; set; }
     }
 
+    public class TrainingLoginViewModel
+    {
+        public string username { get; set; }
+
+        public long trainingPhaseId { get; set; }
+
+        public DateTime registerDate { get; set; }
+
+        public long trainingProgramLoginId { get; set; }
+    }
+
 }

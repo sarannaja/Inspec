@@ -29,7 +29,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   myDatePickerOptions: IMyOptions = {
     // other options...
     // dateFormat: 'dd/mm/yyyy',
-
+    editableDateField: false
   };
   myDatePickerOptions_i: IMyOptions[] = []
 
@@ -58,6 +58,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   bsValue: Date = new Date()
   mytime: Date = new Date()
   boxId: any = 0
+  submitted = false;
+
   constructor(
     private fb: FormBuilder, private authorize: AuthorizeService,
     private router: Router, private inspectionplaneventservice: InspectionplaneventService,
@@ -89,7 +91,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
     this.t.push(this.fb.group({
       start_date_plan: '',
       end_date_plan: '',
-      provinces: [],
+      provinces: [null, [Validators.required]],
       centralpolicies: [],
       resultcentralpolicy: [],
       resultdetailcentralpolicy: ''
@@ -129,29 +131,36 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   }
 
   storeInspectionPlanEvent(value) {
-    //console.log("Store : ", value);
+
     // alert(JSON.stringify(value))
-    let start_date_plan_i: any[] = this.start_date_plan_i
-    let end_date_plan_i: any[] = this.end_date_plan_i
-    var count = 0
-    for (let i = 0; i < value.input.length; i++) {
-      if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      //console.log("Store : ", value);
+      // alert(JSON.stringify(value))
+      let start_date_plan_i: any[] = this.start_date_plan_i
+      let end_date_plan_i: any[] = this.end_date_plan_i
+      var count = 0
+      for (let i = 0; i < value.input.length; i++) {
+        if (this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])) {
 
 
-        this.inspectionplanservice.inspectionplansprovince(value.input[i].provinces, this.userid, start_date_plan_i[i], end_date_plan_i[i])
-          .subscribe(result => {
-            //console.log("storesubjectprovince : " + result);
-            var id = result
-            var watch = 0;
-            // value.input.length == 1 ? this.removeThem() : count != value.input.length - 1 ? count++ : this.removeThem()
-            this._NotofyService.onSuccess("เพื่มข้อมูล",)
-          })
-      } else {
-        // addT.push(this.t.at(i).value)
+          this.inspectionplanservice.inspectionplansprovince(value.input[i].provinces, this.userid, start_date_plan_i[i], end_date_plan_i[i])
+            .subscribe(result => {
+              //console.log("storesubjectprovince : " + result);
+              var id = result
+              var watch = 0;
+              // value.input.length == 1 ? this.removeThem() : count != value.input.length - 1 ? count++ : this.removeThem()
+              this._NotofyService.onSuccess("เพื่มข้อมูล",)
+            })
+        } else {
+          // addT.push(this.t.at(i).value)
+        }
       }
+      this.removeThem()
     }
-    this.removeThem()
-
   }
   removeThem() {
     let count = 0
@@ -258,31 +267,35 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   //inpecplanevent
   Gotoinspecplan(provinceid, i) {
 
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])
+        ? this.inspectionplanservice.inspectionplansprovince(provinceid, this.userid, this.start_date_plan_i[i], this.end_date_plan_i[i])
+          .subscribe(result => {
+            this._NotofyService.onSuccess("เพื่มข้อมูล",)
+            var id = result
+            var watch = 0;
+            this.t.length == 1 ? this.append() : null
 
+            this.t.removeAt(i)
 
-    this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])
-      ? this.inspectionplanservice.inspectionplansprovince(provinceid, this.userid, this.start_date_plan_i[i], this.end_date_plan_i[i])
-        .subscribe(result => {
-          this._NotofyService.onSuccess("เพื่มข้อมูล",)
-          var id = result
-          var watch = 0;
-          this.t.length == 1 ? this.append() : null
+            var starts = new Set(this.start_date_plan_i);
+            starts.delete(this.start_date_plan_i[i]);
+            this.start_date_plan_i = Array.from(starts);
 
-          this.t.removeAt(i)
+            var ends = new Set(this.end_date_plan_i);
+            ends.delete(this.end_date_plan_i[i]);
+            this.end_date_plan_i = Array.from(ends);
 
-          var starts = new Set(this.start_date_plan_i);
-          starts.delete(this.start_date_plan_i[i]);
-          this.start_date_plan_i = Array.from(starts);
+            window.open(this.url + 'inspectionplan/' + id + '/' + provinceid + '/' + watch);
+          }) : this._dialog.confirm('ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', 'ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', false, 'ปิด')
+            .then(result => {
 
-          var ends = new Set(this.end_date_plan_i);
-          ends.delete(this.end_date_plan_i[i]);
-          this.end_date_plan_i = Array.from(ends);
-
-          window.open(this.url + 'inspectionplan/' + id + '/' + provinceid + '/' + watch);
-        }) : this._dialog.confirm('ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', 'ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', false, 'ปิด')
-          .then(result => {
-
-          })
+            })
+    }
   }
 
   startdate(event, i) {

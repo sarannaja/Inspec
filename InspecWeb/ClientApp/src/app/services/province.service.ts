@@ -63,7 +63,7 @@ export class ProvinceService {
 
       {
         name: "กรุงเทพมหานคร",
-        region: "ตอนพิเศษ"
+        region: "ส่วนกลาง"
       },
       {
         name: "สมุทรปราการ",

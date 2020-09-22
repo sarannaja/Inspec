@@ -23,13 +23,13 @@
                             </div>
                             <form method="post">
                                 <div class="form-group">
-                                    <label></label>                           
-                                    <input asp-for="Input.Username" class="form-control form-control-lg" placeholder="กรอกชื่อผู้ใช้"/>
+                                    <label></label>
+                                    <input asp-for="Input.Username" class="form-control form-control-lg" placeholder="กรอกชื่อผู้ใช้" />
                                     <span asp-validation-for="Input.Username" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
                                     <label></label>
-                                    <input asp-for="Input.Password" class="form-control form-control-lg" placeholder="กรอกรหัสผ่าน"/>
+                                    <input asp-for="Input.Password" class="form-control form-control-lg" placeholder="กรอกรหัสผ่าน" />
                                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     <small>
                                         @*<a href="javascript:void(0)">Forgot password?</a>*@
@@ -43,14 +43,19 @@
                                                 @Html.DisplayNameFor(m => m.Input.RememberMe)
                                             </label>
                                         </div>
-                                    </div>                           
+                                    </div>
                                 </div>
-                                <div class="text-center mt-3">                            
+
+                                <div class="text-center mt-3">
                                     <button type="submit" class="btn btn-lg btn-primary" style="color: white;">เข้าสู่ระบบ</button>
-                                    <!-- <button type="submit" class="btn btn-lg btn-primary">Sign in</button> -->
-                                    @* <a href="/training/external/register"><button type="button" class="btn btn-lg btn-primary" style="color: white;">ลงทะเบียน</button></a> *@
+                                    @*<button type="submit" class="btn btn-lg btn-primary">Sign in</button>*@
+
                                 </div>
                                 @Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
+
+                                <div class="text-center mt-1">
+                                    <a href="/training/external/register">สมัครผู้ร่วมอบรม(สำหรับบุคคลภายนอก)</a>
+                                </div>
                             </form>
                         </div>
                     </div>

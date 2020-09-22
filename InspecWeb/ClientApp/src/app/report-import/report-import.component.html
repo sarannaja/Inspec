@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
@@ -83,9 +81,15 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">แผนการตรวจราชการประจำปี*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true"   [items]="centralPolicyEvent"
-              name="centralPolicyEvent" formControlName="centralPolicyEvent"  >
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี"
+              [multiple]="true" [items]="centralPolicyEvent" name="centralPolicyEvent"
+              formControlName="centralPolicyEvent"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.centralPolicyEvent.errors }">
             </ng-select>
+            <div *ngIf="submitted && reportForm.controls.centralPolicyEvent.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.centralPolicyEvent.errors.required">กรุณาเลือกแผนการตรวจราชการประจำปี
+              </div>
+            </div>
           </div>
         </div>
 
@@ -94,12 +98,17 @@
             <label>ประเภทรายงาน*</label>
             <div class="form-group col-md-12">
               <div class="mb-12">
-                <select class="form-control select2" data-toggle="select2" formControlName="centralPolicyType">
+                <select class="form-control select2" data-toggle="select2" formControlName="centralPolicyType"
+                  [ngClass]="{ 'is-invalid': submitted && reportForm.controls.centralPolicyType.errors }">
                   <option value=null>กรุณาเลือกประเภทรายงาน</option>
                   <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
                   <option value="มาตรา 34">มาตรา 34</option>
                   <option value="อื่นๆ">อื่นๆ</option>
                 </select>
+                <div *ngIf="submitted && reportForm.controls.centralPolicyType.errors" class="invalid-feedback">
+                  <div *ngIf="reportForm.controls.centralPolicyType.errors.required">กรุณาเลือกประเภทรายงาน
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -110,7 +119,8 @@
             <label>ประเภทการออกรายงาน*</label>
             <div class="form-group col-md-12">
               <div class="mb-12">
-                <select class="form-control select2" data-toggle="select2" formControlName="reportType">
+                <select class="form-control select2" data-toggle="select2" formControlName="reportType"
+                  [ngClass]="{ 'is-invalid': submitted && reportForm.controls.reportType.errors }">
                   <option value=null>กรุณาเลือกประเภทการออกรายงาน</option>
                   <option value="รายวัน">รายวัน</option>
                   <option value="รายเขต">รายเขต</option>
@@ -119,6 +129,9 @@
                   <option value="รายหน่วยงาน">รายหน่วยงาน</option>
                   <!-- <option value="อื่นๆ">อื่นๆ</option> -->
                 </select>
+                <div *ngIf="submitted && reportForm.controls.reportType.errors" class="invalid-feedback">
+                  <div *ngIf="reportForm.controls.reportType.errors.required">กรุณาเลือกประเภทรายงาน</div>
+                </div>
               </div>
             </div>
           </div>
@@ -128,34 +141,50 @@
           <div class="form-group">
             <label class="form-label">รอบการตรวจราชการ*</label>
             <input class="form-control" type="text" placeholder="กรุณากรอกรอบการตรวจราชการ"
-              formControlName="inspectionRound">
+              formControlName="inspectionRound"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.inspectionRound.errors }">
+            <div *ngIf="submitted && reportForm.controls.inspectionRound.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.inspectionRound.errors.required">กรุณาเลือกรอบการตรวจราชการ</div>
+            </div>
           </div>
         </div>
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">ปีงบประมาณ*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"   [items]="fiscalYearData"
-               formControlName="fiscalYear"  (change)="selectFiscalYear($event)">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"
+              [items]="fiscalYearData" formControlName="fiscalYear" (change)="selectFiscalYear($event)"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.fiscalYear.errors }">
             </ng-select>
+            <div *ngIf="submitted && reportForm.controls.fiscalYear.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.fiscalYear.errors.required">กรุณาเลือกปีงบประมาณ</div>
+            </div>
           </div>
         </div>
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">เขตตรวจราชการ*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"   [items]="regionData"
-              formControlName="region"  >
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"
+              [items]="regionData" formControlName="region"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.region.errors }">
             </ng-select>
+            <div *ngIf="submitted && reportForm.controls.region.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.region.errors.required">กรุณาเลือกเขตตรวจราชการ</div>
+            </div>
           </div>
         </div>
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">จังหวัด*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="provinceData" name="province"
-              formControlName="province"  >
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+              [items]="provinceData" name="province" formControlName="province"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.province.errors }">
             </ng-select>
+            <div *ngIf="submitted && reportForm.controls.province.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.province.errors.required">กรุณาเลือกจังหวัด</div>
+            </div>
           </div>
         </div>
 
@@ -163,7 +192,11 @@
           <div class="form-group">
             <label class="form-label">หัวข้อการตรวจติดตาม*</label>
             <input class="form-control" type="text" placeholder="กรุณากรอกหัวข้อการตรวจติดตาม"
-              formControlName="monitoringTopics">
+              formControlName="monitoringTopics"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.monitoringTopics.errors }">
+            <div *ngIf="submitted && reportForm.controls.monitoringTopics.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.monitoringTopics.errors.required">กรุณาเลือกหัวข้อการตรวจติดตาม</div>
+            </div>
           </div>
         </div>
 
@@ -171,7 +204,11 @@
           <div class="form-group">
             <label class="form-label">สรุปผลการตรวจราชการ*</label>
             <textarea class="form-control" formControlName="detailReport" name="detailReport" id="" cols="30" rows="5"
-              placeholder="กรุณากรอกสรุปผลการตรวจราชการ"></textarea>
+              placeholder="กรุณากรอกสรุปผลการตรวจราชการ"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.detailReport.errors }"></textarea>
+            <div *ngIf="submitted && reportForm.controls.detailReport.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.detailReport.errors.required">กรุณากรอกสรุปผลการตรวจราชการ</div>
+            </div>
           </div>
         </div>
 
@@ -179,7 +216,12 @@
           <div class="form-group">
             <label class="form-label">ข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ*</label>
             <textarea class="form-control" name="suggestion" formControlName="suggestion" id="" cols="30" rows="5"
-              placeholder="กรุณากรอกข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ"></textarea>
+              placeholder="กรุณากรอกข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.suggestion.errors }"></textarea>
+            <div *ngIf="submitted && reportForm.controls.suggestion.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.suggestion.errors.required">กรุณากรอกข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ
+              </div>
+            </div>
           </div>
         </div>
 
@@ -187,12 +229,17 @@
           <div class="form-group">
             <label class="form-label">ข้อสั่งการของผู้บังคับบัญชา*</label>
             <textarea class="form-control" name="command" formControlName="command" id="" cols="30" rows="5"
-              placeholder="กรุณากรอกข้อสั่งการของผู้บังคับบัญชา"></textarea>
+              placeholder="กรุณากรอกข้อสั่งการของผู้บังคับบัญชา"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.command.errors }"></textarea>
+            <div *ngIf="submitted && reportForm.controls.command.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.command.errors.required">กรุณากรอกข้อสั่งการของผู้บังคับบัญชา</div>
+            </div>
           </div>
         </div>
 
         <div class="col-12">
-          <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์เอกสาร, ไฟล์ภาพ, ไฟล์เสียง, หรือไฟล์วิดีทัศน์</label>
+          <label class="form-label w-100" style="margin-top: 30px;">แนบไฟล์เอกสาร, ไฟล์ภาพ, ไฟล์เสียง,
+            หรือไฟล์วิดีทัศน์</label>
           <input type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
           <!-- <div class="col-4">
             <select class="selectpicker form-control" data-live-search="true" (change)="checkType($event.target.value)"
@@ -233,8 +280,9 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">แผนการตรวจราชการประจำปี*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี" [multiple]="true"   [items]="centralPolicyEvent"
-              name="centralPolicyEvent" formControlName="centralPolicyEvent"  >
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี"
+              [multiple]="true" [items]="centralPolicyEvent" name="centralPolicyEvent"
+              formControlName="centralPolicyEvent">
             </ng-select>
           </div>
         </div>
@@ -283,8 +331,9 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">ปีงบประมาณ*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"   [items]="fiscalYearData"
-              name="fiscalYear" formControlName="fiscalYear"  (change)="selectFiscalYear($event)">
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"
+              [items]="fiscalYearData" name="fiscalYear" formControlName="fiscalYear"
+              (change)="selectFiscalYear($event)">
             </ng-select>
           </div>
         </div>
@@ -292,8 +341,8 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">เขตตรวจราชการ*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"   [items]="regionData" name="region"
-              formControlName="region"  >
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"
+              [items]="regionData" name="region" formControlName="region">
             </ng-select>
           </div>
         </div>
@@ -301,8 +350,8 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">จังหวัด*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"   [items]="provinceData" name="province"
-              formControlName="province"  >
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="false"
+              [items]="provinceData" name="province" formControlName="province">
             </ng-select>
           </div>
         </div>

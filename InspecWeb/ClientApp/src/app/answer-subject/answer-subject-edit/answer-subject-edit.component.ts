@@ -27,6 +27,8 @@ export class AnswerSubjectEditComponent implements OnInit {
   resultsubquestion: any = []
   resultanswerstatus: any = []
   resultanswerfiles: any = []
+  resultansweroutsider: any = []
+  resultsubquestioncount: any = []
   province: any
   provinceid: any
   centralPolicyProvinceId: any
@@ -98,6 +100,7 @@ export class AnswerSubjectEditComponent implements OnInit {
     this.getAnsweruser();
     this.getAnswerstatus();
     this.getAnswerfiles();
+    this.getAnsweroutsider();
   }
   openModalEdit(template: TemplateRef<any>, id) {
     console.log(id);
@@ -154,6 +157,15 @@ export class AnswerSubjectEditComponent implements OnInit {
   getAnswerfiles() {
     this.answersubjectservice.getAnswerfile(this.id, this.userid).subscribe(result => {
       this.resultanswerfiles = result
+    })
+  }
+  getAnsweroutsider() {
+    this.answersubjectservice.getAnsweroutsider(this.id, this.userid).subscribe(result => {
+      this.resultansweroutsider = result
+      this.resultsubquestioncount = this.resultansweroutsider.filter(
+        (thing, i, arr) => arr.findIndex(t => t.subquestionCentralPolicyProvinceId === thing.subquestionCentralPolicyProvinceId) === i
+      );
+      console.log("uniqueresultsubquestioncount: ", this.resultsubquestioncount);
     })
   }
   addvalue() {

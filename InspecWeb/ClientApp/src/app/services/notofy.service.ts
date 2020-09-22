@@ -102,6 +102,10 @@ export class NotofyService {
     this.snotifyService.warning(body, title, this.getConfig());
   }
 
+  onFalsenik(title: string = '', body: string = MSG_SAVE_FALSE) {
+    this.snotifyService.error(title, body, this.getConfig());
+  }
+
   onConfirm() {
     // return this.snotifyService.confirm('Example body content', 'Example title', {
     //   timeout: 5000,

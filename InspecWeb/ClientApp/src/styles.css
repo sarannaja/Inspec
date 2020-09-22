@@ -37,7 +37,14 @@ code {
 .header-title {
   font-family: "Prompt", sans-serif;
 }
+ol.breadcrumb {
+  margin-top: -30px;
+  /* margin-left: 101px; */
+}
 
+div.card{
+  margin-top: -30px;
+}
 /* thai */
 
 /* @font-face {

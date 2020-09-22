@@ -130,6 +130,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(r => r.Province)
                 .Include(s => s.Province)
                 .Include(s => s.Ministries)
+                .Include(s => s.ProvincialDepartments)
                 .Where(m => m.Id == id)
                 .Where(m => m.Active == 1).FirstOrDefault();
 
@@ -324,61 +325,61 @@ namespace InspecWeb.Controllers
                 else if (model.Role_id == 10)
                 {
 
-                        // count จำนวน
-                        var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.DepartmentId == model.DepartmentId).Count();
-                        var num2 = "0";
-                        //ชื่อกรม
-                        var departmentdata = _context.Departments.Find(model.DepartmentId);
+                    // count จำนวน
+                    var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.DepartmentId == model.DepartmentId).Count();
+                    var num2 = "0";
+                    //ชื่อกรม
+                    var departmentdata = _context.Departments.Find(model.DepartmentId);
 
-                        //ถ้าเกิดยังไม่มี username ในกรมนี้
-                        if (usercount == 0)
-                        {
-                            num = "0" + 1.ToString();
+                    //ถ้าเกิดยังไม่มี username ในกรมนี้
+                    if (usercount == 0)
+                    {
+                        num = "0" + 1.ToString();
 
-                            Username = departmentdata.ShortnameEN + "_" + namerole + num;
-                        }
-                        else
+                        Username = departmentdata.ShortnameEN + "_" + namerole + num;
+                    }
+                    else
+                    {
+                        for (var i = 1; i <= usercount; i++)
                         {
-                            for (var i = 1; i <= usercount; i++)
+
+                            if (i >= 10)
+                            {
+                                num = i.ToString();
+                            }
+                            else
+                            {
+                                num = "0" + i.ToString();
+                            }
+
+                            //เอาUsername ไปเช็คในระบบ
+                            var CheckUsername = departmentdata.ShortnameEN + "_" + namerole + num;
+                            var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
+
+                            //ถ้าไม่มีในระบบ
+                            if (usercount2 == 0)
                             {
 
-                                if (i >= 10)
-                                {
-                                    num = i.ToString();
-                                }
-                                else
-                                {
-                                    num = "0" + i.ToString();
-                                }
+                                Username = departmentdata.ShortnameEN + "_" + namerole + num;
 
-                                //เอาUsername ไปเช็คในระบบ
-                                var CheckUsername = departmentdata.ShortnameEN + "_" + namerole + num;
-                                var usercount2 = _context.Users.Where(m => m.UserName == CheckUsername).Where(m => m.Role_id == model.Role_id).Count();
-
-                                //ถ้าไม่มีในระบบ
-                                if (usercount2 == 0)
-                                {
-
-                                    Username = departmentdata.ShortnameEN + "_" + namerole + num;
-
-                                    break;
-                                }
-                                else
-                                {
-                                    var num3 = i + 1;
-                                    if (num3 >= 10)
-                                    {
-                                        num2 = num3.ToString();
-                                    }
-                                    else
-                                    {
-                                        num2 = "0" + num3.ToString();
-                                    }
-                                    Username = departmentdata.ShortnameEN + "_" + namerole + num2;
-                                }
-
+                                break;
                             }
-                        }                   
+                            else
+                            {
+                                var num3 = i + 1;
+                                if (num3 >= 10)
+                                {
+                                    num2 = num3.ToString();
+                                }
+                                else
+                                {
+                                    num2 = "0" + num3.ToString();
+                                }
+                                Username = departmentdata.ShortnameEN + "_" + namerole + num2;
+                            }
+
+                        }
+                    }
                 }
                 else if (model.Role_id == 4 || model.Role_id == 5)
                 {
@@ -836,7 +837,7 @@ namespace InspecWeb.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromForm] UserViewModel model, String editId)
         {
-           
+
             var userdata = _context.Users.Find(editId);
             userdata.Img = model.Img;
             userdata.Signature = model.Signature;
@@ -887,7 +888,7 @@ namespace InspecWeb.Controllers
                     //ถ้ามีการแก้ไข กระทรวง
                     else
                     {
-                     
+
                         // count จำนวน
                         var usercount = _context.Users.Where(m => m.Role_id == model.Role_id).Where(m => m.MinistryId == model.MinistryId).Count();
                         var num2 = "0";
@@ -1026,7 +1027,7 @@ namespace InspecWeb.Controllers
                         .Include(m => m.UserProvince)
                         .Where(m => m.Id == editId)
                         .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId));
-                   
+
                     //ถ้าไม่มีการแก้ไข จังหวัด
                     if (check.Count() >= 1)
                     {
@@ -1096,7 +1097,7 @@ namespace InspecWeb.Controllers
 
                     }
 
-                    
+
                 }
                 else if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 8)
                 {
@@ -1109,7 +1110,7 @@ namespace InspecWeb.Controllers
                     var check = _context.Users
                        .Include(m => m.UserProvince)
                        .Where(m => m.Id == editId)
-                       .Where(m => m.SideId  == model.SideId)
+                       .Where(m => m.SideId == model.SideId)
                        .Where(x => x.UserProvince.Any(x => x.ProvinceId == model.UserProvinceId));
 
                     //ถ้าไม่มีการแก้ไข ด้าน และ จังหวัด
@@ -1137,7 +1138,7 @@ namespace InspecWeb.Controllers
                         {
                             num = "0" + 1.ToString();
 
-                             Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
+                            Username = sidedata.ShortnameEN + "_" + provincedata.ShortnameEN + num;
                         }
                         else
                         {
@@ -1185,7 +1186,7 @@ namespace InspecWeb.Controllers
                         }
 
                     }
-                
+
                 }
                 else if (model.Role_id == 9)
                 {
@@ -1197,7 +1198,7 @@ namespace InspecWeb.Controllers
                         var check = _context.Users
                                     .Where(m => m.Id == editId && m.UserProvince.Count > 1)
                                     .Where(m => m.DepartmentId == model.DepartmentId); ;
-                           
+
                         //ถ้าไม่มีการแก้ไข เลือกจังหวัดเยอะกว่า1
                         if (check.Count() >= 1)
                         {
@@ -1273,7 +1274,7 @@ namespace InspecWeb.Controllers
                     {
                         foreach (var item2 in model.UserProvince)
                         {
-                       
+
                             var check = _context.Users.Where(m => m.Id == editId && m.UserProvince.Count <= 1)
                                      .Include(m => m.UserProvince)
                                      .Where(x => x.UserProvince.Any(x => x.ProvinceId == item2))
@@ -1352,7 +1353,7 @@ namespace InspecWeb.Controllers
                                 }
 
                             }
-        
+
                         }
 
                     }
@@ -1528,8 +1529,8 @@ namespace InspecWeb.Controllers
                         _context.UserRegions.Add(userregiondata);
                         _context.SaveChanges();
 
-                        System.Console.WriteLine("testuser9 : ");
 
+                        var FiscalYearF = _context.FiscalYears.First();
 
                         //yochigang แก้ไข 20200915
                         var userprovince = _context.FiscalYearRelations
@@ -1637,12 +1638,18 @@ namespace InspecWeb.Controllers
         [HttpPut("api/[controller]/resetpassword")]
         public async Task<IActionResult> resetpassword([FromForm] UserViewModel model)
         {
+
             System.Console.WriteLine("momo"+model.Id);
             var passwordrandom = RandomString(8);
             var userdata = _context.Users.Find(model.Id);
             userdata.Pw = passwordrandom;
             _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+            //System.Console.WriteLine("momo" + id);
+           // var passwordrandom = RandomString(8);
+           // var userdata = _context.Users.Find(id);
+
             var tresult = await _userManager.RemovePasswordAsync(userdata);
             await _userManager.AddPasswordAsync(userdata, passwordrandom);
 

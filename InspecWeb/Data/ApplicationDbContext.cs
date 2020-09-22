@@ -163,6 +163,9 @@ namespace InspecWeb.Data
         public DbSet<AnswerRecommenDationInspector> AnswerRecommenDationInspectors { get; set; }
         public DbSet<SetinspectionareaFile> SetinspectionareaFiles { get; set; } //<!-- ไฟล์ของกำหนดเขตการตรวจ -->
 
+        public DbSet<TrainingLogin> TrainingLogins { get; set; }
+        
+
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -243,11 +246,17 @@ namespace InspecWeb.Data
             .HasForeignKey(p => p.CentralPolicyId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<CentralPolicyEvent>()
-            .HasOne(p => p.CentralPolicy)
-            .WithMany(b => b.CentralPolicyEvents)
-            .HasForeignKey(p => p.CentralPolicyId)
-            .OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<SubjectGroup>()
+            //.HasOne(p => p.Province)
+            //.WithMany(b => b.SubjectGroups)
+            //.HasForeignKey(p => p.ProvinceId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<CentralPolicyEvent>()
+            //.HasOne(p => p.CentralPolicy)
+            //.WithMany(b => b.CentralPolicyEvents)
+            //.HasForeignKey(p => p.CentralPolicyId)
+            //.OnDelete(DeleteBehavior.Cascade);
 
             //CentralPolicyProvince Cascade//
             builder.Entity<SubjectCentralPolicyProvince>()
@@ -278,6 +287,18 @@ namespace InspecWeb.Data
             builder.Entity<SubjectCentralPolicyProvinceFile>()
             .HasOne(p => p.SubjectCentralPolicyProvince)
             .WithMany(b => b.SubjectCentralPolicyProvinceFiles)
+            .HasForeignKey(p => p.SubjectCentralPolicyProvinceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<AnswerSubquestionFile>()
+            .HasOne(p => p.SubjectCentralPolicyProvince)
+            .WithMany(b => b.AnswerSubquestionFiles)
+            .HasForeignKey(p => p.SubjectCentralPolicyProvinceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<AnswerSubquestionStatus>()
+            .HasOne(p => p.SubjectCentralPolicyProvince)
+            .WithMany(b => b.AnswerSubquestionStatuses)
             .HasForeignKey(p => p.SubjectCentralPolicyProvinceId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -395,12 +416,63 @@ namespace InspecWeb.Data
             .HasForeignKey(p => p.ImportReportId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            //SubjectGroups Cascade//
-            // builder.Entity<SubjectCentralPolicyProvince>()
-            // .HasOne(p => p.SubjectGroup)
-            // .WithMany(b => b.SubjectCentralPolicyProvinces)
-            // .HasForeignKey(p => p.SubjectGroupId)
-            // .OnDelete(DeleteBehavior.Cascade);
+            //subjectgroups cascade//
+
+            builder.Entity<SubjectEventFile>()
+            .HasOne(p => p.SubjectGroup)
+            .WithMany(b => b.SubjectEventFiles)
+            .HasForeignKey(p => p.SubjectGroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<AnswerSubquestionFile>()
+            //.HasOne(p => p.SubjectGroup)
+            //.WithMany(b => b.AnswerSubquestionFiles)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<SubjectGroup>()
+            //.HasMany(p => p.SubjectCentralPolicyProvinces)
+            //.WithOne(b => b.SubjectGroup)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<SubjectGroupPeopleQuestion>()
+            //.HasOne(p => p.SubjectGroup)
+            //.WithMany(b => b.SubjectGroupPeopleQuestions)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<SubjectGroupPeopleQuestion>()
+            .HasOne(p => p.CentralPolicyEvent)
+            .WithMany(b => b.SubjectGroupPeopleQuestions)
+            .HasForeignKey(p => p.CentralPolicyEventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<AnswerRecommenDationInspector>()
+            .HasOne(p => p.SubjectGroup)
+            .WithMany(b => b.AnswerRecommenDationInspectors)
+            .HasForeignKey(p => p.SubjectGroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<SubjectCentralPolicyProvince>()
+            //.HasOne(p => p.SubjectGroup)
+            //.WithMany(b => b.SubjectCentralPolicyProvinces)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+
+
+            //builder.Entity<SubjectGroupPeopleQuestion>()
+            //.HasOne(p => p.SubjectGroup)
+            //.WithMany(b => b.SubjectGroupPeopleQuestions)
+            //.HasForeignKey(p => p.SubjectGroupId)
+            //.OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CentralPolicyEventQuestion>()
+            .HasOne(p => p.CentralPolicyEvent)
+            .WithMany(b => b.CentralPolicyEventQuestions)
+            .HasForeignKey(p => p.CentralPolicyEventId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
             //seed data

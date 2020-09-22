@@ -266,7 +266,7 @@ export class CalendarUserComponent implements OnInit {
           } else if (item2.status == "ตอบรับ") {
             // test = 1;
             colorJa = "#008000" //green
-          } else if (item2.status == "ปฎิเสธ") {
+          } else if (item2.status == "ปฏิเสธ") {
             // test = 1;
             colorJa = "#C70039" //red
           } else if (item2.status == "มอบหมาย") {

@@ -60,6 +60,7 @@ export class ReportService {
     const formData = new FormData();
     formData.append('provincialDepartmentId', reportdata.provincialDepartmentId);
     formData.append('reporttype', reportdata.type);
+    formData.append('SubjectGroupId', reportdata.SubjectGroupId)
     return this.http.post<any>(this.url + "reportperformance", formData)
   }
   createReporttype2(reportdata, provinceid, CentralPolicyProvinceId, SubjectGroupId) {

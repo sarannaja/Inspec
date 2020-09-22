@@ -4,12 +4,13 @@ body {
   margin: 0;
   padding: 0;
   background-color: #FAFAFA;
-  font: 12pt "Tahoma";
 }
+
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
+
 .page {
   width: 210mm;
   min-height: 297mm;
@@ -20,6 +21,7 @@ body {
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
 .subpage {
   padding: 1cm;
   border: 5px red solid;
@@ -30,39 +32,122 @@ body {
   size: A4;
   margin: 0;
 }
+
 @media print {
-  html, body {
-      width: 210mm;
-      height: 297mm;
+
+  html,
+  body {
+    width: 210mm;
+    height: 297mm;
+    /* font-family: 'Niramit', sans-serif; */
   }
+
   .page {
-      margin: 0;
-      border: initial;
-      border-radius: initial;
-      width: initial;
-      min-height: initial;
-      box-shadow: initial;
-      background: initial;
-      page-break-after: always;
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    page-break-after: always;
+  }
+
+  footer {
+    display: none;
+  }
+
+  button {
+    display: none;
+  }
+
+  header {
+    display: none;
+  }
+
+  h1 {
+    display: none;
+  }
+
+  nav {
+    display: none;
+  }
+
+  h5 {
+    display: none;
+  }
+
+  p {
+    display: none;
   }
 }
 
-.sortLabel {
-  margin-top: 450px;
-  justify-content:space-evenly;
+.sara-bun {
+  font-size: 50px;
+  transform: rotate(90.0deg);
+  white-space: nowrap;
+  font-family: 'THSarabunNew', sans-serif;
 }
-.leftLabel {
-  transform: rotate(90deg);
+
+.graph-7{
+  background: url('/../wwwroot/img/sky.jpg') no-repeat;
+}
+.graph-image img{
+  display: block;
+  width: 5.78cm;
+  height: 8.48cm;
+}
+
+@media print{
+  /* .graph-image img{display:inline;} */
+  .img-1{
+    left: 42.8% !important;
+
+  }
+  .img-2{
+    left: 52% !important;
+  }
+  .container {
+    position: relative;
+    text-align: center;
+    color: white;
+    left: -10%;
+  }
+}
+
+.container {
+  position: relative;
   text-align: center;
+  color: white;
 }
-.rightLabel {
-  transform: rotate(-90deg); text-align: center;
+
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
 }
-.txtRotateL {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+
+.top-left {
+  position: absolute;
+  top: 25px;
+  left: 37%;
 }
-.txtRotateR {
-  writing-mode: vertical-lr;
-  text-orientation: mixed;
+
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

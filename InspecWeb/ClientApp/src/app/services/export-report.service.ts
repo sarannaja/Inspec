@@ -675,21 +675,22 @@ export class ExportReportService {
         return {
           index: index + 1,
           startDate,
-          title: item.centralPolicy.title,
-          status: item.inspectionPlanEvent.status,
-          province: item.inspectionPlanEvent.province.name,
-          namecreatedby: item.inspectionPlanEvent.user.prefix + " " + item.inspectionPlanEvent.user.name,
-          phonenumbercreatedby: item.inspectionPlanEvent.user.phoneNumber,
+          title: item.title,
+          status: item.status,
+          province: item.province,
+          namecreatedby: item.namecreatedby,
+          phonenumbercreatedby: item.phonenumbercreatedby,
           ///////////
-          nameinvited: item.inspectionPlanEvent.centralPolicyUsers.filter(
+          nameinvited: item.nameinvited.filter(
             (thing, i, arr) => { return arr.findIndex(t => t.userId === thing.userId) === i }
           ).filter(result => {
             return result.centralPolicyId == item.centralPolicyId
-          }).map(result => {
-            return result.user.prefix + " " + result.user.name + " " + result.user.phoneNumber + " " + result.status
-          }).toString().replace(',', "\n"),
+          }).map(result2 => {
+            return result2.user.prefix + " " + result2.user.name + " " + result2.user.phoneNumber + " " + result2.status + "\n"
+          }).toString()
         }
       })
+
     console.log("maptestmaptest", maptest);
 
     var provinceId2 = provinceId
@@ -717,7 +718,7 @@ export class ExportReportService {
   }
 
   getCelendarReportById(regionId, provinceId, departmentId, peopleId, date) {
-
+    // alert(provinceId)
     var inputdate;
     if (date && date.date != null) {
       inputdate = date.date.year + '-' + date.date.month + '-' + date.date.day;

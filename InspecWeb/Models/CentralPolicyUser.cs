@@ -56,11 +56,13 @@ namespace InspecWeb.Models
 
         [Description("สถานะ -> 1.ตอบรับ 2.ปฏิเสธ")]
         public string ForwardName { get; set; }
-
         public string ForwardDepartment { get; set; }
         public string ForwardPosition { get; set; }
         public string ForwardPhone { get; set; }
         public string ForwardEmail { get; set; }
+
+        public long ForwardCount { get; set; }
+        public long ForwardExternal { get; set; }
 
         [Description("สถานะ -> 1.ตอบรับ 2.ปฏิเสธ")]
         public string InvitedBy { get; set; }

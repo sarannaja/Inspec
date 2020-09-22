@@ -99,7 +99,7 @@ namespace InspecWeb.Controllers
                 var users = _context.UserProvinces
                .Include(m => m.User)
                .Where(m => m.ProvinceId == ProvinceId)
-               .Where(m => m.User.Role_id == 9 || m.User.Role_id == 5)
+               .Where(m => m.User.Role_id == 9 || m.User.Role_id == 5 || m.User.Role_id == 7)
                .ToList();
 
                 foreach (var item in users)
@@ -330,6 +330,87 @@ namespace InspecWeb.Controllers
 
                     _context.SaveChanges();
                 }
+            }
+
+            // แจ้งเตือนผู้ว่าราชการจังหวัด หรือ หัวหน้าส่วนจังหวัด เมื่อได้รับสมุดตรวจ
+            if (Status == 17)
+            {
+                var userProvinceRole4 = _context.Users
+                    .Where(x => x.Role_id == 4 && x.UserProvince.Any(x => x.ProvinceId == ProvinceId))
+                    .FirstOrDefault();
+
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = userProvinceRole4.Id,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe
+                });
+                _context.SaveChanges();
+
+                var userProvinceRole5 = _context.Users
+                   .Where(x => x.Role_id == 5 && x.UserProvince.Any(x => x.ProvinceId == ProvinceId))
+                   .FirstOrDefault();
+
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = userProvinceRole5.Id,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe
+                });
+                _context.SaveChanges();
+            }
+
+            if (Status == 18)
+            {
+                var userProvincialDepartment = _context.Users
+                    .Where(x => x.Role_id == 9 && x.ProvincialDepartmentId == xe && x.UserProvince.Any(x => x.ProvinceId == ProvinceId))
+                    .ToList();
+
+                foreach (var userData in userProvincialDepartment) {
+
+                    _context.Notifications.Add(new Notification
+                    {
+                        UserID = userData.Id,
+                        CentralPolicyId = CentralPolicyId,
+                        ProvinceId = ProvinceId,
+                        status = Status,
+                        noti = 1,
+                        CreatedAt = date,
+                        xe = xe
+                    });
+                    _context.SaveChanges();
+                }
+            }
+
+            //มอบหมาย
+            if (Status == 19)
+            {
+                var users = _context.Users
+                     .Where(m => m.Id == UserId).First();
+
+
+                System.Console.WriteLine("USERID : " + users.Id);
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = users.Id,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe,
+                });
+
+                _context.SaveChanges();
+
             }
 
             return notificationdata;

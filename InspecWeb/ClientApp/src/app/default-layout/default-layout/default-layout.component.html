@@ -1,12 +1,12 @@
 <!-- <ng-snotify></ng-snotify> -->
 <div id="page-content-wrapper" (keydown)="handleKeyboardEvent($event)" class="wrapper">
-
+    <!-- <img src="assets/img/logo2.png" class="header-title" width="50%" height="auto" /> -->
     <nav id="sidebar" class="sidebar" [ngClass]="{'toggled': toggled}">
-        <a class="sidebar-brand" [routerLink]="['/main']">
+        <!-- <a class="sidebar-brand" [routerLink]="['/main']">
             <img src="assets/img/logo.png" class="img-fluid rounded-circle mb-2" height="42" width="42" />
             &nbsp;
             สตร.
-        </a>
+        </a> -->
         <div class="sidebar-content">
             <div class="sidebar-user">
 
@@ -49,18 +49,18 @@
 
                                 <a *ngIf="childItem.ex_link == '1'" target="_blank" (click)="checkactive(childItem.url)"
                                     class="sidebar-link" href="{{childItem.url}}">
-                                    <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
+                                    <i [ngClass]="classIcon2+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
                                 <a *ngIf="childItem.ex_link == '0' && childItem.ex_link!='user' "
                                     (click)="checkactive(childItem.url)" class="sidebar-link"
                                     [routerLink]="[childItem.url]">
-                                    <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
+                                    <i [ngClass]="classIcon2+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
                                 <a *ngIf="childItem.ex_link == 'user'" (click)="userNav(childItem.url,childItem.id)"
                                     class="sidebar-link">
-                                    <i [ngClass]="classIcon+childItem.icon"></i>{{childItem.name}}
+                                    <i [ngClass]="classIcon2+childItem.icon"></i>{{childItem.name}}
                                 </a>
 
 
@@ -99,8 +99,19 @@
             <!-- <form class="form-inline d-none d-sm-inline-block">
               <input class="form-control form-control-lite" type="text" placeholder="Search projects...">
           </form> -->
+            <ng-container *ngIf="isMobile else ImgLogo">
+                <img style="margin-top: 20px;" src="assets/img/logo2.png" width="150px" height="auto" />
+
+            </ng-container>
+            <ng-template #ImgLogo>
+                <img style="margin-top: 20px;" src="assets/img/logo2.png" width="300px" height="auto" />
+
+            </ng-template>
+
 
             <div class="navbar-collapse collapse">
+
+
                 <ul class="navbar-nav ml-auto">
                     <!-- <li class="nav-item dropdown active">
                       <a class="nav-link dropdown-toggle position-relative" href="javascript:void(0)" id="messagesDropdown"
@@ -413,8 +424,9 @@
 
                 <div class="form-group">
                     <label class="form-label w-100">แนบลายเซ็น</label>
-                    <img *ngIf="Signature != null" src="{{SignatureUrl}}/{{Signature}}" class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
-                    <input type="file" (change)="uploadFile2($event)" >
+                    <img *ngIf="Signature != null" src="{{SignatureUrl}}/{{Signature}}"
+                        class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
+                    <input type="file" (change)="uploadFile2($event)">
                     <input type="file" (change)="uploadFile2($event)">
                     <small class="form-text text-muted">แนบลายเซ็น</small>
                 </div>

@@ -39,11 +39,13 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+
             var fiscalyearData = _context.FiscalYears
                 .Include(m => m.SetinspectionareaFiles)
                 .OrderBy(x => x.CreatedAt)
                 .ToList();
             return Ok(fiscalyearData);
+
 
         }
 

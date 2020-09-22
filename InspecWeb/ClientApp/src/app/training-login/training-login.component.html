@@ -1,0 +1,42 @@
+<div class="container h-100">
+  <div class="row h-100">
+    <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+      <div class="d-table-cell align-middle">
+
+        <div class="text-center">
+          <img src="{{downloadUrl}}/logo01.png" class="img-fluid rounded-circle mb-2" width="132" height="132" />
+          <p style="font-size:16px;">ระบบตรวจราชการอิเล็กทรอนิกส์</p>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="m-sm-4">
+              <div class="text-center">
+                <label style="font-size: x-large; font-weight: 600;">ลงชื่อเข้าร่วมอบรม</label><br>
+                <label class="mb-4" style="font-size: large; font-weight: 600;">โครงการ {{trainingData.name}} รุ่นที่ {{trainingData.generation}}</label>
+              </div>
+              <form [formGroup]="Form" (ngSubmit)="TrainingSignin(Form.value)">
+                <div class="form-group">
+                  <input class="form-control form-control-lg" placeholder="กรอกชื่อผู้ใช้" formControlName="username"
+                    [ngClass]="{ 'is-invalid': submitted && Form.controls.username.errors }" />
+                  <!-- <span asp-validation-for="Input.Username" class="text-danger"></span> -->
+                  <div *ngIf="submitted && Form.controls.username.errors" class="invalid-feedback">
+                    <div *ngIf="Form.controls.username.errors.required">กรุณกรอกชื่อผู้ใช้</div>
+                  </div>
+                  <div *ngIf="fail == 100" style="color: red;" class="mt-1 ml-1">ขออภัย ไม่มีข้อมูลในระบบ</div>
+                  <div *ngIf="fail == 200" style="color: red;" class="mt-1 ml-1">คุณได้ลงทะเบียนเข้าร่วมอบรมนี้แล้ว</div>
+                </div>
+                <div>
+                </div>
+                <div class="text-center mt-5">
+                  <button type="submit" class="btn btn-lg btn-primary" style="color: white;">ลงทะเบียน</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

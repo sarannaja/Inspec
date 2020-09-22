@@ -369,8 +369,10 @@ export class SubjectService {
       Land: value.land,
       CentralpolicyId: value.CentralpolicyId,
       ProvinceId: parseInt(value.province),
-      startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
-      enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      // startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
+      // enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
+      startdate: value.startdate,
+      enddate: value.enddate,
       CreatedBy: userid
     }
     return this.http.post<any>(this.url + 'subjectevent', formData);
@@ -390,6 +392,21 @@ export class SubjectService {
     return this.http.post<any>(this.url + 'subjecteventnoland', formData);
   }
 
+  subjecteventnolandOtherland(value, userid) {
+    console.log("value", value);
+    console.log("value", value.province);
+    const formData = {
+      Land: value.land,
+      CentralpolicyId: value.CentralpolicyId,
+      ProvinceId: parseInt(value.province),
+      Title: value.centralPolicyOther,
+      startdate: value.startdate,
+      enddate: value.enddate,
+      CreatedBy: userid
+    }
+    return this.http.post<any>(this.url + 'postsubjecteventOtherland', formData);
+  }
+
   subjecteventnolandOther(value, userid) {
     console.log("value", value);
     console.log("value", value.province);
@@ -406,7 +423,7 @@ export class SubjectService {
   }
 
   getsubjectevent(id) {
-    return this.http.get(this.url + "getevent/" + id)
+    return this.http.get<any[]>(this.url + "getevent/" + id)
   }
 
   geteventfromcalendar(id): Observable<any> {
@@ -415,7 +432,7 @@ export class SubjectService {
 
   postsubjecteventfromcalendar(value, userid) {
     // alert(JSON.stringify(value))
-    console.log("valuevaluevaluevaluevaluevaluevalue",value);
+    console.log("valuevaluevaluevaluevaluevaluevalue", value);
 
     var CentralpolicySelect2 = []
     CentralpolicySelect2 = value.CentralpolicyId2.map((item, index) => {
@@ -447,5 +464,10 @@ export class SubjectService {
 
     return this.http.put(this.url + "editsubject2/" + id, formData);
   }
+
+  delsubjecteventnoland(id) {
+    return this.http.delete(this.url + "delsubjecteventnoland/" + id);
+  }
+
 }
 

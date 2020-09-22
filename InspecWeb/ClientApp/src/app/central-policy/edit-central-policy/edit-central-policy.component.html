@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -57,15 +55,15 @@
               <div class="form-group">
                 <label>ประเภทแผนการตรวจ*</label>
                 <label style="color: red;">*</label>
-                <select class="form-control select2" data-toggle="select2" [value]='resultdetailcentralpolicy.type'
-                  formControlName="type" [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                <select class="form-control select2" data-toggle="select2" formControlName="type"
+                  [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
                   <option value="">กรุณาเลือกประเภทแผนการตรวจ</option>
-                  <option value="ตรวจราชการแบบบูรณาการ">ตรวจราชการแบบบูรณาการ</option>
-                  <option value="การตรวจราชการตามภารกิจปกติของหน่วยงาน">การตรวจราชการตามภารกิจปกติของหน่วยงาน</option>
-                  <option value="การตรวจราชการกรณีพิเศษ">การตรวจราชการกรณีพิเศษ</option>
+                  <option *ngFor="let item of typeexamibationplanIdString; let i = index" value="{{item.id}}"
+                    [selected]="item.id == typeexamibationplanId">{{item.name}}
+                  </option>
                 </select>
                 <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
-                  <div *ngIf="f.type.errors.required">กรุณาเลือกปีงบประมาณ</div>
+                  <div *ngIf="f.type.errors.required">กรุณาเลือกประเภทแผนการตรวจ</div>
                 </div>
               </div>
             </div>

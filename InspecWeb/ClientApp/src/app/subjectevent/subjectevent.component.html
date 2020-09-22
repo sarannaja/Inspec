@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    ระบบตรวจราชการอิเล็กทรอนิกส์
-  </h1>
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
@@ -15,7 +13,9 @@
     <div class="card-header" style="margin-bottom: -40px;">
       <h5 class="card-title">ประเด็นการตรวจติดตาม</h5>
       <div class="float-right">
-
+        <button class="btn btn-primary" style="margin-top: -60px;"
+          (click)="reportModalReport(modalreport)">รายงาน</button>
+        &nbsp;&nbsp;
         <button class="btn btn-primary" title="เพิ่มกำหนดการตรวจราชการ" style="margin-top: -60px;"
           (click)="openModal(modalProvince)">
           <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
@@ -68,7 +68,28 @@
                 class="align-middle mr-2 fas fa-fw fa-search pointer"
                 (click)="Subjectevent(item.id,item.centralPolicyId,item.provinceId)"></i>
 
-              <i *ngIf="item.status == 'ร่างกำหนดการ'" class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
+                (click)="openModal(modaldeleteProvince, item.id,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจ'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ไม่ลงพื้นที่' && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ไม่ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจประจำปี'"
+                (click)="openModal(modaldeleteProvince, item.id,'ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'แผนการตรวจ'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
+              <i *ngIf="item.status == 'ร่างกำหนดการ' && item.land == 'ลงพื้นที่' && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม'"
+                (click)="openModal(modaldeleteProvince, item.centralPolicyId,'ลงพื้นที่',item.centralPolicy.class)"
+                class="align-middle mr-2 fas fa-fw fa-trash pointer"></i>
 
             </td>
           </tr>
@@ -95,12 +116,12 @@
           <label class="ml-2">เพิ่มประเด็นการตรวจติดตาม</label>
         </div>
         <div class="row">
-          <input class="ml-2" type="radio" name="land" (change)="notType($event)" value="ไม่ลงพื้นที่">
-          <label class="ml-2">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</label>
-        </div>
-        <div class="row">
           <input class="ml-2" type="radio" name="land" (change)="other($event)" value="ไม่ลงพื้นที่">
           <label class="ml-2">เพิ่มประเด็นการตรวจติดตามอื่นๆ</label>
+        </div>
+        <div class="row">
+          <input class="ml-2" type="radio" name="land" (change)="notType($event)" value="ไม่ลงพื้นที่">
+          <label class="ml-2">เพิ่มประเด็นการตรวจติดตามจากกำหนดการตรวจ</label>
         </div>
       </div>
 
@@ -124,7 +145,7 @@
           <div *ngIf="submitted && Form.controls.CentralpolicyId.errors" class="invalid-feedback">
             <div *ngIf="Form.controls.CentralpolicyId.errors.required">กรุณาเลือกประเด็นการตรวจติดตาม</div>
           </div>
-          <br>
+          <!-- <br> -->
           <br>
           <div class="mb-3">
             <input type="radio" name="land" (change)="inspect($event)" value="ลงพื้นที่" formControlName="land">
@@ -139,7 +160,8 @@
           </div>
 
           <div *ngIf="checkInspec == true">
-            <div class="form-group row">
+            <app-date-length (value)="startdate_enddate($event)"></app-date-length>
+            <!-- <div class="form-group row">
               <div class="col-12 col-xl-12">
                 <label>กำหนดระยะเวลา</label>
 
@@ -167,7 +189,8 @@
                   </my-date-picker-th>
                 </div>
               </div>
-            </div>
+            </div> -->
+
           </div>
 
           <!-- <div *ngIf="checkInspec == false">
@@ -231,7 +254,24 @@
           </div>
 
           <br>
-          <br>
+
+          <div class="mb-3">
+            <input type="radio" name="land" (change)="inspect($event)" value="ลงพื้นที่" formControlName="land">
+            <label style="margin-left: 10px;">ลงพื้นที่</label>
+            <input style="margin-left: 10px;" type="radio" name="land" (change)="notInspec($event)" value="ไม่ลงพื้นที่"
+              formControlName="land">
+            <label style="margin-left: 10px;">ไม่ลงพื้นที่</label>
+          </div>
+          <div class="form-group" [ngStyle]="submittedradio ? {color: '#dc3545'}:{color: ''} ">
+            <div *ngIf="submittedradio == true" style="font-size: 80%;">กรุณาประเภทการตรวจ
+            </div>
+          </div>
+          <div *ngIf="checkInspec == true">
+            <app-date-length (value)="startdate_enddate3($event)"></app-date-length>
+          </div>
+
+          <!-- <br>
+          <br> -->
           <!-- <div class="mb-3">
             <input type="radio" name="land" (change)="inspect($event)" value="ลงพื้นที่" formControlName="land">
             <label style="margin-left: 10px;">ลงพื้นที่</label>
@@ -331,6 +371,140 @@
     </div>
   </div>
   <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalreport class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">รายงาน</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body m-3">
+      <div class="mb-3">
+        <!-- <select class="form-control select2" data-toggle="select2" (change)="reporttype($event.target.value)">
+          <option value="">กรุณาเลือกประเภทรายงาน</option>
+          <option value="1">รายงานแบบประเด็นการตรวจติดตาม</option>
+          <option value="2">รายงานผลการดำเนินการของหน่วยรับตรวจ</option>
+          <option value="3">รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ</option>
+          <option value="4"> รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ</option>
+          <option value="5"> รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน</option>
+          <option value="6"> รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน</option>
+        </select> -->
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเภทรายงาน" [multiple]="false"
+          [items]="selectreporttype" (change)="reporttype($event)" [clearable]="false">
+        </ng-select>
+      </div>
+      <!-- type1 -->
+      <form *ngIf="checkTypeReport== 1">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>เรื่องที่ตรวจ</label>
+              <!-- <select class="form-control select2" data-toggle="select2" (change)="select1($event.target.value)">
+                <option value="">กรุณาเลือกเรื่องที่ตรวจ</option>
+                <option *ngFor="let item of resultsubjectevent;  let i = index" [value]="item.id">
+                  {{item.centralPolicy.title}}
+                </option>
+              </select> -->
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select1($event)">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" (click)="storeReport()">ออกรายงาน</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+      <!-- type1end -->
+      <!-- type2 -->
+      <div *ngIf="checkTypeReport == 2" class="mb-3">
+        <input type="radio" name="report" (change)="reporttyp21($event)" value="รายหน่วยงาน">
+        <label style="margin-left: 10px;">รายหน่วยงาน</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="report2($event)" value="รายจังหวัด">
+        <label style="margin-left: 10px;">รายจังหวัด</label>
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="report3($event)" value="รายเขต">
+        <label style="margin-left: 10px;">รายเขต</label>
+        <form [formGroup]="FormReporttype2" *ngIf="checkTypeRepor2== 1"
+          (ngSubmit)="storeReportPerformance(FormReporttype2.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>เรื่องที่ตรวจ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                  [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select2($event)">
+                </ng-select>
+                <br>
+                <label>หน่วยงาน</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
+                  [items]="selectprovincialDepartment" formControlName="provincialDepartmentId">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </form>
+      </div>
+      <!-- type2end -->
+      <!-- type3 -->
+      <form *ngIf="checkTypeReport== 3">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>เรื่องที่ตรวจ</label>
+              <!-- <select class="form-control select2" data-toggle="select2" (change)="select3($event.target.value )">
+                <option value="">กรุณาเลือกเรื่องที่ตรวจ</option>
+                <option *ngFor="let item of resultsubjectevent;  let i = index" [value]="item.id">
+                  {{item.centralPolicy.title}}
+                </option>
+              </select> -->
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select3($event)">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" (click)="storeReportsuggestions()">ออกรายงาน</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+      <!-- type3end -->
+      <!-- type5 -->
+      <form *ngIf="checkTypeReport== 5">
+        <div class="row">
+          <div class="col-12 col-xl-12">
+            <div class="form-group">
+              <label>เรื่องที่ตรวจ</label>
+              <!-- <select class="form-control select2" data-toggle="select2" (change)="select5($event.target.value )">
+                <option value="">กรุณาเลือกเรื่องที่ตรวจ</option>
+                <option *ngFor="let item of resultsubjectevent;  let i = index" [value]="item.id">
+                  {{item.centralPolicy.title}}
+                </option>
+              </select> -->
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
+                [items]="selectdatacentralpolicytype1" name="CentralpolicyId" (change)="select5($event)">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" (click)="storeReportQuestionnaire()">ออกรายงาน</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </form>
+      <!-- type5end -->
+    </div>
+  </div>
 </ng-template>
 <!-- END primary modal -->
 

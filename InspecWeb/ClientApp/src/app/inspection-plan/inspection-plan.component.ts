@@ -13,6 +13,7 @@ import { FiscalyearService } from '../services/fiscalyear.service';
 import { Log } from 'oidc-client';
 import * as _ from 'lodash'
 import { NotofyService } from '../services/notofy.service';
+import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'app-inspection-plan',
   templateUrl: './inspection-plan.component.html',
@@ -20,10 +21,11 @@ import { NotofyService } from '../services/notofy.service';
 })
 export class InspectionPlanComponent implements OnInit {
 
-  private myDatePickerOptions: IMyOptions = {
+  myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
-    showClearDateBtn: false
+    showClearDateBtn: false,
+    editableDateField: false
   };
   ProvincialDepartmentSelect: any[] = []
   DepartmentSelect: any[] = []
@@ -69,7 +71,7 @@ export class InspectionPlanComponent implements OnInit {
   rolecreatedby
   delid
   editid
-  checkInspec: Boolean;
+  checkInspec: boolean;
   year
   ministryuserdata: any = [];
   departmentuserdata: any = [];
@@ -85,6 +87,7 @@ export class InspectionPlanComponent implements OnInit {
     private userservice: UserService,
     private _NotofyService: NotofyService,
     private fiscalyearservice: FiscalyearService,
+    private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string,
     private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -217,11 +220,12 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   async openModal(template: TemplateRef<any>) {
-
-    await this.getMinistryPeople();
-    await this.getDepartmentPeople();
-    await this.getUserPeople();
-    await this.getProvincialDepartmentPeople();
+    this.submitted = false;
+    this.loading = false;
+    this.getMinistryPeople();
+    // this.getDepartmentPeople();
+    // this.getUserPeople();
+    // this.getProvincialDepartmentPeople();
 
     this.checkInspec = null;
     this.modalRef = this.modalService.show(template);
@@ -389,13 +393,42 @@ export class InspectionPlanComponent implements OnInit {
       console.log("Ministry: ", this.resultministrypeople);
       if (this.role_id == 3) {
         for (var i = 0; i < this.resultministrypeople.length; i++) {
-          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+
+          // alert(JSON.stringify(this.resultministrypeople[i].userRegion))
+
+          var userregion = "";
+          for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
+
+            if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+              this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+            }
+
+            if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
+              userregion += this.resultministrypeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
+            }
+          }
+
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
         }
       } else {
         for (var i = 0; i < this.resultministrypeople.length; i++) {
           var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           if (checked > 0) {
-            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
+
+            var userregion = "";
+            for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
+              if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
+                userregion += this.resultministrypeople[i].userRegion[j].region.name
+              } else {
+                userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
+              }
+            }
+
+            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
           }
         }
       }
@@ -406,7 +439,10 @@ export class InspectionPlanComponent implements OnInit {
         data, v.value
       ))
       // alert(JSON.stringify(this.selectdataministrypeople))
+      this.getDepartmentPeople();
     })
+
+
   }
   async getUserPeople() {
     this.selectdatapeople = []
@@ -431,8 +467,9 @@ export class InspectionPlanComponent implements OnInit {
       this.PeopleSelect = _.filter(this.selectdatapeople, (v) => !_.includes(
         data, v.value
       ))
-
+      this.getProvincialDepartmentPeople();
     })
+
   }
   async getDepartmentPeople() {
     this.selectdatadepartmentpeople = []
@@ -440,14 +477,41 @@ export class InspectionPlanComponent implements OnInit {
       this.resultdepartmentpeople = result // All
       if (this.role_id == 3) {
         for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+
+          var userregion = "";
+          for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+
+            if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+              this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+            }
+
+            if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+            }
+          }
+
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
         }
       } else {
         for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
           var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           if (checked > 0) {
             if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
-              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+
+              var userregion = "";
+              for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+                if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+                  userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+                } else {
+                  userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+                }
+              }
+
+              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
             }
           }
         }
@@ -458,8 +522,10 @@ export class InspectionPlanComponent implements OnInit {
       this.DepartmentSelect = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
         data, v.value
       ))
-
+      this.getUserPeople();
     })
+
+
   }
   async getProvincialDepartmentPeople() {
     this.selectdataprovincialdepartmentpeople = []
@@ -486,8 +552,9 @@ export class InspectionPlanComponent implements OnInit {
       this.ProvincialDepartmentSelect = _.filter(this.selectdataprovincialdepartmentpeople, (v) => !_.includes(
         data, v.value
       ))
-
+      this.loading = true;
     })
+
   }
   getDetailCentralpolicy() {
     this.inspectionplanservice.getcentralpolicyeventdata(this.editid)

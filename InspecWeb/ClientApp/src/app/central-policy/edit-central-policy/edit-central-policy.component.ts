@@ -13,6 +13,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as _ from 'lodash';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { NotofyService } from 'src/app/services/notofy.service';
+import { TypeexamibationplanService } from 'src/app/services/typeexamibationplan.service';
 
 @Component({
   selector: 'app-edit-central-policy',
@@ -29,12 +30,15 @@ export class EditCentralPolicyComponent implements OnInit {
 
   id: any;
   fiscalYearId: any;
+  typeexamibationplanId: any
   year: any;
   resultdetailcentralpolicy: any = []
   resultfiscalyear: any = []
   resultfiscalyearId: any = []
   fiscalYearIdString: any = [];
   resultprovince: any = []
+  resulttypeexamibationplan: any = []
+  typeexamibationplanIdString: any = []
   EditForm: FormGroup;
   selectdataprovince: Array<any>
   provinceId: any[];
@@ -70,6 +74,7 @@ export class EditCentralPolicyComponent implements OnInit {
     private authorize: AuthorizeService,
     private external: ExternalOrganizationService,
     private _NotofyService: NotofyService,
+    private typeexamibationplanservice: TypeexamibationplanService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -121,7 +126,7 @@ export class EditCentralPolicyComponent implements OnInit {
     this.getDataProvince()
     this.getDetailCentralpolicy()
     this.getFiscalyear()
-
+    this.getTypeexamibationplan()
   }
 
   getDetailCentralpolicy() {
@@ -132,6 +137,7 @@ export class EditCentralPolicyComponent implements OnInit {
         console.log("RES EDIT: ", this.resultdetailcentralpolicy);
 
         this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearNewId.toString();
+        this.typeexamibationplanId = this.resultdetailcentralpolicy.typeexaminationplanId.toString();
 
         if (this.statusfile == true) {
           this.resultdetailcentralpolicy.centralPolicyDates.forEach(element => {
@@ -176,7 +182,7 @@ export class EditCentralPolicyComponent implements OnInit {
         this.EditForm.patchValue({
           title: this.resultdetailcentralpolicy.title,
           year: this.resultdetailcentralpolicy.fiscalYearNewId.toString(),
-          type: this.resultdetailcentralpolicy.type,
+          type: this.resultdetailcentralpolicy.typeexaminationplanId.toString(),
           status: this.resultdetailcentralpolicy.status,
           ProvinceId: this.selected
         });
@@ -193,6 +199,17 @@ export class EditCentralPolicyComponent implements OnInit {
       })
       // console.log("fiscalyearString: ", this.fiscalYearIdString);
 
+    })
+  }
+  getTypeexamibationplan() {
+    this.typeexamibationplanservice.getdata().subscribe(result => {
+      this.resulttypeexamibationplan = result
+      this.typeexamibationplanIdString = this.resulttypeexamibationplan.map((item, index) => {
+        return {
+          id: item.id.toString(),
+          name: item.name
+        }
+      })
     })
   }
   getProvince() {
@@ -401,6 +418,16 @@ export class EditCentralPolicyComponent implements OnInit {
 
               return { ...result, region: region, label: result.name, value: result.id }
             })
+            this.selectdataprovince.sort((a, b) => {
+              if(a.provincesGroupId > b.provincesGroupId) {
+                return 1;
+              } else if(a.provincesGroupId < b.provincesGroupId) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
+            console.log("test2: ", this.selectdataprovince);
             console.log(this.selectdataprovince);
           })
         this.spinner.hide();
