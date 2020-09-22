@@ -73,7 +73,7 @@ namespace InspecWeb.Controllers
                 _context.SaveChanges();
 
             }
-            if (Status == 2 || Status == 6 || Status == 9)
+            if (Status == 2 || Status == 6)
             {
                 var inspectionplans = _context.InspectionPlanEvents
                     .Include(m => m.CentralPolicyEvents)
@@ -135,6 +135,8 @@ namespace InspecWeb.Controllers
                 });
                 _context.SaveChanges();
             }
+
+            // แจ้งเตือนผู้ตรวจเขต เมื่อผู้ว่าราชการจังหวัดหรือ หัวหน้าส่วนจังหวัด รับทราบรายการสมุดตรวจ
             if (Status == 8)
             {
                 var electData = _context.ElectronicBooks
@@ -308,7 +310,7 @@ namespace InspecWeb.Controllers
 
                 }
             }
-
+            //ส่งเชิญในกำหนดการ
             if (Status == 16)
             {
                 var users = _context.CentralPolicyUsers
@@ -368,6 +370,7 @@ namespace InspecWeb.Controllers
                 _context.SaveChanges();
             }
 
+            // แจ้งเตือนหน่วยรับตรวจ เมื่อได้รับสมุดตรวจ
             if (Status == 18)
             {
                 var userProvincialDepartment = _context.Users
@@ -410,7 +413,45 @@ namespace InspecWeb.Controllers
                 });
 
                 _context.SaveChanges();
+            }
 
+            if (Status == 20)
+            {
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = UserId,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe,
+                });
+
+                _context.SaveChanges();
+
+            }
+
+            if (Status == 9)
+            {
+                var userData = _context.ImportReports
+                    .Where(x => x.Id == xe)
+                    .FirstOrDefault();
+
+
+                System.Console.WriteLine("USERID : " + userData.CreatedBy);
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = userData.CreatedBy,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe,
+                });
+
+                _context.SaveChanges();
             }
 
             return notificationdata;
