@@ -28,7 +28,7 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IEnumerable<Log> Get()
         {
-            System.Console.WriteLine("1");
+            //System.Console.WriteLine("1");
             var logdata = _context.Logs.ToList();
             return logdata;
         }
@@ -47,7 +47,7 @@ namespace InspecWeb.Controllers
                     DatabaseName = DatabaseName, //table ที่ทำ
                     EventType = EventType, //create delete edit
                     EventDate = date,
-                    ObjectType = ObjectType,
+                    Detail = ObjectType,
                   
                 });
                 _context.SaveChanges();

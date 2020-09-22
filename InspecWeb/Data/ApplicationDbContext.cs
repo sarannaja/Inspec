@@ -161,6 +161,7 @@ namespace InspecWeb.Data
         public DbSet<FiscalYearNew> FiscalYearNew { get; set; } //<!-- ปีงบประมาณที่แท้จริง -->
         public DbSet<Side> Sides { get; set; } //<!-- ด้าน -->
         public DbSet<AnswerRecommenDationInspector> AnswerRecommenDationInspectors { get; set; }
+        public DbSet<SetinspectionareaFile> SetinspectionareaFiles { get; set; } //<!-- ไฟล์ของกำหนดเขตการตรวจ -->
 
         public DbSet<TrainingLogin> TrainingLogins { get; set; }
         
