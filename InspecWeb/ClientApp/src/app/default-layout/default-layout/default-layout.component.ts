@@ -186,14 +186,17 @@ export class DefaultLayoutComponent implements OnInit {
       })
   }
 
-  detailnotifications(id) {
+  detailnotifications(id,statusid) {
     this.notificationService.updateNotification(id)
       .subscribe(result => {
-        this.nav = superAdmin;
-        this.profileform();
-        this.getuserinfo();
-        this.getnotifications();
-        this.checkactive(this.nav[0].url);
+        if(statusid == 20){
+        this.router.navigate(['/commanderreport/detail/'+id])
+        }
+        // this.nav = superAdmin;
+        // this.profileform();
+        // this.getuserinfo();
+        // this.getnotifications();
+        // this.checkactive(this.nav[0].url);
       })
   }
 

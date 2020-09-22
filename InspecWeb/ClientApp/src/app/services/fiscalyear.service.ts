@@ -78,6 +78,18 @@ export class FiscalyearService {
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url + "AddRelation", formData);
   }
+  editDetailFiscalyear(detailfiscalyearData, Idfiscalyear,id) {
+   
+    const formData = {
+
+      FiscalYearId: parseInt(Idfiscalyear),
+      RegionId: detailfiscalyearData.RegionId,
+      ProvinceId: detailfiscalyearData.ProvinceId
+    }
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post(this.url + "EditRelation/" + id, formData);
+  }
   deleteDetailFiscalyear(id, fiscalyearid) {
     // console.log("PPP: " + id);
 
