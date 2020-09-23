@@ -11,7 +11,7 @@
 </div>
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card card-eiei">
 
       <!-- <div *ngIf="role_id == 3; else elseBlock" class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">สมุดตรวจอิเล็กทรอนิกส์</h5>
@@ -31,7 +31,7 @@
 
         <div class="row">
       <div class="col-lg-3" *ngFor="let items of Data">
-        <div class="card" style="margin-top: 10px; text-align: center;">
+        <div class="card card-eiei" style="margin-top: 10px; text-align: center;">
           <div style="padding-top: 10px; align-self: center;">
             <img [src]="url + 'Theme/' + items.name" alt="photo" class="imgSize"
             (click)="exportToWord(items.id)" >
