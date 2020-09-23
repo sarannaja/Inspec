@@ -27,7 +27,7 @@
                             <th width="10%">เวลา</th>
                             <th width="25%">กิจกรรม</th>
                             <th width="20%">สถานที่</th>
-                            <th width="25%">ผลการอบรม</th>
+                            <!-- <th width="25%">ผลการอบรม</th> -->
                             <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
@@ -40,11 +40,11 @@
 
                             </td>
                             <td>{{ item.programLocation }}</td>
-                            <td>
+                            <!-- <td>
                                 <a class="pointer text-primary" (click)="openModal(modalProgramCheckin)">-
                                     อัพโหลดไฟล์ลงชื่อเข้าอบรม</a>
                                 <br>
-                            </td>
+                            </td> -->
                             <td>
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                   (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i> -->
@@ -123,7 +123,7 @@
                         </ng-select>
                         <br>
                         <br>
-                        <label class="form-label w-100">แนบไฟล์</label>
+                        <label class="form-label w-100">เอกสารประกอบการอบรม</label>
                         <input type="file" multiple (change)="uploadFile($event)">
                         <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
                         <!-- <label for="test" class="form-label">ผู้ดำเนินรายการ</label>

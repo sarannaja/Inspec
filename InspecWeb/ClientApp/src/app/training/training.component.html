@@ -28,9 +28,9 @@
               <th width="8%">รูปภาพ</th>
               <th width="35%">ชื่อหลักสูตรการอบรม</th>
               <th width="15%">คำอธิบายหลักสูตรการอบรม</th>
-              <th width="15%">ระยะเวลา</th>
-              <th width="15%">การจัดการ</th>
-              <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th width="25%">ระยะเวลา</th>
+              <!-- <th width="15%">การจัดการ</th> -->
+              <th width="15%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
@@ -38,11 +38,11 @@
               <td>{{ i + 1 }}</td>
               <td><img src="{{downloadUrl}}/{{item.image}}" width="120" height="90"></td>
               <td class="">
-                <span style="font-weight: 1000;">{{ item.name }}</span>
+                <span style="font-weight: 1000;"><u>{{ item.name }}</u></span>
                 <br>
-                <label class="form-text">ลิงก์รายละเอียดหน้าสมัคร</label>
+                <label class="form-text">ลิงก์รายละเอียดหน้าสมัคร :</label>
                 <a class="form-control">{{ mainUrl }}train/detail/{{ item.id }}</a>
-                <label class="form-text">ลิงก์แบบประเมิน</label>
+                <label class="form-text">ลิงก์แบบประเมิน :</label>
                 <a class="form-control">{{ mainUrl }}train/survey/{{ item.id }}</a>
 
 
@@ -55,7 +55,7 @@
                 ระยะเวลาอบรม : <br>
                 {{ item.startDate | thaidate:'year'}} - {{ item.endDate | thaidate:'year'}}
               </td>
-              <td>
+              <!-- <td>
                 <a href="{{mainUrl}}training/documentlist/{{item.id}}">- อัพโหลดเอกสารเพิ่มเติม</a>
                 <br>
                 <a href="{{mainUrl}}training/condition/{{item.id}}">- กำหนดคุณสมบัติ</a>
@@ -73,7 +73,12 @@
                 <a href="{{mainUrl}}training/report">- รายงาน</a>
                 <br>
               </td>
+                <a href="{{mainUrl}}training/login/1">- เข้าสู่ระบบ</a>
+                <br>
+              </td> -->
               <td>
+                <i class="align-middle mr-2 fas fa-fw fa-list pointer" data-toggle="tooltip" title="การจัดการ"
+                  (click)="gotoManageTraining(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดการ"
                   (click)="gotoPhaseTraining(item.id)"></i>
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>

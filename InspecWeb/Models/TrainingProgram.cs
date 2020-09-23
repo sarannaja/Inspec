@@ -23,6 +23,7 @@ namespace InspecWeb.Models
         [Description("FK: ช่วงหลักสูตรอบรม")]
         public long TrainingPhaseId { get; set; }
         public virtual TrainingPhase TrainingPhase { get; set; }
+        public virtual TrainingProgramLoginQRCode TrainingProgramLoginQRCodes { get; set; }
 
         [Description("วันที่กำหนดการ")]
         [DataType(DataType.Date)]

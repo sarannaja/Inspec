@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TrainingRegisterlist } from './toeymodel/trainingregisterlist';
 
 @Injectable({
   providedIn: 'root'
@@ -259,6 +260,17 @@ export class TrainingService {
     return this.http.post(this.url + 'trainingsurvey/' + trainingid, formData);
   }
 
+  //insert training survey topic
+  addTrainingsurveytopic(trainingData) {
+    //alert(JSON.stringify(trainingData))
+    //alert(trainingid)
+    const formData = new FormData();
+    formData.append('name', trainingData.name);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'trainingsurveytopic/add', formData);
+  }
+
   editTrainingSurvey(trainingregisterlistData, id) {
     console.log(trainingregisterlistData);
 
@@ -355,6 +367,10 @@ export class TrainingService {
   //--------zone training lecturer-------
   gettraininglecturer(): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'lecturer')
+  }
+
+  gettraininglecturerlist(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'lecturerlist/' + trainingid)
   }
 
   addTraininglecturer(trainingData) {
@@ -537,6 +553,61 @@ export class TrainingService {
     return this.http.put(this.url + 'register2/group/', formData);
   }
 
+  getTrainingregisterlist(id) {
+    return this.http.get<TrainingRegisterlist[]>(this.url + 'trainingregisterlist/get/' + id)
+  }
+
+  Updateidcode(trainingRegisterlist) {
+    console.log("trainingRegisterlist", trainingRegisterlist);
+    var data: any = [];
+
+    data = trainingRegisterlist.map((item, index) => {
+      return {
+        id: item.id,
+        code: item.code
+      }
+    })
+    console.log("data", data);
+
+    // const formData = new FormData();
+    // for (var iii = 0; iii < data.length; iii++) {
+    //   formData.append("TrainingCode", data[iii]);
+    // }
+
+    const formData = {
+      TrainingCode: data
+    }
+
+    // console.log("test: ", formData.getAll("TrainingCode"));
+
+    console.log('FORMDATA: ', formData);
+    return this.http.put(this.url + 'Updateidcode', formData);
+  }
+
+  //---------zone training ProgramaLogin---------
+  //insert training condition list
+  addTrainingProgramLogin(trainingData, programloginid) {
+    //alert(JSON.stringify(trainingData))
+    //alert(trainingid)
+    const formData = new FormData();
+    formData.append('programlogintype', trainingData.programtype);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'programlogin/add/' + programloginid, formData);
+  }
+
+  getTrainingProgramLogin(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'TrainingProgramDate/get/' + trainingid)
+  }
+
+  updateTrainingProgramLogin(trainingData, programloginQRCodeid) {
+    const formData = new FormData();
+    formData.append('programlogintype', trainingData.programtype);
+    console.log('programloginQRCodeid: ' + programloginQRCodeid);
+    console.log('FORMDATA: ' + formData);
+    return this.http.put(this.url + 'programlogin/update/' + programloginQRCodeid, formData);
+  }
+  //-------end zone training ProgramaLogin-------
 }
 
 

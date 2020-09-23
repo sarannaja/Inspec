@@ -48,6 +48,11 @@ namespace InspecWeb.Data
         public DbSet<TrainingRegisterGroup> TrainingRegisterGroups { get; set; }
         public DbSet<TrainingPhase> TrainingPhases { get; set; }
         public DbSet<TrainingCondition> TrainingConditions { get; set; }
+        public DbSet<TrainingSurveyTopic> TrainingSurveyTopics { get; set; }
+        public DbSet<TrainingLecturerJoinSurvey> TrainingLecturerJoinSurveys { get; set; }
+        public DbSet<TrainingProgramLoginQRCode> TrainingProgramLoginQRCodes { get; set; }
+
+
 
         //------------------------------
 

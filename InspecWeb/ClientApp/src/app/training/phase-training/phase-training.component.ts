@@ -196,7 +196,8 @@ export class PhaseTrainingComponent implements OnInit {
     // console.log(this.test);
 
     this.trainingservice.addTrainingPhase(value, this.trainingid).subscribe(response => {
-      console.log(response);
+      console.log("viewdata:",value);
+      console.log("result:",response);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false

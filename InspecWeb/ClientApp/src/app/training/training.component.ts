@@ -75,4 +75,8 @@ export class TrainingComponent implements OnInit {
   gotoPhaseTraining(trainingid){
     this.router.navigate(['/training/phase/', trainingid])
   }
+
+  gotoManageTraining(trainingid){
+    this.router.navigate(['/training/manage/', trainingid])
+  }
 }

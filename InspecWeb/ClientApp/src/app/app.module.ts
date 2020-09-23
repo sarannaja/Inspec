@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -64,6 +64,11 @@ import { ProgramTrainingRegisterComponent } from './training-register/program-tr
 import { ChartTrainingSurveyComponent } from './training-survey/chart-training-survey/chart-training-survey.component';
 import { PhaseTrainingComponent } from './training/phase-training/phase-training.component';
 import { TrainingConditionComponent } from './training-condition/training-condition.component';
+import { TrainingManageComponent } from './training-manage/training-manage.component';
+import { TrainingProgramLoginComponent } from './training-programlogin/training-programlogin.component';
+import { TrainingLecturerListComponent } from './training-lecturerlist/training-lecturerlist.component';
+
+import { TrainingIDCodeComponent } from './training-idcode/training-idcode.component';
 
 //----------------
 
@@ -202,14 +207,15 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ConfirmationDialogService } from './services/confirmation-dialog/confirmation-dialog.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
-import { NamePlateComponent } from './name-plate/name-plate.component';
-import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
-import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-label-preview.component';
+
 // import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { SortPipe } from './services/Pipe/sort';
 import { DateLengthComponent } from './services/components/date-length/date-length.component';
 import { PlanTrainingComponent } from './training/plan-training/plan-training.component';
+import { NamePlateComponent } from './name-plate/name-plate.component';
+import { NamePlatePreviewComponent } from './name-plate/name-plate-preview/name-plate-preview.component';
+import { NameLabelPreviewComponent } from './name-plate/name-label-preview/name-label-preview.component';
 import { TrainingLoginComponent } from './training-login/training-login.component';
 import { TrainingLoginSuccessComponent } from './training-login/training-login-success/training-login-success.component';
 import { ChartComponent } from './subjectevent/detail-subjectevent/chart/chart.component';
@@ -222,6 +228,9 @@ import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
+import { QRCodeModule } from 'angularx-qrcode';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DemoMaterialModule } from './materail-module';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -283,6 +292,11 @@ const ExternalOrganization = [
     ChartTrainingSurveyComponent,
     PhaseTrainingComponent,
     TrainingConditionComponent,
+    TrainingManageComponent,
+    TrainingProgramLoginComponent,
+
+    TrainingLecturerListComponent,
+    // TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,
     SubjectComponent,
@@ -400,10 +414,10 @@ const ExternalOrganization = [
     AnswerRecommendationinSpectorDetailComponent,
     AnswerRecommendationinSpectorEditComponent,
     ConfirmationDialogComponent,
+    DateLengthComponent,
     NamePlateComponent,
     NamePlatePreviewComponent,
     NameLabelPreviewComponent,
-    DateLengthComponent,
     PlanTrainingComponent,
     TrainingLoginComponent,
     TrainingLoginSuccessComponent,
@@ -411,7 +425,8 @@ const ExternalOrganization = [
   ],
 
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
@@ -475,7 +490,7 @@ const ExternalOrganization = [
           { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/register', component: TrainingRegisterComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/registerlist/:id', component: ListTrainingRegisterComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/survey/:id', component: TrainingSurveyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/survey', component: TrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/surveylist/:id', component: ListTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/survey/preview/:id', component: PreviewTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/document', component: TrainingDocumentComponent, canActivate: [AuthorizeGuard] },
@@ -493,9 +508,12 @@ const ExternalOrganization = [
           { path: 'training/phase/:id', component: PhaseTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/condition/:id', component: TrainingConditionComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/plan/:id', component: PlanTrainingComponent, canActivate: [AuthorizeGuard] },
-
+          { path: 'training/manage/:id', component: TrainingManageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/lecturerlist/:id', component: TrainingLecturerListComponent, canActivate: [AuthorizeGuard] },
 
           //---------------
+          { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'subquestion/:id', component: SubquestionComponent, canActivate: [AuthorizeGuard] },
           { path: 'fiscalyear/detailfiscalyear/:id', component: DetailFiscalyearComponent, canActivate: [AuthorizeGuard] },
@@ -638,10 +656,12 @@ const ExternalOrganization = [
     NgSelectModule,
     NgbModule,
     TooltipModule.forRoot(),
-
+    QRCodeModule,
   ], exports: [
     ThaiDatePipe,
-    SnotifyModule
+    SnotifyModule,
+    // DragDropModule,
+    DemoMaterialModule,
     // SelectSSSModule
     // DatePipe
   ],
@@ -658,6 +678,7 @@ const ExternalOrganization = [
     // UserManager
     SortPipe
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   bootstrap: [AppComponent]
 })
