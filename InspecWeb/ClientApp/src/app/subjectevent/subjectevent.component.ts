@@ -400,27 +400,6 @@ export class SubjecteventComponent implements OnInit {
       }
     }
   }
-
-  storeCentralPolicy2(value) {
-    this.submitted = true;
-    if (this.Form2.invalid) {
-      console.log("in1");
-      return;
-    } else {
-      this.submitted = false;
-      // alert(JSON.stringify(value))
-      this.subjectservice.postsubjecteventfromcalendar(value, this.userid)
-        .subscribe(result => {
-          this._NotofyService.onSuccess("เพื่มข้อมูล",)
-          this.loading = false;
-          this.modalRef.hide();
-          this.Form2.reset()
-          // this.resultcentralpolicy = result
-          this.getSubjectevent();
-        })
-    }
-  }
-
   storeCentralPolicy3(value) {
 
     console.log('storeCentralPolicy', value, this.userid);
@@ -438,6 +417,8 @@ export class SubjecteventComponent implements OnInit {
       this.submitted = false;
       if (value.land == "ลงพื้นที่") {
         if (this.Form3.value.startdate != null || this.Form3.value.enddate != null) {
+          console.log('this.Form3.value.startdate', this.Form3.value.startdate, this.Form3.value.enddate);
+
           this.subjectservice.subjecteventnolandOtherland(value, this.userid)
             .subscribe(result => {
               this._NotofyService.onSuccess("เพื่มข้อมูล",)
@@ -462,6 +443,27 @@ export class SubjecteventComponent implements OnInit {
 
     }
   }
+  storeCentralPolicy2(value) {
+    this.submitted = true;
+    if (this.Form2.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.submitted = false;
+      // alert(JSON.stringify(value))
+      this.subjectservice.postsubjecteventfromcalendar(value, this.userid)
+        .subscribe(result => {
+          this._NotofyService.onSuccess("เพื่มข้อมูล",)
+          this.loading = false;
+          this.modalRef.hide();
+          this.Form2.reset()
+          // this.resultcentralpolicy = result
+          this.getSubjectevent();
+        })
+    }
+  }
+
+
 
   inspect(myradio) {
     // alert(myradio)
@@ -564,7 +566,7 @@ export class SubjecteventComponent implements OnInit {
       type: this.checkTypeRepor2,
     })
   }
-  reporttyp23(value){
+  reporttyp23(value) {
     // alert(myradio)
     this.checkTypeRepor2 = 3;
     this.FormReporttype2.patchValue({
@@ -734,7 +736,7 @@ export class SubjecteventComponent implements OnInit {
   }
   storeReportSuggestionsResulttype2(value) {
     console.log(value);
-    
+
     this.reportservice.createReportSuggestionsResulttype2(value, this.provinceIdtype4).subscribe(result => {
       window.open(this.downloadUrl + "/" + result.data);
     })
