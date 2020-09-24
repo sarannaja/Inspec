@@ -240,6 +240,7 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.SubjectCentralPolicyProvinces.Any(m => m.SubquestionCentralPolicyProvinces.Any(m => m.SubjectCentralPolicyProvinceGroups.Any(m => m.ProvincialDepartmentId == userdata.ProvincialDepartmentId))))
                 .Where(m => m.ProvinceId == province.ProvinceId)
+                .OrderByDescending(m => m.Id)
                 .ToList();
 
             return Ok(centralpolicyprovincedata);
@@ -889,6 +890,7 @@ namespace InspecWeb.Controllers
 
             var centralpolicyprovincedata = _context.SubjectGroups
                 .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Typeexaminationplan)
                 .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.Suggestion != "null")

@@ -485,9 +485,9 @@
                   [items]="fiscalYearData" (change)="select22province($event)">
                 </ng-select>
                 <br>
-                <label>เรื่องที่ตรวจ</label>
-                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
-                  [items]="selectdatacentralpolicytype2" name="CentralpolicyId" (change)="select21($event)">
+                <label>เขตตรวจราชการ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"
+                  [items]="regionData" formControlName="region" (change)="selectRegion($event)">
                 </ng-select>
               </div>
             </div>
