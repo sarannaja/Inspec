@@ -337,6 +337,7 @@ namespace InspecWeb.Controllers
             // แจ้งเตือนผู้ว่าราชการจังหวัด หรือ หัวหน้าส่วนจังหวัด เมื่อได้รับสมุดตรวจ
             if (Status == 17)
             {
+                System.Console.WriteLine("in 17" + ProvinceId);
                 var userProvinceRole4 = _context.Users
                     .Where(x => x.Role_id == 4 && x.UserProvince.Any(x => x.ProvinceId == ProvinceId))
                     .FirstOrDefault();
@@ -368,6 +369,8 @@ namespace InspecWeb.Controllers
                     xe = xe
                 });
                 _context.SaveChanges();
+
+                System.Console.WriteLine("Success Noti 17");
             }
 
             // แจ้งเตือนหน่วยรับตรวจ เมื่อได้รับสมุดตรวจ
@@ -390,6 +393,7 @@ namespace InspecWeb.Controllers
                         xe = xe
                     });
                     _context.SaveChanges();
+                    System.Console.WriteLine("Success Noti 17");
                 }
             }
 

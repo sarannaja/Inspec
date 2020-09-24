@@ -307,21 +307,25 @@ export class DetailElectronicBookComponent implements OnInit {
 
   sendToProvince(electId) {
     this.electronicBookService.sendToProvince(electId, this.userid, this.provinceId, this.provincialDepartmentId).subscribe(res => {
-      console.log("sended: ", res);
+      console.log("SENDED: ", res);
       // for noti to province and provincialdepartment.
-      // this.provinceId.forEach(element => {
-      //   this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, element, element, 17, this.electId)
-      //     .subscribe(response => {
-      //       console.log("Noti provice: ", response);
-      //     })
-      // });
+      console.log("PROVINCIAL: ", this.provincialDepartmentId);
+      console.log("PROVINCEID: ", this.provinceId);
 
-      // this.provincialDepartmentId.forEach(element => {
-      //   this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyEvent.centralPolicy.id, element, element, 18, element)
-      //     .subscribe(response => {
-      //       console.log("Noti provice: ", response);
-      //     })
-      // });
+
+      this.provinceId.forEach(element => {
+        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element, this.userid, 17, this.electId)
+          .subscribe(response => {
+            console.log("Noti provice: ", response);
+          })
+      });
+
+      this.provincialDepartmentId.forEach(element => {
+        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element, this.userid, 18, element)
+          .subscribe(response => {
+            console.log("Noti provice: ", response);
+          })
+      });
 
       this.getElectronicBookDetail();
       this.modalRef.hide();
