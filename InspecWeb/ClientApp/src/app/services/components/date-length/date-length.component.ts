@@ -81,15 +81,15 @@ export class DateLengthComponent implements OnInit, AfterContentInit, AfterConte
 
   setDateTime(date: Date) {
     var time = new Date(date)
-    time.setHours(time.getHours() + 7)
+    time.setHours(time.getHours())
     return time
   }
 
   disableDate_i(date: any, i) {
     this.myDatePickerOptionsEnddate = {
       disableDateRanges: [{
-        end: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() - 1 },
-        begin: { year: date.getFullYear() - 10, month: date.getMonth() + 1, day: date.getDate() - 1 }
+        end: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()  },
+        begin: { year: date.getFullYear() - 10, month: date.getMonth() + 1, day: date.getDate()  }
       }]
     }
   }
