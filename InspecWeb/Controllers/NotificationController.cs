@@ -28,7 +28,7 @@ namespace InspecWeb.Controllers
         {
             var Notifications = _context.Notifications
                .Include(m => m.CentralPolicy)
-               .Where(m => m.UserID == id);
+               .Where(m => m.UserID == id).OrderByDescending(m => m.Id);
             return Ok(Notifications);
         }
 

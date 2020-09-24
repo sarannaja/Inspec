@@ -30,6 +30,9 @@ namespace InspecWeb.Models
         [Description("ชื่อกระทรวงอังกฤษแบบย่อ")]
         public string ShortnameEN { get; set; }
 
+        [Description("เรียงรหัสเลข")]
+        public long Num { get; set; }
+
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }

@@ -232,7 +232,7 @@ export class DefaultLayoutComponent implements OnInit {
          // https://localhost:5001/subjectevent/detail/1;subjectgroupid=1
         }
         else if (statusid == 7) { //song
-          this.router.navigate(['electronicbook/invitedetail/'+xe+';ebookInviteId=1' ])
+          this.router.navigate(['electronicbook/invitedetail/'+xe,{ebookInviteId:1} ])
         }
         // this.nav = superAdmin;
         // this.profileform();
@@ -298,7 +298,9 @@ export class DefaultLayoutComponent implements OnInit {
               this.nav = InspectorExamination //หน่วยงานตรวจ
             } else if (this.role_id == 10) {
               this.nav = InspectorDepartment // ผู้ตรวจกรม
-            }
+            } else if (this.role_id == 11) {
+              this.nav = External // ภายนอก
+          }
             // this.bridge2.push(bridge)
           })
       })
