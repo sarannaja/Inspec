@@ -17,6 +17,7 @@ export class TrainingLoginComponent implements OnInit {
   submitted = false;
   fail = 0;
   dateId: any;
+  dateType: any;
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +30,7 @@ export class TrainingLoginComponent implements OnInit {
     this.url = baseUrl;
     this.trainingPhaseId = activatedRoute.snapshot.paramMap.get('phaseid')
     this.dateId = activatedRoute.snapshot.paramMap.get('dateid')
+    this.dateType = activatedRoute.snapshot.paramMap.get('datetype')
   }
 
   ngOnInit() {
@@ -55,7 +57,7 @@ export class TrainingLoginComponent implements OnInit {
       console.log("in1");
       return;
     } else {
-      this.trainingLoginService.signInTraining(value, this.trainingPhaseId, this.dateId).subscribe(res => {
+      this.trainingLoginService.signInTraining(value, this.trainingPhaseId, this.dateId, this.dateType).subscribe(res => {
         console.log('RES => ', res);
         if (res.status == 300) {
           this.router.navigate(['/training/login-success', { trainingName: this.trainingData.name + "รุ่นที่ " }])

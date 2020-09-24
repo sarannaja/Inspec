@@ -91,6 +91,8 @@ namespace InspecWeb.ViewModel
         public DateTime registerDate { get; set; }
 
         public long trainingProgramLoginId { get; set; }
+
+        public long dateType { get; set; }
     }
 
     public class TrainingCode

@@ -7,6 +7,7 @@ using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,7 +46,8 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("Username: " + model.username);
             System.Console.WriteLine("PhaseId: " + model.trainingPhaseId);
-            System.Console.WriteLine("DateId: " + model.trainingProgramLoginId);
+            System.Console.WriteLine("trainingProgramLoginId: " + model.trainingProgramLoginId);
+            System.Console.WriteLine("dateType: " + model.dateType);
 
             var trainingId = _context.TrainingPhases
                 .Where(x => x.Id == model.trainingPhaseId)
@@ -59,7 +61,7 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("Data: " + trainingRegisterData);
 
             var trainingLoginData = _context.TrainingLogins
-                .Where(x => x.Username == model.username && x.TrainingPhaseId == model.trainingPhaseId && x.TrainingProgramLoginId == model.trainingProgramLoginId)
+                .Where(x => x.Username == model.username && x.TrainingPhaseId == model.trainingPhaseId && x.TrainingProgramLoginId == model.trainingProgramLoginId && x.DateType == model.dateType)
                 .FirstOrDefault();
 
             if (trainingRegisterData == null)
@@ -77,7 +79,8 @@ namespace InspecWeb.Controllers
                     Username = model.username,
                     TrainingPhaseId = model.trainingPhaseId,
                     RegisterDate = DateTime.Now,
-                    TrainingProgramLoginId = model.trainingProgramLoginId
+                    TrainingProgramLoginId = model.trainingProgramLoginId,
+                    DateType = model.dateType,
                 };
 
                 _context.TrainingLogins.Add(TrainingData);
@@ -86,6 +89,43 @@ namespace InspecWeb.Controllers
                 return Ok(new { status = 300 });
             }
             return Ok(true);
+        }
+
+        [HttpGet("getUserLogIn/{id}/{programType}")]
+        public IActionResult GetUserLogIn(long id, long programType)
+        {
+            List<object> termsList = new List<object>();
+            var userLogIn = _context.TrainingLogins
+                .Where(x => x.TrainingProgramLoginId == id && x.DateType == programType)
+                .ToList();
+
+            foreach (var user in userLogIn)
+            {
+
+                var name = _context.TrainingRegisters
+                    .Where(x => x.Email == user.Username)
+                    .FirstOrDefault();
+                termsList.Add(name);
+            }
+
+            return Ok(termsList);
+        }
+
+        //GET api/training/program
+        [HttpGet("TrainingProgramDate/get/{trainingid}")]
+        public IActionResult GetTrainingProgramDate(long trainingid)
+        {
+            var result = new List<object>();
+
+            var districtdata = _context.TrainingPrograms
+                .Include(m => m.TrainingPhase)
+                .ThenInclude(m => m.Training)
+                //.Include(m => m.TrainingProgramLoginQRCodes)
+                .Where(m => m.TrainingPhase.TrainingId == trainingid)
+                .ToList();
+
+            return Ok(districtdata);
+
         }
 
     }
