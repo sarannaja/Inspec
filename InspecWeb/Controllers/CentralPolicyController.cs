@@ -1316,7 +1316,9 @@ namespace InspecWeb.Controllers
 
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.SubjectGroupId == subjectgroupid)
-                .Where(m => m.CentralPolicyProvinceId == id).ToList();
+                .Where(m => m.CentralPolicyProvinceId == id)
+                .OrderBy(p => p.Name)
+                .ToList();
 
             var subjectgroup = _context.SubjectGroups
                 .Include(m => m.SubjectGroupPeopleQuestions)

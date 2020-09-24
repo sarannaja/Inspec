@@ -1,9 +1,15 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจ</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+
+      <li *ngIf="watch == 0" class="breadcrumb-item"><a [routerLink]="['/inspectionplanevent']">ปฏิทินการตรวจราชการ</a>
+      </li>
+      <li *ngIf="watch == 1" class="breadcrumb-item"><a
+          [routerLink]="['/inspectionplanevent/all']">ปฏิทินการตรวจราชการ</a></li>
+
+      <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="back()">กำหนดการตรวจราชการ</a></li>
       <li class="breadcrumb-item active" aria-current="page">รายละเอียดกำหนดการตรวจ</li>
     </ol>
   </nav>
@@ -59,28 +65,86 @@
             </div>
           </div>
 
-          <!-- <div class="row" style="margin-top: 10px;">
+          <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
-              <u>เชิญผู้ตรวจราชการกระทรวง</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 10" type="button" (click)="openModal(modalInviteMinistryPeople)"
-                class="btn btn-primary">เชิญ</button>
+              <u>เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</u> &nbsp;&nbsp;
+              <button *ngIf="role_id == 10 && watch == 0" type="button" class="btn btn-primary"
+                (click)="openModal(modalInvitePeople)">เชิญ</button>
+              <!-- &nbsp;&nbsp;
+              <button *ngIf="role_id == 10" type="button" class="btn btn-success"
+                (click)="openModal(modalQuestionPeople)">เพิ่มคำถาม</button> -->
             </div>
           </div>
+
           <div class="row" style="margin-top: 10px;">
             <div class="col-12">
-              <div *ngIf="role6Count == 1" class="card col-6" style="border-width: 0.5px; padding: 5px;">
-                <div class="row" *ngFor="let items of resultcentralpolicyuser;let i = index">
+              <div *ngIf="role7Count == 1" class="card col-12" style="border-width: 0.5px; padding: 10px;">
+                <div class="row" *ngFor="let items of resultcentralpolicyuser;let ii = index">
+
                   <div class="row col-12">
-                    <div class="col-6" *ngIf="items.user.role_id == 10">
-                      {{items.user.prefix}} {{items.user.name}}
+                    <div class="col-5" *ngIf="items.user.role_id == 7">
+                      {{items.user.sides.name}} - {{items.user.prefix}} {{items.user.name}}
                     </div>
-                    <div class="col-6" *ngIf="items.user.role_id == 10">
+                    <div class="col-7" *ngIf="items.user.role_id == 7">
                       <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
                         disabled>{{items.status}}</button>
                       <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
                         disabled>{{items.status}}</button>
                       <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
                         disabled>{{items.status}}</button>
+                      <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
+                        disabled>{{items.status}}</button>
+                      &nbsp;&nbsp;&nbsp;
+                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 10 && watch == 0"
+                        (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
+
+                      &nbsp;&nbsp;&nbsp;
+                      <span *ngIf="items.report != null">
+                        เหตุผลที่เปลี่ยนแปลงสถานะ {{items.report}}
+                      </span>
+                      <!-- มอบหมายให้ นายศรัณญ์ สาพรหม เบอร์ติดต่อ 0894161768 -->
+                      <span *ngIf="items.status == 'มอบหมาย' && items.forwardName != null">
+                        มอบหมายให้ {{items.forwardName}} เบอร์ติดต่อ {{items.forwardPhone}}
+                      </span>
+
+                      <span *ngIf="items.forwardName == 'ถูกมอบหมาย'">
+                        ถูกมอยหมายโดย {{items.invitedBy}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              <u>เชิญหน่วยรับตรวจ</u> &nbsp;&nbsp;
+              <button *ngIf="role_id == 10 && watch == 0" type="button"
+                (click)="openModal(modalInviteProvincialDepartmentPeople)" class="btn btn-primary">เชิญ</button>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-12">
+              <div *ngIf="role9Count == 1" class="card col-12" style="border-width: 0.5px; padding: 5px;">
+                <div class="row" *ngFor="let items of resultcentralpolicyuser;let i = index">
+                  <div class="row col-12">
+                    <div class="col-5" *ngIf="items.user.role_id == 9">
+                      {{items.user.provincialDepartments.name}} - {{items.user.prefix}} {{items.user.name}}
+                    </div>
+                    <div class="col-7" *ngIf="items.user.role_id == 9">
+                      <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
+                        disabled>{{items.status}}</button>
+                      <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
+                        disabled>{{items.status}}</button>
+                      <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
+                        disabled>{{items.status}}</button>
+                      <button *ngIf="items.status == 'มอบหมาย'" class="btn btn-sm btn-success"
+                        disabled>{{items.status}}</button>
+                      &nbsp;&nbsp;&nbsp;
+                      <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer" *ngIf="role_id == 10 && watch == 0"
+                        (click)="openModaldelcenuser(modaldeletecentralpolicyuser, items.id)"></i>
                     </div>
                   </div>
                 </div>
@@ -88,81 +152,24 @@
             </div>
           </div>
 
-          <div class="row" style="margin-top: 10px;">
+          <!-- <div style="margin-bottom: 10px;">
             <div class="col-md-6">
-              <u>เชิญผู้ตรวจราชการกรม</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 10" type="button" (click)="openModal(modalInviteDepartmentPeople)"
-                class="btn btn-primary">เชิญ</button>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 10px;">
-            <div class="col-12">
-              <div *ngIf="role10Count == 1" class="card col-6" style="border-width: 0.5px; padding: 5px;">
-                <div class="row" *ngFor="let items of resultcentralpolicyuser;let i = index">
-                  <div class="row col-12">
-                    <div class="col-6" *ngIf="items.user.role_id == 10">
-                      {{items.user.prefix}} {{items.user.name}}
-                    </div>
-                    <div class="col-6" *ngIf="items.user.role_id == 10">
-                      <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
-                        disabled>{{items.status}}</button>
-                      <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
-                        disabled>{{items.status}}</button>
-                      <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
-                        disabled>{{items.status}}</button>
-                    </div>
-                  </div>
+              <div class="row">
+                <h4 style="margin-bottom: -10px;">คำถามภาคประชาชน</h4>
+              </div>
+              <br>
+              <div *ngFor="let item3 of questionpeople; let i = index">
+                <label style="margin-left: 5px;">ข้อที่ {{i+1}})
+                  {{item3.questionPeople}}<br></label>
+                <div *ngFor="let item4 of item3.answerCentralPolicyProvinces;">
+                  <label style="margin-left: 10px;"> - {{item4.answer}}</label>
                 </div>
               </div>
             </div>
           </div> -->
 
-          <div class="row" style="margin-top: 10px;">
-            <div class="col-md-6">
-              <u>เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 10" type="button" class="btn btn-primary"
-                (click)="openModal(modalInvitePeople)">เชิญ</button>
-              &nbsp;&nbsp;
-              <button *ngIf="role_id == 10" type="button" class="btn btn-success"
-                (click)="openModal(modalQuestionPeople)">คำถามภาคประชาชน</button>
-            </div>
-          </div>
 
-          <div class="row" style="margin-top: 10px; margin-bottom: 30px;">
-            <div class="col-12">
-              <div *ngIf="role7Count == 1" class="card col-6" style="border-width: 0.5px; padding: 10px;">
-                <div class="row" *ngFor="let items of resultcentralpolicyuser;let ii = index">
-
-                  <div class="row col-12">
-                    <div class="col-6" *ngIf="items.user.role_id == 7">
-                      {{items.user.prefix}} {{items.user.name}}
-                    </div>
-                    <div class="col-6" *ngIf="items.user.role_id == 7">
-                      <button *ngIf="items.status == 'รอการตอบรับ'" class="btn btn-sm btn-warning"
-                        disabled>{{items.status}}</button>
-                      <button *ngIf="items.status == 'ตอบรับ'" class="btn btn-sm btn-success"
-                        disabled>{{items.status}}</button>
-                      <button *ngIf="items.status == 'ปฏิเสธ'" class="btn btn-sm btn-danger"
-                        disabled>{{items.status}}</button>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="row" style="margin-bottom: 10px;">
-            <div class="col-md-6">
-              <u>คำถามภาคประชาชน</u><br>
-              <span *ngFor="let item3 of questionpeople; let i = index">ข้อที่ {{i+1}})
-                {{item3.questionPeople}}<br></span>
-            </div>
-          </div>
-
-
-          <div class="row">
+          <div class="row" *ngIf="resultdetailcentralpolicy.centralPolicyFiles.length > 0">
             <div class="col-md-12">
               <u>ไฟล์แนบแผนการตรวจราชการ</u><br>
               <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
@@ -178,22 +185,37 @@
           </div>
 
           <div class="col-12">
-            <label *ngIf="role_id == 10" class="form-label w-100" style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
-            <input *ngIf="role_id == 10" type="file" multiple (change)="uploadFile($event)" style="margin-bottom: 10px;">
-            <div class="col-4">
+            <label *ngIf="role_id == 10 && watch == 0" class="form-label w-100"
+              style="margin-top: 30px;">แนบไฟล์กำหนดการตรวจ</label>
+            <input *ngIf="role_id == 10 && watch == 0" type="file" multiple (change)="uploadFile2($event)"
+              style="margin-bottom: 10px;">
+            <!-- <div class="col-4">
               <select class="selectpicker form-control" data-live-search="true"
                 (change)="checkType($event.target.value)" formControlName="fileType">
                 <option value="เลือกประเภทเอกสารแนบ" selected>เลือกประเภทเอกสารแนบ</option>
                 <option value="Calendar Image File">รูปภาพ</option>
                 <option value="Calendar File">ไฟล์เอกสาร</option>
               </select>
-            </div>
-            <div class="col-8">
+            </div> -->
+            <!-- <div class="col-8">
               <textarea *ngIf="fileType == 'Calendar Image File'" cols="30" rows="5" class="form-control"
                 placeholder="กรุณาใส่คำอธิบายรูปภาพ" style="margin-top: 10px;" formControlName="description"></textarea>
-            </div>
+            </div> -->
           </div>
-          <div class="row">
+
+          <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
+            <form class="form-group row col-12" [formGroup]="itemTest">
+              <div class="col-4">
+                <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
+                  {{itemTest.controls.ebookFile.value.name}}</label>
+              </div>
+              <div class="col-8">
+                <input formControlName="fileDescription" class="form-control" type="text" placeholder="ใส่คำอธิบาย">
+              </div>
+            </form>
+          </div>
+
+          <div class="row" *ngIf="carlendarFile.length > 0">
             <div class="col-md-12" style="margin-top: 20px;">
               <u>ไฟล์แนบกำหนดการตรวจ</u><br>
               <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
@@ -203,6 +225,7 @@
                     {{ item.name }}<br>
                   </span>
                 </a>
+                <input type="text" class="form-control ml-4" style="width: 80%;" value="{{item.description}}" readonly>
               </div>
             </div>
           </div>
@@ -227,13 +250,15 @@
           </div> -->
 
           <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
-            <button *ngIf="role_id == 10" style="align-self: center;" type="submit" class="btn btn-primary"
+            <button *ngIf="watch == 0" style="align-self: center;" type="submit" class="btn btn-primary"
               style="margin-right: 45px;">บันทึก</button>
 
-            <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
-              (click)="back()" style="margin-right: 45px;">บันทึก</button>
+            <!-- <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
+              (click)="back()" style="margin-right: 45px;">บันทึก</button> -->
             <!-- <button style="align-self: center;" type="submit" class="btn btn-danger">ยกเลิก</button> -->
-            <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+            <button *ngIf="watch == 0" type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+
+            <button *ngIf="watch == 1" type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
           </div>
           <!-- <div class="col-12 col-xl-12">
             <div class="form-group">
@@ -267,8 +292,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลิกที่ปรึกษาผู้ตรวจราชการภาคประชาชน" [multiple]="true"   [items]="peopleanswer"
-          name="peopleanswer" formControlName="peopleanswer"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลิกที่ปรึกษาผู้ตรวจราชการภาคประชาชน"
+          [multiple]="true" [items]="peopleanswer" name="peopleanswer" formControlName="peopleanswer">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -293,8 +318,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"   [items]="department" name="DepartmentId"
-          formControlName="DepartmentId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาหน่วยงาน" [multiple]="true"
+          [items]="department" name="DepartmentId" formControlName="DepartmentId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -320,8 +345,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdatapeople"
-          name="UserPeopleId" formControlName="UserPeopleId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="selectdatapeople" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -346,8 +371,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdataministrypeople"
-          name="UserPeopleId" formControlName="UserPeopleId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="selectdataministrypeople" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -443,7 +468,7 @@
   <form [formGroup]="FormQuestion" (ngSubmit)="storeQuestion(FormQuestion.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+        <h5 class="modal-title">คำถามที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -452,7 +477,7 @@
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
-            <label>คำถามภาคประชาชน</label>
+            <label>ประเด็นคำถาม</label>
             <textarea cols="30" rows="5" formControlName="question" class="form-control"
               placeholder="กรุณากรอกคำถามภาคประชาชน">
           </textarea>
@@ -465,18 +490,18 @@
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="notificationdate"   [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="notificationdate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
         </div>
         <div class="form-group row">
           <div class="col-12 col-xl-12">
-            <label>วัน Deadline</label>
+            <label>วันกำหนดส่ง</label>
           </div>
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <my-date-picker-th formControlName="deadlinedate"   [options]="myDatePickerOptions" required>
+              <my-date-picker-th formControlName="deadlinedate" [options]="myDatePickerOptions" required>
               </my-date-picker-th>
             </div>
           </div>
@@ -505,8 +530,8 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"   [items]="selectdatadepartmentpeople"
-          name="UserPeopleId" formControlName="UserPeopleId"  >
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="selectdatadepartmentpeople" name="UserPeopleId" formControlName="UserPeopleId">
         </ng-select>
       </div>
       <div class="modal-footer">
@@ -539,6 +564,49 @@
     <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
       ไม่ใช่
     </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalInviteProvincialDepartmentPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form" (ngSubmit)="storeDepartmentPeople(Form.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการผู้ตรวจการ</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
+          [items]="selectdataprovincialdepartmentpeople" name="UserPeopleId" formControlName="UserPeopleId">
+        </ng-select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+
+<!-- BEGIN primary modal -->
+<ng-template #modalforwarddetail class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">รายละเอียดการมอบหมาย</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body m-3">
+      1111111
+    </div>
   </div>
 </ng-template>
 <!-- END primary modal -->

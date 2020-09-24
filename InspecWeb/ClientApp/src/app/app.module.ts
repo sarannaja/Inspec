@@ -451,6 +451,7 @@ const ExternalOrganization = [
       { path: 'answersubject/outsider/:id/:userid', component: AnswerOutsiderComponent },
       { path: 'ty', component: AnswerOutsideThankComponent },
       { path: 'training/external/register', component: ExternalRegisterComponent },
+      { path: 'inspectionplanevent/all/noauth', component: InspectionPlanEventAllComponent },
       {
         path: 'vector', loadChildren: () => import('./external-organization/external-organization.module')
           .then(m => m.ExternalOrganizationModule)

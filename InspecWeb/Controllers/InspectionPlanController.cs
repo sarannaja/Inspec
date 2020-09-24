@@ -49,6 +49,8 @@ namespace InspecWeb.Controllers {
                 .ThenInclude (m => m.CentralPolicyProvinces)
                 .Include (x => x.CentralPolicy)
                 .ThenInclude (x => x.FiscalYearNew)
+                .Include(m => m.CentralPolicy)
+                .ThenInclude(m => m.Typeexaminationplan)
                 .OrderByDescending (m => m.Id)
                 .Where (m => m.InspectionPlanEvent.Id == id)
                 .Where (m => m.InspectionPlanEvent.ProvinceId == provinceid)
