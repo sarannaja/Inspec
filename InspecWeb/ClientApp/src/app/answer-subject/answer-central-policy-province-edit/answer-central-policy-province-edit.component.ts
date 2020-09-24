@@ -21,7 +21,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   userid
   centralPolicyEventId
   status
-  resultQuestionPeople: GetQuestionPeople[] = []
+  resultQuestionPeople: any[] = []
   resultanswer: Answerrole7List[] = []
   Form: FormGroup
   Formstatus: FormGroup

@@ -30,8 +30,8 @@ export class AnswersubjectService {
   getsubjectdetaildata(id): Observable<any[]> {
     return this.http.get<any[]>(this.url + "subjectdetail/" + id)
   }
-  getcentralpolicyprovince(id, inspectionPlanEventId): Observable<GetQuestionPeople[]> {
-    return this.http.get<GetQuestionPeople[]>(this.url + "centralpolicyprovince/" + id + "/" + inspectionPlanEventId)
+  getcentralpolicyprovince(id, inspectionPlanEventId): Observable<any[]> {
+    return this.http.get<any[]>(this.url + "centralpolicyprovince/" + id + "/" + inspectionPlanEventId)
   }
   getAnsweruser(userid) {
     return this.http.get<any>(this.url + "answeruser/" + userid)

@@ -187,6 +187,30 @@ namespace InspecWeb.Controllers
 
         }
 
+        
+        [HttpPost("EditRelation/{id}")]
+        public void Put([FromBody] FiscalYearRelationViewModel model,long id)
+        {
+            var data = _context.FiscalYearRelations.Find(id);
+
+            _context.FiscalYearRelations.RemoveRange(data);
+            _context.SaveChanges();
+
+            foreach (var item in model.ProvinceId)
+            {
+                System.Console.WriteLine("LOOP: " + item);
+                var fiscalyearrelationdata = new FiscalYearRelation
+                {
+                    FiscalYearId = model.FiscalYearId,
+                    RegionId = model.RegionId,
+                    ProvinceId = item
+                };
+                _context.FiscalYearRelations.Add(fiscalyearrelationdata);
+            }
+            _context.SaveChanges();
+
+        }
+
         // PUT api/values/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromForm] Setinspectionarea model, long id)

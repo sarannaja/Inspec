@@ -63,6 +63,7 @@ namespace InspecWeb.Controllers
         public Ministry Post(string Name,string NameEN,string ShortnameEN,string ShortnameTH)
         {
             var date = DateTime.Now;
+            var counts = _context.Ministries.Count();
 
             var Ministrydata = new Ministry
             {
@@ -70,7 +71,8 @@ namespace InspecWeb.Controllers
                 NameEN = NameEN,
                 ShortnameEN = ShortnameEN,
                 ShortnameTH = ShortnameTH,
-                CreatedAt = date
+                CreatedAt = date,
+                Num = counts + 1
             };
 
             _context.Ministries.Add(Ministrydata);
