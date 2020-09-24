@@ -3,7 +3,7 @@ import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
-
+import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SubjectService } from 'src/app/services/subject.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -22,7 +22,12 @@ import * as _ from 'lodash'
 })
 export class DetailCentralPolicyProvinceComponent implements OnInit {
 
-
+  myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
+  };
   resultuser: any = []
   resultpeople: any = []
   resultministrypeople: any[] = []

@@ -44,18 +44,18 @@ export class InspectionPlanEventAllComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authorize.getUser()
-      .subscribe(result => {
-        this.userid = result.sub
-        this.userService.getuserfirstdata(this.userid)
-          .subscribe(result => {
-            this.role_id = result[0].role_id
-          })
-        //console.log(result);
+    // this.authorize.getUser()
+    //   .subscribe(result => {
+    //     this.userid = result.sub
+    //     this.userService.getuserfirstdata(this.userid)
+    //       .subscribe(result => {
+    //         this.role_id = result[0].role_id
+    //       })
+    //     //console.log(result);
 
-        this.getprovince()
-        this.getcalendaralldata()
-      })
+    //   })
+      this.getprovince()
+      this.getcalendaralldata()
   }
 
   getprovince() {

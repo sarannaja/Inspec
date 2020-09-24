@@ -12,6 +12,8 @@ import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { Log } from 'oidc-client';
 import * as _ from 'lodash'
+import { NotofyService } from '../services/notofy.service';
+import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'app-inspection-plan-ministry',
   templateUrl: './inspection-plan-ministry.component.html',
@@ -19,9 +21,11 @@ import * as _ from 'lodash'
 })
 export class InspectionPlanMinistryComponent implements OnInit {
 
-  private myDatePickerOptions: IMyOptions = {
+  myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
   };
   ProvincialDepartmentSelect: any[] = []
   DepartmentSelect: any[] = []
@@ -67,7 +71,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
   rolecreatedby
   delid
   editid
-  checkInspec: Boolean;
+  checkInspec: boolean;
   year
   ministryuserdata: any = [];
   departmentuserdata: any = [];
@@ -76,11 +80,14 @@ export class InspectionPlanMinistryComponent implements OnInit {
   userProvince: any[] = []
   ministryId
   watch
+  submitted = false;
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
+    private _NotofyService: NotofyService,
     private fiscalyearservice: FiscalyearService,
+    private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string,
     private router: Router, private fb: FormBuilder, private centralpolicyservice: CentralpolicyService, private inspectionplanservice: InspectionplanService, private activatedRoute: ActivatedRoute, private authorize: AuthorizeService, private userService: UserService,) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -151,23 +158,23 @@ export class InspectionPlanMinistryComponent implements OnInit {
     this.Form = this.fb.group({
       CentralpolicyId: new FormControl(null, [Validators.required]),
 
-      startdate: new FormControl(null, [Validators.required]),
-      enddate: new FormControl(null, [Validators.required]),
+      // startdate: new FormControl(null, [Validators.required]),
+      // enddate: new FormControl(null, [Validators.required]),
 
-      notificationdate: new FormControl(null, [Validators.required]),
-      deadlinedate: new FormControl(null, [Validators.required]),
+      // notificationdate: new FormControl(null, [Validators.required]),
+      // deadlinedate: new FormControl(null, [Validators.required]),
     })
 
     this.FormOther = this.fb.group({
       title: new FormControl(null, [Validators.required]),
-      start_date: new FormControl(null, [Validators.required]),
-      end_date: new FormControl(null, [Validators.required]),
-      year: new FormControl(1, [Validators.required]),
-      type: new FormControl("อื่นๆ", [Validators.required]),
+      // start_date: new FormControl(null, [Validators.required]),
+      // end_date: new FormControl(null, [Validators.required]),
+      // year: new FormControl(1, [Validators.required]),
+      // type: new FormControl("อื่นๆ", [Validators.required]),
       // files: new FormControl(null, [Validators.required]),
-      ProvinceId: new FormControl(1, [Validators.required]),
+      ProvinceId: new FormControl(this.provinceid, [Validators.required]),
       // status: new FormControl("ร่างกำหนดการ", [Validators.required]),
-      input: new FormArray([])
+      // input: new FormArray([])
     })
     // this.Form.patchValue({
     //   startdate: this.timelineData.startDate,
@@ -182,7 +189,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
     })
     this.EditForm = this.fb.group({
       title: new FormControl(null),
-      year: new FormControl(null),
+      // year: new FormControl(null),
       type: new FormControl('อื่นๆ'),
     });
   }
@@ -213,11 +220,12 @@ export class InspectionPlanMinistryComponent implements OnInit {
   }
 
   async openModal(template: TemplateRef<any>) {
-
-    this.getMinistryPeople();
+    this.submitted = false;
+    this.loading = false;
+    // this.getMinistryPeople();
     this.getDepartmentPeople();
-    this.getUserPeople();
-    this.getProvincialDepartmentPeople();
+    // this.getUserPeople();
+    // this.getProvincialDepartmentPeople();
 
     this.checkInspec = null;
     this.modalRef = this.modalService.show(template);
@@ -257,7 +265,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/ministry', result, { planId: this.id, watch: watch }])
+      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/ministry/', result, { planId: this.id, watch: watch }])
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])
@@ -267,32 +275,38 @@ export class InspectionPlanMinistryComponent implements OnInit {
     this.router.navigate(['/acceptcentralpolicy', id])
   }
   storeCentralPolicyEventRelation(value) {
-    let CentralpolicyId: any[] = value.CentralpolicyId
-    // alert(JSON.stringify(value))
-    this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid, this.startDate, this.endDate).subscribe(response => {
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      let CentralpolicyId: any[] = value.CentralpolicyId
+      // alert(JSON.stringify(value))
+      this.inspectionplanservice.addCentralPolicyEvent(value, this.id, this.userid, this.provinceid, this.startDate, this.endDate).subscribe(response => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล",)
 
+        this.Form.reset()
+        this.modalRef.hide()
+        // this.modalService.show('modaldeleteProvince');
 
-      this.Form.reset()
-      this.modalRef.hide()
-      // this.modalService.show('modaldeleteProvince');
+        for (let i = 0; i < CentralpolicyId.length; i++) {
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+        // alert("OK")
+        // this.loading = false
+        // this.inspectionplanservice.getinspectionplandata(this.id).subscribe(result => {
+        //   this.resultinspectionplan = result[0].centralPolicyEvents //Chose
+        //   console.log(this.resultinspectionplan[0].centralPolicyEvents.centralPolicy);
+        // })
+        this.loading = false;
+        this.data = [];
+        this.getinspectionplanservice()
 
-      for (let i = 0; i < CentralpolicyId.length; i++) {
-        this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
-          .subscribe(response => {
-            console.log(response);
-          })
-      }
-      // alert("OK")
-      // this.loading = false
-      // this.inspectionplanservice.getinspectionplandata(this.id).subscribe(result => {
-      //   this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      //   console.log(this.resultinspectionplan[0].centralPolicyEvents.centralPolicy);
-      // })
-      this.loading = false;
-      this.data = [];
-      this.getinspectionplanservice()
-
-    })
+      })
+    }
   }
 
   async getinspectionplanservice() {
@@ -370,75 +384,166 @@ export class InspectionPlanMinistryComponent implements OnInit {
     this.loading = true;
   }
 
-  async getMinistryPeople() {
+  // async getMinistryPeople() {
 
-    await this.userservice.getuserdata(6).subscribe(async result => {
-      // alert(JSON.stringify(result))
-      this.selectdataministrypeople = []
-      this.resultministrypeople = result // All
-      console.log("Ministry: ", this.resultministrypeople);
-      for (var i = 0; i < this.resultministrypeople.length; i++) {
-        var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
-        if (checked > 0) {
-          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
-        }
-      }
+  //   await this.userservice.getuserdata(6).subscribe(async result => {
+  //     // alert(JSON.stringify(result))
+  //     this.selectdataministrypeople = []
+  //     this.resultministrypeople = result // All
+  //     console.log("Ministry: ", this.resultministrypeople);
+  //     if (this.role_id == 3) {
+  //       for (var i = 0; i < this.resultministrypeople.length; i++) {
 
-      var data: any[] = this.ministryuserdata.map(result => {
-        return result.user.id
-      })
-      this.MinistrySelect = _.filter(this.selectdataministrypeople, (v) => !_.includes(
-        data, v.value
-      ))
-      // alert(JSON.stringify(this.selectdataministrypeople))
-    })
-  }
+  //         // alert(JSON.stringify(this.resultministrypeople[i].userRegion))
+
+  //         var userregion = "";
+  //         for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
+
+  //           if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+  //             this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
+  //           } else {
+  //             this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+  //           }
+
+  //           if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
+  //             userregion += this.resultministrypeople[i].userRegion[j].region.name
+  //           } else {
+  //             userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
+  //           }
+  //         }
+
+  //         await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
+  //       }
+  //     } else {
+  //       for (var i = 0; i < this.resultministrypeople.length; i++) {
+  //         var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+  //         if (checked > 0) {
+
+  //           var userregion = "";
+  //           for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
+  //             if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
+  //               userregion += this.resultministrypeople[i].userRegion[j].region.name
+  //             } else {
+  //               userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
+  //             }
+  //           }
+
+  //           await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
+  //         }
+  //       }
+  //     }
+  //     var data: any[] = this.ministryuserdata.map(result => {
+  //       return result.user.id
+  //     })
+  //     this.MinistrySelect = _.filter(this.selectdataministrypeople, (v) => !_.includes(
+  //       data, v.value
+  //     ))
+  //     // alert(JSON.stringify(this.selectdataministrypeople))
+  //     this.getDepartmentPeople();
+  //   })
+
+
+  // }
   async getUserPeople() {
     this.selectdatapeople = []
     await this.userservice.getuserdata(7).subscribe(async result => {
       this.resultpeople = result
       console.log("tttt:", this.resultpeople);
-      for (var i = 0; i < this.resultpeople.length; i++) {
-        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].side + " - " + this.resultpeople[i].name })
+      if (this.role_id == 3) {
+        for (var i = 0; i < this.resultpeople.length; i++) {
+          await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name })
+        }
+      } else {
+        for (var i = 0; i < this.resultpeople.length; i++) {
+          var checked = _.filter(this.resultpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          if (checked > 0) {
+            await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name })
+          }
+        }
       }
-
       var data: any[] = this.peopleuserdata.map(result => {
         return result.user.id
       })
       this.PeopleSelect = _.filter(this.selectdatapeople, (v) => !_.includes(
         data, v.value
       ))
-
+      this.getProvincialDepartmentPeople();
     })
+
   }
   async getDepartmentPeople() {
     this.selectdatadepartmentpeople = []
     await this.userservice.getuserdata(10).subscribe(async result => {
       this.resultdepartmentpeople = result // All
-      for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
-        if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
-          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
+      if (this.role_id == 3) {
+        for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
+
+          var userregion = "";
+          for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+
+            if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+              this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
+            } else {
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+            }
+
+            if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+            } else {
+              userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+            }
+          }
+
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
+        }
+      } else {
+        for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
+          var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          if (checked > 0) {
+            if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+
+              var userregion = "";
+              for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
+                if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
+                  userregion += this.resultdepartmentpeople[i].userRegion[j].region.name
+                } else {
+                  userregion += this.resultdepartmentpeople[i].userRegion[j].region.name + ", "
+                }
+              }
+
+              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
+            }
+          }
         }
       }
-
       var data: any[] = this.departmentuserdata.map(result => {
         return result.user.id
       })
       this.DepartmentSelect = _.filter(this.selectdatadepartmentpeople, (v) => !_.includes(
         data, v.value
       ))
-
+      this.getUserPeople();
     })
+
+
   }
   async getProvincialDepartmentPeople() {
     this.selectdataprovincialdepartmentpeople = []
     await this.userservice.getuserdata(9).subscribe(async result => {
       this.resultprovincialdepartmentpeople = result
       console.log("tttt:", this.resultprovincialdepartmentpeople);
-      for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
-        await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+      if (this.role_id == 3) {
+        for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
+          await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+        }
+      } else {
+        for (var i = 0; i < this.resultprovincialdepartmentpeople.length; i++) {
+          var checked = _.filter(this.resultprovincialdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
+          if (checked > 0) {
+            await this.selectdataprovincialdepartmentpeople.push({ value: this.resultprovincialdepartmentpeople[i].id, label: this.resultprovincialdepartmentpeople[i].provincialDepartments.name + " - " + this.resultprovincialdepartmentpeople[i].name })
+          }
+        }
       }
-
       console.log("this.provincialdepartmentuserdata", this.provincialdepartmentuserdata);
 
       var data: any[] = this.provincialdepartmentuserdata.map(result => {
@@ -447,8 +552,9 @@ export class InspectionPlanMinistryComponent implements OnInit {
       this.ProvincialDepartmentSelect = _.filter(this.selectdataprovincialdepartmentpeople, (v) => !_.includes(
         data, v.value
       ))
-
+      this.loading = true;
     })
+
   }
   getDetailCentralpolicy() {
     this.inspectionplanservice.getcentralpolicyeventdata(this.editid)
@@ -522,12 +628,14 @@ export class InspectionPlanMinistryComponent implements OnInit {
         })
       })
     }
+    this._NotofyService.onSuccess("เพื่มข้อมูล",)
   }
 
   changeplanstatus(value) {
     // alert(this.timelineData.id)
 
     this.inspectionplanservice.changeplanstatus(this.timelineData.id).subscribe(response => {
+      this._NotofyService.onSuccess("เปลี่ยนสถานะ",)
       // console.log(value);
       // this.Form.reset()
       this.modalRef.hide()
@@ -599,12 +707,14 @@ export class InspectionPlanMinistryComponent implements OnInit {
   EditCentralPolicy(value) {
     console.log(value);
     this.inspectionplanservice.editcentralpolicy(this.editid, this.startDate2, this.endDate2, value).subscribe(response => {
+      this._NotofyService.onSuccess("แก้ไขข้อมูล",)
       this.modalRef.hide()
       this.getinspectionplanservice();
     })
   }
   deleteDate() {
     this.inspectionplanservice.deleteplandate(this.id).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       this.modalRef.hide()
       this.router.navigate(['inspectionplanevent'])
     })
@@ -641,19 +751,34 @@ export class InspectionPlanMinistryComponent implements OnInit {
   }
 
   storeInspectionPlan(value) {
-    console.log("FORM: ", value);
-    this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.provinceid, this.startDate, this.endDate, this.year).subscribe(response => {
-      console.log("create Inspection plan: ", value);
-      // this.Form.reset()
-      // window.history.back();
 
-      this.FormOther.reset()
-      this.modalRef.hide()
+    // this.FormOther.patchValue({
+    //   ProvinceId: this.provinceid,
+    // })
+    this.submitted = true;
+    if (this.FormOther.invalid) {
+      console.log("this.FormOther", this.FormOther);
+      return;
+    } else {
+      console.log("FORM: ", value);
+      this.inspectionplanservice.addInspectionPlan(value, this.userid, this.id, this.provinceid, this.startDate, this.endDate, this.year).subscribe(response => {
+        this._NotofyService.onSuccess("เพื่มข้อมูล",)
+        console.log("create Inspection plan: ", value);
+        // this.Form.reset()
+        // window.history.back();
 
-      this.loading = false;
-      this.data = [];
-      this.getinspectionplanservice()
-    })
+        this.FormOther.reset()
+        this.modalRef.hide()
+
+        this.FormOther.patchValue({
+          ProvinceId: this.provinceid,
+        })
+
+        this.loading = false;
+        this.data = [];
+        this.getinspectionplanservice()
+      })
+    }
   }
 
   getministryuser() {

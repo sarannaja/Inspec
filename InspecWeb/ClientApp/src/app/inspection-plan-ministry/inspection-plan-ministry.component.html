@@ -1,14 +1,22 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+
+      <li *ngIf="watch == 0" class="breadcrumb-item"><a [routerLink]="['/inspectionplanevent']">ปฏิทินการตรวจราชการ</a>
+      </li>
+      <li *ngIf="watch == 1" class="breadcrumb-item"><a
+          [routerLink]="['/inspectionplanevent/all']">ปฏิทินการตรวจราชการ</a></li>
+
       <li class="breadcrumb-item"><a href="javascript:void(0)">กำหนดการตรวจราชการ</a></li>
+
+
       <!-- <li class="breadcrumb-item"><a href="javascript:void(0)">แผนการตรวจราชการ</a></li> -->
     </ol>
   </nav>
 </div>
-<div class="row">
+<div class="row" *ngIf="loading">
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="margin-bottom: -20px;">
@@ -189,7 +197,7 @@
               </tr> -->
             <tr *ngFor="let item of data; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ item.centralPolicy.type }}</td>
+              <td>{{ item.centralPolicy.typeexaminationplan.name }}</td>
               <td width="40%">{{ item.centralPolicy.title }}</td>
               <!-- <td>{{item.centralPolicy.fiscalYear.year}}</td> -->
               <!-- <td>
@@ -223,6 +231,11 @@
                 <i *ngIf="role_id == 6 && item.centralPolicy.class == 'แผนการตรวจ' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
+
+                  <i *ngIf="role_id == 6 && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+                  class="align-middle mr-2 fas fa-fw fa-trash pointer"
+                  (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
+
               </td>
             </tr>
           </tbody>
@@ -299,7 +312,7 @@
       <form [formGroup]="FormOther" *ngIf="checkInspec == false" (ngSubmit)="storeInspectionPlan(FormOther.value)">
         <div class="row">
           <div class="col-12 col-xl-12">
-            <label>กำหนดระยะเวลา</label>
+            <label>กำหนดระยะเวลา</label> <label style="color: red;">*</label>
           </div>
 
           <div class="col-12 col-xl-5">
@@ -324,8 +337,12 @@
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
-              <label>เรื่อง</label>
-              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง">
+              <label>เรื่อง</label> <label style="color: red;">*</label>
+              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง"
+                [ngClass]="{ 'is-invalid': submitted && FormOther.controls.title.errors }">
+              <div *ngIf="submitted && FormOther.controls.title.errors" class="invalid-feedback">
+                <div *ngIf="FormOther.controls.title.errors.required">กรุณากรอกเรื่องที่ตรวจ</div>
+              </div>
             </div>
           </div>
         </div>
@@ -341,8 +358,12 @@
           <label class="form-label">แผนการตรวจราชการประจำปี</label>
           <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกแผนการตรวจราชการประจำปี"
             [multiple]="true" [items]="selectdatacentralpolicy" name="CentralpolicyId"
+            [ngClass]="{ 'is-invalid': submitted && Form.controls.CentralpolicyId.errors }"
             formControlName="CentralpolicyId">
           </ng-select>
+          <div *ngIf="submitted && Form.controls.CentralpolicyId.errors" class="invalid-feedback">
+            <div *ngIf="Form.controls.CentralpolicyId.errors.required">กรุณาเลือกแผนการตรวจราชการประจำปี</div>
+          </div>
         </div>
 
         <div class="form-group row">
@@ -410,14 +431,14 @@
 <ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
   <form [formGroup]="Form2" (ngSubmit)="storeMinistryPeople(Form2.value)">
-    <div class="modal-content">
+    <div class="modal-content" *ngIf="loading">
       <div class="modal-header">
         <h5 class="modal-title">เชิญผู้ร่วมตรวจราชการ</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body m-3">
+      <div class="modal-body m-12">
         <!-- <label class="form-label">เชิญผู้ตรวจราชการกระทรวง</label>
         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ-นามสกุล" [multiple]="true"
           [items]="MinistrySelect" name="UserMinistryId" formControlName="UserMinistryId">
@@ -594,7 +615,7 @@
               <!-- <span class="font-13 text-muted">e.g "DD/MM/YYYY"</span> -->
             </div>
           </div>
-          <div class="col-12 col-xl-12">
+          <!-- <div class="col-12 col-xl-12">
             <div class="form-group">
               <label>ปีงบประมาณ*</label>
               <select class="form-control select2" data-toggle="select2" formControlName="year">
@@ -602,9 +623,8 @@
                 <option *ngFor="let item of resultfiscalyear; let i = index" value="{{item.id}}">{{item.year}}
                 </option>
               </select>
-              <!-- <input class="form-control" type="text" value="{{resultfiscalyear.year}}" disabled> -->
             </div>
-          </div>
+          </div> -->
 
           <div class="col-12 col-xl-12">
             <div class="form-group">
@@ -628,3 +648,6 @@
   </form>
 </ng-template>
 <!-- END primary modal -->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
