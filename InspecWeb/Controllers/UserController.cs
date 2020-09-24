@@ -737,7 +737,7 @@ namespace InspecWeb.Controllers
             List<FiscalYearRelation> termsList = new List<FiscalYearRelation>();
 
             //สำหรับกรณีของ role ผู้ตรวจเขต
-            if (model.Role_id == 3 || model.Role_id == 6 || model.Role_id == 8 || model.Role_id == 10)
+            if (model.Role_id == 3 || model.Role_id == 6 || model.Role_id == 8 || model.Role_id == 10 || model.Role_id == 11)
             {
                 foreach (var item in model.UserRegion)
                 {
@@ -1516,7 +1516,7 @@ namespace InspecWeb.Controllers
                 List<FiscalYearRelation> termsList = new List<FiscalYearRelation>();
 
                 //สำหรับกรณีของ role ผู้ตรวจเขต
-                if (model.Role_id == 3 || model.Role_id == 6 || model.Role_id == 8 || model.Role_id == 10)
+                if (model.Role_id == 3 || model.Role_id == 6 || model.Role_id == 8 || model.Role_id == 10 || model.Role_id == 11)
                 {
                     foreach (var item in model.UserRegion)
                     {

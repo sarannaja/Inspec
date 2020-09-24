@@ -1750,3 +1750,49 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     name: "แผนที่"
   },
 ]
+export const External: NavBar[] = [ //บุคคลภายนอก
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก"
+  },
+  {
+    IDchildren: 'training',
+    icon: 'fa-shekel-sign',
+    name: "ข้อมูลจัดอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training',
+        name: 'จัดอบรมหลักสูตร'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/lecturer',
+        name: 'วิทยากรอบรม'
+      },
+    ]
+  },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/train',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training',
+        name: 'ประวัติการฝึกอบรม'
+      },
+
+    ]
+  },
+]

@@ -298,7 +298,9 @@ export class DefaultLayoutComponent implements OnInit {
               this.nav = InspectorExamination //หน่วยงานตรวจ
             } else if (this.role_id == 10) {
               this.nav = InspectorDepartment // ผู้ตรวจกรม
-            }
+            } else if (this.role_id == 11) {
+              this.nav = External // ภายนอก
+          }
             // this.bridge2.push(bridge)
           })
       })
