@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
@@ -502,7 +502,7 @@
         <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
           <button
             *ngIf="electronicBookData.electronicBook.status != 'ใช้งานจริง' && electronicBookData.electronicBook.status != 'ส่งสมุดตรวจแล้ว'"
-            style="align-self: center;" type="submit" class="btn btn-danger" style="margin-right: 45px;"
+            style="align-self: center;" type="submit" class="btn btn-primary" style="margin-right: 45px;"
             (click)="openModal(editSuggestionModal)">แก้ไขสมุดตรวจ</button>
           <!-- <button
             *ngIf="allMinistry.length == approveMinistry.length && allMinistry.length != 0 && electronicBookData.electronicBook.provinceStatus != 'หัวหน้าส่วนจังหวัดแนบลายมือชื่อแล้ว' && electronicBookData.electronicBook.provinceStatus != 'หน่วยรับตรวจดำเนินการแล้ว'"

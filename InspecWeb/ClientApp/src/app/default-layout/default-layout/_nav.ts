@@ -1484,6 +1484,26 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     url: "/main",
     name: "หน้าหลัก"
   },
+
+  {
+    IDchildren: 'schedule',
+    icon: 'fa-calendar',
+    name: "กำหนดการตรวจราชการ",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionplanevent',
+        name: 'ปฏิทินการตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: "/calendaruser",
+        name: "ถูกเชิญ"
+      },
+    ]
+  },
   {
     icon: 'fa-archive',
     url: "/answersubject",
@@ -1493,11 +1513,6 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     icon: 'fa-file',
     url: "/answerrecommendationinspector",
     name: "ข้อเสนอแนะของผู้ตรวจราชการ"
-  },
-  {
-    icon: 'fa-calendar',
-    url: "/calendaruser",
-    name: "ปฏิทินการตรวจราชการ"
   },
   // {
   //   IDchildren: 'electronicBook',
