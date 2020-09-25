@@ -20,7 +20,10 @@ export class FiscalyearService {
   getcurrentyeardata(): Observable<any[]> {
     return this.http.get<any>(this.url + "getCurrentFiscalYear")
   }
-  addFiscalyear(data,file: FileList) {
+  getreportfiscalyearrelations(fiscalYearId, userId) {
+    return this.http.get<any>(this.url + "getReportFiscalYearRelations/" + fiscalYearId + "/" + userId)
+  }
+  addFiscalyear(data, file: FileList) {
     const formData = new FormData();
     formData.append('Year', data.year);
     formData.append('StartDate', data.startdate.date.year + '-' + data.startdate.date.month + '-' + data.startdate.date.day);
@@ -40,7 +43,7 @@ export class FiscalyearService {
   deleteFiscalyear(id) {
     return this.http.delete(this.url + id);
   }
-  editFiscalyear(data,file: FileList, id) {
+  editFiscalyear(data, file: FileList, id) {
     console.log(data);
     const formData = new FormData();
     formData.append('Year', data.year);
@@ -78,8 +81,8 @@ export class FiscalyearService {
     console.log('FORMDATA: ', formData);
     return this.http.post(this.url + "AddRelation", formData);
   }
-  editDetailFiscalyear(detailfiscalyearData, Idfiscalyear,id) {
-   
+  editDetailFiscalyear(detailfiscalyearData, Idfiscalyear, id) {
+
     const formData = {
 
       FiscalYearId: parseInt(Idfiscalyear),

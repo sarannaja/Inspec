@@ -889,6 +889,7 @@ namespace InspecWeb.Controllers
             var centralpolicyprovincedata = _context.SubjectGroups
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.Typeexaminationplan)
+                .OrderByDescending(m => m.Id)
                 .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.Suggestion != "null")

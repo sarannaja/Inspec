@@ -54,6 +54,12 @@ namespace InspecWeb.ViewModel
         public long CentralPolicyProvinceId { get; set; }
 
         public long SubjectGroupId { get; set; }
+
+        public long regionId { get; set; }
+
+        public string userid { get; set; }
+
+
     }
 
     public class reportsuggestions
@@ -96,6 +102,10 @@ namespace InspecWeb.ViewModel
         public long provincialDepartmentId { get; set; }
 
         public long provinceId { get; set; }
+
+        public long regionId { get; set; }
+
+        public string userid { get; set; }
     }
 
     // public class reportquestionnaire

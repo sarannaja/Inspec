@@ -476,18 +476,18 @@
           </div>
         </form>
         <form [formGroup]="FormReporttype2" *ngIf="checkTypeRepor2== 3"
-          (ngSubmit)="storeReportPerformance2(FormReporttype2.value)">
+          (ngSubmit)="storeReportPerformance3(FormReporttype2.value)">
           <div class="row">
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ปีงบประมาณ</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"
-                  [items]="fiscalYearData" (change)="select22province($event)">
+                  [items]="fiscalYearData" (change)="select23fiscalYear($event)">
                 </ng-select>
                 <br>
                 <label>เขตตรวจราชการ</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"
-                  [items]="regionData" formControlName="region" (change)="selectRegion($event)">
+                  [items]="regionData" (change)="select23region($event)">
                 </ng-select>
               </div>
             </div>
@@ -523,7 +523,7 @@
         <label style="margin-left: 10px;">รายหน่วยงาน</label>
         <input style="margin-left: 10px;" type="radio" name="report" (change)="reporttyp42($event)" value="รายจังหวัด">
         <label style="margin-left: 10px;">รายจังหวัด</label>
-        <input style="margin-left: 10px;" type="radio" name="report" (change)="report3($event)" value="รายเขต">
+        <input style="margin-left: 10px;" type="radio" name="report" (change)="reporttyp43($event)" value="รายเขต">
         <label style="margin-left: 10px;">รายเขต</label>
         <form [formGroup]="FormReporttype4" *ngIf="checkTypeRepor4== 1"
           (ngSubmit)="storeReportSuggestionsResulttype1(FormReporttype4.value)">
@@ -560,6 +560,28 @@
                 <label>เรื่องที่ตรวจ</label>
                 <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเรื่องที่ตรวจ" [multiple]="false"
                   [items]="selectdatacentralpolicytype4" name="CentralpolicyId" (change)="select42($event)">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">ออกรายงาน</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </form>
+        <form [formGroup]="FormReporttype4" *ngIf="checkTypeRepor4== 3"
+          (ngSubmit)="storeReportSuggestionsResulttype3(FormReporttype4.value)">
+          <div class="row">
+            <div class="col-12 col-xl-12">
+              <div class="form-group">
+                <label>ปีงบประมาณ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"
+                  [items]="fiscalYearData" (change)="select43fiscalYear($event)">
+                </ng-select>
+                <br>
+                <label>เขตตรวจราชการ</label>
+                <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"
+                  [items]="regionData" (change)="select43region($event)">
                 </ng-select>
               </div>
             </div>

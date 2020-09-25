@@ -13,6 +13,7 @@ import { NotofyService } from '../services/notofy.service';
 import { IMyOptions } from 'mydatepicker-th';
 import { ReportService } from '../services/report.service';
 import { ExportReportService } from '../services/export-report.service';
+import { FiscalyearService } from '../services/fiscalyear.service';
 
 @Component({
   selector: 'app-subjectevent',
@@ -78,6 +79,9 @@ export class SubjecteventComponent implements OnInit {
   centralpolicyprovinceidtype2: any
   selectdatacentralpolicytype2: Array<any>
   fiscalYearData: any = [];
+  fiscalYearId: any
+  regionId: any
+  regionData: any = [];
   //reporttype3
   subjectgroupidtype3: any
   //reporttype4
@@ -122,6 +126,7 @@ export class SubjecteventComponent implements OnInit {
     private _NotofyService: NotofyService,
     private reportservice: ReportService,
     private exportReportService: ExportReportService,
+    private fiscalyearService: FiscalyearService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.downloadUrl = baseUrl + '/Uploads';
@@ -564,7 +569,7 @@ export class SubjecteventComponent implements OnInit {
       type: this.checkTypeRepor2,
     })
   }
-  reporttyp23(value){
+  reporttyp23(value) {
     // alert(myradio)
     this.checkTypeRepor2 = 3;
     this.FormReporttype2.patchValue({
@@ -637,6 +642,28 @@ export class SubjecteventComponent implements OnInit {
       this.centralpolicyprovinceidtype2 = result
     })
   }
+  select23fiscalYear(event) {
+    this.fiscalYearId = event.value;
+    this.fiscalyearService.getreportfiscalyearrelations(this.fiscalYearId, this.userid).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.termsList.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      );
+      console.log("uniqueRegions: ", uniqueRegion);
+
+      this.regionData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      })
+    })
+  }
+  select23region(event) {
+    this.regionId = event.value;
+  }
   storeReportPerformance(value) {
     console.log(value);
     this.reportservice.createReporttype1(value).subscribe(result => {
@@ -647,6 +674,13 @@ export class SubjecteventComponent implements OnInit {
   }
   storeReportPerformance2() {
     this.reportservice.createReporttype2(this.FormReporttype2.value, this.provinceIdtype2, this.centralpolicyprovinceidtype2).subscribe(result => {
+      this.FormReporttype2.reset();
+      this.modalRef.hide();
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportPerformance3() {
+    this.reportservice.createReporttype3(this.FormReporttype2.value, this.regionId, this.userid).subscribe(result => {
       this.FormReporttype2.reset();
       this.modalRef.hide();
       window.open(this.downloadUrl + "/" + result.data);
@@ -676,6 +710,23 @@ export class SubjecteventComponent implements OnInit {
     this.checkTypeRepor4 = 2;
     this.FormReporttype4.patchValue({
       type: this.checkTypeRepor4,
+    })
+  }
+  reporttyp43(value) {
+    // alert(myradio)
+    this.checkTypeRepor4 = 3;
+    this.FormReporttype4.patchValue({
+      type: this.checkTypeRepor4,
+    })
+    this.exportReportService.getImportReportFiscalYears().subscribe(res => {
+      console.log("fiscalYear1: ", res);
+      this.fiscalYearData = res.importFiscalYear.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.year
+        }
+      })
+      console.log("fiscalYear: ", this.fiscalYearData);
     })
   }
   select41(event) {
@@ -727,15 +778,40 @@ export class SubjecteventComponent implements OnInit {
     })
 
   }
+  select43fiscalYear(event) {
+    this.fiscalYearId = event.value;
+    this.fiscalyearService.getreportfiscalyearrelations(this.fiscalYearId, this.userid).subscribe(res => {
+      console.log("fiscalYearRelations: ", res);
+
+      var uniqueRegion: any = [];
+      uniqueRegion = res.termsList.filter(
+        (thing, i, arr) => arr.findIndex(t => t.regionId === thing.regionId) === i
+      );
+      console.log("uniqueRegions: ", uniqueRegion);
+
+      this.regionData = uniqueRegion.map((item, index) => {
+        return {
+          value: item.region.id,
+          label: item.region.name
+        }
+      })
+    })
+  }
+  select43region(event) {
+    this.regionId = event.value;
+  }
   storeReportSuggestionsResulttype1(value) {
     this.reportservice.createReportSuggestionsResulttype1(value, this.provinceIdtype4).subscribe(result => {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }
   storeReportSuggestionsResulttype2(value) {
-    console.log(value);
-    
     this.reportservice.createReportSuggestionsResulttype2(value, this.provinceIdtype4).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
+  storeReportSuggestionsResulttype3(value) {
+    this.reportservice.createReportSuggestionsResulttype3(value, this.regionId, this.userid).subscribe(result => {
       window.open(this.downloadUrl + "/" + result.data);
     })
   }
