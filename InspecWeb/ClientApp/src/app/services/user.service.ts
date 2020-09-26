@@ -364,6 +364,12 @@ export class UserService {
   }
   //<!-- END ข้อมูลผู้ติดต้อ ที่ปรึกษาผู้ตรวจราชการภาคประชาชน -->
 
+    //<!-- ข้อมูลผู้ติดต่อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
+    getuserregionalagencydata(): Observable<any[]> {
+      return this.http.get<any[]>(this.base + 'regionalagency')
+    }
+    //<!-- END ข้อมูลผู้ติดต่อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
+
   getuserdataSameMinistry(id: any, ministryId): Observable<any[]> { //role6
     return this.http.get<any[]>(this.base + "getuserSameMinistry/" + id + "/" + ministryId)
   }
