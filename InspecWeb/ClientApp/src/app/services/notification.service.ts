@@ -62,5 +62,13 @@ export class NotificationService {
     return this.http.get<any>(this.url + 'getinspactionsplaneven/' + id)
   }
 
+  getElectronicBookUserInvite(userId: any, electId: any): Observable<any> {
+    return this.http.get<any>(this.url + 'getElectronicBookUserInvite/' + electId + "/" + userId)
+  }
+
+  getElectronicBookProvincialDepartment(provincialId: any, electId: any): Observable<any> {
+    return this.http.get<any>(this.url + 'getElectronicBookProvincialDepartment/' + electId + "/" + provincialId)
+  }
+
 
 }

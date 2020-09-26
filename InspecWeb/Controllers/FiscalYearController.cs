@@ -299,6 +299,31 @@ namespace InspecWeb.Controllers
 
             return Ok(fiscalyearData);
         }
+
+        [HttpGet("getReportFiscalYearRelations/{fiscalYearId}/{userId}")]
+        public IActionResult GetImportReportFiscalYearRelations(long fiscalYearId, string userId)
+        {
+            List<object> termsList = new List<object>();
+            var userdata = _context.Users
+                .Include(m => m.UserProvince)
+                .Where(m => m.Id == userId)
+                .FirstOrDefault();
+
+            foreach (var provinceUser in userdata.UserProvince)
+            {
+
+                var importFiscalYearRelations = _context.FiscalYearRelations
+                    .Include(x => x.Region)
+                    .Include(x => x.Province)
+                    .Where(x => x.FiscalYearId == fiscalYearId)
+                    .Where(x => x.ProvinceId == provinceUser.ProvinceId)
+                    .FirstOrDefault();
+
+                termsList.Add(importFiscalYearRelations);
+            }
+
+            return Ok(new { termsList });
+        }
     }
 }
 

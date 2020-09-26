@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -79,6 +79,12 @@ export class TrainingLoginListComponent implements OnInit {
 
     this.getTrainingProgramDate();
   }
+
+  openModal() {
+    //console.log(this.delid)
+    
+  }
+
 
   getTrainingProgramDate() {
     this.trainingService.getTrainingProgramDate(this.trainingId).subscribe(res => {

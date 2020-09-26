@@ -71,6 +71,16 @@ export class ReportService {
     formData.append('reporttype', reportdata.type);
     return this.http.post<any>(this.url + "reportperformance", formData)
   }
+  createReporttype3(reportdata, regionId, userId) {
+    console.log("reportdata", reportdata);
+    console.log("regionId", regionId);
+    console.log("userId", userId);
+    const formData = new FormData();
+    formData.append('userid', userId)
+    formData.append('regionId', regionId);
+    formData.append('reporttype', reportdata.type);
+    return this.http.post<any>(this.url + "reportperformance", formData)
+  }
   createReportQuestionnaire(planid) {
     const formData = new FormData();
     formData.append('planid', planid);
@@ -94,6 +104,16 @@ export class ReportService {
     formData.append('reporttype', ReportSuggestionsResultdata.type);
     formData.append('SubjectGroupId', ReportSuggestionsResultdata.SubjectGroupId);
     formData.append('provinceId', provinceId);
+    return this.http.post<any>(this.url + "reportsuggestionsresult", formData)
+  }
+  createReportSuggestionsResulttype3(ReportSuggestionsResultdata, regionId, userId) {
+    console.log("reportdata", ReportSuggestionsResultdata);
+    console.log("userId", userId);
+    console.log("regionId", regionId);
+    const formData = new FormData();
+    formData.append('reporttype', ReportSuggestionsResultdata.type);
+    formData.append('userid', userId)
+    formData.append('regionId', regionId);
     return this.http.post<any>(this.url + "reportsuggestionsresult", formData)
   }
   createReportCommenttype1(ReportCommentdata, CentralPolicyProvinceId) {

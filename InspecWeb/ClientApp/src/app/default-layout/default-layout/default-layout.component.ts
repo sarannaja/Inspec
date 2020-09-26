@@ -177,6 +177,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   getnotifications() {
+<<<<<<< HEAD
     this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
       .subscribe(resultsub => {
 
@@ -194,6 +195,12 @@ export class DefaultLayoutComponent implements OnInit {
               });
 
           })
+=======
+    this.notificationService.getnotificationsdata(this.userid)
+      .subscribe(result => {
+        this.resultnotifications = result;
+        console.log("notiDetail: ", this.resultnotifications);
+>>>>>>> master
       })
 
 
@@ -203,7 +210,7 @@ export class DefaultLayoutComponent implements OnInit {
       })
   }
 
-  detailnotifications(id, statusid, xe, provinceId) {
+  detailnotifications(id, statusid, xe, provinceId, userId) {
     this.notificationService.updateNotification(id)
       .subscribe(result => {
         if (statusid == 20) { //song
@@ -212,7 +219,7 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 9) { //song
           this.router.navigate(['/reportimport/detail/' + xe])
         }
-        else if (statusid == 16) { //song
+        else if (statusid == 16) { //aof
           this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
         }
         else if (statusid == 2) { //aof role6 and 10 มาทำต่อด้วย
@@ -235,7 +242,6 @@ export class DefaultLayoutComponent implements OnInit {
                 this.router.navigate(['/inspectionplan/department/' + xe + '/' + provinceId + '/1'])
               }
             })
-
           //this.router.navigate(['/inspectionplan/' + xe + '/' + provinceId + '/1'])
         }
         else if (statusid == 4) { //ask nik
@@ -249,7 +255,31 @@ export class DefaultLayoutComponent implements OnInit {
           // https://localhost:5001/subjectevent/detail/1;subjectgroupid=1
         }
         else if (statusid == 7) { //song
+<<<<<<< HEAD
           this.router.navigate(['electronicbook/invitedetail/' + xe, { ebookInviteId: 1 }])
+=======
+          this.notificationService.getElectronicBookUserInvite(userId, xe).subscribe(res => {
+            console.log("inviteId: ", res);
+            this.router.navigate(['electronicbook/invitedetail/' + xe, { ebookInviteId: res }])
+          })
+        }
+
+        else if (statusid == 19) { //aof
+          this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
+        }
+
+        else if (statusid == 17) { //song
+          this.router.navigate(['/electronicbook/provincedetail/' + xe])
+        }
+        else if (statusid == 18) { //song
+          this.notificationService.getElectronicBookProvincialDepartment(provinceId, xe).subscribe(res => {
+            console.log("inviteId: ", res);
+            this.router.navigate(['/electronicbook/departmentdetail/' + xe, { electronicBookProvincialDepartmentId: res }])
+          })
+        }
+        else if (statusid == 8) { //song
+          this.router.navigate(['/electronicbook/detail/' + xe])
+>>>>>>> master
         }
         // this.nav = superAdmin;
         // this.profileform();

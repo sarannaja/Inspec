@@ -376,12 +376,32 @@ namespace InspecWeb.Controllers
             // แจ้งเตือนหน่วยรับตรวจ เมื่อได้รับสมุดตรวจ
             if (Status == 18)
             {
-                var userProvincialDepartment = _context.Users
-                    .Where(x => x.Role_id == 9 && x.ProvincialDepartmentId == xe && x.UserProvince.Any(x => x.ProvinceId == ProvinceId))
+                System.Console.WriteLine("in 18");
+                List<ApplicationUser> termsList = new List<ApplicationUser>();
+                var electronicBookProvince = _context.ElectronicBookAccepts
+                    .Where(x => x.ElectronicBookId == xe)
+                    .Select(x => x.ProvinceId)
                     .ToList();
+                System.Console.WriteLine("in 18.1");
 
-                foreach (var userData in userProvincialDepartment) {
+                foreach (var electProvinceId in electronicBookProvince)
+                {
+                    System.Console.WriteLine("in 18.2");
+                    var userProvincialDepartment = _context.Users
+                   .Where(x => x.Role_id == 9 && x.ProvincialDepartmentId == ProvinceId && x.UserProvince.Any(x => x.ProvinceId == electProvinceId))
+                   .ToList();
 
+                    foreach (var user in userProvincialDepartment)
+                    {
+                        System.Console.WriteLine("in 18.3");
+                        termsList.Add(user);
+                    }
+                }
+                System.Console.WriteLine("in 18.4");
+
+                foreach (var userData in termsList)
+                {
+                    System.Console.WriteLine("in 18.5");
                     _context.Notifications.Add(new Notification
                     {
                         UserID = userData.Id,
@@ -393,7 +413,7 @@ namespace InspecWeb.Controllers
                         xe = xe
                     });
                     _context.SaveChanges();
-                    System.Console.WriteLine("Success Noti 17");
+                    System.Console.WriteLine("Success Noti 18");
                 }
             }
 
@@ -478,6 +498,30 @@ namespace InspecWeb.Controllers
         public IActionResult getinspactionsplaneven(long id)
         {
             var data = _context.InspectionPlanEvents.Where(m => m.Id == id).FirstOrDefault();
+
+            return Ok(data);
+        }
+
+        [Route("api/[controller]/getElectronicBookUserInvite/{electId}/{userId}")]
+        [HttpGet]
+        public IActionResult GetElectronicBookUserInvite(long electId, string userId)
+        {
+            var data = _context.ElectronicBookInvites
+                .Where(x => x.ElectronicBookId == electId && x.UserId == userId)
+                .Select(x => x.Id)
+                .FirstOrDefault();
+
+            return Ok(data);
+        }
+
+        [Route("api/[controller]/getElectronicBookProvincialDepartment/{electId}/{provincialId}")]
+        [HttpGet]
+        public IActionResult GetElectronicBookProvincialDepartment(long electId, long provincialId)
+        {
+            var data = _context.ElectronicBookProvincialDepartments
+                .Where(x => x.ElectronicBookId == electId && x.ProvincialDepartmentId == provincialId)
+                .Select(x => x.Id)
+                .FirstOrDefault();
 
             return Ok(data);
         }
