@@ -254,6 +254,7 @@ export class TrainingService {
     //alert(JSON.stringify(trainingData))
     //alert(trainingid)
     const formData = new FormData();
+    formData.append('surveytype', trainingData.surveytype);
     formData.append('name', trainingData.name);
 
     console.log('FORMDATA: ' + formData);
@@ -275,6 +276,7 @@ export class TrainingService {
     console.log(trainingregisterlistData);
 
     const formData = new FormData();
+    formData.append('surveytype', trainingregisterlistData.surveytype);
     formData.append('name', trainingregisterlistData.name);
     console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put(this.url + 'survey/edit/' + id, formData);

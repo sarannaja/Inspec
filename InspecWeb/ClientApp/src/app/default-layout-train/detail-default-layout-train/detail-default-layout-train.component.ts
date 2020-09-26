@@ -5,6 +5,8 @@ import { TrainingService } from '../../services/training.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { now } from 'moment';
 
 @Component({
   selector: 'app-detail-default-layout-train',
@@ -34,9 +36,11 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
   downloadUrl: any;
   mainUrl: any;
   Form: FormGroup;
-
+  userid: string;
+  
   // constructor() { }
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
@@ -71,6 +75,8 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
 
     };
 
+    
+    
     this.trainingservice.getTrainingPhase(this.trainingid)
       .subscribe(result => {
         this.resulttrainingphase = result
@@ -97,6 +103,17 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
         this.enddate = result[0].endDate
         this.regisstartdate = result[0].regisStartDate
         this.regisenddate = result[0].regisEndDate
+      
+
+        // if(this.datex > this.regisstartdate){
+        //   alert("เปิดรับสมัคร");
+        // }
+        // else{
+        //   alert("ปิดรับสมัคร");
+        // }
+        
+        
+
       }
       this.resulttraining = result
       this.loading = true;
@@ -118,7 +135,9 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
       this.loading = true
       //console.log(this.resulttraining);
     })
+    
   }
+
 
   GotoDetail(trainingid2){
     //alert(trainingid2);

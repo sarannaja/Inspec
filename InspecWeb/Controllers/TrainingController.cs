@@ -748,7 +748,7 @@ namespace InspecWeb.Controllers
         //------zone training survey---------
         // POST api/training/trainingsurvey/trainingid
         [HttpPost("trainingsurvey/{surveyid}")]
-        public TrainingSurvey Post(string name, long surveyid)
+        public TrainingSurvey Post(string name, int surveytype, long surveyid)
         {
             var date = DateTime.Now;
 
@@ -756,7 +756,7 @@ namespace InspecWeb.Controllers
             {
                 TrainingSurveyTopicId = surveyid,
                 Name = name,
-                SurveyType = 1,
+                SurveyType = surveytype,
                 CreatedAt = date
 
             };
@@ -790,10 +790,11 @@ namespace InspecWeb.Controllers
 
         // PUT : api/training/edit/:id
         [HttpPut("survey/edit/{id}")]
-        public void EditTrainingsurvey(long id, string name)
+        public void EditTrainingsurvey(long id, string name, int surveytype)
         {
             var training = _context.TrainingSurveys.Find(id);
             training.Name = name;
+            training.SurveyType = surveytype;
             _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

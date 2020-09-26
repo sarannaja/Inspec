@@ -51,6 +51,8 @@ export class PreviewTrainingSurveyComponent implements OnInit {
 
     this.trainingservice.getlisttrainingsurveydata(this.trainingid)
     .subscribe(result => {
+      console.log(result);
+      
       if (result.length != 0){
         this.trainingname = result[0].trainingSurveyTopic.name
       }

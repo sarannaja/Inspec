@@ -104,20 +104,29 @@
 
 
             <!-- <router-outlet></router-outlet> -->
-
+    <br>
     <div class="container">
         <div class="row">
         <div class="col-8">
             <div class="">
                 <!-- <label *ngFor="let item of resulttraining; let i = index">{{ item.name }}</label> -->
                 <h1><label >{{ name }}</label></h1>
-                <label >{{ createdAt | thaidate:'year'}}</label>
+                <br>
+                <div class="text-center">
+                    <img src="{{ downloadUrl }}/{{ urlimg }}" width="600px">
+                </div>
+                <label style="font-size: x-small;">ประกาศ : {{ createdAt | thaidate:'short'}}</label>
+                <br>
+                รายละเอียดหลักสูตร :
                 <br>
                 <label >{{ detail }}</label>
                 <br>
                 <br>
-                <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'year'}} - {{ regisenddate | thaidate:'year'}}</label></h5>
-                <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'year'}} - {{ enddate | thaidate:'year'}}</label></h5>
+                <!-- <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'year'}} - {{ regisenddate | thaidate:'year'}}</label></h5> -->
+                <!-- <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'year'}} - {{ enddate | thaidate:'year'}}</label></h5> -->
+
+                <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'short'}} - {{ regisenddate | thaidate:'short'}}</label></h5>
+                <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'short'}} - {{ enddate | thaidate:'short'}}</label></h5>
 
                 <table *ngIf="loading" class="">
                     <tbody>
@@ -140,17 +149,13 @@
                     <!-- <a href="{{ mainUrl }}train/register/{{ trainingid }}" class="btn btn-info">สมัครอบรม</a> -->
                     <button class="btn btn-primary" (click)="storeTraining()" class="btn btn-info">สมัครอบรม</button>
                 </div>
-                <br>
-                <br>
-                <div class="text-center">
-                    <img src="{{ downloadUrl }}/{{ urlimg }}" width="600px">
-                </div>
+                
                 <br>
                 <br>
             </div>
         </div>
         <div class="col-4">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12">
                     <div class="text-center">
                         <img src="assets/img/user.png" alt="Image Placeholder" width="100px" class="img-fluid">
@@ -160,7 +165,7 @@
                     </div>
                 </div>
             </div>
-            <br>
+            <br> -->
             <div class="row">
                 <div class="col-12">
 
@@ -169,7 +174,7 @@
                     <table *ngIf="loading" class="table table-hover">
                     <thead>
                         <tr>
-                            <th colspan="2" class="text-center"><h5>หลักสูตรอบรม</h5></th>
+                            <th colspan="2" class="text-center"><h5>หลักสูตรอบรมแนะนำ</h5></th>
                         </tr>
                     </thead>
                     <tbody>
