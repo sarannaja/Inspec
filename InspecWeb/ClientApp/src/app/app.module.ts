@@ -233,6 +233,7 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
 import { QRCodeModule } from 'angularx-qrcode';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DemoMaterialModule } from './materail-module';
+import { RegionalagencyComponent } from './regionalagency/regionalagency.component';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -425,7 +426,8 @@ const ExternalOrganization = [
     TrainingLoginSuccessComponent,
     ChartComponent,
     TrainingLoginListComponent,
-    TrainingLoginListDetailComponent
+    TrainingLoginListDetailComponent,
+    RegionalagencyComponent,
   ],
 
   imports: [
@@ -637,6 +639,7 @@ const ExternalOrganization = [
           { path: 'namelabelpreview', component: NameLabelPreviewComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/login/list/:trainingid', component: TrainingLoginListComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/login/list/detail/:programid', component: TrainingLoginListDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'regionalagency', component: RegionalagencyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

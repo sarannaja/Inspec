@@ -17,9 +17,9 @@ export class NotificationService {
     this.url = baseUrl + 'api/notification/';
   }
 
-  getnotificationsdata(id: any): Observable<any> {
+  getnotificationsdata(id: any): Observable<any[]> {
     this.testLoop('getnotificationsdata')
-    return this.http.get<any>(this.url + 'getnotifications/' + id)
+    return this.http.get<any[]>(this.url + 'getnotifications/' + id)
   }
   getnotificationscountdata(id: any): Observable<any> {
     this.testLoop('getnotificationscountdata')

@@ -187,6 +187,26 @@ namespace InspecWeb.Controllers
         }
         //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
 
+        //<!-- ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
+        [HttpGet("api/[controller]/[action]")]
+        public IEnumerable<ApplicationUser>regionalagency()
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Include(x => x.Departments)
+                .Include(x => x.ProvincialDepartments)
+                .Where(m => m.Role_id == 9)            
+                .Where(m => m.Active == 1);
+
+            return users;
+        }
+        //<!-- END ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
+
         //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
         [HttpGet("api/[controller]/[action]")]
         public IEnumerable<ApplicationUser> publicsectoradvisor()

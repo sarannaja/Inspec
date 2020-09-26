@@ -327,7 +327,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '#',
+        url: '/regionalagency',
         name: 'หน่วยงานในส่วนภูมิภาค'
       },
       {
