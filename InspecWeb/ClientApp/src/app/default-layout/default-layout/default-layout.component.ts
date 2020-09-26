@@ -177,7 +177,6 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   getnotifications() {
-<<<<<<< HEAD
     this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
       .subscribe(resultsub => {
 
@@ -195,12 +194,6 @@ export class DefaultLayoutComponent implements OnInit {
               });
 
           })
-=======
-    this.notificationService.getnotificationsdata(this.userid)
-      .subscribe(result => {
-        this.resultnotifications = result;
-        console.log("notiDetail: ", this.resultnotifications);
->>>>>>> master
       })
 
 
@@ -255,9 +248,6 @@ export class DefaultLayoutComponent implements OnInit {
           // https://localhost:5001/subjectevent/detail/1;subjectgroupid=1
         }
         else if (statusid == 7) { //song
-<<<<<<< HEAD
-          this.router.navigate(['electronicbook/invitedetail/' + xe, { ebookInviteId: 1 }])
-=======
           this.notificationService.getElectronicBookUserInvite(userId, xe).subscribe(res => {
             console.log("inviteId: ", res);
             this.router.navigate(['electronicbook/invitedetail/' + xe, { ebookInviteId: res }])
@@ -279,7 +269,6 @@ export class DefaultLayoutComponent implements OnInit {
         }
         else if (statusid == 8) { //song
           this.router.navigate(['/electronicbook/detail/' + xe])
->>>>>>> master
         }
         // this.nav = superAdmin;
         // this.profileform();
