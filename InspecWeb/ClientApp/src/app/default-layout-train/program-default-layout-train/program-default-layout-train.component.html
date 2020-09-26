@@ -114,7 +114,7 @@
                               {{item1.programDate|thaidate}}
                           </th>
                       </tr>
-                      <tr *ngFor="let item of item1.value |sort:'desc':'minuteStartDate'; let i = index">
+                      <tr *ngFor="let item of item1.value |sort:'asc':'minuteStartDate'; let i = index">
                           <td class="text-center" headers="{{item1.programDate}}">
                               {{item.trainingProgram.minuteStartDate}}-{{item.trainingProgram.minuteEndDate}}
                           </td>

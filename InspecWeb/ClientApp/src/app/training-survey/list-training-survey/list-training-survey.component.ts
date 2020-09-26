@@ -18,6 +18,7 @@ export class ListTrainingSurveyComponent implements OnInit {
   modalRef: BsModalRef;
   delid: any
   name: any
+  surveytype: any
   link: any
   loading = false;
   dtOptions: DataTables.Settings = {};
@@ -50,6 +51,7 @@ export class ListTrainingSurveyComponent implements OnInit {
 
     };
     this.Form = this.fb.group({
+      surveytype: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required]),
       
     })
@@ -102,18 +104,21 @@ export class ListTrainingSurveyComponent implements OnInit {
     })
   }
 
-  editModal(template: TemplateRef<any>, id, name) {
+  editModal(template: TemplateRef<any>, id, name, surveytype) {
     this.delid = id;
     this.name = name;
+    this.surveytype = surveytype;
     //console.log(this.delid);
     //console.log(this.name);
 
     this.modalRef = this.modalService.show(template);
     this.EditForm = this.fb.group({
+      "surveytype": new FormControl(null, [Validators.required]),
       "name": new FormControl(null, [Validators.required]),
       // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
     })
     this.EditForm.patchValue({
+      "surveytype": surveytype,
       "name": name,
     })
   }

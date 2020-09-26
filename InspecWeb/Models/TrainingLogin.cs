@@ -21,6 +21,9 @@ namespace InspecWeb.Models
         [Description("Username")]
         public string Username { get; set; }
 
+        [Description("รหัสประจำตัวผู้ร่วมอบรม")]
+        public String IDCode { get; set; }
+
         [Required]
         [Description("หมายเลขหลักสูตร")]
         public long TrainingPhaseId { get; set; }
