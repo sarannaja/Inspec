@@ -20,9 +20,7 @@ export class ExternalOrganizationService {
   };
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
   //api ระบบพี่ตัง
-  getRegions(): Observable<Regions[]> {
-    return this.http.get<Regions[]>('http://203.113.14.20:3000/testservice/otps/regions', this.httpOptions)
-  }
+
   getRegionById(id): Observable<NewRegion> {
     return this.http.get<NewRegion>(`${this.baseUrl}api/ExternalOrganization/otps/region/${id}`, this.httpOptions)
   }

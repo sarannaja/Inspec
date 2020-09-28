@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingService } from '../services/training.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -39,9 +39,7 @@ export class TrainingIDCodeComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _trainingservice: TrainingService,
     private router: Router,
-    @Inject('BASE_URL') baseUrl: string,
   ) {
-    this.url = baseUrl,
       this.trainingid = activatedRoute.snapshot.paramMap.get('id');
   }
 

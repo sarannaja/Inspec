@@ -89,7 +89,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
 import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
 import { EditCentralPolicyComponent } from './central-policy/edit-central-policy/edit-central-policy.component';
-// import { UserManager } from 'oidc-client';
+import { UserManager } from 'oidc-client';
 import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
@@ -233,6 +233,7 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
 import { QRCodeModule } from 'angularx-qrcode';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DemoMaterialModule } from './materail-module';
+import { TrainingIdcodeModule } from './training-idcode/training-idcode.module';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -446,7 +447,7 @@ const ExternalOrganization = [
     DataTablesModule,
     BrowserAnimationsModule,
     NgxMaterialTimepickerModule,
-
+    // TrainingIdcodeModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -682,7 +683,7 @@ const ExternalOrganization = [
     ProvinceService,
     NotofyService,
     ConfirmationDialogService,
-    // UserManager
+    // UserManager,
     SortPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
