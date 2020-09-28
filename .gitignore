@@ -50,3 +50,4 @@ EmailService/bin/Release/netcoreapp3.1/EmailService.deps.json
 EmailService/bin/Release/netcoreapp3.1/EmailService.deps.json
 EmailService/obj/Release/netcoreapp3.1/EmailService.assets.cache
 EmailService/obj/Release/netcoreapp3.1/EmailService.csproj.FileListAbsolute.txt
+EmailService/obj/EmailService.csproj.nuget.dgspec.json
