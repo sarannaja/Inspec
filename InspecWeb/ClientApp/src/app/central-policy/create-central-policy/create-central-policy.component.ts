@@ -11,6 +11,7 @@ import { ExternalOrganizationService } from 'src/app/services/external-organizat
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotofyService } from 'src/app/services/notofy.service';
 import { TypeexamibationplanService } from 'src/app/services/typeexamibationplan.service';
+import { FiscalyearnewService } from 'src/app/services/fiscalyearnew.service';
 
 interface addInput {
   id: number;
@@ -65,6 +66,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     public share: CentralpolicyService,
     private router: Router,
     private fiscalyearservice: FiscalyearService,
+    private fiscalyearnewservice: FiscalyearnewService,
     private provinceservice: ProvinceService,
     private authorize: AuthorizeService,
     private external: ExternalOrganizationService,
@@ -138,7 +140,7 @@ export class CreateCentralPolicyComponent implements OnInit {
     })
   }
   getfiscalyear() {
-    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+    this.fiscalyearnewservice.getdata().subscribe(result => {
       // alert(JSON.stringify(result))
       this.resultfiscalyear = result
       console.log(this.resultcentralpolicy);

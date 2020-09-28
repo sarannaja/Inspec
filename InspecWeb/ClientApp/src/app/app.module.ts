@@ -206,7 +206,6 @@ import { AnswerRecommendationinSpectorEditComponent } from './answer-subject/ans
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ConfirmationDialogService } from './services/confirmation-dialog/confirmation-dialog.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
 
 // import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -234,6 +233,9 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DemoMaterialModule } from './materail-module';
 import { TrainingIdcodeModule } from './training-idcode/training-idcode.module';
+import { RegionalagencyComponent } from './regionalagency/regionalagency.component';
+import { ConfirmationDialogComponent } from './services/confirmation-dialog/confirmation-dialog.component';
+import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -290,6 +292,7 @@ const ExternalOrganization = [
     HistoryTrainingReportComponent,
     ProgramTrainingComponent,
     LecturerTrainingComponent,
+    RegisterTrainingComponent,
     GroupTrainingRegisterComponent,
     ProgramTrainingRegisterComponent,
     ChartTrainingSurveyComponent,
@@ -426,7 +429,8 @@ const ExternalOrganization = [
     TrainingLoginSuccessComponent,
     ChartComponent,
     TrainingLoginListComponent,
-    TrainingLoginListDetailComponent
+    TrainingLoginListDetailComponent,
+    RegionalagencyComponent,
   ],
 
   imports: [
@@ -638,6 +642,7 @@ const ExternalOrganization = [
           { path: 'namelabelpreview', component: NameLabelPreviewComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/login/list/:trainingid', component: TrainingLoginListComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/login/list/detail/:programid', component: TrainingLoginListDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'regionalagency', component: RegionalagencyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -682,9 +687,10 @@ const ExternalOrganization = [
     DatePipe, CookieService,
     ProvinceService,
     NotofyService,
-    ConfirmationDialogService,
+    // ConfirmationDialogService,
     // UserManager,
-    SortPipe
+    SortPipe,
+    // ConfirmationDialogService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 

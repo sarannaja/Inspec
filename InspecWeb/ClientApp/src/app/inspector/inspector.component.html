@@ -2,8 +2,8 @@
     
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/main']">ข้อมูลสนับสนุน</a></li>
-        <li class="breadcrumb-item active">ข้อมูลการติดต่อผู้ตรวจราชการ</li>
+        <li class="breadcrumb-item active">ข้อมูลผู้ติดต่อบุคลากร</li>
+        <li class="breadcrumb-item active">ผู้ตรวจราชการ</li>
         <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
       </ol>
     </nav>
@@ -12,7 +12,7 @@
     <div class="col-12">
       <div class="card card-eiei">
         <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">ข้อมูลการติดต่อผู้ตรวจราชการ</h5><br>
+          <h5 class="card-title">ผู้ตรวจราชการ</h5><br>
           <!-- <div class="float-right">
             <button class="btn btn-primary" (click)="openModal(modalInspector,'create')"
               style="margin-top: -60px;">เพิ่มข้อมูลการติดต่อผู้ตรวจราชการ</button>
@@ -24,7 +24,8 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>ผู้ตรวจราชการ</th>
+                <th>รูป</th>
+                <th>ชื่อ-นามสกุล</th>
                 <th>เขต</th>
                 <th>ตำแหน่ง</th>
                 <th>มือถือ</th>
@@ -34,6 +35,14 @@
             <tbody>
               <tr *ngFor="let item of resultInspector; let i = index">
                 <td>{{ i + 1 }}</td>
+                <td>
+                  <div *ngIf="item.img != null">
+                      <img *ngIf="item.img != 'null'" src="{{imgprofileUrl}}/{{item.img}}"
+                          class="img-fluid  mb-2" width="90px" alt="รูป">
+                  </div>
+                  <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
+                      width="90px" alt="รูป">
+              </td>
                 <td>{{item.prefix}}{{ item.name }}</td>
                 <td>
                   <li *ngFor="let item2 of item.userRegion; let i2 = index">
@@ -94,7 +103,7 @@
 
 
     <!-- BEGIN primary modal -->
-    <ng-template #modaldeleteInspector class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <ng-template #modaldeleteInspector class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
         <i class="fa fa-info-circle delete-icon"></i>
         <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
@@ -110,7 +119,7 @@
           ไม่ใช่
         </button>
       </div>
-    </ng-template>
+    </ng-template> -->
     <!-- END primary modal -->
 
     <!-- BEGIN primary modal -->

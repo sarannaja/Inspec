@@ -12,7 +12,7 @@ import { Chart } from 'chart.js';
   templateUrl: './chart-training-survey.component.html',
   styleUrls: ['./chart-training-survey.component.css']
 })
-export class ChartTrainingSurveyComponent implements OnInit {
+export class ChartTrainingSurveyComponent2 implements OnInit {
 
   trainingid: string
   resulttraining: any[] = []

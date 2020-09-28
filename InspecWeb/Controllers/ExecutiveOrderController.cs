@@ -77,6 +77,21 @@ namespace InspecWeb.Controllers {
         }
         //<!-- END Get ข้อสั่งการของผู้รับ-->
 
+
+        //<!-- Get-->
+        [HttpGet("ExecutiveOrdersfirst/{id}")]
+        public IActionResult ExecutiveOrdersfirst(string id)
+        {
+            var excutiveorderdata = _context.ExecutiveOrderAnswers
+                .Where(user => user.UserID == id)
+                .Include(m => m.ExecutiveOrder)
+                //.Select(s=> s.Subject )
+                .ToArray();
+            
+            return Ok(excutiveorderdata);
+        }
+        //<!-- END -->
+
         //<!-- Get รายละเอียดข้อสั่งการ -->
         [HttpGet("excutiveorderdetail/{id}")]
         public IActionResult excutiveorderdetail(long id)

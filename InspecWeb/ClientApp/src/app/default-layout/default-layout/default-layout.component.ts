@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Location } from "@angular/common";
+import { ExecutiveorderService } from 'src/app/services/executiveorder.service';
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -67,6 +68,7 @@ export class DefaultLayoutComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
     private fb: FormBuilder,
+    private _ExecutiveorderService: ExecutiveorderService,
     private locationx: Location,
     @Inject('BASE_URL') baseUrl: string
   ) {
@@ -175,11 +177,25 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   getnotifications() {
-    this.notificationService.getnotificationsdata(this.userid)
-      .subscribe(result => {
-        this.resultnotifications = result;
-        console.log("notiDetail: ", this.resultnotifications);
+    this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
+      .subscribe(resultsub => {
+
+        console.log('resultsub', resultsub);
+
+        this.notificationService.getnotificationsdata(this.userid)
+          .subscribe(result => {
+            this.resultnotifications = result
+              .map(resultxe => {
+                // console.log(doAsync(result.xe));
+                console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
+
+                // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
+                return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
+              });
+
+          })
       })
+
 
     this.notificationService.getnotificationscountdata(this.userid)
       .subscribe(result => {

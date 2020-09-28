@@ -11,7 +11,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
   templateUrl: './preview-training-survey.component.html',
   styleUrls: ['./preview-training-survey.component.css']
 })
-export class PreviewTrainingSurveyComponent implements OnInit {
+export class PreviewTrainingSurveyComponent2 implements OnInit {
 
   trainingid: string;
   resulttraining: any[] = [];
