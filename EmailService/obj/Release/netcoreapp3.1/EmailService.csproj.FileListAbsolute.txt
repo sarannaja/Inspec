@@ -6,3 +6,11 @@ C:\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.AssemblyInfoInputs
 C:\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.AssemblyInfo.cs
 C:\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.dll
 C:\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.pdb
+C:\project\Inspec\EmailService\bin\Release\netcoreapp3.1\EmailService.deps.json
+C:\project\Inspec\EmailService\bin\Release\netcoreapp3.1\EmailService.dll
+C:\project\Inspec\EmailService\bin\Release\netcoreapp3.1\EmailService.pdb
+C:\project\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.csprojAssemblyReference.cache
+C:\project\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.AssemblyInfoInputs.cache
+C:\project\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.AssemblyInfo.cs
+C:\project\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.dll
+C:\project\Inspec\EmailService\obj\Release\netcoreapp3.1\EmailService.pdb
