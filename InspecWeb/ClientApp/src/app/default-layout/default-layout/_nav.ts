@@ -370,7 +370,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       },
       {
         ex_link: '0',
-        icon: 'fa-long-arrow-alt-right',
+        icon: 'fa-file',
         url: '/training/survey',
         name: 'แบบประเมิน'
       },

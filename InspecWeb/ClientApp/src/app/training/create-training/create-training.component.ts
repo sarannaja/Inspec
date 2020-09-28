@@ -96,4 +96,9 @@ export class CreateTrainingComponent implements OnInit {
   remove(index: number) {
     this.d.removeAt(index);
   }
+
+  gotoBack() {
+    window.history.back();
+  }
+
 }

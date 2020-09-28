@@ -22,13 +22,13 @@ namespace InspecWeb.Models
         [ForeignKey("TrainingSurveyTopic")]
         [Description("FK: เรื่องหลักสูตรอบรม")]
         public long TrainingSurveyTopicId { get; set; }
-        //public virtual TrainingSurveyTopic TrainingSurveyTopic { get; set; }
+        public virtual TrainingSurveyTopic TrainingSurveyTopic { get; set; }
 
 
         [ForeignKey("TrainingLecturer")]
         [Description("FK: วิทยากร")]
         public long LecturerId { get; set; }
-        //public virtual TrainingLecturer TrainingLecturer { get; set; }
+        public virtual TrainingLecturer TrainingLecturer { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]

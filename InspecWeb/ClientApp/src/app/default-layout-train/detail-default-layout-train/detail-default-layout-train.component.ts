@@ -82,6 +82,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
         this.resulttrainingphase = result
         this.loading = true
         //console.log(this.resulttraining);
+        
       })
 
     this.Form = this.fb.group({
@@ -160,7 +161,8 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
    this.modalRef = this.modalService.show(template);
  }
 
- storeTraining() {
+ 
+ gotoRegisterTraining() {
   this.router.navigate(['/train/register/',this.trainingid])
 
   //  if(value.type == 'in'){
