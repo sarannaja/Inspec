@@ -7,6 +7,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { FiscalyearService } from '../services/fiscalyear.service';
 import { NotofyService } from '../services/notofy.service';
+import { FiscalyearnewService } from '../services/fiscalyearnew.service';
 
 @Component({
   selector: 'app-central-policy',
@@ -31,6 +32,7 @@ export class CentralPolicyComponent implements OnInit {
     private router: Router,
     private centralpolicyservice: CentralpolicyService,
     private fiscalyearservice: FiscalyearService,
+    private fiscalyearnewservice: FiscalyearnewService,
     private modalService: BsModalService,
     private authorize: AuthorizeService,
     private userService: UserService,
@@ -123,7 +125,7 @@ export class CentralPolicyComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   getFiscalyear() {
-    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+    this.fiscalyearnewservice.getdata().subscribe(result => {
       this.resultfiscalyear = result
       var d = new Date().getFullYear() + 543;
       this.currentyear = result.filter(result => {
