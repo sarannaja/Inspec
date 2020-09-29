@@ -1,13 +1,31 @@
+// {
+//   "extends": "../tsconfig.json",
+//   "compilerOptions": {
+//     "outDir": "../out-tsc/app",
+//     // "module": "es2015",
+//     "types": ["node"]
+//   },
+//   "exclude": [
+//     "src/test.ts",
+//     "**/*.spec.ts"
+//   ],
+//   "angularCompilerOptions": { "enableIvy": false }
+// }
+
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    // "module": "es2015",
-    "types": ["node"]
+    "outDir": "./out-tsc/app",
+    "types": []
   },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
   ],
-  "angularCompilerOptions": { "enableIvy": false }
+  "include": [
+    "src/**/*.d.ts"
+  ],
+  "angularCompilerOptions": {
+    "enableIvy": false
+  }
 }
