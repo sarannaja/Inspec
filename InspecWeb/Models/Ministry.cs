@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
@@ -41,6 +40,6 @@ namespace InspecWeb.Models
         public ICollection<Department> Departments { get; set; }
 
         //public ICollection<ApplicationUser> ApplicationUsers { get; set; }
-        
+
     }
 }

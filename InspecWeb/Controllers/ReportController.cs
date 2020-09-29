@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EmailService;
+﻿using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using InspecWeb.ViewModel;
-using Microsoft.AspNetCore.Hosting;
+using System.Linq;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
-using Image = Xceed.Document.NET.Image;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

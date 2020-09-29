@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace InspecWeb.Controllers
@@ -29,7 +28,7 @@ namespace InspecWeb.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        public MeetinginformationController (ApplicationDbContext context, IWebHostEnvironment environment)
+        public MeetinginformationController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _environment = environment;
@@ -40,7 +39,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<Meetinginformation> Get()
         {
             var meetinginformationdata = from P in _context.Meetinginformations
-                                 select P;
+                                         select P;
             return meetinginformationdata;
 
             //return 
@@ -112,7 +111,7 @@ namespace InspecWeb.Controllers
             var meetinginformation = _context.Meetinginformations.Find(id);
             meetinginformation.Title = title;
             meetinginformation.Year = year;
-            
+
             _context.Entry(meetinginformation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

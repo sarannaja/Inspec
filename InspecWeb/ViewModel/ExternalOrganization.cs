@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net.Http;
+﻿using InspecWeb.Models;
 using Refit;
-using InspecWeb.Models;
+using System.Collections.Generic;
 
 namespace InspecWeb.ViewModel
 {
@@ -30,7 +26,7 @@ namespace InspecWeb.ViewModel
     public class UrlEBook
     {
         public string urlfile { get; set; }
-       
+
     }
 
     public class UrlEBookData
@@ -43,7 +39,7 @@ namespace InspecWeb.ViewModel
         public ElectronicBookGroup ebook { get; set; }
 
     }
-    
+
 
 
     public class OtpsMinisters
@@ -82,7 +78,7 @@ namespace InspecWeb.ViewModel
     public class OtpsProvinceFiscalYearsList
     {
         public List<OtpsProvinceFiscalYears> FiscalYears { get; set; }
-      
+
 
     }
 

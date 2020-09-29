@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -1337,7 +1336,8 @@ namespace InspecWeb.Controllers
                 .Where(p => p.Id == subjectgroupevent.CentralPolicyEventId).FirstOrDefault();
 
                 return Ok(new { subjectgroup, subjectcentralpolicyprovincedata, centralPolicyEventdata });
-            } else
+            }
+            else
             {
                 var centralPolicyEventdata = "";
                 return Ok(new { subjectgroup, subjectcentralpolicyprovincedata, centralPolicyEventdata });
@@ -1447,7 +1447,7 @@ namespace InspecWeb.Controllers
             var eventgroup = _context.SubjectGroupPeopleQuestions
                 .Where(p => p.CentralPolicyEventId == centralpolicyevent.Id).FirstOrDefault();
 
-            if(eventgroup != null)
+            if (eventgroup != null)
             {
                 var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
          .Include(m => m.SubquestionCentralPolicyProvinces)
@@ -1475,7 +1475,8 @@ namespace InspecWeb.Controllers
          .Where(m => m.CentralPolicyProvinceId == cenproid).ToList();
 
                 return Ok(new { subjectcentralpolicyprovincedata });
-            } else
+            }
+            else
             {
                 return Ok(false);
             }

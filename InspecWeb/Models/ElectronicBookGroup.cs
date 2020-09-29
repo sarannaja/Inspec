@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
@@ -38,7 +35,7 @@ namespace InspecWeb.Models
         [Description("FK: CentralPolicyEventId")]
         public long CentralPolicyEventId { get; set; }
         public virtual CentralPolicyEvent CentralPolicyEvent { get; set; }
-        
+
         // public ICollection<ElectronicBookAccept> ElectronicBookAccepts { get; set; }
     }
 }

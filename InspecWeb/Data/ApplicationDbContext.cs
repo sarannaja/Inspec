@@ -1,13 +1,10 @@
-﻿using InspecWeb.Models;
-using IdentityServer4.EntityFramework.Options;
+﻿using IdentityServer4.EntityFramework.Options;
+using InspecWeb.Data.Seeders; //เรียกไฟล์ โฟเดอx
+using InspecWeb.Models;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data.Seeders; //เรียกไฟล์ โฟเดอx
 
 namespace InspecWeb.Data
 {
@@ -169,7 +166,7 @@ namespace InspecWeb.Data
         public DbSet<SetinspectionareaFile> SetinspectionareaFiles { get; set; } //<!-- ไฟล์ของกำหนดเขตการตรวจ -->
 
         public DbSet<TrainingLogin> TrainingLogins { get; set; }
-        
+
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
@@ -27,6 +24,6 @@ namespace InspecWeb.Models
         [Required]
         [Description("ชื่อไฟล์")]
         public string File { get; set; }
-       
+
     }
 }

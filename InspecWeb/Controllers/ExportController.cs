@@ -1,4 +1,10 @@
-﻿using System;
+﻿using InspecWeb.Data;
+using InspecWeb.Models;
+using InspecWeb.ViewModel;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,12 +13,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using InspecWeb.Data;
-using InspecWeb.Models;
-using InspecWeb.ViewModel;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 using Image = Xceed.Document.NET.Image;
@@ -2153,7 +2153,8 @@ namespace InspecWeb.Controllers
                             //.ThenInclude(m => m.Province)
                             .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
                             .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
-                                             .Select(x => new {
+                                             .Select(x => new
+                                             {
                                                  centralPolicyId = x.CentralPolicyId,
                                                  startDate = x.StartDate,
                                                  title = x.CentralPolicy.Title,
@@ -2178,7 +2179,8 @@ namespace InspecWeb.Controllers
                             //.Include(m => m.InspectionPlanEvent)
                             //.ThenInclude(m => m.Province)
                             .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
-                                             .Select(x => new {
+                                             .Select(x => new
+                                             {
                                                  centralPolicyId = x.CentralPolicyId,
                                                  startDate = x.StartDate,
                                                  title = x.CentralPolicy.Title,
@@ -2210,7 +2212,8 @@ namespace InspecWeb.Controllers
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2235,7 +2238,8 @@ namespace InspecWeb.Controllers
                         //.Include(m => m.InspectionPlanEvent)
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2265,7 +2269,8 @@ namespace InspecWeb.Controllers
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2291,7 +2296,8 @@ namespace InspecWeb.Controllers
                         //.Include(m => m.InspectionPlanEvent)
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2321,7 +2327,8 @@ namespace InspecWeb.Controllers
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.CreatedBy == model.peopleId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2347,7 +2354,8 @@ namespace InspecWeb.Controllers
                         //.Include(m => m.InspectionPlanEvent)
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.CreatedBy == model.peopleId)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2986,8 +2994,10 @@ namespace InspecWeb.Controllers
                             if (testData[kk].TrainingCondition.Name == "เกณฑ์รับสมัครต้องมีอายุอยู่ระหว่าง")
                             {
                                 t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
-                            } else { 
-                            t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
+                            }
+                            else
+                            {
+                                t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
                             }
                         }
                         else if (testData[kk].Status == 0)
@@ -3038,11 +3048,12 @@ namespace InspecWeb.Controllers
                  //.Include(m => m.InspectionPlanEvent)
                  //.ThenInclude(m => m.Province)
                  .Where(m => m.InspectionPlanEvent.ProvinceId == id)
-                 .Select(x => new {
+                 .Select(x => new
+                 {
                      centralPolicyId = x.CentralPolicyId,
-                    startDate = x.StartDate,
-                    title = x.CentralPolicy.Title,
-                    status = x.InspectionPlanEvent.Status,
+                     startDate = x.StartDate,
+                     title = x.CentralPolicy.Title,
+                     status = x.InspectionPlanEvent.Status,
                      province = x.InspectionPlanEvent.Province.Name,
                      namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
                      phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
@@ -3052,6 +3063,6 @@ namespace InspecWeb.Controllers
             return Ok(calendar);
         }
 
-  
+
     }
 }

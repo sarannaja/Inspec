@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClosedXML.Excel; //excel
 using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ClosedXML.Excel; //excel
-using System.IO; //excel
-using Microsoft.AspNetCore.Hosting;
-using Xceed.Words.NET;
-using Xceed.Document.NET;
+using System;
 using System.Drawing;
+using System.IO; //excel
+using System.Linq;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -187,7 +185,7 @@ namespace InspecWeb.Controllers
 
 
 
-            System.Console.WriteLine("1 : " );
+            System.Console.WriteLine("1 : ");
 
             if (!Directory.Exists(_environment.WebRootPath + "//reportprovince//")) //ถ้ามีไฟล์อยู่แล้ว
             {
@@ -200,7 +198,7 @@ namespace InspecWeb.Controllers
             var myImageFullPath = filePath + "logo01.png";
 
             System.Console.WriteLine("2");
-      
+
             using (DocX document = DocX.Create(createfile)) //สร้าง
             {
 
@@ -214,7 +212,7 @@ namespace InspecWeb.Controllers
                     .Bold() //ตัวหนา
                     .Alignment = Alignment.center;
 
-             
+
 
                 int dataCount = 0;
                 dataCount = provincedata.Count; //เอาที่ select มาใช้
@@ -237,16 +235,16 @@ namespace InspecWeb.Controllers
                 row.Cells[2].Paragraphs.First().Append("กลุ่มจังหวัด");
                 row.Cells[3].Paragraphs.First().Append("จังหวัด");
 
-          
+
                 // Add rows in the table.
                 int j = 0;
                 for (int i = 0; i < provincedata.Count; i++)
                 {
                     j += 1;
-               
+
                     System.Console.WriteLine("5: " + j);
                     t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(provincedata[i].Sectors.Name.ToString());  
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(provincedata[i].Sectors.Name.ToString());
                     t.Rows[j].Cells[2].Paragraphs[0].Append(provincedata[i].ProvincesGroups.Name.ToString());
                     t.Rows[j].Cells[3].Paragraphs[0].Append(provincedata[i].Name.ToString());
 

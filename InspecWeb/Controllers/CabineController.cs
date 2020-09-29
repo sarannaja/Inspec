@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,7 +42,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<Cabine> Get()
         {
             var cabinedata = from P in _context.Cabines
-                               select P;
+                             select P;
             return cabinedata;
 
             //return 
@@ -66,16 +65,16 @@ namespace InspecWeb.Controllers
         {
             var date = DateTime.Now;
             var imagename = "null";
-            var random = RandomString(15); 
+            var random = RandomString(15);
             //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
-            if (!Directory.Exists(_environment.WebRootPath +"/assets"+ "//CabineFile//"))
+            if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//CabineFile//"))
             {
-                Directory.CreateDirectory(_environment.WebRootPath  +"/assets" + "//CabineFile//"); //สร้าง Folder Upload ใน wwwroot
+                Directory.CreateDirectory(_environment.WebRootPath + "/assets" + "//CabineFile//"); //สร้าง Folder Upload ใน wwwroot
             }
 
             ////var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
             //// path ที่เก็บไฟล์
-              var filePath = _environment.WebRootPath + "/assets" + "//CabineFile//";
+            var filePath = _environment.WebRootPath + "/assets" + "//CabineFile//";
 
 
             foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))

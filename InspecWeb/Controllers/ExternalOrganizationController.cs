@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using ClosedXML.Excel; //excel
 using CorePush.Apple;
 using CorePush.Google;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
-using Microsoft.AspNetCore.Http;
+using InspecWeb.ViewModel.Otps;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using static InspecWeb.ViewModel.ExternalOtpsViewModel;
-using ClosedXML.Excel; //excel
-using System.IO; //excel
-using Microsoft.AspNetCore.Hosting;
-using Xceed.Words.NET;
-using Xceed.Document.NET;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
-using InspecWeb.ViewModel.Otps;
+using System.IO; //excel
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
+using static InspecWeb.ViewModel.ExternalOtpsViewModel;
 
 namespace InspecWeb.Controllers
 {

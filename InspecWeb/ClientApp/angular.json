@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "progress": false,
             "extractCss": true,
             "outputPath": "dist",
@@ -153,7 +154,7 @@
     "InspecWeb-e2e": {
       "root": "e2e/",
       "projectType": "application",
-      "architect": {
+      "": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {

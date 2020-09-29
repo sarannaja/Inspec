@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 
@@ -42,7 +41,8 @@ namespace InspecWeb.Controllers
         }
         // GET: api/values
         [HttpGet]
-        public object Get() {
+        public object Get()
+        {
 
 
             return "asasa";
@@ -91,18 +91,18 @@ namespace InspecWeb.Controllers
         public object Get(int id)
         {
 
-          
+
             return Ok("1212lklkl;k;lskl");
 
         }
 
         // POST api/values
         [HttpPost]
-        public object Post([FromBody]WordViewModel model)
+        public object Post([FromBody] WordViewModel model)
         {
             System.Console.WriteLine("id" + model.id);
             //System.Console.WriteLine("ProvinId" + model.ProvinId);
-            System.Console.WriteLine("elecId"+ model.elecId);
+            System.Console.WriteLine("elecId" + model.elecId);
             //return 1;
             var result = new List<WordsubjectViewModel>();
             var files = new List<WordfileViewModel>();
@@ -121,11 +121,11 @@ namespace InspecWeb.Controllers
             ////return subject2;
             ////return subject2;
             var electornicbook = _context.ElectronicBooks.Where(x => x.Id == model.elecId).FirstOrDefault();
-            var file = _context.ElectronicBookFiles.Where(x => x.ElectronicBookId == model.elecId).Where(x=> x.Type == "image/jpeg" || x.Type == "image/png" || x.Type =="image/jpg").ToList();
-          
-            var plan = _context.ElectronicBookGroups.Where(x => x.ElectronicBookId == model.elecId).Include(x=> x.CentralPolicyEvent).ThenInclude(x=>x.CentralPolicy).ToList();
+            var file = _context.ElectronicBookFiles.Where(x => x.ElectronicBookId == model.elecId).Where(x => x.Type == "image/jpeg" || x.Type == "image/png" || x.Type == "image/jpg").ToList();
 
-          
+            var plan = _context.ElectronicBookGroups.Where(x => x.ElectronicBookId == model.elecId).Include(x => x.CentralPolicyEvent).ThenInclude(x => x.CentralPolicy).ToList();
+
+
             //// var detailbook = _context.ElectronicBooks.Where(x => x.Id == electornicbookgroup.ElectronicBookId).FirstOrDefault();
             //////return detailbook;
             //var groupidfile = _context.CentralPolicyUsers.Where(x => x.CentralPolicyId == CentralPolicyProvince.CentralPolicyId).FirstOrDefault();
@@ -142,21 +142,21 @@ namespace InspecWeb.Controllers
 
                 files.Add(new WordfileViewModel
                 {
-                    Name = data.Name ,
+                    Name = data.Name,
                     Description = data.Description
-                    
+
 
                 });
 
             }
 
             //return files;
-         
+
             foreach (var data in plan)
             {
                 result.Add(new WordsubjectViewModel
                 {
-                     Name = data.CentralPolicyEvent.CentralPolicy.Title
+                    Name = data.CentralPolicyEvent.CentralPolicy.Title
                 });
 
             }
@@ -200,12 +200,12 @@ namespace InspecWeb.Controllers
 
                     Image image = document.AddImage(myImageFullPath);
 
-                  
-                  
+
+
 
                     Picture picture = image.CreatePicture(90, 90);
 
-                   
+
                     var i = document.InsertParagraph();
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
@@ -245,17 +245,17 @@ namespace InspecWeb.Controllers
 
 
                     //รูปภาพสมุดตรวจรูปแรก
-                        if (files.Count() > 0)
-                        {
-                            Image image2 = document.AddImage(filePath + files[0].Name);
-                            Picture picture3 = image2.CreatePicture(150, 300);
-                            var i3 = document.InsertParagraph();
-                            i3.AppendPicture(picture3).Alignment = Alignment.center;
-                            i3.SpacingAfter(40d);
-                        }
+                    if (files.Count() > 0)
+                    {
+                        Image image2 = document.AddImage(filePath + files[0].Name);
+                        Picture picture3 = image2.CreatePicture(150, 300);
+                        var i3 = document.InsertParagraph();
+                        i3.AppendPicture(picture3).Alignment = Alignment.center;
+                        i3.SpacingAfter(40d);
+                    }
 
-                     
-                    
+
+
 
 
                     //// รายละเอียดสมุดตรวจอิเล็กทรอนิดส์
@@ -299,18 +299,18 @@ namespace InspecWeb.Controllers
 
                     ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
                     ii.SpacingAfter(20d);
-                
 
 
 
 
 
-                //var i4 = document.InsertParagraph();
 
-                //i4.AppendPicture(picture3).Alignment = Alignment.center;
-                //i4.AppendPicture(picture3).Alignment = Alignment.center;
+                    //var i4 = document.InsertParagraph();
 
-                document.Save();
+                    //i4.AppendPicture(picture3).Alignment = Alignment.center;
+                    //i4.AppendPicture(picture3).Alignment = Alignment.center;
+
+                    document.Save();
                     Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
 
                 }
@@ -325,10 +325,10 @@ namespace InspecWeb.Controllers
 
                     Image image = document.AddImage(myImageFullPath);
 
-                   
+
                     Picture picture = image.CreatePicture(90, 90);
 
-                
+
                     var i = document.InsertParagraph();
                     i.AppendPicture(picture).Alignment = Alignment.left;
                     //picture.TextWrappingStyle = TextWrappingStyle.Square;
@@ -522,34 +522,34 @@ namespace InspecWeb.Controllers
 
                     // หัวข้อปัญหาและอุปสรรค
                     var problem = document.InsertParagraph();
-                        problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        problem.Bold();
-                        problem.SpacingAfter(5d);
+                    problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    problem.Bold();
+                    problem.SpacingAfter(5d);
 
 
-                        //รายละเอียดปัญหาและอุปสรรค
-                        var problemdetail = document.InsertParagraph();
-                        problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
+                    //รายละเอียดปัญหาและอุปสรรค
+                    var problemdetail = document.InsertParagraph();
+                    problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
 
 
-                        // หัวข้อคำแนะนำ
-                        var Suggestion = document.InsertParagraph();
-                        Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        Suggestion.Bold();
-                        // รายละเอียดคำแนะนำ
-                        var Suggestiondetail = document.InsertParagraph();
-                        Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
+                    // หัวข้อคำแนะนำ
+                    var Suggestion = document.InsertParagraph();
+                    Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    Suggestion.Bold();
+                    // รายละเอียดคำแนะนำ
+                    var Suggestiondetail = document.InsertParagraph();
+                    Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
 
-                        var iix = document.InsertParagraph();
-                        iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
-                        iix.Bold();
+                    var iix = document.InsertParagraph();
+                    iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
+                    iix.Bold();
 
-                        var ii = document.InsertParagraph();
-                        ii.Append(electornicbook.Detail).FontSize(16);
+                    var ii = document.InsertParagraph();
+                    ii.Append(electornicbook.Detail).FontSize(16);
 
-                        ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
-                        ii.SpacingAfter(20d);
-                    
+                    ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
+                    ii.SpacingAfter(20d);
+
 
 
 
@@ -624,7 +624,7 @@ namespace InspecWeb.Controllers
                     }
 
 
-                 
+
 
                     // รูปภาพสมุดตรวจรูปแรก
                     //var i3 = document.InsertParagraph();
@@ -645,35 +645,35 @@ namespace InspecWeb.Controllers
                     //    detail.SpacingAfter(10d);
 
 
-                        // หัวข้อปัญหาและอุปสรรค
-                        var problem = document.InsertParagraph();
-                        problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        problem.Bold();
-                        problem.SpacingAfter(5d);
+                    // หัวข้อปัญหาและอุปสรรค
+                    var problem = document.InsertParagraph();
+                    problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    problem.Bold();
+                    problem.SpacingAfter(5d);
 
 
-                        //รายละเอียดปัญหาและอุปสรรค
-                        var problemdetail = document.InsertParagraph();
-                        problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
+                    //รายละเอียดปัญหาและอุปสรรค
+                    var problemdetail = document.InsertParagraph();
+                    problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
 
 
-                        // หัวข้อคำแนะนำ
-                        var Suggestion = document.InsertParagraph();
-                        Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        Suggestion.Bold();
-                        // รายละเอียดคำแนะนำ
-                        var Suggestiondetail = document.InsertParagraph();
-                        Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
+                    // หัวข้อคำแนะนำ
+                    var Suggestion = document.InsertParagraph();
+                    Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    Suggestion.Bold();
+                    // รายละเอียดคำแนะนำ
+                    var Suggestiondetail = document.InsertParagraph();
+                    Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
 
-                        var iix = document.InsertParagraph();
-                        iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
-                        iix.Bold();
+                    var iix = document.InsertParagraph();
+                    iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
+                    iix.Bold();
 
-                        var ii = document.InsertParagraph();
-                        ii.Append(electornicbook.Detail).FontSize(16);
+                    var ii = document.InsertParagraph();
+                    ii.Append(electornicbook.Detail).FontSize(16);
 
-                        ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
-                        ii.SpacingAfter(20d);
+                    ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
+                    ii.SpacingAfter(20d);
                     //}
 
 
@@ -750,33 +750,33 @@ namespace InspecWeb.Controllers
 
                     // หัวข้อปัญหาและอุปสรรค
                     var problem = document.InsertParagraph();
-                        problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        problem.Bold();
-                        problem.SpacingAfter(5d);
+                    problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    problem.Bold();
+                    problem.SpacingAfter(5d);
 
 
-                        //รายละเอียดปัญหาและอุปสรรค
-                        var problemdetail = document.InsertParagraph();
-                        problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
+                    //รายละเอียดปัญหาและอุปสรรค
+                    var problemdetail = document.InsertParagraph();
+                    problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
 
 
-                        // หัวข้อคำแนะนำ
-                        var Suggestion = document.InsertParagraph();
-                        Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        Suggestion.Bold();
-                        // รายละเอียดคำแนะนำ
-                        var Suggestiondetail = document.InsertParagraph();
-                        Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
+                    // หัวข้อคำแนะนำ
+                    var Suggestion = document.InsertParagraph();
+                    Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    Suggestion.Bold();
+                    // รายละเอียดคำแนะนำ
+                    var Suggestiondetail = document.InsertParagraph();
+                    Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
 
-                        var iix = document.InsertParagraph();
-                        iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
-                        iix.Bold();
+                    var iix = document.InsertParagraph();
+                    iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
+                    iix.Bold();
 
-                        var ii = document.InsertParagraph();
-                        ii.Append(electornicbook.Detail).FontSize(16);
+                    var ii = document.InsertParagraph();
+                    ii.Append(electornicbook.Detail).FontSize(16);
 
-                        ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
-                        ii.SpacingAfter(20d);
+                    ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
+                    ii.SpacingAfter(20d);
 
 
 
@@ -858,33 +858,33 @@ namespace InspecWeb.Controllers
 
                     // หัวข้อปัญหาและอุปสรรค
                     var problem = document.InsertParagraph();
-                        problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        problem.Bold();
-                        problem.SpacingAfter(5d);
+                    problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    problem.Bold();
+                    problem.SpacingAfter(5d);
 
 
-                        //รายละเอียดปัญหาและอุปสรรค
-                        var problemdetail = document.InsertParagraph();
-                        problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
+                    //รายละเอียดปัญหาและอุปสรรค
+                    var problemdetail = document.InsertParagraph();
+                    problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
 
 
-                        // หัวข้อคำแนะนำ
-                        var Suggestion = document.InsertParagraph();
-                        Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        Suggestion.Bold();
-                        // รายละเอียดคำแนะนำ
-                        var Suggestiondetail = document.InsertParagraph();
-                        Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
+                    // หัวข้อคำแนะนำ
+                    var Suggestion = document.InsertParagraph();
+                    Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    Suggestion.Bold();
+                    // รายละเอียดคำแนะนำ
+                    var Suggestiondetail = document.InsertParagraph();
+                    Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
 
-                        var iix = document.InsertParagraph();
-                        iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
-                        iix.Bold();
+                    var iix = document.InsertParagraph();
+                    iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
+                    iix.Bold();
 
-                        var ii = document.InsertParagraph();
-                        ii.Append(electornicbook.Detail).FontSize(16);
+                    var ii = document.InsertParagraph();
+                    ii.Append(electornicbook.Detail).FontSize(16);
 
-                        ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
-                        ii.SpacingAfter(20d);
+                    ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
+                    ii.SpacingAfter(20d);
 
 
 
@@ -975,33 +975,33 @@ namespace InspecWeb.Controllers
 
                     // หัวข้อปัญหาและอุปสรรค
                     var problem = document.InsertParagraph();
-                        problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        problem.Bold();
-                        problem.SpacingAfter(5d);
+                    problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    problem.Bold();
+                    problem.SpacingAfter(5d);
 
 
-                        //รายละเอียดปัญหาและอุปสรรค
-                        var problemdetail = document.InsertParagraph();
-                        problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
+                    //รายละเอียดปัญหาและอุปสรรค
+                    var problemdetail = document.InsertParagraph();
+                    problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
 
 
-                        // หัวข้อคำแนะนำ
-                        var Suggestion = document.InsertParagraph();
-                        Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        Suggestion.Bold();
-                        // รายละเอียดคำแนะนำ
-                        var Suggestiondetail = document.InsertParagraph();
-                        Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
+                    // หัวข้อคำแนะนำ
+                    var Suggestion = document.InsertParagraph();
+                    Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    Suggestion.Bold();
+                    // รายละเอียดคำแนะนำ
+                    var Suggestiondetail = document.InsertParagraph();
+                    Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
 
-                        var iix = document.InsertParagraph();
-                        iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
-                        iix.Bold();
+                    var iix = document.InsertParagraph();
+                    iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
+                    iix.Bold();
 
-                        var ii = document.InsertParagraph();
-                        ii.Append(electornicbook.Detail).FontSize(16);
+                    var ii = document.InsertParagraph();
+                    ii.Append(electornicbook.Detail).FontSize(16);
 
-                        ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
-                        ii.SpacingAfter(20d);
+                    ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
+                    ii.SpacingAfter(20d);
 
 
 
@@ -1092,34 +1092,34 @@ namespace InspecWeb.Controllers
 
                     // หัวข้อปัญหาและอุปสรรค
                     var problem = document.InsertParagraph();
-                        problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        problem.Bold();
-                        problem.SpacingAfter(5d);
+                    problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    problem.Bold();
+                    problem.SpacingAfter(5d);
 
 
-                        //รายละเอียดปัญหาและอุปสรรค
-                        var problemdetail = document.InsertParagraph();
-                        problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
+                    //รายละเอียดปัญหาและอุปสรรค
+                    var problemdetail = document.InsertParagraph();
+                    problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
 
 
-                        // หัวข้อคำแนะนำ
-                        var Suggestion = document.InsertParagraph();
-                        Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        Suggestion.Bold();
-                        // รายละเอียดคำแนะนำ
-                        var Suggestiondetail = document.InsertParagraph();
-                        Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
+                    // หัวข้อคำแนะนำ
+                    var Suggestion = document.InsertParagraph();
+                    Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    Suggestion.Bold();
+                    // รายละเอียดคำแนะนำ
+                    var Suggestiondetail = document.InsertParagraph();
+                    Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
 
-                        var iix = document.InsertParagraph();
-                        iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
-                        iix.Bold();
+                    var iix = document.InsertParagraph();
+                    iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
+                    iix.Bold();
 
-                        var ii = document.InsertParagraph();
-                        ii.Append(electornicbook.Detail).FontSize(16);
+                    var ii = document.InsertParagraph();
+                    ii.Append(electornicbook.Detail).FontSize(16);
 
-                        ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
-                        ii.SpacingAfter(20d);
-                    
+                    ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
+                    ii.SpacingAfter(20d);
+
 
 
 
@@ -1198,34 +1198,34 @@ namespace InspecWeb.Controllers
 
                     // หัวข้อปัญหาและอุปสรรค
                     var problem = document.InsertParagraph();
-                        problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        problem.Bold();
-                        problem.SpacingAfter(5d);
+                    problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    problem.Bold();
+                    problem.SpacingAfter(5d);
 
 
-                        //รายละเอียดปัญหาและอุปสรรค
-                        var problemdetail = document.InsertParagraph();
-                        problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
+                    //รายละเอียดปัญหาและอุปสรรค
+                    var problemdetail = document.InsertParagraph();
+                    problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
 
 
-                        // หัวข้อคำแนะนำ
-                        var Suggestion = document.InsertParagraph();
-                        Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        Suggestion.Bold();
-                        // รายละเอียดคำแนะนำ
-                        var Suggestiondetail = document.InsertParagraph();
-                        Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
+                    // หัวข้อคำแนะนำ
+                    var Suggestion = document.InsertParagraph();
+                    Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    Suggestion.Bold();
+                    // รายละเอียดคำแนะนำ
+                    var Suggestiondetail = document.InsertParagraph();
+                    Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
 
-                        var iix = document.InsertParagraph();
-                        iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
-                        iix.Bold();
+                    var iix = document.InsertParagraph();
+                    iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
+                    iix.Bold();
 
-                        var ii = document.InsertParagraph();
-                        ii.Append(electornicbook.Detail).FontSize(16);
+                    var ii = document.InsertParagraph();
+                    ii.Append(electornicbook.Detail).FontSize(16);
 
-                        ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
-                        ii.SpacingAfter(20d);
-                    
+                    ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
+                    ii.SpacingAfter(20d);
+
 
 
 
@@ -1300,34 +1300,34 @@ namespace InspecWeb.Controllers
 
                     // หัวข้อปัญหาและอุปสรรค
                     var problem = document.InsertParagraph();
-                        problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        problem.Bold();
-                        problem.SpacingAfter(5d);
+                    problem.Append("ปัญหาและอุปสรรค").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    problem.Bold();
+                    problem.SpacingAfter(5d);
 
 
-                        //รายละเอียดปัญหาและอุปสรรค
-                        var problemdetail = document.InsertParagraph();
-                        problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
+                    //รายละเอียดปัญหาและอุปสรรค
+                    var problemdetail = document.InsertParagraph();
+                    problemdetail.Append(electornicbook.Problem).FontSize(16).SpacingAfter(5d);
 
 
-                        // หัวข้อคำแนะนำ
-                        var Suggestion = document.InsertParagraph();
-                        Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
-                        Suggestion.Bold();
-                        // รายละเอียดคำแนะนำ
-                        var Suggestiondetail = document.InsertParagraph();
-                        Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
+                    // หัวข้อคำแนะนำ
+                    var Suggestion = document.InsertParagraph();
+                    Suggestion.Append("คำแนะนำ").FontSize(16).SpacingAfter(20d).Alignment = Alignment.center;
+                    Suggestion.Bold();
+                    // รายละเอียดคำแนะนำ
+                    var Suggestiondetail = document.InsertParagraph();
+                    Suggestiondetail.Append(electornicbook.Suggestion).SpacingAfter(5d).FontSize(16);
 
-                        var iix = document.InsertParagraph();
-                        iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
-                        iix.Bold();
+                    var iix = document.InsertParagraph();
+                    iix.Append("ประเด็นที่ตรวจ").FontSize(16).SpacingAfter(5d).Alignment = Alignment.center;
+                    iix.Bold();
 
-                        var ii = document.InsertParagraph();
-                        ii.Append(electornicbook.Detail).FontSize(16);
+                    var ii = document.InsertParagraph();
+                    ii.Append(electornicbook.Detail).FontSize(16);
 
-                        ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
-                        ii.SpacingAfter(20d);
-                    
+                    ii.InsertHorizontalLine(HorizontalBorderPosition.bottom, BorderStyle.Tcbs_single);
+                    ii.SpacingAfter(20d);
+
 
 
 
@@ -1367,7 +1367,7 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody] string value)
         {
         }
 

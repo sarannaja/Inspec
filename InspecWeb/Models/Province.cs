@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
@@ -39,7 +37,7 @@ namespace InspecWeb.Models
         [Description("ชื่อจังหวัดอังกฤษ")]
         public string NameEN { get; set; }
 
-       
+
         [Description("ชื่อจังหวัดอังกฤษย่อ")]
         public string ShortnameEN { get; set; }
 

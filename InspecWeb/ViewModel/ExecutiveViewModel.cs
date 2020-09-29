@@ -1,8 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.Collections;
 
 namespace InspecWeb.ViewModel
 {
@@ -14,19 +12,19 @@ namespace InspecWeb.ViewModel
         public string Subjectdetail { get; set; }
         public long Draft { get; set; }
         public string Status { get; set; }
-        public List<string> Answer_by { get; set; } 
-        public string Answerdetail { get; set; } 
-        public string AnswerProblem { get; set; }      
-        public string AnswerCounsel { get; set; }      
-        public DateTime? CreatedAt { get; set; }     
+        public List<string> Answer_by { get; set; }
+        public string Answerdetail { get; set; }
+        public string AnswerProblem { get; set; }
+        public string AnswerCounsel { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? Commanded_date { get; set; }
-        public DateTime? beaware_date { get; set; }      
+        public DateTime? beaware_date { get; set; }
         public long Accept { get; set; }
         public long Cancel { get; set; }
         public string Canceldetail { get; set; }
         public long ExecutiveOrderId { get; set; }
         public long ExecutiveOrderAnswerId { get; set; }
-        public DateTime? created_at { get; set; }   
+        public DateTime? created_at { get; set; }
         public List<IFormFile> files { get; set; }
     }
 }

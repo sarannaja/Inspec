@@ -1,9 +1,6 @@
 using InspecWeb.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace InspecWeb.Data.Seeders
 {
@@ -21,7 +18,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "การตรวจราชการประจำปีงบประมาณ พ.ศ. 2563",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com63.pdf",
-                    
+
                 },
                 new InspectionOrder
                 {
@@ -31,7 +28,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2562",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com62.pdf",
-                  
+
                 },
                 new InspectionOrder
                 {
@@ -41,7 +38,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2561",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com61.pdf",
-                   
+
                 },
                 new InspectionOrder
                 {
@@ -51,7 +48,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2560",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com60.pdf",
-                    
+
                 },
                 new InspectionOrder
                 {
@@ -61,7 +58,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2559",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com59.pdf",
-                   
+
                 },
                 new InspectionOrder
                 {
@@ -71,7 +68,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2558",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com58.pdf",
-                  
+
                 },
                 new InspectionOrder
                 {
@@ -81,7 +78,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2557",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "",
-                   
+
                 },
                 new InspectionOrder
                 {
@@ -91,7 +88,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2556",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com56.pdf",
-                   
+
                 },
                 new InspectionOrder
                 {
@@ -101,7 +98,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2555",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com55.pdf",
-                    
+
                 },
                 new InspectionOrder
                 {
@@ -111,7 +108,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2554",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com54.pdf",
-                    
+
                 },
                 new InspectionOrder
                 {
@@ -121,7 +118,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2553",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com53.pdf",
-                    
+
                 },
                 new InspectionOrder
                 {
@@ -131,7 +128,7 @@ namespace InspecWeb.Data.Seeders
                     Name = "คำสั่งการตรวจราชการประจำปีงบประมาณ พ.ศ.2552",
                     CreateBy = "ผู้ตรวจราชการสำนักนายกรัฐมนตรี",
                     File = "insp_com52.pdf",
-                    
+
                 },
                 new InspectionOrder
                 {

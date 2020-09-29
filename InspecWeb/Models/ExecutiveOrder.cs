@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
@@ -32,7 +31,7 @@ namespace InspecWeb.Models
         [Required]
         [Description("รายละเอียดประเด็น/เรื่อง")]
         public string Subjectdetail { get; set; }
-       
+
         [Description("วันที่สั่งการ")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
@@ -40,7 +39,7 @@ namespace InspecWeb.Models
         [Description("วันที่มีข้อสั่งการ")]
         [DataType(DataType.Date)]
         public DateTime? Commanded_date { get; set; }
-   
+
         [Description("publics")]
         public long publics { get; set; }
 
@@ -49,7 +48,7 @@ namespace InspecWeb.Models
 
         [Description("Accept")]
         public long Accept { get; set; }
-        
+
         [Description("cancel")]
         public long Cancel { get; set; }
 

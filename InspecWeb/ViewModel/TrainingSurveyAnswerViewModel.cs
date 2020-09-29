@@ -1,19 +1,16 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace InspecWeb.ViewModel
+﻿namespace InspecWeb.ViewModel
 {
     public class TrainingSurveyAnswerViewModel
     {
         public string Name { get; set; }
 
-        
+
         public string Position { get; set; }
 
- 
+
         public inputtrainingsurveyanswer[] inputtrainingsurveyanswer { get; set; }
 
-       
+
     }
 
     public class inputtrainingsurveyanswer

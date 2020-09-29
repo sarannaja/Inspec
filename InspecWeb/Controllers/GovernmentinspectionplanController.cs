@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace InspecWeb.Controllers
@@ -40,7 +39,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<Governmentinspectionplan> Get()
         {
             var governmentinspectionplandata = from P in _context.Governmentinspectionplans
-                                 select P;
+                                               select P;
             return governmentinspectionplandata;
 
             //return 
@@ -112,7 +111,7 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromForm] GovernmentinspectionplanViewModel model,long id)
+        public async Task<IActionResult> Put([FromForm] GovernmentinspectionplanViewModel model, long id)
         {
             var date = DateTime.Now;
             var filesname = model.filesname;
@@ -150,13 +149,13 @@ namespace InspecWeb.Controllers
             }
 
             var governmentinspectionplan = _context.Governmentinspectionplans.Find(id);
-                governmentinspectionplan.Year = model.Year;
-                governmentinspectionplan.Title = model.Title;
-                governmentinspectionplan.File = filesname;
-                _context.Entry(governmentinspectionplan).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
+            governmentinspectionplan.Year = model.Year;
+            governmentinspectionplan.Title = model.Title;
+            governmentinspectionplan.File = filesname;
+            _context.Entry(governmentinspectionplan).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
 
-                return Ok(governmentinspectionplan);
+            return Ok(governmentinspectionplan);
         }
 
         // DELETE api/values/5

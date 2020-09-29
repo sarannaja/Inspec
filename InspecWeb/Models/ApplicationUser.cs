@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
@@ -22,7 +19,7 @@ namespace InspecWeb.Models
         [Description("คำนำหน้า")]
         public string Prefix { get; set; }
 
-      
+
         [Description("ชื่อ+นามสกุล")]
         public string Name { get; set; }
 
@@ -61,7 +58,7 @@ namespace InspecWeb.Models
         public long SideId { get; set; }
         public virtual Side Sides { get; set; }
         // ***
-       
+
         [ForeignKey("Ministry")]
         [Description("FK: กระทรวง")]
         public long MinistryId { get; set; }

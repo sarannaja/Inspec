@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InspecWeb.Controllers
 {
@@ -92,13 +91,13 @@ namespace InspecWeb.Controllers
                 .Where(m => m.FiscalYearId == id);
 
             //var province = _context.Provinces;
-           
+
             //foreach(var eee in province)
             //{
             //    var pId = eee.Id;
             //    System.Console.WriteLine("PID: " + pId);
             //}
-           
+
             //foreach (var ddd in fiscalyeardata)
             //{
             //    var fId = ddd.ProvinceId;
@@ -187,9 +186,9 @@ namespace InspecWeb.Controllers
 
         }
 
-        
+
         [HttpPost("EditRelation/{id}")]
-        public void Put([FromBody] FiscalYearRelationViewModel model,long id)
+        public void Put([FromBody] FiscalYearRelationViewModel model, long id)
         {
             var data = _context.FiscalYearRelations.Find(id);
 
@@ -286,7 +285,7 @@ namespace InspecWeb.Controllers
             {
                 _context.FiscalYearRelations.Remove(test);
             }
-            
+
             _context.SaveChanges();
         }
 

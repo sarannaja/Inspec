@@ -1,14 +1,11 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.Collections;
 
 namespace InspecWeb.ViewModel
 {
     public class GovernmentinspectionplanViewModel
     {
-      
+
         public string Year { get; set; }
         public string Title { get; set; }
         public string filesname { get; set; }

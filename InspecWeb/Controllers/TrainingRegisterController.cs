@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
-using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,7 +42,7 @@ namespace InspecWeb.Controllers
             //return _context.TrainingRegisters
             //           .Include(m => m.Training)
             //           .Where(m => m.TrainingId == trainingid);
-           
+
         }
 
 
@@ -61,7 +58,7 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost]
-        public Training Post(string name, string detail,DateTime start_date,DateTime end_date,DateTime regis_start_date, DateTime regis_end_date,string image)
+        public Training Post(string name, string detail, DateTime start_date, DateTime end_date, DateTime regis_start_date, DateTime regis_end_date, string image)
         {
             var date = DateTime.Now;
 

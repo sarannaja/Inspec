@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EmailService
+﻿namespace EmailService
 {
     public class EmailConfiguration
     {
@@ -11,6 +7,6 @@ namespace EmailService
         public int Port { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        
+
     }
 }

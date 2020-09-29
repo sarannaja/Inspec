@@ -1,7 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace InspecWeb.ViewModel
+﻿namespace InspecWeb.ViewModel
 {
     public class QuestioncloseViewModel
     {

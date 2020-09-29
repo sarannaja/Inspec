@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EmailService;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,7 +13,7 @@ namespace InspecWeb.Controllers
     public class SideController : Controller
     {
         private readonly ApplicationDbContext _context;
-     
+
 
         public SideController(ApplicationDbContext context)
         {
@@ -36,7 +33,7 @@ namespace InspecWeb.Controllers
         public Side Post([FromForm] SideRequest request)
         {
             var date = DateTime.Now;
-         
+
             var data = new Side
             {
                 Name = request.Name,
@@ -45,16 +42,16 @@ namespace InspecWeb.Controllers
                 ShortnameTH = request.ShortnameTH,
                 CreatedAt = date
             };
-           
+
             _context.Sides.Add(data);
             _context.SaveChanges();
-          
+
             return data;
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put([FromForm] SideRequest request,long id)
+        public void Put([FromForm] SideRequest request, long id)
         {
             var data = _context.Sides.Find(id);
             data.Name = request.Name;
@@ -82,7 +79,7 @@ namespace InspecWeb.Controllers
 public class SideRequest
 {
     public long Id { get; set; }
-   
+
     public string Name { get; set; }
     public string NameEN { get; set; }
     public string ShortnameEN { get; set; }

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClosedXML.Excel; //excel
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
-using ClosedXML.Excel; //excel
-using System.IO; //excel
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO; //excel
+using System.Linq;
 
 namespace InspecWeb.Controllers
 {
@@ -53,14 +52,14 @@ namespace InspecWeb.Controllers
 
             return Ok(ministrydata);
 
-           
+
         }
         //<!-- END Get กระทรวง สำหรับหน่วยงานภูมิภาคไปใช้ 20200720 -->
 
 
         // POST api/values
         [HttpPost]
-        public Ministry Post(string Name,string NameEN,string ShortnameEN,string ShortnameTH)
+        public Ministry Post(string Name, string NameEN, string ShortnameEN, string ShortnameTH)
         {
             var date = DateTime.Now;
             var counts = _context.Ministries.Count();
@@ -125,7 +124,7 @@ namespace InspecWeb.Controllers
                     worksheet.Cell(currentRow, 1).Value = ministry.Ministries.Name;
                     worksheet.Cell(currentRow, 2).Value = ministry.Name;
                 }
-             
+
                 using (var stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);

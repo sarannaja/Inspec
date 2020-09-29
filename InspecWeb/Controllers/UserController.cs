@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO; //excel
-using System.Linq;
-using System.Threading.Tasks;
-using ClosedXML.Excel; //excel
+﻿using ClosedXML.Excel; //excel
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO; //excel
+using System.Linq;
+using System.Threading.Tasks;
 //using MoreLinq;
 //using MoreLinq.Extensions;
 
@@ -100,7 +99,7 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Active == 1)
                 .Where(m => m.Email != "admin@inspec.go.th")
                 .OrderByDescending(m => m.CreatedAt);
-          
+
             return users;
         }
 
@@ -189,7 +188,7 @@ namespace InspecWeb.Controllers
 
         //<!-- ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
         [HttpGet("api/[controller]/[action]")]
-        public IEnumerable<ApplicationUser>regionalagency()
+        public IEnumerable<ApplicationUser> regionalagency()
         {
             var users = _context.Users
                 .Include(s => s.UserRegion)
@@ -200,7 +199,7 @@ namespace InspecWeb.Controllers
                 .Include(s => s.Ministries)
                 .Include(x => x.Departments)
                 .Include(x => x.ProvincialDepartments)
-                .Where(m => m.Role_id == 9)            
+                .Where(m => m.Role_id == 9)
                 .Where(m => m.Active == 1);
 
             return users;
@@ -1659,7 +1658,7 @@ namespace InspecWeb.Controllers
         public async Task<IActionResult> resetpassword([FromForm] UserViewModel model)
         {
 
-            System.Console.WriteLine("momo"+model.Id);
+            System.Console.WriteLine("momo" + model.Id);
             var passwordrandom = RandomString(8);
             var userdata = _context.Users.Find(model.Id);
             userdata.Pw = passwordrandom;
@@ -1667,8 +1666,8 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
             //System.Console.WriteLine("momo" + id);
-           // var passwordrandom = RandomString(8);
-           // var userdata = _context.Users.Find(id);
+            // var passwordrandom = RandomString(8);
+            // var userdata = _context.Users.Find(id);
 
             var tresult = await _userManager.RemovePasswordAsync(userdata);
             await _userManager.AddPasswordAsync(userdata, passwordrandom);

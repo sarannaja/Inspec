@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace InspecWeb.Controllers
 {
@@ -158,14 +157,14 @@ namespace InspecWeb.Controllers
         [HttpGet("inspectionplanall")]
         public IActionResult GetDataAll()
         {
-                var inspectionplans = _context.InspectionPlanEvents
-                    .Include(m => m.Province)
-                    .Include(m => m.CentralPolicyEvents)
-                    .ThenInclude(m => m.CentralPolicy)
-                    .ThenInclude(m => m.CentralPolicyProvinces)
-                    .ToList();
+            var inspectionplans = _context.InspectionPlanEvents
+                .Include(m => m.Province)
+                .Include(m => m.CentralPolicyEvents)
+                .ThenInclude(m => m.CentralPolicy)
+                .ThenInclude(m => m.CentralPolicyProvinces)
+                .ToList();
 
-                return Ok(inspectionplans);
+            return Ok(inspectionplans);
         }
 
         // GET: api/values

@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace InspecWeb.ViewModel
 {
@@ -18,7 +17,7 @@ namespace InspecWeb.ViewModel
         public string Image { get; set; }
 
         [JsonProperty(PropertyName = "RegionId")]
-        public long [] RegionId { get; set; }
+        public long[] RegionId { get; set; }
 
     }
 }

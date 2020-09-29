@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EmailService;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,7 +12,7 @@ namespace InspecWeb.Controllers
     public class TypeexamibationplanController : Controller
     {
         private readonly ApplicationDbContext _context;
-     
+
 
         public TypeexamibationplanController(ApplicationDbContext context)
         {
@@ -26,7 +22,7 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IEnumerable<Typeexaminationplan> Get()
         {
-         
+
             var data = _context.Typeexaminationplans;
             return data;
         }
@@ -39,7 +35,7 @@ namespace InspecWeb.Controllers
 
             var data = new Typeexaminationplan
             {
-                Name = request.Name,         
+                Name = request.Name,
                 CreatedAt = date
             };
 
@@ -49,11 +45,11 @@ namespace InspecWeb.Controllers
             return data;
         }
 
-       // PUT api/values/5
+        // PUT api/values/5
         [HttpPut("{id}")]
         public void Put([FromForm] TypeexaminationplanRequest request, long id)
         {
-            Console.WriteLine( " data :" + id);
+            Console.WriteLine(" data :" + id);
             var data = _context.Typeexaminationplans.Find(id);
             data.Name = request.Name;
 

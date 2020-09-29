@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
-    
+
     [Table("Informationinspection")]
     [Description("ข้อมูลประกอบการตรวจราชการ")]
     public class Informationinspection
@@ -25,7 +23,7 @@ namespace InspecWeb.Models
         [Description("ไฟล์")]
         public string Filename { get; set; }
 
-        [Description("วันที่สร้าง")]    
+        [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
     }

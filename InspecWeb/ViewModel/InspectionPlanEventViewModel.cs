@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
 
 namespace InspecWeb.ViewModel
 {
@@ -8,7 +7,7 @@ namespace InspecWeb.ViewModel
         //[JsonProperty(PropertyName = "Name")]
         //public string Name { get; set; }
         public string CreatedBy { get; set; }
-        public Input[] input { get; set;}
+        public Input[] input { get; set; }
     }
 
     public class Input

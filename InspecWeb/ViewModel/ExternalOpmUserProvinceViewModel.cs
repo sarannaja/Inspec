@@ -2,12 +2,10 @@
 
 namespace InspecWeb.ViewModel
 {
-    using System;
-    using System.Collections.Generic;
-
-    using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using System;
+    using System.Globalization;
 
     public partial class OpmUserProvince
     {

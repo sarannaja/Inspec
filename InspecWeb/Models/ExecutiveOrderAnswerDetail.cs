@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
-    
+
     [Table("ExecutiveOrderAnswerDetail")]
     [Description("ตารางการตอบกลับข้อสั่งการผู้บริหาร")]
     public class ExecutiveOrderAnswerDetail
@@ -22,7 +21,7 @@ namespace InspecWeb.Models
         public long ExecutiveOrderAnswerId { get; set; }
 
         public virtual ExecutiveOrderAnswer ExecutiveOrderAnswer { get; set; }
-  
+
         [Description("รายละเอียดของผู้ตอบ")]
         public string Answerdetail { get; set; }
 
@@ -31,7 +30,7 @@ namespace InspecWeb.Models
 
         [Description("ข้อเสนอแนะ")]
         public string AnswerCounsel { get; set; }
-             
+
         [Description("publics")]
         public long publics { get; set; }
         [Description("วันที่เพิ่ม")]

@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
 namespace InspecWeb.ViewModel
 {
     public class SubjectViewModel
     {
-       
+
         public long Id { get; set; }
 
         public long CentralPolicyId { get; set; }
@@ -59,7 +58,7 @@ namespace InspecWeb.ViewModel
 
     public class subjectevent
     {
-     
+
         public long[] CentralpolicyId { get; set; }
         public CentralpolicyModel[] CentralpolicySelect { get; set; }
         //public CentralPolicyeventId[] CentralPolicyeventId { get; set; }
@@ -82,4 +81,4 @@ namespace InspecWeb.ViewModel
         public long centralPolicyeventId { get; set; }
 
     }
-    }
+}

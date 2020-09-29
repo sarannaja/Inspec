@@ -1,74 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Globalization;
 
-namespace InspecWeb.ViewModel {
+namespace InspecWeb.ViewModel
+{
 
-    public partial class NewRegion {
-        [JsonProperty ("Id")]
+    public partial class NewRegion
+    {
+        [JsonProperty("Id")]
         public long Id { get; set; }
 
-        [JsonProperty ("Name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
 
-        [JsonProperty ("FiscalYears")]
+        [JsonProperty("FiscalYears")]
         public NewRegionFiscalYear[] FiscalYears { get; set; }
     }
 
-    public partial class NewRegionFiscalYear {
-        [JsonProperty ("Year")]
+    public partial class NewRegionFiscalYear
+    {
+        [JsonProperty("Year")]
         public long Year { get; set; }
 
-        [JsonProperty ("Name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
 
-        [JsonProperty ("Projects")]
+        [JsonProperty("Projects")]
         public NewRegionProjects Projects { get; set; }
 
-        [JsonProperty ("Provinces")]
+        [JsonProperty("Provinces")]
         public Province[] Provinces { get; set; }
     }
 
-    public partial class NewRegionProjects {
-        [JsonProperty ("Count")]
+    public partial class NewRegionProjects
+    {
+        [JsonProperty("Count")]
         public long Count { get; set; }
 
-        [JsonProperty ("Completed")]
+        [JsonProperty("Completed")]
         public long Completed { get; set; }
 
-        [JsonProperty ("TotalBudget")]
+        [JsonProperty("TotalBudget")]
         public double TotalBudget { get; set; }
 
-        [JsonProperty ("TotalAmount")]
+        [JsonProperty("TotalAmount")]
         public double TotalAmount { get; set; }
 
-        [JsonProperty ("TotalSpent")]
+        [JsonProperty("TotalSpent")]
         public double TotalSpent { get; set; }
 
-        [JsonProperty ("TotalPercent")]
+        [JsonProperty("TotalPercent")]
         public double TotalPercent { get; set; }
     }
 
-    public partial class Province {
-        [JsonProperty ("Id")]
+    public partial class Province
+    {
+        [JsonProperty("Id")]
         public long Id { get; set; }
 
-        [JsonProperty ("Name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
     }
 
-    public partial class Region {
-        public static Region FromJson (string json) => JsonConvert.DeserializeObject<Region> (json, Converter.Settings);
+    public partial class Region
+    {
+        public static Region FromJson(string json) => JsonConvert.DeserializeObject<Region>(json, ConverterOtpsRegion.Settings);
     }
 
-    public static class SerializeOtpsRegion {
-        public static string ToJson (this Region self) => JsonConvert.SerializeObject (self, Converter.Settings);
+    public static class SerializeOtpsRegion
+    {
+        public static string ToJson(this Region self) => JsonConvert.SerializeObject(self, ConverterOtpsRegion.Settings);
     }
 
-    internal static class Converter {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
+    internal static class ConverterOtpsRegion
+    {
+        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters = {

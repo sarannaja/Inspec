@@ -2,12 +2,10 @@
 
 namespace InspecWeb.ViewModel
 {
-    using System;
-    using System.Collections.Generic;
-
-    using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using System;
+    using System.Globalization;
 
     public partial class ProvinceKeyword
     {
@@ -24,9 +22,9 @@ namespace InspecWeb.ViewModel
         public static ProvinceKeyword FromJson(string json) => JsonConvert.DeserializeObject<ProvinceKeyword>(json, ProvinceKeywordConverter.Settings);
     }
 
-    public static class Serialize
+    public static class SerializeProvinceKeyword
     {
-        public static string ToJson(this ProvinceKeyword self) => JsonConvert.SerializeObject(self,ProvinceKeywordConverter.Settings);
+        public static string ToJson(this ProvinceKeyword self) => JsonConvert.SerializeObject(self, ProvinceKeywordConverter.Settings);
     }
 
     internal static class ProvinceKeywordConverter

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace InspecWeb.Controllers
@@ -29,7 +28,7 @@ namespace InspecWeb.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        public NationalstrategyController (ApplicationDbContext context, IWebHostEnvironment environment)
+        public NationalstrategyController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _environment = environment;
@@ -40,10 +39,10 @@ namespace InspecWeb.Controllers
         public IEnumerable<Nationalstrategy> Get()
         {
             var nationalstrategydata = from P in _context.Nationalstrategies
-                                 select P;
+                                       select P;
             return nationalstrategydata;
 
-          
+
         }
 
 
@@ -99,7 +98,7 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromForm] NationalstrategyViewModel model,long id)
+        public async Task<IActionResult> Put([FromForm] NationalstrategyViewModel model, long id)
         {
             var nationalstrategy = _context.Nationalstrategies.Find(id);
             nationalstrategy.Title = model.Title;
@@ -107,7 +106,7 @@ namespace InspecWeb.Controllers
             var filesname = model.namefile;
             var random = RandomString(15);
 
-            System.Console.WriteLine("1 : "+ model.namefile);
+            System.Console.WriteLine("1 : " + model.namefile);
             //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
             if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//NationalstrategyFile//"))
             {
@@ -137,12 +136,12 @@ namespace InspecWeb.Controllers
 
                             filesname = random + ext;
                         }
-                        System.Console.WriteLine("2 : "+ filesname);
+                        System.Console.WriteLine("2 : " + filesname);
                     }
                 }
             }
             nationalstrategy.File = filesname;
-           _context.Entry(nationalstrategy).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(nationalstrategy).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
             System.Console.WriteLine("3 : ");
             return Ok(nationalstrategy);

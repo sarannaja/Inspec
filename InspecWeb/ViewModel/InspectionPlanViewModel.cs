@@ -1,8 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.Collections;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace InspecWeb.ViewModel
 {

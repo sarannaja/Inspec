@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InspecWeb.Models
 {
@@ -25,7 +22,7 @@ namespace InspecWeb.Models
         public long MinistermonitoringId { get; set; }
 
         public virtual Ministermonitoring Ministermonitoring { get; set; }
-       
+
 
         [ForeignKey("Region")]
         [Description("FK: เขตตรวจ")]

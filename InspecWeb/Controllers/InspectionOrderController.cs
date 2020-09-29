@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace InspecWeb.Controllers
@@ -29,7 +28,7 @@ namespace InspecWeb.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        public InspectionOrderController (ApplicationDbContext context, IWebHostEnvironment environment)
+        public InspectionOrderController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _environment = environment;
@@ -40,7 +39,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<InspectionOrder> Get()
         {
             var inspectionorderdata = from P in _context.InspectionOrders
-                                 select P;
+                                      select P;
             return inspectionorderdata;
 
             //return 
@@ -119,7 +118,7 @@ namespace InspecWeb.Controllers
             inspectionorder.Year = year;
             inspectionorder.Order = order;
             inspectionorder.CreateBy = createBy;
-            
+
             _context.Entry(inspectionorder).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

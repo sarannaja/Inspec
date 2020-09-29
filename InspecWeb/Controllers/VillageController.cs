@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
-using InspecWeb.Models;
+﻿using InspecWeb.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,19 +29,19 @@ namespace InspecWeb.Controllers
 
         }
 
-         // GET api/values/5
-          [HttpGet("{id}")]
-          public IActionResult Get(long id)
-          {
-              var villagedata = _context.Villages
-                  .Include(m => m.Subdistrict)
-                  .ThenInclude(m => m.District)
-                  .ThenInclude(m => m.Province)
-                  .Where(m=>m.SubdistrictId== id);
+        // GET api/values/5
+        [HttpGet("{id}")]
+        public IActionResult Get(long id)
+        {
+            var villagedata = _context.Villages
+                .Include(m => m.Subdistrict)
+                .ThenInclude(m => m.District)
+                .ThenInclude(m => m.Province)
+                .Where(m => m.SubdistrictId == id);
 
-              return Ok(villagedata);
-          }
+            return Ok(villagedata);
+        }
 
-        
+
     }
 }

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EmailService;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 
@@ -204,9 +203,11 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Id == trainingid)
                 .Where(p => p.UserId == userid).Count();
 
-            if(TrainingRegistersdata > 0) { 
+            if (TrainingRegistersdata > 0)
+            {
                 return Ok(true);
-            } else
+            }
+            else
             {
                 return Ok(false);
             }
@@ -1006,7 +1007,7 @@ namespace InspecWeb.Controllers
 
             //foreach (var test in districtdata)
             //{
-                
+
             //    System.Console.WriteLine("in1");
             //    var test2 = _context.TrainingProgramLoginQRCodes
             //        .Where(x => x.ProgramDate == test.ProgramDate)
@@ -1091,7 +1092,7 @@ namespace InspecWeb.Controllers
 
             }
 
-         
+
 
             //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
             //var size = data.files.Sum(f => f.Length);
@@ -1182,7 +1183,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.TrainingProgram)
                 .ThenInclude(m => m.TrainingPhase)
                 .ThenInclude(m => m.Training)
-  
+
                 .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid);
 
             //foreach (var test in districtdata)
@@ -1228,7 +1229,7 @@ namespace InspecWeb.Controllers
                 {
                     SurveyTopicName = xxx.TrainingSurveyTopic.Name;
 
-                   
+
                 }
 
                 result.Add(new
@@ -1599,8 +1600,8 @@ namespace InspecWeb.Controllers
 
         }
 
-       // PUT api/training/register/group/:id
-       [HttpPut("register/group/{id}")]
+        // PUT api/training/register/group/:id
+        [HttpPut("register/group/{id}")]
         public void EditRegisterGroup(long id, long approve1, long approve2, long approve3, long approve4, long approve5, long approve6, long approve7, long approve8, long approve9, long approve10)
         {
             var training = _context.TrainingRegisters.Find(id);
@@ -1619,7 +1620,7 @@ namespace InspecWeb.Controllers
         [HttpPut("Updateidcode")]
         public void Updateidcode([FromBody] TrainingViewModel model)
         {
-            foreach(var code in model.TrainingCode)
+            foreach (var code in model.TrainingCode)
             {
                 System.Console.WriteLine("ID" + code.id);
                 System.Console.WriteLine("Code" + code.code);
@@ -1655,7 +1656,7 @@ namespace InspecWeb.Controllers
                 vmorning = 1;
                 vafternoon = 1;
             }
-            
+
             var trainingdata = new TrainingProgramLoginQRCode
             {
 
@@ -1679,7 +1680,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("programtype: " + programlogintype);
             var date = DateTime.Now;
-            
+
             var vmorning = 0;
             var vafternoon = 0;
             if (programlogintype == 1)

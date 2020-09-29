@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace InspecWeb.Controllers
@@ -29,7 +28,7 @@ namespace InspecWeb.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        public InstructionOrderController (ApplicationDbContext context, IWebHostEnvironment environment)
+        public InstructionOrderController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _environment = environment;
@@ -40,7 +39,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<InstructionOrder> Get()
         {
             var instructionorderdata = from P in _context.InstructionOrders
-                                 select P;
+                                       select P;
             return instructionorderdata;
 
             //return 
@@ -121,7 +120,7 @@ namespace InspecWeb.Controllers
             instructionorder.Order = order;
             instructionorder.CreateBy = createBy;
             instructionorder.Detail = detail;
-            
+
             _context.Entry(instructionorder).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 

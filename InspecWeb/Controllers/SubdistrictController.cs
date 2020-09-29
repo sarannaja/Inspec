@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,7 +25,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<Subdistrict> Get()
         {
             var subdistrictdata = from P in _context.Subdistricts
-                               select P;
+                                  select P;
             return subdistrictdata;
 
             //return 
@@ -43,7 +42,7 @@ namespace InspecWeb.Controllers
             var subdistrictdata = _context.Subdistricts
                 .Include(m => m.District)
                 .ThenInclude(m => m.Province)
-                .Where(m=>m.DistrictId== id);
+                .Where(m => m.DistrictId == id);
 
             return Ok(subdistrictdata);
         }

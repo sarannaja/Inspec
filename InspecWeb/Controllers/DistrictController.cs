@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClosedXML.Excel; //excel
 using InspecWeb.Data;
 using InspecWeb.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ClosedXML.Excel; //excel
-using System.IO; //excel
-using Microsoft.AspNetCore.Hosting;
-using Xceed.Words.NET;
-using Xceed.Document.NET;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO; //excel
+using System.Linq;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
@@ -35,7 +34,7 @@ namespace InspecWeb.Controllers
                                select P;
             return districtdata;
 
-           
+
         }
 
         // GET api/values/5
@@ -53,7 +52,7 @@ namespace InspecWeb.Controllers
         public District Post([FromForm] DistrictRequest request)
         {
             var date = DateTime.Now;
-            Console.WriteLine("district 1 :" + request.Name + " : " + request.ProvincesId );
+            Console.WriteLine("district 1 :" + request.Name + " : " + request.ProvincesId);
             var districtdata = new District
             {
                 ProvinceId = request.ProvincesId,
@@ -71,7 +70,7 @@ namespace InspecWeb.Controllers
         {
             var districtdata = _context.Districts.Find(id);
             districtdata.Name = request.Name;
-        
+
             _context.Entry(districtdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
@@ -107,7 +106,7 @@ namespace InspecWeb.Controllers
                 var currentRow = 1;
                 var currentRow2 = 2;
 
-                worksheet.Cell(currentRow, 1).Value = "จังหวัด : "+ province_name;
+                worksheet.Cell(currentRow, 1).Value = "จังหวัด : " + province_name;
                 worksheet.Cell(currentRow, 2).Value = "";
                 worksheet.Cell(currentRow, 3).Value = "";
                 worksheet.Cell(currentRow2, 1).Value = "อำเภอ";
@@ -176,7 +175,7 @@ namespace InspecWeb.Controllers
 
 
 
-                int dataCount = 0; 
+                int dataCount = 0;
                 dataCount = districtdata.Count; //เอาที่ select มาใช้
                 dataCount += 1;
                 System.Console.WriteLine("Data Count: " + dataCount);
@@ -230,5 +229,5 @@ public class DistrictRequest
     public long Id { get; set; }
     public long ProvincesId { get; set; }
     public string Name { get; set; }
-  
+
 }

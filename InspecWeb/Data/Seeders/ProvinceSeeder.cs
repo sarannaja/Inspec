@@ -1,9 +1,6 @@
 using InspecWeb.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace InspecWeb.Data.Seeders
 {
@@ -13,7 +10,9 @@ namespace InspecWeb.Data.Seeders
         public void Configure(EntityTypeBuilder<Province> builder)
         {
             builder.HasData(
-                new Province{ Id = 1,
+                new Province
+                {
+                    Id = 1,
                     SectorId = 1,
                     ProvincesGroupId = 1,
                     Name = "กรุงเทพมหานคร",

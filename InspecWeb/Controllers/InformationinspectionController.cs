@@ -1,15 +1,13 @@
-﻿using System;
+﻿using InspecWeb.Data;
+using InspecWeb.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO; //excel
 using System.Linq;
 using System.Threading.Tasks;
-using InspecWeb.Data;
-using InspecWeb.Models;
-using Microsoft.AspNetCore.Mvc;
-using ClosedXML.Excel; //excel
-using System.IO; //excel
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
 
 namespace InspecWeb.Controllers
 {
@@ -37,7 +35,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<Informationinspection> Get()
         {
             var data = from P in _context.Informationinspections
-                               select P;
+                       select P;
             return data;
         }
 
@@ -47,7 +45,7 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] InformationinspectionsRequest request)
         {
-            System.Console.WriteLine("0 : " +request.Title);
+            System.Console.WriteLine("0 : " + request.Title);
             var date = DateTime.Now;
 
             var data = new Informationinspection
@@ -99,7 +97,7 @@ namespace InspecWeb.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromForm] InformationinspectionsRequest request)
         {
-  
+
             var date = DateTime.Now;
 
             var data = _context.Informationinspections.Find(request.Id);

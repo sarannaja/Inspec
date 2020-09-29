@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,7 +24,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<ProvincialDepartment> Get()
         {
             var provincialdepartmentdata = from P in _context.ProvincialDepartment
-                               select P;
+                                           select P;
             return provincialdepartmentdata;
         }
 
@@ -66,7 +65,7 @@ namespace InspecWeb.Controllers
         public IActionResult departmentsfirst(long id)
         {
             var departmentdata = _context.Departments
-               .Where(x => x.Id == id).FirstOrDefault(); 
+               .Where(x => x.Id == id).FirstOrDefault();
 
             return Ok(departmentdata);
         }
@@ -101,12 +100,14 @@ namespace InspecWeb.Controllers
                  .Where(m => m.ProvinceId == centralpolicyprovince.ProvinceId)
                  .ToList();
 
-                foreach (var test in provincialdepartmentprovincedata) {
-                        termsList.Add(new {
-                            provinceId = test.ProvinceId,
-                            provinceName = test.ProvincialDepartment.Name,
-                            provinceDepartmentId = test.Id
-                        });
+                foreach (var test in provincialdepartmentprovincedata)
+                {
+                    termsList.Add(new
+                    {
+                        provinceId = test.ProvinceId,
+                        provinceName = test.ProvincialDepartment.Name,
+                        provinceDepartmentId = test.Id
+                    });
                 }
             }
             return Ok(termsList);
@@ -125,7 +126,7 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public Department Post([FromForm] DepartmentRequest request)
         {
-            Console.WriteLine ("department 1 :" + request.MinistryId);
+            Console.WriteLine("department 1 :" + request.MinistryId);
             var date = DateTime.Now;
 
             var departmentdata = new Department
@@ -144,20 +145,20 @@ namespace InspecWeb.Controllers
             return departmentdata;
         }
 
-    
+
         [HttpPut("{id}")]
-        public void Put([FromForm] DepartmentRequest request,long id)
+        public void Put([FromForm] DepartmentRequest request, long id)
         {
-            Console.WriteLine("department 1 :" + id +"///"+ request.Name);
+            Console.WriteLine("department 1 :" + id + "///" + request.Name);
             var department = _context.Departments.Find(id);
-                department.Name = request.Name;
-                department.NameEN = request.NameEN;
-                department.ShortnameEN = request.ShortnameEN;
-                department.ShortnameTH = request.ShortnameTH;
+            department.Name = request.Name;
+            department.NameEN = request.NameEN;
+            department.ShortnameEN = request.ShortnameEN;
+            department.ShortnameTH = request.ShortnameTH;
 
 
-                _context.Entry(department).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.SaveChanges();
+            _context.Entry(department).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
 
         }
 

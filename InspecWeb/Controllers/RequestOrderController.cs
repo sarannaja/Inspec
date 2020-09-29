@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 //using InspecWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
-using Image = Xceed.Document.NET.Image;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
@@ -372,7 +371,7 @@ namespace InspecWeb.Controllers
         }
         //<!-- END รายงาน -->
 
-        [HttpPost("exportrequest1")] 
+        [HttpPost("exportrequest1")]
         public IActionResult Getexport1([FromBody] UserViewModel body)
         {
             var userId = body.Id;
@@ -445,7 +444,7 @@ namespace InspecWeb.Controllers
                 row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปีที่มีคำร้องขอ");
                 row.Cells[2].Paragraphs.First().Append("ประเด็น/เรื่อง");
                 row.Cells[3].Paragraphs.First().Append("สถานะเรื่อง");
-                row.Cells[4].Paragraphs.First().Append("ผู้รับคำร้องขอ");                            
+                row.Cells[4].Paragraphs.First().Append("ผู้รับคำร้องขอ");
                 row.Cells[5].Paragraphs.First().Append("การดำเนินการ");
                 row.Cells[6].Paragraphs.First().Append("วัน/เดือน/ที่รับทราบคำร้องขอ");
 
@@ -462,13 +461,13 @@ namespace InspecWeb.Controllers
                        .FirstOrDefault();
 
                     System.Console.WriteLine("9.1: ");
-                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());               
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive1[i].RequestOrder.Commanded_date.ToString());            
-                    t.Rows[j].Cells[2].Paragraphs[0].Append(Eexcutive1[i].RequestOrder.Subject);              
-                    t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive1[i].Status.ToString());                           
-                    t.Rows[j].Cells[4].Paragraphs[0].Append(users2.Name);            
-                    t.Rows[j].Cells[5].Paragraphs[0].Append("-"); 
-                    t.Rows[j].Cells[6].Paragraphs[0].Append(Eexcutive1[i].beaware_date.ToString());          
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive1[i].RequestOrder.Commanded_date.ToString());
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(Eexcutive1[i].RequestOrder.Subject);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive1[i].Status.ToString());
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(users2.Name);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append("-");
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(Eexcutive1[i].beaware_date.ToString());
 
                 }
 
@@ -484,7 +483,7 @@ namespace InspecWeb.Controllers
                 return Ok(new { data = filename });
             }
         }
-        [HttpPost("exportrequest3")] 
+        [HttpPost("exportrequest3")]
         public IActionResult Getexport3([FromBody] UserViewModel body)
         {
             System.Console.WriteLine("id " + body.Id);

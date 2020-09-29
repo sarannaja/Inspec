@@ -1,10 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.Collections;
-
-namespace InspecWeb.ViewModel
+﻿namespace InspecWeb.ViewModel
 {
     public class RegisterConditionViewModel
     {

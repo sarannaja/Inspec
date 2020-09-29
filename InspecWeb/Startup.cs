@@ -1,18 +1,16 @@
-﻿using System;
-using EmailService;
+﻿using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace InspecWeb
 {
@@ -38,6 +36,8 @@ namespace InspecWeb
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
 
+            //services.AddIdentityServer()
+            //    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
 
             //<!-- เช็ทพาสเวิร์ด -->
@@ -50,18 +50,26 @@ namespace InspecWeb
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); ;
             //<!-- เช็ทพาสเวิร์ด
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
+            services.AddIdentityServer()
+               .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+        
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             // services.AddIdentity<ApplicationUser, IdentityRole>()
             //.AddEntityFrameworkStores<ApplicationDbContext>()
             //.AddDefaultTokenProviders();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
             services.AddHttpClient("testlo", c =>
             {
                 c.BaseAddress = new Uri("http://127.0.0.1:3000/");
@@ -82,8 +90,8 @@ namespace InspecWeb
                 });
             services.Configure<IISServerOptions>(options =>
 {
-                options.AutomaticAuthentication = false;
-            });
+    options.AutomaticAuthentication = false;
+});
             //mail
             var emailConfig = Configuration
                 .GetSection("EmailConfiguration")

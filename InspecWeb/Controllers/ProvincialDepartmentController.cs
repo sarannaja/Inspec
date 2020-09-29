@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InspecWeb.Data;
+﻿using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,7 +24,7 @@ namespace InspecWeb.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            var provincialdepartmentprovincedata = _context.ProvincialDepartment        
+            var provincialdepartmentprovincedata = _context.ProvincialDepartment
                 .Where(x => x.DepartmentId == id);
 
             return Ok(provincialdepartmentprovincedata);
@@ -40,11 +39,11 @@ namespace InspecWeb.Controllers
                 .Where(m => m.ProvincialDepartment.Id == id).ToList();
 
             List<NewProvince> termsList = new List<NewProvince>();
-            for (int i = 0;i< provincialdepartmentprovincedata.Count; i++)
+            for (int i = 0; i < provincialdepartmentprovincedata.Count; i++)
             {
                 string provinceName = _context.Provinces.Find(provincialdepartmentprovincedata[i].ProvinceId).Name;
                 long provinceId = provincialdepartmentprovincedata[i].ProvinceId;
-                termsList.Add(new NewProvince { Name = provinceName, ProvinceId= provinceId });
+                termsList.Add(new NewProvince { Name = provinceName, ProvinceId = provinceId });
             }
 
             // You can convert it back to an array if you would like to
@@ -58,20 +57,20 @@ namespace InspecWeb.Controllers
         [HttpPost]
         public ProvincialDepartment Post([FromForm] ProvincialDepartmentRequest request)
         {
-            Console.WriteLine ("test 1 :" + request.DepartmentId);
+            Console.WriteLine("test 1 :" + request.DepartmentId);
             var date = DateTime.Now;
 
             var provincialdepartmentdata = new ProvincialDepartment
             {
                 DepartmentId = request.DepartmentId,
-                Name = request.Name,         
+                Name = request.Name,
                 CreatedAt = date
             };
 
             _context.ProvincialDepartment.Add(provincialdepartmentdata);
             _context.SaveChanges();
 
-            
+
             foreach (var item in request.Province)
             {
                 Console.WriteLine("test 2 :");
@@ -80,7 +79,7 @@ namespace InspecWeb.Controllers
                     ProvincialDepartmentID = provincialdepartmentdata.Id,
                     ProvinceId = item
                 };
-               
+
                 _context.ProvincialDepartmentProvince.Add(provincedata);
                 _context.SaveChanges();
             }
@@ -91,15 +90,15 @@ namespace InspecWeb.Controllers
             return provincialdepartmentdata;
         }
 
-    
+
         [HttpPut("{id}")]
-        public void Put([FromForm] ProvincialDepartmentRequest request,long id)
+        public void Put([FromForm] ProvincialDepartmentRequest request, long id)
         {
-            Console.WriteLine("department 1 :" + id +"///"+ request.Name);
+            Console.WriteLine("department 1 :" + id + "///" + request.Name);
 
             var department = _context.ProvincialDepartment.Find(id);
-                department.Name = request.Name;
-      
+            department.Name = request.Name;
+
             _context.Entry(department).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
@@ -156,6 +155,6 @@ public class ProvincialDepartmentRequest
     public long DepartmentId { get; set; }
 
     public string Name { get; set; }
-    public List<long> Province { get; set; } 
+    public List<long> Province { get; set; }
 
 }
