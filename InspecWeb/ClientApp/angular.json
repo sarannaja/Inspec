@@ -13,13 +13,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "progress": false,
             "extractCss": true,
             "outputPath": "dist",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "main": "./src/main.ts",
+            "polyfills": "./src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/assets"
@@ -174,5 +173,8 @@
       }
     }
   },
-  "defaultProject": "InspecWeb"
+  "defaultProject": "InspecWeb",
+  "cli": {
+    "analytics": "6e162456-32ed-4b8b-a0cc-8c8a5a3c206c"
+  }
 }
