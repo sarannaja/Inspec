@@ -37,7 +37,7 @@ namespace InspecWeb.Controllers {
         [HttpPost ("resetpassword")]
         public async Task<ActionResult> ResetUserPassword (string id, string Password) {
             //     Find User
-            var user = await _context.Users.Where (x => x.Id == id).SingleOrDefaultAsync ();
+            var user =  _context.Users.Where (x => x.Id == id).FirstOrDefault ();
             if (user == null) {
                 return Ok (new { id = id });
             }

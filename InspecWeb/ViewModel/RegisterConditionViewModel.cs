@@ -16,6 +16,6 @@ namespace InspecWeb.ViewModel
     public class traningregistercondition
     {
         public long id { get; set; }
-        public Boolean status { get; set; }
+        public bool status { get; set; }
     }
 }

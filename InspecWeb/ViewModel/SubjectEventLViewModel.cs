@@ -43,7 +43,7 @@ namespace InspecWeb.ViewModel
         public long ProvincialDepartmentId { get; set; }
 
         [JsonProperty("provincialDepartment")]
-        public ProvincialDepartmentL? ProvincialDepartment { get; set; }
+        public ProvincialDepartmentL ProvincialDepartment { get; set; }
     }
 
     public partial class ProvincialDepartmentL

@@ -1091,8 +1091,7 @@ namespace InspecWeb.Controllers
 
             }
 
-            int index = 0;
-            int indexend = 0;
+         
 
             //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
             //var size = data.files.Sum(f => f.Length);
