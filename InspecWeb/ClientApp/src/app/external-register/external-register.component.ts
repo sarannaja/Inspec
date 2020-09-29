@@ -235,6 +235,7 @@ export class ExternalRegisterComponent implements OnInit {
       DistrictId: new FormControl(null),
       files: new FormControl(null, [Validators.required]),
       Startdate: new FormControl(this.date, [Validators.required]),
+      Autocreateuser: new FormControl(1), //บักออกไห้เพิ่ม 20200929
       // Enddate: new FormControl(null, [Validators.required]),
     })
   }
