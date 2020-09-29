@@ -1,7 +1,5 @@
 <div class="header">
-  <h1 class="header-title">
-    จัดการหลักสูตรการอบรม
-  </h1>
+  
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
@@ -25,12 +23,12 @@
           <thead>
             <tr>
               <th width="2%">#</th>
-              <th width="8%">รูปภาพ</th>
+              <th width="8%" class="text-center">รูปภาพ</th>
               <th width="35%">ชื่อหลักสูตรการอบรม</th>
-              <th width="15%">คำอธิบายหลักสูตรการอบรม</th>
-              <th width="25%">ระยะเวลา</th>
+              <th width="15%" class="text-center">คำอธิบายหลักสูตรการอบรม</th>
+              <th width="25%" class="text-center">ระยะเวลา</th>
               <!-- <th width="15%">การจัดการ</th> -->
-              <th width="15%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th width="15%" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
@@ -42,8 +40,8 @@
                 <br>
                 <label class="form-text">ลิงก์รายละเอียดหน้าสมัคร :</label>
                 <a class="form-control">{{ mainUrl }}train/detail/{{ item.id }}</a>
-                <label class="form-text">ลิงก์แบบประเมิน :</label>
-                <a class="form-control">{{ mainUrl }}train/survey/{{ item.id }}</a>
+                <!-- <label class="form-text">ลิงก์แบบประเมิน :</label>
+                <a class="form-control">{{ mainUrl }}train/survey/{{ item.id }}</a> -->
 
 
               </td>
@@ -77,15 +75,17 @@
                 <br>
               </td> -->
               <td>
-                <i class="align-middle mr-2 fas fa-fw fa-list pointer" data-toggle="tooltip" title="การจัดการ"
-                  (click)="gotoManageTraining(item.id)"></i>
+                
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดการ"
                   (click)="gotoPhaseTraining(item.id)"></i>
+                
                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"></i>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                     (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i> -->
                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteTraining, item.id)"></i>
+                <i class="align-middle mr-2 fas fa-fw fa-list pointer" data-toggle="tooltip" title="การจัดการ"
+                  (click)="gotoManageTraining(item.id)"></i>
               </td>
             </tr>
           </tbody>
@@ -183,3 +183,7 @@
     <!-- </div> -->
   </ng-template>
   <!-- END primary modal -->
+
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>

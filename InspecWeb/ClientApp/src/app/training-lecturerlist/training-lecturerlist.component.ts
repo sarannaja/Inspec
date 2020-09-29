@@ -12,6 +12,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class TrainingLecturerListComponent implements OnInit {
 
   resulttraining: any[] = []
+  resultsurveytraining: any[] = []
   trainingid: string;
   modalRef: BsModalRef;
   delid: any
@@ -22,6 +23,8 @@ export class TrainingLecturerListComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   selectdatalecturer: any[] = []
+  selectdatasurvey: Array<any>
+  lecturerid: any
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -47,16 +50,11 @@ export class TrainingLecturerListComponent implements OnInit {
       ]
 
     };
+    
 
     this.Form = this.fb.group({
-      lecturername: new FormControl(null, [Validators.required]),
-      lecturerphone: new FormControl(null, [Validators.required]),
-      lectureremail: new FormControl(null, [Validators.required]),
-      education: new FormControl(null, [Validators.required]),
-      workhistory: new FormControl(null, [Validators.required]),
-      experience: new FormControl(null, [Validators.required]),
-
-      
+      name: new FormControl(null, [Validators.required]),
+     
     })
 
     this.trainingservice.gettraininglecturerlist(this.trainingid)
@@ -66,6 +64,21 @@ export class TrainingLecturerListComponent implements OnInit {
       );
       this.loading = true;
       console.log(this.resulttraining);
+    })
+
+    this.trainingservice.gettrainingsurveycountdata()
+    .subscribe(result => {
+      this.resultsurveytraining = result
+      //this.loading = true;
+      //console.log("12345:",this.resultsurveytraining);
+
+      if (this.resultsurveytraining.length > 0){
+        this.selectdatasurvey = this.resultsurveytraining.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      }
+        
+
     })
   }
   CreateTraining(){
@@ -78,20 +91,30 @@ export class TrainingLecturerListComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  surveyModal(template: TemplateRef<any>, id) {
+    this.lecturerid = id;
+    console.log(this.lecturerid);
+
+    this.modalRef = this.modalService.show(template);
+  }
+
   storeTraining(value) {
     //alert(JSON.stringify(value))
-    this.trainingservice.addTraininglecturer(value).subscribe(response => {
-      console.log(value);
+    console.log("data:",value);
+    console.log("lecturerid:",this.lecturerid);
+
+    this.trainingservice.addTraininglecturerjoinsurvey(value, this.lecturerid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-      this.trainingservice.gettraininglecturer()
+      this.trainingservice.gettraininglecturerlist(this.trainingid)
       .subscribe(result => {
-        this.resulttraining = result
+        this.resulttraining = result.filter(
+          (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
+        );
         this.loading = true;
         console.log(this.resulttraining);
       })
-
     })
   }
 
