@@ -289,6 +289,19 @@ namespace InspecWeb.Controllers
                             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
                             _context.SaveChanges();
 
+                            var logdata = new Log
+                            {
+                                UserId = model.UserID,
+                                DatabaseName = "SubjectCentralPolicyProvince",
+                                EventType = "เพิ่ม",
+                                EventDate = date,
+                                Detail = "เพิ่มหัวข้อการตรวจ",
+                                Allid = subjectdata.Id,
+                            };
+
+                            _context.Logs.Add(logdata);
+                            _context.SaveChanges();
+
                             subjectid = subjectdata.Id;
                             GetSubjectID = subjectid;
                             //file
@@ -2189,6 +2202,19 @@ namespace InspecWeb.Controllers
             subjects.Explanation = model.Explanation;
             subjects.UpdateAt = date;
             _context.Entry(subjects).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            var logdata = new Log
+            {
+                UserId = model.UserID,
+                DatabaseName = "SubjectCentralPolicyProvinces",
+                EventType = "แก้ไข",
+                EventDate = date,
+                Detail = "แก้ไขหัวข้อการตรวจ",
+                Allid = subjects.Id,
+            };
+
+            _context.Logs.Add(logdata);
             _context.SaveChanges();
 
         }
