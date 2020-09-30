@@ -622,55 +622,60 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     ]
   },
   {
-    IDchildren: 'subject',
     icon: 'fa-file',
-    name: "ประเด็นการตรวจติดตาม",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/subjectevent',
-        name: 'ประเด็นการตรวจติดตาม'
-      },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsubject',
-      //   name: 'รายงานประเด็นการตรวจติดตาม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportperformance',
-      //   name: 'รายงานผลการดำเนินการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsuggestions',
-      //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsuggestionsresult',
-      //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportquestionnaire',
-      //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportcomment',
-      //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-      // },
-
-    ]
+    url: "/subjectevent",
+    name: "ประเด็นการตรวจติดตาม"
   },
+  // {
+  //   IDchildren: 'subject',
+  //   icon: 'fa-file',
+  //   name: "ประเด็นการตรวจติดตาม",
+  //   children: [
+  //     {
+  //       ex_link: '0',
+  //       icon: 'fa-file',
+  //       url: '/subjectevent',
+  //       name: 'ประเด็นการตรวจติดตาม'
+  //     },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsubject',
+  //     //   name: 'รายงานประเด็นการตรวจติดตาม'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportperformance',
+  //     //   name: 'รายงานผลการดำเนินการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsuggestions',
+  //     //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsuggestionsresult',
+  //     //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportquestionnaire',
+  //     //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportcomment',
+  //     //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+  //     // },
+
+  //   ]
+  // },
 
 
   // {
@@ -1104,55 +1109,60 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     ]
   },
   {
-    IDchildren: 'subject',
     icon: 'fa-file',
-    name: "ประเด็นการตรวจติดตาม",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/subjectevent',
-        name: 'ประเด็นการตรวจติดตาม'
-      },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsubject',
-      //   name: 'รายงานประเด็นการตรวจติดตาม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportperformance',
-      //   name: 'รายงานผลการดำเนินการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsuggestions',
-      //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsuggestionsresult',
-      //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportquestionnaire',
-      //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportcomment',
-      //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-      // },
-
-    ]
+    url: "/subjectevent",
+    name: "ประเด็นการตรวจติดตาม"
   },
+  // {
+  //   IDchildren: 'subject',
+  //   icon: 'fa-file',
+  //   name: "ประเด็นการตรวจติดตาม",
+  //   children: [
+  //     {
+  //       ex_link: '0',
+  //       icon: 'fa-file',
+  //       url: '/subjectevent',
+  //       name: 'ประเด็นการตรวจติดตาม'
+  //     },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsubject',
+  //     //   name: 'รายงานประเด็นการตรวจติดตาม'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportperformance',
+  //     //   name: 'รายงานผลการดำเนินการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsuggestions',
+  //     //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsuggestionsresult',
+  //     //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportquestionnaire',
+  //     //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportcomment',
+  //     //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+  //     // },
+
+  //   ]
+  // },
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',
@@ -1636,55 +1646,60 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     ]
   },
   {
-    IDchildren: 'subject',
     icon: 'fa-file',
-    name: "ประเด็นการตรวจติดตาม",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/subjectevent',
-        name: 'ประเด็นการตรวจติดตาม'
-      },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsubject',
-      //   name: 'รายงานประเด็นการตรวจติดตาม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportperformance',
-      //   name: 'รายงานผลการดำเนินการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsuggestions',
-      //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportsuggestionsresult',
-      //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportquestionnaire',
-      //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/reportcomment',
-      //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-      // },
-
-    ]
+    url: "/subjectevent",
+    name: "ประเด็นการตรวจติดตาม"
   },
+  // {
+  //   IDchildren: 'subject',
+  //   icon: 'fa-file',
+  //   name: "ประเด็นการตรวจติดตาม",
+  //   children: [
+  //     {
+  //       ex_link: '0',
+  //       icon: 'fa-file',
+  //       url: '/subjectevent',
+  //       name: 'ประเด็นการตรวจติดตาม'
+  //     },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsubject',
+  //     //   name: 'รายงานประเด็นการตรวจติดตาม'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportperformance',
+  //     //   name: 'รายงานผลการดำเนินการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsuggestions',
+  //     //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportsuggestionsresult',
+  //     //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportquestionnaire',
+  //     //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+  //     // },
+  //     // {
+  //     //   ex_link: '0',
+  //     //   icon: 'fa-file',
+  //     //   url: '/reportcomment',
+  //     //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
+  //     // },
+
+  //   ]
+  // },
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',

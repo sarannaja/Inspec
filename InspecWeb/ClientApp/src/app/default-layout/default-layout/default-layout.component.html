@@ -203,7 +203,7 @@
                             <div class="list-group">
                                 <div *ngFor="let item of resultnotifications">
                                     <a href="javascript:void(0)" class="list-group-item"
-                                        (click)="detailnotifications(item.id,item.status,item.xe,item.provinceId, item.userID)">
+                                        (click)="detailnotifications(item.id,item.status,item.xe,item.provinceId, item.userID,item.centralPolicyId)">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-2">
                                                 <i *ngIf="item.noti == 0"
