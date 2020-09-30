@@ -431,6 +431,7 @@ const ExternalOrganization = [
     TrainingLoginListComponent,
     TrainingLoginListDetailComponent,
     RegionalagencyComponent,
+    ConfirmationDialogComponent,
   ],
 
   imports: [
@@ -687,7 +688,7 @@ const ExternalOrganization = [
     DatePipe, CookieService,
     ProvinceService,
     NotofyService,
-    // ConfirmationDialogService,
+    ConfirmationDialogService,
     // UserManager,
     SortPipe,
     // ConfirmationDialogService
