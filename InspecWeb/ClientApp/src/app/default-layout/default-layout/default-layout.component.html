@@ -220,8 +220,7 @@
                                                     <span *ngIf="item.status == 3">ผู้ตรวจกำลังจะตรวจ</span>
                                                     <span *ngIf="item.status == 4">มีประเด็น/คำถาม(หน่วยรับตรวจ)</span>
                                                     <span *ngIf="item.status == 5">มีประเด็น/คำถาม(ภาคประชาชน)</span>
-                                                    <span
-                                                        *ngIf="item.status == 6">ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ)</span>
+                                                    <span *ngIf="item.status == 6">ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ)</span>
                                                     <span *ngIf="item.status == 7">สมุดตรวจอีเล็กทรอนิกส์</span>
                                                     <span *ngIf="item.status == 8">ผู้ว่าราชการจังหวัดลงลายมือชื่อเรียบร้อย</span>
                                                     <span *ngIf="item.status == 9">ข้อสั่งการในรายงานผลการตรวจราชการ</span>
@@ -241,8 +240,8 @@
                                                     <span *ngIf="item.status == 4">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 5">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 6">{{item.centralPolicy.title}}</span>
-                                                    <span *ngIf="item.status == 7">{{item.centralPolicy.title}}</span>
-                                                    <span *ngIf="item.status == 8">{{item.centralPolicy.title}}</span>
+                                                    <span *ngIf="item.status == 7">{{item.centralPolicy.title}}..</span>
+                                                    <span *ngIf="item.status == 8">{{item.centralPolicy.title}}..</span>
                                                     <span *ngIf="item.status == 9">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 10">{{item.subject}}</span>
                                                     <span *ngIf="item.status == 11">11</span>
@@ -250,8 +249,8 @@
                                                     <span *ngIf="item.status == 13">13</span>
                                                     <span *ngIf="item.status == 20">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 19">{{item.centralPolicy.title}}</span>
-                                                    <span *ngIf="item.status == 17">{{item.centralPolicy.title}}</span>
-                                                    <span *ngIf="item.status == 18">{{item.centralPolicy.title}}</span>
+                                                    <span *ngIf="item.status == 17">{{item.centralPolicy.title}}..</span>
+                                                    <span *ngIf="item.status == 18">{{item.centralPolicy.title}}..</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
                                                     {{item.createdAt | thaidate: 'short' }}</div>
@@ -433,7 +432,6 @@
                     <label class="form-label w-100">แนบลายเซ็น</label>
                     <img *ngIf="Signature != null" src="{{SignatureUrl}}/{{Signature}}"
                         class="img-fluid rounded-circle mb-2" width="90px" alt="รูปโปรไฟล์">
-                    <input type="file" (change)="uploadFile2($event)">
                     <input type="file" (change)="uploadFile2($event)">
                     <small class="form-text text-muted">แนบลายเซ็น</small>
                 </div>
