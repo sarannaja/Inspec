@@ -2,24 +2,26 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
-    "iis": {
-      "applicationUrl": "http://localhost/InspecWeb",
-      "sslPort": 0
-    },
     "iisExpress": {
-      "applicationUrl": "http://localhost",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:57880",
+      "sslPort": 44388
     }
   },
   "profiles": {
-    "InspecWeb": {
-      "commandName": "Project",
-      "commandLineArgs": "watch run",
+    "IIS Express": {
+      "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5000;https://localhost:5001"
+      }
+    },
+    "InspecWeb": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
