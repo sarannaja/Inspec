@@ -25,8 +25,9 @@ namespace InspecWeb.Models
         public String IDCode { get; set; }
 
         [Required]
-        [Description("หมายเลขหลักสูตร")]
-        public long TrainingPhaseId { get; set; }
+        [ForeignKey("Training")]
+        [Description("FK: ตารางหลักสูตรอบรม")]
+        public long TrainingId { get; set; }
 
         [Description("วันที่ลงทะเบียน")]
         [DataType(DataType.Date)]

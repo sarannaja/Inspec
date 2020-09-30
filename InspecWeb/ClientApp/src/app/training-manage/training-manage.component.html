@@ -10,13 +10,14 @@
     <div class="col-12">
       <div class="card card-eiei">
           <div class="card-header" style="margin-bottom: -40px;">
-              <h5 class="card-title">การจัดการ</h5>
-              <div class="float-right">
-                  <!-- <button class="btn btn-primary" (click)="openModal(modalSurvey)"
-                      style="margin-top: -60px;">เพิ่มหัวข้อวัดผลประเมิน</button> -->
-              </div>
+              <h5 class="card-title">
+                  การจัดการ
+                  <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </button>
+            </h5> 
           </div>
-          <div class="card-body">
+          <div class="card-body mt-3">
               <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg">
                   <thead>
                       <tr>
@@ -32,9 +33,9 @@
                             อัพโหลดเอกสารเพิ่มเติม
                           </td> 
                           <td>
-                              <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                                  (click)="GotoSurveyTrainingList(item.id)"></i> -->
-                                <a href="{{mainUrl}}training/documentlist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a>
+                              <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                  (click)="GotoUploadDocument()"></i>
+                                <!-- <a href="{{mainUrl}}training/documentlist/{{trainingid}}"><i class="align-middle mr-2 fas fa-fw fa-search pointer"></i></a> -->
                           </td>
                       </tr>
                       <tr>

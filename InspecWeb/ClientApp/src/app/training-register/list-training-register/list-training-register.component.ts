@@ -397,4 +397,8 @@ export class ListTrainingRegisterComponent implements OnInit {
       window.open(this.url + "Uploads/" + res.data);
     })
   }
+
+  gotoBack() {
+    window.history.back();
+  }
 }

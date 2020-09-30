@@ -599,18 +599,22 @@ export class TrainingService {
 
   //---------zone training ProgramaLogin---------
   //insert training condition list
-  addTrainingProgramLogin(trainingData, programloginid) {
+  addTrainingProgramLogin(trainingData, trainingid, programdate) {
     //alert(JSON.stringify(trainingData))
     //alert(trainingid)
     const formData = new FormData();
     formData.append('programlogintype', trainingData.programtype);
 
     console.log('FORMDATA: ' + formData);
-    return this.http.post(this.url + 'programlogin/add/' + programloginid, formData);
+    return this.http.post(this.url + 'programlogin/add/' + trainingid + '/' + programdate, formData);
   }
 
   getTrainingProgramLogin(trainingid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'TrainingProgramDate/get/' + trainingid)
+  }
+
+  getTrainingProgramLoginQR(programdate): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'TrainingProgramLoginQRDate/get/' + programdate)
   }
 
   updateTrainingProgramLogin(trainingData, programloginQRCodeid) {
@@ -621,6 +625,10 @@ export class TrainingService {
     return this.http.put(this.url + 'programlogin/update/' + programloginQRCodeid, formData);
   }
   //-------end zone training ProgramaLogin-------
+
+  getTrainingLoginRate(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'loginrate/get/' + trainingid)
+  }
 }
 
 

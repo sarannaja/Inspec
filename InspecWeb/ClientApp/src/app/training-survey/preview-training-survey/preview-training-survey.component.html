@@ -13,7 +13,7 @@
                 <h3>(ตัวอย่างแบบประเมิน)</h3>
                 <h1>หลักสูตรการอบรม</h1>
 
-                <h2>{{ name }}</h2>
+                <h2>{{ trainingname }}</h2>
 
             </div>
             <br>
@@ -24,43 +24,55 @@
 
                     <thead>
                         <tr>
-                            <th width="5%">#</th>
-                            <th width="55%" class="text-center">หัวข้อวัดผลประเมิน</th>
-                            <th width="10%" class="text-center">ดีเยี่ยม</th>
+                            <th width="5%"></th>
+                            <th width="95%" class="text-center">หัวข้อวัดผลประเมิน</th>
+                            <!-- <th width="10%" class="text-center">ดีเยี่ยม</th>
                             <th width="10%" class="text-center">ดีมาก</th>
                             <th width="10%" class="text-center">ดี</th>
-                            <th width="10%" class="text-center">พอใช้</th>
+                            <th width="10%" class="text-center">พอใช้</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resulttraining; let i = index">
                             
-                            <!-- <td>{{ item.name }}</td>
-                            <td>{{ item.surveytype }}</td>
+                            <td>{{ i + 1 }}</td>
+                            <!-- <td>{{ item.surveytype }}</td>
                             <td width="10%" class="text-center">ดีเยี่ยม</td>
                             <td width="10%" class="text-center">ดีมาก</td>
                             <td width="10%" class="text-center">ดี</td>
                             <td width="10%" class="text-center">พอใช้</td> -->
+                            <td>
+                                {{ item.name }}
+                                <br />
+                            <ng-container *ngIf="item.surveyType == 1;else msecond">
 
-                            <!-- <ng-container *ngIf="item.conditionType == 1;else msecond">
-                                            
+                                <input type="checkbox" /> ดีเยี่ยม
+                                <input type="checkbox" class="ml-3" /> ดีมาก
+                                <input type="checkbox" class="ml-3" /> ดี
+                                <input type="checkbox" class="ml-3" /> พอใช้
+
                             </ng-container>
                             <ng-template #msecond>
-                                <ng-container *ngIf="item.conditionType == 2;else mthird">
-                                    อายุ {{item.startYear}} - {{item.endYear}}
+                                <ng-container *ngIf="item.surveyType == 2;else mthird">
+
+                                    <input type="text" formControlName="valueopen" class="form-control">
+
                                 </ng-container>
                             </ng-template>
                             <ng-template #mthird>
 
-                            </ng-template> -->
+                                <input type="checkbox" /> ใช่
+                                <input type="checkbox" class="ml-3" /> ไม่ใช่
 
+                            </ng-template>
+                            </td>
 
-                            <td>{{ i + 1 }}</td>
+                            <!-- <td>{{ i + 1 }}</td>
                             <td class="ellipsis">{{ item.name }}</td>
                             <td class="ellipsis text-center"><input type="checkbox" /></td>
                             <td class="ellipsis text-center"><input type="checkbox" /></td>
                             <td class="ellipsis text-center"><input type="checkbox" /></td>
-                            <td class="ellipsis text-center"><input type="checkbox" /></td>
+                            <td class="ellipsis text-center"><input type="checkbox" /></td> -->
 
                         </tr>
                     </tbody>

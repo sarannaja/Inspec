@@ -10,14 +10,16 @@
     <div class="col-12">
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">กำหนดช่วงเวลาอบรม</h5>
-                <div class="float-right">
-                    <!-- <button class="btn btn-primary" (click)="openModal(modalSurvey)"
-                      style="margin-top: -60px;">เพิ่มหัวข้อวัดผลประเมิน</button> -->
-                </div>
+                <h5 class="card-title">
+                    กำหนดช่วงเวลาอบรม
+                    
+                <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </button>
+                </h5> 
             </div>
-            <br />
-            <div class="card-body">
+            
+            <div class="card-body mt-3">
                 <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
                 [dtOptions]="dtOptions">
                     <thead>
@@ -37,9 +39,9 @@
                             <td>
                                 
 
-                                <ng-container *ngIf="item.trainingProgramLoginQRCodes.morning != 0 ;">
+                                <ng-container *ngIf="item.xMorning[0] != null ;">
                                     <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
-                                        <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.trainingProgramLoginQRCodes.id,1)" [size]="256" [level]="'M'"></qrcode>
+                                        <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],1)" [size]="256" [level]="'M'"></qrcode>
     
                                     </a>
                                     <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
@@ -52,9 +54,9 @@
 
                             </td>
                             <td>
-                                <ng-container *ngIf="item.trainingProgramLoginQRCodes.afternoon != 0 ;">
+                                <ng-container *ngIf="item.xAfternoon[0] != null ;">
                                     <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
-                                        <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.trainingProgramLoginQRCodes.id,2)" [size]="256" [level]="'M'"></qrcode>
+                                        <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],2)" [size]="256" [level]="'M'"></qrcode>
     
                                     </a>
                                     <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
@@ -66,8 +68,8 @@
 
                             </td>
                             <td class="text-center">
-                                <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                                    (click)="openModal(modalProgramLogin, item.id)"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                    (click)="openModal(modalProgramLogin, item.id, item.programDate)"></i>
                             </td>
                         </tr>
                             <!-- <td>1</td>

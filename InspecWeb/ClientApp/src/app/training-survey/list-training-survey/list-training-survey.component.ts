@@ -60,7 +60,7 @@ export class ListTrainingSurveyComponent implements OnInit {
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true
-      //console.log(this.resulttraining);
+      //console.log("resulttraining:",this.resulttraining);
     })
     
   }

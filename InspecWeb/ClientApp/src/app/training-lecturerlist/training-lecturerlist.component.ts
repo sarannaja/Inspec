@@ -178,4 +178,8 @@ export class TrainingLecturerListComponent implements OnInit {
   gotoProgramTraining(trainingid){
     this.router.navigate(['/training/program/', trainingid])
   }
+
+  gotoBack() {
+    window.history.back();
+  }
 }

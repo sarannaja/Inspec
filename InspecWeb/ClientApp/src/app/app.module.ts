@@ -69,6 +69,8 @@ import { TrainingProgramLoginComponent } from './training-programlogin/training-
 import { TrainingLecturerListComponent } from './training-lecturerlist/training-lecturerlist.component';
 
 import { TrainingIDCodeComponent } from './training-idcode/training-idcode.component';
+import { RateloginTrainingReportComponent } from './training-report/ratelogin-training-report/ratelogin-training-report.component';
+
 
 //----------------
 
@@ -298,6 +300,7 @@ const ExternalOrganization = [
     TrainingProgramLoginComponent,
 
     TrainingLecturerListComponent,
+    RateloginTrainingReportComponent,
     // TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,
@@ -500,10 +503,11 @@ const ExternalOrganization = [
           { path: 'training/survey/preview/:id', component: PreviewTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/document', component: TrainingDocumentComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/documentlist/:id', component: ListTrainingDocumentComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/report', component: TrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/reportmemu/:id', component: TrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/list', component: ListTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/list/:id', component: ListRegisterTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/loginrate/:id', component: RateloginTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/program/:phaseid/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
 

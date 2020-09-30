@@ -42,14 +42,14 @@ export class HistoryTrainingReportComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+      //this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     }
     
     
 
   ngOnInit() {
 
-    this.getuserinfo()
+    //this.getuserinfo()
 
   }
 
@@ -95,5 +95,9 @@ export class HistoryTrainingReportComponent implements OnInit {
 
   }
   //End getuser
+
+  gotoBack() {
+    window.history.back();
+  }
 
 }

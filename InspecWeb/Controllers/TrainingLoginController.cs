@@ -61,8 +61,10 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("Data: " + trainingRegisterData);
 
             var trainingLoginData = _context.TrainingLogins
-                .Where(x => x.Username == model.username && x.TrainingPhaseId == model.trainingPhaseId && x.TrainingProgramLoginId == model.trainingProgramLoginId && x.DateType == model.dateType)
+                //.Where(x => x.Username == model.username && x.TrainingId == model.trainingPhaseId && x.TrainingProgramLoginId == model.trainingProgramLoginId && x.DateType == model.dateType)
+                .Where(x => x.Username == model.username && x.TrainingId == trainingId && x.TrainingProgramLoginId == model.trainingProgramLoginId && x.DateType == model.dateType)
                 .FirstOrDefault();
+            //.FirstOrDefault();
 
             if (trainingRegisterData == null)
             {
@@ -77,7 +79,8 @@ namespace InspecWeb.Controllers
                 var TrainingData = new TrainingLogin
                 {
                     Username = model.username,
-                    TrainingPhaseId = model.trainingPhaseId,
+                    //TrainingId = model.trainingPhaseId,
+                    TrainingId = trainingId,
                     RegisterDate = DateTime.Now,
                     TrainingProgramLoginId = model.trainingProgramLoginId,
                     DateType = model.dateType,

@@ -23,7 +23,7 @@ export class TrainingProgramLoginComponent implements OnInit {
   qrdata = 'http://google.com';
   programloginid: any;
   programlogindb: any;
-
+  programdate: any;
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
@@ -71,23 +71,24 @@ export class TrainingProgramLoginComponent implements OnInit {
     this.router.navigate(['/training/survey/preview/', trainingid])
   }
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id ,programdate) {
     // this.delid = id;
     // console.log(this.delid);
     this.programloginid = id;
+    this.programdate = programdate
     this.modalRef = this.modalService.show(template);
   }
 
   storeTraining(value) {
-    this.trainingservice.getTrainingProgramLogin(this.programloginid).subscribe(
+    this.trainingservice.getTrainingProgramLoginQR(this.programdate).subscribe(
       result => {
         this.programlogindb = result
         
-        if (this.programlogindb == null){
+        if (this.programlogindb.length <= 0){
           console.log("Insert");
           //insert
           //alert(JSON.stringify(value))
-          this.trainingservice.addTrainingProgramLogin(value, this.programloginid).subscribe(response => {
+          this.trainingservice.addTrainingProgramLogin(value, this.trainingid, this.programdate).subscribe(response => {
             console.log(value);
             this.Form.reset()
             this.modalRef.hide()
@@ -110,7 +111,7 @@ export class TrainingProgramLoginComponent implements OnInit {
           console.log("Update");
           
           //update
-          this.trainingservice.updateTrainingProgramLogin(value, this.programloginid).subscribe(response => {
+          this.trainingservice.updateTrainingProgramLogin(value, this.trainingid).subscribe(response => {
             console.log(value);
             this.Form.reset()
             this.modalRef.hide()
@@ -155,9 +156,13 @@ export class TrainingProgramLoginComponent implements OnInit {
     // console.log("id", id);
     // console.log("type", type);
     
-    var textqrcode = this.mainUrl + phaseid + '/' + id + '/' + type ;
+    var textqrcode = this.mainUrl + 'training/login/' + phaseid + '/' + id + '/' + type ;
     //console.log("xxx:",textqrcode);
     return textqrcode;
+  }
+
+  gotoBack() {
+    window.history.back();
   }
 
 

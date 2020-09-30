@@ -79,4 +79,8 @@ export class NamePlatePreviewComponent implements OnInit {
 
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
 }

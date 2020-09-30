@@ -118,4 +118,8 @@ export class ListTrainingDocumentComponent implements OnInit {
     })
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
 }

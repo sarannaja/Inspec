@@ -24,6 +24,12 @@ namespace InspecWeb.Models
         public long TrainingSurveyId { get; set; }
         public virtual TrainingSurvey TrainingSurvey { get; set; }
 
+        [Description("Username")]
+        public string Username { get; set; }
+
+        [Description("รหัสประจำตัวผู้อบรม")]
+        public string IDCode { get; set; }
+
         [Required]
         [Description("ชื่อ-นามสกุล")]
         public string Name { get; set; }
@@ -33,6 +39,12 @@ namespace InspecWeb.Models
 
         [Description("คะแนน")]
         public int Score { get; set; }
+
+        [Description("ปลายเปิด")]
+        public string AnswerText { get; set; }
+
+        [Description("ใช่ หรือ ไม่")]
+        public int AnswerYorN { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]

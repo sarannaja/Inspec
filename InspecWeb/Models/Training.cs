@@ -59,6 +59,9 @@ namespace InspecWeb.Models
         [Description("รูปภาพ")]
         public string Image { get; set; }
 
+        [Description("สถานะ 1:ใช้งาน, 2:ปิดใช้งาน")]
+        public int Status { get; set; }
+
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }

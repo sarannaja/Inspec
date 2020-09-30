@@ -1001,31 +1001,68 @@ namespace InspecWeb.Controllers
             var districtdata = _context.TrainingPrograms
                 .Include(m => m.TrainingPhase)
                 .ThenInclude(m => m.Training)
-                .Include(m => m.TrainingProgramLoginQRCodes)
                 .Where(m => m.TrainingPhase.TrainingId == trainingid);
 
-            //foreach (var test in districtdata)
-            //{
-                
-            //    System.Console.WriteLine("in1");
-            //    var test2 = _context.TrainingProgramLoginQRCodes
-            //        .Where(x => x.ProgramDate == test.ProgramDate)
-            //        .ToList();
+            foreach (var test in districtdata)
+            {
+                //System.Console.WriteLine("in1");
+                //var test2 = _context.TrainingProgramLoginQRCodes
+                //    .Where(x => x.ProgramDate == test.ProgramDate).FirstOrDefault();
 
-            //    if (test2 != null) {
-            //        foreach (var test3 in test2)
-            //        {
-            //            System.Console.WriteLine("in2");
-            //            result.Add(new
-            //            {
-            //                Name = test.ProgramDate,
-            //                Count = test3.Morning,
-            //                Count2 = test3.Afternoon,
-            //            });
-            //        }
-            //    }
+                var checkmorning = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.ProgramDate == test.ProgramDate)
+                .Select(m => m.Morning);
 
-            //}
+                var checkafternoon = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.ProgramDate == test.ProgramDate)
+                .Select(m => m.Afternoon);
+
+                var programloginid = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.ProgramDate == test.ProgramDate)
+                .Select(m => m.Id);
+
+
+
+                result.Add(new
+                {
+                    programDate = test.ProgramDate,
+                    trainingPhaseId = test.TrainingPhaseId,
+                    programloginId  = programloginid,
+                    xMorning = checkmorning,
+                    xAfternoon = checkafternoon
+                });
+
+
+
+
+                //if (test2 != null)
+                //{
+                //    foreach (var test3 in test2)
+                //    {
+                //        System.Console.WriteLine("in2");
+                //        result.Add(new
+                //        {
+                //            Name = test.ProgramDate,
+                //            Count = test3.Morning,
+                //            Count2 = test3.Afternoon,
+                //        });
+                //    }
+                //}
+
+            }
+
+            return Ok(result);
+
+        }
+
+        //GET api/training/program
+        [HttpGet("TrainingProgramLoginQRDate/get/{programdate}")]
+        public IActionResult GetTrainingProgramLoginQRDate(DateTime programdate)
+        {
+
+            var districtdata = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.ProgramDate == programdate);
+
 
             return Ok(districtdata);
 
@@ -1635,8 +1672,8 @@ namespace InspecWeb.Controllers
 
 
         // POST api/training/programlogin/add/trainingid
-        [HttpPost("programlogin/add/{programloginid}")]
-        public TrainingProgramLoginQRCode InsertTrainingProgramLogin(long programloginid, long programlogintype)
+        [HttpPost("programlogin/add/{trainingid}/{programdate}")]
+        public TrainingProgramLoginQRCode InsertTrainingProgramLogin(long trainingid, long programlogintype , DateTime programdate)
         {
             var date = DateTime.Now;
             var vmorning = 0;
@@ -1659,8 +1696,8 @@ namespace InspecWeb.Controllers
             
             var trainingdata = new TrainingProgramLoginQRCode
             {
-
-                TrainingProgramId = programloginid,
+                ProgramDate = programdate,
+                TrainingId = trainingid,
                 Morning = vmorning,
                 Afternoon = vafternoon,
 
@@ -1739,6 +1776,88 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Id == id).FirstOrDefault();
 
             return Ok(data);
+
+        }
+
+        //GET api/Training/plan
+        [HttpGet("programloginCountCourse/get/{id}")]
+        public IActionResult GetTrainingProgramLoginCountCourse(long id)
+        {
+            var data = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.Id == id)
+                .Sum(p => p.Morning);
+
+            var data2 = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.Id == id)
+                .Sum(p => p.Afternoon);
+
+            return Ok(data + data2);
+
+        }
+
+        ////GET api/Training/plan
+        //[HttpGet("login/get/{trainingid}")]
+        //public IActionResult GetTrainingLoginStudy(long trainingid)
+        //{
+        //    var data = _context.TrainingLogins
+        //        .Where(m => m.TrainingPhaseId == 1);
+        //        //.Sum(m => m.DateType);
+
+        //    return Ok(data);
+
+        //}
+
+        // GET: api/Training
+        [HttpGet("loginrate/get/{trainingid}")]
+        public IEnumerable<object> GetTrainingLoginStudy(long trainingid)
+        {
+
+            var cntmorning = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.TrainingId == trainingid)
+                .Sum(p => p.Morning);
+
+            var cntafternoon = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.TrainingId == trainingid)
+                .Sum(p => p.Afternoon);
+
+            long CountCourse = (cntmorning + cntafternoon);
+
+            var result = new List<object>();
+
+            var data = _context.TrainingRegisters
+                 .Where(m => m.TrainingId == trainingid).ToList();
+
+            foreach (var test in data)
+            {
+                var test2 = _context.TrainingLogins
+                    .Where(x => x.Username == test.UserName && x.TrainingId == trainingid)
+                    .ToList();
+
+                double aaa = test2.Count();
+                double sss = (aaa / CountCourse)*100;
+                result.Add(new
+                {
+                    Id = test.Id,
+                    Name = test.Name,
+                    Count = test2.Count(),
+                    CountCourse = CountCourse,
+                    RateCourse = sss
+                });
+                
+            }
+            return result;
+        }
+
+        //GET api/Training/plan
+        [HttpGet("testtest/get/{id}")]
+        public IActionResult testtest()
+        {
+            var idSet = _context.TrainingRegisters.Select(x => x.UserName).ToHashSet();
+            var notFoundItems = _context.TrainingLogins.Where(item => idSet.Contains(item.Username));
+
+       
+
+            return Ok(notFoundItems);
 
         }
 
