@@ -1,7 +1,5 @@
 <div class="header">
-    <h1 class="header-title">
-        ผู้สมัครเข้าร่วมอบรม
-    </h1>
+    
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
@@ -12,10 +10,16 @@
     <div class="col-12">
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h3>จัดการหลักสูตรการอบรม / กำหนดการ(ช่วง) / กำหนดการ</h3>
+                <h5 class="card-title">
+                    จัดการหลักสูตรการอบรม / หลักสูตรอบรม(ช่วง) / หลักสูตรอบรม(กิจกรรม)
+                    <button class="btn btn-danger" (click)="gotoBack()">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </button>
+
+                </h5>
                 <div class="float-right">
                     <button class="btn btn-primary" (click)="openModal(modalProgram)"
-                        style="margin-top: -60px;">ภาพรวมแผนกำหนดการ</button>
+                        style="margin-top: -60px;">เพิ่มหลักสูตรอบรม(กิจกรรม)</button>
                 </div>
             </div>
             <div class="card-body">
@@ -68,7 +72,7 @@
         <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">กำหนดการ</h5>
+                    <h5 class="modal-title">เพิ่มหลักสูตรอบรม(กิจกรรม)</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>

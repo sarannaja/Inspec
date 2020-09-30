@@ -294,4 +294,8 @@ export class ProgramTrainingComponent implements OnInit {
         })
     })
   }
+
+  gotoBack() {
+    window.history.back();
+  }
 }

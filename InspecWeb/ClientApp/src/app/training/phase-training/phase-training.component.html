@@ -1,7 +1,5 @@
 <div class="header">
-    <h1 class="header-title">
-        ผู้สมัครเข้าร่วมอบรม
-    </h1>
+    
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
@@ -12,10 +10,17 @@
     <div class="col-12">
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -40px;">
-                <h3>จัดการหลักสูตรการอบรม / กำหนดการ(ช่วง)</h3>
+                <h5 class="card-title">
+                    จัดการหลักสูตรการอบรม / หลักสูตรอบรม(ช่วง)
+                    
+                    <button class="btn btn-danger" (click)="gotoBack()">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </button>
+
+                </h5>
                 <div class="float-right">
                     <button class="btn btn-primary" (click)="openModal(modalProgram)"
-                        style="margin-top: -60px;">ภาพรวมแผนกำหนดการ</button>
+                        style="margin-top: -60px;">เพิ่มหลักสูตรอบรม(ช่วง)</button>
                 </div>
             </div>
             <div class="card-body">
@@ -23,11 +28,11 @@
                     [dtOptions]="dtOptions">
                     <thead>
                         <tr>
-                            <th width="5%">ช่วงที่</th>
-                            <th width="15%" class="text-center">ระหว่างวันที่</th>
-                            <th width="45%">รายละเอียด</th>
-                            <th width="25%">สถานที่</th>
-                            <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="10%">ช่วงที่</th>
+                            <th width="20%" class="text-center">ระหว่างวันที่</th>
+                            <th width="35%">รายละเอียด</th>
+                            <th width="20%">สถานที่</th>
+                            <th width="15%" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +42,7 @@
                                 {{ item.endDate | thaidate:'year'}}</td>
                             <td class="ellipsis">{{ item.detail }}</td>
                             <td class="ellipsis" title="{{item.location}}">{{ item.location }}</td>
-                            <td>
+                            <td class="text-center">
                                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip"
                                     title="กำหนดการ" (click)="gotoProgramTraining(item.id)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
@@ -62,7 +67,7 @@
         <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">กำหนดการ</h5>
+                    <h5 class="modal-title">เพิ่มหลักสูตรอบรม(ช่วง)</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>

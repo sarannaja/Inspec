@@ -1,6 +1,6 @@
 
     <header role="banner">
-        <div class="top-bar">
+        <!-- <div class="top-bar">
             <div class="container">
                 <div class="row">
                     <div class="col-9 social">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="container logo-wrap">
             <div class="row pt-5">
@@ -24,18 +24,18 @@
                     <!-- <a class="sidebar-brand" href="index1.html"> -->
                         <a href="{{ mainUrl }}train"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
                         width="100" /></a>
-                    <h1>จัดอบรมหลักสูตร</h1>
+                    <h1>หลักสูตรการอบรม</h1>
                     <!-- </a> -->
                 </div>
             </div>
         </div>
 
-        <nav class="navbar navbar-expand-md  navbar-light bg-light">
+        <!-- <nav class="navbar navbar-expand-md  navbar-light bg-light">
             <div class="container">
 
 
                 <div class="collapse navbar-collapse" id="navbarMenu">
-                    <ul class="navbar-nav mx-auto">
+                    <ul class="navbar-nav mx-auto"> -->
                         <!-- <li class="nav-item">
                 <a class="nav-link active" href="index.html">Home</a>
               </li>
@@ -71,11 +71,11 @@
               <li class="nav-item">
                 <a class="nav-link" href="contact.html">Contact</a>
               </li> -->
-                    </ul>
+                    <!-- </ul>
 
                 </div>
             </div>
-        </nav>
+        </nav> -->
     </header>
     <!-- END header -->
 
@@ -90,16 +90,16 @@
                     [dtOptions]="dtOptions">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th width="30%">ชื่อหลักสูตรการอบรม</th>
-                            <th width="25%">คำอธิบายหลักสูตรการอบรม</th>
-                            <th>กำหนดระยะเวลาอบรม</th>
-                            <th>รูปภาพ</th>
+                            <th width="25%" >คำอธิบายหลักสูตรการอบรม</th>
+                            <th class="text-center">กำหนดการ</th>
+                            <th class="text-center"></th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of resulttraining; let i = index" class="zoom pointer" (click)="GotoDetail(item.id)">
+                        <tr *ngFor="let item of resulttraining; let i = index" class="zoom pointer" (click)="gotoDetail(item.id)">
                             <td>{{ i + 1 }}</td>
                             <td>
                                 {{ item.name }}
@@ -108,8 +108,17 @@
 
                             </td>
                             <td class="ellipsis">{{ item.detail }}</td>
-                            <td>{{ item.startDate | thaidate:'year'}} - {{ item.endDate | thaidate:'year'}}</td>
-                            <td class=""><img src="{{ downloadUrl }}/{{item.image}}" width="160" height="130"></td>
+                            <!-- <td>
+                                {{ item.startDate | thaidate:'year'}} - {{ item.endDate | thaidate:'year'}}
+                            </td> -->
+                            <td>
+                                ระยะเวลาสมัคร : <br>
+                                {{ item.regisStartDate | thaidate:'short'}} - {{ item.regisEndDate | thaidate:'short'}}
+                                <br>
+                                ระยะเวลาอบรม : <br>
+                                {{ item.startDate | thaidate:'short'}} - {{ item.endDate | thaidate:'short'}}
+                              </td>
+                            <td class="text-center"><img src="{{ downloadUrl }}/{{item.image}}" width="160" height="130"></td>
 
                         </tr>
                     </tbody>
@@ -123,7 +132,7 @@
     <br>
     <br>
 
-    <footer class="site-footer">
+    <!-- <footer class="site-footer">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-md-4">
@@ -217,5 +226,5 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
     <!-- END footer -->

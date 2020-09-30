@@ -1091,8 +1091,7 @@ namespace InspecWeb.Controllers
 
             }
 
-            int index = 0;
-            int indexend = 0;
+         
 
             //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
             //var size = data.files.Sum(f => f.Length);
@@ -1170,16 +1169,99 @@ namespace InspecWeb.Controllers
         [HttpGet("lecturerlist/{trainingid}")]
         public IActionResult GetTrainingLecturersList(long trainingid)
         {
+            //var trainingdata = from P in _context.Trainings
+            //                   select P;
+
+            var result = new List<object>();
+
+
+            //var survey = _context.TrainingSurveyTopics.ToList();
 
             var districtdata = _context.TrainingProgramLecturers
                 .Include(m => m.TrainingLecturer)
                 .Include(m => m.TrainingProgram)
                 .ThenInclude(m => m.TrainingPhase)
                 .ThenInclude(m => m.Training)
+  
+                .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid);
 
-                .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == 1);
+            //foreach (var test in districtdata)
+            //{
+            //    var test2 = _context.TrainingLecturerJoinSurveys
+            //        .Where(x => x.TrainingSurveyTopicId == test.Id)
+            //        .ToList();
+
+            //    result.Add(new
+            //    {
+            //        Id = test.Id,
+            //        Name = test.TrainingLecturer.LecturerName,
+            //        Count = test2.Count()
+            //    });
+            //}
+
 
             return Ok(districtdata);
+        }
+
+        // GET: api/Training
+        [HttpGet("lecturerlist2/{trainingid}")]
+        public IEnumerable<object> GetTrainingLecturersList2(long trainingid)
+        {
+            var result = new List<object>();
+
+            var survey = _context.TrainingProgramLecturers
+                .Include(m => m.TrainingLecturer)
+                .Include(m => m.TrainingProgram)
+                .ThenInclude(m => m.TrainingPhase)
+                .ThenInclude(m => m.Training)
+
+                .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid).ToList();
+            foreach (var test in survey)
+            {
+                var test2 = _context.TrainingLecturerJoinSurveys
+                    .Include(m => m.TrainingSurveyTopic)
+                    .Where(m => m.LecturerId == test.TrainingLecturerId).ToList();
+
+
+                var SurveyTopicName = "";
+                foreach (var xxx in test2)
+                {
+                    SurveyTopicName = xxx.TrainingSurveyTopic.Name;
+
+                   
+                }
+
+                result.Add(new
+                {
+                    trainingLecturerId = test.TrainingLecturerId,
+                    trainingLecturerName = test.TrainingLecturer.LecturerName,
+                    SurveyName = SurveyTopicName
+                });
+
+
+            }
+            return result;
+        }
+
+        // POST : api/training/lecturerjoinsurvey/save
+        [HttpPost("lecturerjoinsurvey/save")]
+        public TrainingLecturerJoinSurvey addTraininglecturerJoinSurvey(long trainingsurveytopicId, long lecturerid)
+        {
+            var date = DateTime.Now;
+
+            var trainingdata = new TrainingLecturerJoinSurvey
+            {
+                TrainingSurveyTopicId = trainingsurveytopicId,
+                LecturerId = lecturerid,
+
+                CreatedAt = date
+
+            };
+
+            _context.TrainingLecturerJoinSurveys.Add(trainingdata);
+            _context.SaveChanges();
+
+            return trainingdata;
         }
 
         // POST : api/training/lecturer/save

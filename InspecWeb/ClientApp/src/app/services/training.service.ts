@@ -73,8 +73,8 @@ export class TrainingService {
     formData.append('CourseCode', trainingData.coursecode);
     formData.append('StartDate', trainingData.start_date.date.year + '-' + trainingData.start_date.date.month + '-' + trainingData.start_date.date.day);
     formData.append('EndDate', trainingData.end_date.date.year + '-' + trainingData.end_date.date.month + '-' + trainingData.end_date.date.day);
-    formData.append('RegisStartDate', trainingData.start_date.date.year + '-' + trainingData.start_date.date.month + '-' + trainingData.start_date.date.day);
-    formData.append('RegisEndDate', trainingData.start_date.date.year + '-' + trainingData.start_date.date.month + '-' + trainingData.start_date.date.day);
+    formData.append('RegisStartDate', trainingData.regis_start_date.date.year + '-' + trainingData.regis_start_date.date.month + '-' + trainingData.regis_start_date.date.day);
+    formData.append('RegisEndDate', trainingData.regis_end_date.date.year + '-' + trainingData.regis_end_date.date.month + '-' + trainingData.regis_end_date.date.day);
     for (var i = 0; i < file.length; i++) {
       formData.append('files', file[i]);
     }
@@ -372,7 +372,17 @@ export class TrainingService {
   }
 
   gettraininglecturerlist(trainingid): Observable<any[]> {
-    return this.http.get<any[]>(this.url + 'lecturerlist/' + trainingid)
+    return this.http.get<any[]>(this.url + 'lecturerlist2/' + trainingid)
+  }
+
+  addTraininglecturerjoinsurvey(trainingData, lecturerid) {
+    //alert(JSON.stringify(trainingData.name))
+    const formData = new FormData();
+    formData.append('trainingsurveytopicId', trainingData.name);
+    formData.append('lecturerid', lecturerid);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'lecturerjoinsurvey/save', formData);
   }
 
   addTraininglecturer(trainingData) {
@@ -388,6 +398,7 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + 'lecturer/save', formData);
   }
+  
 
   editTraininglecturer(trainingData, id) {
     console.log(trainingData);
