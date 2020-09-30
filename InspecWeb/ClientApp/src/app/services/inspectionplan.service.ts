@@ -104,7 +104,7 @@ export class InspectionplanService {
   // }
   inspectionplansprovince(provinceid, userid, start_date_plan_i: Date, end_date_plan_i: Date) {
 
-    console.log(' Date.parse(start_date_plan_i.toString()).toString()',start_date_plan_i);
+    console.log(' Date.parse(start_date_plan_i.toString()).toString()', start_date_plan_i);
 
     // After this construct a string with the above results as below
     // var start_date_plan =
@@ -113,8 +113,8 @@ export class InspectionplanService {
     const formData = new FormData();
     formData.append('provinceid', provinceid);
     formData.append('userid', userid);
-    formData.append('start_date_plan',start_date_plan_i.toJSON());
-    formData.append('end_date_plan',end_date_plan_i.toJSON());
+    formData.append('start_date_plan', start_date_plan_i.toJSON());
+    formData.append('end_date_plan', end_date_plan_i.toJSON());
     return this.http.post(this.url + "inspectionprovince", formData);
 
   }
@@ -162,13 +162,14 @@ export class InspectionplanService {
     return this.http.get<any[]>(this.url + 'getcentralpolicyeventdataid/' + id)
   }
 
-  editcentralpolicy(ceneventid, startdate, enddate, value) {
+  editcentralpolicy(ceneventid, startdate, enddate, value, userid) {
     const formData = new FormData();
     formData.append('ceneventid', ceneventid);
     formData.append('startdate', startdate.year + '-' + startdate.month + '-' + startdate.day);
     formData.append('enddate', enddate.year + '-' + enddate.month + '-' + enddate.day);
     // formData.append('year', value.year);
     formData.append('title', value.title);
+    formData.append('userid', userid);
     return this.http.post(this.url + "editcentralpolicy", formData);
   }
 

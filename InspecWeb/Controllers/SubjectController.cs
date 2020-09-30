@@ -1184,6 +1184,20 @@ namespace InspecWeb.Controllers
             };
             _context.InspectionPlanEvents.Add(inspectionplanevent);
             _context.SaveChanges();
+
+            var logdata2 = new Log
+            {
+                UserId = model.CreatedBy,
+                DatabaseName = "InspectionPlanEvent",
+                EventType = "เพิ่ม",
+                EventDate = date,
+                Detail = "เพิ่มกำหนดการตรวจราชการ",
+                Allid = inspectionplanevent.Id,
+            };
+            _context.Logs.Add(logdata2);
+            _context.SaveChanges();
+
+
             System.Console.WriteLine("in2");
             foreach (var cenid in model.CentralpolicyId)
             {
@@ -1204,6 +1218,19 @@ namespace InspecWeb.Controllers
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();
 
+                var logdata = new Log
+                {
+                    UserId = model.CreatedBy,
+                    DatabaseName = "SubjectGroup",
+                    EventType = "เพิ่ม",
+                    EventDate = date,
+                    Detail = "เพิ่มประเด็นตรวจติดตาม",
+                    Allid = SubjectGroupdata.Id,
+                };
+
+                _context.Logs.Add(logdata);
+                _context.SaveChanges();
+
                 var CentralPolicyEventsdata = new CentralPolicyEvent
                 {
                     CentralPolicyId = cenid,
@@ -1213,6 +1240,19 @@ namespace InspecWeb.Controllers
                     HaveSubject = 1,
                 };
                 _context.CentralPolicyEvents.Add(CentralPolicyEventsdata);
+                _context.SaveChanges();
+
+                var logdata3 = new Log
+                {
+                    UserId = model.CreatedBy,
+                    DatabaseName = "CentralPolicyEvent",
+                    EventType = "เพิ่ม",
+                    EventDate = date,
+                    Detail = "เพิ่มแผนตรวจราชการในกำหนดการตรวจราชการ",
+                    Allid = CentralPolicyEventsdata.Id,
+                };
+
+                _context.Logs.Add(logdata3);
                 _context.SaveChanges();
 
                 var SubjectGroupPeopleQuestiondata = new SubjectGroupPeopleQuestion
@@ -1589,6 +1629,19 @@ namespace InspecWeb.Controllers
                 _context.SubjectGroups.Add(SubjectGroupdata);
                 _context.SaveChanges();
 
+                var logdata = new Log
+                {
+                    UserId = model.CreatedBy,
+                    DatabaseName = "SubjectGroup",
+                    EventType = "เพิ่ม",
+                    EventDate = date,
+                    Detail = "เพิ่มประเด็นตรวจติดตาม",
+                    Allid = SubjectGroupdata.Id,
+                };
+
+                _context.Logs.Add(logdata);
+                _context.SaveChanges();
+
                 var subjectcen = _context.SubjectCentralPolicyProvinces
                     .Where(m => m.CentralPolicyProvince.CentralPolicyId == cenid)
                     .Where(m => m.Type == "Master")
@@ -1725,6 +1778,7 @@ namespace InspecWeb.Controllers
         [HttpPost("postsubjecteventfromcalendar")]
         public IActionResult Postsubjecteventfromcalendar([FromBody] subjectevent model)
         {
+            var date = DateTime.Now;
             var userdata = _context.Users
                .Where(m => m.Id == model.CreatedBy)
                //.Select(m => m.Role_id)
@@ -1759,6 +1813,19 @@ namespace InspecWeb.Controllers
                     RoleCreatedBy = userdata.Role_id,
                 };
                 _context.SubjectGroups.Add(SubjectGroupdata);
+                _context.SaveChanges();
+
+                var logdata = new Log
+                {
+                    UserId = model.CreatedBy,
+                    DatabaseName = "SubjectGroup",
+                    EventType = "เพิ่ม",
+                    EventDate = date,
+                    Detail = "เพิ่มประเด็นตรวจติดตาม",
+                    Allid = SubjectGroupdata.Id,
+                };
+
+                _context.Logs.Add(logdata);
                 _context.SaveChanges();
 
                 var SubjectGroupPeopleQuestiondata = new SubjectGroupPeopleQuestion
@@ -1987,6 +2054,19 @@ namespace InspecWeb.Controllers
             _context.SubjectGroups.Add(SubjectGroupdata);
             _context.SaveChanges();
 
+            var logdata = new Log
+            {
+                UserId = model.CreatedBy,
+                DatabaseName = "SubjectGroup",
+                EventType = "เพิ่ม",
+                EventDate = date,
+                Detail = "เพิ่มประเด็นตรวจติดตาม",
+                Allid = SubjectGroupdata.Id,
+            };
+
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
+
             var subjectdata = new SubjectCentralPolicyProvince
             {
                 Name = model.Title,
@@ -2074,6 +2154,18 @@ namespace InspecWeb.Controllers
             _context.InspectionPlanEvents.Add(inspectionplanevent);
             _context.SaveChanges();
 
+            var logdata2 = new Log
+            {
+                UserId = model.CreatedBy,
+                DatabaseName = "InspectionPlanEvent",
+                EventType = "เพิ่ม",
+                EventDate = date,
+                Detail = "เพิ่มกำหนดการตรวจราชการ",
+                Allid = inspectionplanevent.Id,
+            };
+            _context.Logs.Add(logdata2);
+            _context.SaveChanges();
+
             var centralpolicydata1 = new CentralPolicy
             {
                 Title = model.Title,
@@ -2099,6 +2191,19 @@ namespace InspecWeb.Controllers
                 HaveSubject = 1,
             };
             _context.CentralPolicyEvents.Add(CentralPolicyEventsdata);
+            _context.SaveChanges();
+
+            var logdata3 = new Log
+            {
+                UserId = model.CreatedBy,
+                DatabaseName = "CentralPolicyEvent",
+                EventType = "เพิ่ม",
+                EventDate = date,
+                Detail = "เพิ่มแผนตรวจราชการในกำหนดการตรวจราชการ",
+                Allid = CentralPolicyEventsdata.Id,
+            };
+
+            _context.Logs.Add(logdata3);
             _context.SaveChanges();
 
             var centralpolicyprovincedata = new CentralPolicyProvince
@@ -2132,6 +2237,19 @@ namespace InspecWeb.Controllers
                 RoleCreatedBy = userdata.Role_id,
             };
             _context.SubjectGroups.Add(SubjectGroupdata);
+            _context.SaveChanges();
+
+            var logdata = new Log
+            {
+                UserId = model.CreatedBy,
+                DatabaseName = "SubjectGroup",
+                EventType = "เพิ่ม",
+                EventDate = date,
+                Detail = "เพิ่มประเด็นตรวจติดตาม",
+                Allid = SubjectGroupdata.Id,
+            };
+
+            _context.Logs.Add(logdata);
             _context.SaveChanges();
 
             var SubjectGroupPeopleQuestiondata = new SubjectGroupPeopleQuestion
