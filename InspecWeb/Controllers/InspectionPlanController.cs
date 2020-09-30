@@ -223,6 +223,19 @@ namespace InspecWeb.Controllers {
             };
             _context.CentralPolicyEvents.Add (centralpolicyeventdata);
             _context.SaveChanges ();
+
+            var logdata = new Log
+            {
+                UserId = model.UserID,
+                DatabaseName = "CentralPolicyEvent",
+                EventType = "เพิ่ม",
+                EventDate = date,
+                Detail = "เพิ่มแผนตรวจราชการในกำหนดการตรวจราชการ",
+                Allid = centralpolicyeventdata.Id,
+            };
+
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
             //}
             return Ok (new { status = true });
         }
@@ -230,7 +243,7 @@ namespace InspecWeb.Controllers {
         // POST api/values
         [HttpPost ("AddCentralPolicyEvents")]
         public void Post ([FromBody] CentralPolicyEventViewModel model) {
-
+            var date = DateTime.Now;
             System.Console.WriteLine ("1");
             foreach (var id in model.CentralPolicyId) {
                 var centralpolicyprovince = _context.CentralPolicyProvinces
@@ -265,6 +278,20 @@ namespace InspecWeb.Controllers {
                 };
                 _context.CentralPolicyEvents.Add (centralpolicyeventdata);
                 _context.SaveChanges ();
+
+
+                var logdata = new Log
+                {
+                    UserId = model.CreatedBy,
+                    DatabaseName = "CentralPolicyEvent",
+                    EventType = "เพิ่ม",
+                    EventDate = date,
+                    Detail = "เพิ่มแผนการตรวจราชการประจำปีในกำหนดการตรวจราชการ",
+                    Allid = centralpolicyeventdata.Id,
+                };
+
+                _context.Logs.Add(logdata);
+                _context.SaveChanges();
 
                 //var CentralPolicyProvinceEventdata = new CentralPolicyProvinceEvent
                 //{
@@ -302,6 +329,19 @@ namespace InspecWeb.Controllers {
 
             _context.InspectionPlanEvents.Add (InspectionPlanEventdata);
             _context.SaveChanges ();
+
+            var logdata = new Log
+            {
+                UserId = userid,
+                DatabaseName = "InspectionPlanEvent",
+                EventType = "เพิ่ม",
+                EventDate = date,
+                Detail = "เพิ่มกำหนดการตรวจราชการ",
+                Allid = InspectionPlanEventdata.Id,
+            };
+
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
 
             return InspectionPlanEventdata.Id;
         }
@@ -446,7 +486,7 @@ namespace InspecWeb.Controllers {
 
         // POST api/values
         [HttpPost ("editcentralpolicy")]
-        public void Editcentralpolicy (long ceneventid, DateTime startdate, DateTime enddate, string title) {
+        public void Editcentralpolicy (long ceneventid, DateTime startdate, DateTime enddate, string title, string userid) {
             // var InspectionPlanEventsdata = _context.InspectionPlanEvents
             //     .Find(cenid);
             // InspectionPlanEventsdata.StartDate = startdate;
@@ -472,6 +512,20 @@ namespace InspecWeb.Controllers {
 
             _context.Entry (CentralPolicydata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges ();
+
+            var date = DateTime.Now;
+            var logdata = new Log
+            {
+                UserId = userid,
+                DatabaseName = "CentralPolicyEvent",
+                EventType = "แก้ไข",
+                EventDate = date,
+                Detail = "แก้ไขแผนการตรวจราชการในกำหนดตรวจราชการ",
+                Allid = ceneventid,
+            };
+
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
 
         }
     }
