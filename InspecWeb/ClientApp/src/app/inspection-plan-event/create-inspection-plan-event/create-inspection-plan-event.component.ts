@@ -59,6 +59,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   mytime: Date = new Date()
   boxId: any = 0
   submitted = false;
+  role_id: any
 
   constructor(
     private fb: FormBuilder, private authorize: AuthorizeService,
@@ -81,6 +82,13 @@ export class CreateInspectionPlanEventComponent implements OnInit {
         this.userid = result.sub
         //console.log(result);
         // alert(this.userid)
+        this.userservice.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            // this.resultuser = result;
+            //console.log("test" , this.resultuser);
+            this.role_id = result[0].role_id
+            // alert(this.role_id)
+          })
       })
 
     this.Form = this.fb.group({
@@ -289,8 +297,14 @@ export class CreateInspectionPlanEventComponent implements OnInit {
             var ends = new Set(this.end_date_plan_i);
             ends.delete(this.end_date_plan_i[i]);
             this.end_date_plan_i = Array.from(ends);
-
-            window.open(this.url + 'inspectionplan/' + id + '/' + provinceid + '/' + watch);
+            if(this.role_id == 3){
+              window.open(this.url + 'inspectionplan/' + id + '/' + provinceid + '/' + watch);
+            } else if (this.role_id == 6){
+              window.open(this.url + 'inspectionplan/inspectorministry/' + id + '/' + provinceid + '/' + watch);
+            } else if (this.role_id == 10){
+              window.open(this.url + 'inspectionplan/inspectordepartment/' + id + '/' + provinceid + '/' + watch);
+            } 
+           
           }) : this._dialog.confirm('ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', 'ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', false, 'ปิด')
             .then(result => {
 

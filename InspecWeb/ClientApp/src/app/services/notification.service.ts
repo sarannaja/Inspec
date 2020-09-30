@@ -69,6 +69,8 @@ export class NotificationService {
   getElectronicBookProvincialDepartment(provincialId: any, electId: any): Observable<any> {
     return this.http.get<any>(this.url + 'getElectronicBookProvincialDepartment/' + electId + "/" + provincialId)
   }
-
+  getCentralPolicyProvince(cenId: any, provinceId: any): Observable<any> {
+    return this.http.get<any>(this.url + 'getCentralPolicyProvince/' + cenId + "/" + provinceId)
+  }
 
 }

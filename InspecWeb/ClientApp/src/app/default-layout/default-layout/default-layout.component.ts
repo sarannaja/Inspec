@@ -177,23 +177,23 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   getnotifications() {
-    this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
-      .subscribe(resultsub => {
+    // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
+    //   .subscribe(resultsub => {
 
-        console.log('resultsub', resultsub);
+    //     console.log('resultsub', resultsub);
 
-        this.notificationService.getnotificationsdata(this.userid)
-          .subscribe(result => {
-            this.resultnotifications = result
-              .map(resultxe => {
-                // console.log(doAsync(result.xe));
-                console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
+    this.notificationService.getnotificationsdata(this.userid)
+      .subscribe(result => {
+        this.resultnotifications = result
+        //         .map(resultxe => {
+        //           console.log("xxx",result);
+        //           console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
 
-                // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
-                return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
-              });
+        //           // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
+        //           return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
+        //         });
 
-          })
+        //     })
       })
 
 
@@ -203,7 +203,7 @@ export class DefaultLayoutComponent implements OnInit {
       })
   }
 
-  detailnotifications(id, statusid, xe, provinceId, userId) {
+  detailnotifications(id, statusid, xe, provinceId, userId, centralPolicyId) {
     this.notificationService.updateNotification(id)
       .subscribe(result => {
         if (statusid == 20) { //song
@@ -241,11 +241,12 @@ export class DefaultLayoutComponent implements OnInit {
           this.router.navigate(['/answersubject/list/' + xe])
         }
         else if (statusid == 5) { //ask nik
+          this.router.navigate(['/answerpeople'])
         }
         else if (statusid == 6) { //ask nik
-
-          this.router.navigate(['/answersubject/list/' + xe])
-          // https://localhost:5001/subjectevent/detail/1;subjectgroupid=1
+          this.notificationService.getCentralPolicyProvince(centralPolicyId, provinceId).subscribe(result => {
+            this.router.navigate(['/subjectevent/detail/' + result, { subjectgroupid: xe, }])
+          })
         }
         else if (statusid == 7) { //song
           this.notificationService.getElectronicBookUserInvite(userId, xe).subscribe(res => {
