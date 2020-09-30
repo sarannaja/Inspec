@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --verbose",
+    "build": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build",
     "build:ssr": "ng run InspecWeb:server:dev",
     "test": "ng test",
     "lint": "ng lint",
@@ -45,6 +45,8 @@
     "bootstrap": "^4.4.1",
     "bootstrap-daterangepicker": "3.0.5",
     "bootstrap-markdown": "2.10.0",
+    "browserslist": "^4.14.5",
+    "caniuse-lite": "^1.0.30001140",
     "chart.js": "^2.9.3",
     "copy-webpack-plugin": "5.0.4",
     "core-js": "^3.6.4",

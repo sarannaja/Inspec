@@ -435,8 +435,8 @@ const ExternalOrganization = [
   ],
 
   imports: [
-    // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    // BrowserModule,
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,

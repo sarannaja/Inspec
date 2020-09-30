@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Inspec\\EmailService\\EmailService.csproj": {}
+    "C:\\project\\Inspec\\EmailService\\EmailService.csproj": {}
   },
   "projects": {
-    "G:\\Inspec\\EmailService\\EmailService.csproj": {
+    "C:\\project\\Inspec\\EmailService\\EmailService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Inspec\\EmailService\\EmailService.csproj",
+        "projectUniqueName": "C:\\project\\Inspec\\EmailService\\EmailService.csproj",
         "projectName": "EmailService",
-        "projectPath": "G:\\Inspec\\EmailService\\EmailService.csproj",
-        "packagesPath": "C:\\Users\\Palm\\.nuget\\packages\\",
-        "outputPath": "G:\\Inspec\\EmailService\\obj\\",
+        "projectPath": "C:\\project\\Inspec\\EmailService\\EmailService.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\project\\Inspec\\EmailService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Palm\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
