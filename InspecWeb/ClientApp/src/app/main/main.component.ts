@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { ExcelService } from '../services/excel.service';
 import { WordService } from '../services/word.service';
-import { UserManager } from 'oidc-client';
 import { CookieService } from 'ngx-cookie-service';
 import { NotofyService } from '../services/notofy.service';
 import { ExternalOrganizationService } from '../services/external-organization.service';
@@ -40,7 +39,6 @@ export class MainComponent implements OnInit {
   constructor(
     private router: Router,
     private authorize: AuthorizeService,
-    private userManager: UserManager,
     private wordService: WordService,
     private excelService: ExcelService,
     private _CookieService: CookieService,
@@ -75,7 +73,6 @@ export class MainComponent implements OnInit {
     // alert(this.role_id)
     this.exportExcel();
 
-    this.userManager.getUser
   }
   Logout() {
     this.authorize.signOut({ local: true })

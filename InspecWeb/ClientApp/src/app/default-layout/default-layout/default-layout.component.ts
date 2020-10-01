@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Location } from "@angular/common";
+import { ExecutiveorderService } from 'src/app/services/executiveorder.service';
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -67,6 +68,7 @@ export class DefaultLayoutComponent implements OnInit {
     private router: Router,
     private modalService: BsModalService,
     private fb: FormBuilder,
+    private _ExecutiveorderService: ExecutiveorderService,
     private locationx: Location,
     @Inject('BASE_URL') baseUrl: string
   ) {
@@ -175,11 +177,24 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   getnotifications() {
-    this.notificationService.getnotificationsdata(this.userid)
-      .subscribe(result => {
-        this.resultnotifications = result;
-        console.log("notiDetail: ", this.resultnotifications);
+    this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
+      .subscribe(resultsub => {
+
+       console.log('resultsub', resultsub);
+
+        this.notificationService.getnotificationsdata(this.userid)
+          .subscribe(result => {
+            this.resultnotifications = result
+              .map(resultxe => {
+                console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
+
+                // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
+                return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
+              });
+
+          })
       })
+
 
     this.notificationService.getnotificationscountdata(this.userid)
       .subscribe(result => {
@@ -187,72 +202,74 @@ export class DefaultLayoutComponent implements OnInit {
       })
   }
 
-  detailnotifications(id, statusid, xe, provinceId, userId) {
+  detailnotifications(id, statusid, xe, provinceId, userId, centralPolicyId) {
     this.notificationService.updateNotification(id)
       .subscribe(result => {
         if (statusid == 20) { //song
-          this.router.navigate(['/commanderreport/detail/' + xe])
+           location.href = '/commanderreport/detail/' + xe;
         }
         else if (statusid == 9) { //song
-          this.router.navigate(['/reportimport/detail/' + xe])
+           location.href = '/reportimport/detail/' + xe;
         }
         else if (statusid == 16) { //aof
-          this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
+          location.href = '/usercentralpolicy/' + xe + '/' + provinceId; 
+          // this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
         }
         else if (statusid == 2) { //aof role6 and 10 มาทำต่อด้วย
           if (this.role_id == 3) {
-            this.router.navigate(['/inspectionplan/' + xe + '/' + provinceId + '/0'])
+             location.href = '/inspectionplan/' + xe + '/' + provinceId + '/0';
           } else if (this.role_id == 6) {
-            this.router.navigate(['/inspectionplan/ministry/' + xe + '/' + provinceId + '/0'])
+             location.href = '/inspectionplan/ministry/' + xe + '/' + provinceId + '/0';
           } else if (this.role_id == 10) {
-            this.router.navigate(['/inspectionplan/department/' + xe + '/' + provinceId + '/0'])
+             location.href = '/inspectionplan/department/' + xe + '/' + provinceId + '/0';
           }
         }
         else if (statusid == 3) { //aof role6 and 10 มาทำต่อด้วย
           this.notificationService.getinspactionsplaneven(xe)
             .subscribe(result => {
               if (result.roleCreatedBy == "3") {
-                this.router.navigate(['/inspectionplan/' + xe + '/' + provinceId + '/1'])
+                 location.href = '/inspectionplan/' + xe + '/' + provinceId + '/1';
               } else if (result.roleCreatedBy == "6") {
-                this.router.navigate(['/inspectionplan/ministry/' + xe + '/' + provinceId + '/1'])
+                 location.href = '/inspectionplan/ministry/' + xe + '/' + provinceId + '/1';
               } else if (result.roleCreatedBy == "10") {
-                this.router.navigate(['/inspectionplan/department/' + xe + '/' + provinceId + '/1'])
+                 location.href = '/inspectionplan/department/' + xe + '/' + provinceId + '/1';
               }
             })
-          //this.router.navigate(['/inspectionplan/' + xe + '/' + provinceId + '/1'])
+          // location.href = '/inspectionplan/' + xe + '/' + provinceId + '/1';
         }
         else if (statusid == 4) { //ask nik
-          this.router.navigate(['/answersubject/list/' + xe])
+           location.href = '/answersubject/list/' + xe;
         }
         else if (statusid == 5) { //ask nik
+           location.href = '/answerpeople';
         }
         else if (statusid == 6) { //ask nik
-
-          this.router.navigate(['/answersubject/list/' + xe])
-          // https://localhost:5001/subjectevent/detail/1;subjectgroupid=1
+          this.notificationService.getCentralPolicyProvince(centralPolicyId, provinceId).subscribe(result => {
+             location.href = '/subjectevent/detail/' + result, { subjectgroupid: xe, };
+          })
         }
         else if (statusid == 7) { //song
           this.notificationService.getElectronicBookUserInvite(userId, xe).subscribe(res => {
             console.log("inviteId: ", res);
-            this.router.navigate(['electronicbook/invitedetail/' + xe, { ebookInviteId: res }])
+             location.href = 'electronicbook/invitedetail/' + xe, { ebookInviteId: res };
           })
         }
 
         else if (statusid == 19) { //aof
-          this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
+           location.href = '/usercentralpolicy/' + xe + '/' + provinceId;
         }
 
         else if (statusid == 17) { //song
-          this.router.navigate(['/electronicbook/provincedetail/' + xe])
+           location.href = '/electronicbook/provincedetail/' + xe;
         }
         else if (statusid == 18) { //song
           this.notificationService.getElectronicBookProvincialDepartment(provinceId, xe).subscribe(res => {
             console.log("inviteId: ", res);
-            this.router.navigate(['/electronicbook/departmentdetail/' + xe, { electronicBookProvincialDepartmentId: res }])
+             location.href = '/electronicbook/departmentdetail/' + xe, { electronicBookProvincialDepartmentId: res };
           })
         }
         else if (statusid == 8) { //song
-          this.router.navigate(['/electronicbook/detail/' + xe])
+           location.href = '/electronicbook/detail/' + xe;
         }
         // this.nav = superAdmin;
         // this.profileform();

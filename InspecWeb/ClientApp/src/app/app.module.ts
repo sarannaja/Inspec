@@ -91,7 +91,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinistermonitoringComponent } from './ministermonitoring/ministermonitoring.component';
 import { AcceptCentralPolicyComponent } from './central-policy/accept-central-policy/accept-central-policy.component';
 import { EditCentralPolicyComponent } from './central-policy/edit-central-policy/edit-central-policy.component';
-// import { UserManager } from 'oidc-client';
+import { UserManager } from 'oidc-client';
 import { LogoutComponent } from 'src/api-authorization/logout/logout.component';
 import { UserCentralPolicyComponent } from './central-policy/user-central-policy/user-central-policy.component';
 import { EditSubjectComponent } from './subject/edit-subject/edit-subject.component';
@@ -208,7 +208,6 @@ import { AnswerRecommendationinSpectorEditComponent } from './answer-subject/ans
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ConfirmationDialogService } from './services/confirmation-dialog/confirmation-dialog.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationDialogComponent } from './services/confirmation-dialog/ConfirmationDialogComponent';
 
 // import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -235,6 +234,10 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
 import { QRCodeModule } from 'angularx-qrcode';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DemoMaterialModule } from './materail-module';
+import { TrainingIdcodeModule } from './training-idcode/training-idcode.module';
+import { RegionalagencyComponent } from './regionalagency/regionalagency.component';
+import { ConfirmationDialogComponent } from './services/confirmation-dialog/confirmation-dialog.component';
+import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -291,6 +294,7 @@ const ExternalOrganization = [
     HistoryTrainingReportComponent,
     ProgramTrainingComponent,
     LecturerTrainingComponent,
+    RegisterTrainingComponent,
     GroupTrainingRegisterComponent,
     ProgramTrainingRegisterComponent,
     ChartTrainingSurveyComponent,
@@ -428,12 +432,14 @@ const ExternalOrganization = [
     TrainingLoginSuccessComponent,
     ChartComponent,
     TrainingLoginListComponent,
-    TrainingLoginListDetailComponent
+    TrainingLoginListDetailComponent,
+    RegionalagencyComponent,
+    ConfirmationDialogComponent,
   ],
 
   imports: [
-    // BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    // BrowserModule,
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
@@ -449,7 +455,7 @@ const ExternalOrganization = [
     DataTablesModule,
     BrowserAnimationsModule,
     NgxMaterialTimepickerModule,
-
+    // TrainingIdcodeModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -641,6 +647,7 @@ const ExternalOrganization = [
           { path: 'namelabelpreview', component: NameLabelPreviewComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/login/list/:trainingid', component: TrainingLoginListComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/login/list/detail/:programid', component: TrainingLoginListDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'regionalagency', component: RegionalagencyComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -686,8 +693,9 @@ const ExternalOrganization = [
     ProvinceService,
     NotofyService,
     ConfirmationDialogService,
-    // UserManager
-    SortPipe
+    // UserManager,
+    SortPipe,
+    // ConfirmationDialogService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 

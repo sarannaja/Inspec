@@ -590,6 +590,20 @@ namespace InspecWeb.Controllers
 
             _context.ElectronicBooks.Remove(electronicBookData);
             _context.SaveChanges();
+
+            var data = electronicBookData.ElectronicBookGroups.ToArray();
+
+            var logdata = new Log
+            {
+                UserId = electronicBookData.CreatedBy,
+                DatabaseName = "ElectronicBook",
+                EventType = "ลบ",
+                EventDate = DateTime.Now,
+                Detail = "ลบสมุดตรวจอิเล็กทรอนิกส์" + data[0].CentralPolicyEvent.CentralPolicy.Title.ToString(),
+                Allid = electronicBookData.Id,
+            };
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
         }
 
         [HttpGet("electronicbookfile/{electronicBookId}")]
@@ -853,6 +867,18 @@ namespace InspecWeb.Controllers
                 }
             }
             System.Console.WriteLine("Finish Update Suggestion");
+            _context.SaveChanges();
+
+            var logdata = new Log
+            {
+                UserId = ElectSuggestionData.CreatedBy,
+                DatabaseName = "ElectronicBook",
+                EventType = "แก้ไข",
+                EventDate = DateTime.Now,
+                Detail = "แก้ไขสมุดตรวจอิเล็กทรอนิกส์",
+                Allid = model.ElectID,
+            };
+            _context.Logs.Add(logdata);
             _context.SaveChanges();
         }
 
@@ -1854,6 +1880,19 @@ namespace InspecWeb.Controllers
                 }
                 _context.SaveChanges();
             }
+            _context.SaveChanges();
+
+            var logdata = new Log
+            {
+                UserId = model.id,
+                DatabaseName = "ElectronicBook",
+                EventType = "เพิ่ม",
+                EventDate = DateTime.Now,
+                Detail = "เพิ่มสมุดตรวจอิเล็กทรอนิกส์",
+                Allid = ElectronicBookdata.Id,
+            };
+
+            _context.Logs.Add(logdata);
             _context.SaveChanges();
             return Ok(new { eBookID = ebookId });
         }

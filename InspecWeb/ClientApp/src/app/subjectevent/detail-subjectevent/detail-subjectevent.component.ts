@@ -694,6 +694,10 @@ export class DetailSubjecteventComponent implements OnInit {
           .subscribe(response => {
             //console.log(response);
           })
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid)
+          .subscribe(response => {
+            //console.log(response);
+          })
       }
       window.history.back();
       // setTimeout(() => {

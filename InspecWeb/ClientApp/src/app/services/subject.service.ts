@@ -454,7 +454,7 @@ export class SubjectService {
     // console.log('JSON.parse(value.CentralpolicyId2)',value.CentralpolicyId2[0])
     return this.http.post<any>(this.url + 'postsubjecteventfromcalendar', formData);
   }
-  editSubject2(Subjectdata, id) {
+  editSubject2(Subjectdata, id,userid) {
     console.log("id: ", id);
     console.log("Subjectdata: ", Subjectdata);
 
@@ -463,6 +463,7 @@ export class SubjectService {
     formData.append('Name', Subjectdata.name);
     formData.append('Status', Subjectdata.status);
     formData.append('Explanation', Subjectdata.explanation);
+    formData.append('UserID', userid);
 
     return this.http.put(this.url + "editsubject2/" + id, formData);
   }

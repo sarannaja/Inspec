@@ -3,7 +3,6 @@ import { ExternalOrganizationService } from 'src/app/services/external-organizat
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'src/app/services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { UserManager } from 'oidc-client';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { OpmCaseDetailComponent } from '../modals/detail-modal/detail-modal.component';
 import { IMyOptions } from 'mydatepicker-th';

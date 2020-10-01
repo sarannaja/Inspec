@@ -20,7 +20,7 @@ export class TrainingProgramLoginComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   mainUrl: string;
   Form: FormGroup;
-  qrdata = 'http://google.com';
+  qrdata = 'https://google.com';
   programloginid: any;
   programlogindb: any;
   programdate: any;

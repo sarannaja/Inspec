@@ -11,6 +11,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { SubquestionService } from 'src/app/services/subquestion.service';
 import * as _ from 'lodash';
 import { NotofyService } from 'src/app/services/notofy.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-edit-subject',
@@ -19,6 +20,7 @@ import { NotofyService } from 'src/app/services/notofy.service';
 })
 export class EditSubjectComponent implements OnInit {
 
+  userid: string;
   private startDate: IMyDate = { year: 0, month: 0, day: 0 };
   private endDate: IMyDate = { year: 0, month: 0, day: 0 };
   EditForm: FormGroup;
@@ -92,6 +94,7 @@ export class EditSubjectComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private departmentservice: DepartmentService,
     private _NotofyService: NotofyService,
+    private authorize: AuthorizeService,
     @Inject('BASE_URL') baseUrl: string) {
     this.downloadUrl = baseUrl + '/Uploads';
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -103,6 +106,12 @@ export class EditSubjectComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      console.log(result);
+      // alert(this.userid)
+    })
     this.getSubjectDetail()
     this.EditForm = this.fb.group({
       name: new FormControl("", [Validators.required]),
@@ -597,7 +606,7 @@ export class EditSubjectComponent implements OnInit {
       // console.log("map: ", this.resultsubjectdetail);
       var CentralPolicyDateId: any = []
       var departmentId: any = []
-      this.subjectservice.editSubject2(value, id).subscribe(response => {
+      this.subjectservice.editSubject2(value, id,this.userid).subscribe(response => {
         this.AddFile();
         this.spinner.hide();
         this._NotofyService.onSuccess("เพื่มข้อมูล")

@@ -7,6 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ConfirmationDialogComponent implements OnInit {
 
+
   @Input() title: string;
   @Input() message: string;
   @Input() btnOkText: string;
@@ -17,15 +18,18 @@ export class ConfirmationDialogComponent implements OnInit {
   ngOnInit() {
   }
 
+
   public decline() {
     this.activeModal.close({ status: false });
   }
 
+
   public accept() {
     console.log({ status: true, disc: this.disc });
-    
+
     this.activeModal.close({ status: true, disc: this.disc });
   }
+
 
   public dismiss() {
     this.activeModal.dismiss();

@@ -143,6 +143,19 @@ namespace InspecWeb.Controllers
             _context.CentralPolicies.Add(centralpolicydata);
             _context.SaveChanges();
 
+            var logdata = new Log
+            {
+                UserId = model.UserID,
+                DatabaseName = "CentralPolicy",
+                EventType = "เพิ่ม",
+                EventDate = date,
+                Detail = "เพิ่มแผนการตรวจราชการ",
+                Allid = centralpolicydata.Id,
+            };
+
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
+
             foreach (var id in model.ProvinceId)
             {
                 var centralpolicyprovincedata = new CentralPolicyProvince
@@ -284,6 +297,19 @@ namespace InspecWeb.Controllers
 
             //_context.CentralPolicies.Add(centralpolicydata);
             _context.Entry(centralpolicydata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            var logdata = new Log
+            {
+                UserId = model.UserID,
+                DatabaseName = "CentralPolicy",
+                EventType = "แก้ไข",
+                EventDate = date,
+                Detail = "แก้ไขแผนการตรวจราชการ",
+                Allid = centralpolicydata.Id,
+            };
+
+            _context.Logs.Add(logdata);
             _context.SaveChanges();
 
             // var delData = _context.CentralPolicyProvinces
@@ -497,10 +523,24 @@ namespace InspecWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
+            var date = DateTime.Now;
             var centralpolicydata = _context.CentralPolicies.Find(id);
 
             _context.CentralPolicies.Remove(centralpolicydata);
             _context.SaveChanges();
+
+            //var logdata = new Log
+            //{
+            //    UserId = centralpolicydata.CreatedBy,
+            //    DatabaseName = "CentralPolicy",
+            //    EventType = "ลบ",
+            //    EventDate = date,
+            //    Detail = "ลบแผนการตรวจราชการ",
+            //    Allid = centralpolicydata.Id,
+            //};
+
+            //_context.Logs.Add(logdata);
+            //_context.SaveChanges();
         }
 
         //POST api/values
@@ -1337,7 +1377,8 @@ namespace InspecWeb.Controllers
                 .Where(p => p.Id == subjectgroupevent.CentralPolicyEventId).FirstOrDefault();
 
                 return Ok(new { subjectgroup, subjectcentralpolicyprovincedata, centralPolicyEventdata });
-            } else
+            }
+            else
             {
                 var centralPolicyEventdata = "";
                 return Ok(new { subjectgroup, subjectcentralpolicyprovincedata, centralPolicyEventdata });
@@ -1447,7 +1488,7 @@ namespace InspecWeb.Controllers
             var eventgroup = _context.SubjectGroupPeopleQuestions
                 .Where(p => p.CentralPolicyEventId == centralpolicyevent.Id).FirstOrDefault();
 
-            if(eventgroup != null)
+            if (eventgroup != null)
             {
                 var subjectcentralpolicyprovincedata = _context.SubjectCentralPolicyProvinces
          .Include(m => m.SubquestionCentralPolicyProvinces)
@@ -1475,7 +1516,8 @@ namespace InspecWeb.Controllers
          .Where(m => m.CentralPolicyProvinceId == cenproid).ToList();
 
                 return Ok(new { subjectcentralpolicyprovincedata });
-            } else
+            }
+            else
             {
                 return Ok(false);
             }

@@ -55,7 +55,7 @@ export class SubjecteventComponent implements OnInit {
 
   CentralPolicyEvents: Array<any> = []
   subjectgroupsdatas: Array<any> = []
-  checkOther: Boolean;
+  checkOther: boolean;
   submitted = false;
   // ceneventid
   submittedtime = false;
