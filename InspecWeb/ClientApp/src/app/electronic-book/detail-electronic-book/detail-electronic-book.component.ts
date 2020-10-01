@@ -454,10 +454,10 @@ export class DetailElectronicBookComponent implements OnInit {
   async getUserPeople() {
     this.selectdatapeople = []
     await this.userservice.getuserdata(7).subscribe(async result => {
-      this.resultpeople = result
-      console.log("tttt:", this.peopleuserdata);
+      this.resultpeople = result;
+      console.log("tttt:", this.resultpeople);
       for (var i = 0; i < this.resultpeople.length; i++) {
-        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].side + " - " + this.resultpeople[i].name })
+        await this.selectdatapeople.push({ value: this.resultpeople[i].id, label: "ด้าน" + this.resultpeople[i].sides.name + " - " + this.resultpeople[i].name })
       }
 
       var data: any[] = this.invitedPeopleData.map(result => {
