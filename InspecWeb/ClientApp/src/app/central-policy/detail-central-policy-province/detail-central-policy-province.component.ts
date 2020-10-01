@@ -100,10 +100,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   signatureFile: any = [];
   fileType: any;
   lineChart: any = [];
-  role7Count: any = 0;
-  role6Count: any = 0;
-  role10Count: any = 0;
-  role9Count: any = 0;
+  role7Count = 0;
+  role6Count = 0;
+  role10Count = 0;
+  role9Count = 0;
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -272,9 +272,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.getDetailCentralPolicyProvince()
     // this.getquestion();
 
+    this.getDepartmentPeople();
     this.getMinistryPeople();
     // this.getUserPeople();
-    // this.getDepartmentPeople();
+
     this.getAnswer2();
 
     // await this.getDepartment()
@@ -367,17 +368,50 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  async openModal(template: TemplateRef<any>) {
+  // async openModal(template: TemplateRef<any>) {
 
+  //   this.Form.reset();
+
+  //   this.modalRef = this.modalService.show(template);
+  //   this.getDepartmentPeople();
+  //   this.getMinistryPeople();
+  //   this.getProvincialDepartmentPeople();
+  //   this.getUserPeople();
+  //   this.getDepartmentdata();
+  // }
+
+  async openModalministry(template: TemplateRef<any>) {
+    this.loading = false;
     this.Form.reset();
-
-    this.modalRef = this.modalService.show(template);
-    this.getDepartmentPeople();
     this.getMinistryPeople();
-    this.getProvincialDepartmentPeople();
-    this.getUserPeople();
-    this.getDepartmentdata();
+    this.modalRef = this.modalService.show(template);
+    // this.getDepartmentPeople();
+    // this.getProvincialDepartmentPeople();
+    // this.getUserPeople();
+    // this.getDepartmentdata();
   }
+
+  async openModaldepartment(template: TemplateRef<any>) {
+    this.loading = false;
+    this.Form.reset();
+    this.getDepartmentPeople();
+    this.modalRef = this.modalService.show(template);
+  }
+
+  async openModalpeople(template: TemplateRef<any>) {
+    this.loading = false;
+    this.Form.reset();
+    this.getUserPeople();
+    this.modalRef = this.modalService.show(template);
+  }
+
+  async openModalprovince(template: TemplateRef<any>) {
+    this.loading = false;
+    this.Form.reset();
+    this.getProvincialDepartmentPeople();
+    this.modalRef = this.modalService.show(template);
+  }
+
   openModal2(template: TemplateRef<any>, subjectid) {
     this.subjectid = subjectid
     this.departmentService.getalldepartdata().subscribe(res => {
@@ -990,6 +1024,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       }
     }
     // console.log("TEST: ", this.selectdataministrypeople);
+    this.loading = true;
   }
 
   async getUserPeople() {
@@ -1054,6 +1089,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       }
     }
     console.log("TEST: ", this.selectdatapeople);
+    this.loading = true;
   }
 
   async getDepartmentPeople() {
@@ -1134,6 +1170,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
         }
         if (n == 0) {
           if (this.role_id == 3) {
+            // alert("3")
             var userregion = "";
             for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
 
@@ -1177,6 +1214,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       }
     }
     // console.log("TEST: ", this.selectdatadepartmentpeople);
+    this.loading = true;
   }
 
   async getProvincialDepartmentPeople() {
@@ -1238,6 +1276,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       }
     }
     // console.log("TEST: ", this.selectdatadepartmentpeople);
+    this.loading = true;
   }
 
   uploadFile(event) {
@@ -1406,6 +1445,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.answerData = res;
       console.log("answer: ", this.answerData);
     })
+    this.loading = true;
   }
 
   async openAnswerModal(template: TemplateRef<any>) {

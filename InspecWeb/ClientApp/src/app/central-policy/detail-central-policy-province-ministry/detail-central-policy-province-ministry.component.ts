@@ -274,7 +274,7 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
 
     // this.getMinistryPeople();
     // this.getUserPeople();
-    // this.getDepartmentPeople();
+    this.getDepartmentPeople();
     this.getAnswer2();
 
     // await this.getDepartment()
