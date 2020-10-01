@@ -512,7 +512,7 @@ const ExternalOrganization = [
           { path: 'training/reportmemu/:id', component: TrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/list', component: ListTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/list/:id', component: ListRegisterTrainingReportComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/history/:id', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/loginrate/:id', component: RateloginTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/program/:phaseid/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },

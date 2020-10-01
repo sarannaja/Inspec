@@ -1,5 +1,8 @@
 <div class="header">
-    
+    <h1 class="header-title">
+      ผู้สมัครเข้าร่วมอบรม
+    </h1>
+  
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
@@ -8,315 +11,387 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <div class="card card-eiei">
-          <div class="card-header" style="margin-bottom: -40px;">
-            <h5 class="card-title">
-                ผู้สมัครเข้าร่วมอบรม
-
-                <button class="btn btn-light btn-sm" (click)="gotoBack()">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                </button>
-                  
-            </h5>
+      <div class="card">
+        <div class="card-header" style="margin-bottom: -40px;">
+          <h5 class="card-title">ผู้สมัครเข้าร่วมอบรม</h5>
+          <div class="float-right">
+            <button class="btn btn-primary" title="รายงานผู้สมัครเข้าร่วมอบรม" style="margin-top: -60px;"
+            (click)="Report()"> <i
+                class="align-middle fas fa-fw fa-download pointer"></i>
+            </button>
+            <!-- <button class="btn btn-primary" (click)="CreateTraining()"
+                        style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button> -->
+            <br>
           </div>
-          <div class="card-body mt-3">
-              <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
-                  [dtOptions]="dtOptions">
-                  <thead>
-                      <tr>
-                          <th width="5%">#</th>
-                          <th width="30%">ชื่อ-นามสกุล</th>
-                          <th width="10%">วันที่สมัคร</th>
-                          <th width="20%">ตรววจสอบคุณสมบัติ</th>
-                          <th width="20%">สิทธิ์การรับฝึกอบรม</th>
-                          <th width="20%" class="text-center">
-                            <button class="btn btn-sm btn-info" (click)="(openModal(modalApprove))">เลือกอนุมัติสิทธิ์</button>
-                              <!-- <i class="align-middle mr-2 fas fa-fw fa-cog"></i>  -->
-                          </th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr *ngFor="let item of resulttraining; let i = index">
-                          <td>{{ i + 1 }}</td>
-                            
-                          <td class="ellipsis">
-                            <input type="checkbox"> &nbsp;&nbsp;&nbsp;
-                              <span class="pointer text-primary" (click)="openModal(modaldetail, item.id)">{{ item.name }}</span>
-                            </td>
-                          <td class="ellipsis">{{ item.createdAt | thaidate:'year'}}</td>
-                          <td>
-                            <span class="pointer" (click)="openModal(modalCondition, item.id)"><i class="align-middle mr-2 fas fa fa-info-circle text-muted pointer" aria-hidden="true"></i>
-                                <label class="text-muted pointer">รอการตรวจสอบคุณสมบัติ</label></span>
-                          </td>
-                          <td>
-                          <ng-container *ngIf="item.status == 0;else second">
-                                    <i class="align-middle mr-2 fas fa fa-info-circle text-muted" aria-hidden="true"></i><label class="text-muted">รอการอนุมัติ</label>
-                          </ng-container>
-                            <ng-template #second>
-                                <ng-container *ngIf="item.status == 1;else third">
-                                    <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success"></i><label class="text-success">ได้รับสิทธิ์</label>
-
-                                </ng-container>
-                            </ng-template>
-                            <ng-template #third>
-                                <ng-container *ngIf="item.status == 2;else four">
-
-                                    <i class="align-middle mr-2 fas fa-fw fa-times-circle text-danger"></i><label class="text-danger">ไม่ได้รับสิทธิ์</label>
-
-                                </ng-container>
-                            </ng-template>
-                          </td>
-                          <td class="text-center">
-                              <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
-                                (click)="RegisterTraining()"></i> -->
-                              <i class="align-middle mr-2 fas fa-fw fa-edit pointer"
-                                (click)="openModal(modalApprove, item.id)"></i>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
+        </div>
+        <div class="card-body">
+          <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+            [dtOptions]="dtOptions">
+            <thead>
+              <tr>
+                <th width="5%">#</th>
+                <th width="30%">ชื่อ-นามสกุล</th>
+                <th width="10%">วันที่สมัคร</th>
+                <th width="20%">ตรววจสอบคุณสมบัติ</th>
+                <th width="20%">สิทธิ์การรับฝึกอบรม</th>
+                <th width="20%" class="text-center">
+                  <button class="btn btn-sm btn-info" (click)="(openModal(modalApprove2))">เลือกอนุมัติสิทธิ์</button>
+                  <!-- <i class="align-middle mr-2 fas fa-fw fa-cog"></i>  -->
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resulttraining; let i = index">
+                <td>{{ i + 1 }}</td>
+  
+                <td class="ellipsis">
+  
+                  <input type="checkbox" (change)="addsPeople2(item.id)"> &nbsp;&nbsp;&nbsp;
+  
+                  <span class="pointer text-primary" (click)="openModal(modaldetail, item.id)">{{ item.name }}</span>
+                </td>
+                <td class="ellipsis">{{ item.createdAt | thaidate:'short'}}</td>
+                <td>
+                  <span (click)="openModal(modalCondition, item.id,item,i)"><i
+                      [ngClass]="item.register_status == true ?'align-middle mr-2 fas fa fa-info-circle  pointer text-success':'align-middle mr-2 fas fa fa-info-circle  pointer text-muted'"
+                      aria-hidden="true"></i>
+                    <label
+                      [ngClass]="item.register_status == true ?' pointer text-success':' pointer text-muted'">{{item.register_status == true ? "ตรวจสอบคุณสมบัติแล้ว" : "รอการตรวจสอบคุณสมบัติ"}}</label></span>
+                </td>
+                <td>
+                  <ng-container *ngIf="item.status == 0;else second">
+                    <i class="align-middle mr-2 fas fa fa-info-circle text-muted" aria-hidden="true"></i><label
+                      class="text-muted">รอการอนุมัติ</label>
+                  </ng-container>
+                  <ng-template #second>
+                    <ng-container *ngIf="item.status == 1;else third">
+                      <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success"></i><label
+                        class="text-success">ได้รับสิทธิ์</label>
+  
+                    </ng-container>
+                  </ng-template>
+                  <ng-template #third>
+                    <ng-container *ngIf="item.status == 2;else four">
+  
+                      <i class="align-middle mr-2 fas fa-fw fa-times-circle text-danger"></i><label
+                        class="text-danger">ไม่ได้รับสิทธิ์</label>
+  
+                    </ng-container>
+                  </ng-template>
+                </td>
+                <td class="text-center">
+                  <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
+                                  (click)="RegisterTraining()"></i> -->
+                  <i class="align-middle mr-2 fas fa-fw fa-edit pointer" (click)="openModal(modalApprove, item.id)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-
+  
     <!-- BEGIN primary modal -->
     <ng-template #modalApprove class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
-                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body m-3">
-                    <div class="form-group">
-                        <label for="test" class="form-label">สิทธิ์การเข้าฝึกอบรม</label>
-                        <select class="form-control select2" data-toggle="select2" formControlName="approve">
-                            <option value=null>กรุณาเลือกสิทธิ์การเข้าฝึกอบรม</option>
-                            <option value=1>ได้รับสิทธิ์การฝึกอบรม</option>
-                            <option value=2>ไม่มีสิทธิ์การฝึกอบรม</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">บันทึก</button>
-                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
-                        data-dismiss="modal">ปิด</button>
-                </div>
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <div class="form-group">
+              <label for="test" class="form-label">สิทธิ์การเข้าฝึกอบรม</label>
+              <select class="form-control select2" data-toggle="select2" formControlName="approve">
+                <option value=null>กรุณาเลือกสิทธิ์การเข้าฝึกอบรม</option>
+                <option value=1>ได้รับสิทธิ์การฝึกอบรม</option>
+                <option value=2>ไม่มีสิทธิ์การฝึกอบรม</option>
+              </select>
             </div>
-        </form>
-        <!-- </div> -->
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </form>
+      <!-- </div> -->
     </ng-template>
     <!-- END primary modal -->
-
-
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modalApprove2 class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="editRegisterList2(Form.value)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <div class="form-group">
+              <label for="test" class="form-label">สิทธิ์การเข้าฝึกอบรม</label>
+              <select class="form-control select2" data-toggle="select2" formControlName="approve">
+                <option value=null>กรุณาเลือกสิทธิ์การเข้าฝึกอบรม</option>
+                <option value=1>ได้รับสิทธิ์การฝึกอบรม</option>
+                <option value=2>ไม่มีสิทธิ์การฝึกอบรม</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </form>
+      <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+  
+    <!-- BEGIN primary modal -->
+    <ng-template #modalApprove class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <div class="form-group">
+              <label for="test" class="form-label">สิทธิ์การเข้าฝึกอบรม</label>
+              <select class="form-control select2" data-toggle="select2" formControlName="approve">
+                <option value=null>กรุณาเลือกสิทธิ์การเข้าฝึกอบรม</option>
+                <option value=1>ได้รับสิทธิ์การฝึกอบรม</option>
+                <option value=2>ไม่มีสิทธิ์การฝึกอบรม</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </form>
+      <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+  
+  
     <!-- BEGIN primary modal -->
     <ng-template #modalCondition class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">ตรวจสอบคุณสมบัติ</h5>
-                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body m-3">
-                    <div class="form-group">
-                        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg">
-                            <thead>
-                                <tr>
-                                    <th width="5%">#</th>
-                                    
-                                    <th width="40%">เงื่อนไขคุณสมบัติ</th>
-                                    <th width="20%" class="text-center">เกณฑ์</th>
-                                    <th width="10%"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>อายุปีเกษียณ</td>
-                                    <td></td>
-                                </tr>
-                                <tr *ngFor="let item of resulttrainingCondition; let i = index">
-                                    <td>{{ i + 1 }}</td>
-                                    
-                                    <td class="ellipsis">
-                                        <ng-container *ngIf="item.conditionType == 1;else csecond">
-                                            {{ item.name }}
-                                        </ng-container>
-                                        <ng-template #csecond>
-                                            <ng-container *ngIf="item.conditionType == 2;else cthird">
-                                                {{ item.name }}
-                                                <br>
-                                                <span class="badge badge-light"><label class="text-success form-text">คุณสมบัติอยู่ในเกณฑ์</label></span>
-                                            </ng-container>
-                                        </ng-template>
-                                        <ng-template #mthird>
-
-                                        </ng-template>
-
-                                    </td>
-                                    <td class="ellipsis text-center">
-                                        <ng-container *ngIf="item.conditionType == 1;else msecond">
-                                            
-                                        </ng-container>
-                                        <ng-template #msecond>
-                                            <ng-container *ngIf="item.conditionType == 2;else mthird">
-                                                อายุ {{item.startYear}} - {{item.endYear}}
-                                            </ng-container>
-                                        </ng-template>
-                                        <ng-template #mthird>
-
-                                        </ng-template>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox">
-                                        <!-- <input [checked]="item.value.score == score" type="checkbox"
-                                        (change)="formSelected(i,$event.target.value)" value="{{score}}"> -->
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">บันทึก</button>
-                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
-                        data-dismiss="modal">ปิด</button>
-                </div>
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <form [formGroup]="Form" (ngSubmit)="editRegisterConditionList(delid)">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">ตรวจสอบคุณสมบัติ</h5>
+            <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body m-3">
+            <div class="form-group">
+              <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg">
+                <thead>
+                  <tr>
+                    <th width="5%">#</th>
+  
+                    <th width="40%">เงื่อนไขคุณสมบัติ</th>
+                    <th width="20%" class="text-center">เกณฑ์</th>
+                    <th width="10%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of resulttrainingCondition; let i = index">
+                    <td>{{ i + 1 }}</td>
+  
+                    <td class="ellipsis">
+                      <ng-container *ngIf="item.conditionType == 1;else csecond">
+                        {{ item.name }}
+                      </ng-container>
+                      <ng-template #csecond>
+                        <ng-container *ngIf="item.conditionType == 2;else cthird">
+                          {{ item.name }}
+                          <br>
+                          <span class="badge badge-light"><label class="text-success form-text">อายุผู้สมัคร
+                              {{birthdate}} ปี
+                            </label></span>
+                          <!-- <span class="badge badge-light"><label class="text-success form-text">คุณสมบัติอยู่ในเกณฑ์
+                              {{birthdate | thaidate: 'year' }}</label></span> -->
+                        </ng-container>
+                      </ng-template>
+                      <ng-template #mthird>
+  
+                      </ng-template>
+  
+                    </td>
+                    <td class="ellipsis text-center">
+                      <ng-container *ngIf="item.conditionType == 1;else msecond">
+  
+                      </ng-container>
+                      <ng-template #msecond>
+                        <ng-container *ngIf="item.conditionType == 2;else mthird">
+                          อายุ {{item.startYear}} - {{item.endYear}}
+                        </ng-container>
+                      </ng-template>
+                      <ng-template #mthird>
+  
+                      </ng-template>
+                    </td>
+                    <td>
+                      <input type="checkbox" [checked]="item.status" (change)="showUpdatedItem(item,i)">
+                      <!-- <input [checked]="item.value.score == score" type="checkbox"
+                                          (change)="formSelected(i,$event.target.value)" value="{{score}}"> -->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-        </form>
-        <!-- </div> -->
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+          </div>
+        </div>
+      </form>
+      <!-- </div> -->
     </ng-template>
     <!-- END primary modal -->
-
-
+  
+  
     <!-- BEGIN primary modal -->
     <ng-template #modaldetail class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">ข้อมูลผู้สมัคร</h5>
-                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body m-3">
-                    <div class="col-12 rounded-lg border">
-                        <br>
-                        <h3>ข้อมูลพื้นฐาน<span class="star">*จำเป็นต้องกรอก</span></h3>
-                        
-                        <br>
-                        <label>รูปถ่าย</label><small class="text-muted">(หน้าตรง ถ่ายไว้ไม่เกิน 6 เดือน)รูปแบบไฟล์ .JPG .PNG *รูปชุดขาวถ้ามี</small><span class="star">*</span>
-                        <br>
-                        <input type="file" (change)="uploadFile($event)">
-                        <br><br>
-    
-                        <label class="form-text">เอกสาารการรับรองของผู้บังคับบัญชาฯ<span class="star">*</span></label>
-                        <input type="file" (change)="uploadFile($event)">
-                        <br><br>
-    
-                        <label class="form-text">ท่านเป็นผู้มีอายุราชการเหลือไม่น้อยกว่า 1 ปี ใช่หรือไม่<span class="star">*</span></label>
-                        <input type="radio" formControlName="type" name="type" value="in">
-                        <label for="r_in">&nbsp;&nbsp;ใช่</label><br>
-                        <input type="radio" formControlName="type" name="type" value="out">
-                        <label for="r_out">&nbsp;&nbsp;ไม่</label><br>
-                        <br>
-    
-                        <label>โปรดระบุ ปี พ.ศ. ที่ท่านเกษียณอายุราชการ</label><span class="star">*</span>
-                        <input type="text" value="" formControlName="name" class="form-control" placeholder="กรุณากรอกปี พ.ศ.">
-                        <br>
-    
-                        <label>ชื่อ-นามสกุล</label><span class="star">*</span>
-                        <input type="text" value="{{ Name }}" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล">
-                        <br>
-    
-                        <label>ชื่อเล่น</label><span class="star">*</span>
-                        <input type="text" value="" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อ-นามสกุล">
-                        <br>
-    
-                        <label>วันเกิด</label><span class="star">*</span>
-                        <my-date-picker-th formControlName="end_date" [options]="myDatePickerOptions" required>
-                        </my-date-picker-th>
-                        <br>
-    
-                        <label>หน่วยงาน/สังกัด</label><span class="star">*</span>
-                        <input type="text" value="" formControlName="department" class="form-control" placeholder="กรุณากรอกหน่วยงาน/สังกัด">
-                        <br>
-    
-                        <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
-                        <input type="text" value="" formControlName="cardid" class="form-control" placeholder="กรุณากรอกบัตรประชาชน" maxlength="13">
-                        <br>
-    
-                        <label>ชื่อตำแหน่งในปัจจุบัน</label><span class="star">*</span>
-                        <input type="text" value="{{ Position }}" formControlName="position" class="form-control" placeholder="กรุณากรอกตำแหน่ง">
-                        <br>
-                        
-                        <label>ที่อยู่ที่ทำงาน</label><span class="star">*</span>
-                        <input type="text" value="{{ Position }}" formControlName="position" class="form-control" placeholder="กรุณากรอกตำแหน่ง">
-                        <br>
-    
-                        <label>เบอร์โทรศัพท์มือถือ</label><span class="star">*</span>
-                        <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์">
-                        <br>
-    
-                        <label>เบอร์โทรสาร</label><span class="star">*</span>
-                        <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์">
-                        <br>
-    
-                        <label>E-mail</label><span class="star">*</span>
-                        <input type="text" value="{{ Email }}" formControlName="email" class="form-control" placeholder="กรุณากรอก E-mail">
-                        <br>
-                    </div>
-                    <br>
-                    
-                    <div class="col-12 rounded-lg border">
-                        <br>
-                        <h3>ผู้ประสานงาน<span class="star">*จำเป็นต้องกรอก</span></h3>
-                        <small class="form-text text-muted">ผู้ช่วยผู้ตรวจราชการ  หรือผู้ที่สามารถติดต่อได้ในกรณีเร่งด่วน</small>
-                        <br>
-    
-                        <label>ชื่อ-นามสกุล</label><span class="star">*</span>
-                        <input type="text" value="{{ Email }}" formControlName="email" class="form-control" placeholder="กรุณากรอก E-mail">
-                        <br>
-    
-                        <label>เบอร์โทรศัพท์มือถือผู้ประสานงาน</label><span class="star">*</span>
-                        <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์">
-                        <br>
-    
-                        <label>เบอร์โทรศัพท์ที่ทำงานผู้ประสานงาน</label><span class="star">*</span>
-                        <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์">
-                        <br>
-    
-                        <label>E-mail ผู้ประสานงาน</label><span class="star">*</span>
-                        <input type="text" value="{{ Email }}" formControlName="email" class="form-control" placeholder="กรุณากรอก E-mail">
-                        <br>
-    
-                        <label class="form-text">สำเนาบัตรประชาชน<span class="star">*</span></label>
-                        <input type="file" (change)="uploadFile($event)">
-                        <small class="form-text text-muted">(เพื่อใช้ในการจองบัตรโดยสารเครื่องบิน)</small>
-                        <br>
-    
-                        
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">บันทึก</button>
-                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
-                        data-dismiss="modal">ปิด</button>
-                </div>
-            </div>
-        </form>
-        <!-- </div> -->
+      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+      <!-- <form [formGroup]="Form" (ngSubmit)="editRegisterList(Form.value,delid)"> -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">ข้อมูลผู้สมัคร</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3">
+          <div class="col-12 rounded-lg border">
+  
+            <label class="form-text">ท่านเป็นผู้มีอายุราชการเหลือไม่น้อยกว่า 1 ปี ใช่หรือไม่</label>
+  
+            <input *ngIf="peopledetail.type == 'in'" type="text" value="ใช่" class="form-control" readonly
+              placeholder="กรุณากรอกชื่อ-นามสกุล">
+            <input *ngIf="peopledetail.type == 'out'" type="text" value="ไม่" class="form-control" readonly
+              placeholder="กรุณากรอกชื่อ-นามสกุล">
+            <!-- <input type="radio" formControlName="type" name="type" value="in">
+            <label for="r_in">&nbsp;&nbsp;ใช่</label><br>
+            <input type="radio" formControlName="type" name="type" value="out">
+            <label for="r_out">&nbsp;&nbsp;ไม่</label><br> -->
+            <br>
+  
+            <label>วันที่เกษียณอายุราชการ</label><span class="star">*</span>
+            <input type="text" value="{{peopledetail.retiredDate  | thaidate: 'year'}}" class="form-control" readonly
+              placeholder="กรุณากรอกชื่อ-นามสกุล">
+            <br>
+  
+            <label>ชื่อ-นามสกุล</label><span class="star">*</span>
+            <input type="text" value="{{peopledetail.name}}" class="form-control" readonly
+              placeholder="กรุณากรอกชื่อ-นามสกุล">
+            <br>
+  
+            <label>ชื่อเล่น</label><span class="star">*</span>
+            <input type="text" value="{{peopledetail.nickname}}" class="form-control" readonly
+              placeholder="กรุณากรอกชื่อ-นามสกุล">
+            <br>
+  
+            <label>วันเกิด</label><span class="star">*</span>
+            <!-- <my-date-picker-th formControlName="end_date"    [options]="myDatePickerOptions" required>
+              </my-date-picker-th> -->
+            <input type="text" value="{{peopledetail.birthDate  | thaidate: 'year'}}" class="form-control" readonly
+              placeholder="กรุณากรอกชื่อ-นามสกุล">
+            <br>
+  
+            <label>หน่วยงาน/สังกัด</label><span class="star">*</span>
+            <input type="text" value="{{peopledetail.department}}" class="form-control" readonly
+              placeholder="กรุณากรอกหน่วยงาน/สังกัด">
+            <br>
+  
+            <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
+            <input type="text" value="{{peopledetail.cardId}}" class="form-control" readonly
+              placeholder="กรุณากรอกบัตรประชาชน" maxlength="13">
+            <br>
+  
+            <label>ชื่อตำแหน่งในปัจจุบัน</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.position }}" class="form-control" readonly
+              placeholder="กรุณากรอกตำแหน่ง">
+            <br>
+  
+            <label>ที่อยู่ที่ทำงาน</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.officeAddress }}" class="form-control" readonly
+              placeholder="กรุณากรอกตำแหน่ง">
+            <br>
+  
+            <label>เบอร์โทรศัพท์มือถือ</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.phone }}" class="form-control" readonly
+              placeholder="กรุณากรอกเบอร์โทรศัพท์">
+            <br>
+  
+            <label>เบอร์โทรสาร</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.fax }}" class="form-control" readonly
+              placeholder="กรุณากรอกเบอร์โทรศัพท์">
+            <br>
+  
+            <label>E-mail</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.email }}" class="form-control" readonly
+              placeholder="กรุณากรอก E-mail">
+            <br>
+          </div>
+          <br>
+  
+          <div class="col-12 rounded-lg border">
+            <br>
+            <h3>ผู้ประสานงาน<span class="star">*จำเป็นต้องกรอก</span></h3>
+            <small class="form-text text-muted">ผู้ช่วยผู้ตรวจราชการ หรือผู้ที่สามารถติดต่อได้ในกรณีเร่งด่วน</small>
+            <br>
+  
+            <label>ชื่อ-นามสกุล</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.collaboratorEmail }}" class="form-control" readonly
+              placeholder="กรุณากรอก E-mail">
+            <br>
+  
+            <label>เบอร์โทรศัพท์มือถือผู้ประสานงาน</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.collaboratorPhone }}" class="form-control" readonly
+              placeholder="กรุณากรอกเบอร์โทรศัพท์">
+            <br>
+  
+            <label>เบอร์โทรศัพท์ที่ทำงานผู้ประสานงาน</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.collaboratorPhoneOffice }}" class="form-control" readonly
+              placeholder="กรุณากรอกเบอร์โทรศัพท์">
+            <br>
+  
+            <label>E-mail ผู้ประสานงาน</label><span class="star">*</span>
+            <input type="text" value="{{ peopledetail.collaboratorEmail }}" class="form-control" readonly
+              placeholder="กรุณากรอก E-mail">
+            <br>
+  
+            <!-- <label class="form-text">สำเนาบัตรประชาชน<span class="star">*</span></label>
+                          <input type="file" (change)="uploadFile($event)">
+                          <small class="form-text text-muted">(เพื่อใช้ในการจองบัตรโดยสารเครื่องบิน)</small> -->
+            <br>
+  
+  
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-primary">บันทึก</button> -->
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+        </div>
+      </div>
+      <!-- </form> -->
+      <!-- </div> -->
     </ng-template>
     <!-- END primary modal -->
-
   </div>
-
