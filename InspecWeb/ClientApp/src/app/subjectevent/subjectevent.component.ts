@@ -596,6 +596,7 @@ export class SubjecteventComponent implements OnInit {
       this.provinceIdtype2 = this.rssj(event.value).provinceId
     this.FormReporttype2.patchValue({
       SubjectGroupId: this.subjectgroupidtype2,
+      
     })
     this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype2, this.provinceIdtype2).subscribe(result => {
       this.centralpolicyprovinceidtype2 = result
@@ -668,7 +669,7 @@ export class SubjecteventComponent implements OnInit {
   }
   storeReportPerformance(value) {
     console.log(value);
-    this.reportservice.createReporttype1(value).subscribe(result => {
+    this.reportservice.createReporttype1(value,this.provinceIdtype2).subscribe(result => {
       this.FormReporttype2.reset();
       this.modalRef.hide();
       window.open(this.downloadUrl + "/" + result.data);
@@ -837,6 +838,7 @@ export class SubjecteventComponent implements OnInit {
         if (subjectgroup.subjectGroupPeopleQuestions[0] == null) {
           this._NotofyService.onFalsenik("ไม่พบแบบสอบถามในเรื่องตรวจ");
         } else {
+          console.log(subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId);
           this.reportservice.createReportQuestionnaire(subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(result => {
             window.open(this.downloadUrl + "/" + result.data);
           })

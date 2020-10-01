@@ -68,6 +68,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.CentralPolicyDateProvince)
                 .Include(m => m.CentralPolicyProvince)
                 .Include(m => m.SubquestionCentralPolicyProvinces)
+                .OrderByDescending(m => m.Id)
                 //.Where(m => m.CentralPolicyId == id);
                 .Where(m => m.CentralPolicyProvince.CentralPolicyId == id && m.Type == "Master");
 

@@ -329,7 +329,11 @@ namespace InspecWeb.Controllers
 
                 var regiondata = _context.FiscalYearRelations
                     .Include(m => m.Region)
-                    .Where(m => m.ProvinceId == answerdata[0].User.ProvinceId)
+                    .Where(m => m.ProvinceId == model.provinceid)
+                    .FirstOrDefault();
+
+                var provicedata = _context.Provinces
+                    .Where(m => m.Id == model.provinceid)
                     .FirstOrDefault();
 
                 using (DocX document = DocX.Create(createfile))
@@ -361,7 +365,7 @@ namespace InspecWeb.Controllers
                         year.SpacingAfter(10d);
                         year.FontSize(16d);
 
-                        var inspector = document.InsertParagraph("หน่วยงาน : " + answerdata[i].User.ProvincialDepartments.Name + "เขต : " + regiondata.Region.Name + " จังหวัด : " + answerdata[i].User.Province.Name);
+                        var inspector = document.InsertParagraph("หน่วยงาน : " + answerdata[i].User.ProvincialDepartments.Name + "เขต : " + regiondata.Region.Name + " จังหวัด : " + provicedata.Name);
                         inspector.Alignment = Alignment.center;
                         inspector.SpacingAfter(30d);
                         inspector.FontSize(16d);
@@ -566,7 +570,7 @@ namespace InspecWeb.Controllers
             if (model.reporttype == "3")
             {
                 var type = "(รายเขต)";
-                List<long> termsList = new List<long>();
+                List<FiscalYearRelation> termsList = new List<FiscalYearRelation>();
                 List<SubjectCentralPolicyProvince> termsList2 = new List<SubjectCentralPolicyProvince>();
                 var regiondata = _context.Regions
                     .Where(m => m.Id == model.regionId)
@@ -587,14 +591,24 @@ namespace InspecWeb.Controllers
 
                 foreach (var provinceUser in userdata.UserProvince)
                 {
-                    var userprovincedata = fiscalyearrelationsdata.Where(x => x.ProvinceId == provinceUser.ProvinceId)
-                        .FirstOrDefault();
-                    termsList.Add(userprovincedata.ProvinceId);
-                }
+                    System.Console.WriteLine("in" + provinceUser.ProvinceId);
 
+                    var userprovincedata = fiscalyearrelationsdata
+                        .Where(x => x.ProvinceId == provinceUser.ProvinceId)
+                        .FirstOrDefault();
+                    System.Console.WriteLine("in111111" + userprovincedata);
+                    if (userprovincedata != null)
+                    {
+                        termsList.Add(userprovincedata);
+                    }
+                    //System.Console.WriteLine("in1ll" + userprovincedata.Province.Name);
+                }
+                System.Console.WriteLine("injjj -> " + termsList.Count);
+                FiscalYearRelation[] terms1 = termsList.ToArray();
                 //long terms = termsList;
-                foreach (var test4 in termsList)
+                foreach (var test4 in terms1)
                 {
+                    System.Console.WriteLine("in2 -> " + test4.ProvinceId);
                     var answerdata = _context.SubjectCentralPolicyProvinces
                     .Include(m => m.SubjectGroup)
                     .ThenInclude(m => m.Province)
@@ -620,12 +634,15 @@ namespace InspecWeb.Controllers
                     .ThenInclude(x => x.AnswerSubquestionOutsiders)
                     .Where(m => m.Type == "NoMaster")
 
-                    .Where(m => m.SubjectGroup.ProvinceId == test4)
+                    .Where(m => m.SubjectGroup.ProvinceId == test4.ProvinceId)
                     .ToList();
+                    System.Console.WriteLine("in2ddd");
                     foreach (var test5 in answerdata)
                     {
+                        System.Console.WriteLine("in2xxx");
                         termsList2.Add(test5);
                     }
+                    System.Console.WriteLine("in2gggg");
                 }
                 SubjectCentralPolicyProvince[] terms = termsList2.ToArray();
                 using (DocX document = DocX.Create(createfile))
@@ -1055,11 +1072,13 @@ namespace InspecWeb.Controllers
                      .Include(m => m.SubjectGroup)
                      .ThenInclude(m => m.SubjectCentralPolicyProvinces)
                      .Include(m => m.User)
+                     .ThenInclude(m => m.UserProvince)
                      .ThenInclude(m => m.Province)
                      .Include(m => m.User)
                      .ThenInclude(m => m.ProvincialDepartments)
                      .Where(m => m.SubjectGroupId == model.SubjectGroupId)
-                     .Where(m => m.User.ProvinceId == model.provinceId);
+                     //.Where(m => m.User.ProvinceId == model.provinceId)
+                     .Where(m => m.User.UserProvince.Any(x => x.ProvinceId == model.provinceId));
 
                 var ProvincialDepartmentdata = _context.ProvincialDepartment
                     .Where(m => m.Id == model.provincialDepartmentId)
@@ -1076,7 +1095,7 @@ namespace InspecWeb.Controllers
 
                 var testData = data.ToArray();
 
-
+                System.Console.WriteLine("www"+ testData.Count());
                 using (DocX document = DocX.Create(createfile))
                 {
                     System.Console.WriteLine("4");
@@ -1231,7 +1250,11 @@ namespace InspecWeb.Controllers
                 {
                     var userprovincedata = fiscalyearrelationsdata.Where(x => x.ProvinceId == provinceUser.ProvinceId)
                         .FirstOrDefault();
-                    termsList.Add(userprovincedata.ProvinceId);
+                    if (userprovincedata != null)
+                    {
+                        termsList.Add(userprovincedata.ProvinceId);
+                    }
+
                 }
 
                 foreach (var test4 in termsList)
@@ -1408,9 +1431,10 @@ namespace InspecWeb.Controllers
                 .ToList();
 
             var cenprolicyevent = _context.CentralPolicyEvents
-               .Where(m => m.InspectionPlanEventId == model.planid)
+               .Where(m => m.Id == model.planid)
                //.Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
                .FirstOrDefault();
+            System.Console.WriteLine("cenprolicyevent" + cenprolicyevent.Id);
 
             var question = _context.CentralPolicyEventQuestions
                 .Include(m => m.CentralPolicyEvent)
@@ -1506,11 +1530,11 @@ namespace InspecWeb.Controllers
                     for (int ii = 0; ii < user.Count; ii++)
                     {
                         System.Console.WriteLine("9.4: " + user[ii].User.ProvincialDepartments.Name);
-                        t.Rows[j].Cells[2].Paragraphs[0].Append(user[ii].User.ProvincialDepartments.Name);
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(ii + 1 + "." + user[ii].User.ProvincialDepartments.Name + "\n");
                         System.Console.WriteLine("9.5: " + user[ii].User.Province.Name);
-                        t.Rows[j].Cells[3].Paragraphs[0].Append(user[ii].User.Province.Name);
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(ii + 1 + "." + user[ii].User.Province.Name + "\n");
                         System.Console.WriteLine("9.6: " + user[ii].User.Name);
-                        t.Rows[j].Cells[4].Paragraphs[0].Append(user[ii].User.Name);
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(ii + 1 + "." + user[ii].User.Name + "\n");
                         System.Console.WriteLine("10");
                     }
 
@@ -1679,14 +1703,16 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.CentralPolicy)
                 .Include(m => m.CentralPolicyEventQuestion)
                 .Include(m => m.User)
+                .ThenInclude(m => m.UserProvince)
                 .ThenInclude(m => m.Province)
-                .Where(m => m.User.ProvinceId == model.provinceid)
+                .Where(m => m.User.UserProvince.Any(x => x.ProvinceId == model.provinceid))
                 .Where(m => m.CentralPolicyProvinceId == model.CentralPolicyProvinceId)
                 .ToList();
 
+                var test = answerdata[0].User.UserProvince.ToArray();
                 var regiondata = _context.FiscalYearRelations
                   .Include(m => m.Region)
-                  .Where(m => m.ProvinceId == answerdata[0].User.ProvinceId)
+                  .Where(m => m.ProvinceId == test[0].ProvinceId)
                   .FirstOrDefault();
 
                 System.Console.WriteLine("type2");
@@ -1719,9 +1745,9 @@ namespace InspecWeb.Controllers
 
                     System.Console.WriteLine("ชื่อที่ปรึกษาฯ" + answerdata[0].User.Name);
                     System.Console.WriteLine("เขต" + regiondata.Region.Name);
-                    System.Console.WriteLine("จังหวัด" + answerdata[0].User.Province.Name);
+                    System.Console.WriteLine("จังหวัด" + test[0].Province.Name);
 
-                    var inspector = document.InsertParagraph("เขต : " + regiondata.Region.Name + "จังหวัด : " + answerdata[0].User.Province.Name);
+                    var inspector = document.InsertParagraph("เขต : " + regiondata.Region.Name + "จังหวัด : " + test[0].Province.Name);
                     inspector.Alignment = Alignment.center;
                     inspector.SpacingAfter(30d);
                     inspector.FontSize(16d);
@@ -1799,56 +1825,86 @@ namespace InspecWeb.Controllers
         {
 
 
-            List<long> termsList = new List<long>();
-            List<object> termsList2 = new List<object>();
-            var test = _context.FiscalYearRelations
+            //List<long> termsList = new List<long>();
+            //List<object> termsList2 = new List<object>();
+            //var test = _context.FiscalYearRelations
 
-                .Where(m => m.RegionId == 1)
-                .ToList();
-            //จะได้จังหวัดในเขตตรวจ
+            //    .Where(m => m.RegionId == 1)
+            //    .ToList();
+            ////จะได้จังหวัดในเขตตรวจ
 
-            var test2 = _context.Users
-                .Include(m => m.UserProvince)
-                .Where(m => m.Id == "6eb6603f-a096-443e-912a-5c1a208cab8c")
-                .FirstOrDefault();
-            //จะได้จังหวัดที่ user อยู่
-
-
-            foreach (var provinceUser in test2.UserProvince)
-            {
-                var test3 = test.Where(x => x.ProvinceId == provinceUser.ProvinceId)
-                    .FirstOrDefault();
-                termsList.Add(test3.ProvinceId);
-            }
+            //var test2 = _context.Users
+            //    .Include(m => m.UserProvince)
+            //    .Where(m => m.Id == "6eb6603f-a096-443e-912a-5c1a208cab8c")
+            //    .FirstOrDefault();
+            ////จะได้จังหวัดที่ user อยู่
 
 
-            //long terms = termsList;
-            foreach (var test4 in termsList)
-            {
-                System.Console.WriteLine("in1");
-                var answerdata = _context.SubjectCentralPolicyProvinces
-                .Include(m => m.SubjectGroup)
+            //foreach (var provinceUser in test2.UserProvince)
+            //{
+            //    var test3 = test.Where(x => x.ProvinceId == provinceUser.ProvinceId)
+            //        .FirstOrDefault();
+            //    termsList.Add(test3.ProvinceId);
+            //}
+
+
+            ////long terms = termsList;
+            //foreach (var test4 in termsList)
+            //{
+            //    System.Console.WriteLine("in1");
+            //    var answerdata = _context.SubjectCentralPolicyProvinces
+            //    .Include(m => m.SubjectGroup)
+            //    .ThenInclude(m => m.Province)
+            //    .Include(m => m.SubjectGroup)
+            //    .ThenInclude(m => m.CentralPolicy)
+            //    .Include(m => m.SubjectGroup)
+            //    .ThenInclude(m => m.AnswerRecommenDationInspectors)
+            //    .ThenInclude(m => m.User)
+            //    .ThenInclude(m => m.ProvincialDepartments)
+            //    .Include(m => m.SubjectGroup)
+            //    .ThenInclude(m => m.User)
+            //    .ThenInclude(m => m.ProvincialDepartments)
+            //    .Where(m => m.Type == "NoMaster")
+            //    .Where(m => m.SubjectGroup.ProvinceId == test4)
+            //    .ToList();
+
+            //    foreach (var test6 in answerdata)
+            //    {
+            //        termsList2.Add(test6);
+            //    }
+            //}
+            //return Ok(termsList2);
+            var CentralPolicyEvents = _context.CentralPolicyEvents
+                .Include(m => m.CentralPolicyEventQuestions)
+                .Include(m => m.CentralPolicy)
+                .Where(m => m.Id == 4).First();
+
+            var InspectionPlanEvents = _context.InspectionPlanEvents
+                .Where(m => m.Id == CentralPolicyEvents.InspectionPlanEventId).First();
+
+            var user = _context.CentralPolicyUsers
+                .Include(m => m.User)
                 .ThenInclude(m => m.Province)
-                .Include(m => m.SubjectGroup)
-                .ThenInclude(m => m.CentralPolicy)
-                .Include(m => m.SubjectGroup)
-                .ThenInclude(m => m.AnswerRecommenDationInspectors)
-                .ThenInclude(m => m.User)
+                .Include(m => m.User)
                 .ThenInclude(m => m.ProvincialDepartments)
-                .Include(m => m.SubjectGroup)
-                .ThenInclude(m => m.User)
-                .ThenInclude(m => m.ProvincialDepartments)
-                .Where(m => m.Type == "NoMaster")
-                .Where(m => m.SubjectGroup.ProvinceId == test4)
+                .Where(m => m.User.Role_id == 7)
+                .Where(m => m.CentralPolicyId == CentralPolicyEvents.CentralPolicyId && m.ProvinceId == InspectionPlanEvents.ProvinceId)
+                .Where(m => m.InspectionPlanEventId == InspectionPlanEvents.Id)
                 .ToList();
 
-                foreach (var test6 in answerdata)
-                {
-                    termsList2.Add(test6);
-                }
-            }
-            return Ok(termsList2);
-            //return Ok(new { data });
+            var cenprolicyevent = _context.CentralPolicyEvents
+               .Where(m => m.Id == 4)
+               //.Where(m => m.CentralPolicyId == cenid.CentralPolicyId)
+               .FirstOrDefault();
+            System.Console.WriteLine("cenprolicyevent" + cenprolicyevent.Id);
+
+            var question = _context.CentralPolicyEventQuestions
+                .Include(m => m.CentralPolicyEvent)
+                .Include(m => m.AnswerCentralPolicyProvinces)
+                .Where(m => m.CentralPolicyEventId == cenprolicyevent.Id)
+                .ToList();
+
+            return Ok(question);
         }
     }
 }

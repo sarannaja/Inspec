@@ -1364,6 +1364,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubjectGroupPeopleQuestions)
                 .Include(m => m.AnswerRecommenDationInspectors)
                 .ThenInclude(m => m.User)
+                .ThenInclude(m => m.UserProvince)
                 .ThenInclude(m => m.Province)
                 .Where(m => m.Id == subjectgroupid).FirstOrDefault();
 
@@ -1401,6 +1402,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.CentralPolicyEvent)
                 .Include(m => m.AnswerCentralPolicyProvinces)
                 .ThenInclude(m => m.User)
+                .ThenInclude(m => m.UserProvince)
                 .ThenInclude(m => m.Province)
                 .Where(m => m.CentralPolicyEventId == planid)
                 .ToList();

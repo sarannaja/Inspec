@@ -257,6 +257,7 @@ namespace InspecWeb.Controllers
             var centralpolicydata = _context.CentralPolicyUsers
                 .Include(m => m.CentralPolicy)
                 .ThenInclude(m => m.Typeexaminationplan)
+                .OrderByDescending(m => m.Id)
                 .Where(m => m.InspectionPlanEvent.Status == "ใช้งานจริง")
                 .Where(m => m.UserId == userid).ToList();
 
@@ -426,20 +427,25 @@ namespace InspecWeb.Controllers
         public IActionResult Get10(string userid)
         {
             var answeruserdata = _context.AnswerCentralPolicyProvinces
+                .Include(m => m.AnswerCentralPolicyProvinceStatus)
+                .ThenInclude(m => m.CentralPolicyEvent)
                 .Where(m => m.UserId == userid)
                 .ToList();
 
             return Ok(answeruserdata);
         }
         // GET api/values/5
-        [HttpGet("answeruserlistrold7/{id}/{userid}")]
-        public IActionResult Get11(long id, string userid)
+        [HttpGet("answeruserlistrold7/{id}/{InspectionPlanEventId}/{userid}")]
+        public IActionResult Get11(long id, long InspectionPlanEventId, string userid)
         {
             var answeruserdata = _context.AnswerCentralPolicyProvinces
                 .Include(m => m.CentralPolicyProvince)
                 .Include(m => m.CentralPolicyEventQuestion)
+                .Include(m => m.AnswerCentralPolicyProvinceStatus)
+                .ThenInclude(m => m.CentralPolicyEvent)
                 .Where(m => m.UserId == userid)
                 .Where(m => m.CentralPolicyProvinceId == id)
+                .Where(m => m.AnswerCentralPolicyProvinceStatus.CentralPolicyEvent.InspectionPlanEventId == InspectionPlanEventId)
                 .ToList();
 
             return Ok(answeruserdata);
