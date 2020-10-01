@@ -100,7 +100,7 @@
             <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
             <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
               <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-                {{items.user.side}}</label>
+                ด้าน{{items.user.sides.name}}</label>
             </div>
           </div>
           <br>
@@ -253,7 +253,7 @@
             <div class="collapse" id="peopleInvites">
               <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
                 <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-                  {{items.user.side}}</label>
+                  ด้าน{{items.user.sides.name}}</label>
               </div>
             </div>
           </div>
@@ -285,7 +285,7 @@
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
                       <h4><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
-                      <textarea cols="30" rows="5" formControlName="detail" class="form-control container"
+                      <textarea cols="30" rows="5" formControlName="detail" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
                     </div>
@@ -553,7 +553,7 @@
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
                       <h4><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
-                      <textarea cols="30" rows="5" formControlName="detail" class="form-control container"
+                      <textarea cols="30" rows="5" formControlName="detail" class="form-control"
                         placeholder="กรุณากรอกผลการตรวจ">
                       </textarea>
                     </div>
@@ -565,8 +565,7 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค
-                      </h4>
+                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
                       <textarea cols="30" rows="5" formControlName="problem" class="form-control"
                         placeholder="กรุณากรอกปัญหาและอุปสรรค">
                       </textarea>

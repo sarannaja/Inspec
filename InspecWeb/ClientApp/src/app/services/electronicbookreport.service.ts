@@ -38,7 +38,7 @@ export class ElectronicbookreportService {
       }
       else if (item.user.role_id == 7) {
         return {
-          inspectorName: "ที่ปรึกษาผู้ตรวจภาคประชาชน" + "\n" + item.user.side + "\n" + item.user.prefix + item.user.name,
+          inspectorName: "ที่ปรึกษาผู้ตรวจภาคประชาชน" + "\n" + "ด้าน" + item.user.sides.name + "\n" + item.user.prefix + item.user.name,
           inspectorSign: null,
           inspectorDescription: "-",
           approve: "-",
@@ -52,6 +52,7 @@ export class ElectronicbookreportService {
       return item.centralPolicyTitle + " " + "(ตรวจ ณ สถานที่ จังหวัด: " + item.inspectionPlanProvinceName + ")"
     })
     console.log("CHECK2: ", subjectData);
+
 
     exportData2 = electronicBookData.electronicBookDepartment.map((item, index) => {
       return {

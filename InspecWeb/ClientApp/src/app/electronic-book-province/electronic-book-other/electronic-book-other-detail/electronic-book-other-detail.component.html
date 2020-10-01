@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
@@ -15,8 +15,7 @@
       <div class="card-header">
         <h4 class="card-title mb-0">รายละเอียด</h4>
         <label style="margin-top: 20px;">กำหนดการสมุดตรวจ
-          {{electronicBookData.electronicBook.startDate | thaidate: 'year'}} ถึง
-          {{electronicBookData.electronicBook.endDate | thaidate: 'year'}}</label>
+          {{electronicBookData.electronicBook.startDate | thaidate: 'year'}}</label>
         <!-- <div *ngIf="electronicBookData.electronicBookAccept.electronicBookProvinceApproveFiles.length > 0" class="row"
           style="float: right; margin: 20px;">
           <h3 style="color: green;">แนบลายมือชื่อแล้ว</h3><i class="fas fa-check-circle"
@@ -213,8 +212,8 @@
             <textarea cols="30" rows="5" class="form-control container" ngModel="{{otherData.description}}"
               placeholder="ไม่มีข้อมูล" readonly></textarea>
             <textarea *ngIf="otherData.otherDescription != null" style="border-radius: 15px; width: 98%;" cols="30"
-              rows="4" class="form-control container mt-2" ngModel="{{otherData.otherDescription}}" placeholder="ไม่มีข้อมูล"
-              readonly></textarea>
+              rows="4" class="form-control container mt-2" ngModel="{{otherData.otherDescription}}"
+              placeholder="ไม่มีข้อมูล" readonly></textarea>
             <br>
           </div>
           <hr>

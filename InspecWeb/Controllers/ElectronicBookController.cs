@@ -169,7 +169,7 @@ namespace InspecWeb.Controllers
 
 
                  provincialDepartmentId = x.CentralPolicyEvent.CentralPolicy.SubjectGroups
-                 .Where(x => x.Status == "ใช้งานจริง")
+                 .Where(x => x.Status == "ใช้งานจริง" || x.Status == "รายงานแล้ว")
                  .Select(x => x.SubjectCentralPolicyProvinces
                  .Select(x => x.SubquestionCentralPolicyProvinces
                  .Select(x => x.SubjectCentralPolicyProvinceGroups
@@ -205,6 +205,9 @@ namespace InspecWeb.Controllers
 
             .Include(x => x.User)
             .ThenInclude(x => x.ProvincialDepartments)
+
+            .Include(x => x.User)
+            .ThenInclude(x => x.Sides)
 
             .Where(x => x.ElectronicBookId == electID)
             .ToList();
