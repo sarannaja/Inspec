@@ -34,7 +34,7 @@ export class ChartComponent implements OnInit {
         caption: this.subjectCenProG.name,
         subcaption: "จากหน่วยงานทั้งหมดที่ถูกเชิญ " + this.subjectCenProG.name,
         numbersuffix: " คน",
-        showsum: "1",
+        showsum: "2",
         plottooltext:
           "  <b> $label $dataValue</b> ที่ตอบว่า $seriesName",
         theme: "fusion",

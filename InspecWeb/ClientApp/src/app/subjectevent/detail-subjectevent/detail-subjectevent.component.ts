@@ -147,9 +147,13 @@ export class DetailSubjecteventComponent implements OnInit {
   showChart: number[] = []
   checkChart(id: number) { return (this.showChart.find(res => id == res) ? true : false) }
   closeChart(id: number) {
-    var removeIndex = this.showChart.map(function (item) { return item }).indexOf(id);
-    console.log('removeIndex', removeIndex, 'this.showChart.length', this.showChart.length);
-    this.showChart = this.showChart.splice(removeIndex, 1);
+
+    const index = this.showChart.indexOf(id);
+    delete this.showChart[index]
+    if (index > -1) {
+
+      // this.showChart.splice(index, 1);
+    }
   }
   listfiles: any = [];
   fileData: any = [{ ebookFile: '', fileDescription: '' }];
