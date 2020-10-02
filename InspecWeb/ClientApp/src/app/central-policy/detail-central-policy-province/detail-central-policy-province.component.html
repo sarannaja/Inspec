@@ -15,7 +15,7 @@
   </nav>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="loading">
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header">
@@ -68,7 +68,7 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญผู้ตรวจราชการกระทรวง</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModal(modalInviteMinistryPeople)"
+              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModalministry(modalInviteMinistryPeople)"
                 class="btn btn-primary">เชิญ</button>
             </div>
           </div>
@@ -120,7 +120,7 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญผู้ตรวจราชการกรม</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModal(modalInviteDepartmentPeople)"
+              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModaldepartment(modalInviteDepartmentPeople)"
                 class="btn btn-primary">เชิญ</button>
             </div>
           </div>
@@ -169,7 +169,7 @@
             <div class="col-md-6">
               <u>เชิญที่ปรึกษาผู้ตรวจราชการภาคประชาชน</u> &nbsp;&nbsp;
               <button *ngIf="role_id == 3 && watch == 0" type="button" class="btn btn-primary"
-                (click)="openModal(modalInvitePeople)">เชิญ</button>
+                (click)="openModalpeople(modalInvitePeople)">เชิญ</button>
               <!-- &nbsp;&nbsp;
               <button *ngIf="role_id == 3" type="button" class="btn btn-success"
                 (click)="openModal(modalQuestionPeople)">เพิ่มคำถาม</button> -->
@@ -222,7 +222,7 @@
             <div class="col-md-6">
               <u>เชิญหน่วยรับตรวจ</u> &nbsp;&nbsp;
               <button *ngIf="role_id == 3 && watch == 0" type="button"
-                (click)="openModal(modalInviteProvincialDepartmentPeople)" class="btn btn-primary">เชิญ</button>
+                (click)="openModalprovince(modalInviteProvincialDepartmentPeople)" class="btn btn-primary">เชิญ</button>
             </div>
           </div>
           <div class="row" style="margin-top: 10px;">

@@ -606,7 +606,7 @@ export class DetailSubjecteventComponent implements OnInit {
         this.subjectgroupland = this.subjectgroup.land
         //console.log("result", result);
         // alert(JSON.stringify(this.subjectgroup.status))
-        if (this.subjectgroup.suggestion != null) {
+        if (this.subjectgroup.suggestion != null && this.subjectgroup.suggestion != "null") {
           this.form.patchValue({
             // questionPeople: this.centralpolicyprovincedata.questionPeople,
             status: this.subjectgroup.status,

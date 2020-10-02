@@ -494,7 +494,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
             }
           }
 
-          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
         }
       } else {
         for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
@@ -511,7 +511,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
                 }
               }
 
-              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
+              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
             }
           }
         }

@@ -122,7 +122,32 @@ namespace InspecWeb.Controllers
                 });
                 _context.SaveChanges();
             }
-            if (Status == 3 || Status == 4)
+
+            //if (Status == 3 || Status == 4)
+            //{
+            //    var users = _context.UserProvinces
+            //   .Include(m => m.User)
+            //   .Where(m => m.ProvinceId == ProvinceId)
+            //   .Where(m => m.User.Role_id == 9 || m.User.Role_id == 5)
+            //   .ToList();
+
+            //    foreach (var item in users)
+            //    {
+            //        _context.Notifications.Add(new Notification
+            //        {
+            //            UserID = item.UserID,
+            //            CentralPolicyId = CentralPolicyId,
+            //            ProvinceId = ProvinceId,
+            //            status = Status,
+            //            noti = 1,
+            //            CreatedAt = date,
+            //            xe = xe
+            //        });
+            //        _context.SaveChanges();
+            //    }
+            //}
+
+            if (Status == 3)
             {
                 var users = _context.UserProvinces
                .Include(m => m.User)
@@ -144,6 +169,54 @@ namespace InspecWeb.Controllers
                     });
                     _context.SaveChanges();
                 }
+            }
+
+            if (Status == 4)
+            {
+                var subjectgroup = _context.SubjectGroups
+                    .Where(m => m.Id == xe).FirstOrDefault();
+
+                var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
+                    .Where(m => m.SubjectGroupId == subjectgroup.Id).ToList();
+
+                foreach(var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
+                {
+                    var SubquestionCentralPolicyProvincedata = _context.SubquestionCentralPolicyProvinces
+                        .Where(m => m.SubjectCentralPolicyProvinceId == SubjectCentralPolicyProvincesdata.Id).FirstOrDefault();
+
+                    var SubjectCentralPolicyProvinceGroupdatas = _context.SubjectCentralPolicyProvinceGroups
+                        .Where(m => m.SubquestionCentralPolicyProvinceId == SubquestionCentralPolicyProvincedata.Id).ToList();
+
+                    foreach (var SubjectCentralPolicyProvinceGroupdata in SubjectCentralPolicyProvinceGroupdatas)
+                    {
+                       // var users = _context.UserProvinces
+                       //.Include(m => m.User)
+                       //.Where(m => m.ProvinceId == ProvinceId)
+                       //.Where(m => m.User.Role_id == 9)
+                       //.ToList();
+                        var users = _context.Users
+                       .Where(m => m.ProvincialDepartmentId == SubjectCentralPolicyProvinceGroupdata.ProvincialDepartmentId)
+                       .Where(m => m.Role_id == 9)
+                       .ToList();
+
+                        foreach (var item in users)
+                        {
+                            _context.Notifications.Add(new Notification
+                            {
+                                UserID = item.Id,
+                                CentralPolicyId = CentralPolicyId,
+                                ProvinceId = ProvinceId,
+                                status = Status,
+                                noti = 1,
+                                CreatedAt = date,
+                                xe = xe
+                            });
+                            _context.SaveChanges();
+                        }
+                    }
+
+                }
+
             }
 
             // แจ้งเตือนผู้ร่วมตรวจเมื่อได้รับสมุดตรวจ
