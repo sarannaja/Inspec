@@ -2142,6 +2142,7 @@ namespace InspecWeb.Controllers
 
                 .Include(x => x.ElectronicBookOtherAccepts)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Sides)
             .Where(x => x.ElectronicBookId == model.ElectID && x.ProvincialDepartmentId == model.provincialDepartmentId)
             .FirstOrDefault();
 
@@ -2185,6 +2186,7 @@ namespace InspecWeb.Controllers
 
                 .Include(x => x.ElectronicBookOtherAccepts)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Sides)
                 .Where(x => x.Id == electID)
                 .FirstOrDefault();
             return Ok(electronicBookProvincialDepartmentData);
