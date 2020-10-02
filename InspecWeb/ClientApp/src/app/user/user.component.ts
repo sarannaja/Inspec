@@ -238,6 +238,7 @@ export class UserComponent implements OnInit {
     commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser,signature,userName) {
     // alert(commandnumber +"///"+commandnumberdate);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
+   // alert(Autocreateuser);
     this.addForm.reset()
     this.Autocreateuser = Autocreateuser; // สร้าง UerName เองหรือป่าว
     this.id = id;
@@ -479,7 +480,10 @@ export class UserComponent implements OnInit {
 
   updateuser(value) {
     // alert(1);
-    this.userService.editprofile(value, this.addForm.value.files, null, this.id)
+    this.addForm.patchValue({
+      Autocreateuser: this.Autocreateuser,
+    })
+    this.userService.editprofile(this.addForm.value, this.addForm.value.files, null, this.id)
       .subscribe(response => {
         // this.userService.changepassword(this.id)
         // .subscribe(result=>{
