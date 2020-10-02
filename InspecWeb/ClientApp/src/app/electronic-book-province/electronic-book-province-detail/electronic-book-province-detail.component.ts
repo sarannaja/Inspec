@@ -43,6 +43,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
   userProvinceId: any;
   checkProvince = false;
   submitted = false;
+  signUrl: any;
 
   constructor(
     private fb: FormBuilder,
@@ -60,7 +61,8 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id')
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
-    this.downloadUrl = baseUrl + '/Uploads';
+    this.downloadUrl = baseUrl + 'Uploads';
+    this.signUrl = baseUrl + 'Signature'
   }
 
   ngOnInit() {

@@ -176,7 +176,7 @@
                     <div class="col-2" style="text-align: center;">
                       <div *ngIf="items.user.signature != null">
                         <img class="rounded" *ngIf="items.user.role_id == 6"
-                          src="{{downloadUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
+                          src="{{signUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
                       </div>
                       <div *ngIf="items.user.signature == null" class="mt-4">
                         <label class="text-primary" style="font-weight: bold;">{{items.user.name}}</label>
@@ -230,7 +230,7 @@
                     <div class="col-2" style="text-align: center;">
                       <div *ngIf="items.user.signature != null">
                         <img class="rounded" *ngIf="items.user.role_id == 10"
-                          src="{{downloadUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
+                          src="{{signUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
                       </div>
                       <div *ngIf="items.user.signature == null" class="mt-4">
                         <label class="text-primary" style="font-weight: bold;">{{items.user.name}}</label>
@@ -421,7 +421,7 @@
                     </div>
                     <div class="col-2" style="text-align: center;">
                       <div *ngIf="items2.user.signature != null">
-                        <img class="rounded" src="{{downloadUrl}}/{{items2.user.signature}}" alt=""
+                        <img class="rounded" src="{{signUrl}}/{{items2.user.signature}}" alt=""
                           style="width: 100px; height: 100px;">
                       </div>
                       <div *ngIf="items2.user.signature == null" class="mt-4">
@@ -476,7 +476,7 @@
                     </div>
                     <div class="col-2" style="text-align: center;">
                       <div *ngIf="items.userProvincialDepartment.signature != null">
-                        <img class="rounded" src="{{downloadUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
+                        <img class="rounded" src="{{signUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
                           style="width: 100px; height: 100px;">
                       </div>
                       <div *ngIf="items.userProvincialDepartment.signature != null">

@@ -591,16 +591,22 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("ID: " + id);
             var electronicBookData = _context.ElectronicBooks.Find(id);
 
-            var data = electronicBookData.ElectronicBookGroups.ToArray();
+            var test = _context.ElectronicBooks
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x=> x.CentralPolicyEvent.CentralPolicy)
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+            var data = test.ElectronicBookGroups.ToArray();
+           
 
             var logdata = new Log
             {
-                UserId = electronicBookData.CreatedBy,
+                UserId = test.CreatedBy,
                 DatabaseName = "ElectronicBook",
                 EventType = "ลบ",
                 EventDate = DateTime.Now,
                 Detail = "ลบสมุดตรวจอิเล็กทรอนิกส์" + data[0].CentralPolicyEvent.CentralPolicy.Title.ToString(),
-                Allid = electronicBookData.Id,
+                Allid = test.Id,
             };
             _context.Logs.Add(logdata);
             _context.SaveChanges();
