@@ -37,6 +37,7 @@ export class DetailElectronicBookComponent implements OnInit {
   approveMinistry: any = [];
   provinceId: any = [];
   downloadUrl: any;
+  signUrl: any;
   provincialDepartmentId: any = [];
   resultministrypeople: any = [];
   selectdataministrypeople: any = [];
@@ -73,7 +74,8 @@ export class DetailElectronicBookComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string) {
     this.electId = activatedRoute.snapshot.paramMap.get('id')
     // this.centralPolicyUserId = activatedRoute.snapshot.paramMap.get('centralPolicyUserId')
-    this.downloadUrl = baseUrl + '/Uploads';
+    this.downloadUrl = baseUrl + 'Uploads';
+    this.signUrl = baseUrl + 'Signature'
     // this.getElectronicBookDetail();
     this.url = baseUrl;
   }

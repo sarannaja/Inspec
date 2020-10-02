@@ -59,6 +59,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
+            var filePath2 = _environment.WebRootPath + "/Signature/";
             var filename = "สมุดตรวจราชการอิเล็กทรอนิกส์" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
@@ -217,7 +218,7 @@ namespace InspecWeb.Controllers
                     t.Rows[j].Cells[2].Paragraphs[0].Append(model.printReport[k].approve);
                     if (model.printReport[k].inspectorSign != null)
                     {
-                        var myImageFullPath2 = filePath + model.printReport[k].inspectorSign;
+                        var myImageFullPath2 = filePath2 + model.printReport[k].inspectorSign;
                         Image image2 = document.AddImage(myImageFullPath2);
                         System.Console.WriteLine("JJJJJ: ");
                         Picture picture2 = image2.CreatePicture(30, 30);
@@ -285,7 +286,7 @@ namespace InspecWeb.Controllers
                     t2.Rows[j2].Cells[2].Paragraphs[0].Append(model.printReport2[k].department);
                     if (model.printReport2[k].departmentSign != null)
                     {
-                        var myImageFullPath2 = filePath + model.printReport2[k].departmentSign;
+                        var myImageFullPath2 = filePath2 + model.printReport2[k].departmentSign;
                         Image image2 = document.AddImage(myImageFullPath2);
                         System.Console.WriteLine("JJJJJ: ");
                         Picture picture2 = image2.CreatePicture(30, 30);
