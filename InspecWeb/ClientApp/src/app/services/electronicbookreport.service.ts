@@ -19,8 +19,16 @@ export class ElectronicbookreportService {
     console.log("electID: ", electID);
     var exportData: any = [];
     var exportData2: any = [];
+    var test: any = [];
 
-    exportData = electronicBookData.ebookInvite.map((item, index) => {
+    electronicBookData.ebookInvite.forEach(element => {
+      if (element.user.role_id == 6 || element.user.role_id == 10 || element.user.role_id == 7) {
+        test.push(element)
+      }
+    });
+    console.log("test invite: ", test);
+
+    exportData = test.map((item, index) => {
       if (item.user.role_id == 6) {
         return {
           inspectorName: item.user.ministries.name + "\n" + item.user.prefix + item.user.name,
