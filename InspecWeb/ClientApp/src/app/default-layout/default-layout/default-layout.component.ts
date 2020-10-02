@@ -177,22 +177,22 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   getnotifications() {
-    this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
-      .subscribe(resultsub => {
+    // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
+    //   .subscribe(resultsub => {
 
-       console.log('resultsub', resultsub);
+    //    console.log('resultsub', resultsub);
 
         this.notificationService.getnotificationsdata(this.userid)
           .subscribe(result => {
             this.resultnotifications = result
-              .map(resultxe => {
-                console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
+          //     .map(resultxe => {
+          //       console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
 
-                // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
-                return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
-              });
+          //       // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
+          //       return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
+          //     });
 
-          })
+          // })
       })
 
 
