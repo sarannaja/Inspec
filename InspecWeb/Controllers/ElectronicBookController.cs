@@ -591,9 +591,6 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("ID: " + id);
             var electronicBookData = _context.ElectronicBooks.Find(id);
 
-            _context.ElectronicBooks.Remove(electronicBookData);
-            _context.SaveChanges();
-
             var data = electronicBookData.ElectronicBookGroups.ToArray();
 
             var logdata = new Log
@@ -607,6 +604,11 @@ namespace InspecWeb.Controllers
             };
             _context.Logs.Add(logdata);
             _context.SaveChanges();
+
+            _context.ElectronicBooks.Remove(electronicBookData);
+            _context.SaveChanges();
+
+            
         }
 
         [HttpGet("electronicbookfile/{electronicBookId}")]
@@ -1387,6 +1389,8 @@ namespace InspecWeb.Controllers
                 .ThenInclude(x => x.Ministries)
                 .Include(x => x.CentralPolicy)
                 .Include(x => x.InspectionPlanEvent)
+                .Include(x => x.User)
+                .ThenInclude(x => x.Sides)
                 .Where(x => x.InspectionPlanEventId == id)
                 .ToList();
 
@@ -2138,6 +2142,7 @@ namespace InspecWeb.Controllers
 
                 .Include(x => x.ElectronicBookOtherAccepts)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Sides)
             .Where(x => x.ElectronicBookId == model.ElectID && x.ProvincialDepartmentId == model.provincialDepartmentId)
             .FirstOrDefault();
 
@@ -2181,6 +2186,7 @@ namespace InspecWeb.Controllers
 
                 .Include(x => x.ElectronicBookOtherAccepts)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Sides)
                 .Where(x => x.Id == electID)
                 .FirstOrDefault();
             return Ok(electronicBookProvincialDepartmentData);

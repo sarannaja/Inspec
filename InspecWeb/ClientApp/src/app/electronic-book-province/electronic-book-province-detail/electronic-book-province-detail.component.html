@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
@@ -92,7 +92,7 @@
             <u>ที่ปรึกษาผู้ตรวจราชการภาคประชาชน:</u>
             <div *ngFor="let items of invitedPeopleData; let index = index" style="margin-left: 20px;">
               <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-                {{items.user.side}}</label>
+                ด้าน{{items.user.sides.name}}</label>
             </div>
           </div>
 
@@ -178,7 +178,7 @@
             <div class="collapse" id="peopleInvites">
               <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
                 <label *ngIf="items.user.role_id == 7">- {{items.user.prefix}} {{items.user.name}} -
-                  {{items.user.side}}</label>
+                  ด้าน{{items.user.sides.name}}</label>
               </div>
             </div>
           </div>
