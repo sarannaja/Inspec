@@ -189,9 +189,7 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
 
       // console.log("res people: ", res);
       var acceptPeople: any = [];
-      var acceptPeople = res.filter(function (data) {
-        return data.status == "ตอบรับ" || data.status == "มอบหมาย";
-      });
+      var acceptPeople = res.filter((data) => data.status == "ตอบรับ" || (data.status == "มอบหมาย" && data.forwardExternal == 1));
       // console.log('acceptPeople: ', acceptPeople);
 
       this.invitedPeopleData = acceptPeople.filter(
