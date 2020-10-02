@@ -216,9 +216,11 @@ namespace InspecWeb.Controllers
                     t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
                     t.Rows[j].Cells[1].Paragraphs[0].Append(model.printReport[k].inspectorDescription);
                     t.Rows[j].Cells[2].Paragraphs[0].Append(model.printReport[k].approve);
-                    if (model.printReport[k].inspectorSign != null)
+                    if (model.printReport[k].inspectorSign != null && model.printReport[k].inspectorSign != "null" && model.printReport[k].inspectorSign != "")
                     {
+                        System.Console.WriteLine("9.3: " + model.printReport[k].inspectorSign);
                         var myImageFullPath2 = filePath2 + model.printReport[k].inspectorSign;
+                       
                         Image image2 = document.AddImage(myImageFullPath2);
                         System.Console.WriteLine("JJJJJ: ");
                         Picture picture2 = image2.CreatePicture(30, 30);
@@ -226,6 +228,7 @@ namespace InspecWeb.Controllers
                     }
                     else
                     {
+                        System.Console.WriteLine("9.4: ");
                         t.Rows[j].Cells[3].Paragraphs[0].Append(model.printReport[k].inspectorName).Alignment = Alignment.center;
                     }
                     System.Console.WriteLine("10");
@@ -284,12 +287,12 @@ namespace InspecWeb.Controllers
                     t2.Rows[j2].Cells[0].Paragraphs[0].Append(j2.ToString()).Alignment = Alignment.center;
                     t2.Rows[j2].Cells[1].Paragraphs[0].Append(model.printReport2[k].departmentDescription);
                     t2.Rows[j2].Cells[2].Paragraphs[0].Append(model.printReport2[k].department);
-                    if (model.printReport2[k].departmentSign != null)
+                    if (model.printReport2[k].departmentSign != null && model.printReport2[k].departmentSign != "null" && model.printReport2[k].departmentSign != "")
                     {
-                        var myImageFullPath2 = filePath2 + model.printReport2[k].departmentSign;
-                        Image image2 = document.AddImage(myImageFullPath2);
+                        var myImageFullPath3 = filePath2 + model.printReport2[k].departmentSign;
+                        Image image3 = document.AddImage(myImageFullPath3);
                         System.Console.WriteLine("JJJJJ: ");
-                        Picture picture2 = image2.CreatePicture(30, 30);
+                        Picture picture2 = image3.CreatePicture(30, 30);
                         t2.Rows[j2].Cells[3].Paragraphs[0].AppendPicture(picture2).SpacingBefore(3d).Append("\n" + model.printReport2[k].departmentName).Alignment = Alignment.center;
                     }
                     else

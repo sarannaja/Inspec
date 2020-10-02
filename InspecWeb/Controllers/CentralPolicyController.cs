@@ -763,6 +763,7 @@ namespace InspecWeb.Controllers
         {
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
+                .ThenInclude(m => m.Sides)
                 //.ThenInclude(m => m.UserProvince)
                 .Where(m => m.InspectionPlanEventId == id)
                 .Where(m => m.User.Role_id == 7).ToList();
