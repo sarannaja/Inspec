@@ -1414,10 +1414,13 @@ namespace InspecWeb.Controllers
                         }
 
                         //<!-- ลบไฟล์ออกจากโฟลเดอร์ -->
-                        string fullPath = _environment.WebRootPath + "//imgprofile//" + model.Img;
-                        if (System.IO.File.Exists(fullPath))
+                        if (model.Img != "user.png")
                         {
-                            System.IO.File.Delete(fullPath);
+                            string fullPath = _environment.WebRootPath + "//imgprofile//" + model.Img;
+                            if (System.IO.File.Exists(fullPath))
+                            {
+                                System.IO.File.Delete(fullPath);
+                            }
                         }
 
                         userdata.Img = random + filename;
