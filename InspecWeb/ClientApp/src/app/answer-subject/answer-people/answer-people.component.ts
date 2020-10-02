@@ -95,7 +95,7 @@ export class AnswerPeopleComponent implements OnInit {
       }
       else {
         for (var i = 0; i < this.resultanswersubject.length; i++) {
-          if (this.resultanswersubject[i].centralPolicyProvinceId == result) {
+          if (this.resultanswersubject[i].centralPolicyProvinceId == result && this.resultanswersubject[i].answerCentralPolicyProvinceStatus.centralPolicyEvent.inspectionPlanEventId == inspectionplaneventid) {
             // alert("me1 inedit")
             this.router.navigate(['/answerpeople/editcentralpolicyprovince/' + result + '/' + inspectionplaneventid])
             break;

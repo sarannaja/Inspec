@@ -1174,14 +1174,14 @@ export class DetailSubjecteventComponent implements OnInit {
       // this.modalRef.hide();
     })
   }
-  storeReportPerformance(value) {
-    //console.log(value);
-    this.reportservice.createReporttype1(value).subscribe(result => {
-      this.FormQuestion.reset();
-      this.modalRef.hide();
-      window.open(this.downloadUrl + "/" + result.data);
-    })
-  }
+  // storeReportPerformance(value) {
+  //   //console.log(value);
+  //   this.reportservice.createReporttype1(value).subscribe(result => {
+  //     this.FormQuestion.reset();
+  //     this.modalRef.hide();
+  //     window.open(this.downloadUrl + "/" + result.data);
+  //   })
+  // }
   // storeReportPerformance2() {
   //   console.log(this.provinceid);
   //   this.reportservice.createReporttype2(this.FormReport.value, this.provinceid, this.id, this.subjectgroupid).subscribe(result => {

@@ -76,7 +76,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
       })
   }
   getAnsweruser() {
-    this.answersubjectservice.getAnsweruserlistrole7(this.id, this.userid).subscribe(result => {
+    this.answersubjectservice.getAnsweruserlistrole7(this.id, this.inspectionPlanEventId, this.userid).subscribe(result => {
       console.log(result);
       this.resultanswer = result
       result[0].centralPolicyEventQuestion.centralPolicyEventId

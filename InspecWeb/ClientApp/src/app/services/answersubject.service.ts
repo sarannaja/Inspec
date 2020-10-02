@@ -51,8 +51,8 @@ export class AnswersubjectService {
   getansweruserrole7data(userid): Observable<any[]> {
     return this.http.get<any[]>(this.url + "answeruserrole7/" + userid)
   }
-  getAnsweruserlistrole7(id, userid) {
-    return this.http.get<Answerrole7List[]>(this.url + "answeruserlistrold7/" + id + "/" + userid)
+  getAnsweruserlistrole7(id, InspectionPlanEventId, userid) {
+    return this.http.get<Answerrole7List[]>(this.url + "answeruserlistrold7/" + id + "/" + InspectionPlanEventId + "/" + userid)
   }
   getAnswerstatusrole7(id, userid) {
     return this.http.get<Answerrole7>(this.url + "answerstatusrole7/" + id + "/" + userid)
