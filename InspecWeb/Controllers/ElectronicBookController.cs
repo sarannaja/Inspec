@@ -593,11 +593,11 @@ namespace InspecWeb.Controllers
 
             var test = _context.ElectronicBooks
                 .Include(x => x.ElectronicBookGroups)
-                .ThenInclude(x=> x.CentralPolicyEvent.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyEvent.CentralPolicy)
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
             var data = test.ElectronicBookGroups.ToArray();
-           
+
 
             var logdata = new Log
             {
@@ -614,7 +614,7 @@ namespace InspecWeb.Controllers
             _context.ElectronicBooks.Remove(electronicBookData);
             _context.SaveChanges();
 
-            
+
         }
 
         [HttpGet("electronicbookfile/{electronicBookId}")]
@@ -2209,6 +2209,27 @@ namespace InspecWeb.Controllers
                 .Where(x => x.Id == electID)
                 .FirstOrDefault();
             return Ok(electronicBookOtherData);
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            var ebook = _context.ElectronicBooks
+                .Include(x => x.User)
+                .ThenInclude(x => x.Ministries)
+                .Include(x => x.User)
+                .ThenInclude(x => x.Departments)
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .Where(x => x.Status == "ใช้งานจริง")
+                .OrderByDescending(x => x.Id)
+                .ToList();
+
+            return Ok(ebook);
         }
     }
 }
