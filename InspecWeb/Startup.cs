@@ -3,6 +3,7 @@ using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -53,9 +54,15 @@ namespace InspecWeb {
            //.AddEntityFrameworkStores<ApplicationDbContext>()
            //.AddDefaultTokenProviders();
 
-            services.AddAuthentication ()
+            // services.AddAuthentication ()
+            //     .AddIdentityServerJwt ();
+             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = new TimeSpan(0, 1, 0);
+                })
                 .AddIdentityServerJwt ();
-
             services.AddHttpClient ("testlo", c => {
                 c.BaseAddress = new Uri ("http://127.0.0.1:3000/");
                 // Github API versioning
@@ -87,6 +94,7 @@ namespace InspecWeb {
             services.AddSpaStaticFiles (configuration => {
                 configuration.RootPath = "ClientApp/dist";
             });
+            //  services.AddControllers();
 
         }
 
