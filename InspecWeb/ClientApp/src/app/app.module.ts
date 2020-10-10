@@ -458,7 +458,7 @@ const ExternalOrganization = [
     NgxMaterialTimepickerModule,
     // TrainingIdcodeModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'main', pathMatch: 'full' },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       // { path: 'login', component: LoginComponent },
