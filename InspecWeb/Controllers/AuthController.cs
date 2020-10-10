@@ -20,7 +20,7 @@ namespace InspecWeb.Controllers
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
-
+        // private readonly SignInManager<ApplicationUser> _signInManager;
         public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             this.signInManager = signInManager;
@@ -60,19 +60,20 @@ namespace InspecWeb.Controllers
         {
             if (!ModelState.IsValid || credentials == null)
             {
-                return new BadRequestObjectResult(new { Message = "Login failed" });
+                return new BadRequestObjectResult(new { Message = "Login failed", status = false });
             }
 
             var identityUser = await userManager.FindByNameAsync(credentials.Username);
             if (identityUser == null)
             {
-                return new BadRequestObjectResult(new { Message = "Login failed" });
+                return new BadRequestObjectResult(new { Message = "Login failed", status = false });
             }
 
             var result = userManager.PasswordHasher.VerifyHashedPassword(identityUser, identityUser.PasswordHash, credentials.Password);
             if (result == PasswordVerificationResult.Failed)
             {
-                return new BadRequestObjectResult(new { Message = "Login failed" });
+
+                return new BadRequestObjectResult(new { Message = "Login failed", status = false });
             }
 
             var claims = new List<Claim>
@@ -84,11 +85,14 @@ namespace InspecWeb.Controllers
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+            await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, true, lockoutOnFailure: true);
+
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
 
-            return Ok(new { Message = "You are logged in" });
+            return Ok(new { Message = "You are logged in", status = true });
+            // return LocalRedirect(credentials.ReturnUrl != null ? credentials.ReturnUrl : "/");
         }
 
         // [HttpPost]
@@ -97,6 +101,7 @@ namespace InspecWeb.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await signInManager.SignOutAsync();
             return Ok(new { Message = "You are logged out" });
         }
 

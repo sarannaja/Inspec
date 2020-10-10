@@ -179,7 +179,7 @@ export class AuthorizeService {
     try {
       const state = await this.userManager.signoutCallback(url);
       this.userSubject.next(null);
-      return this.success(state && state.data);
+      return this.success(state);
     } catch (error) {
       console.log(`There was an error trying to log out '${error}'.`);
       return this.error(error);
@@ -236,5 +236,12 @@ export class AuthorizeService {
         mergeMap(() => this.userManager.getUser()),
         map(u => u && Object.assign(u.profile, JSON.parse(localStorage.getItem('data'))))
       );
+  }
+
+  newLogin(username, password) {
+    return this.http.post<any>('/api/auth/login', {
+      "username": username,
+      "password": password
+    })
   }
 }

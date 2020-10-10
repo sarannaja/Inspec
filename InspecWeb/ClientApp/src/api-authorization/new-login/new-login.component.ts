@@ -1,43 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizeService, AuthenticationResultStatus } from '../authorize.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } from '../api-authorization.constants';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
 // a user can simply perform a redirect to this component with a returnUrl query parameter and
 // let the component perform the login and return back to the return url.
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-new-login',
+  templateUrl: './new-login.component.html',
+  styleUrls: ['./new-login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class NewLoginComponent implements OnInit {
   public message = new BehaviorSubject<string>(null);
 
+  public isAuthenticated: Observable<boolean>;
+  loginForm: FormGroup;
+  loading = false;
+  submitted = false;
+  returnUrl: string;
+
   constructor(
-    private authorizeService: AuthorizeService,
-    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
+    private authorize: AuthorizeService,
     private spinner: NgxSpinnerService,
-    ) { }
+
+  ) {
+    // redirect to home if already logged in
+    if (authorize.isAuthenticated()) {
+
+      this.router.navigate(['/']);
+    }
+  }
 
   async ngOnInit() {
-    this.spinner.show();
-    console.log("in login");
-    
-    const action = this.activatedRoute.snapshot.url[1];
+
+    this.authorize.isAuthenticated().subscribe(result => {
+      console.log(result);
+
+    });
+    const action = this.route.snapshot.url[1];
     switch (action.path) {
       case LoginActions.Login:
-        await this.login(this.getReturnUrl());
+        // await this.login(this.getReturnUrl());
         break;
       case LoginActions.LoginCallback:
         await this.processLoginCallback();
         break;
       case LoginActions.LoginFailed:
-        const message = this.activatedRoute.snapshot.queryParamMap.get(QueryParameterNames.Message);
+        const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
         this.message.next(message);
         break;
       case LoginActions.Profile:
@@ -49,12 +67,51 @@ export class LoginComponent implements OnInit {
       default:
         throw new Error(`Invalid action '${action}'`);
     }
+
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.spinner.hide()
+
   }
 
+  // convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+    // this.authorize.signIn("Success")
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.loading = true;
+    this.authorize.newLogin(this.loginForm.value.username, this.loginForm.value.password)
+      .subscribe(result => {
+        if (result.status) {
+          this.login(this.returnUrl)
+          // this.authorize.signIn("Success").then(result => {
+            
+          //   // this.router.navigate(['xlogin'], {
+          //   //   queryParams: {
+          //   //     [QueryParameterNames.ReturnUrl]: this.returnUrl
+          //   //   }
+          //   // })
+          // })
+        }
+      })
+
+  }
 
   private async login(returnUrl: string): Promise<void> {
+    this.spinner.show()
+
     const state: INavigationState = { returnUrl };
-    const result = await this.authorizeService.signIn(state);
+    const result = await this.authorize.signIn(state);
     this.message.next(undefined);
     switch (result.status) {
       case AuthenticationResultStatus.Redirect:
@@ -73,8 +130,9 @@ export class LoginComponent implements OnInit {
   }
 
   private async processLoginCallback(): Promise<void> {
+    this.spinner.show()
     const url = window.location.href;
-    const result = await this.authorizeService.completeSignIn(url);
+    const result = await this.authorize.completeSignIn(url);
     switch (result.status) {
       case AuthenticationResultStatus.Redirect:
         // There should not be any redirects as completeSignIn never redirects.
@@ -106,7 +164,7 @@ export class LoginComponent implements OnInit {
   }
 
   private getReturnUrl(state?: INavigationState): string {
-    const fromQuery = (this.activatedRoute.snapshot.queryParams as INavigationState).returnUrl;
+    const fromQuery = (this.route.snapshot.queryParams as INavigationState).returnUrl;
     // If the url is comming from the query string, check that is either
     // a relative url or an absolute url
     if (fromQuery &&
@@ -128,6 +186,8 @@ export class LoginComponent implements OnInit {
     window.location.replace(redirectUrl);
   }
 }
+
+
 
 interface INavigationState {
   [ReturnUrlType]: string;

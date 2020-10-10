@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { LogoutActions, ApplicationPaths, ReturnUrlType } from '../api-authorization.constants';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 // The main responsibility of this component is to handle the user's logout process.
 // This is the starting point for the logout process, which is usually initiated when a
@@ -19,9 +20,12 @@ export class LogoutComponent implements OnInit {
   constructor(
     private authorizeService: AuthorizeService,
     private activatedRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+
     private router: Router) { }
 
   async ngOnInit() {
+    this.spinner.show();
     const action = this.activatedRoute.snapshot.url[1];
     switch (action.path) {
       case LogoutActions.Logout:
@@ -46,6 +50,7 @@ export class LogoutComponent implements OnInit {
   }
 
   private async logout(returnUrl: string): Promise<void> {
+    this.spinner.show()
     const state: INavigationState = { returnUrl };
     const isauthenticated = await this.authorizeService.isAuthenticated().pipe(
       take(1)
@@ -71,6 +76,7 @@ export class LogoutComponent implements OnInit {
   }
 
   private async processLogoutCallback(): Promise<void> {
+    this.spinner.show()
     const url = window.location.href;
     const result = await this.authorizeService.completeSignOut(url);
     switch (result.status) {
