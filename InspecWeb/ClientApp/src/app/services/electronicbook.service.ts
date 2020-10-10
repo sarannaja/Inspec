@@ -778,5 +778,9 @@ export class ElectronicbookService {
   getElectronicBookOtherById(electID) {
     return this.http.get(this.url + "getElectronicBookOtherById/" + electID)
   }
+
+  getElectronicBookAll() {
+    return this.http.get(this.url + "all")
+  }
 }
 

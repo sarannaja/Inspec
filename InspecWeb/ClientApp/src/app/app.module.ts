@@ -236,6 +236,8 @@ import { TrainingIdcodeModule } from './training-idcode/training-idcode.module';
 import { RegionalagencyComponent } from './regionalagency/regionalagency.component';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/confirmation-dialog.component';
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
+import { ElectronicBookAllComponent } from './electronic-book-all/electronic-book-all.component';
+import { ElectronicBookAllDetailComponent } from './electronic-book-all/electronic-book-all-detail/electronic-book-all-detail.component';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -432,6 +434,8 @@ const ExternalOrganization = [
     TrainingLoginListDetailComponent,
     RegionalagencyComponent,
     ConfirmationDialogComponent,
+    ElectronicBookAllComponent,
+    ElectronicBookAllDetailComponent,
   ],
 
   imports: [
@@ -457,7 +461,7 @@ const ExternalOrganization = [
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-      { path: 'login', component: LoginComponent },
+      // { path: 'login', component: LoginComponent },
       { path: 'answersubject/outsider/:id/:userid', component: AnswerOutsiderComponent },
       { path: 'ty', component: AnswerOutsideThankComponent },
       { path: 'training/external/register', component: ExternalRegisterComponent },
@@ -644,6 +648,8 @@ const ExternalOrganization = [
           { path: 'training/login/list/:trainingid', component: TrainingLoginListComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/login/list/detail/:programid', component: TrainingLoginListDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'regionalagency', component: RegionalagencyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbookall', component: ElectronicBookAllComponent, canActivate: [AuthorizeGuard] },
+          { path: 'electronicbookall/detail/:id', component: ElectronicBookAllDetailComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

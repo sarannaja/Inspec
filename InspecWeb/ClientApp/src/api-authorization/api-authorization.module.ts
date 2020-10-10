@@ -8,26 +8,33 @@ import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthorizeService } from './authorize.service';
 import { UserManager } from 'oidc-client';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { NewLoginComponent } from './new-login/new-login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    NgxSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(
       [
-        { path: ApplicationPaths.Register, component: LoginComponent },
-        { path: ApplicationPaths.Profile, component: LoginComponent },
-        { path: ApplicationPaths.Login, component: LoginComponent },
-        { path: ApplicationPaths.LoginFailed, component: LoginComponent },
-        { path: ApplicationPaths.LoginCallback, component: LoginComponent },
+        { path: ApplicationPaths.Register, component: NewLoginComponent },
+        { path: ApplicationPaths.Profile, component: NewLoginComponent },
+        { path: ApplicationPaths.Login, component: NewLoginComponent },
+        { path: 'xlogin', component: LoginComponent },
+        { path: ApplicationPaths.LoginFailed, component: NewLoginComponent },
+        { path: ApplicationPaths.LoginCallback, component: NewLoginComponent },
         { path: ApplicationPaths.LogOut, component: LogoutComponent },
         { path: ApplicationPaths.LoggedOut, component: LogoutComponent },
         { path: ApplicationPaths.LogOutCallback, component: LogoutComponent }
       ]
     )
   ],
-  declarations: [LoginMenuComponent, LoginComponent, LogoutComponent],
-  exports: [LoginMenuComponent, LoginComponent, LogoutComponent],
+  declarations: [LoginMenuComponent,NewLoginComponent, LoginComponent, LogoutComponent],
+  exports: [LoginMenuComponent,NewLoginComponent, LoginComponent, LogoutComponent],
   providers:[
     AuthorizeService,
   ]

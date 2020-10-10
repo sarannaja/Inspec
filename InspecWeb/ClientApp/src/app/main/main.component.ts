@@ -55,10 +55,10 @@ export class MainComponent implements OnInit {
         this._CookieService.set('UserIdMobile', result.sub)
        // console.log('UserMMo', result);
 
-        this._external.putUserToken(result).subscribe(result => {
-         // console.log('resultUserMMo', result);
+        // this._external.putUserToken(result).subscribe(result => {
+        //  // console.log('resultUserMMo', result);
 
-        })
+        // })
         // this.setUserCookie(result.sub)
        // console.log("this._CookieService.get('idsrv.session')", this._CookieService.get('idsrv.session'));
 
@@ -71,7 +71,7 @@ export class MainComponent implements OnInit {
   ngOnInit() {
 
     // alert(this.role_id)
-    this.exportExcel();
+    // this.exportExcel();
 
   }
   Logout() {
