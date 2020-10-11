@@ -22,7 +22,7 @@ import { ThaiDatePipe } from '../services/Pipe/thaidate.service';
 import { VectorMapComponent } from './vector-map/vector-map.component';
 import { CustomCurrencyPipe } from '../services/Pipe/customecurrency.service';
 import { RegionComponent } from './otps/modals/region/region.component';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 import { ProvinceOtpsComponent } from './otps/province-otps/province-otps.component';
 import { ProvinceOtpsTableComponent } from './otps/province-otps-table/province-otps-table.component';
 import { ThaiDatePipe2 } from '../services/Pipe/thaidate2.service';
@@ -55,7 +55,7 @@ import { VectorMapComponent2 } from './vector-map2/vector-map.component';
     ThaiDatePipe2,
     OpmCaseDetailComponent,
     OpmDetailTitleModalComponent,
-    VectorMapComponent2
+    VectorMapComponent2,
   ],
   imports: [
     CommonModule,
@@ -70,7 +70,7 @@ import { VectorMapComponent2 } from './vector-map2/vector-map.component';
     // MyDateRangePickerTHModule
   ],
   exports:[MinisterModalComponent,CustomCurrencyPipe,ThaiDatePipe2,VectorMapComponent2],
-  providers: [ExternalOrganizationService,CurrencyPipe,DatePipe],
+  providers: [ExternalOrganizationService,CurrencyPipe,DatePipe,ThemeService],
   entryComponents: [MinisterModalComponent,RegionComponent,OpmCaseDetailComponent]
   // entryComponents:[GgcOpmComponent,Opm1111Component,OtpsComponent],
   // exports: [GgcOpmComponent, Opm1111Component, OtpsComponent, MinisterTableComponent],
