@@ -49,7 +49,7 @@ export class NewLoginComponent implements OnInit {
     const action = this.route.snapshot.url[1];
     switch (action.path) {
       case LoginActions.Login:
-        // await this.login(this.getReturnUrl());
+        await this.login(this.getReturnUrl());
         break;
       case LoginActions.LoginCallback:
         await this.processLoginCallback();
@@ -95,7 +95,7 @@ export class NewLoginComponent implements OnInit {
         if (result.status) {
           this.login(this.returnUrl)
           // this.authorize.signIn("Success").then(result => {
-            
+
           //   // this.router.navigate(['xlogin'], {
           //   //   queryParams: {
           //   //     [QueryParameterNames.ReturnUrl]: this.returnUrl
@@ -112,6 +112,8 @@ export class NewLoginComponent implements OnInit {
 
     const state: INavigationState = { returnUrl };
     const result = await this.authorize.signIn(state);
+    // alert(result.status)
+
     this.message.next(undefined);
     switch (result.status) {
       case AuthenticationResultStatus.Redirect:

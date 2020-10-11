@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">iframe สำหรับแสดงบนเว็บไซต์ภายนอก</h5>
+            </div>
+            <div class="card-body">
+                <div *ngIf="loading" class="row">
+                    <div class="col-12 col-md-12 col-lg-12 ">
+                        <div class="card">
+                            <!-- <img class="card-img-top" src="img/photos/unsplash-3.jpg" alt="Unsplash">
+                             -->
+                            <iframe width="100%" height="600px" [src]="iframe" frameborder="0"></iframe>
+                            <textarea cols="1" rows="2" disabled> {{forcopy}} </textarea>
+
+                            <a (click)="copyMessage(forcopy)"
+                                href="javascript:void(0)">{{clicked?"คัดลอกแล้ว":"คัดลอก"}}</a>
+                            <ul class="list-group list-group-flush">
+                                <li *ngFor="let item of mock; let i =index" class="list-group-item">{{item.name}}
+                                    <a (click)="show(i)" href="javascript:void(0)">แสดงตัวอย่าง</a> </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="my-5">&nbsp;</div> -->
+            </div>
+        </div>
+    </div>
+</div>

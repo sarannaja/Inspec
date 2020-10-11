@@ -437,6 +437,11 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     url: "/log",
     name: "log"
   },
+  {
+    icon: 'fa-external-link-alt',
+    url: "/iframe",
+    name: "iframe"
+  },
 
 ]
 export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
