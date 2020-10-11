@@ -61,7 +61,7 @@ export class RegionComponent implements OnInit {
         setTimeout(() => {
           this.pieChartsetUp(this.provinces)
           console.log(this.pieChartLabels, this.pieChartData,this.pieChartcolors);
-        }, 2000)
+        }, 500)
 
 
 
