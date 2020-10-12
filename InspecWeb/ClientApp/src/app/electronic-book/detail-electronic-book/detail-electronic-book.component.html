@@ -381,7 +381,7 @@
         </div> -->
 
         <div
-          *ngIf="electronicBookData.electronicBookAccept.length > 0 && electronicBookData.electronicBook.provinceType == 'ส่งให้จังหวัด'">
+          *ngIf="electronicBookData.electronicBookAccept.length > 0 && electronicBookData.electronicBook.provinceType == 'ส่งให้จังหวัด' && electronicBookData.electronicBook.status != 'ร่างกำหนดการ'">
           <hr>
           <div class="col-12 ml-2">
             <div class="row">
