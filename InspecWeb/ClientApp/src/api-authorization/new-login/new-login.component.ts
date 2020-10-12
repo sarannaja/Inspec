@@ -94,14 +94,7 @@ export class NewLoginComponent implements OnInit {
       .subscribe(result => {
         if (result.status) {
           this.login(this.returnUrl)
-          // this.authorize.signIn("Success").then(result => {
 
-          //   // this.router.navigate(['xlogin'], {
-          //   //   queryParams: {
-          //   //     [QueryParameterNames.ReturnUrl]: this.returnUrl
-          //   //   }
-          //   // })
-          // })
         }
       })
 
@@ -186,6 +179,10 @@ export class NewLoginComponent implements OnInit {
     // component.
     const redirectUrl = `${window.location.origin}${apiAuthorizationPath}`;
     window.location.replace(redirectUrl);
+  }
+
+  externalRegister() {
+    this.router.navigate(['training/external/register'])
   }
 }
 

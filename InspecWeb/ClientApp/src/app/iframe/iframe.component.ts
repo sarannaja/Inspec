@@ -18,15 +18,15 @@ export class IframeComponent implements OnInit {
       name: 'เขตตรวจแต่ล่ะจังหวัด',
     },
     {
-      url: 'https://stackoverflow.com/questions/54936057/angular-7-linking-with-iframe',
-      name: 'test',
+      url: `${location.origin}/inspectionplanevent/all/noauth`,
+      name: 'กำหนดการตรวจราชการ',
 
     }
   ]
   constructor(public sanitizer: DomSanitizer, private http: HttpClient) { }
 
   ngOnInit() {
-  
+
     setTimeout(() => { this.loading = true }, 500)
     // this.iframe = this.mock[0].url
     this.iframe = this.sanitizer.bypassSecurityTrustResourceUrl(this.mock[0].url);

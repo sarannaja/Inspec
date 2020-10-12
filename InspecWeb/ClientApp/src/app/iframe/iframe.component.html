@@ -13,7 +13,7 @@
                             <iframe width="100%" height="600px" [src]="iframe" frameborder="0"></iframe>
                             <textarea cols="1" rows="2" disabled> {{forcopy}} </textarea>
 
-                            <a (click)="copyMessage(forcopy)"
+                            <a (click)="copyMessage(forcopy)" class="text-center"
                                 href="javascript:void(0)">{{clicked?"คัดลอกแล้ว":"คัดลอก"}}</a>
                             <ul class="list-group list-group-flush">
                                 <li *ngFor="let item of mock; let i =index" class="list-group-item">{{item.name}}

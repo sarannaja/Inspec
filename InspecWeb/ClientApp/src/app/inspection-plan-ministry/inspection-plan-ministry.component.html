@@ -232,7 +232,7 @@
                   class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
 
-                  <i *ngIf="role_id == 6 && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
+                <i *ngIf="role_id == 6 && item.centralPolicy.class == 'ประเด็นการตรวจติดตาม' && timelineData.status == 'ร่างกำหนดการ' && watch == 0"
                   class="align-middle mr-2 fas fa-fw fa-trash pointer"
                   (click)="openModal2(ModalDeleteCentralPolicy,item.centralPolicyId)"></i>
 
