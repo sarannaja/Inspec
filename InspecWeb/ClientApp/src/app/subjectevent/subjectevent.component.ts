@@ -112,6 +112,7 @@ export class SubjecteventComponent implements OnInit {
   centralpolicyprovinceidtype6: any
   selectpeopletype6 = []
   selectdatacentralpolicytype6: Array<any>
+  role_id
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -138,6 +139,10 @@ export class SubjecteventComponent implements OnInit {
         this.userid = result.sub
         console.log(result);
         // alert(this.userid)
+        this.userservice.getuserfirstdata(this.userid)
+        .subscribe(result => {
+          this.role_id = result[0].role_id
+        })
       })
     // this.spinner.show();
     this.dtOptions = {
@@ -289,12 +294,16 @@ export class SubjecteventComponent implements OnInit {
     this.subjectservice.geteventfromcalendar(event.value)
       .subscribe(result => {
 
+
+
         // alert(JSON.stringify(result.centralPolicyEvents))
         this.CentralPolicyEvents = result.centralPolicyEvents
         this.subjectgroupsdatas = result.subjectgroupsdatas
 
+        console.log("this.CentralPolicyEvents",this.CentralPolicyEvents);
+
         this.selectdatacentralpolicy2 = this.CentralPolicyEvents.filter((item, index) => {
-          return item.haveSubject == 0
+          return item.haveSubject == 0 && item.inspectionPlanEvent.roleCreatedBy == this.role_id
         }).map((item, index) => {
           var start_date = (this.time(item.startDate).day) + "/" + (this.time(item.startDate).month) + "/" + (this.time(item.startDate).year + 543)
           var end_date = (this.time(item.endDate).day) + "/" + (this.time(item.endDate).month) + "/" + (this.time(item.endDate).year + 543)
@@ -596,7 +605,7 @@ export class SubjecteventComponent implements OnInit {
       this.provinceIdtype2 = this.rssj(event.value).provinceId
     this.FormReporttype2.patchValue({
       SubjectGroupId: this.subjectgroupidtype2,
-      
+
     })
     this.inspectionplanservice.getcentralpolicyprovinceid(this.centralPolicyIdtype2, this.provinceIdtype2).subscribe(result => {
       this.centralpolicyprovinceidtype2 = result

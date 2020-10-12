@@ -120,7 +120,7 @@ export class InspectionplanService {
   }
 
   getcentralpolicydata(provinceid, year): Observable<any[]> {
-    var year = year.year + 543;
+    // var year = year.year + 543;
     // alert(year.year)
     // return this.http.get<any[]>(this.url)
     return this.http.get<any[]>(this.url + 'getcentralpolicydata/' + provinceid + '/' + year)
