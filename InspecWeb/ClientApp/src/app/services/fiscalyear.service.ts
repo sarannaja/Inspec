@@ -17,8 +17,9 @@ export class FiscalyearService {
   getfiscalyeardata(): Observable<any[]> {
     return this.http.get<any>(this.url)
   }
-  getcurrentyeardata(): Observable<any[]> {
-    return this.http.get<any>(this.url + "getCurrentFiscalYear")
+  getcurrentyeardata(year): Observable<any> {
+    // alert(year)
+    return this.http.get<any>(this.url + "getCurrentFiscalYear/" + year)
   }
   getreportfiscalyearrelations(fiscalYearId, userId) {
     return this.http.get<any>(this.url + "getReportFiscalYearRelations/" + fiscalYearId + "/" + userId)

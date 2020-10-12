@@ -650,6 +650,7 @@ const ExternalOrganization = [
           { path: 'regionalagency', component: RegionalagencyComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbookall', component: ElectronicBookAllComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbookall/detail/:id', component: ElectronicBookAllDetailComponent, canActivate: [AuthorizeGuard] },
+          { path: 'iframe', loadChildren: () => import('./iframe/iframe.module').then(m => m.IframeModule), canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

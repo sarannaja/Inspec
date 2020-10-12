@@ -598,18 +598,36 @@ namespace InspecWeb.Controllers
                 .FirstOrDefault();
             var data = test.ElectronicBookGroups.ToArray();
 
-
-            var logdata = new Log
+            if (test.CentralPolicy == null)
             {
-                UserId = test.CreatedBy,
-                DatabaseName = "ElectronicBook",
-                EventType = "ลบ",
-                EventDate = DateTime.Now,
-                Detail = "ลบสมุดตรวจอิเล็กทรอนิกส์" + data[0].CentralPolicyEvent.CentralPolicy.Title.ToString(),
-                Allid = test.Id,
-            };
-            _context.Logs.Add(logdata);
-            _context.SaveChanges();
+                var logdata = new Log
+                {
+                    UserId = test.CreatedBy,
+                    DatabaseName = "ElectronicBook",
+                    EventType = "ลบ",
+                    EventDate = DateTime.Now,
+                    Detail = "ลบสมุดตรวจอิเล็กทรอนิกส์" + data[0].CentralPolicyEvent.CentralPolicy.Title.ToString(),
+                    Allid = test.Id,
+                };
+                _context.Logs.Add(logdata);
+                _context.SaveChanges();
+            }
+            else
+            {
+                var logdata = new Log
+                {
+                    UserId = test.CreatedBy,
+                    DatabaseName = "ElectronicBook",
+                    EventType = "ลบ",
+                    EventDate = DateTime.Now,
+                    Detail = "ลบสมุดตรวจอิเล็กทรอนิกส์" + test.CentralPolicy,
+                    Allid = test.Id,
+                };
+                _context.Logs.Add(logdata);
+                _context.SaveChanges();
+            }
+
+
 
             _context.ElectronicBooks.Remove(electronicBookData);
             _context.SaveChanges();
@@ -2059,7 +2077,23 @@ namespace InspecWeb.Controllers
                 provinceId = x.ElectronicBook.ElectronicBookGroups.Select(m => m.CentralPolicyEvent.InspectionPlanEvent.ProvinceId)
             })
              .ToList();
-            return Ok(new { ebookProvince, provinceData });
+
+            var provinceData2 = _context.ElectronicBookProvincialDepartments
+            .Include(x => x.ElectronicBook)
+            .ThenInclude(x => x.ElectronicBookGroups)
+            .ThenInclude(x => x.CentralPolicyEvent)
+            .ThenInclude(x => x.CentralPolicy)
+            .ThenInclude(x => x.CentralPolicyProvinces)
+            .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+            .Where(x => x.ProvincialDepartmentId == provincialDepartmentId)
+            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
+            .OrderByDescending(x => x.Id)
+            .Select(x => new
+            {
+                provinceId = x.ElectronicBook.ElectronicBookAccepts.Select(m => m.ProvinceId)
+            })
+             .ToList();
+            return Ok(new { ebookProvince, provinceData, provinceData2 });
         }
 
         [HttpPost("addDepartmentSignature")]

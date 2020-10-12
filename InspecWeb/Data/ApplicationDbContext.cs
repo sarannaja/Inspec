@@ -3,8 +3,6 @@ using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data.Seeders; //เรียกไฟล์ โฟเดอx
@@ -13,11 +11,9 @@ namespace InspecWeb.Data
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(
+          public ApplicationDbContext(
             DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
-        {
-        }
+            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions) { }
 
         //ถ้าเพิ่มโมเดลใหม่
         public DbSet<Province> Provinces { get; set; }
@@ -35,6 +31,7 @@ namespace InspecWeb.Data
         public DbSet<Governmentinspectionplan> Governmentinspectionplans { get; set; }
         public DbSet<InspectionOrder> InspectionOrders { get; set; }
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
+        public DbSet<IFrame> IFrames { get; set; }
 
 
         //---------Trainings-----------
@@ -481,26 +478,26 @@ namespace InspecWeb.Data
 
             base.OnModelCreating(builder);
             //seed data
-            //builder.ApplyConfiguration(new SectorSeeder());
-            //builder.ApplyConfiguration(new ProvincesGroupSeeder());
-            //builder.ApplyConfiguration(new MinistrySeeder());
-            //builder.ApplyConfiguration(new DepartmentSeeder());
-            //builder.ApplyConfiguration(new ProvinceSeeder());
-            //builder.ApplyConfiguration(new RegionSeeder());
-            //builder.ApplyConfiguration(new FiscalYearSeeder());
-            //builder.ApplyConfiguration(new GovernmentinspectionplanSeeder());
-            //builder.ApplyConfiguration(new InspectionOrderSeeder());
-            //builder.ApplyConfiguration(new InstructionOrderSeeder());
-            //builder.ApplyConfiguration(new DistrictSeeder());
-            //builder.ApplyConfiguration(new SubdistrictSeeder());
-            //builder.ApplyConfiguration(new RelationSeeder());
-            //builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
-            //builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
-            //builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
-            //builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
-            //builder.ApplyConfiguration(new FiscalYearNewSeeder());//ปีที่แท้
-            //builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
-            //builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
+            builder.ApplyConfiguration(new SectorSeeder());
+            builder.ApplyConfiguration(new ProvincesGroupSeeder());
+            builder.ApplyConfiguration(new MinistrySeeder());
+            builder.ApplyConfiguration(new DepartmentSeeder());
+            builder.ApplyConfiguration(new ProvinceSeeder());
+            builder.ApplyConfiguration(new RegionSeeder());
+            builder.ApplyConfiguration(new FiscalYearSeeder());
+            builder.ApplyConfiguration(new GovernmentinspectionplanSeeder());
+            builder.ApplyConfiguration(new InspectionOrderSeeder());
+            builder.ApplyConfiguration(new InstructionOrderSeeder());
+            builder.ApplyConfiguration(new DistrictSeeder());
+            builder.ApplyConfiguration(new SubdistrictSeeder());
+            builder.ApplyConfiguration(new RelationSeeder());
+            builder.ApplyConfiguration(new ProvincialDepartmentSeeder());//หน่วยงานส่วนภูมิถาค
+            builder.ApplyConfiguration(new ProvincialDepartmentProvinceSeeder());//หน่วยงานส่วนภูมิถาค เชื่อมจังหวัด
+            builder.ApplyConfiguration(new CabineSeeder());//คณะรัฐมนตรี
+            builder.ApplyConfiguration(new VillageSeeder());//หมู่บ้าน
+            builder.ApplyConfiguration(new FiscalYearNewSeeder());//ปีที่แท้
+            builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
+            builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
 
         }
     }

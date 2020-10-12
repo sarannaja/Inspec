@@ -118,7 +118,7 @@ export class AuthorizeService {
 
         // PopUps might be blocked by the user, fallback to redirect
         try {
-          await this.userManager.signinRedirect(this.createArguments(state));
+          // await this.userManager.signinRedirect(this.createArguments(state));
           return this.redirect();
         } catch (redirectError) {
           console.log('Redirect authentication error: ', redirectError);
