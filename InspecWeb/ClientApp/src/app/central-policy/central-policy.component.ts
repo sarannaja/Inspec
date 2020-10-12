@@ -127,10 +127,30 @@ export class CentralPolicyComponent implements OnInit {
   getFiscalyear() {
     this.fiscalyearnewservice.getdata().subscribe(result => {
       this.resultfiscalyear = result
-      var d = new Date().getFullYear() + 543;
+      var current_year = new Date().getFullYear() + 543;
+      var current_date = new Date();
+      let d3: any
+      // this.currentyear = result.filter(result => {
+      //   let start_date = new Date(result.startDate).toISOString()
+      //   console.log(current_date, start_date);
+      //   d3 = (current_date > start_date ? current_year + 1 : current_year)
+      //   console.log('d3', d3);
+
+      //   return result.year == d3
+      // })[0]
       this.currentyear = result.filter(result => {
-        return result.year == d
+        let start_date = new Date(result.startDate)
+        let end_date = new Date(result.endDate)
+        // console.log('start_date > current_date', start_date.toISOString(), current_date.toISOString());
+        console.log(start_date.toISOString(), current_date.toISOString(), (current_date.toISOString() > start_date.toISOString()) && (current_date.toISOString() < end_date.toISOString()));
+
+
+        // return start_date.toISOString() < current_date.toISOString()
+        return (current_date.toISOString() > start_date.toISOString()) && (current_date.toISOString() < end_date.toISOString())
       })[0]
+      // this.currentyear = this.currentyear[this.currentyear.length - 1]
+      console.log('this.currentyear', this.currentyear);
+
       this.getCurrentCentralPolicy(this.currentyear)
       // this.getCentralPolicy()
     })
