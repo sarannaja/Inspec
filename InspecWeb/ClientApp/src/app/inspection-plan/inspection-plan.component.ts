@@ -98,6 +98,8 @@ export class InspectionPlanComponent implements OnInit {
   }
 
   async ngOnInit() {
+    // var today = new Date().toLocaleDateString();
+    // alert(today)
     // alert(this.provinceid)
 
     this.authorize.getUser()
@@ -141,7 +143,7 @@ export class InspectionPlanComponent implements OnInit {
       }
     };
 
-    this.getCurrentYear();
+
     this.getTimeline();
     this.getScheduleData();
 
@@ -202,12 +204,24 @@ export class InspectionPlanComponent implements OnInit {
       this.endDate = this.time(this.timelineData.endDate)
       this.year = this.getyear(this.timelineData.startDate)
       // alert(JSON.stringify(this.year))
+      this.getCurrentYear();
     })
   }
 
   getCurrentYear() {
-    this.fiscalyearservice.getcurrentyeardata().subscribe(result => {
-      this.currentyear = result
+    this.fiscalyearservice.getcurrentyeardata(this.year.year).subscribe(result => {
+      var current_year = new Date().getFullYear() + 543;
+      var current_date = new Date();
+      let d3: any
+      // alert(JSON.stringify(this.year.year))
+      let start_date = new Date(result.startDate)
+      let end_date = new Date(result.endDate)
+
+      // alert(JSON.stringify(result))
+
+      this.currentyear = ((current_date.toISOString() > end_date.toISOString())) ? result.year + 1 : result.year
+
+      // alert(JSON.stringify(this.currentyear))
     })
   }
 
@@ -343,7 +357,7 @@ export class InspectionPlanComponent implements OnInit {
       });
       // this.loading = true;
       console.log("RESULTS: ", this.data);
-      await this.inspectionplanservice.getcentralpolicydata(this.provinceid, this.year)
+      await this.inspectionplanservice.getcentralpolicydata(this.provinceid, this.currentyear)
         .subscribe(async result => {
           this.resultcentralpolicy = result //All
           await this.getRecycled()

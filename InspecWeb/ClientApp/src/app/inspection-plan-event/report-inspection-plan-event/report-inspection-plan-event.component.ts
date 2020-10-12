@@ -153,6 +153,9 @@ export class ReportInspectionPlanEventComponent implements OnInit {
         // alert(JSON.stringify(result))
         this.spinner.hide();
         this.resultschedule = result
+
+        console.log("this.resultschedule" ,this.resultschedule);
+
         this.loading = true
       })
   }
