@@ -268,7 +268,7 @@ export class DefaultLayoutComponent implements OnInit {
           this.notificationService.getElectronicBookProvincialDepartment(provinceId, xe).subscribe(res => {
             console.log("inviteId: ", res);
             //  location.href = '/electronicbook/departmentdetail/' + xe, { electronicBookProvincialDepartmentId: res };
-             location.href = '/electronicbook/departmentdetail/' + xe + ';ebookInviteId=' + res;
+             location.href = '/electronicbook/departmentdetail/' + xe + ';electronicBookProvincialDepartmentId=' + res;
           })
         }
         else if (statusid == 8) { //song
