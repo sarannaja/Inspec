@@ -142,10 +142,19 @@
                                 </div>
                         </div>
                 </div>
-                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
-                        [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartcolors"
-                        [legend]="pieChartLegend">
+                <canvas *ngIf="loading else Load" baseChart [data]="pieChartData" [labels]="pieChartLabels"
+                        [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins"
+                        [colors]="pieChartcolors" [legend]="pieChartLegend">
                 </canvas>
+                <ng-template #Load>
+                        <div class="container h-100">
+                                <div class="row h-100 justify-content-center align-items-center">
+                                        <div class="spinner-border" role="status">
+                                                <span class="sr-only">รอสักครู่...</span>
+                                        </div>
+                                </div>
+                        </div>
+                </ng-template>
 
         </div>
 

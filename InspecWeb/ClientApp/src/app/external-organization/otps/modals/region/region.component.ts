@@ -20,7 +20,7 @@ export class RegionComponent implements OnInit {
   provinces: any[] = []
   disableprovince: boolean = false
   Year: any
-
+  loading: boolean = false
   public pieChartLabels: Label[] = [];
   public pieChartData: SingleDataSet = [];
   public pieChartType: ChartType = 'pie';
@@ -49,20 +49,19 @@ export class RegionComponent implements OnInit {
       .subscribe(async result => {
 
         this.newRegion = result
-        this.FiscalYear = await result.FiscalYears.filter(result => {
-          return result.Year == this.Year
-        })[0]
+        this.FiscalYear = result.FiscalYears.find(result => result.Year == this.Year)
 
-        console.log(this.setProvince(this.FiscalYear.Provinces));
-        this.provinces = await this.setProvince(this.FiscalYear.Provinces)
+        // console.log(this.setProvince(this.FiscalYear.Provinces));
+        this.provinces = this.setProvince(this.FiscalYear.Provinces)
+        console.log(' this.this.setProvince(this.FiscalYear.Provinces)', this.setProvince(this.FiscalYear.Provinces));
         // this.provinces
         this.disableprovince = true
 
         setTimeout(() => {
           this.pieChartsetUp(this.provinces)
-          console.log(this.pieChartLabels, this.pieChartData,this.pieChartcolors);
-        }, 500)
 
+          console.log(this.pieChartLabels, this.pieChartData, this.pieChartcolors);
+        }, 1500)
 
 
 
@@ -82,9 +81,7 @@ export class RegionComponent implements OnInit {
             result2.fiscalYears
               .map((result3 => {
                 return { ...result3, province: array[i].Name }
-              })).filter(itemPro => {
-                return this.Year == itemPro.year && this.region.id == itemPro.region.id
-              })[0]
+              })).find(itemPro => this.Year == itemPro.year && this.region.id == itemPro.region.id)
           )
 
         })
@@ -104,6 +101,7 @@ export class RegionComponent implements OnInit {
       this.pieChartData.push(data[i].projects.count)
       this.pieChartcolors[0].backgroundColor = this.pieChartcolors[0].backgroundColor.concat(this.getRandomColor())
     }
+    this.loading = true
   }
 
   getRandomColor() {
@@ -111,7 +109,7 @@ export class RegionComponent implements OnInit {
     return '#' + ('000000' + color).slice(-6);
   }
 
-  
+
 
 }
 
