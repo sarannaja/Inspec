@@ -48,7 +48,7 @@
                                     <input type="email" formControlName="username" class="form-control"
                                         [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                                     <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                                        <div *ngIf="f.username.errors.required">Username is required</div>
+                                        <div *ngIf="f.username.errors.required">กรุณากรอกชื่อผู้ใช้</div>
                                     </div>
 
                                 </div>
@@ -56,13 +56,31 @@
                                     <label>รหัสผ่าน</label>
                                     <input type="password" formControlName="password" class="form-control"
                                         [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                                        <div *ngIf="f.password.errors.required">Password is required</div>
+                                    <div class="errors" style="color: red;"
+                                        *ngIf="loginForm.get('password').invalid && (loginForm.get('password').touched || loginForm.get('password').dirty) &&submitted ">
+                                        <div *ngIf="loginForm.get('password').hasError('required')">
+                                            กรุณากรอกรหัสผ่าน
+                                        </div>
+                                        <div class="error-text" style="color: red;"
+                                            *ngIf="loginForm.get('password').hasError('passwordStrength')">
+                                            {{loginForm.get('password').errors['passwordStrength']}}
+                                        </div>
                                     </div>
+                                    <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                        <div *ngIf="f.password.errors.required">กรุณากรอกรหัสผ่าน</div>
+                                    </div> -->
                                     <!-- <small>
                                         <a href="javascript:void(0)">Forgot password?</a>
                                     </small> -->
                                 </div>
+                                <div *ngIf="loginfail" class="mb-3">
+                                    <input hidden type="text" class="is-invalid">
+                                    <div class="invalid-feedback" style="font-size: 16px;">
+                                        <div>{{loginfail}}</div>
+                                    </div>
+                                </div>
+
+
                                 <div>
                                     <div class="custom-control custom-checkbox align-items-center">
                                         <input id="customControlInline" type="checkbox" class="custom-control-input"

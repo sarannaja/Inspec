@@ -13,7 +13,7 @@ import { RegionComponent } from '../modals/region/region.component';
   styleUrls: ['./minister-table.component.css']
 })
 export class MinisterTableComponent implements OnInit {
-  dtOptions: DataTables.Settings = {
+  dtOptions: any = {
     responsive: true
   };
   ministers: Array<Ministers>
@@ -98,8 +98,17 @@ export class MinisterTableComponent implements OnInit {
 
       })
     this.dtOptions = {
+      columns: [{
+        title: 'ID',
+      }, {
+        title: 'First name',
+      }, {
+        title: 'Last name',
+        class: 'none'
+      }],
       pagingType: 'full_numbers',
       pageLength: 10,
+      responsive: true
       // processing: true
     };
 

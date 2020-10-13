@@ -60,20 +60,20 @@ namespace InspecWeb.Controllers
         {
             if (!ModelState.IsValid || credentials == null)
             {
-                return new BadRequestObjectResult(new { Message = "Login failed", status = false });
+                 return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
             }
 
             var identityUser = await userManager.FindByNameAsync(credentials.Username);
             if (identityUser == null)
             {
-                return new BadRequestObjectResult(new { Message = "Login failed", status = false });
+                 return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
             }
 
             var result = userManager.PasswordHasher.VerifyHashedPassword(identityUser, identityUser.PasswordHash, credentials.Password);
             if (result == PasswordVerificationResult.Failed)
             {
 
-                return new BadRequestObjectResult(new { Message = "Login failed", status = false });
+                 return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
             }
 
             var claims = new List<Claim>
