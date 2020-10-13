@@ -6,6 +6,7 @@ import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } fr
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { PasswordStrengthValidator } from './password-strength.validators';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -24,7 +25,7 @@ export class NewLoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-
+  loginfail: any
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -70,7 +71,7 @@ export class NewLoginComponent implements OnInit {
 
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, PasswordStrengthValidator]],
     });
 
     // get return url from route parameters or default to '/'
@@ -84,6 +85,7 @@ export class NewLoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    this.loginfail = null
     // this.authorize.signIn("Success")
     // stop here if form is invalid
     if (this.loginForm.invalid) {
@@ -95,6 +97,12 @@ export class NewLoginComponent implements OnInit {
         if (result.status) {
           this.login(this.returnUrl)
 
+        } else {
+          this.submitted = false;
+          this.loading = false
+          this.loginForm.get('password').reset()
+          this.loginfail = result.message
+          // alert(result.message)
         }
       })
 
