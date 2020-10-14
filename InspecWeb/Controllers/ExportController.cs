@@ -1287,6 +1287,7 @@ namespace InspecWeb.Controllers
 
                 .Include(x => x.ReportCommanders)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Departments)
 
                 .Include(x => x.ImportReportFiles)
 
