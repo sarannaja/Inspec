@@ -1339,7 +1339,7 @@ namespace InspecWeb.Controllers
         [HttpGet("getImportReportFiscalYears")]
         public IActionResult GetImportReportFiscalYears()
         {
-            var importFiscalYear = _context.FiscalYears
+            var importFiscalYear = _context.FiscalYearNew
                 .ToList();
 
             return Ok(new { importFiscalYear });
