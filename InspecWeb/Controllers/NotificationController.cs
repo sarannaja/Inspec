@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EmailService;
+
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +15,10 @@ namespace InspecWeb.Controllers
     public class NotificationController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmailSender _emailSender;
 
-        public NotificationController(ApplicationDbContext context, IEmailSender emailSender)
+        public NotificationController(ApplicationDbContext context)
         {
             _context = context;
-            _emailSender = emailSender;
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]

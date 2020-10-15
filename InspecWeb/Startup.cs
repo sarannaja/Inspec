@@ -1,5 +1,4 @@
 ﻿using System;
-using EmailService;
 using InspecWeb.Controllers;
 using InspecWeb.Data;
 using InspecWeb.Models;

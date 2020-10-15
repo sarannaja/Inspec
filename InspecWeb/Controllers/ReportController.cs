@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EmailService;
+
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Identity;
@@ -35,12 +35,10 @@ namespace InspecWeb.Controllers
         }
 
         private readonly ApplicationDbContext _context;
-        private readonly IEmailSender _emailSender;
         private static UserManager<ApplicationUser> _userManager;
-        public ReportController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+        public ReportController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
         {
             _context = context;
-            _emailSender = emailSender;
             _userManager = userManager;
             _environment = environment;
         }
