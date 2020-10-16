@@ -10,7 +10,8 @@ public class CronJobService : BackgroundService
     private CrontabSchedule _schedule;
     private DateTime _nextRun;
     private UtinityController _utinityController;
-    private string Schedule => "*/10 * * * * *"; //Runs every 10 seconds
+    private string Schedule => "0 0 0 * * ?"; //Runs every day
+    // private string Schedule => "*/10 * * * * *"; //Runs every 10 seconds
 
     public CronJobService(UtinityController utinityController)
     {
