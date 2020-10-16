@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EmailService;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +14,10 @@ namespace InspecWeb.Controllers
     public class MenuController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmailSender _emailSender;
 
-        public MenuController(ApplicationDbContext context, IEmailSender emailSender)
+        public MenuController(ApplicationDbContext context)
         {
             _context = context;
-            _emailSender = emailSender;
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]
