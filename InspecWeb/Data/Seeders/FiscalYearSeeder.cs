@@ -13,7 +13,7 @@ namespace InspecWeb.Data.Seeders
         public void Configure(EntityTypeBuilder<FiscalYear> builder)
         {
             builder.HasData(
-                   new FiscalYear { Id = 1, Year = "2563" }
+                   new FiscalYear { Id = 1, Year = "2563",Active  = 1 }
             );
         }
     }

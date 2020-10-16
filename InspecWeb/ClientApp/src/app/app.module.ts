@@ -239,6 +239,7 @@ import { TrainingIdcodeModule } from './training-idcode/training-idcode.module';
 import { RegionalagencyComponent } from './regionalagency/regionalagency.component';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/confirmation-dialog.component';
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
+import { MenuComponent } from './menu/menu.component';
 import { ElectronicBookAllComponent } from './electronic-book-all/electronic-book-all.component';
 import { ElectronicBookAllDetailComponent } from './electronic-book-all/electronic-book-all-detail/electronic-book-all-detail.component';
 const ExternalOrganization = [
@@ -440,6 +441,7 @@ const ExternalOrganization = [
     TrainingLoginListDetailComponent,
     RegionalagencyComponent,
     ConfirmationDialogComponent,
+    MenuComponent,
     ElectronicBookAllComponent,
     ElectronicBookAllDetailComponent,
   ],

@@ -1,0 +1,58 @@
+<div class="header">
+    
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/Main']">หน้าหลัก</a></li>
+        <li class="breadcrumb-item active">กำหนดสิทธิ์การใช้งาน</li>
+      </ol>
+    </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card card-eiei">
+      <div class="card-header" style="margin-bottom: -20px;">
+        <h5 class="card-title">กำหนดสิทธิ์การใช้งาน</h5>
+      </div>
+      <div class="card-body">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ชื่อสิทธิ์การใช้งาน</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  *ngFor="let item of result; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                  <span *ngIf="item.role_id == 1 ">ผู้ดูแลระบบ</span>
+                  <span *ngIf="item.role_id == 2 ">ผู้ดูแลแผนการตรวจราชการ</span>
+                  <span *ngIf="item.role_id == 3 ">ผู้ตรวจราชการสำนักนายกรัฐมนตรี</span>
+                  <span *ngIf="item.role_id == 4 ">ผู้ว่าราชการจังหวัด</span>
+                  <span *ngIf="item.role_id == 5 ">หัวหน้าสำนักงานจังหวัด</span>
+                  <span *ngIf="item.role_id == 6 ">ผู้ตรวจราชการกระทรวง</span>
+                  <span *ngIf="item.role_id == 7 ">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน</span>
+                  <span *ngIf="item.role_id == 8 ">ผู้บริหาร/นายก/รองนายก</span>
+                  <span *ngIf="item.role_id == 9 ">หน่วยงานตรวจ</span>
+                  <span *ngIf="item.role_id == 10 ">ผู้ตรวจราชการกรม</span>
+                  <span *ngIf="item.role_id == 11 ">บุคคลภายนอก</span>
+              </td>
+              <th>
+                <!-- <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" (click)="openeditModal(modaleditUser, item.id,item.fiscalYearId,item.userRegion,roleId==9? item.userProvince:item.userProvince[0].provinceId,item.ministryId
+                  ,item.departmentId,item.provincialDepartmentId,item.sideId,item.commandnumber,
+                  item.commandnumberdate,item.email,item.prefix,item.firstnameth,item.lastnameth,item.position,item.phoneNumber,
+                  item.startdate,item.enddate,item.img,item.autocreateuser,item.signature,item.userName)">
+                      <i class="align-middle fas fa-fw fa-pen"></i>
+                </button> -->
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
