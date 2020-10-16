@@ -1356,6 +1356,8 @@ namespace InspecWeb.Controllers
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(x => x.AnswerSubquestionOutsiders)
 
+                .Include(m => m.AnswerSubquestionFiles)
+
                 .Where(m => m.Type == "NoMaster")
                 .Where(m => m.SubjectGroupId == subjectgroupid)
                 .Where(m => m.CentralPolicyProvinceId == id)
