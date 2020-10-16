@@ -11,11 +11,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
 
-=======
 //using EmailService;
->>>>>>> 7b769d9ec971367198f72c975ae1de7549916085
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 
