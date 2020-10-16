@@ -25,6 +25,7 @@ export class ChartTrainingSurveyComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   lineChart: any;
+  inputtrainingsurveyanswer: Array<any>;
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
@@ -60,7 +61,15 @@ export class ChartTrainingSurveyComponent implements OnInit {
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true
-      //console.log(this.resulttraining);
+
+      this.inputtrainingsurveyanswer = this.resulttraining.map(
+        (item, index) => {
+          return {
+            name: item.name,
+          }
+        })
+
+      console.log("resulttraining =>", this.inputtrainingsurveyanswer);
     })
 
 
@@ -70,6 +79,7 @@ export class ChartTrainingSurveyComponent implements OnInit {
       type: 'horizontalBar', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
       data: { // ข้อมูลภายในแผนภูมิแบบเส้น
           labels: ["หัวข้อที่ 1","หัวข้อที่ 2","หัวข้อที่ 3","หัวข้อที่ 4","หัวข้อที่ 5","หัวข้อที่ 6","หัวข้อที่ 7","หัวข้อที่ 8","หัวข้อที่ 9","หัวข้อที่ 10","หัวข้อที่ 11","หัวข้อที่ 12"], // ชื่อของข้อมูลในแนวแกน x
+          //labels: [this.inputtrainingsurveyanswer], // ชื่อของข้อมูลในแนวแกน x
           datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
              label: 'Number of items sold in months',
              data: [9,7,3,5,2,10,15,61,19,3,1,9],

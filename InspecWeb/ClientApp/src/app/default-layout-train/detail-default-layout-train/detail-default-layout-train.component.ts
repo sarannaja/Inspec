@@ -139,6 +139,13 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
     
   }
 
+  gotoMain(){
+    this.router.navigate(['/train'])
+  }
+
+  gotoAdmin(){
+    this.router.navigate(["/main"])
+  }
 
   GotoDetail(trainingid2){
     //alert(trainingid2);
@@ -161,6 +168,10 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
    this.modalRef = this.modalService.show(template);
  }
 
+ gotoDetailRegisterTraining(phaseid) {
+   //console.log(phaseid);
+  this.router.navigate(['/train/detail/phase/',phaseid])
+ }
  
  gotoRegisterTraining() {
   this.router.navigate(['/train/register/',this.trainingid])

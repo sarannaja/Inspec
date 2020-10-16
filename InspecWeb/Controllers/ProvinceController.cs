@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EmailService;
+
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +22,10 @@ namespace InspecWeb.Controllers
     public class ProvinceController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmailSender _emailSender;
         public static IWebHostEnvironment _environment;
-        public ProvinceController(ApplicationDbContext context, IEmailSender emailSender, IWebHostEnvironment environment)
+        public ProvinceController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
-            _emailSender = emailSender;
             _environment = environment;
         }
 

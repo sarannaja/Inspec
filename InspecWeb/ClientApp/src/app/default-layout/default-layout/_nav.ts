@@ -3,6 +3,7 @@ export interface NavBar {
   icon?: string;
   name?: string;
   url?: string;
+  menuname?: any;
   ex_link?: string;
   children?: Array<Children>
   classtap?: string;
@@ -21,32 +22,38 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1"
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจราชการ"
+    name: "แผนการตรวจราชการ",
+    menuname: "m2"
   },
   {
     icon: 'fa-calendar',
     url: '/inspectionplanevent/all',
-    name: "ปฏิทินการตรวจราชการ"
+    name: "ปฏิทินการตรวจราชการ",
+    menuname: "m3"
   },
   {
     icon: 'fa-book',
-    url: "/electronicbook",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
+    url: "/electronicbookall",
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    menuname: "m4"
   },
   {
     icon: 'fa-file-alt',
     name: "ทะเบียนรายงานผลการตรวจราชการ",
     url: '/allreport',
+    menuname: "m5"
   },
   {
     icon: 'fa-hand-point-up',
     name: "ข้อสั่งการถึงผู้ตรวจราชการ",
     IDchildren: 'executiveorderdata',
+    menuname: "m6",
     children: [
       {
         icon: 'fa-file',
@@ -74,6 +81,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     icon: 'fa-paper-plane',
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
+    menuname: "m7",
     children: [
       {
         icon: 'fa-file',
@@ -97,15 +105,11 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       }
     ]
   },
-  // {
-  //     classtap:'sidebar-header',
-  //     url:"#",
-  //     name:"______________________"
-  // },
   {
     icon: 'fa-database',
     name: "ข้อมูลพื้นฐาน",
     IDchildren: 'basicdata',
+    menuname: "m8",
     children: [
       {
         icon: 'fa-file',
@@ -164,9 +168,16 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     ]
   },
   {
-    icon: 'fa-user-friends',
+    icon: 'fa-list-alt',
+    url: "/menu",
     name: "กำหนดสิทธิ์การใช้งาน",
+    menuname: "m26",
+  },
+  {
+    icon: 'fa-user-friends',
+    name: "จัดการผู้ใช้",
     IDchildren: 'userdata',
+    menuname: "m9",
     children: [
       {
         icon: 'fa-file',
@@ -243,12 +254,14 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
     children: [
       {
         ex_link: '0',
@@ -286,6 +299,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     IDchildren: 'command',
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
     children: [
       {
         ex_link: '0',
@@ -305,6 +319,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     children: [
       {
         ex_link: '0',
@@ -352,9 +367,22 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     ]
   },
   {
+    icon: 'fa-map-marker',
+    url: "/external/thaimap",
+    name: "แผนที่",
+    menuname: "m16"
+  },
+  {
+    icon: 'fa-eye',
+    url: "/log",
+    name: "log",
+    menuname: "m17"
+  },
+  {
     IDchildren: 'training',
     icon: 'fa-shekel-sign',
     name: "ข้อมูลจัดอบรมหลักสูตร",
+    menuname: "m14",
     children: [
       {
         ex_link: '0',
@@ -374,43 +402,13 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         url: '/training/survey',
         name: 'แบบประเมิน'
       },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/nameplate',
-      //   name: 'ป้ายตั้งโต๊ะผู้เข้าอบรม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/training/document',
-      //   name: 'เอกสารประกอบการฝึกอบรม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/training/register',
-      //   name: 'ผู้สมัครเข้าร่วมอบรม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/training/survey',
-      //   name: 'ประเมินผลการฝึกอบรม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/training/report',
-      //   name: 'รายงาน'
-      // },
-
     ]
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
     children: [
       {
         ex_link: '0',
@@ -421,11 +419,18 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/training/report/history',
         name: 'ประวัติการฝึกอบรม'
       },
-
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
     ]
+
+  }
   },
   {
     icon: 'fa-map-marker',
@@ -448,27 +453,90 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจราชการ"
+    name: "แผนการตรวจราชการ",
+    menuname: "m2",
   },
   {
     icon: 'fa-calendar',
     url: '/inspectionplanevent/all',
-    name: "ปฏิทินการตรวจราชการ"
+    name: "ปฏิทินการตรวจราชการ",
+    menuname: "m3",
   },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10"
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     children: [
       {
         ex_link: '1',
@@ -515,97 +583,31 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     ]
   },
   {
-    IDchildren: 'training',
-    icon: 'fa-shekel-sign',
-    name: "ข้อมูลจัดอบรมหลักสูตร",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/training',
-        name: 'จัดอบรมหลักสูตร'
-      },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/training/lecturer',
-      //   name: 'วิทยากรอบรม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/training/document',
-      //   name: 'เอกสารประกอบการฝึกอบรม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/training/register',
-      //   name: 'ผู้สมัครเข้าร่วมอบรม'
-      // },
-      // {
-      //   ex_link: '1',
-      //   icon: 'fa-file',
-      //   url: '/training/survey',
-      //   name: 'ประเมินผลการฝึกอบรม'
-      // },
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/training/report',
-      //   name: 'รายงาน'
-      // },
-
-    ]
-  },
-  {
-    IDchildren: 'training_private',
-    icon: 'fa-shekel-sign',
-    name: "การฝึกอบรมหลักสูตร",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/training',
-        name: 'สมัครฝึกอบรม'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/training',
-        name: 'ประวัติการฝึกอบรม'
-      },
-
-    ]
-  },
-  {
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
+    name: "แผนที่",
+    menuname: "m16",
   },
 ]
 export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจราชการ"
+    name: "แผนการตรวจราชการ",
+    menuname: "m2",
   },
   {
     IDchildren: 'schedule',
     icon: 'fa-calendar',
     name: "กำหนดการตรวจราชการ",
+    menuname: "m18",
     children: [
-      // {
-      //   ex_link: '0',
-      //   icon: 'fa-file',
-      //   url: '/subjectevent',
-      //   name: 'ประเด็นการตรวจติดตาม'
-      // },
       {
         ex_link: '0',
         icon: 'fa-file',
@@ -629,94 +631,26 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
     icon: 'fa-file',
     url: "/subjectevent",
-    name: "ประเด็นการตรวจติดตาม"
+    name: "ประเด็นการตรวจติดตาม",
+    menuname: "m22",
   },
-  // {
-  //   IDchildren: 'subject',
-  //   icon: 'fa-file',
-  //   name: "ประเด็นการตรวจติดตาม",
-  //   children: [
-  //     {
-  //       ex_link: '0',
-  //       icon: 'fa-file',
-  //       url: '/subjectevent',
-  //       name: 'ประเด็นการตรวจติดตาม'
-  //     },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsubject',
-  //     //   name: 'รายงานประเด็นการตรวจติดตาม'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportperformance',
-  //     //   name: 'รายงานผลการดำเนินการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsuggestions',
-  //     //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsuggestionsresult',
-  //     //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportquestionnaire',
-  //     //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportcomment',
-  //     //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-  //     // },
-
-  //   ]
-  // },
-
-
-  // {
-  //   icon: 'fa-calendar',
-  //   url: "/inspectionplanevent",
-  //   name: "ปฏิทินการตรวจราชการ"
-  // },
   {
     icon: 'fa-book',
     url: "/electronicbook",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    menuname: "m4",
   },
   {
-    // IDchildren: 'report',
     icon: 'fa-user-tie',
     name: "รายงานผลการตรวจราชการ",
     url: '/reportimport',
-    // children: [
-    //   {
-    //     ex_link: '0',
-    //     icon: 'fa-file',
-    //     url: '/reportexport',
-    //     name: 'Export'
-    //   },
-    //   {
-    //     ex_link: '0',
-    //     icon: 'fa-file',
-    //     url: '/reportimport',
-    //     name: 'Import'
-    //   },
-    // ]
+    menuname: "m20",
   },
   {
     icon: 'fa-hand-point-up',
     name: "ข้อสั่งการถึงผู้ตรวจราชการ",
     IDchildren: 'executiveorderdata',
+    menuname: "m6",
     children: [
       {
         icon: 'fa-file',
@@ -744,6 +678,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-hands',
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
+    menuname: "m7",
     children: [
       {
         icon: 'fa-file',
@@ -770,12 +705,72 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     children: [
       {
         ex_link: '1',
@@ -822,52 +817,121 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     ]
   },
   {
-
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
+    name: "แผนที่",
+    menuname: "m16",
   },
+
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
     children: [
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/train',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/training/report/history',
         name: 'ประวัติการฝึกอบรม'
       },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
     ]
-  }
-
+  },
 ]
 export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชการจังหวัด
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
   {
     icon: 'fa-book',
     url: "/electronicbookprovince",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    menuname: "m25",
   },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     children: [
       {
         ex_link: '1',
@@ -914,56 +978,68 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     ]
   },
   {
-
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
+    name: "แผนที่",
+    menuname: "m16",
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
     children: [
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/train',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/training/report/history',
         name: 'ประวัติการฝึกอบรม'
       },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
     ]
-  }
+  },
 ]
 export const Adminprovince: NavBar[] = [ //หัวหน้าสำนักงานจังหวัด
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจราชการ"
+    name: "แผนการตรวจราชการ",
+    menuname: "m2",
   },
   {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
-    name: "ปฏิทินการตรวจราชการ"
+    name: "ปฏิทินการตรวจราชการ",
+    menuname: "m3",
   },
   {
     icon: 'fa-book',
     url: "/electronicbookprovince",
-    name: "สมุดตรวจอิเล็กทรอนิกส์"
+    name: "สมุดตรวจอิเล็กทรอนิกส์",
+    menuname: "m25",
   },
   {
     icon: 'fa-hands',
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
+    menuname: "m7",
     children: [
       {
         icon: 'fa-file',
@@ -987,20 +1063,76 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
       }
     ]
   },
-  // {
-  //     classtap:'sidebar-header',
-  //     url:"#",
-  //     name:"______________________"
-  // },
+
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     children: [
       {
         ex_link: '1',
@@ -1047,57 +1179,50 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     ]
   },
   {
-    IDchildren: 'training_private',
-    icon: 'fa-shekel-sign',
-    url: "/training",
-    name: "จัดอบรมหลักสูตร"
-  },
-  {
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
+    name: "แผนที่",
+    menuname: "m16",
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
     children: [
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/train',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/training/report/history',
         name: 'ประวัติการฝึกอบรม'
       },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
     ]
-  }
+  },
 ]
 export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระทรวง
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
-  // {
-  //   icon: 'fa-calendar',
-  //   url: "/inspectionplanevent",
-  //   name: "ปฏิทินการตรวจราชการ"
-  // },
-  // {
-  //   icon: 'fa-archive',
-  //   url: "/calendaruser",
-  //   name: "ปฏิทินการตรวจราชการ"
-  // },
-
   {
     IDchildren: 'calendarmenu',
     icon: 'fa-calendar',
     name: "ปฏิทินการตรวจราชการ",
+    menuname: "m3",
     children: [
       {
         ex_link: '0',
@@ -1116,63 +1241,14 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
   {
     icon: 'fa-file',
     url: "/subjectevent",
-    name: "ประเด็นการตรวจติดตาม"
+    name: "ประเด็นการตรวจติดตาม",
+    menuname: "m22",
   },
-  // {
-  //   IDchildren: 'subject',
-  //   icon: 'fa-file',
-  //   name: "ประเด็นการตรวจติดตาม",
-  //   children: [
-  //     {
-  //       ex_link: '0',
-  //       icon: 'fa-file',
-  //       url: '/subjectevent',
-  //       name: 'ประเด็นการตรวจติดตาม'
-  //     },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsubject',
-  //     //   name: 'รายงานประเด็นการตรวจติดตาม'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportperformance',
-  //     //   name: 'รายงานผลการดำเนินการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsuggestions',
-  //     //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsuggestionsresult',
-  //     //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportquestionnaire',
-  //     //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportcomment',
-  //     //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-  //     // },
-
-  //   ]
-  // },
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    // url: '/electronicbook/invited',
+    menuname: "m4",
     children: [
       {
         ex_link: '0',
@@ -1191,7 +1267,66 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
@@ -1246,61 +1381,126 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
   {
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
+    name: "แผนที่",
+    menuname: "m16",
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
     children: [
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/train',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/training/report/history',
         name: 'ประวัติการฝึกอบรม'
       },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
     ]
-  }
+  },
 
 ]
 export const publicsector: NavBar[] = [ //ภาคประชาชน
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
   {
     icon: 'fa-book',
     url: "/answerpeople",
-    name: "คำถามภาคประชาชน"
+    name: "คำถามภาคประชาชน",
+    menuname: "m21",
   },
   {
     icon: 'fa-calendar',
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ",
+    menuname: "m7",
     // bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
   },
-  // {
-  //   IDchildren: 'electronicbook',
-  //   icon: 'fa-book',
-  //   name: "สมุดตรวจอิเล็กทรอนิกส์",
-  //   url: '/electronicbook/invited',
-  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     children: [
       {
         ex_link: '1',
@@ -1349,43 +1549,54 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
   {
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
+    name: "แผนที่",
+    menuname: "m16",
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
     children: [
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/train',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/training/report/history',
         name: 'ประวัติการฝึกอบรม'
       },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
     ]
-  }
+  },
 ]
 export const president: NavBar[] = [ //ผู้บริหารหรือนายก
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
-    name: "แผนการตรวจราชการ"
+    name: "แผนการตรวจราชการ",
+    menuname: "m2",
   },
   {
     icon: 'fa-hand-point-up',
     name: "ข้อสั่งการถึงผู้ตรวจราชการ",
     IDchildren: 'executiveorderdata',
+    menuname: "m6",
     children: [
       {
         icon: 'fa-file',
@@ -1412,17 +1623,78 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
   {
     icon: 'fa-user-tie',
     url: "/commanderreport",
-    name: "รายงานผลการตรวจราชการ"
+    name: "รายงานผลการตรวจราชการ",
+    menuname: "m20",
   },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     children: [
       {
         ex_link: '1',
@@ -1471,39 +1743,49 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
   {
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
+    name: "แผนที่",
+    menuname: "m16",
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
     children: [
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/train',
         name: 'สมัครฝึกอบรม'
       },
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/training/report/history',
         name: 'ประวัติการฝึกอบรม'
       },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
     ]
-  }
+  },
 ]
 export const InspectorExamination: NavBar[] = [ //หน่วยรับตรวจ
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
 
   {
     IDchildren: 'schedule',
     icon: 'fa-calendar',
     name: "กำหนดการตรวจราชการ",
+    menuname: "m18",
     children: [
       {
         ex_link: '0',
@@ -1522,23 +1804,20 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
   {
     icon: 'fa-archive',
     url: "/answersubject",
-    name: "ประเด็นตรวจติดตาม"
+    name: "ประเด็นตรวจติดตาม",
+    menuname: "m22",
   },
   {
     icon: 'fa-file',
     url: "/answerrecommendationinspector",
-    name: "ข้อเสนอแนะของผู้ตรวจราชการ"
+    name: "ข้อเสนอแนะของผู้ตรวจราชการ",
+    menuname: "m23",
   },
-  // {
-  //   IDchildren: 'electronicBook',
-  //   icon: 'fa-book',
-  //   name: "สมุดตรวจอิเล็กทรอนิกส์",
-  //   url: "/electronicbookdepartment",
-  // },
   {
     IDchildren: 'electronicBook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
+    menuname: "m4",
     children: [
       {
         ex_link: '0',
@@ -1557,7 +1836,66 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
@@ -1611,7 +1949,34 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
   {
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
+    name: "แผนที่",
+    menuname: "m16",
+  },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/train',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/report/history',
+        name: 'ประวัติการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
+    ]
   },
 
 ]
@@ -1619,22 +1984,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
   {
     icon: 'fa-home',
     url: "/main",
-    name: "หน้าหลัก"
+    name: "หน้าหลัก",
+    menuname: "m1",
   },
-  // {
-  //   icon: 'fa-calendar',
-  //   url: "/inspectionplanevent",
-  //   name: "ปฏิทินการตรวจราชการ"
-  // },
-  // {
-  //   icon: 'fa-archive',
-  //   url: "/calendaruser",
-  //   name: "ปฏิทินการตรวจราชการ"
-  // },
   {
     IDchildren: 'calendarmenu',
     icon: 'fa-calendar',
     name: "ปฏิทินการตรวจราชการ",
+    menuname: "m3",
     children: [
       {
         ex_link: '0',
@@ -1653,63 +2010,15 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
   {
     icon: 'fa-file',
     url: "/subjectevent",
-    name: "ประเด็นการตรวจติดตาม"
+    name: "ประเด็นการตรวจติดตาม",
+    menuname: "m22",
   },
-  // {
-  //   IDchildren: 'subject',
-  //   icon: 'fa-file',
-  //   name: "ประเด็นการตรวจติดตาม",
-  //   children: [
-  //     {
-  //       ex_link: '0',
-  //       icon: 'fa-file',
-  //       url: '/subjectevent',
-  //       name: 'ประเด็นการตรวจติดตาม'
-  //     },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsubject',
-  //     //   name: 'รายงานประเด็นการตรวจติดตาม'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportperformance',
-  //     //   name: 'รายงานผลการดำเนินการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsuggestions',
-  //     //   name: 'รายงานข้อเสนอแนะของผู้ตรวจราชการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportsuggestionsresult',
-  //     //   name: 'รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportquestionnaire',
-  //     //   name: 'รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-  //     // },
-  //     // {
-  //     //   ex_link: '0',
-  //     //   icon: 'fa-file',
-  //     //   url: '/reportcomment',
-  //     //   name: 'รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน'
-  //     // },
-
-  //   ]
-  // },
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     url: '/electronicbook/invited',
+    menuname: "m4",
     children: [
       {
         ex_link: '0',
@@ -1725,20 +2034,75 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
       },
     ]
   },
-  // {
-  //   icon: 'fa-book',
-  //   url: "/usercentralpolicy",
-  //   name: "Accept"
-  // },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
-    name: "ข้อมูลสนับสนุน"
+    name: "ข้อมูลสนับสนุน",
+    menuname: "m10",
+  },
+  {
+    IDchildren: 'strategic',
+    icon: 'fa-flag',
+    name: "นโยบาย&แผนยุทธศาสตร์",
+    menuname: "m11",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/nationalstrategy',
+        name: 'ยุทธศาตร์ชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9B%E0%B8%8F%E0%B8%B4%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8/',
+        name: 'แผนการปฏิรูปประเทศ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '#',
+        name: 'แผนพัฒนาเศรษฐกิจและสังคมแห่งชาติ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://nscr.nesdb.go.th/%E0%B9%81%E0%B8%9C%E0%B8%99%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%9A%E0%B8%97%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%95%E0%B9%89%E0%B8%A2%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95/',
+        name: 'แผนแม่บทต่าง ๆ'
+      },
+      {
+        ex_link: '1',
+        icon: 'fa-file',
+        url: 'http://www.soc.go.th/bb_main01.htm',
+        name: 'นโยบายรัฐบาล'
+      },
+    ]
+  },
+  {
+    IDchildren: 'command',
+    icon: 'fa-bolt',
+    name: "คำสั่งต่าง ๆ",
+    menuname: "m12",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/instructionorder',
+        name: 'คำสั่งรับผิดชอบเขตตรวจราชการ'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/inspectionorder',
+        name: 'คำสั่งการตรวจราชการประจำปี'
+      },
+    ]
   },
   {
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname: "m13",
     children: [
       {
         ex_link: '1',
@@ -1788,38 +2152,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
   {
     icon: 'fa-map-marker',
     url: "/external/thaimap",
-    name: "แผนที่"
-  },
-]
-export const External: NavBar[] = [ //บุคคลภายนอก
-  {
-    icon: 'fa-home',
-    url: "/main",
-    name: "หน้าหลัก"
-  },
-  {
-    IDchildren: 'training',
-    icon: 'fa-shekel-sign',
-    name: "ข้อมูลจัดอบรมหลักสูตร",
-    children: [
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/training',
-        name: 'จัดอบรมหลักสูตร'
-      },
-      {
-        ex_link: '0',
-        icon: 'fa-file',
-        url: '/training/lecturer',
-        name: 'วิทยากรอบรม'
-      },
-    ]
+    name: "แผนที่",
+    menuname: "m16",
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
     children: [
       {
         ex_link: '0',
@@ -1830,10 +2170,63 @@ export const External: NavBar[] = [ //บุคคลภายนอก
       {
         ex_link: '0',
         icon: 'fa-file',
-        url: '/training',
+        url: '/training/report/history',
         name: 'ประวัติการฝึกอบรม'
       },
-
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
     ]
   },
+]
+export const External: NavBar[] = [ //บุคคลภายนอก
+  {
+    icon: 'fa-home',
+    url: "/main",
+    name: "หน้าหลัก",
+    menuname: "m1",
+  },
+  {
+    IDchildren: 'training_private',
+    icon: 'fa-shekel-sign',
+    name: "การฝึกอบรมหลักสูตร",
+    menuname: "m15",
+    children: [
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/train',
+        name: 'สมัครฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/report/history',
+        name: 'ประวัติการฝึกอบรม'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/surveylecturer',
+        name: 'แบบประเมินการอบรม'
+      },
+    ]
+  },
+]
+
+export const allNav: any[] = [
+  superAdmin,
+  Centraladmin,
+  Inspector,
+  Provincialgovernor,
+  Adminprovince,
+  InspectorMinistry,
+  publicsector,
+  president,
+  InspectorExamination,
+  InspectorDepartment,
+  External,
 ]

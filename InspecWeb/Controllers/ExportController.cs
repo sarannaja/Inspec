@@ -1345,13 +1345,18 @@ namespace InspecWeb.Controllers
             return Ok(new { importFiscalYear });
         }
 
-        [HttpGet("getImportReportFiscalYearRelations/{fiscalYearId}")]
-        public IActionResult GetImportReportFiscalYearRelations(long fiscalYearId)
+        [HttpGet("getImportReportFiscalYearRelations")]
+        public IActionResult GetImportReportFiscalYearRelations()
         {
+            var fiscalYearID = _context.FiscalYears
+                .Where(x => x.Active == 1)
+                .Select(x => x.Id)
+                .FirstOrDefault();
+
             var importFiscalYearRelations = _context.FiscalYearRelations
                 .Include(x => x.Region)
                 .Include(x => x.Province)
-                .Where(x => x.FiscalYearId == fiscalYearId)
+                .Where(x => x.FiscalYearId == fiscalYearID)
                 .ToList();
 
             return Ok(new { importFiscalYearRelations });

@@ -250,7 +250,7 @@ export class ReportImportComponent implements OnInit {
   }
 
   getImportFiscalYearRelations() {
-    this.exportReportService.getImportReportFiscalYearRelations(this.fiscalYearId).subscribe(res => {
+    this.exportReportService.getImportReportFiscalYearRelations().subscribe(res => {
       console.log("fiscalYearRelations: ", res);
 
       var uniqueRegion: any = [];

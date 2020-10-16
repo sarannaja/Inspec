@@ -166,7 +166,9 @@ namespace InspecWeb.Data
         public DbSet<SetinspectionareaFile> SetinspectionareaFiles { get; set; } //<!-- ไฟล์ของกำหนดเขตการตรวจ -->
 
         public DbSet<TrainingLogin> TrainingLogins { get; set; }
-        
+
+        public DbSet<Menu> Menu { get; set; }
+
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -498,6 +500,8 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new FiscalYearNewSeeder());//ปีที่แท้
             builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
             builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
+            builder.ApplyConfiguration(new MenuSeeder());//สิทธิ์เมนู
+
 
         }
     }

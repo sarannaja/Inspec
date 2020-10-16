@@ -72,4 +72,8 @@ export class TrainingDocumentComponent implements OnInit {
   GotoTrainingdocument(trainingid){
     this.router.navigate(['/training/documentlist/',trainingid])
   }
+
+  gotoBack() {
+    window.history.back();
+  }
 }

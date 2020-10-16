@@ -115,4 +115,8 @@ export class TrainingIDCodeComponent implements OnInit {
     })
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
 }

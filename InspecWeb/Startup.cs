@@ -1,7 +1,9 @@
 ﻿using System;
-using EmailService;
+using InspecWeb.Controllers;
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.Services;
+using InspecWeb.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +16,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
 
 namespace InspecWeb
 {
@@ -77,6 +82,10 @@ namespace InspecWeb
                 // c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
             });
 
+            // เพิ่ม controller ไว้สำหรับทำ cronjob
+            services.AddTransient<Controllers.UtinityController, Controllers.UtinityController>();
+            //end เพิ่ม controller ไว้สำหรับทำ cronjob
+
             services.AddMvc()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .ConfigureApiBehaviorOptions(options =>
@@ -88,13 +97,18 @@ namespace InspecWeb
                 });
 
             //mail
-            var emailConfig = Configuration
-                .GetSection("EmailConfiguration")
-                .Get<EmailConfiguration>();
-            services.AddSingleton(emailConfig);
-            services.AddTransient<IEmailSender, EmailSender>();
+            // var emailConfig = Configuration
+            //     .GetSection("EmailConfiguration")
+            //     .Get<EmailConfiguration>();
+            // services.AddSingleton(emailConfig);
+            // services.AddTransient<IEmailSender, EmailSender>();
+            //end mail
+            //mail
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, Services.MailService>();
             //end mail
 
+            services.AddHostedService<CronJobService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory

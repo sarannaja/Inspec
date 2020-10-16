@@ -201,8 +201,10 @@ export class ListTrainingRegisterComponent implements OnInit {
         // alert("123")
         // console.log("etc", result);
 
+        //if (result != null){
         this.birthdate = moment().diff(result.birthDate, 'years');
 
+        //}
         this.peopledetail = result
         this.loading = true
         // alert(this.birthdate)
@@ -396,5 +398,9 @@ export class ListTrainingRegisterComponent implements OnInit {
     this.exportReportService.CreateReportTrainingRegister(this.trainingid).subscribe(res => {
       window.open(this.url + "Uploads/" + res.data);
     })
+  }
+
+  gotoBack() {
+    window.history.back();
   }
 }

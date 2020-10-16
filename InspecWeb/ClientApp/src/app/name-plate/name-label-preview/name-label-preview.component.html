@@ -11,7 +11,13 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header">
-        <h5 class="card-title">บัตรผู้ร่วมอบรม</h5>
+        <h5 class="card-title">
+          บัตรผู้ร่วมอบรม
+          <button class="btn btn-light btn-sm" (click)="gotoBack()">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </button>
+          
+        </h5>
         <div class="float-right">
           <button id="btn-export" class="btn btn-primary" (click)="print()" style="margin-top: -60px;">
             <i class="fas fa-print mr-2"></i>พิมพ์ป้ายชื่อ
@@ -19,7 +25,7 @@
         </div>
       </div>
 
-      <div class="card-body">
+      <div class="card-body mt-3">
         <div class="book" id="print-section">
           <div *ngFor="let item of printData; let i = index">
             <div class="page" style="page-break-after: always;">

@@ -24,14 +24,48 @@
               <th>ชื่อ</th>
               <th>ตำแหน่ง</th>
               <th>หน่วยงาน</th>
+              <th>เวลาลงชื่อ</th>
+              <th>
+                สถานะลงชื่อ
+              </th>
+              <th class="text-center">
+                <i class="btn btn-success" (click)="openModal(modalLogin, 1)">ลงชื่อ</i>
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of userLogInData; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.position}}</td>
-              <td>{{item.department}}</td>
+              <td>
+                <ng-container *ngIf="item.trainingLogin == null ;">
+                  <input type="checkbox" (change)="addsPeople2(item.trainingRegister[i])">
+                </ng-container>                
+                {{item.trainingRegister[i].name}}
+              </td>
+              <td>{{item.trainingRegister[i].position}}</td>
+              <td>{{item.trainingRegister[i].department}}</td>
+              <td>
+                <ng-container *ngIf="item.trainingLogin != null ;">
+                  {{item.trainingLogin.registerDate | thaidate: 'year'}}
+                </ng-container>
+              </td>
+              <td>
+                <ng-container *ngIf="item.trainingLogin != null ;else msecond">
+                    <label class="text-success">ลงชื่อเรียบร้อย</label>
+                </ng-container>
+                <ng-template #msecond>
+                    <ng-container >
+                      <label class="text-danger">ยังไม่ได้ลงชื่อ</label>
+
+                    </ng-container>
+                </ng-template>
+
+              </td>
+              <td class="text-center">
+                <i class="align-middle mr-2 fas fa-fw fa-edit pointer"
+                (click)="openModal(modalLogin, 1)"></i>
+             
+              </td>
             </tr>
           </tbody>
         </table>
@@ -39,3 +73,29 @@
     </div>
   </div>
 </div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalLogin class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+  <form [formGroup]="Form" (ngSubmit)="savelogin(Form.value, 1)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="form-group">
+           ต้องการลงชื่อเข้าอบรมหรือไม่
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" (click)="userRegister()">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->

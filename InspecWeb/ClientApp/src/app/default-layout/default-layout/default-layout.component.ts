@@ -3,13 +3,15 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, Inject, TemplateRef, HostListener } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { superAdmin, Centraladmin, Inspector, Provincialgovernor, Adminprovince, InspectorMinistry, publicsector, president, InspectorDepartment, InspectorExamination, External } from './_nav';
+import { superAdmin, Centraladmin, Inspector, Provincialgovernor, Adminprovince, InspectorMinistry, publicsector, president, InspectorDepartment, InspectorExamination, External, allNav, NavBar } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Location } from "@angular/common";
 import { ExecutiveorderService } from 'src/app/services/executiveorder.service';
+import * as _ from 'lodash';
+import { MenuService } from 'src/app/services/menu.service';
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -61,10 +63,13 @@ export class DefaultLayoutComponent implements OnInit {
   height: number = window.innerHeight;
   mobileWidth: number = 900;
   lockNav: boolean = true
+
+  arraynav: NavBar[] = []
   constructor(
     private authorize: AuthorizeService,
     private userService: UserService,
     private notificationService: NotificationService,
+    private menuService: MenuService,
     private router: Router,
     private modalService: BsModalService,
     private fb: FormBuilder,
@@ -76,10 +81,25 @@ export class DefaultLayoutComponent implements OnInit {
 
     this.imgprofileUrl = baseUrl + '/imgprofile';
     this.SignatureUrl = baseUrl + '/Signature';
+
+
+    allNav.map(result => {
+      for (let i = 0; i < result.length; i++) {
+        this.arraynav.push(result[i])
+      }
+    })
+
+    this.arraynav = _.uniqBy(this.arraynav, function (e) {
+      return e.url
+    }).concat(this.arraynav.filter(result => result.url == null))
   }
   // 0C-54-15-66-C2-D6
 
+  moNav() {
 
+
+
+  }
   onToggle(value: any = null) {
     this.toggled = !this.toggled;
   }
@@ -92,7 +112,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.profileform();
     this.getuserinfo();
     this.getnotifications();
-
+    this.moNav()
 
     // this.urlActive = this.router.url;
     // this.getplancount();
@@ -182,17 +202,17 @@ export class DefaultLayoutComponent implements OnInit {
 
     //    console.log('resultsub', resultsub);
 
-        this.notificationService.getnotificationsdata(this.userid)
-          .subscribe(result => {
-            this.resultnotifications = result
-          //     .map(resultxe => {
-          //       console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
+    this.notificationService.getnotificationsdata(this.userid)
+      .subscribe(result => {
+        this.resultnotifications = result
+        //     .map(resultxe => {
+        //       console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
 
-          //       // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
-          //       return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
-          //     });
+        //       // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
+        //       return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
+        //     });
 
-          // })
+        // })
       })
 
 
@@ -206,10 +226,10 @@ export class DefaultLayoutComponent implements OnInit {
     this.notificationService.updateNotification(id)
       .subscribe(result => {
         if (statusid == 20) { //song
-           location.href = '/commanderreport/detail/' + xe;
+          location.href = '/commanderreport/detail/' + xe;
         }
         else if (statusid == 9) { //song
-           location.href = '/reportimport/detail/' + xe;
+          location.href = '/reportimport/detail/' + xe;
         }
         else if (statusid == 16) { //aof
           location.href = '/usercentralpolicy/' + xe + '/' + provinceId;
@@ -217,34 +237,35 @@ export class DefaultLayoutComponent implements OnInit {
         }
         else if (statusid == 2) { //aof role6 and 10 มาทำต่อด้วย
           if (this.role_id == 3) {
-             location.href = '/inspectionplan/' + xe + '/' + provinceId + '/0';
+            location.href = '/inspectionplan/' + xe + '/' + provinceId + '/0';
           } else if (this.role_id == 6) {
-             location.href = '/inspectionplan/ministry/' + xe + '/' + provinceId + '/0';
+            location.href = '/inspectionplan/ministry/' + xe + '/' + provinceId + '/0';
           } else if (this.role_id == 10) {
-             location.href = '/inspectionplan/department/' + xe + '/' + provinceId + '/0';
+            location.href = '/inspectionplan/department/' + xe + '/' + provinceId + '/0';
           }
         }
         else if (statusid == 3) { //aof role6 and 10 มาทำต่อด้วย
           this.notificationService.getinspactionsplaneven(xe)
             .subscribe(result => {
               if (result.roleCreatedBy == "3") {
-                 location.href = '/inspectionplan/' + xe + '/' + provinceId + '/1';
+                location.href = '/inspectionplan/' + xe + '/' + provinceId + '/1';
               } else if (result.roleCreatedBy == "6") {
-                 location.href = '/inspectionplan/ministry/' + xe + '/' + provinceId + '/1';
+                location.href = '/inspectionplan/ministry/' + xe + '/' + provinceId + '/1';
               } else if (result.roleCreatedBy == "10") {
-                 location.href = '/inspectionplan/department/' + xe + '/' + provinceId + '/1';
+                location.href = '/inspectionplan/department/' + xe + '/' + provinceId + '/1';
               }
             })
           // location.href = '/inspectionplan/' + xe + '/' + provinceId + '/1';
         }
         else if (statusid == 4) { //ask nik
-           location.href = '/answersubject/list/' + xe;
+          location.href = '/answersubject/list/' + xe;
         }
         else if (statusid == 5) { //ask nik
-           location.href = '/answerpeople';
+          location.href = '/answerpeople';
         }
         else if (statusid == 6) { //ask nik
           this.notificationService.getCentralPolicyProvince(centralPolicyId, provinceId).subscribe(result => {
+
             //  location.href = '/subjectevent/detail/' + result, { subjectgroupid: xe, };
              location.href = '/subjectevent/detail/' + result + ';subjectgroupid=' + xe
           })
@@ -254,15 +275,16 @@ export class DefaultLayoutComponent implements OnInit {
             console.log("inviteId: ", res);
             //  location.href = 'electronicbook/invitedetail/' + xe, { ebookInviteId: res };
              location.href = 'electronicbook/invitedetail/' + xe + ';ebookInviteId=' + res;
+
           })
         }
 
         else if (statusid == 19) { //aof
-           location.href = '/usercentralpolicy/' + xe + '/' + provinceId;
+          location.href = '/usercentralpolicy/' + xe + '/' + provinceId;
         }
 
         else if (statusid == 17) { //song
-           location.href = '/electronicbook/provincedetail/' + xe;
+          location.href = '/electronicbook/provincedetail/' + xe;
         }
         else if (statusid == 18) { //song
           this.notificationService.getElectronicBookProvincialDepartment(provinceId, xe).subscribe(res => {
@@ -272,7 +294,7 @@ export class DefaultLayoutComponent implements OnInit {
           })
         }
         else if (statusid == 8) { //song
-           location.href = '/electronicbook/detail/' + xe;
+          location.href = '/electronicbook/detail/' + xe;
         }
         // this.nav = superAdmin;
         // this.profileform();
@@ -317,30 +339,45 @@ export class DefaultLayoutComponent implements OnInit {
               Signature: this.Signature,
               UserName: this.UserName
             });
+            // this.nav 
+            this.menuService.getmenudata(this.role_id)
+            .subscribe(result => {
+            let mock_menu_disable = result
 
-            if (this.role_id == 1) {
-              this.nav = superAdmin //ซุปเปอร์แอดมิน
-            } else if (this.role_id == 2) {
-              this.nav = Centraladmin //แอดมินส่วนกลาง
-            } else if (this.role_id == 3) {
-              this.nav = Inspector //ผู้ตรวจราชการ
-            } else if (this.role_id == 4) {
-              this.nav = Provincialgovernor //ผู้ว่าราชการจังหวัด
-            } else if (this.role_id == 5) {
-              this.nav = Adminprovince //หัวหน้าสำนักงานจังหวัด
-            } else if (this.role_id == 6) {
-              this.nav = InspectorMinistry // ผู้ตรวจกระทรวง
-            } else if (this.role_id == 7) {
-              this.nav = publicsector // ผู้ตรวจภาคประชาชน
-            } else if (this.role_id == 8) {
-              this.nav = president // ผู้บริหาร หรือ นายก รองนายก
-            } else if (this.role_id == 9) {
-              this.nav = InspectorExamination //หน่วยงานตรวจ
-            } else if (this.role_id == 10) {
-              this.nav = InspectorDepartment // ผู้ตรวจกรม
-            } else if (this.role_id == 11) {
-              this.nav = External // ภายนอก
-            }
+             // mock_menu_disable คือตัวแปรสำหรับแทนที่ดึงมาจาก service และดึง key ของแตค่ล่ะตัวที่ไม่ใช่ 0
+              let o: any[] = mock_menu_disable
+              .filter(j => { return Object.values(j)[0] == 1 })
+              .map(j => Object.keys(j)[0])
+                //สำหรับฟิลเตอร์ nav 
+                this.nav = this.arraynav.filter(function (item) {
+                  return o.indexOf(item.menuname) !== -1;
+                })
+
+            });
+           
+            // if (this.role_id == 1) {
+            //   this.nav = superAdmin //ซุปเปอร์แอดมิน
+            // } else if (this.role_id == 2) {
+            //   this.nav = Centraladmin //แอดมินส่วนกลาง
+            // } else if (this.role_id == 3) {
+            //   this.nav = Inspector //ผู้ตรวจราชการ
+            // } else if (this.role_id == 4) {
+            //   this.nav = Provincialgovernor //ผู้ว่าราชการจังหวัด
+            // } else if (this.role_id == 5) {
+            //   this.nav = Adminprovince //หัวหน้าสำนักงานจังหวัด
+            // } else if (this.role_id == 6) {
+            //   this.nav = InspectorMinistry // ผู้ตรวจกระทรวง
+            // } else if (this.role_id == 7) {
+            //   this.nav = publicsector // ผู้ตรวจภาคประชาชน
+            // } else if (this.role_id == 8) {
+            //   this.nav = president // ผู้บริหาร หรือ นายก รองนายก
+            // } else if (this.role_id == 9) {
+            //   this.nav = InspectorExamination //หน่วยงานตรวจ
+            // } else if (this.role_id == 10) {
+            //   this.nav = InspectorDepartment // ผู้ตรวจกรม
+            // } else if (this.role_id == 11) {
+            //   this.nav = External // ภายนอก
+            // }
             // this.bridge2.push(bridge)
           })
       })
@@ -354,7 +391,6 @@ export class DefaultLayoutComponent implements OnInit {
       this.getuserinfo();
     })
   }
-
   password(value) {
 
   }

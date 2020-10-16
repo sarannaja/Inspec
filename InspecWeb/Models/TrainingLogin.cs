@@ -25,16 +25,19 @@ namespace InspecWeb.Models
         public String IDCode { get; set; }
 
         [Required]
-        [Description("หมายเลขหลักสูตร")]
-        public long TrainingPhaseId { get; set; }
+        [ForeignKey("Training")]
+        [Description("FK: ตารางหลักสูตรอบรม")]
+        public long TrainingId { get; set; }
 
         [Description("วันที่ลงทะเบียน")]
         [DataType(DataType.Date)]
         public DateTime? RegisterDate { get; set; }
 
         [Required]
-        [Description("ช่วงการอบรม")]
+        [ForeignKey("TrainingProgramLoginQRCode")]
+        [Description("รหัสวันที่ลงชื่ออบรม")]
         public long TrainingProgramLoginId { get; set; }
+        public virtual TrainingProgramLoginQRCode TrainingProgramLoginQRCodes { get; set; }
 
         [Required]
         [Description("ช่วงเช้า/บ่าย")]

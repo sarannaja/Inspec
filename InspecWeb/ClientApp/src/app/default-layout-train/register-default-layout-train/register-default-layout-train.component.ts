@@ -100,7 +100,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
         if (this.check == true) {
           this.router.navigate(['/train/']);
-          this._NotofyService.onError("สมัครแล้ว")
+          this._NotofyService.onError("ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
         }
       })
 
@@ -161,7 +161,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
 
             this.resultuser = result;
-            //console.log("test" , this.resultuser);
+            console.log("resultuser => " , this.resultuser);
             this.role_id = result[0].role_id
 
             this.Prefix = result[0].prefix
@@ -172,8 +172,8 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
             this.Img = result[0].img
 
             this.username = result[0].userName
-            this.department = result[0].provincialDepartments.name
-            this.departmentid = result[0].provincialDepartments.id
+            this.department = result[0].ministries.name
+            this.departmentid = result[0].ministries.id
             // alert(this.username)
             this.Form.patchValue({
               Prefix: this.Prefix,
@@ -193,6 +193,18 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
   }
   //End getuser
+
+  gotoMain(){
+    this.router.navigate(['/train'])
+  }
+
+  gotoAdmin(){
+    this.router.navigate(["/main"])
+  }
+
+  gotoBack() {
+    window.history.back();
+  }
 
   GotoDetail(trainingid2) {
     //alert(trainingid2);

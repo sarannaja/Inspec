@@ -103,4 +103,8 @@ export class TrainingLoginListComponent implements OnInit {
 
     this.router.navigate(['training/login/list/detail/' + programid, {programType: programType}]);
   }
+
+  gotoBack() {
+    window.history.back();
+  }
 }

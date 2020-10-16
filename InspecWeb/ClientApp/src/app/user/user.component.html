@@ -113,7 +113,13 @@
                                     badge-info mr-1">อื่นๆ</span>
                             </td>
                             <td *ngIf="roleId == 7">{{item.sides.name}}</td>
-                            <td>{{item.phoneNumber}}</td>
+                            <td>
+                                <span *ngIf="item.phoneNumber != null && item.phoneNumber != 'null'
+                                    && item.phoneNumber != '';else elsephoneNumber">
+                                    {{item.phoneNumber}}
+                                </span>   
+                                <ng-template #elsephoneNumber>-</ng-template>
+                            </td>
                             <td *ngIf="roleId == 1">{{item.email}}</td>
                             <td>
                                 <div *ngIf="item.active == 1;else elseBlock">
