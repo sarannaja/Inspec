@@ -236,6 +236,7 @@ import { TrainingIdcodeModule } from './training-idcode/training-idcode.module';
 import { RegionalagencyComponent } from './regionalagency/regionalagency.component';
 import { ConfirmationDialogComponent } from './services/confirmation-dialog/confirmation-dialog.component';
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
+import { MenuComponent } from './menu/menu.component';
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -432,6 +433,7 @@ const ExternalOrganization = [
     TrainingLoginListDetailComponent,
     RegionalagencyComponent,
     ConfirmationDialogComponent,
+    MenuComponent,
   ],
 
   imports: [
@@ -644,6 +646,7 @@ const ExternalOrganization = [
           { path: 'training/login/list/:trainingid', component: TrainingLoginListComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/login/list/detail/:programid', component: TrainingLoginListDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'regionalagency', component: RegionalagencyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'menu', component: MenuComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

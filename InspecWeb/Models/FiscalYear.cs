@@ -43,6 +43,10 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
+        [Required]
+        [Description("active")]
+        public long Active { get; set; }
+
         //public ICollection<CentralPolicy> CentralPolicies { get; set; }
         public ICollection<FiscalYearRelation> FiscalYearRelations { get; set; }
 
