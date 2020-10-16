@@ -11,7 +11,7 @@
       <div class="card card-eiei">
           <div class="card-header" style="margin-bottom: -40px;">
               <h5 class="card-title">
-                รายงานของผู้เข้ารับการฝึกอบรม (ประวัติการฝึกอบรม)
+                รายงาน / ประวัติการฝึกอบรมของบุคลากร
 
                   <button class="btn btn-light btn-sm" (click)="gotoBack()">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -35,7 +35,7 @@
             </div>
 
 
-              <table class="table table-bordered table-responsive-lg">
+              <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg"> 
                   <thead>
                       <tr>
                           <th width="5%" class="text-center" style="vertical-align: text-top;">ลำดับที่</th>
@@ -46,18 +46,15 @@
                       </tr>
                   </thead>
                   <tbody>
-                    <tr></tr>
-                    <tr></tr>
-                    <tr></tr>
-                    <tr></tr>
-                    <tr></tr>
-                      <!-- <tr *ngFor="let item of resulttraining; let i = index">
-                          <td>{{ i + 1 }}</td>
-                          <td class="ellipsis">{{ item.training.name }}</td>
-                          <td class="text-center">01/2563</td>
-                          <td class="text-center"></td>
-                          <td></td>
-                      </tr> -->
+                    <tr *ngFor="let item of resulttraining; let i = index">
+                        <td class="text-center">{{ i + 1 }}</td>
+                        <td>{{ item.training.name }}</td>
+                        <td class="text-center">{{ item.training.generation }}/{{ item.training.year }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    
                   </tbody>
               </table>
           </div>

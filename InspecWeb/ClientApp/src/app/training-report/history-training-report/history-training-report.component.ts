@@ -32,6 +32,7 @@ export class HistoryTrainingReportComponent implements OnInit {
   Email: any;
   Img: any;
   CardId: any;
+  Username: any;
   
   constructor(private modalService: BsModalService, 
     private authorize: AuthorizeService,
@@ -49,9 +50,13 @@ export class HistoryTrainingReportComponent implements OnInit {
 
   ngOnInit() {
 
-    //this.getuserinfo()
+    this.getuserinfo()
+
+    
 
   }
+
+  
 
   //start getuser
   getuserinfo(){
@@ -66,29 +71,37 @@ export class HistoryTrainingReportComponent implements OnInit {
         this.role_id = result[0].role_id
       
         this.Prefix = result[0].prefix
+        this.Username = result[0].userName
         this.Name = result[0].name
         this.Position = result[0].position
         this.PhoneNumber = result[0].phoneNumber
         this.Email = result[0].email
         this.Img = result[0].img
-        
-        this.trainingservice.gethistorytraining(this.Name)
+        console.log("Username=>",this.Username);
+    //     this.trainingservice.gethistorytraining(this.Name)
+    // .subscribe(result => {
+    //   this.resulttraining = result
+    //   this.loading = true
+    //   console.log(this.resulttraining);
+    // })
+
+    this.trainingservice.getTraininghistoryreport(this.Username)
     .subscribe(result => {
       this.resulttraining = result
-      this.loading = true
-      console.log(this.resulttraining);
+      this.loading = true;
+      console.log("resulttraining=>",this.resulttraining);
     })
 
-        this.Form.patchValue({
-          Prefix: this.Prefix,
-          name: this.Name,
-          cardid: this.CardId,
-          position: this.Position,
-          phone: this.PhoneNumber,
-          email: this.Email,
-          Formprofile:1,
-          //files: this.files,
-        });
+        // this.Form.patchValue({
+        //   Prefix: this.Prefix,
+        //   name: this.Name,
+        //   cardid: this.CardId,
+        //   position: this.Position,
+        //   phone: this.PhoneNumber,
+        //   email: this.Email,
+        //   Formprofile:1,
+        //   //files: this.files,
+        // });
 
       })
     })

@@ -375,11 +375,12 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'lecturerlist2/' + trainingid)
   }
 
-  addTraininglecturerjoinsurvey(trainingData, lecturerid) {
+  addTraininglecturerjoinsurvey(trainingData, lecturerId, trainingId) {
     //alert(JSON.stringify(trainingData.name))
     const formData = new FormData();
     formData.append('trainingsurveytopicId', trainingData.name);
-    formData.append('lecturerid', lecturerid);
+    formData.append('lecturerId', lecturerId);
+    formData.append('trainingId', trainingId);
 
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + 'lecturerjoinsurvey/save', formData);
@@ -502,8 +503,8 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'plan/' + trainingphaseid)
   }
 
-  getchecktrainingregister(id, userid): Observable<any[]> {
-    return this.http.get<any[]>(this.url + 'checktrainingregister/' + id + '/' + userid)
+  getchecktrainingregister(trainingid, userid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'checktrainingregister/' + trainingid + '/' + userid)
   }
 
 
@@ -629,6 +630,27 @@ export class TrainingService {
   getTrainingLoginRate(trainingid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'loginrate/get/' + trainingid)
   }
+
+  getTrainingSurveyLecturer(username): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'surveylecturer/get/' + username)
+  }
+
+  getTraininghistoryreport(username): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'historyreport/get/' + username)
+  }
+
+  getprocessingOpentrainingsurvey(trainingLecturerJoinSurveysId): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'answeropen/get/' + trainingLecturerJoinSurveysId)
+  }
+
+  getprocessingYestrainingsurvey(trainingLecturerJoinSurveysId): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'answeryesno/get/' + trainingLecturerJoinSurveysId)
+  }
+
+  getprocessingLiketrainingsurvey(trainingLecturerJoinSurveysId): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'answerlike/get/' + trainingLecturerJoinSurveysId)
+  }
+
 }
 
 

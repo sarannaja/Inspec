@@ -70,7 +70,8 @@ import { TrainingLecturerListComponent } from './training-lecturerlist/training-
 
 import { TrainingIDCodeComponent } from './training-idcode/training-idcode.component';
 import { RateloginTrainingReportComponent } from './training-report/ratelogin-training-report/ratelogin-training-report.component';
-
+import { TrainingSurveyLecturerComponent } from './training-surveylecturer/training-surveylecturer.component';
+import { TrainingProcessingComponent } from './training-processing/training-processing.component';
 
 //----------------
 
@@ -305,6 +306,8 @@ const ExternalOrganization = [
 
     TrainingLecturerListComponent,
     RateloginTrainingReportComponent,
+    TrainingSurveyLecturerComponent,
+    TrainingProcessingComponent,
     // TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,
@@ -512,7 +515,7 @@ const ExternalOrganization = [
           { path: 'training/reportmemu/:id', component: TrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/list', component: ListTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/list/:id', component: ListRegisterTrainingReportComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/report/history/:id', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/report/history', component: HistoryTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/report/loginrate/:id', component: RateloginTrainingReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/phase/program/:phaseid/:id', component: ProgramTrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturer', component: LecturerTrainingComponent, canActivate: [AuthorizeGuard] },
@@ -526,7 +529,9 @@ const ExternalOrganization = [
           { path: 'training/manage/:id', component: TrainingManageComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/programlogin/:id', component: TrainingProgramLoginComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturerlist/:id', component: TrainingLecturerListComponent, canActivate: [AuthorizeGuard] },
-
+          { path: 'training/surveylecturer', component: TrainingSurveyLecturerComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/survey/processing/:id', component: TrainingProcessingComponent, canActivate: [AuthorizeGuard] },
+          
           //---------------
           { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },
@@ -655,7 +660,7 @@ const ExternalOrganization = [
       { path: 'train/register/:id', component: RegisterDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },
       { path: 'train/list/:id', component: ListDefaultLayoutTrainComponent },
-      { path: 'train/survey/:id', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
+      { path: 'train/survey/:id/:suveyjoinlecid', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'train', component: DefaultLayoutTrainComponent,

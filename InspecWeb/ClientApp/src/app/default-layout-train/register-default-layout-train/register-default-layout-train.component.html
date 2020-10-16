@@ -22,12 +22,13 @@
 
   <header role="banner">
     <div class="top-bar2">
-      <div class="container">
+      <div class="ml-3">
         <div class="row">
           <div class="col-9">
-            <a href="{{ mainUrl }}">
+            <img src="assets/img/logo2.png" (click)="gotoAdmin()" class="pointer" height="30"/>
+            <!-- <a href="{{ mainUrl }}">
               <img src="assets/img/logo2.png" class="" height="30"/>
-            </a>
+            </a> -->
             <!-- <a href="javascript:void(0)"><span class="fa fa-twitter"></span></a>
             <a href="javascript:void(0)"><span class="fa fa-facebook"></span></a>
             <a href="javascript:void(0)"><span class="fa fa-instagram"></span></a>
@@ -46,9 +47,9 @@
       <div class="row pt-5">
         <div class="col-12 text-center">
           <!-- <a class="sidebar-brand" href="index1.html"> -->
-          <a href="{{ mainUrl }}/train"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2"
+          <a (click)="gotoMain()" class="pointer"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2"
               height="70" width="100" /></a>
-          <h1>จัดอบรมหลักสูตร</h1>
+          <h1>หลักสูตรการอบรม</h1>
           <!-- </a> -->
         </div>
       </div>
@@ -242,7 +243,9 @@
             </div>
             <br>
             <div class="text-center">
-              <a href="{{ mainUrl }}train/detail/{{ trainingid }}" class="btn btn-secondary">ย้อนกลับ</a>
+              <button class="btn btn-secondary" (click)="gotoBack()">ย้อนกลับ</button>
+
+              <!-- <a href="{{ mainUrl }}train/detail/{{ trainingid }}" class="btn btn-secondary">ย้อนกลับ</a> -->
               &nbsp;&nbsp;
               <button type="submit" class="btn btn-primary">ยืนยันการสมัคร</button>
               <!-- <a href="{{ mainUrl }}train/register/{{ trainingid }}" class="btn btn-info">ยืนยันการสมัคร</a> -->

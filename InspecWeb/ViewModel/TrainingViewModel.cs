@@ -93,6 +93,8 @@ namespace InspecWeb.ViewModel
         public long trainingProgramLoginId { get; set; }
 
         public long dateType { get; set; }
+
+        public long trainingid { get; set; }
     }
 
     public class TrainingCode

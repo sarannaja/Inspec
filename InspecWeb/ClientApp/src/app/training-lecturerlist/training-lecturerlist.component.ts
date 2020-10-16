@@ -103,7 +103,7 @@ export class TrainingLecturerListComponent implements OnInit {
     console.log("data:",value);
     console.log("lecturerid:",this.lecturerid);
 
-    this.trainingservice.addTraininglecturerjoinsurvey(value, this.lecturerid).subscribe(response => {
+    this.trainingservice.addTraininglecturerjoinsurvey(value, this.lecturerid, this.trainingid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -179,7 +179,17 @@ export class TrainingLecturerListComponent implements OnInit {
     this.router.navigate(['/training/program/', trainingid])
   }
 
+  // gotoSurverTraining(){
+  //   this.router.navigate(['/train/survey/', this.trainingid])
+  // }
+
   gotoBack() {
     window.history.back();
   }
+
+  gotoProcessingTraining(trainingLecturerId){
+    this.router.navigate(['/training/survey/processing/', trainingLecturerId])
+  }
+
+  
 }

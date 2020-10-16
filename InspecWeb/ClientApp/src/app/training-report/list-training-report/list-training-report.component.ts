@@ -45,6 +45,10 @@ export class ListTrainingReportComponent implements OnInit {
     this.router.navigate(['/training/report/list/',trainingid])
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
   
 
 }

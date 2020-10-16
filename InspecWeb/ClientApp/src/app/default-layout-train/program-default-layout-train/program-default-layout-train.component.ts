@@ -134,8 +134,18 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
     })
   }
 
+  gotoBack() {
+    window.history.back();
+  }
 
 
+  gotoMain(){
+    this.router.navigate(['/train'])
+  }
+
+  gotoAdmin(){
+    this.router.navigate(["/main"])
+  }
 
   GotoDetail(trainingid2){
     //alert(trainingid2);

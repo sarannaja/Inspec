@@ -34,8 +34,10 @@ namespace InspecWeb.Models
         public DateTime? RegisterDate { get; set; }
 
         [Required]
-        [Description("ช่วงการอบรม")]
+        [ForeignKey("TrainingProgramLoginQRCode")]
+        [Description("รหัสวันที่ลงชื่ออบรม")]
         public long TrainingProgramLoginId { get; set; }
+        public virtual TrainingProgramLoginQRCode TrainingProgramLoginQRCodes { get; set; }
 
         [Required]
         [Description("ช่วงเช้า/บ่าย")]

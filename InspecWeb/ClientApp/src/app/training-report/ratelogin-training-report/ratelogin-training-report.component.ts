@@ -39,17 +39,6 @@ export class RateloginTrainingReportComponent implements OnInit {
 
   ngOnInit() {
 
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      // columnDefs: [
-      //   {
-      //     targets: [4,5],
-      //     orderable: false
-      //   }
-      // ]
-
-    };
-    
     this.trainingservice.getTrainingLoginRate(this.trainingid)
     .subscribe(result => {
       this.resulttraining = result;

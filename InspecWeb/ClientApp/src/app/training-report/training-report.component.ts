@@ -71,6 +71,11 @@ export class TrainingReportComponent implements OnInit {
     this.router.navigate(['/training/survey/preview/',trainingid])
   }
 
+  GotoTrainingLoginRateList()
+  {
+    this.router.navigate(['/training/report/list/'])
+  }
+
   
 
 }

@@ -706,7 +706,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
   }
   EditCentralPolicy(value) {
     console.log(value);
-    this.inspectionplanservice.editcentralpolicy(this.editid, this.startDate2, this.endDate2, value).subscribe(response => {
+    this.inspectionplanservice.editcentralpolicy(this.editid, this.startDate2, this.endDate2, value, this.userid).subscribe(response => {
       this._NotofyService.onSuccess("แก้ไขข้อมูล",)
       this.modalRef.hide()
       this.getinspectionplanservice();

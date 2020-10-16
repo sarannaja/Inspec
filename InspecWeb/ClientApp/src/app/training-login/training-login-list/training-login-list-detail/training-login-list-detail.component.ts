@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { InspectionplanService } from 'src/app/services/inspectionplan.service';
@@ -23,6 +23,9 @@ export class TrainingLoginListDetailComponent implements OnInit {
   trainingId: any;
   loading = false;
   userLogInData: any = [];
+  Form: any;
+  modalRef: BsModalRef;
+  people: any = [];
 
   constructor(
     private router: Router,
@@ -87,6 +90,46 @@ export class TrainingLoginListDetailComponent implements OnInit {
       this.userLogInData = res;
       this.loading = true;
     })
+  }
+
+  openModal(template: TemplateRef<any>, id) {
+
+    this.modalRef = this.modalService.show(template);
+  }
+
+  addsPeople2(value) {
+    console.log("userData => ", this.userLogInData);
+    
+    console.log('item.id', value);
+    // var subject = value.vaule
+    this.people = this.addPeople(this.people, value)
+    console.log("people => ", this.people);
+  }
+
+  addPeople(array: any[], value) {
+    var distinctThings: any[] = array.filter(
+      (thing, i, arr) => arr.findIndex(t => t === value) === i
+    );
+    // //console.log('distinctThings', distinctThings);
+    if (distinctThings.length != 0) {
+      var s = new Set(array);
+      s.delete(value);
+      return Array.from(s);
+    } else {
+      var s = new Set(array);
+      s.add(value);
+      return Array.from(s);
+    }
+  }
+
+  userRegister() {
+    this.people.forEach(element => {
+      this.trainingService.register(element, this.id, this.programType).subscribe(res => {
+        console.log(res);
+        
+      })
+    });
+   
   }
 
 }

@@ -72,6 +72,10 @@ export class PreviewTrainingSurveyComponent implements OnInit {
     //this.gettrainingdata2()
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
   // gettrainingdata2() {
   //   this.trainingservice.gettrainingdata2(1)
   //   .subscribe(result => {

@@ -10,7 +10,7 @@ using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EmailService;
+//using EmailService;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 
@@ -21,25 +21,34 @@ namespace InspecWeb.Controllers
     [Route("api/[controller]")]
     public class TrainingController : Controller
     {
+        private readonly ApplicationDbContext _context;
         public static IWebHostEnvironment _environment;
 
-
         private static Random random = new Random();
+        //private readonly IEmailSender _emailSender;
         public static string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
-        private readonly ApplicationDbContext _context;
-        private readonly IEmailSender _emailSender;
+        //public MailController(IMailService mailService)
+        //{
+        //    this.mailService = mailService;
+        //}
 
-        public TrainingController(ApplicationDbContext context, IWebHostEnvironment environment, IEmailSender emailSender)
+        public TrainingController(
+            ApplicationDbContext context,
+            IWebHostEnvironment environment
+            //IEmailSender emailSender
+        )
         {
             _context = context;
             _environment = environment;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
+            //_emailSender = emailSender;
         }
+
 
         //----------zone training------------
         // GET: api/Training
@@ -147,6 +156,7 @@ namespace InspecWeb.Controllers
                 {
                     Id = test.Id,
                     Name = test.Name,
+                    trainingdata = test,
                     Start = test.RegisStartDate,
                     End = test.RegisEndDate,
                     Count = test2.Count(),
@@ -823,12 +833,16 @@ namespace InspecWeb.Controllers
 
                 var trainingdata = new TrainingSurveyAnswer
                 {
-
+                    TrainingLecturerJoinSurveyId = model.TrainingLecturerJoinSurveyId,
                     TrainingSurveyId = item.trainingsurveyId,
                     Name = model.Name,
                     Posoition = model.Position,
+                    SurveyType = item.SurveyType,
                     Score = item.score,
+                    AnswerText = item.ansText,
+                    AnswerYorN = item.ansYesOrNo,
                     CreatedAt = date
+
 
                 };
                 _context.TrainingSurveyAnswers.Add(trainingdata);
@@ -982,7 +996,7 @@ namespace InspecWeb.Controllers
         //------zone training program-------
         //GET api/training/program
         [HttpGet("program/{phaseid}")]
-        public IActionResult GetHistoryReport(long phaseid)
+        public IActionResult GetProgram(long phaseid)
         {
             var districtdata = _context.TrainingPrograms
                 .Include(m => m.TrainingPhase)
@@ -1261,19 +1275,23 @@ namespace InspecWeb.Controllers
 
 
                 var SurveyTopicName = "";
+                long vTrainingLecturerJoinSurveysId;
                 foreach (var xxx in test2)
                 {
+                    vTrainingLecturerJoinSurveysId = xxx.Id;
                     SurveyTopicName = xxx.TrainingSurveyTopic.Name;
 
-                   
+                    result.Add(new
+                    {
+                        TrainingLecturerJoinSurveysId = vTrainingLecturerJoinSurveysId,
+                        trainingLecturerId = test.TrainingLecturerId,
+                        trainingLecturerName = test.TrainingLecturer.LecturerName,
+                        SurveyName = SurveyTopicName
+                    });
+
                 }
 
-                result.Add(new
-                {
-                    trainingLecturerId = test.TrainingLecturerId,
-                    trainingLecturerName = test.TrainingLecturer.LecturerName,
-                    SurveyName = SurveyTopicName
-                });
+                
 
 
             }
@@ -1282,15 +1300,15 @@ namespace InspecWeb.Controllers
 
         // POST : api/training/lecturerjoinsurvey/save
         [HttpPost("lecturerjoinsurvey/save")]
-        public TrainingLecturerJoinSurvey addTraininglecturerJoinSurvey(long trainingsurveytopicId, long lecturerid)
+        public TrainingLecturerJoinSurvey addTraininglecturerJoinSurvey(long trainingsurveytopicId, long lecturerId, long trainingId)
         {
             var date = DateTime.Now;
 
             var trainingdata = new TrainingLecturerJoinSurvey
             {
                 TrainingSurveyTopicId = trainingsurveytopicId,
-                LecturerId = lecturerid,
-
+                LecturerId = lecturerId,
+                TrainingId = trainingId,
                 CreatedAt = date
 
             };
@@ -1837,6 +1855,7 @@ namespace InspecWeb.Controllers
                 result.Add(new
                 {
                     Id = test.Id,
+                    Registerdata = test,
                     Name = test.Name,
                     Count = test2.Count(),
                     CountCourse = CountCourse,
@@ -1859,6 +1878,188 @@ namespace InspecWeb.Controllers
             return Ok(notFoundItems);
 
         }
+
+
+        //GET api/Training/plan
+        [HttpGet("surveylecturer/get/{username}")]
+        public IActionResult GetTrainingSurveyLecturerList(string username)
+        {
+
+            var result = new List<object>();
+
+            var data = _context.TrainingRegisters
+                .Include(m => m.Training)
+                .Where(m => m.UserName == username).ToList();
+
+
+            var result2 = new List<object>();
+
+
+            foreach (var test in data)
+            {
+                var test2 = _context.TrainingLecturerJoinSurveys
+                    .Include(m => m.TrainingLecturer)
+                    .Include(m => m.TrainingSurveyTopic)
+                    .Where(x => x.TrainingId == test.TrainingId)
+                    .ToList();
+
+                foreach (var xxxx in test2)
+                {
+                    var ansdata = _context.TrainingSurveyAnswers
+                    .Include(m => m.TrainingSurvey)
+                    .Where(x => x.Username == username && x.TrainingLecturerJoinSurveyId == xxxx.Id).ToList();
+
+                    result.Add(new
+                    {
+                        TrainingId = test.Training.Id,
+                        TrainingName = test.Training.Name,
+                        TrainingLecturerJoinSurveys = test2,
+                        AnsCount = ansdata.Count()
+                    });
+                }
+                    
+
+               
+
+            }
+
+            return Ok(result);
+
+        }
+
+
+        //ประวัติการฝึกอบรมของบุคลากร
+        //GET api/Training/historyreport/get/{username}
+        [HttpGet("historyreport/get/{username}")]
+        public IActionResult GetTrainingHistoryReport(string username)
+        {
+            var result = new List<object>();
+
+            var data = _context.TrainingRegisters
+                .Include(m => m.Training)
+                .Where(m => m.UserName == username).ToList();
+
+            return Ok(data);
+        }
+
+        //ส่วนประกอบข้อมูลประเมิน(แบบความพอใจ)
+        //GET api/Training/historyreport/get/{username}
+        [HttpGet("answerlike/get/{vTrainingSurveyTopicId}/")]
+        public IActionResult GetTrainingAnswerLikeReport(long vTrainingSurveyTopicId)
+        {
+            var result = new List<object>();
+
+            var data = _context.TrainingSurveys
+                .Where(m => m.TrainingSurveyTopicId == vTrainingSurveyTopicId && m.SurveyType == 1)
+              .ToList();
+
+            foreach (var item in data)
+            {
+                var dataScore = _context.TrainingSurveyAnswers
+                .Include(m => m.TrainingSurvey)
+                .Where(m => m.TrainingSurveyId == item.Id && m.SurveyType == 1)
+                .Select(m => m.Score)
+                .ToList();
+
+                result.Add(new
+                {
+                    SurveyId = item.Id,
+                    SurveyName = item.Name,
+                    ScoreSum = dataScore.Sum()
+                });
+            }
+
+            return Ok(result);
+        }
+
+        //ส่วนประกอบข้อมูลประเมิน(แบบปลายเปิด)
+        //GET api/Training/historyreport/get/{username}
+        [HttpGet("answeropen/get/{vTrainingSurveyTopicId}/")]
+        public IActionResult GetTrainingAnswerOpenReport(long vTrainingSurveyTopicId)
+        {
+            var result = new List<object>();
+
+            var data = _context.TrainingSurveyAnswers
+                .Include(m => m.TrainingSurvey)
+                .Where(m => m.TrainingLecturerJoinSurveyId == vTrainingSurveyTopicId && m.SurveyType == 2).ToList();
+
+            return Ok(data);
+        }
+
+
+        //ส่วนประกอบข้อมูลประเมิน(แบบใช่หรือไม่)
+        //GET api/Training/historyreport/get/{username}
+        [HttpGet("answeryesno/get/{vTrainingSurveyTopicId}/")]
+        public IActionResult GetTrainingAnswerYes(long vTrainingSurveyTopicId)
+        {
+            var result = new List<object>();
+
+            var data = _context.TrainingSurveys
+                .Where(m => m.TrainingSurveyTopicId == vTrainingSurveyTopicId && m.SurveyType == 3)
+              .ToList();
+
+            foreach (var item in data)
+            {
+                var dataYessum = _context.TrainingSurveyAnswers
+                .Include(m => m.TrainingSurvey)
+                .Where(m => m.TrainingSurveyId == item.Id && m.SurveyType == 3 && m.AnswerYorN == 1)
+                .Select(m => m.AnswerYorN)
+                .ToList();
+
+                var dataNosum = _context.TrainingSurveyAnswers
+                .Include(m => m.TrainingSurvey)
+                .Where(m => m.TrainingSurveyId == item.Id && m.SurveyType == 3 && m.AnswerYorN == 0)
+                .Select(m => m.AnswerYorN)
+                .ToList();
+
+                result.Add(new
+                {
+                    SurveyId = item.Id,
+                    SurveyName = item.Name,
+                    AnsYesSum = dataYessum.Count(),
+                    AnsNoSum = dataNosum.Count()
+                });
+            }
+
+            return Ok(result);
+        }
+
+
+        //------zone training register-------
+        // PUT api/values/5
+        [HttpGet("testemail")]
+        public IActionResult Gettestemail()
+        {
+            //<!-- ห้ามลบ -->
+            //var message = new Message(new string[] { "fantasy_tey@hotmail.com" }, "Test email", "This is the content from our email.");
+            //_emailSender.SendEmail(message);
+            //<!-- END ห้ามลบ -->
+
+            //var provincedata = _context.Provinces
+            //                 .Include(p => p.Sectors)
+            //                 .Include(p => p.ProvincesGroups);
+            return Ok("");
+
+
+        }
+
+        //[HttpPost("send")]
+        //public async Task<IActionResult> SendMail()
+        //{
+        //    try
+        //    {
+        //       var email =   _emailSender.SendEmailAsync("k12clubpalm@gmail.com", "Confirm your email", "sssssssss");
+        //        return Ok(email);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+
+        //}
+
+
+
 
 
 

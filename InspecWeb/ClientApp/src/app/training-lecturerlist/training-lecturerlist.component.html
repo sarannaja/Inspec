@@ -12,7 +12,7 @@
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -40px;">
                 <h5 class="card-title">
-                    จัดการหลักสูตรการอบรม
+                    จัดการหลักสูตรการอบรม / การจัดการ / แบบประเมินหลักสูตรวิทยากร 
 
                     <button class="btn btn-light btn-sm" (click)="gotoBack()">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -41,11 +41,17 @@
                             <td>{{ item.email }}</td>
                             <td>{{ item.education }}</td> -->
                             <!-- <td><img src="{{downloadUrl}}/{{item.image}}" width="160" height="130"></td> -->
-                            <td>{{ item.surveyName }}</td>
+                            <td>
+                                <a href="/train/survey/{{trainingid}}" target="_blank">
+                                    {{ item.surveyName }}
+                                </a>
+                            </td>
                             <td>
                                 
                                 <i class="align-middle mr-2 fas fa-file-medical pointer" title="ผูกแบบสอบถาม"
                                 (click)="surveyModal(modalSurveyTraining, item.trainingLecturerId)"></i>
+                                <i class="align-middle mr-2 fas fa-fw fa-chart-bar pointer" title="ประมวณผลทางสถิติ"
+                                (click)="gotoProcessingTraining(item.trainingLecturerJoinSurveysId)"></i>
                                 
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                     (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>-->

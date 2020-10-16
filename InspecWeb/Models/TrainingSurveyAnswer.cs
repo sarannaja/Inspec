@@ -19,6 +19,11 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
+        [ForeignKey("TrainingLecturerJoinSurvey")]
+        [Description("FK: ตารางผูกวิทยากรกับเรื่องประเมินการอบรม")]
+        public long TrainingLecturerJoinSurveyId { get; set; }
+        public virtual TrainingLecturerJoinSurvey TrainingLecturerJoinSurvey { get; set; }
+
         [ForeignKey("TrainingSurvey")]
         [Description("FK: หัวข้อประเมิน")]
         public long TrainingSurveyId { get; set; }
@@ -36,6 +41,9 @@ namespace InspecWeb.Models
 
         [Description("ตำแหน่ง")]
         public string Posoition { get; set; }
+
+        [Description("ประเภทประเมิน")]
+        public int SurveyType { get; set; }
 
         [Description("คะแนน")]
         public int Score { get; set; }

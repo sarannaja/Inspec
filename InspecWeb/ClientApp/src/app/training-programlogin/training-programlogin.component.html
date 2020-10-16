@@ -37,39 +37,89 @@
                             <!-- <td>{{ item.id }}</td> -->
                             <td>{{item.programDate | thaidate: 'short'}}</td>
                             <td>
-                                
-
-                                <ng-container *ngIf="item.xMorning[0] != null ;">
-                                    <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
-                                        <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],1)" [size]="256" [level]="'M'"></qrcode>
-    
-                                    </a>
-                                    <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
-                                    <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
-                                        <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
-    
-                                    </a> -->
-                                  </ng-container>
-                                  
-
+                                <ng-container *ngIf="(item.xMorning[0] != null) && (item.xMorning[0] != 0) ;">
+                                <tr>
+                                    <td class="text-center">
+                                        
+                                        <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')"> -->
+                                        <a href="{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/1" target="_blank">
+                                            <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],1)" [size]="256" [level]="'M'"></qrcode>
+            
+                                        </a>
+                                            <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
+                                            <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                                <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
+            
+                                            </a> -->
+                                        <br />
+                                        (เข้า)
+                                        
+                                        
+                                    </td>
+                                    <td class="text-center">
+                                        
+                                            <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')"> -->
+                                            <a href="{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/3" target="_blank">
+                                                <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],3)" [size]="256" [level]="'M'"></qrcode>
+                
+                                            </a>
+                                                <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
+                                                <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                                    <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
+                
+                                                </a> -->
+                                            <br />
+                                            (ออก)
+                                            
+                                            
+                                    </td>
+                                </tr>
+                                </ng-container>
                             </td>
                             <td>
-                                <ng-container *ngIf="item.xAfternoon[0] != null ;">
-                                    <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
-                                        <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],2)" [size]="256" [level]="'M'"></qrcode>
-    
-                                    </a>
-                                    <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
-                                    <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
-                                        <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
-    
-                                    </a> -->
-                                  </ng-container>
+                                <ng-container *ngIf="(item.xAfternoon[0] != null) && (item.xAfternoon[0] != 0) ;">
+                                <tr>
+                                    <td class="text-center">
+                                        
+                                            <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')"> -->
+                                            <a href="{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/2" target="_blank">
+                                                <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],2)" [size]="256" [level]="'M'"></qrcode>
+            
+                                            </a>
+                                            <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
+                                            <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                                <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
+            
+                                            </a> -->
+                                            <br />
+                                            (เข้า)
+                                         
+                                          
+                                    </td>
+                                    <td class="text-center">
+                                    
+                                            <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')"> -->
+                                            <a href="{{mainUrl}}training/login/{{item.trainingPhaseId}}/{{item.programloginId[0]}}/4" target="_blank">
+                                                <qrcode  id="qrcode0" [qrdata]="StringQRCode(item.trainingPhaseId,item.programloginId[0],4)" [size]="256" [level]="'M'"></qrcode>
+            
+                                            </a>
+                                            <!-- {{ item.trainingProgramLoginQRCodes.id }} -->
+                                            <!-- <a href="javascript:void(0)" (click)="downloadQrCode('qrcode0','test1')">
+                                                <qrcode  id="qrcode0" [qrdata]="{{mainUrl}}" [size]="256" [level]="'M'"></qrcode>
+            
+                                            </a> -->
+                                            <br />
+                                            (ออก)
+                                          
+                                          
+                                    </td>
+                                </tr>
+                                </ng-container>
 
                             </td>
                             <td class="text-center">
                                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                    (click)="openModal(modalProgramLogin, item.id, item.programDate)"></i>
+                                    (click)="openModal(modalProgramLogin, item.programloginId[0], item.programDate)"></i>
                             </td>
                         </tr>
                             <!-- <td>1</td>

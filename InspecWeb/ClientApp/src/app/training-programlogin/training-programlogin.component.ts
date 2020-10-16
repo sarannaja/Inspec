@@ -73,10 +73,11 @@ export class TrainingProgramLoginComponent implements OnInit {
 
   openModal(template: TemplateRef<any>, id ,programdate) {
     // this.delid = id;
-    // console.log(this.delid);
+    
     this.programloginid = id;
     this.programdate = programdate
     this.modalRef = this.modalService.show(template);
+    console.log(this.programloginid);
   }
 
   storeTraining(value) {
@@ -111,7 +112,7 @@ export class TrainingProgramLoginComponent implements OnInit {
           console.log("Update");
           
           //update
-          this.trainingservice.updateTrainingProgramLogin(value, this.trainingid).subscribe(response => {
+          this.trainingservice.updateTrainingProgramLogin(value, this.programloginid).subscribe(response => {
             console.log(value);
             this.Form.reset()
             this.modalRef.hide()

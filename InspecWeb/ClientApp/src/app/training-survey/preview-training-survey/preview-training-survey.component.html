@@ -9,12 +9,17 @@
 <div class="row">
     <div class="col-12">
         <div class="card card-eiei">
-            <div class="card-header text-center" style="margin-bottom: -40px;">
-                <h3>(ตัวอย่างแบบประเมิน)</h3>
-                <h1>หลักสูตรการอบรม</h1>
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h5 class="card-title">(ตัวอย่างแบบประเมิน)
+                    <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    </button>
+                </h5>
+                <div class="text-center">
+                    <h1>หลักสูตรการอบรม</h1>
 
-                <h2>{{ trainingname }}</h2>
-
+                    <h2>{{ trainingname }}</h2>
+                </div>
             </div>
             <br>
             <br>
@@ -44,27 +49,27 @@
                             <td>
                                 {{ item.name }}
                                 <br />
-                            <ng-container *ngIf="item.surveyType == 1;else msecond">
+                                <ng-container *ngIf="item.surveyType == 1;else msecond">
 
-                                <input type="checkbox" /> ดีเยี่ยม
-                                <input type="checkbox" class="ml-3" /> ดีมาก
-                                <input type="checkbox" class="ml-3" /> ดี
-                                <input type="checkbox" class="ml-3" /> พอใช้
-
-                            </ng-container>
-                            <ng-template #msecond>
-                                <ng-container *ngIf="item.surveyType == 2;else mthird">
-
-                                    <input type="text" formControlName="valueopen" class="form-control">
+                                    <input type="checkbox" /> ดีเยี่ยม
+                                    <input type="checkbox" class="ml-3" /> ดีมาก
+                                    <input type="checkbox" class="ml-3" /> ดี
+                                    <input type="checkbox" class="ml-3" /> พอใช้
 
                                 </ng-container>
-                            </ng-template>
-                            <ng-template #mthird>
+                                <ng-template #msecond>
+                                    <ng-container *ngIf="item.surveyType == 2;else mthird">
 
-                                <input type="checkbox" /> ใช่
-                                <input type="checkbox" class="ml-3" /> ไม่ใช่
+                                        <input type="text" formControlName="valueopen" class="form-control">
 
-                            </ng-template>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #mthird>
+
+                                    <input type="checkbox" /> ใช่
+                                    <input type="checkbox" class="ml-3" /> ไม่ใช่
+
+                                </ng-template>
                             </td>
 
                             <!-- <td>{{ i + 1 }}</td>

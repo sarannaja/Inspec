@@ -45,6 +45,7 @@ export class LecturerTrainingComponent implements OnInit {
     };
 
     this.Form = this.fb.group({
+      "LecturerType": new FormControl(null, [Validators.required]),
       lecturername: new FormControl(null, [Validators.required]),
       lecturerphone: new FormControl(null, [Validators.required]),
       lectureremail: new FormControl(null, [Validators.required]),
@@ -95,6 +96,7 @@ export class LecturerTrainingComponent implements OnInit {
 
     this.modalRef = this.modalService.show(template);
     this.EditForm = this.fb.group({
+      "LecturerType": new FormControl(null, [Validators.required]),
       "lecturername": new FormControl(null, [Validators.required]),
       "lecturerphone": new FormControl(null, [Validators.required]),
       "lectureremail": new FormControl(null, [Validators.required]),
@@ -105,6 +107,7 @@ export class LecturerTrainingComponent implements OnInit {
 
 
     this.EditForm.patchValue({
+      "LecturerType": new FormControl(null, [Validators.required]),
       "lecturername": lecturerName,
       "lecturerphone": phone,
       "lectureremail": email,

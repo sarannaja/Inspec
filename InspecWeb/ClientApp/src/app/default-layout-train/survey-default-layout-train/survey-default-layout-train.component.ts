@@ -57,6 +57,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
   Img: any;
   Form: FormGroup;
   FormAnswer: FormGroup;
+  suveyjoinlecid: string;
 
 
   // constructor() { }
@@ -70,6 +71,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+    this.suveyjoinlecid = activatedRoute.snapshot.paramMap.get('suveyjoinlecid')
     this.downloadUrl = baseUrl + 'Uploads'
     this.mainUrl = baseUrl
   }
@@ -124,36 +126,42 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
 
     for (let i = 0; i < this.t.value.length; i++) {
       if (this.t.value[i].score == 0) {
-        console.log(this.t.value[i].name);
+        console.log("name => ", this.t.value[i].name);
 
         this.check = true
       }
     }
 
-    if (this.check) {
-      alert("เลือกให้ครบ")
-    } else {
+    // if (this.check) {
+    //   alert("เลือกให้ครบ")
+    // } else {
       var inputtrainingsurveyanswer: Array<any> = this.t.value.map(
         (item, index) => {
           return {
             trainingsurveyId: item.trainingsurveyId,
-            score: item.score
+            SurveyType: item.SurveyType,
+            score: item.score,
+            ansText: item.answerOpen,
+            ansYesOrNo: item.answerYesOrNo,
           }
         })
       var body = {
         Name: this.Name,
         Position: this.Position,
+        TrainingLecturerJoinSurveyId: this.suveyjoinlecid,
         inputtrainingsurveyanswer
       }
+      console.log(body);
+      
       this.trainingservice.addTrainingsurveyanswer(body)
         .subscribe(result => {
           console.log(result);
           
         })
       alert('เข้าหลังบ้านตรงนี้')
-    }
+    //}
 
-    console.log(value, this.check);
+    console.log("check => ", value, this.check);
 
   }
   Addvalue(result: Array<any>) {
@@ -164,14 +172,24 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
         trainingsurveyId: [result[i].id],
         score: [0],
         AnsName: [result[i].name],
-
+        SurveyType: [result[i].surveyType],
+        answerOpen: "",
+        answerYesOrNo: 0,
       }))
     }
   }
 
   formSelected(index, value) {
     this.t.at(index).patchValue({
-      score: value
+      score: value, 
+    })
+  }
+
+  formSelected2(index, value) {
+    console.log("test =>", value);
+    
+    this.t.at(index).patchValue({
+      answerOpen: value, 
     })
   }
 
@@ -209,5 +227,33 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
 
   }
   //End getuser
+
+  gotoMain(){
+    this.router.navigate(['/train'])
+  }
+
+  gotoBack() {
+    window.history.back();
+  }
+
+  gotoAdmin(){
+    this.router.navigate(["/main"])
+  }
+
+  answerYes(index, value) {
+    console.log("yes =>", value);
+    
+    this.t.at(index).patchValue({
+      answerYesOrNo: value, 
+    })
+  }
+
+  answerNo(index, value) {
+    console.log("no =>", value);
+    
+    this.t.at(index).patchValue({
+      answerYesOrNo: value, 
+    })
+  }
 
 }

@@ -71,6 +71,14 @@ export class SuccessDefaultLayoutTrainComponent implements OnInit {
 
   }
 
+  gotoMain(){
+    this.router.navigate(['/train'])
+  }
+
+  gotoAdmin(){
+    this.router.navigate(["/main"])
+  }
+
   GotoDetail(trainingid){
     //alert(trainingid2);
     this.router.navigate(['/train/detail/',trainingid]);
