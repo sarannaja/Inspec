@@ -51,13 +51,17 @@ export class TrainingManageComponent implements OnInit {
     })
   }
 
-  GotoSurveyTrainingList(trainingid){
-    this.router.navigate(['/training/surveylist/',trainingid])
+  GotoUploadDocument(){
+    this.router.navigate(['/training/documentlist/',this.trainingid])
   }
 
-  GotoPreviewTraining(trainingid){
-    this.router.navigate(['/training/survey/preview/',trainingid])
-  }
+  // GotoSurveyTrainingList(trainingid){
+  //   this.router.navigate(['/training/surveylist/',trainingid])
+  // }
+
+  // GotoPreviewTraining(trainingid){
+  //   this.router.navigate(['/training/survey/preview/',trainingid])
+  // }
 
   gotoIDCodeTraining(){
     this.router.navigate(['/training/idcode/', this.trainingid])
@@ -92,7 +96,11 @@ export class TrainingManageComponent implements OnInit {
   }
 
   gotogReportTraining(){
-    this.router.navigate(['/training/report'])
+    this.router.navigate(['/training/reportmemu/', this.trainingid])
+  }
+
+  gotoBack() {
+    window.history.back();
   }
 
 }

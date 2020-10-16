@@ -1,0 +1,91 @@
+<div class="header">
+    
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-eiei">
+          <div class="card-header" style="margin-bottom: -40px;">
+              <h5 class="card-title">ประเมินผลการฝึกอบรม
+                <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </button>
+              </h5>
+
+          </div>
+          <br /><br />
+          <div class="card-body">
+            <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg">
+              <!-- <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+                  [dtOptions]="dtOptions"> -->
+                  <thead>
+                      <tr>
+
+                          <th width="5%">#</th>
+                          <th width="75%">แบบประเมินการอบรม</th>
+                          <th width="20%"></th>
+                      </tr>
+                  </thead>
+                  <tbody> 
+    
+
+                      <tr *ngFor="let item of resulttraining; let i = index">
+                          <td>{{ i + 1 }}</td>
+                          <td class="">
+                            <ng-container *ngIf="item.ansCount == 0;else msecond">
+
+                               <label class="text-primary pointer" (click)="GotoSurveyLecturer(item.trainingId, item.trainingLecturerJoinSurveys[i].id)">
+                                    <i class="fas fa-fw fa-envelope-open" aria-hidden="true"></i>
+                                    {{ item.trainingLecturerJoinSurveys[i].trainingSurveyTopic.name }} 
+                                    ({{ item.trainingLecturerJoinSurveys[i].trainingLecturer.lecturerName }})
+                               </label>
+
+                            </ng-container>
+                            <ng-template #msecond>
+
+                                <label class="">
+                                    <i class="fas fa-fw fa-envelope-open" aria-hidden="true"></i>
+                                    {{ item.trainingLecturerJoinSurveys[i].trainingSurveyTopic.name }} 
+                                    ({{ item.trainingLecturerJoinSurveys[i].trainingLecturer.lecturerName }})
+                               </label>
+                            </ng-template>
+                            
+                          </td>
+                          <td>
+                            <ng-container *ngIf="item.ansCount > 0;">
+                                <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success" title="เรียบร้อย"></i>
+
+                            </ng-container>
+                            <!-- <ng-template #msecond>
+                                <ng-container *ngIf="item.surveyType == 2;else mthird">
+
+                                    <input type="text" formControlName="valueopen" class="form-control">
+
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #mthird>
+
+                                <input type="checkbox" /> ใช่
+                                <input type="checkbox" class="ml-3" /> ไม่ใช่
+
+                            </ng-template> -->
+                          </td>
+                            
+                      </tr>
+                  </tbody>
+              </table>
+
+           
+          </div>
+      </div>
+  </div>
+
+
+
+
+  </div>
+

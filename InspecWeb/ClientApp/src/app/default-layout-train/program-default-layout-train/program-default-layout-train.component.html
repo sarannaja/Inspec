@@ -1,18 +1,21 @@
 
     <header role="banner">
-        <div class="top-bar">
-            <div class="container">
+        <div class="top-bar2">
+            <div class="ml-3">
                 <div class="row">
-                    <div class="col-9 social">
-                        <a href="javascript:void(0)"><span class="fa fa-twitter"></span></a>
+                    <div class="col-9">
+                        
+                        <img src="assets/img/logo2.png" (click)="gotoAdmin()" class="pointer" height="30"/>
+                        
+                        <!-- <a href="javascript:void(0)"><span class="fa fa-twitter"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-facebook"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-instagram"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-youtube-play"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-vimeo"></span></a>
-                        <a href="javascript:void(0)"><span class="fa fa-snapchat"></span></a>
+                        <a href="javascript:void(0)"><span class="fa fa-snapchat"></span></a> -->
                     </div>
                     <div class="col-3 search-icon">
-                        <a href="javascript:void(0)"><span class="fa fa-search"></span></a>
+                        <!-- <a href="javascript:void(0)"><span class="fa fa-search"></span></a> -->
                     </div>
                 </div>
             </div>
@@ -22,9 +25,9 @@
             <div class="row pt-5">
                 <div class="col-12 text-center">
                     <!-- <a class="sidebar-brand" href="index1.html"> -->
-                    <a href="{{ mainUrl }}train"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
+                    <a (click)="gotoMain()" class="pointer"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
                         width="100" /></a>
-                    <h1>จัดอบรมหลักสูตร</h1>
+                    <h1>หลักสูตรการอบรม</h1>
                     <!-- </a> -->
                 </div>
             </div>
@@ -132,10 +135,17 @@
 
               </tbody>
           </table>
+          <br>
+            <div class="text-center">
+                <!-- <a href="{{ mainUrl }}train/register/{{ trainingid }}" class="btn btn-info">สมัครอบรม</a> -->
+                <button class="btn btn-light" (click)="gotoBack()">ย้อนกลับ</button>
+            </div>
                 <br>
                 <br>
             </div>
         </div>
+
+        
 
         </div>
     </div>

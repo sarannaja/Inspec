@@ -171,5 +171,9 @@ export class TrainingConditionComponent implements OnInit {
     })
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
 
 }

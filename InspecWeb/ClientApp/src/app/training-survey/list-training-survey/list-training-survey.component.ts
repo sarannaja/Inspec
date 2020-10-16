@@ -60,7 +60,7 @@ export class ListTrainingSurveyComponent implements OnInit {
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true
-      //console.log(this.resulttraining);
+      console.log("resulttraining =>",this.resulttraining);
     })
     
   }
@@ -138,6 +138,10 @@ export class ListTrainingSurveyComponent implements OnInit {
         //console.log(this.resulttraining);
       })
     })
+  }
+
+  gotoBack() {
+    window.history.back();
   }
 
 

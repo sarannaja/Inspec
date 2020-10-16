@@ -179,6 +179,11 @@ header .navbar .dropdown-menu a {
   padding: 10px 0;
 }
 
+.top-bar2 {
+  background: #008491;
+  padding: 10px 0;
+}
+
 .top-bar .social a, .top-bar .search-icon a {
   color: #fff;
   opacity: .5;

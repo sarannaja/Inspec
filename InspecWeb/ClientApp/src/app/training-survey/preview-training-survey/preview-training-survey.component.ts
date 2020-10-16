@@ -51,7 +51,7 @@ export class PreviewTrainingSurveyComponent implements OnInit {
 
     this.trainingservice.getlisttrainingsurveydata(this.trainingid)
     .subscribe(result => {
-      console.log(result);
+      console.log("resulttraining", result);
       
       if (result.length != 0){
         this.trainingname = result[0].trainingSurveyTopic.name
@@ -70,6 +70,10 @@ export class PreviewTrainingSurveyComponent implements OnInit {
     // })
 
     //this.gettrainingdata2()
+  }
+
+  gotoBack() {
+    window.history.back();
   }
 
   // gettrainingdata2() {

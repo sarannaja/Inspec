@@ -1,19 +1,24 @@
 
 
     <header role="banner">
-        <div class="top-bar">
-            <div class="container">
+        <div class="top-bar2">
+            <div class="ml-3">
                 <div class="row">
+                    <!-- <div class="col-9 social"> -->
                     <div class="col-9 social">
-                        <a href="javascript:void(0)"><span class="fa fa-twitter"></span></a>
+                        <img src="assets/img/logo2.png" (click)="gotoAdmin()" class="pointer" height="30"/>
+                        <!-- <a href="{{ mainUrl }}">
+                            <img src="assets/img/logo2.png" class="" height="30"/>
+                        </a> -->
+                        <!-- <a href="javascript:void(0)"><span class="fa fa-twitter"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-facebook"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-instagram"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-youtube-play"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-vimeo"></span></a>
-                        <a href="javascript:void(0)"><span class="fa fa-snapchat"></span></a>
+                        <a href="javascript:void(0)"><span class="fa fa-snapchat"></span></a> -->
                     </div>
                     <div class="col-3 search-icon">
-                        <a href="javascript:void(0)"><span class="fa fa-search"></span></a>
+                        <!-- <a href="javascript:void(0)"><span class="fa fa-search"></span></a> -->
                     </div>
                 </div>
             </div>
@@ -23,9 +28,9 @@
             <div class="row pt-5">
                 <div class="col-12 text-center">
                     <!-- <a class="sidebar-brand" href="index1.html"> -->
-                    <a href="{{ mainUrl }}/train"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
+                    <a (click)="gotoMain()" class="pointer"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
                         width="100" /></a>
-                    <h1>จัดอบรมหลักสูตร</h1>
+                    <h1>หลักสูตรการอบรม</h1>
                     <!-- </a> -->
                 </div>
             </div>
@@ -106,9 +111,9 @@
                     <tbody>
                         <tr *ngFor="let item of resulttraining3; let i = index">
                             <td>{{ i + 1 }}</td>
-                            <td class="ellipsis">{{ item.name }}</td>
-                            <td class="ellipsis">{{ item.createdAt | thaidate:'year'}}</td>
-                            <td class="ellipsis">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.createdAt | thaidate:'year'}}</td>
+                            <td>
                                 <ng-container *ngIf="item.status == 1;else second">
                                     <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success"></i>
                                   </ng-container>
@@ -129,7 +134,7 @@
             </div>
         </div>
         <div class="col-4">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12">
                     <div class="text-center">
                         <img src="assets/img/user.png" alt="Image Placeholder" width="100px" class="img-fluid">
@@ -138,21 +143,23 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
+            </div> 
+            <br> -->
             <div class="row">
                 <div class="col-12">
 
                     <table *ngIf="loading" class="table table-hover" >
                     <thead>
                         <tr>
-                            <th colspan="2" class="text-center"><h5>หลักสูตรอบรม</h5></th>
+                            <th colspan="2" class="text-center"><h5>หลักสูตรอบรมแนะนำ</h5></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of resulttraining2; let i = index" class="pointer">
-                            <td width="30%"><a href="train/detail/{{item.id}}"><img src="{{ downloadUrl }}/{{item.image}}" width="160" height="130"></a></td>
-                            <td width="70%"><a href="train/detail/{{item.id}}"><h5>{{ item.name }}</h5></a></td>
+                            <!-- <td width="30%"><a href="train/detail/{{item.id}}"><img src="{{ downloadUrl }}/{{item.image}}" width="160" height="130"></a></td>
+                            <td width="70%"><a href="train/detail/{{item.id}}"><h5>{{ item.name }}</h5></a></td> -->
+                            <td width="30%"><a href="train/detail/{{item.id}}"><img src="{{ downloadUrl }}/{{item.image}}" width="120" height="90"></a></td>
+                            <td width="70%" class=""><a href="train/detail/{{item.id}}" style="font-size: 14px;">{{ item.name }}</a></td>
                         </tr>
                     </tbody>
                 </table>

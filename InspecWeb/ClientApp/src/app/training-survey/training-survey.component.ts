@@ -56,6 +56,10 @@ export class TrainingSurveyComponent implements OnInit {
     })
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
   GotoSurveyTrainingList(trainingid){
     this.router.navigate(['/training/surveylist/',trainingid])
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { TrainingService } from '../services/training.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
@@ -12,6 +12,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class TrainingReportComponent implements OnInit {
 
   resulttraining: any[] = []
+  trainingid: string;
   modalRef: BsModalRef;
   delid: any
   loading = false;
@@ -23,8 +24,10 @@ export class TrainingReportComponent implements OnInit {
     private trainingservice: TrainingService,
     public share: TrainingService, 
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.mainUrl = baseUrl
+      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     }
 
   ngOnInit() {
@@ -48,12 +51,29 @@ export class TrainingReportComponent implements OnInit {
     })
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
+  GotoLoginRateTrainingList(){
+    this.router.navigate(['/training/report/loginrate/', this.trainingid])
+  }
+
+  GotoHistoryTrainingList(){
+    this.router.navigate(['/training/report/history/', this.trainingid])
+  }
+
   GotoSurveyTrainingList(trainingid){
     this.router.navigate(['/training/surveylist/',trainingid])
   }
 
   GotoPreviewTraining(trainingid){
     this.router.navigate(['/training/survey/preview/',trainingid])
+  }
+
+  GotoTrainingLoginRateList()
+  {
+    this.router.navigate(['/training/report/list/'])
   }
 
   

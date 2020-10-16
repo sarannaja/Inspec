@@ -77,4 +77,8 @@ export class NameLabelPreviewComponent implements OnInit {
     window.print();
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
 }
