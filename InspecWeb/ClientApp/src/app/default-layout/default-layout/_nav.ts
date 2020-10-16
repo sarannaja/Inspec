@@ -430,7 +430,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
       },
     ]
 
-  }
+
   },
   {
     icon: 'fa-map-marker',
