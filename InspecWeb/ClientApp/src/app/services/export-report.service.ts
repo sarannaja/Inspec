@@ -254,10 +254,8 @@ export class ExportReportService {
     return this.http.get<any>(this.url + "/getImportReportFiscalYears/");
   }
 
-  getImportReportFiscalYearRelations(fiscalYearId) {
-    console.log("fiscalYearId: ", fiscalYearId);
-
-    return this.http.get<any>(this.url + "/getImportReportFiscalYearRelations/" + fiscalYearId);
+  getImportReportFiscalYearRelations() {
+    return this.http.get<any>(this.url + "/getImportReportFiscalYearRelations");
   }
   getImportReportprovinceFiscalYearRelations(fiscalYearId, regionid) {
     console.log("fiscalYearId: ", fiscalYearId);
