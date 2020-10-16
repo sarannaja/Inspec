@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 import { NotofyService } from 'src/app/services/notofy.service';
 import { TypeexamibationplanService } from 'src/app/services/typeexamibationplan.service';
+import { FiscalyearnewService } from 'src/app/services/fiscalyearnew.service';
 
 @Component({
   selector: 'app-edit-central-policy',
@@ -75,6 +76,7 @@ export class EditCentralPolicyComponent implements OnInit {
     private external: ExternalOrganizationService,
     private _NotofyService: NotofyService,
     private typeexamibationplanservice: TypeexamibationplanService,
+    private fiscalyearnewservice: FiscalyearnewService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -189,7 +191,7 @@ export class EditCentralPolicyComponent implements OnInit {
       });
   }
   getFiscalyear() {
-    this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
+    this.fiscalyearnewservice.getdata().subscribe(result => {
       this.resultfiscalyear = result
       this.fiscalYearIdString = this.resultfiscalyear.map((item, index) => {
         return {

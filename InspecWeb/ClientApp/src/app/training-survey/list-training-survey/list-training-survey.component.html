@@ -10,7 +10,11 @@
     <div class="col-12">
       <div class="card card-eiei">
           <div class="card-header" style="margin-bottom: -40px;">
-              <h5 class="card-title">จัดการหลักสูตรการอบรม</h5>
+              <h5 class="card-title">จัดการหลักสูตรการอบรม
+                <button class="btn btn-light btn-sm" (click)="gotoBack()">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </button>
+              </h5>
               <div class="float-right">
                   <button class="btn btn-primary" (click)="openModal(modalSurvey)"
                       style="margin-top: -60px;">เพิ่มหัวข้อวัดผลประเมิน</button>
@@ -31,9 +35,23 @@
                   <tbody>
                       <tr *ngFor="let item of resulttraining; let i = index">
                           <td>{{ i + 1 }}</td>
-                          <td class="ellipsis">{{ item.name }}</td>
-                          <td class="ellipsis">ปริมาณ</td>
-                          <td class="ellipsis">{{ item.createdAt | thaidate:'year'}}</td>
+                          <td class="">{{ item.name }}</td>
+                          <td class="ellipsis">
+                              
+                            <ng-container *ngIf="item.surveyType == 1;else msecond">
+                                ความพอใจ
+                            </ng-container>
+                            <ng-template #msecond>
+                                <ng-container *ngIf="item.surveyType == 2;else mthird">
+                                    ปลายเปิด
+                                </ng-container>
+                            </ng-template>
+                            <ng-template #mthird>
+                                ใช่ หรือ ไม่
+                            </ng-template>
+
+                          </td>
+                          <td class="">{{ item.createdAt | thaidate:'short'}}</td>
                           <td>
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                   (click)="editModal(modaleditTrainingSurvey, item.id, item.name, item.surveytype)"></i>

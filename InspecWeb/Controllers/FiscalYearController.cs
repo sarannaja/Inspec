@@ -290,11 +290,12 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
 
-        [HttpGet("getCurrentFiscalYear")]
-        public IActionResult GetCurrentFiscalYear()
+        [HttpGet("getCurrentFiscalYear/{year}")]
+        public IActionResult GetCurrentFiscalYear(long year)
         {
             var fiscalyearData = _context.FiscalYearNew
-                .OrderByDescending(x => x.Year)
+                //.OrderByDescending(x => x.Year)
+                .Where(m => m.Year == year+543)
                 .FirstOrDefault();
 
             return Ok(fiscalyearData);

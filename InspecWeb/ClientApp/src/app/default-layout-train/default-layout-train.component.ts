@@ -36,7 +36,7 @@ export class DefaultLayoutTrainComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [0,1,2,3,4],
+          targets: [0,2,3,4],
           orderable: false
         }
       ],
@@ -69,5 +69,15 @@ export class DefaultLayoutTrainComponent implements OnInit {
     //alert(trainingid);
     this.router.navigate(['/train/detail/',trainingid])
   }
+
+  gotoMain(){
+    this.router.navigate(['/train'])
+  }
+
+  gotoAdmin(){
+   
+    this.router.navigate(["/main"])
+  }
+
 
 }

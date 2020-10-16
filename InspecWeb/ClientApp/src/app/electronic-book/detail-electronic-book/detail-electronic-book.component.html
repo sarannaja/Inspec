@@ -174,11 +174,11 @@
                         ngModel="{{items.description}}" placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
                     <div class="col-2" style="text-align: center;">
-                      <div *ngIf="items.user.signature != null">
+                      <div *ngIf="items.user.signature != null && items.user.signature != 'null' && items.user.signature != ''">
                         <img class="rounded" *ngIf="items.user.role_id == 6"
                           src="{{signUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
                       </div>
-                      <div *ngIf="items.user.signature == null" class="mt-4">
+                      <div *ngIf="items.user.signature == null || items.user.signature == 'null' || items.user.signature == ''" class="mt-4">
                         <label class="text-primary" style="font-weight: bold;">{{items.user.name}}</label>
                       </div>
                       <div>
@@ -228,11 +228,11 @@
                         ngModel="{{items.description}}" placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
                     <div class="col-2" style="text-align: center;">
-                      <div *ngIf="items.user.signature != null">
+                      <div *ngIf="items.user.signature != null && items.user.signature != 'null' && items.user.signature != ''">
                         <img class="rounded" *ngIf="items.user.role_id == 10"
                           src="{{signUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
                       </div>
-                      <div *ngIf="items.user.signature == null" class="mt-4">
+                      <div *ngIf="items.user.signature == null || items.user.signature == 'null' || items.user.signature == ''" class="mt-4">
                         <label class="text-primary" style="font-weight: bold;">{{items.user.name}}</label>
                       </div>
                       <div>
@@ -381,7 +381,7 @@
         </div> -->
 
         <div
-          *ngIf="electronicBookData.electronicBookAccept.length > 0 && electronicBookData.electronicBook.provinceType == 'ส่งให้จังหวัด'">
+          *ngIf="electronicBookData.electronicBookAccept.length > 0 && electronicBookData.electronicBook.provinceType == 'ส่งให้จังหวัด' && electronicBookData.electronicBook.status != 'ร่างกำหนดการ'">
           <hr>
           <div class="col-12 ml-2">
             <div class="row">
@@ -420,11 +420,11 @@
                       </textarea>
                     </div>
                     <div class="col-2" style="text-align: center;">
-                      <div *ngIf="items2.user.signature != null">
+                      <div *ngIf="items2.user.signature != null && items2.user.signature != 'null' && items2.user.signature != ''">
                         <img class="rounded" src="{{signUrl}}/{{items2.user.signature}}" alt=""
                           style="width: 100px; height: 100px;">
                       </div>
-                      <div *ngIf="items2.user.signature == null" class="mt-4">
+                      <div *ngIf="items2.user.signature == null || items2.user.signature == 'null' || items2.user.signature == ''" class="mt-4">
                         <label class="text-primary" style="font-weight: bold;">{{items2.user.name}}</label>
                       </div>
                       <div>
@@ -475,16 +475,16 @@
                         [(ngModel)]='items.description' placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
                     <div class="col-2" style="text-align: center;">
-                      <div *ngIf="items.userProvincialDepartment.signature != null">
+                      <div *ngIf="items.userProvincialDepartment.signature != null && items.userProvincialDepartment.signature != 'null' && items.userProvincialDepartment.signature != ''">
                         <img class="rounded" src="{{signUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
                           style="width: 100px; height: 100px;">
                       </div>
-                      <div *ngIf="items.userProvincialDepartment.signature != null">
+                      <div *ngIf="items.userProvincialDepartment.signature != null && items.userProvincialDepartment.signature != 'null' && items.userProvincialDepartment.signature != ''">
                         <!-- <label for="" style="font-size: small;">ลายมือชื่อ</label> -->
                         <label for="" style="font-size: small;">{{items.userProvincialDepartment.prefix}} -
                           {{items.userProvincialDepartment.name}}</label>
                       </div>
-                      <div *ngIf="items.userProvincialDepartment.signature == null" class="mt-4">
+                      <div *ngIf="items.userProvincialDepartment.signature == null || items.userProvincialDepartment.signature == 'null' || items.userProvincialDepartment.signature == ''" class="mt-4">
                         <label class="text-primary"
                           style="font-weight: bold;">{{items.userProvincialDepartment.name}}</label>
                         <div>

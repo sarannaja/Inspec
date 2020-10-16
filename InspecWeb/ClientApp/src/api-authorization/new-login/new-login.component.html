@@ -1,0 +1,121 @@
+<!-- <h2>Login</h2>
+<form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" formControlName="username" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">Username is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Login
+        </button>
+        <a routerLink="/register" class="btn btn-link">Register</a>
+    </div>
+</form> -->
+
+<div class="container h-100">
+    <div class="row h-100">
+        <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+            <div class="d-table-cell align-middle">
+                <div class="text-center">
+                    <h1 class="prompt">ระบบตรวจราชการอิเล็กทรอนิกส์
+                        <!-- <br>เพื่อสนับสนุนการกำกับและติดตามการปฏิบัติราชการในภูมิภาค -->
+                    </h1>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="m-sm-4">
+                            <div class="text-center">
+                                <img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle" width="132"
+                                    height="132" />
+                            </div>
+                            <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                <div class="form-group">
+                                    <label for="username">ชื่อผู้ใช้</label>
+                                    <input type="email" formControlName="username" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                        <div *ngIf="f.username.errors.required">กรุณากรอกชื่อผู้ใช้</div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>รหัสผ่าน</label>
+                                    <input type="password" formControlName="password" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                    <div class="errors" style="color: red;"
+                                        *ngIf="loginForm.get('password').invalid && (loginForm.get('password').touched || loginForm.get('password').dirty) &&submitted ">
+                                        <div *ngIf="loginForm.get('password').hasError('required')">
+                                            กรุณากรอกรหัสผ่าน
+                                        </div>
+                                        <div class="error-text" style="color: red;"
+                                            *ngIf="loginForm.get('password').hasError('passwordStrength')">
+                                            {{loginForm.get('password').errors['passwordStrength']}}
+                                        </div>
+                                    </div>
+                                    <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                        <div *ngIf="f.password.errors.required">กรุณากรอกรหัสผ่าน</div>
+                                    </div> -->
+                                    <!-- <small>
+                                        <a href="javascript:void(0)">Forgot password?</a>
+                                    </small> -->
+                                </div>
+                                <div *ngIf="loginfail" class="mb-3">
+                                    <input hidden type="text" class="is-invalid">
+                                    <div class="invalid-feedback" style="font-size: 16px;">
+                                        <div>{{loginfail}}</div>
+                                    </div>
+                                </div>
+
+
+                                <div>
+                                    <div class="custom-control custom-checkbox align-items-center">
+                                        <input id="customControlInline" type="checkbox" class="custom-control-input"
+                                            value="remember-me" name="remember-me" checked>
+                                        <label class="custom-control-label text-small"
+                                            for="customControlInline">จดจำฉัน</label>
+                                    </div>
+                                </div>
+                                <div class="form-group text-center mt-3">
+
+                                    <!-- <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-lg btn-primary" style="color: white;">เข้าสู่ระบบ</button>
+                                    @*<button type="submit" class="btn btn-lg btn-primary">Sign in</button>*@
+
+                                </div> -->
+                                    <button [disabled]="loading" class="btn btn-lg btn-primary">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        เข้าสู่ระบบ
+                                    </button>
+                                    <div class="text-center mt-1">
+                                        <a href="javascript:void(0)"
+                                            (click)="externalRegister()">สมัครผู้ร่วมอบรม(สำหรับบุคคลภายนอก)</a>
+                                    </div>
+                                    <!-- <a routerLink="/register" class="btn btn-link">Register</a> -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -458,7 +458,7 @@ export class ElectronicbookService {
     formData.append('sendToProvince', sendOrNot);
 
     console.log('FORMDATA: ', formData);
-    return this.http.post(this.url + "CreateElectronicBookOwn", formData);
+    return this.http.post<any>(this.url + "CreateElectronicBookOwn", formData);
   }
 
   addOpinion(value, ebookInviteId) {
@@ -777,6 +777,10 @@ export class ElectronicbookService {
 
   getElectronicBookOtherById(electID) {
     return this.http.get(this.url + "getElectronicBookOtherById/" + electID)
+  }
+
+  getElectronicBookAll() {
+    return this.http.get(this.url + "all")
   }
 }
 

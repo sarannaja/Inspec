@@ -22,10 +22,11 @@ namespace InspecWeb.Models
         [Description("วันที่อบรม")]
         public DateTime? ProgramDate { get; set; }
 
-        [ForeignKey("TrainingProgram")]
-        [Description("FK: ตารางโปรแกรมอบรม")]
-        public long TrainingProgramId { get; set; }
-        
+        [ForeignKey("Training")]
+        [Description("FK: ตารางหลักสูตรอบรม")]
+        public long TrainingId { get; set; }
+        public virtual Training Training { get; set; }
+
 
         [Description("ช่วงเช้า")]
         public long Morning { get; set; }

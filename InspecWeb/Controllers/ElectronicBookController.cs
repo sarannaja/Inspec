@@ -593,28 +593,46 @@ namespace InspecWeb.Controllers
 
             var test = _context.ElectronicBooks
                 .Include(x => x.ElectronicBookGroups)
-                .ThenInclude(x=> x.CentralPolicyEvent.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyEvent.CentralPolicy)
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
             var data = test.ElectronicBookGroups.ToArray();
-           
 
-            var logdata = new Log
+            if (test.CentralPolicy == null)
             {
-                UserId = test.CreatedBy,
-                DatabaseName = "ElectronicBook",
-                EventType = "ลบ",
-                EventDate = DateTime.Now,
-                Detail = "ลบสมุดตรวจอิเล็กทรอนิกส์" + data[0].CentralPolicyEvent.CentralPolicy.Title.ToString(),
-                Allid = test.Id,
-            };
-            _context.Logs.Add(logdata);
-            _context.SaveChanges();
+                var logdata = new Log
+                {
+                    UserId = test.CreatedBy,
+                    DatabaseName = "ElectronicBook",
+                    EventType = "ลบ",
+                    EventDate = DateTime.Now,
+                    Detail = "ลบสมุดตรวจอิเล็กทรอนิกส์" + data[0].CentralPolicyEvent.CentralPolicy.Title.ToString(),
+                    Allid = test.Id,
+                };
+                _context.Logs.Add(logdata);
+                _context.SaveChanges();
+            }
+            else
+            {
+                var logdata = new Log
+                {
+                    UserId = test.CreatedBy,
+                    DatabaseName = "ElectronicBook",
+                    EventType = "ลบ",
+                    EventDate = DateTime.Now,
+                    Detail = "ลบสมุดตรวจอิเล็กทรอนิกส์" + test.CentralPolicy,
+                    Allid = test.Id,
+                };
+                _context.Logs.Add(logdata);
+                _context.SaveChanges();
+            }
+
+
 
             _context.ElectronicBooks.Remove(electronicBookData);
             _context.SaveChanges();
 
-            
+
         }
 
         [HttpGet("electronicbookfile/{electronicBookId}")]
@@ -2059,7 +2077,23 @@ namespace InspecWeb.Controllers
                 provinceId = x.ElectronicBook.ElectronicBookGroups.Select(m => m.CentralPolicyEvent.InspectionPlanEvent.ProvinceId)
             })
              .ToList();
-            return Ok(new { ebookProvince, provinceData });
+
+            var provinceData2 = _context.ElectronicBookProvincialDepartments
+            .Include(x => x.ElectronicBook)
+            .ThenInclude(x => x.ElectronicBookGroups)
+            .ThenInclude(x => x.CentralPolicyEvent)
+            .ThenInclude(x => x.CentralPolicy)
+            .ThenInclude(x => x.CentralPolicyProvinces)
+            .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+            .Where(x => x.ProvincialDepartmentId == provincialDepartmentId)
+            .Where(x => x.ElectronicBook.Status == "ใช้งานจริง" || x.ElectronicBook.Status == "ส่งสมุดตรวจแล้ว")
+            .OrderByDescending(x => x.Id)
+            .Select(x => new
+            {
+                provinceId = x.ElectronicBook.ElectronicBookAccepts.Select(m => m.ProvinceId)
+            })
+             .ToList();
+            return Ok(new { ebookProvince, provinceData, provinceData2 });
         }
 
         [HttpPost("addDepartmentSignature")]
@@ -2209,6 +2243,27 @@ namespace InspecWeb.Controllers
                 .Where(x => x.Id == electID)
                 .FirstOrDefault();
             return Ok(electronicBookOtherData);
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            var ebook = _context.ElectronicBooks
+                .Include(x => x.User)
+                .ThenInclude(x => x.Ministries)
+                .Include(x => x.User)
+                .ThenInclude(x => x.Departments)
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+                .Include(x => x.ElectronicBookGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .Where(x => x.Status == "ใช้งานจริง")
+                .OrderByDescending(x => x.Id)
+                .ToList();
+
+            return Ok(ebook);
         }
     }
 }

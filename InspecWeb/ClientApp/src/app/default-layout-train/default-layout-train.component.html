@@ -1,28 +1,51 @@
 
+<head>
+    <title>:: จัดอบรมหลักสูตร ::</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300, 400,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="/assets/fontend/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/fontend/css/animate.css">
+    <link rel="stylesheet" href="/assets/fontend/css/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="/assets/fontend/fonts/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/fontend/fonts/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/fontend/fonts/flaticon/font/flaticon.css">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" href="/assets/fontend/css/style.css">
+</head>
+<body style="font-size:14px;">
     <header role="banner">
-        <!-- <div class="top-bar">
-            <div class="container">
+        <div class="top-bar2">
+            <div class="ml-3">
                 <div class="row">
-                    <div class="col-9 social">
-                        <a href="javascript:void(0)"><span class="fa fa-twitter"></span></a>
+                    <div class="col-9">
+                        <img src="assets/img/logo2.png" (click)="gotoAdmin()" class="pointer" height="30"/>
+                        <!-- <a href="{{ mainUrl }}">
+                            <img src="assets/img/logo2.png" class="" height="30"/>
+                        </a> -->
+                        <!-- <a href="javascript:void(0)"><span class="fa fa-twitter"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-facebook"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-instagram"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-youtube-play"></span></a>
                         <a href="javascript:void(0)"><span class="fa fa-vimeo"></span></a>
-                        <a href="javascript:void(0)"><span class="fa fa-snapchat"></span></a>
+                        <a href="javascript:void(0)"><span class="fa fa-snapchat"></span></a> -->
                     </div>
                     <div class="col-3 search-icon">
-                        <a href="javascript:void(0)"><span class="fa fa-search"></span></a>
+                        <!-- <a href="javascript:void(0)"><span class="fa fa-search"></span></a> -->
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <div class="container logo-wrap">
             <div class="row pt-5">
                 <div class="col-12 text-center">
                     <!-- <a class="sidebar-brand" href="index1.html"> -->
-                        <a href="{{ mainUrl }}train"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
+                        <a (click)="gotoMain()"><img src="assets/fontend/images/logo.png" class="img-fluid rounded-circle mb-2" height="70"
                         width="100" /></a>
                     <h1>หลักสูตรการอบรม</h1>
                     <!-- </a> -->
@@ -131,6 +154,8 @@
     <br>
     <br>
     <br>
+
+</body>
 
     <!-- <footer class="site-footer">
         <div class="container">

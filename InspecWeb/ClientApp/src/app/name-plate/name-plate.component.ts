@@ -94,4 +94,8 @@ export class NamePlateComponent implements OnInit {
   gotoLabelPreview() {
  this.router.navigate(['/namelabelpreview', { selectedPeople: this.people }]);
   }
+
+  gotoBack() {
+    window.history.back();
+  }
 }

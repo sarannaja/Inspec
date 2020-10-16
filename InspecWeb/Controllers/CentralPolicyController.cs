@@ -763,6 +763,7 @@ namespace InspecWeb.Controllers
         {
             var centralpolicyuserdata = _context.CentralPolicyUsers
                 .Include(m => m.User)
+                .ThenInclude(m => m.Sides)
                 //.ThenInclude(m => m.UserProvince)
                 .Where(m => m.InspectionPlanEventId == id)
                 .Where(m => m.User.Role_id == 7).ToList();
@@ -774,10 +775,10 @@ namespace InspecWeb.Controllers
         [HttpGet("getcentralpolicyfromprovince/{id}")]
         public IActionResult getcentralpolicyfromprovince(long id)
         {
-            var year = DateTime.Now.Year;
+            var year = DateTime.Now;
 
             var fiscalyearData = _context.FiscalYearNew
-                .Where(m => m.Year == year + 543).FirstOrDefault();
+                .Where(m => m.StartDate <= year && m.EndDate >= year).FirstOrDefault();
 
             //var fiscalyearData = _context.FiscalYears
             //                  .OrderByDescending(x => x.Year)
@@ -903,6 +904,7 @@ namespace InspecWeb.Controllers
             .Include(m => m.CentralPolicyFiles)
             .Include(m => m.CentralPolicyProvinces)
             .ThenInclude(m => m.Province)
+            .Include(m => m.Typeexaminationplan)
             .Where(m => m.Id == centralpolicyprovince.CentralPolicyId).First();
 
             //var userdata = _context.Users.Where(m => m.Id == centralpolicydata.CreatedBy).First();

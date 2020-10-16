@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InspecWeb.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace InspecWeb.Controllers
 {
-    //[Authorize]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -20,12 +21,10 @@ namespace InspecWeb.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IUserStore<WeatherForecastController> _store;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger , IUserStore<WeatherForecastController> store)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            _store = store;
         }
 
         [HttpGet]
@@ -39,12 +38,6 @@ namespace InspecWeb.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
-        }
-
-        [HttpGet("user")]
-        public object GetUser()
-        {
-            return User.Claims;
         }
     }
 }

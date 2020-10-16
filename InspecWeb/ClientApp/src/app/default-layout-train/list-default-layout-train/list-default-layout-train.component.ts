@@ -111,4 +111,11 @@ export class ListDefaultLayoutTrainComponent implements OnInit {
     this.router.navigate(['/train/detail/',trainingid2]);
   }
 
+  gotoMain(){
+    this.router.navigate(['/train'])
+  }
+
+  gotoAdmin(){
+    this.router.navigate(["/main"])
+  }
 }

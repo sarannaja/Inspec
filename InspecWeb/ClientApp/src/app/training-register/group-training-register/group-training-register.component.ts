@@ -181,4 +181,8 @@ export class GroupTrainingRegisterComponent implements OnInit {
     }
   }
 
+  gotoBack() {
+    window.history.back();
+  }
+
 }

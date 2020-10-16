@@ -265,13 +265,17 @@ export class DefaultLayoutComponent implements OnInit {
         }
         else if (statusid == 6) { //ask nik
           this.notificationService.getCentralPolicyProvince(centralPolicyId, provinceId).subscribe(result => {
-            location.href = '/subjectevent/detail/' + result, { subjectgroupid: xe, };
+
+            //  location.href = '/subjectevent/detail/' + result, { subjectgroupid: xe, };
+             location.href = '/subjectevent/detail/' + result + ';subjectgroupid=' + xe
           })
         }
         else if (statusid == 7) { //song
           this.notificationService.getElectronicBookUserInvite(userId, xe).subscribe(res => {
             console.log("inviteId: ", res);
-            location.href = 'electronicbook/invitedetail/' + xe, { ebookInviteId: res };
+            //  location.href = 'electronicbook/invitedetail/' + xe, { ebookInviteId: res };
+             location.href = 'electronicbook/invitedetail/' + xe + ';ebookInviteId=' + res;
+
           })
         }
 
@@ -285,7 +289,8 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 18) { //song
           this.notificationService.getElectronicBookProvincialDepartment(provinceId, xe).subscribe(res => {
             console.log("inviteId: ", res);
-            location.href = '/electronicbook/departmentdetail/' + xe, { electronicBookProvincialDepartmentId: res };
+            //  location.href = '/electronicbook/departmentdetail/' + xe, { electronicBookProvincialDepartmentId: res };
+             location.href = '/electronicbook/departmentdetail/' + xe + ';electronicBookProvincialDepartmentId=' + res;
           })
         }
         else if (statusid == 8) { //song

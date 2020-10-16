@@ -103,6 +103,13 @@ export class ElectronicBookDepartmentComponent implements OnInit {
           if (results.provinceData[index].provinceId.includes(element) == true) {
             this.electronicBookData.push(results.ebookProvince[index])
           }
+
+          if (results.ebookProvince[index].electronicBook.centralPolicy != null) {
+            if (results.provinceData2[index].provinceId.includes(element) == true) {
+              this.electronicBookData.push(results.ebookProvince[index])
+            }
+          }
+
         });
       }
 

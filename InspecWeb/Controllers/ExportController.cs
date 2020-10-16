@@ -1287,6 +1287,7 @@ namespace InspecWeb.Controllers
 
                 .Include(x => x.ReportCommanders)
                 .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Departments)
 
                 .Include(x => x.ImportReportFiles)
 
@@ -1338,7 +1339,7 @@ namespace InspecWeb.Controllers
         [HttpGet("getImportReportFiscalYears")]
         public IActionResult GetImportReportFiscalYears()
         {
-            var importFiscalYear = _context.FiscalYears
+            var importFiscalYear = _context.FiscalYearNew
                 .ToList();
 
             return Ok(new { importFiscalYear });

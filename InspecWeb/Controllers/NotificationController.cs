@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EmailService;
+
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +15,10 @@ namespace InspecWeb.Controllers
     public class NotificationController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmailSender _emailSender;
 
-        public NotificationController(ApplicationDbContext context, IEmailSender emailSender)
+        public NotificationController(ApplicationDbContext context)
         {
             _context = context;
-            _emailSender = emailSender;
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]
@@ -436,6 +434,7 @@ namespace InspecWeb.Controllers
             }
 
             // แจ้งเตือนผู้ว่าราชการจังหวัด หรือ หัวหน้าส่วนจังหวัด เมื่อได้รับสมุดตรวจ
+            // รอแก้ถ้าเป็นสมุดตรวจสร้างเองให้เอา electronicBook.centralPolicy มาใช้แทน xe
             if (Status == 17)
             {
                 System.Console.WriteLine("in 17" + ProvinceId);
@@ -475,6 +474,7 @@ namespace InspecWeb.Controllers
             }
 
             // แจ้งเตือนหน่วยรับตรวจ เมื่อได้รับสมุดตรวจ
+            // รอแก้ถ้าเป็นสมุดตรวจสร้างเองให้เอา electronicBook.centralPolicy มาใช้แทน xe
             if (Status == 18)
             {
                 System.Console.WriteLine("in 18");

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EmailService;
+
 using InspecWeb.Data;
 using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +16,10 @@ namespace InspecWeb.Controllers
     public class LogController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmailSender _emailSender;
 
-        public LogController(ApplicationDbContext context, IEmailSender emailSender)
+        public LogController(ApplicationDbContext context)
         {
             _context = context;
-            _emailSender = emailSender;
         }
 
 

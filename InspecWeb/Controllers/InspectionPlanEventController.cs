@@ -367,26 +367,32 @@ namespace InspecWeb.Controllers
         [HttpGet("inspectionplanexportindex/{id}")]
         public IActionResult GetCalendar(string id)
         {
-            var userprovince = _context.UserProvinces
-                               .Where(m => m.UserID == id)
-                               .ToList();
-            var inspectionplans = _context.CentralPolicyProvinces
-                                .Include(m => m.Province)
-                                .Include(m => m.CentralPolicy)
-                                     .OrderByDescending(m => m.Id)
-                                .Where(m => m.CentralPolicy.Class == "แผนการตรวจประจำปี" || m.CentralPolicy.Class == "แผนการตรวจ")
-                                .ToList();
+            var centralpolicyevent = _context.CentralPolicyEvents
+                .Include(p => p.CentralPolicy)
+                .Include(p => p.InspectionPlanEvent)
+                .ThenInclude(p => p.Province)
+                .ToList();
 
-            List<object> termsList = new List<object>();
-            foreach (var inspectionplan in inspectionplans)
-            {
-                for (int i = 0; i < userprovince.Count(); i++)
-                {
-                    if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
-                        termsList.Add(inspectionplan);
-                }
-            }
-            return Ok(termsList);
+            //var userprovince = _context.UserProvinces
+            //                   .Where(m => m.UserID == id)
+            //                   .ToList();
+            //var inspectionplans = _context.CentralPolicyProvinces
+            //                    .Include(m => m.Province)
+            //                    .Include(m => m.CentralPolicy)
+            //                         .OrderByDescending(m => m.Id)
+            //                    .Where(m => m.CentralPolicy.Class == "แผนการตรวจประจำปี" || m.CentralPolicy.Class == "แผนการตรวจ")
+            //                    .ToList();
+
+            //List<object> termsList = new List<object>();
+            //foreach (var inspectionplan in inspectionplans)
+            //{
+            //    for (int i = 0; i < userprovince.Count(); i++)
+            //    {
+            //        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+            //            termsList.Add(inspectionplan);
+            //    }
+            //}
+            return Ok(centralpolicyevent);
         }
 
         // GET: api/ElectronicBook

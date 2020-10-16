@@ -39,4 +39,18 @@ export class TrainingLoginService {
   getTrainingProgramDate(trainingid) {
     return this.http.get<any>(this.url + "TrainingProgramDate/get/" + trainingid);
   }
+
+  register(userData, trainingProgramLoginId, dateType) {
+    console.log("Training Data: ", userData);
+    console.log("Date Type: ", dateType);
+
+    const formData = new FormData();
+    formData.append('username', userData.userName);
+    formData.append('trainingProgramLoginId', trainingProgramLoginId);
+    formData.append('dateType', dateType);
+    formData.append('trainingId', userData.trainingId);
+
+    console.log('FORMDATA: ', formData);
+    return this.http.post<any>(this.url + "trainingSignin2", formData);
+  }
 }

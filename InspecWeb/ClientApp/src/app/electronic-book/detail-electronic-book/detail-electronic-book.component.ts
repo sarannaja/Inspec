@@ -226,7 +226,7 @@ export class DetailElectronicBookComponent implements OnInit {
       console.log("res people: ", res);
       var acceptPeople: any = [];
       var acceptPeople = res.filter(function (data) {
-        return data.status == "ตอบรับ" || data.status == "มอบหมาย";
+        return data.status == "ตอบรับ" || (data.status == "มอบหมาย" && data.forwardExternal == 1);
       });
       console.log('acceptPeople: ', acceptPeople);
 
@@ -283,12 +283,30 @@ export class DetailElectronicBookComponent implements OnInit {
       if (value.Status == "ใช้งานจริง") {
         console.log("NOTI: ", value.Status);
 
-        value.user.forEach(element => {
-          this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element, 7, this.electId)
-            .subscribe(response => {
-              console.log("Noti res: ", response);
-            })
-        });
+        if (this.electronicBookData.electronicBook.centralPolicy == null) {
+          value.user.forEach(element => {
+            this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element, 7, this.electId)
+              .subscribe(response => {
+                console.log("Noti res: ", response);
+              })
+          });
+        }
+
+        else if (this.electronicBookData.electronicBook.centralPolicy != null) {
+          this.electronicBookData.electronicBookAccept.forEach(element => {
+            this.notificationService.addNotification(1, element.provinceId, this.userid, 17, this.electId)
+              .subscribe(response => {
+                console.log("Noti 17 province: ", response);
+              })
+          });
+
+          this.electronicBookData.electronicBookDepartment.forEach(element2 => {
+            this.notificationService.addNotification(1, element2.provincialDepartmentId, this.userid, 18, this.electId)
+              .subscribe(response => {
+                console.log("Noti 18 provincial:", response);
+              })
+          });
+        }
       }
       this.getElectronicBookDetail();
       this.modalRef.hide();

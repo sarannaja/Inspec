@@ -429,7 +429,25 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         name: 'แบบประเมินการอบรม'
       },
     ]
+
   }
+  },
+  {
+    icon: 'fa-map-marker',
+    url: "/external/thaimap",
+    name: "แผนที่"
+  },
+  {
+    icon: 'fa-eye',
+    url: "/log",
+    name: "log"
+  },
+  {
+    icon: 'fa-external-link-alt',
+    url: "/iframe",
+    name: "iframe"
+  },
+
 ]
 export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
   {

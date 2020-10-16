@@ -3,8 +3,6 @@ using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data.Seeders; //เรียกไฟล์ โฟเดอx
@@ -13,11 +11,9 @@ namespace InspecWeb.Data
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(
+          public ApplicationDbContext(
             DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
-        {
-        }
+            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions) { }
 
         //ถ้าเพิ่มโมเดลใหม่
         public DbSet<Province> Provinces { get; set; }
@@ -35,6 +31,7 @@ namespace InspecWeb.Data
         public DbSet<Governmentinspectionplan> Governmentinspectionplans { get; set; }
         public DbSet<InspectionOrder> InspectionOrders { get; set; }
         public DbSet<InstructionOrder> InstructionOrders { get; set; }
+        public DbSet<IFrame> IFrames { get; set; }
 
 
         //---------Trainings-----------
@@ -504,6 +501,7 @@ namespace InspecWeb.Data
             builder.ApplyConfiguration(new TypeexaminationplanSeeder());//ประเภทแผนการตรวจ
             builder.ApplyConfiguration(new SideSeeder());//ประเภทด้านภาคประชาชน
             builder.ApplyConfiguration(new MenuSeeder());//สิทธิ์เมนู
+
 
         }
     }
