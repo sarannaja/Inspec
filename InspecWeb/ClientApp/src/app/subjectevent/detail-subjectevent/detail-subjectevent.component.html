@@ -81,7 +81,7 @@
             </div>
           </div>
 
-  
+
           <div class="row" style="margin-top: 10px;">
             <div class="col-12">
               <table class="table table-default table-responsive-sm tableborder">
@@ -93,14 +93,14 @@
                           <i class="fa fa-tags" style="margin-top: 5px;"></i>
                           <h4 style="margin-left: 15px;">ประเด็นการตรวจติดตาม</h4>
 
-                         
+
 
                           <button style="margin-top: -10px; margin-left: 10px;"
                             *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button" class="btn btn-info"
                             (click)="openModalSubject2(modalcreatesuject,items.id)">เพิ่มประเด็นการตรวจติดตาม
                             <i class="far fa-fw fa-plus-square" style="margin-left: 0px;"></i>
                           </button>
-                        
+
                         </div>
 
                         <div class="row" style="margin-top: 10px;">
@@ -108,7 +108,7 @@
                             <input type="text" value="{{items.name}}" class="form-control" placeholder="กรุณากรอกเรื่อง"
                               readonly>
                           </div>
-                         
+
                         </div>
                       </td>
                       <div class="row" style="margin-left: 47px; margin-top: 10px;">
@@ -216,7 +216,6 @@
                       </td> -->
                     </div>
                   </tr>
-
 
                   <tr *ngFor="let item of items.subquestionCentralPolicyProvinces;let iii = index">
                     <div class="" *ngIf="item.type == 'คำถามปลายปิด'" style="margin-left: 34px;">
@@ -340,6 +339,26 @@
                           </div> -->
                         </div>
                       </div>
+                    </div>
+                  </tr>
+                  <tr>
+                    <div style="margin-left: 34px;">
+                      <td style="border-top: none; width: 1%;">
+                        <u>ไฟล์แนบ</u>
+                        <div class="row" *ngFor="let itemFiles of items.answerSubquestionFiles; let i = index"
+                          style="margin-top: 10px;">
+                          <a class="col-12">
+                            <span class="row">
+                              <div class="col-3">{{i+1}} .<a download
+                                  href="{{downloadUrl}}/{{itemFiles.name}}">{{ itemFiles.name }}</a></div>
+                              <div class="col-5">คำอธิบาย {{itemFiles.description}}</div>
+                              <div class="col-4">โดย {{itemFiles.user.name}}</div>
+                            </span>
+                          </a>
+                          <!-- <input type="text" class="form-control ml-4" style="width: 80%;" value="{{itemFiles.description}}"
+                            readonly> -->
+                        </div>
+                      </td>
                     </div>
                   </tr>
                 </tbody>
