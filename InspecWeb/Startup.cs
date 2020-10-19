@@ -84,7 +84,10 @@ namespace InspecWeb
 
             // เพิ่ม controller ไว้สำหรับทำ cronjob
             services.AddTransient<Controllers.UtinityController, Controllers.UtinityController>();
+             services.AddTransient<Controllers.UtinityCheckDateController, Controllers.UtinityCheckDateController>();
             //end เพิ่ม controller ไว้สำหรับทำ cronjob
+
+            
 
             services.AddMvc()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
@@ -109,6 +112,10 @@ namespace InspecWeb
             //end mail
 
             services.AddHostedService<CronJobService>();
+
+            services.AddSingleton<CronJobService>();
+            services.AddScoped<CronJobService>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory

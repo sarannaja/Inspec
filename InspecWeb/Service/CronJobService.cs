@@ -10,15 +10,19 @@ public class CronJobService : BackgroundService
     private CrontabSchedule _schedule;
     private DateTime _nextRun;
     private UtinityController _utinityController;
-    private string Schedule => "0 0 0 * * *"; //Runs every day
-    // private string Schedule => "*/10 * * * * *"; //Runs every 10 seconds
+    private UtinityCheckDateController _utinityCheckDateController;
+    // private string Schedule => "0 0 0 * * *"; //Runs every day
+    private string Schedule => "*/10 * * * * *"; //Runs every 10 seconds
 
-    public CronJobService(UtinityController utinityController)
+    public CronJobService(UtinityController utinityController, UtinityCheckDateController utinityCheckDateController)
     {
         _utinityController = utinityController;
+        _utinityCheckDateController = utinityCheckDateController;
         _schedule = CrontabSchedule.Parse(Schedule, new CrontabSchedule.ParseOptions { IncludingSeconds = true });
         _nextRun = _schedule.GetNextOccurrence(DateTime.Now);
     }
+
+   
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -40,7 +44,13 @@ public class CronJobService : BackgroundService
     {
         // We can't set this at Ctor because we don't have our local copy yet
         // Access to Url 
-        _utinityController.Process();
+        //_utinityController.Process();
+        _utinityCheckDateController.CheckPeopleQuestionNotificationDate();
+        //_utinityCheckDateController.CheckPeopleQuestionDeadlineDate();
+
+        //_utinityCheckDateController.CheckSubjectNotificationDate();
+        //_utinityCheckDateController.CheckSubjectDeadlineDate();
+
         // For more references see https://github.com/aspnet/Mvc/blob/6.0.0-rc1/src/Microsoft.AspNet.Mvc.ViewFeatures/Controller.cs
         // Note: This will change in RC2
     }
