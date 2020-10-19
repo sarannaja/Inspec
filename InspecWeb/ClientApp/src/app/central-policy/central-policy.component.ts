@@ -138,7 +138,8 @@ export class CentralPolicyComponent implements OnInit {
 
       //   return result.year == d3
       // })[0]
-      this.currentyear = result.filter(result => {
+      
+      let fiscalyear = result.filter(result => {
         let start_date = new Date(result.startDate)
         let end_date = new Date(result.endDate)
         // console.log('start_date > current_date', start_date.toISOString(), current_date.toISOString());
@@ -148,6 +149,8 @@ export class CentralPolicyComponent implements OnInit {
         // return start_date.toISOString() < current_date.toISOString()
         return (current_date.toISOString() > start_date.toISOString()) && (current_date.toISOString() < end_date.toISOString())
       })[0]
+
+      this.currentyear = fiscalyear ? fiscalyear : "allfiscalyear"
       // this.currentyear = this.currentyear[this.currentyear.length - 1]
       console.log('this.currentyear', this.currentyear);
 
