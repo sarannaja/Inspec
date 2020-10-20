@@ -4,6 +4,7 @@ export interface NavBar {
   name?: string;
   url?: string;
   menuname?: any;
+  orderby? :any;
   ex_link?: string;
   children?: Array<Children>
   classtap?: string;
@@ -23,37 +24,43 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     icon: 'fa-home',
     url: "/main",
     name: "หน้าหลัก",
-    menuname: "m1"
+    menuname: "m1",
+    orderby: 1 ,
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
     name: "แผนการตรวจราชการ",
-    menuname: "m2"
+    menuname: "m2",
+    orderby: 2 ,
   },
   {
     icon: 'fa-calendar',
     url: '/inspectionplanevent/all',
     name: "ปฏิทินการตรวจราชการ",
-    menuname: "m3"
+    menuname: "m3",
+    orderby: 3 ,
   },
   {
     icon: 'fa-book',
     url: "/electronicbookall",
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    menuname: "m24"
+    menuname: "m24",
+    orderby: 12 ,
   },
   {
     icon: 'fa-file-alt',
     name: "ทะเบียนรายงานผลการตรวจราชการ",
     url: '/allreport',
-    menuname: "m5"
+    menuname: "m5",
+    orderby: 17 ,
   },
   {
     icon: 'fa-hand-point-up',
     name: "ข้อสั่งการถึงผู้ตรวจราชการ",
     IDchildren: 'executiveorderdata',
     menuname: "m6",
+    orderby: 20 ,
     children: [
       {
         icon: 'fa-file',
@@ -82,6 +89,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
     menuname: "m7",
+    orderby: 21 ,
     children: [
       {
         icon: 'fa-file',
@@ -110,6 +118,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     name: "ข้อมูลพื้นฐาน",
     IDchildren: 'basicdata',
     menuname: "m8",
+    orderby: 22 ,
     children: [
       {
         icon: 'fa-file',
@@ -172,12 +181,14 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     url: "/menu",
     name: "กำหนดสิทธิ์การใช้งาน",
     menuname: "m26",
+    orderby: 23 ,
   },
   {
     icon: 'fa-user-friends',
     name: "จัดการผู้ใช้",
     IDchildren: 'userdata',
     menuname: "m9",
+    orderby: 24 ,
     children: [
       {
         icon: 'fa-file',
@@ -256,12 +267,14 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -300,6 +313,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -320,6 +334,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname: "m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '0',
@@ -370,25 +385,29 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่",
-    menuname: "m16"
+    menuname: "m16",
+    orderby: 30 ,
   },
   {
     icon: 'fa-eye',
     url: "/log",
     name: "log",
-    menuname: "m17"
+    menuname: "m17",
+    orderby: 29 ,
   },
   {
     icon: 'fa-external-link-alt',
     url: "/iframe",
     name: "iframe",
-    menuname: "m27"
+    menuname: "m27",
+    orderby: 31 ,
   },
   {
     IDchildren: 'training',
     icon: 'fa-shekel-sign',
     name: "ข้อมูลจัดอบรมหลักสูตร",
     menuname: "m14",
+    orderby: 32 ,
     children: [
       {
         ex_link: '0',
@@ -415,6 +434,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -445,30 +465,35 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
     name: "แผนการตรวจราชการ",
     menuname: "m2",
+    orderby: 2 ,
   },
   {
     icon: 'fa-calendar',
     url: '/inspectionplanevent/all',
     name: "ปฏิทินการตรวจราชการ",
     menuname: "m3",
+    orderby: 3 ,
   },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
-    menuname: "m10"
+    menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -507,6 +532,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -527,6 +553,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname: "m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -577,6 +604,7 @@ export const Centraladmin: NavBar[] = [ //แอดมินส่วนกล�
     url: "/external/thaimap",
     name: "แผนที่",
     menuname: "m16",
+    orderby: 30 ,
   },
 ]
 export const Inspector: NavBar[] = [ //ผู้ตรวจ
@@ -585,18 +613,21 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
     name: "แผนการตรวจราชการ",
     menuname: "m2",
+    orderby: 2 ,
   },
   {
     IDchildren: 'schedule',
     icon: 'fa-calendar',
     name: "กำหนดการตรวจราชการ",
     menuname: "m18",
+    orderby: 7 ,
     children: [
       {
         ex_link: '0',
@@ -623,24 +654,28 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/subjectevent",
     name: "ประเด็นการตรวจติดตาม",
     menuname: "m19",
+    orderby: 9 ,
   },
   {
     icon: 'fa-book',
     url: "/electronicbook",
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     menuname: "m4",
+    orderby: 11 ,
   },
   {
     icon: 'fa-user-tie',
     name: "รายงานผลการตรวจราชการ",
     url: '/reportimport',
     menuname: "m20",
+    orderby: 16 ,
   },
   {
     icon: 'fa-hand-point-up',
     name: "ข้อสั่งการถึงผู้ตรวจราชการ",
     IDchildren: 'executiveorderdata',
     menuname: "m6",
+    orderby: 20 ,
     children: [
       {
         icon: 'fa-file',
@@ -669,6 +704,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
     menuname: "m7",
+    orderby: 21 ,
     children: [
       {
         icon: 'fa-file',
@@ -697,12 +733,14 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -741,6 +779,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -761,6 +800,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname: "m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -811,6 +851,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     url: "/external/thaimap",
     name: "แผนที่",
     menuname: "m16",
+    orderby: 30 ,
   },
 
   {
@@ -818,6 +859,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -846,24 +888,28 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     icon: 'fa-book',
     url: "/electronicbookprovince",
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     menuname: "m25",
+    orderby: 13 ,
   },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -902,6 +948,7 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -922,6 +969,7 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname: "m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -972,12 +1020,14 @@ export const Provincialgovernor: NavBar[] = [ //ผู้ว่าราชก�
     url: "/external/thaimap",
     name: "แผนที่",
     menuname: "m16",
+    orderby: 30 ,
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -1006,30 +1056,35 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
     name: "แผนการตรวจราชการ",
     menuname: "m2",
+    orderby: 2 ,
   },
   {
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ",
     menuname: "m29",
+    orderby: 4 ,
   },
   {
     icon: 'fa-book',
     url: "/electronicbookprovince",
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     menuname: "m25",
+    orderby: 13 ,
   },
   {
     icon: 'fa-hands',
     name: "แจ้งข้อมูลถึงผู้ตรวจราชการ",
     IDchildren: 'requestorderdata',
     menuname: "m7",
+    orderby: 21 ,
     children: [
       {
         icon: 'fa-file',
@@ -1059,12 +1114,14 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -1103,6 +1160,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -1123,6 +1181,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname: "m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -1173,12 +1232,14 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     url: "/external/thaimap",
     name: "แผนที่",
     menuname: "m16",
+    orderby: 30 ,
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -1201,18 +1262,20 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     ]
   },
 ]
-export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระทรวง
+export const InspectorMinistry: NavBar[] = [ //ผู้ตรวจกระทรวง
   {
     icon: 'fa-home',
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     IDchildren: 'calendarmenu',
     icon: 'fa-calendar',
     name: "ปฏิทินการตรวจราชการ",
     menuname: "m30",
+    orderby: 5 ,
     children: [
       {
         ex_link: '0',
@@ -1233,12 +1296,14 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     url: "/answersubject",
     name: "ประเด็นการตรวจติดตาม",
     menuname: "m22",
+    orderby: 10 ,
   },
   {
     IDchildren: 'electronicbook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     menuname: "m32",
+    orderby: 14 ,
     children: [
       {
         ex_link: '0',
@@ -1259,12 +1324,14 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -1303,6 +1370,7 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -1323,6 +1391,7 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname:"m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -1374,12 +1443,14 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     url: "/external/thaimap",
     name: "แผนที่",
     menuname: "m16",
+    orderby: 30 ,
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -1409,31 +1480,35 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     icon: 'fa-book',
     url: "/answerpeople",
     name: "คำถามภาคประชาชน",
     menuname: "m21",
+    orderby: 18 ,
   },
   {
     icon: 'fa-calendar',
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ",
     menuname: "m31",
-    // bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
+    orderby: 6 ,
   },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -1472,6 +1547,7 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -1492,6 +1568,7 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname: "m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -1542,12 +1619,14 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     url: "/external/thaimap",
     name: "แผนที่",
     menuname: "m16",
+    orderby: 30 ,
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -1576,18 +1655,21 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     icon: 'fa-archive',
     url: "/centralpolicy",
     name: "แผนการตรวจราชการ",
     menuname: "m2",
+    orderby: 2 ,
   },
   {
     icon: 'fa-hand-point-up',
     name: "ข้อสั่งการถึงผู้ตรวจราชการ",
     IDchildren: 'executiveorderdata',
     menuname: "m6",
+    orderby: 20 ,
     children: [
       {
         icon: 'fa-file',
@@ -1616,18 +1698,21 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     url: "/commanderreport",
     name: "รายงานผลการตรวจราชการ",
     menuname: "m20",
+    orderby: 16 ,
   },
   {
     icon: 'fa-list-alt',
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -1666,6 +1751,7 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -1686,6 +1772,7 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname: "m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -1736,12 +1823,14 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     url: "/external/thaimap",
     name: "แผนที่",
     menuname: "m16",
+    orderby: 30 ,
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -1770,6 +1859,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
 
   {
@@ -1777,6 +1867,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     icon: 'fa-calendar',
     name: "กำหนดการตรวจราชการ",
     menuname: "m28",
+    orderby: 8 ,
     children: [
       {
         ex_link: '0',
@@ -1797,18 +1888,21 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     url: "/answersubject",
     name: "ประเด็นตรวจติดตาม",
     menuname: "m22",
+    orderby: 10 ,
   },
   {
     icon: 'fa-file',
     url: "/answerrecommendationinspector",
     name: "ข้อเสนอแนะของผู้ตรวจราชการ",
     menuname: "m23",
+    orderby: 19 ,
   },
   {
     IDchildren: 'electronicBook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     menuname: "m33",
+    orderby: 15 ,
     children: [
       {
         ex_link: '0',
@@ -1829,12 +1923,14 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -1873,6 +1969,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -1892,6 +1989,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -1942,12 +2040,14 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     url: "/external/thaimap",
     name: "แผนที่",
     menuname: "m16",
+    orderby: 30 ,
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -1977,12 +2077,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     IDchildren: 'calendarmenu',
     icon: 'fa-calendar',
     name: "ปฏิทินการตรวจราชการ",
     menuname: "m30",
+    orderby: 5 ,
     children: [
       {
         ex_link: '0',
@@ -2003,6 +2105,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     url: "/answersubject",
     name: "ประเด็นการตรวจติดตาม",
     menuname: "m22",
+    orderby: 10 ,
   },
   {
     IDchildren: 'electronicbook',
@@ -2010,6 +2113,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     url: '/electronicbook/invited',
     menuname: "m32",
+    orderby: 14 ,
     children: [
       {
         ex_link: '0',
@@ -2030,12 +2134,14 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     url: "/supportgovernment",
     name: "ข้อมูลสนับสนุน",
     menuname: "m10",
+    orderby: 25 ,
   },
   {
     IDchildren: 'strategic',
     icon: 'fa-flag',
     name: "นโยบาย&แผนยุทธศาสตร์",
     menuname: "m11",
+    orderby: 26 ,
     children: [
       {
         ex_link: '0',
@@ -2074,6 +2180,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     icon: 'fa-bolt',
     name: "คำสั่งต่าง ๆ",
     menuname: "m12",
+    orderby: 27 ,
     children: [
       {
         ex_link: '0',
@@ -2094,6 +2201,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
     menuname: "m13",
+    orderby: 28 ,
     children: [
       {
         ex_link: '1',
@@ -2144,6 +2252,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     icon: 'fa-map-marker',
     url: "/external/thaimap",
     name: "แผนที่",
+    orderby: 30 ,
     menuname: "m16",
   },
   {
@@ -2151,6 +2260,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
@@ -2179,12 +2289,14 @@ export const External: NavBar[] = [ //บุคคลภายนอก
     url: "/main",
     name: "หน้าหลัก",
     menuname: "m1",
+    orderby: 1 ,
   },
   {
     IDchildren: 'training_private',
     icon: 'fa-shekel-sign',
     name: "การฝึกอบรมหลักสูตร",
     menuname: "m15",
+    orderby: 33 ,
     children: [
       {
         ex_link: '0',
