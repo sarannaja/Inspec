@@ -46,11 +46,7 @@ export class InspectionorderComponent implements OnInit {
     this.year = year;
     this.order = order;
     this.createBy = createBy;
-    console.log(this.delid);
-    console.log(this.name);
-    console.log(this.year);
-    console.log(this.order);
-    console.log(this.createBy);
+   
     
     this.modalRef = this.modalService.show(template);
   }
@@ -64,7 +60,6 @@ export class InspectionorderComponent implements OnInit {
   }
 
   storeInspectionorder(value) {
-    // alert(JSON.stringify(value));
     this.inspectionorderservice.addInspectionorder(value, this.Form.value.files).subscribe(response => {
       console.log(value);
       this.Form.reset()

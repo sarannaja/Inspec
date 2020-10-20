@@ -1,18 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InstructionorderService {
-  url = "https://localhost:5001/api/instructionorder/";
 
-  constructor(private http:HttpClient) { }
+  url = "";
+  count = 0
+  constructor(private http:HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+    this.url = baseUrl + 'api/instructionorder/';
+  }
   getinstructionorder(){
     return this.http.get(this.url)
   }
   addInstructionorder(instructionorderData, file: FileList){
-     alert(JSON.stringify(instructionorderData))
+    // alert(JSON.stringify(instructionorderData))
     const formData = new FormData();
     formData.append('name',instructionorderData.name);
     formData.append('year',instructionorderData.year);
@@ -30,7 +33,7 @@ export class InstructionorderService {
   }
 
   editInstructionorder(instructionorderData,id) {
-    console.log(instructionorderData);
+  //  console.log(instructionorderData);
 
     const formData = new FormData();
     // alert(JSON.stringify(governmentinspectionplanData))
@@ -39,7 +42,7 @@ export class InstructionorderService {
     formData.append('order',instructionorderData.order);
     formData.append('createBy',instructionorderData.createBy);
     formData.append('detail',instructionorderData.detail);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
+   // console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put(this.url+id, formData);
   }
 }

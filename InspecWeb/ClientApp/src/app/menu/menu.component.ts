@@ -48,6 +48,13 @@ export class MenuComponent implements OnInit {
   m25: any = 1;
   m26: any = 1;
   m27: any = 1;
+  m28: any = 1;
+  m29: any = 1;
+  m30: any = 1;
+  m31: any = 1;
+  m32: any = 1;
+  m33: any = 1;
+  m34: any = 1;
   dtOptions: DataTables.Settings = {};
   arraynav: NavBar[] = []
   check_value: any[] = []
@@ -224,6 +231,13 @@ export class MenuComponent implements OnInit {
       m25: new FormControl(null, [Validators.required]),
       m26: new FormControl(null, [Validators.required]),
       m27: new FormControl(null, [Validators.required]),
+      m28: new FormControl(null, [Validators.required]),
+      m29: new FormControl(null, [Validators.required]),
+      m30: new FormControl(null, [Validators.required]),
+      m31: new FormControl(null, [Validators.required]),
+      m32: new FormControl(null, [Validators.required]),
+      m33: new FormControl(null, [Validators.required]),
+      m34: new FormControl(null, [Validators.required]),
 
     })
   }

@@ -49,6 +49,7 @@ namespace InspecWeb.Data.Seeders
                 M31 = 0,
                 M32 = 0,
                 M33 = 0,
+                M34 = 0,
 
             },
              new Menu
@@ -88,6 +89,7 @@ namespace InspecWeb.Data.Seeders
                  M31 = 0,
                  M32 = 0,
                  M33 = 0,
+                 M34 = 0,
              },
               new Menu
               {
@@ -126,6 +128,7 @@ namespace InspecWeb.Data.Seeders
                   M31 = 0,
                   M32 = 0,
                   M33 = 0,
+                  M34 = 0,
               },
                 new Menu
                 {
@@ -164,6 +167,7 @@ namespace InspecWeb.Data.Seeders
                     M31 = 0,
                     M32 = 0,
                     M33 = 0,
+                    M34 = 0,
                 },
                 new Menu
                 {
@@ -202,6 +206,7 @@ namespace InspecWeb.Data.Seeders
                     M31 = 0,
                     M32 = 0,
                     M33 = 0,
+                    M34 = 0,
                 },
                 new Menu
                 {
@@ -240,6 +245,7 @@ namespace InspecWeb.Data.Seeders
                     M31 = 0,
                     M32 = 1,
                     M33 = 0,
+                    M34 = 0,
                 },
                 new Menu
                 {
@@ -278,6 +284,7 @@ namespace InspecWeb.Data.Seeders
                     M31 = 1,
                     M32 = 0,
                     M33 = 0,
+                    M34 = 0,
                 },
                 new Menu
                 {
@@ -316,6 +323,7 @@ namespace InspecWeb.Data.Seeders
                     M31 = 0,
                     M32 = 0,
                     M33 = 0,
+                    M34 = 1,
                 },
                  new Menu
                  {
@@ -354,6 +362,7 @@ namespace InspecWeb.Data.Seeders
                      M31 = 0,
                      M32 = 0,
                      M33 = 1,
+                     M34 = 0,
                  },
                   new Menu
                   {
@@ -392,6 +401,7 @@ namespace InspecWeb.Data.Seeders
                       M31 = 0,
                       M32 = 1,
                       M33 = 0,
+                      M34 = 0,
                   },
                    new Menu
                    {
@@ -430,6 +440,7 @@ namespace InspecWeb.Data.Seeders
                        M31 = 0,
                        M32 = 0,
                        M33 = 0,
+                       M34 = 0,
                    }
             );
         }

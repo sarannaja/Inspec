@@ -3,7 +3,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
-      <li class="breadcrumb-item active">จัดการฐานข้อมูล</li>
+      <li class="breadcrumb-item active">ข้อมูลพื้นฐาน</li>
       <li class="breadcrumb-item active">กำหนดเขตตรวจราชการ</li>
     </ol>
   </nav>
@@ -27,6 +27,7 @@
               <th>คำสั่งกำหนดเขตตรวจราชการ</th>
               <th>ลงวันที่</th>
               <th>ระยะเวลา</th>
+              <th>สถานะ</th>
               <th>วันที่แก้ไข</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
@@ -35,14 +36,26 @@
             <tr *ngFor="let item of resultfiscalyear; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ item.year }}</td>
-              <td>{{item.orderdate | thaidate:'short'}}</td>
-              <td *ngIf="item.startDate != null; else elseBlock">
-                {{ item.startDate | thaidate:'short'}} - {{ item.endDate | thaidate:'short'}}
+              <td>{{item.orderdate  ? (item.orderdate | thaidate:'short'):"-"}}</td>
+              <td>
+                <span *ngIf="item.startDate != null">
+                  {{ item.startDate | thaidate:'short'}} - {{ item.endDate | thaidate:'short'}}
+                </span>
               </td>
-              <ng-template #elseBlock>
-                <td>{{item.updateAt | thaidate:'short'}}</td>
-              </ng-template>
-              <td></td>
+              <td>
+                <button *ngIf="item.active == 1" style="cursor: none;" class="btn btn-success btn-pill btn-sm" title="active" >
+                  Active
+                </button>
+
+                <button *ngIf="item.active == 0" class="btn btn-danger btn-pill btn-sm" title="inactive" 
+                  (click)="openModal(modaleditFiscalyear, item.id)">
+                    Inactive
+                </button>
+
+              </td>
+              <td>
+                <span *ngIf="item.updateAt != null" >{{item.updateAt | thaidate:'short'}}</span>
+              </td>
               <td>
                 <button class="btn btn-warning btn-pill btn-sm" title="กำหนดเขตตรวจ" (click)="DetailFiscalYear(item.id)">
                   <i class="align-middle fas fa-fw fa-map"></i>
