@@ -20,6 +20,7 @@ export class LecturerTrainingComponent implements OnInit {
   mainUrl: string;
   Form: FormGroup;
   EditForm: FormGroup;
+  submitted = false;
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -45,7 +46,7 @@ export class LecturerTrainingComponent implements OnInit {
     };
 
     this.Form = this.fb.group({
-      "LecturerType": new FormControl(null, [Validators.required]),
+      "LecturerType": new FormControl("", [Validators.required]),
       lecturername: new FormControl(null, [Validators.required]),
       lecturerphone: new FormControl(null, [Validators.required]),
       lectureremail: new FormControl(null, [Validators.required]),
@@ -63,6 +64,8 @@ export class LecturerTrainingComponent implements OnInit {
       console.log(this.resulttraining);
     })
   }
+  get f() { return this.Form.controls }
+
   CreateTraining(){
     this.router.navigate(['/training/createtraining'])
   }
@@ -74,20 +77,29 @@ export class LecturerTrainingComponent implements OnInit {
   }
 
   storeTraining(value) {
-    //alert(JSON.stringify(value))
-    this.trainingservice.addTraininglecturer(value).subscribe(response => {
-      console.log(value);
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      this.trainingservice.gettraininglecturer()
-      .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true;
-        console.log(this.resulttraining);
-      })
+    console.log(value);
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
 
-    })
+
+      //alert(JSON.stringify(value))
+      this.trainingservice.addTraininglecturer(value).subscribe(response => {
+        console.log(value);
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false;
+        this.trainingservice.gettraininglecturer()
+        .subscribe(result => {
+          this.resulttraining = result
+          this.loading = true;
+          console.log(this.resulttraining);
+        })
+
+      })
+    }
   }
 
   editModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience) {

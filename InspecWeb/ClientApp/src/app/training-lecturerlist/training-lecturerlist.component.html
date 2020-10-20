@@ -42,7 +42,7 @@
                             <td>{{ item.education }}</td> -->
                             <!-- <td><img src="{{downloadUrl}}/{{item.image}}" width="160" height="130"></td> -->
                             <td>
-                                <a href="/train/survey/{{trainingid}}" target="_blank">
+                                <a href="/train/survey/{{trainingid}}/{{item.trainingLecturerJoinSurveysId[i].id}}" target="_blank">
                                     {{ item.surveyName }}
                                 </a>
                             </td>
@@ -51,7 +51,7 @@
                                 <i class="align-middle mr-2 fas fa-file-medical pointer" title="ผูกแบบสอบถาม"
                                 (click)="surveyModal(modalSurveyTraining, item.trainingLecturerId)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-chart-bar pointer" title="ประมวณผลทางสถิติ"
-                                (click)="gotoProcessingTraining(item.trainingLecturerJoinSurveysId)"></i>
+                                (click)="gotoProcessingTraining(item.trainingLecturerJoinSurveysId[i].id)"></i>
                                 
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                     (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>-->

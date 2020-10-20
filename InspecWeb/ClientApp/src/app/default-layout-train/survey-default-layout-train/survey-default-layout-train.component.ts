@@ -7,6 +7,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NotofyService } from 'src/app/services/notofy.service';
 
 
 
@@ -69,6 +70,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
     public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     this.suveyjoinlecid = activatedRoute.snapshot.paramMap.get('suveyjoinlecid')
@@ -158,7 +160,10 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
           console.log(result);
           
         })
-      alert('เข้าหลังบ้านตรงนี้')
+
+        this.router.navigate(['/train/']);
+        this._NotofyService.onError("ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
+      //alert('เข้าหลังบ้านตรงนี้')
     //}
 
     console.log("check => ", value, this.check);

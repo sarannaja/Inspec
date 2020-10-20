@@ -39,6 +39,7 @@ export class ProgramTrainingComponent implements OnInit {
   dateOption: IMyOptions
   resulttrainingdetail: any[];
   lineChart: any;
+  submitted = false;
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
@@ -68,7 +69,7 @@ export class ProgramTrainingComponent implements OnInit {
     };
     this.Form = this.fb.group({
       TrainingPhaseId: this.trainingid,
-      programtype: new FormControl(null, [Validators.required]),
+      programtype: new FormControl("", [Validators.required]),
       programdate: new FormControl(null, [Validators.required]),
       mStart: new FormControl(null, [Validators.required]),
       mEnd: new FormControl(null, [Validators.required]),
@@ -251,20 +252,25 @@ export class ProgramTrainingComponent implements OnInit {
     //alert(this.form.value.files)
     console.log("viewdata:", value);
     console.log(this.Formfile.value.files);
-
-    this.trainingservice.addTrainingProgram(value, this.Formfile.value.files).subscribe(response => {
-      console.log("viewadddata:", value);
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      this.getprogramtraining();
-      // this.trainingservice.getprogramtraining(this.trainingid)
-      //   .subscribe(result => {
-      //     this.resulttraining = result
-      //     this.loading = true
-      //     //console.log(this.resulttraining);
-      //   })
-    })
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.trainingservice.addTrainingProgram(value, this.Formfile.value.files).subscribe(response => {
+        console.log("viewadddata:", value);
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false;
+        this.getprogramtraining();
+        // this.trainingservice.getprogramtraining(this.trainingid)
+        //   .subscribe(result => {
+        //     this.resulttraining = result
+        //     this.loading = true
+        //     //console.log(this.resulttraining);
+        //   })
+      })
+    }
   }
 
   uploadFile(event) {

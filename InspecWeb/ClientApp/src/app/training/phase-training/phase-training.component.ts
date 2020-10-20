@@ -38,6 +38,8 @@ export class PhaseTrainingComponent implements OnInit {
   resulttrainingdetail: any[];
   lineChart: any;
   // test: any = [];
+  submitted = false;
+  editid: any;
 
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
@@ -61,20 +63,20 @@ export class PhaseTrainingComponent implements OnInit {
           orderable: false
         }
       ],
-      "language": {
-        "lengthMenu": "แสดง  _MENU_  รายการ",
-        "search": "ค้นหา:",
-        "infoFiltered": "ไม่พบข้อมูล",
-        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-        "infoEmpty": "แสดง 0 ของ 0 รายการ",
-        "zeroRecords": "ไม่พบข้อมูล",
-        "paginate": {
-          "first": "หน้าแรก",
-          "last": "หน้าสุดท้าย",
-          "next": "ต่อไป",
-          "previous": "ย้อนกลับ"
-        },
-      }
+      // "language": {
+      //   "lengthMenu": "แสดง  _MENU_  รายการ",
+      //   "search": "ค้นหา:",
+      //   "infoFiltered": "ไม่พบข้อมูล",
+      //   "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+      //   "infoEmpty": "แสดง 0 ของ 0 รายการ",
+      //   "zeroRecords": "ไม่พบข้อมูล",
+      //   "paginate": {
+      //     "first": "หน้าแรก",
+      //     "last": "หน้าสุดท้าย",
+      //     "next": "ต่อไป",
+      //     "previous": "ย้อนกลับ"
+      //   },
+      // }
 
     };
     this.Form = this.fb.group({
@@ -119,7 +121,7 @@ export class PhaseTrainingComponent implements OnInit {
         this.resulttraining = result
         this.loading = true
         this.spinner.hide();
-        //console.log(this.resulttraining);
+        console.log(this.resulttraining);
       })
   }
 
@@ -197,26 +199,96 @@ export class PhaseTrainingComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  editModal(template: TemplateRef<any>, id, phaseno, startdate, enddate, title, detail, location, group) {
+    this.editid = id;
+    //console.log(this.delid);
 
+    this.modalRef = this.modalService.show(template);
+    this.EditForm = this.fb.group({
+      "phaseno": new FormControl(null, [Validators.required]),
+      "startdate": new FormControl(null, [Validators.required]),
+      "enddate": new FormControl(null, [Validators.required]),
+      "title": new FormControl(null, [Validators.required]),
+      "detail": new FormControl(null, [Validators.required]),
+      "location": new FormControl(null, [Validators.required]),
+      "group": new FormControl(null, [Validators.required]),
+    })
+
+            //console.log("element: ", element.startDate)
+            //const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
+            // let sDate: Date = new Date(startdate);
+            // let eDate: Date = new Date(enddate)
+            // console.log("EEE", sDate);
+
+            // this.d.push(this.fb.group({
+            //   startdate: {
+            //     year: sDate.getFullYear(),
+            //     month: sDate.getMonth() + 1,
+            //     day: sDate.getDate()
+            //   },
+            //   enddate: {
+            //     year: eDate.getFullYear(),
+            //     month: eDate.getMonth() + 1,
+            //     day: eDate.getDate()
+            //   }
+            // }))
+
+
+    this.EditForm.patchValue({
+      "phaseno": phaseno,
+      "startdate": startdate,
+      "enddate": enddate,
+      "title": title,
+      "detail": detail,
+      "location": location,
+      "group": group,
+    })
+  }
+
+  
   storeTraining(value) {
     console.log(value);
-    this.spinner.show();
-    // this.test = []
-    // for (let i = 0; i < value.group; i++) {
-    //   this.test.push({
-    //     id: i + 1
-    //   })
-    // }
-    // console.log(this.test);
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.spinner.show();
+      // this.test = []
+      // for (let i = 0; i < value.group; i++) {
+      //   this.test.push({
+      //     id: i + 1
+      //   })
+      // }
+      // console.log(this.test);
 
-    this.trainingservice.addTrainingPhase(value, this.trainingid).subscribe(response => {
-      console.log("viewdata:",value);
-      console.log("result:",response);
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false
-      this.getTrainingPhase()
-    })
+      this.trainingservice.addTrainingPhase(value, this.trainingid).subscribe(response => {
+        console.log("viewdata:",value);
+        console.log("result:",response);
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false
+        this.getTrainingPhase()
+      })
+    }
+  }
+
+
+  editTraining(value, id) {
+    console.log(value);
+    this.submitted = true;
+    if (this.EditForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.trainingservice.editTrainingPhase(value, id).subscribe(response => {
+        this.EditForm.reset()
+        this.modalRef.hide()
+        this.loading = false
+        this.getTrainingPhase()
+      
+      })
+    }
   }
 
   uploadFile(event) {
