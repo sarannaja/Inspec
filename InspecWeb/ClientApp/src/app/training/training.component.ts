@@ -98,5 +98,9 @@ export class TrainingComponent implements OnInit {
     this.router.navigate(['/training/manage/', trainingid])
   }
 
+  gotoEditTraining(trainingid){
+    this.router.navigate(['/training/edittraining/', trainingid])
+  }
+
   
 }

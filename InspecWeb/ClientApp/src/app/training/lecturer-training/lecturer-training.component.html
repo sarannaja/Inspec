@@ -69,15 +69,22 @@
                 <div class="modal-body m-3">
                     <div class="form-group">
                         <label for="test" class="form-label">ประเภทผู้ดำเนินรายการ</label>
-                        <select class="form-control select2" data-toggle="select2" formControlName="LecturerType">
-                            <option value=null>--กรุณาเลือกประเภทผู้ดำเนินรายการ--</option>
+                        <select class="form-control select2" data-toggle="select2" formControlName="LecturerType" [ngClass]="{ 'is-invalid': submitted && f.LecturerType.errors }">
+                            <option value="">--กรุณาเลือกประเภทผู้ดำเนินรายการ--</option>
                             <option value=1>วิทยากร</option>
                             <option value=2>ผู้ฝึกสอน</option>
                         </select>
+                        <div *ngIf="submitted && f.LecturerType.errors" class="invalid-feedback">
+                            <div *ngIf="f.LecturerType.errors.required">กรุณาเลือกประเภทผู้ดำเนินรายการ</div>
+                        </div>
                         <br>
                         <label for="test" class="form-label">ชื่อ-นามสกุล</label>
                         <input type="text" formControlName="lecturername" class="form-control"
-                            placeholder="กรุณากรอกชื่อวิทยากร">
+                            placeholder="กรุณากรอกชื่อวิทยากร" [ngClass]="{ 'is-invalid': submitted && f.lecturername.errors }">
+                            <div *ngIf="submitted && f.lecturername.errors" class="invalid-feedback">
+                                <div *ngIf="f.lecturername.errors.required">กรุณากรอกชื่อวิทยากร</div>
+                            </div>
+                            
                         <br>
                         <label class="form-label w-100">รูปถ่าย</label>
                         <input type="file" (change)="uploadFile($event)" Accept=".jpg, .jpeg, .png">
@@ -85,23 +92,38 @@
                         <br>
                         <label for="test" class="form-label">เบอร์โทรศัพท์</label>
                         <input type="text" formControlName="lecturerphone" class="form-control"
-                            placeholder="กรุณากรอกเบอร์โทรศัพท์">
+                            placeholder="กรุณากรอกเบอร์โทรศัพท์" [ngClass]="{ 'is-invalid': submitted && f.lecturerphone.errors }">
+                            <div *ngIf="submitted && f.lecturerphone.errors" class="invalid-feedback">
+                                <div *ngIf="f.lecturerphone.errors.required">กรุณากรอกเบอร์โทรศัพท์</div>
+                            </div>
                         <br>
                         <label for="test" class="form-label">E-mail</label>
                         <input type="text" formControlName="lectureremail" class="form-control"
-                            placeholder="กรุณากรอก E-mail">
+                            placeholder="กรุณากรอก E-mail" [ngClass]="{ 'is-invalid': submitted && f.lectureremail.errors }">
+                            <div *ngIf="submitted && f.lectureremail.errors" class="invalid-feedback">
+                                <div *ngIf="f.lectureremail.errors.required">กรุณากรอก E-mail</div>
+                            </div>
                         <br>
                         <label for="test" class="form-label">ประวัติการศึกษา</label>
                         <textarea formControlName="education" class="form-control"
-                            placeholder="กรุณากรอกประวัติการศึกษา"></textarea>
+                            placeholder="กรุณากรอกประวัติการศึกษา" [ngClass]="{ 'is-invalid': submitted && f.education.errors }"></textarea>
+                            <div *ngIf="submitted && f.education.errors" class="invalid-feedback">
+                                <div *ngIf="f.education.errors.required">กรุณากรอกประวัติการศึกษา</div>
+                            </div>
                         <br>
                         <label for="test" class="form-label">ประวัติการทำงาน</label>
                         <textarea formControlName="workhistory" class="form-control"
-                            placeholder="กรุณากรอกประวัติการทำงาน"></textarea>
+                            placeholder="กรุณากรอกประวัติการทำงาน" [ngClass]="{ 'is-invalid': submitted && f.workhistory.errors }"></textarea>
+                            <div *ngIf="submitted && f.workhistory.errors" class="invalid-feedback">
+                                <div *ngIf="f.workhistory.errors.required">กรุณากรอกประวัติการทำงาน</div>
+                            </div>
                         <br>
                         <label for="test" class="form-label">ประสบการณ์บรรยาย</label>
                         <textarea formControlName="experience" class="form-control"
-                            placeholder="กรุณากรอกประสบการณ์บรรยาย"></textarea>
+                            placeholder="กรุณากรอกประสบการณ์บรรยาย" [ngClass]="{ 'is-invalid': submitted && f.experience.errors }"></textarea>
+                            <div *ngIf="submitted && f.experience.errors" class="invalid-feedback">
+                                <div *ngIf="f.experience.errors.required">กรุณากรอกประสบการณ์บรรยาย</div>
+                            </div>
                     </div>
                 </div>
                 <div class="modal-footer">

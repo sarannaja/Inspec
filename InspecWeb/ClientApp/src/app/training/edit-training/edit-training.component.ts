@@ -1,15 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
 import { TrainingService } from 'src/app/services/training.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-create-training',
-  templateUrl: './create-training.component.html',
-  styleUrls: ['./create-training.component.css']
+  selector: 'app-edit-training',
+  templateUrl: './edit-training.component.html',
+  styleUrls: ['./edit-training.component.css']
 })
-export class CreateTrainingComponent implements OnInit {
+export class EditTrainingComponent implements OnInit {
 
   name: any
   detail: any
@@ -19,20 +19,25 @@ export class CreateTrainingComponent implements OnInit {
   regis_start_date: any
   regis_end_date: any
   Form: FormGroup;
+  EditForm: FormGroup;
   files: string[] = []
   inputdate: any = [{ start_date: '', end_date: '' }]
   form: FormGroup;
   formfile: FormGroup;
   downloadUrl: any;
   submitted = false;
+  trainingid: any;
+  resulttraining: any;
 
   constructor(private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
     private spinner: NgxSpinnerService,
+    private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.downloadUrl = baseUrl + '/Uploads'
+    this.trainingid = activatedRoute.snapshot.paramMap.get('id')
   }
 
   ngOnInit() {
@@ -46,18 +51,31 @@ export class CreateTrainingComponent implements OnInit {
       end_date: new FormControl(null, [Validators.required]),
       regis_start_date: new FormControl(null, [Validators.required]),
       regis_end_date: new FormControl(null, [Validators.required]),
-      // files: new FormControl(null, [Validators.required]),
-      // inputdate: new FormArray([]),
-      // lecturer_name: new FormControl(null, [Validators.required]),
-      // "test" : new FormControl(null,[Validators.required,this.forbiddenNames.bind(this)])
+
     })
     this.form = this.fb.group({
       files: [null]
     })
-    // this.d.push(this.fb.group({
-    //   start_date: '',
-    //   end_date: '',
-    // }))
+
+
+    this.trainingservice.getdetailtraining(this.trainingid)
+      .subscribe(result => {
+        this.resulttraining = result
+        console.log("resulttraining => ", this.resulttraining);
+        
+        this.Form.patchValue({
+          name: this.resulttraining[0].name,
+          detail: this.resulttraining[0].detail,
+          generation: this.resulttraining[0].generation,
+          year: this.resulttraining[0].year,
+          coursecode: this.resulttraining[0].courseCode,
+          start_date: this.resulttraining[0].startDate,
+          end_date: this.resulttraining[0].endDate,
+          regis_start_date: this.resulttraining[0].regisStartDate,
+          regis_end_date: this.resulttraining[0].regisEndDate,
+        });
+
+      })
   }
   storeTraining(value) {
 

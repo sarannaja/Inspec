@@ -46,7 +46,7 @@
                                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip"
                                     title="กำหนดการ" (click)="gotoProgramTraining(item.id)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                    (click)="openModal(modalProgram, item.id)"></i>
+                                    (click)="editModal(modalPhaseEdit, item.id, item.phaseNo, item.startDate, item.endDate, item.title, item.detail, item.location, item.group)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
                                     (click)="openModal(modaldelete, item.id)"></i>
                                 <i class="align-middle mr-2 fa fa-list-alt pointer" title="ตารางกิจกรรม"
@@ -77,7 +77,10 @@
                     <div class="form-group">
                         <label for="test" class="form-label">ช่วงที่</label>
                         <input type="number" formControlName="phaseno" class="form-control"
-                            placeholder="กรุณากรอกช่วงที่" maxlength="2">
+                            placeholder="กรุณากรอกช่วงที่" maxlength="2" [ngClass]="{ 'is-invalid': submitted && f.phaseno.errors }">
+                            <div *ngIf="submitted && f.phaseno.errors" class="invalid-feedback">
+                                <div *ngIf="f.phaseno.errors.required">กรุณากรอกช่วงที่</div>
+                            </div>
                         <br>
 
                         <div class="">
@@ -107,17 +110,26 @@
 
                         <label for="test" class="form-label">หัวข้อเรื่องช่วง</label>
                         <input type="text" formControlName="title" class="form-control"
-                            placeholder="กรุณากรอกหัวข้อเรื่อง">
+                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                            <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                                <div *ngIf="f.title.errors.required">กรุณากรอกหัวข้อเรื่องช่วง</div>
+                            </div>
                         <br>
 
                         <label for="test" class="form-label">รายละเอียดช่วง</label>
                         <input type="text" formControlName="detail" class="form-control"
-                            placeholder="กรุณากรอกรายละเอียดกิจกรรม">
+                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" [ngClass]="{ 'is-invalid': submitted && f.detail.errors }">
+                            <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+                                <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียดกิจกรรม</div>
+                            </div>
                         <br>
 
                         <label for="test" class="form-label">สถานที่</label>
                         <input type="text" formControlName="location" class="form-control"
-                            placeholder="กรุณากรอกสถานที่">
+                            placeholder="กรุณากรอกสถานที่" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                            <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                                <div *ngIf="f.location.errors.required">กรุณากรอกสถานที่</div>
+                            </div>
                         <br>
 
                         <label for="test" class="form-label">จำนวนกลุ่ม</label>
@@ -146,6 +158,100 @@
         <!-- </div> -->
     </ng-template>
     <!-- END primary modal -->
+
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modalPhaseEdit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+        <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value, editid)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">เพิ่มหลักสูตรอบรม(ช่วง)</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+                        <label for="test" class="form-label">ช่วงที่</label>
+                        <input type="number" formControlName="phaseno" class="form-control"
+                            placeholder="กรุณากรอกช่วงที่" maxlength="2" >
+                            
+                        <br>
+
+                        <div class="">
+                            <label>ระหว่างวันที่</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="form-group col-5">
+                                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+
+                            </div>
+
+
+                            <div class="form-group col-1" align="center">
+                                ถึง
+                            </div>
+
+
+                            <div class="form-group col-5">
+
+                                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
+
+                            </div>
+                        </div>
+                        <br>
+
+                        <label for="test" class="form-label">หัวข้อเรื่องช่วง</label>
+                        <input type="text" formControlName="title" class="form-control"
+                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง" >
+                            
+                        <br>
+
+                        <label for="test" class="form-label">รายละเอียดช่วง</label>
+                        <input type="text" formControlName="detail" class="form-control"
+                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" >
+                            
+                        <br>
+
+                        <label for="test" class="form-label">สถานที่</label>
+                        <input type="text" formControlName="location" class="form-control"
+                            placeholder="กรุณากรอกสถานที่" >
+                            
+                        <br>
+
+                        <label for="test" class="form-label">จำนวนกลุ่ม</label>
+                        <select class="form-control select2" data-toggle="select2" formControlName="group">
+                            <option value=null>กรุณาระบุจำนวนกลุ่ม</option>
+                            <option value=1>1 กลุ่ม</option>
+                            <option value=2>2 กลุ่ม</option>
+                            <option value=3>3 กลุ่ม</option>
+                            <option value=4>4 กลุ่ม</option>
+                            <option value=5>5 กลุ่ม</option>
+                            <option value=6>6 กลุ่ม</option>
+                            <option value=7>7 กลุ่ม</option>
+                            <option value=8>8 กลุ่ม</option>
+                            <option value=9>9 กลุ่ม</option>
+                            <option value=10>10 กลุ่ม</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+
+
 
     <!-- BEGIN primary modal -->
     <ng-template #modalDetailProgram class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"

@@ -73,6 +73,7 @@ import { RateloginTrainingReportComponent } from './training-report/ratelogin-tr
 import { TrainingSurveyLecturerComponent } from './training-surveylecturer/training-surveylecturer.component';
 import { TrainingProcessingComponent } from './training-processing/training-processing.component';
 
+import { EditTrainingComponent } from './training/edit-training/edit-training.component';
 //----------------
 
 import { ThaiDatePipe } from './services/Pipe/thaidate.service';
@@ -310,6 +311,7 @@ const ExternalOrganization = [
     RateloginTrainingReportComponent,
     TrainingSurveyLecturerComponent,
     TrainingProcessingComponent,
+    EditTrainingComponent,
     // TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,
@@ -535,7 +537,9 @@ const ExternalOrganization = [
           { path: 'training/lecturerlist/:id', component: TrainingLecturerListComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/surveylecturer', component: TrainingSurveyLecturerComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/survey/processing/:id', component: TrainingProcessingComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/edittraining/:id', component: EditTrainingComponent, canActivate: [AuthorizeGuard] },
           
+
           //---------------
           { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
           { path: 'subject/:id', component: SubjectComponent, canActivate: [AuthorizeGuard] },

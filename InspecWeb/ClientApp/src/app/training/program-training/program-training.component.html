@@ -52,8 +52,8 @@
                             <td>
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                   (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i> -->
-                                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                    (click)="openModal(modalProgram, item.id)"></i>
+                                <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
+                                    (click)="openModal(modalProgram, item.id)"></i> -->
                                 <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
                                     (click)="openModal(modaldelete, item.id)"></i>
                             </td>
@@ -81,45 +81,62 @@
                 <div class="modal-body m-3">
                     <div class="form-group">
                         <label for="test" class="form-label">ประเภทกิจกรรม</label>
-                        <select class="form-control select2" data-toggle="select2" formControlName="programtype">
-                            <option value=null>--กรุณาเลือกประเภทกิจกรรม--</option>
+                        <select class="form-control select2" data-toggle="select2" formControlName="programtype" [ngClass]="{ 'is-invalid': submitted && f.programtype.errors }">
+                            <option value="">--กรุณาเลือกประเภทกิจกรรม--</option>
                             <option value=1>ทั่วไป</option>
                             <option value=2>คณะฝึกปฏิบัติ</option>
                             <option value=3>คณะศึกษาดูงาน</option>
                         </select>
+                        <div *ngIf="submitted && f.programtype.errors" class="invalid-feedback">
+                            <div *ngIf="f.programtype.errors.required">กรุณาเวลาเริ่ม</div>
+                        </div>
                         <br>
 
                         <label for="test" class="form-label">วันที่</label>
-                        <my-date-picker-th formControlName="programdate"    [options]="dateOption" required>
+                        <my-date-picker-th formControlName="programdate" [options]="dateOption" required>
                         </my-date-picker-th>
                         <!-- <input type="text" formControlName="programdate" class="form-control" placeholder="กรุณากรอกวันที่กำหนดการ"> -->
                         <br>
                         <div class="input-group">
                             <label for="test" class="form-label">เวลาเริ่ม &nbsp;</label>
                             <input type="text" formControlName="mStart" class="form-control" placeholder="Ex 00.00"
-                                maxlength="5">
+                                maxlength="5" [ngClass]="{ 'is-invalid': submitted && f.mStart.errors }">
+                                <div *ngIf="submitted && f.mStart.errors" class="invalid-feedback">
+                                    <div *ngIf="f.mStart.errors.required">กรุณาเวลาเริ่ม</div>
+                                </div>
 
                             <br>
                             <label for="test" class="form-label">&nbsp; ถึง &nbsp;</label>
                             <input type="text" formControlName="mEnd" class="form-control" placeholder="Ex 00.00"
-                                maxlength="5">
+                                maxlength="5" [ngClass]="{ 'is-invalid': submitted && f.mEnd.errors }">
+                                <div *ngIf="submitted && f.mEnd.errors" class="invalid-feedback">
+                                    <div *ngIf="f.mEnd.errors.required">กรุณาเวลาสิ้นสุด</div>
+                                </div>
                         </div>
                         <br>
                         <label for="test" class="form-label">หัวข้อเรื่อง</label>
                         <input type="text" formControlName="programtopic" class="form-control"
-                            placeholder="กรุณากรอกหัวข้อเรื่อง">
+                            placeholder="กรุณากรอกหัวข้อเรื่อง" [ngClass]="{ 'is-invalid': submitted && f.programtopic.errors }">
+                            <div *ngIf="submitted && f.programtopic.errors" class="invalid-feedback">
+                                <div *ngIf="f.programtopic.errors.required">กรุณากรอกหัวข้อเรื่อง</div>
+                            </div>
                         <br>
                         <label for="test" class="form-label">รายละเอียดกิจกรรม</label>
                         <input type="text" formControlName="programdetail" class="form-control"
-                            placeholder="กรุณากรอกรายละเอียดกิจกรรม">
+                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" [ngClass]="{ 'is-invalid': submitted && f.programdetail.errors }">
+                            <div *ngIf="submitted && f.programdetail.errors" class="invalid-feedback">
+                                <div *ngIf="f.programdetail.errors.required">กรุณากรอกรายละเอียดกิจกรรม</div>
+                            </div>
                         <br>
                         <label for="test" class="form-label">สถานที่</label>
                         <input type="text" formControlName="programlocation" class="form-control"
                             placeholder="กรุณากรอกสถานที่">
+                            
                         <br>
                         <label for="test" class="form-label">การแต่งกาย</label>
                         <input type="text" formControlName="programtodress" class="form-control"
                             placeholder="กรุณากรอกการแต่งกาย">
+                            
                         <br>
                         <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกวิทยากร" [multiple]="true"   [items]="selectdatalecturer"

@@ -445,6 +445,22 @@ export class TrainingService {
     // console.log('FORMDATA: ' + formData.get("StartDate"));
     return this.http.post(this.url + "phase", formData);
   }
+
+  editTrainingPhase(trainingData, id) {
+    console.log(trainingData);
+    var group: any = parseInt(trainingData.group)
+    const formData = new FormData();
+    formData.append('PhaseNo', trainingData.phaseno);
+    formData.append('Title', trainingData.title);
+    formData.append('Detail', trainingData.detail);
+    formData.append('StartDate', trainingData.startdate.date.year + '-' + trainingData.startdate.date.month + '-' + trainingData.startdate.date.day);
+    formData.append('EndDate', trainingData.enddate.date.year + '-' + trainingData.enddate.date.month + '-' + trainingData.enddate.date.day);
+    formData.append('Location', trainingData.location);
+    formData.append('Group', group);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'phase/edit/' + id, formData);
+  }
+
   deleteTrainingPhase(trainingid) {
     return this.http.delete(this.url + 'phase/delete/' + trainingid);
   }

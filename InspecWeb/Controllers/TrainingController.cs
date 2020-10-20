@@ -1277,23 +1277,25 @@ namespace InspecWeb.Controllers
 
 
                 var SurveyTopicName = "";
-                long vTrainingLecturerJoinSurveysId;
+                long vTrainingLecturerJoinSurveysId = 0;
                 foreach (var xxx in test2)
                 {
                     vTrainingLecturerJoinSurveysId = xxx.Id;
                     SurveyTopicName = xxx.TrainingSurveyTopic.Name;
 
-                    result.Add(new
-                    {
-                        TrainingLecturerJoinSurveysId = vTrainingLecturerJoinSurveysId,
-                        trainingLecturerId = test.TrainingLecturerId,
-                        trainingLecturerName = test.TrainingLecturer.LecturerName,
-                        SurveyName = SurveyTopicName
-                    });
+                   
+
 
                 }
 
-                
+                result.Add(new
+                {
+                    TrainingLecturerJoinSurveysId = test2,
+                    trainingLecturerId = test.TrainingLecturerId,
+                    trainingLecturerName = test.TrainingLecturer.LecturerName,
+                    SurveyName = SurveyTopicName
+                });
+
 
 
             }
@@ -1534,6 +1536,24 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
             return Ok(new { status = true });
+        }
+
+        // PUT : api/training/phase/edit/:id
+        [HttpPut("phase/edit/{id}")]
+        public void EditTrainingPhase(long id, long PhaseNo, DateTime StartDate, DateTime EndDate, string Title, string Detail, string Location, long Group)
+        {
+            var training = _context.TrainingPhases.Find(id);
+            training.PhaseNo = PhaseNo;
+            training.StartDate = StartDate;
+            training.EndDate = EndDate;
+            training.Title = Title;
+            training.Detail = Detail;
+            training.Location = Location;
+            training.Group = Group;
+
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
         }
 
         // DELETE : api/training/phase/delete/:id

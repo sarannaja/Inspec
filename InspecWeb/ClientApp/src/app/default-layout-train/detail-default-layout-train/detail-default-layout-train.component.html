@@ -142,7 +142,8 @@
                         </tr>
                     </tbody>
                 </table>
-                <h5><a href="train/list/{{ trainingid }}">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</a></h5>
+                <!-- <h5><a href="train/list/{{ trainingid }}">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</a></h5> -->
+                <h5><label (click)="gotoApproveRegisterTraining()">ประกาศรายชื่อผู้เข้ารับการฝึกอบรม</label></h5>
                 เอกสารเพิ่มเติม
                 <table *ngIf="loading" class="">
                   <tbody>
