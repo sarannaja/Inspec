@@ -42,13 +42,15 @@
               <td>{{ item.createBy }}</td>
               <td>{{ item.detail }}</td>
               <td ><a *ngIf="item.file != 'NULL' " href="assets/InstructionorderFile/{{item.file}}" download>{{ item.file }}</a></td>
-              <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td>
+              <td>{{item.createdAt  ? (item.createdAt | thaidate:'short'):"-"}}</td>
               <td>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openModal(modaleditInstructionorder, item.id, item.year, item.order, item.name, item.createBy, item.detail , item.file)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldeleteInstructionorder, item.id)"></i>
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" 
+                  (click)="openModal(modaleditInstructionorder, item.id, item.year, item.order, item.name, item.createBy, item.detail , item.file)">
+                  <i class="align-middle  fas fa-fw fa-pen "></i>
+                </button>
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldeleteInstructionorder, item.id)">
+                  <i class="align-middle  fas fa-fw fa-trash-alt "></i>
+                </button>
               </td>
             </tr>
           </tbody>

@@ -1,18 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InspectionorderService {
-  url = "https://localhost:5001/api/inspectionorder/";
-
-  constructor(private http:HttpClient) { }
+  url = "";
+  count = 0
+  constructor(private http:HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+    this.url = baseUrl + 'api/inspectionorder/';
+  }
   getinspectionorder(){
     return this.http.get(this.url)
   }
   addInspectionorder(inspectionorderData, file: FileList){
-     alert(JSON.stringify(inspectionorderData))
+     //alert(JSON.stringify(inspectionorderData))
     const formData = new FormData();
     formData.append('name',inspectionorderData.name);
     formData.append('year',inspectionorderData.year);

@@ -79,27 +79,27 @@ export class InstructionorderComponent implements OnInit {
   storeInstructionorder(value) {
     // alert(JSON.stringify(value));
     this.instructionorderservice.addInstructionorder(value, this.Form.value.files).subscribe(response => {
-      console.log(value);
+     // console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.instructionorderservice.getinstructionorder().subscribe(result => {
         this.resultInstructionorder = result
-        console.log(this.resultInstructionorder);
+       // console.log(this.resultInstructionorder);
       })
     })
   }
   deleteInstructionorder(value) {
     this.instructionorderservice.deleteInstructionorder(value).subscribe(response => {
-      console.log(value);
+   //   console.log(value);
       this.modalRef.hide()
       this.instructionorderservice.getinstructionorder().subscribe(result => {
         this.resultInstructionorder = result
-        console.log(this.resultInstructionorder);
+      //  console.log(this.resultInstructionorder);
       })
     })
   }
   editInstructionorder(value,delid) {
-    console.log(value);
+   // console.log(value);
     this.instructionorderservice.editInstructionorder(value,delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
