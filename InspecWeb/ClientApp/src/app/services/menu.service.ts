@@ -21,7 +21,7 @@ export class MenuService {
     return this.http.get<any[]>(this.url + 'getmenulistdata/')
   }
   getmenudata(id: any) {
-    return this.http.get<any[]>(this.url + 'getmenu/' + id)
+    return this.http.get<any>(this.url + 'getmenu/' + id)
   }
   update(data: any[], id) {
 

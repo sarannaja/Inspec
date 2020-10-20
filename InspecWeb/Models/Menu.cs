@@ -128,6 +128,30 @@ namespace InspecWeb.Models
         [Description("M")]
         public long M27 { get; set; }
 
+        [Required]
+        [Description("M")]
+        public long M28 { get; set; }
+
+        [Required]
+        [Description("M")]
+        public long M29 { get; set; }
+
+        [Required]
+        [Description("M")]
+        public long M30 { get; set; }
+
+        [Required]
+        [Description("M")]
+        public long M31 { get; set; }
+
+        [Required]
+        [Description("M")]
+        public long M32 { get; set; }
+
+        [Required]
+        [Description("M")]
+        public long M33 { get; set; }
+
 
 
         [Description("วันที่สร้าง")]

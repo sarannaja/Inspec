@@ -1017,7 +1017,7 @@ export const Adminprovince: NavBar[] = [ //หัวหน้าสำนัก�
     icon: 'fa-calendar',
     url: "/inspectionplanevent",
     name: "ปฏิทินการตรวจราชการ",
-    menuname: "m3",
+    menuname: "m29",
   },
   {
     icon: 'fa-book',
@@ -1212,7 +1212,7 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     IDchildren: 'calendarmenu',
     icon: 'fa-calendar',
     name: "ปฏิทินการตรวจราชการ",
-    menuname: "m3",
+    menuname: "m30",
     children: [
       {
         ex_link: '0',
@@ -1238,7 +1238,7 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     IDchildren: 'electronicbook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    menuname: "m4",
+    menuname: "m32",
     children: [
       {
         ex_link: '0',
@@ -1322,6 +1322,7 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
     IDchildren: 'contactpersonnel',
     icon: 'fa-user-tie',
     name: "ข้อมูลการติดต่อบุคลากร",
+    menuname:"m13",
     children: [
       {
         ex_link: '1',
@@ -1419,7 +1420,7 @@ export const publicsector: NavBar[] = [ //ภาคประชาชน
     icon: 'fa-calendar',
     url: "/calendaruser",
     name: "ปฏิทินการตรวจราชการ",
-    menuname: "m7",
+    menuname: "m31",
     // bridge:{name:'ปฏิทินการตรวจราชการ',status:true}
   },
   {
@@ -1775,7 +1776,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     IDchildren: 'schedule',
     icon: 'fa-calendar',
     name: "กำหนดการตรวจราชการ",
-    menuname: "m18",
+    menuname: "m28",
     children: [
       {
         ex_link: '0',
@@ -1807,7 +1808,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     IDchildren: 'electronicBook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    menuname: "m4",
+    menuname: "m33",
     children: [
       {
         ex_link: '0',
@@ -1981,7 +1982,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     IDchildren: 'calendarmenu',
     icon: 'fa-calendar',
     name: "ปฏิทินการตรวจราชการ",
-    menuname: "m3",
+    menuname: "m30",
     children: [
       {
         ex_link: '0',
@@ -2008,7 +2009,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
     url: '/electronicbook/invited',
-    menuname: "m4",
+    menuname: "m32",
     children: [
       {
         ex_link: '0',

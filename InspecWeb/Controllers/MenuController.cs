@@ -69,6 +69,12 @@ namespace InspecWeb.Controllers
             menu.M25 = request.m25;
             menu.M26 = request.m26;
             menu.M27 = request.m27;
+            menu.M28 = request.m28;
+            menu.M29 = request.m29;
+            menu.M30 = request.m30;
+            menu.M31 = request.m31;
+            menu.M32 = request.m32;
+            menu.M33 = request.m33;
 
 
             _context.Entry(menu).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -109,4 +115,10 @@ public class MenuRequest
     public long m25 { get; set; }
     public long m26 { get; set; }
     public long m27 { get; set; }
+    public long m28 { get; set; }
+    public long m29 { get; set; }
+    public long m30 { get; set; }
+    public long m31 { get; set; }
+    public long m32 { get; set; }
+    public long m33 { get; set; }
 }
