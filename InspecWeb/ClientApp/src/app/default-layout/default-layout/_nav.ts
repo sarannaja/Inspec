@@ -1808,7 +1808,7 @@ export const InspectorExamination: NavBar[] = [ //หน่วยรับตร
     IDchildren: 'electronicBook',
     icon: 'fa-book',
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    menuname: "m4",
+    menuname: "m33",
     children: [
       {
         ex_link: '0',
