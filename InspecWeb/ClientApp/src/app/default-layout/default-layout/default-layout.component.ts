@@ -368,6 +368,12 @@ export class DefaultLayoutComponent implements OnInit {
                   this.nav = this.arraynav.filter(function (item) {
                     return mock_menu_disable.indexOf(item.menuname) == -1;
                   })
+
+                  this.nav = mock_menu_disable.map((item) => {
+                    let obj = this.arraynav.find(x => x.menuname == item)
+                    return obj
+
+                  });
                   console.log('  this.nav', this.nav);
 
                 });
