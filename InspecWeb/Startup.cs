@@ -39,6 +39,7 @@ namespace InspecWeb
             //     options.AddPolicy ("DefaultCorsPolicy",
             //         builder => builder.AllowAnyOrigin ().AllowAnyHeader ().AllowAnyMethod ());
             // });
+            // services.AddHostedService<CronJobService>();
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
@@ -85,7 +86,8 @@ namespace InspecWeb
             // เพิ่ม controller ไว้สำหรับทำ cronjob
             services.AddTransient<Controllers.UtinityController, Controllers.UtinityController>();
             //end เพิ่ม controller ไว้สำหรับทำ cronjob
-
+            services.AddControllers();
+            services.AddHostedService<MyTestHostedService>();
             services.AddMvc()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .ConfigureApiBehaviorOptions(options =>
@@ -108,7 +110,7 @@ namespace InspecWeb
             services.AddTransient<IMailService, Services.MailService>();
             //end mail
 
-            services.AddHostedService<CronJobService>();
+            // services.AddSingleton<CronJobService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory

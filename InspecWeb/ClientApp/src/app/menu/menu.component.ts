@@ -191,15 +191,16 @@ export class MenuComponent implements OnInit {
     // .subscribe(result => { 
 
     // })
-    console.log(this.menuService.update(this.check_value,this.id));
-
-    // console.log(this.id);
-    this.check_value.map(result => {
-      if (result.status == 0) {
-
-        // console.log(result.menuname)
-      }
+    this.menuService.update(this.check_value, this.id).subscribe(result => {
+      this.modalRef.hide()
     })
+    // console.log(this.id);
+    // this.check_value.map(result => {
+    //   if (result.status == 0) {
+
+    //     // console.log(result.menuname)
+    //   }
+    // })
 
   }
   form() {

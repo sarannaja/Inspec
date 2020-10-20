@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InspecWeb.Data;
 using InspecWeb.Services;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Http;
@@ -16,12 +17,18 @@ namespace InspecWeb.Controllers
     [ApiController]
     public class UtinityController : ControllerBase
     {
+        private readonly IServiceScopeFactory scopeFactory;
         private readonly IMailService mailService;
+        private static ApplicationDbContext _context;
         public UtinityController(
-            IMailService mailService
+            ApplicationDbContext context,
+            IMailService mailService,
+            IServiceScopeFactory scopeFactory
         )
         {
             this.mailService = mailService;
+            this.scopeFactory = scopeFactory;
+            _context = context;
         }
 
         // POST: ตัวอย่างการส่ง email 
@@ -46,9 +53,20 @@ namespace InspecWeb.Controllers
             }
 
         }
+
         //cronjob เดี๋ยยวค่อยอธิบาย
         public void Process()
         {
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var menu = dbContext.Menu
+             .Where(m => m.Role_id == 1).FirstOrDefault();
+
+            }
+
+
+            // return Ok(menu);
             Console.WriteLine("ta kai yung hen log nee is saran yung mai dai tum cronjob 5555+ as " + DateTime.Now.ToString("F"));
         }
 
