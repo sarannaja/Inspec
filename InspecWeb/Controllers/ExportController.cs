@@ -1565,36 +1565,78 @@ namespace InspecWeb.Controllers
 
             System.Console.WriteLine("Edit 1");
 
-            var removeReportGroup = _context.ImportReportGroups
-                .Where(x => x.ImportReportId == model.reportId)
-                .ToList();
+            //var removeReportGroup = _context.ImportReportGroups
+            //    .Where(x => x.ImportReportId == model.reportId)
+            //    .ToList();
 
-            foreach (var item in removeReportGroup)
-            {
-                // var remove = _context.ImportReportGroups
-                // .Where(x => x.ImportReportId == item.Id)
-                // .FirstOrDefault();
+            //foreach (var item in removeReportGroup)
+            //{
+            //    // var remove = _context.ImportReportGroups
+            //    // .Where(x => x.ImportReportId == item.Id)
+            //    // .FirstOrDefault();
 
-                var removeData = _context.ImportReportGroups.Find(item.Id);
-                _context.ImportReportGroups.Remove(removeData);
-                _context.SaveChanges();
-            }
+            //    var removeData = _context.ImportReportGroups.Find(item.Id);
+            //    _context.ImportReportGroups.Remove(removeData);
+            //    _context.SaveChanges();
+            //}
+            //_context.SaveChanges();
+            //System.Console.WriteLine("Edit 2");
 
-            System.Console.WriteLine("Edit 2");
+            //foreach (var centralPolicyEventId in model.centralPolicyEventId)
+            //{
+            //    System.Console.WriteLine("reportId => " + model.reportId);
+            //    System.Console.WriteLine("centralPolicyEventId => " + centralPolicyEventId);
+            //    var importReportGroupData = new ImportReportGroup
+            //    {
+            //        ImportReportId = model.reportId,
+            //        CentralPolicyEventId = centralPolicyEventId
+            //    };
+            //    System.Console.WriteLine("dddd");
+            //    _context.ImportReportGroups.Add(importReportGroupData);
+            //    _context.SaveChanges();
+            //    System.Console.WriteLine("xxxx");
+            //}
+            //_context.SaveChanges();
+            //System.Console.WriteLine("Edit 3");
 
-            foreach (var centralPolicyEventId in model.centralPolicyEventId)
-            {
-                var importReportGroupData = new ImportReportGroup
-                {
-                    ImportReportId = model.reportId,
-                    CentralPolicyEventId = centralPolicyEventId
-                };
+            //if (model.centralPolicyEventId != null)
+            //{
+            //    System.Console.WriteLine("edit 2.1: " + model.centralPolicyEventId.Length);
+            //    foreach (var centralPolicyEventId in model.centralPolicyEventId)
+            //    {
+            //        var removeReportGroup2 = _context.ImportReportGroups
+            //   .Where(x => x.ImportReportId == model.reportId && x.CentralPolicyEventId == centralPolicyEventId)
+            //   .ToList();
 
-                _context.ImportReportGroups.Add(importReportGroupData);
-                _context.SaveChanges();
-            }
+            //        System.Console.WriteLine("addProvince" + removeReportGroup2);
 
-            System.Console.WriteLine("Edit 3");
+            //        if (removeReportGroup2.Count() == 0)
+            //        {
+            //            var importReportGroupData = new ImportReportGroup
+            //            {
+            //                ImportReportId = model.reportId,
+            //                CentralPolicyEventId = centralPolicyEventId
+            //            };
+            //            System.Console.WriteLine("dddd");
+            //            _context.ImportReportGroups.Add(importReportGroupData);
+            //            _context.SaveChanges();
+            //        }
+            //        else
+            //        {
+            //            var removeReportGroup3 = _context.ImportReportGroups
+            // .Where(x => x.ImportReportId == model.reportId && x.CentralPolicyEventId == centralPolicyEventId)
+            // .FirstOrDefault();
+            //            {
+            //                removeReportGroup3.ImportReportId = model.reportId;
+            //                removeReportGroup3.CentralPolicyEventId = centralPolicyEventId;
+            //            }
+
+            //            _context.Entry(removeReportGroup3).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //            _context.SaveChanges();
+            //        }
+            //        System.Console.WriteLine("edit 3");
+            //    }
+            //}
 
             return Ok(new { status = true });
         }
@@ -2159,7 +2201,8 @@ namespace InspecWeb.Controllers
                             //.ThenInclude(m => m.Province)
                             .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
                             .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
-                                             .Select(x => new {
+                                             .Select(x => new
+                                             {
                                                  centralPolicyId = x.CentralPolicyId,
                                                  startDate = x.StartDate,
                                                  title = x.CentralPolicy.Title,
@@ -2184,7 +2227,8 @@ namespace InspecWeb.Controllers
                             //.Include(m => m.InspectionPlanEvent)
                             //.ThenInclude(m => m.Province)
                             .Where(m => m.InspectionPlanEvent.ProvinceId == region.ProvinceId)
-                                             .Select(x => new {
+                                             .Select(x => new
+                                             {
                                                  centralPolicyId = x.CentralPolicyId,
                                                  startDate = x.StartDate,
                                                  title = x.CentralPolicy.Title,
@@ -2216,7 +2260,8 @@ namespace InspecWeb.Controllers
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2241,7 +2286,8 @@ namespace InspecWeb.Controllers
                         //.Include(m => m.InspectionPlanEvent)
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2271,7 +2317,8 @@ namespace InspecWeb.Controllers
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2297,7 +2344,8 @@ namespace InspecWeb.Controllers
                         //.Include(m => m.InspectionPlanEvent)
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2327,7 +2375,8 @@ namespace InspecWeb.Controllers
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.CreatedBy == model.peopleId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2353,7 +2402,8 @@ namespace InspecWeb.Controllers
                         //.Include(m => m.InspectionPlanEvent)
                         //.ThenInclude(m => m.Province)
                         .Where(m => m.InspectionPlanEvent.CreatedBy == model.peopleId)
-                                         .Select(x => new {
+                                         .Select(x => new
+                                         {
                                              centralPolicyId = x.CentralPolicyId,
                                              startDate = x.StartDate,
                                              title = x.CentralPolicy.Title,
@@ -2992,8 +3042,10 @@ namespace InspecWeb.Controllers
                             if (testData[kk].TrainingCondition.Name == "เกณฑ์รับสมัครต้องมีอายุอยู่ระหว่าง")
                             {
                                 t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
-                            } else { 
-                            t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
+                            }
+                            else
+                            {
+                                t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
                             }
                         }
                         else if (testData[kk].Status == 0)
@@ -3044,11 +3096,12 @@ namespace InspecWeb.Controllers
                  //.Include(m => m.InspectionPlanEvent)
                  //.ThenInclude(m => m.Province)
                  .Where(m => m.InspectionPlanEvent.ProvinceId == id)
-                 .Select(x => new {
+                 .Select(x => new
+                 {
                      centralPolicyId = x.CentralPolicyId,
-                    startDate = x.StartDate,
-                    title = x.CentralPolicy.Title,
-                    status = x.InspectionPlanEvent.Status,
+                     startDate = x.StartDate,
+                     title = x.CentralPolicy.Title,
+                     status = x.InspectionPlanEvent.Status,
                      province = x.InspectionPlanEvent.Province.Name,
                      namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
                      phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
@@ -3058,6 +3111,6 @@ namespace InspecWeb.Controllers
             return Ok(calendar);
         }
 
-  
+
     }
 }
