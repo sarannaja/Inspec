@@ -92,6 +92,9 @@ export class DefaultLayoutComponent implements OnInit {
     this.arraynav = _.uniqBy(this.arraynav, function (e) {
       return e.url
     }).concat(this.arraynav.filter(result => result.url == null))
+    // this.arraynav = arraynav
+    console.log('this.arraynav', this.arraynav);
+
   }
   // 0C-54-15-66-C2-D6
 
@@ -267,14 +270,14 @@ export class DefaultLayoutComponent implements OnInit {
           this.notificationService.getCentralPolicyProvince(centralPolicyId, provinceId).subscribe(result => {
 
             //  location.href = '/subjectevent/detail/' + result, { subjectgroupid: xe, };
-             location.href = '/subjectevent/detail/' + result + ';subjectgroupid=' + xe
+            location.href = '/subjectevent/detail/' + result + ';subjectgroupid=' + xe
           })
         }
         else if (statusid == 7) { //song
           this.notificationService.getElectronicBookUserInvite(userId, xe).subscribe(res => {
             console.log("inviteId: ", res);
             //  location.href = 'electronicbook/invitedetail/' + xe, { ebookInviteId: res };
-             location.href = 'electronicbook/invitedetail/' + xe + ';ebookInviteId=' + res;
+            location.href = 'electronicbook/invitedetail/' + xe + ';ebookInviteId=' + res;
 
           })
         }
@@ -290,7 +293,7 @@ export class DefaultLayoutComponent implements OnInit {
           this.notificationService.getElectronicBookProvincialDepartment(provinceId, xe).subscribe(res => {
             console.log("inviteId: ", res);
             //  location.href = '/electronicbook/departmentdetail/' + xe, { electronicBookProvincialDepartmentId: res };
-             location.href = '/electronicbook/departmentdetail/' + xe + ';electronicBookProvincialDepartmentId=' + res;
+            location.href = '/electronicbook/departmentdetail/' + xe + ';electronicBookProvincialDepartmentId=' + res;
           })
         }
         else if (statusid == 8) { //song
@@ -303,83 +306,99 @@ export class DefaultLayoutComponent implements OnInit {
         // this.checkactive(this.nav[0].url);
       })
   }
-
+  getUser: boolean = true
   //start getuser
   getuserinfo() {
     this.authorize.getUser()
       .subscribe(result => {
-        this.userid = result.sub
-        this.userService.getuserfirstdata(this.userid)
-          .subscribe(result => {
-            this.resultuser = result;
-            //  console.log('dataxx',result);
 
-            this.role_id = result[0].role_id
-            this.Prefix = result[0].prefix
-            this.Name = result[0].name
-            this.FName = result[0].firstnameth
-            this.LName = result[0].lastnameth
-            this.Position = result[0].position
-            this.PhoneNumber = result[0].phoneNumber
-            this.Email = result[0].email
-            this.Img = result[0].img
-            this.Signature = result[0].signature
-            this.UserName = result[0].userName
-
-            this.Form.patchValue({
-              Prefix: this.Prefix,
-              FName: this.Name,
-              LName: this.Name,
-              Position: this.Position,
-              PhoneNumber: this.PhoneNumber,
-              Email: this.Email,
-              Formprofile: 1,
-              files: this.files,
-              Img: this.Img,
-              Signature: this.Signature,
-              UserName: this.UserName
-            });
-            // this.nav 
-            this.menuService.getmenudata(this.role_id)
+        if (this.getUser) {
+          this.getUser = false
+          this.userid = result.sub
+          this.userService.getuserfirstdata(this.userid)
             .subscribe(result => {
-            let mock_menu_disable = result
 
-             // mock_menu_disable คือตัวแปรสำหรับแทนที่ดึงมาจาก service และดึง key ของแตค่ล่ะตัวที่ไม่ใช่ 0
-              let o: any[] = mock_menu_disable
-              .filter(j => { return Object.values(j)[0] == 1 })
-              .map(j => Object.keys(j)[0])
-                //สำหรับฟิลเตอร์ nav 
-                this.nav = this.arraynav.filter(function (item) {
-                  return o.indexOf(item.menuname) !== -1;
-                })
+              this.resultuser = result;
+              //  console.log('dataxx',result);
 
-            });
-           
-            // if (this.role_id == 1) {
-            //   this.nav = superAdmin //ซุปเปอร์แอดมิน
-            // } else if (this.role_id == 2) {
-            //   this.nav = Centraladmin //แอดมินส่วนกลาง
-            // } else if (this.role_id == 3) {
-            //   this.nav = Inspector //ผู้ตรวจราชการ
-            // } else if (this.role_id == 4) {
-            //   this.nav = Provincialgovernor //ผู้ว่าราชการจังหวัด
-            // } else if (this.role_id == 5) {
-            //   this.nav = Adminprovince //หัวหน้าสำนักงานจังหวัด
-            // } else if (this.role_id == 6) {
-            //   this.nav = InspectorMinistry // ผู้ตรวจกระทรวง
-            // } else if (this.role_id == 7) {
-            //   this.nav = publicsector // ผู้ตรวจภาคประชาชน
-            // } else if (this.role_id == 8) {
-            //   this.nav = president // ผู้บริหาร หรือ นายก รองนายก
-            // } else if (this.role_id == 9) {
-            //   this.nav = InspectorExamination //หน่วยงานตรวจ
-            // } else if (this.role_id == 10) {
-            //   this.nav = InspectorDepartment // ผู้ตรวจกรม
-            // } else if (this.role_id == 11) {
-            //   this.nav = External // ภายนอก
-            // }
-            // this.bridge2.push(bridge)
-          })
+              this.role_id = result[0].role_id
+              this.Prefix = result[0].prefix
+              this.Name = result[0].name
+              this.FName = result[0].firstnameth
+              this.LName = result[0].lastnameth
+              this.Position = result[0].position
+              this.PhoneNumber = result[0].phoneNumber
+              this.Email = result[0].email
+              this.Img = result[0].img
+              this.Signature = result[0].signature
+              this.UserName = result[0].userName
+
+              this.Form.patchValue({
+                Prefix: this.Prefix,
+                FName: this.Name,
+                LName: this.Name,
+                Position: this.Position,
+                PhoneNumber: this.PhoneNumber,
+                Email: this.Email,
+                Formprofile: 1,
+                files: this.files,
+                Img: this.Img,
+                Signature: this.Signature,
+                UserName: this.UserName
+              });
+              // this.nav 
+              this.menuService.getmenudata(this.role_id)
+                .subscribe(result => {
+                  let mock_menu_disable: any[] = []
+
+
+                  // mock_menu_disable คือตัวแปรสำหรับแทนที่ดึงมาจาก service และดึง key ของแตค่ล่ะตัวที่ไม่ใช่ 0
+                  for (const [key, value] of Object.entries(result)) {
+                    let eiei = key
+                    if (key != 'createdAt' && key != 'role_id' && key != 'id' && value != 0) {
+                      console.log('key: ' + key, value);
+                      // mock_menu_disable.push({ [eiei]: value })
+                      mock_menu_disable.push(eiei)
+
+                    }
+                  }
+                  console.log(mock_menu_disable);
+
+                  //สำหรับฟิลเตอร์ nav 
+                  this.nav = this.arraynav.filter(function (item) {
+                    return mock_menu_disable.indexOf(item.menuname) == -1;
+                  })
+                  console.log('  this.nav', this.nav);
+
+                });
+
+              // if (this.role_id == 1) {
+              //   this.nav = superAdmin //ซุปเปอร์แอดมิน
+              // } else if (this.role_id == 2) {
+              //   this.nav = Centraladmin //แอดมินส่วนกลาง
+              // } else if (this.role_id == 3) {
+              //   this.nav = Inspector //ผู้ตรวจราชการ
+              // } else if (this.role_id == 4) {
+              //   this.nav = Provincialgovernor //ผู้ว่าราชการจังหวัด
+              // } else if (this.role_id == 5) {
+              //   this.nav = Adminprovince //หัวหน้าสำนักงานจังหวัด
+              // } else if (this.role_id == 6) {
+              //   this.nav = InspectorMinistry // ผู้ตรวจกระทรวง
+              // } else if (this.role_id == 7) {
+              //   this.nav = publicsector // ผู้ตรวจภาคประชาชน
+              // } else if (this.role_id == 8) {
+              //   this.nav = president // ผู้บริหาร หรือ นายก รองนายก
+              // } else if (this.role_id == 9) {
+              //   this.nav = InspectorExamination //หน่วยงานตรวจ
+              // } else if (this.role_id == 10) {
+              //   this.nav = InspectorDepartment // ผู้ตรวจกรม
+              // } else if (this.role_id == 11) {
+              //   this.nav = External // ภายนอก
+              // }
+              // this.bridge2.push(bridge)
+            })
+        }
+
       })
   }
   //End getuser
