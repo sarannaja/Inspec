@@ -374,6 +374,8 @@ export class DefaultLayoutComponent implements OnInit {
                     return obj
 
                   });
+                  this.nav = _.orderBy(this.nav, ['orderby'], ['asc']);
+                  // chars = 
                   console.log('  this.nav', this.nav);
 
                 });

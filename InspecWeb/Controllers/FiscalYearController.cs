@@ -121,7 +121,8 @@ namespace InspecWeb.Controllers
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
                 Orderdate = model.Orderdate,
-                CreatedAt = date
+                CreatedAt = date,
+                Active = 0
             };
             _context.FiscalYears.Add(fiscalyeardata);
             _context.SaveChanges();
