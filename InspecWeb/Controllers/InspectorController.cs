@@ -28,7 +28,8 @@ namespace InspecWeb.Controllers
             var inspectordata = from P in _context.Inspectors
                                      .Include(m => m.InspectorRegions)
                                      .ThenInclude(m => m.Region)
-                                    select P;
+                                     .OrderByDescending(m => m.Id) 
+                                        select P;
             return inspectordata;
 
         }

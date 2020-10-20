@@ -40,7 +40,8 @@ namespace InspecWeb.Controllers
         public IEnumerable<InstructionOrder> Get()
         {
             var instructionorderdata = from P in _context.InstructionOrders
-                                 select P;
+                                       .OrderByDescending(m => m.Id)
+                                       select P;
             return instructionorderdata;
 
             //return 
