@@ -41,7 +41,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     icon: 'fa-book',
     url: "/electronicbookall",
     name: "สมุดตรวจอิเล็กทรอนิกส์",
-    menuname: "m4"
+    menuname: "m24"
   },
   {
     icon: 'fa-file-alt',
@@ -379,6 +379,12 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
     menuname: "m17"
   },
   {
+    icon: 'fa-external-link-alt',
+    url: "/iframe",
+    name: "iframe",
+    menuname: "m27"
+  },
+  {
     IDchildren: 'training',
     icon: 'fa-shekel-sign',
     name: "ข้อมูลจัดอบรมหลักสูตร",
@@ -432,22 +438,6 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
 
 
   },
-  {
-    icon: 'fa-map-marker',
-    url: "/external/thaimap",
-    name: "แผนที่"
-  },
-  {
-    icon: 'fa-eye',
-    url: "/log",
-    name: "log"
-  },
-  {
-    icon: 'fa-external-link-alt',
-    url: "/iframe",
-    name: "iframe"
-  },
-
 ]
 export const Centraladmin: NavBar[] = [ //แอดมินส่วนกลาง
   {
@@ -632,7 +622,7 @@ export const Inspector: NavBar[] = [ //ผู้ตรวจ
     icon: 'fa-file',
     url: "/subjectevent",
     name: "ประเด็นการตรวจติดตาม",
-    menuname: "m22",
+    menuname: "m19",
   },
   {
     icon: 'fa-book',
@@ -1240,7 +1230,7 @@ export const InspectorMinistry: NavBar[] = [ //ผุ้ตรวจกระท
   },
   {
     icon: 'fa-file',
-    url: "/subjectevent",
+    url: "/answersubject",
     name: "ประเด็นการตรวจติดตาม",
     menuname: "m22",
   },
@@ -2009,7 +1999,7 @@ export const InspectorDepartment: NavBar[] = [ //ผู้ตรวจกรม/
   },
   {
     icon: 'fa-file',
-    url: "/subjectevent",
+    url: "/answersubject",
     name: "ประเด็นการตรวจติดตาม",
     menuname: "m22",
   },

@@ -41,7 +41,8 @@ namespace InspecWeb.Data.Seeders
                 M23 = 0,
                 M24 = 1,
                 M25 = 0,
-                M26 = 1
+                M26 = 1,
+                M27 = 1
             },
              new Menu
              {
@@ -72,7 +73,8 @@ namespace InspecWeb.Data.Seeders
                  M23 = 0,
                  M24 = 1,
                  M25 = 0,
-                 M26 = 1
+                 M26 = 1,
+                 M27 = 0
              },
               new Menu
               {
@@ -103,7 +105,8 @@ namespace InspecWeb.Data.Seeders
                   M23 = 0,
                   M24 = 0,
                   M25 = 0,
-                  M26 = 1
+                  M26 = 1,
+                  M27 = 0
               },
                 new Menu
                 {
@@ -134,7 +137,8 @@ namespace InspecWeb.Data.Seeders
                     M23 = 0,
                     M24 = 0,
                     M25 = 1,
-                    M26 = 1
+                    M26 = 1,
+                    M27 = 0
                 },
                 new Menu
                 {
@@ -165,7 +169,8 @@ namespace InspecWeb.Data.Seeders
                     M23 = 0,
                     M24 = 0,
                     M25 = 1,
-                    M26 = 1
+                    M26 = 1,
+                    M27 = 0
                 },
                 new Menu
                 {
@@ -196,7 +201,8 @@ namespace InspecWeb.Data.Seeders
                     M23 = 0,
                     M24 = 0,
                     M25 = 0,
-                    M26 = 1
+                    M26 = 1,
+                    M27 = 0
                 },
                 new Menu
                 {
@@ -227,7 +233,8 @@ namespace InspecWeb.Data.Seeders
                     M23 = 0,
                     M24 = 0,
                     M25 = 0,
-                    M26 = 1
+                    M26 = 1,
+                    M27 = 0
                 },
                 new Menu
                 {
@@ -258,7 +265,8 @@ namespace InspecWeb.Data.Seeders
                     M23 = 0,
                     M24 = 0,
                     M25 = 0,
-                    M26 = 1
+                    M26 = 1,
+                    M27 = 0
                 },
                  new Menu
                  {
@@ -289,7 +297,8 @@ namespace InspecWeb.Data.Seeders
                      M23 = 1,
                      M24 = 0,
                      M25 = 0,
-                     M26 = 1
+                     M26 = 1,
+                     M27 = 0
                  },
                   new Menu
                   {
@@ -320,7 +329,8 @@ namespace InspecWeb.Data.Seeders
                       M23 = 0,
                       M24 = 0,
                       M25 = 0,
-                      M26 = 1
+                      M26 = 1,
+                      M27 = 0
                   },
                    new Menu
                    {
@@ -351,7 +361,8 @@ namespace InspecWeb.Data.Seeders
                        M23 = 0,
                        M24 = 0,
                        M25 = 0,
-                       M26 = 1
+                       M26 = 1,
+                       M27 = 0
                    }
             );
         }
