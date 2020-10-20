@@ -662,6 +662,7 @@ const ExternalOrganization = [
           { path: 'electronicbookall', component: ElectronicBookAllComponent, canActivate: [AuthorizeGuard] },
           { path: 'electronicbookall/detail/:id', component: ElectronicBookAllDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'iframe', loadChildren: () => import('./iframe/iframe.module').then(m => m.IframeModule), canActivate: [AuthorizeGuard] },
+          { path: 'menu', component: MenuComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },

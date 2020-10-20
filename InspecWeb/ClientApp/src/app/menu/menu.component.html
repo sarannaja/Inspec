@@ -1,11 +1,11 @@
 <div class="header">
-    
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a [routerLink]="['/Main']">หน้าหลัก</a></li>
-        <li class="breadcrumb-item active">กำหนดสิทธิ์การใช้งาน</li>
-      </ol>
-    </nav>
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/Main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item active">กำหนดสิทธิ์การใช้งาน</li>
+    </ol>
+  </nav>
 </div>
 <div class="row">
   <div class="col-12">
@@ -24,28 +24,32 @@
             </tr>
           </thead>
           <tbody>
-            <tr  *ngFor="let item of result; let i = index">
+            <tr *ngFor="let item of result; let i = index">
               <td>{{ i + 1 }}</td>
               <td>
-                  <span *ngIf="item.role_id == 1 ">ผู้ดูแลระบบ</span>
-                  <span *ngIf="item.role_id == 2 ">ผู้ดูแลแผนการตรวจราชการ</span>
-                  <span *ngIf="item.role_id == 3 ">ผู้ตรวจราชการสำนักนายกรัฐมนตรี</span>
-                  <span *ngIf="item.role_id == 4 ">ผู้ว่าราชการจังหวัด</span>
-                  <span *ngIf="item.role_id == 5 ">หัวหน้าสำนักงานจังหวัด</span>
-                  <span *ngIf="item.role_id == 6 ">ผู้ตรวจราชการกระทรวง</span>
-                  <span *ngIf="item.role_id == 7 ">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน</span>
-                  <span *ngIf="item.role_id == 8 ">ผู้บริหาร/นายก/รองนายก</span>
-                  <span *ngIf="item.role_id == 9 ">หน่วยงานตรวจ</span>
-                  <span *ngIf="item.role_id == 10 ">ผู้ตรวจราชการกรม</span>
-                  <span *ngIf="item.role_id == 11 ">บุคคลภายนอก</span>
+                <span *ngIf="item.role_id == 1 ">ผู้ดูแลระบบ</span>
+                <span *ngIf="item.role_id == 2 ">ผู้ดูแลแผนการตรวจราชการ</span>
+                <span *ngIf="item.role_id == 3 ">ผู้ตรวจราชการสำนักนายกรัฐมนตรี</span>
+                <span *ngIf="item.role_id == 4 ">ผู้ว่าราชการจังหวัด</span>
+                <span *ngIf="item.role_id == 5 ">หัวหน้าสำนักงานจังหวัด</span>
+                <span *ngIf="item.role_id == 6 ">ผู้ตรวจราชการกระทรวง</span>
+                <span *ngIf="item.role_id == 7 ">ที่ปรึกษาผู้ตรวจราชการภาคประชาชน</span>
+                <span *ngIf="item.role_id == 8 ">ผู้บริหาร/นายก/รองนายก</span>
+                <span *ngIf="item.role_id == 9 ">หน่วยงานตรวจ</span>
+                <span *ngIf="item.role_id == 10 ">ผู้ตรวจราชการกรม</span>
+                <span *ngIf="item.role_id == 11 ">บุคคลภายนอก</span>
               </td>
               <th>
-                <!-- <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" (click)="openeditModal(modaleditUser, item.id,item.fiscalYearId,item.userRegion,roleId==9? item.userProvince:item.userProvince[0].provinceId,item.ministryId
-                  ,item.departmentId,item.provincialDepartmentId,item.sideId,item.commandnumber,
-                  item.commandnumberdate,item.email,item.prefix,item.firstnameth,item.lastnameth,item.position,item.phoneNumber,
-                  item.startdate,item.enddate,item.img,item.autocreateuser,item.signature,item.userName)">
-                      <i class="align-middle fas fa-fw fa-pen"></i>
+                <!-- <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" (click)="openeditModal(modaledit, 
+                item.id,item.m1,item.m2,item.m3,item.m4,item.m5,item.m6,item.m7,item.m8,item.m9,item.m10,item.m11,
+                  item.m12,item.m13,item.m14,item.m15,item.m16,item.m17,item.m18,item.m19,item.m20,item.m21,
+                  item.m22,item.m23,item.m24,item.m25,item.m26,item.m27)">
+                  <i class="align-middle fas fa-fw fa-pen"></i>
                 </button> -->
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล"
+                  (click)="openeditModal(modaledit, item.id,item)">
+                  <i class="align-middle fas fa-fw fa-pen"></i>
+                </button>
               </th>
             </tr>
           </tbody>
@@ -55,4 +59,531 @@
   </div>
 </div>
 
-  
+<!-- BEGIN edit modal -->
+<ng-template #modaledit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="Form" (ngSubmit)="updateMenuActive()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">แก้ไขสิทธิ์การใช้งาน</h3>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div *ngIf="check_value.length != 0" class="modal-body m-3">
+        <div *ngFor="let item of check_value; let i = index" class="form-group">
+          <div class="row">
+            <label class="col-5">{{i+1}}.{{item.menu_map.name}}</label>
+
+            <div class="col-7">
+              <label class="form-check form-check-inline" *ngFor="let state of status">
+                <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="check_value[i].status" id="{{item.menuname+state.value}}"
+                  name="{{item.menuname+state.value}}" [value]="state.value">
+                <span class="form-check-label">{{state.name}}</span>
+              </label>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-body m-3">
+
+            
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">1.หน้าหลัก</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m1" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m1" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">2.แผนการตรวจราชการ</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m2" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m2" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">3.ปฏิทินการตรวจราชการ</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m3" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m3" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">4.สมุดตรวจอีเล็กทรอนิกส์</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m1" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m1" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">5.ทะเบียนรายงานผลการตรวจราชการ</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m5" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m5" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">6.ข้อสั่งการถึงผู้ตรวจราชการ</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m6" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m6" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">7.แจ้งข้อมูลถึงผุ้ตรวจราชการ</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m7" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m7" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">8.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m8" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m8" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">9.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m9" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m9" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">10.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m10" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m10" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">11.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m11" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m11" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">12.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m12" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m12" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">13.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m13" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m13" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">14.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m14" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m14" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">15.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m15" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m15" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">16.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m16" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m16" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">17.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m17" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m17" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">18.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m18" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m18" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">19.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m19" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m19" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">20.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m20" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m20" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">21.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m21" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m21" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">22.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m22" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m22" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">23.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m23" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m23" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">24.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m24" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m24" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">25.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m25" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m25" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">26.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m26" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m26" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-5">27.</label>
+                  <div class="col-7">
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m27" id="1" name="1" [value]="1">
+                        <span class="form-check-label">Active</span>
+                    </label>
+                    <label class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="m27" id="0" name="0" [value]="0">
+                        <span class="form-check-label">InActive</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              END ปาล์ม 
+
+              
+          </div> -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+    <!-- </div> -->
+  </form>
+</ng-template>
+<!-- END edit modal -->

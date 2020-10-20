@@ -20,7 +20,21 @@ export class MenuService {
   getmenulistdata(): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'getmenulistdata/')
   }
-  getmenudata(id: any): Observable<any[]> {
+  getmenudata(id: any) {
     return this.http.get<any[]>(this.url + 'getmenu/' + id)
+  }
+  update(data: any[], id) {
+
+
+    const formData = new FormData();
+    for (let i = 0; i < data.length; i++) {
+      console.log(data[i].menuname, data[i].status);
+      
+      formData.append(data[i].menuname, data[i].status)
+    }
+    // console.log(data);
+    //return 
+    // formData.append('m1', ); 
+     return this.http.put(this.url+id, formData)
   }
 }
