@@ -169,9 +169,8 @@ export class ReportImportComponent implements OnInit {
   }
 
   storeReport(value) {
-
-    this.submitted = true;
     if (this.reportForm.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
