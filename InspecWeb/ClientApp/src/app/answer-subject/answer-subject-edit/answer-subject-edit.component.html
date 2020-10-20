@@ -1,5 +1,5 @@
 <div class="header">
-    
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -30,7 +30,7 @@
                             </div>
                         </div>
 
-                        <div class="row" style="margin-top: 10px;">
+                        <!-- <div class="row" style="margin-top: 10px;">
                             <div class="col-md-6">
                                 <u>ระยะเวลา</u><br>
                                 <span
@@ -39,7 +39,7 @@
                                     {{ item.centralPolicyDateProvince.startDate | thaidate: 'year' }} -
                                     {{ item.centralPolicyDateProvince.endDate | thaidate: 'year' }}<br></span>
                             </div>
-                        </div>
+                        </div> -->
                         <div *ngIf="resultansweroutsider.length != 0" class="row" style="margin-top: 10px;">
                             <div class="col-12">
                                 <u>ผู้ตอบคำถามจากหน่วยงานภายนอก
@@ -129,12 +129,12 @@
                         <div *ngIf="status == 'ร่างกำหนดการ'" class="col-12 col-xl-12" style="margin-top: 20px;">
                             <div class="form-group">
                                 <div class="form-group col-md-6">
-                                        <input type="radio" name="Status" value="ร่างกำหนดการ" checked
-                                            formControlName="Status">
-                                        <label style="margin-left: 10px;">ร่าง</label>
-                                        <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
-                                            formControlName="Status">
-                                        <label style="margin-left: 10px;">ใช้งาน</label>
+                                    <input type="radio" name="Status" value="ร่างกำหนดการ" checked
+                                        formControlName="Status">
+                                    <label style="margin-left: 10px;">ร่าง</label>
+                                    <input style="margin-left: 10px;" type="radio" name="Status" value="ใช้งานจริง"
+                                        formControlName="Status">
+                                    <label style="margin-left: 10px;">ใช้งาน</label>
                                 </div>
                             </div>
                         </div>
@@ -194,6 +194,8 @@
                                             {{ item.name }}<br>
                                         </span>
                                     </a>
+                                    <input *ngIf="status == 'ใช้งานจริง'" type="text" class="form-control ml-4" style="width: 80%;"
+                                        value="{{item.description}}" readonly>
                                     <i *ngIf="status == 'ร่างกำหนดการ'"
                                         class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                                         (click)="openModalDelete(modaldeleteFile, item.id)"></i>
@@ -232,7 +234,8 @@
                                 [useExistingCss]="true">ปิ้นคำถาม</button>
                             <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
                         </div> -->
-                        <div *ngIf="printstatus == 0" class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
+                        <div *ngIf="printstatus == 0" class="form-group col col-lg-12"
+                            style="margin-top: 20px; text-align: center;">
                             <button style="align-self: center;" type="button" class="btn btn-primary"
                                 style="margin-right: 45px;" (click)="printPage()">พิมพ์</button>
                             <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
