@@ -152,6 +152,8 @@ namespace InspecWeb.Models
         [Description("M")]
         public long M33 { get; set; }
 
+        [Description("M")]
+        public long M34 { get; set; }
 
 
         [Description("วันที่สร้าง")]

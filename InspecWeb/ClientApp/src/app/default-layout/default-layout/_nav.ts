@@ -1697,7 +1697,7 @@ export const president: NavBar[] = [ //ผู้บริหารหรือ�
     icon: 'fa-user-tie',
     url: "/commanderreport",
     name: "รายงานผลการตรวจราชการ",
-    menuname: "m20",
+    menuname: "m34",
     orderby: 16 ,
   },
   {
