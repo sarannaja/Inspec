@@ -40,6 +40,9 @@ namespace InspecWeb.Models
         [Description("xxx")]
         public long xe { get; set; }
 
+        [Description("title")]
+        public string title { get; set; }
+
         [Description("วันที่ส่งแจ้งเตือน")]
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
