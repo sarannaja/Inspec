@@ -138,7 +138,7 @@ export class CentralPolicyComponent implements OnInit {
 
       //   return result.year == d3
       // })[0]
-      
+
       let fiscalyear = result.filter(result => {
         let start_date = new Date(result.startDate)
         let end_date = new Date(result.endDate)
@@ -154,7 +154,12 @@ export class CentralPolicyComponent implements OnInit {
       // this.currentyear = this.currentyear[this.currentyear.length - 1]
       console.log('this.currentyear', this.currentyear);
 
-      this.getCurrentCentralPolicy(this.currentyear)
+      if (this.currentyear == "allfiscalyear") {
+        this.getCentralPolicy()
+      } else {
+        this.getCurrentCentralPolicy(this.currentyear)
+      }
+
       // this.getCentralPolicy()
     })
   }
@@ -367,8 +372,14 @@ export class CentralPolicyComponent implements OnInit {
         this.spinner.show();
       } else if (this.selectfiscalyearid == null) {
         console.log("3");
-        this.getCurrentCentralPolicy(this.currentyear);
-        this.spinner.show();
+        if (this.currentyear == "allfiscalyear") {
+          this.getCentralPolicy()
+          this.spinner.show();
+        } else {
+          this.getCurrentCentralPolicy(this.currentyear)
+          this.spinner.show();
+        }
+        // this.getCurrentCentralPolicy(this.currentyear);
       } else {
         console.log("4");
         this.getSelectfiscalyear();
