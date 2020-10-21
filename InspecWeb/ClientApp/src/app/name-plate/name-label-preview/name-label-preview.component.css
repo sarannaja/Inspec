@@ -1,4 +1,4 @@
-body {
+/* body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -9,9 +9,9 @@ body {
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-}
+} */
 
-.page {
+/* .page {
   width: 210mm;
   min-height: 297mm;
   padding: 20mm;
@@ -34,14 +34,12 @@ body {
 }
 
 @media print {
-
-  html,
-  body {
+  html, body {
     width: 210mm;
     height: 297mm;
     /* font-family: 'Niramit', sans-serif; */
-  }
 
+/* }
   .page {
     margin: 0;
     border: initial;
@@ -52,31 +50,24 @@ body {
     background: initial;
     page-break-after: always;
   }
-
   footer {
     display: none;
   }
-
   button {
     display: none;
   }
-
   header {
     display: none;
   }
-
   h1 {
     display: none;
   }
-
   nav {
     display: none;
   }
-
   h5 {
     display: none;
   }
-
   p {
     display: none;
   }
@@ -89,22 +80,23 @@ body {
   font-family: 'THSarabunNew', sans-serif;
 }
 
-.graph-7{
+.graph-7 {
   background: url('/../wwwroot/img/sky.jpg') no-repeat;
 }
-.graph-image img{
+
+.graph-image img {
   display: block;
   width: 5.78cm;
   height: 8.48cm;
 }
 
-@media print{
+@media print {
   /* .graph-image img{display:inline;} */
-  .img-1{
-    left: 42.8% !important;
 
+/* .img-1 {
+    left: 42.8% !important;
   }
-  .img-2{
+  .img-2 {
     left: 52% !important;
   }
   .container {
@@ -150,4 +142,244 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}  */
+
+/* ปาล์มทำไว้ */
+
+/* @page {
+  margin: 0
+} */
+
+body {
+  margin: 0
+}
+
+.sheet {
+  margin: 0;
+  overflow: hidden;
+  /* position: relative; */
+  /* box-sizing: border-box; */
+  /* page-break-after: always; */
+}
+
+/** Paper sizes **/
+
+body.A3 .sheet {
+  width: 297mm;
+  height: 419mm
+}
+
+body.A3.landscape .sheet {
+  width: 420mm;
+  height: 296mm
+}
+
+body.A4 .sheet {
+  width: 210mm;
+  height: 296mm
+}
+
+body.A4.landscape .sheet {
+  width: 297mm;
+  height: 209mm
+}
+
+body.A5 .sheet {
+  width: 148mm;
+  height: 209mm
+}
+
+body.A5.landscape .sheet {
+  width: 210mm;
+  height: 147mm
+}
+
+/** Padding area **/
+
+.sheet.padding-10mm {
+  padding: 10mm
+}
+
+.sheet.padding-15mm {
+  padding: 15mm
+}
+
+.sheet.padding-20mm {
+  padding: 20mm
+}
+
+.sheet.padding-25mm {
+  padding: 25mm
+}
+
+/** For screen preview **/
+
+@media screen {
+  body {
+    background: #e0e0e0;
+    text-align: center;
+    justify-content: center;
+  }
+  .sheet {
+    background: white;
+    /* box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3); */
+    margin: 5mm;
+  }
+}
+
+/** Fix for Chrome issue #273306 **/
+
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    /* font-family: 'Niramit', sans-serif; */
+  }
+  .page {
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    page-break-after: always;
+  }
+  footer {
+    display: none;
+  }
+  button {
+    display: none;
+  }
+  header {
+    display: none;
+  }
+  h1 {
+    display: none;
+  }
+  nav {
+    display: none;
+  }
+  h5 {
+    display: none;
+  }
+  p {
+    display: none;
+  }
+}
+
+/*
+@media print {
+  :host {
+    display: none;
+  }
+  body.A3.landscape {
+    width: 420mm
+  }
+  body.A3, body.A4.landscape {
+    width: 297mm
+  }
+  body.A4, body.A5.landscape {
+    /* display: block; */
+
+/* width: 210mm;
+    height: 296mm */
+
+/* } */
+
+/* body.A5 { */
+
+/* width: 148mm */
+
+/* } */
+
+/* } */
+
+/* @media print {
+  body.A3.landscape {
+    width: 420mm
+  }
+  body.A3, body.A4.landscape {
+    width: 297mm
+  }
+  body.A4, body.A5.landscape {
+    width: 210mm
+  }
+  body.A5 {
+    width: 148mm
+  }
+} */
+
+/* @page {
+  size: A4;
+  margin: 0;
+} */
+
+.frontpage {
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* ADJUSTED */
+  /* align-items: center; */
+  /* flex-direction: column; */
+  /* NEW */
+}
+
+.frontpage::before {
+  /* NEW */
+  /* content: ''; */
+}
+
+.frontpage>* {
+  /* text-align: center; */
+}
+
+/* .flex-container { */
+
+/* width: 5.78cm;
+  height: 8.48cm; */
+
+/* display: flex; */
+
+/* text-align: center; */
+
+/* flex-wrap: nowrap; */
+
+/* } */
+
+.flex-container {
+  background-image: url('../../../assets/img/previewcard.jpg');
+  background-size: cover;
+  width: 5.78cm;
+  height: 8.48cm;
+  display: block;
+  /* margin: 10px; */
+  text-align: center;
+  justify-content: center;
+  /* line-height: 75px; */
+  /* font-size: 30px; */
+}
+
+/* .flex-container>div {
+  margin-top: 10%;
+  text-align: center;
+} */
+
+/* .centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} */
+
+.img-1 {
+  width: 1cm;
+  height: 1cm;
+  /* top: 15%;
+  left: 39%; */
+}
+
+.img-2 {
+  width: 3.4cm;
+  height: 1cm;
+  /* left: 52% !important; */
 }

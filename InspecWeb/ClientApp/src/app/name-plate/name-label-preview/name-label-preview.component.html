@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
@@ -16,61 +16,25 @@
           <button class="btn btn-light btn-sm" (click)="gotoBack()">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
-          
+
         </h5>
         <div class="float-right">
+          <button printSectionId="print-section" [useExistingCss]="true" ngxPrint>print</button>
+
           <button id="btn-export" class="btn btn-primary" (click)="print()" style="margin-top: -60px;">
             <i class="fas fa-print mr-2"></i>พิมพ์ป้ายชื่อ
           </button>
         </div>
       </div>
+      <div class="card-body">
 
-      <div class="card-body mt-3">
-        <div class="book" id="print-section">
+
+      </div>
+      <!-- <div class="card-body mt-3">
+        <div class="book">
           <div *ngFor="let item of printData; let i = index">
             <div class="page" style="page-break-after: always;">
-              <!-- <table cellpadding="0" cellspacing="0" align="center" style="width: 100%; height: 1000px; ">
-                <tr>
-                  <td style="text-align: center; background-color: white; max-width: 300px; text-overflow: ellipsis;">
 
-                    <img src="img/sky.jpg" style="width: 5.78cm;height: 8.48cm;" />
-                    <h2 style="font-size: 30px; white-space: nowrap; position: absolute;
-
-                    text-overflow: ellipsis;
-                    white-space: nowrap;">
-
-                      <div style="margin-left: 220px;margin-top: -370px;">
-
-                        <br>
-                        <br>
-                        <img src="img/logo.png" style="width: 1cm;height:1cm;">
-                        <img src="img/bg.png" style="width: 4cm;height:1cm;margin-left: 0.3cm;">
-                        <br>
-
-                        6301001
-                        <br>
-                        {{item.name}}
-                        <br>
-                        <span style="font-size: 30px;">
-                          ({{item.nickname}})</span>
-                        <br>
-                        <br>]
-                        <span style="font-size: 30px;">
-                          {{item.department}}</span>\
-                        <br>
-                        <span style="font-size: 13.5px; max-width: 4cm;">
-                          หลักสูตรผู้ตรวจราชการระดับกระทรวง
-                        </span>
-                        <br>
-                        <span style="font-size: 14px;">
-                          ประจำปีงบประมาณ พ.ศ. {{item.training.year}}
-                        </span>
-                      </div>
-                    </h2>
-
-                  </td>
-                </tr>
-              </table> -->
 
               <div class="container">
                 <img src="img/sky.jpg" alt="Snow" style="width: 5.78cm;height: 8.48cm;">
@@ -80,13 +44,65 @@
                 <div class="centered" style="top:40%; color: black; font-size: 22px;">{{item.name}}</div>
                 <div class="centered" style="color: black; font-size: 20px;">({{item.nickname}})</div>
                 <div class="centered" style="top:60%;color: black; font-size: 18px;">{{item.department}}</div>
-                <div class="centered" style="top:74%;color: black; font-size: 13px;">หลักสูตรผู้ตรวจราชการระดับกระทรวง</div>
-                <div class="centered" style="top:80%;color: black; font-size: 13px;">ประจำปีงบประมาณ พ.ศ. {{item.training.year}}</div>
+                <div class="centered" style="top:74%;color: black; font-size: 13px;">หลักสูตรผู้ตรวจราชการระดับกระทรวง
+                </div>
+                <div class="centered" style="top:80%;color: black; font-size: 13px;">ประจำปีงบประมาณ พ.ศ.
+                  {{item.training.year}}</div>
               </div>
+
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+
     </div>
   </div>
+</div>
+<div id="print-section">
+
+  <body class="A4 ">
+    <section class="sheet 
+    prompt
+    d-flex
+    align-items-center 
+    justify-content-between
+    flex-wrap
+    px-2">
+      <ng-container *ngFor="let item of printData; let i = index">
+        <div [ngStyle]="{
+        'width.cm': '5.78',
+        'height.cm': '8.48',
+        'display': 'block',
+        'text-align': 'center',
+        'justify-content': 'center'
+        
+       }">
+          <img src="assets/img/previewcard.jpg" [ngStyle]="{
+        'margin-bottom.cm':'-8.48',
+        'width.cm': '5.78',
+        'height.cm': '8.48'
+       }">
+          <div>
+            <div class=" row justify-content-center ">
+
+              <img src="img/logo.png" style=" width: 1cm;
+              height: 1cm;">
+              <img src="img/bg.png" style=" width: 3.4cm;
+              height: 1cm;">
+
+            </div>
+            <div style="color: black; font-size: 20px;">6301001</div>
+            <div style=" color: black; font-size: 22px;">{{item.name}}</div>
+            <div style="color: black; font-size: 20px;">({{item.nickname}})</div>
+            <div style="color: black; font-size: 18px;">{{item.department}}</div>
+            <footer style="flex: auto; align-self: flex-end;">หลักสูตรผู้ตรวจราชการระดับกระทรวง <br>
+              ประจำปีงบประมาณ
+              พ.ศ.
+              {{item.training.year}}</footer>
+          </div>
+        </div>
+      </ng-container>
+
+    </section>
+  </body>
 </div>

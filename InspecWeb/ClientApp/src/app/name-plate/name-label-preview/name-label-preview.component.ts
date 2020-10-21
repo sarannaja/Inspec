@@ -9,7 +9,7 @@ import { TrainingService } from 'src/app/services/training.service';
 })
 export class NameLabelPreviewComponent implements OnInit {
   people: any = [];
-  printData: any = [];
+  printData: any = [] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,6 +28,8 @@ export class NameLabelPreviewComponent implements OnInit {
     this.trainingservice.printNamePlate(this.people).subscribe(res => {
       console.log("PrintData: ", res);
       this.printData = res;
+      setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+      setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 1000)
       // await this.printNamePlate();
     });
   }
