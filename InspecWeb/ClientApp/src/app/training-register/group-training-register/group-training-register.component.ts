@@ -23,7 +23,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
   resulttrainingPhase: any;
   resulttrainingPhasetable: any[] = []
   people: any[] = []
-
+  approve: any[] = []
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
@@ -186,7 +186,10 @@ export class GroupTrainingRegisterComponent implements OnInit {
   }
 
   selectgroup(value, phase, array_number) {
-    console.log("value", value)
-    console.log("phase", phase)
+    let p: any = { value, phaseNo: phase }
+    this.approve.find(p) ? delete this.approve[this.approve.findIndex(p)] : this.approve.push({ value, phaseNo: phase })
+    
+    console.log("value", this.approve)
+    // console.log("phase", phase)
   }
 }
