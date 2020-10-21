@@ -1691,6 +1691,10 @@ namespace InspecWeb.Controllers
             training.Group8 = approve8;
             training.Group9 = approve9;
             training.Group10 = approve10;
+
+
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
         }
         // PUT : api/training/edit/:id
         [HttpPut("Updateidcode")]

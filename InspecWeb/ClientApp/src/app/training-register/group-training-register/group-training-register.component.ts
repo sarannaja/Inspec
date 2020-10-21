@@ -185,4 +185,8 @@ export class GroupTrainingRegisterComponent implements OnInit {
     window.history.back();
   }
 
+  selectgroup(value, phase, array_number) {
+    console.log("value", value)
+    console.log("phase", phase)
+  }
 }

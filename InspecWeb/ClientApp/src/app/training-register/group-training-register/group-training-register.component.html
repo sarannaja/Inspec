@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
@@ -12,14 +12,14 @@
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">
           จัดกลุ่มผู้สมัครอบรม
-                    
+
           <button class="btn btn-light btn-sm" (click)="gotoBack()">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </button>
-          
+
         </h5>
 
-        
+
         <div class="float-right">
           <!-- <button class="btn btn-primary" (click)="CreateTraining()"
                       style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button> -->
@@ -282,7 +282,7 @@
                 <td class="text-center">
                   <div class="form-group">
                     <!-- <label for="test" class="form-label">จัดกลุ่ม</label> -->
-                    <select *ngIf="item.group == 1" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,1)" *ngIf="item.group == 1" class="form-control select2" data-toggle="select2"
                       formControlName="approve1">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -297,14 +297,14 @@
                       <option value=10>กลุ่ม 10</option> -->
                     </select>
 
-                    <select *ngIf="item.group == 2" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,2)" *ngIf="item.group == 2" class="form-control select2" data-toggle="select2"
                       formControlName="approve2">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
                       <option value=2>กลุ่ม 2</option>
                     </select>
 
-                    <select *ngIf="item.group == 3" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,3)" *ngIf="item.group == 3" class="form-control select2" data-toggle="select2"
                       formControlName="approve3">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -313,7 +313,7 @@
                     </select>
 
 
-                    <select *ngIf="item.group == 4" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,4)" *ngIf="item.group == 4" class="form-control select2" data-toggle="select2"
                       formControlName="approve4">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -322,7 +322,7 @@
                       <option value=4>กลุ่ม 4</option>
                     </select>
 
-                    <select *ngIf="item.group == 5" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,5)" *ngIf="item.group == 5" class="form-control select2" data-toggle="select2"
                       formControlName="approve5">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -333,7 +333,7 @@
                     </select>
 
 
-                    <select *ngIf="item.group == 6" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,6)" *ngIf="item.group == 6" class="form-control select2" data-toggle="select2"
                       formControlName="approve6">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -344,7 +344,7 @@
                       <option value=6>กลุ่ม 6</option>
                     </select>
 
-                    <select *ngIf="item.group == 7" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,7)" *ngIf="item.group == 7" class="form-control select2" data-toggle="select2"
                       formControlName="approve7">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -355,7 +355,7 @@
                       <option value=6>กลุ่ม 6</option>
                       <option value=7>กลุ่ม 7</option>
                     </select>
-                    <select *ngIf="item.group == 8" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,8)" *ngIf="item.group == 8" class="form-control select2" data-toggle="select2"
                       formControlName="approve8">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -368,7 +368,7 @@
                       <option value=8>กลุ่ม 8</option>
                     </select>
 
-                    <select *ngIf="item.group == 9" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,9)" *ngIf="item.group == 9" class="form-control select2" data-toggle="select2"
                       formControlName="approve9">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -382,7 +382,7 @@
                       <option value=9>กลุ่ม 9</option>
                     </select>
 
-                    <select *ngIf="item.group == 10" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,10)" *ngIf="item.group == 10" class="form-control select2" data-toggle="select2"
                       formControlName="approve10">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -440,7 +440,7 @@
                 <td class="text-center">
                   <div class="form-group">
                     <!-- <label for="test" class="form-label">จัดกลุ่ม</label> -->
-                    <select *ngIf="item.group == 1" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,1)" *ngIf="item.group == 1" class="form-control select2" data-toggle="select2"
                       formControlName="approve1">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -455,14 +455,14 @@
                       <option value=10>กลุ่ม 10</option> -->
                     </select>
 
-                    <select *ngIf="item.group == 2" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,2)" *ngIf="item.group == 2" class="form-control select2" data-toggle="select2"
                       formControlName="approve2">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
                       <option value=2>กลุ่ม 2</option>
                     </select>
 
-                    <select *ngIf="item.group == 3" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,3)" *ngIf="item.group == 3" class="form-control select2" data-toggle="select2"
                       formControlName="approve3">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -471,7 +471,7 @@
                     </select>
 
 
-                    <select *ngIf="item.group == 4" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,4)" *ngIf="item.group == 4" class="form-control select2" data-toggle="select2"
                       formControlName="approve4">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -480,7 +480,7 @@
                       <option value=4>กลุ่ม 4</option>
                     </select>
 
-                    <select *ngIf="item.group == 5" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,5)" *ngIf="item.group == 5" class="form-control select2" data-toggle="select2"
                       formControlName="approve5">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -491,7 +491,7 @@
                     </select>
 
 
-                    <select *ngIf="item.group == 6" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,6)" *ngIf="item.group == 6" class="form-control select2" data-toggle="select2"
                       formControlName="approve6">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -502,7 +502,7 @@
                       <option value=6>กลุ่ม 6</option>
                     </select>
 
-                    <select *ngIf="item.group == 7" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,7)" *ngIf="item.group == 7" class="form-control select2" data-toggle="select2"
                       formControlName="approve7">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -513,7 +513,7 @@
                       <option value=6>กลุ่ม 6</option>
                       <option value=7>กลุ่ม 7</option>
                     </select>
-                    <select *ngIf="item.group == 8" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,8)" *ngIf="item.group == 8" class="form-control select2" data-toggle="select2"
                       formControlName="approve8">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -526,7 +526,7 @@
                       <option value=8>กลุ่ม 8</option>
                     </select>
 
-                    <select *ngIf="item.group == 9" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,9)" *ngIf="item.group == 9" class="form-control select2" data-toggle="select2"
                       formControlName="approve9">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
@@ -540,7 +540,7 @@
                       <option value=9>กลุ่ม 9</option>
                     </select>
 
-                    <select *ngIf="item.group == 10" class="form-control select2" data-toggle="select2"
+                    <select (change)="selectgroup($event.target.value,item.phaseNo,10)" *ngIf="item.group == 10" class="form-control select2" data-toggle="select2"
                       formControlName="approve10">
                       <option value=null>--กรุณาเลือกกลุ่ม--</option>
                       <option value=1>กลุ่ม 1</option>
