@@ -29,7 +29,12 @@ export class NameLabelPreviewComponent implements OnInit {
       console.log("PrintData: ", res);
       this.printData = res;
       setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
-      setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 1000)
+      setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+      setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+      // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+      // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+      // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+      // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 1000)
       // await this.printNamePlate();
     });
   }

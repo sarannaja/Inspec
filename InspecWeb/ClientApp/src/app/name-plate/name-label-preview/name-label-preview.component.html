@@ -19,7 +19,11 @@
 
         </h5>
         <div class="float-right">
-          <button printSectionId="print-section" [useExistingCss]="true" ngxPrint>print</button>
+          <button printSectionId="print-section" [printStyle]="{ 
+             body:{ A4:{ 'width': '210mm',
+            'height': '297mm',
+            'margin': 0} }
+           }" [useExistingCss]="true" ngxPrint>print</button>
 
           <button id="btn-export" class="btn btn-primary" (click)="print()" style="margin-top: -60px;">
             <i class="fas fa-print mr-2"></i>พิมพ์ป้ายชื่อ
@@ -58,35 +62,35 @@
     </div>
   </div>
 </div>
-<div id="print-section">
+<div>
 
-  <body class="A4 ">
+  <body class="A4 " id="print-section">
     <section class="sheet 
     prompt
     d-flex
     align-items-center 
-    justify-content-between
     flex-wrap
-    px-2">
-      <ng-container *ngFor="let item of printData; let i = index">
+    ">
+      <ng-template *ngFor="let item of printData; let i = index">
         <div [ngStyle]="{
+          
         'width.cm': '5.78',
         'height.cm': '8.48',
         'display': 'block',
         'text-align': 'center',
         'justify-content': 'center'
-        
-       }">
+        }">
           <img src="assets/img/previewcard.jpg" [ngStyle]="{
         'margin-bottom.cm':'-8.48',
         'width.cm': '5.78',
         'height.cm': '8.48'
+       
        }">
           <div>
-            <div class=" row justify-content-center ">
+            <div class=" row justify-content-center mt-3">
 
               <img src="img/logo.png" style=" width: 1cm;
-              height: 1cm;">
+              height: 1cm; margin-right: 0.25cm;">
               <img src="img/bg.png" style=" width: 3.4cm;
               height: 1cm;">
 
@@ -94,14 +98,17 @@
             <div style="color: black; font-size: 20px;">6301001</div>
             <div style=" color: black; font-size: 22px;">{{item.name}}</div>
             <div style="color: black; font-size: 20px;">({{item.nickname}})</div>
-            <div style="color: black; font-size: 18px;">{{item.department}}</div>
-            <footer style="flex: auto; align-self: flex-end;">หลักสูตรผู้ตรวจราชการระดับกระทรวง <br>
+            <div style="color: black; font-size: 18px; margin-bottom: 1cm;">{{item.department}}</div>
+            <div>หลักสูตรผู้ตรวจราชการระดับกระทรวง</div>
+            <div>
               ประจำปีงบประมาณ
               พ.ศ.
-              {{item.training.year}}</footer>
+              {{item.training.year}}
+            </div>
+
           </div>
         </div>
-      </ng-container>
+      </ng-template>
 
     </section>
   </body>
