@@ -1655,6 +1655,7 @@ namespace InspecWeb.Controllers
             {
                 var registerData = _context.TrainingRegisters
                     .Include(p => p.Training)
+                    .Include(x => x.User)
                     .Where(x => x.Id == id)
                     .FirstOrDefault();
                 termsList.Add(registerData);
