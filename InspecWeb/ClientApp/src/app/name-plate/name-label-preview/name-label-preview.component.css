@@ -1,11 +1,28 @@
-@page Section1 {
-  size: 8.27in 11.69in; 
-  margin: .5in .5in .5in .5in; 
-  mso-header-margin: .5in; 
-  mso-footer-margin: .5in; 
-  mso-paper-source: 0;
+html, body, h1, h2, h3, h4, p, img {
+  margin: 0;
 }
 
-div.Section1 {
-  page: Section1;
-} 
+/* margin reset*/
+
+@page {
+  size: A4
+}
+
+.frontpage {
+  display: flex;
+  justify-content: space-around;
+  /* ADJUSTED */
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* NEW */
+}
+
+.frontpage::before {
+  /* NEW */
+  content: '';
+}
+
+.frontpage>* {
+  text-align: center;
+}

@@ -399,7 +399,7 @@ export class TrainingService {
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + 'lecturer/save', formData);
   }
-  
+
 
   editTraininglecturer(trainingData, id) {
     console.log(trainingData);
@@ -666,7 +666,10 @@ export class TrainingService {
   getprocessingLiketrainingsurvey(trainingLecturerJoinSurveysId): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'answerlike/get/' + trainingLecturerJoinSurveysId)
   }
+  printNamePlatebyPalm(registerId) {
 
+    return this.http.get<any>(`${this.url}printNamePlatebyPalm/${registerId}`);
+  }
 }
 
 

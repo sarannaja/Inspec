@@ -19,11 +19,7 @@
 
         </h5>
         <div class="float-right">
-          <button printSectionId="print-section" [printStyle]="{ 
-             body:{ A4:{ 'width': '210mm',
-            'height': '297mm',
-            'margin': 0} }
-           }" [useExistingCss]="true" ngxPrint>print</button>
+          <button printSectionId="pdfDownload"  [useExistingCss]="true" ngxPrint>print</button>
 
           <button id="btn-export" class="btn btn-primary" (click)="print()" style="margin-top: -60px;">
             <i class="fas fa-print mr-2"></i>พิมพ์ป้ายชื่อ
@@ -62,60 +58,47 @@
     </div>
   </div>
 </div>
-<div>
 
-  <body class="A4 " id="print-section">
-    <section class="sheet 
-    prompt
-    d-flex
-    align-items-center 
-    flex-wrap
-    ">
-      <ng-template *ngFor="let item of printData; let i = index">
-        <div [ngStyle]="{
+<body hidden id="pdfDownload" class="A4">
+  <section class="sheet frontpage">
+    <div *ngFor="let item of printData; let i = index" [ngStyle]="{
           
         'width.cm': '5.78',
         'height.cm': '8.48',
         'display': 'block',
         'text-align': 'center',
-        'justify-content': 'center'
+        'justify-content': 'center',
+        'margin.cm':'0.25'
         }">
-          <img src="assets/img/previewcard.jpg" [ngStyle]="{
+      <img src="assets/img/previewcard.jpg" [ngStyle]="{
         'margin-bottom.cm':'-8.48',
         'width.cm': '5.78',
         'height.cm': '8.48'
        
        }">
-          <div>
-            <div class=" row justify-content-center mt-3">
+      <div>
+        <div class=" row justify-content-center mt-3">
 
-              <img src="img/logo.png" style=" width: 1cm;
+          <img src="img/logo.png" style=" width: 1cm;
               height: 1cm; margin-right: 0.25cm;">
-              <img src="img/bg.png" style=" width: 3.4cm;
+          <img src="img/bg.png" style=" width: 3.4cm;
               height: 1cm;">
 
-            </div>
-            <div style="color: black; font-size: 20px;">{{item.idCode}}</div>
-            <div style=" color: black; font-size: 22px;">{{item.name}}</div>
-            <div style="color: black; font-size: 20px;">({{item.nickname}})</div>
-            <div style="color: black; font-size: 18px; margin-bottom: 1cm;">{{item.department}}</div>
-            <div>หลักสูตรผู้ตรวจราชการระดับกระทรวง</div>
-            <div>
-              ประจำปีงบประมาณ
-              พ.ศ.
-              {{item.training.year}}
-            </div>
-
-          </div>
         </div>
-      </ng-template>
+        <div style="color: black; font-size: 20px;">{{item.idCode}}</div>
+        <div style=" color: black; font-size: 22px;">{{item.name}}</div>
+        <div style="color: black; font-size: 20px;">({{item.nickname}})</div>
+        <div style="color: black; font-size: 18px; margin-bottom: 1cm;">{{item.department}}</div>
+        <div>หลักสูตรผู้ตรวจราชการระดับกระทรวง</div>
+        <div>
+          ประจำปีงบประมาณ
+          พ.ศ.
+          {{item.training.year}}
+        </div>
 
-    </section>
-  </body>
-</div>
-
-<body class="Section1">
-  <div>ss
-    <div></div>
-  </div>
+      </div>
+    </div>
+    <!-- <h1>Logo centered horizontally/vertically</h1>
+    <footer>Footer centered horizontally but pushed to the bottom vertically</footer> -->
+  </section>
 </body>

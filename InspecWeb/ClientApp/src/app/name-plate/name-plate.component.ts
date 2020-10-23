@@ -1,6 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { every, result } from 'lodash';
 import { TrainingService } from '../services/training.service';
+import { PeopleModel } from './peoplemodel';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-name-plate',
@@ -10,14 +13,16 @@ import { TrainingService } from '../services/training.service';
 export class NamePlateComponent implements OnInit {
 
   dtOptions: DataTables.Settings = {};
-  people: any = [];
+  people: any[] = [];
   loading = false;
   trainingid: any;
-  trainingRegisterData: any = [];
-  printData: any = [];
+  trainingRegisterData: any[] = [];
+  printData: PeopleModel[] = [];
+  printDataGroup: any[] = [];
   hide = false;
   url: any;
-
+  onPrint = false
+  ctx = { estimate: this.printData };
   constructor(
     private activatedRoute: ActivatedRoute,
     private trainingservice: TrainingService,
@@ -31,12 +36,8 @@ export class NamePlateComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [3, 4],
-          orderable: false
-        }
-      ],
+
+      ordering: false,
       "language": {
         "lengthMenu": "แสดง  _MENU_  รายการ",
         "search": "ค้นหา:",
@@ -60,15 +61,31 @@ export class NamePlateComponent implements OnInit {
       this.trainingRegisterData = res.filter(result => {
         return result.status == 1
       })
-      this.loading = true;
+
+      this.loading = true
+      // setTimeout(() => {
+      //   res
+      //     .forEach((result, index) => {
+      //       // result.id = index + 5
+      //       let newee = { ...result, id: index + 5 }
+      //       console.log(newee.id);
+      //       this.trainingRegisterData.push(result)
+      //     }),
+      // }, 1000)
+      // setTimeout(() => { res.forEach(result => this.trainingRegisterData.push(result)) }, 1000)
+      // setTimeout(() => { res.forEach(result => this.trainingRegisterData.push(result)) }, 1000)
     })
   }
-
+  public checkPeople(id) {
+    return this.people.find(res => res == id)
+  }
   addsPeoples(value) {
     // //console.log('item.id');
     // var subject = value.vaule
     this.people = this.addPeople(this.people, value)
     console.log("test => ", this.people);
+
+
   }
 
   addPeople(array: any[], value) {
@@ -79,23 +96,110 @@ export class NamePlateComponent implements OnInit {
     if (distinctThings.length != 0) {
       var s = new Set(array);
       s.delete(value);
+      this.printData = this.printData.filter(res => res.id != value)
+      this.Peoplegroup(this.printData)
+      // delete_people.delete()
       return Array.from(s);
     } else {
       var s = new Set(array);
       s.add(value);
+      this.printToCart(value)
       return Array.from(s);
     }
   }
 
+  Peoplegroup(printData: PeopleModel[] = []) {
+    let perpage = 2
+    const grouped = (printData) => {
+      return new Promise((resolve, reject) => {
+        const group = printData
+          .map((result, index) => {
+            let logic = (index + 1) % perpage
+            let palmgroup =
+              ((index + 1) <= perpage ? 1 :
+                logic != 0 ? ((index + 1) / perpage) :
+                  ((index + 1) / perpage)).toFixed()
+            console.log('logic', palmgroup);
+            return { ...result, palmgroup }
+          })
+        let data = Object.values(_.groupBy(group, "palmgroup"))
+        resolve(data)
+      })
+    }
+    grouped(printData).then((result: any) => {
+      console.log(result);
+
+      this.printDataGroup = result
+    })
+
+  }
   gotoPreview() {
     this.router.navigate(['/nameplatepreview', { selectedPeople: this.people }]);
   }
 
   gotoLabelPreview() {
- this.router.navigate(['/namelabelpreview', { selectedPeople: this.people }]);
+    // this.router.navigate(['/namelabelpreview', { selectedPeople: this.people }]);
+    let printContents, popupWin;
+    printContents = document.getElementById('pdfDownload').innerHTML;
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(`
+      <html>
+        <head>
+          <title>Print tab</title>
+          <style>
+          //........Customized style.......
+          </style>
+        </head>
+        <body onload="window.print();window.close()">${printContents}</body>
+      </html>`
+    );
+    popupWin.document.close();
   }
 
   gotoBack() {
     window.history.back();
   }
+  printToCart(id) {
+    this.trainingservice.printNamePlatebyPalm(id).subscribe(async res => {
+      console.log("PrintData: ", res);
+      try {
+        await this.printData.push(res)
+        this.Peoplegroup(this.printData)
+      }
+      catch (err) {
+        console.log(err);
+
+      }
+      // this.printData = res;
+
+      // this.print(res)
+    });
+
+  }
+  addAllPeoples() {
+    if (this.people.length == 0) {
+      for (let i = 0; i < this.trainingRegisterData.length; i++) {
+        this.addsPeoples(this.trainingRegisterData[i].id)
+      }
+    } else if (this.trainingRegisterData.length == this.people.length) {
+      for (let i = 0; i < this.trainingRegisterData.length; i++) {
+        this.addsPeoples(this.trainingRegisterData[i].id)
+      }
+    } else {
+      let noadd: any[] =
+        this.trainingRegisterData.filter(result => this.people.every(id => result.id != id))
+      console.log(noadd);
+
+      for (let i = 0; i < noadd.length; i++) {
+        this.addsPeoples(noadd[i].id)
+      }
+    }
+
+  }
+
+  print() {
+    window.print()
+  }
+
 }

@@ -26,17 +26,16 @@ export class NameLabelPreviewComponent implements OnInit {
   }
 
   getPrintData() {
+   
     this.trainingservice.printNamePlate(this.people).subscribe(res => {
       console.log("PrintData: ", res);
       this.printData = res;
-      setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
-      setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
-      setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+
+
       // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
       // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
       // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
-      // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 1000)
-      // await this.printNamePlate();
+
     });
   }
 
@@ -85,22 +84,23 @@ export class NameLabelPreviewComponent implements OnInit {
     window.print();
   }
   public printPdf() {
-    let doc = new jsPDF()
-    doc.text('Hello world!', 10, 10)
-    doc.save('a4.pdf')
-    // Get the element to export into pdf
-    let pdfContent = window.document.getElementById("pdfContent");
+    // Default export is a4 paper, portrait, using milimeters for units
+    // let doc = new jsPDF()
+    // doc.text('Hello world!', 10, 10)
+    // doc.save('a4.pdf')
+    var data = document.getElementById('pdfDownload');
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options  
+      var imgWidth = 208;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
 
-    // Use html2canvas to apply CSS settings
-    html2canvas(pdfContent).then(function (canvas) {
-      var img = canvas.toDataURL("image/png");
-      var doc = new jsPDF();
-      doc.text("Hello world!", 10, 10);
-      doc.save('test.pdf');
-    })
-
-    html2canvas(document.body).then(function (canvas) {
-      document.body.appendChild(canvas);
+      const contentDataURL = canvas.toDataURL('image/png')
+      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
+      var position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdf.save('MYPdf.pdf'); // Generated PDF   
     });
   }
 

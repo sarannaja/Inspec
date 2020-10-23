@@ -42,7 +42,7 @@ namespace InspecWeb.Controllers
         public TrainingController(
             ApplicationDbContext context,
             IWebHostEnvironment environment
-            //IEmailSender emailSender
+        //IEmailSender emailSender
         )
         {
             _context = context;
@@ -216,9 +216,11 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Id == trainingid)
                 .Where(p => p.UserId == userid).Count();
 
-            if(TrainingRegistersdata > 0) { 
+            if (TrainingRegistersdata > 0)
+            {
                 return Ok(true);
-            } else
+            }
+            else
             {
                 return Ok(false);
             }
@@ -1043,7 +1045,7 @@ namespace InspecWeb.Controllers
                 {
                     programDate = test.ProgramDate,
                     trainingPhaseId = test.TrainingPhaseId,
-                    programloginId  = programloginid,
+                    programloginId = programloginid,
                     xMorning = checkmorning,
                     xAfternoon = checkafternoon
                 });
@@ -1144,7 +1146,7 @@ namespace InspecWeb.Controllers
 
             }
 
-         
+
 
             //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
             //var size = data.files.Sum(f => f.Length);
@@ -1235,7 +1237,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.TrainingProgram)
                 .ThenInclude(m => m.TrainingPhase)
                 .ThenInclude(m => m.Training)
-  
+
                 .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid);
 
             //foreach (var test in districtdata)
@@ -1283,7 +1285,7 @@ namespace InspecWeb.Controllers
                     vTrainingLecturerJoinSurveysId = xxx.Id;
                     SurveyTopicName = xxx.TrainingSurveyTopic.Name;
 
-                   
+
 
 
                 }
@@ -1676,8 +1678,8 @@ namespace InspecWeb.Controllers
 
         }
 
-       // PUT api/training/register/group/:id
-       [HttpPut("register/group/{id}")]
+        // PUT api/training/register/group/:id
+        [HttpPut("register/group/{id}")]
         public void EditRegisterGroup(long id, long approve1, long approve2, long approve3, long approve4, long approve5, long approve6, long approve7, long approve8, long approve9, long approve10)
         {
             var training = _context.TrainingRegisters.Find(id);
@@ -1700,7 +1702,7 @@ namespace InspecWeb.Controllers
         [HttpPut("Updateidcode")]
         public void Updateidcode([FromBody] TrainingViewModel model)
         {
-            foreach(var code in model.TrainingCode)
+            foreach (var code in model.TrainingCode)
             {
                 System.Console.WriteLine("ID" + code.id);
                 System.Console.WriteLine("Code" + code.code);
@@ -1716,7 +1718,7 @@ namespace InspecWeb.Controllers
 
         // POST api/training/programlogin/add/trainingid
         [HttpPost("programlogin/add/{trainingid}/{programdate}")]
-        public TrainingProgramLoginQRCode InsertTrainingProgramLogin(long trainingid, long programlogintype , DateTime programdate)
+        public TrainingProgramLoginQRCode InsertTrainingProgramLogin(long trainingid, long programlogintype, DateTime programdate)
         {
             var date = DateTime.Now;
             var vmorning = 0;
@@ -1736,7 +1738,7 @@ namespace InspecWeb.Controllers
                 vmorning = 1;
                 vafternoon = 1;
             }
-            
+
             var trainingdata = new TrainingProgramLoginQRCode
             {
                 ProgramDate = programdate,
@@ -1760,7 +1762,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("programtype: " + programlogintype);
             var date = DateTime.Now;
-            
+
             var vmorning = 0;
             var vafternoon = 0;
             if (programlogintype == 1)
@@ -1877,7 +1879,7 @@ namespace InspecWeb.Controllers
                     .ToList();
 
                 double aaa = test2.Count();
-                double sss = (aaa / CountCourse)*100;
+                double sss = (aaa / CountCourse) * 100;
                 result.Add(new
                 {
                     Id = test.Id,
@@ -1887,7 +1889,7 @@ namespace InspecWeb.Controllers
                     CountCourse = CountCourse,
                     RateCourse = sss
                 });
-                
+
             }
             return result;
         }
@@ -1899,7 +1901,7 @@ namespace InspecWeb.Controllers
             var idSet = _context.TrainingRegisters.Select(x => x.UserName).ToHashSet();
             var notFoundItems = _context.TrainingLogins.Where(item => idSet.Contains(item.Username));
 
-       
+
 
             return Ok(notFoundItems);
 
@@ -1943,9 +1945,9 @@ namespace InspecWeb.Controllers
                         AnsCount = ansdata.Count()
                     });
                 }
-                    
 
-               
+
+
 
             }
 
@@ -2067,6 +2069,15 @@ namespace InspecWeb.Controllers
             return Ok("");
 
 
+        }
+        [HttpGet("printNamePlatebyPalm/{id}")]
+        public IActionResult printNamePlatebyPalm(long id)
+        {
+            var registerData = _context.TrainingRegisters
+                    .Include(p => p.Training)
+                    .Where(x => x.Id == id)
+                    .FirstOrDefault();
+            return Ok(registerData);
         }
 
         //[HttpPost("send")]
