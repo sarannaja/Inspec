@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingService } from 'src/app/services/training.service';
-
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-name-label-preview',
   templateUrl: './name-label-preview.component.html',
@@ -82,6 +83,25 @@ export class NameLabelPreviewComponent implements OnInit {
     // WindowPrt.print();
     // WindowPrt.close()
     window.print();
+  }
+  public printPdf() {
+    let doc = new jsPDF()
+    doc.text('Hello world!', 10, 10)
+    doc.save('a4.pdf')
+    // Get the element to export into pdf
+    let pdfContent = window.document.getElementById("pdfContent");
+
+    // Use html2canvas to apply CSS settings
+    html2canvas(pdfContent).then(function (canvas) {
+      var img = canvas.toDataURL("image/png");
+      var doc = new jsPDF();
+      doc.text("Hello world!", 10, 10);
+      doc.save('test.pdf');
+    })
+
+    html2canvas(document.body).then(function (canvas) {
+      document.body.appendChild(canvas);
+    });
   }
 
   gotoBack() {
