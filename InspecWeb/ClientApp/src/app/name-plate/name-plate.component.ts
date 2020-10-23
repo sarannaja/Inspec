@@ -63,17 +63,7 @@ export class NamePlateComponent implements OnInit {
       })
 
       this.loading = true
-      // setTimeout(() => {
-      //   res
-      //     .forEach((result, index) => {
-      //       // result.id = index + 5
-      //       let newee = { ...result, id: index + 5 }
-      //       console.log(newee.id);
-      //       this.trainingRegisterData.push(result)
-      //     }),
-      // }, 1000)
-      // setTimeout(() => { res.forEach(result => this.trainingRegisterData.push(result)) }, 1000)
-      // setTimeout(() => { res.forEach(result => this.trainingRegisterData.push(result)) }, 1000)
+
     })
   }
   public checkPeople(id) {
@@ -109,7 +99,7 @@ export class NamePlateComponent implements OnInit {
   }
 
   Peoplegroup(printData: PeopleModel[] = []) {
-    let perpage = 2
+    let perpage = 9
     const grouped = (printData) => {
       return new Promise((resolve, reject) => {
         const group = printData

@@ -25,14 +25,16 @@ body {
 
 .subpage {
     display: flex;
-    grid-template-rows: auto auto auto;
-    grid-row-gap: 17.34;
-    grid-column-gap: 0;
+    /* grid-template-rows: auto auto auto; */
+    /* grid-row-gap: 17.34cm; */
+    /* grid-column-gap: 0; */
+    justify-content: space-around;
     flex-direction: row;
+    flex-wrap: wrap;
     /* flex-direction: row; */
     /* padding: 1cm; */
     /* border: 5px red solid; */
-    height: 257mm;
+    /* height: 257mm; */
     /* outline: 2cm #FFEAEA solid; */
 }
 
