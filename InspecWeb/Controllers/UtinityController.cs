@@ -19,16 +19,16 @@ namespace InspecWeb.Controllers
     {
         private readonly IServiceScopeFactory scopeFactory;
         private readonly IMailService mailService;
-        private static ApplicationDbContext _context;
+        // private static ApplicationDbContext _context;
         public UtinityController(
-            ApplicationDbContext context,
+            // ApplicationDbContext context,
             IMailService mailService,
             IServiceScopeFactory scopeFactory
         )
         {
             this.mailService = mailService;
             this.scopeFactory = scopeFactory;
-            _context = context;
+            // _context = context;
         }
 
         // POST: ตัวอย่างการส่ง email 
@@ -49,12 +49,34 @@ namespace InspecWeb.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
 
         }
 
-        //cronjob เดี๋ยยวค่อยอธิบาย
+        [HttpPost("send2")]
+        public async Task<IActionResult> SendMail2([FromForm] WelcomeRequest request)
+        {
+            try
+            {
+                var send = new WelcomeRequest
+                {
+                    ToEmail = "k12club@hotmail.com",
+                    UserName = "ปาล์มทดสอบ"
+                };
+                await mailService.SendWelcomeEmailAsync(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+
+        //ตัวอย่างการใช้ cronjob
         public void Process()
         {
             using (var scope = scopeFactory.CreateScope())
@@ -63,11 +85,12 @@ namespace InspecWeb.Controllers
                 var menu = dbContext.Menu
              .Where(m => m.Role_id == 1).FirstOrDefault();
 
+                Console.WriteLine("example dbcontext show first menu id " + menu.Id);
             }
 
 
             // return Ok(menu);
-            Console.WriteLine("ta kai yung hen log nee is saran yung mai dai tum cronjob 5555+ as " + DateTime.Now.ToString("F"));
+            // Console.WriteLine("ta kai yung hen log nee is saran yung mai dai tum cronjob 5555+ as " + DateTime.Now.ToString("F"));
         }
 
     }

@@ -96,7 +96,6 @@ namespace InspecWeb {
             // services.AddTransient<IEmailSender, EmailSender>();
             //end mail
             //mail
-            services.AddScoped<IServiceScope, MyTestHostedService> ();
             services.AddSingleton<IHostedService, MyTestHostedService> ();
             services.AddHostedService<MyTestHostedService> ();
             services.Configure<MailSettings> (Configuration.GetSection ("MailSettings"));
