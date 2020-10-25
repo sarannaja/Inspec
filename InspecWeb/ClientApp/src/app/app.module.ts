@@ -243,6 +243,7 @@ import { RegisterTrainingComponent } from './training/register-training/register
 import { MenuComponent } from './menu/menu.component';
 import { ElectronicBookAllComponent } from './electronic-book-all/electronic-book-all.component';
 import { ElectronicBookAllDetailComponent } from './electronic-book-all/electronic-book-all-detail/electronic-book-all-detail.component';
+
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
 ]
@@ -540,7 +541,7 @@ const ExternalOrganization = [
           { path: 'training/surveylecturer', component: TrainingSurveyLecturerComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/survey/processing/:id', component: TrainingProcessingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/edittraining/:id', component: EditTrainingComponent, canActivate: [AuthorizeGuard] },
-          
+
 
           //---------------
           { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
@@ -694,6 +695,8 @@ const ExternalOrganization = [
     NgbModule,
     TooltipModule.forRoot(),
     QRCodeModule,
+    NgxPrintModule
+
   ], exports: [
     ThaiDatePipe,
     SnotifyModule,
