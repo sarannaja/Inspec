@@ -35,18 +35,19 @@ export class NewLoginComponent implements OnInit {
 
   ) {
     // redirect to home if already logged in
-    if (authorize.isAuthenticated()) {
+    // if (authorize.isAuthenticated()) {
 
-      this.router.navigate(['/']);
-    }
+    //   this.route.snapshot.queryParams['returnUrl']
+    //   // this.router.navigate(['/']);
+    // }
   }
 
   async ngOnInit() {
 
-    this.authorize.isAuthenticated().subscribe(result => {
-      console.log(result);
+    // this.authorize.isAuthenticated().subscribe(result => {
+    //   console.log('isAuthenticated', result);
 
-    });
+    // });
     const action = this.route.snapshot.url[1];
     switch (action.path) {
       case LoginActions.Login:
