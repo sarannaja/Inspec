@@ -43,12 +43,12 @@
                 </span>
               </td>
               <td>
-                <button *ngIf="item.active == 1" style="cursor: none;" class="btn btn-success btn-pill btn-sm" title="active" >
+                <button *ngIf="item.active == 1" style="cursor: default;" class="btn btn-success btn-pill btn-sm" title="active" >
                   Active
                 </button>
 
                 <button *ngIf="item.active == 0" class="btn btn-danger btn-pill btn-sm" title="inactive" 
-                  (click)="openModal(modaleditFiscalyear, item.id)">
+                  (click)="openModal(modalactiveFiscalyear, item.id)">
                     Inactive
                 </button>
 
@@ -87,7 +87,7 @@
           </button>
         </div>
         <div class="modal-body m-3">
-          <div class="form-group">
+          
 
             <div class="row">
               <label class="form-label col-6">คำสั่งกำหนดเขตตรวจราชการ</label>
@@ -95,14 +95,31 @@
           </div>
           <div class="row">
               <div class="col-6">
-                <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอก">
+                <div class="form-group">
+                  <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอก"
+                  [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+
+                    <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+                      <div *ngIf="f.year.errors.required">กรุณากรอก</div>
+                    </div>
+                </div>
               </div>
 
               <div class="col-6">
+                <div class="form-group">
+
+              
+
                   <my-date-picker-th formControlName="orderdate" [options]="myDatePickerOptions" required
                       placeholder="กรุณาเลือกวันที่">
                   </my-date-picker-th>
+
+                  <div *ngIf="submitted && f.orderdate.errors" class="invalid-feedback">
+                    <div *ngIf="f.orderdate.errors.required">กรุณาเลือกวันที่</div>
+                  </div>
+                </div>
               </div>
+               
           </div>
 
             <!-- <label class="form-label">คำสั่งกำหนดเขตตรวจราชการ</label>
@@ -110,7 +127,7 @@
               onKeyPress="if(this.value.length==4) return false;if(this.value.which === 69) return event.preventDefault();;"
               formControlName="fiscalyear" class="form-control" placeholder="กรุณากรอก"> -->
 
-          </div>
+ 
           <div class="form-group row">
             <div class="col-12 col-xl-12">
               <label>กำหนดระยะเวลา</label>
@@ -240,6 +257,27 @@
     <!-- </div> -->
   </ng-template>
   <!-- END primary modal -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalactiveFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      คำสั่งกำหนดเขตตรวจราชการ
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      คุณต้องการลบ Active คำสั่งกำหนดเขตตรวจราชการ ใช่หรือไม่ ?
+    </p>
+    <button type="button" class="btn btn-primary btnMargin" (click)="activeFiscalyear(delid)">
+      ใช่
+    </button>
+    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+      ไม่ใช่
+    </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->
+
   <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
     <p style="font-size: 20px; color: white">Loading...</p>
   </ngx-spinner>

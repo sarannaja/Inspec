@@ -84,6 +84,7 @@ namespace InspecWeb
 
             // เพิ่ม controller ไว้สำหรับทำ cronjob
             services.AddTransient<Controllers.UtinityController, Controllers.UtinityController>();
+            services.AddTransient<Controllers.UserController, Controllers.UserController>();
             //end เพิ่ม controller ไว้สำหรับทำ cronjob
 
             services.AddMvc()

@@ -168,7 +168,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
 
         this.executive_id = result.id;
 
-        this.notificationService.addNotification(this.id, value.provinceId, this.userid, 10, this.executive_id)
+        this.notificationService.addNotification(this.id, value.provinceId, this.userid, 10, this.executive_id,null)
           .subscribe(result => {
           })
 
@@ -208,7 +208,7 @@ export class DetailExecutiveOrderComponent implements OnInit {
       .subscribe(result => {
 
         // alert(result.id);
-        this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id)
+        this.notificationService.addNotification(this.id, this.provincefornotirole3, 1, 11, result.id,null)
           .subscribe(result => {
           })
         this.modalRef.hide();

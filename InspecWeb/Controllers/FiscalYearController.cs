@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+//using DocumentFormat.OpenXml.Office.CustomUI;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
@@ -326,6 +327,37 @@ namespace InspecWeb.Controllers
 
             return Ok(new { termsList });
         }
+
+       
+        [HttpPut("activefiscalyear")]
+        public IActionResult activefiscalyear([FromForm] Setinspectionarea model)
+        {
+
+            var fiscalyeainactive = _context.FiscalYears.Where(m => m.Id != model.Id);
+
+            foreach (var Item in fiscalyeainactive)
+            {
+                var data = _context.FiscalYears.Find(Item.Id);
+                {
+                    data.Active = 0;
+                };
+
+                _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+            _context.SaveChanges();
+
+
+            var fiscalyea = _context.FiscalYears.Find(model.Id);
+            {
+                fiscalyea.Active = 1;
+            };
+
+            _context.Entry(fiscalyea).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(new { Id = model.Id });
+        }
+       
     }
 }
 
@@ -337,6 +369,7 @@ public class Setinspectionarea
     public DateTime? Orderdate { get; set; }
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
+    public long Active { get; set; }
     public List<IFormFile> files { get; set; }
 
 }

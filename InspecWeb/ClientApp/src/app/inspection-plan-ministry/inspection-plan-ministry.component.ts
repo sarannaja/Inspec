@@ -302,7 +302,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1,null)
             .subscribe(response => {
               console.log(response);
             })
@@ -654,7 +654,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
       // location.reload();
       this.getTimeline();
 
-      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id)
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id,null)
         .subscribe(response => {
           console.log(response);
         })

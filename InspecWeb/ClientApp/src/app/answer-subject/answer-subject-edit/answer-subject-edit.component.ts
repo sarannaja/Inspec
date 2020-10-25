@@ -200,7 +200,7 @@ export class AnswerSubjectEditComponent implements OnInit {
     console.log("123", value.Status);
     this.answersubjectservice.editStatus(value, this.resultanswerstatus.id, this.subjectGroupId).subscribe(result => {
       if (value.Status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId)
+        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId,null)
           .subscribe(response => {
             console.log("innoti", response);
           })

@@ -182,7 +182,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
       console.log("result", result.id);
       var statusid = result.id
       if (value2.Status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId)
+        this.notificationService.addNotification(this.centralPolicyId, this.provinceid, this.userid, 6, this.subjectGroupId,null)
           .subscribe(response => {
             console.log("innoti", response);
           })

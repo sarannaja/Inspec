@@ -99,4 +99,12 @@ export class FiscalyearService {
 
     return this.http.delete(this.url + "DeleteRelation/" + id + "/" + fiscalyearid);
   }
+
+
+
+  activeFiscalyear(id) {
+    const formData = new FormData();
+    formData.append('Id', id);
+    return this.http.put<any>(`${this.url}activefiscalyear`, formData);
+  }
 }

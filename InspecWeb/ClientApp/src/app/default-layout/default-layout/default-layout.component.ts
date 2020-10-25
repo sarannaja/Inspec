@@ -299,6 +299,11 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 8) { //song
           location.href = '/electronicbook/detail/' + xe;
         }
+
+        else if (statusid == 10 || statusid == 11) { //song
+          location.href = '/executiveorder';
+        }
+       
         // this.nav = superAdmin;
         // this.profileform();
         // this.getuserinfo();

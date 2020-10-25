@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ClosedXML.Excel; //excel
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.Services;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,8 @@ namespace InspecWeb.Controllers
     public class UserController : ControllerBase
     {
         public static IWebHostEnvironment _environment;
+        private readonly IMailService mailService;
+     
 
         private static Random random = new Random();
         public static string RandomString(int length)
@@ -35,11 +38,12 @@ namespace InspecWeb.Controllers
         private static ApplicationDbContext _context;
 
         public UserController(ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+            UserManager<ApplicationUser> userManager, IWebHostEnvironment environment, IMailService mailService)
         {
             _context = context;
             _userManager = userManager;
             _environment = environment;
+            this.mailService = mailService;
 
         }
 
@@ -848,6 +852,19 @@ namespace InspecWeb.Controllers
                 // }
                 System.Console.WriteLine("testuser : 5");
             }
+
+            if (model.Role_id == 11)
+            {
+                var send = new MailRequest
+                {
+                    ToEmail = model.Email,
+                    Subject = "รหัสผ่านสำหรับระบบอบรม จากระบบตรวจราชการอิเล็กทรอนิกส์",
+                    Body = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}" + "\n" + "Username :: " + model.Email + "\n Password" + passwordrandom
+                };
+                await mailService.SendEmailAsync(send);
+
+            }
+
 
             return Ok(new { password = user.Pw });
 

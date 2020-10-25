@@ -285,7 +285,7 @@ export class DetailElectronicBookComponent implements OnInit {
 
         if (this.electronicBookData.electronicBook.centralPolicy == null) {
           value.user.forEach(element => {
-            this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element, 7, this.electId)
+            this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element, 7, this.electId,null)
               .subscribe(response => {
                 console.log("Noti res: ", response);
               })
@@ -294,14 +294,14 @@ export class DetailElectronicBookComponent implements OnInit {
 
         else if (this.electronicBookData.electronicBook.centralPolicy != null) {
           this.electronicBookData.electronicBookAccept.forEach(element => {
-            this.notificationService.addNotification(1, element.provinceId, this.userid, 17, this.electId)
+            this.notificationService.addNotification(1, element.provinceId, this.userid, 17, this.electId,null)
               .subscribe(response => {
                 console.log("Noti 17 province: ", response);
               })
           });
 
           this.electronicBookData.electronicBookDepartment.forEach(element2 => {
-            this.notificationService.addNotification(1, element2.provincialDepartmentId, this.userid, 18, this.electId)
+            this.notificationService.addNotification(1, element2.provincialDepartmentId, this.userid, 18, this.electId,null)
               .subscribe(response => {
                 console.log("Noti 18 provincial:", response);
               })
@@ -334,14 +334,14 @@ export class DetailElectronicBookComponent implements OnInit {
 
 
       this.provinceId.forEach(element => {
-        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element, this.userid, 17, this.electId)
+        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element, this.userid, 17, this.electId,null)
           .subscribe(response => {
             console.log("Noti 17 province: ", response);
           })
       });
 
       this.provincialDepartmentId.forEach(element2 => {
-        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element2, this.userid, 18, this.electId)
+        this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, element2, this.userid, 18, this.electId,null)
           .subscribe(response => {
             console.log("Noti 18 provincial:", response);
           })

@@ -694,11 +694,11 @@ export class DetailSubjecteventComponent implements OnInit {
       this.Form.reset()
 
       if (value.status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid,null)
           .subscribe(response => {
             //console.log(response);
           })
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid,null)
           .subscribe(response => {
             //console.log(response);
           })
@@ -733,7 +733,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
 
       for (let i = 0; i < UserPeopleanswerId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1,null)
           .subscribe(response => {
             //console.log(response);
 
