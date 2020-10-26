@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingService } from 'src/app/services/training.service';
-
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-name-label-preview',
   templateUrl: './name-label-preview.component.html',
@@ -9,7 +10,7 @@ import { TrainingService } from 'src/app/services/training.service';
 })
 export class NameLabelPreviewComponent implements OnInit {
   people: any = [];
-  printData: any = [];
+  printData: any = [] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -25,10 +26,16 @@ export class NameLabelPreviewComponent implements OnInit {
   }
 
   getPrintData() {
+   
     this.trainingservice.printNamePlate(this.people).subscribe(res => {
       console.log("PrintData: ", res);
       this.printData = res;
-      // await this.printNamePlate();
+
+
+      // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+      // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+      // setTimeout(() => { res.forEach(result => this.printData.push(result)) }, 2000)
+
     });
   }
 
@@ -75,6 +82,26 @@ export class NameLabelPreviewComponent implements OnInit {
     // WindowPrt.print();
     // WindowPrt.close()
     window.print();
+  }
+  public printPdf() {
+    // Default export is a4 paper, portrait, using milimeters for units
+    // let doc = new jsPDF()
+    // doc.text('Hello world!', 10, 10)
+    // doc.save('a4.pdf')
+    var data = document.getElementById('pdfDownload');
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options  
+      var imgWidth = 208;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/png')
+      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF  
+      var position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdf.save('MYPdf.pdf'); // Generated PDF   
+    });
   }
 
   gotoBack() {

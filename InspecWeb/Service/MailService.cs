@@ -58,7 +58,8 @@ namespace InspecWeb.Services
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = $"Welcome {request.UserName}";
+            email.Subject = $"ระบบตรวจราชการอิเล็กทรอนิกส์";
+            // email.Subject = $"Welcome {request.UserName}";
             var builder = new BodyBuilder();
             builder.HtmlBody = MailText;
             email.Body = builder.ToMessageBody();
