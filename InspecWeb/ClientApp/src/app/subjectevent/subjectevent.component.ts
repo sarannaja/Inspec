@@ -140,9 +140,9 @@ export class SubjecteventComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
         this.userservice.getuserfirstdata(this.userid)
-        .subscribe(result => {
-          this.role_id = result[0].role_id
-        })
+          .subscribe(result => {
+            this.role_id = result[0].role_id
+          })
       })
     // this.spinner.show();
     this.dtOptions = {
@@ -184,6 +184,8 @@ export class SubjecteventComponent implements OnInit {
       "land": new FormControl(null),
       "startdate": new FormControl(null),
       "enddate": new FormControl(null),
+
+      "explanation": new FormControl(null, [Validators.required]),
     })
 
     this.FormReporttype2 = this.fb.group({
@@ -300,7 +302,7 @@ export class SubjecteventComponent implements OnInit {
         this.CentralPolicyEvents = result.centralPolicyEvents
         this.subjectgroupsdatas = result.subjectgroupsdatas
 
-        console.log("this.CentralPolicyEvents",this.CentralPolicyEvents);
+        console.log("this.CentralPolicyEvents", this.CentralPolicyEvents);
 
         this.selectdatacentralpolicy2 = this.CentralPolicyEvents.filter((item, index) => {
           return item.haveSubject == 0 && item.inspectionPlanEvent.roleCreatedBy == this.role_id
@@ -678,7 +680,7 @@ export class SubjecteventComponent implements OnInit {
   }
   storeReportPerformance(value) {
     console.log(value);
-    this.reportservice.createReporttype1(value,this.provinceIdtype2).subscribe(result => {
+    this.reportservice.createReporttype1(value, this.provinceIdtype2).subscribe(result => {
       this.FormReporttype2.reset();
       this.modalRef.hide();
       window.open(this.downloadUrl + "/" + result.data);

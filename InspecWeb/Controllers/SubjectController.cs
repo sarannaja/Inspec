@@ -2076,6 +2076,7 @@ namespace InspecWeb.Controllers
                 Status = "ใช้งานจริง",
                 SubjectGroupId = SubjectGroupdata.Id,
                 CreatedBy = model.CreatedBy,
+                Explanation = model.Explanation,
             };
             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
             _context.SaveChanges();
@@ -2109,6 +2110,7 @@ namespace InspecWeb.Controllers
                         Type = "NoMaster",
                         Status = "ใช้งานจริง",
                         SubjectGroupId = SubjectGroupdata.Id,
+                        Explanation = subcen.Explanation,
                     };
                     _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata2);
                     _context.SaveChanges();
@@ -2269,6 +2271,7 @@ namespace InspecWeb.Controllers
                 Status = "ใช้งานจริง",
                 SubjectGroupId = SubjectGroupdata.Id,
                 CreatedBy = model.CreatedBy,
+                Explanation = model.Explanation,
             };
             _context.SubjectCentralPolicyProvinces.Add(subjectdata);
             _context.SaveChanges();
@@ -2302,6 +2305,7 @@ namespace InspecWeb.Controllers
                         Type = "NoMaster",
                         Status = "ใช้งานจริง",
                         SubjectGroupId = SubjectGroupdata.Id,
+                        Explanation = subcen.Explanation,
                     };
                     _context.SubjectCentralPolicyProvinces.Add(SubjectCentralPolicyProvincedata2);
                     _context.SaveChanges();

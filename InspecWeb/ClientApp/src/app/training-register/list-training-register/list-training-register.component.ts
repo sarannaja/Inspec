@@ -233,11 +233,12 @@ export class ListTrainingRegisterComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
-      this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
-        this.modalRef.hide()
-      })
+      // this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(result => {
+      //   this.resulttraining = result
+      //   this.loading = true
+      //   this.modalRef.hide()
+      // })
+      this.getData()
     })
   }
 
@@ -249,11 +250,12 @@ export class ListTrainingRegisterComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
-      this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
-        this.modalRef.hide()
-      })
+      // this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(result => {
+      //   this.resulttraining = result
+      //   this.loading = true
+      //   this.modalRef.hide()
+      // })
+      this.getData()
       this.people = []
     })
   }

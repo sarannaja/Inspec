@@ -1483,7 +1483,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
 
       this.getCentralPolicyProvinceUser()
 
-      this.loading = false
+      // this.loading = false
       // this.getdata();
     })
   }
