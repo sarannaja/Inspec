@@ -6,14 +6,16 @@ using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
 using InspecWeb.Data.Seeders; //เรียกไฟล์ โฟเดอx
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace InspecWeb.Data
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
-          public ApplicationDbContext(
-            DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions) { }
+
+        public ApplicationDbContext(
+          DbContextOptions options,
+          IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions) { }
 
         //ถ้าเพิ่มโมเดลใหม่
         public DbSet<Province> Provinces { get; set; }
@@ -174,12 +176,15 @@ namespace InspecWeb.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
+
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
                 //relationship.
                 //Cascade(relationship);
             }
+
+
             // ส่วนที่สำหรับเชื่อ model
             builder.Entity<UserRegion>()
             .HasKey(m => new { m.UserID, m.RegionId });

@@ -58,7 +58,7 @@ function getCurrentTheme() {
 
 const link = document.createElement("link");
 // link.href = "css/" + getCurrentTheme() + ".css";
-link.href = "css/" +"modern" + ".css";
+link.href = "css/" + "modern" + ".css";
 link.type = "text/css";
 link.rel = "stylesheet";
 document.getElementsByTagName("head")[0].appendChild(link);
