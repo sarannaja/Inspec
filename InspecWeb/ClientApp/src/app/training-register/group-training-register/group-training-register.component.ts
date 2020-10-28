@@ -34,10 +34,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
   }
 
-
-
   ngOnInit() {
-
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -46,7 +43,6 @@ export class GroupTrainingRegisterComponent implements OnInit {
           orderable: false
         }
       ]
-
     };
 
     this.Form = this.fb.group({
@@ -55,14 +51,12 @@ export class GroupTrainingRegisterComponent implements OnInit {
       "approve3": new FormControl(null),
       "approve4": new FormControl(null),
       "approve5": new FormControl(null),
-
       "approve6": new FormControl(null),
       "approve7": new FormControl(null),
       "approve8": new FormControl(null),
       "approve9": new FormControl(null),
       "approve10": new FormControl(null),
     })
-
 
     this.trainingservice.getregistertrainingdata(this.trainingid)
       .subscribe(res => {
@@ -88,9 +82,6 @@ export class GroupTrainingRegisterComponent implements OnInit {
         console.log("resulttrainingPhasetable", this.resulttrainingPhasetable);
       })
 
-
-
-
     // this.trainingservice.gettrainingdata2(id)
     // .subscribe(result => {
     //   this.resulttraining = result
@@ -114,7 +105,6 @@ export class GroupTrainingRegisterComponent implements OnInit {
     // alert(id)
     this.delid = id;
     console.log(this.delid);
-
     this.modalRef = this.modalService.show(template);
   }
 
@@ -122,7 +112,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
     // alert(JSON.stringify(value));
     // console.clear();
     // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editRegisterGroup(value, delid).subscribe(response => {
+    this.trainingservice.editRegisterGroup(this.approve, delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
@@ -142,7 +132,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
     // alert(JSON.stringify(value));
     // console.clear();
     // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editRegisterGroup2(value, this.people).subscribe(response => {
+    this.trainingservice.editRegisterGroup2(this.approve, this.people).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
@@ -186,9 +176,16 @@ export class GroupTrainingRegisterComponent implements OnInit {
   }
 
   selectgroup(value, phase, array_number) {
-    let p: any = { value, phaseNo: phase }
-    this.approve.find(p) ? delete this.approve[this.approve.findIndex(p)] : this.approve.push({ value, phaseNo: phase })
-    
+    let p = { value: value, phaseNo: phase }
+    let index = this.approve.findIndex(f => f.phaseNo == phase)
+    this.approve.length > 0 ?
+
+      (this.approve.find(result => result.phaseNo == p.phaseNo) ?
+        this.approve[index].value = value :
+        this.approve.push(p))
+      :
+      this.approve.push(p)
+
     console.log("value", this.approve)
     // console.log("phase", phase)
   }

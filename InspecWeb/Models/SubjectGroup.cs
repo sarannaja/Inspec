@@ -44,6 +44,7 @@ namespace InspecWeb.Models
         public string Land { get; set; }
 
         public string Suggestion { get; set; }
+        public string StatusSuggestion { get; set; }
 
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]

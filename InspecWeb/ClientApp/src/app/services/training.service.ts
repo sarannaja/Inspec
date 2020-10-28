@@ -136,9 +136,9 @@ export class TrainingService {
 
   //Update Group
   editRegisterGroup(trainingregisterlistData, id) {
-
+    // console.log("trainingregisterlistData",trainingregisterlistData)
     // alert(trainingregisterlistData.approve1)
-    console.log(trainingregisterlistData);
+    // console.log(trainingregisterlistData);
 
     const formData = new FormData();
 
@@ -173,6 +173,12 @@ export class TrainingService {
       trainingregisterlistData.approve10 = 0;
     }
 
+    for (var index = 0; index < trainingregisterlistData.length; index++) {
+      // if (trainingregisterlistData[index].phaseNo == 1) {
+      //   trainingregisterlistData.approve1 = trainingregisterlistData[index].value;
+      // }
+      trainingregisterlistData['approve' + trainingregisterlistData[index].phaseNo] = trainingregisterlistData[index].value;
+    }
     // alert(trainingregisterlistData.approve1)
     formData.append('approve1', trainingregisterlistData.approve1);
     formData.append('approve2', trainingregisterlistData.approve2);
@@ -526,9 +532,9 @@ export class TrainingService {
 
   //Update Group
   editRegisterGroup2(trainingregisterlistData, id) {
-
+    console.log("trainingregisterlistData", trainingregisterlistData)
     // alert(trainingregisterlistData.approve1)
-    console.log(trainingregisterlistData);
+    // console.log(trainingregisterlistData);
 
     const formData = new FormData();
 
@@ -563,6 +569,9 @@ export class TrainingService {
       trainingregisterlistData.approve10 = 0;
     }
 
+    for (var index = 0; index < trainingregisterlistData.length; index++) {
+      trainingregisterlistData['approve' + trainingregisterlistData[index].phaseNo] = trainingregisterlistData[index].value;
+    }
     // alert(trainingregisterlistData.approve1)
     formData.append('approve1', trainingregisterlistData.approve1);
     formData.append('approve2', trainingregisterlistData.approve2);

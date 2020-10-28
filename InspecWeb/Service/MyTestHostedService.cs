@@ -12,11 +12,13 @@ public class MyTestHostedService : BackgroundService
     private CrontabSchedule _schedule;
     private DateTime _nextRun;
     private UtinityController _utinityController;
-    private string Schedule => "*/10 * * * * *"; //Runs every 10 seconds
+    private UtinityCheckDateController _utinityCheckDateController;
+    private string Schedule => "0 0 0 * * *"; //Runs every 10 seconds
     private readonly IServiceProvider _provider;
 
-    public MyTestHostedService(UtinityController utinityController, IServiceProvider serviceProvider)
+    public MyTestHostedService(UtinityController utinityController, IServiceProvider serviceProvider, UtinityCheckDateController utinityCheckDateController)
     {
+        _utinityCheckDateController = utinityCheckDateController;
         _utinityController = utinityController;
         _provider = serviceProvider;
         _schedule = CrontabSchedule.Parse(Schedule, new CrontabSchedule.ParseOptions { IncludingSeconds = true });
@@ -48,6 +50,11 @@ public class MyTestHostedService : BackgroundService
 
     private void InitControllerCronjob()
     {
+        _utinityCheckDateController.CheckPeopleQuestionNotificationDate();
+        _utinityCheckDateController.CheckPeopleQuestionDeadlineDate();
+        _utinityCheckDateController.CheckSubjectNotificationDate();
+        _utinityCheckDateController.CheckSubjectDeadlineDate();
+
         _utinityController.Process();
         Console.WriteLine("hello world" + DateTime.Now.ToString("F"));
     }

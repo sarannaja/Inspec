@@ -76,6 +76,7 @@ namespace InspecWeb {
 
             // เพิ่ม controller ไว้สำหรับทำ cronjob
             services.AddTransient<Controllers.UtinityController, Controllers.UtinityController> ();
+            services.AddTransient<Controllers.UtinityCheckDateController, Controllers.UtinityCheckDateController> ();
             // services.AddSingleton<Controllers.UtinityController, MyTestHostedService>();
             //end เพิ่ม controller ไว้สำหรับทำ cronjob
             // services.AddControllers();
@@ -96,7 +97,7 @@ namespace InspecWeb {
             // services.AddTransient<IEmailSender, EmailSender>();
             //end mail
             //mail
-            services.AddSingleton<IHostedService, MyTestHostedService> ();
+            services.AddSingleton<BackgroundService, MyTestHostedService> ();
             services.AddHostedService<MyTestHostedService> ();
             services.Configure<MailSettings> (Configuration.GetSection ("MailSettings"));
             services.AddTransient<IMailService, Services.MailService> ();

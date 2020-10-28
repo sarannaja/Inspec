@@ -402,7 +402,8 @@ export class SubjectService {
       Title: value.centralPolicyOther,
       startdate: value.startdate,
       enddate: value.enddate,
-      CreatedBy: userid
+      CreatedBy: userid,
+      Explanation: value.explanation,
     }
     return this.http.post<any>(this.url + 'postsubjecteventOtherland', formData);
   }
@@ -417,7 +418,8 @@ export class SubjectService {
       Title: value.centralPolicyOther,
       // startdate: value.startdate.date.year + '-' + value.startdate.date.month + '-' + value.startdate.date.day,
       // enddate: value.enddate.date.year + '-' + value.enddate.date.month + '-' + value.enddate.date.day,
-      CreatedBy: userid
+      CreatedBy: userid,
+      Explanation: value.explanation,
     }
     return this.http.post<any>(this.url + 'postsubjecteventOther', formData);
   }

@@ -74,6 +74,8 @@ namespace InspecWeb.ViewModel
         public string Land { get; set; }
 
         public string Title { get; set; }
+
+        public string Explanation { get; set; }
     }
 
     public class CentralpolicyModel

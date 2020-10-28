@@ -275,8 +275,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   //inpecplanevent
   Gotoinspecplan(provinceid, i) {
 
-    this.submitted = true;
     if (this.Form.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
@@ -303,8 +303,8 @@ export class CreateInspectionPlanEventComponent implements OnInit {
               window.open(this.url + 'inspectionplan/inspectorministry/' + id + '/' + provinceid + '/' + watch);
             } else if (this.role_id == 10){
               window.open(this.url + 'inspectionplan/inspectordepartment/' + id + '/' + provinceid + '/' + watch);
-            } 
-           
+            }
+
           }) : this._dialog.confirm('ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', 'ข้อมูลชุดนี้มีวันและเวลาเริ่มต้นน้อยกว่าวันที่และเวลาสิ้นสุด', false, 'ปิด')
             .then(result => {
 
