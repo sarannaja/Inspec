@@ -128,7 +128,7 @@
                 <br>
                 <!-- <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'year'}} - {{ regisenddate | thaidate:'year'}}</label></h5> -->
                 <!-- <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'year'}} - {{ enddate | thaidate:'year'}}</label></h5> -->
-
+                <h5>คุณสมบัติที่รับสมัคร <label (click)="gotoConditionRegisterTraining()" class="text-primary pointer">>> คลิก << </label></h5>
                 <h5>กำหนดระยะรับสมัครเข้าอบรม : <label >{{ regisstartdate | thaidate:'short'}} - {{ regisenddate | thaidate:'short'}}</label></h5>
                 <h5>กำหนดระยะเวลาอบรม : <label >{{ startdate | thaidate:'short'}} - {{ enddate | thaidate:'short'}}</label></h5>
 
@@ -156,6 +156,10 @@
                 <div class="text-center">
                     <!-- <a href="{{ mainUrl }}train/register/{{ trainingid }}" class="btn btn-info">สมัครอบรม</a> -->
                     <button (click)="gotoRegisterTraining()" class="btn btn-info">สมัครอบรม</button>
+                    <button class="btn btn-light" style="margin-left: 80px;" (click)="gotoBack()">ย้อนกลับ</button>
+                    <br>
+
+
                 </div>
                 
                 <br>
@@ -192,7 +196,7 @@
                         </tr>
                     </tbody>
                 </table>
-
+                
 
                 </div>
             </div>

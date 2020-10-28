@@ -21,6 +21,7 @@ export class LecturerTrainingComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   submitted = false;
+  ViewForm: FormGroup;
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -38,7 +39,7 @@ export class LecturerTrainingComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4,5],
+          targets: [2,3],
           orderable: false
         }
       ]
@@ -53,7 +54,7 @@ export class LecturerTrainingComponent implements OnInit {
       education: new FormControl(null, [Validators.required]),
       workhistory: new FormControl(null, [Validators.required]),
       experience: new FormControl(null, [Validators.required]),
-
+      detailplus: new FormControl(null, [Validators.required]),
       
     })
 
@@ -88,8 +89,8 @@ export class LecturerTrainingComponent implements OnInit {
       //alert(JSON.stringify(value))
       this.trainingservice.addTraininglecturer(value).subscribe(response => {
         console.log(value);
-        this.Form.reset()
         this.modalRef.hide()
+        this.Form.reset()
         this.loading = false;
         this.trainingservice.gettraininglecturer()
         .subscribe(result => {
@@ -102,7 +103,34 @@ export class LecturerTrainingComponent implements OnInit {
     }
   }
 
-  editModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience) {
+  ViewModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience, detailplus) {
+    this.delid = id;
+    //console.log(this.delid);
+
+    this.modalRef = this.modalService.show(template);
+    this.ViewForm = this.fb.group({
+      "vlecturertype": new FormControl(null, [Validators.required]),
+      "lecturername": new FormControl(null, [Validators.required]),
+      "lecturerphone": new FormControl(null, [Validators.required]),
+      "lectureremail": new FormControl(null, [Validators.required]),
+      "education": new FormControl(null, [Validators.required]),
+      "workhistory": new FormControl(null, [Validators.required]),
+      "experience": new FormControl(null, [Validators.required]),
+      "detailplus": new FormControl(null, [Validators.required]),
+    })
+    this.ViewForm.patchValue({
+      "vlecturertype": 'sdfdsf',
+      "lecturername": lecturerName,
+      "lecturerphone": phone,
+      "lectureremail": email,
+      "education": education,
+      "workhistory": workHistory,
+      "experience": experience,
+      "detailplus": detailplus,
+    })
+  }
+
+  editModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience, detailplus) {
     this.delid = id;
     //console.log(this.delid);
 
@@ -115,6 +143,7 @@ export class LecturerTrainingComponent implements OnInit {
       "education": new FormControl(null, [Validators.required]),
       "workhistory": new FormControl(null, [Validators.required]),
       "experience": new FormControl(null, [Validators.required]),
+      "detailplus": new FormControl(null, [Validators.required]),
     })
 
 
@@ -126,6 +155,7 @@ export class LecturerTrainingComponent implements OnInit {
       "education": education,
       "workhistory": workHistory,
       "experience": experience,
+      "detailplus": detailplus,
     })
   }
 

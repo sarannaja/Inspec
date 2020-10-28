@@ -59,7 +59,7 @@ export class PhaseTrainingComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [0,1,2,3,4],
+          targets: [0,1,2,3,4,5],
           orderable: false
         }
       ],
@@ -194,12 +194,14 @@ export class PhaseTrainingComponent implements OnInit {
 
 
   openModal(template: TemplateRef<any>, id) {
+    this.submitted = false;
     this.delid = id;
     //console.log(this.delid);
     this.modalRef = this.modalService.show(template);
   }
 
   editModal(template: TemplateRef<any>, id, phaseno, startdate, enddate, title, detail, location, group) {
+    this.submitted = false;
     this.editid = id;
     //console.log(this.delid);
 
@@ -265,8 +267,8 @@ export class PhaseTrainingComponent implements OnInit {
       this.trainingservice.addTrainingPhase(value, this.trainingid).subscribe(response => {
         console.log("viewdata:",value);
         console.log("result:",response);
-        this.Form.reset()
         this.modalRef.hide()
+        this.Form.reset()
         this.loading = false
         this.getTrainingPhase()
       })

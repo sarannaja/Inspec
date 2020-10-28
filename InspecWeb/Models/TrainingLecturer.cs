@@ -27,6 +27,9 @@ namespace InspecWeb.Models
         [Description("หมายเลขโทรศัพท์")]
         public string Phone { get; set; }
 
+        [Description("รูปภาพ")]
+        public string ImageProfile { get; set; }
+
         [Description("อีเมล์")]
         public string Email { get; set; }
 
@@ -38,6 +41,10 @@ namespace InspecWeb.Models
 
         [Description("ประสบการณ์บรรยาย")]
         public string Experience { get; set; }
+
+        [Description("ข้อมูลเพิ่มเติม")]
+        public string DetailPlus { get; set; }
+        
 
         [Description("วันที่เพิ่ม")]
         [DataType(DataType.Date)]

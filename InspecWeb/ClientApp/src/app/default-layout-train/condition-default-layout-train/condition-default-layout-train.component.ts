@@ -3,27 +3,29 @@ import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrainingService } from '../../services/training.service';
 import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-
+import { async } from '@angular/core/testing';
+import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-list-default-layout-train',
-  templateUrl: './list-default-layout-train.component.html',
-  styleUrls: ['./list-default-layout-train.component.css']
+  selector: 'app-condition-default-layout-train',
+  templateUrl: './condition-default-layout-train.component.html',
+  styleUrls: ['./condition-default-layout-train.component.css']
 })
-export class ListDefaultLayoutTrainComponent implements OnInit {
+export class ConditionDefaultLayoutTrainComponent implements OnInit {
 
   trainingid: string;
+  resulcondition: any[] = [];
   resulttraining: any[] = [];
   resulttraining2: any[] = [];
   resulttraining3: any[] = [];
+  resulttrainingprogram: any[] = [];
   modalRef: BsModalRef;
   delid: any
   loading = false;
-  dtOptions: DataTables.Settings = {}; //data training value
-  dtOptions2: DataTables.Settings = {}; //data trainging all
-  dtOptions3: DataTables.Settings = {}; //data register training
+  dtOptions: DataTables.Settings = {};
+  dtOptions2: DataTables.Settings = {};
   name: string;
   createdAt: Date;
   detail: string;
@@ -34,6 +36,11 @@ export class ListDefaultLayoutTrainComponent implements OnInit {
   regisenddate: Date;
   downloadUrl: any;
   mainUrl: any;
+  Form: FormGroup;
+  programstartdate: Date;
+  trainingphaseid: string;
+  phaseno: string;
+  chars: any[] = []
 
   // constructor() { }
   constructor(private modalService: BsModalService, 
@@ -49,30 +56,14 @@ export class ListDefaultLayoutTrainComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.dtOptions3 = {
-      pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [3],
-          orderable: false
-        }
-      ]
+    this.trainingservice.getTrainingCondition(this.trainingid)
+    .subscribe(result => {
+      this.resulcondition = result
+      this.loading = true
+      console.log(this.resulcondition);
+    })
 
-    };
-
-    this.dtOptions2 = {
-      //pagingType: 'full_numbers',
-      // columnDefs: [
-      //   {
-      //     targets: [0,1],
-      //     orderable: false
-      //   }
-      // ]
-
-    };
-
-    //alert(this.trainingid);
-
+    //center training
     this.trainingservice.getdetailtraining(this.trainingid)
     .subscribe(result => {
       if (result.length != 0){
@@ -84,32 +75,20 @@ export class ListDefaultLayoutTrainComponent implements OnInit {
         this.enddate = result[0].endDate
         this.regisstartdate = result[0].regisStartDate
         this.regisenddate = result[0].regisEndDate
+
       }
       this.resulttraining = result
       this.loading = true;
-      //console.log(this.resulttraining);
     })
 
-    this.trainingservice.gettrainingdata()
-    .subscribe(result => {
-      this.resulttraining2 = result
-      this.loading = true;
-      //console.log(this.resulttraining);
-    })
 
-    this.trainingservice.getregistertrainingdata(this.trainingid)
-    .subscribe(result => {
-      this.resulttraining3 = result
-      this.loading = true
-      console.log(this.resulttraining3);
-    })
-
+    
   }
 
-  GotoDetail(trainingid2){
-    //alert(trainingid2);
-    this.router.navigate(['/train/detail/',trainingid2]);
+  gotoBack() {
+    window.history.back();
   }
+
 
   gotoMain(){
     this.router.navigate(['/train'])
@@ -119,7 +98,26 @@ export class ListDefaultLayoutTrainComponent implements OnInit {
     this.router.navigate(["/main"])
   }
 
-  gotoBack() {
-    window.history.back();
+  GotoDetail(trainingid2){
+    //alert(trainingid2);
+    this.router.navigate(['/train/detail/',trainingid2]);
   }
+
+  GotoList(trainingid2){
+    //alert(trainingid2);
+    this.router.navigate(['/train/list/',trainingid2]);
+  }
+
+  GotoRegister(trainingid){
+    //alert(trainingid);
+    this.router.navigate(['/train/register/',trainingid])
+  }
+
+  openModal(template: TemplateRef<any>, id) {
+    this.delid = id;
+   // console.log(this.delid);
+   this.modalRef = this.modalService.show(template);
+ }
+
+
 }
