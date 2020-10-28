@@ -17,6 +17,7 @@ namespace InspecWeb.ViewModel
         public string Description { get; set; }
         public string Type { get; set; }
         public string Suggestion { get; set; }
+        public string StatusSuggestion { get; set; }
         public DateTime NotificationSubjectDate { get; set; }
         public DateTime DeadlineSubjectDate { get; set; }
         public DateTime NotificationPeopleQuestiontDate { get; set; }

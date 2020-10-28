@@ -232,6 +232,14 @@
                                                     <span *ngIf="item.status == 19">มอบหมาย</span>
                                                     <span *ngIf="item.status == 17">สมุดตรวจอีเล็กทรอนิกส์</span>
                                                     <span *ngIf="item.status == 18">สมุดตรวจอีเล็กทรอนิกส์</span>
+
+                                                    <span *ngIf="item.status == 21">แจ้งเตือนคำถามภาคประชาชน</span>
+                                                    <span *ngIf="item.status == 22">กำหนดส่งคำถามภาคประชาชน</span>
+                                                    <span *ngIf="item.status == 23">แจ้งเตือนประเด็นตรวจติดตาม</span>
+                                                    <span *ngIf="item.status == 24">กำหนดส่งประเด็นตรวจติดตาม</span>
+
+                                                    <span *ngIf="item.status == 25">ข้อเสนอแนะ</span>
+
                                                 </div>
                                                 <div class="text-muted small mt-1">
                                                     <span *ngIf="item.status == 16">{{item.centralPolicy.title}}</span>
@@ -251,6 +259,13 @@
                                                     <span *ngIf="item.status == 19">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 17">{{item.centralPolicy.title}}..</span>
                                                     <span *ngIf="item.status == 18">{{item.centralPolicy.title}}..</span>
+
+                                                    <span *ngIf="item.status == 21">{{item.centralPolicy.title}}</span>
+                                                    <span *ngIf="item.status == 22">{{item.centralPolicy.title}}</span>
+                                                    <span *ngIf="item.status == 23">{{item.centralPolicy.title}}</span>
+                                                    <span *ngIf="item.status == 24">{{item.centralPolicy.title}}</span>
+
+                                                    <span *ngIf="item.status == 25">{{item.centralPolicy.title}}</span>
                                                 </div>
                                                 <div class="text-muted small mt-1">
                                                     {{item.createdAt | thaidate: 'short' }}</div>

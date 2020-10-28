@@ -1576,6 +1576,7 @@ namespace InspecWeb.Controllers
             ////CentralPolicyProvincedata.Step = model.Step;
             SubjectGroupsdata.Status = model.Status;
             SubjectGroupsdata.Suggestion = model.Suggestion;
+            SubjectGroupsdata.StatusSuggestion = model.StatusSuggestion;
 
             SubjectGroupsdata.SubjectNotificationDate = model.NotificationSubjectDate;
             SubjectGroupsdata.SubjectDeadlineDate = model.DeadlineSubjectDate;

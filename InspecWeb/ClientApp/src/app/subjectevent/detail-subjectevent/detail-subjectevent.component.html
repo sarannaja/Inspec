@@ -378,7 +378,6 @@
           <hr>
 
 
-
           <div class="form-group" *ngIf="subjectgroupland == 'ลงพื้นที่'" style="margin-top: 10px;">
             <div class="row" style="margin-top: 10px;" *ngIf="subjectgroup.peopleQuestionNotificationDate == null">
               <!-- null -->
@@ -462,7 +461,8 @@
             </div>
           </div>
 
-          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="form-group" style="margin-left: 2px;">
+          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว' && subjectgroupstatussuggestion == 'ร่างกำหนดการ'"
+            class="form-group" style="margin-left: 2px;">
             <div class="row">
               <i class="fa fa-tags" style="margin-top: 5px;"></i>
               <h4 style="margin-left: 15px;">ข้อเสนอแนะ</h4>
@@ -474,9 +474,33 @@
                 (click)="reportModalSuggestionsresult(modalreportsuggestionsresult)">รายงานผลการดำเนินการตามข้อเสนอแนะ
               </button> -->
             </div>
-            <textarea cols="30" rows="2" type="text" formControlName="suggestion" class="form-control"
-              placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
+            <textarea readonly="{{subjectgroupstatussuggestion == 'ใช้งานจริง'}}" cols="30" rows="2" type="text"
+              formControlName="suggestion" class="form-control" placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
             <br>
+
+            <div class="form-group col-12" *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ'">
+              <div class="mb-3">
+                <input type="radio" name="statussuggestion" value="ร่างกำหนดการ" checked
+                  formControlName="statussuggestion">
+                <label style="margin-left: 10px;">ร่าง</label>
+                <input style="margin-left: 10px;" type="radio" name="statussuggestion" value="ใช้งานจริง"
+                  formControlName="statussuggestion">
+                <label style="margin-left: 10px;">ใช้งาน</label>
+              </div>
+            </div>
+            <div class="form-group col-12" *ngIf="subjectgroupstatussuggestion == 'ใช้งานจริง'">
+              <div class="mb-3">
+                <input type="radio" name="statussuggestion" value="ร่างกำหนดการ" formControlName="statussuggestion"
+                  disabled>
+                <label style="margin-left: 10px;">ร่าง</label>
+                <input style="margin-left: 10px;" type="radio" name="statussuggestion" value="ใช้งานจริง"
+                  formControlName="statussuggestion" disabled>
+                <label style="margin-left: 10px;">ใช้งาน</label>
+              </div>
+            </div>
+
+            <br>
+
             <div *ngFor="let item of subjectgroup.answerRecommenDationInspectors; let i = index">
               <div class="col-12">
                 <label style="margin-left: 10px;"> - {{item.answersuggestion}} โดย : {{item.user.name}} จังหวัด :

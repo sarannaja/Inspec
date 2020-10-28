@@ -24,10 +24,6 @@ export class GroupTrainingRegisterComponent implements OnInit {
   resulttrainingPhasetable: any[] = []
   people: any[] = []
   approve: any[] = []
-<<<<<<< HEAD
-
-=======
->>>>>>> 81474bd9ed1174d549181f766938a3c3be76c0d6
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,

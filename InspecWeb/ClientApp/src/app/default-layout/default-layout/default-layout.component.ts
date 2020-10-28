@@ -299,6 +299,23 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 8) { //song
           location.href = '/electronicbook/detail/' + xe;
         }
+
+        else if (statusid == 21) { //song
+           location.href = '/answerpeople';
+        }
+        else if (statusid == 22) { //song
+           location.href = '/answerpeople';
+        }
+        else if (statusid == 23) { //song
+          location.href = '/answersubject/list/' + xe;
+        }
+        else if (statusid == 24) { //song
+          location.href = '/answersubject/list/' + xe;
+        }
+
+        else if (statusid == 25) { //song
+          location.href = '/answerrecommendationinspecto/';
+        }
         // this.nav = superAdmin;
         // this.profileform();
         // this.getuserinfo();
@@ -349,7 +366,7 @@ export class DefaultLayoutComponent implements OnInit {
             Signature: this.Signature,
             UserName: this.UserName
           });
-          // this.nav 
+          // this.nav
           this.menuService.getmenudata(this.role_id)
             .subscribe(result => {
               let mock_menu_disable: any[] = []
@@ -367,7 +384,7 @@ export class DefaultLayoutComponent implements OnInit {
               }
               console.log(mock_menu_disable);
 
-              //สำหรับฟิลเตอร์ nav 
+              //สำหรับฟิลเตอร์ nav
               this.nav = this.arraynav.filter(function (item) {
                 return mock_menu_disable.indexOf(item.menuname) == -1;
               })
@@ -378,7 +395,7 @@ export class DefaultLayoutComponent implements OnInit {
 
               });
               this.nav = _.orderBy(this.nav, ['orderby'], ['asc']);
-              // chars = 
+              // chars =
               console.log('  this.nav', this.nav);
 
             });

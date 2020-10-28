@@ -529,6 +529,7 @@ export class ElectronicbookService {
     formData.append('Type', value.fileType);
 
     formData.append('Suggestion', value.suggestion);
+    formData.append('StatusSuggestion', value.statussuggestion);
 
     formData.append('NotificationSubjectDate', value.notificationsubjectdate);
     formData.append('DeadlineSubjectDate', value.deadlinesubjectdate);

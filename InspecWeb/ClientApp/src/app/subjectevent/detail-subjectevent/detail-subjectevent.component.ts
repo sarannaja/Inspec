@@ -40,6 +40,7 @@ export class DetailSubjecteventComponent implements OnInit {
   deadlinepeoplequestionDate: any;
 
   departmentSelect: any[] = []
+  subjectgroupstatussuggestion
   subjectgroupstatus
   subjectgroupland
   id
@@ -242,6 +243,7 @@ export class DetailSubjecteventComponent implements OnInit {
       deadlinepeoplequestiondate: new FormControl(null),
 
       suggestion: new FormControl(null),
+      statussuggestion: new FormControl(null),
     })
 
 
@@ -282,8 +284,8 @@ export class DetailSubjecteventComponent implements OnInit {
       provincialDepartmentId: new FormControl(null, [Validators.required]),
       SubjectGroupId: this.subjectgroupid
     })
-    await this.getDetailCentralPolicyProvince()
     await this.getsubjecteventDetail();
+    await this.getDetailCentralPolicyProvince()
     // await this.getMinistryPeople();
     // await this.getUserPeople();
     await this.getAnswer2();
@@ -588,6 +590,7 @@ export class DetailSubjecteventComponent implements OnInit {
       })
   }
   getsubjecteventDetail() {
+    // alert("123")
     this.centralpolicyservice.getSubjecteventdetaildata(this.id, this.subjectgroupid)
       .subscribe(result => {
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
@@ -603,7 +606,14 @@ export class DetailSubjecteventComponent implements OnInit {
         this.resultdate = result.centralPolicyEventdata.inspectionPlanEvent
         // alert(JSON.stringify(this.resultdate))
         this.subjectgroupstatus = this.subjectgroup.status
+
+        this.subjectgroupstatussuggestion = this.subjectgroup.statusSuggestion
+
         this.subjectgroupland = this.subjectgroup.land
+
+        // alert("123")
+        // alert(this.subjectgroupland)
+
         //console.log("result", result);
         // alert(JSON.stringify(this.subjectgroup.status))
         if (this.subjectgroup.suggestion != null && this.subjectgroup.suggestion != "null") {
@@ -703,6 +713,14 @@ export class DetailSubjecteventComponent implements OnInit {
             //console.log(response);
           })
       }
+
+      if (value.statussuggestion == "ใช้งานจริง") {
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid)
+          .subscribe(response => {
+            //console.log(response);
+          })
+      }
+
       window.history.back();
       // setTimeout(() => {
       //   // this.getCalendarFile();

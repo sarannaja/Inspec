@@ -267,6 +267,7 @@ namespace InspecWeb.Controllers
                                 Type = "Master",
                                 Land = "Master",
                                 Status = "Master",
+                                StatusSuggestion = "ร่างกำหนดการ",
 
                                 ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
                                 CreatedBy = userdata.Id,
@@ -1211,6 +1212,7 @@ namespace InspecWeb.Controllers
                     Land = model.Land,
                     StartDate = model.startdate,
                     EndDate = model.enddate,
+                    StatusSuggestion = "ร่างกำหนดการ",
 
                     ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
                     CreatedBy = userdata.Id,
@@ -1622,6 +1624,7 @@ namespace InspecWeb.Controllers
                     Type = "NoMaster",
                     Status = "ร่างกำหนดการ",
                     Land = model.Land,
+                    StatusSuggestion = "ร่างกำหนดการ",
 
                     ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
                     CreatedBy = userdata.Id,
@@ -1808,6 +1811,7 @@ namespace InspecWeb.Controllers
                     Land = model.Land,
                     StartDate = centralpolicyeventdate.StartDate,
                     EndDate = centralpolicyeventdate.EndDate,
+                    StatusSuggestion = "ร่างกำหนดการ",
 
                     ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
                     CreatedBy = userdata.Id,
@@ -2047,6 +2051,7 @@ namespace InspecWeb.Controllers
                 Type = "NoMaster",
                 Status = "ร่างกำหนดการ",
                 Land = "ไม่ลงพื้นที่",
+                StatusSuggestion = "ร่างกำหนดการ",
 
                 ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
                 CreatedBy = userdata.Id,
@@ -2230,6 +2235,7 @@ namespace InspecWeb.Controllers
                 ProvinceId = model.ProvinceId,
                 Type = "NoMaster",
                 Status = "ร่างกำหนดการ",
+                StatusSuggestion = "ร่างกำหนดการ",
 
                 Land = model.Land,
                 StartDate = model.startdate,
