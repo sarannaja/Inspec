@@ -166,7 +166,7 @@ namespace InspecWeb.Data
         public DbSet<SetinspectionareaFile> SetinspectionareaFiles { get; set; } //<!-- ไฟล์ของกำหนดเขตการตรวจ -->
 
         public DbSet<TrainingLogin> TrainingLogins { get; set; }
-        
+        public DbSet<TrainingProgramType> TrainingProgramTypes { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)
