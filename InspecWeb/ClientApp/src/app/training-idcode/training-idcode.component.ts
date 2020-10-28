@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TrainingService } from '../services/training.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TrainingRegisterlist } from '../services/toeymodel/trainingregisterlist';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-training-idcode',
@@ -32,10 +33,10 @@ export class TrainingIDCodeComponent implements OnInit {
     'Episode VIII - The Last Jedi',
     'Episode IX – The Rise of Skywalker'
   ];
-
-
+  modalRef: any;
 
   constructor(
+    private modalService: BsModalService,
     private activatedRoute: ActivatedRoute,
     private _trainingservice: TrainingService,
     private router: Router,
@@ -110,13 +111,20 @@ export class TrainingIDCodeComponent implements OnInit {
       // this.Form.reset()
       // this.modalRef.hide()
       // this.loading = false
-
+      this.modalRef.hide()
+      this.loading = false;
       this.getData()
+      
     })
   }
 
   gotoBack() {
     window.history.back();
   }
+
+  openModal(template: TemplateRef<any>) {
+
+   this.modalRef = this.modalService.show(template);
+ }
 
 }

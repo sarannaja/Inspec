@@ -46,3 +46,23 @@
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.btnMargin {
+  margin: 10px;
+  width: 90px;
+  height: 45px;
+}
+.delete-icon {
+  font-size: 80px;
+  color: #f8bb86;
+  border-color: #facea8;
+}
+.pointer {
+  cursor:pointer;
+}
+.ellipsis {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

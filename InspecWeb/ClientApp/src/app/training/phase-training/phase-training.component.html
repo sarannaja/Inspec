@@ -30,9 +30,10 @@
                         <tr>
                             <th width="10%">ช่วงที่</th>
                             <th width="20%" class="text-center">ระหว่างวันที่</th>
-                            <th width="35%">รายละเอียด</th>
+                            <th width="30%">รายละเอียด</th>
                             <th width="20%">สถานที่</th>
-                            <th width="15%" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="10%" class="text-center">จำนวนกลุ่ม</th>
+                            <th width="10%" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +42,8 @@
                             <td class="ellipsis text-center">{{ item.startDate | thaidate:'year'}} -
                                 {{ item.endDate | thaidate:'year'}}</td>
                             <td class="ellipsis">{{ item.detail }}</td>
-                            <td class="ellipsis" title="{{item.location}}">{{ item.location }}</td>
+                            <td class="" title="{{item.location}}">{{ item.location }}</td>
+                            <td class="text-center">{{ item.group }}</td>
                             <td class="text-center">
                                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip"
                                     title="กำหนดการ" (click)="gotoProgramTraining(item.id)"></i>
@@ -75,18 +77,33 @@
                 </div>
                 <div class="modal-body m-3">
                     <div class="form-group">
+                        
                         <label for="test" class="form-label">ช่วงที่</label>
-                        <input type="number" formControlName="phaseno" class="form-control"
+                        <!-- <input type="number" formControlName="phaseno" class="form-control col-6"
                             placeholder="กรุณากรอกช่วงที่" maxlength="2" [ngClass]="{ 'is-invalid': submitted && f.phaseno.errors }">
                             <div *ngIf="submitted && f.phaseno.errors" class="invalid-feedback">
                                 <div *ngIf="f.phaseno.errors.required">กรุณากรอกช่วงที่</div>
-                            </div>
+                            </div> -->
+                            <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
+                                <option value=null>กรุณาระบุช่วง</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        
                         <br>
 
                         <div class="">
                             <label>ระหว่างวันที่</label>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group" style="margin-left: -10px;">
                             <div class="form-group col-5">
                                 <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
@@ -117,8 +134,8 @@
                         <br>
 
                         <label for="test" class="form-label">รายละเอียดช่วง</label>
-                        <input type="text" formControlName="detail" class="form-control"
-                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" [ngClass]="{ 'is-invalid': submitted && f.detail.errors }">
+                        <textarea formControlName="detail" class="form-control"
+                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
                             <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
                                 <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียดกิจกรรม</div>
                             </div>
@@ -132,20 +149,25 @@
                             </div>
                         <br>
 
+
+                        
                         <label for="test" class="form-label">จำนวนกลุ่ม</label>
-                        <select class="form-control select2" data-toggle="select2" formControlName="group">
-                            <option value=null>กรุณาระบุจำนวนกลุ่ม</option>
-                            <option value=1>1 กลุ่ม</option>
-                            <option value=2>2 กลุ่ม</option>
-                            <option value=3>3 กลุ่ม</option>
-                            <option value=4>4 กลุ่ม</option>
-                            <option value=5>5 กลุ่ม</option>
-                            <option value=6>6 กลุ่ม</option>
-                            <option value=7>7 กลุ่ม</option>
-                            <option value=8>8 กลุ่ม</option>
-                            <option value=9>9 กลุ่ม</option>
-                            <option value=10>10 กลุ่ม</option>
-                        </select>
+                        <div class="input-group">
+                            <select class="form-control select2 col-5" data-toggle="select2" formControlName="group">
+                                <option value=null>กรุณาระบุจำนวนกลุ่ม</option>
+                                <option value=1>1 กลุ่ม</option>
+                                <option value=2>2 กลุ่ม</option>
+                                <option value=3>3 กลุ่ม</option>
+                                <option value=4>4 กลุ่ม</option>
+                                <option value=5>5 กลุ่ม</option>
+                                <option value=6>6 กลุ่ม</option>
+                                <option value=7>7 กลุ่ม</option>
+                                <option value=8>8 กลุ่ม</option>
+                                <option value=9>9 กลุ่ม</option>
+                                <option value=10>10 กลุ่ม</option>
+                            </select>
+                            กลุ่ม
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -175,8 +197,21 @@
                 <div class="modal-body m-3">
                     <div class="form-group">
                         <label for="test" class="form-label">ช่วงที่</label>
-                        <input type="number" formControlName="phaseno" class="form-control"
-                            placeholder="กรุณากรอกช่วงที่" maxlength="2" >
+                        <!-- <input type="number" formControlName="phaseno" class="form-control"
+                            placeholder="กรุณากรอกช่วงที่" maxlength="2" > -->
+                            <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
+                                <option value=null>กรุณาระบุช่วง</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
                             
                         <br>
 
@@ -212,8 +247,9 @@
                         <br>
 
                         <label for="test" class="form-label">รายละเอียดช่วง</label>
-                        <input type="text" formControlName="detail" class="form-control"
-                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" >
+                        <!-- <input type="text" formControlName="detail" class="form-control"
+                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" > -->
+                        <textarea formControlName="detail" class="form-control"></textarea>
                             
                         <br>
 

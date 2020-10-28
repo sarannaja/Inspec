@@ -138,6 +138,9 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
     })
     
   }
+  gotoBack() {
+    window.history.back();
+  }
 
   gotoMain(){
     this.router.navigate(['/train'])
@@ -177,6 +180,11 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
    //console.log(phaseid);
   this.router.navigate(['/train/list/',this.trainingid])
  }
+
+ gotoConditionRegisterTraining() {
+  //console.log(phaseid);
+ this.router.navigate(['/train/detail/condition/',this.trainingid])
+}
  
  gotoRegisterTraining() {
   this.router.navigate(['/train/register/',this.trainingid])

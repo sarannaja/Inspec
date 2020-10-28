@@ -401,6 +401,7 @@ export class TrainingService {
     formData.append('education', trainingData.education);
     formData.append('workhistory', trainingData.workhistory);
     formData.append('experience', trainingData.experience);
+    formData.append('detailplus', trainingData.experience);
 
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + 'lecturer/save', formData);
@@ -679,6 +680,37 @@ export class TrainingService {
 
     return this.http.get<any>(`${this.url}printNamePlatebyPalm/${registerId}`);
   }
+  //ดึงข้อมูลประเภทกิจกรรม
+  getTrainingProgramType(): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'programtype/get')
+  }
+
+  //เพิ่มข้อมูลประเภทกิจกรรม
+  addTrainingProgramType(trainingData) {
+    //alert(JSON.stringify(trainingData))
+    //alert(trainingid)
+    const formData = new FormData();
+    formData.append('name', trainingData.name);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'programtype/add', formData);
+  }
+
+  //แก้ไขประเภทกิจกรรม
+  editTraining(trainingData, id) {
+
+    const formData = new FormData();
+    formData.append('name', trainingData.name);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'programtype/edit/' + id, formData);
+  }
+
+
+  //ลบประเภทกิจกรรม
+  deleteTrainingProgramType(id) {
+    return this.http.delete(this.url + 'programtype/delete/' + id);
+  }
+
 }
 
 

@@ -1327,7 +1327,7 @@ namespace InspecWeb.Controllers
 
         // POST : api/training/lecturer/save
         [HttpPost("lecturer/save")]
-        public TrainingLecturer addTraininglecturer(string lecturername, string lecturerphone, string lectureremail, string education, string workhistory, string experience)
+        public TrainingLecturer addTraininglecturer(string lecturername, string lecturerphone, string lectureremail, string education, string workhistory, string experience, string detailplus)
         {
             var date = DateTime.Now;
 
@@ -1344,6 +1344,8 @@ namespace InspecWeb.Controllers
                 WorkHistory = workhistory
                 ,
                 Experience = experience
+                ,
+                DetailPlus = detailplus
                 ,
                 CreatedAt = date
 
@@ -2098,6 +2100,57 @@ namespace InspecWeb.Controllers
 
 
 
+        //ประเภทกิจกรรม
+        //GET api/Training/programtype/get
+        [HttpGet("programtype/get")]
+        public IActionResult GetTrainingProgramType()
+        {
+            var result = new List<object>();
+
+            var data = _context.TrainingProgramTypes.ToList();
+
+            return Ok(data);
+        }
+
+        // POST api/training/programtype/add
+        [HttpPost("programtype/add")]
+        public TrainingProgramType TrainingPrgramType_Add(string name)
+        {
+            var date = DateTime.Now;
+
+            var trainingdata = new TrainingProgramType
+            {
+                Name = name,
+                CreatedAt = date
+
+            };
+
+            _context.TrainingProgramTypes.Add(trainingdata);
+            _context.SaveChanges();
+
+            return trainingdata;
+        }
+
+        // PUT : api/training/edit/:id
+        [HttpPut("programtype/edit/{id}")]
+        public void EditTrainingProgramType(long id, string name)
+        {
+            var training = _context.TrainingProgramTypes.Find(id);
+            training.Name = name;
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        // DELETE api/Training//values/5
+        [HttpDelete("programtype/delete/{id}")]
+        public void DeleteTrainingProgramType(long id)
+        {
+            var trainingdata = _context.TrainingProgramTypes.Find(id);
+
+            _context.TrainingProgramTypes.Remove(trainingdata);
+            _context.SaveChanges();
+        }
 
 
 

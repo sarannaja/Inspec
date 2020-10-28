@@ -29,7 +29,9 @@
           <div class="example-box" *ngFor="let item of trainingRegisterlist;let i=index" cdkDrag>
             <!-- {{item.provincialDepartments.name+' - '+item.name +  ' : ' + genCode(i,item.training.year , item.training.courseCode) }} -->
             <div class="text-left">
-              {{item.provincialDepartments.name+' - '+item.name }}
+              <!-- {{item.provincialDepartments.name+' - '+item.name }} -->
+              {{item.department +' - '+ item.name }}
+              
             </div>
             <div class="text-right">
               {{ genCode(i,item.training.year , item.training.courseCode) }}
@@ -44,7 +46,9 @@
         <br />
         <div class="row">
           <div class="col-5 text-right">
-              <button (click)="UpdateIdCode()" class="btn btn-primary">บันทึก</button>
+              <!-- <button (click)="UpdateIdCode()" class="btn btn-primary">บันทึก</button> -->
+              <button (click)="openModal(modalTraining)" class="btn btn-primary">บันทึก</button>
+              
           </div>
           <div class="col-1"></div>
           <div class="col-5 text-left">
@@ -113,3 +117,23 @@
     </div>
   </div>
 </div>
+
+<!-- BEGIN primary modal -->
+<ng-template #modalTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+      <i class="fa fa-info-circle delete-icon"></i>
+      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+          บันทึกข้อมูล
+      </p>
+      <p style="font-size: medium; color: #545454;">
+          คุณต้องการบันทึกข้อมูลนี้ใช่หรือไม่ ?
+      </p>
+      <button type="button" class="btn btn-primary btnMargin" (click)="UpdateIdCode()">
+          ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+          ไม่ใช่
+      </button>
+  </div>
+</ng-template>
+<!-- END primary modal -->

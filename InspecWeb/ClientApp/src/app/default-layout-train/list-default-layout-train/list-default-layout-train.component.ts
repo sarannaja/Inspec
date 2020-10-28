@@ -118,4 +118,8 @@ export class ListDefaultLayoutTrainComponent implements OnInit {
   gotoAdmin(){
     this.router.navigate(["/main"])
   }
+
+  gotoBack() {
+    window.history.back();
+  }
 }

@@ -74,6 +74,8 @@ import { TrainingSurveyLecturerComponent } from './training-surveylecturer/train
 import { TrainingProcessingComponent } from './training-processing/training-processing.component';
 
 import { EditTrainingComponent } from './training/edit-training/edit-training.component';
+import { TrainingProgramTypeComponent } from './training-programtype/training-programtype.component';
+import { ConditionDefaultLayoutTrainComponent } from './default-layout-train/condition-default-layout-train/condition-default-layout-train.component';
 //----------------
 
 import { ThaiDatePipe } from './services/Pipe/thaidate.service';
@@ -314,6 +316,8 @@ const ExternalOrganization = [
     TrainingSurveyLecturerComponent,
     TrainingProcessingComponent,
     EditTrainingComponent,
+    TrainingProgramTypeComponent,
+    ConditionDefaultLayoutTrainComponent,
     // TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,
@@ -542,6 +546,7 @@ const ExternalOrganization = [
           { path: 'training/survey/processing/:id', component: TrainingProcessingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/edittraining/:id', component: EditTrainingComponent, canActivate: [AuthorizeGuard] },
 
+          { path: 'training/programtype', component: TrainingProgramTypeComponent, canActivate: [AuthorizeGuard] },
 
           //---------------
           { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
@@ -672,6 +677,7 @@ const ExternalOrganization = [
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
       { path: 'train/detail/phase/:id', component: ProgramDefaultLayoutTrainComponent },
+      { path: 'train/detail/condition/:id', component: ConditionDefaultLayoutTrainComponent },
       { path: 'train/register/:id', component: RegisterDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },
       { path: 'train/list/:id', component: ListDefaultLayoutTrainComponent },
@@ -684,8 +690,8 @@ const ExternalOrganization = [
           { path: 'maintrain', component: TrainComponent, canActivate: [AuthorizeGuard] }, //ออเทน
         ]
       },
-      { path: 'training/login/:phaseid/:dateid/:datetype', component: TrainingLoginComponent, canActivate: [AuthorizeGuard] },
-      { path: 'training/login-success', component: TrainingLoginSuccessComponent, canActivate: [AuthorizeGuard] },
+      { path: 'training/login/:phaseid/:dateid/:datetype', component: TrainingLoginComponent },
+      { path: 'training/login-success', component: TrainingLoginSuccessComponent },
     ]),
     TimepickerModule.forRoot(),
     FusionChartsModule,

@@ -35,8 +35,10 @@ namespace InspecWeb.Models
         [Description("เวลาสิ้นสุดกำหนดการ")]
         public string MinuteEndDate { get; set; }
 
+        [ForeignKey("TrainingProgramType")]
         [Description("ประเภท")]
-        public string ProgramType { get; set; }
+        public long ProgramType { get; set; }
+        public virtual TrainingProgramType TrainingProgramTypes { get; set; }
 
         [Description("หัวเรื่อง")]
         public string ProgramTopic { get; set; }

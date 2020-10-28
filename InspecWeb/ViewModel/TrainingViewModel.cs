@@ -67,7 +67,7 @@ namespace InspecWeb.ViewModel
 
         public string MinuteEndDate { get; set; }
 
-        public string ProgramType { get; set; }
+        public long ProgramType { get; set; }
 
         public string ProgramTopic { get; set; }
 
