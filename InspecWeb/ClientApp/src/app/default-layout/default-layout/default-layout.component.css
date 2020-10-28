@@ -32,7 +32,10 @@
   content: " ";
   /* background-image: image('./assets/img/logo2.png'); */
 }
+.font-weight-bold{
 
+  font-weight: 500!important;
+}
 .sidebar-brand, .sidebar-brand:hover {
   /* padding: 1rem; */
   /* background: #153d77; */
