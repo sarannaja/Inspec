@@ -52,7 +52,7 @@ export class ElectronicBookAllComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [6],
+          targets: [7],
           orderable: false
         }
       ],

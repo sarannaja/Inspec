@@ -33,9 +33,10 @@
                   <td style="text-align: center; max-width: 300px; text-overflow: ellipsis;">
                     <div>
                       <h2
-                        style="font-size: 65px; transform: rotate(90.0deg); white-space: nowrap; font-family: 'Niramit', sans-serif;">
-                        {{item.name}}
-                        <!-- <span style="font-size: 15px; position: absolute; right: -200px; top:-60px;">รหัส</span> -->
+                        style="font-size: 60px; transform: rotate(90.0deg); white-space: nowrap; font-family: 'Niramit', sans-serif;">
+                        {{item.user.prefix}}{{item.name}}
+                        <span style="font-size: 20px; position: absolute; right: -200px; top:-60px;">รหัส
+                          {{item.idCode === null ? '-' : item.idCode}}</span>
                         <br>
                         <span style="font-size: 45px;">{{item.department}}</span>
                       </h2>
@@ -43,9 +44,10 @@
                   </td>
                   <td style="text-align: center; max-width: 300px; text-overflow: ellipsis;">
                     <h2
-                      style="font-size: 65px; transform: rotate(-90.0deg); white-space: nowrap; font-family: 'Niramit', sans-serif;">
-                      {{item.name}}
-                      <!-- <span style="font-size: 15px; position: absolute; right: -200px; top:-60px;">รหัส</span> -->
+                      style="font-size: 60px; transform: rotate(-90.0deg); white-space: nowrap; font-family: 'Niramit', sans-serif;">
+                      {{item.user.prefix}}{{item.name}}
+                      <span style="font-size: 20px; position: absolute; right: -200px; top:-60px;">รหัส
+                        {{item.idCode === null ? '-' : item.idCode}}</span>
                       <br>
                       <span style="font-size: 45px;">{{item.department}}</span>
                     </h2>

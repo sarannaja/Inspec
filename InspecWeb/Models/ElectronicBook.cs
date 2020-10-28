@@ -74,5 +74,9 @@ namespace InspecWeb.Models
         public string ProvinceType { get; set; }
 
         public ICollection<ElectronicBookProvincialDepartment> ElectronicBookProvincialDepartments { get; set; }
+
+        [Description("วันที่สร้าง")]
+        [DataType(DataType.Date)]
+        public DateTime? CreatedAt { get; set; }
     }
 }

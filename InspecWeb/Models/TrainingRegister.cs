@@ -26,8 +26,10 @@ namespace InspecWeb.Models
         [Description("ประเภทบุคคล")]
         public long UserType { get; set; }
 
+        [ForeignKey("User")]
         [Description("รหัสบุคคล")]
         public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         [ForeignKey(" ProvincialDepartment")]
         [Description("FK: หน่วยงานส่วนภูมิถาค")]
