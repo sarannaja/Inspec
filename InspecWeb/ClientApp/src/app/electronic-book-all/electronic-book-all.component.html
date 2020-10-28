@@ -43,6 +43,7 @@
               <th>ผู้สร้าง</th>
               <th>กระทรวง</th>
               <th>กรม</th>
+              <th>วันที่สร้าง</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -62,6 +63,7 @@
               <td>{{item.user.prefix}} {{item.user.name}}</td>
               <td>{{item.user.ministries.name}}</td>
               <td>{{item.user.departments.name}}</td>
+              <td>{{item.createdAt | thaidate: 'short'}}</td>
               <td>
                 <i class="align-middle mr-2 fas fa-search" (click)="gotoDetail(item.id)"
                   title="ดูรายละเอียดสมุดตรวจอิเล็กทรอนิกส์" style="cursor: pointer;"></i>

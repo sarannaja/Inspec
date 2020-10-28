@@ -1842,6 +1842,7 @@ namespace InspecWeb.Controllers
                 StartDate = model.startDate,
                 EndDate = model.endDate,
                 ProvinceType = model.sendToProvince,
+                CreatedAt = DateTime.Now
             };
             System.Console.WriteLine("1");
 
@@ -1945,6 +1946,7 @@ namespace InspecWeb.Controllers
                 ProvinceType = model.sendToProvince,
                 CentralPolicy = model.centralPolicyEventTitle,
                 // ProvincialDepartmentId = model.provincialDepartmentId,
+                CreatedAt = DateTime.Now
             };
 
             _context.ElectronicBooks.Add(ElectronicBookdata);
