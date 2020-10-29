@@ -93,8 +93,7 @@ export class ListTrainingRegisterComponent implements OnInit {
     this.trainingservice.getregistertrainingdata(this.trainingid)
       .subscribe(result => {
         this.resulttraining = result
-        this.loading = true
-
+        //this.loading = true
         // this.birthdate = this.resulttraining.birthDate
 
         //console.log(this.resulttraining);
@@ -104,11 +103,14 @@ export class ListTrainingRegisterComponent implements OnInit {
             this.resulttrainingCondition = result.map(result => {
               return { ...result, status: false }
             })
+
+
             // this.condition = result.map((result => {
             //   return { id: result.id, status: false }
             // }))
 
             const doAsync = () => {
+
               return new Promise((resolve, reject) => {
                 setTimeout(() => {
                   var check: any[] = []
@@ -131,7 +133,7 @@ export class ListTrainingRegisterComponent implements OnInit {
 
                   resolve(check)
                   // return
-                }, 100)
+                }, 500)
               })
             }
             // this.resulttrainingCondition.forEach(result3 => {
@@ -159,10 +161,10 @@ export class ListTrainingRegisterComponent implements OnInit {
                 // })
                 // return {...result,status:false}
               })
-
+              this.loading = true
 
             })
-            this.loading = true
+
             // console.log('result.id == result.registerId', this.resulttraining);
 
             // setTimeout(() => {
@@ -183,6 +185,8 @@ export class ListTrainingRegisterComponent implements OnInit {
 
           })
       })
+
+
   }
 
   // gettrainingdata2() {
@@ -215,9 +219,10 @@ export class ListTrainingRegisterComponent implements OnInit {
 
     // alert(JSON.stringify(this.peopledetail))
 
-    this.resulttrainingCondition = this.resulttrainingCondition.map(result => {
-      return { ...result, status: false }
-    })
+    // this.resulttrainingCondition = this.resulttrainingCondition.map(result => {
+    //   return { ...result, status: false }
+    // })
+    this.getData()
     this.delid = id;
     //console.log(this.delid);
     this.checkcondition(item, index)

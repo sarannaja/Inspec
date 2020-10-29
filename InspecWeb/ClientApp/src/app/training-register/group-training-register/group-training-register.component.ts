@@ -102,6 +102,7 @@ export class GroupTrainingRegisterComponent implements OnInit {
   // }
 
   openModal(template: TemplateRef<any>, id) {
+    this.approve = []
     // alert(id)
     this.delid = id;
     console.log(this.delid);

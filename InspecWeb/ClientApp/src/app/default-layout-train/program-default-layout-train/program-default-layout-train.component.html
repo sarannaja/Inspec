@@ -90,7 +90,7 @@
     <div class="container">
         <div class="row">
         <div class="col-12">
-            <div class="">
+            <div class="mt-3">
                 <!-- <label *ngFor="let item of resulttraining; let i = index">{{ item.name }}</label> -->
                 <h1><label >{{ name }}</label></h1>
                 <label >{{ createdAt | thaidate:'year'}}</label>
@@ -128,8 +128,9 @@
                               {{item.trainingProgram.programLocation}}/{{item.trainingProgram.programToDress}}
                           </td>
                           <td class="text-center">
-                            <a href="{{downloadUrl}}/{{item.trainingProgram.trainingProgramFiles.name}}" target="_blank">
-                                <i class="align-middle mr-2 fas fa-fw fa-file pointer"></i>
+                              <!-- <label>{{ item.trainingProgram.trainingProgramFiles[0].name }}</label> -->
+                            <a href="{{downloadUrl}}/{{item.trainingProgram.trainingProgramFiles[0].name}}" *ngIf="item.trainingProgram.trainingProgramFiles[0].name != ''" target="_blank">
+                                <i class="align-middle mr-2 fas fa-fw fa-file pointer"></i>ดาวน์โหลด
                             </a>
                           </td>
                       </tr>

@@ -518,7 +518,8 @@ namespace InspecWeb.Controllers
             var districtdata = _context.TrainingRegisters
                 .Include(m => m.Training)
                 .Include(m => m.ProvincialDepartments)
-                .Where(m => m.TrainingId == trainingid);
+                .Where(m => m.TrainingId == trainingid)
+                .OrderBy(m=>m.IDCode);
 
             return Ok(districtdata);
 
@@ -855,6 +856,7 @@ namespace InspecWeb.Controllers
                 {
                     TrainingLecturerJoinSurveyId = model.TrainingLecturerJoinSurveyId,
                     TrainingSurveyId = item.trainingsurveyId,
+                    Username = model.Username,
                     Name = model.Name,
                     Posoition = model.Position,
                     SurveyType = item.SurveyType,
@@ -2127,11 +2129,40 @@ namespace InspecWeb.Controllers
                 .Select(m => m.Score)
                 .ToList();
 
+                var dataScoreverygood = _context.TrainingSurveyAnswers
+                .Include(m => m.TrainingSurvey)
+                .Where(m => m.TrainingSurveyId == item.Id && m.SurveyType == 1 && m.Score == 4)
+                .Select(m => m.Score)
+                .ToList();
+
+                var dataScoregood = _context.TrainingSurveyAnswers
+                .Include(m => m.TrainingSurvey)
+                .Where(m => m.TrainingSurveyId == item.Id && m.SurveyType == 1 && m.Score == 3)
+                .Select(m => m.Score)
+                .ToList();
+
+                var dataScorefair = _context.TrainingSurveyAnswers
+                .Include(m => m.TrainingSurvey)
+                .Where(m => m.TrainingSurveyId == item.Id && m.SurveyType == 1 && m.Score == 2)
+                .Select(m => m.Score)
+                .ToList();
+
+                var dataScoredown = _context.TrainingSurveyAnswers
+                .Include(m => m.TrainingSurvey)
+                .Where(m => m.TrainingSurveyId == item.Id && m.SurveyType == 1 && m.Score == 1)
+                .Select(m => m.Score)
+                .ToList();
+
+
                 result.Add(new
                 {
                     SurveyId = item.Id,
                     SurveyName = item.Name,
-                    ScoreSum = dataScore.Sum()
+                    ScoreSum = dataScore.Sum(),
+                    ScoreVerygood = dataScoreverygood.Count(),
+                    ScoreGood = dataScoregood.Count(),
+                    ScoreFair = dataScorefair.Count(),
+                    ScoreDown = dataScoredown.Count(),
                 });
             }
 
@@ -2285,6 +2316,21 @@ namespace InspecWeb.Controllers
 
             _context.TrainingProgramTypes.Remove(trainingdata);
             _context.SaveChanges();
+        }
+
+
+        //เช็คตอบแบบสอบถามทำไปแล้วยัง
+        //GET api/Training/programtype/get
+        [HttpGet("checkalreadysurvey/get/{username}")]
+        public IActionResult GetCheckAlreadysurvey(string username)
+        {
+            var result = new List<object>();
+
+            var data = _context.TrainingSurveyAnswers
+                .Where(x => x.Username == username)
+                .ToList();
+
+            return Ok(data);
         }
 
 

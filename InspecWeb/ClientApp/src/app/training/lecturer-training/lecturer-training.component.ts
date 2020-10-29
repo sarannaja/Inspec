@@ -103,7 +103,7 @@ export class LecturerTrainingComponent implements OnInit {
     }
   }
 
-  ViewModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience, detailplus) {
+  ViewModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile) {
     this.delid = id;
     //console.log(this.delid);
 
@@ -119,7 +119,7 @@ export class LecturerTrainingComponent implements OnInit {
       "detailplus": new FormControl(null, [Validators.required]),
     })
     this.ViewForm.patchValue({
-      "vlecturertype": 'sdfdsf',
+      "vlecturertype": 'วิทยากร',
       "lecturername": lecturerName,
       "lecturerphone": phone,
       "lectureremail": email,

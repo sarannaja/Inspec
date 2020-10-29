@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@ang
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
 
-import { IMyOptions } from 'mydatepicker-th';
+import { IMyDateModel, IMyOptions } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
 
@@ -16,7 +16,11 @@ import { Chart } from 'chart.js';
   styleUrls: ['./phase-training.component.css']
 })
 export class PhaseTrainingComponent implements OnInit {
-
+  myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false
+  };
   trainingid: string
   resulttraining: any[] = []
   modalRef: BsModalRef;
@@ -59,7 +63,7 @@ export class PhaseTrainingComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [0,1,2,3,4,5],
+          targets: [0, 1, 2, 3, 4, 5],
           orderable: false
         }
       ],
@@ -79,6 +83,16 @@ export class PhaseTrainingComponent implements OnInit {
       // }
 
     };
+    this.EditForm = this.fb.group({
+      "phaseno": new FormControl(null, [Validators.required]),
+      "startdate": new FormControl(null, [Validators.required]),
+      "enddate": new FormControl(null, [Validators.required]),
+      "title": new FormControl(null, [Validators.required]),
+      "detail": new FormControl(null, [Validators.required]),
+      "location": new FormControl(null, [Validators.required]),
+      "group": new FormControl(null, [Validators.required]),
+    })
+
     this.Form = this.fb.group({
       phaseno: new FormControl(null, [Validators.required]),
       title: new FormControl(null, [Validators.required]),
@@ -196,6 +210,7 @@ export class PhaseTrainingComponent implements OnInit {
   openModal(template: TemplateRef<any>, id) {
     this.submitted = false;
     this.delid = id;
+    this.Form.reset();
     //console.log(this.delid);
     this.modalRef = this.modalService.show(template);
   }
@@ -203,51 +218,59 @@ export class PhaseTrainingComponent implements OnInit {
   editModal(template: TemplateRef<any>, id, phaseno, startdate, enddate, title, detail, location, group) {
     this.submitted = false;
     this.editid = id;
+    this.Form.reset();
     //console.log(this.delid);
 
+    console.log(this.Form.value);
     this.modalRef = this.modalService.show(template);
-    this.EditForm = this.fb.group({
-      "phaseno": new FormControl(null, [Validators.required]),
-      "startdate": new FormControl(null, [Validators.required]),
-      "enddate": new FormControl(null, [Validators.required]),
-      "title": new FormControl(null, [Validators.required]),
-      "detail": new FormControl(null, [Validators.required]),
-      "location": new FormControl(null, [Validators.required]),
-      "group": new FormControl(null, [Validators.required]),
-    })
-
-            //console.log("element: ", element.startDate)
-            //const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
-            // let sDate: Date = new Date(startdate);
-            // let eDate: Date = new Date(enddate)
-            // console.log("EEE", sDate);
-
-            // this.d.push(this.fb.group({
-            //   startdate: {
-            //     year: sDate.getFullYear(),
-            //     month: sDate.getMonth() + 1,
-            //     day: sDate.getDate()
-            //   },
-            //   enddate: {
-            //     year: eDate.getFullYear(),
-            //     month: eDate.getMonth() + 1,
-            //     day: eDate.getDate()
-            //   }
-            // }))
-
-
-    this.EditForm.patchValue({
+    this.Form.patchValue({
       "phaseno": phaseno,
-      "startdate": startdate,
+      startdate: {
+        year: new Date(startdate).getFullYear(),
+        month: new Date(startdate).getMonth() + 1,
+        day: new Date(startdate).getDate()
+      },
       "enddate": enddate,
       "title": title,
       "detail": detail,
       "location": location,
       "group": group,
     })
+    //console.log("element: ", element.startDate)
+    //const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
+    // let sDate: Date = new Date(startdate);
+    // let eDate: Date = new Date(enddate)
+    // console.log("EEE", sDate);
+
+    // this.d.push(this.fb.group({
+    //   startdate: {
+    //     year: sDate.getFullYear(),
+    //     month: sDate.getMonth() + 1,
+    //     day: sDate.getDate()
+    //   },
+    //   enddate: {
+    //     year: eDate.getFullYear(),
+    //     month: eDate.getMonth() + 1,
+    //     day: eDate.getDate()
+    //   }
+    // }))
+
+
+
+
   }
 
-  
+
+  get fe() { return this.Form }
+
+  onDateChanged(event: IMyDateModel) {
+
+    this.Form.patchValue({
+      startdate: event.date
+    })
+  }
+
+
   storeTraining(value) {
     console.log(value);
     this.submitted = true;
@@ -265,8 +288,8 @@ export class PhaseTrainingComponent implements OnInit {
       // console.log(this.test);
 
       this.trainingservice.addTrainingPhase(value, this.trainingid).subscribe(response => {
-        console.log("viewdata:",value);
-        console.log("result:",response);
+        console.log("viewdata:", value);
+        console.log("result:", response);
         this.modalRef.hide()
         this.Form.reset()
         this.loading = false
@@ -279,16 +302,16 @@ export class PhaseTrainingComponent implements OnInit {
   editTraining(value, id) {
     console.log(value);
     this.submitted = true;
-    if (this.EditForm.invalid) {
+    if (this.Form.invalid) {
       console.log("in1");
       return;
     } else {
       this.trainingservice.editTrainingPhase(value, id).subscribe(response => {
-        this.EditForm.reset()
+        this.Form.reset()
         this.modalRef.hide()
         this.loading = false
         this.getTrainingPhase()
-      
+
       })
     }
   }

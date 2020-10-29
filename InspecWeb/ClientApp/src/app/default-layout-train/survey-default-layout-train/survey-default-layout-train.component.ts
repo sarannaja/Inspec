@@ -59,6 +59,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
   Form: FormGroup;
   FormAnswer: FormGroup;
   suveyjoinlecid: string;
+  Username: any;
 
 
   // constructor() { }
@@ -148,6 +149,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
           }
         })
       var body = {
+        Username: this.Username,
         Name: this.Name,
         Position: this.Position,
         TrainingLecturerJoinSurveyId: this.suveyjoinlecid,
@@ -162,7 +164,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
         })
 
         this.router.navigate(['/train/']);
-        this._NotofyService.onError("ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
+        this._NotofyService.onSuccess("เสร็จสิ้น")
       //alert('เข้าหลังบ้านตรงนี้')
     //}
 
@@ -207,8 +209,9 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
         this.UserService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.resultuser = result;
-            //console.log("test" , this.resultuser);
+            console.log("resultuser =>" , this.resultuser);
             this.role_id = result[0].role_id
+            this.Username = result[0].userName
 
             this.Prefix = result[0].prefix
             this.Name = result[0].name
