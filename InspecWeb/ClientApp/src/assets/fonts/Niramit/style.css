@@ -5,6 +5,6 @@
         url('Niramit-SemiBoldItalic.woff') format('woff'),
         url('Niramit-SemiBoldItalic.ttf') format('truetype');
     font-weight: 600;
-    font-style: italic;
+    /* font-style: italic; */
     /* font-size: 8000px; */
   }

@@ -31,7 +31,7 @@ code {
 
 
 @import "~ng-snotify/styles/material";
-/* @import "./assets/dist/css/modern.css"; */
+/* @import "./assets/fonts/Prompt/style.css"; */
 .prompt {
   font-family: "Prompt", sans-serif;
 }

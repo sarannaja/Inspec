@@ -5,8 +5,9 @@ export interface PeopleModel {
     trainingId: number;
     userType: number;
     userId: string;
+    user: any;
     provincialDepartmentId: number;
-    provincialDepartments: null;
+    provincialDepartments: any;
     userName: string;
     name: string;
     position: string;
@@ -36,18 +37,18 @@ export interface PeopleModel {
     collaboratorPhoneOffice: string;
     collaboratorEmail: string;
     training: Training;
-    idCode: string;
-    noIDCode: null;
-    idCodeCreatedAt: null;
+    idCode: any;
+    noIDCode: any;
+    idCodeCreatedAt: any;
     createdAt: string;
-    trainingRegisterConditions: null;
+    trainingRegisterConditions: any;
 }
 
 export interface Training {
     id: number;
     name: string;
     detail: string;
-    location: null;
+    location: any;
     generation: number;
     year: number;
     courseCode: number;
@@ -58,5 +59,5 @@ export interface Training {
     image: string;
     status: number;
     createdAt: string;
-    trainingSurveys: null;
+    trainingSurveys: any;
 }

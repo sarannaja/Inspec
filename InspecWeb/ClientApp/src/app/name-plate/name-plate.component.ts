@@ -16,7 +16,7 @@ export class NamePlateComponent implements OnInit {
   people: any[] = [];
   loading = false;
   trainingid: any;
-  trainingRegisterData: any[] = [];
+  trainingRegisterData: PeopleModel[] = [];
   printData: PeopleModel[] = [];
   printDataGroup: any[] = [];
   hide = false;
@@ -61,7 +61,10 @@ export class NamePlateComponent implements OnInit {
       this.trainingRegisterData = res.filter(result => {
         return result.status == 1
       })
-
+      // for (let i = 0; i < 100; i++) {
+      //   this.trainingRegisterData.push(res[0])
+      // }
+      // this.trainingRegisterData.map((item, i) => ({ ...item, id: i + 1 }))
       this.loading = true
 
     })
@@ -99,7 +102,7 @@ export class NamePlateComponent implements OnInit {
   }
 
   Peoplegroup(printData: PeopleModel[] = []) {
-    let perpage = 9
+    let perpage = 6
     const grouped = (printData) => {
       return new Promise((resolve, reject) => {
         const group = printData
