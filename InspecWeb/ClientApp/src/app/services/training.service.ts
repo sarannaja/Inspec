@@ -25,6 +25,10 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + id)
   }
 
+  getregistertrainingdataApprove(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'approve/get/' + id)
+  }
+
   getregistertrainingpeopledata(id): Observable<any> {
     return this.http.get<any>(this.url + 'peopledetail/' + id)
   }

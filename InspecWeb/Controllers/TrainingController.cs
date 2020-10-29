@@ -492,6 +492,22 @@ namespace InspecWeb.Controllers
 
         }
 
+        //GET api/Training/trainingid
+        [HttpGet("approve/get/{trainingid}")]
+        public IActionResult GetTrainingRegisterApprove(long trainingid)
+        {
+            var districtdata = _context.TrainingRegisters
+                .Include(m => m.Training)
+                .Where(m => m.TrainingId == trainingid && m.Status == 1);
+
+            return Ok(districtdata);
+
+            //return _context.TrainingRegisters
+            //           .Include(m => m.Training)
+            //           .Where(m => m.TrainingId == trainingid);
+
+        }
+
 
         //GET api/Training/trainingid
         [HttpGet("trainingregisterlist/get/{trainingid}")]
@@ -1672,6 +1688,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.TrainingProgram)
                 .ThenInclude(m => m.TrainingPhase)
                 .Include(m => m.TrainingLecturer)
+                .Include(m => m.TrainingProgram.TrainingProgramFiles)
                 .Where(m => m.TrainingProgram.TrainingPhaseId == id);
 
             return Ok(districtdata);

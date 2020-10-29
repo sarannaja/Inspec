@@ -42,7 +42,7 @@
                             <td>{{ item.education }}</td> -->
                             <!-- <td><img src="{{downloadUrl}}/{{item.image}}" width="160" height="130"></td> -->
                             <td>
-                                <a href="/train/survey/{{trainingid}}/{{item.trainingLecturerJoinSurveysId[i].id}}" target="_blank">
+                                <a *ngIf="item.trainingLecturerJoinSurveysId.length > 0" href="/train/survey/{{trainingid}}/{{item.trainingLecturerJoinSurveysId[i].id}}" target="_blank">
                                     {{ item.surveyName }}
                                 </a>
                             </td>
