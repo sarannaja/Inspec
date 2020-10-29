@@ -465,6 +465,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.userService.editprofile(value, this.Form.value.files, this.Form.value.files2, this.userid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
+      location.reload();
       this.getuserinfo();
     })
   }
