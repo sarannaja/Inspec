@@ -715,7 +715,7 @@ export class DetailSubjecteventComponent implements OnInit {
       }
 
       if (value.statussuggestion == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid,null)
           .subscribe(response => {
             //console.log(response);
           })

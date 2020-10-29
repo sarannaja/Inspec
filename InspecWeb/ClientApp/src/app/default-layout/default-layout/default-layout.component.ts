@@ -301,7 +301,6 @@ export class DefaultLayoutComponent implements OnInit {
           location.href = '/electronicbook/detail/' + xe;
         }
 
-<<<<<<< HEAD
         else if (statusid == 21) { //song
           location.href = '/answerpeople';
         }
@@ -318,12 +317,10 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 25) { //song
           location.href = '/answerrecommendationinspecto/';
         }
-=======
         else if (statusid == 10 || statusid == 11) { //song
           location.href = '/executiveorder';
         }
        
->>>>>>> cdfc6aba73243f5bae37735f4def6063e34c3446
         // this.nav = superAdmin;
         // this.profileform();
         // this.getuserinfo();
