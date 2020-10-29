@@ -472,7 +472,7 @@ export class UserComponent implements OnInit {
 
     this.submitted = true;
     if (this.addForm.invalid) {
-     // console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? this.addForm.controls[index] : false }), Object.keys(this.addForm.controls)[25])
+      console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? this.addForm.controls[index] : false }), Object.keys(this.addForm.controls)[25])
       return;
     }
 
@@ -562,7 +562,7 @@ export class UserComponent implements OnInit {
       FiscalYear: [
         1,
         conditionalValidator(
-          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8 || this.roleId == 10) === true),
+          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8) === true),
           Validators.required
         )
       ],
@@ -576,7 +576,7 @@ export class UserComponent implements OnInit {
       UserRegion: [
         null,
         conditionalValidator(
-          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8 || this.roleId == 10) === true),
+          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8) === true),
           Validators.required
         )
       ],
