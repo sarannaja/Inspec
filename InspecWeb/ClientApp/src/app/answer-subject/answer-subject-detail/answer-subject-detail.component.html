@@ -1,5 +1,5 @@
 <div class="header">
-    
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
@@ -28,7 +28,21 @@
                             จังหวัด : {{province}}
                         </div>
                     </div>
-
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="form-group col-sm-8">
+                            <label for="city">ไฟล์แนบ</label>
+                            <div class=" d-flex flex-row"
+                                *ngFor="let item of resultsubjectdetail.subjectGroup.subjectEventFiles; let i = index">
+                                <a download href="{{downloadUrl}}/{{item.name}}" class="mr-5">
+                                    <span>ไฟล์ที่
+                                        {{i+1}})
+                                        {{ item.name }}<br>
+                                    </span>
+                                </a>
+                                <label for="city">คำอธิบาย : {{item.description}}</label>
+                            </div>
+                        </div>
+                    </div>
                     <!-- <div class="row" style="margin-top: 10px;">
                         <div class="col-md-6">
                             <u>ระยะเวลา</u><br>

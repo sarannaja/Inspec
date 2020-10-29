@@ -342,6 +342,8 @@ namespace InspecWeb.Controllers
             var subjectdata = _context.SubjectCentralPolicyProvinces
                 .Include(m => m.CentralPolicyProvince)
                 .ThenInclude(m => m.Province)
+                .Include(m => m.SubjectGroup)
+                .ThenInclude(m => m.SubjectEventFiles)
                 .Include(m => m.SubquestionCentralPolicyProvinces)
                 .ThenInclude(m => m.SubquestionChoiceCentralPolicyProvinces)
                 .Include(m => m.SubquestionCentralPolicyProvinces)
@@ -975,6 +977,16 @@ namespace InspecWeb.Controllers
 
             return Ok(new { status = true });
 
+        }
+        // GET api/values/5
+        [HttpGet("subjecteventfiles/{subjectgroupid}")]
+        public IActionResult Get13( long subjectgroupid)
+        {
+            var answeruserdata = _context.SubjectEventFiles
+                .Where(m => m.SubjectGroupId == subjectgroupid)
+                .ToList();
+               
+            return Ok(answeruserdata);
         }
     }
 }

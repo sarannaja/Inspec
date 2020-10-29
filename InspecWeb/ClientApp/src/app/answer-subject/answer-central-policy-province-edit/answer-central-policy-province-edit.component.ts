@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
@@ -22,6 +22,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   centralPolicyEventId
   status
   resultQuestionPeople: any[] = []
+  resultsubjecteventfiles: any[] = []
   resultanswer: Answerrole7List[] = []
   Form: FormGroup
   Formstatus: FormGroup
@@ -31,6 +32,7 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
   centralPolicyProvinceId: any
   subjectGroupId: any
   centralPolicyId: any
+  downloadUrl: any;
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -40,9 +42,11 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
     private authorize: AuthorizeService,
     private _NotofyService: NotofyService,
     private notificationService: NotificationService,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.inspectionPlanEventId = activatedRoute.snapshot.paramMap.get('inspectionplaneventid')
+    this.downloadUrl = baseUrl + '/Uploads';
   }
   get f() { return this.Form.controls; }
   get t() { return this.f.result as FormArray; }
@@ -73,7 +77,13 @@ export class AnswerCentralPolicyProvinceEditComponent implements OnInit {
         this.centralPolicyProvinceId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
         this.subjectGroupId = this.resultQuestionPeople[0].centralPolicyEvent.subjectGroupPeopleQuestions[0].subjectGroupId
         this.centralPolicyId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
+        this.getSubjectEventFiles()
       })
+  }
+  getSubjectEventFiles(){
+    this.answersubjectservice.getSubjectEventFiles(this.subjectGroupId).subscribe(result => {
+      this.resultsubjecteventfiles = result
+    })
   }
   getAnsweruser() {
     this.answersubjectservice.getAnsweruserlistrole7(this.id, this.inspectionPlanEventId, this.userid).subscribe(result => {
