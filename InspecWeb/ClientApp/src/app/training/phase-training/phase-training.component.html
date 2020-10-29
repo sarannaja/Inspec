@@ -1,5 +1,5 @@
 <div class="header">
-    
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
@@ -12,7 +12,7 @@
             <div class="card-header" style="margin-bottom: -40px;">
                 <h5 class="card-title">
                     จัดการหลักสูตรการอบรม / หลักสูตรอบรม(ช่วง)
-                    
+
                     <button class="btn btn-light btn-sm" (click)="gotoBack()">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </button>
@@ -77,27 +77,27 @@
                 </div>
                 <div class="modal-body m-3">
                     <div class="form-group">
-                        
+
                         <label for="test" class="form-label">ช่วงที่</label>
                         <!-- <input type="number" formControlName="phaseno" class="form-control col-6"
                             placeholder="กรุณากรอกช่วงที่" maxlength="2" [ngClass]="{ 'is-invalid': submitted && f.phaseno.errors }">
                             <div *ngIf="submitted && f.phaseno.errors" class="invalid-feedback">
                                 <div *ngIf="f.phaseno.errors.required">กรุณากรอกช่วงที่</div>
                             </div> -->
-                            <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
-                                <option value=null>กรุณาระบุช่วง</option>
-                                <option value=1>1</option>
-                                <option value=2>2</option>
-                                <option value=3>3</option>
-                                <option value=4>4</option>
-                                <option value=5>5</option>
-                                <option value=6>6</option>
-                                <option value=7>7</option>
-                                <option value=8>8</option>
-                                <option value=9>9</option>
-                                <option value=10>10</option>
-                            </select>
-                        
+                        <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
+                            <option value=null>กรุณาระบุช่วง</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                            <option value=5>5</option>
+                            <option value=6>6</option>
+                            <option value=7>7</option>
+                            <option value=8>8</option>
+                            <option value=9>9</option>
+                            <option value=10>10</option>
+                        </select>
+
                         <br>
 
                         <div class="">
@@ -127,30 +127,31 @@
 
                         <label for="test" class="form-label">หัวข้อเรื่องช่วง</label>
                         <input type="text" formControlName="title" class="form-control"
-                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
-                            <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                                <div *ngIf="f.title.errors.required">กรุณากรอกหัวข้อเรื่องช่วง</div>
-                            </div>
+                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง"
+                            [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                            <div *ngIf="f.title.errors.required">กรุณากรอกหัวข้อเรื่องช่วง</div>
+                        </div>
                         <br>
 
                         <label for="test" class="form-label">รายละเอียดช่วง</label>
-                        <textarea formControlName="detail" class="form-control"
-                            placeholder="กรุณากรอกรายละเอียดกิจกรรม" [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
-                            <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
-                                <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียดกิจกรรม</div>
-                            </div>
+                        <textarea formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียดกิจกรรม"
+                            [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
+                        <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+                            <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียดกิจกรรม</div>
+                        </div>
                         <br>
 
                         <label for="test" class="form-label">สถานที่</label>
                         <input type="text" formControlName="location" class="form-control"
                             placeholder="กรุณากรอกสถานที่" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
-                            <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
-                                <div *ngIf="f.location.errors.required">กรุณากรอกสถานที่</div>
-                            </div>
+                        <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                            <div *ngIf="f.location.errors.required">กรุณากรอกสถานที่</div>
+                        </div>
                         <br>
 
 
-                        
+
                         <label for="test" class="form-label">จำนวนกลุ่ม</label>
                         <div class="input-group">
                             <select class="form-control select2 col-5" data-toggle="select2" formControlName="group">
@@ -185,7 +186,7 @@
     <!-- BEGIN primary modal -->
     <ng-template #modalPhaseEdit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value, editid)">
+        <form [formGroup]="Form" (ngSubmit)="editTraining(Form.value, editid)">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">เพิ่มหลักสูตรอบรม(ช่วง)</h5>
@@ -199,20 +200,20 @@
                         <label for="test" class="form-label">ช่วงที่</label>
                         <!-- <input type="number" formControlName="phaseno" class="form-control"
                             placeholder="กรุณากรอกช่วงที่" maxlength="2" > -->
-                            <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
-                                <option value=null>กรุณาระบุช่วง</option>
-                                <option value=1>1</option>
-                                <option value=2>2</option>
-                                <option value=3>3</option>
-                                <option value=4>4</option>
-                                <option value=5>5</option>
-                                <option value=6>6</option>
-                                <option value=7>7</option>
-                                <option value=8>8</option>
-                                <option value=9>9</option>
-                                <option value=10>10</option>
-                            </select>
-                            
+                        <select class="form-control select2 col-5" data-toggle="select2" formControlName="phaseno">
+                            <option value=null>กรุณาระบุช่วง</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                            <option value=5>5</option>
+                            <option value=6>6</option>
+                            <option value=7>7</option>
+                            <option value=8>8</option>
+                            <option value=9>9</option>
+                            <option value=10>10</option>
+                        </select>
+
                         <br>
 
                         <div class="">
@@ -220,9 +221,10 @@
                         </div>
                         <div class="input-group">
                             <div class="form-group col-5">
-                                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required>
-                                </my-date-picker-th>
 
+                                <my-date-picker-th [selDate]="fe.value.programdate"
+                                    (dateChanged)="onDateChanged($event)" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th>
                             </div>
 
 
@@ -242,21 +244,21 @@
 
                         <label for="test" class="form-label">หัวข้อเรื่องช่วง</label>
                         <input type="text" formControlName="title" class="form-control"
-                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง" >
-                            
+                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง">
+
                         <br>
 
                         <label for="test" class="form-label">รายละเอียดช่วง</label>
                         <!-- <input type="text" formControlName="detail" class="form-control"
                             placeholder="กรุณากรอกรายละเอียดกิจกรรม" > -->
                         <textarea formControlName="detail" class="form-control"></textarea>
-                            
+
                         <br>
 
                         <label for="test" class="form-label">สถานที่</label>
                         <input type="text" formControlName="location" class="form-control"
-                            placeholder="กรุณากรอกสถานที่" >
-                            
+                            placeholder="กรุณากรอกสถานที่">
+
                         <br>
 
                         <label for="test" class="form-label">จำนวนกลุ่ม</label>

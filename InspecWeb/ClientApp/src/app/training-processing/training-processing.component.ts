@@ -31,6 +31,10 @@ export class TrainingProcessingComponent implements OnInit {
   inputtrainingsurveyanswerNo: any[];
   inputtrainingsurveyanswerName: any[];
   inputtrainingsurveyanswerScore: any[];
+  inputtrainingsurveyanswerScoreVeryGood: any[];
+  inputtrainingsurveyanswerScoreGood: any[];
+  inputtrainingsurveyanswerScoreVeryFair: any[];
+  inputtrainingsurveyanswerScoreVeryDown: any[];
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
@@ -78,8 +82,9 @@ export class TrainingProcessingComponent implements OnInit {
       console.log("inputtrainingsurveyanswerNo =>", this.inputtrainingsurveyanswerNo);
       console.log("inputtrainingsurveyanswer =>", this.inputtrainingsurveyanswerYesOrNoTopic);
 
-      var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      var color = Chart.helpers.color;
+      //var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      //var color = Chart.helpers.color;
+
       this.horizontalBarChartData = {
       //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       //หัวข้อประเมิน
@@ -150,19 +155,75 @@ export class TrainingProcessingComponent implements OnInit {
           }
         )
 
+        this.inputtrainingsurveyanswerScoreVeryGood = this.resulttrainingsurvey.map(
+          (item, index) => {
+            return item.scoreVerygood
+          }
+        )
+
+        this.inputtrainingsurveyanswerScoreGood = this.resulttrainingsurvey.map(
+          (item, index) => {
+            return item.scoreGood
+          }
+        )
+
+        this.inputtrainingsurveyanswerScoreVeryFair = this.resulttrainingsurvey.map(
+          (item, index) => {
+            return item.scoreFair
+          }
+        )
+
+        this.inputtrainingsurveyanswerScoreVeryDown = this.resulttrainingsurvey.map(
+          (item, index) => {
+            return item.scoreDown
+          }
+        )
+
         this.surveyLikeBarChartData = {
           //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
           //หัวข้อประเมิน
           labels: this.inputtrainingsurveyanswerName,
+          // datasets: [{
+          //   label: this.inputtrainingsurveyanswerName,
+          //   //backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+          //   backgroundColor: "green",
+          //   borderColor: "green",
+          //   borderWidth: 1,
+          //   //data: [5,17,3,50,12],
+          //   data: this.inputtrainingsurveyanswerScore,
+          // }]
+
           datasets: [{
-            label: this.inputtrainingsurveyanswerName,
+            label: 'ดีมาก',
             //backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
             backgroundColor: "green",
             borderColor: "green",
             borderWidth: 1,
             //data: [5,17,3,50,12],
-            data: this.inputtrainingsurveyanswerScore,
+            data: this.inputtrainingsurveyanswerScoreVeryGood,
+          }, {
+            label: 'ดี',
+            //backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+            backgroundColor: "yellow",
+            borderColor: "yellow",
+            //data: [20,7,3,5,2],
+            data: this.inputtrainingsurveyanswerScoreGood,
+          }, {
+            label: 'พอใช้',
+            //backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+            backgroundColor: "orange",
+            borderColor: "orange",
+            //data: [20,7,3,5,2],
+            data: this.inputtrainingsurveyanswerScoreVeryFair,
+          }, {
+            label: 'ควรปรับปรุง',
+            //backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+            backgroundColor: "gray",
+            borderColor: "gray",
+            //data: [20,7,3,5,2],
+            data: this.inputtrainingsurveyanswerScoreVeryDown,
           }]
+          
     
         };
 

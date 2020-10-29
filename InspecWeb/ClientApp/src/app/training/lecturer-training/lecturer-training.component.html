@@ -39,7 +39,7 @@
                             <!-- <td>{{ item.education }}</td> -->
                             <td>
                                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="ดูประวัติวิทยการ"
-                                    (click)="ViewModal(modalTrainingView, item.id, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus)"></i>
+                                    (click)="ViewModal(modalTrainingView, item.id, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus, item.ImageProfile)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                     (click)="editModal(modaleditTraining, item.id, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus)"></i>
                                 
@@ -162,8 +162,7 @@
                         <input type="text" formControlName="lecturername" class="form-control" readonly>
                         <br>
                         <label class="form-label w-100">รูปถ่าย</label>
-                        <input type="file" (change)="uploadFile($event)" Accept=".jpg, .jpeg, .png">
-                        <small class="form-text text-muted">สำหรับแนบไฟล์ .jpg .png เท่านั้น</small>
+                        <img src="" />
                         <br>
                         <label for="test" class="form-label">เบอร์โทรศัพท์</label>
                         <input type="text" formControlName="lecturerphone" class="form-control" readonly>

@@ -21,7 +21,7 @@ export class ProgramTrainingComponent implements OnInit {
 
   myDatePickerOptions: IMyOptions = {
     // other options...
-    dateFormat: 'dd/mm/yyyy',
+    // dateFormat: 'dd/mm/yyyy',
     showClearDateBtn: false
   };
   trainingid: string
