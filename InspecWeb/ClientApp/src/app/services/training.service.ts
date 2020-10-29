@@ -336,12 +336,16 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'historyreport/' + name)
   }
 
-  getprogramtraining(trainingid): Observable<any[]> {
-    return this.http.get<any[]>(this.url + 'program/' + trainingid)
-  }
+
 
 
   //--------zone training program-------
+  getprogramtraining(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'program/' + trainingid)
+  }
+  getprogramtrainingdetail(programid): Observable<any> {
+    return this.http.get<any>(this.url + "programdetail/" + programid)
+  }
   addTrainingProgram(trainingData, file: FileList) {
     console.log(trainingData);
     console.log(file);
@@ -370,6 +374,39 @@ export class TrainingService {
 
   deleteTrainingProgram(trainingid) {
     return this.http.delete(this.url + 'program/delete/' + trainingid);
+  }
+  editTrainingProgram(trainingData, programid, removelecturer, addlecturer, file: FileList) {
+    console.log(removelecturer);
+
+    const formData = new FormData();
+    formData.append('ProgramDate', trainingData.programdate.year + '-' + trainingData.programdate.month + '-' + trainingData.programdate.day);
+    formData.append('MinuteStartDate', trainingData.mStart);
+    formData.append('MinuteEndDate', trainingData.mEnd);
+    formData.append('ProgramType', trainingData.programtype);
+    formData.append('ProgramTopic', trainingData.programtopic);
+    formData.append('ProgramDetail', trainingData.programdetail);
+    formData.append('ProgramLocation', trainingData.programlocation);
+    formData.append('ProgramToDress', trainingData.programtodress);
+    if (removelecturer.length > 0) {
+      for (var i = 0; i < removelecturer.length; i++) {
+        formData.append('RemoveLecturer', removelecturer[i]);
+      }
+    }
+    if (addlecturer.length > 0) {
+      for (var i = 0; i < addlecturer.length; i++) {
+        formData.append('AddLecturer', addlecturer[i]);
+      }
+    }
+    if (file != null) {
+      for (var ii = 0; ii < file.length; ii++) {
+        formData.append("files", file[ii]);
+      }
+    }
+    console.log("RemoveLecturer", formData.getAll('RemoveLecturer'));
+    return this.http.put(this.url + 'program/edit/' + programid, formData);
+  }
+  deleteTrainingProgramFiles(trainingprogramfilesid) {
+    return this.http.delete(this.url + 'program/deletefiles/' + trainingprogramfilesid);
   }
   //-------------------------------------
   //--------zone training lecturer-------

@@ -6,10 +6,11 @@ import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@ang
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from "ngx-spinner";
 
-import { IMyOptions } from 'mydatepicker-th';
+import { IMyDateModel, IMyOptions } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-program-training',
@@ -18,10 +19,17 @@ import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ProgramTrainingComponent implements OnInit {
 
+  myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false
+  };
   trainingid: string
   resulttraining: any[] = []
   modalRef: BsModalRef;
+  modalRef2: BsModalRef;
   delid: any
+  programid: any
   name: any
   link: any
   loading = false;
@@ -41,6 +49,12 @@ export class ProgramTrainingComponent implements OnInit {
   lineChart: any;
   submitted = false;
 
+  lecturer: any = []
+  oldlecturer: any = []
+  removelecturer: any = []
+  addlecturer: any = []
+  files: any = []
+  delfilesid: any
   constructor(private modalService: BsModalService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
@@ -81,6 +95,17 @@ export class ProgramTrainingComponent implements OnInit {
     })
     this.Formfile = this.fb.group({
       files: [null],
+    })
+    this.EditForm = this.fb.group({
+      programtype: new FormControl("", [Validators.required]),
+      programdate: new FormControl(null, [Validators.required]),
+      mStart: new FormControl(null, [Validators.required]),
+      mEnd: new FormControl(null, [Validators.required]),
+      programtopic: new FormControl(null, [Validators.required]),
+      programdetail: new FormControl(null, [Validators.required]),
+      programlocation: new FormControl(null, [Validators.required]),
+      programtodress: new FormControl(null, [Validators.required]),
+      lecturername: new FormControl(null, [Validators.required]),
     })
 
     this.getprogramtraining()
@@ -245,7 +270,70 @@ export class ProgramTrainingComponent implements OnInit {
     })
     this.modalRef = this.modalService.show(template);
   }
+  editModal(template: TemplateRef<any>, id, programtype, programdate, mStart, mEnd, programtopic, programdetail, programlocation, programtodress, lecturername: any[] = [], files) {
+    console.log("123", lecturername);
+    this.programid = id
+    this.getprogramtrainingdetail()
+    this.modalRef = this.modalService.show(template);
+    // this.lecturer = lecturername.map(result => result.trainingLecturerId)
+    // this.oldlecturer = lecturername.map(result => result.trainingLecturerId)
+    // this.EditForm.patchValue({
+    //   programtype: programtype,
+    //   // programdate: programdate,
+    //   programdate: {
+    //     year: new Date(programdate).getFullYear(),
+    //     month: new Date(programdate).getMonth() + 1,
+    //     day: new Date(programdate).getDate()
+    //   },
+    //   mStart: mStart,
+    //   mEnd: mEnd,
+    //   programtopic: programtopic,
+    //   programdetail: programdetail,
+    //   programlocation: programlocation,
+    //   programtodress: programtodress,
+    //   lecturername: this.lecturer
+    // })
 
+    // this.files = files
+  }
+  getprogramtrainingdetail(){
+    var lecturername: any[] = []
+    this.trainingservice.getprogramtrainingdetail(this.programid).subscribe(result => {
+      lecturername = result.trainingProgramLecturers
+      this.lecturer = lecturername.map(result => result.trainingLecturerId)
+      this.oldlecturer = lecturername.map(result => result.trainingLecturerId)
+      this.EditForm.patchValue({
+        programtype: result.programType,
+        // programdate: programdate,
+        programdate: {
+          year: new Date(result.programDate).getFullYear(),
+          month: new Date(result.programDate).getMonth() + 1,
+          day: new Date(result.programDate).getDate()
+        },
+        mStart: result.minuteStartDate,
+        mEnd: result.minuteEndDate,
+        programtopic: result.programTopic,
+        programdetail: result.programDetail,
+        programlocation: result.programLocation,
+        programtodress: result.programToDress,
+        lecturername: this.lecturer
+      })
+      this.files = result.trainingProgramFiles
+    })
+  }
+  get fe() { return this.EditForm }
+
+  onDateChanged(event: IMyDateModel) {
+
+    this.EditForm.patchValue({
+      programdate: event.date
+    })
+  }
+
+  openModaldelfiles(template: TemplateRef<any>, id) {
+    this.delfilesid = id;
+    this.modalRef2 = this.modalService.show(template);
+  }
 
   storeTraining(value) {
     //alert(JSON.stringify(value))   
@@ -273,6 +361,24 @@ export class ProgramTrainingComponent implements OnInit {
     }
   }
 
+  editTraining(value) {
+    console.log(value);
+    console.log("Old: ", this.oldlecturer);
+    console.log("New: ", this.lecturer);
+
+    this.removelecturer = _.differenceBy(this.oldlecturer, this.lecturer);
+    console.log("Remove Value => ", this.removelecturer);
+
+    this.addlecturer = _.differenceBy(this.lecturer, this.oldlecturer);
+    console.log("Add Value => ", this.addlecturer);
+    this.trainingservice.editTrainingProgram(value, this.programid, this.removelecturer, this.addlecturer, this.Formfile.value.files).subscribe(result => {
+      console.log(result);
+      this.EditForm.reset()
+      this.modalRef.hide()
+      this.loading = false;
+      this.getprogramtraining();
+    })
+  }
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
     this.Formfile.patchValue({
@@ -300,7 +406,12 @@ export class ProgramTrainingComponent implements OnInit {
         })
     })
   }
-
+  deletefiles(){
+    this.trainingservice.deleteTrainingProgramFiles(this.delfilesid).subscribe(result => {
+      this.modalRef2.hide();
+      this.getprogramtrainingdetail()
+    })
+  }
   gotoBack() {
     window.history.back();
   }

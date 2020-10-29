@@ -1004,7 +1004,23 @@ namespace InspecWeb.Controllers
         {
             var districtdata = _context.TrainingPrograms
                 .Include(m => m.TrainingPhase)
+                .Include(m => m.TrainingProgramLecturers)
+                .Include(m => m.TrainingProgramFiles)
                 .Where(m => m.TrainingPhaseId == phaseid);
+
+            return Ok(districtdata);
+
+        }
+        //GET api/training/program
+        [HttpGet("programdetail/{programid}")]
+        public IActionResult GetProgramDetail(long programid)
+        {
+            var districtdata = _context.TrainingPrograms
+                .Include(m => m.TrainingPhase)
+                .Include(m => m.TrainingProgramLecturers)
+                .Include(m => m.TrainingProgramFiles)
+                .Where(m => m.Id == programid)
+                .FirstOrDefault();
 
             return Ok(districtdata);
 
@@ -1201,6 +1217,108 @@ namespace InspecWeb.Controllers
             var trainingdata = _context.TrainingPrograms.Find(trainingid);
 
             _context.TrainingPrograms.Remove(trainingdata);
+            _context.SaveChanges();
+        }
+
+        [HttpPut("program/edit/{programid}")]
+        public async Task<IActionResult> Put([FromForm] TrainingProgramViewModel model, long programid)
+        {
+            var programdata = _context.TrainingPrograms.Find(programid);
+            {
+                programdata.ProgramDate = model.ProgramDate;
+                programdata.MinuteStartDate = model.MinuteStartDate;
+                programdata.MinuteEndDate = model.MinuteEndDate;
+                programdata.ProgramType = model.ProgramType;
+                programdata.ProgramTopic = model.ProgramTopic;
+                programdata.ProgramDetail = model.ProgramDetail;
+                programdata.ProgramLocation = model.ProgramLocation;
+                programdata.ProgramToDress = model.ProgramToDress;
+            };
+
+            //_context.CentralPolicies.Add(centralpolicydata);
+            _context.Entry(programdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            if (model.RemoveLecturer != null)
+            {
+                System.Console.WriteLine("edit" + model.RemoveLecturer.Length);
+                foreach (var removelecturerId in model.RemoveLecturer)
+                {
+                    var removedata = _context.TrainingProgramLecturers
+                    .Where(x => x.TrainingLecturerId == removelecturerId && x.TrainingProgramId == programid)
+                    .ToList();
+
+                    foreach (var remove in removedata)
+                    {
+                        _context.TrainingProgramLecturers.Remove(remove);
+                    }
+                    _context.SaveChanges();
+                }
+            }
+
+            if (model.AddLecturer != null)
+            {
+                foreach (var addlecturerId in model.AddLecturer)
+                {
+                    System.Console.WriteLine("addID: " + addlecturerId);
+                    var trainingprogramlecturerdata = new TrainingProgramLecturer
+                    {
+                        TrainingProgramId = programid,
+                        TrainingLecturerId = addlecturerId
+                    };
+                    _context.TrainingProgramLecturers.Add(trainingprogramlecturerdata);
+                    _context.SaveChanges();
+                }
+            }
+            //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var trainingprogramfiledata = new TrainingProgramFile
+                        {
+                            TrainingProgramId = programid,
+                            Name = random + filename,
+                        };
+                        _context.TrainingProgramFiles.Add(trainingprogramfiledata);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            return Ok(new { status = true });
+        }
+
+        // DELETE api/training/program/delete/{trainingid}
+        [HttpDelete("program/deletefiles/{filesid}")]
+        public void DeleteTrainingProgramFiles(long filesid)
+        {
+            var trainingprogramfilesdata = _context.TrainingProgramFiles.Find(filesid);
+
+            _context.TrainingProgramFiles.Remove(trainingprogramfilesdata);
             _context.SaveChanges();
         }
         //------end training program---------

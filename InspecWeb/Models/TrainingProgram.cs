@@ -56,5 +56,8 @@ namespace InspecWeb.Models
         [DataType(DataType.Date)]
         public DateTime? CreatedAt { get; set; }
 
+        public ICollection<TrainingProgramLecturer> TrainingProgramLecturers { get; set; }
+        public ICollection<TrainingProgramFile> TrainingProgramFiles { get; set; }
+
     }
 }
