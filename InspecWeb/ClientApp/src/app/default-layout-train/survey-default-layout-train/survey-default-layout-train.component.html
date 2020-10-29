@@ -118,13 +118,13 @@
                     <label>{{ createdAt | thaidate:'year'}}</label>
                     <h2>แบบสอบถามการฝึกอบรม</h2>
                     <br>
-                    <label>ชื่อ-นามสกุล : </label>
+                    <!-- <label>ชื่อ-นามสกุล : </label>
                     <input type="text" value="{{ Prefix }} {{ Name }}" formControlName="name" class="form-control"
                         readonly placeholder="กรุณากรอกชื่อ-นามสกุล">
                     <br>
                     <label>ตำแหน่ง : </label>
                     <input type="text" value="{{ Position }}" formControlName="Position" class="form-control" readonly
-                        placeholder="กรุณากรอกชื่อ-นามสกุล">
+                        placeholder="กรุณากรอกชื่อ-นามสกุล"> -->
 
 
                     <table *ngIf="loading" class="table table-responsive-lg">
@@ -169,30 +169,27 @@
                                             <div *ngFor="let score of addScore" class="">
                                                 <input [checked]="item.value.score == score" type="checkbox"
                                                     (change)="formSelected(i,$event.target.value)" value="{{score}}">
-
-
-
                                                     <ng-container *ngIf="score == 1;else ansmsecond">
-                                                        พอใช้
+                                                        ควรปรับปรุง
                                                     </ng-container>
                                                     <ng-template #ansmsecond>
 
                                                         <ng-container *ngIf="score == 2;else ansmthird">
-                                                            ดี
+                                                            พอใช้
                                                         </ng-container>
                                                     </ng-template>
 
                                                     <ng-template #ansmthird>
 
                                                         <ng-container *ngIf="score == 3;else ansmfour">
-                                                            ดีมาก
+                                                            ดี
                                                         </ng-container>
                                                     </ng-template>
 
                                                     <ng-template #ansmfour>
 
                                                         <ng-container *ngIf="score == 4;">
-                                                            ดีเยี่ยม
+                                                            ดีมาก
                                                         </ng-container>
                                                     </ng-template>
 

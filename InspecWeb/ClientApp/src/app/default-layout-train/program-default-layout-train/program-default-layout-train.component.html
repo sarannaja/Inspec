@@ -101,10 +101,11 @@
               <table *ngIf="loading" class="table table-bordered table-responsive-lg">
               <thead>
                   <tr>
-                      <th class="text-center">วันที่/เวลา</th>
-                      <th class="text-center">กิจกรรม</th>
-                      <th class="text-center">วิทยากร</th>
-                      <th class="text-center">สถานที่/เตรียมตัว</th>
+                      <th class="text-center" width="15%">วันที่/เวลา</th>
+                      <th class="text-center" width="35%">กิจกรรม</th>
+                      <th class="text-center" width="20%">วิทยากร</th>
+                      <th class="text-center" width="20%">สถานที่/เตรียมตัว</th>
+                      <th class="text-center" width="10%">เอกสารการอบรม</th>
                       <!-- <th id="par" colspan="1" scope="colgroup">Paris</th> -->
                   </tr>
               </thead>
@@ -121,10 +122,15 @@
                           <td class="text-center" headers="{{item1.programDate}}">
                               {{item.trainingProgram.minuteStartDate}}-{{item.trainingProgram.minuteEndDate}}
                           </td>
-                          <td class="text-center">{{item.trainingProgram.programTopic}}</td>
+                          <td class="">{{item.trainingProgram.programTopic}}</td>
                           <td class="text-center">{{item.trainingLecturer.lecturerName}}</td>
                           <td class="text-center">
                               {{item.trainingProgram.programLocation}}/{{item.trainingProgram.programToDress}}
+                          </td>
+                          <td class="text-center">
+                            <a href="{{downloadUrl}}/{{item.trainingProgram.trainingProgramFiles.name}}" target="_blank">
+                                <i class="align-middle mr-2 fas fa-fw fa-file pointer"></i>
+                            </a>
                           </td>
                       </tr>
                   </ng-container>

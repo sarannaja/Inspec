@@ -97,7 +97,7 @@ export class ListDefaultLayoutTrainComponent implements OnInit {
       //console.log(this.resulttraining);
     })
 
-    this.trainingservice.getregistertrainingdata(this.trainingid)
+    this.trainingservice.getregistertrainingdataApprove(this.trainingid)
     .subscribe(result => {
       this.resulttraining3 = result
       this.loading = true
