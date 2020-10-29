@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { split } from 'lodash';
 import { TrainingService } from 'src/app/services/training.service';
 
 @Component({
@@ -10,7 +11,8 @@ import { TrainingService } from 'src/app/services/training.service';
 export class NamePlatePreviewComponent implements OnInit {
   people: any = [];
   printData: any = [];
-
+  test: any = [];
+  loading = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private trainingservice: TrainingService,
@@ -20,16 +22,32 @@ export class NamePlatePreviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.people);
+    console.log("people : ", this.people);
     this.getPrintData();
   }
 
   getPrintData() {
-    this.trainingservice.printNamePlate(this.people).subscribe(res => {
+    var test = this.people.split(",");
+    console.log("test: ", test);
+
+    this.trainingservice.printNamePlate(test).subscribe(res => {
       console.log("PrintData: ", res);
       this.printData = res.filter(res => res);
+      this.loading = true;
       // await this.printNamePlate();
     });
+
+    // for (let index = 0; index < this.people.length; index++) {
+    //   const element = this.people[index];
+    //   this.trainingservice.printNamePlatebyPalm(element).subscribe(res => {
+    //     this.printData.push(res)
+    //   })
+    // }
+    // this.loading = true;
+
+
+    console.log("printData => ", this.printData);
+
   }
 
   exportHTML() {

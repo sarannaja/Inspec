@@ -164,7 +164,7 @@ export class ElectronicbookService {
     formData.append('ElectID', electID);
 
     for (var i = 0; i < value.user.length; i++) {
-      formData.append("userId", value.user[i]);
+      formData.append("userId", value.user[i].userId);
     }
 
     return this.http.put(this.url + 'editSuggestion', formData)
