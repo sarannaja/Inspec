@@ -13,16 +13,18 @@ namespace InspecWeb.ViewModel
         public string Subject { get; set; }
         public string Body { get; set; }
 
-        
+
         public List<IFormFile> Attachments { get; set; }
     }
 
-     public class WelcomeRequest
+    public class WelcomeRequest
     {
         public string ToEmail { get; set; }
         public string UserName { get; set; }
+        public string Password { get; set; }
         public string Text { get; set; }
+        public string Host { get; set; }
 
-        
+
     }
 }

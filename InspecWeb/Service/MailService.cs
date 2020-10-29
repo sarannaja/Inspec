@@ -50,11 +50,17 @@ namespace InspecWeb.Services
 
         public async Task SendWelcomeEmailAsync(WelcomeRequest request)
         {
+            // var host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
             string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomeTemplate.html";
             StreamReader str = new StreamReader(FilePath);
             string MailText = str.ReadToEnd();
             str.Close();
-            MailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail);
+            MailText = MailText
+            .Replace("[username]", request.UserName)
+            .Replace("[email]", request.ToEmail)
+            .Replace("[password]", request.Password)
+            .Replace("[host]", request.Host);
+
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             email.To.Add(MailboxAddress.Parse(request.ToEmail));

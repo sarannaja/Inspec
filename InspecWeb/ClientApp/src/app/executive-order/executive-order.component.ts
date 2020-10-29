@@ -56,9 +56,9 @@ export class ExecutiveOrderComponent implements OnInit {
   imgprofileUrl: any;
   idexecutiveorder: any;
   idexecutiveorderanswer :any;
-  answerdetail: any;
-  answerProblem: any;
-  answerCounsel: any;
+  // answerdetail: any;
+  // answerProblem: any;
+  // answerCounsel: any;
   testUser: any;
   url = "";
   Subject :any;
@@ -68,6 +68,9 @@ export class ExecutiveOrderComponent implements OnInit {
   Draft :any;
   submitted = false;
   delete_id:any;
+  Answerdetail: any;
+  AnswerProblem: any;
+  AnswerCounsel: any;
   date: any = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
 
   constructor(
@@ -115,10 +118,10 @@ export class ExecutiveOrderComponent implements OnInit {
     })
 
     this.awnserForm = this.fb.group({
-      "Answerdetail": new FormControl(null, [Validators.required]),
-      "AnswerProblem": new FormControl(null, [Validators.required]),
-      "AnswerCounsel": new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      Answerdetail: new FormControl(null, [Validators.required]),
+      AnswerProblem: new FormControl(null, [Validators.required]),
+      AnswerCounsel: new FormControl(null, [Validators.required]),
+      files: new FormControl(null),
 
     })
 
@@ -152,6 +155,7 @@ export class ExecutiveOrderComponent implements OnInit {
             } else if (this.role_id == 1) {
               this.executiveorderService.getexecutiveorderdata()
                 .subscribe(result => {
+                  console.log("getexecutiveorderdata",result);
                   this.getDatauser();
                   this.resultexecutiveorder = result;
                   this.loading = true;
@@ -331,6 +335,8 @@ export class ExecutiveOrderComponent implements OnInit {
 
   //<!-- modal รายงานผล -->
   answerModal(template: TemplateRef<any>, id) {
+    this.awnserForm.reset()
+    this.submitted = false; 
     this.idexecutiveorderanswer = id;
     this.modalRef = this.modalService.show(template);
   }
@@ -340,7 +346,7 @@ export class ExecutiveOrderComponent implements OnInit {
   //<!-- รายงานผล -->
   storeanswerexecutiveorder(value) {
     this.submitted = true;
-    if (this.Form.invalid) {
+    if (this.awnserForm.invalid) {
         return;
     }
     //alert(1);
@@ -381,7 +387,7 @@ export class ExecutiveOrderComponent implements OnInit {
   gotitexecutiveorder(){  
     this.executiveorderService.gotitexecutiveorder(this.idexecutiveorder,this.idexecutiveorderanswer).subscribe(result => {
     
-      this.notificationService.addNotification(1, 1, 1, 11, this.idexecutiveorder,null)
+      this.notificationService.addNotification(1, 1, 1, 11, this.idexecutiveorder,this.vsubject)
       .subscribe(result => {
        this.loading = false;
        this.getuserinfo();
@@ -403,4 +409,5 @@ export class ExecutiveOrderComponent implements OnInit {
   }
    //<!-- END ลบข้อสั่งการ -->
   get f() { return this.Form.controls; }
+  get g() { return this.awnserForm.controls; }
 }

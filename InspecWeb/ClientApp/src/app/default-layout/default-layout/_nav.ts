@@ -413,7 +413,7 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         ex_link: '0',
         icon: 'fa-file',
         url: '/training',
-        name: 'จัดอบรมหลักสูตร'
+        name: 'จัดการอบรมหลักสูตร'
       },
       {
         ex_link: '0',
@@ -425,7 +425,13 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         ex_link: '0',
         icon: 'fa-file',
         url: '/training/survey',
-        name: 'แบบประเมิน'
+        name: 'จัดการแบบประเมิน'
+      },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/programtype',
+        name: 'จัดการประเภทกิจกรรม'
       },
     ]
   },
