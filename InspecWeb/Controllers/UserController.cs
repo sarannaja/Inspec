@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ClosedXML.Excel; //excel
 using InspecWeb.Data;
 using InspecWeb.Models;
+using InspecWeb.Services;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,8 @@ namespace InspecWeb.Controllers
     public class UserController : ControllerBase
     {
         public static IWebHostEnvironment _environment;
+        private readonly IMailService mailService;
+
 
         private static Random random = new Random();
         public static string RandomString(int length)
@@ -35,11 +38,12 @@ namespace InspecWeb.Controllers
         private static ApplicationDbContext _context;
 
         public UserController(ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+            UserManager<ApplicationUser> userManager, IWebHostEnvironment environment, IMailService mailService)
         {
             _context = context;
             _userManager = userManager;
             _environment = environment;
+            this.mailService = mailService;
 
         }
 
@@ -100,7 +104,7 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Active == 1)
                 .Where(m => m.Email != "admin@inspec.go.th")
                 .OrderByDescending(m => m.CreatedAt);
-          
+
             return users;
         }
 
@@ -130,6 +134,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(r => r.Province)
                 .Include(s => s.Province)
                 .Include(s => s.Ministries)
+                .Include(x => x.Departments)
                 .Include(s => s.ProvincialDepartments)
                 .Where(m => m.Id == id)
                 .Where(m => m.Active == 1).FirstOrDefault();
@@ -189,7 +194,7 @@ namespace InspecWeb.Controllers
 
         //<!-- ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
         [HttpGet("api/[controller]/[action]")]
-        public IEnumerable<ApplicationUser>regionalagency()
+        public IEnumerable<ApplicationUser> regionalagency()
         {
             var users = _context.Users
                 .Include(s => s.UserRegion)
@@ -200,7 +205,7 @@ namespace InspecWeb.Controllers
                 .Include(s => s.Ministries)
                 .Include(x => x.Departments)
                 .Include(x => x.ProvincialDepartments)
-                .Where(m => m.Role_id == 9)            
+                .Where(m => m.Role_id == 9)
                 .Where(m => m.Active == 1);
 
             return users;
@@ -757,7 +762,7 @@ namespace InspecWeb.Controllers
             List<FiscalYearRelation> termsList = new List<FiscalYearRelation>();
 
             //สำหรับกรณีของ role ผู้ตรวจเขต
-            if (model.Role_id == 3 || model.Role_id == 6 || model.Role_id == 8 || model.Role_id == 10 || model.Role_id == 11)
+            if (model.Role_id == 3 || model.Role_id == 6 || model.Role_id == 8 || model.Role_id == 10)
             {
                 foreach (var item in model.UserRegion)
                 {
@@ -806,7 +811,7 @@ namespace InspecWeb.Controllers
             }
             ////จังหวัดที่ทำงาน
             if (model.Role_id == 1 || model.Role_id == 2 || model.Role_id == 4 || model.Role_id == 5
-                 || model.Role_id == 7 || model.Role_id == 9)
+                 || model.Role_id == 7 || model.Role_id == 9 || model.Role_id == 11)
             {
 
                 //  foreach (var item3 in model.UserProvince)
@@ -848,6 +853,36 @@ namespace InspecWeb.Controllers
                 // }
                 System.Console.WriteLine("testuser : 5");
             }
+
+            if (model.Role_id == 11)
+            {
+                try
+                {
+                    var send = new WelcomeRequest
+                    {
+                        ToEmail = model.Email,
+                        UserName = model.Email,
+                        Password = passwordrandom,
+                        Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
+                    };
+                    await mailService.SendWelcomeEmailAsync(send);
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+                // var send = new MailRequest
+                // {
+                //     ToEmail = model.Email,
+                //     Subject = "รหัสผ่านสำหรับระบบอบรม จากระบบตรวจราชการอิเล็กทรอนิกส์",
+                //     Body = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}" + "\n" + "Username :: " + model.Email + "\n Password" + passwordrandom
+                // };
+                // await mailService.SendEmailAsync(send);
+
+            }
+
 
             return Ok(new { password = user.Pw });
 
@@ -1662,7 +1697,7 @@ namespace InspecWeb.Controllers
         public async Task<IActionResult> resetpassword([FromForm] UserViewModel model)
         {
 
-            System.Console.WriteLine("momo"+model.Id);
+            System.Console.WriteLine("momo" + model.Id);
             var passwordrandom = RandomString(8);
             var userdata = _context.Users.Find(model.Id);
             userdata.Pw = passwordrandom;
@@ -1670,8 +1705,8 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
             //System.Console.WriteLine("momo" + id);
-           // var passwordrandom = RandomString(8);
-           // var userdata = _context.Users.Find(id);
+            // var passwordrandom = RandomString(8);
+            // var userdata = _context.Users.Find(id);
 
             var tresult = await _userManager.RemovePasswordAsync(userdata);
             await _userManager.AddPasswordAsync(userdata, passwordrandom);

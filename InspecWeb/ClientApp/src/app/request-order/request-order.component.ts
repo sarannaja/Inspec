@@ -250,7 +250,7 @@ export class RequestOrderComponent implements OnInit {
         this.getuserinfo();
         this.modalRef.hide();
       }else{
-        this.notificationService.addNotification(1, 1, 1, 12, result.id)
+        this.notificationService.addNotification(1, 1, 1, 12, result.id,null)
          .subscribe(result => {
          // alert("draft 0");
           this.Form.reset();
@@ -274,7 +274,7 @@ export class RequestOrderComponent implements OnInit {
           this.getuserinfo();
           this.modalRef.hide();
         }else{
-          this.notificationService.addNotification(1, 1, 1, 12, result.id)
+          this.notificationService.addNotification(1, 1, 1, 12, result.id,null)
            .subscribe(result => {
             this.Form.reset();
             this.getuserinfo();
@@ -313,7 +313,7 @@ export class RequestOrderComponent implements OnInit {
     //alert(1); 
     this.requestOrderService.gotitrequestorder(this.requestorderid,this.idrequestorderanswer).subscribe(result => {
       //alert(3); 
-      this.notificationService.addNotification(1, 1, 1, 13, this.requestorderid)
+      this.notificationService.addNotification(1, 1, 1, 13, this.requestorderid,null)
       .subscribe(result => {
         //alert(4); 
        this.loading = false;

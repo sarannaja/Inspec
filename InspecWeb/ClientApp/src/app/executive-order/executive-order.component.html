@@ -34,7 +34,7 @@
               <tr *ngFor="let item of resultexecutiveorder; let i = index; let first = first;">
              
               <td>{{ i + 1 }}</td>
-              <td>{{ item.commanded_date | thaidate: 'year' }}</td>
+              <td>{{ item.commanded_date | thaidate: 'short' }}</td>
               <td class="pointer" style="color:#3b7ddd;" (click)="DetailExecutiveOrder(DetailExecutiveorder,item.id)"> 
                 <i class="align-middle mr-2 fas fa-fw fa-book"></i> <span>{{item.subject}}</span>
               </td>
@@ -56,17 +56,17 @@
               <td>
 
                 <div *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
-
                   <div *ngIf="item2.userID == userid && role_id == 3">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
-                      <span style="color: red;">ยกเลิก</span>
+                      <label class="badge badge-danger mr-1">ยกเลิก</label>
                     </div>
                     <ng-template #notcancel>
-                      <span *ngIf="item.draft === 1;else nodraft">ฉบับร่าง</span>
+                      <label *ngIf="item.draft === 1;else nodraft" class="badge badge-secondary mr-1">ฉบับร่าง</label>
                         <ng-template #nodraft>
-                          <span [ngStyle]="item2.status === 'รายงานผลเรียบร้อย' ? {'color': '#20c997'}: {'color': ''}">
+                          <!-- <span [ngStyle]="item2.status === 'รายงานผลเรียบร้อย' ? {'color': '#20c997'}: {'color': ''}">
                             {{item2.status}}
-                          </span>
+                          </span> -->
+                          <label class="badge badge-success mr-1">{{item2.status}}</label>
                         </ng-template>
                         <!-- {{item.draft === 1 ? "ฉบับร่าง": item2.status === 'xxx' ? item2.status : item2.status}} -->                    
                     </ng-template>
@@ -76,72 +76,78 @@
 
                   <div *ngIf="role_id == 8 || role_id == 1">
                     <div *ngIf="item.cancel == 1 ; else notcancel">
-                      <span style="color: red;">ยกเลิก</span>
+                      <label class="badge badge-danger mr-1">ยกเลิก</label>
                     </div>
                     <ng-template #notcancel>
-                      <span *ngIf="item.draft === 1;else nodraft">ฉบับร่าง</span>
+                      <label *ngIf="item.draft === 1;else nodraft" class="badge badge-secondary mr-1">ฉบับร่าง</label>
                         <ng-template #nodraft>
-                          <span [ngStyle]="item2.status === 'รายงานผลเรียบร้อย' ? {'color': '#20c997'}: {'color': ''}">
+                          <!-- <span [ngStyle]="item2.status === 'รายงานผลเรียบร้อย' ? {'color': '#20c997'}: {'color': ''}">
                             {{item2.status}}
-                          </span>
-                        </ng-template>
-                        <!-- {{item.draft === 1 ? "ฉบับร่าง": item2.status === 'xxx' ? item2.status : item2.status}} -->                    
+                          </span> -->
+                          <label class="badge badge-success mr-1">{{item2.status}}</label>
+                        </ng-template>                   
                     </ng-template>
 
                     <hr *ngIf="item.executiveOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น --> 
                   </div>
 
                 </div>
-              </td>           
-              <td> 
+              </td>  
 
-              <div *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
-                <button *ngIf="item2.beaware_date != null" (click)="exportexecutive2(item2.id,item2.userID)" 
-                  title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร">
-                  <i class=" fas fa-fw fa-download"></i> 
-                </button>
-              </div>   
+              <td> 
 
                 <!-- สำหรับผู้สร้างข้อสั่งการ -->
                 <div *ngIf="role_id == 8 && item.cancel == 0">
-                  <button type="button" class="btn btn-circle btn-warning" 
+                  <button class="btn btn-warning btn-pill btn-sm" 
                     (click)="editExecutiveOrder(editExcutiveOrder, item.id,item.commanded_date,item.subject,item.subjectdetail
                     ,item.draft,item.executiveOrderAnswers)" title="แก้ไขข้อสั่งการ">
-                    <i class="fas fa-fw fa-sm fa-pen"></i>
+                    <i class="align-middle fas fa-fw fa-sm fa-pen"></i>
                   </button>&nbsp;&nbsp;&nbsp;
                    
-                  <button *ngIf="item.accept == 0" type="button" class="btn btn-circle btn-danger"
+                  <button *ngIf="item.accept == 0 && item.draft == 0" class="btn btn-danger btn-pill btn-sm"
                   (click)="cancelmodal(cancel,item.id)" title="ยกเลิกข้อสั่งการ">
-                    <i class="fas fa-fw fa-sm fa-times"></i>
+                    <i class="align-middle fas fa-fw fa-sm fa-times"></i>
                   </button>  
+                 
+                  <button *ngIf="item.accept == 0 && item.draft == 1" class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล"
+                      (click)="openModal(modaldelete, item.id,item.subject)">
+                      <i class="align-middle fas fa-fw fa-trash-alt"></i>
+                  </button>
 
                 </div> 
                 <!-- END สำหรับผู้สร้างข้อสั่งการ -->
 
                 <!-- สำหรับผู้รับข้อสั่งการ -->
-                <div *ngIf="role_id == 3 && item.cancel == 0 ">
-                   
-                  <div *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
-                    <div *ngIf="item2.userID == userid">
+                <span *ngIf="role_id == 3 && item.cancel == 0 ">
+                  <span *ngFor="let item2 of item.executiveOrderAnswers;let m = index;">
+                    <span *ngIf="item2.userID == userid">
 
-                      <button *ngIf="item2.beaware_date == null" type="button" class="btn btn-circle btn-info" 
+                      <button *ngIf="item2.beaware_date == null" type="button" class="btn btn-info btn-pill btn-sm" 
                         (click)="gotitmodal(gotit,item.id,item2.id,item.subject,item.subjectdetail)" title="รับทราบข้อสั่งการ">
                         รับทราบ
                       </button>  
 
-                      <button *ngIf="item2.beaware_date != null" type="button" class="btn btn-circle btn-warning" 
+                      <button *ngIf="item2.beaware_date != null" type="button" class="btn btn-warning btn-pill btn-sm" 
                         (click)="answerModal(AnswerExecutiveorder,item2.id)" title="รายงานผลข้อสั่งการ">
                         รายงานผล
                       </button>  
-
-                    </div>
-                  </div>
-                </div>
-
+                    </span>
+                  </span>
+                </span>
                 <!-- END สำหรับผู้รับข้อสั่งการ -->
+
+                <span *ngFor="let item2 of item.executiveOrderAnswers;let m = index;" style="margin-left: 5px;">
+                  <button *ngIf="item2.beaware_date != null" (click)="exportexecutive2(item2.id,item2.userID)" 
+                    title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร" class="btn btn-bitbucket btn-pill btn-sm" >
+                    <i class="align-middle fas fa-fw fa-download"></i> 
+                  </button>
+                </span>   
+
+                <!-- เมื่อยกเลิกข้อสั่งการ -->
                 <div *ngIf="item.cancel == 1">
-                  {{item.canceldetail == null ? "-" : item.canceldetail}} 
+                  {{item.canceldetail == 'null' ? "-" : item.canceldetail}} 
                 </div>
+                <!-- END เมื่อยกเลิกข้อสั่งการ -->
               </td>
             </tr> 
           </tbody>
@@ -162,38 +168,64 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <div class="form-group">
-       
-            <div class="form-group">
-              <div class="mb-3">
-                <input type="radio" name="Draft"  [value]="1" formControlName="Draft">
-                <label style="margin-left: 10px;">ร่าง</label>
-                <input style="margin-left: 10px;" type="radio" name="Draft"   [value]="0" formControlName="Draft">
-                <label style="margin-left: 10px;">ใช้งานจริง</label>
-              </div>
-            </div>         
+
+    
+          <div class="form-group">
+            <div class="mb-3">
+              <input type="radio" name="Draft"  [value]="1" formControlName="Draft">
+              <label style="margin-left: 10px;">ร่าง</label>
+              <input style="margin-left: 10px;" type="radio" name="Draft"   [value]="0" formControlName="Draft">
+              <label style="margin-left: 10px;">ใช้งานจริง</label>
+            </div>
+          </div>         
      
           <div class="form-group">
             <label class="form-label">วันที่มีข้อสั่งการ*</label>
-            <my-date-picker-th formControlName="Commanded_date"   [options]="myDatePickerOptions" [(ngModel)]="date" required>
+            <my-date-picker-th formControlName="Commanded_date"   [options]="myDatePickerOptions" 
+              [(ngModel)]="date" required 
+              [ngClass]="{ 'is-invalid': submitted && f.Commanded_date.errors }">
             </my-date-picker-th>
+
+            <div class="form-group" *ngIf="submitted &&  f.Commanded_date.errors"
+              [ngStyle]="submitted &&  f.Commanded_date.invalid ? {color: '#dc3545'}:{color: ''} ">
+              <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
+            </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">ประเด็น/เรื่อง*</label>
-            <input type="text" formControlName="Subject" class="form-control" placeholder="กรุณากรอกประเด็น/เรื่อง">
+            <input type="text" formControlName="Subject" class="form-control" placeholder="กรุณากรอกประเด็น/เรื่อง" 
+              [ngClass]="{ 'is-invalid': submitted && f.Subject.errors }">
+
+              <div *ngIf="submitted && f.Subject.errors" class="invalid-feedback">
+                <div *ngIf="f.Subject.errors.required">กรุณากรอกประเด็น/เรื่อง</div>
+              </div>
+
           </div>
 
-          <label for="test" class="form-label">รายละเอียด</label>
-          <textarea input type="text" formControlName="Subjectdetail" class="form-control" 
-            placeholder="กรุณากรอกลายละเอียด" rows="5">
-          </textarea>       
-            <br>
-          <label>ผู้รับข้อสั่งการ</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้รับข้อสั่งการ" [multiple]="true"   [items]="selectdatauser"
-            name="Answer_by" formControlName="Answer_by"  >
-          </ng-select>
-        </div>
+          <div class="form-group">
+            <label  class="form-label">รายละเอียด</label>
+            <textarea input type="text" formControlName="Subjectdetail" class="form-control" 
+              placeholder="กรุณากรอกลายละเอียด" rows="5" 
+              [ngClass]="{ 'is-invalid': submitted && f.Subjectdetail.errors }">
+            </textarea>  
+
+            <div *ngIf="submitted && f.Subjectdetail.errors" class="invalid-feedback">
+              <div *ngIf="f.Subjectdetail.errors.required">กรุณากรอกลายละเอียด</div>
+            </div>  
+          </div>   
+
+          <div class="form-group">
+            <label>ผู้รับข้อสั่งการ</label>
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้รับข้อสั่งการ" [multiple]="true" 
+              [items]="selectdatauser" name="Answer_by" formControlName="Answer_by"
+              [ngClass]="{ 'is-invalid': submitted && f.Answer_by.errors }">
+            </ng-select>
+            <div *ngIf="submitted && f.Answer_by.errors" class="invalid-feedback">
+              <div *ngIf="f.Answer_by.errors.required">กรุณาเลือกผู้รับข้อสั่งการ</div>
+            </div>  
+          </div>
+
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label w-100">แนบไฟล์</label>
@@ -226,24 +258,37 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="answerdetail" class="form-label">รายละเอียด</label>
-          <textarea input type="text" value="{{answerdetail}}" formControlName="Answerdetail" class="form-control"
-            placeholder="กรุณากรอกรายละเอียด"></textarea>
-          <br>
-          <label for="answerProblem" class="form-label">ปัญหา/อุปสรรค</label>
-          <textarea input type="text" value="{{answerProblem}}" formControlName="AnswerProblem" class="form-control"
-            placeholder="กรุณากรอกปัญหา/อุปสรรค"></textarea>
-          <br>
-          <label for="answerCounsel" class="form-label">ข้อเสนอแนะ</label>
-          <textarea input type="text" value="{{answerCounsel}}" formControlName="AnswerCounsel" class="form-control"
-            placeholder="กรุณากรอกข้อเสนอแนะ">
+          <textarea input type="text" formControlName="Answerdetail" class="form-control"
+            placeholder="กรุณากรอกรายละเอียด" [ngClass]="{ 'is-invalid': submitted && g.Answerdetail.errors }">
           </textarea>
-          <br>
-          <div class="col-12 col-xl-12">
-            <div class="form-group">
-              <label class="form-label w-100">แนบไฟล์</label>
-              <input type="file" multiple (change)="uploadFileanswer($event)">
-              <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
-            </div>
+            <div *ngIf="submitted && g.Answerdetail.errors" class="invalid-feedback">
+              <div *ngIf="g.Answerdetail.errors.required">กรุณากรอกลายละเอียด</div>
+            </div>  
+        </div>
+        <div class="form-group">
+          <label for="answerProblem" class="form-label">ปัญหา/อุปสรรค</label>
+          <textarea input type="text"  formControlName="AnswerProblem" class="form-control"
+            placeholder="กรุณากรอกปัญหา/อุปสรรค" [ngClass]="{ 'is-invalid': submitted && g.AnswerProblem.errors }">
+          </textarea>
+            <div *ngIf="submitted && g.AnswerProblem.errors" class="invalid-feedback">
+              <div *ngIf="g.AnswerProblem.errors.required">กรุณากรอกลายละเอียด</div>
+            </div>  
+        </div>
+
+        <div class="form-group">
+          <label for="answerCounsel" class="form-label">ข้อเสนอแนะ</label>
+          <textarea input type="text"  formControlName="AnswerCounsel" class="form-control"
+            placeholder="กรุณากรอกข้อเสนอแนะ" [ngClass]="{ 'is-invalid': submitted && g.AnswerCounsel.errors }">
+          </textarea>
+          <div *ngIf="submitted && g.AnswerCounsel.errors" class="invalid-feedback">
+            <div *ngIf="g.AnswerCounsel.errors.required">กรุณากรอกลายละเอียด</div>
+          </div>  
+        </div>
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label w-100">แนบไฟล์</label>
+            <input type="file" multiple (change)="uploadFileanswer($event)">
+            <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
           </div>
         </div>
       </div>
@@ -288,13 +333,13 @@
         <p>
           <i class="align-middle mr-2 fas fa-calendar">
           </i><b class="font-size: 14px;"> วันที่มีข้อสั่งการ:</b>
-          <span class="badge badge badge-info">{{item3.commanded_date | thaidate: 'year'}}</span>
+          <span class="badge badge badge-info">{{item3.commanded_date | thaidate: 'short'}}</span>
         </p>
 
         <p>
           <i class="align-middle mr-2 fas fa-calendar"></i>
           <b class="font-size: 14px;"> วันที่สร้างข้อสั่งการ:
-            <span class="badge badge badge-info">{{item3.createdAt | thaidate: 'year'}}</span>
+            <span class="badge badge badge-info">{{item3.createdAt | thaidate: 'short'}}</span>
           </b>
         </p>
 
@@ -309,10 +354,8 @@
           <i class="align-middle mr-2 fas fa-fw fa-download">
           </i>ไฟล์แนบ : <br>
           <a *ngFor="let item4 of  item3.executiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item4.name}}" download>
-            <td>
-              <p><button class="btn btn-primary">
-                  {{i + 1}}. {{item4.name}}</button></p>
-            </td>
+              <label class="badge badge-primary mr-1">{{i + 1}}. {{item4.name}}</label>
+              <br>
           </a>
         </p>
         <hr>
@@ -333,7 +376,7 @@
 
             <p><i class="align-middle mr-2 fas fa-calendar"></i>
               <b style="font-size: 14px;">
-                วันที่รายงาน :  <span class="badge badge badge-info">{{item6.commanded_date | thaidate: 'year'}}</span>
+                วันที่รายงาน :  <span class="badge badge badge-info">{{item6.create_at | thaidate: 'short'}}</span>
               </b>
             </p>
 
@@ -357,11 +400,10 @@
           
             <label>
               <i class="align-middle mr-2 fas fa-fw fa-download"></i>ไฟล์แนบ :
+              <br>
               <a *ngFor="let item7 of item6.answerExecutiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item7.name}}" download>
+                <label class="badge badge-primary mr-1">{{i + 1}}. {{item7.name}}</label>
                 <br>
-                <td>
-                  <h5><button class="btn btn-primary">{{i + 1}}. {{item7.name}}</button></h5>
-                </td>
               </a>
             </label>
             <hr>
@@ -383,15 +425,13 @@
   <form [formGroup]="Form" (ngSubmit)="updateexecutiveorder(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">เพิ่มข้อสั่งการ</h5>
+        <h5 class="modal-title">แก้ไขข้อสั่งการ</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
-        <div class="form-group">
-
-       
+      
             <div class="form-group">
               <div class="mb-3">
                 <input type="radio" name="Draft" [value]="1" formControlName="Draft">
@@ -402,33 +442,60 @@
             </div>         
      
 
-          <div class="form-group">
-            <label class="form-label">วันที่มีข้อสั่งการ*</label>
-            <my-date-picker-th formControlName="Commanded_date"    [options]="myDatePickerOptions"  required>
-            </my-date-picker-th>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">ประเด็น/เรื่อง*</label>
-            <input type="text" formControlName="Subject" value="{{vsubject}}" class="form-control" placeholder="กรุณากรอกประเด็น/เรื่อง">
-          </div>
-
-          <label for="test" class="form-label">รายละเอียด</label>
-          <textarea input type="text" formControlName="Subjectdetail" class="form-control" 
-            placeholder="กรุณากรอกลายละเอียด" rows="5">{{vsubjectdetail}}
-          </textarea>       
-            <br>
-          <label>ผู้รับข้อสั่งการ</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้รับข้อสั่งการ"  [multiple]="true"   [items]="selectdatauser"
-            name="Answer_by" formControlName="Answer_by"  >
-          </ng-select>
-        </div>
+            <div class="form-group">
+              <label class="form-label">วันที่มีข้อสั่งการ*</label>
+              <my-date-picker-th formControlName="Commanded_date"   [options]="myDatePickerOptions" 
+                [ngClass]="{ 'is-invalid': submitted && f.Commanded_date.errors }">
+              </my-date-picker-th>
+  
+              <div class="form-group" *ngIf="submitted &&  f.Commanded_date.errors"
+                [ngStyle]="submitted &&  f.Commanded_date.invalid ? {color: '#dc3545'}:{color: ''} ">
+                <div style="font-size: 80%;">กรุณาเลือกวันที่มีข้อสั่งการ</div>
+              </div>
+            </div>
+  
+            <div class="form-group">
+              <label class="form-label">ประเด็น/เรื่อง*</label>
+              <input type="text" formControlName="Subject" class="form-control" placeholder="กรุณากรอกประเด็น/เรื่อง" 
+                [ngClass]="{ 'is-invalid': submitted && f.Subject.errors }">
+  
+                <div *ngIf="submitted && f.Subject.errors" class="invalid-feedback">
+                  <div *ngIf="f.Subject.errors.required">กรุณากรอกประเด็น/เรื่อง</div>
+                </div>
+  
+            </div>
+  
+            <div class="form-group">
+              <label  class="form-label">รายละเอียด</label>
+              <textarea input type="text" formControlName="Subjectdetail" class="form-control" 
+                placeholder="กรุณากรอกลายละเอียด" rows="5" 
+                [ngClass]="{ 'is-invalid': submitted && f.Subjectdetail.errors }">
+              </textarea>  
+  
+              <div *ngIf="submitted && f.Subjectdetail.errors" class="invalid-feedback">
+                <div *ngIf="f.Subjectdetail.errors.required">กรุณากรอกลายละเอียด</div>
+              </div>  
+            </div>   
+  
+            <div class="form-group">
+              <label>ผู้รับข้อสั่งการ</label>
+              <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้รับข้อสั่งการ" [multiple]="true" 
+                [items]="selectdatauser" name="Answer_by" formControlName="Answer_by"
+                [ngClass]="{ 'is-invalid': submitted && f.Answer_by.errors }">
+              </ng-select>
+              <div *ngIf="submitted && f.Answer_by.errors" class="invalid-feedback">
+                <div *ngIf="f.Answer_by.errors.required">กรุณาเลือกผู้รับข้อสั่งการ</div>
+              </div>  
+            </div>
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label w-100">แนบไฟล์</label>
-            <p></p>
             <input type="file" (change)="uploadFile($event)" [multiple]="true">
             <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
+            <!-- <a *ngFor="let item4 of  item3.executiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item4.name}}" download>
+              <label class="badge badge-primary mr-1">{{i + 1}}. {{item4.name}}</label>
+              <br>
+            </a> -->
           </div>
         </div>
 
@@ -444,7 +511,7 @@
 <!-- END แก้ไข modal -->
 
 
-<!-- BEGIN primary modal -->
+<!-- BEGIN ยกเลิกข้อสั่งการ -->
 <ng-template #cancel class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="cancelForm" (ngSubmit)="cancelexecutiveorder(cancelForm.value)">
     <div class="modal-content">
@@ -472,7 +539,7 @@
   </form>
   <!-- </div> -->
 </ng-template>
-<!-- END primary modal -->
+<!-- END ยกเลิกข้อสั่งการ modal -->
 
 <!-- BEGIN got it modal -->
 <ng-template #gotit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -487,7 +554,7 @@
       <div class="modal-body">
          <b>เรื่อง :</b> {{vsubject}}
          <br><br>
-         <b>ลายละเอียด :</b> {{vsubjectdetail}}
+         <b>รายละเอียด :</b> {{vsubjectdetail}}
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">รับทราบ</button>
@@ -498,3 +565,28 @@
   <!-- </div> -->
 </ng-template>
 <!-- END got it modal -->
+
+
+  <!-- BEGIN delte modal -->
+  <ng-template #modaldelete class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+      <i class="fa fa-info-circle delete-icon"></i>
+      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+        ลบข้อมูล
+      </p>
+      <p style="font-size: medium; color: #545454;">
+        คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+      </p>
+      <button type="button" class="btn btn-primary btnMargin" (click)="deleteexecutiveorder(delete_id)">
+        ใช่
+      </button>
+      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+        ไม่ใช่
+      </button>
+    </div>
+  </ng-template>
+  <!-- END delte modal -->
+
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -42,7 +42,6 @@ export class ExecutiveorderService {
 
   //สำหรับเพิ่มข้อสั่งการ
   addexecutiveorder(executiveorderData, file: FileList, Commanded_by) {
-    //alert(2);
     const formData = new FormData();
     formData.append('Commanded_date', executiveorderData.Commanded_date.date.year + '-' + executiveorderData.Commanded_date.date.month + '-' + executiveorderData.Commanded_date.date.day);
     formData.append('Commanded_by', Commanded_by);
@@ -65,7 +64,7 @@ export class ExecutiveorderService {
   }
   //สำหรับแก้ไขข้อสั่งการ
   updateexecutiveorder(executiveorderData, file: FileList, id) {
-    // alert(2)
+    
     const formData = new FormData();
     formData.append('id', id);
     formData.append('Commanded_date', executiveorderData.Commanded_date.date.year + '-' + executiveorderData.Commanded_date.date.month + '-' + executiveorderData.Commanded_date.date.day);
@@ -154,6 +153,10 @@ export class ExecutiveorderService {
   }
   getexcutive2(id, userId): Observable<any> {
     return this.http.get<any>(this.url + "export2/" + id + "/" + userId)
+  }
+
+  deleteexecutiveorder(id) {
+    return this.http.delete(this.url + id);
   }
 }
 

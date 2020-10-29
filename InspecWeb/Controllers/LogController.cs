@@ -34,7 +34,7 @@ namespace InspecWeb.Controllers
         // POST api/values
        // [Route("api/[controller]")]
         [HttpPost]
-        public Log Post(string UserId, string DatabaseName, string EventType, string ObjectType)
+        public Log Post(string UserId, string DatabaseName, string EventType, string ObjectType,long Allid)
         {
            var date = DateTime.Now;
            var logdata = new Log(); //save ลง base
@@ -46,7 +46,8 @@ namespace InspecWeb.Controllers
                     EventType = EventType, //create delete edit
                     EventDate = date,
                     Detail = ObjectType,
-                  
+                    Allid = Allid,
+
                 });
                 _context.SaveChanges();
    

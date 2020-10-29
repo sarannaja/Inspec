@@ -182,7 +182,7 @@ namespace InspecWeb.Controllers {
             // <!--END อัพไฟล์  -->
             System.Console.WriteLine("5 : ");
             //return Ok (new { Id = executiveordersdata.Id, Answer_by = executiveordersdata.Answer_by }); //เดียวมาใช้
-            return Ok(new { Id = executiveordersdata.Id});
+            return Ok(new { Id = executiveordersdata.Id, title = executiveordersdata.Subject});
         }
         //<!-- END เพิ่มข้อสั่งการ -->
 
@@ -190,8 +190,14 @@ namespace InspecWeb.Controllers {
         [HttpPut("updateexecutiveorder")]
         public async Task<IActionResult> Put ([FromForm] ExecutiveViewModel model) {
             var date = DateTime.Now;
+
+            //Begin ลบแจ้ง
+            var deletenotifications = _context.Notifications.Where(m => m.xe == model.id && m.status == 10);
+            _context.Notifications.RemoveRange(deletenotifications);
+            _context.SaveChanges();
+            // END ลบแจ้ง
             var executiveordersdata = _context.ExecutiveOrders.Find (model.id); {
-              
+    
                 executiveordersdata.Subject = model.Subject;
                 executiveordersdata.Subjectdetail = model.Subjectdetail;
                 executiveordersdata.Commanded_date = model.Commanded_date;
@@ -265,7 +271,7 @@ namespace InspecWeb.Controllers {
                 }
             }
             System.Console.WriteLine("5 : ");
-            return Ok (new { Id = model.id });
+            return Ok (new { Id = model.id,title = executiveordersdata.Subject });
         }
         //<!-- END แก้ไขข้อสั่งการ -->
 
@@ -375,6 +381,24 @@ namespace InspecWeb.Controllers {
             return Ok(new { Id = model.id });
         }
         //<!-- END รายงานข้อสั่งการ -->
+
+        [HttpDelete("{id}")]
+        public void Delete(long id)
+        {
+
+            var deleteExecutiveOrderAnswersdata = _context.ExecutiveOrderAnswers.Where(m => m.ExecutiveOrderId == id);
+            _context.ExecutiveOrderAnswers.RemoveRange(deleteExecutiveOrderAnswersdata);
+            _context.SaveChanges();
+
+            var deleteExecutiveFilesdata = _context.ExecutiveFiles.Where(m => m.ExecutiveOrderId == id);
+            _context.ExecutiveFiles.RemoveRange(deleteExecutiveFilesdata);
+            _context.SaveChanges();
+
+            var ExecutiveOrdersdata = _context.ExecutiveOrders.Find(id);
+            _context.ExecutiveOrders.Remove(ExecutiveOrdersdata);
+            _context.SaveChanges();
+        }
+
 
         [HttpGet ("ex/{id}")]
         public IActionResult GetData (string id) {

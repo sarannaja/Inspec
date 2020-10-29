@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, Inject, SecurityContext } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../services/Pipe/alert.service';
 import { ProvinceService } from '../services/province.service';
@@ -132,6 +132,7 @@ export class UserComponent implements OnInit {
   title: string = 'รายชิ่อจังหวัด';
   content: string = 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus.';
   html: string;
+  submitted = false;
   constructor(
     private _NotofyService: NotofyService,
     private modalService: BsModalService,
@@ -198,10 +199,11 @@ export class UserComponent implements OnInit {
     this.width = event.target.innerWidth;
     this.height = event.target.innerHeight;
     this.isMobile = this.width < this.mobileWidth;
-    console.log(this.width);
+    //console.log(this.width);
 
   }
   get f() { return this.addForm.value }
+  get k() { return this.addForm.controls; }
   // get t() { return this.addForm }
   getData() {
     this.spinner.show();
@@ -224,6 +226,7 @@ export class UserComponent implements OnInit {
 
   openModal(template: TemplateRef<any>, IDdelete, UserName, Pw) {
     this.addForm.reset()
+    this.submitted = false;
     this.id = IDdelete;//ID สำหรับลบ
     this.addForm.patchValue({
       Role_id: this.roleId,
@@ -235,11 +238,12 @@ export class UserComponent implements OnInit {
   }
 
   openeditModal(template: TemplateRef<any>, id, fiscalYearId, userRegion, UserProvince, ministryId: number, departmentId: number, provincialDepartmentId, SideId,
-    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser,signature,userName) {
+    commandnumber, commandnumberdate, email, prefix, fname, lname, position, phoneNumber, startdate, enddate, img, Autocreateuser, signature, userName) {
     // alert(commandnumber +"///"+commandnumberdate);
     // console.log("gg",item.userProvince,'userprovince',UserProvince);
-   // alert(Autocreateuser);
+    // alert(Autocreateuser);
     this.addForm.reset()
+    this.submitted = false;
     this.Autocreateuser = Autocreateuser; // สร้าง UerName เองหรือป่าว
     this.id = id;
     this.img = img;
@@ -298,7 +302,7 @@ export class UserComponent implements OnInit {
       Commandnumberdate: this.cd,
       Formprofile: 0,
       Img: img,
-      Signature:signature,
+      Signature: signature,
       Autocreateuser: Autocreateuser, //แพตข้อมูลว่าสร้าง UerName เองหรือป่าว
       UserName: userName
     })
@@ -370,7 +374,7 @@ export class UserComponent implements OnInit {
           label: item.region.name
         }
       });
-      console.log(this.selectdataregion);
+     // console.log(this.selectdataregion);
       //  = uniqueRegion
     })
   }
@@ -389,7 +393,7 @@ export class UserComponent implements OnInit {
           // (thing, i, arr) => arr.findIndex(t => t.regionId == event.id) === i
           (resultf) => resultf.region.id == event.id
         ).map((item, index) => `<span class="badge" >${item.province.name}</span>`)
-     // console.log(this.html, event.id);
+      // console.log(this.html, event.id);
     })
   }
 
@@ -465,6 +469,13 @@ export class UserComponent implements OnInit {
   }
   //เพิ่ม user
   store(value) {
+
+    this.submitted = true;
+    if (this.addForm.invalid) {
+     // console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? this.addForm.controls[index] : false }), Object.keys(this.addForm.controls)[25])
+      return;
+    }
+
     this.addForm.patchValue({
       Autocreateuser: this.Autocreateuser,
     })
@@ -480,6 +491,11 @@ export class UserComponent implements OnInit {
 
   updateuser(value) {
     // alert(1);
+    this.submitted = true;
+    if (this.addForm.invalid) {
+     // console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? this.addForm.controls[index] : false }), Object.keys(this.addForm.controls)[25])
+      return;
+    }
     this.addForm.patchValue({
       Autocreateuser: this.Autocreateuser,
     })
@@ -503,7 +519,7 @@ export class UserComponent implements OnInit {
   deleteuser(value) {
     this.userService.deleteUser(value).subscribe(response => {
       this.modalRef.hide()
-      this.loading = false     
+      this.loading = false
       this.getUser()
     })
   }
@@ -518,38 +534,97 @@ export class UserComponent implements OnInit {
   }
 
   userform() {
+    let roleId = this.route.snapshot.paramMap.get('id')
+    //alert(this.Autocreateuser)
     this.addForm = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
       FName: new FormControl(null, [Validators.required]),
       LName: new FormControl(null, [Validators.required]),
       Position: new FormControl(null, [Validators.required]),
-      Role_id: new FormControl(null, [Validators.required]),
+      Role_id: new FormControl(null),
       PhoneNumber: new FormControl(null, [Validators.required]),
       Email: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null),
-      MinistryId: new FormControl(null, [Validators.required]),
-      DepartmentId: new FormControl(null),
-      FiscalYear: 1,
-      ProvincialDepartmentId: new FormControl(null),
-      UserRegion: new FormControl(null, [Validators.required]),
-      UserProvince: new FormControl(null, [Validators.required]),
+      MinistryId: [
+        null,
+        conditionalValidator(
+          (() => (this.roleId == 1 || this.roleId == 2 || this.roleId == 6 || this.roleId == 8 || this.roleId == 9 || this.roleId == 10) === true),
+          Validators.required
+        )
+      ],
+      DepartmentId: [
+        null,
+        conditionalValidator(
+          (() => (this.roleId == 1 || this.roleId == 2 || this.roleId == 6 || this.roleId == 8 || this.roleId == 9 || this.roleId == 10) === true),
+          Validators.required
+        )
+      ], //20201027  yochigang
+      FiscalYear: [
+        1,
+        conditionalValidator(
+          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8 || this.roleId == 10) === true),
+          Validators.required
+        )
+      ],
+
+      ProvincialDepartmentId: [null,
+        conditionalValidator(
+          (() => (this.roleId == 10) === true),
+          Validators.required
+        )
+      ],
+      UserRegion: [
+        null,
+        conditionalValidator(
+          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8 || this.roleId == 10) === true),
+          Validators.required
+        )
+      ],
+      UserProvince: [
+        null,
+        conditionalValidator(
+          (() => (this.roleId == 4 || this.roleId == 5 || this.roleId == 7 || this.roleId == 9) === true),
+          Validators.required
+        )
+      ],
       SubdistrictId: new FormControl(null),
       DistrictId: new FormControl(null),
-      files: new FormControl(null, [Validators.required]),
+      files: new FormControl(null),
       Startdate: new FormControl(null, [Validators.required]),
       Enddate: new FormControl(null),
       Commandnumber: new FormControl(null),
-      SideId: new FormControl(null),
+      SideId: [
+        null,
+        conditionalValidator(
+          (() => (this.roleId == 7) === true),
+          Validators.required
+        )
+      ],
       Commandnumberdate: new FormControl(null),
       Formprofile: 0,
       Img: new FormControl(null),
       Signature: new FormControl(null),
-      UserName: new FormControl(null, [Validators.required]),
+      UserName: [
+        null,
+        conditionalValidator(
+          (() => (this.Autocreateuser == 0) === true),
+          Validators.required
+        )
+      ],
       Autocreateuser: new FormControl(null, [Validators.required]),
       Pw: new FormControl(null),
       // con1: new FormControl(null, [Validators.required]),
       // con2: new FormControl(null, [Validators.required]),
     })
+
+    function conditionalValidator(condition: (() => boolean), validator: ValidatorFn): ValidatorFn {
+      return (control: AbstractControl): { [key: string]: any } => {
+        if (!condition()) {
+          return null;
+        }
+        return validator(control);
+      }
+    }
   }
   time(date) {
     var ssss = new Date(date)

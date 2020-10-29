@@ -52,7 +52,7 @@ namespace InspecWeb.Controllers
         // POST api/values
         [Route("api/[controller]")]
         [HttpPost]
-        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe)
+        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe ,string title)
         {
             System.Console.WriteLine("Status : " + Status);
 
@@ -257,7 +257,7 @@ namespace InspecWeb.Controllers
             //<!-- แจ้งข้อสั่งการ -->
             if (Status == 10)
             {
-                //System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe);
+                System.Console.WriteLine("st10 : " + CentralPolicyId + " : " + ProvinceId + " : " + UserId + " : " + Status + " : " + xe + " : " + title);
 
                 var ExecutiveOrderAnswersdata = _context.ExecutiveOrderAnswers
                   .Where(m => m.ExecutiveOrderId == xe)
@@ -276,6 +276,7 @@ namespace InspecWeb.Controllers
                         noti = 1,
                         CreatedAt = date,
                         xe = xe,
+                        title = title,
                     });
 
                     _context.SaveChanges();
@@ -302,6 +303,7 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe,
+                    title = title,
                 });
 
                 _context.SaveChanges();
@@ -328,6 +330,7 @@ namespace InspecWeb.Controllers
                         noti = 1,
                         CreatedAt = date,
                         xe = xe,
+                        title = title,
                     });
 
                     _context.SaveChanges();
@@ -352,6 +355,7 @@ namespace InspecWeb.Controllers
                     noti = 1,
                     CreatedAt = date,
                     xe = xe,
+                    title = title,
                 });
 
                 _context.SaveChanges();

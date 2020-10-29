@@ -134,7 +134,7 @@ export class ReportImportDeatailComponent implements OnInit {
   sendToCommander(value) {
     this.exportReportService.sendToCommander(this.reportId, value).subscribe(res => {
       console.log("sended: ", res);
-      this.notificationService.addNotification(this.reportData.importData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, value.commander, 20, this.reportId)
+      this.notificationService.addNotification(this.reportData.importData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, value.commander, 20, this.reportId,null)
         .subscribe(response => {
           console.log("Noti res: ", response);
         });

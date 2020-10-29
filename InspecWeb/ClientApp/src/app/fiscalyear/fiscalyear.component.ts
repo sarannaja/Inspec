@@ -28,6 +28,7 @@ export class FiscalyearComponent implements OnInit {
   sd: any;
   od:any;
   fileUrl :any;
+  submitted = false;
   dtOptions: DataTables.Settings = {};
   forbiddenUsernames = ['admin', 'test', 'xxxx'];
   public myDatePickerOptions: IMyOptions = {
@@ -85,6 +86,9 @@ export class FiscalyearComponent implements OnInit {
     })
   }
   openModal(template: TemplateRef<any>, id, year,orderdate,startdate,enddate,setinspectionareaFiles) {
+    this.Form.reset();
+    this.submitted = false;
+    
     this.delid = id;
     this.fileset = setinspectionareaFiles;
     if (orderdate == null) {
@@ -124,6 +128,18 @@ export class FiscalyearComponent implements OnInit {
   }
 
   storeFiscalyear(value) {
+
+    this.submitted = true;
+    
+    // stop here if form is invalid
+    if (this.Form.invalid) {
+     // console.log(this.Form.invalid)
+        return;
+    }
+
+    // display form values on success
+   // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.Form.value));
+
     this.fiscalyearservice.addFiscalyear(value,this.Form.value.files).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
@@ -140,17 +156,7 @@ export class FiscalyearComponent implements OnInit {
       this.getdata();
     })
   }
-  // editModal(template: TemplateRef<any>, id, year) {
-  //   this.delid = id;
-  //   this.year = year
-  //   this.modalRef = this.modalService.show(template);
-  //   this.EditForm = this.fb.group({
-  //     "fiscalyear": new FormControl(null, [Validators.required]),
-  //   })
-  //   this.EditForm.patchValue({
-  //     "fiscalyear": year
-  //   })
-  // }
+ 
   editFiscalyear(value, delid) {
     this.fiscalyearservice.editFiscalyear(value,this.Form.value.files, delid).subscribe(response => {
       this.Form.reset()
@@ -160,6 +166,17 @@ export class FiscalyearComponent implements OnInit {
       this.getdata();
     })
   }
+
+  activeFiscalyear(delid){
+    this.fiscalyearservice.activeFiscalyear(delid).subscribe(response => {
+      this.Form.reset()
+      this.modalRef.hide()
+      this.loading = false;
+      this._NotofyService.onSuccess("Active")
+      this.getdata();
+    })
+  }
+
   Formx(){
     this.Form = this.fb.group({
       year: new FormControl(null, [Validators.required]),
@@ -169,6 +186,7 @@ export class FiscalyearComponent implements OnInit {
       files: new FormControl(null, [Validators.required]),
     })
   }
+  get f() { return this.Form.controls; }
 
   time(date) {
     var ssss = new Date(date)

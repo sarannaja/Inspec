@@ -21,7 +21,7 @@ export class LogService {
     return this.http.get<any[]>(this.url)
   }
 
-  addLog(UserId,DatabaseName,EventType,ObjectType) {
+  addLog(UserId,DatabaseName,EventType,ObjectType,Allid) {
     
     var formData = new FormData();
     
@@ -29,6 +29,7 @@ export class LogService {
     formData.append('DatabaseName',DatabaseName); //table name
     formData.append('EventType',EventType); // ลบ แก้ไข หรือ เพิ่ม
     formData.append('ObjectType',ObjectType); // text
+    formData.append('Allid',Allid); // กรณีถ้าจะเก็บไอดี
    
     return this.http.post(this.url, formData);
   }
