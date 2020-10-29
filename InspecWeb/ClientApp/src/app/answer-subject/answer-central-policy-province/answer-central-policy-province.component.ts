@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
@@ -20,11 +20,13 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
   Form: FormGroup
   Formstatus: FormGroup
   resultQuestionPeople: any = []
+  resultsubjecteventfiles: any[] = []
   submitted = false;
   provinceid: any
   centralPolicyProvinceId: any
   subjectGroupId: any
   centralPolicyId: any
+  downloadUrl: any;
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -34,9 +36,11 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
     private authorize: AuthorizeService,
     private _NotofyService: NotofyService,
     private notificationService: NotificationService,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.inspectionPlanEventId = activatedRoute.snapshot.paramMap.get('inspectionplaneventid')
+    this.downloadUrl = baseUrl + '/Uploads';
   }
   get f() { return this.Form.controls; }
   get t() { return this.f.result as FormArray; }
@@ -66,9 +70,15 @@ export class AnswerCentralPolicyProvinceComponent implements OnInit {
         this.centralPolicyProvinceId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
         this.subjectGroupId = this.resultQuestionPeople[0].centralPolicyEvent.subjectGroupPeopleQuestions[0].subjectGroupId
         this.centralPolicyId = this.resultQuestionPeople[0].centralPolicyEvent.centralPolicyId
+        this.getSubjectEventFiles()
         this.spinner.hide();
         this.addvalue();
       })
+  }
+  getSubjectEventFiles(){
+    this.answersubjectservice.getSubjectEventFiles(this.subjectGroupId).subscribe(result => {
+      this.resultsubjecteventfiles = result
+    })
   }
   addvalue() {
     this.Form.reset();
