@@ -54,11 +54,12 @@
           <thead>
             <tr>
               <th width="5%">#</th>
-              <th width="30%">
+              <th width="25%">
                 <input type="checkbox" [checked]="trainingRegisterData.length == people.length"
                   (change)="addAllPeoples()">
                 <a class="ml-4 text-primary" href="javascript:void(0)" (click)="addAllPeoples()">ชื่อ-นามสกุล</a>
               </th>
+              <th width="10%">รหัสผู้ร่วมอบรม</th>
               <th width="10%">วันที่สมัคร</th>
               <!-- <th width="20%">ตรววจสอบคุณสมบัติ</th> -->
               <th width="20%">สิทธิ์การรับฝึกอบรม</th>
@@ -76,6 +77,7 @@
                 <!-- <span class="pointer text-primary" (click)="openModal(modaldetail, item.id)">{{ item.name }}</span> -->
                 <a class=" text-primary" href="javascript:void(0)" (click)="addsPeoples(item.id)">{{ item.name }}</a>
               </td>
+              <td class="ellipsis">{{ item.idCode}}</td>
               <td class="ellipsis">{{ item.createdAt | thaidate:'short'}}</td>
               <!-- <td>
                 <span (click)="openModal(modalCondition, item.id,item,i)"><i

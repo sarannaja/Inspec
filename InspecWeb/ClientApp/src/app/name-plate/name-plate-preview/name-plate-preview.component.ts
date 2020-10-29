@@ -27,7 +27,7 @@ export class NamePlatePreviewComponent implements OnInit {
   getPrintData() {
     this.trainingservice.printNamePlate(this.people).subscribe(res => {
       console.log("PrintData: ", res);
-      this.printData = res;
+      this.printData = res.filter(res => res);
       // await this.printNamePlate();
     });
   }
