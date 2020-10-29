@@ -80,6 +80,10 @@ namespace InspecWeb.ViewModel
         public long[] TrainingLecturerId { get; set; }
 
         public List<IFormFile> files { get; set; }
+
+        public long[] RemoveLecturer { get; set; }
+
+        public long[] AddLecturer { get; set; }
     }
 
     public class TrainingLoginViewModel

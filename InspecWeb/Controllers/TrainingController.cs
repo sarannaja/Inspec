@@ -42,7 +42,7 @@ namespace InspecWeb.Controllers
         public TrainingController(
             ApplicationDbContext context,
             IWebHostEnvironment environment
-            //IEmailSender emailSender
+        //IEmailSender emailSender
         )
         {
             _context = context;
@@ -216,9 +216,11 @@ namespace InspecWeb.Controllers
                 .Where(m => m.Id == trainingid)
                 .Where(p => p.UserId == userid).Count();
 
-            if(TrainingRegistersdata > 0) { 
+            if (TrainingRegistersdata > 0)
+            {
                 return Ok(true);
-            } else
+            }
+            else
             {
                 return Ok(false);
             }
@@ -1002,7 +1004,23 @@ namespace InspecWeb.Controllers
         {
             var districtdata = _context.TrainingPrograms
                 .Include(m => m.TrainingPhase)
+                .Include(m => m.TrainingProgramLecturers)
+                .Include(m => m.TrainingProgramFiles)
                 .Where(m => m.TrainingPhaseId == phaseid);
+
+            return Ok(districtdata);
+
+        }
+        //GET api/training/program
+        [HttpGet("programdetail/{programid}")]
+        public IActionResult GetProgramDetail(long programid)
+        {
+            var districtdata = _context.TrainingPrograms
+                .Include(m => m.TrainingPhase)
+                .Include(m => m.TrainingProgramLecturers)
+                .Include(m => m.TrainingProgramFiles)
+                .Where(m => m.Id == programid)
+                .FirstOrDefault();
 
             return Ok(districtdata);
 
@@ -1043,7 +1061,7 @@ namespace InspecWeb.Controllers
                 {
                     programDate = test.ProgramDate,
                     trainingPhaseId = test.TrainingPhaseId,
-                    programloginId  = programloginid,
+                    programloginId = programloginid,
                     xMorning = checkmorning,
                     xAfternoon = checkafternoon
                 });
@@ -1144,7 +1162,7 @@ namespace InspecWeb.Controllers
 
             }
 
-         
+
 
             //int maxSize = Int32.Parse(ConfigurationManager.AppSettings["MaxFileSize"]);
             //var size = data.files.Sum(f => f.Length);
@@ -1201,6 +1219,108 @@ namespace InspecWeb.Controllers
             _context.TrainingPrograms.Remove(trainingdata);
             _context.SaveChanges();
         }
+
+        [HttpPut("program/edit/{programid}")]
+        public async Task<IActionResult> Put([FromForm] TrainingProgramViewModel model, long programid)
+        {
+            var programdata = _context.TrainingPrograms.Find(programid);
+            {
+                programdata.ProgramDate = model.ProgramDate;
+                programdata.MinuteStartDate = model.MinuteStartDate;
+                programdata.MinuteEndDate = model.MinuteEndDate;
+                programdata.ProgramType = model.ProgramType;
+                programdata.ProgramTopic = model.ProgramTopic;
+                programdata.ProgramDetail = model.ProgramDetail;
+                programdata.ProgramLocation = model.ProgramLocation;
+                programdata.ProgramToDress = model.ProgramToDress;
+            };
+
+            //_context.CentralPolicies.Add(centralpolicydata);
+            _context.Entry(programdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            if (model.RemoveLecturer != null)
+            {
+                System.Console.WriteLine("edit" + model.RemoveLecturer.Length);
+                foreach (var removelecturerId in model.RemoveLecturer)
+                {
+                    var removedata = _context.TrainingProgramLecturers
+                    .Where(x => x.TrainingLecturerId == removelecturerId && x.TrainingProgramId == programid)
+                    .ToList();
+
+                    foreach (var remove in removedata)
+                    {
+                        _context.TrainingProgramLecturers.Remove(remove);
+                    }
+                    _context.SaveChanges();
+                }
+            }
+
+            if (model.AddLecturer != null)
+            {
+                foreach (var addlecturerId in model.AddLecturer)
+                {
+                    System.Console.WriteLine("addID: " + addlecturerId);
+                    var trainingprogramlecturerdata = new TrainingProgramLecturer
+                    {
+                        TrainingProgramId = programid,
+                        TrainingLecturerId = addlecturerId
+                    };
+                    _context.TrainingProgramLecturers.Add(trainingprogramlecturerdata);
+                    _context.SaveChanges();
+                }
+            }
+            //ตรวจสอบว่ามี Folder Upload ใน wwwroot มั้ย
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+
+                        var trainingprogramfiledata = new TrainingProgramFile
+                        {
+                            TrainingProgramId = programid,
+                            Name = random + filename,
+                        };
+                        _context.TrainingProgramFiles.Add(trainingprogramfiledata);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            return Ok(new { status = true });
+        }
+
+        // DELETE api/training/program/delete/{trainingid}
+        [HttpDelete("program/deletefiles/{filesid}")]
+        public void DeleteTrainingProgramFiles(long filesid)
+        {
+            var trainingprogramfilesdata = _context.TrainingProgramFiles.Find(filesid);
+
+            _context.TrainingProgramFiles.Remove(trainingprogramfilesdata);
+            _context.SaveChanges();
+        }
         //------end training program---------
 
 
@@ -1235,7 +1355,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.TrainingProgram)
                 .ThenInclude(m => m.TrainingPhase)
                 .ThenInclude(m => m.Training)
-  
+
                 .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid);
 
             //foreach (var test in districtdata)
@@ -1283,7 +1403,7 @@ namespace InspecWeb.Controllers
                     vTrainingLecturerJoinSurveysId = xxx.Id;
                     SurveyTopicName = xxx.TrainingSurveyTopic.Name;
 
-                   
+
 
 
                 }
@@ -1676,8 +1796,8 @@ namespace InspecWeb.Controllers
 
         }
 
-       // PUT api/training/register/group/:id
-       [HttpPut("register/group/{id}")]
+        // PUT api/training/register/group/:id
+        [HttpPut("register/group/{id}")]
         public void EditRegisterGroup(long id, long approve1, long approve2, long approve3, long approve4, long approve5, long approve6, long approve7, long approve8, long approve9, long approve10)
         {
             var training = _context.TrainingRegisters.Find(id);
@@ -1696,7 +1816,7 @@ namespace InspecWeb.Controllers
         [HttpPut("Updateidcode")]
         public void Updateidcode([FromBody] TrainingViewModel model)
         {
-            foreach(var code in model.TrainingCode)
+            foreach (var code in model.TrainingCode)
             {
                 System.Console.WriteLine("ID" + code.id);
                 System.Console.WriteLine("Code" + code.code);
@@ -1712,7 +1832,7 @@ namespace InspecWeb.Controllers
 
         // POST api/training/programlogin/add/trainingid
         [HttpPost("programlogin/add/{trainingid}/{programdate}")]
-        public TrainingProgramLoginQRCode InsertTrainingProgramLogin(long trainingid, long programlogintype , DateTime programdate)
+        public TrainingProgramLoginQRCode InsertTrainingProgramLogin(long trainingid, long programlogintype, DateTime programdate)
         {
             var date = DateTime.Now;
             var vmorning = 0;
@@ -1732,7 +1852,7 @@ namespace InspecWeb.Controllers
                 vmorning = 1;
                 vafternoon = 1;
             }
-            
+
             var trainingdata = new TrainingProgramLoginQRCode
             {
                 ProgramDate = programdate,
@@ -1756,7 +1876,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("programtype: " + programlogintype);
             var date = DateTime.Now;
-            
+
             var vmorning = 0;
             var vafternoon = 0;
             if (programlogintype == 1)
@@ -1873,7 +1993,7 @@ namespace InspecWeb.Controllers
                     .ToList();
 
                 double aaa = test2.Count();
-                double sss = (aaa / CountCourse)*100;
+                double sss = (aaa / CountCourse) * 100;
                 result.Add(new
                 {
                     Id = test.Id,
@@ -1883,7 +2003,7 @@ namespace InspecWeb.Controllers
                     CountCourse = CountCourse,
                     RateCourse = sss
                 });
-                
+
             }
             return result;
         }
@@ -1895,7 +2015,7 @@ namespace InspecWeb.Controllers
             var idSet = _context.TrainingRegisters.Select(x => x.UserName).ToHashSet();
             var notFoundItems = _context.TrainingLogins.Where(item => idSet.Contains(item.Username));
 
-       
+
 
             return Ok(notFoundItems);
 
@@ -1939,9 +2059,9 @@ namespace InspecWeb.Controllers
                         AnsCount = ansdata.Count()
                     });
                 }
-                    
 
-               
+
+
 
             }
 
