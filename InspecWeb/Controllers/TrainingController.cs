@@ -2336,6 +2336,61 @@ namespace InspecWeb.Controllers
 
 
 
+
+        //ประเภทวิทยากร
+        //GET api/Training/programtype/get
+        [HttpGet("lecturertype/get")]
+        public IActionResult GetTrainingLecturerType()
+        {
+            var result = new List<object>();
+
+            var data = _context.TrainingLecturerTypes.ToList();
+
+            return Ok(data);
+        }
+
+        // POST api/training/programtype/add
+        [HttpPost("lecturertype/add")]
+        public TrainingLecturerType TrainingLecturerType_Add(string name)
+        {
+            var date = DateTime.Now;
+
+            var trainingdata = new TrainingLecturerType
+            {
+                Name = name,
+                CreatedAt = date
+
+            };
+
+            _context.TrainingLecturerTypes.Add(trainingdata);
+            _context.SaveChanges();
+
+            return trainingdata;
+        }
+
+        // PUT : api/training/edit/:id
+        [HttpPut("lecturertype/edit/{id}")]
+        public void EditTrainingLecturerType(long id, string name)
+        {
+            var training = _context.TrainingLecturerTypes.Find(id);
+            training.Name = name;
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
+        // DELETE api/Training//values/5
+        [HttpDelete("lecturertype/delete/{id}")]
+        public void DeleteTrainingLecturerType(long id)
+        {
+            var trainingdata = _context.TrainingLecturerTypes.Find(id);
+
+            _context.TrainingLecturerTypes.Remove(trainingdata);
+            _context.SaveChanges();
+        }
+
+
+
     }
 
 }

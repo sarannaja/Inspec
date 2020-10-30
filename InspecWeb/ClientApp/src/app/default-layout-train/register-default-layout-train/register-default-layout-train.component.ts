@@ -100,7 +100,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
         if (this.check == true) {
           this.router.navigate(['/train/']);
-          this._NotofyService.onError("ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
+          this._NotofyService.onSuccess("ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
         }
       })
 

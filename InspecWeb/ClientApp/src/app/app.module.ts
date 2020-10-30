@@ -75,6 +75,7 @@ import { TrainingProcessingComponent } from './training-processing/training-proc
 
 import { EditTrainingComponent } from './training/edit-training/edit-training.component';
 import { TrainingProgramTypeComponent } from './training-programtype/training-programtype.component';
+import { TrainingLecturerTypeComponent } from './training-lecturertype/training-lecturertype.component';
 import { ConditionDefaultLayoutTrainComponent } from './default-layout-train/condition-default-layout-train/condition-default-layout-train.component';
 //----------------
 
@@ -318,6 +319,7 @@ const ExternalOrganization = [
     EditTrainingComponent,
     TrainingProgramTypeComponent,
     ConditionDefaultLayoutTrainComponent,
+    TrainingLecturerTypeComponent,
     // TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,
@@ -547,6 +549,8 @@ const ExternalOrganization = [
           { path: 'training/edittraining/:id', component: EditTrainingComponent, canActivate: [AuthorizeGuard] },
 
           { path: 'training/programtype', component: TrainingProgramTypeComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/lecturertype', component: TrainingLecturerTypeComponent, canActivate: [AuthorizeGuard] },
+          
 
           //---------------
           { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },

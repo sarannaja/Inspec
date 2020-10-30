@@ -22,6 +22,9 @@ export class LecturerTrainingComponent implements OnInit {
   EditForm: FormGroup;
   submitted = false;
   ViewForm: FormGroup;
+  selectdatalecturer: Array<any>;
+  resultdatalecturer: any[];
+  
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -47,7 +50,7 @@ export class LecturerTrainingComponent implements OnInit {
     };
 
     this.Form = this.fb.group({
-      "LecturerType": new FormControl("", [Validators.required]),
+      "LecturerType": new FormControl(null, [Validators.required]),
       lecturername: new FormControl(null, [Validators.required]),
       lecturerphone: new FormControl(null, [Validators.required]),
       lectureremail: new FormControl(null, [Validators.required]),
@@ -63,6 +66,18 @@ export class LecturerTrainingComponent implements OnInit {
       this.resulttraining = result
       this.loading = true;
       console.log(this.resulttraining);
+    })
+
+    this.trainingservice.getTrainingLecturerType()
+    .subscribe(result => {
+      
+      this.resultdatalecturer = result
+      if (this.resultdatalecturer.length > 0){
+        this.selectdatalecturer = this.resultdatalecturer.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      }
+      this.loading = true;
     })
   }
   get f() { return this.Form.controls }

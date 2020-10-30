@@ -10,14 +10,14 @@
     <div class="col-12">
       <div class="card card-eiei">
           <div class="card-header" style="margin-bottom: -40px;">
-              <h5 class="card-title">ประเภทกิจกรรม
+              <h5 class="card-title">ประเภทวิทยากร
                 <button class="btn btn-light btn-sm" (click)="gotoBack()">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </button>
               </h5>
               <div class="float-right">
                   <button class="btn btn-primary" (click)="openModal(modalProgramType)"
-                      style="margin-top: -60px;">เพิ่มประเภทกิจกรรม</button>
+                      style="margin-top: -60px;">เพิ่มประเภทวิทยากร</button>
               </div>
           </div>
           <br /><br />
@@ -27,7 +27,7 @@
                   <thead>
                       <tr>
                           <th width="5%">#</th>
-                          <th width="70%">ประเภทกิจกรรม</th>
+                          <th width="70%">ประเภทวิทยากร</th>
                           <th width="25%" class="text-center"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                       </tr>
                   </thead>
@@ -80,7 +80,7 @@
         <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">เพิ่มประเภทกิจกรรม</h5>
+                    <h5 class="modal-title">เพิ่มประเภทวิทยากร</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -88,10 +88,10 @@
                 </div>
                 <div class="modal-body m-3">
                     <div class="form-group">
-                        <label for="test" class="form-label">ประเภทกิจกรรม</label>
+                        <label for="test" class="form-label">ประเภทวิทยากร</label>
                         <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
                         <input type="text" formControlName="name" class="form-control"
-                            placeholder="กรุณากำหนดประเภทกิจกรรม">
+                            placeholder="กรุณากำหนดประเภทวิทยากร">
                         
                     </div>
                 </div>
@@ -112,7 +112,7 @@
         <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value, editid)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">แก้ไขประเภทกิจกรรม</h5>
+                    <h5 class="modal-title">แก้ไขประเภทวิทยากร</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -120,10 +120,10 @@
                 </div>
                 <div class="modal-body m-3">
                     <div class="form-group">
-                        <label for="test" class="form-label">ประเภทกิจกรรม</label>
+                        <label for="test" class="form-label">ประเภทวิทยากร</label>
                         <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
                         <input type="text" value="{{name}}" formControlName="name" class="form-control"
-                            placeholder="กรุณากรอกประเภทกิจกรรม">
+                            placeholder="กรุณากรอกประเภทวิทยากร">
                     </div>
                 </div>
                 <div class="modal-footer">

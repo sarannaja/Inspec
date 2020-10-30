@@ -433,6 +433,12 @@ export const superAdmin: NavBar[] = [ // ซุปเปอร์แอดมิ
         url: '/training/programtype',
         name: 'จัดการประเภทกิจกรรม'
       },
+      {
+        ex_link: '0',
+        icon: 'fa-file',
+        url: '/training/lecturertype',
+        name: 'จัดการประเภทวิทยากร'
+      },
     ]
   },
   {

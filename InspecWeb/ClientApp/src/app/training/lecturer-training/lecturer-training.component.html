@@ -68,11 +68,14 @@
                 <div class="modal-body m-3">
                     <div class="form-group">
                         <label for="test" class="form-label">ประเภทวิทยากร</label>
-                        <select class="form-control select2" data-toggle="select2" formControlName="LecturerType" [ngClass]="{ 'is-invalid': submitted && f.LecturerType.errors }">
+                        <!-- <select class="form-control select2" data-toggle="select2" formControlName="LecturerType" [ngClass]="{ 'is-invalid': submitted && f.LecturerType.errors }">
                             <option value="">--กรุณาเลือกประเภทวิทยากร--</option>
                             <option value=1>วิทยากร</option>
                             <option value=2>ผู้ฝึกสอน</option>
-                        </select>
+                        </select> -->
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเภทวิทยากร" [items]="selectdatalecturer"
+                            name="name" formControlName="LecturerType"  >
+                        </ng-select>
                         <div *ngIf="submitted && f.LecturerType.errors" class="invalid-feedback">
                             <div *ngIf="f.LecturerType.errors.required">กรุณาเลือกประเภทวิทยากร</div>
                         </div>
