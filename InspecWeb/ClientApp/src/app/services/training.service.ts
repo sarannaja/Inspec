@@ -752,6 +752,41 @@ export class TrainingService {
     return this.http.delete(this.url + 'programtype/delete/' + id);
   }
 
+
+  
+
+
+  //ดึงข้อมูลประเภทวิทยากร
+  getTrainingLecturerType(): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'lecturertype/get')
+  }
+
+  //เพิ่มข้อมูลประเภทวิทยากร
+  addTrainingLecturerType(trainingData) {
+    //alert(JSON.stringify(trainingData))
+    //alert(trainingid)
+    const formData = new FormData();
+    formData.append('name', trainingData.name);
+
+    console.log('FORMDATA: ' + formData);
+    return this.http.post(this.url + 'lecturertype/add', formData);
+  }
+
+  //แก้ไขประเภทวิทยากร
+  editTrainingLecturerType(trainingData, id) {
+
+    const formData = new FormData();
+    formData.append('name', trainingData.name);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'lecturertype/edit/' + id, formData);
+  }
+
+
+  //ลบประเภทวิทยากร
+  deleteTrainingLecturerType(id) {
+    return this.http.delete(this.url + 'lecturertype/delete/' + id);
+  }
+
 }
 
 

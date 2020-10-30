@@ -172,6 +172,7 @@ namespace InspecWeb.Data
         public DbSet<Menu> Menu { get; set; }
 
         public DbSet<TrainingProgramType> TrainingProgramTypes { get; set; }
+        public DbSet<TrainingLecturerType> TrainingLecturerTypes { get; set; }
 
         //method 
         protected override void OnModelCreating(ModelBuilder builder)

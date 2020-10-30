@@ -4,13 +4,16 @@ import { TrainingService } from '../../services/training.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NgxSpinnerService } from "ngx-spinner";
-
 import { IMyDateModel, IMyOptions } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+
+import { NotofyService } from '../../services/notofy.service';
+import { NgxSpinnerService } from "ngx-spinner";
+import { LogService } from '../../services/log.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-program-training',
@@ -55,12 +58,18 @@ export class ProgramTrainingComponent implements OnInit {
   addlecturer: any = []
   files: any = []
   delfilesid: any
+  resultprogramtype: any[];
+  selectdataprogramtype: { value: any; label: any; }[];
+  userid: any;
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
-    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
@@ -69,7 +78,7 @@ export class ProgramTrainingComponent implements OnInit {
 
   ngOnInit() {
 
-
+    this.getuserinfo();
     this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -81,9 +90,24 @@ export class ProgramTrainingComponent implements OnInit {
       ]
 
     };
+
+    this.trainingservice.getTrainingProgramType()
+    .subscribe(result => {
+      this.resultprogramtype = result
+
+      this.resultprogramtype = result
+      if (this.resultprogramtype.length > 0){
+        this.selectdataprogramtype = this.resultprogramtype.map((item, index) => {
+          return { value: item.id, label: item.name }
+        })
+      }
+      this.loading = true;
+
+    })
+
     this.Form = this.fb.group({
       TrainingPhaseId: this.trainingid,
-      programtype: new FormControl("", [Validators.required]),
+      programtype: new FormControl(null, [Validators.required]),
       programdate: new FormControl(null, [Validators.required]),
       mStart: new FormControl(null, [Validators.required]),
       mEnd: new FormControl(null, [Validators.required]),
@@ -97,7 +121,7 @@ export class ProgramTrainingComponent implements OnInit {
       files: [null],
     })
     this.EditForm = this.fb.group({
-      programtype: new FormControl("", [Validators.required]),
+      programtype: new FormControl(null, [Validators.required]),
       programdate: new FormControl(null, [Validators.required]),
       mStart: new FormControl(null, [Validators.required]),
       mEnd: new FormControl(null, [Validators.required]),
@@ -177,6 +201,15 @@ export class ProgramTrainingComponent implements OnInit {
       //  }
     })
 
+  }
+
+  //start getuser
+  getuserinfo() {
+    this.spinner.show();
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+      })
   }
 
   getprogramtraining() {
@@ -350,7 +383,9 @@ export class ProgramTrainingComponent implements OnInit {
         this.Form.reset()
         this.modalRef.hide()
         this.loading = false;
+        this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(กิจกรรม)(TrainingPrograms)','เพิ่ม', value.name,"").subscribe();
         this.getprogramtraining();
+        this._NotofyService.onSuccess("เพิ่มข้อมูล")
         // this.trainingservice.getprogramtraining(this.trainingid)
         //   .subscribe(result => {
         //     this.resulttraining = result
@@ -376,7 +411,9 @@ export class ProgramTrainingComponent implements OnInit {
       this.EditForm.reset()
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(กิจกรรม)(TrainingPrograms)','แก้ไข', value.name,"").subscribe();
       this.getprogramtraining();
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
   uploadFile(event) {
@@ -398,10 +435,12 @@ export class ProgramTrainingComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(กิจกรรม)(TrainingPrograms)','ลบ', value.name,"").subscribe();
       this.trainingservice.getprogramtraining(this.trainingid)
         .subscribe(result => {
           this.resulttraining = result
           this.loading = true
+          this._NotofyService.onSuccess("ลบข้อมูล")
           //console.log(this.resulttraining);
         })
     })

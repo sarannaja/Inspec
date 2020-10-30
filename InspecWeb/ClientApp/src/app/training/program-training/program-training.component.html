@@ -83,13 +83,16 @@
                 <div class="modal-body m-3">
                     <div class="form-group">
                         <label for="test" class="form-label">ประเภทกิจกรรม</label>
-                        <select class="form-control select2" data-toggle="select2" formControlName="programtype"
+                        <!-- <select class="form-control select2" data-toggle="select2" formControlName="programtype"
                             [ngClass]="{ 'is-invalid': submitted && f.programtype.errors }">
                             <option value="">--กรุณาเลือกประเภทกิจกรรม--</option>
                             <option value=1>ทั่วไป</option>
                             <option value=2>คณะฝึกปฏิบัติ</option>
                             <option value=3>คณะศึกษาดูงาน</option>
-                        </select>
+                        </select> -->
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเภทกิจกรรม" [items]="selectdataprogramtype"
+                            name="name" formControlName="programtype"  >
+                        </ng-select>
                         <div *ngIf="submitted && f.programtype.errors" class="invalid-feedback">
                             <div *ngIf="f.programtype.errors.required">กรุณาเวลาเริ่ม</div>
                         </div>
@@ -143,7 +146,7 @@
                             placeholder="กรุณากรอกการแต่งกาย">
 
                         <br>
-                        <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
+                        <label for="test" class="form-label">วิทยากร</label>
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกวิทยากร" [multiple]="true"
                             [items]="selectdatalecturer" name="lecturername" formControlName="lecturername">
                         </ng-select>
@@ -283,13 +286,16 @@
                 <div class="modal-body m-3">
                     <div class="form-group">
                         <label for="test" class="form-label">ประเภทกิจกรรม</label>
-                        <select class="form-control select2" data-toggle="select2" formControlName="programtype"
+                        <!-- <select class="form-control select2" data-toggle="select2" formControlName="programtype"
                             [ngClass]="{ 'is-invalid': submitted && f.programtype.errors }">
                             <option value="">--กรุณาเลือกประเภทกิจกรรม--</option>
                             <option value=1>ทั่วไป</option>
                             <option value=2>คณะฝึกปฏิบัติ</option>
                             <option value=3>คณะศึกษาดูงาน</option>
-                        </select>
+                        </select> -->
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเภทกิจกรรม" [items]="selectdataprogramtype"
+                            name="name" formControlName="programtype"  >
+                        </ng-select>
                         <div *ngIf="submitted && f.programtype.errors" class="invalid-feedback">
                             <div *ngIf="f.programtype.errors.required">กรุณาเวลาเริ่ม</div>
                         </div>
@@ -344,7 +350,7 @@
                             placeholder="กรุณากรอกการแต่งกาย">
 
                         <br>
-                        <label for="test" class="form-label">ผู้ดำเนินรายการ</label>
+                        <label for="test" class="form-label">วิทยากร</label>
                         <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกวิทยากร" [multiple]="true"
                             [(ngModel)]="lecturer" [items]="selectdatalecturer" name="lecturername"
                             formControlName="lecturername">
