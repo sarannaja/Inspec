@@ -48,10 +48,10 @@ export class DefaultLayoutTrainComponent implements OnInit {
         "infoEmpty": "แสดง 0 ของ 0 รายการ",
         "zeroRecords": "ไม่พบข้อมูล",
         "paginate": {
-          "first": "หน้าแรก",
-          "last": "หน้าสุดท้าย",
-          "next": "ต่อไป",
-          "previous": "ย้อนกลับ"
+          "first": "<<",
+          "last": ">>",
+          "next": ">",
+          "previous": "<"
         },
       }
 

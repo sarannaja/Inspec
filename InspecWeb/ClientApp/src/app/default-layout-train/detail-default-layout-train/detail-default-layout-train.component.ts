@@ -75,13 +75,16 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
 
     };
 
-    
+
     
     this.trainingservice.getTrainingPhase(this.trainingid)
       .subscribe(result => {
         this.resulttrainingphase = result
         this.loading = true
         //console.log(this.resulttraining);
+        if (this.resulttrainingphase.length < 1){
+          this.gotoMain();
+        }
         
       })
 
