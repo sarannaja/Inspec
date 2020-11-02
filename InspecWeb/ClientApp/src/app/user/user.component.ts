@@ -42,7 +42,7 @@ export class UserComponent implements OnInit {
   selectdataprovince: Array<any>
   selectdataregion: Array<any>
   selectdatafiscalyear: Array<any>
-  selectdataprovincialdepartment: Array<any>
+  selectdataprovincialdepartment: any[] = []
   selectdataside: Array<any>
   loading = false;
   dtOptions: DataTables.Settings = {};
@@ -374,7 +374,7 @@ export class UserComponent implements OnInit {
           label: item.region.name
         }
       });
-     // console.log(this.selectdataregion);
+      // console.log(this.selectdataregion);
       //  = uniqueRegion
     })
   }
@@ -442,6 +442,8 @@ export class UserComponent implements OnInit {
   getProvincialDepartments(event) {
     this.userService.getprovincialdepartment(event.value)
       .subscribe(result => {
+        console.log('provincaildepartmentId', result);
+
         this.selectdataprovincialdepartment = result.map((item, index) => {
           return { value: item.id, label: item.name }
         })
@@ -472,7 +474,7 @@ export class UserComponent implements OnInit {
 
     this.submitted = true;
     if (this.addForm.invalid) {
-     // console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? this.addForm.controls[index] : false }), Object.keys(this.addForm.controls)[25])
+      console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? Object.keys(this.addForm.controls)[index] : false }), Object.keys(this.addForm.controls)[11])
       return;
     }
 
@@ -493,7 +495,7 @@ export class UserComponent implements OnInit {
     // alert(1);
     this.submitted = true;
     if (this.addForm.invalid) {
-     // console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? this.addForm.controls[index] : false }), Object.keys(this.addForm.controls)[25])
+      // console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? this.addForm.controls[index] : false }), Object.keys(this.addForm.controls)[25])
       return;
     }
     this.addForm.patchValue({
@@ -562,21 +564,21 @@ export class UserComponent implements OnInit {
       FiscalYear: [
         1,
         conditionalValidator(
-          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8 || this.roleId == 10) === true),
+          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8) === true),
           Validators.required
         )
       ],
 
       ProvincialDepartmentId: [null,
         conditionalValidator(
-          (() => (this.roleId == 10) === true),
+          (() => (this.roleId == 9) === true),
           Validators.required
         )
       ],
       UserRegion: [
         null,
         conditionalValidator(
-          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8 || this.roleId == 10) === true),
+          (() => (this.roleId == 3 || this.roleId == 6 || this.roleId == 8) === true),
           Validators.required
         )
       ],

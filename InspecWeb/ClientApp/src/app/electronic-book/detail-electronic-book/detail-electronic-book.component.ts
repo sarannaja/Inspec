@@ -234,9 +234,13 @@ export class DetailElectronicBookComponent implements OnInit {
         (thing, i, arr) => arr.findIndex(t => t.userId === thing.userId) === i
       );
       console.log("invitedPeople: ", this.invitedPeopleData);
+      let test = this.invitedPeopleData.filter(function (data) {
+        return data.user.role_id != 9
+      })
+      console.log("filter 1 : ", test);
 
-      var userInvite = this.invitedPeopleData.map((item, index) => {
-        return item.userId;
+      var userInvite = test.map((item, index) => {
+        return {userId: item.userId, role_Id: item.user.role_id};
       })
       console.log("userrrrr: ", userInvite);
 
@@ -284,8 +288,13 @@ export class DetailElectronicBookComponent implements OnInit {
         console.log("NOTI: ", value.Status);
 
         if (this.electronicBookData.electronicBook.centralPolicy == null) {
-          value.user.forEach(element => {
-            this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element, 7, this.electId,null)
+          let test = value.user.filter(function (data) {
+            return data.role_Id != 7 && data.role_Id != 9
+          })
+          console.log("FILTER JA: ", test);
+
+          test.forEach(element => {
+            this.notificationService.addNotification(this.electronicBookData.electronicBookGroup[0].centralPolicyId, 1, element.userId, 7, this.electId,null)
               .subscribe(response => {
                 console.log("Noti res: ", response);
               })

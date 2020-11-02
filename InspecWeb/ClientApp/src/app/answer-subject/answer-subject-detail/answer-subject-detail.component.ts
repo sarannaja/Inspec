@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AnswersubjectService } from 'src/app/services/answersubject.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
@@ -34,6 +34,7 @@ export class AnswerSubjectDetailComponent implements OnInit {
   listfiles: any = []
   fileData: any = [{ AnswerSubjectFile: '', fileDescription: '' }];
   submitted = false;
+  downloadUrl: any;
 
   constructor(
     private answersubjectservice: AnswersubjectService,
@@ -44,12 +45,14 @@ export class AnswerSubjectDetailComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private _NotofyService: NotofyService,
     private notificationService: NotificationService,
+    @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.form = this.fb.group({
       name: [''],
       files: [null]
     })
+    this.downloadUrl = baseUrl + '/Uploads';
   }
   get f() { return this.Form.controls; }
   get t() { return this.f.result as FormArray; }

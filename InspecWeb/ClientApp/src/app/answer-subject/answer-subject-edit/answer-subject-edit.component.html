@@ -29,6 +29,21 @@
                                 จังหวัด : {{province}}
                             </div>
                         </div>
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="form-group col-sm-8">
+                                <label for="city">ไฟล์แนบ</label>
+                                <div class=" d-flex flex-row"
+                                    *ngFor="let item of resultsubjectdetail.subjectGroup.subjectEventFiles; let i = index">
+                                    <a download href="{{downloadUrl}}/{{item.name}}" class="mr-5">
+                                        <span>ไฟล์ที่
+                                            {{i+1}})
+                                            {{ item.name }}<br>
+                                        </span>
+                                    </a>
+                                    <label for="city">คำอธิบาย : {{item.description}}</label>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- <div class="row" style="margin-top: 10px;">
                             <div class="col-md-6">
@@ -194,8 +209,8 @@
                                             {{ item.name }}<br>
                                         </span>
                                     </a>
-                                    <input *ngIf="status == 'ใช้งานจริง'" type="text" class="form-control ml-4" style="width: 80%;"
-                                        value="{{item.description}}" readonly>
+                                    <input *ngIf="status == 'ใช้งานจริง'" type="text" class="form-control ml-4"
+                                        style="width: 80%;" value="{{item.description}}" readonly>
                                     <i *ngIf="status == 'ร่างกำหนดการ'"
                                         class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                                         (click)="openModalDelete(modaldeleteFile, item.id)"></i>

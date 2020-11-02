@@ -72,6 +72,9 @@ export class AnswersubjectService {
   getAnswerRecommendationinspectoruser(userid, id) {
     return this.http.get<any>(this.url + "answerrecommendationinspectoruser/" + id + "/" + userid)
   }
+  getSubjectEventFiles(subjectgroupid): Observable<any[]>{
+    return this.http.get<any[]>(this.url + "subjecteventfiles/" + subjectgroupid)
+  }
   addAnswer(answersubjectdata) {
     console.log('answersubjectdata: ', answersubjectdata);
     const formData = {

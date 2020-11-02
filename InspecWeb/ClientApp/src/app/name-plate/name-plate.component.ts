@@ -75,7 +75,8 @@ export class NamePlateComponent implements OnInit {
   addsPeoples(value) {
     // //console.log('item.id');
     // var subject = value.vaule
-    this.people = this.addPeople(this.people, value)
+
+    this.people = _.sortBy(this.addPeople(this.people, value))
     console.log("test => ", this.people);
 
 
@@ -105,7 +106,9 @@ export class NamePlateComponent implements OnInit {
     let perpage = 6
     const grouped = (printData) => {
       return new Promise((resolve, reject) => {
-        const group = printData
+        console.log(printData);
+      
+        const group = _.orderBy(printData, ['idCode'], ['asc'])
           .map((result, index) => {
             let logic = (index + 1) % perpage
             let palmgroup =
@@ -115,6 +118,7 @@ export class NamePlateComponent implements OnInit {
             console.log('logic', palmgroup);
             return { ...result, palmgroup }
           })
+
         let data = Object.values(_.groupBy(group, "palmgroup"))
         resolve(data)
       })

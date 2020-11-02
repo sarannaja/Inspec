@@ -220,7 +220,8 @@ export class ExternalRegisterComponent implements OnInit {
   userform() {
     this.addForm = this.fb.group({
       Prefix: new FormControl(null, [Validators.required]),
-      Name: new FormControl(null, [Validators.required]),
+      FName: new FormControl(null, [Validators.required]),
+      LName: new FormControl(null, [Validators.required]),
       Position: new FormControl(null, [Validators.required]),
       Role_id: new FormControl(11, [Validators.required]),
       PhoneNumber: new FormControl(null, [Validators.required]),
