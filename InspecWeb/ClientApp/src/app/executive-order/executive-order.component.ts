@@ -155,7 +155,7 @@ export class ExecutiveOrderComponent implements OnInit {
             } else if (this.role_id == 1) {
               this.executiveorderService.getexecutiveorderdata()
                 .subscribe(result => {
-                  console.log("getexecutiveorderdata",result);
+                //  console.log("getexecutiveorderdata",result);
                   this.getDatauser();
                   this.resultexecutiveorder = result;
                   this.loading = true;
@@ -265,7 +265,7 @@ export class ExecutiveOrderComponent implements OnInit {
     this.executiveorderService.addexecutiveorder(value, this.Form.value.files,this.userid)
       .subscribe(result => 
     {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','เพิ่ม',result.title,result.id).subscribe();
+      this.logService.addLog(this.userid,'ExecutiveOrders','เพิ่ม',result.title,result.id).subscribe();
       if(value.Draft == 1){
      //  alert("draft 1");
         this.Form.reset();
@@ -296,7 +296,7 @@ export class ExecutiveOrderComponent implements OnInit {
     // alert(1);
      this.executiveorderService.updateexecutiveorder(value, this.Form.value.files,this.idexecutiveorder).subscribe(result => {
      // alert(3);
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','แก้ไข',result.title,result.id).subscribe();
+      this.logService.addLog(this.userid,'ExecutiveOrders','แก้ไข',result.title,result.id).subscribe();
         if(value.Draft == 1){
         //  alert("draft 1");
           this.Form.reset();
