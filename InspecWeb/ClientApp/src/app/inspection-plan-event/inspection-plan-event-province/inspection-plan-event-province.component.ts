@@ -166,7 +166,8 @@ export class InspectionPlanEventProvinceComponent implements OnInit {
         },
         navLinks: true,
         editable: false,
- locale: 'th',
+        locale: 'th',
+
         viewRender: function (view, element) {
           setTimeout(function () {
             var strDate = $.trim($(".fc-center").find("h2").text());

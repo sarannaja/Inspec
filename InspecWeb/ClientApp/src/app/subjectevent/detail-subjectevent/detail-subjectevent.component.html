@@ -461,7 +461,7 @@
             </div>
           </div>
 
-          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว' && subjectgroupstatussuggestion == 'ร่างกำหนดการ'"
+          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว'"
             class="form-group" style="margin-left: 2px;">
             <div class="row">
               <i class="fa fa-tags" style="margin-top: 5px;"></i>
@@ -474,8 +474,13 @@
                 (click)="reportModalSuggestionsresult(modalreportsuggestionsresult)">รายงานผลการดำเนินการตามข้อเสนอแนะ
               </button> -->
             </div>
-            <textarea readonly="{{subjectgroupstatussuggestion == 'ใช้งานจริง'}}" cols="30" rows="2" type="text"
-              formControlName="suggestion" class="form-control" placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
+            <textarea *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ'" cols="
+              30" rows="2" type="text" formControlName="suggestion" class="form-control"
+              placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
+
+            <textarea readonly *ngIf="subjectgroupstatussuggestion == 'ใช้งานจริง'" cols="
+              30" rows="2" type="text" formControlName="suggestion" class="form-control"
+              placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
             <br>
 
             <div class="form-group col-12" *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ'">
@@ -598,11 +603,11 @@
           </div>
 
           <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
-            <button *ngIf="subjectgroupstatus != 'ใช้งานจริง'" style="align-self: center;" type="submit"
+            <button *ngIf="subjectgroupstatus != 'ใช้งานจริง' && subjectgroupstatussuggestion == 'ร่างกำหนดการ'" style="align-self: center;" type="submit"
               class="btn btn-primary" style="margin-right: 45px;">บันทึก</button>
             <!-- <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
               (click)="back()" style="margin-right: 45px;">บันทึก</button> -->
-            <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+            <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
           </div>
 
           <!-- <div *ngIf="subjectgroupstatus == 'ใช้งานจริง'" class="form-group col col-lg-12"
