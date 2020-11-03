@@ -165,6 +165,7 @@ namespace InspecWeb.Controllers {
                 Type = "Master",
                 Land = "Master",
                 Status = "Master",
+                StatusSuggestion = "ร่างกำหนดการ",
 
                 ProvincialDepartmentIdCreatedBy = userdata.ProvincialDepartmentId,
                 CreatedBy = userdata.Id,
