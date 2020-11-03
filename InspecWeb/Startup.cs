@@ -47,7 +47,7 @@ namespace InspecWeb
             //<!-- เช็ทพาสเวิร์ด -->
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;

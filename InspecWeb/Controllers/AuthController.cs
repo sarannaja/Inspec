@@ -58,6 +58,12 @@ namespace InspecWeb.Controllers
         // [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginCredentials credentials)
         {
+            var result1 = await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, credentials.Jodjumchan = false, lockoutOnFailure: true);
+            if (result1.IsLockedOut)
+            {
+                var test = userManager.Options.Lockout.DefaultLockoutTimeSpan.TotalMinutes;
+                return Ok(new { Message = "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 5 นาที", status = false, test });
+            }
             if (!ModelState.IsValid || credentials == null)
             {
                 return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
@@ -87,7 +93,6 @@ namespace InspecWeb.Controllers
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
             // var result1 = await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, false, lockoutOnFailure: true);
-            var result1 = await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, credentials.Jodjumchan = false, lockoutOnFailure: true);
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
