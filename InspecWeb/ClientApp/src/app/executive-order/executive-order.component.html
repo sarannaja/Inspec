@@ -105,7 +105,7 @@
                   </button>&nbsp;&nbsp;&nbsp;
                    
                   <button *ngIf="item.accept == 0 && item.draft == 0" class="btn btn-danger btn-pill btn-sm"
-                  (click)="cancelmodal(cancel,item.id)" title="ยกเลิกข้อสั่งการ">
+                    (click)="cancelmodal(cancel,item.id)" title="ยกเลิกข้อสั่งการ">
                     <i class="align-middle fas fa-fw fa-sm fa-times"></i>
                   </button>  
                  
@@ -589,4 +589,4 @@
 
   <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
     <p style="font-size: 20px; color: white">Loading...</p>
-</ngx-spinner>
+  </ngx-spinner>
