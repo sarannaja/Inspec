@@ -25,3 +25,8 @@
     color: red;
 
 }
+
+.red-sm{
+    color: #dc3545!important;
+    font-size: small;
+  }

@@ -87,9 +87,25 @@ export class ProgramTrainingComponent implements OnInit {
           targets: [0, 1, 2, 3, 4],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "infoFiltered": "ไม่พบข้อมูล",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
+
+    this.getprogramtraining()
 
     this.trainingservice.getTrainingProgramType()
     .subscribe(result => {
@@ -101,7 +117,7 @@ export class ProgramTrainingComponent implements OnInit {
           return { value: item.id, label: item.name }
         })
       }
-      this.loading = true;
+      
 
     })
 
@@ -132,7 +148,7 @@ export class ProgramTrainingComponent implements OnInit {
       lecturername: new FormControl(null, [Validators.required]),
     })
 
-    this.getprogramtraining()
+    
 
     //dropdown lecturer
     this.trainingservice.gettraininglecturer()
@@ -163,7 +179,7 @@ export class ProgramTrainingComponent implements OnInit {
           // this.dateOption(this.startdate , this.enddate)
         }
         this.resulttrainingdetail = result
-        this.loading = true;
+        //this.loading = true;
         //console.log(JSON.stringify(this.dateOption(this.startdate , this.enddate)));
 
         //console.log(this.resulttraining);
@@ -173,33 +189,33 @@ export class ProgramTrainingComponent implements OnInit {
 
 
 
-    this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
-      type: 'pie', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
-      data: { // ข้อมูลภายในแผนภูมิแบบเส้น
-        labels: ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sep", "Oct", "Nov", "Dec"], // ชื่อของข้อมูลในแนวแกน x
-        datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
-          label: 'Number of items sold in months',
-          data: [9, 7, 3, 5, 2, 10, 15, 61, 19, 3, 1, 9],
-          fill: false,
-          lineTension: 0.2,
-          borderColor: "red", // สีของเส้น
-          borderWidth: 1
-        }]
-      },
-      options: {
-        title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
-          text: "Bar Chart",
-          display: true
-        }
-      },
-      // scales: { // แสดง scales ของแผนภูมิเริมที่ 0
-      //    yAxes: [{
-      //       ticks:{
-      //          beginAtZero:true
-      //       }
-      //    }]
-      //  }
-    })
+    // this.lineChart = new Chart('lineChart', { // สร้าง object และใช้ชื่อ id lineChart ในการอ้างอิงเพื่อนำมาเเสดงผล
+    //   type: 'pie', // ใช้ชนิดแผนภูมิแบบเส้นสามารถเปลี่ยนชิดได้
+    //   data: { // ข้อมูลภายในแผนภูมิแบบเส้น
+    //     labels: ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sep", "Oct", "Nov", "Dec"], // ชื่อของข้อมูลในแนวแกน x
+    //     datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
+    //       label: 'Number of items sold in months',
+    //       data: [9, 7, 3, 5, 2, 10, 15, 61, 19, 3, 1, 9],
+    //       fill: false,
+    //       lineTension: 0.2,
+    //       borderColor: "red", // สีของเส้น
+    //       borderWidth: 1
+    //     }]
+    //   },
+    //   options: {
+    //     title: { // ข้อความที่อยู่ด้านบนของแผนภูมิ
+    //       text: "Bar Chart",
+    //       display: true
+    //     }
+    //   },
+    //   // scales: { // แสดง scales ของแผนภูมิเริมที่ 0
+    //   //    yAxes: [{
+    //   //       ticks:{
+    //   //          beginAtZero:true
+    //   //       }
+    //   //    }]
+    //   //  }
+    // })
 
   }
 
@@ -217,11 +233,12 @@ export class ProgramTrainingComponent implements OnInit {
     this.trainingservice.getprogramtraining(this.trainingid)
       .subscribe(result => {
         this.resulttraining = result
-        this.loading = true
+
         console.log(result[0].trainingPhase.startDate);
         console.log(result[0].trainingPhase.endDate);
 
         this.dateOptionF(this.startdate, this.enddate)
+        this.loading = true;
 
         //console.log(this.resulttraining);
       })
@@ -301,6 +318,7 @@ export class ProgramTrainingComponent implements OnInit {
     this.Form.patchValue({
       TrainingPhaseId: this.trainingid,
     })
+    this.submitted = false;
     this.modalRef = this.modalService.show(template);
   }
   editModal(template: TemplateRef<any>, id, programtype, programdate, mStart, mEnd, programtopic, programdetail, programlocation, programtodress, lecturername: any[] = [], files) {
@@ -381,7 +399,8 @@ export class ProgramTrainingComponent implements OnInit {
       this.trainingservice.addTrainingProgram(value, this.Formfile.value.files).subscribe(response => {
         console.log("viewadddata:", value);
         this.Form.reset()
-        this.modalRef.hide()
+        this.submitted = false;
+        this.modalRef.hide();
         this.loading = false;
         this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(กิจกรรม)(TrainingPrograms)','เพิ่ม', value.name,"").subscribe();
         this.getprogramtraining();

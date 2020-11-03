@@ -501,8 +501,8 @@ export class TrainingService {
     formData.append('PhaseNo', trainingData.phaseno);
     formData.append('Title', trainingData.title);
     formData.append('Detail', trainingData.detail);
-    formData.append('StartDate', trainingData.startdate.date.year + '-' + trainingData.startdate.date.month + '-' + trainingData.startdate.date.day);
-    formData.append('EndDate', trainingData.enddate.date.year + '-' + trainingData.enddate.date.month + '-' + trainingData.enddate.date.day);
+    formData.append('StartDate', trainingData.startdate.year + '-' + trainingData.startdate.month + '-' + trainingData.startdate.day);
+    formData.append('EndDate', trainingData.enddate.year + '-' + trainingData.enddate.month + '-' + trainingData.enddate.day);
     formData.append('Location', trainingData.location);
     formData.append('Group', group);
     console.log('FORMDATA: ' + JSON.stringify(formData));

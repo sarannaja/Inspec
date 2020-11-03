@@ -94,21 +94,21 @@ namespace InspecWeb.Controllers
             return Ok(true);
         }
 
-        [HttpGet("getUserLogIn/{id}/{programType}")]
-        public IActionResult GetUserLogIn(long id, long programType)
+        [HttpGet("getUserLogIn/{programid}/{programType}/{trainingId}")]
+        public IActionResult GetUserLogIn(long programid, long programType, long trainingId)
         {
 
             var result = new List<object>();
 
             var trainingregisters = _context.TrainingRegisters
-                .Where(m => m.TrainingId == id)
+                .Where(m => m.TrainingId == trainingId && m.Status == 1)
                 .ToList();
 
             foreach (var user in trainingregisters)
             {
 
                 var traininglogins = _context.TrainingLogins
-                    .Where(x => x.Username == user.UserName)
+                    .Where(x => x.Username == user.UserName && x.DateType == programType && x.TrainingProgramLoginId == programid)
                     .FirstOrDefault();
 
                 //result.Add(name);
@@ -155,6 +155,25 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.Training)
                 //.Include(m => m.TrainingProgramLoginQRCodes)
                 .Where(m => m.TrainingPhase.TrainingId == trainingid)
+                .ToList();
+
+            return Ok(districtdata);
+
+        }
+
+        //GET api/training/program
+        [HttpGet("TrainingProgramDate2/get/{trainingid}")]
+        public IActionResult GetTrainingProgramDate2(long trainingid)
+        {
+            var result = new List<object>();
+
+            var districtdata = _context.TrainingProgramLoginQRCodes
+                //.Include(m => m.TrainingPhase)
+                //.ThenInclude(m => m.Training)
+                //.Include(m => m.TrainingProgramLoginQRCodes)
+                .Where(m => m.TrainingId == trainingid)
+                .OrderBy(m => m.ProgramDate)
+
                 .ToList();
 
             return Ok(districtdata);

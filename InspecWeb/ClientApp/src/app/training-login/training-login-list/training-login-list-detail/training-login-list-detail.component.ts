@@ -26,6 +26,7 @@ export class TrainingLoginListDetailComponent implements OnInit {
   Form: any;
   modalRef: BsModalRef;
   people: any = [];
+  programDate: string;
 
   constructor(
     private router: Router,
@@ -39,10 +40,15 @@ export class TrainingLoginListDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('programid');
-    this.programType = activatedRoute.snapshot.paramMap.get('programType')
+    this.programType = activatedRoute.snapshot.paramMap.get('programType');
+    this.trainingId = activatedRoute.snapshot.paramMap.get('trainingId');
+    this.programDate = activatedRoute.snapshot.paramMap.get('programDate');
   }
 
   ngOnInit() {
+    console.log(this.trainingId);
+
+    console.log("programDate =>", this.programDate);
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -85,16 +91,21 @@ export class TrainingLoginListDetailComponent implements OnInit {
   }
 
   getUserLogin() {
-    this.trainingService.getUserLogIn(this.id, this.programType).subscribe(res => {
+    this.trainingService.getUserLogIn(this.id, this.programType, this.trainingId).subscribe(res => {
       console.log("RES => ", res);
+      // this.dateview = res.
       this.userLogInData = res;
       this.loading = true;
     })
   }
 
   openModal(template: TemplateRef<any>, id) {
-
-    this.modalRef = this.modalService.show(template);
+    console.log("this.people => ", this.people);
+    if (this.people.length > 0){
+      this.modalRef = this.modalService.show(template);
+    }
+    
+    
   }
 
   addsPeople2(value) {
@@ -126,10 +137,15 @@ export class TrainingLoginListDetailComponent implements OnInit {
     this.people.forEach(element => {
       this.trainingService.register(element, this.id, this.programType).subscribe(res => {
         console.log(res);
-        
+        this.getUserLogin();
+        this.modalRef.hide()
       })
     });
    
+  }
+
+  gotoBack() {
+    window.history.back();
   }
 
 }

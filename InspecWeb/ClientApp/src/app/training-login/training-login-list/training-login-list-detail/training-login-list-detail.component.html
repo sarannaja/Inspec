@@ -12,10 +12,22 @@
     <div class="card">
 
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title"></h5>
+        <h5 class="card-title">
+
+          จัดการหลักสูตรการอบรม / การจัดการ / รายชื่อผู้เข้าร่วมอบรม
+
+          <button class="btn btn-light btn-sm" (click)="gotoBack()">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+        </h5>
+        <div class="float-right">
+          <button class="btn btn-success" (click)="openModal(modalLogin, 1)"
+              style="margin-top: -60px;">ลงชื่อย้อนหลัง</button>
+        </div>
       </div>
 
-      <div class="card-body">
+      <div class="card-body mt-4">
+        <label class="text-primary">ข้อมูลผู้เข้าอบรมลงชื่อวันที่: {{ this.programDate | thaidate: 'short'}}</label>
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
           [dtOptions]="dtOptions">
           <thead>
@@ -28,9 +40,9 @@
               <th>
                 สถานะลงชื่อ
               </th>
-              <th class="text-center">
+              <!-- <th class="text-center">
                 <i class="btn btn-success" (click)="openModal(modalLogin, 1)">ลงชื่อ</i>
-              </th>
+              </th> -->
             </tr>
           </thead>
           <tbody>
@@ -61,11 +73,11 @@
                 </ng-template>
 
               </td>
-              <td class="text-center">
+              <!-- <td class="text-center">
                 <i class="align-middle mr-2 fas fa-fw fa-edit pointer"
                 (click)="openModal(modalLogin, 1)"></i>
              
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
@@ -77,21 +89,23 @@
 <!-- BEGIN primary modal -->
 <ng-template #modalLogin class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-  <form [formGroup]="Form" (ngSubmit)="savelogin(Form.value, 1)">
+  <!-- <form [formGroup]="Form" (ngSubmit)="savelogin(Form.value, 1)"> -->
+  <form>
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">จัดการสิทธิ์การเข้าฝึกอบรม</h5>
+        <h5 class="modal-title">ลงชื่อผู้มาอบรมย้อนหลัง</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
-        <div class="form-group">
+        <div class="form-group text-primary">
+           รายชื่อที่ได้ทำการเลือกเครื่องหมายถูกหน้าชื่อจะทำการลงชื่อย้อนหลัง<br>
            ต้องการลงชื่อเข้าอบรมหรือไม่
         </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" (click)="userRegister()">บันทึก</button>
+        <label type="button" class="btn btn-primary" (click)="userRegister()">บันทึก</label>
         <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
       </div>
     </div>

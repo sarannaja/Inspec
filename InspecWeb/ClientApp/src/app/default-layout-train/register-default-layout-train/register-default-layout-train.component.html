@@ -115,16 +115,16 @@
         <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
           <div class="">
             <!-- <label *ngFor="let item of resulttraining; let i = index">{{ item.name }}</label> -->
-            <h1><label>ใบสมัครหลักสูตร{{ name }}</label></h1>
+            <h3><label>ใบสมัครหลักสูตร{{ name }}</label></h3>
             <label>{{ createdAt | thaidate:'year'}}</label>
-            <h2 class="text-center">สมัครฝึกอบรม</h2>
+            <h3 class="text-center">สมัครฝึกอบรม</h3>
             <div class="container col-10">
 
             </div>
 
             <div class="container col-10 rounded-lg border">
               <br>
-              <h3>ข้อมูลพื้นฐาน<span class="star">*จำเป็นต้องกรอก</span></h3>
+              <h3>ข้อมูลพื้นฐาน<span class="star">(*จำเป็นต้องกรอก)</span></h3>
 
               <br>
               <label>รูปถ่าย</label><small class="text-muted">(หน้าตรง ถ่ายไว้ไม่เกิน 6 เดือน)รูปแบบไฟล์ .JPG .PNG
@@ -145,89 +145,135 @@
               <label for="r_out">&nbsp;&nbsp;ไม่</label><br>
               <br>
 
-              <label>โปรดระบุวันที่ท่านเกษียณอายุราชการ</label><span class="star">*</span>
+              <label>วันที่ท่านเกษียณอายุราชการ</label><span class="star">*</span>
               <!-- <input type="text" value="" formControlName="retireddate" class="form-control"
                 placeholder="กรุณากรอกปี พ.ศ."> -->
-              <my-date-picker-th formControlName="retireddate"   [options]="" required>
+              <my-date-picker-th formControlName="retireddate" [options]="">
               </my-date-picker-th>
-              <br>
+              <!-- <div *ngIf="submitted && f.retireddate.errors" class="invalid-feedback">
+                  <div *ngIf="f.retireddate.errors.required">กรุณาระบุวันที่ท่านเกษียณอายุราชการ</div>
+              </div> -->
+              
+              <br><br>
 
               <label>ชื่อ-นามสกุล</label><span class="star">*</span>
               <input type="text" value="{{ Name }}" formControlName="name" class="form-control"
-                placeholder="กรุณากรอกชื่อ-นามสกุล">
+                placeholder="กรุณากรอกชื่อ-นามสกุล" readonly>
+                
               <br>
 
               <label>ชื่อเล่น</label><span class="star">*</span>
               <input type="text" value="" formControlName="nickname" class="form-control"
-                placeholder="กรุณากรอกชื่อเล่น">
+                placeholder="กรุณากรอกชื่อเล่น" [ngClass]="{ 'is-invalid': submitted && f.nickname.errors }">
+              <div *ngIf="submitted && f.nickname.errors" class="invalid-feedback">
+                  <div *ngIf="f.nickname.errors.required">กรุณากรอกชื่อเล่น</div>
+              </div>
               <br>
 
               <label>วันเกิด</label><span class="star">*</span>
-              <my-date-picker-th formControlName="birthdate"   [options]="" required>
+              <my-date-picker-th formControlName="birthdate" [options]="">
               </my-date-picker-th>
-              <br>
+              <!-- <div *ngIf="submitted && f.retireddate.errors" class="invalid-feedback">
+                  <div *ngIf="f.retireddate.errors.required">กรุณาระบุวันเกิด</div>
+              </div> -->
+              <br><br>
 
               <label>หน่วยงาน/สังกัด</label><span class="star">*</span>
               <input type="text" value="" formControlName="department" class="form-control"
                 placeholder="กรุณากรอกหน่วยงาน/สังกัด" readonly>
               <br>
 
-              <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
-              <input type="text" value="" formControlName="cardid" class="form-control"
-                placeholder="กรุณากรอกบัตรประชาชน" maxlength="13">
+              <label>กระทรวง/กรม</label><span class="star">*</span>
+              <input type="text" value="" formControlName="departmentnew" class="form-control"
+                placeholder="กรุณากรอกกระทรวง/กรม" readonly>
               <br>
 
-              <label>ชื่อตำแหน่งในปัจจุบัน</label><span class="star">*</span>
+              <label>เลขประจำตัวประชาชน</label><span class="star">*</span>
+              <input type="text" value="" formControlName="cardid" class="form-control"
+                placeholder="กรุณากรอกบัตรประชาชน" maxlength="13" [ngClass]="{ 'is-invalid': submitted && f.cardid.errors }">
+              <div *ngIf="submitted && f.cardid.errors" class="invalid-feedback">
+                  <div *ngIf="f.cardid.errors.required">กรุณากรอกบัตรประชาชน</div>
+              </div>
+              <br>
+
+              <label>ตำแหน่งในปัจจุบัน</label><span class="star">*</span>
               <input type="text" value="{{ Position }}" formControlName="position" class="form-control"
-                placeholder="กรุณากรอกตำแหน่ง">
+                placeholder="กรุณากรอกตำแหน่ง" [ngClass]="{ 'is-invalid': submitted && f.position.errors }">
+              <div *ngIf="submitted && f.position.errors" class="invalid-feedback">
+                  <div *ngIf="f.position.errors.required">กรุณากรอกตำแหน่ง</div>
+              </div>
               <br>
 
               <label>ที่อยู่ที่ทำงาน</label><span class="star">*</span>
               <input type="text" value="" formControlName="officeaddress" class="form-control"
-                placeholder="กรุณากรอกตำแหน่ง">
+                placeholder="กรุณากรอกที่อยู่ที่ทำงาน" [ngClass]="{ 'is-invalid': submitted && f.officeaddress.errors }">
+              <div *ngIf="submitted && f.officeaddress.errors" class="invalid-feedback">
+                  <div *ngIf="f.officeaddress.errors.required">กรุณากรอกที่อยู่ที่ทำงาน</div>
+              </div>
               <br>
 
               <label>เบอร์โทรศัพท์มือถือ</label><span class="star">*</span>
               <input type="text" value="{{ PhoneNumber }}" formControlName="phone" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรศัพท์">
+                placeholder="กรุณากรอกเบอร์โทรศัพท์" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+              <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                  <div *ngIf="f.phone.errors.required">กรุณากรอกเบอร์โทรศัพท์</div>
+              </div>
               <br>
 
-              <label>เบอร์โทรสาร</label><span class="star">*</span>
+              <label>เบอร์โทรสาร</label><span class="star">*(ถ้าไม่มีให้ใส่-)</span>
               <input type="text" value="" formControlName="fax" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรสาร">
+                placeholder="กรุณากรอกเบอร์โทรสาร" [ngClass]="{ 'is-invalid': submitted && f.fax.errors }">
+              <div *ngIf="submitted && f.fax.errors" class="invalid-feedback">
+                  <div *ngIf="f.fax.errors.required">กรุณากรอกเบอร์โทรสาร</div>
+              </div>
               <br>
 
               <label>E-mail</label><span class="star">*</span>
               <input type="text" value="{{ Email }}" formControlName="email" class="form-control"
-                placeholder="กรุณากรอก E-mail">
+                placeholder="กรุณากรอก E-mail" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">กรุณากรอก E-mail</div>
+              </div>
               <br>
             </div>
             <br>
 
             <div class="container col-10 rounded-lg border">
               <br>
-              <h3>ผู้ประสานงาน<span class="star">*จำเป็นต้องกรอก</span></h3>
+              <h3>ผู้ประสานงาน<span class="star">(*จำเป็นต้องกรอก)</span></h3>
               <small class="form-text text-muted">ผู้ช่วยผู้ตรวจราชการ หรือผู้ที่สามารถติดต่อได้ในกรณีเร่งด่วน</small>
               <br>
 
               <label>ชื่อ-นามสกุล</label><span class="star">*</span>
               <input type="text" value="" formControlName="collaboratorname" class="form-control"
-                placeholder="กรุณากรอก ชื่อ-นามสกุล">
+                placeholder="กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน" [ngClass]="{ 'is-invalid': submitted && f.collaboratorname.errors }">
+              <div *ngIf="submitted && f.collaboratorname.errors" class="invalid-feedback">
+                  <div *ngIf="f.collaboratorname.errors.required">กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน</div>
+              </div>
               <br>
 
               <label>เบอร์โทรศัพท์มือถือผู้ประสานงาน</label><span class="star">*</span>
               <input type="text" value="" formControlName="collaboratorphone" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรศัพท์">
+                placeholder="กรุณากรอกเบอร์โทรศัพท์" [ngClass]="{ 'is-invalid': submitted && f.collaboratorphone.errors }">
+              <div *ngIf="submitted && f.collaboratorphone.errors" class="invalid-feedback">
+                  <div *ngIf="f.collaboratorphone.errors.required">กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน</div>
+              </div>
               <br>
 
               <label>เบอร์โทรศัพท์ที่ทำงานผู้ประสานงาน</label><span class="star">*</span>
               <input type="text" value="" formControlName="collaboratorphoneoffice" class="form-control"
-                placeholder="กรุณากรอกเบอร์โทรศัพท์">
+                placeholder="กรุณากรอกเบอร์โทรศัพท์" [ngClass]="{ 'is-invalid': submitted && f.collaboratorphoneoffice.errors }">
+              <div *ngIf="submitted && f.collaboratorphoneoffice.errors" class="invalid-feedback">
+                  <div *ngIf="f.collaboratorphoneoffice.errors.required">กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน</div>
+              </div>
               <br>
 
               <label>E-mail ผู้ประสานงาน</label><span class="star">*</span>
               <input type="text" value="" formControlName="collaboratoremail" class="form-control"
-                placeholder="กรุณากรอก E-mail">
+                placeholder="กรุณากรอก E-mail" [ngClass]="{ 'is-invalid': submitted && f.collaboratoremail.errors }">
+              <div *ngIf="submitted && f.collaboratoremail.errors" class="invalid-feedback">
+                  <div *ngIf="f.collaboratoremail.errors.required">กรุณากรอก ชื่อ-นามสกุลผู้ประสานงาน</div>
+              </div>
               <br>
 
               <label class="form-text">สำเนาบัตรประชาชน<span class="star">*</span></label>

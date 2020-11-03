@@ -5,7 +5,7 @@ import { TrainingService } from '../../services/training.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NotofyService } from 'src/app/services/notofy.service';
@@ -52,6 +52,8 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
   username
   departmentid
   check: any
+  submitted = false;
+  departmentnew: any;
   // constructor() { }
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -96,11 +98,16 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
     // alert(this.trainingid)
     this.trainingservice.getchecktrainingregister(this.trainingid, this.userid)
       .subscribe(result => {
-        this.check = result
 
+        //console.log("this.trainingid =>", this.trainingid);
+        //console.log("this.userid =>", this.userid);
+        
+        this.check = result
+        //console.log("check_getchecktrainingregister =>", result);
+        
         if (this.check == true) {
           this.router.navigate(['/train/']);
-          this._NotofyService.onSuccess("ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
+          this._NotofyService.onInfo("","ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
         }
       })
 
@@ -110,6 +117,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
       cardid: new FormControl(null, [Validators.required]),
       position: new FormControl(null, [Validators.required]),
       department: new FormControl(null, [Validators.required]),
+      departmentnew: new FormControl(null, [Validators.required]),
       phone: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [Validators.required]),
 
@@ -173,7 +181,9 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
             this.username = result[0].userName
             this.department = result[0].ministries.name
+            this.departmentnew = result[0].departments.name
             this.departmentid = result[0].ministries.id
+
             // alert(this.username)
             this.Form.patchValue({
               Prefix: this.Prefix,
@@ -183,7 +193,8 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
               phone: this.PhoneNumber,
               email: this.Email,
               Formprofile: 1,
-              department: this.department
+              department: this.department,
+              departmentnew: this.departmentnew
               // departmentid: this.departmentid
               //files: this.files,
             });
@@ -216,15 +227,26 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
     this.router.navigate(['/train/list/', trainingid2]);
   }
 
+  get f() { return this.Form.controls }
+  get d() { return this.f.inputdate as FormArray }
+  
   storeTraining(value) {
-    // alert(JSON.stringify(value.retireddate))
-    this.trainingservice.addTrainingRegister(value, this.trainingid, this.Form.value.files, this.Form.value.CertificationFiles, this.Form.value.idcardFiles, this.Form.value.GovernmentpassportFiles, this.userid, this.username, this.departmentid).subscribe(response => {
-      console.log(value);
-      this.Form.reset()
-      this.loading = false;
-      this.router.navigate(['/train/register-success/', this.trainingid])
-      //this.router.navigate(['/training/surveylist/',trainingid])
-    })
+    this.submitted = true;
+    if (this.Form.invalid) {
+      console.log(this.Form.invalid);
+      return;
+    } else {
+
+      // alert(JSON.stringify(value.retireddate))
+      this.trainingservice.addTrainingRegister(value, this.trainingid, this.Form.value.files, this.Form.value.CertificationFiles, this.Form.value.idcardFiles, this.Form.value.GovernmentpassportFiles, this.userid, this.username, this.departmentid).subscribe(response => {
+        console.log(value);
+        this.Form.reset()
+        this.loading = false;
+        this.router.navigate(['/train/register-success/', this.trainingid])
+        //this.router.navigate(['/training/surveylist/',trainingid])
+      })
+      
+    }
   }
 
   uploadFile(event) {

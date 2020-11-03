@@ -4,11 +4,15 @@ import { TrainingService } from '../../services/training.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NgxSpinnerService } from "ngx-spinner";
 
 import { IMyDateModel, IMyOptions } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
+
+import { NotofyService } from '../../services/notofy.service';
+import { NgxSpinnerService } from "ngx-spinner";
+import { LogService } from '../../services/log.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-phase-training',
@@ -18,9 +22,10 @@ import { Chart } from 'chart.js';
 export class PhaseTrainingComponent implements OnInit {
   myDatePickerOptions: IMyOptions = {
     // other options...
-    dateFormat: 'dd/mm/yyyy',
+    //dateFormat: 'dd/mm/yyyy',
     showClearDateBtn: false
   };
+  
   trainingid: string
   resulttraining: any[] = []
   modalRef: BsModalRef;
@@ -44,13 +49,17 @@ export class PhaseTrainingComponent implements OnInit {
   // test: any = [];
   submitted = false;
   editid: any;
+  userid: string;
 
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
-    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
@@ -58,6 +67,7 @@ export class PhaseTrainingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getuserinfo();
     this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -205,6 +215,15 @@ export class PhaseTrainingComponent implements OnInit {
     // return dateOption
   }
 
+  //start getuser
+  getuserinfo() {
+    this.spinner.show();
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+      })
+  }
+
 
 
   openModal(template: TemplateRef<any>, id) {
@@ -218,24 +237,30 @@ export class PhaseTrainingComponent implements OnInit {
   editModal(template: TemplateRef<any>, id, phaseno, startdate, enddate, title, detail, location, group) {
     this.submitted = false;
     this.editid = id;
-    this.Form.reset();
+    this.EditForm.reset();
     //console.log(this.delid);
 
     console.log(this.Form.value);
     this.modalRef = this.modalService.show(template);
-    this.Form.patchValue({
+    this.EditForm.patchValue({
       "phaseno": phaseno,
       startdate: {
         year: new Date(startdate).getFullYear(),
         month: new Date(startdate).getMonth() + 1,
         day: new Date(startdate).getDate()
       },
-      "enddate": enddate,
+      enddate:  {
+        year: new Date(enddate).getFullYear(),
+        month: new Date(enddate).getMonth() + 1,
+        day: new Date(enddate).getDate()
+      },
       "title": title,
       "detail": detail,
       "location": location,
       "group": group,
     })
+    console.log("Form =>", this.EditForm.value);
+    
     //console.log("element: ", element.startDate)
     //const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
     // let sDate: Date = new Date(startdate);
@@ -261,18 +286,23 @@ export class PhaseTrainingComponent implements OnInit {
   }
 
 
-  get fe() { return this.Form }
+  get fe() { return this.EditForm }
 
-  onDateChanged(event: IMyDateModel) {
-
-    this.Form.patchValue({
+  onDateChangedStart(event: IMyDateModel) {
+    this.EditForm.patchValue({
       startdate: event.date
+    })
+  }
+
+  onDateChangedEnd(event: IMyDateModel) {
+    this.EditForm.patchValue({
+      enddate: event.date
     })
   }
 
 
   storeTraining(value) {
-    console.log(value);
+    console.log("storeTraining => ", value);
     this.submitted = true;
     if (this.Form.invalid) {
       console.log("in1");
@@ -288,29 +318,35 @@ export class PhaseTrainingComponent implements OnInit {
       // console.log(this.test);
 
       this.trainingservice.addTrainingPhase(value, this.trainingid).subscribe(response => {
+        this.submitted = false;
+        this.modalRef.hide();
         console.log("viewdata:", value);
         console.log("result:", response);
-        this.modalRef.hide()
-        this.Form.reset()
-        this.loading = false
-        this.getTrainingPhase()
+        this.Form.reset();
+        this.loading = false;
+        this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)','เพิ่ม', value.name,"").subscribe();
+        this.getTrainingPhase();
+        this._NotofyService.onSuccess("เพิ่มข้อมูล");
       })
     }
   }
 
 
   editTraining(value, id) {
-    console.log(value);
+    console.log("editTraining => ", value);
     this.submitted = true;
-    if (this.Form.invalid) {
+    if (this.EditForm.invalid) {
       console.log("in1");
       return;
     } else {
       this.trainingservice.editTrainingPhase(value, id).subscribe(response => {
-        this.Form.reset()
-        this.modalRef.hide()
-        this.loading = false
-        this.getTrainingPhase()
+        this.submitted = false;
+        this.modalRef.hide();
+        this.EditForm.reset();
+        this.loading = false;
+        this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)','แก้ไข', value.name,"").subscribe();
+        this.getTrainingPhase();
+        this._NotofyService.onSuccess("แก้ไขข้อมูล");
 
       })
     }
@@ -335,7 +371,9 @@ export class PhaseTrainingComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
+      this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)','ลบ', value.name,"").subscribe();
       this.getTrainingPhase()
+      this._NotofyService.onSuccess("ลบข้อมูล");
     })
   }
   gotoBack() {

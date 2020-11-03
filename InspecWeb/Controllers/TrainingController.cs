@@ -213,7 +213,7 @@ namespace InspecWeb.Controllers
         {
             var TrainingRegistersdata = _context.TrainingRegisters
                 //.Include(m => m.Training)
-                .Where(m => m.Id == trainingid)
+                .Where(m => m.TrainingId == trainingid)
                 .Where(p => p.UserId == userid).Count();
 
             if (TrainingRegistersdata > 0)
@@ -2027,7 +2027,7 @@ namespace InspecWeb.Controllers
                     Name = test.Name,
                     Count = test2.Count(),
                     CountCourse = CountCourse,
-                    RateCourse = sss
+                    RateCourse = sss.ToString("##.##")
                 });
 
             }

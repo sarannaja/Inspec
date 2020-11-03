@@ -153,8 +153,8 @@
 
 
                         <label for="test" class="form-label">จำนวนกลุ่ม</label>
-                        <div class="input-group">
-                            <select class="form-control select2 col-5" data-toggle="select2" formControlName="group">
+                        
+                            <select class="form-control select2" data-toggle="select2" formControlName="group" [ngClass]="{ 'is-invalid': submitted && f.group.errors }">
                                 <option value=null>กรุณาระบุจำนวนกลุ่ม</option>
                                 <option value=1>1 กลุ่ม</option>
                                 <option value=2>2 กลุ่ม</option>
@@ -167,8 +167,10 @@
                                 <option value=9>9 กลุ่ม</option>
                                 <option value=10>10 กลุ่ม</option>
                             </select>
-                            กลุ่ม
-                        </div>
+                            <div *ngIf="submitted && f.group.errors" class="invalid-feedback">
+                                <div *ngIf="f.group.errors.required">กรุณาเลือกจำนวนกลุ่ม</div>
+                            </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -186,10 +188,10 @@
     <!-- BEGIN primary modal -->
     <ng-template #modalPhaseEdit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="Form" (ngSubmit)="editTraining(Form.value, editid)">
+        <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value, editid)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">เพิ่มหลักสูตรอบรม(ช่วง)</h5>
+                    <h5 class="modal-title">แก้ไขหลักสูตรอบรม(ช่วง)</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -222,8 +224,8 @@
                         <div class="input-group">
                             <div class="form-group col-5">
 
-                                <my-date-picker-th [selDate]="fe.value.programdate"
-                                    (dateChanged)="onDateChanged($event)" [options]="myDatePickerOptions" required>
+                                <my-date-picker-th [selDate]="fe.value.startdate"
+                                    (dateChanged)="onDateChangedStart($event)" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
                             </div>
 
@@ -235,7 +237,10 @@
 
                             <div class="form-group col-5">
 
-                                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+                                <!-- <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required>
+                                </my-date-picker-th> -->
+                                <my-date-picker-th [selDate]="fe.value.enddate"
+                                    (dateChanged)="onDateChangedEnd($event)" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
 
                             </div>
@@ -244,25 +249,31 @@
 
                         <label for="test" class="form-label">หัวข้อเรื่องช่วง</label>
                         <input type="text" formControlName="title" class="form-control"
-                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง">
-
+                            placeholder="กรุณากรอกหัวข้อเรื่องช่วง" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                            <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                                <div *ngIf="f.title.errors.required">กรุณากรอกหัวข้อเรื่องช่วง</div>
+                            </div>
                         <br>
 
                         <label for="test" class="form-label">รายละเอียดช่วง</label>
                         <!-- <input type="text" formControlName="detail" class="form-control"
                             placeholder="กรุณากรอกรายละเอียดกิจกรรม" > -->
-                        <textarea formControlName="detail" class="form-control"></textarea>
-
+                        <textarea formControlName="detail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.detail.errors }"></textarea>
+                        <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+                            <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียดช่วง</div>
+                        </div>
                         <br>
 
                         <label for="test" class="form-label">สถานที่</label>
                         <input type="text" formControlName="location" class="form-control"
-                            placeholder="กรุณากรอกสถานที่">
-
+                            placeholder="กรุณากรอกสถานที่" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                        <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                            <div *ngIf="f.location.errors.required">กรุณากรอกสถานที่</div>
+                        </div>
                         <br>
 
                         <label for="test" class="form-label">จำนวนกลุ่ม</label>
-                        <select class="form-control select2" data-toggle="select2" formControlName="group">
+                        <select class="form-control select2" data-toggle="select2" formControlName="group" [ngClass]="{ 'is-invalid': submitted && f.group.errors }">
                             <option value=null>กรุณาระบุจำนวนกลุ่ม</option>
                             <option value=1>1 กลุ่ม</option>
                             <option value=2>2 กลุ่ม</option>
@@ -275,6 +286,9 @@
                             <option value=9>9 กลุ่ม</option>
                             <option value=10>10 กลุ่ม</option>
                         </select>
+                        <div *ngIf="submitted && f.group.errors" class="invalid-feedback">
+                            <div *ngIf="f.group.errors.required">กรุณาเลือกจำนวนกลุ่ม</div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

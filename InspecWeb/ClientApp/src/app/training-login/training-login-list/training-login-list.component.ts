@@ -22,6 +22,7 @@ export class TrainingLoginListComponent implements OnInit {
   trainingProgramData: any = [];
   trainingId: any;
   loading = false;
+  datalist: any[];
 
   constructor(
     private router: Router,
@@ -87,21 +88,26 @@ export class TrainingLoginListComponent implements OnInit {
 
 
   getTrainingProgramDate() {
-    this.trainingService.getTrainingProgramDate(this.trainingId).subscribe(res => {
+    this.trainingService.getTrainingProgramDate2(this.trainingId).subscribe(res => {
 
-      this.trainingProgramData = res.filter(
-        (thing, i, arr) => arr.findIndex(t => t.programDate === thing.programDate) === i
-      );
+      this.trainingProgramData = res;
+
+      // this.trainingProgramData = res.filter(
+      //   (thing, i, arr) => arr.findIndex(t => t.programDate === thing.programDate) === i
+      // );
+
+      //this.datalist = _.orderBy(this.trainingProgramData, [''], ['asc']);
+      
       console.log("training programdate: ", this.trainingProgramData);
       this.loading = true;
     })
   }
 
-  gotoList(programid, programType) {
+  gotoList(programid, programType, programDate) {
     console.log("id: ", programid);
     console.log("programType: ", programType);
 
-    this.router.navigate(['training/login/list/detail/' + programid, {programType: programType}]);
+    this.router.navigate(['training/login/list/detail/' + programid, {programType: programType , trainingId: this.trainingId, programDate: programDate}]);
   }
 
   gotoBack() {
