@@ -177,7 +177,7 @@ namespace InspecWeb.Controllers
             // <!--END อัพไฟล์  -->
             System.Console.WriteLine("5 : ");
             //return Ok (new { Id = executiveordersdata.Id, Answer_by = executiveordersdata.Answer_by }); //เดียวมาใช้
-            return Ok(new { Id = requestordersdata.Id });
+            return Ok(new { Id = requestordersdata.Id, title = requestordersdata.Subject });
         }
         //<!-- END เพิ่มแจ้งคำร้อง -->
 

@@ -81,6 +81,8 @@ namespace InspecWeb.Controllers
             _context.Entry(menu).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
+            System.Console.WriteLine("testmenu : " + request.m7);
+
         }
 
     }

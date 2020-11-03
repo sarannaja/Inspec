@@ -27,7 +27,9 @@ namespace InspecWeb.Controllers
         public IEnumerable<Log> Get()
         {
             //System.Console.WriteLine("1");
-            var logdata = _context.Logs.ToList();
+            var logdata = _context.Logs
+                .Include(m => m.User)
+                .ToList();
             return logdata;
         }
     

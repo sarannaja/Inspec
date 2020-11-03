@@ -29,11 +29,11 @@
           <tbody>
             <tr  *ngFor="let item of resultlog; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{item.userId}}</td>
+              <td>{{item.user.name}}</td>
               <td>{{item.databaseName}}</td>
               <td>{{item.eventType }}</td>
-              <td>{{ item.objectType }}</td>
-              <td>{{ item.eventDate | thaidate: 'year' }}</td>
+              <td>{{ item.detail }}</td>
+              <td>{{ item.eventDate | thaidate: 'short' }}</td>
             </tr>
           </tbody>
         </table>
