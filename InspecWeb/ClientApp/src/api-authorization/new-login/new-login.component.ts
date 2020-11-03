@@ -51,19 +51,26 @@ export class NewLoginComponent implements OnInit {
     const action = this.route.snapshot.url[1];
     switch (action.path) {
       case LoginActions.Login:
+        console.log(' LoginActions.Login:');
         await this.login(this.getReturnUrl());
         break;
       case LoginActions.LoginCallback:
+        console.log(' LoginActions.LoginCallback:');
+
         await this.processLoginCallback();
         break;
       case LoginActions.LoginFailed:
+        console.log('LoginActions.LoginFailed:');
         const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
         this.message.next(message);
         break;
       case LoginActions.Profile:
+        console.log('LoginActions.Profile:');
+
         this.redirectToProfile();
         break;
       case LoginActions.Register:
+        console.log('LoginActions.Register:');
         this.redirectToRegister();
         break;
       default:
@@ -93,12 +100,19 @@ export class NewLoginComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.authorize.newLogin(this.loginForm.value.username, this.loginForm.value.password)
-      .subscribe(result => {
-        if (result.status) {
-          this.login(this.returnUrl)
+    this.spinner.show()
 
+    this.authorize.newLogin(this.loginForm.value.username, this.loginForm.value.password)
+      .subscribe(async result => {
+        if (result.status) {
+          // this.login(this.returnUrl)
+          // this.router.navigate([this.returnUrl])
+          const state: INavigationState = { returnUrl: this.returnUrl };
+          const result = await this.authorize.signIn(state);
+          this.navigateToReturnUrl(this.returnUrl);
         } else {
+          this.spinner.hide()
+
           this.submitted = false;
           this.loading = false
           this.loginForm.get('password').reset()
