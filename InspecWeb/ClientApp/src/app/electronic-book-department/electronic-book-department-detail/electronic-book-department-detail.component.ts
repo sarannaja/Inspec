@@ -266,6 +266,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
       this.electronicBookService.sendToOtherProvince(value, this.userid, this.electronicBookProvincialDepartmentId).subscribe(res => {
         console.log("sended: ", res);
         this.getElectronicBookDetail();
+        this.getElectronicBookProvincialDepartmentById();
         this.modalRef.hide();
         this._NotofyService.onSuccess("ส่งต่อสมุดตรวจ",)
       })
