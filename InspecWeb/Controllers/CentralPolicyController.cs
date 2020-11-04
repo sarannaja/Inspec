@@ -534,7 +534,7 @@ namespace InspecWeb.Controllers
                 DatabaseName = "CentralPolicy",
                 EventType = "ลบ",
                 EventDate = date,
-                Detail = "ลบแผนการตรวจราชการ",
+                Detail = "ลบแผนการตรวจราชการ"+centralpolicydata.Title,
                 Allid = centralpolicydata.Id,
             };
 
