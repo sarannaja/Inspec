@@ -26,7 +26,7 @@
               <th>ปี</th>
               <th>คำสั่ง</th>
               <th>เรื่อง</th>
-              <th>ของ</th>
+              <th>คำสั่งโดย</th>
               <th>ไฟล์แนบ</th>
               <th>วันที่สร้าง</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -72,15 +72,15 @@
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ปี </label>
+            <label class="form-label">ปี </label>
             <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
-           <label for="test" class="form-label">คำสั่ง</label>
+           <label class="form-label">คำสั่ง</label>
             <input type="text" formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง"><br>
-            <label for="test" class="form-label">เรื่อง </label>
+            <label class="form-label">เรื่อง </label>
             <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"><br>
-            <label for="test" class="form-label">ของ </label>
+            <label class="form-label">คำสั่งโดย</label>
             <input type="text" formControlName="createBy" class="form-control" placeholder="กรุณากรอก"><br>
-            <label for="test" class="form-label">ไฟล์แนบ </label><br>
+            <label class="form-label">ไฟล์แนบ </label><br>
             <input type="file"multiple (change)="uploadFile($event)">
           </div>
         </div>
@@ -128,17 +128,26 @@
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="test" class="form-label">ปี</label>
-          <input type="text" value="{{year}}" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
-            <label for="test" class="form-label">คำสั่ง </label>
-            <input type="text" value="{{order}}"formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง"><br>
-           <label for="test" class="form-label">เรื่อง </label>
-            <input type="text" value="{{name}}"formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"><br>
-            <label for="test" class="form-label">ของ</label>
-            <input type="text" value="{{createBy}}"formControlName="createBy" class="form-control" placeholder="กรุณากรอก"><br>
-            <label for="test" class="form-label">ไฟล์แนบ </label><br>
+          <label class="form-label">ปี</label>
+          <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี">
+        </div>
+        <div class="form-group">
+          <label class="form-label">คำสั่ง </label>
+          <input type="text" formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง">
+        </div>
+        <div class="form-group">
+          <label class="form-label">เรื่อง </label>
+          <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง">
+        </div>
+        <div class="form-group">
+            <label class="form-label">คำสั่งโดย</label>
+            <input type="text" formControlName="createBy" class="form-control" placeholder="กรุณากรอก">
+        </div>
+        <div class="form-group">
+            <label class="form-label">ไฟล์แนบ </label>
             <input type="file">
         </div>
+        
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>

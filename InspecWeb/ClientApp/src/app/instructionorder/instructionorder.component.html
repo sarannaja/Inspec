@@ -13,8 +13,9 @@
       <div class="card-header" style="margin-bottom: -40px;">
         <h5 class="card-title">คำสั่งรับผิดชอบเขตตรวจราชการ</h5>
         <div class="float-right">
-          <button class="btn btn-primary" (click)="openModal(modalInstructionorder)"
-            style="margin-top: -60px;">เพิ่มคำสั่งรับผิดชอบเขตตรวจราชการ</button>
+          <button class="btn btn-pill btn-warning btn-lg" title="เพิ่มข้อมูล" (click)="openModal(modalInstructionorder)"
+            style="margin-top: -60px;"><i class="align-middle fas fa-fw fa-plus"></i>
+          </button>
         </div>
       </div>
       <div class="card-body">
@@ -26,7 +27,7 @@
               <th>ปี</th>
               <th>คำสั่ง</th>
               <th>เรื่อง</th>
-              <th>ของ</th>
+              <th>คำสั่งโดย</th>
               <th>รายละเอียด</th>
               <th>ไฟล์แนบ</th>
               <th>วันที่สร้าง</th>
@@ -71,21 +72,56 @@
           </button>
         </div>
         <div class="modal-body m-3">
+
           <div class="form-group">
-            <label for="test" class="form-label">ปี </label>
-            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
-           <label for="test" class="form-label">คำสั่ง</label>
-            <input type="text" formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง"><br>
-            <label for="test" class="form-label">เรื่อง </label>
-            <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"><br>
-            <label for="test" class="form-label">ของ </label>
-            <input type="text" formControlName="createBy" class="form-control" placeholder="กรุณากรอก"><br>
-            <label for="test" class="form-label">รายละเอียด </label>
-            <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
-            <label for="test" class="form-label">ไฟล์แนบ </label><br>
+            <label class="form-label">ปี </label>
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"
+            [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+            <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+              <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">คำสั่ง</label>
+            <input type="text" formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง"
+            [ngClass]="{ 'is-invalid': submitted && f.order.errors }">
+            <div *ngIf="submitted && f.order.errors" class="invalid-feedback">
+              <div *ngIf="f.order.errors.required">กรุณากรอกคำสั่ง</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">เรื่อง </label>
+            <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">กรุณากรอกชื่อเรื่อง</div>
+            </div> 
+          </div>
+          <div class="form-group">
+            <label class="form-label">คำสั่งโดย </label>
+            <input type="text" formControlName="createBy" class="form-control" placeholder="กรุณากรอก"
+            [ngClass]="{ 'is-invalid': submitted && f.createBy.errors }">
+            <div *ngIf="submitted && f.createBy.errors" class="invalid-feedback">
+              <div *ngIf="f.createBy.errors.required">กรุณากรอก</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">รายละเอียด </label>
+            <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"
+            [ngClass]="{ 'is-invalid': submitted && f.detail.errors }">
+            <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+              <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียด</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ไฟล์แนบ </label><br>
             <input type="file"multiple (change)="uploadFile($event)">
           </div>
-        </div>
+        </div> 
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
           <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
@@ -129,21 +165,58 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <div class="form-group">
-          <label for="test" class="form-label">ปี</label>
-          <input type="text" value="{{year}}" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
-            <label for="test" class="form-label">คำสั่ง </label>
-            <input type="text" value="{{order}}"formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง"><br>
-           <label for="test" class="form-label">เรื่อง </label>
-            <input type="text" value="{{name}}"formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"><br>
-            <label for="test" class="form-label">ของ</label>
-            <input type="text" value="{{createBy}}"formControlName="createBy" class="form-control" placeholder="กรุณากรอก"><br>
-           <label for="test" class="form-label">รายละเอียด </label>
-            <input type="text" value="{{detail}}"formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
-            <label for="test" class="form-label">ไฟล์แนบ </label><br>
-            <input type="file">
+
+          <div class="form-group">
+            <label class="form-label">ปี</label>
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"
+              [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+            <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+              <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">คำสั่ง </label>
+            <input type="text" formControlName="order" class="form-control" placeholder="กรุณากรอกคำสั่ง"
+              [ngClass]="{ 'is-invalid': submitted && f.order.errors }">
+            <div *ngIf="submitted && f.order.errors" class="invalid-feedback">
+              <div *ngIf="f.order.errors.required">กรุณากรอกคำสั่ง</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">เรื่อง </label>
+            <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อเรื่อง"
+              [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">กรุณากรอกชื่อเรื่อง</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+              <label class="form-label">คำสั่งโดย</label>
+              <input type="text" formControlName="createBy" class="form-control" placeholder="กรุณากรอก"
+              [ngClass]="{ 'is-invalid': submitted && f.createBy.errors }">
+              <div *ngIf="submitted && f.createBy.errors" class="invalid-feedback">
+                <div *ngIf="f.createBy.errors.required">กรุณากรอก</div>
+              </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">รายละเอียด </label>
+            <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"
+              [ngClass]="{ 'is-invalid': submitted && f.detail.errors }" >
+            <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+              <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียด</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+              <label class="form-label">ไฟล์แนบ </label>
+              <p><a *ngIf="filename != 'NULL' " href="assets/InstructionorderFile/{{filename}}" download>{{ filename }}</a></p>
+              <input type="file">
+          </div>
         </div>
-      </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
         <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
@@ -153,3 +226,7 @@
 <!-- </div> -->
 </ng-template>
 <!-- END primary modal -->
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

@@ -25,29 +25,47 @@ export class InspectionorderComponent implements OnInit {
     public share: InspectionorderService) { }
 
   ngOnInit() {
+    this.getdata();
     this.dtOptions = {
-      pagingType: 'full_numbers'
-    };
-    this.inspectionorderservice.getinspectionorder().subscribe(result=>{
-    this.resultInspectionorder = result
-    this.loading = true
-    })
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
+    };   
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       year: new FormControl(null, [Validators.required]),
       order: new FormControl(null, [Validators.required]),
       createBy: new FormControl(null, [Validators.required]),
-      files : new FormControl(null, [Validators.required])
+      files : new FormControl(null)
     })
   }
-  openModal(template: TemplateRef<any>, id, year,order,name,createBy) {
+
+  getdata(){
+    this.inspectionorderservice.getinspectionorder().subscribe(result=>{
+      this.resultInspectionorder = result
+      this.loading = true
+      })
+  }
+  openModal(template: TemplateRef<any>, id, year,order,name,createBy,filename) {
+
     this.delid = id;
-    this.name = name;
-    this.year = year;
-    this.order = order;
-    this.createBy = createBy;
-   
-    
+    this.Form.patchValue({
+    name : name,
+    year : year,
+    order : order,
+    createBy : createBy
+    });
     this.modalRef = this.modalService.show(template);
   }
   uploadFile(event) {
@@ -61,34 +79,24 @@ export class InspectionorderComponent implements OnInit {
 
   storeInspectionorder(value) {
     this.inspectionorderservice.addInspectionorder(value, this.Form.value.files).subscribe(response => {
-      console.log(value);
       this.Form.reset()
+      this.getdata();
       this.modalRef.hide()
-      this.inspectionorderservice.getinspectionorder().subscribe(result => {
-        this.resultInspectionorder = result
-        console.log(this.resultInspectionorder);
-      })
     })
   }
   deleteInspectionorder(value) {
     this.inspectionorderservice.deleteInspectionorder(value).subscribe(response => {
-      console.log(value);
+      this.getdata();
       this.modalRef.hide()
-      this.inspectionorderservice.getinspectionorder().subscribe(result => {
-        this.resultInspectionorder = result
-        console.log(this.resultInspectionorder);
-      })
     })
   }
-  editInspectionorder(value,delid) {
-    console.log(value);
-    this.inspectionorderservice.editInspectionorder(value,delid).subscribe(response => {
+  editInspectionorder(value,delid) {  
+    alert(1)
+    this.inspectionorderservice.editInspectionorder(value,this.Form.value.files,delid).subscribe(response => {
+      alert(3)
       this.Form.reset()
+      this.getdata();
       this.modalRef.hide()
-      this.inspectionorderservice.getinspectionorder().subscribe(result => {
-        this.resultInspectionorder = result
-       
-      })
     })
   }
 

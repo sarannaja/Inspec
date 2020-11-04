@@ -1715,6 +1715,25 @@ namespace InspecWeb.Controllers
         }
         //<!-- END resetpassword -->
 
+        //<!-- changepasswod -->
+        [HttpPut("api/[controller]/changepassword")]
+        public async Task<IActionResult> changepassword([FromForm] UserViewModel model)
+        {
+
+           System.Console.WriteLine("changepassword" + model.Password);
+          
+            var userdata = _context.Users.Find(model.Id);
+            userdata.Pw = model.Password;
+            _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            var tresult = await _userManager.RemovePasswordAsync(userdata);
+            await _userManager.AddPasswordAsync(userdata, model.Password);
+
+            return Ok(new { Id = model.Id });
+        }
+        //<!-- END changepasswod -->
+
         [Route("api/[controller]/{id}")]
         [HttpDelete]
         public void Delete(string id)
