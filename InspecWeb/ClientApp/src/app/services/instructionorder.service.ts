@@ -29,11 +29,11 @@ export class InstructionorderService {
       }
     }
 
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
 
   deleteInstructionorder(id) {
-    return this.http.delete(this.url + id);
+    return this.http.delete<any>(this.url + id);
   }
 
   editInstructionorder(instructionorderData,file: FileList,id,filename) {
@@ -51,7 +51,7 @@ export class InstructionorderService {
       }
     }
 
-    return this.http.put(this.url+id, formData);
+    return this.http.put<any>(this.url+id, formData);
   }
 }
 

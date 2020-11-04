@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { InstructionorderService } from '../services/instructionorder.service';
 import { NotofyService } from '../services/notofy.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { LogService } from '../services/log.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-instructionorder',
@@ -25,6 +28,9 @@ export class InstructionorderComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   filename :any;
   submitted = false;
+  userid : any;
+  role_id:any;
+  title:any;
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -32,6 +38,9 @@ export class InstructionorderComponent implements OnInit {
     public share: InstructionorderService,
     private _NotofyService: NotofyService,
     private spinner: NgxSpinnerService,
+    private authorize: AuthorizeService,
+    private logService: LogService,
+    private userService: UserService,
     ) { }
 
   ngOnInit() {
@@ -63,6 +72,16 @@ export class InstructionorderComponent implements OnInit {
     })
   }
   getdata(){
+    this.authorize.getUser()
+      .subscribe(result => {
+       
+          this.userid = result.sub
+          this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            this.role_id = result[0].role_id
+          });
+          
+      });
     this.instructionorderservice.getinstructionorder().subscribe(result=>{
       this.resultInstructionorder = result
       this.loading = true
@@ -72,6 +91,7 @@ export class InstructionorderComponent implements OnInit {
     this.Form.reset()
     this.submitted = false;
     this.delid = id;
+    this.title = name;
     this.filename = filename;
     this.Form.patchValue({
     name : name,
@@ -98,7 +118,9 @@ export class InstructionorderComponent implements OnInit {
         return;
     }
     
-    this.instructionorderservice.addInstructionorder(value, this.Form.value.files).subscribe(response => {
+    this.instructionorderservice.addInstructionorder(value, this.Form.value.files)
+    .subscribe(response => {
+      this.logService.addLog(this.userid,'InstructionOrders','เพิ่ม',response.title,response.id).subscribe();
       this.Form.reset()
       this.loading = false;
       this.getdata();
@@ -107,7 +129,9 @@ export class InstructionorderComponent implements OnInit {
     })
   }
   deleteInstructionorder(value) {
-    this.instructionorderservice.deleteInstructionorder(value).subscribe(response => {
+    this.instructionorderservice.deleteInstructionorder(value)
+    .subscribe(response => {
+      this.logService.addLog(this.userid,'InstructionOrders','ลบ',this.title,this.delid).subscribe();
       this.loading = false;
       this.getdata();
       this.modalRef.hide()
@@ -119,7 +143,9 @@ export class InstructionorderComponent implements OnInit {
     if (this.Form.invalid) {
         return;
     }
-    this.instructionorderservice.editInstructionorder(value,this.Form.value.files,delid,this.filename).subscribe(response => {
+    this.instructionorderservice.editInstructionorder(value,this.Form.value.files,delid,this.filename)
+    .subscribe(response => {
+      this.logService.addLog(this.userid,'InstructionOrders','แก้ไข',response.title,response.id).subscribe();
       this.Form.reset()
       this.loading = false;
       this.getdata();

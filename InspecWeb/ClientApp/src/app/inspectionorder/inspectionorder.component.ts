@@ -2,6 +2,11 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { InspectionorderService } from '../services/inspectionorder.service';
+import { NotofyService } from '../services/notofy.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { LogService } from '../services/log.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-inspectionorder',
@@ -20,9 +25,22 @@ export class InspectionorderComponent implements OnInit {
   files: string[] = []
   loading = false;
   dtOptions: DataTables.Settings = {};
+  submitted = false;
+  filename :any;
+  userid : any;
+  role_id:any;
+  title:any;
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private inspectionorderservice: InspectionorderService,
-    public share: InspectionorderService) { }
+  constructor(private modalService: BsModalService, 
+    private fb: FormBuilder,
+    private inspectionorderservice: InspectionorderService,
+    public share: InspectionorderService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    ) { }
 
   ngOnInit() {
     this.getdata();
@@ -52,14 +70,27 @@ export class InspectionorderComponent implements OnInit {
   }
 
   getdata(){
+    this.authorize.getUser()
+      .subscribe(result => {
+       
+          this.userid = result.sub
+          this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            this.role_id = result[0].role_id
+          });
+          
+      });
     this.inspectionorderservice.getinspectionorder().subscribe(result=>{
       this.resultInspectionorder = result
       this.loading = true
       })
   }
   openModal(template: TemplateRef<any>, id, year,order,name,createBy,filename) {
-
+    this.Form.reset()
+    this.submitted = false;
     this.delid = id;
+    this.title = name;
+    this.filename = filename;
     this.Form.patchValue({
     name : name,
     year : year,
@@ -78,27 +109,44 @@ export class InspectionorderComponent implements OnInit {
   }
 
   storeInspectionorder(value) {
-    this.inspectionorderservice.addInspectionorder(value, this.Form.value.files).subscribe(response => {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+
+    this.inspectionorderservice.addInspectionorder(value, this.Form.value.files)
+    .subscribe(response => {
+      this.logService.addLog(this.userid,'InspectionOrder','เพิ่ม',response.title,response.id).subscribe();
       this.Form.reset()
+      this.loading = false;
       this.getdata();
       this.modalRef.hide()
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
     })
   }
   deleteInspectionorder(value) {
     this.inspectionorderservice.deleteInspectionorder(value).subscribe(response => {
+      this.logService.addLog(this.userid,'InspectionOrder','ลบ',this.title,this.delid).subscribe();
+      this.loading = false;
       this.getdata();
       this.modalRef.hide()
+      this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
   editInspectionorder(value,delid) {  
-    alert(1)
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.inspectionorderservice.editInspectionorder(value,this.Form.value.files,delid).subscribe(response => {
-      alert(3)
+      this.logService.addLog(this.userid,'InspectionOrder','แก้ไข',response.title,response.id).subscribe();
       this.Form.reset()
+      this.loading = false;
       this.getdata();
       this.modalRef.hide()
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
-
+  get f() { return this.Form.controls; }
 }
 

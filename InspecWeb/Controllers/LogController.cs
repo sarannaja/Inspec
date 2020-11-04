@@ -26,9 +26,9 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IEnumerable<Log> Get()
         {
-            //System.Console.WriteLine("1");
             var logdata = _context.Logs
                 .Include(m => m.User)
+                .OrderByDescending(m => m.Id)
                 .ToList();
             return logdata;
         }
@@ -52,8 +52,6 @@ namespace InspecWeb.Controllers
 
                 });
                 _context.SaveChanges();
-   
-            
             return logdata;
         }
 

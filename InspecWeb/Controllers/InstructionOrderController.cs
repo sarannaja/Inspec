@@ -44,19 +44,6 @@ namespace InspecWeb.Controllers
                                        .OrderByDescending(m => m.Id)
                                        select P;
             return instructionorderdata;
-
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
 
         // POST api/values
@@ -100,8 +87,6 @@ namespace InspecWeb.Controllers
                 Name = model.Name,
                 Year = model.Year,
                 Order = model.Order,
-                //Position = model.Position,
-                //Prefix = model.Prefix,
                 File = filesname,
                 CreateBy = model.CreateBy,
                 Detail = model.Detail,
@@ -109,7 +94,7 @@ namespace InspecWeb.Controllers
             };
             _context.InstructionOrders.Add(instructionorderdata);
             _context.SaveChanges();
-            return Ok(instructionorderdata);
+            return Ok(new { Id = instructionorderdata.Id, title = model.Name });
 
         }
 
@@ -164,7 +149,7 @@ namespace InspecWeb.Controllers
             _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new { status = true });
+            return Ok(new { Id = id, title = request.Name });
         }
 
         // DELETE api/values/5
