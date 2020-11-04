@@ -514,14 +514,13 @@ namespace InspecWeb.Controllers
         public void DeleteFile(long id)
         {
             var centralpolicyfiledata = _context.CentralPolicyFiles.Find(id);
-
             _context.CentralPolicyFiles.Remove(centralpolicyfiledata);
             _context.SaveChanges();
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(long id)
+        [HttpDelete("{id}/{userid}")]
+        public void Delete(long id, string userid)
         {
             var date = DateTime.Now;
             var centralpolicydata = _context.CentralPolicies.Find(id);
@@ -529,18 +528,18 @@ namespace InspecWeb.Controllers
             _context.CentralPolicies.Remove(centralpolicydata);
             _context.SaveChanges();
 
-            //var logdata = new Log
-            //{
-            //    UserId = centralpolicydata.CreatedBy,
-            //    DatabaseName = "CentralPolicy",
-            //    EventType = "ลบ",
-            //    EventDate = date,
-            //    Detail = "ลบแผนการตรวจราชการ",
-            //    Allid = centralpolicydata.Id,
-            //};
+            var logdata = new Log
+            {
+                UserId = userid,
+                DatabaseName = "CentralPolicy",
+                EventType = "ลบ",
+                EventDate = date,
+                Detail = "ลบแผนการตรวจราชการ",
+                Allid = centralpolicydata.Id,
+            };
 
-            //_context.Logs.Add(logdata);
-            //_context.SaveChanges();
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
         }
 
         //POST api/values

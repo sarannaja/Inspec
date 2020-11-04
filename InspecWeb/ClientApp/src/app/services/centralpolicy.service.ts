@@ -221,8 +221,8 @@ export class CentralpolicyService {
     return this.http.delete(this.url + 'deletefile/' + id);
   }
 
-  deleteCentralPolicy(id) {
-    return this.http.delete(this.url + id);
+  deleteCentralPolicy(id, userid) {
+    return this.http.delete(this.url + id + "/" + userid);
   }
 
   addCentralpolicyUser(data, id, userid, planId) {

@@ -208,8 +208,8 @@ export class SubjectService {
   deleteChoices(id) {
     return this.http.delete(this.url + "deletechoices/" + id);
   }
-  deleteSubject(id) {
-    return this.http.delete(this.url + id);
+  deleteSubject(id, userid) {
+    return this.http.delete(this.url + id + "/" + userid);
   }
   deletePeopleanswer(id) {
     return this.http.delete(this.url + "deletepeopleanswer/" + id);
@@ -456,7 +456,7 @@ export class SubjectService {
     // console.log('JSON.parse(value.CentralpolicyId2)',value.CentralpolicyId2[0])
     return this.http.post<any>(this.url + 'postsubjecteventfromcalendar', formData);
   }
-  editSubject2(Subjectdata, id,userid) {
+  editSubject2(Subjectdata, id, userid) {
     console.log("id: ", id);
     console.log("Subjectdata: ", Subjectdata);
 
