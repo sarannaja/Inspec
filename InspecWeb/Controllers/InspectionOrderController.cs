@@ -7,6 +7,7 @@ using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,13 +51,6 @@ namespace InspecWeb.Controllers
             //   .ToList();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] InspectionorderViewModel model)
@@ -98,8 +92,6 @@ namespace InspecWeb.Controllers
                 Name = model.Name,
                 Year = model.Year,
                 Order = model.Order,
-                //Position = model.Position,
-                //Prefix = model.Prefix,
                 File = filesname,
                 CreateBy = model.CreateBy,
                 CreatedAt = date
@@ -112,17 +104,57 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string year, string name, string order, string createBy, string file)
+
+        public async Task<IActionResult> Put([FromForm] InspectionorderRequest request, long id)
         {
+        //    public void Put(long id, string year, string name, string order, string createBy, string file)
+        //{
             var inspectionorder = _context.InspectionOrders.Find(id);
-            inspectionorder.Name = name;
-            inspectionorder.Year = year;
-            inspectionorder.Order = order;
-            inspectionorder.CreateBy = createBy;
-            
+            inspectionorder.Name = request.Name;
+            inspectionorder.Year = request.Year;
+            inspectionorder.Order = request.Order;
+            inspectionorder.CreateBy = request.CreateBy;
+
+
+            var date = DateTime.Now;
+            var filesname = "null";
+            var random = RandomString(15);
+
+
+            if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//InspectionorderFile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "/assets" + "//InspectionorderFile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/assets" + "//InspectionorderFile//";
+
+            if (request.files != null)
+            {
+                foreach (var formFile in request.files.Select((value, index) => new { Value = value, Index = index }))
+                ////foreach (var formFile in data.files)
+                {
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+
+                            filesname = random + ext;
+                        }
+                    }
+                }
+            }
+
+
+            inspectionorder.File = filesname;
             _context.Entry(inspectionorder).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
+            return Ok(new { status = true });
         }
 
         // DELETE api/values/5
@@ -135,4 +167,17 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
     }
+}
+
+public class InspectionorderRequest
+{
+    public long Id { get; set; }
+    public string Name { get; set; }
+    public string Year { get; set; }
+    public string Order { get; set; }
+    public string CreateBy { get; set; }
+    public string ShortnameTH { get; set; }
+
+    public List<IFormFile> files { get; set; }
+
 }

@@ -339,9 +339,6 @@ export class UserService {
     let path = this.base + userId;
     return this.http.put(path, formData)
   }
-  changepassword(id): Observable<any> {
-    return this.http.get<any>(this.base + 'changepassword/'+id)
-  }
   deleteUser(id) {
     return this.http.delete(this.base + id);
   }
@@ -386,6 +383,15 @@ export class UserService {
     formData.append('id', id);
     
     return this.http.put(`${this.base}resetpassword`, formData);
+
+  }
+  changepassword(userData , id) {
+    alert(userData.Password);
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('Password', userData.Password);
+    
+    return this.http.put(`${this.base}changepassword`, formData);
 
   }
 }

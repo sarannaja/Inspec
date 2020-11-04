@@ -28,6 +28,7 @@
               <th>ผู้รับคำร้องขอ</th>
               <th>สถานะ</th>
               <th> <i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>         
@@ -132,17 +133,18 @@
                 </div>
                  <!-- END สำหรับผู้รับคำร้องขอ -->
 
+                           
+                <div *ngIf="item.cancel == 1">
+                  {{item.canceldetail == 'null' ? "-" : item.canceldetail}} 
+                </div>
+              </td>
+              <td>
                 <div *ngFor="let item2 of item.requestOrderAnswers;let m = index;">
                   <button *ngIf="item2.beaware_date != null" (click)="exportexecutive2(item2.id,item2.userID)" 
                     title="รายงานการดำเนินการตามคำร้องขอผู้บริหาร" class="btn btn-bitbucket btn-pill btn-sm">
                     <i class="align-middle fas fa-fw fa-download"></i> 
                   </button>
                 </div>          
-
-               
-                <div *ngIf="item.cancel == 1">
-                  {{item.canceldetail == 'null' ? "-" : item.canceldetail}} 
-                </div>
               </td>
             </tr> 
           </tbody>

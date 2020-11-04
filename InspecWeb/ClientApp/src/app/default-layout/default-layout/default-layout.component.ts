@@ -6,13 +6,14 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { superAdmin, Centraladmin, Inspector, Provincialgovernor, Adminprovince, InspectorMinistry, publicsector, president, InspectorDepartment, InspectorExamination, External, allNav, NavBar } from './_nav';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from 'src/app/services/user.service';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Location } from "@angular/common";
 import { ExecutiveorderService } from 'src/app/services/executiveorder.service';
 import * as _ from 'lodash';
 import { MenuService } from 'src/app/services/menu.service';
 import { User } from 'oidc-client';
+import { PasswordStrengthValidator } from 'src/api-authorization/new-login/password-strength.validators';
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
@@ -64,7 +65,7 @@ export class DefaultLayoutComponent implements OnInit {
   height: number = window.innerHeight;
   mobileWidth: number = 900;
   lockNav: boolean = true
-
+  submitted = false;
   arraynav: NavBar[] = []
   constructor(
     private authorize: AuthorizeService,
@@ -165,6 +166,15 @@ export class DefaultLayoutComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  passwordModal(template: TemplateRef<any>) {
+    this.submitted = false;
+    this.Form.patchValue({
+      UserName: this.UserName,
+
+    });
+    this.modalRef = this.modalService.show(template);
+  }
+
   uploadFile(event) {
     const file = (event.target as HTMLInputElement).files;
     this.Form.patchValue({
@@ -195,11 +205,18 @@ export class DefaultLayoutComponent implements OnInit {
       Signature: this.Signature,
       Formprofile: 1,
       UserName: new FormControl(null, [Validators.required]),
-      Password: new FormControl(null, [Validators.required]),
-      PassWordconfirm: new FormControl(null, [Validators.required]),
+      Password: ['', [Validators.required, PasswordStrengthValidator]],
+      PassWordconfirm: new FormControl(null, [Validators.required])
+    }, {
+      validator: this.passwordConfirming
     })
-  }
 
+  }
+  passwordConfirming(c: AbstractControl): { invalid: boolean } {
+    if (c.get('Password').value !== c.get('PassWordconfirm').value) {
+      return { invalid: true };
+    }
+  }
   getnotifications() {
     // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
     //   .subscribe(resultsub => {
@@ -320,7 +337,7 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 10 || statusid == 11) { //song
           location.href = '/executiveorder';
         }
-       
+
         // this.nav = superAdmin;
         // this.profileform();
         // this.getuserinfo();
@@ -342,7 +359,7 @@ export class DefaultLayoutComponent implements OnInit {
             .subscribe(result => {
 
               this.resultuser = result;
-               console.log('dataxx',result);
+              console.log('dataxx', result);
 
               this.role_id = result[0].role_id
               this.Prefix = result[0].prefix
@@ -471,6 +488,21 @@ export class DefaultLayoutComponent implements OnInit {
   }
   password(value) {
 
+    this.submitted = true;
+    if (this.Form.get('Password').invalid && this.Form.get('PassWordconfirm').invalid) {
+      return;
+    }
+
+    if (value.Password == value.PassWordconfirm) {
+      this.userService.changepassword(value, this.userid).subscribe(response => {
+        this.Form.reset()
+        this.modalRef.hide()
+        location.reload();
+        this.getuserinfo();
+      })
+    } else {
+      alert("ยืนยันรหัสผ่านไม่ถูกต้อง");
+    }
   }
 
   bridge(name) {
@@ -485,6 +517,7 @@ export class DefaultLayoutComponent implements OnInit {
       return result.name == name
     })[0]
   }
+  get f() { return this.Form.controls; }
 }
 
 

@@ -2,6 +2,8 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { InstructionorderService } from '../services/instructionorder.service';
+import { NotofyService } from '../services/notofy.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-instructionorder',
@@ -21,11 +23,19 @@ export class InstructionorderComponent implements OnInit {
   files: string[] = []
   loading = false;
   dtOptions: DataTables.Settings = {};
+  filename :any;
+  submitted = false;
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private instructionorderservice: InstructionorderService,
-    public share: InstructionorderService) { }
+  constructor(private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private instructionorderservice: InstructionorderService,
+    public share: InstructionorderService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    ) { }
 
   ngOnInit() {
+    this.getdata();
     this.dtOptions = {
       pagingType: 'full_numbers',
       "language": {
@@ -43,28 +53,33 @@ export class InstructionorderComponent implements OnInit {
       }
 
     };
-    this.instructionorderservice.getinstructionorder().subscribe(result=>{
-    this.resultInstructionorder = result
-    this.loading = true
-    })
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       year: new FormControl(null, [Validators.required]),
       order: new FormControl(null, [Validators.required]),
       createBy: new FormControl(null, [Validators.required]),
       detail: new FormControl(null, [Validators.required]),
-      files : new FormControl(null, [Validators.required])
+      files : new FormControl(null)
     })
   }
-  openModal(template: TemplateRef<any>, id, year,order,name,createBy,detail) {
+  getdata(){
+    this.instructionorderservice.getinstructionorder().subscribe(result=>{
+      this.resultInstructionorder = result
+      this.loading = true
+      })
+  }
+  openModal(template: TemplateRef<any>, id, year,order,name,createBy,detail,filename) {
+    this.Form.reset()
+    this.submitted = false;
     this.delid = id;
-    this.name = name;
-    this.year = year;
-    this.order = order;
-    this.createBy = createBy;
-    this.detail = detail;
-
-    
+    this.filename = filename;
+    this.Form.patchValue({
+    name : name,
+    year : year,
+    order : order,
+    detail : detail,
+    createBy : createBy
+    });
     this.modalRef = this.modalService.show(template);
   }
   uploadFile(event) {
@@ -77,38 +92,41 @@ export class InstructionorderComponent implements OnInit {
   }
 
   storeInstructionorder(value) {
-    // alert(JSON.stringify(value));
+
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+    
     this.instructionorderservice.addInstructionorder(value, this.Form.value.files).subscribe(response => {
-     // console.log(value);
       this.Form.reset()
+      this.loading = false;
+      this.getdata();
       this.modalRef.hide()
-      this.instructionorderservice.getinstructionorder().subscribe(result => {
-        this.resultInstructionorder = result
-       // console.log(this.resultInstructionorder);
-      })
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
     })
   }
   deleteInstructionorder(value) {
     this.instructionorderservice.deleteInstructionorder(value).subscribe(response => {
-   //   console.log(value);
+      this.loading = false;
+      this.getdata();
       this.modalRef.hide()
-      this.instructionorderservice.getinstructionorder().subscribe(result => {
-        this.resultInstructionorder = result
-      //  console.log(this.resultInstructionorder);
-      })
+      this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
   editInstructionorder(value,delid) {
-   // console.log(value);
-    this.instructionorderservice.editInstructionorder(value,delid).subscribe(response => {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+    this.instructionorderservice.editInstructionorder(value,this.Form.value.files,delid,this.filename).subscribe(response => {
       this.Form.reset()
+      this.loading = false;
+      this.getdata();
       this.modalRef.hide()
-      this.instructionorderservice.getinstructionorder().subscribe(result => {
-        this.resultInstructionorder = result
-       
-      })
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
-
+  get f() { return this.Form.controls; }
 }
 
