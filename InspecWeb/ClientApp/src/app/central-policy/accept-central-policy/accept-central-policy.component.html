@@ -191,7 +191,7 @@
         </div>
 
         <div class="row" *ngIf="carlendarFile.length > 0">
-          <div class="col-md-12" style="margin-top: 10px;">
+          <div class="col-md-12" style="margin-top: 20px;">
             <u>ไฟล์แนบกำหนดการตรวจ</u><br>
             <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
               <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
@@ -200,6 +200,7 @@
                   {{ item.name }}<br>
                 </span>
               </a>
+              <input type="text" class="form-control ml-4" style="width: 80%;" value="{{item.description}}" readonly>
             </div>
           </div>
         </div>
@@ -312,10 +313,6 @@
             </table>
           </div>
         </div>
-
-
-
-
         <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
         <br>
       </div>

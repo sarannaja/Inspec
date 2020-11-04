@@ -864,7 +864,7 @@ export class SubjecteventComponent implements OnInit {
 
       if (this.class == "แผนการตรวจประจำปี") {
 
-        this.subjectservice.delsubjecteventnoland(value)
+        this.subjectservice.delsubjecteventnoland(value, this.userid)
           .subscribe(result => {
             this._NotofyService.onSuccess("ลบข้อมูล",)
             // this.spinner.show();
@@ -874,7 +874,7 @@ export class SubjecteventComponent implements OnInit {
           })
 
       } else {
-        this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+        this.inspectionplanservice.deleteCentralPolicy(value, this.userid).subscribe(response => {
           this._NotofyService.onSuccess("ลบข้อมูล",)
           // this.spinner.show();
           this.modalRef.hide()
@@ -887,7 +887,7 @@ export class SubjecteventComponent implements OnInit {
       if (this.class == "แผนการตรวจประจำปี") {
         this.inspectionplanservice.getCentralPolicyEvent(value).subscribe(response => {
 
-          this.inspectionplanservice.deleteCentralPolicyEvent(response).subscribe(response => {
+          this.inspectionplanservice.deleteCentralPolicyEvent(response, this.userid).subscribe(response => {
             this._NotofyService.onSuccess("ลบข้อมูล",)
             // this.spinner.show();
             this.modalRef.hide()
@@ -897,7 +897,7 @@ export class SubjecteventComponent implements OnInit {
           })
         })
       } else {
-        this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+        this.inspectionplanservice.deleteCentralPolicy(value, this.userid).subscribe(response => {
           this._NotofyService.onSuccess("ลบข้อมูล",)
           // this.spinner.show();
           this.modalRef.hide()
