@@ -2362,10 +2362,14 @@ namespace InspecWeb.Controllers
 
         }
         // DELETE api/values/5
-        [HttpDelete("delsubjecteventnoland/{id}")]
-        public void Delsubjecteventnoland(long id)
+        [HttpDelete("delsubjecteventnoland/{id}/{userid}")]
+        public void Delsubjecteventnoland(long id, string userid)
         {
-            var subjectgroupdata = _context.SubjectGroups.Where(p => p.Id == id).FirstOrDefault();
+            var date = DateTime.Now;
+
+            var subjectgroupdata = _context.SubjectGroups
+            .Include(p => p.CentralPolicy)
+            .Where(p => p.Id == id).FirstOrDefault();
 
 
             var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
@@ -2377,6 +2381,20 @@ namespace InspecWeb.Controllers
                 _context.SubjectCentralPolicyProvinces.Remove(delsubjectCentralPolicyProvincesdata);
                 _context.SaveChanges();
             }
+
+
+            var logdata = new Log
+            {
+                UserId = userid,
+                DatabaseName = "SubjectGroups",
+                EventType = "ลบ",
+                EventDate = date,
+                Detail = "ลบเพิ่มประเด็นตรวจติดตามของแผน" + subjectgroupdata.CentralPolicy.Title,
+                Allid = id,
+            };
+
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
 
             var subjectdata = _context.SubjectGroups.Find(id);
             _context.SubjectGroups.Remove(subjectdata);

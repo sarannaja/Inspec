@@ -304,7 +304,7 @@ export class InspectionPlanComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id,null)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id, null)
             .subscribe(response => {
               console.log(response);
             })
@@ -413,10 +413,10 @@ export class InspectionPlanComponent implements OnInit {
           var userregion = "";
           for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
 
-            if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+            if (this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
               this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
             } else {
-              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
             }
 
             if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
@@ -495,10 +495,10 @@ export class InspectionPlanComponent implements OnInit {
           var userregion = "";
           for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
 
-            if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+            if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
               this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
             } else {
-              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
             }
 
             if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
@@ -508,7 +508,7 @@ export class InspectionPlanComponent implements OnInit {
             }
           }
 
-          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
         }
       } else {
         for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
@@ -525,7 +525,7 @@ export class InspectionPlanComponent implements OnInit {
                 }
               }
 
-              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
+              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
             }
           }
         }
@@ -656,7 +656,7 @@ export class InspectionPlanComponent implements OnInit {
       // location.reload();
       this.getTimeline();
 
-      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id,null)
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null)
         .subscribe(response => {
           console.log(response);
         })
@@ -736,7 +736,8 @@ export class InspectionPlanComponent implements OnInit {
 
   DeleteCentralPolicyEvent(value) {
     // alert(value)
-    this.inspectionplanservice.deleteCentralPolicyEvent(value).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
       // location.reload();
@@ -747,7 +748,8 @@ export class InspectionPlanComponent implements OnInit {
     })
   }
   DeleteCentralPolicy(value) {
-    this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicy(value, this.userid).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
       this.loading = false

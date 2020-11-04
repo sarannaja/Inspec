@@ -470,8 +470,8 @@ export class SubjectService {
     return this.http.put(this.url + "editsubject2/" + id, formData);
   }
 
-  delsubjecteventnoland(id) {
-    return this.http.delete(this.url + "delsubjecteventnoland/" + id);
+  delsubjecteventnoland(id, userid) {
+    return this.http.delete(this.url + "delsubjecteventnoland/" + id + '/' + userid);
   }
 
 }

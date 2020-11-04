@@ -313,14 +313,13 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 24) { //song
           location.href = '/answersubject/list/' + xe;
         }
-
         else if (statusid == 25) { //song
-          location.href = '/answerrecommendationinspecto/';
+          location.href = '/answerrecommendationinspector/';
         }
         else if (statusid == 10 || statusid == 11) { //song
           location.href = '/executiveorder';
         }
-       
+
         // this.nav = superAdmin;
         // this.profileform();
         // this.getuserinfo();

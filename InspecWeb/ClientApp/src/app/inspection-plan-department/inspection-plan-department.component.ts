@@ -302,7 +302,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1,null)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1, null)
             .subscribe(response => {
               console.log(response);
             })
@@ -654,7 +654,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       // location.reload();
       this.getTimeline();
 
-      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id,null)
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null)
         .subscribe(response => {
           console.log(response);
         })
@@ -734,7 +734,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
 
   DeleteCentralPolicyEvent(value) {
     // alert(value)
-    this.inspectionplanservice.deleteCentralPolicyEvent(value).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       // location.reload();
@@ -745,7 +745,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
     })
   }
   DeleteCentralPolicy(value) {
-    this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicy(value, this.userid).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       this.loading = false
