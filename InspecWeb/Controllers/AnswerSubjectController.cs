@@ -259,6 +259,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.Typeexaminationplan)
                 .OrderByDescending(m => m.Id)
                 .Where(m => m.InspectionPlanEvent.Status == "ใช้งานจริง")
+                .Where(m => m.Status == "ตอบรับ")
                 .Where(m => m.UserId == userid).ToList();
 
             //var centralpolicyprovincedata = _context.CentralPolicyProvinces

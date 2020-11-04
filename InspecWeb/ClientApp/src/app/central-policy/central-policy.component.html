@@ -129,7 +129,8 @@
                       (click)="EditCentralPolicy(item.id)"></i>
 
                     <!-- <i *ngIf="role_id == 1 || role_id == 2;" class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditCentralPolicy(item.id)"></i> -->
-                    <i title="ลบเรื่องที่ตรวจ" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                    <i *ngIf="item.status == 'ร่างกำหนดการ'" title="ลบเรื่องที่ตรวจ"
+                      class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                       (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
                   </div>
                 </div>
