@@ -40,15 +40,12 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IEnumerable<InspectionOrder> Get()
         {
-            var inspectionorderdata = from P in _context.InspectionOrders
-                                 select P;
+
+            var inspectionorderdata = _context.InspectionOrders            
+                .OrderByDescending(m => m.Id);
+
             return inspectionorderdata;
 
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
         }
 
         // POST api/values
@@ -68,22 +65,24 @@ namespace InspecWeb.Controllers
             //// path ที่เก็บไฟล์
             var filePath = _environment.WebRootPath + "/assets" + "//InspectionorderFile//";
 
-
-            foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
-            ////foreach (var formFile in data.files)
+            if (model.files != null)
             {
-                string filePath2 = formFile.Value.FileName;
-                string filename = Path.GetFileName(filePath2);
-                string ext = Path.GetExtension(filename);
-
-                if (formFile.Value.Length > 0)
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                ////foreach (var formFile in data.files)
                 {
-                    // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
-                    using (var stream = System.IO.File.Create(filePath + random + ext))
-                    {
-                        await formFile.Value.CopyToAsync(stream);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
 
-                        filesname = random + ext;
+                    if (formFile.Value.Length > 0)
+                    {
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+
+                            filesname = random + ext;
+                        }
                     }
                 }
             }
@@ -94,11 +93,10 @@ namespace InspecWeb.Controllers
                 Order = model.Order,
                 File = filesname,
                 CreateBy = model.CreateBy,
-                CreatedAt = date
             };
             _context.InspectionOrders.Add(inspectionorderdata);
             _context.SaveChanges();
-            return Ok(inspectionorderdata);
+            return Ok(new { Id = inspectionorderdata.Id, title = model.Name });
 
         }
 
@@ -154,7 +152,7 @@ namespace InspecWeb.Controllers
             _context.Entry(inspectionorder).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new { status = true });
+            return Ok(new { Id = id, title = request.Name });
         }
 
         // DELETE api/values/5

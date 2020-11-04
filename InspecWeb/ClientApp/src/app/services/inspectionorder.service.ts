@@ -26,15 +26,15 @@ export class InspectionorderService {
         formData.append("files", file[iii]);
       }
     }
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
 
   deleteInspectionorder(id) {
-    return this.http.delete(this.url + id);
+    return this.http.delete<any>(this.url + id);
   }
 
   editInspectionorder(inspectionorderData,file: FileList,id) {
-    alert(JSON.stringify(inspectionorderData))
+    //alert(JSON.stringify(inspectionorderData))
 
     const formData = new FormData();
     formData.append('Name',inspectionorderData.name);
@@ -43,11 +43,13 @@ export class InspectionorderService {
     formData.append('CreateBy',inspectionorderData.createBy);
 
     if (file != null) {
+      alert(1);
       for (var iii = 0; iii < file.length; iii++) {
         formData.append("files", file[iii]);
+        alert(file[iii]);
       }
     }
-    return this.http.put(this.url+id, formData);
+    return this.http.put<any>(this.url+id, formData);
   }
 }
 
