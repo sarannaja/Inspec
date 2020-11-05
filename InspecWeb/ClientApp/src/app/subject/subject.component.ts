@@ -245,7 +245,7 @@ export class SubjectComponent implements OnInit {
   // }
   deleteSubject(value) {
     this.loading = false;
-    this.subjectservice.deleteSubject(value).subscribe(result => {
+    this.subjectservice.deleteSubject(value, this.userid).subscribe(result => {
       console.log(result);
       this.modalRef.hide()
       this.getSubject();

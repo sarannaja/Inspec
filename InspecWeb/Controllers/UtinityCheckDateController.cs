@@ -140,7 +140,7 @@ namespace InspecWeb.Controllers
                                 UserID = item.UserId,
                                 CentralPolicyId = subjectgroup.CentralPolicyId,
                                 ProvinceId = subjectgroup.ProvinceId,
-                                status = 21,
+                                status = 22,
                                 noti = 1,
                                 CreatedAt = date,
                                 xe = subjectgroup.Id,

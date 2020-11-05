@@ -302,7 +302,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1,null)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, 1, null)
             .subscribe(response => {
               console.log(response);
             })
@@ -616,12 +616,57 @@ export class InspectionPlanDepartmentComponent implements OnInit {
 
       // alert(JSON.stringify(this.data[j].centralPolicyId))
 
-      // let UserPeopleId: any[] = value.UserPeopleId
+      let UserMinistryId: any[] = value.UserMinistryId
+      let UserDepartmentId: any[] = value.UserDepartmentId
+      let UserProvincialDepartmentId: any[] = value.UserProvincialDepartmentId
+      let UserPeopleId: any[] = value.UserPeopleId
+
       await this.inspectionplanservice.getcentralpolicyprovinceid(this.data[j].centralPolicyId, this.data[j].inspectionPlanEvent.provinceId).subscribe(result => {
 
         this.centralpolicyservice.addCentralpolicyUser(value, result, this.userid, this.id).subscribe(response => {
           console.log(value);
 
+          if (UserMinistryId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserMinistryId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+          if (UserDepartmentId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserDepartmentId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+          if (UserProvincialDepartmentId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserProvincialDepartmentId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+
+          if (UserPeopleId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserPeopleId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
           // for (let i = 0; i < UserPeopleId.length; i++) {
           //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
           //     .subscribe(response => {
@@ -654,7 +699,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
       // location.reload();
       this.getTimeline();
 
-      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id,null)
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null)
         .subscribe(response => {
           console.log(response);
         })
@@ -734,7 +779,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
 
   DeleteCentralPolicyEvent(value) {
     // alert(value)
-    this.inspectionplanservice.deleteCentralPolicyEvent(value).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       // location.reload();
@@ -745,7 +790,7 @@ export class InspectionPlanDepartmentComponent implements OnInit {
     })
   }
   DeleteCentralPolicy(value) {
-    this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicy(value, this.userid).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       this.loading = false

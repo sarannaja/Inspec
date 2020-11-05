@@ -54,7 +54,7 @@ export class RequestOrderComponent implements OnInit {
   url = ""
   resultrequestorderdetail:any[] =[];
   idrequestorderanswer :any;
-  imgprofileUrl:any;
+  fileUrl:any;
 
   submitted = false;
   Subject: any;
@@ -62,6 +62,13 @@ export class RequestOrderComponent implements OnInit {
   Answer_by: any;
   Commanded_date: any;
   Draft: any;
+
+  Answerdetail: any;
+  AnswerProblem: any;
+  AnswerCounsel: any;
+
+  delete_id:any;
+  requestfile:any[];
 
   date: any = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
 
@@ -77,7 +84,7 @@ export class RequestOrderComponent implements OnInit {
     private logService: LogService,
     private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) { 
-    this.imgprofileUrl = baseUrl + '/requestfile';
+    this.fileUrl = baseUrl + '/requestfile';
     }
 
   ngOnInit() {
@@ -110,10 +117,10 @@ export class RequestOrderComponent implements OnInit {
     })
 
     this.awnserForm = this.fb.group({
-      "Answerdetail": new FormControl(null, [Validators.required]),
-      "AnswerProblem": new FormControl(null, [Validators.required]),
-      "AnswerCounsel": new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      Answerdetail: new FormControl(null, [Validators.required]),
+      AnswerProblem: new FormControl(null, [Validators.required]),
+      AnswerCounsel: new FormControl(null, [Validators.required]),
+      files: new FormControl(null),
 
     })
 
@@ -139,7 +146,7 @@ export class RequestOrderComponent implements OnInit {
             if (this.role_id == 4 || this.role_id == 5 || this.role_id == 6 || this.role_id == 9 || this.role_id == 10 ) { //แจ้งคำร้องขอ
               this.requestOrderService.getrequestordercommandeddata(this.userid)
                 .subscribe(result => {  
-                //  console.log('data',result);            
+                  console.log('data',result);            
                   this.getDatauser();
                     this.resultrequestorder = result;
                     this.loading = true;
@@ -198,9 +205,11 @@ export class RequestOrderComponent implements OnInit {
 
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>,id,title) {
     this.Form.reset()
     this.submitted = false;
+    this.delete_id = id;
+    this.vsubject = title;
     this.modalRef = this.modalService.show(template);
     this.Form.patchValue({
       Draft:1
@@ -208,9 +217,11 @@ export class RequestOrderComponent implements OnInit {
   }
 
   // <!-- แก้ไขคำร้องขอ -->
-  editmodalRequestOrder(template: TemplateRef<any>,id,commanded_date,subject,subjectdetail,draft,answer_by) {
-     
+  editmodalRequestOrder(template: TemplateRef<any>,id,commanded_date,subject,subjectdetail,draft,answer_by,filename) {
+    this.Form.reset();
+    this.submitted = false;
     this.Form.patchValue({
+      Subject : subject,
       Subjectdetail:subjectdetail,
       Answer_by:answer_by.map(result=>{
         return result.userID
@@ -219,10 +230,11 @@ export class RequestOrderComponent implements OnInit {
       Commanded_date:this.time(commanded_date)
     })
     this.idrequestorder = id; 
-    this.vcommanded_date = commanded_date;
-    this.vsubject = subject;
-    this.vsubjectdetail = subjectdetail;
-    this.vanswer_by = answer_by;
+    this.requestfile = filename;
+    // this.vcommanded_date = commanded_date;
+    // this.vsubject = subject;
+    // this.vsubjectdetail = subjectdetail;
+    // this.vanswer_by = answer_by;
 
     this.modalRef = this.modalService.show(template);
   }
@@ -289,8 +301,13 @@ export class RequestOrderComponent implements OnInit {
   }
   //<!-- END เพิ่มข้อคำร้องขอ -->
 
-   //แก้ไขข้อสั่งการ
+   //แก้ไข
    updaterequestorder(value) {
+
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     // alert(1);
      this.requestOrderService.updaterequestorder(value, this.Form.value.files,this.idrequestorder).subscribe(result => {
        // alert(3);
@@ -298,12 +315,14 @@ export class RequestOrderComponent implements OnInit {
         if(value.Draft == 1){
           this.Form.reset();
           this.getuserinfo();
+          this._NotofyService.onSuccess("แก้ไขข้อมูล")
           this.modalRef.hide();
         }else{
-          this.notificationService.addNotification(1, 1, 1, 12, result.id,null)
+          this.notificationService.addNotification(1, 1, 1, 12, result.id,result.title)
            .subscribe(result => {
             this.Form.reset();
             this.getuserinfo();
+            this._NotofyService.onSuccess("แก้ไขข้อมูล")
             this.modalRef.hide();
          })
         }     
@@ -339,7 +358,7 @@ export class RequestOrderComponent implements OnInit {
     //alert(1); 
     this.requestOrderService.gotitrequestorder(this.requestorderid,this.idrequestorderanswer).subscribe(result => {
       //alert(3); 
-      this.notificationService.addNotification(1, 1, 1, 13, this.requestorderid,null)
+      this.notificationService.addNotification(1, 1, 1, 13, this.requestorderid,this.vsubject)
       .subscribe(result => {
         //alert(4); 
        this.loading = false;
@@ -352,6 +371,8 @@ export class RequestOrderComponent implements OnInit {
 
     //<!-- modal รายงานผล -->
     answerModal(template: TemplateRef<any>, id) {
+      this.awnserForm.reset()
+      this.submitted = false; 
       this.idrequestorderanswer = id;
       this.modalRef = this.modalService.show(template);
     }
@@ -360,19 +381,36 @@ export class RequestOrderComponent implements OnInit {
   
     //<!-- รายงานผล -->
     storeanswerrequestorder(value) {
+      this.submitted = true;
+      if (this.awnserForm.invalid) {
+          return;
+      }
       this.requestOrderService.answerrequestorder(value, this.awnserForm.value.files, this.idrequestorderanswer)
         .subscribe(result => {
           this.awnserForm.reset();
           this.loading = false;
           this.getuserinfo()
+          this._NotofyService.onSuccess("รายงานผล")
           this.modalRef.hide();   
         })
     }
     //<!-- END รายงานผล -->
 
+    deleterequestorder(id){
+      this.requestOrderService.deleterequestorder(id).subscribe(result => {
+        this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','ลบ',this.vsubject,id).subscribe();
+        this.loading = false;
+        this.getuserinfo();
+        this._NotofyService.onSuccess("ลบข้อมูล")
+        this.modalRef.hide();
+     })
+    }
+
     exportexecutive2(id,userId) {
+      alert(1);
       this.requestOrderService.getrequest2(id,userId)
         .subscribe(result => {
+          alert(3);
           window.open(this.url + "reportrequestorder/" + result.data);
         })
       this.getuserinfo();

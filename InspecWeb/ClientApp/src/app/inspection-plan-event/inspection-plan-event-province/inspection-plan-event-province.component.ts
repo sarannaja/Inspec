@@ -187,7 +187,7 @@ export class InspectionPlanEventProvinceComponent implements OnInit {
         },
         eventLimit: false,
         eventClick: function (event) {
-          window.location.href = url_to_inspection + event.id + '/' + event.provinceid;
+          window.location.href = url_to_inspection + event.id + '/' + event.provinceid + '/0';
           // window.location.replace(url_to_inspection + event.id);
           // window.open(url_to_inspection + event.id);
         },

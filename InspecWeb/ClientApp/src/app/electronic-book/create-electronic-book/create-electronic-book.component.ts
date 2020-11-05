@@ -441,12 +441,12 @@ export class CreateElectronicBookComponent implements OnInit {
 
   public onSelectAll() {
     var selected = this.province.map(item => item.id);
-    this.EbookForm.get('ProvinceId').patchValue(selected);
+    this.EbookForm2.get('ProvinceId').patchValue(selected);
     this.selectedProvince = selected;
   }
 
   public onClearAll() {
-    this.EbookForm.get('ProvinceId').patchValue([]);
+    this.EbookForm2.get('ProvinceId').patchValue([]);
   }
   getDataProvince() {
     this.provinceservice.getprovincedata2()

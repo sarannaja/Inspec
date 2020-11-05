@@ -461,8 +461,7 @@
             </div>
           </div>
 
-          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว'"
-            class="form-group" style="margin-left: 2px;">
+          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="form-group" style="margin-left: 2px;">
             <div class="row">
               <i class="fa fa-tags" style="margin-top: 5px;"></i>
               <h4 style="margin-left: 15px;">ข้อเสนอแนะ</h4>
@@ -504,9 +503,9 @@
               </div>
             </div>
 
-            <br>
 
             <div *ngFor="let item of subjectgroup.answerRecommenDationInspectors; let i = index">
+              <br>
               <div class="col-12">
                 <label style="margin-left: 10px;"> - {{item.answersuggestion}} โดย : {{item.user.name}} จังหวัด :
                   <span *ngFor="let item2 of item.user.userProvince; let ii = index">
@@ -529,12 +528,14 @@
                     {{ item2.name }}<br>
                   </span>
                 </a>
+                <input type="text" class="form-control ml-4" style="width: 50%;" value="{{item2.description}}"
+                  readonly>
               </div>
             </div>
           </div>
 
-          <br>
-          <div class="col-12">
+
+          <div class="col-12 mt-3" *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'">
             <label *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'"
               class="form-label w-100">แนบไฟล์ประเด็นการตรวจติดตาม</label>
             <input *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="file" multiple (change)="uploadFile2($event)"
@@ -563,8 +564,9 @@
               </div>
             </form>
           </div>
-          <div class="row" *ngIf="carlendarFile.length > 0">
-            <div class="col-md-12" style="margin-top: 20px;">
+
+          <div class="row mt-3" *ngIf="carlendarFile.length > 0">
+            <div class="col-md-12">
               <u>ไฟล์แนบประเด็นการตรวจติดตาม</u><br>
               <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
                 <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
@@ -573,7 +575,7 @@
                     {{ item.name }}<br>
                   </span>
                 </a>
-                <input type="text" class="form-control ml-4" style="width: 80%;" value="{{item.description}}" readonly>
+                <input type="text" class="form-control ml-4" style="width: 50%;" value="{{item.description}}" readonly>
               </div>
             </div>
           </div>
@@ -603,8 +605,9 @@
           </div>
 
           <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
-            <button *ngIf="subjectgroupstatus != 'ใช้งานจริง' && subjectgroupstatussuggestion == 'ร่างกำหนดการ'" style="align-self: center;" type="submit"
-              class="btn btn-primary" style="margin-right: 45px;">บันทึก</button>
+            <button *ngIf="subjectgroupstatus != 'ใช้งานจริง' && subjectgroupstatussuggestion == 'ร่างกำหนดการ'"
+              style="align-self: center;" type="submit" class="btn btn-primary"
+              style="margin-right: 45px;">บันทึก</button>
             <!-- <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
               (click)="back()" style="margin-right: 45px;">บันทึก</button> -->
             <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>

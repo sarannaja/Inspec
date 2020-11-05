@@ -29,7 +29,7 @@
           <tbody>
             <tr  *ngFor="let item of resultlog; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{item.user.name}}</td>
+              <td>{{item.user.prefix + item.user.name}}</td>
               <td>{{item.databaseName}}</td>
               <td>{{item.eventType }}</td>
               <td>{{ item.detail }}</td>
