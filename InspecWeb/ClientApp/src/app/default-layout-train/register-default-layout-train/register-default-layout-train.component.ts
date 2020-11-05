@@ -101,13 +101,13 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
         //console.log("this.trainingid =>", this.trainingid);
         //console.log("this.userid =>", this.userid);
-        
+
         this.check = result
         //console.log("check_getchecktrainingregister =>", result);
-        
+
         if (this.check == true) {
           this.router.navigate(['/train/']);
-          this._NotofyService.onInfo("","ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
+          this._NotofyService.onInfo("", "ท่านได้ทำการสมัครอบรมเรียบร้อยแล้ว")
         }
       })
 
@@ -132,10 +132,10 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
       collaboratorphoneoffice: new FormControl(null, [Validators.required]),
       collaboratoremail: new FormControl(null, [Validators.required]),
 
-      files: [null],
-      CertificationFiles: [null],
-      idcardFiles: [null],
-      GovernmentpassportFiles: [null],
+      files: new FormControl("", [Validators.required]),
+      CertificationFiles: new FormControl("", [Validators.required]),
+      idcardFiles: new FormControl("", [Validators.required]),
+      GovernmentpassportFiles: new FormControl("", [Validators.required]),
     })
 
 
@@ -169,7 +169,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
 
             this.resultuser = result;
-            console.log("resultuser => " , this.resultuser);
+            console.log("resultuser => ", this.resultuser);
             this.role_id = result[0].role_id
 
             this.Prefix = result[0].prefix
@@ -205,11 +205,11 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
   }
   //End getuser
 
-  gotoMain(){
+  gotoMain() {
     this.router.navigate(['/train'])
   }
 
-  gotoAdmin(){
+  gotoAdmin() {
     this.router.navigate(["/main"])
   }
 
@@ -229,7 +229,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
 
   get f() { return this.Form.controls }
   get d() { return this.f.inputdate as FormArray }
-  
+
   storeTraining(value) {
     this.submitted = true;
     if (this.Form.invalid) {
@@ -245,7 +245,7 @@ export class RegisterDefaultLayoutTrainComponent implements OnInit {
         this.router.navigate(['/train/register-success/', this.trainingid])
         //this.router.navigate(['/training/surveylist/',trainingid])
       })
-      
+
     }
   }
 

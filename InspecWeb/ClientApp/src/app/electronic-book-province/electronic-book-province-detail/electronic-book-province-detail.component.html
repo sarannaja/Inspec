@@ -273,7 +273,7 @@
                   </div>
                 </div>
               </div>
-              <label for="" style="margin-top: 10px;">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
+              <!-- <label for="" style="margin-top: 10px;">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
               <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
                 style="margin-left: 5px;">
                 <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
@@ -282,7 +282,21 @@
                     {{ item.name }}<br>
                   </span>
                 </a>
+              </div> -->
+
+              <label for=""
+                *ngIf="electronicBookData.electronicBook.electronicBookFiles.length > 0">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
+              <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
+                style="margin-top: 5px; margin-left: 5px;">
+                <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item.name }}<br>
+                  </span>
+                </a>
+                <input type="text" value="{{item.description}}" style="width: 80%;" class="form-control ml-4" readonly>
               </div>
+
               <div class="row"
                 *ngFor="let item of electronicBookData.electronicBookAccept.electronicBookProvinceApproveFiles; let i = index"
                 style="margin-top: 10px; margin-left: 5px;">
@@ -354,16 +368,20 @@
                       </div>
                     </div> -->
                     <div class="col-2" style="text-align: center;">
-                      <div *ngIf="items.userProvincialDepartment.signature != null && items.userProvincialDepartment.signature != 'null' && items.userProvincialDepartment.signature != ''">
+                      <div
+                        *ngIf="items.userProvincialDepartment.signature != null && items.userProvincialDepartment.signature != 'null' && items.userProvincialDepartment.signature != ''">
                         <img class="rounded" src="{{signUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
                           style="width: 100px; height: 100px;">
                       </div>
-                      <div *ngIf="items.userProvincialDepartment.signature != null && items.userProvincialDepartment.signature != 'null' && items.userProvincialDepartment.signature != ''">
+                      <div
+                        *ngIf="items.userProvincialDepartment.signature != null && items.userProvincialDepartment.signature != 'null' && items.userProvincialDepartment.signature != ''">
                         <!-- <label for="" style="font-size: small;">ลายมือชื่อ</label> -->
                         <label for="" style="font-size: small;">{{items.userProvincialDepartment.prefix}} -
                           {{items.userProvincialDepartment.name}}</label>
                       </div>
-                      <div *ngIf="items.userProvincialDepartment.signature == null || items.userProvincialDepartment.signature == 'null' || items.userProvincialDepartment.signature == ''" class="mt-4">
+                      <div
+                        *ngIf="items.userProvincialDepartment.signature == null || items.userProvincialDepartment.signature == 'null' || items.userProvincialDepartment.signature == ''"
+                        class="mt-4">
                         <label class="text-primary"
                           style="font-weight: bold;">{{items.userProvincialDepartment.name}}</label>
                         <label for="" style="font-size: small;">ลายมือชื่อ</label>
