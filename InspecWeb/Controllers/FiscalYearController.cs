@@ -190,20 +190,21 @@ namespace InspecWeb.Controllers
         [HttpPost("EditRelation/{id}")]
         public void Put([FromBody] FiscalYearRelationViewModel model,long id)
         {
-            var data = _context.FiscalYearRelations.Find(id);
+            var data = _context.FiscalYearRelations.Where(m => m.FiscalYearId == model.FiscalYearId && m.RegionId == model.RegionId);
 
             _context.FiscalYearRelations.RemoveRange(data);
             _context.SaveChanges();
 
             foreach (var item in model.ProvinceId)
             {
-                System.Console.WriteLine("LOOP: " + item);
+                //System.Console.WriteLine("LOOP: " + item);
                 var fiscalyearrelationdata = new FiscalYearRelation
                 {
                     FiscalYearId = model.FiscalYearId,
                     RegionId = model.RegionId,
                     ProvinceId = item
                 };
+                System.Console.WriteLine("LOOP: " + item);
                 _context.FiscalYearRelations.Add(fiscalyearrelationdata);
             }
             _context.SaveChanges();
@@ -267,6 +268,16 @@ namespace InspecWeb.Controllers
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
+            var data = _context.FiscalYearRelations.Where(m => m.FiscalYearId == id);
+
+            _context.FiscalYearRelations.RemoveRange(data);
+            _context.SaveChanges();
+
+            var data2 = _context.SetinspectionareaFiles.Where(m => m.FiscalYearId == id);
+
+            _context.SetinspectionareaFiles.RemoveRange(data2);
+            _context.SaveChanges();
+
             var fiscalyeardata = _context.FiscalYears.Find(id);
 
             _context.FiscalYears.Remove(fiscalyeardata);

@@ -11,6 +11,7 @@ import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as _ from 'lodash';
+import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
 
 @Component({
   selector: 'app-detailrow-central-policy',
@@ -44,6 +45,7 @@ export class DetailrowCentralPolicyComponent implements OnInit {
   disable = true;
   selected: any[] = [];
   downloadUrl: any;
+  province: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +58,7 @@ export class DetailrowCentralPolicyComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private authorize: AuthorizeService,
+    private external: ExternalOrganizationService,
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
@@ -146,24 +149,61 @@ export class DetailrowCentralPolicyComponent implements OnInit {
   back() {
     window.history.back();
   }
+  // getDataProvince() {
+  //   this.provinceservice.getprovincedata2()
+  //     .subscribe(result => {
+  //       this.selectdataprovince = result.map(result => {
+  //         // console.log(
+  //         //   result.name
+  //         // );
+  //         var region = this.provinceservice.getRegionMock()
+  //           .filter(
+  //             (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+  //           )[0].region
+  //         // console.log(
+  //         //   region
+  //         // );
+  //         return { ...result, region: region, label: result.name, value: result.id }
+  //       })
+  //       // console.log(this.selectdataprovince);
+  //       this.spinner.hide();
+  //     })
+  // }
   getDataProvince() {
+    this.spinner.show();
     this.provinceservice.getprovincedata2()
       .subscribe(result => {
-        this.selectdataprovince = result.map(result => {
-          // console.log(
-          //   result.name
-          // );
-          var region = this.provinceservice.getRegionMock()
-            .filter(
-              (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
-            )[0].region
-          // console.log(
-          //   region
-          // );
-          return { ...result, region: region, label: result.name, value: result.id }
-        })
-        // console.log(this.selectdataprovince);
-        this.spinner.hide();
+        this.external.getProvinceRegion()
+          .subscribe(result2 => {
+            this.selectdataprovince = result.map(result => {
+              console.log(
+                result.name
+              );
+              var region = result2.filter(
+                (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
+              )[0].region
+              console.log(
+                region
+              );
+
+
+              return { ...result, region: region, label: result.name, value: result.id }
+            })
+            console.log("test1: ", this.province);
+
+            this.province.sort((a, b) => {
+              if(a.provincesGroupId > b.provincesGroupId) {
+                return 1;
+              } else if(a.provincesGroupId < b.provincesGroupId) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
+            console.log("test2: ", this.province);
+            this.spinner.hide();
+          })
       })
+    // console.log(this.provinceservice.getRegionMock());
   }
 }

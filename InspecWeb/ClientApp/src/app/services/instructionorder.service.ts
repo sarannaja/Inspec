@@ -22,28 +22,36 @@ export class InstructionorderService {
     formData.append('order',instructionorderData.order);
     formData.append('createBy',instructionorderData.createBy);
     formData.append('detail',instructionorderData.detail);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
-    return this.http.post(this.url, formData);
+
+    return this.http.post<any>(this.url, formData);
   }
 
   deleteInstructionorder(id) {
-    return this.http.delete(this.url + id);
+    return this.http.delete<any>(this.url + id);
   }
 
-  editInstructionorder(instructionorderData,id) {
-  //  console.log(instructionorderData);
-
+  editInstructionorder(instructionorderData,file: FileList,id,filename) {
     const formData = new FormData();
-    // alert(JSON.stringify(governmentinspectionplanData))
-    formData.append('name',instructionorderData.name);
-    formData.append('year',instructionorderData.year);
-    formData.append('order',instructionorderData.order);
-    formData.append('createBy',instructionorderData.createBy);
-    formData.append('detail',instructionorderData.detail);
-   // console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url+id, formData);
+   // alert(JSON.stringify(instructionorderData));
+    formData.append('Name',instructionorderData.name);
+    formData.append('Year',instructionorderData.year);
+    formData.append('Order',instructionorderData.order);
+    formData.append('Detail',instructionorderData.detail);
+    formData.append('CreateBy',instructionorderData.createBy);
+    formData.append('Filename',filename);
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+
+    return this.http.put<any>(this.url+id, formData);
   }
 }
 

@@ -230,8 +230,8 @@
                                                         *ngIf="item.status == 9">ข้อสั่งการในรายงานผลการตรวจราชการ</span>
                                                     <span *ngIf="item.status == 10">ข้อสั่งการ</span>
                                                     <span *ngIf="item.status == 11">รับทราบข้อสั่งการ</span>
-                                                    <span *ngIf="item.status == 12">ข้อสั่งการ</span>
-                                                    <span *ngIf="item.status == 13">ข้อสั่งการ</span>
+                                                    <span *ngIf="item.status == 12">แจ้งคำร้อง</span>
+                                                    <span *ngIf="item.status == 13">รับทราบแจ้งคำร้อง</span>
                                                     <span *ngIf="item.status == 20">รายงานผลการตรวจราชการ</span>
                                                     <span *ngIf="item.status == 19">มอบหมาย</span>
                                                     <span *ngIf="item.status == 17">สมุดตรวจอีเล็กทรอนิกส์</span>
@@ -336,8 +336,8 @@
                             <a class="dropdown-item pointer" (click)="openModal(modalProfile)">
                                 <i class="align-middle mr-1 fas fa-fw fa-user"></i> จัดการโปรไฟล์
                             </a>
-                            <a class="dropdown-item pointer">
-                                <i class="align-middle fas fa-fw fa-key" (click)="openModal(modalpassword)"></i>
+                            <a class="dropdown-item pointer" (click)="passwordModal(modalpassword)">
+                                <i class="align-middle fas fa-fw fa-key"></i>
                                 จัดการรหัสผ่าน
                             </a>
                             <div class="dropdown-divider"></div>
@@ -474,7 +474,7 @@
 <!-- BEGIN primary modal -->
 <ng-template #modalpassword class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="Form" (ngSubmit)="editprofile(Form.value)">
+    <form [formGroup]="Form" (ngSubmit)="password(Form.value)">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">จัดการข้อมูล</h3>
@@ -487,13 +487,42 @@
                     <label class="form-label">UserName*</label>
                     <input type="text" formControlName="UserName" readonly class="form-control">
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label class="form-label">PassWord*</label>
-                    <input type="password" formControlName="PassWord" readonly class="form-control">
-                </div>
+                    <input type="password" formControlName="Password" class="form-control">
+                </div> -->
+
+
                 <div class="form-group">
-                    <label class="form-label">PassWordconfirm*</label>
-                    <input type="password" formControlName="PassWordconfirm" readonly class="form-control">
+                    <label>รหัสผ่าน*</label>
+                    <input type="Password" formControlName="Password" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
+                    <div class="errors" style="color: red;"
+                        *ngIf="Form.get('Password').invalid && (Form.get('Password').touched || Form.get('Password').dirty) &&submitted ">
+                        <div *ngIf="Form.get('Password').hasError('required')">
+                            กรุณากรอกรหัสผ่าน
+                        </div>
+                        <div class="error-text" style="color: red;"
+                            *ngIf="Form.get('Password').hasError('passwordStrength')">
+                            {{Form.get('Password').errors['passwordStrength']}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">ยืนยันรหัสผ่าน*</label>
+                        <input type="password" formControlName="PassWordconfirm" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.PassWordconfirm.errors }">
+                        <span *ngIf="Form.get('PassWordconfirm').errors?.invalid">
+                            ยืนยันรหัสผ่านไม่ถูกต้อง
+                        </span>
+                    </div>
+
+                    <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">กรุณากรอกรหัสผ่าน</div>
+                    </div> -->
+                    <!-- <small>
+                        <a href="javascript:void(0)">Forgot password?</a>
+                    </small> -->
                 </div>
             </div>
             <div class="modal-footer">

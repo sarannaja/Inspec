@@ -208,8 +208,8 @@ export class SubjectService {
   deleteChoices(id) {
     return this.http.delete(this.url + "deletechoices/" + id);
   }
-  deleteSubject(id) {
-    return this.http.delete(this.url + id);
+  deleteSubject(id, userid) {
+    return this.http.delete(this.url + id + "/" + userid);
   }
   deletePeopleanswer(id) {
     return this.http.delete(this.url + "deletepeopleanswer/" + id);

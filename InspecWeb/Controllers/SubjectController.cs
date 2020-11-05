@@ -783,12 +783,26 @@ namespace InspecWeb.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(long id)
+        [HttpDelete("{id}/{userid}")]
+        public void Delete(long id, string userid)
         {
+            var date = DateTime.Now;
             var subjectdata = _context.SubjectCentralPolicyProvinces.Find(id);
 
             _context.SubjectCentralPolicyProvinces.Remove(subjectdata);
+            _context.SaveChanges();
+
+            var logdata = new Log
+            {
+                UserId = userid,
+                DatabaseName = "SubjectCentralPolicyProvinces",
+                EventType = "ลบ",
+                EventDate = date,
+                Detail = "ลบแผนการตรวจราชการ"+subjectdata.Name,
+                Allid = subjectdata.Id,
+            };
+
+            _context.Logs.Add(logdata);
             _context.SaveChanges();
         }
 

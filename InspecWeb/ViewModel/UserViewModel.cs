@@ -60,6 +60,8 @@ namespace InspecWeb.ViewModel
         public long Autocreateuser { get; set; } //20200823
 
         public string Pw { get; set; } // 20200830
+
+        public string Password { get; set; }
     }
 
     public class UserArray

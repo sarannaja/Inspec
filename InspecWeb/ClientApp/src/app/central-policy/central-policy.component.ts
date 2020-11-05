@@ -357,7 +357,7 @@ export class CentralPolicyComponent implements OnInit {
   }
   deleteCentralPolicy(value) {
     this.loading = false;
-    this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
+    this.centralpolicyservice.deleteCentralPolicy(value,this.userid).subscribe(response => {
       console.log(value);
       console.log(this.selectfiscalyearid);
       this._NotofyService.onSuccess("ลบข้อมูล")
