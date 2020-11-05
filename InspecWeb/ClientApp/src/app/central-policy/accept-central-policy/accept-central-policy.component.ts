@@ -97,6 +97,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
     this.getsubjecteventDetail();
+    this.getCalendarFile();
   }
   getDetailCentralPolicy() {
     this.centralpolicyservice.getdetailacceptcentralpolicydata(this.id)
@@ -178,8 +179,14 @@ export class AcceptCentralPolicyComponent implements OnInit {
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
         // }
       })
-
-
-
   }
+
+  getCalendarFile() {
+    this.electronicBookService.getCalendarFile(this.planid, this.centralpolicyproviceid).subscribe(res => {
+      this.carlendarFile = res.carlendarFile;
+      console.log("calendarFile: ", res);
+
+    })
+  }
+
 }

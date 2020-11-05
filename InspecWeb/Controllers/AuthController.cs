@@ -58,22 +58,30 @@ namespace InspecWeb.Controllers
         // [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginCredentials credentials)
         {
+            var result1 = await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, credentials.Jodjumchan = false, lockoutOnFailure: true);
+            if (result1.IsLockedOut)
+            {
+                var test = userManager.Options.Lockout.DefaultLockoutTimeSpan.TotalMinutes;
+                return Ok(new { Message = "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 5 นาที", status = false, test });
+            }
             if (!ModelState.IsValid || credentials == null)
             {
-                 return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
+                return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
             }
 
             var identityUser = await userManager.FindByNameAsync(credentials.Username);
             if (identityUser == null)
             {
-                 return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
+                return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
             }
 
             var result = userManager.PasswordHasher.VerifyHashedPassword(identityUser, identityUser.PasswordHash, credentials.Password);
+
+
             if (result == PasswordVerificationResult.Failed)
             {
 
-                 return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
+                return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
             }
 
             var claims = new List<Claim>
@@ -84,8 +92,7 @@ namespace InspecWeb.Controllers
 
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, true, lockoutOnFailure: true);
+            // var result1 = await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, false, lockoutOnFailure: true);
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,

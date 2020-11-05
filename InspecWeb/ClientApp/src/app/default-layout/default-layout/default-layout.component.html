@@ -214,7 +214,9 @@
                                             </div>
                                             <div class="col-10">
                                                 <div class="text-dark">
-                                                    <span *ngIf="item.status == 16">เรื่องตรวจ</span>
+                                                    <span *ngIf="item.status == 16">คำเชิญ</span>
+                                                    <span *ngIf="item.status == 1">คำเชิญ</span>
+
                                                     <span *ngIf="item.status == 2">ตอบรับคำเชิญ</span>
                                                     <span *ngIf="item.status == 3">ผู้ตรวจกำลังจะตรวจ</span>
                                                     <span *ngIf="item.status == 4">มีประเด็น/คำถาม(หน่วยรับตรวจ)</span>
@@ -245,6 +247,8 @@
                                                 </div>
                                                 <div class="text-muted small mt-1">
                                                     <span *ngIf="item.status == 16">{{item.centralPolicy.title}}</span>
+                                                    <span *ngIf="item.status == 1">{{item.centralPolicy.title}}</span>
+
                                                     <span *ngIf="item.status == 2">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 3">{{item.centralPolicy.title}}</span>
                                                     <span *ngIf="item.status == 4">{{item.centralPolicy.title}}</span>

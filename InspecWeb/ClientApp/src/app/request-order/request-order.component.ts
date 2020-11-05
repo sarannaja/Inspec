@@ -8,6 +8,9 @@ import { RequestorderrService } from '../services/requestorderr.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
 import { NotificationService } from '../services/notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { LogService } from '../services/log.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-request-order',
@@ -53,6 +56,13 @@ export class RequestOrderComponent implements OnInit {
   idrequestorderanswer :any;
   imgprofileUrl:any;
 
+  submitted = false;
+  Subject: any;
+  Subjectdetail: any;
+  Answer_by: any;
+  Commanded_date: any;
+  Draft: any;
+
   date: any = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
 
   constructor(
@@ -63,6 +73,9 @@ export class RequestOrderComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private modalService: BsModalService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string) { 
     this.imgprofileUrl = baseUrl + '/requestfile';
     }
@@ -88,12 +101,12 @@ export class RequestOrderComponent implements OnInit {
     };
     this.Form = this.fb.group({
       Commanded_by: this.userid,
-      "Subject": new FormControl(null, [Validators.required]),
-      "Subjectdetail": new FormControl(null, [Validators.required]),
-      "Answer_by": new FormControl(null, [Validators.required]),
-      "Commanded_date": new FormControl(null, [Validators.required]),
-      "Draft": new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      Subject: new FormControl(null, [Validators.required]),
+      Subjectdetail: new FormControl(null, [Validators.required]),
+      Answer_by: new FormControl(null, [Validators.required]),
+      Commanded_date: new FormControl(null, [Validators.required]),
+      Draft: new FormControl(null, [Validators.required]),
+      files: new FormControl(null),
     })
 
     this.awnserForm = this.fb.group({
@@ -123,13 +136,15 @@ export class RequestOrderComponent implements OnInit {
 
             this.role_id = result[0].role_id
 
-            if (this.role_id == 5 || this.role_id == 4) { //แจ้งคำร้องขอ
+            if (this.role_id == 4 || this.role_id == 5 || this.role_id == 6 || this.role_id == 9 || this.role_id == 10 ) { //แจ้งคำร้องขอ
               this.requestOrderService.getrequestordercommandeddata(this.userid)
                 .subscribe(result => {  
                 //  console.log('data',result);            
                   this.getDatauser();
                     this.resultrequestorder = result;
-                  this.loading = true;      
+                    this.loading = true;
+                    this.spinner.hide();       
+
 
                 })
             } else if (this.role_id == 1) { //แอดมินใหญ่
@@ -137,14 +152,16 @@ export class RequestOrderComponent implements OnInit {
                 .subscribe(result => {       
                   this.getDatauser();
                   this.resultrequestorder = result;
-                  this.loading = true;      
+                  this.loading = true;
+                  this.spinner.hide();           
                 })
             } else { // คนรับคำร้องขอ
               this.requestOrderService.getrequestorderanswereddata(this.userid)
                 .subscribe(result => {
                   this.getDatauser();
                   this.resultrequestorder = result;
-                  this.loading = true;      
+                  this.loading = true;
+                  this.spinner.hide();           
                 })
             }
 
@@ -183,6 +200,7 @@ export class RequestOrderComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.Form.reset()
+    this.submitted = false;
     this.modalRef = this.modalService.show(template);
     this.Form.patchValue({
       Draft:1
@@ -238,24 +256,32 @@ export class RequestOrderComponent implements OnInit {
 
   //<!--เพิ่มข้อคำร้องขอ -->
   storerequestorder(value) {
-    //alert(1);
+
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+
     this.requestOrderService.addrequestorder(value, this.Form.value.files,this.userid)
       .subscribe(result => 
     {
+      this.logService.addLog(this.userid,'RequestOrders','เพิ่ม',result.title,result.id).subscribe();
        //alert(3);
       if(value.Draft == 1){
         //alert("draft 1");
         this.Form.reset();
         this.loading = false;
         this.getuserinfo();
+        this._NotofyService.onSuccess("เพิ่มข้อมูล")
         this.modalRef.hide();
       }else{
-        this.notificationService.addNotification(1, 1, 1, 12, result.id,null)
+        this.notificationService.addNotification(1, 1, 1, 12, result.id,result.title)
          .subscribe(result => {
          // alert("draft 0");
           this.Form.reset();
           this.loading = false;
           this.getuserinfo();
+          this._NotofyService.onSuccess("เพิ่มข้อมูล")
           this.modalRef.hide();
        })
       }
@@ -268,7 +294,7 @@ export class RequestOrderComponent implements OnInit {
     // alert(1);
      this.requestOrderService.updaterequestorder(value, this.Form.value.files,this.idrequestorder).subscribe(result => {
        // alert(3);
-     
+       this.logService.addLog(this.userid,'RequestOrders','แก้ไข',result.title,result.id).subscribe();
         if(value.Draft == 1){
           this.Form.reset();
           this.getuserinfo();
@@ -351,5 +377,6 @@ export class RequestOrderComponent implements OnInit {
         })
       this.getuserinfo();
     }
-
+    get f() { return this.Form.controls; }
+    get g() { return this.awnserForm.controls; }
 }

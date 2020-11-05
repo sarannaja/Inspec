@@ -239,6 +239,10 @@ export class DefaultLayoutComponent implements OnInit {
           location.href = '/usercentralpolicy/' + xe + '/' + provinceId;
           // this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
         }
+        else if (statusid == 1) { //aof
+          location.href = '/usercentralpolicy/' + xe + '/' + provinceId;
+          // this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
+        }
         else if (statusid == 2) { //aof role6 and 10 มาทำต่อด้วย
           if (this.role_id == 3) {
             location.href = '/inspectionplan/' + xe + '/' + provinceId + '/0';
@@ -313,14 +317,13 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 24) { //song
           location.href = '/answersubject/list/' + xe;
         }
-
         else if (statusid == 25) { //song
-          location.href = '/answerrecommendationinspecto/';
+          location.href = '/answerrecommendationinspector/';
         }
         else if (statusid == 10 || statusid == 11) { //song
           location.href = '/executiveorder';
         }
-       
+
         // this.nav = superAdmin;
         // this.profileform();
         // this.getuserinfo();
