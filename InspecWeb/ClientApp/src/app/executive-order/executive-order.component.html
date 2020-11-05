@@ -27,7 +27,7 @@
               <th>ประเด็น/เรื่อง</th>
               <th>ผู้รับข้อสั่งการ</th>
               <th>สถานะ</th>
-              <th> <i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th *ngIf="role_id != 1"> <i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
               <th></th>
             </tr>
           </thead>
@@ -95,13 +95,13 @@
                 </div>
               </td>  
 
-              <td> 
+              <td *ngIf="role_id != 1"> 
 
                 <!-- สำหรับผู้สร้างข้อสั่งการ -->
-                <div *ngIf="role_id == 8 && item.cancel == 0">
+                <div *ngIf="role_id == 8 && item.cancel == 0 && item.accept == 0 ">
                   <button class="btn btn-warning btn-pill btn-sm" 
                     (click)="editExecutiveOrder(editExcutiveOrder, item.id,item.commanded_date,item.subject,item.subjectdetail
-                    ,item.draft,item.executiveOrderAnswers)" title="แก้ไขข้อสั่งการ">
+                    ,item.draft,item.executiveOrderAnswers,item.executiveOrderFiles)" title="แก้ไขข้อสั่งการ">
                     <i class="align-middle fas fa-fw fa-sm fa-pen"></i>
                   </button>&nbsp;&nbsp;&nbsp;
                    
@@ -143,14 +143,17 @@
                 </div>
                 <!-- END เมื่อยกเลิกข้อสั่งการ -->
               </td>
+
               <td>
                 <span *ngFor="let item2 of item.executiveOrderAnswers;let m = index;" style="margin-left: 5px;">
                   <button *ngIf="item2.beaware_date != null" (click)="exportexecutive2(item2.id,item2.userID)" 
                     title="รายงานการดำเนินการตามข้อสั่งการผู้บริหาร" class="btn btn-bitbucket btn-pill btn-sm" >
                     <i class="align-middle fas fa-fw fa-download"></i> 
                   </button>
+                  <hr *ngIf="item.requestOrderAnswers.length != (m+1) && role_id !=3"> <!-- เส้นขั้น --> 
                 </span>   
               </td>
+
             </tr> 
           </tbody>
         </table>
@@ -355,7 +358,7 @@
         <p>
           <i class="align-middle mr-2 fas fa-fw fa-download">
           </i>ไฟล์แนบ : <br>
-          <a *ngFor="let item4 of  item3.executiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item4.name}}" download>
+          <a *ngFor="let item4 of  item3.executiveOrderFiles let i = index" href="{{fileUrl}}/{{item4.name}}" download>
               <label class="badge badge-primary mr-1">{{i + 1}}. {{item4.name}}</label>
               <br>
           </a>
@@ -403,7 +406,7 @@
             <label>
               <i class="align-middle mr-2 fas fa-fw fa-download"></i>ไฟล์แนบ :
               <br>
-              <a *ngFor="let item7 of item6.answerExecutiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item7.name}}" download>
+              <a *ngFor="let item7 of item6.answerExecutiveOrderFiles let i = index" href="{{fileUrl}}/{{item7.name}}" download>
                 <label class="badge badge-primary mr-1">{{i + 1}}. {{item7.name}}</label>
                 <br>
               </a>
@@ -492,6 +495,12 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label w-100">แนบไฟล์</label>
+
+            <a *ngFor="let item of executivefile let i = index" href="{{fileUrl}}/{{item.name}}" style="cursor: pointer;" download>
+              <label class="badge badge-primary mr-1">{{i + 1}}. {{item.name}}</label>
+              <br>
+            </a>
+
             <input type="file" (change)="uploadFile($event)" [multiple]="true">
             <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
             <!-- <a *ngFor="let item4 of  item3.executiveOrderFiles let i = index" href="{{imgprofileUrl}}/{{item4.name}}" download>
