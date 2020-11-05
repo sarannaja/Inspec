@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import * as _ from 'lodash';
 import { ExternalOrganizationService } from 'src/app/services/external-organization.service';
+import { Detailrow } from './detailrow-central';
 
 @Component({
   selector: 'app-detailrow-central-policy',
@@ -23,14 +24,14 @@ export class DetailrowCentralPolicyComponent implements OnInit {
   id: any;
   fiscalYearId: any;
   year: any;
-  resultdetailcentralpolicy: any = {}
+  resultdetailcentralpolicy: Detailrow
   resultfiscalyear: any[] = []
   resultfiscalyearId: any[] = []
   fiscalYearIdString: any[] = [];
   resultprovince: any[] = []
   EditForm: FormGroup;
-  selectdataprovince: Array<any>=[]
-  provinceId: any[]=[];
+  selectdataprovince: Array<any> = []
+  provinceId: any[] = [];
   form: FormGroup;
   fileStatus = false;
   loading = false;
@@ -91,48 +92,49 @@ export class DetailrowCentralPolicyComponent implements OnInit {
     }))
 
     this.getDetailCentralpolicy();
-    this.getDataProvince();
+    // this.getDataProvince();
   }
   getDetailCentralpolicy() {
     this.centralpolicyservice.getdetailcentralpolicydata(this.id)
       .subscribe(result => {
         this.resultdetailcentralpolicy = result;
-        console.log("RES EDIT: ", this.resultdetailcentralpolicy.centralPolicyFiles);
+        //console.log("RES EDIT: ", this.resultdetailcentralpolicy.centralPolicyFiles);
 
         this.fiscalYearId = this.resultdetailcentralpolicy.fiscalYearNewId.toString();
 
 
         this.resultdetailcentralpolicy.centralPolicyDates.forEach(element => {
-          console.log("element: ", element.startDate)
+          //console.log("element: ", element.startDate)
           const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
           let sDate: Date = new Date(element.startDate);
           let eDate: Date = new Date(element.endDate)
-          console.log("EEE", sDate);
+          //console.log("EEE", sDate);
         });
 
         this.resultdetailcentralpolicy.centralPolicyProvinces.forEach(element => {
-          console.log("element: ", element);
+          //console.log("element: ", element);
           if (element.active == 1) {
             this.selected.push(element.provinceId);
             this.oldProvince.push(element.provinceId);
           }
 
         });
-        console.log("SELECTED: ", this.selected);
+        //console.log("SELECTED: ", this.selected);
 
 
 
-        console.log("year: ", this.resultdetailcentralpolicy.fiscalYearNewId);
+        //console.log("year: ", this.resultdetailcentralpolicy.fiscalYearNewId);
 
 
         this.EditForm.patchValue({
           title: this.resultdetailcentralpolicy.title,
           year: this.resultdetailcentralpolicy.fiscalYearNewId.toString(),
-          type: this.resultdetailcentralpolicy.type,
+          type: this.resultdetailcentralpolicy.typeexaminationplanId.toString(),
           status: this.resultdetailcentralpolicy.status,
           ProvinceId: this.selected
         });
         this.EditForm.controls.ProvinceId.disable();
+        this.getDataProvince();
         // this.spinner.hide();
       });
   }
@@ -153,57 +155,47 @@ export class DetailrowCentralPolicyComponent implements OnInit {
   //   this.provinceservice.getprovincedata2()
   //     .subscribe(result => {
   //       this.selectdataprovince = result.map(result => {
-  //         // console.log(
+  //         // //console.log(
   //         //   result.name
   //         // );
   //         var region = this.provinceservice.getRegionMock()
   //           .filter(
   //             (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
   //           )[0].region
-  //         // console.log(
+  //         // //console.log(
   //         //   region
   //         // );
   //         return { ...result, region: region, label: result.name, value: result.id }
   //       })
-  //       // console.log(this.selectdataprovince);
+  //       // //console.log(this.selectdataprovince);
   //       this.spinner.hide();
   //     })
   // }
   getDataProvince() {
-    this.spinner.show();
     this.provinceservice.getprovincedata2()
       .subscribe(result => {
         this.external.getProvinceRegion()
           .subscribe(result2 => {
             this.selectdataprovince = result.map(result => {
-              console.log(
-                result.name
-              );
+
               var region = result2.filter(
                 (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
               )[0].region
-              console.log(
-                region
-              );
-
-
               return { ...result, region: region, label: result.name, value: result.id }
             })
-            console.log("test1: ", this.province);
 
             this.province.sort((a, b) => {
-              if(a.provincesGroupId > b.provincesGroupId) {
+              if (a.provincesGroupId > b.provincesGroupId) {
                 return 1;
-              } else if(a.provincesGroupId < b.provincesGroupId) {
+              } else if (a.provincesGroupId < b.provincesGroupId) {
                 return -1;
               } else {
                 return 0;
               }
             });
-            console.log("test2: ", this.province);
             this.spinner.hide();
           })
       })
-    // console.log(this.provinceservice.getRegionMock());
+    // //console.log(this.provinceservice.getRegionMock());
   }
 }

@@ -125,7 +125,6 @@ export class EditCentralPolicyComponent implements OnInit {
         console.log(result);
         // alert(this.userid)
       })
-    this.getDataProvince()
     this.getDetailCentralpolicy()
     this.getFiscalyear()
     this.getTypeexamibationplan()
@@ -188,6 +187,7 @@ export class EditCentralPolicyComponent implements OnInit {
           status: this.resultdetailcentralpolicy.status,
           ProvinceId: this.selected
         });
+        this.getDataProvince()
       });
   }
   getFiscalyear() {
@@ -416,8 +416,6 @@ export class EditCentralPolicyComponent implements OnInit {
               console.log(
                 region
               );
-
-
               return { ...result, region: region, label: result.name, value: result.id }
             })
             this.selectdataprovince.sort((a, b) => {
@@ -431,8 +429,8 @@ export class EditCentralPolicyComponent implements OnInit {
             });
             console.log("test2: ", this.selectdataprovince);
             console.log(this.selectdataprovince);
+            this.spinner.hide();
           })
-        this.spinner.hide();
       })
     // console.log(this.provinceservice.getRegionMock());
   }

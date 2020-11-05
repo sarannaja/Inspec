@@ -108,6 +108,7 @@ export class ExternalRegisterComponent implements OnInit {
   //     name: 'สำนักงานรัฐมนตรีกระทรวงการคลัง'
   //   },
   // ]
+  submitted = false;
 
   constructor(
     private modalService: BsModalService,
@@ -136,6 +137,7 @@ export class ExternalRegisterComponent implements OnInit {
     this.subscription.unsubscribe();
   }
   ngOnInit() {
+    this.spinner.show();
     this.getData()
     this.userform()
     this.addForm.patchValue({
@@ -143,7 +145,6 @@ export class ExternalRegisterComponent implements OnInit {
   }
 
   getData() {
-    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
 
@@ -154,10 +155,10 @@ export class ExternalRegisterComponent implements OnInit {
     this.selectdatarole = this.datarole.map((item, index) => {
       return { value: item.id, label: item.name }
     })
+    this.spinner.hide();
     // this.selectdatadeparment = this.datadeparment.map((item, index) => {
     //   return { value: item.id, label: item.name }
     // })
-
   }
 
   openModal(template: TemplateRef<any>, IDdelete) {
@@ -205,16 +206,23 @@ export class ExternalRegisterComponent implements OnInit {
   //เพิ่ม user
   adduser(value) {
     console.log(value);
-
     // alert(JSON.stringify(value.Startdate))
     //alert(1);
-    this.userService.addUser(value, this.addForm.value.files, 11).subscribe(response => {
-      //alert(3);
-      this.addForm.reset()
-      // this.modalRef.hide()
-      // this.loading = false
-      this.router.navigate(['/train/']);
-    })
+    this.submitted = true;
+    if (this.addForm.invalid) {
+      console.log("in1");
+      return;
+    } else {
+      this.spinner.show();
+      this.userService.addUser(value, this.addForm.value.files, 11).subscribe(response => {
+        //alert(3);
+        this.spinner.hide();
+        this.addForm.reset()
+        // this.modalRef.hide()
+        // this.loading = false
+        this.router.navigate(['/train/']);
+      })
+    }
   }
 
   userform() {
@@ -228,19 +236,19 @@ export class ExternalRegisterComponent implements OnInit {
       Email: new FormControl(null, [Validators.required]),
       ProvinceId: new FormControl(null),
       MinistryId: new FormControl(null, [Validators.required]),
-      DepartmentId: new FormControl(null),
-      ProvincialDepartmentId: new FormControl(null),
-      UserRegion: new FormControl(null, [Validators.required]),
+      DepartmentId: new FormControl(null, [Validators.required]),
+      ProvincialDepartmentId: new FormControl(null, [Validators.required]),
+      UserRegion: new FormControl(null),
       UserProvince: new FormControl(null, [Validators.required]),
       SubdistrictId: new FormControl(null),
       DistrictId: new FormControl(null),
-      files: new FormControl(null, [Validators.required]),
+      files: new FormControl(null),
       Startdate: new FormControl(this.date, [Validators.required]),
       Autocreateuser: new FormControl(1), //บักออกไห้เพิ่ม 20200929
       // Enddate: new FormControl(null, [Validators.required]),
     })
   }
-
+  get f() { return this.addForm.controls }
   back() {
     window.history.back()
   }
