@@ -333,8 +333,11 @@ export class DefaultLayoutComponent implements OnInit {
         else if (statusid == 25) { //song
           location.href = '/answerrecommendationinspector/';
         }
-        else if (statusid == 10 || statusid == 11) { //song
+        else if (statusid == 10 || statusid == 11) { //yochigang
           location.href = '/executiveorder';
+        }
+        else if (statusid == 12 || statusid == 13) { //yochigang
+          location.href = '/requestorder';
         }
 
         // this.nav = superAdmin;

@@ -44,6 +44,7 @@ namespace InspecWeb.Controllers {
                 .Include(m => m.ExecutiveOrderAnswers)
                 .ThenInclude(m => m.User)
                 .Where(m => m.publics == 1)
+                .OrderByDescending(m => m.Id)
                 .ToList();
             return excutiveorderdata;
         }
@@ -57,6 +58,7 @@ namespace InspecWeb.Controllers {
                 .Include(m => m.ExecutiveOrderAnswers)
                 .ThenInclude(m => m.User)              
                 .Where (m => m.UserID == id && m.publics == 1)
+                .OrderByDescending(m => m.Id)
                 .ToList ();
 
             return Ok (excutiveorderdata);
@@ -71,6 +73,7 @@ namespace InspecWeb.Controllers {
                 .Include(m => m.ExecutiveOrderAnswers)
                 .ThenInclude(m => m.User)
                .Where(x => x.ExecutiveOrderAnswers.Any(x => x.UserID == id) && x.publics == 1 && x.Draft != 1)
+               .OrderByDescending(m => m.Id)
                .ToList ();
 
             return Ok (excutiveorderdata);
