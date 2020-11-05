@@ -617,19 +617,59 @@ export class InspectionPlanComponent implements OnInit {
     for (let j = 0; j < this.data.length; j++) {
 
       // alert(JSON.stringify(this.data[j].centralPolicyId))
+      console.log("value.UserPeopleId", value.UserPeopleId)
 
-      // let UserPeopleId: any[] = value.UserPeopleId
+      let UserMinistryId: any[] = value.UserMinistryId
+      let UserDepartmentId: any[] = value.UserDepartmentId
+      let UserProvincialDepartmentId: any[] = value.UserProvincialDepartmentId
+      let UserPeopleId: any[] = value.UserPeopleId
+
       await this.inspectionplanservice.getcentralpolicyprovinceid(this.data[j].centralPolicyId, this.data[j].inspectionPlanEvent.provinceId).subscribe(result => {
 
         this.centralpolicyservice.addCentralpolicyUser(value, result, this.userid, this.id).subscribe(response => {
           console.log(value);
 
-          // for (let i = 0; i < UserPeopleId.length; i++) {
-          //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
-          //     .subscribe(response => {
-          //       console.log(response);
-          //     })
-          // }
+          if (UserMinistryId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserMinistryId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+          if (UserDepartmentId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserDepartmentId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+          if (UserProvincialDepartmentId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserProvincialDepartmentId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+
+          if (UserPeopleId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserPeopleId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
           // this.getCentralPolicyProvinceUser();
           // alert(response);
           this.Form2.reset()

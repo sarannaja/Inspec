@@ -239,6 +239,10 @@ export class DefaultLayoutComponent implements OnInit {
           location.href = '/usercentralpolicy/' + xe + '/' + provinceId;
           // this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
         }
+        else if (statusid == 1) { //aof
+          location.href = '/usercentralpolicy/' + xe + '/' + provinceId;
+          // this.router.navigate(['/usercentralpolicy/' + xe + '/' + provinceId])
+        }
         else if (statusid == 2) { //aof role6 and 10 มาทำต่อด้วย
           if (this.role_id == 3) {
             location.href = '/inspectionplan/' + xe + '/' + provinceId + '/0';
