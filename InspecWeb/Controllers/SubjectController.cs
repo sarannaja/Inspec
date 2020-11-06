@@ -1485,6 +1485,30 @@ namespace InspecWeb.Controllers
                            .Where(m => m.Id == id)
                            .FirstOrDefault();
 
+            if (user.Role_id == 1)
+            {
+                var subjectgroupsdatas = _context.SubjectGroups
+                                      .Include(m => m.Province)
+                                      .Include(m => m.CentralPolicy)
+                                      .ThenInclude(m => m.FiscalYearNew)
+                                      .OrderByDescending(m => m.Id)
+                                      .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
+                                      .Where(m => m.Type == "NoMaster").ToList();
+                return Ok(subjectgroupsdatas);
+            }
+
+            if (user.Role_id == 2)
+            {
+                var subjectgroupsdatas = _context.SubjectGroups
+                                      .Include(m => m.Province)
+                                      .Include(m => m.CentralPolicy)
+                                      .ThenInclude(m => m.FiscalYearNew)
+                                      .OrderByDescending(m => m.Id)
+                                      .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
+                                      .Where(m => m.Type == "NoMaster").ToList();
+                return Ok(subjectgroupsdatas);
+            }
+
             if (user.Role_id == 3)
             {
                 //var inspectionplans = _context.InspectionPlanEvents

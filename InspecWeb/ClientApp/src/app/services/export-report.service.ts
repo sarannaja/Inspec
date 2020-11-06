@@ -760,4 +760,14 @@ export class ExportReportService {
 
     return this.http.post<any>(this.url + "/CreateReportTrainingRegister", formData)
   }
+
+  changeActive(reportId) {
+    const formData = new FormData();
+    formData.append('reportId', reportId);
+    return this.http.put<any>(this.url + "/changeActive", formData);
+  }
+
+  getAllImportedReportActive() {
+    return this.http.get<any>(this.url + "/getAllActiveImportedReport");
+  }
 }

@@ -52,12 +52,29 @@ namespace InspecWeb.Controllers
         // POST api/values
         [Route("api/[controller]")]
         [HttpPost]
-        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe ,string title)
+        public Notification Post(long CentralPolicyId, long ProvinceId, string UserId, long Status, long xe, string title)
         {
             System.Console.WriteLine("Status : " + Status);
 
             var date = DateTime.Now;
             var notificationdata = new Notification(); //save ลง base แจ้งเตือน
+
+            if (Status == 1)
+            {
+                _context.Notifications.Add(new Notification
+                {
+                    UserID = UserId,
+                    CentralPolicyId = CentralPolicyId,
+                    ProvinceId = ProvinceId,
+                    status = Status,
+                    noti = 1,
+                    CreatedAt = date,
+                    xe = xe
+                });
+                _context.SaveChanges();
+
+            }
+
             if (Status == 5) // ||Status == 1
             {
                 System.Console.WriteLine("XE : " + xe);

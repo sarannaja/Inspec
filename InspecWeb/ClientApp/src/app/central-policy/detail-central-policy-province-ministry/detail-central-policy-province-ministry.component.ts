@@ -15,6 +15,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ChartDataSets, ChartType, ChartOptions, Chart } from 'chart.js';
 import { Label } from 'ng2-charts';
 import * as _ from 'lodash'
+import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 @Component({
   selector: 'app-detail-central-policy-province-ministry',
   templateUrl: './detail-central-policy-province-ministry.component.html',
@@ -104,6 +105,7 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
   role6Count: any = 0;
   role10Count: any = 0;
   role9Count: any = 0;
+  timelineData: any = [];
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -177,6 +179,7 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
     private notificationService: NotificationService,
     private authorize: AuthorizeService,
     private userService: UserService,
+    private inspectionplanservice: InspectionplanService,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
@@ -267,6 +270,9 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
     //   ]),
     // })
 
+    this.inspectionplanservice.getTimeline(this.planId).subscribe(res => {
+      this.timelineData = res.timelineData;
+    })
     // this.getDetailCentralPolicy()
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
@@ -744,6 +750,14 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
 
+      if (this.timelineData.status == "ใช้งานจริง") {
+        for (let i = 0; i < UserPeopleId.length; i++) {
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+      }
       // for (let i = 0; i < UserPeopleId.length; i++) {
       //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
       //     .subscribe(response => {
@@ -810,6 +824,15 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+
+      if (this.timelineData.status == "ใช้งานจริง") {
+        for (let i = 0; i < UserPeopleId.length; i++) {
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+      }
       // for (let i = 0; i < UserPeopleId.length; i++) {
       //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
       //     .subscribe(response => {

@@ -592,7 +592,7 @@ export class ElectronicbookService {
     return this.http.get<any>(this.url + "getProvincialDepartment")
   }
 
-  sendToOtherProvince(value, userId, electAcceptId) {
+  sendToOtherProvince(value, userId, electAcceptId, userProvince) {
     console.log("value: ", value);
     console.log("UserId", userId);
     console.log("Accept", electAcceptId);
@@ -602,6 +602,7 @@ export class ElectronicbookService {
     formData.append('userCreate', userId);
     formData.append('provincialDepartmentId', value.provincialDepartment);
     formData.append('Description', value.description);
+    formData.append('ProvinceId', userProvince);
 
     return this.http.post<any>(this.url + "sendElectronicBookToOtherProvince", formData)
   }

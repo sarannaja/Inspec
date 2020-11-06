@@ -44,14 +44,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ClientApp\src\assets\favicon.ico">
+    <!-- <Content Include="ClientApp\src\assets\favicon.ico">
       <ExcludeFromSingleFile>false</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
+    </Content> -->
 
-  <ItemGroup>
-    <Folder Include="wwwroot\reportrequestorder2\" />
   </ItemGroup>
 
   <!-- <ItemGroup>

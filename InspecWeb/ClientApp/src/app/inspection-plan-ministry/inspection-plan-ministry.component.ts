@@ -616,12 +616,57 @@ export class InspectionPlanMinistryComponent implements OnInit {
 
       // alert(JSON.stringify(this.data[j].centralPolicyId))
 
-      // let UserPeopleId: any[] = value.UserPeopleId
+      let UserMinistryId: any[] = value.UserMinistryId
+      let UserDepartmentId: any[] = value.UserDepartmentId
+      let UserProvincialDepartmentId: any[] = value.UserProvincialDepartmentId
+      let UserPeopleId: any[] = value.UserPeopleId
+
       await this.inspectionplanservice.getcentralpolicyprovinceid(this.data[j].centralPolicyId, this.data[j].inspectionPlanEvent.provinceId).subscribe(result => {
 
         this.centralpolicyservice.addCentralpolicyUser(value, result, this.userid, this.id).subscribe(response => {
           console.log(value);
 
+          if (UserMinistryId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserMinistryId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+          if (UserDepartmentId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserDepartmentId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+          if (UserProvincialDepartmentId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserProvincialDepartmentId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+
+          if (UserPeopleId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserPeopleId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
           // for (let i = 0; i < UserPeopleId.length; i++) {
           //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
           //     .subscribe(response => {
