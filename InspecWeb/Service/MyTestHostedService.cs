@@ -13,7 +13,8 @@ public class MyTestHostedService : BackgroundService
     private DateTime _nextRun;
     private UtinityController _utinityController;
     private UtinityCheckDateController _utinityCheckDateController;
-    private string Schedule => "0 0 0 * * *"; //Runs every 10 seconds
+    private string Schedule => "0 0 0 * * *"; //Runs every days
+    // private string Schedule => "*/10 * * * * *"; //Runs every 10 seconds
     private readonly IServiceProvider _provider;
 
     public MyTestHostedService(UtinityController utinityController, IServiceProvider serviceProvider, UtinityCheckDateController utinityCheckDateController)

@@ -694,7 +694,10 @@ export class ExportReportService {
     var provinceId2 = provinceId
     var departmentId2 = departmentId
     var peopleId2 = peopleId
-
+    var regionId2 = regionId
+    if (regionId == null) {
+      regionId2 = 0;
+    }
     if (provinceId == null) {
       provinceId2 = 0;
     }
@@ -706,7 +709,7 @@ export class ExportReportService {
     }
     const formData = {
       reportCalendarData: maptest,
-      regionId: regionId,
+      regionId: regionId2,
       provinceId: provinceId2,
       departmentId: departmentId2,
       peopleId: peopleId2,
@@ -728,6 +731,10 @@ export class ExportReportService {
     var provinceId2 = provinceId
     var departmentId2 = departmentId
     var peopleId2 = peopleId
+    var regionId2 = regionId
+    if (regionId == null) {
+      regionId2 = 0;
+    }
     if (provinceId == null) {
       provinceId2 = 0;
     }
@@ -739,13 +746,13 @@ export class ExportReportService {
     }
 
     const formData = {
-      regionId: regionId,
+      regionId: regionId2,
       provinceId: provinceId2,
       departmentId: departmentId2,
       peopleId: peopleId2,
       date: inputdate
     }
-
+    console.log(formData)
     return this.http.post<any>(this.url + "/getCelendarReportById", formData);
   }
 
