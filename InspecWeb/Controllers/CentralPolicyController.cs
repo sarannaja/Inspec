@@ -58,7 +58,7 @@ namespace InspecWeb.Controllers
                    .ThenInclude(m => m.Ministries)
                    .ThenInclude(m => m.Departments)
                    .OrderByDescending(m => m.Id)
-                   .Where(m => m.Class == "แผนการตรวจประจำปี")
+                   .Where(m => m.Class == "แผนการตรวจประจำปี" && m.Id != 1)
                    .ToList();
         }
 
@@ -97,7 +97,7 @@ namespace InspecWeb.Controllers
                 .ThenInclude(m => m.Ministries)
                 .ThenInclude(m => m.Departments)
                 .OrderByDescending(m => m.Id)
-                .Where(m => m.FiscalYearNewId == id && m.Class == "แผนการตรวจประจำปี").ToList();
+                .Where(m => m.FiscalYearNewId == id && m.Class == "แผนการตรวจประจำปี" && m.Id != 1).ToList();
 
 
             return Ok(centralpolicydata);
