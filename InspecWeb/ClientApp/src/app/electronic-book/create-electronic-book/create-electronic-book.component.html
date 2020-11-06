@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
@@ -16,10 +16,10 @@
       </div>
       <div class="card-body" style="margin-top: 45px;">
         <div class="form-group ml-2">
-          <input type="radio" name="ebookType" (change)="createFromCentralpolicy($event)"
+          <input type="radio" name="ebookType" (change)="createFromCentralpolicy()"
             value="สร้างจากแผนการตรวจราชการ">
           <label style="margin-left: 10px;">สร้างจากแผนการตรวจราชการ</label>
-          <input style="margin-left: 10px;" type="radio" name="ebookType" (change)="createOwn($event)" value="สร้างเอง">
+          <input style="margin-left: 10px;" type="radio" name="ebookType" (change)="createOwn()" value="สร้างเอง">
           <label style="margin-left: 10px;">สร้างเอง</label>
         </div>
 
@@ -172,7 +172,7 @@
             <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
               <form class="form-group row col-12" [formGroup]="itemTest">
                 <div class="col-4">
-                  <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
+                  <label style="text-overflow: ellipsis;">ไฟล์ที่ {{i + 1}})
                     {{itemTest.controls.ebookFile.value.name}}</label>
                 </div>
                 <div class="col-8">
@@ -190,7 +190,7 @@
             <div class="form-group row" *ngFor="let itemTest of g.controls; let i = index">
               <form class="form-group row col-12" [formGroup]="itemTest">
                 <div class="col-4">
-                  <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
+                  <label style="text-overflow: ellipsis;">ไฟล์ที่ {{i + 1}})
                     {{itemTest.controls.ebookFile.value.name}}</label>
                 </div>
                 <div class="col-8">
@@ -394,7 +394,7 @@
             <div class="form-group row" *ngFor="let itemTest of s2.controls; let i = index">
               <form class="form-group row col-12" [formGroup]="itemTest">
                 <div class="col-4">
-                  <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
+                  <label style="text-overflow: ellipsis;">ไฟล์ที่ {{i + 1}})
                     {{itemTest.controls.ebookFile.value.name}}</label>
                 </div>
                 <div class="col-8">
@@ -412,7 +412,7 @@
             <div class="form-group row" *ngFor="let itemTest of g2.controls; let i = index">
               <form class="form-group row col-12" [formGroup]="itemTest">
                 <div class="col-4">
-                  <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
+                  <label style="text-overflow: ellipsis;">ไฟล์ที่ {{i + 1}})
                     {{itemTest.controls.ebookFile.value.name}}</label>
                 </div>
                 <div class="col-8">
