@@ -246,6 +246,8 @@ import { RegisterTrainingComponent } from './training/register-training/register
 import { MenuComponent } from './menu/menu.component';
 import { ElectronicBookAllComponent } from './electronic-book-all/electronic-book-all.component';
 import { ElectronicBookAllDetailComponent } from './electronic-book-all/electronic-book-all-detail/electronic-book-all-detail.component';
+import { AllReportIframeComponent } from './all-report-iframe/all-report-iframe.component';
+import { AllReportIframeDetailComponent } from './all-report-iframe/all-report-iframe-detail/all-report-iframe-detail.component';
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -453,6 +455,8 @@ const ExternalOrganization = [
     MenuComponent,
     ElectronicBookAllComponent,
     ElectronicBookAllDetailComponent,
+    AllReportIframeComponent,
+    AllReportIframeDetailComponent,
   ],
 
   imports: [
@@ -550,7 +554,7 @@ const ExternalOrganization = [
 
           { path: 'training/programtype', component: TrainingProgramTypeComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturertype', component: TrainingLecturerTypeComponent, canActivate: [AuthorizeGuard] },
-          
+
 
           //---------------
           { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
@@ -696,6 +700,8 @@ const ExternalOrganization = [
       },
       { path: 'training/login/:phaseid/:dateid/:datetype', component: TrainingLoginComponent },
       { path: 'training/login-success', component: TrainingLoginSuccessComponent },
+      { path: 'allreportiframe', component: AllReportIframeComponent },
+      { path: 'allreportiframe/detail/:id', component: AllReportIframeDetailComponent },
     ]),
     TimepickerModule.forRoot(),
     FusionChartsModule,

@@ -12,11 +12,6 @@
     <div class="card card-eiei">
       <div class="card-header">
         <h5 class="card-title">ทะเบียนรายงานผลการตรวจราชการ</h5>
-        <div class="float-right">
-          <button class="btn btn-primary" (click)="openModal(modalAllReport)" style="margin-top: -60px;">
-            <i class="fas fa-file-export mr-1"></i>ออกรายงาน
-          </button>
-        </div>
       </div>
       <!-- <div class="card-header col-12">
         <button class="btn btn-success" (click)="exportReport()">Export <i
@@ -36,13 +31,12 @@
               <th>วันที่สร้าง</th>
               <th>สถานะ</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              <th>Active</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of importedReport.importData; let i = index">
               <td width=5%>{{ i + 1 }}</td>
-              <td width=20%>
+              <td width=25%>
                 <div *ngFor="let items of item.importReportGroups">
                   {{items.centralPolicyEvent.centralPolicy.title}}
                 </div>
@@ -51,7 +45,7 @@
               <td width=15%>{{item.reportType}}</td>
               <td width=10%>{{item.createAt | thaidate: 'year'}}</td>
               <td width=10%>{{item.status}}</td>
-              <td width=10%>
+              <td width=15%>
                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="gotoDetail(item.id)"></i>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                   (click)="openEditModal(editReportModal, item.id)"></i> -->
@@ -59,17 +53,6 @@
                   (click)="openExportModal(exportModal, item.id)"></i>
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openDeleteModal(deleteModal, item.id)"></i> -->
-              </td>
-              <td width=10%>
-                <button *ngIf="item.active == 1" style="cursor: default;" class="btn btn-success btn-pill btn-sm"
-                  title="active" (click)="changeActive(item.id)">
-                  Active
-                </button>
-
-                <button *ngIf="item.active == 0" class="btn btn-danger btn-pill btn-sm" title="inactive"
-                  (click)="changeActive(item.id)">
-                  Inactive
-                </button>
               </td>
             </tr>
           </tbody>

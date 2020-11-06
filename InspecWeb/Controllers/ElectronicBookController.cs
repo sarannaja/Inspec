@@ -1512,7 +1512,8 @@ namespace InspecWeb.Controllers
                 CreateBy = model.userCreate,
                 CreatedAt = DateTime.Now,
                 Description = model.Description,
-                Status = "ยังไม่ดำเนินการ"
+                Status = "ยังไม่ดำเนินการ",
+                ProvinceId = model.ProvinceId
             };
 
             _context.ElectronicBookOtherAccepts.Add(ElectronicBook);
