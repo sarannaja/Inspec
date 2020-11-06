@@ -44,7 +44,7 @@
                   <i class="align-middle fas fa-fw fa-pen "></i>
                 </button>
 
-                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldelete, item.id)">
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldelete, item.id,item.name)">
                   <i class="align-middle fas fa-fw fa-trash-alt"></i>
                 </button> 
               </td>
@@ -69,7 +69,13 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="Name" class="form-label">ชื่อประเภทแผนการตรวจ</label>
-          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อประเภทแผนการตรวจ">
+          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อประเภทแผนการตรวจ"
+          [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+
+          <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+            <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อประเภทแผนการตรวจ</div>
+          </div>
+
         </div>
       </div>
       <div class="modal-footer">
@@ -115,7 +121,11 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="Name" class="form-label">ชื่อประเภทแผนการตรวจ</label>
-          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อประเภทแผนการตรวจ">
+          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อประเภทแผนการตรวจ"
+          [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+          <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+            <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อประเภทแผนการตรวจ</div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

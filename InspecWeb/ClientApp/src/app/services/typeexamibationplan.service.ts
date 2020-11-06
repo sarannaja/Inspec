@@ -24,7 +24,7 @@ export class TypeexamibationplanService {
     const formData = new FormData();
     formData.append('Name', data.Name);
    
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
 
   delete(id) {
@@ -33,6 +33,6 @@ export class TypeexamibationplanService {
   update(data, id) {
     const formData = new FormData();
     formData.append('Name', data.Name);
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
 }

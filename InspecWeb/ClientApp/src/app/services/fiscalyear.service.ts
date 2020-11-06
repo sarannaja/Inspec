@@ -39,7 +39,7 @@ export class FiscalyearService {
     } else {
       formData.append("files", null);
     }
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
   deleteFiscalyear(id) {
     return this.http.delete(this.url + id);
@@ -60,7 +60,7 @@ export class FiscalyearService {
     } else {
       formData.append("files", null);
     }
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
 
   getDetailFiscalyear(id): Observable<any[]> {

@@ -633,111 +633,112 @@ namespace InspecWeb.Controllers
                 .FirstOrDefault();
 
             System.Console.WriteLine("1.2 : " + exportexcutiveorderdata.RequestOrder.UserID);
-            ////ผู้สั่งการ
-            //var users = _context.Users
-            //  .Where(m => m.Id == exportexcutiveorderdata.RequestOrder.UserID)
-            //   .FirstOrDefault();
-            //System.Console.WriteLine("1.3 : ");
+            //ผู้สั่งการ
+            var users = _context.Users
+              .Where(m => m.Id == exportexcutiveorderdata.RequestOrder.UserID)
+               .FirstOrDefault();
+            System.Console.WriteLine("1.3 : ");
 
-            ////ผู้รับข้อสั่งการ
-            //var username = _context.ApplicationUsers
-            //            .Where(m => m.Id == userId)
-            //            .Select(m => m.Name)
-            //            .FirstOrDefault();
+            //ผู้รับข้อสั่งการ
+            var username = _context.ApplicationUsers
+                        .Where(m => m.Id == userId)
+                        .Select(m => m.Name)
+                        .FirstOrDefault();
 
-            //System.Console.WriteLine("export2 : " + id);
+            System.Console.WriteLine("export2 : " + id);
 
-            //if (!Directory.Exists(_environment.WebRootPath + "//reportrequestorder//")) //ถ้ามีไฟล์อยู่แล้ว
-            //{
-            //    Directory.CreateDirectory(_environment.WebRootPath + "//reportrequestorder//"); //สร้าง Folder reportexecutive ใน wwwroot
-            //}
+            if (!Directory.Exists(_environment.WebRootPath + "//reportrequestorder//")) //ถ้ามีไฟล์อยู่แล้ว
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportrequestorder//"); //สร้าง Folder reportexecutive ใน wwwroot
+            }
 
-            //var filePath = _environment.WebRootPath + "/reportrequestorder/"; // เก็บไฟล์ logo 
-            //var filename = "รายงานคำร้องขอของหน่วยงานของรัฐ/หน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
-            //var createfile = filePath + filename; //
-            //var myImageFullPath = filePath + "logo01.png";
+            var filePath = _environment.WebRootPath + "/reportrequestorder/"; // เก็บไฟล์ logo 
+            var filename = DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var createfile = filePath + filename; //
+            var myImageFullPath = filePath + "logo01.png";
 
-            //System.Console.WriteLine("3");
-            //System.Console.WriteLine("in create");
-            //using (DocX document = DocX.Create(createfile)) //สร้าง
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+            using (DocX document = DocX.Create(createfile)) //สร้าง
 
-            //{
-                
-            //    System.Console.WriteLine("5");
+            {
 
-               
-            //    document.InsertParagraph("รายงานคำร้องขอของหน่วยงานของรัฐ/หน่วยรับตรวจ (รายเรื่อง)").FontSize(16d)
-            //        .SpacingBefore(15d)
-            //        .SpacingAfter(15d)
-            //        .Bold() //ตัวหนา
-            //        .Alignment = Alignment.center;
-
-            //    var name = document.InsertParagraph(users.Name);
-            //    name.Alignment = Alignment.center;
-            //    name.SpacingAfter(10d);
-            //    name.FontSize(16d); //ขนาดตัวอักษร
-            //    name.Bold();
-            //    System.Console.WriteLine("7");
-
-                
+                System.Console.WriteLine("5");
 
 
-            //    document.InsertParagraph(" วันที่มีคำร้องขอ   " + exportexcutiveorderdata.RequestOrder.Commanded_date + "   วันที่แจ้งคำร้องขอ   " + exportexcutiveorderdata.RequestOrder.CreatedAt).FontSize(16d)
-            //    .SpacingBefore(15d)
-            //    .SpacingAfter(15d)
-            //    .Alignment = Alignment.center;
+                document.InsertParagraph("รายงานคำร้องขอของหน่วยงานของรัฐ/หน่วยรับตรวจ (รายเรื่อง)").FontSize(16d)
+                    .SpacingBefore(15d)
+                    .SpacingAfter(15d)
+                    .Bold() //ตัวหนา
+                    .Alignment = Alignment.center;
 
-            //    document.InsertParagraph("เรื่อง  " + exportexcutiveorderdata.RequestOrder.Subject).FontSize(16d)
-            //    .SpacingBefore(15d)
-            //    .SpacingAfter(15d)
-            //    .Alignment = Alignment.left;
+                var name = document.InsertParagraph(users.Name);
+                name.Alignment = Alignment.center;
+                name.SpacingAfter(10d);
+                name.FontSize(16d); //ขนาดตัวอักษร
+                name.Bold();
+                System.Console.WriteLine("7");
 
 
-            //    document.InsertParagraph("ผู้รับคำร้องขอ   " + username).FontSize(16d)
-            //    .SpacingBefore(15d)
-            //    .SpacingAfter(15d)
 
-            //    .Alignment = Alignment.left;
 
-            //    document.InsertParagraph("รายละเอียด  ").FontSize(16d)
-            //    .SpacingBefore(15d)
-            //    .SpacingAfter(15d)
-            //    .Alignment = Alignment.left;
+                document.InsertParagraph(" วันที่มีคำร้องขอ   " + exportexcutiveorderdata.RequestOrder.Commanded_date + "   วันที่แจ้งคำร้องขอ   " + exportexcutiveorderdata.RequestOrder.CreatedAt).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                .Alignment = Alignment.center;
 
-            //    document.InsertParagraph("\n\n");
+                document.InsertParagraph("เรื่อง  " + exportexcutiveorderdata.RequestOrder.Subject).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                .Alignment = Alignment.left;
 
-            //    document.InsertParagraph("การดำเนินการตามข้อสั่งการ").FontSize(16d)
-            //       .SpacingBefore(15d)
-            //       .SpacingAfter(15d)
-            //       .Bold() //ตัวหนา
-            //       .Alignment = Alignment.center;
 
-            //    document.InsertParagraph("วันที่มีข้อสั่งการ  " + exportexcutiveorderdata.RequestOrder.Commanded_date + "  วันที่แจ้งข้อสั่งการ  " + exportexcutiveorderdata.beaware_date).FontSize(16d)
-            //    .SpacingBefore(15d)
-            //    .SpacingAfter(15d)
-            //    .Alignment = Alignment.center;
+                document.InsertParagraph("ผู้รับคำร้องขอ   " + username).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
 
-            //    document.InsertParagraph("รายละเอียด ").FontSize(16d)
-            //    .SpacingBefore(15d)
-            //    .SpacingAfter(15d)
-            //    .Alignment = Alignment.left;
+                .Alignment = Alignment.left;
 
-            //    document.InsertParagraph("ปัญหา/อุปสรรค ").FontSize(16d)
-            //    .SpacingBefore(15d)
-            //    .SpacingAfter(15d)
-            //    .Alignment = Alignment.left;
+                document.InsertParagraph("รายละเอียด  ").FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                .Alignment = Alignment.left;
 
-            //    document.InsertParagraph("ข้อเสนอแนะ ").FontSize(16d)
-            //    .SpacingBefore(15d)
-            //    .SpacingAfter(15d)
-            //    .Alignment = Alignment.left;
+                document.InsertParagraph("\n\n");
 
-            //    System.Console.WriteLine("11");
-            //    document.Save(); //save เอกสาร
-            //    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                document.InsertParagraph("การดำเนินการตามข้อสั่งการ").FontSize(16d)
+                   .SpacingBefore(15d)
+                   .SpacingAfter(15d)
+                   .Bold() //ตัวหนา
+                   .Alignment = Alignment.center;
 
-                return Ok(new { data = userId });
-           // }
+                document.InsertParagraph("วันที่มีข้อสั่งการ  " + exportexcutiveorderdata.RequestOrder.Commanded_date + "  วันที่แจ้งข้อสั่งการ  " + exportexcutiveorderdata.beaware_date).FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                .Alignment = Alignment.center;
+
+                document.InsertParagraph("รายละเอียด ").FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("ปัญหา/อุปสรรค ").FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                .Alignment = Alignment.left;
+
+                document.InsertParagraph("ข้อเสนอแนะ ").FontSize(16d)
+                .SpacingBefore(15d)
+                .SpacingAfter(15d)
+                .Alignment = Alignment.left;
+
+                System.Console.WriteLine("11");
+                document.Save(); //save เอกสาร
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+
+                System.Console.WriteLine("12");
+                return Ok(new { data = filename });
+            }
         }
     }
 }

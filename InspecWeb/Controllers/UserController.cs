@@ -865,6 +865,7 @@ namespace InspecWeb.Controllers
                         Password = passwordrandom,
                         Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                     };
+                    System.Console.WriteLine("testuser : mail");
                     await mailService.SendWelcomeEmailAsync(send);
 
                 }
