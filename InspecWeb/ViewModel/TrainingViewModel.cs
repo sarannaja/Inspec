@@ -108,4 +108,27 @@ namespace InspecWeb.ViewModel
         public string code { get; set; }
 
     }
+
+
+    public class TrainingLecturerViewModel
+    {
+
+        public long LecturerType { get; set; }
+
+        public string LecturerName { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
+
+        public string Education { get; set; }
+
+        public string WorkHistory { get; set; }
+
+        public string Experience { get; set; }
+
+        public string DetailPlus { get; set; }
+
+        public List<IFormFile> ImageProfile { get; set; }
+    }
 }

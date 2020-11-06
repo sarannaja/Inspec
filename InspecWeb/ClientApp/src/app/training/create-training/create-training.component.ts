@@ -34,6 +34,11 @@ export class CreateTrainingComponent implements OnInit {
   formfile: FormGroup;
   downloadUrl: any;
   submitted = false;
+  public myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    showTodayBtn: true
+  };
 
   constructor(private fb: FormBuilder,
     private trainingservice: TrainingService,

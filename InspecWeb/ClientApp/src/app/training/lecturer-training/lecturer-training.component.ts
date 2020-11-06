@@ -4,6 +4,11 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
+import { NotofyService } from '../../services/notofy.service';
+import { LogService } from '../../services/log.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-lecturer-training',
   templateUrl: './lecturer-training.component.html',
@@ -24,15 +29,22 @@ export class LecturerTrainingComponent implements OnInit {
   ViewForm: FormGroup;
   selectdatalecturer: Array<any>;
   resultdatalecturer: any[];
+  userid: string;
+  resulttraininglecturerById: any[];
+  ImgProfile: any;
   
 
   constructor(private modalService: BsModalService, 
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder, 
     private trainingservice: TrainingService,
     public share: TrainingService, 
     private router: Router,
     @Inject('BASE_URL') baseUrl: string) {
-      this.downloadUrl = baseUrl + '/Uploads'
+      this.downloadUrl = baseUrl + 'Uploads/'
       this.mainUrl = baseUrl
     }
 
@@ -58,14 +70,15 @@ export class LecturerTrainingComponent implements OnInit {
       workhistory: new FormControl(null, [Validators.required]),
       experience: new FormControl(null, [Validators.required]),
       detailplus: new FormControl(null, [Validators.required]),
+      picFiles: [null],
       
     })
-
+    
     this.trainingservice.gettraininglecturer()
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true;
-      console.log(this.resulttraining);
+      console.log("gettraininglecturer =>", this.resulttraining);
     })
 
     this.trainingservice.getTrainingLecturerType()
@@ -81,6 +94,15 @@ export class LecturerTrainingComponent implements OnInit {
     })
   }
   get f() { return this.Form.controls }
+
+  //start getuser
+  getuserinfo() {
+    this.spinner.show();
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+      })
+  }
 
   CreateTraining(){
     this.router.navigate(['/training/createtraining'])
@@ -102,25 +124,28 @@ export class LecturerTrainingComponent implements OnInit {
 
 
       //alert(JSON.stringify(value))
-      this.trainingservice.addTraininglecturer(value).subscribe(response => {
+      this.trainingservice.addTraininglecturer(value, this.Form.value.picFiles).subscribe(response => {
         console.log(value);
         this.modalRef.hide()
         this.Form.reset()
         this.loading = false;
+        this.logService.addLog(this.userid,'วิทยากรอบรม(TrainingLecturer)','เพิ่ม',value.lecturername,"").subscribe();
         this.trainingservice.gettraininglecturer()
         .subscribe(result => {
           this.resulttraining = result
           this.loading = true;
           console.log(this.resulttraining);
+          this._NotofyService.onSuccess("เพิ่มข้อมูล")
         })
 
       })
     }
   }
 
-  ViewModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile) {
+  ViewModal(template: TemplateRef<any>, id, lecturerType, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile) {
     this.delid = id;
-    //console.log(this.delid);
+    this.ImgProfile = imgProfile;
+    console.log(this.ImgProfile);
 
     this.modalRef = this.modalService.show(template);
     this.ViewForm = this.fb.group({
@@ -132,9 +157,12 @@ export class LecturerTrainingComponent implements OnInit {
       "workhistory": new FormControl(null, [Validators.required]),
       "experience": new FormControl(null, [Validators.required]),
       "detailplus": new FormControl(null, [Validators.required]),
+      picFiles: [null],
     })
+
+
     this.ViewForm.patchValue({
-      "vlecturertype": 'วิทยากร',
+      "vlecturertype": lecturerType,
       "lecturername": lecturerName,
       "lecturerphone": phone,
       "lectureremail": email,
@@ -142,11 +170,16 @@ export class LecturerTrainingComponent implements OnInit {
       "workhistory": workHistory,
       "experience": experience,
       "detailplus": detailplus,
+      
     })
   }
 
-  editModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience, detailplus) {
+  editModal(template: TemplateRef<any>, id, lecturerType, lecturerName, phone, email, education, workHistory, experience, detailplus, imgProfile) {
     this.delid = id;
+    this.ImgProfile = imgProfile;
+    console.log("ImgProfile =>", this.ImgProfile);
+    console.log("lecturerType =>", lecturerType);
+    
     //console.log(this.delid);
 
     this.modalRef = this.modalService.show(template);
@@ -159,11 +192,12 @@ export class LecturerTrainingComponent implements OnInit {
       "workhistory": new FormControl(null, [Validators.required]),
       "experience": new FormControl(null, [Validators.required]),
       "detailplus": new FormControl(null, [Validators.required]),
+      picFiles: [null],
     })
 
 
     this.EditForm.patchValue({
-      "LecturerType": new FormControl(null, [Validators.required]),
+      "LecturerType": lecturerType,
       "lecturername": lecturerName,
       "lecturerphone": phone,
       "lectureremail": email,
@@ -172,14 +206,27 @@ export class LecturerTrainingComponent implements OnInit {
       "experience": experience,
       "detailplus": detailplus,
     })
+
+    // this.trainingservice.gettraininglecturerById(this.delid)
+    // .subscribe(result => {
+    //   this.resulttraininglecturerById = result
+    //   this.loading = true;
+    //   console.log(this.resulttraining);
+    // })
+
+
+
+
   }
 
-  editTraining(value, delid) {
+  editTraining(value) {
+    console.log("editTraining =>", value);
+    
     // alert(JSON.stringify(value));
     // console.clear();
     // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editTraininglecturer(value, delid).subscribe(response => {
-      this.Form.reset()
+    this.trainingservice.editTraininglecturer(value, this.delid, this.EditForm.value.picFiles).subscribe(response => {
+      this.EditForm.reset()
       this.modalRef.hide()
       this.loading = false
 
@@ -208,5 +255,21 @@ export class LecturerTrainingComponent implements OnInit {
 
   gotoProgramTraining(trainingid){
     this.router.navigate(['/training/program/', trainingid])
+  }
+
+  uploadFile(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.Form.patchValue({
+      picFiles: file
+    });
+    //this.Form.get('files').updateValueAndValidity()
+  }
+
+  uploadFileEdit(event) {
+    const file = (event.target as HTMLInputElement).files;
+    this.EditForm.patchValue({
+      picFiles: file
+    });
+    //this.EditForm.get('files').updateValueAndValidity()
   }
 }

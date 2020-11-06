@@ -8,6 +8,8 @@ import { delay } from 'lodash';
 import * as moment from 'moment';
 import { ExportReportService } from 'src/app/services/export-report.service';
 
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-list-training-register',
   templateUrl: './list-training-register.component.html',
@@ -29,6 +31,7 @@ export class ListTrainingRegisterComponent implements OnInit {
   url = ""
 
   constructor(private modalService: BsModalService,
+    private spinner: NgxSpinnerService,
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
@@ -222,7 +225,7 @@ export class ListTrainingRegisterComponent implements OnInit {
     // this.resulttrainingCondition = this.resulttrainingCondition.map(result => {
     //   return { ...result, status: false }
     // })
-    this.getData()
+    // this.getData()
     this.delid = id;
     //console.log(this.delid);
     this.checkcondition(item, index)
@@ -251,6 +254,8 @@ export class ListTrainingRegisterComponent implements OnInit {
     // alert(JSON.stringify(value));
     // console.clear();
     // //console.log("kkkk" + JSON.stringify(value));
+    this.spinner.show();
+
     this.trainingservice.editRegisterList2(value, this.people).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
@@ -260,6 +265,7 @@ export class ListTrainingRegisterComponent implements OnInit {
       //   this.loading = true
       //   this.modalRef.hide()
       // })
+      this.spinner.hide();
       this.getData()
       this.people = []
     })

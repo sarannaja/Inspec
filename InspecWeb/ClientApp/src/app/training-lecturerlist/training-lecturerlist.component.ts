@@ -143,23 +143,23 @@ export class TrainingLecturerListComponent implements OnInit {
     })
   }
 
-  editTraining(value, delid) {
-    // alert(JSON.stringify(value));
-    // console.clear();
-    // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editTraininglecturer(value, delid).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false
+  // editTraining(value, delid) {
+  //   // alert(JSON.stringify(value));
+  //   // console.clear();
+  //   // console.log("kkkk" + JSON.stringify(value));
+  //   this.trainingservice.editTraininglecturer(value, delid).subscribe(response => {
+  //     this.Form.reset()
+  //     this.modalRef.hide()
+  //     this.loading = false
 
-      this.trainingservice.gettraininglecturer()
-        .subscribe(result => {
-          this.resulttraining = result
-          this.loading = true;
-          console.log(this.resulttraining);
-        })
-    })
-  }
+  //     this.trainingservice.gettraininglecturer()
+  //     .subscribe(result => {
+  //       this.resulttraining = result
+  //       this.loading = true;
+  //       console.log(this.resulttraining);
+  //     })
+  //   })
+  // }
 
   deleteTraining(value) {
     this.trainingservice.deleteTrainingLecturer(value).subscribe(response => {
