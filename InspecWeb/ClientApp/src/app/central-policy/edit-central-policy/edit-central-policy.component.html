@@ -102,7 +102,8 @@
                 <div class="row">
                   <div class="col-sm-5">
                     <div class="form-group">
-                      <div [formGroup]="item">
+                       <!-- <div [formGroup]="item"> -->
+                      <div>
                         <my-date-picker-th [selDate]="item.start_date" (dateChanged)="onStartDateChanged($event, i)"
                           [options]="myDatePickerOptions" required>
                         </my-date-picker-th>
@@ -118,7 +119,8 @@
                   </div>
                   <div class="col-sm-5">
                     <div class="form-group">
-                      <div [formGroup]="item">
+                      <!-- <div [formGroup]="item"> -->
+                        <div>
                         <my-date-picker-th [selDate]="item.end_date" (dateChanged)="onEndDateChanged($event, i)"
                           [options]="myDatePickerOptions" required>
                         </my-date-picker-th>
@@ -307,7 +309,7 @@
           <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
             <form class="row col-12" [formGroup]="itemTest">
               <div class="col-4">
-                <label class="textellipsis" formControlName="CentralpolicyFile">ไฟล์ที่ {{i + 1}})
+                <label class="textellipsis">ไฟล์ที่ {{i + 1}})
                   {{itemTest.controls.CentralpolicyFile.value.name}}</label>
               </div>
               <div class="col-8">

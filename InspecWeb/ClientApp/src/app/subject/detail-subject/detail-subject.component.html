@@ -128,7 +128,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div *ngIf="resultsubjectdetail.subjectCentralPolicyProvinceFiles.length !=0" class="col-md-12">
+                                        <div *ngIf="resultsubjectdetail.subjectCentralPolicyProvinceFiles && resultsubjectdetail.subjectCentralPolicyProvinceFiles.length !=0" class="col-md-12">
                                             <u>ไฟล์แนบ</u><br>
                                             <div class="row"
                                                 *ngFor="let item2 of resultsubjectdetail.subjectCentralPolicyProvinceFiles; let i = index"

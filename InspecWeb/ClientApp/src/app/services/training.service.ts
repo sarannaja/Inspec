@@ -788,8 +788,12 @@ export class TrainingService {
   }
 
   //รายงานข้อมูลบุคคลของวิทยากร
-  reportTrainingLecturer(trainingLecturerId){
-    return this.http.get<any>(this.url+'reportlecturer/'+ trainingLecturerId);
+  reportTrainingLecturer(trainingLecturerId,name,year){
+    const formData = new FormData();
+    formData.append('trainingLecturerId', trainingLecturerId);
+    formData.append('trainingname', name);
+    formData.append('year', year);
+    return this.http.post<any>(this.url+'reportlecturer',formData);
   }
 }
 

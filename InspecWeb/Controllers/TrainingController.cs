@@ -2385,8 +2385,8 @@ namespace InspecWeb.Controllers
 
         //รายงานข้อมูลบุคคลของวิทยากร
         // PUT : api/training/edit/:id
-        [HttpGet("reportlecturer/{trainingLecturerid}")]
-        public IActionResult CreateReport(long trainingLecturerid)
+        [HttpPost("reportlecturer")]
+        public IActionResult CreateReport(long trainingLecturerid, string trainingname, int year)
         {
             var lecturerdata = _context.TrainingLecturers
                 .Where(m => m.Id == trainingLecturerid)
@@ -2396,9 +2396,11 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "//Uploads//";
+            var filePath2 = _environment.WebRootPath + "//img//";
             var filename = "DOC" + ".docx";
             var createfile = filePath + filename;
-            var myImageFullPath = filePath + "logo01.png";
+            var myImageFullPath = filePath + lecturerdata.ImageProfile;
+            var myImageFullPath2 = filePath2 + "user.png";
 
             System.Console.WriteLine("1");
             System.Console.WriteLine("in create");
@@ -2421,27 +2423,52 @@ namespace InspecWeb.Controllers
                 title1.Bold();
                 title1.Alignment = Alignment.center;
 
-                var title2 = document.InsertParagraph("หลักสูตรปี/รุ่น");
+                var title2 = document.InsertParagraph(trainingname + "/" + year);
                 title2.FontSize(16d);
                 title2.SpacingBefore(15d);
                 title2.SpacingAfter(15d);
                 title2.Bold();
                 title2.Alignment = Alignment.center;
 
-                var title3 = document.InsertParagraph("วิชา");
-                title3.FontSize(16d);
-                title3.SpacingBefore(15d);
-                title3.SpacingAfter(15d);
-                title3.Bold();
-                title3.Alignment = Alignment.center;
+                //var title3 = document.InsertParagraph("วิชา");
+                //title3.FontSize(16d);
+                //title3.SpacingBefore(15d);
+                //title3.SpacingAfter(15d);
+                //title3.Bold();
+                //title3.Alignment = Alignment.center;
 
                 System.Console.WriteLine("3");
 
-                Image image = document.AddImage(myImageFullPath);
-                Picture picture = image.CreatePicture(85, 85);
-                var logo = document.InsertParagraph();
-                logo.AppendPicture(picture).Alignment = Alignment.left;
-                logo.SpacingAfter(10d);
+                if (lecturerdata.ImageProfile == null)
+                {
+                    System.Console.WriteLine("3.1");
+                    Image image = document.AddImage(myImageFullPath2);
+                    Picture picture = image.CreatePicture(85, 85);
+                    var logo = document.InsertParagraph();
+                    logo.AppendPicture(picture).Alignment = Alignment.left;
+                    logo.SpacingAfter(10d);
+
+                }
+                else if (!System.IO.File.Exists(myImageFullPath))
+                {
+                    System.Console.WriteLine("3.2");
+                    Image image = document.AddImage(myImageFullPath2);
+                    Picture picture = image.CreatePicture(85, 85);
+                    var logo = document.InsertParagraph();
+                    logo.AppendPicture(picture).Alignment = Alignment.left;
+                    logo.SpacingAfter(10d);
+                }
+                else
+                {
+                    System.Console.WriteLine("3.3");
+                    Image image = document.AddImage(myImageFullPath);
+                    Picture picture = image.CreatePicture(85, 85);
+                    var logo = document.InsertParagraph();
+                    logo.AppendPicture(picture).Alignment = Alignment.left;
+                    logo.SpacingAfter(10d);
+                }
+
+
 
                 var name = document.InsertParagraph("ชื่อ-นามสกุล : " + lecturerdata.LecturerName);
                 //region2.Alignment = Alignment.center;

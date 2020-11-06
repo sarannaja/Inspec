@@ -29,8 +29,8 @@
                             <!-- <th width="20%">เบอร์โทรศัพท์</th>
                             <th width="20%">E-mail</th>
                             <th width="20%">ประวัติการศึกษา</th> -->
-                            <th width="35%">แบบสอบถาม</th>
-                            <th width="20%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="35%">ดาวน์โหลด</th>
+                            <!-- <th width="20%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -41,19 +41,19 @@
                             <td>{{ item.email }}</td>
                             <td>{{ item.education }}</td> -->
                             <!-- <td><img src="{{downloadUrl}}/{{item.image}}" width="160" height="130"></td> -->
-                            <td>
+                            <!-- <td>
                                 <a *ngIf="item.trainingLecturerJoinSurveysId.length > 0" href="/train/survey/{{trainingid}}/{{item.trainingLecturerJoinSurveysId[0].id}}" target="_blank">
                                     {{ item.surveyName }}
                                 </a>
-                            </td>
+                            </td> -->
                             <td>
                                 
-                                <i class="align-middle mr-2 fas fa-file-medical pointer" title="ผูกแบบสอบถาม"
+                                <!-- <i class="align-middle mr-2 fas fa-file-medical pointer" title="ผูกแบบสอบถาม"
                                 (click)="surveyModal(modalSurveyTraining, item.trainingLecturerId)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-chart-bar pointer" title="ประมวณผลทางสถิติ"
-                                (click)="gotoProcessingTraining(item.trainingLecturerJoinSurveysId[i].id)"></i>
+                                (click)="gotoProcessingTraining(item.trainingLecturerJoinSurveysId[i].id)"></i> -->
                                 <i class="align-middle mr-2 fas fa-fw fa-download pointer" title="รายงานข้อมูลบุคคลของวิทยากร"
-                                (click)="reportTrainingLecturer(item.trainingLecturerId)"></i>
+                                (click)="reportTrainingLecturer(item.trainingLecturerId,item.trainingLecturerJoinSurveysId[0].training.name,item.trainingLecturerJoinSurveysId[0].training.year)"></i>
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                     (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>-->
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
