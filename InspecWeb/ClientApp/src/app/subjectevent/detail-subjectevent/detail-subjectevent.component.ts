@@ -640,6 +640,7 @@ export class DetailSubjecteventComponent implements OnInit {
         );
         //console.log("uniqueanswerRecommenDationInspectors: ", this.answerRecommenDationInspectors);
 
+        // this.getquestion();
         this.getquestion();
       })
   }
@@ -1249,22 +1250,25 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   getquestion() {
+    // alert("!23")
     // alert(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId)
-    this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
-      // alert(JSON.stringify(res))
-      this.questionpeople = res;
-      this.questionpeople.forEach(element => {
-        this.answerpeople.push(element.answerCentralPolicyProvinces)
-      });
-      this.select = this.questionpeople[0].answerCentralPolicyProvinces.map((item, index) => {
-        return {
-          value: item.user.id,
-          label: item.user.name,
-        }
+    if (this.resultdate != null) {
+      this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
+        // alert(JSON.stringify(res))
+        this.questionpeople = res;
+        this.questionpeople.forEach(element => {
+          this.answerpeople.push(element.answerCentralPolicyProvinces)
+        });
+        this.select = this.questionpeople[0].answerCentralPolicyProvinces.map((item, index) => {
+          return {
+            value: item.user.id,
+            label: item.user.name,
+          }
+        })
+        //console.log("question: ", this.questionpeople);
+        //console.log("test", this.answerpeople);
       })
-      //console.log("question: ", this.questionpeople);
-      //console.log("test", this.answerpeople);
-    })
+    }
   }
 
   time(date) {
