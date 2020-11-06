@@ -483,6 +483,15 @@ const ExternalOrganization = [
       { path: 'ty', component: AnswerOutsideThankComponent },
       { path: 'training/external/register', component: ExternalRegisterComponent },
       { path: 'inspectionplanevent/all/noauth', component: InspectionPlanEventAllComponent },
+
+      { path: 'noauth/inspectionplan/:id/:provinceid/:watch', component: InspectionPlanComponent },
+      { path: 'noauth/inspectionplan/inspectorministry/:id/:provinceid/:watch', component: InspectionPlanMinistryComponent },
+      { path: 'noauth/inspectionplan/inspectordepartment/:id/:provinceid/:watch', component: InspectionPlanDepartmentComponent },
+
+      { path: 'centralpolicy/detailcentralpolicyprovince/noauth/:result', component: DetailCentralPolicyProvinceComponent },
+      { path: 'centralpolicy/detailcentralpolicyprovince/ministry/noauth/:result', component: DetailCentralPolicyProvinceMinistryComponent },
+      { path: 'centralpolicy/detailcentralpolicyprovince/department/noauth/:result', component: DetailCentralPolicyProvinceDepartmentComponent },
+
       {
         path: 'vector', loadChildren: () => import('./external-organization/external-organization.module')
           .then(m => m.ExternalOrganizationModule)
@@ -550,7 +559,7 @@ const ExternalOrganization = [
 
           { path: 'training/programtype', component: TrainingProgramTypeComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturertype', component: TrainingLecturerTypeComponent, canActivate: [AuthorizeGuard] },
-          
+
 
           //---------------
           { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },

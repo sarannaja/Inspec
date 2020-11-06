@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
+using System.Net.Http;
+
 namespace InspecWeb.Controllers
 {
     [Route("api/[controller]")]
@@ -22,7 +24,7 @@ namespace InspecWeb.Controllers
         private readonly IServiceScopeFactory scopeFactory;
         public UtinityCheckDateController(
             IMailService mailService,
-                   IServiceScopeFactory scopeFactory
+            IServiceScopeFactory scopeFactory
         )
         {
             this.mailService = mailService;
@@ -50,6 +52,7 @@ namespace InspecWeb.Controllers
                         .ToList();
 
 
+
                 Console.WriteLine("0.5");
                 foreach (var subjectgroup in subjectgroups)
                 {
@@ -72,6 +75,9 @@ namespace InspecWeb.Controllers
                             .Where(m => m.User.Role_id == 7)
                             .ToList();
 
+
+                        var CentralPolicyData = dbContext.CentralPolicies.Where(m => m.Id == data2.CentralPolicyId).FirstOrDefault();
+
                         foreach (var item in data3)
                         {
 
@@ -88,6 +94,7 @@ namespace InspecWeb.Controllers
                                 xe = subjectgroup.Id,
                             });
                             dbContext.SaveChanges();
+                            SendNotification(item.UserId, "มีคำเชิญ" + CentralPolicyData.Title);
                         }
 
                     }
@@ -130,6 +137,7 @@ namespace InspecWeb.Controllers
                             .Where(m => m.User.Role_id == 7)
                             .ToList();
 
+                        var CentralPolicyData = dbContext.CentralPolicies.Where(m => m.Id == data2.CentralPolicyId).FirstOrDefault();
                         foreach (var item in data3)
                         {
 
@@ -146,6 +154,7 @@ namespace InspecWeb.Controllers
                                 xe = subjectgroup.Id,
                             });
                             dbContext.SaveChanges();
+                            SendNotification(item.UserId, "กำหนดส่งคำถามภาคประชาชน" + CentralPolicyData.Title);
                         }
 
                     }
@@ -189,6 +198,7 @@ namespace InspecWeb.Controllers
                                .Where(m => m.Role_id == 9)
                                .ToList();
 
+                                var CentralPolicyData = dbContext.CentralPolicies.Where(m => m.Id == subjectgroup.CentralPolicyId).FirstOrDefault();
                                 foreach (var item in users)
                                 {
                                     dbContext.Notifications.Add(new Notification
@@ -202,6 +212,7 @@ namespace InspecWeb.Controllers
                                         xe = subjectgroup.Id
                                     });
                                     dbContext.SaveChanges();
+                                    SendNotification(item.Id, "แจ้งเตือนประเด็นตรวจติดตาม" + CentralPolicyData.Title);
                                 }
                             }
                         }
@@ -244,7 +255,7 @@ namespace InspecWeb.Controllers
                                .Where(m => m.ProvincialDepartmentId == SubjectCentralPolicyProvinceGroupdata.ProvincialDepartmentId)
                                .Where(m => m.Role_id == 9)
                                .ToList();
-
+                                var CentralPolicyData = dbContext.CentralPolicies.Where(m => m.Id == subjectgroup.CentralPolicyId).FirstOrDefault();
                                 foreach (var item in users)
                                 {
                                     dbContext.Notifications.Add(new Notification
@@ -258,11 +269,41 @@ namespace InspecWeb.Controllers
                                         xe = subjectgroup.Id
                                     });
                                     dbContext.SaveChanges();
+                                    SendNotification(item.Id, "กำหนดส่งประเด็นตรวจติดตาม" + CentralPolicyData.Title);
                                 }
                             }
                         }
                     }
                 }
+            }
+        }
+
+
+        public IActionResult SendNotification(string userId, string message)
+        {
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                // IActionResult OpmUserProvince = null;
+                var mobileObj = dbContext.UserTokenMobiles
+                    .Where(w => w.UserID == userId)
+                    .ToArray();
+                foreach (var item in mobileObj)
+                {
+                    var client = new HttpClient();
+                    var task = client.GetAsync("http://203.113.14.20:3000/inspecnotification/" + item.DeviceType + "/" + item.Token + "/" + message)
+                        .ContinueWith((taskwithresponse) =>
+                        {
+                            var response = taskwithresponse.Result;
+
+                            var jsonString = response.Content.ReadAsStringAsync();
+                            jsonString.Wait();
+                        // OpmUserProvince = JsonConvert.DeserializeObject<OpmCase>(jsonString.Result);
+                    });
+                    task.Wait();
+                }
+
+                return Ok(mobileObj);
             }
         }
     }

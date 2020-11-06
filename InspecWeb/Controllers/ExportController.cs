@@ -2175,6 +2175,31 @@ namespace InspecWeb.Controllers
         [HttpPost("getCelendarReportById")]
         public IActionResult GetCelendarReportById([FromBody] ExportCalendarViewModel model)
         {
+            // System.Console.WriteLine("model.provinceId" + (model.provinceId == 1).ToString());
+            // System.Console.WriteLine("model.departmentId" + model.departmentId);
+
+            if (model.provinceId == 0 && model.departmentId == 0 && model.peopleId == "0" && model.regionId == 0) // รายวัน
+            {
+                var calendar = _context.CentralPolicyEvents
+                        .Include(m => m.InspectionPlanEvent)
+                        .ThenInclude(m => m.CentralPolicyUsers)
+                        .ThenInclude(m => m.User)
+                        .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                                         .Select(x => new
+                                         {
+                                             centralPolicyId = x.CentralPolicyId,
+                                             startDate = x.StartDate,
+                                             title = x.CentralPolicy.Title,
+                                             status = x.InspectionPlanEvent.Status,
+                                             province = x.InspectionPlanEvent.Province.Name,
+                                             namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                             phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                             nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                         })
+                        .ToList();
+                return Ok(calendar);
+            }
+
             if (model.provinceId == 0) //รายเขต
             {
                 var regiondata = _context.Regions
@@ -2315,6 +2340,7 @@ namespace InspecWeb.Controllers
                         .ThenInclude(m => m.User)
                         //.Include(m => m.InspectionPlanEvent)
                         //.ThenInclude(m => m.Province)
+                        .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
                                          .Select(x => new
@@ -2341,8 +2367,9 @@ namespace InspecWeb.Controllers
                         .Include(m => m.InspectionPlanEvent)
                         .ThenInclude(m => m.CentralPolicyUsers)
                         .ThenInclude(m => m.User)
-                        //.Include(m => m.InspectionPlanEvent)
-                        //.ThenInclude(m => m.Province)
+                                 //.Include(m => m.InspectionPlanEvent)
+                                 //.ThenInclude(m => m.Province)
+                                 .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
                                          .Select(x => new
                                          {
@@ -2430,6 +2457,72 @@ namespace InspecWeb.Controllers
             var filePath = _environment.WebRootPath + "/Uploads/";
             var filename = "กำหนดการตรวจราชการ " + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
+
+            if (model.departmentId == 0 && model.provinceId == 0 && model.peopleId == "0" && model.regionId == 0)
+            {
+                using (DocX document = DocX.Create(createfile))
+                {
+                    // Add a title
+                    document.PageLayout.Orientation = Orientation.Landscape;
+                    var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายวัน");
+                    reportType.FontSize(16d);
+                    reportType.SpacingBefore(15d);
+                    reportType.SpacingAfter(15d);
+                    reportType.Bold();
+                    reportType.Alignment = Alignment.center;
+
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
+                    var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    year.Alignment = Alignment.center;
+
+                    int dataCount = 0;
+                    dataCount = model.reportCalendarData.Count();
+                    dataCount += 1;
+                    System.Console.WriteLine("Data Count: " + dataCount);
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 35f, 100f, 100f, 100f, 100f, 100f, 100f, 200f };
+                    var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+
+                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
+                    row.Cells[2].Paragraphs.First().Append("จังหวัด");
+                    row.Cells[3].Paragraphs.First().Append("เรื่อง");
+                    row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
+                    row.Cells[5].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
+                    row.Cells[6].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม");
+                    //row.Cells[8].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    //row.Cells[9].Paragraphs.First().Append("สถานะการเข้าร่วม");
+                    // Add rows in the table.
+                    int j = 0;
+                    for (int k = 0; k < model.reportCalendarData.Count(); k++)
+                    {
+                        j += 1;
+
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString());
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
+                        t.Rows[j].Cells[7].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                    }
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                    return Ok(new { data = filename });
+                }
+            }
 
             if (model.provinceId == 0)
             {

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Inject, ɵɵtemplateRefExtractor } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
@@ -180,12 +180,14 @@ export class DetailCentralPolicyProvinceDepartmentComponent implements OnInit {
     private authorize: AuthorizeService,
     private userService: UserService,
     private inspectionplanservice: InspectionplanService,
+    private router: Router,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
     this.urllink = baseUrl + 'answersubject/outsider/';
     this.planId = activatedRoute.snapshot.paramMap.get('planId')
-    this.watch = activatedRoute.snapshot.paramMap.get('watch')
+    const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+    this.watch = getLastItem(this.router.url)
   }
 
   async ngOnInit() {

@@ -85,6 +85,8 @@ namespace InspecWeb
             // เพิ่ม controller ไว้สำหรับทำ cronjob
             services.AddTransient<Controllers.UtinityController, Controllers.UtinityController>();
             services.AddTransient<Controllers.UtinityCheckDateController, Controllers.UtinityCheckDateController>();
+
+            services.AddTransient<Controllers.ExternalOrganizationController, Controllers.ExternalOrganizationController>();
             // services.AddSingleton<Controllers.UtinityController, MyTestHostedService>();
             //end เพิ่ม controller ไว้สำหรับทำ cronjob
             // services.AddControllers();
