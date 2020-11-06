@@ -75,7 +75,9 @@ export class TrainingReportComponent implements OnInit {
   {
     this.router.navigate(['/training/report/list/'])
   }
-
+  gotoLecturerListTraining(){
+    this.router.navigate(['/training/lecturerlist/', this.trainingid])
+  }
   
 
 }

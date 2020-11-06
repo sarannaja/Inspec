@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
@@ -11,11 +15,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Image = Xceed.Document.NET.Image;
 
 //using EmailService;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
-
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
@@ -519,7 +523,7 @@ namespace InspecWeb.Controllers
                 .Include(m => m.Training)
                 .Include(m => m.ProvincialDepartments)
                 .Where(m => m.TrainingId == trainingid)
-                .OrderBy(m=>m.IDCode);
+                .OrderBy(m => m.IDCode);
 
             return Ok(districtdata);
 
@@ -2379,17 +2383,103 @@ namespace InspecWeb.Controllers
 
         }
 
-        // DELETE api/Training//values/5
-        [HttpDelete("lecturertype/delete/{id}")]
-        public void DeleteTrainingLecturerType(long id)
+        //รายงานข้อมูลบุคคลของวิทยากร
+        // PUT : api/training/edit/:id
+        [HttpGet("reportlecturer/{trainingLecturerid}")]
+        public IActionResult CreateReport(long trainingLecturerid)
         {
-            var trainingdata = _context.TrainingLecturerTypes.Find(id);
+            var lecturerdata = _context.TrainingLecturers
+                .Where(m => m.Id == trainingLecturerid)
+                .FirstOrDefault();
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "//Uploads//";
+            var filename = "DOC" + ".docx";
+            var createfile = filePath + filename;
+            var myImageFullPath = filePath + "logo01.png";
 
-            _context.TrainingLecturerTypes.Remove(trainingdata);
-            _context.SaveChanges();
+            System.Console.WriteLine("1");
+            System.Console.WriteLine("in create");
+            //if (model.reporttype == "รายหน่วยงาน")
+            //{
+            using (DocX document = DocX.Create(createfile))
+            {
+                System.Console.WriteLine("2");
+                //Image image = document.AddImage(myImageFullPath);
+                //Picture picture = image.CreatePicture(85, 85);
+                //var logo = document.InsertParagraph();
+                //logo.AppendPicture(picture).Alignment = Alignment.center;
+
+
+                // Add a title
+                var title1 = document.InsertParagraph("ข้อมูลบุคคลกรของวิทยากร");
+                title1.FontSize(16d);
+                title1.SpacingBefore(15d);
+                title1.SpacingAfter(15d);
+                title1.Bold();
+                title1.Alignment = Alignment.center;
+
+                var title2 = document.InsertParagraph("หลักสูตรปี/รุ่น");
+                title2.FontSize(16d);
+                title2.SpacingBefore(15d);
+                title2.SpacingAfter(15d);
+                title2.Bold();
+                title2.Alignment = Alignment.center;
+
+                var title3 = document.InsertParagraph("วิชา");
+                title3.FontSize(16d);
+                title3.SpacingBefore(15d);
+                title3.SpacingAfter(15d);
+                title3.Bold();
+                title3.Alignment = Alignment.center;
+
+                System.Console.WriteLine("3");
+
+                Image image = document.AddImage(myImageFullPath);
+                Picture picture = image.CreatePicture(85, 85);
+                var logo = document.InsertParagraph();
+                logo.AppendPicture(picture).Alignment = Alignment.left;
+                logo.SpacingAfter(10d);
+
+                var name = document.InsertParagraph("ชื่อ-นามสกุล : " + lecturerdata.LecturerName);
+                //region2.Alignment = Alignment.center;
+                name.SpacingAfter(10d);
+                name.FontSize(16d);
+
+                var phone = document.InsertParagraph("หมายเลขโทรศัพท์ : " + lecturerdata.Phone);
+                //region2.Alignment = Alignment.center;
+                phone.SpacingAfter(10d);
+                phone.FontSize(16d);
+
+                var email = document.InsertParagraph("อีเมล : " + lecturerdata.Email);
+                //region2.Alignment = Alignment.center;
+                email.SpacingAfter(10d);
+                email.FontSize(16d);
+
+                var education = document.InsertParagraph("ประวัติการศึกษา : " + lecturerdata.Education);
+                //region2.Alignment = Alignment.center;
+                education.SpacingAfter(10d);
+                education.FontSize(16d);
+
+                var workhistory = document.InsertParagraph("ประวัติการทำงาน : " + lecturerdata.WorkHistory);
+                //region2.Alignment = Alignment.center;
+                workhistory.SpacingAfter(10d);
+                workhistory.FontSize(16d);
+
+                var experience = document.InsertParagraph("ประสบการณ์บรรยาย : " + lecturerdata.Experience);
+                //region2.Alignment = Alignment.center;
+                experience.SpacingAfter(10d);
+                experience.FontSize(16d);
+
+                System.Console.WriteLine("11");
+                document.Save();
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+            }
+            //}
+            return Ok(new { data = filename });
         }
-
-
 
     }
 

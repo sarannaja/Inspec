@@ -787,6 +787,10 @@ export class TrainingService {
     return this.http.delete(this.url + 'lecturertype/delete/' + id);
   }
 
+  //รายงานข้อมูลบุคคลของวิทยากร
+  reportTrainingLecturer(trainingLecturerId){
+    return this.http.get<any>(this.url+'reportlecturer/'+ trainingLecturerId);
+  }
 }
 
 

@@ -190,6 +190,11 @@ export class TrainingLecturerListComponent implements OnInit {
   gotoProcessingTraining(trainingLecturerId){
     this.router.navigate(['/training/survey/processing/', trainingLecturerId])
   }
-
+  reportTrainingLecturer(trainingLecturerId){
+    // alert(trainingLecturerId)
+    this.trainingservice.reportTrainingLecturer(trainingLecturerId).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
   
 }

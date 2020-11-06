@@ -52,7 +52,8 @@
                                 (click)="surveyModal(modalSurveyTraining, item.trainingLecturerId)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-chart-bar pointer" title="ประมวณผลทางสถิติ"
                                 (click)="gotoProcessingTraining(item.trainingLecturerJoinSurveysId[i].id)"></i>
-                                
+                                <i class="align-middle mr-2 fas fa-fw fa-download pointer" title="รายงานข้อมูลบุคคลของวิทยากร"
+                                (click)="reportTrainingLecturer(item.trainingLecturerId)"></i>
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                     (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>-->
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
