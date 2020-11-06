@@ -117,7 +117,7 @@ export class ProgramTrainingComponent implements OnInit {
           return { value: item.id, label: item.name }
         })
       }
-      
+
 
     })
 
@@ -148,7 +148,7 @@ export class ProgramTrainingComponent implements OnInit {
       lecturername: new FormControl(null, [Validators.required]),
     })
 
-    
+
 
     //dropdown lecturer
     this.trainingservice.gettraininglecturer()
@@ -312,7 +312,7 @@ export class ProgramTrainingComponent implements OnInit {
 
 
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id:any = null) {
     this.delid = id;
     //console.log(this.delid);
     this.Form.patchValue({
@@ -387,7 +387,7 @@ export class ProgramTrainingComponent implements OnInit {
   }
 
   storeTraining(value) {
-    //alert(JSON.stringify(value))   
+    //alert(JSON.stringify(value))
     //alert(this.form.value.files)
     console.log("viewdata:", value);
     console.log(this.Formfile.value.files);

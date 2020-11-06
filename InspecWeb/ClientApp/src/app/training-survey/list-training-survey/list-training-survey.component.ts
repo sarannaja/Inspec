@@ -25,18 +25,18 @@ export class ListTrainingSurveyComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
 
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     }
-    
-    
+
+
 
   ngOnInit() {
     this.spinner.show();
@@ -53,19 +53,19 @@ export class ListTrainingSurveyComponent implements OnInit {
     this.Form = this.fb.group({
       surveytype: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required]),
-      
+
     })
-    
+
     this.trainingservice.getlisttrainingsurveydata(this.trainingid)
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true
       console.log("resulttraining =>",this.resulttraining);
     })
-    
+
   }
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id: any  = null) {
      this.delid = id;
     // console.log(this.delid);
 

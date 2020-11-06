@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators, FormGroup, FormArray } from '@ang
 import { TrainingService } from 'src/app/services/training.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IMyOptions } from 'mydatepicker-th';
 
 @Component({
   selector: 'app-create-training',
@@ -11,6 +12,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class CreateTrainingComponent implements OnInit {
 
+  myDatePickerOptions: IMyOptions = {
+    // other options...
+
+    dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
+    // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
+  };
   name: any
   detail: any
   start_date: any
