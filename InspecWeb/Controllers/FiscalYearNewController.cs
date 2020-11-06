@@ -52,7 +52,7 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put([FromForm] FiscalYearNewRequest request,long id)
+        public FiscalYearNew Put([FromForm] FiscalYearNewRequest request,long id)
         {
             var data = _context.FiscalYearNew.Find(id);
             data.Year = request.Year;
@@ -61,7 +61,7 @@ namespace InspecWeb.Controllers
           
             _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-
+            return data;
         }
 
         // DELETE api/values/5

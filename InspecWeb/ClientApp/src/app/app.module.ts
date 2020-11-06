@@ -246,6 +246,8 @@ import { RegisterTrainingComponent } from './training/register-training/register
 import { MenuComponent } from './menu/menu.component';
 import { ElectronicBookAllComponent } from './electronic-book-all/electronic-book-all.component';
 import { ElectronicBookAllDetailComponent } from './electronic-book-all/electronic-book-all-detail/electronic-book-all-detail.component';
+import { GovernmentinspectionareaComponent } from './governmentinspectionarea/governmentinspectionarea.component'; //yochigang20201106
+import { DetailGovernmentinspectionareaComponent } from './governmentinspectionarea/detail-governmentinspectionarea/detail-governmentinspectionarea.component';//yochigang20201106
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -453,6 +455,8 @@ const ExternalOrganization = [
     MenuComponent,
     ElectronicBookAllComponent,
     ElectronicBookAllDetailComponent,
+    GovernmentinspectionareaComponent, //yochigang20201106
+    DetailGovernmentinspectionareaComponent, //yochigang20201106
   ],
 
   imports: [

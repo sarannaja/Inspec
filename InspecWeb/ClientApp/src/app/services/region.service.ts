@@ -25,17 +25,17 @@ export class RegionService {
 
   addRegion(regionData) {
     const formData = new FormData();
-    formData.append('name', regionData.regionname);
-    console.log('FORMDATA: ' + formData);
-    return this.http.post(this.url, formData);
+    formData.append('name', regionData.name);
+    //console.log('FORMDATA: ' + formData);
+    return this.http.post<any>(this.url, formData);
   }
 
   editRegion(regionData,id) {
-    console.log(regionData);
+    //console.log(regionData);
     const formData = new FormData();
-    formData.append('name', regionData.regionname);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url+id, formData);
+    formData.append('name', regionData.name);
+    //console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put<any>(this.url+id, formData);
   }
   
   deleteRegion(id) {

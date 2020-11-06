@@ -11,11 +11,11 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-fiscalyear',
-  templateUrl: './fiscalyear.component.html',
-  styleUrls: ['./fiscalyear.component.css']
+  selector: 'app-governmentinspectionarea',
+  templateUrl: './governmentinspectionarea.component.html',
+  styleUrls: ['./governmentinspectionarea.component.css']
 })
-export class FiscalyearComponent implements OnInit {
+export class GovernmentinspectionareaComponent implements OnInit {
 
   resultfiscalyear: any[] = []
   fileset:any[] = []
@@ -125,7 +125,7 @@ export class FiscalyearComponent implements OnInit {
     }
 
     this.Form.patchValue({
-      year : year,
+      year : year=null,
       orderdate: this.od,
       startdate : this.sd,
       enddate : this.ed,

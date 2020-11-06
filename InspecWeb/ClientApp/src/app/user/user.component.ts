@@ -224,7 +224,7 @@ export class UserComponent implements OnInit {
     //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
   }
 
-  openModal(template: TemplateRef<any>, IDdelete, UserName, Pw) {
+  openModal(template: TemplateRef<any>=null, IDdelete=null, UserName=null, Pw=null) {
     this.addForm.reset()
     this.submitted = false;
     this.id = IDdelete;//ID สำหรับลบ

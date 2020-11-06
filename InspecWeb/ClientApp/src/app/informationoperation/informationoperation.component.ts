@@ -23,7 +23,9 @@ export class InformationoperationComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private informationoperationservice: InformationoperationService,
+  constructor(private modalService: BsModalService, 
+    private fb: FormBuilder, 
+    private informationoperationservice: InformationoperationService,
     public share: InformationoperationService) { }
 
   ngOnInit() {
@@ -51,7 +53,7 @@ export class InformationoperationComponent implements OnInit {
       files : new FormControl(null, [Validators.required])
     })
   }
-  openModal(template: TemplateRef<any>, id, location, name, detail, tel, province, district) {
+  openModal(template: TemplateRef<any>=null, id=null, location=null, name=null, detail=null, tel=null, province=null, district=null) {
     this.delid = id;
     this.location = location;
     this.name = name;
@@ -59,16 +61,6 @@ export class InformationoperationComponent implements OnInit {
     this.tel = tel;
     this.province = province;
     this.district = district;
-
-    console.log(this.delid);
-    console.log(this.location);
-    console.log(this.name);
-    console.log(this.detail);
-    console.log(this.tel);
-    console.log(this.province);
-    console.log(this.district);
-
-    
     this.modalRef = this.modalService.show(template);
   }
   uploadFile(event) {

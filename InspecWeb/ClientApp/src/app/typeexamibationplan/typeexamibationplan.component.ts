@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
 import { TypeexamibationplanService } from '../services/typeexamibationplan.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { LogService } from '../services/log.service';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -18,13 +21,20 @@ export class TypeexamibationplanComponent implements OnInit {
     modalRef:BsModalRef;
     Form : FormGroup
     loading = false;
-    dtOptions: DataTables.Settings = {};
+    userid :any;
+    dtOptions: DataTables.Settings = {}; 
+    role_id :any;
+    submitted = false;
 
   constructor(
     private modalService: BsModalService, 
     private fb: FormBuilder, 
     private typeexamibationplanservice: TypeexamibationplanService,
-    private _NotofyService: NotofyService,) { }
+    private _NotofyService: NotofyService,
+    private authorize: AuthorizeService,
+    private logService: LogService,
+    private userService: UserService,
+    ) { }
   ngOnInit() {
 
     this.dtOptions = {
@@ -53,16 +63,27 @@ export class TypeexamibationplanComponent implements OnInit {
   }
 
   getdata(){
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+
+          this.role_id = result[0].role_id
+        })
+      })
     this.typeexamibationplanservice.getdata().subscribe(result=>{
       this.data = result
       this.loading = true;
 
     })
   }
-  openModal(template: TemplateRef<any>,id,name) {
+  openModal(template: TemplateRef<any>=null,id=null,name=null) {
 
     this.Form.reset()
+    this.submitted = false;
     this.delid = id;
+    this.name = name;
     this.Form.patchValue({
       Name: name,
     })
@@ -70,7 +91,13 @@ export class TypeexamibationplanComponent implements OnInit {
   }
 
   store(value) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+
     this.typeexamibationplanservice.store(value).subscribe(response => {
+      this.logService.addLog(this.userid,'Typeexaminationplans','เพิ่ม',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -80,6 +107,7 @@ export class TypeexamibationplanComponent implements OnInit {
   }
   delete(delid) {
     this.typeexamibationplanservice.delete(delid).subscribe(response => {
+      this.logService.addLog(this.userid,'Typeexaminationplans','ลบ',this.name,delid).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -89,7 +117,12 @@ export class TypeexamibationplanComponent implements OnInit {
   }
 
   edit(value,delid) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.typeexamibationplanservice.update(value,delid).subscribe(response => {
+      this.logService.addLog(this.userid,'Typeexaminationplans','แก้ไข',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -97,5 +130,5 @@ export class TypeexamibationplanComponent implements OnInit {
       this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
-
+  get f() { return this.Form.controls; }
 }

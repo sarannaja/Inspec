@@ -146,7 +146,7 @@ export class RequestOrderComponent implements OnInit {
             if (this.role_id == 4 || this.role_id == 5 || this.role_id == 6 || this.role_id == 9 || this.role_id == 10 ) { //แจ้งคำร้องขอ
               this.requestOrderService.getrequestordercommandeddata(this.userid)
                 .subscribe(result => {  
-                  console.log('data',result);            
+                 // console.log('data',result);            
                   this.getDatauser();
                     this.resultrequestorder = result;
                     this.loading = true;
@@ -398,7 +398,7 @@ export class RequestOrderComponent implements OnInit {
 
     deleterequestorder(id){
       this.requestOrderService.deleterequestorder(id).subscribe(result => {
-        this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','ลบ',this.vsubject,id).subscribe();
+        this.logService.addLog(this.userid,'reportrequestorder','ลบ',this.vsubject,id).subscribe();
         this.loading = false;
         this.getuserinfo();
         this._NotofyService.onSuccess("ลบข้อมูล")
@@ -407,10 +407,10 @@ export class RequestOrderComponent implements OnInit {
     }
 
     exportexecutive2(id,userId) {
-      alert(1);
+      //alert(1);
       this.requestOrderService.getrequest2(id,userId)
         .subscribe(result => {
-          alert(3);
+         // alert(3);
           window.open(this.url + "reportrequestorder/" + result.data);
         })
       this.getuserinfo();

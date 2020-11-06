@@ -125,8 +125,8 @@ export class InspectionorderComponent implements OnInit {
     })
   }
   deleteInspectionorder(value) {
+    this.logService.addLog(this.userid,'InspectionOrder','ลบ',this.title,this.delid).subscribe();
     this.inspectionorderservice.deleteInspectionorder(value).subscribe(response => {
-      this.logService.addLog(this.userid,'InspectionOrder','ลบ',this.title,this.delid).subscribe();
       this.loading = false;
       this.getdata();
       this.modalRef.hide()

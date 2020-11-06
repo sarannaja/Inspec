@@ -57,12 +57,14 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string name)
+        public Region Put(long id, string name)
         {
             var region = _context.Regions.Find(id);
             region.Name = name;
             _context.Entry(region).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+            return region;
 
         }
 
