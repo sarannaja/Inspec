@@ -1408,9 +1408,12 @@ namespace InspecWeb.Controllers
         [HttpPost("addImportReport")]
         public async Task<IActionResult> PostElectronicBookToProvince([FromForm] ImportReportViewModel model)
         {
+            System.Console.WriteLine("in1");
             var zoneData = _context.Provinces
                 .Where(x => x.Id == model.provinceId)
                 .FirstOrDefault();
+
+            System.Console.WriteLine("in2");
 
             var importReportData = new ImportReport
             {
@@ -1429,8 +1432,12 @@ namespace InspecWeb.Controllers
                 Status = "ร่าง",
                 DepartmentId = model.DepartmentId,
                 ZoneId = zoneData.SectorId,
+                Active = 0
             };
+
+            System.Console.WriteLine("in3");
             _context.ImportReports.Add(importReportData);
+            System.Console.WriteLine("in4");
             _context.SaveChanges();
             System.Console.WriteLine("finished.");
 
@@ -3109,6 +3116,49 @@ namespace InspecWeb.Controllers
                  })
                  .ToList();
             return Ok(calendar);
+        }
+
+        [HttpPut("changeActive")]
+        public IActionResult changeActive([FromForm] ExportReportViewModel model)
+        {
+
+
+            var data = _context.ImportReports.Find(model.reportId);
+            if (data.Active == 0)
+            {
+                {
+                    data.Active = 1;
+                };
+            }
+            else
+            {
+                {
+                    data.Active = 0;
+                };
+            }
+
+
+            _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(new { Active = data.Active });
+        }
+
+        [HttpGet("getAllActiveImportedReport")]
+        public IActionResult getAllActiveImportedReport()
+        {
+            var importData = _context.ImportReports
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+                .Where(x => x.Status == "ส่งแล้ว" && x.Active == 1)
+                .ToList();
+
+            return Ok(new { importData });
         }
 
 

@@ -266,15 +266,15 @@ export class ElectronicBookProvinceDetailComponent implements OnInit {
     }
   }
 
-  sendToOtherProvince(value) {
-    console.log("Value: ", value);
+  // sendToOtherProvince(value) {
+  //   console.log("Value: ", value);
 
-    this.electronicBookService.sendToOtherProvince(value, this.userid, this.electAcceptId).subscribe(res => {
-      console.log("sended: ", res);
-      this.getElectronicBookDetail();
-      this.modalRef.hide();
-    })
-  }
+  //   this.electronicBookService.sendToOtherProvince(value, this.userid, this.electAcceptId).subscribe(res => {
+  //     console.log("sended: ", res);
+  //     this.getElectronicBookDetail();
+  //     this.modalRef.hide();
+  //   })
+  // }
 
   getProvincialDepartment() {
     this.electronicBookService.getProvincialDepartment().subscribe(res => {

@@ -52,5 +52,10 @@ namespace InspecWeb.Models
 
         [Description("คำอธิบายหน่วยรับตรวจอื่น")]
         public string OtherDescription { get; set; }
+
+        //[ForeignKey("Province")]
+        [Description("จังหวัด")]
+        public long ProvinceId { get; set; }
+        //public virtual Province Province { get; set; }
     }
 }

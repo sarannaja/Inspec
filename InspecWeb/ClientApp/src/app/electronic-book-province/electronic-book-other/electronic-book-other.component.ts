@@ -22,6 +22,7 @@ export class ElectronicBookOtherComponent implements OnInit {
   centralpolicyprovinceid: any;
   role_id;
   provincialDepartmentId: any;
+  userProvince: any = [];
 
   constructor(
     private router: Router,
@@ -73,6 +74,7 @@ export class ElectronicBookOtherComponent implements OnInit {
 
             this.role_id = result[0].role_id
             this.provincialDepartmentId = result[0].provincialDepartmentId
+            this.userProvince = result[0].userProvince
             this.getElectronicBook();
           })
       })
@@ -86,9 +88,20 @@ export class ElectronicBookOtherComponent implements OnInit {
   getElectronicBook() {
     this.electronicBookService.getSendedElectronicBookOtherDepartment(this.provincialDepartmentId).subscribe(results => {
       // console.log("res: ", results);
-      this.electronicBookData = results;
-      console.log("ELECTDATA: ", this.electronicBookData);
+      console.log("userProvince: ", this.userProvince);
+      var test: any = [];
+      this.userProvince.forEach(element => {
+        test.push(element.provinceId)
+      });
+      console.log("TEST: ", test);
 
+      this.electronicBookData = [];
+      console.log("ELECTDATA: ", this.electronicBookData);
+        results.forEach(element2 => {
+          if (test.includes(element2.provinceId) == true) {
+            this.electronicBookData.push(element2)
+          }
+        })
       this.loading = true;
     })
   }

@@ -16,10 +16,10 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("FiscalYear")]
+        [ForeignKey("FiscalYearNew")]
         [Description("FK: ปีงบประมาณ")]
         public long FiscalYearId { get; set; }
-        public virtual FiscalYear FiscalYear { get; set; }
+        public virtual FiscalYearNew FiscalYear { get; set; }
 
         [ForeignKey("Region")]
         [Description("FK: เขตตรวจราขการ")]
@@ -72,5 +72,8 @@ namespace InspecWeb.Models
         public ICollection<ImportReportGroup> ImportReportGroups { get; set; }
         public ICollection<ReportCommander> ReportCommanders { get; set; }
         public ICollection<ImportReportFile> ImportReportFiles { get; set; }
+
+        [Description("Active / Inactive")]
+        public long Active { get; set; }
     }
 }

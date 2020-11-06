@@ -1,23 +1,22 @@
-import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
+import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ElectronicbookService } from '../services/electronicbook.service';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { InspectionplanService } from '../services/inspectionplan.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { UserService } from '../services/user.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { ElectronicbookService } from '../services/electronicbook.service';
 import { ExportReportService } from '../services/export-report.service';
+import { InspectionplanService } from '../services/inspectionplan.service';
 import { NotificationService } from '../services/notification.service';
-import { NotofyService } from '../services/notofy.service';
-declare var jQuery: any;
+import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-all-report',
-  templateUrl: './all-report.component.html',
-  styleUrls: ['./all-report.component.css']
+  selector: 'app-all-report-iframe',
+  templateUrl: './all-report-iframe.component.html',
+  styleUrls: ['./all-report-iframe.component.css']
 })
-export class AllReportComponent implements OnInit {
+export class AllReportIframeComponent implements OnInit {
+
   electronicBookData: any = [];
   loading = false;
   dtOptions: DataTables.Settings = {};
@@ -61,7 +60,6 @@ export class AllReportComponent implements OnInit {
     private userService: UserService,
     private exportReportService: ExportReportService,
     private notificationService: NotificationService,
-    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string,
     private fb: FormBuilder,
   ) {
@@ -83,7 +81,7 @@ export class AllReportComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [5],
+          targets: [4],
           orderable: false
         }
       ],
@@ -105,7 +103,7 @@ export class AllReportComponent implements OnInit {
       }
     };
 
-    this.getImportedReport();
+    this.getImportedReportActive();
     this.getDepartment();
     this.getRegion();
     this.getZone();
@@ -138,8 +136,8 @@ export class AllReportComponent implements OnInit {
     }))
   }
 
-  getImportedReport() {
-    this.exportReportService.getAllImportedReport().subscribe(res => {
+  getImportedReportActive() {
+    this.exportReportService.getAllImportedReportActive().subscribe(res => {
       console.log("AllimportReport: ", res);
       this.importedReport = res;
       this.loading = true;
@@ -334,12 +332,4 @@ export class AllReportComponent implements OnInit {
     })
   }
 
-  changeActive(reportId) {
-    this.exportReportService.changeActive(reportId).subscribe(res => {
-      console.log("active: ", res.active);
-      this.loading = false;
-      this._NotofyService.onSuccess()
-      this.getImportedReport();
-    })
-  }
 }
