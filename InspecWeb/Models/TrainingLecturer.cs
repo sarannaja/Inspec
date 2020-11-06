@@ -19,7 +19,7 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("TrainingPhase")]
+        [ForeignKey("TrainingLecturerType")]
         [Description("ประเภทวิทยากร")]
         public long LecturerType { get; set; }
         public virtual TrainingLecturerType TrainingLecturerTypes { get; set; }

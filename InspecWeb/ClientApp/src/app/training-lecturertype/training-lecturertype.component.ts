@@ -3,6 +3,7 @@ import { TrainingService } from '../services/training.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+
 import { NotofyService } from '../services/notofy.service';
 import { LogService } from '../services/log.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
@@ -47,14 +48,26 @@ export class TrainingLecturerTypeComponent implements OnInit {
   ngOnInit() {
     this.getuserinfo();
     this.dtOptions = {
-      pagingType: 'full_numbers',
       columnDefs: [
         {
           targets: [2],
           orderable: false
         }
-      ]
-
+      ],
+      pagingType: 'full_numbers',
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
     };
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
@@ -73,8 +86,9 @@ export class TrainingLecturerTypeComponent implements OnInit {
   }
 
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id, name) {
     this.editid = id;
+    this.name = name;
     this.modalRef = this.modalService.show(template);
   }
 
@@ -91,10 +105,10 @@ export class TrainingLecturerTypeComponent implements OnInit {
     
     if (value.name != "" && value.name != null && value.name != "null"){
       this.trainingservice.addTrainingLecturerType(value).subscribe(response => {
+        this.logService.addLog(this.userid,'TrainingLecturerType','เพิ่ม',response.name,response.id).subscribe();
         this.Form.reset()
         this.modalRef.hide()
         this.loading = false;
-        this.logService.addLog(this.userid,'ประเภทวิทยากร(TrainingLecturerType)','เพิ่ม',value.name,"").subscribe();
         this.trainingservice.getTrainingLecturerType()
         .subscribe(result => {
           this.resulttraining = result
@@ -129,7 +143,7 @@ export class TrainingLecturerTypeComponent implements OnInit {
         this.Form.reset()
         this.modalRef.hide()
         this.loading = false
-        this.logService.addLog(this.userid,'ประเภทวิทยากร(TrainingLecturerType)','แก้ไข',value.name,"").subscribe();
+        this.logService.addLog(this.userid,'TrainingLecturerType','แก้ไข',response.name,response.id).subscribe();
         this.trainingservice.getTrainingLecturerType()
         .subscribe(result => {
           this.resulttraining = result
@@ -146,7 +160,7 @@ export class TrainingLecturerTypeComponent implements OnInit {
     this.trainingservice.deleteTrainingLecturerType(value).subscribe(response => {
       this.modalRef.hide()
       this.loading = false;
-      this.logService.addLog(this.userid,'ประเภทวิทยากร(TrainingLecturerType)','ลบ',value.name,"").subscribe();
+      this.logService.addLog(this.userid,'TrainingLecturerType','ลบ',this.name,this.editid).subscribe();
       this.trainingservice.getTrainingLecturerType().subscribe(result => {
         this.resulttraining = result
         this.loading = true;

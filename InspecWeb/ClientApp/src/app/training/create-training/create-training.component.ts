@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators, FormGroup, FormArray } from '@ang
 import { TrainingService } from 'src/app/services/training.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { IMyOptions } from 'mydatepicker-th';
 
 @Component({
   selector: 'app-create-training',
@@ -25,6 +26,11 @@ export class CreateTrainingComponent implements OnInit {
   formfile: FormGroup;
   downloadUrl: any;
   submitted = false;
+  public myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    showTodayBtn: true
+  };
 
   constructor(private fb: FormBuilder,
     private trainingservice: TrainingService,

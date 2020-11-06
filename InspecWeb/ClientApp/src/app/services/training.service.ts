@@ -17,6 +17,10 @@ export class TrainingService {
     return this.http.get<any[]>(this.url)
   }
 
+  gettrainingdataShowPage(): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'ShowPage')
+  }
+
   gettrainingregistercountdata(): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'trainingregistercount')
   }
@@ -418,6 +422,10 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'lecturer')
   }
 
+  gettraininglecturerById(id): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'lecturer/' + id)
+  }
+
   gettraininglecturerlist(trainingid): Observable<any[]> {
     return this.http.get<any[]>(this.url + 'lecturerlist2/' + trainingid)
   }
@@ -433,32 +441,46 @@ export class TrainingService {
     return this.http.post(this.url + 'lecturerjoinsurvey/save', formData);
   }
 
-  addTraininglecturer(trainingData) {
+  addTraininglecturer(trainingData, picFiles: FileList) {
     //alert(JSON.stringify(trainingData))
     const formData = new FormData();
-    formData.append('lecturername', trainingData.lecturername);
-    formData.append('lecturerphone', trainingData.lecturerphone);
-    formData.append('lectureremail', trainingData.lectureremail);
-    formData.append('education', trainingData.education);
-    formData.append('workhistory', trainingData.workhistory);
-    formData.append('experience', trainingData.experience);
-    formData.append('detailplus', trainingData.experience);
+    formData.append('LecturerType', trainingData.LecturerType);
+    formData.append('LecturerName', trainingData.lecturername);
+    formData.append('Phone', trainingData.lecturerphone);
+    formData.append('Email', trainingData.lectureremail);
+    formData.append('Education', trainingData.education);
+    formData.append('WorkHistory', trainingData.workhistory);
+    formData.append('Experience', trainingData.experience);
+    formData.append('DetailPlus', trainingData.detailplus);
+    if (picFiles != null) {
+      for (var index = 0; index < picFiles.length; index++) {
+        formData.append("ImageProfile", picFiles[index]);
+      }
+    }
 
     console.log('FORMDATA: ' + formData);
     return this.http.post(this.url + 'lecturer/save', formData);
   }
 
 
-  editTraininglecturer(trainingData, id) {
+  editTraininglecturer(trainingData, id, picFiles: FileList) {
     console.log(trainingData);
 
     const formData = new FormData();
-    formData.append('lecturername', trainingData.lecturername);
-    formData.append('lecturerphone', trainingData.lecturerphone);
-    formData.append('lectureremail', trainingData.lectureremail);
-    formData.append('education', trainingData.education);
-    formData.append('workhistory', trainingData.workhistory);
-    formData.append('experience', trainingData.experience);
+    formData.append('LecturerType', trainingData.LecturerType);
+    formData.append('LecturerName', trainingData.lecturername);
+    formData.append('Phone', trainingData.lecturerphone);
+    formData.append('Email', trainingData.lectureremail);
+    formData.append('Education', trainingData.education);
+    formData.append('WorkHistory', trainingData.workhistory);
+    formData.append('Experience', trainingData.experience);
+    formData.append('DetailPlus', trainingData.detailplus);
+    if (picFiles != null) {
+      for (var index = 0; index < picFiles.length; index++) {
+        formData.append("ImageProfile", picFiles[index]);
+      }
+    }
+
     console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put(this.url + 'lecturer/edit/' + id, formData);
   }
@@ -769,7 +791,7 @@ export class TrainingService {
     formData.append('name', trainingData.name);
 
     console.log('FORMDATA: ' + formData);
-    return this.http.post(this.url + 'lecturertype/add', formData);
+    return this.http.post<any>(this.url + 'lecturertype/add', formData);
   }
 
   //แก้ไขประเภทวิทยากร
@@ -778,13 +800,23 @@ export class TrainingService {
     const formData = new FormData();
     formData.append('name', trainingData.name);
     console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url + 'lecturertype/edit/' + id, formData);
+    return this.http.put<any>(this.url + 'lecturertype/edit/' + id, formData);
   }
 
 
   //ลบประเภทวิทยากร
   deleteTrainingLecturerType(id) {
     return this.http.delete(this.url + 'lecturertype/delete/' + id);
+  }
+
+  //ตั้งค่าการประกาศหลักสูตร
+  SettingTraining(trainingData, id) {
+    console.log(trainingData);
+
+    const formData = new FormData();
+    formData.append('status', trainingData.status);
+    console.log('FORMDATA: ' + JSON.stringify(formData));
+    return this.http.put(this.url + 'trainingsetting/edit/' + id, formData);
   }
 
 }
