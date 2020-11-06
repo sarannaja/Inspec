@@ -20,11 +20,11 @@ export class IframeComponent implements OnInit {
     },
     {
       url: `${location.origin}/allreportiframe`,
-      name: 'เขตตรวจแต่ล่ะจังหวัด',
+      name: 'ทะเบียนรายงานผลการตรวจราชการ',
     },
     {
       url: `${location.origin}/vector/thaimaps`,
-      name: 'ทะเบียนรายงานผลการตรวจราชการ',
+      name: 'เขตตรวจแต่ล่ะจังหวัด',
     },
   ]
   constructor(public sanitizer: DomSanitizer, private http: HttpClient) { }

@@ -8,6 +8,7 @@
 @import "../node_modules/paper-css/paper.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "./assets/fontend/fonts/flaticon/font/flaticon.css";
+@import "./assets/fontend/fonts/ionicons/css/ionicons.css";
 /* @import "./assets/css/paper.css"; */
 
 a {
