@@ -8,6 +8,7 @@ import { NotofyService } from '../../services/notofy.service';
 import { LogService } from '../../services/log.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ɵNullViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-lecturer-training',
@@ -32,16 +33,16 @@ export class LecturerTrainingComponent implements OnInit {
   userid: string;
   resulttraininglecturerById: any[];
   ImgProfile: any;
-  
 
-  constructor(private modalService: BsModalService, 
+
+  constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
     private _NotofyService: NotofyService,
     private spinner: NgxSpinnerService,
     private logService: LogService,
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     @Inject('BASE_URL') baseUrl: string) {
       this.downloadUrl = baseUrl + 'Uploads/'
@@ -71,9 +72,9 @@ export class LecturerTrainingComponent implements OnInit {
       experience: new FormControl(null, [Validators.required]),
       detailplus: new FormControl(null, [Validators.required]),
       picFiles: [null],
-      
+
     })
-    
+
     this.trainingservice.gettraininglecturer()
     .subscribe(result => {
       this.resulttraining = result
@@ -83,7 +84,7 @@ export class LecturerTrainingComponent implements OnInit {
 
     this.trainingservice.getTrainingLecturerType()
     .subscribe(result => {
-      
+
       this.resultdatalecturer = result
       if (this.resultdatalecturer.length > 0){
         this.selectdatalecturer = this.resultdatalecturer.map((item, index) => {
@@ -107,7 +108,7 @@ export class LecturerTrainingComponent implements OnInit {
   CreateTraining(){
     this.router.navigate(['/training/createtraining'])
   }
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id: any = null) {
     this.delid = id;
     console.log(this.delid);
 
@@ -170,7 +171,7 @@ export class LecturerTrainingComponent implements OnInit {
       "workhistory": workHistory,
       "experience": experience,
       "detailplus": detailplus,
-      
+
     })
   }
 
@@ -179,7 +180,7 @@ export class LecturerTrainingComponent implements OnInit {
     this.ImgProfile = imgProfile;
     console.log("ImgProfile =>", this.ImgProfile);
     console.log("lecturerType =>", lecturerType);
-    
+
     //console.log(this.delid);
 
     this.modalRef = this.modalService.show(template);
@@ -221,7 +222,7 @@ export class LecturerTrainingComponent implements OnInit {
 
   editTraining(value) {
     console.log("editTraining =>", value);
-    
+
     // alert(JSON.stringify(value));
     // console.clear();
     // console.log("kkkk" + JSON.stringify(value));

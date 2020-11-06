@@ -25,7 +25,7 @@ export class PhaseTrainingComponent implements OnInit {
     //dateFormat: 'dd/mm/yyyy',
     showClearDateBtn: false
   };
-  
+
   trainingid: string
   resulttraining: any[] = []
   modalRef: BsModalRef;
@@ -226,7 +226,7 @@ export class PhaseTrainingComponent implements OnInit {
 
 
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id: any = null) {
     this.submitted = false;
     this.delid = id;
     this.Form.reset();
@@ -260,7 +260,7 @@ export class PhaseTrainingComponent implements OnInit {
       "group": group,
     })
     console.log("Form =>", this.EditForm.value);
-    
+
     //console.log("element: ", element.startDate)
     //const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
     // let sDate: Date = new Date(startdate);

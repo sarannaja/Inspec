@@ -72,7 +72,7 @@ export class TrainingSurveyComponent implements OnInit {
     this.router.navigate(['/training/survey/chart/',trainingid])
   }
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id:any = null) {
     this.delid = id;
    // console.log(this.delid);
 
