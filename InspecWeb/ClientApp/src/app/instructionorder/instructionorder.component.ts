@@ -68,7 +68,7 @@ export class InstructionorderComponent implements OnInit {
       order: new FormControl(null, [Validators.required]),
       createBy: new FormControl(null, [Validators.required]),
       detail: new FormControl(null, [Validators.required]),
-      files : new FormControl(null)
+      files : new FormControl(null, [Validators.required])
     })
   }
   getdata(){
@@ -129,9 +129,9 @@ export class InstructionorderComponent implements OnInit {
     })
   }
   deleteInstructionorder(value) {
+    this.logService.addLog(this.userid,'InstructionOrders','ลบ',this.title,this.delid).subscribe();
     this.instructionorderservice.deleteInstructionorder(value)
-    .subscribe(response => {
-      this.logService.addLog(this.userid,'InstructionOrders','ลบ',this.title,this.delid).subscribe();
+    .subscribe(response => { 
       this.loading = false;
       this.getdata();
       this.modalRef.hide()

@@ -2,9 +2,9 @@
   
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการฐานข้อมูล</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">เขตตรวจราชการ</a></li>
-      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+      <li class="breadcrumb-item"><a [routerLink]="['/Main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item active" >จัดการฐานข้อมูล</li>
+      <li class="breadcrumb-item active">>เขตตรวจราชการ</li>
     </ol>
   </nav>
 </div>
@@ -33,16 +33,22 @@
             <tr *ngFor="let item of resultregion; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ item.name }}</td>
-              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
+              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'short'}}</td>
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>
               <td>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                (click)="editModal(modaleditRegion, item.id, item.name)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                (click)="openModal(modaldeleteRegion, item.id)"></i>
+
+                <button type="button" class="btn btn-primary btn-pill btn-sm" 
+                  (click)="openModal(modaleditRegion, item.id, item.name)" title="แก้ไขคำร้องขอ">
+                  <i class="align-middle fas fa-fw fa-sm fa-pen"></i>
+                </button>
+
+                <button type="button" class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล"
+                  (click)="openModal(modaldeleteRegion, item.id, item.name)">
+                  <i class="align-middle fas fa-fw fa-trash-alt"></i>
+                </button>
+
               </td>
             </tr>
           </tbody>
@@ -50,42 +56,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <div class="col-12">
-      <div class="card card-eiei">
-        <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">แผนการตรวจ</h5>
-          <div class="float-right">
-            <button class="btn btn-primary"
-            (click)="CraateInspectionPlan()" style="margin-top: -60px;">เพิ่มแผนการตรวจ</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <table id="datatables-basic2" class="table table-striped" style="width:100%">
-            <thead>
-              <tr>
-                <th>ชื่อคำสั่งการ</th>
-                <th>ปี</th>
-                <th>ระยะเวลา</th>
-                <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ตรวจน้ำเสียภายในจังหวัดกรุงเทพ</td>
-                <td>2563</td>
-                <td>01/01/2563 - 09/01/1563</td>
-                <td>
-                  <i class="align-middle mr-2 fas fa-fw fa-search"></i>
-                  <i (click)="EditInspectionPlan(1)" class="align-middle mr-2 fas fa-fw fa-pen"></i>
-                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div> -->
 </div>
 
 <!-- BEGIN primary modal -->
@@ -102,9 +72,11 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label class="form-label">เขตตรวจราชการ</label>
-          <input formControlName="regionname" type="text" class="form-control" placeholder="กรุณากรอกเขตตรวจราชการ">
-
-          <!-- <input formControlName="test" type="text" class="form-control" placeholder="กรุณากรอกเทส"> -->
+          <input formControlName="name" type="text" class="form-control" placeholder="กรุณากรอกเขตตรวจราชการ"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">กรุณากรอกเขตตรวจราชการ</div>
+            </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -139,8 +111,7 @@
 
     <!-- BEGIN primary modal -->
     <ng-template #modaleditRegion class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-      <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-      <form [formGroup]="EditForm" (ngSubmit)="editRegion(EditForm.value,delid)">
+      <form [formGroup]="Form" (ngSubmit)="editRegion(Form.value,delid)">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">จัดการเขตตรวจราชการ</h5>
@@ -150,10 +121,12 @@
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ชื่อเขตตรวจราชการ</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" value="{{name}}" formControlName="regionname" class="form-control"
-              placeholder="กรุณากรอกชื่อเขตตรวจราชการ">
+            <label class="form-label">ชื่อเขตตรวจราชการ</label>
+            <input type="text" formControlName="name" class="form-control"
+              placeholder="กรุณากรอกชื่อเขตตรวจราชการ" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">กรุณากรอกเขตตรวจราชการ</div>
+              </div> 
           </div>
         </div>
         <div class="modal-footer">

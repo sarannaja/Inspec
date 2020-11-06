@@ -59,7 +59,7 @@ export class MinistryComponent implements OnInit {
       this.loading = true;
     })
   }
-  openModal(template: TemplateRef<any>, id, Name,NameEN,ShortnameEN,ShortnameTH) {
+  openModal(template: TemplateRef<any>=null, id=null, Name=null,NameEN=null,ShortnameEN=null,ShortnameTH=null) {
     this.Form.reset()
     this.delid = id;
     this.Form.patchValue({

@@ -131,7 +131,7 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
   }
 
   getrequest2(id,userId){
-    alert(2);
+    //alert(2);
     return this.http.get<any>(this.url + "exportrequest2/" + id + "/" + userId)
   }
 

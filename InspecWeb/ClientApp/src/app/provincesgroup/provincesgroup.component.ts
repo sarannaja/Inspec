@@ -59,7 +59,7 @@ export class ProvincesgroupComponent implements OnInit {
 
     })
   }
-  openModal(template: TemplateRef<any>,id,name) {
+  openModal(template: TemplateRef<any>=null,id=null,name=null) {
 
     this.Form.reset()
     this.delid = id;

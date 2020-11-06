@@ -71,29 +71,47 @@
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="xxx" class="form-label">ปีงบประมาณ</label>
+          <label class="form-label">ปีงบประมาณ</label>
           <input type="text" 
             onKeyPress="if(this.value.length==4) return false;if(this.value.which === 69) return event.preventDefault();;"
-            formControlName="Year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ">
+            formControlName="Year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ"
+            [ngClass]="{ 'is-invalid': submitted && f.Year.errors }">
+            <div *ngIf="submitted && f.Year.errors" class="invalid-feedback">
+              <div *ngIf="f.Year.errors.required">กรุณากรอกปีงบประมาณ</div>
+            </div>  
         </div>
         <div class="form-group">
           <div class="row">                   
               <label class="form-label col-6">วันที่เริ่มต้น*</label>
               <label class="form-label col-6">วันที่สิ้นสุด</label>
           </div>
-          <div class="row">
-              <div class="col-6">
+        </div>
+        <div class="row">
+            <div class="col-6">
+              <div class="form-group">
                 <my-date-picker-th formControlName="Startdate" [options]="myDatePickerOptions" required
-                  [(ngModel)]="date" placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                  [(ngModel)]="date" placeholder="กรุณาเลือกวันที่เริ่มต้น"
+                  [ngClass]="{ 'is-invalid': submitted && f.Startdate.errors }">
                 </my-date-picker-th>
+                <div class="form-group" *ngIf="submitted &&  f.Startdate.errors"
+                    [ngStyle]="submitted &&  f.Startdate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                  <div style="font-size: 80%;">กรุณาเลือกวันที่เริ่มต้น</div>
+                </div>
               </div>
-              
-              <div class="col-6">                         
-                  <my-date-picker-th formControlName="Enddate"
-                      [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด">
-                  </my-date-picker-th>
-              </div> 
-          </div>
+            </div>
+            
+            <div class="col-6"> 
+              <div class="form-group">                      
+                <my-date-picker-th formControlName="Enddate"
+                    [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด"
+                    [ngClass]="{ 'is-invalid': submitted && f.Enddate.errors }">
+                </my-date-picker-th>
+                <div class="form-group" *ngIf="submitted &&  f.Enddate.errors"
+                  [ngStyle]="submitted &&  f.Enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                  <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>   
+                </div>  
+              </div>              
+            </div>
         </div>
 
       </div>
@@ -142,10 +160,18 @@
         </button>
       </div>
       <div class="modal-body m-3">
+
         <div class="form-group">
-          <label for="xxx" class="form-label">ปีงบประมาณ)</label>
-          <input type="text" formControlName="Year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ">
+          <label class="form-label">ปีงบประมาณ</label>
+          <input type="text" 
+            onKeyPress="if(this.value.length==4) return false;if(this.value.which === 69) return event.preventDefault();;"
+            formControlName="Year" class="form-control" placeholder="กรุณากรอกปีงบประมาณ"
+            [ngClass]="{ 'is-invalid': submitted && f.Year.errors }">
+            <div *ngIf="submitted && f.Year.errors" class="invalid-feedback">
+              <div *ngIf="f.Year.errors.required">กรุณากรอกปีงบประมาณ</div>
+            </div>  
         </div>
+
         <div class="form-group">
           <div class="row">                   
               <label class="form-label col-6">วันที่เริ่มต้น*</label>
@@ -153,15 +179,28 @@
           </div>
           <div class="row">
               <div class="col-6">
-                  <my-date-picker-th formControlName="Startdate"
-                      [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                <div class="form-group">
+                  <my-date-picker-th formControlName="Startdate" [options]="myDatePickerOptions" required
+                    placeholder="กรุณาเลือกวันที่เริ่มต้น" [ngClass]="{ 'is-invalid': submitted && f.Startdate.errors }">
                   </my-date-picker-th>
+                  <div class="form-group" *ngIf="submitted &&  f.Startdate.errors"
+                      [ngStyle]="submitted &&  f.Startdate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกวันที่เริ่มต้น</div>
+                  </div>
+                </div>
               </div>
               
               <div class="col-6">                         
+                <div class="form-group">                      
                   <my-date-picker-th formControlName="Enddate"
-                      [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด">
+                      [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด"
+                      [ngClass]="{ 'is-invalid': submitted && f.Enddate.errors }">
                   </my-date-picker-th>
+                  <div class="form-group" *ngIf="submitted &&  f.Enddate.errors"
+                    [ngStyle]="submitted &&  f.Enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>   
+                  </div>  
+                </div>      
               </div> 
           </div>
         </div>
