@@ -147,7 +147,7 @@ namespace InspecWeb
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
