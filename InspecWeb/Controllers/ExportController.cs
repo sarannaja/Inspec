@@ -421,8 +421,15 @@ namespace InspecWeb.Controllers
 
                         var region = document.InsertParagraph("เขตตรวจราชการที่: " + model.reportData2[i].region + "(จังหวัด: " + model.reportData2[i].province + ")");
                         region.Alignment = Alignment.center;
-                        region.SpacingAfter(30d);
+                        region.SpacingAfter(10d);
                         region.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingAfter(30d);
+                        printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -587,8 +594,15 @@ namespace InspecWeb.Controllers
 
                         var region = document.InsertParagraph("เขตตรวจราชการที่: " + model.reportData2[i].region + "(จังหวัด: " + model.reportData2[i].province + ")");
                         region.Alignment = Alignment.center;
-                        region.SpacingAfter(30d);
+                        region.SpacingAfter(10d);
                         region.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingAfter(30d);
+                        printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -753,8 +767,15 @@ namespace InspecWeb.Controllers
 
                         var region = document.InsertParagraph("เขตตรวจราชการที่: " + model.reportData2[i].region + "(จังหวัด: " + model.reportData2[i].province + ")");
                         region.Alignment = Alignment.center;
-                        region.SpacingAfter(30d);
+                        region.SpacingAfter(10d);
                         region.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingAfter(30d);
+                        printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -924,8 +945,15 @@ namespace InspecWeb.Controllers
 
                         var year = document.InsertParagraph("รอบการตรวจราชการที่: " + exportData.InspectionRound + " ปีงบประมาณ: พ.ศ. " + model.reportData2[i].fiscalYear);
                         year.Alignment = Alignment.center;
-                        year.SpacingAfter(30d);
+                        year.SpacingAfter(10d);
                         year.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingAfter(30d);
+                        printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -1111,6 +1139,13 @@ namespace InspecWeb.Controllers
                         region.Alignment = Alignment.left;
                         region.SpacingAfter(15d);
                         region.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingBefore(15d);
+                        printReport.FontSize(16d);
 
                         var monitorTopic = document.InsertParagraph("หัวข้อการตรวจติดตาม: " + exportData.MonitoringTopics);
                         monitorTopic.SpacingBefore(15d);
