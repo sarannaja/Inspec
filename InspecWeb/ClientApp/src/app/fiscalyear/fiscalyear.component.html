@@ -133,8 +133,14 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" 
+                  required placeholder="กรุณาเลือกวันที่เริ่มต้น"
+                  [ngClass]="{ 'is-invalid': submitted && f.startdate.errors }">
                 </my-date-picker-th>
+                <div class="form-group" *ngIf="submitted &&  f.startdate.errors"
+                    [ngStyle]="submitted &&  f.startdate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกวันที่เริ่มต้น</div>
+                </div>
               </div>
             </div>
             <div class="col-12 col-xl-2">
@@ -144,8 +150,14 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด">
+                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" 
+                  required placeholder="กรุณาเลือกวันที่สิ้นสุด"
+                  [ngClass]="{ 'is-invalid': submitted && f.enddate.errors }">
                 </my-date-picker-th>
+                <div class="form-group" *ngIf="submitted &&  f.enddate.errors"
+                    [ngStyle]="submitted &&  f.enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>
+                  </div>
               </div>
             </div>
           </div>

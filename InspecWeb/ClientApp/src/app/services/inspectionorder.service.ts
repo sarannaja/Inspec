@@ -14,7 +14,6 @@ export class InspectionorderService {
     return this.http.get(this.url)
   }
   addInspectionorder(inspectionorderData, file: FileList){
-     //alert(JSON.stringify(inspectionorderData))
     const formData = new FormData();
     formData.append('name',inspectionorderData.name);
     formData.append('year',inspectionorderData.year);
@@ -34,8 +33,6 @@ export class InspectionorderService {
   }
 
   editInspectionorder(inspectionorderData,file: FileList,id) {
-    //alert(JSON.stringify(inspectionorderData))
-
     const formData = new FormData();
     formData.append('Name',inspectionorderData.name);
     formData.append('Year',inspectionorderData.year);
@@ -43,10 +40,8 @@ export class InspectionorderService {
     formData.append('CreateBy',inspectionorderData.createBy);
 
     if (file != null) {
-      alert(1);
       for (var iii = 0; iii < file.length; iii++) {
         formData.append("files", file[iii]);
-        alert(file[iii]);
       }
     }
     return this.http.put<any>(this.url+id, formData);
