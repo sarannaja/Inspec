@@ -4,7 +4,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
       <li class="breadcrumb-item active">จัดการฐานข้อมูล</li>
-      <li class="breadcrumb-item"><a [routerLink]="['/fiscalyear']">คำสั่งกำหนดเขตตรวจราชการ</a></li>
+      <li class="breadcrumb-item"><a [routerLink]="['/supportgovernment/governmentinspectionarea']">ข้อมูลการแบ่งเขตตรวจราชการ</a></li>
       <li class="breadcrumb-item active">จัดการความสัมพันธ์</li>
     </ol>
   </nav>
@@ -13,11 +13,7 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h5 class="card-title">จัดการความสัมพันธ์</h5>
-        <div class="float-right">
-          <button class="btn btn-primary" (click)="openModal(modalDetailFiscalyear)"
-            style="margin-top: -60px;">เพิ่มความสัมพันธ์</button>
-        </div>
+        <h5 class="card-title">ความสัมพันธ์เขตตรวจและจังหวัด</h5>
       </div>
       <div class="card-body">
         <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
@@ -27,7 +23,6 @@
               <th>#</th>
               <th>เขตตรวจราชการ</th>
               <th>ประกอบด้วยจังหวัด</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
@@ -39,16 +34,7 @@
                   <label class="badge badge-info mr-1">{{item.name}}</label>
                 </span>
               </td>
-              <td>
-                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" 
-                  (click)="openModalEdit(modaleditDetailFiscalyear,items.id,items.region.id,items.province)">
-                  <i class="align-middle  fas fa-fw fa-pen "></i>
-                </button>
-                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" 
-                  (click)="openModalDelete(modaldeleteDetailFiscalyear, items.regionId)">
-                  <i class="align-middle  fas fa-fw fa-trash-alt "></i>
-                </button>             
-              </td>
+              
             </tr>
           </tbody>
         </table>
@@ -56,95 +42,7 @@
     </div>
   </div>
 
-  <!-- BEGIN primary modal -->
-  <ng-template #modalDetailFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="Form" (ngSubmit)="AddRelation(Form.value)">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">จัดการความสัมพันธ์</h5>
-          <button type="button" class="close" data-dismiss="modal" (click)="closeModel()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body m-3">
-          <div class="form-group">
-            <label for="test" class="form-label">เขตตรวจราชการ</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ"   [items]="regions" name="RegionId" formControlName="RegionId"
-               >
-            </ng-select>
-          </div>
-          <div class="form-group">
-            <label for="test" class="form-label">จังหวัด</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true"   [items]="provinces" name="ProvinceId"
-              formControlName="ProvinceId"  >
-            </ng-select>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">บันทึก</button>
-          <button type="button" class="btn btn-danger" (click)="closeModel()"  data-dismiss="modal">ปิด</button>
-        </div>
-      </div>
-      <!-- </div> -->
-    </form>
-  </ng-template>
-  <!-- END primary modal -->
 
-  <!-- BEGIN primary modal -->
-  <ng-template #modaldeleteDetailFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
-      <i class="fa fa-info-circle delete-icon"></i>
-      <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
-        ลบข้อมูล
-      </p>
-      <p style="font-size: medium; color: #545454;">
-        คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
-      </p>
-      <button type="button" class="btn btn-primary btnMargin" (click)="deleteRelation(id)">
-        ใช่
-      </button>
-      <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
-        ไม่ใช่
-      </button>
-    </div>
-  </ng-template>
-  <!-- END primary modal -->
-
-  <!-- BEGIN primary modal -->
-  <ng-template #modaleditDetailFiscalyear class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-    <form [formGroup]="Form" (ngSubmit)="EditRelation(Form.value,id)">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">จัดการความสัมพันธ์</h5>
-          <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body m-3">
-          <div class="form-group">
-            <label for="test" class="form-label">เขตตรวจราชการ</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจ"   [items]="regions" name="RegionId" formControlName="RegionId"
-               >
-            </ng-select>
-          </div>
-          <div class="form-group">
-            <label for="test" class="form-label">จังหวัด</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" [multiple]="true"   [items]="provinces" name="ProvinceId"
-              formControlName="ProvinceId"  >
-            </ng-select>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">บันทึก</button>
-          <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">ปิด</button>
-        </div>
-      </div>
-      <!-- </div> -->
-    </form>
-  </ng-template>
-  <!-- END primary modal -->
   <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
     <p style="font-size: 20px; color: white">Loading...</p>
   </ngx-spinner>

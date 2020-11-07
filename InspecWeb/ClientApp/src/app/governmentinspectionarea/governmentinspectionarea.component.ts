@@ -40,11 +40,6 @@ export class GovernmentinspectionareaComponent implements OnInit {
     dateFormat: 'dd/mm/yyyy',
     showTodayBtn: true
   };
-  private myDatePickerOptionsyear: IMyOptions = {
-    // other options...
-    dateFormat: 'YYYY',
-    
-  };
 
   constructor(
     private modalService: BsModalService, 
@@ -65,7 +60,6 @@ export class GovernmentinspectionareaComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.getdata();
-    this.Formx();
     this.dtOptions = {
       pagingType: 'full_numbers',
       "language": {
@@ -99,115 +93,8 @@ export class GovernmentinspectionareaComponent implements OnInit {
       this.spinner.hide();
     })
   }
-  openModal(template: TemplateRef<any>=null, id=null, year=null,orderdate=null,startdate=null,enddate=null,setinspectionareaFiles=null) {
-    this.Form.reset();
-    this.submitted = false;
-    
-    this.delid = id;
-    this.year = year;
-    this.fileset = setinspectionareaFiles;
-    if (orderdate == null) {
-      this.od = orderdate;
-    } else {
-      this.od = this.time(orderdate);
-    }
-
-    if (startdate == null) {
-      this.sd = startdate;
-    } else {
-      this.sd = this.time(startdate);
-    }
-
-    if (enddate == null) {
-      this.ed = enddate;
-    } else {
-      this.ed = this.time(enddate);
-    }
-
-    this.Form.patchValue({
-      year : year=null,
-      orderdate: this.od,
-      startdate : this.sd,
-      enddate : this.ed,
-    })
-    this.modalRef = this.modalService.show(template);
-  }
-
-  uploadFile(event) {
-    const file = (event.target as HTMLInputElement).files;
-    this.Form.patchValue({
-      files: file
-    });
-    this.Form.get('files').updateValueAndValidity()
-
-  }
-
-  storeFiscalyear(value) {
-
-    this.submitted = true;
-    
-    if (this.Form.invalid) {
-        return;
-    }
-    this.fiscalyearservice.addFiscalyear(value,this.Form.value.files).subscribe(response => {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','เพิ่ม',response.year,response.id).subscribe();
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      this._NotofyService.onSuccess("เพื่มข้อมูล")
-      this.getdata();
-    })
-  }
-  deleteFiscalyear(value) {
-    this.fiscalyearservice.deleteFiscalyear(value).subscribe(response => {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','ลบ',this.year,this.delid).subscribe();
-      this.modalRef.hide()
-      this.loading = false;
-      this._NotofyService.onSuccess("ลบข้อมูล")
-      this.getdata();
-    })
-  }
- 
-  editFiscalyear(value, delid) {
-    this.fiscalyearservice.editFiscalyear(value,this.Form.value.files, delid).subscribe(response => {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','แก้ไข',response.year,response.id).subscribe();
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      this._NotofyService.onSuccess("แก้ไขข้อมูล")
-      this.getdata();
-    })
-  }
-
-  activeFiscalyear(delid){
-    this.fiscalyearservice.activeFiscalyear(delid).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      this._NotofyService.onSuccess("Active")
-      this.getdata();
-    })
-  }
-
-  Formx(){
-    this.Form = this.fb.group({
-      year: new FormControl(null, [Validators.required]),
-      startdate: new FormControl(null, [Validators.required]),
-      enddate: new FormControl(null, [Validators.required]),
-      orderdate: new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
-    })
-  }
-  get f() { return this.Form.controls; }
-
-  time(date) {
-    var ssss = new Date(date)
-    var new_date = { date: { year: ssss.getFullYear(), month: ssss.getMonth() + 1, day: ssss.getDate() } }
-    return new_date
-  }
-
-  DetailFiscalYear(id: any) {
-    this.router.navigate(['/fiscalyear/detailfiscalyear', id])
+  Detail(id: any) {
+    this.router.navigate(['/supportgovernment/governmentinspectionarea/detail', id])
   }
  
 }

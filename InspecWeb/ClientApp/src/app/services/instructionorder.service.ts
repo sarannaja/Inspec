@@ -15,7 +15,6 @@ export class InstructionorderService {
     return this.http.get(this.url)
   }
   addInstructionorder(instructionorderData, file: FileList){
-    // alert(JSON.stringify(instructionorderData))
     const formData = new FormData();
     formData.append('name',instructionorderData.name);
     formData.append('year',instructionorderData.year);
@@ -38,7 +37,6 @@ export class InstructionorderService {
 
   editInstructionorder(instructionorderData,file: FileList,id,filename) {
     const formData = new FormData();
-   // alert(JSON.stringify(instructionorderData));
     formData.append('Name',instructionorderData.name);
     formData.append('Year',instructionorderData.year);
     formData.append('Order',instructionorderData.order);

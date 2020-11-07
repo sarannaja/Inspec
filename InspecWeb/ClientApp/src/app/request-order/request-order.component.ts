@@ -278,9 +278,7 @@ export class RequestOrderComponent implements OnInit {
       .subscribe(result => 
     {
       this.logService.addLog(this.userid,'RequestOrders','เพิ่ม',result.title,result.id).subscribe();
-       //alert(3);
       if(value.Draft == 1){
-        //alert("draft 1");
         this.Form.reset();
         this.loading = false;
         this.getuserinfo();
@@ -289,7 +287,6 @@ export class RequestOrderComponent implements OnInit {
       }else{
         this.notificationService.addNotification(1, 1, 1, 12, result.id,result.title)
          .subscribe(result => {
-         // alert("draft 0");
           this.Form.reset();
           this.loading = false;
           this.getuserinfo();
@@ -308,9 +305,7 @@ export class RequestOrderComponent implements OnInit {
     if (this.Form.invalid) {
         return;
     }
-    // alert(1);
      this.requestOrderService.updaterequestorder(value, this.Form.value.files,this.idrequestorder).subscribe(result => {
-       // alert(3);
        this.logService.addLog(this.userid,'RequestOrders','แก้ไข',result.title,result.id).subscribe();
         if(value.Draft == 1){
           this.Form.reset();
@@ -355,12 +350,9 @@ export class RequestOrderComponent implements OnInit {
 
   //<!-- รับทราบข้อสั่งการ -->
   gotitrequestorder(){ 
-    //alert(1); 
     this.requestOrderService.gotitrequestorder(this.requestorderid,this.idrequestorderanswer).subscribe(result => {
-      //alert(3); 
       this.notificationService.addNotification(1, 1, 1, 13, this.requestorderid,this.vsubject)
       .subscribe(result => {
-        //alert(4); 
        this.loading = false;
        this.getuserinfo();
        this.modalRef.hide();
@@ -407,10 +399,8 @@ export class RequestOrderComponent implements OnInit {
     }
 
     exportexecutive2(id,userId) {
-      //alert(1);
       this.requestOrderService.getrequest2(id,userId)
         .subscribe(result => {
-         // alert(3);
           window.open(this.url + "reportrequestorder/" + result.data);
         })
       this.getuserinfo();

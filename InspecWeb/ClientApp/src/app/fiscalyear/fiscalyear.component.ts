@@ -195,7 +195,7 @@ export class FiscalyearComponent implements OnInit {
       startdate: new FormControl(null, [Validators.required]),
       enddate: new FormControl(null, [Validators.required]),
       orderdate: new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      files: new FormControl(null),
     })
   }
   get f() { return this.Form.controls; }
