@@ -414,7 +414,7 @@ namespace InspecWeb.Controllers
             }
             //string xxx = termsList.ToString().Replace(",", " <br>");
             string Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/upload/";
-            return Ok(Host);
+            return Ok(districtdata);
 
         }
 
@@ -431,17 +431,21 @@ namespace InspecWeb.Controllers
                 var databody = _context.TrainingProgramFiles
                                 .Include(m => m.TrainingProgram)
                                 .ThenInclude(m => m.TrainingPhase)
-                                .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == 1);
+                                .ThenInclude(m => m.Training)
+                                .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == 1)
+                                .ToList();
 
                 List<string> termsList = new List<string>();
+                string textbodyHead = "<h1>" + databody[0].TrainingProgram.TrainingPhase.Training.Name + "</h1>";
                 string textbody = "";
                 string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/upload/";
+                string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
                 //string EndHost = "></a>";
 
                 foreach (var data in databody)
                 {
 
-                    textbody = textbody + Host + data.Name + "' >" + data.TrainingProgram.ProgramTopic + "</a><br />";
+                    textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
                     //termsList.Add(data.Name);
 
                 }
@@ -455,7 +459,7 @@ namespace InspecWeb.Controllers
                     var send = new MailRequest
                     {
                         ToEmail = "toey.aphisit@outlook.com",
-                        Body = textbody,
+                        Body = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot,
                         Subject = "เอกสารไฟล์"
                         //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                     };
