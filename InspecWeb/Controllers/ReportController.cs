@@ -128,7 +128,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "DOC" + ".docx";
+            var filename = "รายงานแบบประเด็นการตรวจติดตาม" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -306,7 +306,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "DOC" + ".docx";
+            var filename = "รายงานผลการดำเนินการของหน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
             System.Console.WriteLine("in create");
@@ -768,7 +768,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "DOC" + ".docx";
+            var filename = "รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -902,7 +902,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "DOC" + ".docx";
+            var filename = "รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -1445,7 +1445,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "DOC" + ".docx";
+            var filename = "รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -1568,7 +1568,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "DOC" + ".docx";
+            var filename = "รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
