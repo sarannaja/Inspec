@@ -21,7 +21,7 @@ interface addInput {
   styleUrls: ['./create-inspection-plan.component.css']
 })
 export class CreateInspectionPlanComponent implements OnInit {
-  private myDatePickerOptions: IMyOptions = {
+  myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
   };

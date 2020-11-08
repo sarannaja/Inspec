@@ -3,14 +3,21 @@ import { FormBuilder, FormControl, Validators, FormGroup, FormArray } from '@ang
 import { TrainingService } from 'src/app/services/training.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { IMyOptions } from 'mydatepicker-th';
 @Component({
   selector: 'app-edit-training',
   templateUrl: './edit-training.component.html',
   styleUrls: ['./edit-training.component.css']
 })
 export class EditTrainingComponent implements OnInit {
+  myDatePickerOptions: IMyOptions = {
+    // other options...
 
+    dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
+    // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
+  };
   name: any
   detail: any
   start_date: any
@@ -62,7 +69,7 @@ export class EditTrainingComponent implements OnInit {
       .subscribe(result => {
         this.resulttraining = result
         console.log("resulttraining => ", this.resulttraining);
-        
+
         this.Form.patchValue({
           name: this.resulttraining[0].name,
           detail: this.resulttraining[0].detail,
@@ -85,17 +92,17 @@ export class EditTrainingComponent implements OnInit {
       return;
     } else {
 
-    this.spinner.show();
-    this.trainingservice.addTraining2(value, this.form.value.files).subscribe(reuslt => {
-      console.log(reuslt);
-      this.Form.reset()
-      this.spinner.hide();
-      this.router.navigate(['training'])
-      // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
-      //   this.centralpolicyservice = result
-      //   console.log(this.resultcentralpolicy);
-      // })
-    })
+      this.spinner.show();
+      this.trainingservice.addTraining2(value, this.form.value.files).subscribe(reuslt => {
+        console.log(reuslt);
+        this.Form.reset()
+        this.spinner.hide();
+        this.router.navigate(['training'])
+        // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
+        //   this.centralpolicyservice = result
+        //   console.log(this.resultcentralpolicy);
+        // })
+      })
     }
   }
 

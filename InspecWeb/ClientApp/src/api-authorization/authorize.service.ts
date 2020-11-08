@@ -88,12 +88,12 @@ export class AuthorizeService {
   //    redirect flow.
   public async signIn(state: any): Promise<IAuthenticationResult> {
     await this.ensureUserManagerInitialized();
-    let user: User = null;
+    let user: User;
     try {
 
       user = await this.userManager.signinSilent(this.createArguments());
       await this.role(user.profile)
-      this._CookieService.set('UserIdMobile', user.profile.sub)
+      this._CookieService.set('UserIdMobile', user.profile && user.profile.sub)
       this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
       return this.success(state);
     } catch (silentError) {
@@ -145,12 +145,18 @@ export class AuthorizeService {
     }
   }
   role(profile: any) {
-    this.http.get<any>(this.baseUrl + 'api/get_role/' + profile.sub)
-      .subscribe(result => {
-        // console.log("result",result);
+    try {
+      this.http.get<any>(this.baseUrl + 'api/get_role/' + profile.sub)
+        .subscribe(result => {
+          // console.log("result",result);
 
-        localStorage.setItem('data', JSON.stringify(result));
-      })
+          localStorage.setItem('data', JSON.stringify(result));
+        })
+    } catch {
+      console.error('api/get_role ' + ':bug');
+
+    }
+
   }
   public async signOut(state: any): Promise<IAuthenticationResult> {
     try {
@@ -238,9 +244,11 @@ export class AuthorizeService {
       );
   }
 
-  newLogin(username, password) {
+  newLogin(username, password, jodjumchan, returnUrl) {
     return this.http.post<any>('/api/auth/login', {
       "username": username,
+      "jodjumchan": jodjumchan,
+      "returnUrl": returnUrl,
       "password": password
     })
   }

@@ -43,14 +43,14 @@ export class DocumenttemplateComponent implements OnInit {
       files : new FormControl(null, [Validators.required])
     })
   }
-  openModal(template: TemplateRef<any>, id, year,title) {
+  openModal(template: TemplateRef<any>, id:any = null, year:any = null,title:any = null) {
     this.delid = id;
     this.title = title;
     this.year = year;
     console.log(this.delid);
     console.log(this.title);
     console.log(this.year);
-    
+
     this.modalRef = this.modalService.show(template);
   }
   uploadFile(event) {
@@ -84,7 +84,7 @@ export class DocumenttemplateComponent implements OnInit {
       })
     })
   }
-  
+
   editDocumenttemplate(value,delid) {
     console.log(value);
     this.documenttemplateservice.editDocumenttemplate(value,delid).subscribe(response => {
@@ -92,7 +92,7 @@ export class DocumenttemplateComponent implements OnInit {
       this.modalRef.hide()
       this.documenttemplateservice.getdocumenttemplate().subscribe(result => {
         this.resultDocumenttemplate = result
-       
+
       })
     })
   }

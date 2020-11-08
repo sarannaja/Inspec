@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
@@ -355,7 +355,7 @@
 
 
 
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-md-12">
                   <u>ไฟล์แนบของคุณ</u><br>
                   <div class="row" *ngFor="let item of userFiles.userFile; let i = index" style="margin-top: 10px;">
@@ -369,7 +369,7 @@
                       (click)="openModal(modaldeleteCentralPolicy, item.id)"></i>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <!-- <div class="row" style="margin-top: 20px;">
                 <div class="col-md-12">
@@ -403,8 +403,7 @@
 </div>
 
 <!-- BEGIN primary modal -->
-<ng-template #modalInvitePeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+<!-- <ng-template #modalInvitePeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
@@ -424,13 +423,11 @@
       </div>
     </div>
   </form>
-  <!-- </div> -->
-</ng-template>
+</ng-template> -->
 <!-- END primary modal -->
 
 <!-- BEGIN primary modal -->
-<ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+<!-- <ng-template #modalInviteMinistryPeople class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="Form" (ngSubmit)="storePeople(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
@@ -450,8 +447,7 @@
       </div>
     </div>
   </form>
-  <!-- </div> -->
-</ng-template>
+</ng-template> -->
 <!-- END primary modal -->
 
 <!-- BEGIN primary modal -->

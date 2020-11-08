@@ -45,7 +45,7 @@ export class TrainingSurveyComponent implements OnInit {
     };
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
-      
+
     })
 
     this.trainingservice.gettrainingsurveycountdata()
@@ -72,7 +72,7 @@ export class TrainingSurveyComponent implements OnInit {
     this.router.navigate(['/training/survey/chart/',trainingid])
   }
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id:any = null) {
     this.delid = id;
    // console.log(this.delid);
 
@@ -97,7 +97,9 @@ export class TrainingSurveyComponent implements OnInit {
 
     })
   }
+  deleteTrainingSurvey(delid){
 
+  }
 
 
 }

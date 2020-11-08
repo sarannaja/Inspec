@@ -23,8 +23,8 @@
 // import "./modules/datetimepicker";
 // import "./modules/markdown";
 // import "./modules/mask";
-import "./modules/quill";
-import "./modules/select2";
+// import "./modules/quill";
+// import "./modules/select2";
 // import "./modules/validation";
 // import "./modules/wizard";
 
