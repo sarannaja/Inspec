@@ -191,8 +191,8 @@ import { ChartComponent } from './subjectevent/detail-subjectevent/chart/chart.c
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 
 const routes: Routes = [
-  // { path: '', redirectTo: 'main', pathMatch: 'full' },
-  { path: '', redirectTo: 'video', pathMatch: 'full' },
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
+  // { path: '', redirectTo: 'video', pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
   // { path: 'login', component: LoginComponent },
