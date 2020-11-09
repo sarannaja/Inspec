@@ -7,6 +7,9 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { LogService } from '../services/log.service';
 import { VillageService } from '../services/village.service';
+import { NotofyService } from '../services/notofy.service';
+import { DistrictService } from '../services/district.service';
+import { SubdistrictService } from '../services/subdistrict.service';
 
 @Component({
   selector: 'app-vilage',
@@ -39,6 +42,9 @@ export class VilageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private router:Router,
+    private districtservice: DistrictService,
+    private subdistrictservice: SubdistrictService,
+    private _NotofyService: NotofyService,
     private authorize: AuthorizeService,
     private userService: UserService,
     private logService: LogService,
@@ -46,8 +52,8 @@ export class VilageComponent implements OnInit {
     this.district_id = activatedRoute.snapshot.paramMap.get('iddistrict')
     this.id = activatedRoute.snapshot.paramMap.get('subdistrictid')
     this.provincename = activatedRoute.snapshot.paramMap.get('provincename')
-    // this.districtname = activatedRoute.snapshot.paramMap.get('districtname')
-    // this.subdistrictname = activatedRoute.snapshot.paramMap.get('subdistrictname')
+    this.districtname = activatedRoute.snapshot.paramMap.get('districtname')
+    this.subdistrictname = activatedRoute.snapshot.paramMap.get('subdistrictname')
   }
 
   ngOnInit() {
@@ -80,6 +86,22 @@ export class VilageComponent implements OnInit {
       })
     })
     this.spinner.show();
+
+    this.subdistrictservice.getsubdistrictdata(this.district_id).subscribe(result => {
+      this.province_id = result[0].district.provinceId 
+
+      // console.log("momo",result);
+      // console.log("momo2",this.subdistrict_id);
+      //alert(this.subdistrict_id);
+      // this.districtservice.getdistrictdata(this.subdistrict_id).subscribe(result => {
+      //   this.province_id = result
+      //   console.log("momo2",result);
+      //  //alert(this.province_id);
+      // })
+
+    })
+
+  
     this.villageservice.getvillagedata(this.id).subscribe(result => {
       this.result = result
       this.loading = true;
@@ -108,6 +130,7 @@ export class VilageComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
       this.getdata()
     })
   }
@@ -122,6 +145,7 @@ export class VilageComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       this.getdata()
     })
   }
@@ -132,6 +156,7 @@ export class VilageComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("ลบข้อมูล")
       this.getdata()
     })
   }

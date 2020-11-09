@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
 import { LogService } from '../services/log.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-subdistrict',
@@ -38,7 +39,7 @@ export class SubdistrictComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private router:Router,
-    // public share: SubdistrictService,
+    private _NotofyService: NotofyService,
     private authorize: AuthorizeService,
     private userService: UserService,
     private logService: LogService,
@@ -109,6 +110,7 @@ export class SubdistrictComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
       this.getsubdistrict()
     })
   }
@@ -123,6 +125,7 @@ export class SubdistrictComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       this.getsubdistrict()
     })
   }
@@ -133,6 +136,7 @@ export class SubdistrictComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("ลบข้อมูล")
       this.getsubdistrict()
     })
   }
@@ -142,9 +146,8 @@ export class SubdistrictComponent implements OnInit {
       Name: new FormControl(null, [Validators.required]),
     })
   }
-  vilage(iddistrict,idsubdistrict,provincename){
-    alert(provincename);
-    this.router.navigate(['/vilage',iddistrict,idsubdistrict,provincename])
+  vilage(iddistrict,idsubdistrict,provincename,districtname,subdistrictname){
+    this.router.navigate(['/vilage',iddistrict,idsubdistrict,provincename,districtname,subdistrictname])
   }
   get f() { return this.Form.controls; }
 }

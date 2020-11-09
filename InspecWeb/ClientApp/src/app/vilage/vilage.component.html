@@ -1,4 +1,3 @@
-<p>vilage works!</p>
 <div class="header">
     
     <nav aria-label="breadcrumb">
@@ -6,8 +5,8 @@
             <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
             <li class="breadcrumb-item active" >จัดการฐานข้อมูล</li>
             <li class="breadcrumb-item"><a [routerLink]="['/province']">จังหวัด</a></li>
-           <!--  <li class="breadcrumb-item"><a [routerLink]="['/district/'+id+'/'+provincename]">อำเภอ</a></li>
-            <li class="breadcrumb-item"><a [routerLink]="['/subdistrict/'+id +'/'+provincename+'/'+districtname]">ตำบล/แขวง</a></li> -->
+            <li class="breadcrumb-item"><a [routerLink]="['/district/'+province_id+'/'+provincename]">อำเภอ</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/subdistrict/'+district_id +'/'+provincename+'/'+districtname]">ตำบล/แขวง</a></li>
             <li class="breadcrumb-item active">หมู่บ้าน</li>
         </ol>
     </nav>
@@ -18,8 +17,8 @@
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -40px;">
                 <h4 class="card-title">จังหวัด : {{provincename}}</h4>
-                <!-- <h5 class="card-title">อำเภอ/เขต : {{districtname}}</h5>
-                <h5 class="card-title">ตำบล/แขวง: {{subdistrictname}}</h5> -->
+                <h5 class="card-title">อำเภอ/เขต : {{districtname}}</h5>
+                <h5 class="card-title">ตำบล/แขวง : {{subdistrictname}}</h5>
                 <div class="float-right">
                     <button class="btn btn-primary" (click)="openModal(modaladd)"
                         style="margin-top: -60px;">เพิ่มหมู่บ้าน</button>

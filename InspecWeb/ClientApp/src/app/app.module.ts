@@ -535,8 +535,7 @@ const ExternalOrganization = [
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'district/:id/:name', component: DistrictComponent, canActivate: [AuthorizeGuard] },
           { path: 'subdistrict/:id/:provincename/:districtname', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
-          //{ path: 'vilage/:iddistrict/:subdistrictid/:provincename/:districtname:/subdistrictname', component: VilageComponent, canActivate: [AuthorizeGuard] },
-          { path: 'vilage/:iddistrict/:subdistrictid/:provincename', component: VilageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'vilage/:iddistrict/:subdistrictid/:provincename/:districtname/:subdistrictname', component: VilageComponent, canActivate: [AuthorizeGuard] },
           //----Training----
           { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
