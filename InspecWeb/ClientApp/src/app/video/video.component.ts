@@ -11,7 +11,7 @@ import { OpenVideoComponent } from './modals/open-video/open-video.component';
   styleUrls: ['./video.component.css']
 })
 export class VideoComponent implements OnInit {
- 
+
   dtOptions: DataTables.Settings = {};
   videos: Video[] = [];
   currentvideo = null;
@@ -54,7 +54,7 @@ export class VideoComponent implements OnInit {
       description: "test des",
       url: "https://google.com",
       published: true,
-      type:'video/mp4'
+      type: 'video/mp4'
     }
     this.videoService.create(video)
       .then(() => {
@@ -81,6 +81,8 @@ export class VideoComponent implements OnInit {
         )
       )
     ).subscribe(data => {
+      console.log(data);
+
       this.videos = data;
     });
   }

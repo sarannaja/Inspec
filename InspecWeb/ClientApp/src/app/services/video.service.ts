@@ -7,7 +7,7 @@ import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
 export class VideoService {
 
 
-  private dbPath = '/viedos';
+  private dbPath = '/videos';
 
   viedosRef: AngularFireList<Video> = null;
 
@@ -42,4 +42,5 @@ export default class Video {
   published = false;
   url: string
   type: string
+  role_id? : number
 }

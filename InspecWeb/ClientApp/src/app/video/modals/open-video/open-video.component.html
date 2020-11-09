@@ -6,10 +6,11 @@
             (plyrInit)="player = $event"></div> -->
         <div class="video" style="width: 100%;">
             <video autoplay style="width: 100%;" controls (click)="toggleVideo()" #videoPlayer>
-                <source src="{{video.url}}" type="video/mp4" />
+                <source [src]="video.url" type="video/mp4" />
                 Browser not supported
             </video>
         </div>
+        <!-- <iframe src="https://drive.google.com/file/d/1XhSJiGLdwjWcVCmu9mJZMLIpgYapFmMi/preview"></iframe> -->
         <!-- <div class="video">
             <mat-video title="My Tutorial Title" [autoplay]="true" [preload]="true" [fullscreen]="true"
                 [download]="false" color="accent" spinner="spin">
