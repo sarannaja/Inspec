@@ -45,7 +45,13 @@ namespace InspecWeb.Models
         //[Description("FK: แผนการตรวจ")] public long centralPolicyEventId { get; set; }
         //public virtual CentralPolicyEvent CentralPolicyEvent { get; set; }
 
-        public string CentralPolicyType { get; set; }
+        // public string CentralPolicyType { get; set; }
+
+        [ForeignKey("Typeexaminationplan")]
+        [Description("FK: ประเภทแผนการตรวจ")]
+        public long CentralPolicyTypeId { get; set; }
+        public virtual Typeexaminationplan CentralPolicyType { get; set; }
+        
         public string ReportType { get; set; }
         public string InspectionRound { get; set; }
         public string MonitoringTopics { get; set; }

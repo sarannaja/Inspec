@@ -409,8 +409,23 @@ namespace InspecWeb.Controllers
 
         // POST api/values
         [HttpPost("editplandate")]
-        public void Editplandate(long planid, DateTime startdate, DateTime enddate)
+        public void Editplandate(long planid, DateTime startdate, DateTime enddate, string userid)
         {
+
+            var date = DateTime.Now;
+            var logdata = new Log
+            {
+                UserId = userid,
+                DatabaseName = "InspectionPlanEvent",
+                EventType = "แก้ไข",
+                EventDate = date,
+                Detail = "แก้ไขกำหนดการตรวจราชการ",
+                Allid = planid,
+            };
+
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
+
             var InspectionPlanEventsdata = _context.InspectionPlanEvents
                 .Find(planid);
             InspectionPlanEventsdata.StartDate = startdate;
@@ -422,25 +437,119 @@ namespace InspecWeb.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("deleteplandate/{planid}")]
-        public void Deleteplandate(long planid)
+        [HttpDelete("deleteplandate/{planid}/{userid}")]
+        public void Deleteplandate(long planid, string userid)
         {
+            var date = DateTime.Now;
+            var centralpolicyeventdatas = _context.CentralPolicyEvents
+            .Where(m => m.InspectionPlanEventId == planid).ToList();
+
+            foreach (var centralpolicyeventdata in centralpolicyeventdatas)
+            {
+
+                var group = _context.SubjectGroupPeopleQuestions.Where(p => p.CentralPolicyEventId == centralpolicyeventdata.Id).FirstOrDefault();
+                if (group != null)
+                {
+
+                    var subjectgroupdata = _context.SubjectGroups
+                    .Include(p => p.CentralPolicy)
+                    .Where(p => p.Id == group.SubjectGroupId).FirstOrDefault();
+
+                    var SubjectCentralPolicyProvincesdatas = _context.SubjectCentralPolicyProvinces
+                        .Where(p => p.SubjectGroupId == group.SubjectGroupId).ToList();
+
+                    foreach (var SubjectCentralPolicyProvincesdata in SubjectCentralPolicyProvincesdatas)
+                    {
+                        var delsubjectCentralPolicyProvincesdata = _context.SubjectCentralPolicyProvinces.Find(SubjectCentralPolicyProvincesdata.Id);
+                        _context.SubjectCentralPolicyProvinces.Remove(delsubjectCentralPolicyProvincesdata);
+                        _context.SaveChanges();
+                    }
+
+                    var SubjectGroupPeopleQuestionsdata = _context.SubjectGroupPeopleQuestions.Find(group.Id);
+                    _context.SubjectGroupPeopleQuestions.Remove(SubjectGroupPeopleQuestionsdata);
+                    _context.SaveChanges();
+
+                    var logdata2 = new Log
+                    {
+                        UserId = userid,
+                        DatabaseName = "SubjectGroups",
+                        EventType = "ลบ",
+                        EventDate = date,
+                        Detail = "ลบประเด็นตรวจติดตามของแผน" + subjectgroupdata.CentralPolicy.Title,
+                        Allid = group.SubjectGroupId,
+                    };
+
+                    _context.Logs.Add(logdata2);
+                    _context.SaveChanges();
+
+                    // var logdata = new Log
+                    // {
+                    //     UserId = userid,
+                    //     DatabaseName = "CentralPolicyEvent",
+                    //     EventType = "ลบ",
+                    //     EventDate = date,
+                    //     Detail = "ลบแผนตรวจราชการ" + subjectgroupdata.CentralPolicy.Title + "ในกำหนดการตรวจราชการ",
+                    //     Allid = id,
+                    // };
+
+                    // _context.Logs.Add(logdata);
+                    // _context.SaveChanges();
+
+                    var subject = _context.SubjectGroups.Find(group.SubjectGroupId);
+                    _context.SubjectGroups.Remove(subject);
+                    _context.SaveChanges();
+                }
+
+                //     var InspectionPlanEventsdata = _context.CentralPolicyEvents.Find(id);
+                //     _context.CentralPolicyEvents.Remove(InspectionPlanEventsdata);
+                //     _context.SaveChanges();
+                // }
+            }
+            
             var CalendarFiledata = _context.CalendarFiles
             .Where(m => m.InspectionPlanEventId == planid).ToList();
             _context.CalendarFiles.RemoveRange(CalendarFiledata);
             _context.SaveChanges();
 
+            var InspectionPlanEventsdatalog = _context.InspectionPlanEvents
+            .Include(m => m.Province)
+            .Where(m => m.Id == planid).FirstOrDefault();
+
+            var logdata = new Log
+            {
+                UserId = userid,
+                DatabaseName = "InspectionPlanEvent",
+                EventType = "ลบ",
+                EventDate = date,
+                Detail = "ลบกำหนดการตรวจราชการจังหวัด" + InspectionPlanEventsdatalog.Province.Name + "วันที่ " + InspectionPlanEventsdatalog.StartDate.ToShortDateString() + "ถึง " + InspectionPlanEventsdatalog.EndDate.ToShortDateString(),
+                Allid = planid,
+            };
+
+            _context.Logs.Add(logdata);
+            _context.SaveChanges();
+
             var InspectionPlanEventsdata = _context.InspectionPlanEvents.Find(planid);
+
+
             _context.InspectionPlanEvents.Remove(InspectionPlanEventsdata);
             _context.SaveChanges();
+
         }
 
         // DELETE api/values/5
-        [HttpDelete("deletecentralpolicyevent/{id}/{userid}")]
-        public void Deletecentralpolicyevent(long id, string userid)
+        [HttpDelete("deletecentralpolicyevent/{id}/{userid}/{planid}")]
+        public void Deletecentralpolicyevent(long id, string userid, long planid)
         {
 
             var date = DateTime.Now;
+
+            var cenid = _context.CentralPolicyEvents
+            .Where(p => p.Id == id).FirstOrDefault();
+
+            var cenuser = _context.CentralPolicyUsers
+            .Where(p => p.CentralPolicyId == cenid.CentralPolicyId && p.InspectionPlanEventId == planid);
+            _context.CentralPolicyUsers.RemoveRange(cenuser);
+            _context.SaveChanges();
 
             var group = _context.SubjectGroupPeopleQuestions.Where(p => p.CentralPolicyEventId == id).FirstOrDefault();
             if (group != null)
@@ -533,6 +642,11 @@ namespace InspecWeb.Controllers
         public void Deletecentralpolicy(long id, string userid)
         {
 
+            var CalendarFiledata = _context.CalendarFiles
+              .Where(m => m.CentralPolicyId == id).ToList();
+            _context.CalendarFiles.RemoveRange(CalendarFiledata);
+            _context.SaveChanges();
+
             var InspectionPlanEventsdata = _context.CentralPolicies.Find(id);
 
             var date = DateTime.Now;
@@ -571,10 +685,11 @@ namespace InspecWeb.Controllers
         public IActionResult Getcentralpolicyeventdataid(long id)
         {
             var centralpolicydata = _context.SubjectGroupPeopleQuestions
+                                  .Include(m => m.CentralPolicyEvent)
                 .Where(p => p.SubjectGroupId == id).FirstOrDefault();
 
             var idid = centralpolicydata.CentralPolicyEventId;
-            return Ok(idid);
+            return Ok(centralpolicydata);
         }
 
         // POST api/values

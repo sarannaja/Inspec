@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IMyOptions } from 'mydatepicker-th';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
@@ -46,6 +47,12 @@ export class AllReportIframeComponent implements OnInit {
   inputdate: any = [{ start_date: '', end_date: '' }];
   startDate: any;
   zoneData: any = [];
+  myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
+  };
 
   get f() { return this.reportForm.controls }
   get d() { return this.f.inputdate as FormArray }

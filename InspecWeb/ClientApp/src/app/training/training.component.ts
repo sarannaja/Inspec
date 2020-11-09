@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { TrainingService } from '../services/training.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -19,6 +19,7 @@ export class TrainingComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   downloadUrl: any;
   mainUrl: string;
+  Form: any;
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -58,6 +59,10 @@ export class TrainingComponent implements OnInit {
       }
 
     };
+    
+    this.Form = this.fb.group({
+      "status": new FormControl(null, [Validators.required]),
+    })
 
     this.trainingservice.gettrainingdata()
     .subscribe(result => {
@@ -76,11 +81,43 @@ export class TrainingComponent implements OnInit {
 
     this.modalRef = this.modalService.show(template);
   }
+
+  SettingModal(template: TemplateRef<any>, id, status) {
+    this.delid = id;
+    //console.log(this.delid);
+
+    this.modalRef = this.modalService.show(template);
+    this.Form = this.fb.group({
+      "status": new FormControl(null, [Validators.required]),
+
+    })
+
+    this.Form.patchValue({
+      "status": status
+    })
+  }
+
   deleteTraining(value) {
     this.trainingservice.deleteTraining(value).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       this.loading = false;
+      this.trainingservice.gettrainingdata().subscribe(result => {
+        this.resulttraining = result
+        this.loading = true;
+        console.log(this.resulttraining);
+      })
+    })
+  }
+
+
+  SettingTraining(value) {
+    console.log("SettingTraining =>", value);
+    this.trainingservice.SettingTraining(value, this.delid).subscribe(response => {
+      this.Form.reset()
+      this.modalRef.hide()
+      this.loading = false
+
       this.trainingservice.gettrainingdata().subscribe(result => {
         this.resulttraining = result
         this.loading = true;

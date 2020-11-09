@@ -762,7 +762,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
   }
   EditPlanDate() {
     // alert(JSON.stringify(this.startDate))
-    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate).subscribe(response => {
+    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate, this.userid).subscribe(response => {
       this.modalRef.hide()
       this.getTimeline();
     })
@@ -776,7 +776,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
     })
   }
   deleteDate() {
-    this.inspectionplanservice.deleteplandate(this.id).subscribe(response => {
+    this.inspectionplanservice.deleteplandate(this.id, this.userid).subscribe(response => {
       this._NotofyService.onSuccess("ลบข้อมูล",)
       this.modalRef.hide()
       this.router.navigate(['inspectionplanevent'])
@@ -785,7 +785,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
 
   DeleteCentralPolicyEvent(value) {
     // alert(value)
-    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid, this.id).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       // location.reload();

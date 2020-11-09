@@ -58,48 +58,57 @@ namespace InspecWeb.Controllers
         // [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginCredentials credentials)
         {
+
             var result1 = await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, credentials.Jodjumchan = false, lockoutOnFailure: true);
+
+
+            var identityUser = await userManager.FindByNameAsync(credentials.Username);
+            var result = userManager.PasswordHasher.VerifyHashedPassword(identityUser, identityUser.PasswordHash, credentials.Password);
+            var test2 = userManager.Options.Lockout.MaxFailedAccessAttempts;
             if (result1.IsLockedOut)
             {
                 var test = userManager.Options.Lockout.DefaultLockoutTimeSpan.TotalMinutes;
-                return Ok(new { Message = "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 5 นาที", status = false, test });
+
+                return Ok(new { Message = "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 5 นาที", status = false, test2 });
             }
-            if (!ModelState.IsValid || credentials == null)
+            else if (result1.Succeeded)
             {
-                return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
-            }
-
-            var identityUser = await userManager.FindByNameAsync(credentials.Username);
-            if (identityUser == null)
-            {
-                return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
-            }
-
-            var result = userManager.PasswordHasher.VerifyHashedPassword(identityUser, identityUser.PasswordHash, credentials.Password);
-
-
-            if (result == PasswordVerificationResult.Failed)
-            {
-
-                return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
-            }
-
-            var claims = new List<Claim>
+                var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, identityUser.Email),
                 new Claim(ClaimTypes.Name, identityUser.UserName)
             };
 
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            // var result1 = await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, false, lockoutOnFailure: true);
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                // var result1 = await signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, false, lockoutOnFailure: true);
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity));
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
 
-            return Ok(new { Message = "You are logged in", status = true });
-            // return LocalRedirect(credentials.ReturnUrl != null ? credentials.ReturnUrl : "/");
+
+                return Ok(new { Message = "You are logged in", status = true });
+            }
+            else
+            {
+                if (!ModelState.IsValid || credentials == null)
+                {
+                    return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
+                }
+
+
+
+                if (result == PasswordVerificationResult.Failed)
+                {
+
+                    return Ok(new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
+                }
+            }
+
+
+
+            return LocalRedirect(credentials.ReturnUrl != null ? credentials.ReturnUrl : "/inspectionplanevent/all");
         }
 
         // [HttpPost]

@@ -57,7 +57,7 @@ export class DefaultLayoutTrainComponent implements OnInit {
 
     };
 
-    this.trainingservice.gettrainingdata()
+    this.trainingservice.gettrainingdataShowPage()
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true;

@@ -1,5 +1,5 @@
 <div class="header">
-    
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
@@ -17,28 +17,28 @@
                     <button class="btn btn-light btn-sm" (click)="gotoBack()">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </button>
-                </h5>   
+                </h5>
             </div>
-            
+
             <div class="card-body mt-3">
                 <div class="row">
                     <div class="col-12">
                         <h5 class="text-center">รายชื่อผู้เข้ารับการฝึกอบรม (รายหลักสูตร/โครงการ)</h5>
                     </div>
-                    
-                </div>  
+
+                </div>
                 <div class="row">
                     <div class="col-12 text-center">
-                        หลักสูตร <u>{{ trainingname }}</u>
+                        <!-- หลักสูตร <u>{{ trainingname }}</u> -->
                         <label></label>
                         รุ่น/ปี <u>01/62</u>
                         <label></label>
                         <br>
                     </div>
-    
+
                 </div>
-                   
-    
+
+
                     <div class="row">
                         <div class="col-2"></div>
                         <div class="col-4">
@@ -93,12 +93,12 @@
                                 <ng-container *ngIf="item.rateCourse >= 80;else msecond">
                                     สถานะ ผ่าน
                                 </ng-container>
-                            
+
                                 <ng-template #msecond>
                                     สถานะ ไม่ผ่าน<label class="text-danger">(เกณฑ์สำหรับการผ่าน 80%)</label>
                                 </ng-template>
                             </td>
-                           
+
                         </tr>
                     </tbody>
                 </table>

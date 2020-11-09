@@ -766,7 +766,7 @@ export class InspectionPlanComponent implements OnInit {
   }
   EditPlanDate() {
     // alert(JSON.stringify(this.startDate))
-    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate).subscribe(response => {
+    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate, this.userid).subscribe(response => {
       this.modalRef.hide()
       this.getTimeline();
     })
@@ -780,7 +780,7 @@ export class InspectionPlanComponent implements OnInit {
     })
   }
   deleteDate() {
-    this.inspectionplanservice.deleteplandate(this.id).subscribe(response => {
+    this.inspectionplanservice.deleteplandate(this.id, this.userid).subscribe(response => {
       this._NotofyService.onSuccess("ลบข้อมูล",)
       this.modalRef.hide()
       this.router.navigate(['inspectionplanevent'])
@@ -789,7 +789,7 @@ export class InspectionPlanComponent implements OnInit {
 
   DeleteCentralPolicyEvent(value) {
     // alert(value)
-    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid,this.id).subscribe(response => {
       this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
@@ -797,7 +797,10 @@ export class InspectionPlanComponent implements OnInit {
       this.loading = false
 
       this.getinspectionplanservice();
-
+      this.getministryuser();
+      this.getdepartmentuser();
+      this.getpeopleuser();
+      this.getprovincialdepartmentuser();
     })
   }
   DeleteCentralPolicy(value) {
@@ -807,6 +810,10 @@ export class InspectionPlanComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false
       this.getinspectionplanservice()
+      this.getministryuser();
+      this.getdepartmentuser();
+      this.getpeopleuser();
+      this.getprovincialdepartmentuser();
     })
   }
 

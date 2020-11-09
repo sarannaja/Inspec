@@ -133,19 +133,20 @@ export class InspectionplanService {
     return this.http.post(this.url + "changeplanstatus", formData);
   }
 
-  editplandate(planid, startdate, enddate) {
+  editplandate(planid, startdate, enddate, userid) {
     const formData = new FormData();
     formData.append('planid', planid);
     formData.append('startdate', startdate.year + '-' + startdate.month + '-' + startdate.day);
     formData.append('enddate', enddate.year + '-' + enddate.month + '-' + enddate.day);
+    formData.append('userid', userid);
     return this.http.post(this.url + "editplandate", formData);
   }
-  deleteplandate(planid) {
-    return this.http.delete(this.url + 'deleteplandate/' + planid);
+  deleteplandate(planid, userid) {
+    return this.http.delete(this.url + 'deleteplandate/' + planid + '/' + userid);
   }
 
-  deleteCentralPolicyEvent(id, userid) {
-    return this.http.delete(this.url + 'deletecentralpolicyevent/' + id + '/' + userid);
+  deleteCentralPolicyEvent(id, userid, planid) {
+    return this.http.delete(this.url + 'deletecentralpolicyevent/' + id + '/' + userid + '/' + planid);
   }
 
   deleteCentralPolicy(id, userid) {
@@ -157,9 +158,9 @@ export class InspectionplanService {
     return this.http.get<any[]>(this.url + 'getcentralpolicyeventdata/' + id)
   }
 
-  getCentralPolicyEvent(id): Observable<any[]> {
+  getCentralPolicyEvent(id): Observable<any> {
     // return this.http.get<any[]>(this.url)
-    return this.http.get<any[]>(this.url + 'getcentralpolicyeventdataid/' + id)
+    return this.http.get<any>(this.url + 'getcentralpolicyeventdataid/' + id)
   }
 
   editcentralpolicy(ceneventid, startdate, enddate, value, userid) {

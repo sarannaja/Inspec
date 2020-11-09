@@ -186,8 +186,8 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     this.downloadUrl = baseUrl + '/Uploads';
     this.urllink = baseUrl + 'answersubject/outsider/';
     this.planId = activatedRoute.snapshot.paramMap.get('planId')
-    const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
-    this.watch = getLastItem(this.router.url)
+    //const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+    this.watch = activatedRoute.snapshot.paramMap.get('watch')
   }
 
   async ngOnInit() {
