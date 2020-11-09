@@ -37,17 +37,18 @@
                     <tbody>
                         <tr *ngFor="let item of resultdepartment; let i = index">
                             <td>{{ i + 1 }}</td>
-                            <td (click)="viewProvincialDepartment(item.id)" class="pointer">{{ item.name }}</td>
+                            <td class="pointer" style="color:#3b7ddd;" (click)="viewProvincialDepartment(item.id)">{{ item.name }}</td>
                             <td>{{item.shortnameTH}}</td>
                             <td>{{item.nameEN}}</td>
                             <td>{{item.shortnameEN}}</td>
                             <td>
+
                               <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล"
                                (click)="editModal(modaleditDepartment, item.id,item.name,item.nameEN,item.shortnameEN,item.shortnameTH)">
                                 <i class="align-middle fas fa-fw fa-pen pointer"></i>
                               </button>
                               <button class="btn btn-danger btn-pill btn-sm" title="แก้ไขข้อมูล" 
-                                (click)="deleteModal(modaldeleteDepartment, item.id)">
+                                (click)="deleteModal(modaldeleteDepartment, item.id,item.name)">
                                 <i class="align-middle fas fa-fw fa-trash-alt pointer"></i>
                               </button>
                                 
@@ -71,25 +72,43 @@
         </div>
 
         <div class="modal-body m-3">
-            <div class="form-group">
-                <label for="Name" class="form-label">ชื่อกรม(TH)</label>
-                <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
-            </div>
-            <div class="form-group">
-              <label for="xx" class="form-label">ชื่อย่อกรม(TH)</label>
-              <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-              <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="ชื่อย่อกรม(TH)">
-            </div>
-            <div class="form-group">
-              <label for="xx" class="form-label">ชื่อกรม(EN)</label>
-              <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-              <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อกรม(EN)">
-            </div>
-            <div class="form-group">
-              <label for="xx" class="form-label">ชื่อย่อกรม(EN)</label>
-              <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-              <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="ชื่อย่อกรม(EN)">
-            </div>       
+
+          <div class="form-group">
+            <label class="form-label">ชื่อกรม(TH)</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อกรม(TH)"
+              [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+            <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+              <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อกรม(TH)</div>
+            </div> 
+          </div>
+  
+          <div class="form-group">
+            <label class="form-label">ชื่อย่อกรม(TH)</label>
+            <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อกรม(TH)"
+            [ngClass]="{ 'is-invalid': submitted && f.ShortnameTH.errors }">
+            <div *ngIf="submitted && f.ShortnameTH.errors" class="invalid-feedback">
+              <div *ngIf="f.ShortnameTH.errors.required">ชื่อย่อกรม(TH)</div>
+            </div> 
+          </div>
+  
+          <div class="form-group">
+            <label class="form-label">ชื่อกรม(EN)</label>
+            <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อกรม(EN)"
+            [ngClass]="{ 'is-invalid': submitted && f.NameEN.errors }">
+            <div *ngIf="submitted && f.NameEN.errors" class="invalid-feedback">
+              <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อกรม(EN)</div>
+            </div> 
+          </div>
+  
+          <div class="form-group">
+            <label class="form-label">ชื่อย่อกรม(EN)</label>
+            <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อกรม(EN)"
+            [ngClass]="{ 'is-invalid': submitted && f.ShortnameEN.errors }">
+            <div *ngIf="submitted && f.ShortnameEN.errors" class="invalid-feedback">
+              <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อกรม(EN)</div>
+            </div> 
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -114,24 +133,40 @@
 
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="Name" class="form-label">ชื่อกรม(TH)</label>
-            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
-          </div>  
-          <div class="form-group">
-            <label for="xx" class="form-label">ชื่อย่อกรม(TH)</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="ชื่อย่อกรม(TH)">
+            <label class="form-label">ชื่อกรม(TH)</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อกรม(TH)"
+              [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+            <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+              <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อกรม(TH)</div>
+            </div> 
           </div>
+  
           <div class="form-group">
-            <label for="xx" class="form-label">ชื่อกรม(EN)</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อกรม(EN)">
+            <label class="form-label">ชื่อย่อกรม(TH)</label>
+            <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อกรม(TH)"
+            [ngClass]="{ 'is-invalid': submitted && f.ShortnameTH.errors }">
+            <div *ngIf="submitted && f.ShortnameTH.errors" class="invalid-feedback">
+              <div *ngIf="f.ShortnameTH.errors.required">ชื่อย่อกรม(TH)</div>
+            </div> 
           </div>
+  
           <div class="form-group">
-            <label for="xx" class="form-label">ชื่อย่อกรม(EN)</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="ชื่อย่อกรม(EN)">
-          </div>       
+            <label class="form-label">ชื่อกรม(EN)</label>
+            <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อกรม(EN)"
+            [ngClass]="{ 'is-invalid': submitted && f.NameEN.errors }">
+            <div *ngIf="submitted && f.NameEN.errors" class="invalid-feedback">
+              <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อกรม(EN)</div>
+            </div> 
+          </div>
+  
+          <div class="form-group">
+            <label class="form-label">ชื่อย่อกรม(EN)</label>
+            <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อกรม(EN)"
+            [ngClass]="{ 'is-invalid': submitted && f.ShortnameEN.errors }">
+            <div *ngIf="submitted && f.ShortnameEN.errors" class="invalid-feedback">
+              <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อกรม(EN)</div>
+            </div> 
+          </div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>

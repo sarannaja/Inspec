@@ -33,7 +33,7 @@ export class ProvincialDepartmentService {
     }
    
 
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
 
   }
 
@@ -48,7 +48,7 @@ export class ProvincialDepartmentService {
     for (var i = 0; i < departmentdata.Province.length; i++) {
       formData.append('Province', departmentdata.Province[i]); 
     }
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
   
 }

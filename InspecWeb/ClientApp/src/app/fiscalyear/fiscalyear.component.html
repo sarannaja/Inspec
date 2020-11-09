@@ -28,7 +28,7 @@
               <th>ลงวันที่</th>
               <th>ระยะเวลา</th>
               <th>สถานะ</th>
-              <th>วันที่แก้ไข</th>
+              <th>ไฟล์</th>
               <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -54,7 +54,9 @@
 
               </td>
               <td>
-                <span *ngIf="item.updateAt != null" >{{item.updateAt | thaidate:'short'}}</span>
+                <span *ngFor="let item2 of item.setinspectionareaFiles;let n = index" >
+                  <a href="{{fileUrl}}/{{item2.name}}" download>{{n +1}}.{{item2.name}}</a><br>
+                </span>
               </td>
               <td>
                 <button class="btn btn-warning btn-pill btn-sm" title="กำหนดเขตตรวจ" (click)="DetailFiscalYear(item.id)">
@@ -97,8 +99,7 @@
               <div class="col-6">
                 <div class="form-group">
                   <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอก"
-                  [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
-
+                    [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
                     <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
                       <div *ngIf="f.year.errors.required">กรุณากรอก</div>
                     </div>
@@ -114,7 +115,7 @@
 
                   <div class="form-group" *ngIf="submitted &&  f.orderdate.errors"
                     [ngStyle]="submitted &&  f.orderdate.invalid ? {color: '#dc3545'}:{color: ''} ">
-                    <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
+                    <div style="font-size: 80%;">กรุณาเลือกวันที่</div>
                   </div>
                 </div>
               </div>
@@ -151,20 +152,20 @@
             <div class="col-12 col-xl-5">
               <div class="form-group">
                 <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" 
-                  required placeholder="กรุณาเลือกวันที่สิ้นสุด"
+                  required placeholder="กรุณาเลือกวันที่สิ้นสุด" 
                   [ngClass]="{ 'is-invalid': submitted && f.enddate.errors }">
                 </my-date-picker-th>
                 <div class="form-group" *ngIf="submitted &&  f.enddate.errors"
-                    [ngStyle]="submitted &&  f.enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
-                    <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>
-                  </div>
+                  [ngStyle]="submitted &&  f.enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                  <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>
+                </div>
               </div>
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label w-100">ไฟล์</label>
-            <input type="file" (change)="uploadFile($event)" />
+            <input type="file" (change)="uploadFile($event)" multiple/>
             <small class="form-text text-muted">ไฟล์</small>
           </div>
         </div>
@@ -217,13 +218,25 @@
           </div>
           <div class="row">
               <div class="col-6">
-                <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอก">
+                <div class="form-group">
+                  <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอก"
+                    [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+                  <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+                    <div *ngIf="f.year.errors.required">กรุณากรอก</div>
+                  </div>
+                </div>
               </div>
 
               <div class="col-6">
+                <div class="form-group">
                   <my-date-picker-th formControlName="orderdate" [options]="myDatePickerOptions"
-                      placeholder="กรุณาเลือกวันที่">
+                      placeholder="กรุณาเลือกวันที่" [ngClass]="{ 'is-invalid': submitted && f.orderdate.errors }">
                   </my-date-picker-th>
+                  <div class="form-group" *ngIf="submitted &&  f.orderdate.errors"
+                    [ngStyle]="submitted &&  f.orderdate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกวันที่</div>
+                  </div>
+                </div>
               </div>
           </div>
           </div>
@@ -233,8 +246,14 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" 
+                required placeholder="กรุณาเลือกวันที่เริ่มต้น"
+                  [ngClass]="{ 'is-invalid': submitted && f.startdate.errors }">
                 </my-date-picker-th>
+                <div class="form-group" *ngIf="submitted &&  f.startdate.errors"
+                  [ngStyle]="submitted &&  f.startdate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                  <div style="font-size: 80%;">กรุณาเลือกวันที่เริ่มต้น</div>
+                </div>
               </div>
             </div>
             <div class="col-12 col-xl-2">
@@ -244,15 +263,21 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด">
+                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" 
+                  required placeholder="กรุณาเลือกวันที่สิ้นสุด"
+                  [ngClass]="{ 'is-invalid': submitted && f.enddate.errors }">
                 </my-date-picker-th>
+                <div class="form-group" *ngIf="submitted &&  f.enddate.errors"
+                  [ngStyle]="submitted &&  f.enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                  <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>
+                </div>
               </div>
             </div>
           </div>
           
           <div class="form-group">
             <label class="form-label w-100">ไฟล์</label>
-            <input type="file" (change)="uploadFile($event)" />
+            <input type="file" (change)="uploadFile($event)" multiple/>
             <small class="form-text text-muted">ไฟล์</small>
             <div *ngFor="let item of fileset; let i = index">
               <a href="{{fileUrl}}/{{item.name}}" download>{{i +1}}.{{item.name}}</a>
