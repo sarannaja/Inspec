@@ -224,7 +224,7 @@ export class ExportReportService {
       formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
     }
 
-    formData.append('centralPolicyType', value.centralPolicyType);
+    formData.append('centralPolicyTypeId', value.centralPolicyType);
     formData.append('reportType', value.reportType);
     formData.append('inspectionRound', value.inspectionRound);
     formData.append('fiscalYearId', value.fiscalYear);
@@ -302,10 +302,10 @@ export class ExportReportService {
     console.log("Edit ID: ", reportId);
 
     const formData = new FormData();
-    for (var i = 0; i < value.centralPolicyEvent.length; i++) {
-      formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
-    }
-    formData.append('centralPolicyType', value.centralPolicyType);
+    // for (var i = 0; i < value.centralPolicyEvent.length; i++) {
+    //   formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
+    // }
+    formData.append('centralPolicyTypeId', value.centralPolicyType);
     formData.append('reportType', value.reportType);
     formData.append('inspectionRound', value.inspectionRound);
     formData.append('fiscalYearId', value.fiscalYear);
@@ -338,6 +338,10 @@ export class ExportReportService {
 
   getZones() {
     return this.http.get<any>(this.url + "/getZones");
+  }
+
+  getPresident() {
+    return this.http.get<any>(this.url + "/getPresident");
   }
 
   getProvinces() {
@@ -399,6 +403,20 @@ export class ExportReportService {
       reportDepartment: department,
     }
     return this.http.post<any>(this.url + "/exportAllDepartmentReport", formData)
+  }
+
+  // getAllReportByPresidentId(value) {
+  //   console.log("President: ", value);
+  //   var presidentId = value.president;
+
+  //   return this.http.get<any>(this.url + "/getAllReportByPresident/" + presidentId);
+  // }
+
+  getAllReportByPresidentId(value) {
+    console.log("Region: ", value);
+    var regionId = value;
+
+    return this.http.get<any>(this.url + "/getAllReportByRegion/" + regionId);
   }
 
   getAllReportByRegionId(value) {

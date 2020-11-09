@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
@@ -21,7 +21,7 @@
           </div>
           <div>
             <u>ประเภทรายงาน:</u>
-            <label>&nbsp;&nbsp;{{reportData.importData.centralPolicyType}}</label>
+            <label>&nbsp;&nbsp;{{reportData.importData.centralPolicyType.name}}</label>
           </div>
           <div>
             <u>ประเภทการออกรายงาน:</u>
@@ -101,25 +101,6 @@
     </div>
   </div>
 </div>
-
-
-<ng-template #confirmModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
-    <i class="fa fa-info-circle delete-icon"></i>
-    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
-      บันทึกข้อสั่งการ
-    </p>
-    <p style="font-size: medium; color: #545454;">
-      คุณต้องการบันทึกข้อสั่งการในรายงานผลการตรวจใช่หรือไม่ ?
-    </p>
-    <button type="button" class="btn btn-primary btnMargin" (click)="sendToCommander()">
-      ใช่
-    </button>
-    <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
-      ไม่ใช่
-    </button>
-  </div>
-</ng-template>
 
 <ng-template #commandModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="commandForm" (ngSubmit)="sendCommand(commandForm.value)">

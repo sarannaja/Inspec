@@ -348,6 +348,7 @@ namespace InspecWeb.Controllers
         public IActionResult CreateReport2([FromBody] ExportReportViewModel model)
         {
             var exportData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Where(x => x.Id == model.reportId)
                 .FirstOrDefault();
 
@@ -389,7 +390,7 @@ namespace InspecWeb.Controllers
 
                         // Add a title
 
-                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType + ")" + " : " + exportData.ReportType);
+                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
                         reportType.FontSize(16d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
@@ -1240,6 +1241,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetImportedReport(string userId)
         {
             var importData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.InspectionPlanEvent)
@@ -1263,6 +1265,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetImportedReportById(long reportId)
         {
             var importData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
                 .Include(x => x.FiscalYear)
@@ -1315,6 +1318,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("ProvinceId: " + provinceId);
             var commanderReport = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1420,7 +1424,7 @@ namespace InspecWeb.Controllers
                 FiscalYearId = model.fiscalYearId,
                 RegionId = model.regionId,
                 ProvinceId = model.provinceId,
-                CentralPolicyType = model.centralPolicyType,
+                CentralPolicyTypeId = model.centralPolicyTypeId,
                 ReportType = model.reportType,
                 InspectionRound = model.inspectionRound,
                 MonitoringTopics = model.monitoringTopics,
@@ -1559,8 +1563,8 @@ namespace InspecWeb.Controllers
                 importReport.FiscalYearId = model.fiscalYearId;
                 importReport.RegionId = model.regionId;
                 importReport.ProvinceId = model.provinceId;
-                importReport.CentralPolicyType = model.centralPolicyType;
-                importReport.ReportType = model.reportType;
+                importReport.CentralPolicyTypeId = model.centralPolicyTypeId;
+                importReport.ReportType= model.reportType;
                 importReport.InspectionRound = model.inspectionRound;
                 importReport.MonitoringTopics = model.monitoringTopics;
                 importReport.DetailReport = model.detailReport;
@@ -1661,6 +1665,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllImportedReport()
         {
             var importData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.InspectionPlanEvent)
@@ -1697,6 +1702,18 @@ namespace InspecWeb.Controllers
             return Ok(new { Sectors });
         }
 
+        [HttpGet("getPresident")]
+        public IActionResult GetPresident()
+        {
+            var Presidents = _context.Users
+            .Include(m => m.UserRegion)
+            .Where(m => m.Role_id == 8)
+                .ToList();
+
+            return Ok(new { Presidents });
+        }
+
+
         [HttpGet("getRegions")]
         public IActionResult GetRegions()
         {
@@ -1719,6 +1736,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByDepartment(long departmentId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1741,6 +1759,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByRegion(long regionId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1763,6 +1782,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByZone(long zoneId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1786,6 +1806,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByProvince(long provinceId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1809,6 +1830,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("StartDate: " + model.startDate.Date);
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType) 
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -3241,6 +3263,7 @@ namespace InspecWeb.Controllers
         public IActionResult getAllActiveImportedReport()
         {
             var importData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.InspectionPlanEvent)
