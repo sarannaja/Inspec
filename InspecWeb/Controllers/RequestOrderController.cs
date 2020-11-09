@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
@@ -396,7 +398,7 @@ namespace InspecWeb.Controllers
         public IActionResult Getexport1([FromBody] UserViewModel body)
         {
             var userId = body.Id;
-
+            var random = RandomString(3);
             var users = _context.Users
                 .Where(m => m.Id == userId)
                 .FirstOrDefault();
@@ -411,18 +413,17 @@ namespace InspecWeb.Controllers
 
             System.Console.WriteLine("export1 : " + userId);
 
-            if (!Directory.Exists(_environment.WebRootPath + "//reportrequestorder//")) //ถ้ามีไฟล์อยู่แล้ว
+            if (!Directory.Exists(_environment.WebRootPath + "//reportrequest//")) //ถ้ามีไฟล์อยู่แล้ว
             {
-                Directory.CreateDirectory(_environment.WebRootPath + "//reportrequestorder//"); //สร้าง Folder reportexecutive ใน wwwroot
+                Directory.CreateDirectory(_environment.WebRootPath + "//reportrequest//"); //สร้าง Folder reportexecutive ใน wwwroot
             }
 
-            var filePath = _environment.WebRootPath + "/reportrequestorder/"; // เก็บไฟล์ logo 
-            var filename = "ทะเบียนคำร้องขอจากหน่วยงานของรัฐ" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var filePath = _environment.WebRootPath + "/reportrequest/"; // เก็บไฟล์ logo 
+            var filename = "ทะเบียนคำร้องขอจากหน่วยงานของรัฐหน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy") + random +".docx"; // ชื่อไฟล์
             var createfile = filePath + filename; //
             var myImageFullPath = filePath + "logo01.png";
 
             System.Console.WriteLine("3");
-            System.Console.WriteLine("in create");
             using (DocX document = DocX.Create(createfile)) //สร้าง
             {
 
@@ -441,6 +442,12 @@ namespace InspecWeb.Controllers
                 name.SpacingAfter(10d);
                 name.FontSize(12d); //ขนาดตัวอักษร      
                 System.Console.WriteLine("7");
+
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var Date = DateTime.Now.ToString("dd MMMM yyyy");
+                var year = document.InsertParagraph("วันที่เรียกรายงาน" + Date);
+                year.Alignment = Alignment.center;
+                year.SpacingAfter(10d);
 
                 int dataCount = 0;
                 dataCount = Eexcutive1.Count; //เอาที่ select มาใช้
@@ -481,14 +488,16 @@ namespace InspecWeb.Controllers
                        .Where(m => m.Id == Eexcutive1[i].UserID)
                        .FirstOrDefault();
 
-                    System.Console.WriteLine("9.1: ");
+                    var Commanded_date = Eexcutive1[i].RequestOrder.Commanded_date.Value.ToString("dd MMMM yyyy");
+                    var beaware_date = Eexcutive1[i].beaware_date.Value.ToString("dd MMMM yyyy");
+                    System.Console.WriteLine("9.1: " + j);
                     t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());               
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive1[i].RequestOrder.Commanded_date.ToString());            
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(Commanded_date);            
                     t.Rows[j].Cells[2].Paragraphs[0].Append(Eexcutive1[i].RequestOrder.Subject);              
                     t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive1[i].Status.ToString());                           
                     t.Rows[j].Cells[4].Paragraphs[0].Append(users2.Name);            
                     t.Rows[j].Cells[5].Paragraphs[0].Append("-"); 
-                    t.Rows[j].Cells[6].Paragraphs[0].Append(Eexcutive1[i].beaware_date.ToString());          
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(beaware_date);          
 
                 }
 
@@ -509,26 +518,30 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("id " + body.Id);
             var userId = body.Id;
-
+            var random = RandomString(3);
             var Eexcutive3 = _context.RequestOrderAnswers
                 .Include(m => m.RequestOrder)
                 .Include(m => m.RequestOrderAnswerDetails)
                 .Where(m => m.RequestOrder.Draft == 0)
-                .Where(m => m.RequestOrder.UserID == userId).ToList();
+                .Where(m => m.UserID == userId).ToList();
 
             var users = _context.Users
                 .Where(m => m.Id == userId)
                 .FirstOrDefault();
 
-            System.Console.WriteLine("export_ : " + userId);
-
-            if (!Directory.Exists(_environment.WebRootPath + "//reportrequestorder//")) //ถ้ามีไฟล์อยู่แล้ว
+            var appDataPath = _environment.WebRootPath + "//reportrequest//";
+            if (!Directory.Exists(appDataPath))
             {
-                Directory.CreateDirectory(_environment.WebRootPath + "//reportrequestorder//"); //สร้าง Folder reportexecutive ใน wwwroot
+                Directory.CreateDirectory(appDataPath);
             }
+            System.Console.WriteLine("export_ : " + userId);
+            //if (!Directory.Exists(_environment.WebRootPath + "//reportexecutive//")) //ถ้ามีไฟล์อยู่แล้ว
+            //{
+            //    Directory.CreateDirectory(_environment.WebRootPath + "//reportexecutive//"); //สร้าง Folder reportexecutive ใน wwwroot
+            //}
 
-            var filePath = _environment.WebRootPath + "/reportrequestorder/"; // เก็บไฟล์ logo 
-            var filename = "ทะเบียนคำร้องขอจากหน่วยงานของรัฐ/หน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var filePath = _environment.WebRootPath + "/reportrequest/"; // เก็บไฟล์ logo 
+            var filename = "ทะเบียนคำร้องขอจากหน่วยงานของรัฐหน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy") +random+".docx"; // ชื่อไฟล์
             var createfile = filePath + filename; //
             var myImageFullPath = filePath + "logo01.png";
 
@@ -551,6 +564,12 @@ namespace InspecWeb.Controllers
                 name.SpacingAfter(10d);
                 name.FontSize(12d); //ขนาดตัวอักษร      
                 System.Console.WriteLine("7");
+
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var Date = DateTime.Now.ToString("dd MMMM yyyy");
+                var year = document.InsertParagraph("วันที่เรียกรายงาน" + Date);
+                year.Alignment = Alignment.center;
+                year.SpacingAfter(10d);
 
                 int dataCount = 0;
                 dataCount = Eexcutive3.Count; //เอาที่ select มาใช้
@@ -591,13 +610,16 @@ namespace InspecWeb.Controllers
                         .FirstOrDefault();
                     System.Console.WriteLine("JJJJJ: " + j);
 
+                    var Commanded_date = Eexcutive3[i].RequestOrder.Commanded_date.Value.ToString("dd MMMM yyyy");
+                    var beaware_date = Eexcutive3[i].beaware_date.Value.ToString("dd MMMM yyyy");
+
                     t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive3[i].RequestOrder.Commanded_date.ToString());
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(Commanded_date);
                     t.Rows[j].Cells[2].Paragraphs[0].Append(username);
                     t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive3[i].RequestOrder.Subject);
                     t.Rows[j].Cells[4].Paragraphs[0].Append(Eexcutive3[i].Status);
-                    t.Rows[j].Cells[5].Paragraphs[0].Append(Eexcutive3[i].beaware_date.ToString());
-                    t.Rows[j].Cells[6].Paragraphs[0].Append("");
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(beaware_date.ToString());
+                    t.Rows[j].Cells[6].Paragraphs[0].Append("-");
 
 
                 }
@@ -629,8 +651,13 @@ namespace InspecWeb.Controllers
                 .Include(m => m.RequestOrderAnswerDetails)
                 //.Where(m => m.RequestOrder.Draft == 0) 
                 .Where(m => m.Id == id) 
-                .Where(m => m.UserID == userId)           
+                .Where(m => m.UserID == userId)
+                .OrderByDescending(x => x.Id)
                 .FirstOrDefault();
+
+            var detail = _context.RequestOrderAnswerDetails
+               .Where(m => m.RequestOrderAnswerId == exportexcutiveorderdata.Id)
+               .FirstOrDefault();
 
             System.Console.WriteLine("1.2 : " + exportexcutiveorderdata.RequestOrder.UserID);
             //ผู้สั่งการ
@@ -675,61 +702,68 @@ namespace InspecWeb.Controllers
                 var name = document.InsertParagraph(users.Name);
                 name.Alignment = Alignment.center;
                 name.SpacingAfter(10d);
-                name.FontSize(16d); //ขนาดตัวอักษร
+                name.FontSize(14d); //ขนาดตัวอักษร
                 name.Bold();
                 System.Console.WriteLine("7");
 
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var Commanded_date = exportexcutiveorderdata.RequestOrder.Commanded_date.Value.ToString("dd MMMM yyyy");
+                var CreatedAt = exportexcutiveorderdata.RequestOrder.CreatedAt.Value.ToString("dd MMMM yyyy");
+                var beaware_date = exportexcutiveorderdata.beaware_date.Value.ToString("dd MMMM yyyy");
 
 
-
-                document.InsertParagraph(" วันที่มีคำร้องขอ   " + exportexcutiveorderdata.RequestOrder.Commanded_date + "   วันที่แจ้งคำร้องขอ   " + exportexcutiveorderdata.RequestOrder.CreatedAt).FontSize(16d)
+                document.InsertParagraph(" วันที่มีคำร้องขอ" + Commanded_date + "วันที่แจ้งคำร้องขอ" + CreatedAt).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 .Alignment = Alignment.center;
 
-                document.InsertParagraph("เรื่อง  " + exportexcutiveorderdata.RequestOrder.Subject).FontSize(16d)
+                document.InsertParagraph("เรื่อง :" + exportexcutiveorderdata.RequestOrder.Subject).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 .Alignment = Alignment.left;
 
 
-                document.InsertParagraph("ผู้รับคำร้องขอ   " + username).FontSize(16d)
+                document.InsertParagraph("ผู้รับคำร้องขอ  :" + username).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
 
                 .Alignment = Alignment.left;
 
-                document.InsertParagraph("รายละเอียด  ").FontSize(16d)
+                document.InsertParagraph("รายละเอียด  :").FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 .Alignment = Alignment.left;
 
                 document.InsertParagraph("\n\n");
 
-                document.InsertParagraph("การดำเนินการตามข้อสั่งการ").FontSize(16d)
+                document.InsertParagraph("การดำเนินการตามคำร้องขอ ").FontSize(16d)
                    .SpacingBefore(15d)
                    .SpacingAfter(15d)
                    .Bold() //ตัวหนา
                    .Alignment = Alignment.center;
 
-                document.InsertParagraph("วันที่มีข้อสั่งการ  " + exportexcutiveorderdata.RequestOrder.Commanded_date + "  วันที่แจ้งข้อสั่งการ  " + exportexcutiveorderdata.beaware_date).FontSize(16d)
+                document.InsertParagraph("วันที่มีคำร้องขอ  " + Commanded_date + "  วันที่รับทราบคำร้องขอ  " + beaware_date).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 .Alignment = Alignment.center;
 
-                document.InsertParagraph("รายละเอียด ").FontSize(16d)
+
+                document.InsertParagraph("รายละเอียด :" + detail.Answerdetail).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
                 .Alignment = Alignment.left;
 
-                document.InsertParagraph("ปัญหา/อุปสรรค ").FontSize(16d)
+                document.InsertParagraph("ปัญหา/อุปสรรค :" + detail.AnswerProblem).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
                 .Alignment = Alignment.left;
 
-                document.InsertParagraph("ข้อเสนอแนะ ").FontSize(16d)
+                document.InsertParagraph("ข้อเสนอแนะ :" + detail.AnswerCounsel).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
+                //.Bold() //ตัวหนา
                 .Alignment = Alignment.left;
 
                 System.Console.WriteLine("11");

@@ -83,7 +83,7 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string Name, string NameEN, string ShortnameEN, string ShortnameTH)
+        public Ministry Put(long id, string Name, string NameEN, string ShortnameEN, string ShortnameTH)
         {
             var Ministry = _context.Ministries.Find(id);
             Ministry.Name = Name;
@@ -92,6 +92,7 @@ namespace InspecWeb.Controllers
             Ministry.ShortnameTH = ShortnameTH;
             _context.Entry(Ministry).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+            return Ministry;
 
         }
 

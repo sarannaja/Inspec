@@ -150,7 +150,7 @@ export class FiscalyearComponent implements OnInit {
         return;
     }
     this.fiscalyearservice.addFiscalyear(value,this.Form.value.files).subscribe(response => {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','เพิ่ม',response.year,response.id).subscribe();
+      this.logService.addLog(this.userid,'FiscalYears','เพิ่ม',response.title,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -160,7 +160,7 @@ export class FiscalyearComponent implements OnInit {
   }
   deleteFiscalyear(value) {
     this.fiscalyearservice.deleteFiscalyear(value).subscribe(response => {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','ลบ',this.year,this.delid).subscribe();
+      this.logService.addLog(this.userid,'FiscalYears','ลบ',this.year,this.delid).subscribe();
       this.modalRef.hide()
       this.loading = false;
       this._NotofyService.onSuccess("ลบข้อมูล")
@@ -169,8 +169,13 @@ export class FiscalyearComponent implements OnInit {
   }
  
   editFiscalyear(value, delid) {
+    this.submitted = true;
+    
+    if (this.Form.invalid) {
+        return;
+    }
     this.fiscalyearservice.editFiscalyear(value,this.Form.value.files, delid).subscribe(response => {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','แก้ไข',response.year,response.id).subscribe();
+      this.logService.addLog(this.userid,'FiscalYears','แก้ไข',response.title,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;

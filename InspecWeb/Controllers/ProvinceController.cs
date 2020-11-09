@@ -91,7 +91,7 @@ namespace InspecWeb.Controllers
         public Province Post([FromForm] ProviceRequest request)
         {
             var date = DateTime.Now;
-            Console.WriteLine("province 1 :" + request.SectorId + " : " + request.Link + " : " + request.Name);
+           // Console.WriteLine("province 1 :" + request.SectorId + " : " + request.Link + " : " + request.Name);
             var provincedata = new Province
             {
                 Name = request.Name,
@@ -103,16 +103,16 @@ namespace InspecWeb.Controllers
                 ShortnameTH = request.ShortnameTH,
                 CreatedAt = date
             };
-            Console.WriteLine("province 2 :" + request.ProvincesGroupId);
+           // Console.WriteLine("province 2 :" + request.ProvincesGroupId);
             _context.Provinces.Add(provincedata);
             _context.SaveChanges();
-            Console.WriteLine("province 3 :");
+           // Console.WriteLine("province 3 :");
             return provincedata;
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put([FromForm] ProviceRequest request, long id)
+        public Province Put([FromForm] ProviceRequest request, long id)
         {
             var province = _context.Provinces.Find(id);
             province.Name = request.Name;
@@ -124,6 +124,9 @@ namespace InspecWeb.Controllers
             province.ShortnameTH = request.ShortnameTH;
             _context.Entry(province).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+            return province;
+
 
         }
 

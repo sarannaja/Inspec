@@ -22,7 +22,7 @@ export class SideService {
     formData.append('NameEN', data.NameEN);
     formData.append('ShortnameEN', data.ShortnameEN);
     formData.append('ShortnameTH', data.ShortnameTH);
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
   delete(id) {
     return this.http.delete(this.url + id);
@@ -33,6 +33,6 @@ export class SideService {
     formData.append('NameEN', data.NameEN);
     formData.append('ShortnameEN', data.ShortnameEN);
     formData.append('ShortnameTH', data.ShortnameTH);
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
 }

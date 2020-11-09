@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using InspecWeb.Data;
 using InspecWeb.Models;
@@ -469,17 +471,24 @@ namespace InspecWeb.Controllers {
                 System.Console.WriteLine ("5");
 
                 // Add a title
-                document.InsertParagraph ("ทะเบียนคำร้องขอจากหน่วยงานของรัฐ/หน่วยรับตรวจ").FontSize (16d)
+                document.InsertParagraph ("ทะเบียนข้อสั่งการของผู้บริหาร").FontSize (16d)
                     .SpacingBefore (15d)
                     .SpacingAfter (15d)
                     .Bold () //ตัวหนา
                     .Alignment = Alignment.center;
 
-                var name = document.InsertParagraph (users.Name);
+                var name = document.InsertParagraph (users.Prefix + users.Name);
                 name.Alignment = Alignment.center;
                 name.SpacingAfter (10d);
                 name.FontSize (12d); //ขนาดตัวอักษร      
                 System.Console.WriteLine ("7");
+
+
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var Date = DateTime.Now.ToString("dd MMMM yyyy");
+                var year = document.InsertParagraph("วันที่เรียกรายงาน" + Date);
+                year.Alignment = Alignment.center;
+                year.SpacingAfter(10d);
 
                 int dataCount = 0;
                 dataCount = Eexcutive1.Count; //เอาที่ select มาใช้
@@ -524,11 +533,14 @@ namespace InspecWeb.Controllers {
                        .FirstOrDefault();
                     System.Console.WriteLine ("JJJJJ: " + j);
                     //System.Console.WriteLine("9.1: ");
+                    var Commanded_date = Eexcutive1[i].ExecutiveOrder.Commanded_date.Value.ToString("dd MMMM yyyy");
+                    var CreatedAt = Eexcutive1[i].ExecutiveOrder.CreatedAt.Value.ToString("dd MMMM yyyy");
+
                     t.Rows[j].Cells[0].Paragraphs[0].Append (j.ToString ()); //ลำดับ                
-                    t.Rows[j].Cells[1].Paragraphs[0].Append (Eexcutive1[i].ExecutiveOrder.Commanded_date.ToString ());// วัน/เดือน/ปีที่มีข้อสั่งการ                  
+                    t.Rows[j].Cells[1].Paragraphs[0].Append (Commanded_date);// วัน/เดือน/ปีที่มีข้อสั่งการ                  
                     t.Rows[j].Cells[2].Paragraphs[0].Append (Eexcutive1[i].ExecutiveOrder.Subject); // ประเด็น/เรื่อง                 
                     t.Rows[j].Cells[3].Paragraphs[0].Append (Eexcutive1[i].Status.ToString()); // สถานะเรื่อง                 
-                    t.Rows[j].Cells[4].Paragraphs[0].Append (Eexcutive1[i].ExecutiveOrder.CreatedAt.ToString ()); // วัน/เดือน/ปีที่แจ้งข้อสั่งการ           
+                    t.Rows[j].Cells[4].Paragraphs[0].Append (CreatedAt); // วัน/เดือน/ปีที่แจ้งข้อสั่งการ           
                     t.Rows[j].Cells[5].Paragraphs[0].Append (users2.Name);   //ผู้รับข้อสั่งการ             
                     t.Rows[j].Cells[6].Paragraphs[0].Append ("-"); //การดำเนินการ
 
@@ -552,12 +564,12 @@ namespace InspecWeb.Controllers {
         {
             System.Console.WriteLine("id " + body.Id);
             var userId = body.Id;
-
+            var random = RandomString(3);
             var Eexcutive3 = _context.ExecutiveOrderAnswers
                 .Include(m => m.ExecutiveOrder)
                 .Include(m => m.ExecutiveOrderAnswerDetails)
                 .Where(m => m.ExecutiveOrder.Draft == 0)
-                .Where(m => m.ExecutiveOrder.UserID == userId).ToList();
+                .Where(m => m.UserID == userId).ToList();
 
             var users = _context.Users
                 .Where(m => m.Id == userId)
@@ -571,7 +583,7 @@ namespace InspecWeb.Controllers {
             }
 
             var filePath = _environment.WebRootPath + "/reportexecutive/"; // เก็บไฟล์ logo 
-            var filename = "รายงานข้อสั่งการผู้บริหาร" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var filename = "รายงานข้อสั่งการผู้บริหาร" + DateTime.Now.ToString("dd MM yyyy") + random + ".docx"; // ชื่อไฟล์
             var createfile = filePath + filename; //
             var myImageFullPath = filePath + "logo01.png";
 
@@ -589,16 +601,23 @@ namespace InspecWeb.Controllers {
                     .Bold() //ตัวหนา
                     .Alignment = Alignment.center;
 
-                var name = document.InsertParagraph(users.Name);
+                var name = document.InsertParagraph(users.Prefix + users.Name);
                 name.Alignment = Alignment.center;
                 name.SpacingAfter(10d);
                 name.FontSize(12d); //ขนาดตัวอักษร      
                 System.Console.WriteLine("7");
 
+
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var Date = DateTime.Now.ToString("dd MMMM yyyy");
+                var year = document.InsertParagraph("วันที่เรียกรายงาน" + Date);
+                year.Alignment = Alignment.center;
+                year.SpacingAfter(10d);
+
                 int dataCount = 0;
                 dataCount = Eexcutive3.Count; //เอาที่ select มาใช้
                 dataCount += 1;
-                System.Console.WriteLine("Data Count: " + dataCount);
+                System.Console.WriteLine("Data Count: " + Eexcutive3.Count);
                 // Add a table in a document of 1 row and 3 columns.
                 var columnWidths = new float[] { 300f, 300f, 300f, 300f, 300f, 300f, 300f };
                 var t = document.InsertTable(dataCount, columnWidths.Length);
@@ -616,7 +635,7 @@ namespace InspecWeb.Controllers {
                 //{
                 row.Cells[0].Paragraphs.First().Append("ลำดับที่");
                 row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปีที่มีข้อสั่งการ");
-                row.Cells[2].Paragraphs.First().Append("ผู้ข้อสั่งการ");
+                row.Cells[2].Paragraphs.First().Append("ผู้สั่งการ");
                 row.Cells[3].Paragraphs.First().Append("ประเด็น/เรื่อง");
                 row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
                 row.Cells[5].Paragraphs.First().Append("วัน/เดือน/ปีที่รับทราบข้อสั่งการ");
@@ -633,14 +652,17 @@ namespace InspecWeb.Controllers {
                         .Select(m => m.Name)
                         .FirstOrDefault();
                     System.Console.WriteLine("JJJJJ: " + j);
-  
+
+                    var Commanded_date = Eexcutive3[i].ExecutiveOrder.Commanded_date.Value.ToString("dd MMMM yyyy");
+                    var CreatedAt = Eexcutive3[i].ExecutiveOrder.CreatedAt.Value.ToString("dd MMMM yyyy");
+
                     t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
-                    t.Rows[j].Cells[1].Paragraphs[0].Append(Eexcutive3[i].ExecutiveOrder.Commanded_date.ToString());
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(Commanded_date);
                     t.Rows[j].Cells[2].Paragraphs[0].Append(username);
                     t.Rows[j].Cells[3].Paragraphs[0].Append(Eexcutive3[i].ExecutiveOrder.Subject);
                     t.Rows[j].Cells[4].Paragraphs[0].Append(Eexcutive3[i].Status);
-                    t.Rows[j].Cells[5].Paragraphs[0].Append(Eexcutive3[i].ExecutiveOrder.CreatedAt.ToString());
-                    t.Rows[j].Cells[6].Paragraphs[0].Append("");
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(CreatedAt);
+                    t.Rows[j].Cells[6].Paragraphs[0].Append("-");
 
 
                 }
@@ -661,16 +683,16 @@ namespace InspecWeb.Controllers {
         [HttpGet("export2/{id}/{userId}")]
         public IActionResult export2(long id ,string userId)
         {
-           
-            //var exportexcutiveorderdata = _context.ExecutiveOrders
-            //    .Where(m => m.Id == id)
-            //   .FirstOrDefault();
-
             var exportexcutiveorderdata = _context.ExecutiveOrderAnswers
                 .Include(m => m.ExecutiveOrder)
-                .Include(m => m.ExecutiveOrderAnswerDetails)
+                //.Include(m => m.ExecutiveOrderAnswerDetails)
                 .Where(m => m.ExecutiveOrder.Draft == 0)
-                .Where(m => m.ExecutiveOrder.UserID == userId)
+                .Where(m => m.UserID == userId)
+                .OrderByDescending(x => x.Id)
+                .FirstOrDefault();
+
+            var detail = _context.ExecutiveOrderAnswerDetails
+                .Where(m => m.ExecutiveOrderAnswerId == exportexcutiveorderdata.Id)
                 .FirstOrDefault();
 
             //ผู้สั่งการ
@@ -692,7 +714,7 @@ namespace InspecWeb.Controllers {
             }
 
             var filePath = _environment.WebRootPath + "/reportexecutive/"; // เก็บไฟล์ logo 
-            var filename = "รายงานข้อสั่งการผู้บริหาร" + DateTime.Now.ToString("dd MM yyyy") + ".docx"; // ชื่อไฟล์
+            var filename = "รายงานข้อสั่งการของผู้บริหารและการดำเนินการตามข้อสั่งการ(รายเรื่อง)" + DateTime.Now.ToString("ddMMyyyy") + ".docx"; // ชื่อไฟล์
             var createfile = filePath + filename; //
             var myImageFullPath = filePath + "logo01.png";
 
@@ -701,12 +723,6 @@ namespace InspecWeb.Controllers {
             using (DocX document = DocX.Create(createfile)) //สร้าง
 
             {
-                //System.Console.WriteLine("4");
-                //Image image = document.AddImage(myImageFullPath);
-                //Picture picture = image.CreatePicture(85, 85);
-                //var logo = document.InsertParagraph();
-                //logo.AppendPicture(picture).Alignment = Alignment.center;
-
                 System.Console.WriteLine("5");
 
                 // Add a title
@@ -719,35 +735,39 @@ namespace InspecWeb.Controllers {
                 var name = document.InsertParagraph(users.Name);
                 name.Alignment = Alignment.center;
                 name.SpacingAfter(10d);
-                name.FontSize(16d); //ขนาดตัวอักษร
-                name.Bold();
+                name.FontSize(14d); //ขนาดตัวอักษร
+                //name.Bold();
                 System.Console.WriteLine("7");
 
                 //object v = Bold();
                 //string a = "รายละเอียด" + v;
                 //string b = exportexcutiveorderdata.Subjectdetail;
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var Commanded_date = exportexcutiveorderdata.ExecutiveOrder.Commanded_date.Value.ToString("dd MMMM yyyy");
+                var CreatedAt = exportexcutiveorderdata.ExecutiveOrder.CreatedAt.Value.ToString("dd MMMM yyyy");
+                var beaware_date = exportexcutiveorderdata.beaware_date.Value.ToString("dd MMMM yyyy");
 
 
-                document.InsertParagraph(" วันที่มีข้อสั่งการ   "+exportexcutiveorderdata.ExecutiveOrder.Commanded_date  + "   วันที่แจ้งข้อสั่งการ   " + exportexcutiveorderdata.ExecutiveOrder.CreatedAt).FontSize(16d)
+                document.InsertParagraph(" วันที่มีข้อสั่งการ   "+ Commanded_date + "   วันที่แจ้งข้อสั่งการ   " + CreatedAt ).FontSize(12d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
                 .Alignment = Alignment.center;
 
-                document.InsertParagraph("เรื่อง  "+ exportexcutiveorderdata.ExecutiveOrder.Subject).FontSize(16d)
+                document.InsertParagraph("เรื่อง :"+ exportexcutiveorderdata.ExecutiveOrder.Subject).FontSize(12d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
                 .Alignment = Alignment.left;
 
                 
-                document.InsertParagraph("ผู้รับเรื่อง   " + username).FontSize(16d)
+                document.InsertParagraph("ผู้รับเรื่อง :" + username).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
-                //.Bold() //ตัวหนา
+                //.Bold() //ตัวหน
                 .Alignment = Alignment.left;
 
-                document.InsertParagraph("รายละเอียด  " ).FontSize(16d)
+                document.InsertParagraph("รายละเอียด :" + exportexcutiveorderdata.ExecutiveOrder.Subjectdetail).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
@@ -761,25 +781,25 @@ namespace InspecWeb.Controllers {
                    .Bold() //ตัวหนา
                    .Alignment = Alignment.center;
 
-                document.InsertParagraph("วันที่มีข้อสั่งการ   " + exportexcutiveorderdata.ExecutiveOrder.Commanded_date + "  วันที่แจ้งข้อสั่งการ   " ).FontSize(16d)
+                document.InsertParagraph("วันที่มีข้อสั่งการ   " + Commanded_date + "  วันที่รับทราบข้อสั่งการ   " + beaware_date).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
                 .Alignment = Alignment.center;
 
-                document.InsertParagraph("รายละเอียด ").FontSize(16d)
+                document.InsertParagraph("รายละเอียด :" + detail.Answerdetail).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
                 .Alignment = Alignment.left;
 
-                document.InsertParagraph("ปัญหา/อุปสรรค " ).FontSize(16d)
+                document.InsertParagraph("ปัญหา/อุปสรรค :" + detail.AnswerProblem).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา
                 .Alignment = Alignment.left;
 
-                document.InsertParagraph("ข้อเสนอแนะ " ).FontSize(16d)
+                document.InsertParagraph("ข้อเสนอแนะ :" + detail.AnswerCounsel).FontSize(14d)
                 .SpacingBefore(15d)
                 .SpacingAfter(15d)
                 //.Bold() //ตัวหนา

@@ -22,16 +22,17 @@ export class RequestOrderExport1Component implements OnInit {
     this.getuserinfo();
   }
   getuserinfo() {
-    this.userService.getuserdata(5)
+    this.userService.getuserdataforrequestorder()
       .subscribe(result => {
         this.userdata = result;
-        console.log(result);
+        console.log("ddd", result);
       })
   }
   exportrequest(userid) {
     this.requestderService.getrequest1(userid.target.value)
       .subscribe(result => {
         console.log('result', result);
+       // alert(userid.target.value);
         window.open(this.url + "reportrequest/" + result.data);
       })
     this.getuserinfo();

@@ -67,14 +67,14 @@ namespace InspecWeb.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put([FromForm] DistrictRequest request, long id)
+        public District Put([FromForm] DistrictRequest request, long id)
         {
             var districtdata = _context.Districts.Find(id);
             districtdata.Name = request.Name;
         
             _context.Entry(districtdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-
+            return districtdata;
         }
 
         // DELETE api/values/5

@@ -3,6 +3,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item active" >จัดการฐานข้อมูล</li>
       <li class="breadcrumb-item"><a [routerLink]="['/province']">จังหวัด</a></li>
       <li class="breadcrumb-item active">อำเภอ</li>
       <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
@@ -13,7 +14,7 @@
   <div class="col-12">
     <div class="card card-eiei">
       <div class="card-header" style="margin-bottom: -40px;">
-        <h4 class="card-title">อำเภอ : {{titleprovince}}</h4>
+        <h4 class="card-title">จังหวัด : {{name}}</h4>
         <div class="float-right">
           <button class="btn btn-primary" (click)="openModal(modaladd)"
             style="margin-top: -60px;">เพิ่มอำเภอ/เขต</button>
@@ -32,14 +33,17 @@
           <tbody>
             <tr *ngFor="let item of resultdistrict; let i = index">
               <td>{{ i + 1 }}</td>
-              <td class="pointer" (click)="Subdistrict(item.id)">{{ item.name }}</td>
-              <!-- <td>{{ item.createdAt | date:'dd / MM / yyyy'}}</td> -->
+              <td class="pointer" style="color:#3b7ddd;" (click)="Subdistrict(item.id,name,item.name)">{{ item.name }}</td>
               <td>
-                <!-- <i class="align-middle mr-2 fas fa-fw fa-search"></i> -->
-                <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                  (click)="openModal(modaledit, item.id, item.name)"></i>
-                <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                  (click)="openModal(modaldelete, item.id)"></i>
+                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้ออมูล" 
+                  (click)="openModal(modaledit, item.id, item.name)">
+                  <i class="align-middle fas fa-fw fa-pen "></i>
+                </button>
+
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldelete, item.id, item.name)">
+                  <i class="align-middle fas fa-fw fa-trash-alt"></i>
+                </button>    
+                
               </td>
             </tr>
           </tbody>
@@ -61,7 +65,11 @@
         <div class="modal-body m-3">
           <div class="form-group">
             <label for="Name" class="form-label">ชื่ออำเภอ</label>
-            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่ออำเภอ">         
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่ออำเภอ"
+              [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+            <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+              <div *ngIf="f.Name.errors.required">กรุณากรอกชื่ออำเภอ</div>
+            </div>         
           </div>
         </div>
         <div class="modal-footer">
@@ -106,9 +114,12 @@
         </div>
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="test" class="form-label">ชื่ออำเภอ</label>
-            <input type="text"  formControlName="Name" class="form-control"
-              placeholder="กรุณากรอกชื่ออำเภอ">
+            <label for="Name" class="form-label">ชื่ออำเภอ</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่ออำเภอ"
+              [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+            <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+              <div *ngIf="f.Name.errors.required">กรุณากรอกชื่ออำเภอ</div>
+            </div>     
           </div>
         </div>
         <div class="modal-footer">

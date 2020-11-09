@@ -30,7 +30,7 @@
               <th>คำสั่งโดย</th>
               <th>ไฟล์แนบ</th>
               <th>วันที่สร้าง</th>
-              <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+              <th *ngIf="role_id == 1"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
           <tbody>
@@ -44,7 +44,7 @@
                 <a *ngIf="item.file != 'NULL' " href="assets/InspectionorderFile/{{item.file}}" download>{{ item.file }}</a>
               </td>
               <td>{{item.createdAt  ? (item.createdAt | thaidate:'short'):"-"}}</td>
-              <td>
+              <td *ngIf="role_id == 1">
                 <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้อมูล" 
                   (click)="openModal(modaleditInspectionorder, item.id, item.year, item.order, item.name, item.createBy, item.file)">
                   <i class="align-middle  fas fa-fw fa-pen "></i>

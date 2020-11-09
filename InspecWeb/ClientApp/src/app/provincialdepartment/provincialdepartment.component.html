@@ -39,7 +39,8 @@
               <td>{{ i + 1 }}</td>
               <td>{{item.name }}</td>
               <td>
-                <span (click)="openDetailModal(modaldetailDepartment,item.id, item.name)" class="pointer">
+                <span  class="pointer" style="color:#3b7ddd;" 
+                (click)="openDetailModal(modaldetailDepartment,item.id, item.name)">
                   <i class="align-middle fas fa-fw fa-search"></i>
                   ดูรายละเอียด
                 </span>
@@ -49,8 +50,8 @@
                   (click)="editModal(modaleditDepartment, item.id,item.name)">
                   <i class="align-middle fas fa-fw fa-pen"></i>
                 </button>
-                <button class="btn btn-danger btn-pill btn-sm" title="แก้ไขข้อมูล"
-                  (click)="deleteModal(modaldeleteDepartment, item.id)">
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล"
+                  (click)="deleteModal(modaldeleteDepartment, item.id,item.name)">
                   <i class="align-middle fas fa-fw fa-trash-alt "></i>
                 </button>
 
@@ -74,32 +75,29 @@
         </div>
 
         <div class="modal-body m-3">
+
           <div class="form-group">
-            <label for="Name" class="form-label">ชื่อ</label>
-            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
+            <label for="Name" class="form-label">ชื่อหน่วยงานส่วนภูมิภาค</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อหน่วยงานส่วนภูมิภาค"
+            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+            <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+              <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อ</div>
+            </div> 
           </div>
 
           <div class="form-group">
-            <label>จังหวัด*</label>
-            <!-- <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกจังหวัด" formControlName="Province"
-              [items]="selectdataprovince" [multiple]="true">
-            </ng-select> -->
-
+            <label>จังหวัด*</label>        
             <ng-select [items]="selectdataprovince" [multiple]="true" bindLabel="label" groupBy="region"
               [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" bindValue="value"
               formControlName="Province">
-              <!-- <ng-template >
-                -->
+
               <ng-template ng-header-tmp>
                 <div>
                   <button type="button" class="btn btn-link" (click)="onSelectAll()">เลือกทุกจังหวัด</button>
                   <button type="button" class="btn btn-link" (click)="onClearAll()">ล้าง</button>
                 </div>
-
               </ng-template>
-              <!-- <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
-                  <input type="checkbox" /> เลือกทั้งหมด
-                </ng-template> -->
+             
               <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
                 <input [ngModelOptions]="{standalone: true}" id="item-{{index}}" type="checkbox"
                   [ngModel]="item$.selected" /> {{item.region }}
@@ -110,6 +108,8 @@
               </ng-template>
             </ng-select>
           </div>
+
+
         </div>
 
 
@@ -130,7 +130,7 @@
     <form [formGroup]="Form" (ngSubmit)="updateprovincialDepartment(Form.value)">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">จัดการกรม</h5>
+          <h5 class="modal-title">จัดการหน่วยงานส่วนภูมิภาค</h5>
           <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -138,8 +138,12 @@
 
         <div class="modal-body m-3">
           <div class="form-group">
-            <label for="Name" class="form-label">ชื่อ</label>
-            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อ">
+            <label for="Name" class="form-label">ชื่อหน่วยงานส่วนภูมิภาค</label>
+            <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อหน่วยงานส่วนภูมิภาค"
+            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+            <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+              <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อ</div>
+            </div> 
           </div>
 
           <div class="form-group">

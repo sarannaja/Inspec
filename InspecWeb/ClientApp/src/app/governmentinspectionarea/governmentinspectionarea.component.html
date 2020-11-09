@@ -24,6 +24,7 @@
               <th>ลงวันที่</th>
               <th>ระยะเวลา</th>
               <th>สถานะ</th>
+              <th>ไฟล์</th>
             </tr>
           </thead>
           <tbody>
@@ -48,6 +49,11 @@
                 </button>
 
               </td>
+              <td> 
+                <span *ngFor="let item2 of item.setinspectionareaFiles;let n = index" >
+                  <a href="{{fileUrl}}/{{item2.name}}" download>{{n +1}}.{{item2.name}}</a><br>
+                </span>
+            </td>
               
             </tr>
           </tbody>

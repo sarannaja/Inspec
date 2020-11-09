@@ -93,14 +93,14 @@ namespace InspecWeb.Controllers
 
     
         [HttpPut("{id}")]
-        public void Put([FromForm] ProvincialDepartmentRequest request,long id)
+        public ProvincialDepartment Put([FromForm] ProvincialDepartmentRequest request,long id)
         {
             Console.WriteLine("department 1 :" + id +"///"+ request.Name);
 
-            var department = _context.ProvincialDepartment.Find(id);
-                department.Name = request.Name;
+            var provincialdepartmentdata = _context.ProvincialDepartment.Find(id);
+            provincialdepartmentdata.Name = request.Name;
       
-            _context.Entry(department).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Entry(provincialdepartmentdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
             // <! -- ลบข้อมูล -->
@@ -122,6 +122,7 @@ namespace InspecWeb.Controllers
                 _context.ProvincialDepartmentProvince.Add(provincedata);
                 _context.SaveChanges();
             }
+            return provincialdepartmentdata;
 
         }
 
