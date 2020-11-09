@@ -203,4 +203,8 @@ export class ProgramDefaultLayoutTrainComponent implements OnInit {
   // })
 }
 
+  print(): void {
+    window.print();
+  }
+
 }
