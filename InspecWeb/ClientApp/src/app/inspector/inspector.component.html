@@ -2,6 +2,7 @@
     
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
         <li class="breadcrumb-item active">ข้อมูลผู้ติดต่อบุคลากร</li>
         <li class="breadcrumb-item active">ผู้ตรวจราชการ</li>
         <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
@@ -12,11 +13,12 @@
     <div class="col-12">
       <div class="card card-eiei">
         <div class="card-header" style="margin-bottom: -40px;">
-          <h5 class="card-title">ผู้ตรวจราชการ</h5><br>
-          <!-- <div class="float-right">
-            <button class="btn btn-primary" (click)="openModal(modalInspector,'create')"
-              style="margin-top: -60px;">เพิ่มข้อมูลการติดต่อผู้ตรวจราชการ</button>
-          </div> -->
+          <h5 class="card-title">ผู้ตรวจราชการ</h5>
+          <div class="float-right"> 
+            <button class="btn btn-success" (click)="excel()"
+                style="margin-top: -60px;">Excel
+            </button> 
+          </div>        
         </div>
         <div class="card-body">
           <table *ngIf="loading" id="datatables-basic" class="table table-striped" style="width:100%" datatable
@@ -29,7 +31,7 @@
                 <th>เขต</th>
                 <th>ตำแหน่ง</th>
                 <th>มือถือ</th>
-                <!-- <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
+               
               </tr>
             </thead>
             <tbody>
@@ -43,20 +45,17 @@
                   <img *ngIf="item.img == null || item.img == 'null'" src="{{imgprofileUrl}}/user.png" class="img-fluid  mb-2"
                       width="90px" alt="รูป">
               </td>
-                <td>{{item.prefix}}{{ item.name }}</td>
-                <td>
-                  <li *ngFor="let item2 of item.userRegion; let i2 = index">
-                    {{item2.region.name}}
-                  </li>
-                </td>
-                <td>{{item.position}}</td>
-                <td>{{item.phoneNumber}}</td>
-                <!-- <td>            
-                  <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                    (click)="onEdit(modaleditInspector, item )"></i>
-                  <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
-                    (click)="openModal(modaldeleteInspector, item.id)"></i>
-                </td> -->
+              <td>{{item.prefix}}{{ item.name }}</td>
+              <td>
+                <div *ngFor="let item2 of item.userRegion">
+                  <label  class="badge badge-warning mr-1">
+                      {{item2.region.name}}
+                  </label>  <br>
+                </div>        
+              </td>
+              <td>{{item.position}}</td>
+              <td>{{item.phoneNumber}}</td>
+              
               </tr>
             </tbody>
           </table>

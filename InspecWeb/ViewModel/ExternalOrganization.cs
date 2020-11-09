@@ -30,7 +30,7 @@ namespace InspecWeb.ViewModel
     public class UrlEBook
     {
         public string urlfile { get; set; }
-       
+
     }
 
     public class UrlEBookData
@@ -43,7 +43,7 @@ namespace InspecWeb.ViewModel
         public ElectronicBookGroup ebook { get; set; }
 
     }
-    
+
 
 
     public class OtpsMinisters
@@ -56,9 +56,66 @@ namespace InspecWeb.ViewModel
         public OtpsCabinets Cabinet { get; set; }
         public List<OtpsFiscalYearMinisters> FiscalYears { get; set; }
 
+
+
     }
 
+    public class ProjectDetail
+    {
 
+        public long Id { get; set; }
+
+
+        public string Name { get; set; }
+
+
+        public object Description { get; set; }
+
+
+        public string Status { get; set; }
+
+
+        public string ProjectType { get; set; }
+
+
+        public string Minister { get; set; }
+
+
+        public string FiscalYear { get; set; }
+
+
+        public string Region { get; set; }
+
+
+        public string Province { get; set; }
+
+
+        public bool IsResidual { get; set; }
+
+
+        public bool Canceled { get; set; }
+
+
+        public long OverFlow { get; set; }
+
+
+        public long Associate { get; set; }
+
+
+        public object[] ProvideTypes { get; set; }
+
+
+        public object ReceiveBudgetDate { get; set; }
+
+
+        public object[] EndDates { get; set; }
+
+
+        public object Procure { get; set; }
+
+
+        public object[] Progresses { get; set; }
+    }
     public class OtpsRegions
     {
         public int Id { get; set; }
@@ -82,7 +139,7 @@ namespace InspecWeb.ViewModel
     public class OtpsProvinceFiscalYearsList
     {
         public List<OtpsProvinceFiscalYears> FiscalYears { get; set; }
-      
+
 
     }
 
@@ -129,6 +186,9 @@ namespace InspecWeb.ViewModel
         public int Year { get; set; }
         public string Name { get; set; }
         public OtpsProjects Projects { get; set; }
+        
+        public List<OtpsFiscalYearMinisters> FiscalYears { get; set; }
+        public List<ProjectDetail> ProjectDetails { get; set; }
 
         public List<OtpsRegionMinisters> Regions { get; set; }
 
@@ -155,7 +215,7 @@ namespace InspecWeb.ViewModel
         public int Year { get; set; }
         public string Name { get; set; }
         public OtpsProjects Projects { get; set; }
-
+        
         // public List<OtpsProvinces> Provinces { get; set; }
 
     }

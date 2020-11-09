@@ -1,18 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PremierorderService {
-  url = "https://localhost:5001/api/premierorder/";
-
-  constructor(private http:HttpClient) { }
+  url = "";
+  
+  constructor(private http:HttpClient, @Inject('BASE_URL') baseUrl: string) { 
+    this.url = baseUrl + 'api/premierorder/';
+  }
   getpremierorder(){
     return this.http.get(this.url)
   }
   addPremierorder(premierorderData, file: FileList){
-     alert(JSON.stringify(premierorderData))
+     //alert(JSON.stringify(premierorderData))
     const formData = new FormData();
     formData.append('title',premierorderData.title);
     formData.append('year',premierorderData.year);
@@ -27,13 +29,13 @@ export class PremierorderService {
   }
 
   editPremierorder(premierorderData,id) {
-    console.log(premierorderData);
+   // console.log(premierorderData);
 
     const formData = new FormData();
     // alert(JSON.stringify(governmentinspectionplanData))
     formData.append('title',premierorderData.title);
     formData.append('year',premierorderData.year);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
+    //console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put(this.url+id, formData);
   }
 }

@@ -288,21 +288,23 @@ namespace InspecWeb.Controllers
                 var mobileObj = dbContext.UserTokenMobiles
                     .Where(w => w.UserID == userId)
                     .ToArray();
-                foreach (var item in mobileObj)
+                if (mobileObj.Length != 0)
                 {
-                    var client = new HttpClient();
-                    var task = client.GetAsync("http://203.113.14.20:3000/inspecnotification/" + item.DeviceType + "/" + item.Token + "/" + message)
-                        .ContinueWith((taskwithresponse) =>
-                        {
-                            var response = taskwithresponse.Result;
+                    foreach (var item in mobileObj)
+                    {
+                        var client = new HttpClient();
+                        var task = client.GetAsync("http://203.113.14.20:3000/inspecnotification/" + item.DeviceType + "/" + item.Token + "/" + message)
+                            .ContinueWith((taskwithresponse) =>
+                            {
+                                var response = taskwithresponse.Result;
 
-                            var jsonString = response.Content.ReadAsStringAsync();
-                            jsonString.Wait();
-                        // OpmUserProvince = JsonConvert.DeserializeObject<OpmCase>(jsonString.Result);
-                    });
-                    task.Wait();
+                                var jsonString = response.Content.ReadAsStringAsync();
+                                jsonString.Wait();
+                            // OpmUserProvince = JsonConvert.DeserializeObject<OpmCase>(jsonString.Result);
+                        });
+                        task.Wait();
+                    }
                 }
-
                 return Ok(mobileObj);
             }
         }

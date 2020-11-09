@@ -91,5 +91,8 @@ export class AdviserCivilSectorComponent implements OnInit {
         // console.log(this.resultuser);
       })
   }
+  excel(){
+    window.location.href = '/api/user/exceladvisercivilsector';
+  }
 }
 
