@@ -61,7 +61,7 @@ export class TrainingProgramTypeComponent implements OnInit {
     };
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
-      
+
     })
 
     this.trainingservice.getTrainingProgramType()
@@ -76,7 +76,7 @@ export class TrainingProgramTypeComponent implements OnInit {
   }
 
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id:any = null) {
     this.editid = id;
     this.modalRef = this.modalService.show(template);
   }

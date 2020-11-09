@@ -1,107 +1,120 @@
 <div class="header">
-    
+
+<<<<<<< HEAD
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
             <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
         </ol>
     </nav>
+=======
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+      <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
+    </ol>
+  </nav>
+>>>>>>> aca1cebac1b19d59932be7704992ca629462792a
 </div>
 <form class="row">
-    <div class="col-12">
-        <div class="card card-eiei">
-            <div class="card-header" style="margin-bottom: -40px;">
-                <h5 class="card-title">
-                    รายงาน / รายงานของผู้เข้ารับการฝึกอบรม
+  <div class="col-12">
+    <div class="card card-eiei">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">
+          รายงาน / รายงานของผู้เข้ารับการฝึกอบรม
 
-                    <button class="btn btn-light btn-sm" (click)="gotoBack()">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    </button>
-                </h5>   
-            </div>
-            
-            <div class="card-body mt-3">
-                <div class="row">
-                    <div class="col-12">
-                        <h5 class="text-center">รายชื่อผู้เข้ารับการฝึกอบรม (รายหลักสูตร/โครงการ)</h5>
-                    </div>
-                    
-                </div>  
-                <div class="row">
-                    <div class="col-12 text-center">
-                        หลักสูตร <u>{{ trainingname }}</u>
-                        <label></label>
-                        รุ่น/ปี <u>01/62</u>
-                        <label></label>
-                        <br>
-                    </div>
-    
-                </div>
-                   
-    
-                    <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-4">
-                            - รายละเอียดโครงการ ดาวโหลด
-                            <br>
-                            - วิทยาการ
-                            <br>
-                            - รายงานของผู้เข้ารับการฝึกอบรม
-                        </div>
-                        <div class="col-4">
-                            - กำหนดการฝึกอบรม ดาวโหลด
-                            <br>
-                            - เอกสารประกอบการฝึกอบรม
-                            <br>
-                            - รายงานสรุปผลการฝึกอบรม
-                        </div>
-                        <div class="col-2"></div>
-                    </div>
+          <button class="btn btn-light btn-sm" (click)="gotoBack()">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-primary float-right" (click)="printReport()" title="พิมพ์">
+            <i class="fas fa-print" style="font-size:large;"></i>
+          </button>
+        </h5>
+      </div>
+
+      <div class="card-body mt-3">
+        <div class="row">
+          <div class="col-12">
+            <br>
+            <h5 class="text-center">รายชื่อผู้เข้ารับการฝึกอบรม (รายหลักสูตร/โครงการ)</h5>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-12 text-center">
+            หลักสูตร <u>{{ trainingname }}</u>
+            <label></label>
+            รุ่น/ปี <u>{{ gen }}/ {{ trainingyear }}</u>
+            <label></label>
+            <br>
+          </div>
+
+        </div>
 
 
-                <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg mt-4">
-                    <thead>
-                        <tr>
-                            <th width="5%" class="text-center" style="vertical-align: text-top;">ลำดับที่</th>
-                            <th width="20%" class="text-center" style="vertical-align: text-top;">ชื่อ-นามสกุล</th>
-                            <th width="20%" class="text-center" style="vertical-align: text-top;">ตำแหน่ง</th>
-                            <th width="20%" class="text-center" style="vertical-align: text-top;">หน่วยงาน/สังกัด</th>
-                            <th width="15%" class="text-center" style="vertical-align: text-top;">หมายเลขติดต่อ</th>
-                            <th width="20%" class="text-center" style="vertical-align: text-top;">สรุปผลการลงเวลา<br>
-                                (ประมวลผลจากข้อมูลการลงเวลาและสรุปสถานะ)</th>
-                        </tr>
-                        <!-- <tr>
+        <!-- <div class="row">
+          <div class="col-2"></div>
+          <div class="col-4">
+            - รายละเอียดโครงการ ดาวโหลด
+            <br>
+            - วิทยาการ
+            <br>
+            - รายงานของผู้เข้ารับการฝึกอบรม
+          </div>
+          <div class="col-4">
+            - กำหนดการฝึกอบรม ดาวโหลด
+            <br>
+            - เอกสารประกอบการฝึกอบรม
+            <br>
+            - รายงานสรุปผลการฝึกอบรม
+          </div>
+          <div class="col-2"></div>
+        </div> -->
+
+
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg mt-4">
+          <thead>
+            <tr>
+              <th width="5%" class="text-center" style="vertical-align: text-top;">ลำดับที่</th>
+              <th width="20%" class="text-center" style="vertical-align: text-top;">ชื่อ-นามสกุล</th>
+              <th width="20%" class="text-center" style="vertical-align: text-top;">ตำแหน่ง</th>
+              <th width="20%" class="text-center" style="vertical-align: text-top;">หน่วยงาน/สังกัด</th>
+              <th width="15%" class="text-center" style="vertical-align: text-top;">หมายเลขติดต่อ</th>
+              <th width="20%" class="text-center" style="vertical-align: text-top;">สรุปผลการลงเวลา<br>
+                (ประมวลผลจากข้อมูลการลงเวลาและสรุปสถานะ)</th>
+            </tr>
+            <!-- <tr>
                             <th width="5%">#</th>
                             <th width="55%">ชื่อผู้ร่วมอบรม</th>
                             <th width="20%">จำนวนคาบที่เข้าอบรม</th>
                             <th width="20%">เปอร์เซ็นคาบที่เข้าอบรม</th>
                         </tr> -->
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of resulttraining; let i = index">
-                            <td>{{ i + 1 }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.registerdata.position }}</td>
-                            <td>{{ item.registerdata.department }}</td>
-                            <td>{{ item.registerdata.phone }}</td>
-                            <!-- <td class="text-center">{{ item.count }}</td> -->
-                            <td>
-                                เข้าอบรม {{ item.count }} / {{ item.countCourse }}
-                                <br>
-                                คิดเป็น {{ item.rateCourse }}%
-                                <br>
-                                <ng-container *ngIf="item.rateCourse >= 80;else msecond">
-                                    สถานะ ผ่าน
-                                </ng-container>
-                            
-                                <ng-template #msecond>
-                                    สถานะ ไม่ผ่าน<label class="text-danger">(เกณฑ์สำหรับการผ่าน 80%)</label>
-                                </ng-template>
-                            </td>
-                           
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resulttraining; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.registerdata.position }}</td>
+              <td>{{ item.registerdata.department }}</td>
+              <td>{{ item.registerdata.phone }}</td>
+              <!-- <td class="text-center">{{ item.count }}</td> -->
+              <td>
+                เข้าอบรม {{ item.count }} / {{ item.countCourse }}
+                <br>
+                คิดเป็น {{ item.rateCourse }}%
+                <br>
+                <ng-container *ngIf="item.rateCourse >= 80;else msecond">
+                  สถานะ ผ่าน
+                </ng-container>
+
+                <ng-template #msecond>
+                  สถานะ ไม่ผ่าน<label class="text-danger">(เกณฑ์สำหรับการผ่าน 80%)</label>
+                </ng-template>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>

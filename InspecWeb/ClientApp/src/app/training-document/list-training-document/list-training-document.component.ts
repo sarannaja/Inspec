@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Inject} from '@angular/core';
+import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrainingService } from '../../services/training.service';
 import { Router } from '@angular/router';
@@ -27,18 +27,18 @@ export class ListTrainingDocumentComponent implements OnInit {
   files: string[] = []
   downloadUrl: string;
 
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
-      this.downloadUrl = baseUrl + '/Uploads'
-    }
-    
+    this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+    this.downloadUrl = baseUrl + '/Uploads'
+  }
+
   ngOnInit() {
     this.spinner.show();
     this.dtOptions = {
@@ -53,41 +53,41 @@ export class ListTrainingDocumentComponent implements OnInit {
     };
     this.Form = this.fb.group({
       detail: new FormControl(null, [Validators.required]),
-      
+
     })
     this.form = this.fb.group({
       files: [null]
     })
 
     this.trainingservice.getlisttrainingdocumentdata(this.trainingid)
-    .subscribe(result => {
-      this.resulttraining = result
-      this.loading = true
-      //console.log(this.resulttraining);
-    })
+      .subscribe(result => {
+        this.resulttraining = result
+        this.loading = true
+        //console.log(this.resulttraining);
+      })
   }
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id: any = null) {
     this.delid = id;
     //console.log(this.delid);
     this.modalRef = this.modalService.show(template);
   }
 
 
-  storeTraining(value ) {
-    //alert(JSON.stringify(value))   
+  storeTraining(value) {
+    //alert(JSON.stringify(value))
     //alert(this.form.value.files)
-    this.trainingservice.addTrainingDocument(value ,this.form.value.files, this.trainingid).subscribe(response => {
+    this.trainingservice.addTrainingDocument(value, this.form.value.files, this.trainingid).subscribe(response => {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
-      
+
       this.trainingservice.getlisttrainingdocumentdata(this.trainingid).subscribe(result => {
-      this.resulttraining = result
-      this.loading = true
-      //console.log(this.resulttraining);
-    })
+        this.resulttraining = result
+        this.loading = true
+        //console.log(this.resulttraining);
+      })
     })
   }
 
@@ -106,7 +106,7 @@ export class ListTrainingDocumentComponent implements OnInit {
   get d() { return this.f.inputdate as FormArray }
 
   deleteTraining(value) {
-      this.trainingservice.deleteTrainingDocument(value).subscribe(response => {
+    this.trainingservice.deleteTrainingDocument(value).subscribe(response => {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;

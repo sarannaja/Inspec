@@ -270,7 +270,7 @@
                   </div>
                 </div>
               </div>
-              <label for="" style="margin-top: 10px;">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
+              <!-- <label for="" style="margin-top: 10px;">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
               <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
                 style="margin-left: 5px;">
                 <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
@@ -279,7 +279,21 @@
                     {{ item.name }}<br>
                   </span>
                 </a>
+              </div> -->
+
+              <label for=""
+                *ngIf="electronicBookData.electronicBook.electronicBookFiles.length > 0">ไฟล์แนบสมุดตรวจอิเล็กทรอนิกส์</label>
+              <div class="row" *ngFor="let item of electronicBookData.electronicBook.electronicBookFiles; let i = index"
+                style="margin-top: 5px; margin-left: 5px;">
+                <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
+                  <span>ไฟล์ที่
+                    {{i+1}})
+                    {{ item.name }}<br>
+                  </span>
+                </a>
+                <input type="text" value="{{item.description}}" style="width: 80%;" class="form-control ml-4" readonly>
               </div>
+
               <div class="row"
                 *ngFor="let item of electronicBookData.electronicBookAccept.electronicBookProvinceApproveFiles; let i = index"
                 style="margin-top: 10px; margin-left: 5px;">
@@ -312,8 +326,8 @@
             (click)="openModal(addSignature)">รับทราบรายการสมุดตรวจ</button>
           <!-- <button *ngIf="signature == null" class="btn btn-primary" style="margin-right: 45px;"
             (click)="openAlertModal(signatureModal)">รับทราบรายการสมุดตรวจ</button> -->
-          <button *ngIf="provincialData.electronicBookOtherAccepts.length == 0" class="btn btn-success" style="margin-right: 45px;"
-            (click)="openModal(sendToOtherModal)">ส่งต่อให้หน่วยรับตรวจอื่น</button>
+          <button *ngIf="provincialData.electronicBookOtherAccepts.length == 0" class="btn btn-success"
+            style="margin-right: 45px;" (click)="openModal(sendToOtherModal)">ส่งต่อให้หน่วยรับตรวจอื่น</button>
           <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
         </div>
         <div *ngIf="electronicBookData.electronicBookDepartment.status == 'ดำเนินการแล้ว'"

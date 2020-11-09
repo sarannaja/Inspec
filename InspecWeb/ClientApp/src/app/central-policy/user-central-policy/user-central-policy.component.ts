@@ -168,7 +168,7 @@ export class UserCentralPolicyComponent implements OnInit {
   }
 
   deleteCentralPolicy(value) {
-    this.centralpolicyservice.deleteCentralPolicy(value).subscribe(response => {
+    this.centralpolicyservice.deleteCentralPolicy(value,this.userid).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       this.centralpolicyservice.getcentralpolicydata().subscribe(result => {

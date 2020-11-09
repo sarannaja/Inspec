@@ -53,7 +53,7 @@ export class ExecutiveOrderComponent implements OnInit {
   vanswerCounsel: any;
   vexecutiveOrderFiles: any;
   vanswerExecutiveOrderFiles: any;
-  imgprofileUrl: any;
+  fileUrl: any;
   idexecutiveorder: any;
   idexecutiveorderanswer :any;
   // answerdetail: any;
@@ -71,6 +71,7 @@ export class ExecutiveOrderComponent implements OnInit {
   Answerdetail: any;
   AnswerProblem: any;
   AnswerCounsel: any;
+  executivefile :any[];
   date: any = { date: {year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate()} };
 
   constructor(
@@ -85,7 +86,7 @@ export class ExecutiveOrderComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private logService: LogService,
     @Inject('BASE_URL') baseUrl: string) {
-    this.imgprofileUrl = baseUrl + '/executivefile';
+    this.fileUrl = baseUrl + '/executivefile';
   }
 
   ngOnInit() {
@@ -146,7 +147,7 @@ export class ExecutiveOrderComponent implements OnInit {
             if (this.role_id == 8) {
               this.executiveorderService.getexecutiveordercommandeddata(this.userid)
                 .subscribe(result => {
-                 // console.log("data",result);
+                  console.log("data",result);
                   this.getDatauser();
                   this.resultexecutiveorder = result;
                   this.loading = true;
@@ -155,7 +156,7 @@ export class ExecutiveOrderComponent implements OnInit {
             } else if (this.role_id == 1) {
               this.executiveorderService.getexecutiveorderdata()
                 .subscribe(result => {
-                  console.log("getexecutiveorderdata",result);
+                //  console.log("getexecutiveorderdata",result);
                   this.getDatauser();
                   this.resultexecutiveorder = result;
                   this.loading = true;
@@ -217,7 +218,7 @@ export class ExecutiveOrderComponent implements OnInit {
   }
 
   // <!-- เปิดโมดอลแก้ไข -->
-  editExecutiveOrder(template: TemplateRef<any>,id,commanded_date,subject,subjectdetail,draft,answer_by) {
+  editExecutiveOrder(template: TemplateRef<any>,id,commanded_date,subject,subjectdetail,draft,answer_by,executiveOrderFiles) {
     //this.Form.reset();
     this.submitted = false; 
     this.Form.patchValue({
@@ -230,6 +231,7 @@ export class ExecutiveOrderComponent implements OnInit {
       Commanded_date:this.time(commanded_date)
     })
      this.idexecutiveorder = id; 
+     this.executivefile = executiveOrderFiles;
     // this.vcommanded_date = commanded_date;
     // this.vsubject = subject;
     // this.vsubjectdetail = subjectdetail;
@@ -265,9 +267,8 @@ export class ExecutiveOrderComponent implements OnInit {
     this.executiveorderService.addexecutiveorder(value, this.Form.value.files,this.userid)
       .subscribe(result => 
     {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','เพิ่ม',result.title,result.id).subscribe();
+      this.logService.addLog(this.userid,'ExecutiveOrders','เพิ่ม',result.title,result.id).subscribe();
       if(value.Draft == 1){
-     //  alert("draft 1");
         this.Form.reset();
         this.loading = false;
         this.getuserinfo();
@@ -276,7 +277,6 @@ export class ExecutiveOrderComponent implements OnInit {
       }else{
         this.notificationService.addNotification(1, 1, 1, 10, result.id,result.title)
          .subscribe(result => {
-       //   alert("draft 0");
           this.Form.reset();
           this.loading = false;
           this.getuserinfo();
@@ -293,12 +293,9 @@ export class ExecutiveOrderComponent implements OnInit {
     if (this.Form.invalid) {
         return;
     }
-    // alert(1);
      this.executiveorderService.updateexecutiveorder(value, this.Form.value.files,this.idexecutiveorder).subscribe(result => {
-     // alert(3);
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','แก้ไข',result.title,result.id).subscribe();
+      this.logService.addLog(this.userid,'ExecutiveOrders','แก้ไข',result.title,result.id).subscribe();
         if(value.Draft == 1){
-        //  alert("draft 1");
           this.Form.reset();
           this.getuserinfo();
           this._NotofyService.onSuccess("แก้ไขข้อมูล")
@@ -306,7 +303,6 @@ export class ExecutiveOrderComponent implements OnInit {
         }else{
           this.notificationService.addNotification(1, 1, 1, 10, result.id,result.title)
            .subscribe(result => {
-          //  alert("draft 0");
             this.Form.reset();
             this.getuserinfo();
             this._NotofyService.onSuccess("แก้ไขข้อมูล")
@@ -349,13 +345,12 @@ export class ExecutiveOrderComponent implements OnInit {
     if (this.awnserForm.invalid) {
         return;
     }
-    //alert(1);
     this.executiveorderService.answerexecutiveorder(value, this.awnserForm.value.files, this.idexecutiveorderanswer)
       .subscribe(result => {
-        //alert(3);
         this.awnserForm.reset();
         this.loading = false;
         this.getuserinfo()
+        this._NotofyService.onSuccess("รายงานผล")
         this.modalRef.hide();   
       })
   }
@@ -373,7 +368,6 @@ export class ExecutiveOrderComponent implements OnInit {
 
   //<!-- ยกเลิกข้อสั่งการ -->
   cancelexecutiveorder(value){
-    //alert(1);
     this.executiveorderService.cancelexecutiveorder(value,this.idexecutiveorder).subscribe(result => {              
         this.cancelForm.reset()
         this.loading = false;
@@ -400,7 +394,7 @@ export class ExecutiveOrderComponent implements OnInit {
   //<!-- ลบข้อสั่งการ -->
   deleteexecutiveorder(id){
     this.executiveorderService.deleteexecutiveorder(id).subscribe(result => {
-      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','ลบ',this.vsubject,id).subscribe();
+      this.logService.addLog(this.userid,'ExecutiveOrders','ลบ',this.vsubject,id).subscribe();
       this.loading = false;
       this.getuserinfo();
       this._NotofyService.onSuccess("ลบข้อมูล")

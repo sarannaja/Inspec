@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Inject, ɵɵtemplateRefExtractor } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
@@ -15,6 +15,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ChartDataSets, ChartType, ChartOptions, Chart } from 'chart.js';
 import { Label } from 'ng2-charts';
 import * as _ from 'lodash'
+import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 @Component({
   selector: 'app-detail-central-policy-province-ministry',
   templateUrl: './detail-central-policy-province-ministry.component.html',
@@ -104,6 +105,7 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
   role6Count: any = 0;
   role10Count: any = 0;
   role9Count: any = 0;
+  timelineData: any = [];
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -177,11 +179,15 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
     private notificationService: NotificationService,
     private authorize: AuthorizeService,
     private userService: UserService,
+    private inspectionplanservice: InspectionplanService,
+    private router: Router,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
     this.urllink = baseUrl + 'answersubject/outsider/';
     this.planId = activatedRoute.snapshot.paramMap.get('planId')
+    // const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+    // this.watch = getLastItem(this.router.url)
     this.watch = activatedRoute.snapshot.paramMap.get('watch')
   }
 
@@ -267,6 +273,9 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
     //   ]),
     // })
 
+    this.inspectionplanservice.getTimeline(this.planId).subscribe(res => {
+      this.timelineData = res.timelineData;
+    })
     // this.getDetailCentralPolicy()
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
@@ -744,6 +753,14 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
 
+      if (this.timelineData.status == "ใช้งานจริง") {
+        for (let i = 0; i < UserPeopleId.length; i++) {
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+      }
       // for (let i = 0; i < UserPeopleId.length; i++) {
       //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
       //     .subscribe(response => {
@@ -810,6 +827,15 @@ export class DetailCentralPolicyProvinceMinistryComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+
+      if (this.timelineData.status == "ใช้งานจริง") {
+        for (let i = 0; i < UserPeopleId.length; i++) {
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+      }
       // for (let i = 0; i < UserPeopleId.length; i++) {
       //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
       //     .subscribe(response => {

@@ -620,12 +620,14 @@ export class DetailSubjecteventComponent implements OnInit {
           this.form.patchValue({
             // questionPeople: this.centralpolicyprovincedata.questionPeople,
             status: this.subjectgroup.status,
-            suggestion: this.subjectgroup.suggestion
+            suggestion: this.subjectgroup.suggestion,
+            statussuggestion: this.subjectgroup.statusSuggestion
           })
         }
 
         this.form.patchValue({
           status: this.subjectgroup.status,
+          statussuggestion: this.subjectgroup.statusSuggestion
         })
 
         var test: any = [];
@@ -638,6 +640,7 @@ export class DetailSubjecteventComponent implements OnInit {
         );
         //console.log("uniqueanswerRecommenDationInspectors: ", this.answerRecommenDationInspectors);
 
+        // this.getquestion();
         this.getquestion();
       })
   }
@@ -704,18 +707,18 @@ export class DetailSubjecteventComponent implements OnInit {
       this.Form.reset()
 
       if (value.status == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid,null)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 4, this.subjectgroupid, null)
           .subscribe(response => {
             //console.log(response);
           })
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid,null)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 5, this.subjectgroupid, null)
           .subscribe(response => {
             //console.log(response);
           })
       }
 
       if (value.statussuggestion == "ใช้งานจริง") {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid,null)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, this.userid, 25, this.subjectgroupid, null)
           .subscribe(response => {
             //console.log(response);
           })
@@ -751,7 +754,7 @@ export class DetailSubjecteventComponent implements OnInit {
 
 
       for (let i = 0; i < UserPeopleanswerId.length; i++) {
-        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1,null)
+        this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1, null)
           .subscribe(response => {
             //console.log(response);
 
@@ -1247,22 +1250,25 @@ export class DetailSubjecteventComponent implements OnInit {
     })
   }
   getquestion() {
+    // alert("!23")
     // alert(this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId)
-    this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
-      // alert(JSON.stringify(res))
-      this.questionpeople = res;
-      this.questionpeople.forEach(element => {
-        this.answerpeople.push(element.answerCentralPolicyProvinces)
-      });
-      this.select = this.questionpeople[0].answerCentralPolicyProvinces.map((item, index) => {
-        return {
-          value: item.user.id,
-          label: item.user.name,
-        }
+    if (this.resultdate != null) {
+      this.centralpolicyservice.getquestionpeople(this.id, this.subjectgroup.subjectGroupPeopleQuestions[0].centralPolicyEventId).subscribe(res => {
+        // alert(JSON.stringify(res))
+        this.questionpeople = res;
+        this.questionpeople.forEach(element => {
+          this.answerpeople.push(element.answerCentralPolicyProvinces)
+        });
+        this.select = this.questionpeople[0].answerCentralPolicyProvinces.map((item, index) => {
+          return {
+            value: item.user.id,
+            label: item.user.name,
+          }
+        })
+        //console.log("question: ", this.questionpeople);
+        //console.log("test", this.answerpeople);
       })
-      //console.log("question: ", this.questionpeople);
-      //console.log("test", this.answerpeople);
-    })
+    }
   }
 
   time(date) {

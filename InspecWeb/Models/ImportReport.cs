@@ -16,10 +16,10 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [ForeignKey("FiscalYear")]
+        [ForeignKey("FiscalYearNew")]
         [Description("FK: ปีงบประมาณ")]
         public long FiscalYearId { get; set; }
-        public virtual FiscalYear FiscalYear { get; set; }
+        public virtual FiscalYearNew FiscalYear { get; set; }
 
         [ForeignKey("Region")]
         [Description("FK: เขตตรวจราขการ")]
@@ -45,7 +45,13 @@ namespace InspecWeb.Models
         //[Description("FK: แผนการตรวจ")] public long centralPolicyEventId { get; set; }
         //public virtual CentralPolicyEvent CentralPolicyEvent { get; set; }
 
-        public string CentralPolicyType { get; set; }
+        // public string CentralPolicyType { get; set; }
+
+        [ForeignKey("Typeexaminationplan")]
+        [Description("FK: ประเภทแผนการตรวจ")]
+        public long CentralPolicyTypeId { get; set; }
+        public virtual Typeexaminationplan CentralPolicyType { get; set; }
+        
         public string ReportType { get; set; }
         public string InspectionRound { get; set; }
         public string MonitoringTopics { get; set; }
@@ -72,5 +78,8 @@ namespace InspecWeb.Models
         public ICollection<ImportReportGroup> ImportReportGroups { get; set; }
         public ICollection<ReportCommander> ReportCommanders { get; set; }
         public ICollection<ImportReportFile> ImportReportFiles { get; set; }
+
+        [Description("Active / Inactive")]
+        public long Active { get; set; }
     }
 }

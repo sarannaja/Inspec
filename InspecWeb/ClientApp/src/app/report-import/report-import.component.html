@@ -45,7 +45,7 @@
                   {{items.centralPolicyEvent.centralPolicy.title}}
                 </div>
               </td>
-              <td width=20%>{{item.centralPolicyType}}</td>
+              <td width=20%>{{item.centralPolicyType.name}}</td>
               <td width=15%>{{item.reportType}}</td>
               <td width=10%>{{item.createAt | thaidate: 'year'}}</td>
               <td width=10%>{{item.status}}</td>
@@ -94,7 +94,7 @@
         </div>
 
         <div class="col-12 col-xl-12">
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>ประเภทรายงาน*</label>
             <div class="form-group col-md-12">
               <div class="mb-12">
@@ -111,7 +111,22 @@
                 </div>
               </div>
             </div>
+          </div> -->
+
+          <div class="form-group">
+            <label>ประเภทรายงาน</label>
+            <small style="color: red;">*</small>
+            <select class="form-control select2" data-toggle="select2" formControlName="centralPolicyType"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.centralPolicyType.errors }">
+              <option value="">กรุณาเลือกประเภทประเภทรายงาน</option>
+              <option *ngFor="let item of resulttypeexamibationplan; let i = index" value="{{item.id}}">{{item.name}}
+              </option>
+            </select>
+            <div *ngIf="submitted && reportForm.controls.centralPolicyType.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.centralPolicyType.errors.required">กรุณาเลือกประเภทรายงาน</div>
+            </div>
           </div>
+
         </div>
 
         <div class="col-12 col-xl-12">
@@ -288,7 +303,7 @@
         </div>
 
         <div class="col-12 col-xl-12">
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>ประเภทรายงาน*</label>
             <div class="form-group col-md-12">
               <div class="mb-12">
@@ -299,6 +314,19 @@
                   <option value="อื่นๆ">อื่นๆ</option>
                 </select>
               </div>
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label>ประเภทรายงาน</label>
+            <small style="color: red;">*</small>
+            <select class="form-control select2" data-toggle="select2" formControlName="centralPolicyType"
+              [ngClass]="{ 'is-invalid': submitted && reportForm.controls.centralPolicyType.errors }">
+              <option value="">กรุณาเลือกประเภทประเภทรายงาน</option>
+              <option *ngFor="let item of resulttypeexamibationplan; let i = index" value="{{item.id}}">{{item.name}}
+              </option>
+            </select>
+            <div *ngIf="submitted && reportForm.controls.centralPolicyType.errors" class="invalid-feedback">
+              <div *ngIf="reportForm.controls.centralPolicyType.errors.required">กรุณาเลือกประเภทรายงาน</div>
             </div>
           </div>
         </div>

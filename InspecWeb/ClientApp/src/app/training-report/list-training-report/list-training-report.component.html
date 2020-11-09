@@ -1,73 +1,75 @@
 <div class="header">
-    
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
-      </ol>
-    </nav>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card card-eiei">
-          <div class="card-header" style="margin-bottom: -40px;">
-              <h5 class="card-title">
-                  รายงาน / ผู้สมัครเข้าร่วมอบรม
-                  <button class="btn btn-light btn-sm" (click)="gotoBack()">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                 </button>
-              </h5>
-              <div class="float-right">
-                  <!-- <button class="btn btn-primary" (click)="CreateTraining()"
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card card-eiei">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">
+          รายงาน / ผู้สมัครเข้าร่วมอบรม
+          <button class="btn btn-light btn-sm" (click)="gotoBack()">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-primary float-right" (click)="printReport()" title="พิมพ์">
+            <i class="fas fa-print" style="font-size:large;"></i>
+          </button>
+        </h5>
+        <div class="float-right">
+          <!-- <button class="btn btn-primary" (click)="CreateTraining()"
                       style="margin-top: -60px;">เพิ่มหลักสูตรการอบรม</button> -->
-                    <br>
-              </div>
+          <br>
+        </div>
+      </div>
+      <div class="card-body mt-3">
+        <div class="row">
+          <div class="col-12">
+            <h5 class="text-center">รายชื่อหลักสูตรการฝึกอบรมบุคลากรในระบบการตรวจราชการ</h5>
           </div>
-          <div class="card-body mt-3">
-            <div class="row">
-                <div class="col-12">
-                    <h5 class="text-center">รายชื่อหลักสูตรการฝึกอบรมบุคลากรในระบบการตรวจราชการ</h5>
-                </div>
-                
-            </div>
-              <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg">
-                  <thead>
-                      <tr>
-                          <th width="5%" class="text-center">#</th>
-                          <th width="10%" class="text-center">รุ่น/ปี</th>
-                          <th width="25%" class="text-center">หลักสูตร</th>
-                          <th width="20%" class="text-center">รายละเอียดโครงการ</th>
-                          <th width="10%" class="text-center">กำหนดการฝึกอบรม</th>
-                          <th width="10%" class="text-center">สถานที่จัด</th>
-                          <th width="10%" class="text-center">จำนวนผู้เข้ารับการฝึกอบรม</th>
-                          <th width="10%" class="text-center">จำนวนผู้ผ่านการฝึกอบรม</th>
-                          <!-- <th>ระยะเวลารับสมัคร</th> -->
-                          <!-- <th>สถานะ</th> -->
-                          <!-- <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr *ngFor="let item of resulttraining; let i = index">
-                          <td class="text-center">{{ i + 1 }}</td>
-                          <td class="text-center">{{ item.trainingdata.generation }}/{{ item.trainingdata.year }}</td>
-                          <td class="ellipsis">{{ item.name }}</td>
-                          <td class="ellipsis">{{ item.trainingdata.detail }}</td>
-                          <td class="text-center">{{ item.start | thaidate:'year'}} - {{ item.end | thaidate:'year'}}</td>
-                          <td class="text-center"></td>
-                          <td class="text-center">{{ item.count }}</td>
-                          <td class="text-center">{{ item.approveCount }}</td>
-                          
-                          <!-- <td>{{ item.startDate | thaidate:'year'}} - {{ item.endDate | thaidate:'year'}}</td> -->
-                          <!-- <td>ช่วงลงทะเบียน</td> -->
-                          <!-- <td>
+
+        </div>
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg">
+          <thead>
+            <tr>
+              <th width="5%" class="text-center">#</th>
+              <th width="10%" class="text-center">รุ่น/ปี</th>
+              <th width="25%" class="text-center">หลักสูตร</th>
+              <th width="20%" class="text-center">รายละเอียดโครงการ</th>
+              <th width="10%" class="text-center">กำหนดการฝึกอบรม</th>
+              <th width="10%" class="text-center">สถานที่จัด</th>
+              <th width="10%" class="text-center">จำนวนผู้เข้ารับการฝึกอบรม</th>
+              <th width="10%" class="text-center">จำนวนผู้ผ่านการฝึกอบรม</th>
+              <!-- <th>ระยะเวลารับสมัคร</th> -->
+              <!-- <th>สถานะ</th> -->
+              <!-- <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resulttraining; let i = index">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">{{ item.trainingdata.generation }}/{{ item.trainingdata.year }}</td>
+              <td class="ellipsis">{{ item.name }}</td>
+              <td class="ellipsis">{{ item.trainingdata.detail }}</td>
+              <td class="text-center">{{ item.start | thaidate:'year'}} - {{ item.end | thaidate:'year'}}</td>
+              <td class="text-center">{{item.trainingdata.location}}</td>
+              <td class="text-center">{{ item.count }}</td>
+              <td class="text-center">{{ item.approveCount }}</td>
+
+              <!-- <td>{{ item.startDate | thaidate:'year'}} - {{ item.endDate | thaidate:'year'}}</td> -->
+              <!-- <td>ช่วงลงทะเบียน</td> -->
+              <!-- <td>
                               <i class="align-middle mr-2 fas fa-fw fa-user pointer"
                                   (click)="GotoRegisterTrainingList(item.id)"></i>
                           </td> -->
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
   </div>
 
+</div>

@@ -246,6 +246,12 @@ import { RegisterTrainingComponent } from './training/register-training/register
 import { MenuComponent } from './menu/menu.component';
 import { ElectronicBookAllComponent } from './electronic-book-all/electronic-book-all.component';
 import { ElectronicBookAllDetailComponent } from './electronic-book-all/electronic-book-all-detail/electronic-book-all-detail.component';
+import { GovernmentinspectionareaComponent } from './governmentinspectionarea/governmentinspectionarea.component'; //yochigang20201106
+import { DetailGovernmentinspectionareaComponent } from './governmentinspectionarea/detail-governmentinspectionarea/detail-governmentinspectionarea.component';//yochigang20201106
+import { AllReportIframeComponent } from './all-report-iframe/all-report-iframe.component';
+import { AllReportIframeDetailComponent } from './all-report-iframe/all-report-iframe-detail/all-report-iframe-detail.component';
+import { VilageComponent } from './vilage/vilage.component';
+
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -384,7 +390,6 @@ const ExternalOrganization = [
     SortPipe,
     // DatePipe
     InfoDepartmentComponent,
-    InfoVillageComponent,
     StatepolicyComponent,
     DocumenttemplateComponent,
     MeetinginformationComponent,
@@ -392,7 +397,6 @@ const ExternalOrganization = [
     ExecutiveOrderExport1Component,
     ExecutiveOrderExport3Component,
     InfoMinistryComponent,
-    InfoVillageComponent,
     StatepolicyComponent,
     SubjecteventComponent,
     DetailSubjecteventComponent,
@@ -453,6 +457,11 @@ const ExternalOrganization = [
     MenuComponent,
     ElectronicBookAllComponent,
     ElectronicBookAllDetailComponent,
+    GovernmentinspectionareaComponent, //yochigang20201106
+    DetailGovernmentinspectionareaComponent, //yochigang20201106
+    AllReportIframeComponent,
+    AllReportIframeDetailComponent,
+    VilageComponent,
   ],
 
   imports: [
@@ -483,6 +492,15 @@ const ExternalOrganization = [
       { path: 'ty', component: AnswerOutsideThankComponent },
       { path: 'training/external/register', component: ExternalRegisterComponent },
       { path: 'inspectionplanevent/all/noauth', component: InspectionPlanEventAllComponent },
+
+      { path: 'noauth/inspectionplan/:id/:provinceid/:watch', component: InspectionPlanComponent },
+      { path: 'noauth/inspectionplan/inspectorministry/:id/:provinceid/:watch', component: InspectionPlanMinistryComponent },
+      { path: 'noauth/inspectionplan/inspectordepartment/:id/:provinceid/:watch', component: InspectionPlanDepartmentComponent },
+
+      { path: 'centralpolicy/detailcentralpolicyprovince/noauth/:result', component: DetailCentralPolicyProvinceComponent },
+      { path: 'centralpolicy/detailcentralpolicyprovince/ministry/noauth/:result', component: DetailCentralPolicyProvinceMinistryComponent },
+      { path: 'centralpolicy/detailcentralpolicyprovince/department/noauth/:result', component: DetailCentralPolicyProvinceDepartmentComponent },
+
       {
         path: 'vector', loadChildren: () => import('./external-organization/external-organization.module')
           .then(m => m.ExternalOrganizationModule)
@@ -515,8 +533,10 @@ const ExternalOrganization = [
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
-          { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
+          { path: 'district/:id/:name', component: DistrictComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subdistrict/:id/:provincename/:districtname', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
+          //{ path: 'vilage/:iddistrict/:subdistrictid/:provincename/:districtname:/subdistrictname', component: VilageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'vilage/:iddistrict/:subdistrictid/:provincename', component: VilageComponent, canActivate: [AuthorizeGuard] },
           //----Training----
           { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
@@ -550,7 +570,7 @@ const ExternalOrganization = [
 
           { path: 'training/programtype', component: TrainingProgramTypeComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/lecturertype', component: TrainingLecturerTypeComponent, canActivate: [AuthorizeGuard] },
-          
+
 
           //---------------
           { path: 'training/idcode/:id', loadChildren: () => import('./training-idcode/training-idcode.module').then(m => m.TrainingIdcodeModule) },
@@ -619,8 +639,6 @@ const ExternalOrganization = [
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportsubject', component: ReportSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicyfiscalyear/:id', component: CentralPolicyFiscalyearComponent, canActivate: [AuthorizeGuard] },
-          { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
-          { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
@@ -628,7 +646,6 @@ const ExternalOrganization = [
           { path: 'executiveorderexport1', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport3', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
-          { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
@@ -677,6 +694,8 @@ const ExternalOrganization = [
           { path: 'electronicbookall/detail/:id', component: ElectronicBookAllDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'iframe', loadChildren: () => import('./iframe/iframe.module').then(m => m.IframeModule), canActivate: [AuthorizeGuard] },
           { path: 'menu', component: MenuComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/governmentinspectionarea', component: GovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/governmentinspectionarea/detail/:id', component: DetailGovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
@@ -696,6 +715,8 @@ const ExternalOrganization = [
       },
       { path: 'training/login/:phaseid/:dateid/:datetype', component: TrainingLoginComponent },
       { path: 'training/login-success', component: TrainingLoginSuccessComponent },
+      { path: 'allreportiframe', component: AllReportIframeComponent },
+      { path: 'allreportiframe/detail/:id', component: AllReportIframeDetailComponent },
     ]),
     TimepickerModule.forRoot(),
     FusionChartsModule,

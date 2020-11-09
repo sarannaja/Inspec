@@ -14,14 +14,18 @@ export class IframeComponent implements OnInit {
   clicked: boolean = false
   mock: Mock[] = [
     {
-      url: `${location.origin}/vector/thaimaps`,
-      name: 'เขตตรวจแต่ล่ะจังหวัด',
-    },
-    {
       url: `${location.origin}/inspectionplanevent/all/noauth`,
       name: 'กำหนดการตรวจราชการ',
 
-    }
+    },
+    {
+      url: `${location.origin}/allreportiframe`,
+      name: 'ทะเบียนรายงานผลการตรวจราชการ',
+    },
+    {
+      url: `${location.origin}/vector/thaimaps`,
+      name: 'เขตตรวจแต่ล่ะจังหวัด',
+    },
   ]
   constructor(public sanitizer: DomSanitizer, private http: HttpClient) { }
 

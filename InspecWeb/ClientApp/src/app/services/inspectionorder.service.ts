@@ -14,33 +14,37 @@ export class InspectionorderService {
     return this.http.get(this.url)
   }
   addInspectionorder(inspectionorderData, file: FileList){
-     //alert(JSON.stringify(inspectionorderData))
     const formData = new FormData();
     formData.append('name',inspectionorderData.name);
     formData.append('year',inspectionorderData.year);
     formData.append('order',inspectionorderData.order);
     formData.append('createBy',inspectionorderData.createBy);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
 
   deleteInspectionorder(id) {
-    return this.http.delete(this.url + id);
+    return this.http.delete<any>(this.url + id);
   }
 
-  editInspectionorder(inspectionorderData,id) {
-    console.log(inspectionorderData);
-
+  editInspectionorder(inspectionorderData,file: FileList,id) {
     const formData = new FormData();
-    // alert(JSON.stringify(governmentinspectionplanData))
-    formData.append('name',inspectionorderData.name);
-    formData.append('year',inspectionorderData.year);
-    formData.append('order',inspectionorderData.order);
-    formData.append('createBy',inspectionorderData.createBy);
-    console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url+id, formData);
+    formData.append('Name',inspectionorderData.name);
+    formData.append('Year',inspectionorderData.year);
+    formData.append('Order',inspectionorderData.order);
+    formData.append('CreateBy',inspectionorderData.createBy);
+
+    if (file != null) {
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+    return this.http.put<any>(this.url+id, formData);
   }
 }
 

@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { MinistryService } from '../services/ministry.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-ministry',
@@ -18,14 +21,22 @@ export class MinistryComponent implements OnInit {
   Form : FormGroup
   EditForm: FormGroup;
   loading = false;
+  submitted = false;
+  userid :any;
+  role_id :any;
   dtOptions: DataTables.Settings = {};
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private ministryservice: MinistryService,
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder, 
+    private ministryservice: MinistryService,
     private router:Router,
     public share: MinistryService,
-    private _NotofyService: NotofyService,) { }
+    private _NotofyService: NotofyService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private logService: LogService,
+    ) { }
   ngOnInit() {
-
     this.dtOptions = {
       pagingType: 'full_numbers',
       "language": {
@@ -54,14 +65,24 @@ export class MinistryComponent implements OnInit {
   }
 
   getdata(){
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
+    })
     this.ministryservice.getministry().subscribe(result=>{
       this.resultministry = result
       this.loading = true;
     })
   }
-  openModal(template: TemplateRef<any>, id, Name,NameEN,ShortnameEN,ShortnameTH) {
+  openModal(template: TemplateRef<any>=null, id=null, Name=null,NameEN=null,ShortnameEN=null,ShortnameTH=null) {
     this.Form.reset()
+    this.submitted = false;
     this.delid = id;
+    this.name = Name;
     this.Form.patchValue({
       Name: Name,
       NameEN : NameEN,
@@ -72,7 +93,12 @@ export class MinistryComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   storeMinistry(value) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.ministryservice.addMinistry(value).subscribe(response => {
+      this.logService.addLog(this.userid,'Ministries','เพิ่ม',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -82,6 +108,7 @@ export class MinistryComponent implements OnInit {
   }
   deleteMinistry(value) {
     this.ministryservice.deleteMinistry(value).subscribe(response => {
+      this.logService.addLog(this.userid,'Ministries','ลบ',this.name,this.delid).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -91,8 +118,12 @@ export class MinistryComponent implements OnInit {
   }
 
   editMinistry(value,delid) {
-   
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.ministryservice.editMinistry(value,delid).subscribe(response => {
+      this.logService.addLog(this.userid,'Ministries','แก้ไข',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -104,5 +135,5 @@ export class MinistryComponent implements OnInit {
   viewDepartment(id) {
     this.router.navigate(['/ministry/'+id+'/department'])
   }
-
+  get f() { return this.Form.controls; }
 }

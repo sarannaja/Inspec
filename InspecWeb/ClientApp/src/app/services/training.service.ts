@@ -819,7 +819,7 @@ export class TrainingService {
   }
 
 
-  
+
 
 
   //ดึงข้อมูลประเภทวิทยากร
@@ -853,6 +853,14 @@ export class TrainingService {
     return this.http.delete(this.url + 'lecturertype/delete/' + id);
   }
 
+  //รายงานข้อมูลบุคคลของวิทยากร
+  reportTrainingLecturer(trainingLecturerId,name,year){
+    const formData = new FormData();
+    formData.append('trainingLecturerId', trainingLecturerId);
+    formData.append('trainingname', name);
+    formData.append('year', year);
+    return this.http.post<any>(this.url+'reportlecturer',formData);
+  }
   //ตั้งค่าการประกาศหลักสูตร
   SettingTraining(trainingData, id) {
     console.log(trainingData);

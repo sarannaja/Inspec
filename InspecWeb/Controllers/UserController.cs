@@ -4,6 +4,7 @@ using System.IO; //excel
 using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel; //excel
+using DocumentFormat.OpenXml.Office2010.Excel;
 using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.Services;
@@ -101,6 +102,27 @@ namespace InspecWeb.Controllers
                 .Include(x => x.ProvincialDepartments)
                 .Include(p => p.Sides)
                 .Where(m => m.Role_id == id)
+                //.Where(m => m.Active == 1)
+                .Where(m => m.Email != "admin@inspec.go.th")
+                .OrderByDescending(m => m.CreatedAt);
+
+            return users;
+        }
+
+        [HttpGet("api/[controller]/[action]")]
+        public IEnumerable<ApplicationUser> getuserforrequestorder()
+        {
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Include(x => x.Departments)
+                .Include(x => x.ProvincialDepartments)
+                .Include(p => p.Sides)
+                .Where(m => m.Role_id == 4 || m.Role_id == 5 || m.Role_id == 6 || m.Role_id == 9 || m.Role_id == 10)
                 .Where(m => m.Active == 1)
                 .Where(m => m.Email != "admin@inspec.go.th")
                 .OrderByDescending(m => m.CreatedAt);
@@ -865,6 +887,7 @@ namespace InspecWeb.Controllers
                         Password = passwordrandom,
                         Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                     };
+                    System.Console.WriteLine("testuser : mail");
                     await mailService.SendWelcomeEmailAsync(send);
 
                 }
@@ -884,7 +907,8 @@ namespace InspecWeb.Controllers
             }
 
 
-            return Ok(new { password = user.Pw });
+            return Ok(new { password = user.Pw, id = user.Id, title = user.Name });
+     
 
         }
 
@@ -1688,7 +1712,7 @@ namespace InspecWeb.Controllers
             //<!-- END ปามมาไหม่ -->
 
             System.Console.WriteLine("testuser14 : " + Username);
-            return Ok(new { status = true, password = passwordrandom });
+            return Ok(new { status = true, password = passwordrandom,id = editId , title = userdata.Name });
         }
 
         //ปาม2020
@@ -1715,23 +1739,47 @@ namespace InspecWeb.Controllers
         }
         //<!-- END resetpassword -->
 
+        //<!-- changepasswod -->
+        [HttpPut("api/[controller]/changepassword")]
+        public async Task<IActionResult> changepassword([FromForm] UserViewModel model)
+        {
+
+           System.Console.WriteLine("changepassword" + model.Password);
+          
+            var userdata = _context.Users.Find(model.Id);
+            userdata.Pw = model.Password;
+            _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            var tresult = await _userManager.RemovePasswordAsync(userdata);
+            await _userManager.AddPasswordAsync(userdata, model.Password);
+
+            return Ok(new { Id = model.Id });
+        }
+        //<!-- END changepasswod -->
+
         [Route("api/[controller]/{id}")]
         [HttpDelete]
         public void Delete(string id)
         {
             System.Console.WriteLine("userdelete : " + id);
 
-            var userregiondata = _context.UserRegions.Where(m => m.UserID == id);
-            _context.UserRegions.RemoveRange(userregiondata);
-            _context.SaveChanges();
+            //var userregiondata = _context.UserRegions.Where(m => m.UserID == id);
+            //_context.UserRegions.RemoveRange(userregiondata);
+            //_context.SaveChanges();
 
-            var userprovincedata = _context.UserProvinces.Where(m => m.UserID == id);
-            _context.UserProvinces.RemoveRange(userprovincedata);
-            _context.SaveChanges();
+            //var userprovincedata = _context.UserProvinces.Where(m => m.UserID == id);
+            //_context.UserProvinces.RemoveRange(userprovincedata);
+            //_context.SaveChanges();
 
+
+            //var userdata = _context.ApplicationUsers.Find(id);
+            //_context.ApplicationUsers.Remove(userdata);
+            //_context.SaveChanges();
 
             var userdata = _context.ApplicationUsers.Find(id);
-            _context.ApplicationUsers.Remove(userdata);
+            userdata.Active = 0;
+            _context.Entry(userdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
         }
 
@@ -1838,6 +1886,24 @@ namespace InspecWeb.Controllers
 
                     _context.Entry(user).State = EntityState.Modified;
                     _context.SaveChanges();
+
+                    //<!-- yochigang20201106 -->
+                    //var userscount = _context.Users.Count();
+                    if (item.UserName == "admin@inspec.go.th")
+                    {
+                        var centralpolicydata = new CentralPolicy
+                        {
+                            Title = "สองเองครับ อีสเตอร์เอ๊ก",
+                            TypeexaminationplanId = 1,
+                            FiscalYearNewId = 1,
+                            Status = "ไอ้สอง",
+                            Class = "สองเอง",
+                            CreatedBy = user.Id,
+                        };
+                        _context.CentralPolicies.Add(centralpolicydata);
+                        _context.SaveChanges();
+                    }
+                    //<!-- END yochigang20201106 -->
                     Console.Write("userrun");
                     foreach (var item2 in item.UserRegion)
                     {

@@ -38,8 +38,8 @@ export class TrainingLecturerTypeComponent implements OnInit {
     public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    
-    
+
+
     @Inject('BASE_URL') baseUrl: string) {
       this.mainUrl = baseUrl
       // this.trainingid = activatedRoute.snapshot.paramMap.get('id')
@@ -71,7 +71,7 @@ export class TrainingLecturerTypeComponent implements OnInit {
     };
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
-      
+
     })
 
     this.trainingservice.getTrainingLecturerType()
@@ -87,7 +87,7 @@ export class TrainingLecturerTypeComponent implements OnInit {
   }
 
 
-  openModal(template: TemplateRef<any>, id, name) {
+  openModal(template: TemplateRef<any>, id:any = null, name:any = null) {
     this.editid = id;
     this.name = name;
     this.modalRef = this.modalService.show(template);
@@ -103,7 +103,7 @@ export class TrainingLecturerTypeComponent implements OnInit {
   }
 
   storeTraining(value) {
-    
+
     if (value.name != "" && value.name != null && value.name != "null"){
       this.trainingservice.addTrainingLecturerType(value).subscribe(response => {
         this.logService.addLog(this.userid,'TrainingLecturerType','เพิ่ม',response.name,response.id).subscribe();
@@ -116,13 +116,13 @@ export class TrainingLecturerTypeComponent implements OnInit {
           this.loading = true
           this._NotofyService.onSuccess("เพิ่มข้อมูล")
         })
-  
+
       })
 
     }
     this.modalRef.hide()
 
-    
+
   }
 
   editModal(template: TemplateRef<any>, id, name) {

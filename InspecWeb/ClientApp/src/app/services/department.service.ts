@@ -45,7 +45,7 @@ export class DepartmentService {
     formData.append('NameEN', departmentdata.NameEN);
     formData.append('ShortnameEN', departmentdata.ShortnameEN);
     formData.append('ShortnameTH', departmentdata.ShortnameTH);
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
 
   }
 
@@ -54,13 +54,12 @@ export class DepartmentService {
   }
 
   editDepartment(departmentdata, id) {
-     //alert(2 + ':' + id);
     const formData = new FormData();
     formData.append('Name', departmentdata.Name);
     formData.append('NameEN', departmentdata.NameEN);
     formData.append('ShortnameEN', departmentdata.ShortnameEN);
     formData.append('ShortnameTH', departmentdata.ShortnameTH);
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
   
 }

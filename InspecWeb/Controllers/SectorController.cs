@@ -53,7 +53,7 @@ namespace InspecWeb.Controllers
 
        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put([FromForm] SectorRequest request, long id)
+        public Sector Put([FromForm] SectorRequest request, long id)
         {
             Console.WriteLine( " data :" + id);
             var data = _context.Sectors.Find(id);
@@ -61,6 +61,8 @@ namespace InspecWeb.Controllers
 
             _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+            return data;
 
         }
 

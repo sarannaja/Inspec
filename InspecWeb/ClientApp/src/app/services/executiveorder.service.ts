@@ -50,7 +50,6 @@ export class ExecutiveorderService {
     formData.append('Draft', executiveorderData.Draft);
 
     for (var i = 0; i < executiveorderData.Answer_by.length; i++) {
-      // alert('Answer_by :'+ executiveorderData.Answer_by[i]);
       formData.append('Answer_by', executiveorderData.Answer_by[i]);
     }
 
@@ -74,7 +73,6 @@ export class ExecutiveorderService {
     formData.append('Draft', executiveorderData.Draft);
 
     for (var i = 0; i < executiveorderData.Answer_by.length; i++) {
-      // alert(executiveorderData.Answer_by[i]);
       formData.append('Answer_by', executiveorderData.Answer_by[i]); //
     }
     if (file != null) {
@@ -87,7 +85,6 @@ export class ExecutiveorderService {
 
   //สำหรับตอบกลับข้อสั่งการ
   answerexecutiveorder(executiveorderData, file: FileList, idexecutiveorderanswer) {
-    //alert(2);
     const formData = new FormData();
     formData.append('ExecutiveOrderAnswerId', idexecutiveorderanswer);
     formData.append('Answerdetail', executiveorderData.Answerdetail);
@@ -105,7 +102,6 @@ export class ExecutiveorderService {
 
   //สำหรับยกเลิกข้อสั่งการ
   cancelexecutiveorder(executiveorderData, id) {
-    //alert(2);
     const formData = new FormData();
     formData.append('id', id);
     formData.append('Canceldetail', executiveorderData.canceldetail);
@@ -114,7 +110,6 @@ export class ExecutiveorderService {
 
   //สำหรับรับทราบข้อสั่งการ
   gotitexecutiveorder(id, ExecutiveOrderAnswerId) {
-    // alert(2);
     const formData = new FormData();
     formData.append('id', id);
     formData.append('ExecutiveOrderAnswerId', ExecutiveOrderAnswerId);
@@ -122,8 +117,6 @@ export class ExecutiveorderService {
   }
 
   getexcutive1(Id) {
-    console.log('Id in service', Id);
-    // alert(Id);
     var boby = {
       Id
     }
@@ -132,8 +125,6 @@ export class ExecutiveorderService {
   }
 
   getexcutive3(Id) {
-    console.log('Id in service', Id);
-    // alert(Id);
     var boby = {
       Id
     }

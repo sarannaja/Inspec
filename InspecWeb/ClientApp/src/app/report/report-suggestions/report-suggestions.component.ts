@@ -25,7 +25,8 @@ export class ReportSuggestionsComponent implements OnInit {
   // selectcentralpolicy: any = []
   // resultsubject: any = []
   // selectsubject: any = []
-  // loading = false;
+  loading = false;
+  dtOptions: DataTables.Settings = {};
   // Form: FormGroup;
 
   constructor(

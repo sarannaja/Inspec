@@ -14,7 +14,6 @@ import { LogService } from 'src/app/services/log.service';
   styleUrls: ['./create-training.component.css']
 })
 export class CreateTrainingComponent implements OnInit {
-
   name: any
   detail: any
   start_date: any

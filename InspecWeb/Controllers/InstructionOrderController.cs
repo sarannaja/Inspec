@@ -7,6 +7,7 @@ using InspecWeb.Data;
 using InspecWeb.Models;
 using InspecWeb.ViewModel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,19 +44,6 @@ namespace InspecWeb.Controllers
                                        .OrderByDescending(m => m.Id)
                                        select P;
             return instructionorderdata;
-
-            //return 
-            //_context.Provinces
-            //   .Include(p => p.Districts)
-            //   .Where(p => p.Id == 1)
-            //   .ToList();
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
 
         // POST api/values
@@ -99,8 +87,6 @@ namespace InspecWeb.Controllers
                 Name = model.Name,
                 Year = model.Year,
                 Order = model.Order,
-                //Position = model.Position,
-                //Prefix = model.Prefix,
                 File = filesname,
                 CreateBy = model.CreateBy,
                 Detail = model.Detail,
@@ -108,24 +94,62 @@ namespace InspecWeb.Controllers
             };
             _context.InstructionOrders.Add(instructionorderdata);
             _context.SaveChanges();
-            return Ok(instructionorderdata);
+            return Ok(new { Id = instructionorderdata.Id, title = model.Name });
 
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(long id, string year, string name, string order, string createBy, string detail, string file)
+        public async Task<IActionResult> Put([FromForm] InstructionorderRequest request, long id)
         {
-            var instructionorder = _context.InstructionOrders.Find(id);
-            instructionorder.Name = name;
-            instructionorder.Year = year;
-            instructionorder.Order = order;
-            instructionorder.CreateBy = createBy;
-            instructionorder.Detail = detail;
-            
-            _context.Entry(instructionorder).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var data = _context.InstructionOrders.Find(id);
+            data.Name = request.Name;
+            data.Year = request.Year;
+            data.Order = request.Order;
+            data.Detail = request.Detail;
+            data.CreateBy = request.CreateBy;
+
+
+            var date = DateTime.Now;
+            var filesname = request.Filename;
+            var random = RandomString(15);
+
+          
+            if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//InstructionorderFile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "/assets" + "//InstructionorderFile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            var filePath = _environment.WebRootPath + "/assets" + "//InstructionorderFile//";
+
+            if (request.files != null)
+            {
+                foreach (var formFile in request.files.Select((value, index) => new { Value = value, Index = index }))
+                ////foreach (var formFile in data.files)
+                {
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        using (var stream = System.IO.File.Create(filePath + random + ext))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+
+                            filesname = random + ext;
+                        }
+                       
+                    }
+                }
+            }
+
+
+            data.File = filesname;
+       
+            _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
+            return Ok(new { Id = id, title = request.Name });
         }
 
         // DELETE api/values/5
@@ -138,4 +162,18 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
         }
     }
+}
+
+public class InstructionorderRequest
+{
+    public long Id { get; set; }
+    public string Name { get; set; }
+    public string Year { get; set; }
+    public string Order { get; set; }
+    public string Detail { get; set; }
+    public string CreateBy { get; set; }
+    public string Filename { get; set; }
+
+    public List<IFormFile> files { get; set; }
+
 }

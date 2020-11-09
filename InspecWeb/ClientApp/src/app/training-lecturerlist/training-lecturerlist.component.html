@@ -29,8 +29,8 @@
                             <!-- <th width="20%">เบอร์โทรศัพท์</th>
                             <th width="20%">E-mail</th>
                             <th width="20%">ประวัติการศึกษา</th> -->
-                            <th width="35%">แบบสอบถาม</th>
-                            <th width="20%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                            <th width="35%">ดาวน์โหลด</th>
+                            <!-- <th width="20%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +45,7 @@
                                 <a *ngIf="item.trainingLecturerJoinSurveysId.length > 0" href="/train/survey/{{trainingid}}/{{item.trainingLecturerJoinSurveysId[0].id}}/{{item.trainingLecturerJoinSurveysId[0].trainingSurveyTopicId}}" target="_blank">
                                     {{ item.surveyName }}
                                 </a>
-                            </td>
+                            </td> -->
                             <td>
                                 
                                 <i *ngIf="item.trainingLecturerJoinSurveysId.length < 1" class="align-middle mr-2 fas fa-file-medical pointer" title="ผูกแบบสอบถาม"

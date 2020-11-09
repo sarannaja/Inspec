@@ -38,14 +38,14 @@ export class ListTrainingSurveyComponent implements OnInit {
     private logService: LogService,
     private fb: FormBuilder, 
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
       this.surveytopicid = activatedRoute.snapshot.paramMap.get('surveytopicid')
     }
-    
-    
+
+
 
   ngOnInit() {
     this.getuserinfo();
@@ -76,7 +76,7 @@ export class ListTrainingSurveyComponent implements OnInit {
     this.Form = this.fb.group({
       surveytype: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required]),
-      
+
     })
 
     this.EditForm = this.fb.group({
@@ -92,7 +92,7 @@ export class ListTrainingSurveyComponent implements OnInit {
       console.log("resulttraining =>",this.resulttraining);
       this.spinner.hide();
     })
-    
+
   }
 
   //start getuser

@@ -26,7 +26,7 @@
             </div>
           </div>
 
-          <div class="row" style="margin-top: 10px;">
+          <div *ngIf="resultdetailcentralpolicy.typeexaminationplan" class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               ประเภทแผนการตรวจ : {{resultdetailcentralpolicy.typeexaminationplan.name}}
             </div>
@@ -120,13 +120,13 @@
                         </h5>
                         <div class="row" style="margin-left: 10px;">
                           <button
-                            *ngIf="subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
+                            *ngIf="items.subquestionCentralPolicyProvinces && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length > 0"
                             type="button"
                             (click)="openModal2(modalInviteDepartment, items.id,items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups)"
                             class="btn btn-primary btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
                           <button
-                            *ngIf="subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length == 0"
+                            *ngIf="items.subquestionCentralPolicyProvinces && subjectgroupstatus == 'ร่างกำหนดการ' && items.subquestionCentralPolicyProvinces.length == 0"
                             type="button" (click)="openAlertModal(alertModal)" class="btn btn-primary btn-xs"
                             style="margin-top: -10px; margin-left: 10px;">เพิ่มหน่วยงาน</button>
                           <button *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="button"
@@ -151,9 +151,13 @@
                         </div> -->
                       </div>
 
-                      <div *ngIf="items.subquestionCentralPolicyProvinces.length == 0" style="margin-top: 10px;"></div>
+                      <div
+                        *ngIf="items.subquestionCentralPolicyProvinces && items.subquestionCentralPolicyProvinces.length == 0"
+                        style="margin-top: 10px;"></div>
 
-                      <div *ngIf="items.subquestionCentralPolicyProvinces.length != 0;" style="margin-left: 25px;">
+                      <div
+                        *ngIf="items.subquestionCentralPolicyProvinces && items.subquestionCentralPolicyProvinces.length != 0;"
+                        style="margin-left: 25px;">
                         <div class="col-12 row collapse" id="departments{{i}}"
                           *ngFor="let itemss of items.subquestionCentralPolicyProvinces[0].subjectCentralPolicyProvinceGroups;let ii = index">
                           <div class="col-6">
@@ -302,7 +306,7 @@
                           </div>
                         </td>
                       </div>
-                      <div class="col-12" *ngIf="item.answerSubquestions.length != 0">
+                      <div class="col-12" *ngIf="items.answerSubquestions && item.answerSubquestions.length != 0">
                         <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
                           <!-- <u>ตัวเลือกคำถาม</u> -->
                           <!-- <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index"> -->
@@ -461,8 +465,7 @@
             </div>
           </div>
 
-          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว' && subjectgroupstatussuggestion == 'ร่างกำหนดการ'"
-            class="form-group" style="margin-left: 2px;">
+          <div *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="form-group" style="margin-left: 2px;">
             <div class="row">
               <i class="fa fa-tags" style="margin-top: 5px;"></i>
               <h4 style="margin-left: 15px;">ข้อเสนอแนะ</h4>
@@ -474,8 +477,13 @@
                 (click)="reportModalSuggestionsresult(modalreportsuggestionsresult)">รายงานผลการดำเนินการตามข้อเสนอแนะ
               </button> -->
             </div>
-            <textarea readonly="{{subjectgroupstatussuggestion == 'ใช้งานจริง'}}" cols="30" rows="2" type="text"
-              formControlName="suggestion" class="form-control" placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
+            <textarea *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ'" cols="
+              30" rows="2" type="text" formControlName="suggestion" class="form-control"
+              placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
+
+            <textarea readonly *ngIf="subjectgroupstatussuggestion == 'ใช้งานจริง'" cols="
+              30" rows="2" type="text" formControlName="suggestion" class="form-control"
+              placeholder="กรุณากรอกข้อเสนอแนะ"></textarea>
             <br>
 
             <div class="form-group col-12" *ngIf="subjectgroupstatussuggestion == 'ร่างกำหนดการ'">
@@ -499,9 +507,9 @@
               </div>
             </div>
 
-            <br>
 
             <div *ngFor="let item of subjectgroup.answerRecommenDationInspectors; let i = index">
+              <br>
               <div class="col-12">
                 <label style="margin-left: 10px;"> - {{item.answersuggestion}} โดย : {{item.user.name}} จังหวัด :
                   <span *ngFor="let item2 of item.user.userProvince; let ii = index">
@@ -512,7 +520,8 @@
             </div>
           </div>
 
-          <div class="row" *ngIf="resultdetailcentralpolicy.centralPolicyFiles.length > 0">
+          <div class="row"
+            *ngIf="resultdetailcentralpolicy.centralPolicyFiles && resultdetailcentralpolicy.centralPolicyFiles.length > 0">
             <br>
             <div class="col-md-12">
               <u>ไฟล์แนบแผนการตรวจราชการ</u><br>
@@ -524,12 +533,13 @@
                     {{ item2.name }}<br>
                   </span>
                 </a>
+                <input type="text" class="form-control ml-4" style="width: 50%;" value="{{item2.description}}" readonly>
               </div>
             </div>
           </div>
 
-          <br>
-          <div class="col-12">
+
+          <div class="col-12 mt-3" *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'">
             <label *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'"
               class="form-label w-100">แนบไฟล์ประเด็นการตรวจติดตาม</label>
             <input *ngIf="subjectgroupstatus == 'ร่างกำหนดการ'" type="file" multiple (change)="uploadFile2($event)"
@@ -550,16 +560,17 @@
           <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
             <form class="form-group row col-12" [formGroup]="itemTest">
               <div class="col-4">
-                <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
-                  {{itemTest.controls.ebookFile.value.name}}</label>
+                <label style="text-overflow: ellipsis;">ไฟล์ที่ {{i + 1}})
+                  {{itemTest.get('ebookFile').value.name}}</label>
               </div>
               <div class="col-8">
                 <input formControlName="fileDescription" class="form-control" type="text" placeholder="ใส่คำอธิบาย">
               </div>
             </form>
           </div>
-          <div class="row" *ngIf="carlendarFile.length > 0">
-            <div class="col-md-12" style="margin-top: 20px;">
+
+          <div class="row mt-3" *ngIf="carlendarFile && carlendarFile.length > 0">
+            <div class="col-md-12">
               <u>ไฟล์แนบประเด็นการตรวจติดตาม</u><br>
               <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">
                 <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
@@ -568,7 +579,7 @@
                     {{ item.name }}<br>
                   </span>
                 </a>
-                <input type="text" class="form-control ml-4" style="width: 80%;" value="{{item.description}}" readonly>
+                <input type="text" class="form-control ml-4" style="width: 50%;" value="{{item.description}}" readonly>
               </div>
             </div>
           </div>
@@ -598,11 +609,12 @@
           </div>
 
           <div class="form-group col col-lg-12" style="margin-top: 20px; text-align: center;">
-            <button *ngIf="subjectgroupstatus != 'ใช้งานจริง'" style="align-self: center;" type="submit"
-              class="btn btn-primary" style="margin-right: 45px;">บันทึก</button>
+            <button *ngIf="subjectgroupstatus != 'ใช้งานจริง' && subjectgroupstatussuggestion == 'ร่างกำหนดการ'"
+              style="align-self: center;" type="submit" class="btn btn-primary"
+              style="margin-right: 45px;">บันทึก</button>
             <!-- <button *ngIf="role_id == 5" style="align-self: center;" type="button" class="btn btn-primary"
               (click)="back()" style="margin-right: 45px;">บันทึก</button> -->
-            <button type="button" class="btn btn-danger" (click)="back()">ยกเลิก</button>
+            <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
           </div>
 
           <!-- <div *ngIf="subjectgroupstatus == 'ใช้งานจริง'" class="form-group col col-lg-12"
@@ -1073,8 +1085,7 @@
 </ng-template>
 <!-- END primary modal -->
 <!-- BEGIN primary modal -->
-<ng-template #modalreportreportperformance class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+<!-- <ng-template #modalreportreportperformance class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title">รายงานผลการดำเนินการของหน่วยรับตรวจ</h5>
@@ -1098,8 +1109,6 @@
               <label>หน่วยงาน</label>
               <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
                 [items]="select" formControlName="provincialDepartmentId">
-                <!-- (ngModelChange)="addsubjectdepartment2($event,'add')"
-              (deselected)="addsubjectdepartment2($event,'remove')" -->
               </ng-select>
             </div>
           </div>
@@ -1140,7 +1149,7 @@
     </div>
 
   </div>
-</ng-template>
+</ng-template> -->
 <!-- END primary modal -->
 <!-- BEGIN primary modal -->
 <ng-template #modalreportsuggestionsresult class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1197,8 +1206,7 @@
 </ng-template>
 <!-- END primary modal -->
 <!-- BEGIN primary modal -->
-<ng-template #modalreportcomment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+<!-- <ng-template #modalreportcomment class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title">รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน</h5>
@@ -1247,7 +1255,7 @@
       </form>
     </div>
   </div>
-</ng-template>
+</ng-template> -->
 <!-- END primary modal -->
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>

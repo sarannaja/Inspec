@@ -27,17 +27,17 @@ export class TrainingLecturerListComponent implements OnInit {
   lecturerid: any
   surveytopicid: any;
 
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-      this.downloadUrl = baseUrl + '/Uploads'
-      this.mainUrl = baseUrl
-      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
-    }
+    this.downloadUrl = baseUrl + '/Uploads'
+    this.mainUrl = baseUrl
+    this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+  }
 
   ngOnInit() {
 
@@ -65,11 +65,11 @@ export class TrainingLecturerListComponent implements OnInit {
       }
 
     };
-    
+
 
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
-     
+
     })
 
     this.trainingservice.gettraininglecturerlist(this.trainingid)
@@ -82,21 +82,21 @@ export class TrainingLecturerListComponent implements OnInit {
     })
 
     this.trainingservice.gettrainingsurveycountdata()
-    .subscribe(result => {
-      this.resultsurveytraining = result
-      //this.loading = true;
-      //console.log("12345:",this.resultsurveytraining);
+      .subscribe(result => {
+        this.resultsurveytraining = result
+        //this.loading = true;
+        //console.log("12345:",this.resultsurveytraining);
 
-      if (this.resultsurveytraining.length > 0){
-        this.selectdatasurvey = this.resultsurveytraining.map((item, index) => {
-          return { value: item.id, label: item.name }
-        })
-      }
-        
+        if (this.resultsurveytraining.length > 0) {
+          this.selectdatasurvey = this.resultsurveytraining.map((item, index) => {
+            return { value: item.id, label: item.name }
+          })
+        }
 
-    })
+
+      })
   }
-  CreateTraining(){
+  CreateTraining() {
     this.router.navigate(['/training/createtraining'])
   }
   openModal(template: TemplateRef<any>, id) {
@@ -208,15 +208,15 @@ export class TrainingLecturerListComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false;
       this.trainingservice.gettraininglecturer()
-      .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true;
-        console.log(this.resulttraining);
-      })
+        .subscribe(result => {
+          this.resulttraining = result
+          this.loading = true;
+          console.log(this.resulttraining);
+        })
     })
   }
 
-  gotoProgramTraining(trainingid){
+  gotoProgramTraining(trainingid) {
     this.router.navigate(['/training/program/', trainingid])
   }
 
@@ -228,9 +228,14 @@ export class TrainingLecturerListComponent implements OnInit {
     window.history.back();
   }
 
-  gotoProcessingTraining(trainingLecturerId){
+  gotoProcessingTraining(trainingLecturerId) {
     this.router.navigate(['/training/survey/processing/', trainingLecturerId])
   }
+  reportTrainingLecturer(trainingLecturerId, name, year) {
+    // alert(trainingLecturerId+name+year)
+    this.trainingservice.reportTrainingLecturer(trainingLecturerId, name, year).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
 
-  
 }

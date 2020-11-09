@@ -9,6 +9,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from '../services/user.service';
 import { ExportReportService } from '../services/export-report.service';
 import { NotificationService } from '../services/notification.service';
+import { NotofyService } from '../services/notofy.service';
+import { IMyOptions } from 'mydatepicker-th';
 declare var jQuery: any;
 
 @Component({
@@ -38,6 +40,7 @@ export class AllReportComponent implements OnInit {
   fiscalYearId: any;
   fiscalYearData: any = [];
   regionData: any = [];
+  presidentData: any = [];
   provinceData: any = [];
   reportId: any;
   form: FormGroup;
@@ -46,6 +49,13 @@ export class AllReportComponent implements OnInit {
   inputdate: any = [{ start_date: '', end_date: '' }];
   startDate: any;
   zoneData: any = [];
+
+  myDatePickerOptions: IMyOptions = {
+    // other options...
+    dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
+  };
 
   get f() { return this.reportForm.controls }
   get d() { return this.f.inputdate as FormArray }
@@ -60,6 +70,7 @@ export class AllReportComponent implements OnInit {
     private userService: UserService,
     private exportReportService: ExportReportService,
     private notificationService: NotificationService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string,
     private fb: FormBuilder,
   ) {
@@ -81,7 +92,7 @@ export class AllReportComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4],
+          targets: [5],
           orderable: false
         }
       ],
@@ -108,6 +119,7 @@ export class AllReportComponent implements OnInit {
     this.getRegion();
     this.getZone();
     this.getProvince();
+    this.getPresident();
 
     this.reportForm = this.fb.group({
       centralPolicyEvent: new FormControl(null, [Validators.required]),
@@ -124,6 +136,8 @@ export class AllReportComponent implements OnInit {
       department: new FormControl(null, [Validators.required]),
       inputdate: new FormArray([]),
       zone: new FormControl(null, [Validators.required]),
+
+      president: new FormControl(null, [Validators.required]),
     })
 
     this.form = this.fb.group({
@@ -233,6 +247,48 @@ export class AllReportComponent implements OnInit {
     })
   }
 
+
+  getPresident() {
+    this.exportReportService.getPresident().subscribe(res => {
+      console.log("getZones: ", res);
+      this.presidentData = res.presidents.map((item, index) => {
+        return {
+          value: item.userRegion,
+          label: item.prefix + " " + item.name,
+          // region: item.userRegion.id
+        }
+      })
+      console.log("Zones: ", this.regionData);
+    })
+  }
+
+  exportPresident(value) {
+    console.log("President Value: ", value);
+    for (let i = 0; i < value.president.length; i++) {
+      // alert(JSON.stringify(value.president[i].regionId))
+      // alert(value.president[i].regionId)
+      this.exportReportService.getAllReportByPresidentId(value.president[i].regionId).subscribe(res => {
+        this.exportReportService.reportRegion(res, "รายเขต").subscribe(res => {
+          console.log("export: ", res);
+          window.open(this.url + "Uploads/" + res.data);
+          this.modalRef.hide();
+        })
+      })
+    }
+
+    // this.exportReportService.getAllReportByRegionId(value).subscribe(res => {
+    //   // console.log("RESSS: ", res);
+
+    //   // this.exportReportService.reportRegion(res, this.checkType).subscribe(res => {
+    //   //   console.log("export: ", res);
+    //   //   window.open(this.url + "Uploads/" + res.data);
+    //   //   this.modalRef.hide();
+    //   // })
+
+    // })
+
+  }
+
   exportRegion(value) {
     console.log("Department Value: ", value);
     this.exportReportService.getAllReportByRegionId(value).subscribe(res => {
@@ -322,13 +378,22 @@ export class AllReportComponent implements OnInit {
   getZone() {
     this.exportReportService.getZones().subscribe(res => {
       console.log("getZones: ", res);
-      this.zoneData = res.sectors.map((item, index) => {
+      this.presidentData = res.sectors.map((item, index) => {
         return {
           value: item.id,
           label: item.name
         }
       })
       console.log("Zones: ", this.regionData);
+    })
+  }
+
+  changeActive(reportId) {
+    this.exportReportService.changeActive(reportId).subscribe(res => {
+      console.log("active: ", res.active);
+      this.loading = false;
+      this._NotofyService.onSuccess()
+      this.getImportedReport();
     })
   }
 }

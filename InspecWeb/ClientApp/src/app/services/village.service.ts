@@ -12,8 +12,21 @@ export class VillageService {
     this.url = baseUrl + 'api/village/';
   }
   getvillagedata(id):Observable<any[]> {
-    console.log(id);
-    // alert("fdfdf");
     return this.http.get<any[]>(this.url+id)
+  }
+  add(Data,SubdistrictId) {
+    const formData = new FormData();
+    formData.append('SubdistrictId', SubdistrictId);
+    formData.append('Name', Data.Name);
+    return this.http.post<any>(this.url, formData);
+  }
+  delete(id) {
+    return this.http.delete(this.url + id);
+  }
+  edit(Data,id) {
+    const formData = new FormData();
+    formData.append('Name', Data.Name);
+   
+    return this.http.put<any>(this.url+id, formData);
   }
 }

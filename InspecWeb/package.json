@@ -3,9 +3,5 @@
   "name": "asp.net",
   "private": true,
   "devDependencies": {},
-  "dependencies": {
-    "bootstrap": "^4.4.1",
-    "fusioncharts": "^3.15.3",
-    "ngx-print": "^1.2.0-beta.5"
-  }
+  "dependencies": {}
 }

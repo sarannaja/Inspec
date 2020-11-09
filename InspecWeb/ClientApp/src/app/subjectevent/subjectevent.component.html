@@ -16,7 +16,7 @@
         <button class="btn btn-primary" style="margin-top: -60px;"
           (click)="reportModalReport(modalreport)">รายงาน</button>
         &nbsp;&nbsp;
-        <button class="btn btn-primary" title="เพิ่มกำหนดการตรวจราชการ" style="margin-top: -60px;"
+        <button *ngIf="role_id == 3 || role_id == 6 || role_id == 10" class="btn btn-primary" title="เพิ่มกำหนดการตรวจราชการ" style="margin-top: -60px;"
           (click)="openModal(modalProvince)">
           <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
 
@@ -679,7 +679,7 @@
 </ng-template>
 <!-- END primary modal -->
 
-<ng-snotify></ng-snotify>
+<!-- <ng-snotify></ng-snotify>
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
-</ngx-spinner>
+</ngx-spinner> -->

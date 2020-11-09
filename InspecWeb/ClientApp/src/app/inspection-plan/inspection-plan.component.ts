@@ -81,6 +81,7 @@ export class InspectionPlanComponent implements OnInit {
   ministryId
   watch
   submitted = false;
+  lastpath
 
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
@@ -93,11 +94,19 @@ export class InspectionPlanComponent implements OnInit {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
-    this.watch = activatedRoute.snapshot.paramMap.get('watch')
     this.url = baseUrl + 'inspectionplanevent';
+
   }
 
   async ngOnInit() {
+
+    this.lastpath = window.location.pathname.split('/')[1];
+    // alert(this.lastpath)
+
+    const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+    this.watch = getLastItem(this.router.url)
+
+
     // var today = new Date().toLocaleDateString();
     // alert(today)
     // alert(this.provinceid)
@@ -279,7 +288,11 @@ export class InspectionPlanComponent implements OnInit {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, { planId: this.id, watch: watch }])
+      if (this.lastpath == "noauth") {
+        this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/noauth', result, { planId: this.id, watch: watch }])
+      } else {
+        this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', result, { planId: this.id, watch: watch }])
+      }
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])
@@ -304,7 +317,7 @@ export class InspectionPlanComponent implements OnInit {
         // this.modalService.show('modaldeleteProvince');
 
         for (let i = 0; i < CentralpolicyId.length; i++) {
-          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id,null)
+          this.notificationService.addNotification(CentralpolicyId[i], this.provinceid, this.userid, 3, this.id, null)
             .subscribe(response => {
               console.log(response);
             })
@@ -413,10 +426,10 @@ export class InspectionPlanComponent implements OnInit {
           var userregion = "";
           for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
 
-            if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+            if (this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
               this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
             } else {
-              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
             }
 
             if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
@@ -495,10 +508,10 @@ export class InspectionPlanComponent implements OnInit {
           var userregion = "";
           for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
 
-            if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+            if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
               this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
             } else {
-              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
             }
 
             if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
@@ -508,7 +521,7 @@ export class InspectionPlanComponent implements OnInit {
             }
           }
 
-          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
+          await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
         }
       } else {
         for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
@@ -525,7 +538,7 @@ export class InspectionPlanComponent implements OnInit {
                 }
               }
 
-              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion})
+              await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].departments.name + " - " + this.resultdepartmentpeople[i].name + " เขต " + userregion })
             }
           }
         }
@@ -617,19 +630,59 @@ export class InspectionPlanComponent implements OnInit {
     for (let j = 0; j < this.data.length; j++) {
 
       // alert(JSON.stringify(this.data[j].centralPolicyId))
+      console.log("value.UserPeopleId", value.UserPeopleId)
 
-      // let UserPeopleId: any[] = value.UserPeopleId
+      let UserMinistryId: any[] = value.UserMinistryId
+      let UserDepartmentId: any[] = value.UserDepartmentId
+      let UserProvincialDepartmentId: any[] = value.UserProvincialDepartmentId
+      let UserPeopleId: any[] = value.UserPeopleId
+
       await this.inspectionplanservice.getcentralpolicyprovinceid(this.data[j].centralPolicyId, this.data[j].inspectionPlanEvent.provinceId).subscribe(result => {
 
         this.centralpolicyservice.addCentralpolicyUser(value, result, this.userid, this.id).subscribe(response => {
           console.log(value);
 
-          // for (let i = 0; i < UserPeopleId.length; i++) {
-          //   this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, 1)
-          //     .subscribe(response => {
-          //       console.log(response);
-          //     })
-          // }
+          if (UserMinistryId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserMinistryId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserMinistryId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+          if (UserDepartmentId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserDepartmentId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserDepartmentId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+          if (UserProvincialDepartmentId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserProvincialDepartmentId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserProvincialDepartmentId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
+
+          if (UserPeopleId != null) {
+            if (this.timelineData.status == "ใช้งานจริง") {
+              for (let i = 0; i < UserPeopleId.length; i++) {
+                this.notificationService.addNotification(this.data[j].centralPolicyId, this.provinceid, UserPeopleId[i], 1, this.id, null)
+                  .subscribe(response => {
+                    console.log(response);
+                  })
+              }
+            }
+          }
           // this.getCentralPolicyProvinceUser();
           // alert(response);
           this.Form2.reset()
@@ -656,7 +709,7 @@ export class InspectionPlanComponent implements OnInit {
       // location.reload();
       this.getTimeline();
 
-      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id,null)
+      this.notificationService.addNotification(1, this.provinceid, 1, 16, this.id, null)
         .subscribe(response => {
           console.log(response);
         })
@@ -713,7 +766,7 @@ export class InspectionPlanComponent implements OnInit {
   }
   EditPlanDate() {
     // alert(JSON.stringify(this.startDate))
-    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate).subscribe(response => {
+    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate, this.userid).subscribe(response => {
       this.modalRef.hide()
       this.getTimeline();
     })
@@ -727,7 +780,7 @@ export class InspectionPlanComponent implements OnInit {
     })
   }
   deleteDate() {
-    this.inspectionplanservice.deleteplandate(this.id).subscribe(response => {
+    this.inspectionplanservice.deleteplandate(this.id, this.userid).subscribe(response => {
       this._NotofyService.onSuccess("ลบข้อมูล",)
       this.modalRef.hide()
       this.router.navigate(['inspectionplanevent'])
@@ -736,22 +789,31 @@ export class InspectionPlanComponent implements OnInit {
 
   DeleteCentralPolicyEvent(value) {
     // alert(value)
-    this.inspectionplanservice.deleteCentralPolicyEvent(value).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid,this.id).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
       // location.reload();
       this.loading = false
 
       this.getinspectionplanservice();
-
+      this.getministryuser();
+      this.getdepartmentuser();
+      this.getpeopleuser();
+      this.getprovincialdepartmentuser();
     })
   }
   DeleteCentralPolicy(value) {
-    this.inspectionplanservice.deleteCentralPolicy(value).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicy(value, this.userid).subscribe(response => {
+      this._NotofyService.onSuccess("ลบข้อมูล",)
       console.log(value);
       this.modalRef.hide()
       this.loading = false
       this.getinspectionplanservice()
+      this.getministryuser();
+      this.getdepartmentuser();
+      this.getpeopleuser();
+      this.getprovincialdepartmentuser();
     })
   }
 

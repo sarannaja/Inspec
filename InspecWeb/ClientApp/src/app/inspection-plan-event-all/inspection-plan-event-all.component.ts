@@ -30,6 +30,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
   userid: string
   role_id
   loading = false;
+  lastpath
 
   selectedProvince: any = "allprovince"
 
@@ -41,6 +42,9 @@ export class InspectionPlanEventAllComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string) {
     // this.url = baseUrl + 'centralpolicy/detailcentralpolicyprovince/';
     this.url = baseUrl + 'inspectionplan/';
+
+    const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+    this.lastpath = getLastItem(this.router.url)
   }
 
   ngOnInit() {
@@ -54,8 +58,8 @@ export class InspectionPlanEventAllComponent implements OnInit {
     //     //console.log(result);
 
     //   })
-      this.getprovince()
-      this.getcalendaralldata()
+    this.getprovince()
+    this.getcalendaralldata()
   }
 
   getprovince() {
@@ -165,16 +169,29 @@ export class InspectionPlanEventAllComponent implements OnInit {
             $(".fc-center").find("h2").text(newstrDate);
           }, 5);
         },
+
+
         eventClick: function (event) {
           //console.log(event);
           //console.log('this.role_id', self.role_id);
           var watch = 1;
-          if (event.roleCreatedBy == 3) {
-            window.location.href = self.url + event.id + '/' + event.provinceid + '/' + watch;
-          } else if (event.roleCreatedBy == 6) {
-            window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid + '/' + watch;
-          } else if (event.roleCreatedBy == 10) {
-            window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid + '/' + watch;
+          if (self.lastpath == "noauth") {
+            if (event.roleCreatedBy == 3) {
+              window.location.href = location.origin + '/noauth/inspectionplan/'  + event.id + '/' + event.provinceid + '/' + watch;
+            } else if (event.roleCreatedBy == 6) {
+              window.location.href = location.origin + '/noauth/inspectionplan/inspectorministry/' + event.id + '/' + event.provinceid + '/' + watch;
+            } else if (event.roleCreatedBy == 10) {
+              window.location.href = location.origin + '/noauth/inspectionplan/inspectordepartment/' + event.id + '/' + event.provinceid + '/' + watch;
+            }
+          }
+          else {
+            if (event.roleCreatedBy == 3) {
+              window.location.href = location.origin + '/inspectionplan/' + event.id + '/' + event.provinceid + '/' + watch;
+            } else if (event.roleCreatedBy == 6) {
+              window.location.href = location.origin + '/inspectionplan/inspectorministry/' + event.id + '/' + event.provinceid + '/' + watch;
+            } else if (event.roleCreatedBy == 10) {
+              window.location.href = location.origin + '/inspectionplan/inspectordepartment/' + event.id + '/' + event.provinceid + '/' + watch;
+            }
           }
         },
         eventRender: function (event, element, view) {
@@ -199,14 +216,55 @@ export class InspectionPlanEventAllComponent implements OnInit {
         this.inspectionplancalendar = result
         this.inspectionplancalendar = this.inspectionplancalendar.map((item, index) => {
 
-          return {
-            id: item.id,
-            title: item.province.name,
-            provinceid: item.province.id,
-            // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
-            // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
-            start: moment(item.startDate), //.format("YYYY-MM-DD"),
-            end: moment(item.endDate).add(1, 'days') //.format("YYYY-MM-DD"),
+          var roleCreatedBy: any = "";
+
+          var colorJa: any;
+          if (item.roleCreatedBy == "3") {
+            roleCreatedBy = 3
+          } else if (item.roleCreatedBy == "6") {
+            roleCreatedBy = 6
+            colorJa = "#3B7DDD" //blue
+          }
+          else if (item.roleCreatedBy == "10") {
+            roleCreatedBy = 10
+            colorJa = "#C70039" //blue
+          }
+
+          if (item.centralPolicyEvents.length != 0) {
+            var name = ""
+            for (var i = 0; i < item.centralPolicyEvents.length; i++) {
+              if (i == (item.centralPolicyEvents.length - 1)) {
+                name = name + item.centralPolicyEvents[i].centralPolicy.title
+              } else {
+                name = name + item.centralPolicyEvents[i].centralPolicy.title + ", "
+              }
+            }
+            return {
+              id: item.id,
+              title: item.province.name,
+              name: item.province.name + " : " + name,
+              provinceid: item.province.id,
+              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+              start: moment(item.startDate), //.format("YYYY-MM-DD"),
+              end: moment(item.endDate), //.format("YYYY-MM-DD"),
+              color: colorJa,
+              roleCreatedBy: roleCreatedBy,
+            }
+          }
+          else {
+            return {
+              id: item.id,
+              title: item.province.name,
+              provinceid: item.province.id,
+              name: '',
+              // id: item.centralPolicyEvents[0].centralPolicy.centralPolicyProvinces[0].id,
+              // title: item.province.name + ", " + item.centralPolicyEvents[0].centralPolicy.title,
+              start: moment(item.startDate), //.format("YYYY-MM-DD"),
+              end: moment(item.endDate), //.format("YYYY-MM-DD"),
+              color: colorJa,
+              roleCreatedBy: roleCreatedBy,
+            }
           }
         })
         // alert(JSON.stringify(this.inspectionplancalendar))

@@ -69,7 +69,7 @@ export class TrainingSurveyComponent implements OnInit {
     };
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
-      
+
     })
 
     this.trainingservice.gettrainingsurveycountdata()

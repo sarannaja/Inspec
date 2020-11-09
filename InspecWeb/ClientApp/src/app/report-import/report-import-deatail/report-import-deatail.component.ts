@@ -10,6 +10,7 @@ import { ExportReportService } from 'src/app/services/export-report.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { NotofyService } from 'src/app/services/notofy.service';
+import { TypeexamibationplanService } from 'src/app/services/typeexamibationplan.service';
 
 @Component({
   selector: 'app-report-import-deatail',
@@ -31,6 +32,7 @@ export class ReportImportDeatailComponent implements OnInit {
   userid: string;
   role_id;
   commanderData: any = [];
+  resulttypeexamibationplan: any[];
 
   constructor(
     private router: Router,
@@ -46,6 +48,7 @@ export class ReportImportDeatailComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string,
     private _NotofyService: NotofyService,
     private fb: FormBuilder,
+    private typeexamibationplanservice: TypeexamibationplanService,
   ) {
     this.reportId = activatedRoute.snapshot.paramMap.get('id')
     this.url = baseUrl,
@@ -66,6 +69,7 @@ export class ReportImportDeatailComponent implements OnInit {
     this.getCentralPolicyEvent();
     this.getImportFiscalYears();
     this.getCommander();
+    this.getTypeexamibationplan();
     this.reportForm = this.fb.group({
       centralPolicyEvent: new FormControl(null, [Validators.required]),
       centralPolicyType: new FormControl(null, [Validators.required]),
@@ -104,7 +108,7 @@ export class ReportImportDeatailComponent implements OnInit {
         centralPolicyEvent: res.importData.importReportGroups.map((item, index) => {
           return item.centralPolicyEvent.centralPolicyId
         }),
-        centralPolicyType: res.importData.centralPolicyType,
+        centralPolicyType: res.importData.centralPolicyType.id,
         reportType: res.importData.reportType,
         inspectionRound: res.importData.inspectionRound,
         fiscalYear: res.importData.fiscalYearId.toString(),
@@ -220,6 +224,12 @@ export class ReportImportDeatailComponent implements OnInit {
           label: item.prefix + item.name + " ตำแหน่ง: " + item.position
         }
       })
+    })
+  }
+
+  getTypeexamibationplan() {
+    this.typeexamibationplanservice.getdata().subscribe(result => {
+      this.resulttypeexamibationplan = result
     })
   }
 

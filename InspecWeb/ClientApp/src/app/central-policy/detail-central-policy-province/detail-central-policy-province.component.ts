@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Inject, ɵɵtemplateRefExtractor } from '@angular/core';
 import { CentralpolicyService } from 'src/app/services/centralpolicy.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { IMyOptions, IMyDateModel } from 'mydatepicker-th';
@@ -15,6 +15,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ChartDataSets, ChartType, ChartOptions, Chart } from 'chart.js';
 import { Label } from 'ng2-charts';
 import * as _ from 'lodash'
+import { InspectionplanService } from 'src/app/services/inspectionplan.service';
 @Component({
   selector: 'app-detail-central-policy-province',
   templateUrl: './detail-central-policy-province.component.html',
@@ -104,6 +105,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
   role6Count = 0;
   role10Count = 0;
   role9Count = 0;
+  timelineData: any = [];
   barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -177,11 +179,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     private notificationService: NotificationService,
     private authorize: AuthorizeService,
     private userService: UserService,
+    private inspectionplanservice: InspectionplanService,
+    private router: Router,
     @Inject('BASE_URL') baseUrl: string) {
     this.id = activatedRoute.snapshot.paramMap.get('result')
     this.downloadUrl = baseUrl + '/Uploads';
     this.urllink = baseUrl + 'answersubject/outsider/';
     this.planId = activatedRoute.snapshot.paramMap.get('planId')
+    //const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
     this.watch = activatedRoute.snapshot.paramMap.get('watch')
   }
 
@@ -268,6 +273,12 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
     // })
 
     // this.getDetailCentralPolicy()
+
+    this.inspectionplanservice.getTimeline(this.planId).subscribe(res => {
+      this.timelineData = res.timelineData;
+    })
+
+
     this.getCentralPolicyProvinceUser()
     this.getDetailCentralPolicyProvince()
     // this.getquestion();
@@ -778,6 +789,14 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.Form.reset()
       this.modalRef.hide()
 
+      if (this.timelineData.status == "ใช้งานจริง") {
+        for (let i = 0; i < UserPeopleId.length; i++) {
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+      }
       // for (let i = 0; i < UserPeopleId.length; i++) {
       //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
       //     .subscribe(response => {
@@ -809,7 +828,6 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       this.Form3.reset()
       this.modalRef.hide()
 
-
       // for (let i = 0; i < UserPeopleanswerId.length; i++) {
       //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleanswerId[i], 5, 1)
       //     .subscribe(response => {
@@ -828,6 +846,16 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+
+      if (this.timelineData.status == "ใช้งานจริง") {
+
+        for (let i = 0; i < UserPeopleId.length; i++) {
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+      }
       // for (let i = 0; i < UserPeopleId.length; i++) {
       //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
       //     .subscribe(response => {
@@ -844,6 +872,15 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
       console.log(value);
       this.Form.reset()
       this.modalRef.hide()
+
+      if (this.timelineData.status == "ใช้งานจริง") {
+        for (let i = 0; i < UserPeopleId.length; i++) {
+          this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, this.planId, null)
+            .subscribe(response => {
+              console.log(response);
+            })
+        }
+      }
       // for (let i = 0; i < UserPeopleId.length; i++) {
       //   this.notificationService.addNotification(this.resultdetailcentralpolicy.id, this.provinceid, UserPeopleId[i], 1, 1)
       //     .subscribe(response => {
@@ -935,10 +972,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           var userregion = "";
           for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
 
-            if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+            if (this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
               this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
             } else {
-              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+              this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
             }
 
             if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
@@ -947,7 +984,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
               userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
             }
           }
-          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion  })
+          await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
         } else {
           var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
           // alert(checked)
@@ -955,10 +992,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             var userregion = "";
             for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
 
-              if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+              if (this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
                 this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
               } else {
-                this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+                this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
               }
 
               if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
@@ -967,7 +1004,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
                 userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
               }
             }
-            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion  })
+            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
           }
         }
       }
@@ -985,10 +1022,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             var userregion = "";
             for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
 
-              if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+              if (this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
                 this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
               } else {
-                this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+                this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
               }
 
               if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
@@ -997,7 +1034,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
                 userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
               }
             }
-            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion  })
+            await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
           } else {
             var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
             // alert(checked)
@@ -1005,10 +1042,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
               var userregion = "";
               for (var j = 0; j < this.resultministrypeople[i].userRegion.length; j++) {
 
-                if(this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+                if (this.resultministrypeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
                   this.resultministrypeople[i].userRegion[j].region.name = "ส่วนกลาง"
                 } else {
-                  this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+                  this.resultministrypeople[i].userRegion[j].region.name = this.resultministrypeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
                 }
 
                 if (j == (this.resultministrypeople[i].userRegion.length - 1)) {
@@ -1017,7 +1054,7 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
                   userregion += this.resultministrypeople[i].userRegion[j].region.name + ", "
                 }
               }
-              await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion  })
+              await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name + " เขต " + userregion })
             }
           }
         }
@@ -1121,10 +1158,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
           var userregion = "";
           for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
 
-            if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+            if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
               this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
             } else {
-              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+              this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
             }
 
             if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
@@ -1141,10 +1178,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
               var userregion = "";
               for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
 
-                if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+                if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
                   this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
                 } else {
-                  this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+                  this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
                 }
 
                 if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
@@ -1174,10 +1211,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
             var userregion = "";
             for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
 
-              if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+              if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
                 this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
               } else {
-                this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+                this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
               }
 
               if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {
@@ -1194,10 +1231,10 @@ export class DetailCentralPolicyProvinceComponent implements OnInit {
                 var userregion = "";
                 for (var j = 0; j < this.resultdepartmentpeople[i].userRegion.length; j++) {
 
-                  if(this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง"){
+                  if (this.resultdepartmentpeople[i].userRegion[j].region.name == "เขตตรวจราชส่วนกลาง") {
                     this.resultdepartmentpeople[i].userRegion[j].region.name = "ส่วนกลาง"
                   } else {
-                    this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่','');
+                    this.resultdepartmentpeople[i].userRegion[j].region.name = this.resultdepartmentpeople[i].userRegion[j].region.name.replace('เขตตรวจราชการที่', '');
                   }
 
                   if (j == (this.resultdepartmentpeople[i].userRegion.length - 1)) {

@@ -48,6 +48,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
   submitted2 = false;
   electronicBookProvincialDepartmentId: any;
   provincialData: any = [];
+  userProvince: any;
 
   constructor(
     private fb: FormBuilder,
@@ -88,6 +89,8 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
         this.role_id = result2[0].role_id;
         this.signature = result2[0].signature;
         this.provincialID = result2[0].provincialDepartmentId;
+        this.userProvince = result2[0].userProvince[0].provinceId;
+        console.log("userProvince: ", this.userProvince);
         // alert(this.role_id)
         // alert(this.role_id)
         // alert(this.provincialID)
@@ -140,7 +143,7 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
       this.provinceId = provinces.filter(
         (thing, i, arr) => arr.findIndex(t => t === thing) === i
       );
-      // console.log("uniqueProvince: ", this.provinceId);
+      console.log("uniqueProvince: ", this.provinceId);
 
       this.inspectionPlanEventId = result.electronicBookGroup.map((item, index) => {
         return {
@@ -263,9 +266,10 @@ export class ElectronicBookDepartmentDetailComponent implements OnInit {
       console.log("in1");
       return;
     } else {
-      this.electronicBookService.sendToOtherProvince(value, this.userid, this.electronicBookProvincialDepartmentId).subscribe(res => {
+      this.electronicBookService.sendToOtherProvince(value, this.userid, this.electronicBookProvincialDepartmentId, this.userProvince).subscribe(res => {
         console.log("sended: ", res);
         this.getElectronicBookDetail();
+        this.getElectronicBookProvincialDepartmentById();
         this.modalRef.hide();
         this._NotofyService.onSuccess("ส่งต่อสมุดตรวจ",)
       })

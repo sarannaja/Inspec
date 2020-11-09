@@ -43,14 +43,10 @@ export class MeetinginformationComponent implements OnInit {
       files : new FormControl(null, [Validators.required])
     })
   }
-  openModal(template: TemplateRef<any>, id, year,title) {
+  openModal(template: TemplateRef<any>=null, id=null, year=null,title=null) {
     this.delid = id;
     this.title = title;
-    this.year = year;
-    console.log(this.delid);
-    console.log(this.title);
-    console.log(this.year);
-    
+    this.year = year;  
     this.modalRef = this.modalService.show(template);
   }
   uploadFile(event) {

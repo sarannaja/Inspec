@@ -54,7 +54,7 @@ namespace InspecWeb.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put([FromForm] SideRequest request,long id)
+        public Side Put([FromForm] SideRequest request,long id)
         {
             var data = _context.Sides.Find(id);
             data.Name = request.Name;
@@ -64,7 +64,7 @@ namespace InspecWeb.Controllers
 
             _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-
+            return data;
         }
 
         // DELETE api/values/5
