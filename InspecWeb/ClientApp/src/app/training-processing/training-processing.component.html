@@ -19,6 +19,20 @@
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </button>
                 </h5> 
+                <div class="float-right">
+                    <div>
+                      <div>
+                        <button id="btn-export" class="btn btn-primary"
+                          printSectionId="printhod" [useExistingCss]="true" ngxPrint>
+                          <i class="fas fa-print mr-2"></i>พิมพ์รายงาน
+                        </button>
+
+        
+                      </div>
+                    </div>
+                  </div>
+
+                
                 <!-- <h1 style="text-align: center;">
                     กำหนดการช่วงที่ {{resulttrainingplan[0].trainingProgram.trainingPhase.phaseNo}}
                 </h1>
@@ -30,61 +44,76 @@
                         style="margin-top: -60px;">พิมพ์</button>
                 </div> -->
             </div>
-            <div class="card-body mt-3">
-                รายการประมวลผลสถิติ(คำถามความพอใจ)
-                <canvas id="lineChart2"></canvas>
 
-                <br><br><br><br><br><br><br><br>
+            <div id="printhod" class="book">
+                <div class="page" >
 
-                รายการประมวลผลสถิติ(คำถามใช่ หรือ ไม่)
-                <canvas id="lineChart"></canvas>
+                <div class="card-body mt-3">
 
-                <br><br><br><br><br><br><br><br>
+                    
+                   
+                    รายการประมวลผลสถิติ(คำถามความพอใจ)
+                    <canvas id="lineChart2" width="100%"></canvas>
+                    
+
+                    <br><br><br><br><br><br><br><br>
+                        รายการประมวลผลสถิติ(คำถามใช่ หรือ ไม่)
+                        <canvas id="lineChart" width="100%"></canvas>
+                    <br><br><br><br><br><br><br><br>
 
 
 
 
 
-                รายการประมวลผลสถิติ(คำถามปลายเปิด)
-                <table *ngIf="loading" class="table table-bordered table-responsive-lg">
-                    <thead>
-                        <tr>
-                            <th class="text-center">หัวข้อคำถามประเมิน</th>
-                            <!-- <th class="text-center">กิจกรรม</th> -->
-                            <!-- <th class="text-center">วิทยากร</th>
-                            <th class="text-center">สถานที่/เตรียมตัว</th> -->
-                            <!-- <th id="par" colspan="1" scope="colgroup">Paris</th> -->
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <!-- <caption>Delivery slots:</caption> -->
-                        <ng-container *ngFor="let item1 of chars|sort:'asc':'SurveyTopic'; let n = index">
+                    รายการประมวลผลสถิติ(คำถามปลายเปิด)
+                    <table *ngIf="loading" class="table table-bordered table-responsive-lg">
+                        <thead>
                             <tr>
-                                <th id="{{item1.SurveyTopic}}" class="span" colspan="0" scope="colgroup">
-                                    {{ n + 1 }} {{item1.SurveyTopic}}
-                                </th>
+                                <th class="text-center">หัวข้อคำถามประเมิน</th>
+                                <!-- <th class="text-center">กิจกรรม</th> -->
+                                <!-- <th class="text-center">วิทยากร</th>
+                                <th class="text-center">สถานที่/เตรียมตัว</th> -->
+                                <!-- <th id="par" colspan="1" scope="colgroup">Paris</th> -->
                             </tr>
-                            <tr *ngFor="let item of item1.value |sort:'asc':'answerText'; let i = index">
-                                
-                                <td class="" style="padding-left:3rem;" headers="{{item1.SurveyTopic}}">
-                                    - {{item.answerText}}
-                                </td>
+                        </thead>
 
-                            </tr>
-                        </ng-container>
+                        <tbody>
+                            <!-- <caption>Delivery slots:</caption> -->
+                            <ng-container *ngFor="let item1 of chars|sort:'asc':'SurveyTopic'; let n = index">
+                                <tr>
+                                    <th id="{{item1.SurveyTopic}}" class="span" colspan="0" scope="colgroup">
+                                        {{ n + 1 }} {{item1.SurveyTopic}}
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let item of item1.value |sort:'asc':'answerText'; let i = index">
+                                    
+                                    <td class="" style="padding-left:3rem;" headers="{{item1.SurveyTopic}}">
+                                        - {{item.answerText}}
+                                    </td>
 
-                        <ng-template>
+                                </tr>
+                            </ng-container>
 
-                        </ng-template>
+                            <ng-template>
 
-                    </tbody>
-                </table>
+                            </ng-template>
 
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
+            <!-- <div class="page">
+            <div class="subpage">Page 2/2</div>
+            </div> -->
+        </div>
         </div>
     </div>
 </div>
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
     <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
+
+
+      
+  

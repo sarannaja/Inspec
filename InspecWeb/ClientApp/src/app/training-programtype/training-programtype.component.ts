@@ -42,7 +42,21 @@ export class TrainingProgramTypeComponent implements OnInit {
           targets: [2],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "infoFiltered": "ไม่พบข้อมูล",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
     this.Form = this.fb.group({
@@ -95,7 +109,7 @@ export class TrainingProgramTypeComponent implements OnInit {
   }
 
   editTraining(value, editid) {
-    this.trainingservice.editTrainingSurvey(value, editid).subscribe(response => {
+    this.trainingservice.editTrainingProgramType(value, editid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false

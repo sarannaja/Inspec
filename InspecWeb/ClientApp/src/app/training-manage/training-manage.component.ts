@@ -17,6 +17,7 @@ export class TrainingManageComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   mainUrl: string;
+  datacondition: any[];
   
   
   constructor(private modalService: BsModalService, 
@@ -49,7 +50,22 @@ export class TrainingManageComponent implements OnInit {
       this.loading = true;
       console.log(this.resulttraining);
     })
+
+    this.getcheck_condition();
   }
+
+  //ข้อมูลกำหนดคุณสมบัติ
+  getcheck_condition() {
+    this.trainingservice.getTrainingCondition(this.trainingid)
+    .subscribe(result => {
+      this.datacondition = result
+      this.loading = true
+      console.log(this.datacondition);
+    })
+  }
+
+
+
 
   GotoUploadDocument(){
     this.router.navigate(['/training/documentlist/',this.trainingid])

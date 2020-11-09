@@ -73,7 +73,7 @@
                     </ng-container>
                   </ng-template>
                   <ng-template #third>
-                    <ng-container *ngIf="item.status == 2;else four">
+                    <ng-container *ngIf="item.status == 2;">
   
                       <i class="align-middle mr-2 fas fa-fw fa-times-circle text-danger"></i><label
                         class="text-danger">ไม่ได้รับสิทธิ์</label>
@@ -84,7 +84,7 @@
                 <td class="text-center">
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                                   (click)="RegisterTraining()"></i> -->
-                  <i class="align-middle mr-2 fas fa-fw fa-edit pointer" (click)="openModal(modalApprove, item.id)"></i>
+                  <i class="align-middle mr-2 fas fa-fw fa-edit pointer" (click)="openModalbyrow(modalApprove, item.id)"></i>
                 </td>
               </tr>
             </tbody>
@@ -229,7 +229,7 @@
                               {{birthdate | thaidate: 'year' }}</label></span> -->
                         </ng-container>
                       </ng-template>
-                      <ng-template #mthird>
+                      <ng-template #cthird>
   
                       </ng-template>
   

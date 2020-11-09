@@ -198,12 +198,12 @@ namespace InspecWeb.Controllers
 
 
         //GET api/Training/trainingid
-        [HttpGet("listsurvey/{surveyid}")]
-        public IActionResult GetListTrainingSurvey(long surveyid)
+        [HttpGet("listsurvey/{surveytopicid}")]
+        public IActionResult GetListTrainingSurvey(long surveytopicid)
         {
             var districtdata = _context.TrainingSurveys
                 .Include(m => m.TrainingSurveyTopic)
-                .Where(m => m.TrainingSurveyTopicId == surveyid);
+                .Where(m => m.TrainingSurveyTopicId == surveytopicid);
 
             return Ok(districtdata);
 
@@ -314,6 +314,88 @@ namespace InspecWeb.Controllers
             return Ok(new { status = true });
         }
 
+        // PUT : api/training/edit/:id
+        [HttpPut("maintraining/edit/{id}")]
+        public async Task<IActionResult> EditTraininglecturer([FromForm] TrainingViewModel model, long id)
+        {
+            var date = DateTime.Now;
+            System.Console.WriteLine("Start Uplond");
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                System.Console.WriteLine("Start Uplond2");
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+
+            //var BaseUrl = url.ActionContext.HttpContext.Request.Scheme;
+            // path ที่เก็บไฟล์
+            var filePath = _environment.WebRootPath + "//Uploads//";
+
+            var training = _context.Trainings.Find(id);
+
+            if (model.files != null)
+            {
+                foreach (var formFile in model.files.Select((value, index) => new { Value = value, Index = index }))
+                //foreach (var formFile in data.files)
+                {
+                    System.Console.WriteLine("Start Uplond3");
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+
+
+                    if (formFile.Value.Length > 0)
+                    {
+                        System.Console.WriteLine("Start Uplond4");
+                        // using (var stream = System.IO.File.Create(filePath + formFile.Value.FileName))
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        System.Console.WriteLine("Start Uplond4.1");
+
+                        System.Console.WriteLine("Start Uplond4.2");
+                        //_context.TrainingLecturers.Add(Trainingdata);
+
+                        //training.Name = model.Name;
+                        //training.Detail = model.Detail;
+                        //training.Generation = model.Generation;
+                        //training.Year = model.Year;
+                        //training.CourseCode = model.CourseCode;
+                        //training.StartDate = model.StartDate;
+                        //training.EndDate = model.EndDate;
+                        //training.RegisStartDate = model.RegisStartDate;
+                        //training.RegisEndDate = model.RegisEndDate;
+                        training.Image = random + filename;
+                        //training.CreatedAt = date;
+
+
+                        System.Console.WriteLine("Start Uplond4.3");
+                    }
+
+                }
+            }
+
+            training.Name = model.Name;
+            training.Detail = model.Detail;
+            training.Generation = model.Generation;
+            training.Year = model.Year;
+            training.CourseCode = model.CourseCode;
+            training.StartDate = model.StartDate;
+            training.EndDate = model.EndDate;
+            training.RegisStartDate = model.RegisStartDate;
+            training.RegisEndDate = model.RegisEndDate;
+            //training.Image = random + filename;
+            training.CreatedAt = date;
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            System.Console.WriteLine("Start Uplond4.4");
+
+            return Ok(new { status = true });
+
+        }
+
+
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(long id, string name, string detail, DateTime start_date, DateTime end_date, DateTime regis_start_date, DateTime regis_end_date, string image)
@@ -349,12 +431,76 @@ namespace InspecWeb.Controllers
 
         //------zone training register-------
         // PUT api/values/5
-        [HttpPut("registerlist/{id}")]
-        public void EditRegisterList(long id, long status)
+        [HttpPut("registerlist/{id}/{trainingid}")]
+        public async Task<IActionResult> EditRegisterList(long id, long status, long trainingid)
         {
             var training = _context.TrainingRegisters.Find(id);
             training.Status = status;
 
+            string Emailregis = _context.TrainingRegisters
+                .Where(m => m.Id == id)
+                .Select(m => m.Email)
+                .FirstOrDefault();
+
+            System.Console.WriteLine(Emailregis);
+
+            var databody = _context.TrainingProgramFiles
+                            .Include(m => m.TrainingProgram)
+                            .ThenInclude(m => m.TrainingPhase)
+                            .ThenInclude(m => m.Training)
+                            .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingid)
+                            .ToList();
+
+            List<string> termsList = new List<string>();
+            string textbodyHead = "<h1>" + databody[0].TrainingProgram.TrainingPhase.Training.Name + "</h1>";
+            string textbody = "";
+            string Host = $"<a href='{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/upload/";
+            string textFoot = "<br /><br /> ระบบตรวจราชการอิเล็กทรอนิกส์ <br /> สำนักงานปลัดสำนักนายกรัฐมนตรี";
+            //string EndHost = "></a>";
+
+            foreach (var data in databody)
+            {
+
+                textbody = textbody + Host + data.Name + "' > " + data.TrainingProgram.ProgramTopic + " วันที่ " + data.TrainingProgram.ProgramDate + " (" + data.TrainingProgram.MinuteStartDate + "-" + data.TrainingProgram.MinuteEndDate + ")" + "</a><br />";
+                //termsList.Add(data.Name);
+
+            }
+            //string xxx = termsList.ToString().Replace(",", " <br>");
+
+            //return Ok(textbody);
+
+            var mailbody = "";
+            if (status == 1)
+            {
+                mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot;
+            }
+            else if (status == 2)
+            {
+                mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
+            }
+
+
+            ///----------------email
+            try
+            {
+                var send = new MailRequest
+                {
+                    //ToEmail = "toey.aphisit@outlook.com",
+                    ToEmail = Emailregis,
+                    Body = mailbody,
+                    Subject = "ระบบตรวจราชการอิเล็กทรอนิกส์"
+                    //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
+                };
+                await mailService.SendEmailAsync(send);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            //---------------
 
 
             // if (status == 1){
@@ -383,6 +529,8 @@ namespace InspecWeb.Controllers
 
             _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+
+            return Ok(true);
 
             //  var datas = _context.TrainingDocuments
             //     .Include(m => m.Training)
@@ -419,7 +567,7 @@ namespace InspecWeb.Controllers
         }
 
 
-        [HttpPut("registerlist2")]
+        [HttpPut("registerlist2/{trainingId}")]
         public async Task<IActionResult> EditRegisterList2(long[] traningregisterid, long status ,long trainingId)
         {
             foreach (var id in traningregisterid)
@@ -428,11 +576,18 @@ namespace InspecWeb.Controllers
                 var training = _context.TrainingRegisters.Find(id);
                 training.Status = status;
 
+                string Emailregis = _context.TrainingRegisters
+                .Where(m => m.Id == id)
+                .Select(m => m.Email)
+                .FirstOrDefault();
+
+                System.Console.WriteLine(Emailregis);
+
                 var databody = _context.TrainingProgramFiles
                                 .Include(m => m.TrainingProgram)
                                 .ThenInclude(m => m.TrainingPhase)
                                 .ThenInclude(m => m.Training)
-                                .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == 1)
+                                .Where(m => m.TrainingProgram.TrainingPhase.TrainingId == trainingId)
                                 .ToList();
 
                 List<string> termsList = new List<string>();
@@ -453,14 +608,26 @@ namespace InspecWeb.Controllers
 
                 //return Ok(textbody);
 
+                var mailbody = "";
+                if (status == 1)
+                {
+                    mailbody = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot;
+                }
+                else if (status == 2)
+                {
+                    mailbody = textbodyHead + "<br /> ท่านไม่ผ่านสมัครเข้าร่วมอบรมหลักสูตร เนื่องจากท่านไม่ตรงตามเงื่อนไขคุณสมบัติของหลักสูตรอบรม <br />" + textFoot;
+                }
+
+
                 ///----------------email
                 try
                 {
                     var send = new MailRequest
                     {
-                        ToEmail = "toey.aphisit@outlook.com",
-                        Body = textbodyHead + "<br /> ท่านได้รับอนุมัติสิทธิ์ในการเข้าร่วมอบรมหลักสูตร ท่านสามารถดาวน์โหลดไฟล์เพื่อประกอบการฝึกอบรมตาม วัน/เวลา การอบรม <br />" + textbody + textFoot,
-                        Subject = "เอกสารไฟล์"
+                        //ToEmail = "toey.aphisit@outlook.com",
+                        ToEmail = Emailregis,
+                        Body = mailbody,
+                        Subject = "ระบบตรวจราชการอิเล็กทรอนิกส์"
                         //Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                     };
                     await mailService.SendEmailAsync(send);
@@ -906,6 +1073,18 @@ namespace InspecWeb.Controllers
             return trainingdata;
         }
 
+        // PUT : api/training/trainingsurveytopic/edit/:id
+        [HttpPut("trainingsurveytopic/edit/{id}")]
+        public TrainingSurveyTopic TrainingSurveyTopic_Edit(long id, string name)
+        {
+            var training = _context.TrainingSurveyTopics.Find(id);
+            training.Name = name;
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return training;
+        }
+
 
         // PUT : api/training/edit/:id
         [HttpPut("survey/edit/{id}")]
@@ -927,6 +1106,8 @@ namespace InspecWeb.Controllers
 
             _context.TrainingSurveys.Remove(trainingdata);
             _context.SaveChanges();
+
+
         }
         //----------------------------------
 
@@ -1234,7 +1415,7 @@ namespace InspecWeb.Controllers
         // }
 
         // POST api/values
-        [HttpPost("program")]
+        [HttpPost("program/add")]
         public async Task<IActionResult> Post([FromForm] TrainingProgramViewModel model)
         {
 
@@ -1312,7 +1493,7 @@ namespace InspecWeb.Controllers
                     }
                 }
             }
-            return Ok(new { status = true });
+            return Ok(trainingprogramdata);
 
         }
 
@@ -1415,7 +1596,7 @@ namespace InspecWeb.Controllers
                     }
                 }
             }
-            return Ok(new { status = true });
+            return Ok(programdata);
         }
 
         // DELETE api/training/program/delete/{trainingid}
@@ -1566,6 +1747,20 @@ namespace InspecWeb.Controllers
 
             return trainingdata;
         }
+
+        // PUT : api/training/lecturerjoinsurvey/edit/:id
+        [HttpPut("lecturerjoinsurvey/edit/{id}")]
+        public void editTraininglecturerJoinSurvey(long trainingsurveytopicId, long id)
+        {
+            var training = _context.TrainingLecturerJoinSurveys.Find(id);
+            training.TrainingSurveyTopicId = trainingsurveytopicId;
+
+
+            _context.Entry(training).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+        }
+
 
         // POST : api/training/lecturer/save
         //[HttpPost("lecturer/save")]
@@ -1891,7 +2086,7 @@ namespace InspecWeb.Controllers
         }
 
         // POST api/training/trainingphase
-        [HttpPost("phase")]
+        [HttpPost("phase/add")]
         public IActionResult Postphase([FromForm] TrainingphaseViewModel model)
         {
             var date = DateTime.Now;
@@ -1912,7 +2107,7 @@ namespace InspecWeb.Controllers
             _context.TrainingPhases.Add(trainingphasedata);
             _context.SaveChanges();
 
-            return Ok(new { status = true });
+            return Ok(trainingphasedata);
         }
 
         // PUT : api/training/phase/edit/:id
@@ -2349,13 +2544,18 @@ namespace InspecWeb.Controllers
 
         //ส่วนประกอบข้อมูลประเมิน(แบบความพอใจ)
         //GET api/Training/historyreport/get/{username}
-        [HttpGet("answerlike/get/{vTrainingSurveyTopicId}/")]
-        public IActionResult GetTrainingAnswerLikeReport(long vTrainingSurveyTopicId)
+        [HttpGet("answerlike/get/{trainingLecturerJoinSurveysId}/")]
+        public IActionResult GetTrainingAnswerLikeReport(long trainingLecturerJoinSurveysId)
         {
             var result = new List<object>();
 
+            long dataTrainingSurveyTopicId = _context.TrainingLecturerJoinSurveys
+                .Where(m => m.Id == trainingLecturerJoinSurveysId )
+                .Select(m => m.TrainingSurveyTopicId)
+              .FirstOrDefault();
+
             var data = _context.TrainingSurveys
-                .Where(m => m.TrainingSurveyTopicId == vTrainingSurveyTopicId && m.SurveyType == 1)
+                .Where(m => m.TrainingSurveyTopicId == dataTrainingSurveyTopicId && m.SurveyType == 1)
               .ToList();
 
             foreach (var item in data)
@@ -2408,14 +2608,16 @@ namespace InspecWeb.Controllers
 
         //ส่วนประกอบข้อมูลประเมิน(แบบปลายเปิด)
         //GET api/Training/historyreport/get/{username}
-        [HttpGet("answeropen/get/{vTrainingSurveyTopicId}/")]
-        public IActionResult GetTrainingAnswerOpenReport(long vTrainingSurveyTopicId)
+        [HttpGet("answeropen/get/{trainingLecturerJoinSurveysId}/")]
+        public IActionResult GetTrainingAnswerOpenReport(long trainingLecturerJoinSurveysId)
         {
             var result = new List<object>();
 
+            
+
             var data = _context.TrainingSurveyAnswers
                 .Include(m => m.TrainingSurvey)
-                .Where(m => m.TrainingLecturerJoinSurveyId == vTrainingSurveyTopicId && m.SurveyType == 2).ToList();
+                .Where(m => m.TrainingLecturerJoinSurveyId == trainingLecturerJoinSurveysId && m.SurveyType == 2).ToList();
 
             return Ok(data);
         }
@@ -2428,8 +2630,13 @@ namespace InspecWeb.Controllers
         {
             var result = new List<object>();
 
+            long dataTrainingSurveyTopicId = _context.TrainingLecturerJoinSurveys
+                .Where(m => m.Id == vTrainingSurveyTopicId)
+                .Select(m => m.TrainingSurveyTopicId)
+              .FirstOrDefault();
+
             var data = _context.TrainingSurveys
-                .Where(m => m.TrainingSurveyTopicId == vTrainingSurveyTopicId && m.SurveyType == 3)
+                .Where(m => m.TrainingSurveyTopicId == dataTrainingSurveyTopicId && m.SurveyType == 3)
               .ToList();
 
             foreach (var item in data)

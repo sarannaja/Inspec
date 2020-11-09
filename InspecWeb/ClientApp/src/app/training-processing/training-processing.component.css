@@ -1,3 +1,32 @@
 .sorting, .sorting_asc, .sorting_desc {
     background : none;
 }
+
+html, body, h1, h2, h3, h4, p, img {
+    margin: 0;
+  }
+  
+  /* margin reset*/
+  
+  @page {
+    size: A4
+  }
+  
+  .frontpage {
+    display: flex;
+    justify-content: space-around;
+    /* ADJUSTED */
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* NEW */
+  }
+  
+  .frontpage::before {
+    /* NEW */
+    content: '';
+  }
+  
+  .frontpage>* {
+    text-align: center;
+  }

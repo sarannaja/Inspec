@@ -188,7 +188,7 @@ export class ListTrainingRegisterComponent implements OnInit {
 
           })
       })
-
+      this.spinner.hide();
 
   }
 
@@ -202,7 +202,8 @@ export class ListTrainingRegisterComponent implements OnInit {
   // }
 
   openModal(template: TemplateRef<any>, id, item = null, index = null) {
-
+    console.log("id =>", id);
+    
     this.trainingservice.getregistertrainingpeopledata(id)
       .subscribe(result => {
         // alert("123")
@@ -233,11 +234,17 @@ export class ListTrainingRegisterComponent implements OnInit {
 
   }
 
+  openModalbyrow(template: TemplateRef<any>, id) {
+    this.delid = id;
+    this.modalRef = this.modalService.show(template);
+  }
+
   editRegisterList(value, delid) {
     // alert(JSON.stringify(value));
     // console.clear();
     // //console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editRegisterList(value, delid).subscribe(response => {
+    this.spinner.show();
+    this.trainingservice.editRegisterList(value, delid, this.trainingid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
@@ -246,6 +253,7 @@ export class ListTrainingRegisterComponent implements OnInit {
       //   this.loading = true
       //   this.modalRef.hide()
       // })
+      this.spinner.hide();
       this.getData()
     })
   }
@@ -256,7 +264,7 @@ export class ListTrainingRegisterComponent implements OnInit {
     // //console.log("kkkk" + JSON.stringify(value));
     this.spinner.show();
 
-    this.trainingservice.editRegisterList2(value, this.people).subscribe(response => {
+    this.trainingservice.editRegisterList2(value, this.people ,this.trainingid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false

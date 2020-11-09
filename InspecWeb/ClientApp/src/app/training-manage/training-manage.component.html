@@ -45,7 +45,13 @@
                         <td class="ellipsis">
                             กำหนดคุณสมบัติ
                         </td> 
-                        <td class="text-center">( ช่วงการสร้างหลักสูตร )</td>
+                        <td class="text-center">
+                            ( ช่วงการสร้างหลักสูตร ) 
+                            <ng-container *ngIf="datacondition.length > 0;">
+                                <i class="align-middle mr-2 fas fa-fw fa-check-circle text-success" title="เรียบร้อย"></i>
+
+                            </ng-container>
+                        </td>
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดคุณสมบัติ"
                             (click)="gotoConditionTraining()"></i>

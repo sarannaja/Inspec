@@ -102,8 +102,8 @@ export class TrainingSurveyLecturerComponent implements OnInit {
     window.history.back();
   }
 
-  GotoSurveyLecturer(trainingid, surveyjoinlecturerid){
-    this.router.navigate(['/train/survey/'+ trainingid + '/' + surveyjoinlecturerid])
+  GotoSurveyLecturer(trainingid, surveyjoinlecturerid, surveytopicid){
+    this.router.navigate(['/train/survey/'+ trainingid + '/' + surveyjoinlecturerid + '/' + surveytopicid])
   }
 
   GotoSurveyTrainingList(trainingid){

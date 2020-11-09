@@ -38,7 +38,7 @@
                           <td class="">
                             <ng-container *ngIf="item.ansCount == 0;else msecond">
 
-                               <label class="text-primary pointer" (click)="GotoSurveyLecturer(item.trainingId, item.trainingLecturerJoinSurveys[i].id)" >
+                               <label class="text-primary pointer" (click)="GotoSurveyLecturer(item.trainingId, item.trainingLecturerJoinSurveys[i].id, item.trainingLecturerJoinSurveys[i].trainingSurveyTopicId)" >
                                     <i class="fas fa-fw fa-envelope-open" aria-hidden="true"></i>
                                     {{ item.trainingLecturerJoinSurveys[i].trainingSurveyTopic.name }} 
                                     ({{ item.trainingLecturerJoinSurveys[i].trainingLecturer.lecturerName }})

@@ -31,13 +31,13 @@ namespace InspecWeb.Models
         public string Location { get; set; }
 
         [Description("รุ่น")]
-        public int Generation { get; set; }
+        public string Generation { get; set; }
 
         [Description("ปี")]
-        public int Year { get; set; }
+        public string Year { get; set; }
 
         [Description("รหัสหลักสูตร")]
-        public int CourseCode { get; set; }
+        public string CourseCode { get; set; }
 
         [Description("วันที่เริ่ม")]
         [DataType(DataType.Date)]

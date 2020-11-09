@@ -60,6 +60,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
   FormAnswer: FormGroup;
   suveyjoinlecid: string;
   Username: any;
+  surveytopicid: string;
 
 
   // constructor() { }
@@ -75,6 +76,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string) {
     this.trainingid = activatedRoute.snapshot.paramMap.get('id')
     this.suveyjoinlecid = activatedRoute.snapshot.paramMap.get('suveyjoinlecid')
+    this.surveytopicid =  activatedRoute.snapshot.paramMap.get('surveytopicid')
     this.downloadUrl = baseUrl + 'Uploads'
     this.mainUrl = baseUrl
   }
@@ -107,7 +109,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
         //console.log(this.resulttraining);
       })
 
-    this.trainingservice.getlisttrainingsurveydata(this.trainingid)
+    this.trainingservice.getlisttrainingsurveydata(this.surveytopicid)
       .subscribe(result => {
         this.Addvalue(result)
         console.log('result', result);
@@ -155,15 +157,17 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
         TrainingLecturerJoinSurveyId: this.suveyjoinlecid,
         inputtrainingsurveyanswer
       }
-      console.log(body);
+      console.log("body =>", body);
+      
       
       this.trainingservice.addTrainingsurveyanswer(body)
         .subscribe(result => {
           console.log(result);
           
-        })
+      })
 
-        this.router.navigate(['/train/']);
+        // this.router.navigate(['/train/']);
+        this.gotoBack();
         this._NotofyService.onSuccess("เสร็จสิ้น")
       //alert('เข้าหลังบ้านตรงนี้')
     //}

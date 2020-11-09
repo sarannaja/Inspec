@@ -135,8 +135,13 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
     //document training
     this.trainingservice.getlisttrainingdocumentdata(this.trainingid)
     .subscribe(result => {
-      this.resulttraining3 = result
-      this.loading = true
+      if (result.length > 0){
+        console.log("in");
+        
+        this.resulttraining3 = result
+        this.loading = true
+      }
+      
       //console.log(this.resulttraining);
     })
     

@@ -523,7 +523,7 @@ const ExternalOrganization = [
           { path: 'training/register', component: TrainingRegisterComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/registerlist/:id', component: ListTrainingRegisterComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/survey', component: TrainingSurveyComponent, canActivate: [AuthorizeGuard] },
-          { path: 'training/surveylist/:id', component: ListTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
+          { path: 'training/surveylist/:surveytopicid', component: ListTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/survey/preview/:id', component: PreviewTrainingSurveyComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/document', component: TrainingDocumentComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/documentlist/:id', component: ListTrainingDocumentComponent, canActivate: [AuthorizeGuard] },
@@ -685,7 +685,7 @@ const ExternalOrganization = [
       { path: 'train/register/:id', component: RegisterDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },
       { path: 'train/list/:id', component: ListDefaultLayoutTrainComponent },
-      { path: 'train/survey/:id/:suveyjoinlecid', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
+      { path: 'train/survey/:id/:suveyjoinlecid/:surveytopicid', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'train', component: DefaultLayoutTrainComponent,

@@ -25,6 +25,7 @@ export class TrainingLecturerListComponent implements OnInit {
   selectdatalecturer: any[] = []
   selectdatasurvey: Array<any>
   lecturerid: any
+  surveytopicid: any;
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -44,10 +45,24 @@ export class TrainingLecturerListComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4,5],
+          targets: [1,2,3],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "infoFiltered": "ไม่พบข้อมูล",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
     
@@ -63,7 +78,7 @@ export class TrainingLecturerListComponent implements OnInit {
         (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
       );
       this.loading = true;
-      console.log(this.resulttraining);
+      console.log("gettraininglecturerlist =>", this.resulttraining);
     })
 
     this.trainingservice.gettrainingsurveycountdata()
@@ -87,13 +102,16 @@ export class TrainingLecturerListComponent implements OnInit {
   openModal(template: TemplateRef<any>, id) {
     this.delid = id;
     console.log(this.delid);
-
+    
+    
     this.modalRef = this.modalService.show(template);
   }
 
-  surveyModal(template: TemplateRef<any>, id) {
+  surveyModal(template: TemplateRef<any>, id, surveytopicid) {
     this.lecturerid = id;
+    this.surveytopicid = surveytopicid;
     console.log(this.lecturerid);
+    console.log("surveytopicid =>", surveytopicid);
 
     this.modalRef = this.modalService.show(template);
   }
@@ -102,20 +120,43 @@ export class TrainingLecturerListComponent implements OnInit {
     //alert(JSON.stringify(value))
     console.log("data:",value);
     console.log("lecturerid:",this.lecturerid);
-
-    this.trainingservice.addTraininglecturerjoinsurvey(value, this.lecturerid, this.trainingid).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      this.trainingservice.gettraininglecturerlist(this.trainingid)
-      .subscribe(result => {
-        this.resulttraining = result.filter(
-          (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
-        );
-        this.loading = true;
-        console.log(this.resulttraining);
+    if (this.surveytopicid != null){
+      console.log("not null");
+      
+      this.trainingservice.editTraininglecturerjoinsurvey(value, this.surveytopicid).subscribe(response => {
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false;
+        this.trainingservice.gettraininglecturerlist(this.trainingid)
+        .subscribe(result => {
+          this.resulttraining = result.filter(
+            (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
+          );
+          this.loading = true;
+          console.log(this.resulttraining);
+        })
       })
-    })
+      
+    }
+    else{
+      console.log("null");
+
+      this.trainingservice.addTraininglecturerjoinsurvey(value, this.lecturerid, this.trainingid).subscribe(response => {
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false;
+        this.trainingservice.gettraininglecturerlist(this.trainingid)
+        .subscribe(result => {
+          this.resulttraining = result.filter(
+            (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
+          );
+          this.loading = true;
+          console.log(this.resulttraining);
+        })
+      })
+      
+    }
+    
   }
 
   editModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience) {

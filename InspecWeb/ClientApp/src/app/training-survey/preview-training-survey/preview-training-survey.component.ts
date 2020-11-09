@@ -4,6 +4,10 @@ import { TrainingService } from '../../services/training.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from 'src/app/services/notofy.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { LogService } from 'src/app/services/log.service';
 
 
 @Component({
@@ -23,6 +27,10 @@ export class PreviewTrainingSurveyComponent implements OnInit {
   trainingname: string;
   
   constructor(private modalService: BsModalService, 
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder, 
     private trainingservice: TrainingService,
     public share: TrainingService, 
@@ -35,7 +43,7 @@ export class PreviewTrainingSurveyComponent implements OnInit {
     
 
   ngOnInit() {
-
+    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -59,6 +67,7 @@ export class PreviewTrainingSurveyComponent implements OnInit {
       this.resulttraining = result
       this.loading = true
       //console.log(this.resulttraining);
+      this.spinner.hide();
     })
     
 

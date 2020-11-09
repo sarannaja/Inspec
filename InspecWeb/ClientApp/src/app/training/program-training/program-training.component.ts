@@ -61,6 +61,7 @@ export class ProgramTrainingComponent implements OnInit {
   resultprogramtype: any[];
   selectdataprogramtype: { value: any; label: any; }[];
   userid: any;
+  programtopic: any;
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
     private _NotofyService: NotofyService,
@@ -141,10 +142,10 @@ export class ProgramTrainingComponent implements OnInit {
       programdate: new FormControl(null, [Validators.required]),
       mStart: new FormControl(null, [Validators.required]),
       mEnd: new FormControl(null, [Validators.required]),
-      programtopic: new FormControl(null, [Validators.required]),
-      programdetail: new FormControl(null, [Validators.required]),
-      programlocation: new FormControl(null, [Validators.required]),
-      programtodress: new FormControl(null, [Validators.required]),
+      programtopic: new FormControl("", [Validators.required]),
+      programdetail: new FormControl("", [Validators.required]),
+      programlocation: new FormControl("", [Validators.required]),
+      programtodress: new FormControl("", [Validators.required]),
       lecturername: new FormControl(null, [Validators.required]),
     })
 
@@ -221,7 +222,6 @@ export class ProgramTrainingComponent implements OnInit {
 
   //start getuser
   getuserinfo() {
-    this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -234,12 +234,17 @@ export class ProgramTrainingComponent implements OnInit {
       .subscribe(result => {
         this.resulttraining = result
 
-        console.log(result[0].trainingPhase.startDate);
-        console.log(result[0].trainingPhase.endDate);
+        console.log(result);
+        
+        if (result.length > 0){
+          console.log("startDate =>", result[0].trainingPhase.startDate);
+          console.log("endDate =>", result[0].trainingPhase.endDate);
 
-        this.dateOptionF(this.startdate, this.enddate)
+          this.dateOptionF(this.startdate, this.enddate)
+        }
+        
         this.loading = true;
-
+        this.spinner.hide();
         //console.log(this.resulttraining);
       })
   }
@@ -250,14 +255,46 @@ export class ProgramTrainingComponent implements OnInit {
     var endDate = new Date(end);
     var dateDayRemoveStart = new Date()
     dateDayRemoveStart.setDate(startDate.getDay() - 1)
+    
 
     var dateDayRemoveEnd = new Date()
     dateDayRemoveEnd.setDate(endDate.getDay() + 1)
 
+    //console.log("dateDayRemoveStart => ", dateDayRemoveStart.getDay());
+    
     // moment(startDate).calendar()
 
     this.dateOption = {
       showTodayBtn: false,
+      //เกือบใช้ได้ ติดลบวันเหลือ 0
+      // disableDateRanges: [
+      // {
+      //     begin:{
+      //     year: new Date(start).getFullYear() - 100,
+      //     month: new Date(start).getMonth() + 1,
+      //     day: new Date(start).getDate()
+      //   },
+      //   end:{
+      //     year: new Date(start).getFullYear(),
+      //     month: new Date(start).getMonth() + 1,
+      //     day: new Date(start).getDate() - 15
+      //   }
+      // }
+      //   ,
+      // {
+      //   begin:{
+      //     year: new Date(end).getFullYear(),
+      //     month: new Date(end).getMonth() + 1,
+      //     day: new Date(end).getDate() + 1
+      //   },
+      //   end:{
+      //     year: new Date(end).getFullYear() + 100,
+      //     month: new Date(end).getMonth() + 1,
+      //     day: new Date(end).getDate()
+      //   }
+      // }]
+
+
       // disableUntil: {year: 2020, month: 5, day: 10},
       // disableDateRanges: [
       //   {
@@ -312,9 +349,10 @@ export class ProgramTrainingComponent implements OnInit {
 
 
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id, programTopic) {
     this.delid = id;
-    //console.log(this.delid);
+    this.programtopic = programTopic;
+    console.log("programtopic =>", this.programtopic);
     this.Form.patchValue({
       TrainingPhaseId: this.trainingid,
     })
@@ -402,7 +440,7 @@ export class ProgramTrainingComponent implements OnInit {
         this.submitted = false;
         this.modalRef.hide();
         this.loading = false;
-        this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(กิจกรรม)(TrainingPrograms)','เพิ่ม', value.name,"").subscribe();
+        this.logService.addLog(this.userid,'TrainingPrograms','เพิ่ม', response.programtopic,response.id).subscribe();
         this.getprogramtraining();
         this._NotofyService.onSuccess("เพิ่มข้อมูล")
         // this.trainingservice.getprogramtraining(this.trainingid)
@@ -417,6 +455,7 @@ export class ProgramTrainingComponent implements OnInit {
 
   editTraining(value) {
     console.log(value);
+    this.programtopic = value.programtopic
     console.log("Old: ", this.oldlecturer);
     console.log("New: ", this.lecturer);
 
@@ -430,7 +469,7 @@ export class ProgramTrainingComponent implements OnInit {
       this.EditForm.reset()
       this.modalRef.hide()
       this.loading = false;
-      this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(กิจกรรม)(TrainingPrograms)','แก้ไข', value.name,"").subscribe();
+      this.logService.addLog(this.userid,'TrainingPrograms','แก้ไข', result.programtopic, result.id).subscribe();
       this.getprogramtraining();
       this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
@@ -447,6 +486,7 @@ export class ProgramTrainingComponent implements OnInit {
   //   this.files = event.target.files
   // }
   get f() { return this.Form.controls }
+  get fedit() { return this.EditForm.controls }
   get d() { return this.f.inputdate as FormArray }
 
   deleteTraining(value) {
@@ -454,7 +494,7 @@ export class ProgramTrainingComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
-      this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(กิจกรรม)(TrainingPrograms)','ลบ', value.name,"").subscribe();
+      this.logService.addLog(this.userid,'TrainingPrograms','ลบ', this.programtopic, this.delid).subscribe();
       this.trainingservice.getprogramtraining(this.trainingid)
         .subscribe(result => {
           this.resulttraining = result
