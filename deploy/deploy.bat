@@ -9,6 +9,6 @@ dotnet publish InspecWeb.csproj -o C:\publish
 echo "publish success"
 iisreset /start
 
-
+pause
 
 exit
