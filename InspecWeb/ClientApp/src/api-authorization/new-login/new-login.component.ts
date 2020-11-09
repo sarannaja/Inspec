@@ -44,10 +44,10 @@ export class NewLoginComponent implements OnInit {
 
   async ngOnInit() {
 
-    // this.authorize.isAuthenticated().subscribe(result => {
-    //   console.log('isAuthenticated', result);
+    this.authorize.isAuthenticated().subscribe(result => {
+      console.log('isAuthenticated', result);
 
-    // });
+    });
     const action = this.route.snapshot.url[1];
     switch (action.path) {
       case LoginActions.Login:
