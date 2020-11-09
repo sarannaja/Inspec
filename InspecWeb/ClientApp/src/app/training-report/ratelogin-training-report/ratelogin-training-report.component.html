@@ -1,20 +1,11 @@
 <div class="header">
 
-<<<<<<< HEAD
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
-            <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
-        </ol>
-    </nav>
-=======
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">จัดการหลักสูตรการอบรม</a></li>
       <!-- <li class="breadcrumb-item active" aria-current="page">DataTables</li> -->
     </ol>
   </nav>
->>>>>>> aca1cebac1b19d59932be7704992ca629462792a
 </div>
 <form class="row">
   <div class="col-12">
@@ -101,7 +92,7 @@
               <td>
                 เข้าอบรม {{ item.count }} / {{ item.countCourse }}
                 <br>
-                คิดเป็น {{ item.rateCourse }}%
+                คิดเป็น <label *ngIf="item.rateCourse != ''">{{ item.rateCourse }}%</label> <label *ngIf="item.rateCourse == ''">0%</label> 
                 <br>
                 <ng-container *ngIf="item.rateCourse >= 80;else msecond">
                   สถานะ ผ่าน

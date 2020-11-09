@@ -801,10 +801,18 @@ export class ExportReportService {
     console.log('trainingName: ', trainingNameJa);
     console.log("gen: ", gen);
     console.log("trainingYear", trainingYearJa);
-
+    var newrateCoure: any;
     var exportData: any = [];
+   
+    console.log("newrateCoure=>", newrateCoure);
 
     exportData = data.map((item, index) => {
+      if (item.rateCourse == "" || item.rateCourse == null || item.rateCourse == "null"){
+        newrateCoure = 0;
+      }
+      else{
+        newrateCoure = item.rateCourse;
+      }
       return {
         name: item.name,
         position: item.registerdata.position,
@@ -812,7 +820,7 @@ export class ExportReportService {
         phone: item.registerdata.phone,
         count: item.count,
         countCourse: item.countCourse,
-        rateCourse: item.rateCourse,
+        rateCourse: newrateCoure,
       }
     })
     console.log("exportRelate: ", exportData);
