@@ -3254,6 +3254,225 @@ namespace InspecWeb.Controllers
             return Ok(new { importData });
         }
 
+        [HttpPost("reportRateLogin")]
+        public IActionResult ReportRateLogin([FromBody] ExportReportViewModel model)
+        {
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/Uploads/";
+            var filename = "รายชื่อผู้เข้ารับการฝึกอบรม" + ".docx";
+            var createfile = filePath + filename;
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+
+            //if (exportData.ReportType == "รายเขต")
+            //{
+            System.Console.WriteLine("in Relate");
+            using (DocX document = DocX.Create(createfile))
+            {
+                document.PageLayout.Orientation = Orientation.Landscape;
+                System.Console.WriteLine("4");
+
+                var reportType = document.InsertParagraph("รายชื่อผู้เข้ารับการฝึกอบรม\nหลักสูตร" + model.trainingName + " รุ่น/ปี " + model.trainingGen + "/" + model.trainingYear);
+                reportType.FontSize(20d);
+                reportType.SpacingAfter(15d);
+                reportType.Bold();
+                reportType.Alignment = Alignment.center;
+
+                System.Console.WriteLine("7");
+
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var thDate = DateTime.Now.ToString("dd MMMM yyyy");
+
+                var year = document.InsertParagraph("วันที่ออกรายงาน: " + thDate);
+                year.Alignment = Alignment.right;
+                year.SpacingAfter(10d);
+                year.FontSize(16d);
+                System.Console.WriteLine("8");
+
+                int dataCount = 0;
+                dataCount = model.allReportRateLogin.Count();
+                dataCount += 1;
+                System.Console.WriteLine("Data Count: " + dataCount);
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 40f, 140f, 100f, 100f, 80f, 120f };
+                var t = document.InsertTable(dataCount, columnWidths.Length);
+                t.Alignment = Alignment.center;
+
+                System.Console.WriteLine("8.1");
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+                System.Console.WriteLine("9");
+
+                // Fill in the columns of the first row in the table.
+                //for (int i = 0; i < row.Cells.Count; ++i)
+                //{
+
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("ชื่อ-นามสกุล").Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("ตำแหน่ง").Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("หน่วยงาน/สังกัด").Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("หมายเลขติดต่อ").Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("สรุปผลการลงเวลา\n(ประมวลผลจากข้อมูลการลงเวลาและสรุปสถานะ)").Alignment = Alignment.center;
+
+                System.Console.WriteLine("10");
+                //}
+                // Add rows in the table.
+                int j = 0;
+                for (int k = 0; k < model.allReportRateLogin.Length; k++)
+                {
+                    j += 1;
+                    System.Console.WriteLine("10.1");
+                    var pass = "";
+                    if (model.allReportRateLogin[k].rateCourse >= 80)
+                    {
+                        pass = "ผ่าน";
+                    }
+                    else
+                    {
+                        pass = "ไม่ผ่าน";
+                    }
+
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReportRateLogin[k].name);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReportRateLogin[k].position);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReportRateLogin[k].department);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReportRateLogin[k].phone);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append("เข้าอบรม " + model.allReportRateLogin[k].count + " / " + model.allReportRateLogin[k].countCourse + "\n" + "คิดเป็น " + model.allReportRateLogin[k].rateCourse + "%" + "\n" + "สถานะ " + pass);
+                    System.Console.WriteLine("10");
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                // document.InsertSectionPageBreak();
+                //}
+
+                document.Save();
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+            }
+
+            return Ok(new { data = filename });
+        }
+
+
+        [HttpPost("reportTrainingRegister")]
+        public IActionResult ReportTrainingRegister([FromBody] ExportReportViewModel model)
+        {
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/Uploads/";
+            var filename = "รายชื่อหลักสูตรการฝึกอบรมบุคลากรในระบบการตรวจราชการ" + ".docx";
+            var createfile = filePath + filename;
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+
+            //if (exportData.ReportType == "รายเขต")
+            //{
+            System.Console.WriteLine("in Relate");
+            using (DocX document = DocX.Create(createfile))
+            {
+                document.PageLayout.Orientation = Orientation.Landscape;
+                System.Console.WriteLine("4");
+
+                var reportType = document.InsertParagraph("รายชื่อหลักสูตรการฝึกอบรมบุคลากรในระบบการตรวจราชการ");
+                reportType.FontSize(20d);
+                reportType.SpacingAfter(15d);
+                reportType.Bold();
+                reportType.Alignment = Alignment.center;
+
+                System.Console.WriteLine("7");
+
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var thDate = DateTime.Now.ToString("dd MMMM yyyy");
+
+                var year = document.InsertParagraph("วันที่ออกรายงาน: " + thDate);
+                year.Alignment = Alignment.right;
+                year.SpacingAfter(10d);
+                year.FontSize(16d);
+                System.Console.WriteLine("8");
+
+                int dataCount = 0;
+                dataCount = model.allReportTrainingRegister.Count();
+                dataCount += 1;
+                System.Console.WriteLine("Data Count: " + dataCount);
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 40f, 55f, 120f, 180f, 80f, 90f, 45f, 45f };
+                var t = document.InsertTable(dataCount, columnWidths.Length);
+                t.Alignment = Alignment.center;
+
+                System.Console.WriteLine("8.1");
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+                System.Console.WriteLine("9");
+
+                // Fill in the columns of the first row in the table.
+                //for (int i = 0; i < row.Cells.Count; ++i)
+                //{
+
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("รุ่น/ปี	").Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("หลักสูตร").Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("รายละเอียดโครงการ").Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("กำหนดการฝึกอบรม").Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("สถานที่จัด").Alignment = Alignment.center;
+                row.Cells[6].Paragraphs.First().Append("จำนวนผู้เข้ารับการฝึกอบรม").Alignment = Alignment.center;
+                row.Cells[7].Paragraphs.First().Append("จำนวนผู้ผ่านการฝึกอบรม").Alignment = Alignment.center;
+
+                System.Console.WriteLine("10");
+                //}
+                // Add rows in the table.
+                int j = 0;
+                for (int k = 0; k < model.allReportTrainingRegister.Length; k++)
+                {
+                    j += 1;
+                    System.Console.WriteLine("10.1");
+
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReportTrainingRegister[k].generation + "/" + model.allReportTrainingRegister[k].year).Alignment = Alignment.center;
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReportTrainingRegister[k].name);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReportTrainingRegister[k].detail);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReportTrainingRegister[k].start.ToShortDateString() + " - " + model.allReportTrainingRegister[k].end.ToShortDateString());
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReportTrainingRegister[k].location);
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(model.allReportTrainingRegister[k].count.ToString()).Alignment = Alignment.center;
+                    t.Rows[j].Cells[7].Paragraphs[0].Append(model.allReportTrainingRegister[k].approveCount.ToString()).Alignment = Alignment.center;
+                    System.Console.WriteLine("10");
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                // document.InsertSectionPageBreak();
+                //}
+
+                document.Save();
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+            }
+
+            return Ok(new { data = filename });
+        }
+
 
     }
 }
