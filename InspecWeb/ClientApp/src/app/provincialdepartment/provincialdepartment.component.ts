@@ -8,6 +8,9 @@ import { ProvincialDepartmentService } from '../services/provincialdepartment.se
 import { ProvinceService } from '../services/province.service';
 import { NotofyService } from '../services/notofy.service';
 import { ExternalOrganizationService } from '../services/external-organization.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-provincialdepartment',
@@ -23,7 +26,7 @@ export class ProvincialDepartmentComponent implements OnInit {
   selectdataprovince: any[] = []
   ministryname: data = {}
   departmentname: data = {}
-
+  name:any;
   provincialdepartmentId: any;
   departmentId: any;
   ministryid: any;
@@ -32,6 +35,9 @@ export class ProvincialDepartmentComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   modalRef: BsModalRef;
+  submitted = false;
+  userid :any;
+  role_id :any;
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +50,9 @@ export class ProvincialDepartmentComponent implements OnInit {
     private provincialDepartmentService: ProvincialDepartmentService,
     private external: ExternalOrganizationService,
     private _NotofyService: NotofyService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private logService: LogService,
   ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
   }
@@ -75,7 +84,14 @@ export class ProvincialDepartmentComponent implements OnInit {
   }
 
   getdata() {
-
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
+    })
     this.ministryservice.getministryfirst2(this.id).subscribe(result => {
       this.ministryname = result
     })
@@ -85,7 +101,7 @@ export class ProvincialDepartmentComponent implements OnInit {
     })
 
     this.provincialDepartmentService.getprovincialdepartmentdata(this.id).subscribe(result => {
-      console.log(result);
+     // console.log(result);
       this.resultprovincialdepartment = result
       this.loading = true;
     })
@@ -93,33 +109,26 @@ export class ProvincialDepartmentComponent implements OnInit {
   }
 
   getDataProvinces() {
-    // this.provinceService.getprovincedata2()
-    //   .subscribe(result => {
-    //     console.log(result);
-    //     this.selectdataprovince = result.map((item, index) => {
-    //       return { value: item.id, label: item.name }
-    //     })
 
-    //   })
     this.provinceService.getprovincedata2()
       .subscribe(result => {
         this.external.getProvinceRegion()
           .subscribe(result2 => {
             this.selectdataprovince = result.map(result => {
-              console.log(
-                result.name
-              );
+              // console.log(
+              //   result.name
+              // );
               var region = result2.filter(
                 (thing, i, arr) => arr.findIndex(t => t.name === result.name) === i
               )[0].region
-              console.log(
-                region
-              );
+              // console.log(
+              //   region
+              // );
 
 
               return { ...result, region: region, label: result.name, value: result.id }
             })
-            console.log(this.selectdataprovince);
+            //console.log(this.selectdataprovince);
           })
         // this.spinner.hide();
       })
@@ -136,18 +145,21 @@ export class ProvincialDepartmentComponent implements OnInit {
   }
   openModal(template: TemplateRef<any>, departmentId) {
     this.Form.reset()
+    this.submitted = false;
     this.departmentId = departmentId;
     // alert(this.ministryid);
     this.modalRef = this.modalService.show(template);
   }
 
-  deleteModal(template: TemplateRef<any>, deleteID) {
+  deleteModal(template: TemplateRef<any>, deleteID,name) {
     this.departmentId = deleteID
+    this.name = name;
     this.modalRef = this.modalService.show(template);
   }
 
   editModal(template: TemplateRef<any>, id, Name) {
-    // alert(id);
+    this.Form.reset()
+    this.submitted = false;
     this.provincialDepartmentService.getdetaildata(id).subscribe(response => {
       //console.log('datadetail',response)
       this.resultdetail = response;
@@ -166,7 +178,7 @@ export class ProvincialDepartmentComponent implements OnInit {
   openDetailModal(template: TemplateRef<any>, id, name) {
 
     this.provincialDepartmentService.getdetaildata(id).subscribe(response => {
-      console.log('datadetail', response)
+      //console.log('datadetail', response)
       this.resultdetail = response;
     })
     this.modalRef = this.modalService.show(template);
@@ -174,8 +186,12 @@ export class ProvincialDepartmentComponent implements OnInit {
 
 
   storeprovincialDepartment(value) {
-
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.provincialDepartmentService.addProvincialDepartment(value, this.departmentId).subscribe(response => {
+      this.logService.addLog(this.userid,'ProvincialDepartment','เพิ่ม',response.name,response.id).subscribe();
 
       this.Form.reset()
       this.modalRef.hide()
@@ -186,9 +202,12 @@ export class ProvincialDepartmentComponent implements OnInit {
   }
 
   updateprovincialDepartment(value) {
-    //alert(1)
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.provincialDepartmentService.updateProvincialDepartment(value, this.provincialdepartmentId).subscribe(response => {
-      //alert(3)
+      this.logService.addLog(this.userid,'ProvincialDepartment','แก้ไข',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
@@ -200,18 +219,14 @@ export class ProvincialDepartmentComponent implements OnInit {
   deleteprovincialDepartment(value) {
 
     this.provincialDepartmentService.deleteProvincialDepartment(value).subscribe(response => {
-
+      this.logService.addLog(this.userid,'ProvincialDepartment','ลบ',this.name,this.departmentId).subscribe();
       this.modalRef.hide()
       this.loading = false
       this.getdata();
       this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
-
-
-
-
-
+  get f() { return this.Form.controls; }
 }
 
 export interface data {

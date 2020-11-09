@@ -8,6 +8,7 @@ import { ProvinceService } from 'src/app/services/province.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { NgxSpinnerService } from "ngx-spinner";
+import { NotofyService } from 'src/app/services/notofy.service';
 
 @Component({
   selector: 'app-detail-fiscalyear',
@@ -44,6 +45,7 @@ export class DetailFiscalyearComponent implements OnInit {
   valueProvinceId: any
   valuedeleteRegionId: any
   checkedit: any;
+  submitted = false;
   constructor(
     private modalService: BsModalService,
     private fiscalyearService: FiscalyearService,
@@ -51,6 +53,7 @@ export class DetailFiscalyearComponent implements OnInit {
     private regionservice: RegionService,
     private provinceservice: ProvinceService,
     private fb: FormBuilder,
+    private _NotofyService: NotofyService,
     private spinner: NgxSpinnerService) {
     this.fiscalyearid = activateRoute.snapshot.paramMap.get('id')
   }
@@ -155,10 +158,9 @@ export class DetailFiscalyearComponent implements OnInit {
 
   }
 
-
-
   openModal(template: TemplateRef<any>) {
-    this.Form.reset()
+    this.Form.reset();
+    this.submitted = false;
     this.checkedit = 0;
     this.regionservice.getregiondata()
       .subscribe(result => {
@@ -199,7 +201,6 @@ export class DetailFiscalyearComponent implements OnInit {
     }
 
   }
-
   openModalEdit(template: TemplateRef<any>, id, region, province) {
     this.Form.reset()
     this.id = id
@@ -208,9 +209,6 @@ export class DetailFiscalyearComponent implements OnInit {
 
     this.regionservice.getregiondata()
       .subscribe(result => {
-
-
-
         this.regions = []
         this.valueRegionId
         this.resultregion = result
@@ -218,8 +216,6 @@ export class DetailFiscalyearComponent implements OnInit {
         this.regions = result
           .filter(x => regioin_fill_o.every(y => y.regionId != x.id))
           .map(resultregion => { return { value: resultregion.id, label: resultregion.name } })
-
-
 
         let province_o: any[] = []
         this.resultdetailfiscalyear
@@ -229,20 +225,14 @@ export class DetailFiscalyearComponent implements OnInit {
         this.provinces = this.resultprovince
           .filter(x => province_o.filter(x => province.every(y => y.id != x.id)).every(y => y.id != x.id))
           .map(xxx => { return { value: xxx.id, label: xxx.name } })
-       // console.log(this.provinces, province_o);
-
-      
+       // console.log(this.provinces, province_o);    
         this.Form.patchValue({
           RegionId: region,
           ProvinceId: province.map(result => {
             return result.id
           }),
         })
-
-
       });
-  
-
     this.modalRef = this.modalService.show(template);
   }
 
@@ -254,28 +244,36 @@ export class DetailFiscalyearComponent implements OnInit {
   openModalDelete(template: TemplateRef<any>, id) {
     // this.activeModal = true
     this.id = id
-    console.log(this.id);
-
     this.modalRef = this.modalService.show(template);
   }
   AddRelation(value) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.fiscalyearService.addDetailFiscalyear(value, this.fiscalyearid).subscribe(response => {
       this.valueRegionId = value.RegionId
       this.valueProvinceId = value.ProvinceId
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
       this.getdataRelation()
 
     })
   }
   EditRelation(value, id) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.fiscalyearService.editDetailFiscalyear(value, this.fiscalyearid,id).subscribe(response => {
       this.valueRegionId = value.RegionId
       this.valueProvinceId = value.ProvinceId
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       this.getdataRelation()
 
     })
@@ -285,7 +283,9 @@ export class DetailFiscalyearComponent implements OnInit {
       this.valuedeleteRegionId = value
       this.modalRef.hide()
       this.loading = false
+      this._NotofyService.onSuccess("ลบข้อมูล")
       this.getdataRelation()
     })
   }
+  get f() { return this.Form.controls; }
 }

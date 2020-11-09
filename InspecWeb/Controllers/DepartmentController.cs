@@ -146,7 +146,7 @@ namespace InspecWeb.Controllers
 
     
         [HttpPut("{id}")]
-        public void Put([FromForm] DepartmentRequest request,long id)
+        public Department Put([FromForm] DepartmentRequest request,long id)
         {
             Console.WriteLine("department 1 :" + id +"///"+ request.Name);
             var department = _context.Departments.Find(id);
@@ -158,7 +158,7 @@ namespace InspecWeb.Controllers
 
                 _context.Entry(department).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.SaveChanges();
-
+            return department;
         }
 
         // DELETE api/values/5

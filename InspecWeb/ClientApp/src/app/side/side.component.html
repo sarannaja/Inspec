@@ -48,7 +48,7 @@
                     (click)="openModal(modaledit, item.id, item.name,item.nameEN,item.shortnameEN,item.shortnameTH)">
                   <i class="align-middle fas fa-fw fa-pen "></i>
                 </button>
-                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldelete, item.id)">
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldelete, item.id,item.name)">
                   <i class="align-middle fas fa-fw fa-trash-alt"></i>
                 </button>
               </td>
@@ -70,22 +70,43 @@
         </button>
       </div>
       <div class="modal-body m-3">
+       
         <div class="form-group">
-          <label for="Name" class="form-label">ชื่อด้าน(TH)</label>
-          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อด้าน(TH)">
+          <label class="form-label">ชื่อด้านภาคประชาชน(TH)</label>
+          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อด้านภาคประชาชน(TH)"
+            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+          <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+            <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อด้านภาคประชาชน(TH)</div>
+          </div> 
         </div>
+
         <div class="form-group">
-          <label for="xx" class="form-label">ชื่อย่อด้าน(TH)</label>
-          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="ชื่อย่อด้าน(TH)">
+          <label class="form-label">ชื่อย่อด้านภาคประชาชน(TH)</label>
+          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านภาคประชาชน(TH)"
+          [ngClass]="{ 'is-invalid': submitted && f.ShortnameTH.errors }">
+          <div *ngIf="submitted && f.ShortnameTH.errors" class="invalid-feedback">
+            <div *ngIf="f.ShortnameTH.errors.required">ชื่อย่อด้านภาคประชาชน(TH)</div>
+          </div> 
         </div>
+
         <div class="form-group">
-          <label for="xx" class="form-label">ชื่อด้าน(EN)</label>
-          <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อด้าน(EN)">
+          <label class="form-label">ชื่อด้านภาคประชาชน(EN)</label>
+          <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อด้านภาคประชาชน(EN)"
+          [ngClass]="{ 'is-invalid': submitted && f.NameEN.errors }">
+          <div *ngIf="submitted && f.NameEN.errors" class="invalid-feedback">
+            <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อด้านภาคประชาชน(EN)</div>
+          </div> 
         </div>
+
         <div class="form-group">
-          <label for="xx" class="form-label">ชื่อย่อด้าน(EN)</label>
-          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="ชื่อย่อด้าน(EN)">
+          <label class="form-label">ชื่อย่อด้านภาคประชาชน(EN)</label>
+          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านภาคประชาชน(EN)"
+          [ngClass]="{ 'is-invalid': submitted && f.ShortnameEN.errors }">
+          <div *ngIf="submitted && f.ShortnameEN.errors" class="invalid-feedback">
+            <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อด้านภาคประชาชน(EN)</div>
+          </div> 
         </div>
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -129,20 +150,39 @@
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <label for="Name" class="form-label">ชื่อด้าน(TH)</label>
-          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อด้าน(TH)">
+          <label class="form-label">ชื่อด้านภาคประชาชน(TH)</label>
+          <input type="text" formControlName="Name" class="form-control" placeholder="กรุณากรอกชื่อด้านภาคประชาชน(TH)"
+            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+          <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+            <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อด้านภาคประชาชน(TH)</div>
+          </div> 
         </div>
+
         <div class="form-group">
-          <label for="xx" class="form-label">ชื่อย่อด้าน(TH)</label>
-          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="ชื่อย่อด้าน(TH)">
+          <label class="form-label">ชื่อย่อด้านภาคประชาชน(TH)</label>
+          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านภาคประชาชน(TH)"
+          [ngClass]="{ 'is-invalid': submitted && f.ShortnameTH.errors }">
+          <div *ngIf="submitted && f.ShortnameTH.errors" class="invalid-feedback">
+            <div *ngIf="f.ShortnameTH.errors.required">ชื่อย่อด้านภาคประชาชน(TH)</div>
+          </div> 
         </div>
+
         <div class="form-group">
-          <label for="xx" class="form-label">ชื่อด้าน(EN)</label>
-          <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อด้าน(EN)">
+          <label class="form-label">ชื่อด้านภาคประชาชน(EN)</label>
+          <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อด้านภาคประชาชน(EN)"
+          [ngClass]="{ 'is-invalid': submitted && f.NameEN.errors }">
+          <div *ngIf="submitted && f.NameEN.errors" class="invalid-feedback">
+            <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อด้านภาคประชาชน(EN)</div>
+          </div> 
         </div>
+
         <div class="form-group">
-          <label for="xx" class="form-label">ชื่อย่อด้าน(EN)</label>
-          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="ชื่อย่อด้าน(EN)">
+          <label class="form-label">ชื่อย่อด้านภาคประชาชน(EN)</label>
+          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อด้านภาคประชาชน(EN)"
+          [ngClass]="{ 'is-invalid': submitted && f.ShortnameEN.errors }">
+          <div *ngIf="submitted && f.ShortnameEN.errors" class="invalid-feedback">
+            <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อด้านภาคประชาชน(EN)</div>
+          </div> 
         </div>
       </div>
       <div class="modal-footer">

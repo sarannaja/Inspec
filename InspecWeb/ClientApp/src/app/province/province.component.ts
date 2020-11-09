@@ -7,6 +7,9 @@ import { NotificationService } from '../services/Pipe/alert.service';
 import { SnotifyService, SnotifyToastConfig, SnotifyPosition } from 'ng-snotify';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NotofyService } from '../services/notofy.service';
+import { LogService } from '../services/log.service';
+import { UserService } from '../services/user.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 
 @Component({
@@ -25,10 +28,12 @@ export class ProvinceComponent implements OnInit {
   Form: FormGroup;
   EditForm: FormGroup;
   loading = false;
+  submitted = false;
   dtOptions: DataTables.Settings = {};
-  forbiddenUsernames = ['admin', 'test', 'xxxx'];
   selectdatasector: Array<any>=[];
   selectdataprovincesgroup: Array<any>=[];
+  userid :any;
+  role_id :any;
   constructor(
     private modalService: BsModalService,
     private fb: FormBuilder,
@@ -39,6 +44,9 @@ export class ProvinceComponent implements OnInit {
     private snotifyService2: SnotifyService,
     private spinner: NgxSpinnerService,
     private _NotofyService: NotofyService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private logService: LogService,
   ) { }
 
   ngOnInit() {
@@ -74,6 +82,14 @@ export class ProvinceComponent implements OnInit {
 
   }
   getdata(){
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
+    })
     this.provinceservice.getprovincedata().subscribe(result => {
       //console.log('data',result);
       this.spinner.hide();
@@ -100,11 +116,13 @@ export class ProvinceComponent implements OnInit {
       })
   }
 
-  District(id) {
-    this.router.navigate(['/district', id])
+  District(id,name ){
+    this.router.navigate(['/district', id,name])
   }
 
   openModal(template: TemplateRef<any>, id, name, link) {
+    this.Form.reset()
+    this.submitted = false; 
     this.delid = id;
     this.name = name;
     this.link = link
@@ -113,11 +131,16 @@ export class ProvinceComponent implements OnInit {
  
 
   storeProvince(value) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.provinceservice.addProvince(value).subscribe(response => {
       this.spinner.show();  
       this.Form.reset()
       this.modalRef.hide()
-      this.loading = false
+      this.loading = false;
+      this.logService.addLog(this.userid,'Provinces','เพิ่ม',response.name,response.id).subscribe();
       this.getdata();
       this._NotofyService.onSuccess("เพื่มข้อมูล")
     })
@@ -128,26 +151,29 @@ export class ProvinceComponent implements OnInit {
       //console.log(value);
       this.spinner.show();  
       this.modalRef.hide()
-      this.loading = false
+      this.loading = false;
+      this.logService.addLog(this.userid,'Provinces','ลบ',this.name,this.delid).subscribe();
       this.getdata();
       this._NotofyService.onSuccess("ลบข้อมูล")
     })
   }
 
   editModal(template: TemplateRef<any>, id, name, link,Sector,Provincegroup,NameEN,ShortnameEN,ShortnameTH) {
+    this.Form.reset()
+    this.submitted = false; 
     this.delid = id;
    // console.log('Sector : ' + JSON.stringify(Sector));
-    this.EditForm = this.fb.group({
-      provincename: new FormControl(null, [Validators.required]),
-      provincelink: new FormControl(null, [Validators.required]),
-      Sector: new FormControl(null, [Validators.required]),
-      Provincegroup: new FormControl(null, [Validators.required]),
-      NameEN: new FormControl(null, [Validators.required]),
-      ShortnameEN: new FormControl(null, [Validators.required]),
-      ShortnameTH: new FormControl(null, [Validators.required]),
-    })
+    // this.EditForm = this.fb.group({
+    //   provincename: new FormControl(null, [Validators.required]),
+    //   provincelink: new FormControl(null, [Validators.required]),
+    //   Sector: new FormControl(null, [Validators.required]),
+    //   Provincegroup: new FormControl(null, [Validators.required]),
+    //   NameEN: new FormControl(null, [Validators.required]),
+    //   ShortnameEN: new FormControl(null, [Validators.required]),
+    //   ShortnameTH: new FormControl(null, [Validators.required]),
+    // })
 
-    this.EditForm.patchValue({
+    this.Form.patchValue({
       provincename: name,
       provincelink: link,
       Provincegroup:Provincegroup,
@@ -160,13 +186,19 @@ export class ProvinceComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   editProvince(value, delid) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.provinceservice.editProvince(value, delid).subscribe(response => {
       this.spinner.show();  
       this.Form.reset()
       this.modalRef.hide()
-      this.loading = false
+      this.loading = false;
+      this.logService.addLog(this.userid,'Provinces','แก้ไข',response.name,response.id).subscribe();
       this.getdata();
       this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
+  get f() { return this.Form.controls; }
 }

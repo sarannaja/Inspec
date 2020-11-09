@@ -250,6 +250,7 @@ import { GovernmentinspectionareaComponent } from './governmentinspectionarea/go
 import { DetailGovernmentinspectionareaComponent } from './governmentinspectionarea/detail-governmentinspectionarea/detail-governmentinspectionarea.component';//yochigang20201106
 import { AllReportIframeComponent } from './all-report-iframe/all-report-iframe.component';
 import { AllReportIframeDetailComponent } from './all-report-iframe/all-report-iframe-detail/all-report-iframe-detail.component';
+import { VilageComponent } from './vilage/vilage.component';
 
 
 const ExternalOrganization = [
@@ -389,7 +390,6 @@ const ExternalOrganization = [
     SortPipe,
     // DatePipe
     InfoDepartmentComponent,
-    InfoVillageComponent,
     StatepolicyComponent,
     DocumenttemplateComponent,
     MeetinginformationComponent,
@@ -397,7 +397,6 @@ const ExternalOrganization = [
     ExecutiveOrderExport1Component,
     ExecutiveOrderExport3Component,
     InfoMinistryComponent,
-    InfoVillageComponent,
     StatepolicyComponent,
     SubjecteventComponent,
     DetailSubjecteventComponent,
@@ -462,7 +461,7 @@ const ExternalOrganization = [
     DetailGovernmentinspectionareaComponent, //yochigang20201106
     AllReportIframeComponent,
     AllReportIframeDetailComponent,
-
+    VilageComponent,
   ],
 
   imports: [
@@ -534,8 +533,10 @@ const ExternalOrganization = [
           { path: 'instructionorder', component: InstructionorderComponent, canActivate: [AuthorizeGuard] },
           { path: 'supportgovernment/govermentinspectionplan', component: GovernmentinspectionplanComponent, canActivate: [AuthorizeGuard] },
           { path: 'inspectionorder', component: InspectionorderComponent, canActivate: [AuthorizeGuard] },
-          { path: 'district/:id', component: DistrictComponent, canActivate: [AuthorizeGuard] },
-          { path: 'subdistrict/:id', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
+          { path: 'district/:id/:name', component: DistrictComponent, canActivate: [AuthorizeGuard] },
+          { path: 'subdistrict/:id/:provincename/:districtname', component: SubdistrictComponent, canActivate: [AuthorizeGuard] },
+          //{ path: 'vilage/:iddistrict/:subdistrictid/:provincename/:districtname:/subdistrictname', component: VilageComponent, canActivate: [AuthorizeGuard] },
+          { path: 'vilage/:iddistrict/:subdistrictid/:provincename', component: VilageComponent, canActivate: [AuthorizeGuard] },
           //----Training----
           { path: 'training', component: TrainingComponent, canActivate: [AuthorizeGuard] },
           { path: 'training/createtraining', component: CreateTrainingComponent, canActivate: [AuthorizeGuard] },
@@ -638,8 +639,6 @@ const ExternalOrganization = [
           { path: 'reportinspectionplanevent', component: ReportInspectionPlanEventComponent, canActivate: [AuthorizeGuard] },
           { path: 'reportsubject', component: ReportSubjectComponent, canActivate: [AuthorizeGuard] },
           { path: 'centralpolicyfiscalyear/:id', component: CentralPolicyFiscalyearComponent, canActivate: [AuthorizeGuard] },
-          { path: 'infoministry/:id/infodepartment', component: InfoDepartmentComponent },
-          { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'documenttemplate', component: DocumenttemplateComponent, canActivate: [AuthorizeGuard] },
           { path: 'meetinginformation', component: MeetinginformationComponent, canActivate: [AuthorizeGuard] },
@@ -647,7 +646,6 @@ const ExternalOrganization = [
           { path: 'executiveorderexport1', component: ExecutiveOrderExport1Component, canActivate: [AuthorizeGuard] },
           { path: 'executiveorderexport3', component: ExecutiveOrderExport3Component, canActivate: [AuthorizeGuard] },
           { path: 'infoministry', component: InfoMinistryComponent, canActivate: [AuthorizeGuard] },
-          { path: 'infovillage/:id', component: InfoVillageComponent, canActivate: [AuthorizeGuard] },
           { path: 'statepolicy', component: StatepolicyComponent, canActivate: [AuthorizeGuard] },
           { path: 'commanderreport', component: CommanderReportComponent, canActivate: [AuthorizeGuard] },
           { path: 'subjectevent', component: SubjecteventComponent, canActivate: [AuthorizeGuard] },
