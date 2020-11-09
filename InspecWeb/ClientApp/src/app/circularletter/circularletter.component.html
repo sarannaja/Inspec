@@ -42,7 +42,7 @@
                     </p>
                 </a>
               </td>
-              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
+              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'short'}}</td>
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>

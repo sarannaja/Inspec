@@ -2,6 +2,7 @@
   
   <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
           <li class="breadcrumb-item active">ข้อมูลผู้ติดต่อบุคลากร</li>
           <li class="breadcrumb-item active">เจ้าหน้าที่ประจำเขตตรวจราชการ</li>
       </ol>
@@ -12,6 +13,11 @@
       <div class="card card-eiei">
         <div class="card-header" style="margin-bottom: -40px;">
             <h5 class="card-title">เจ้าหน้าที่ประจำเขตตรวจราชการ </h5>
+            <div class="float-right"> 
+                <button class="btn btn-success" (click)="excel()"
+                    style="margin-top: -60px;">Excel
+                </button> 
+            </div>   
         </div><br>
          <!-- ผู้ตรวจราชการ -->
             <div class="card-body">
@@ -32,9 +38,11 @@
                             <td>{{i + 1}}</td>
                             <td>{{item.prefix+item.name}}</td>
                             <td>
-                                <li *ngFor="let item2 of item.userRegion">
-                                    {{item2.region.name}}                               
-                                </li>                            
+                                <div *ngFor="let item2 of item.userRegion">
+                                    <label  class="badge badge-warning mr-1">
+                                        {{item2.region.name}}
+                                    </label>  <br>
+                                </div>                                                                                     
                             </td>
                             <td>
                                 {{item.ministries.name}}

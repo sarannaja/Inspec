@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 //using DocumentFormat.OpenXml.Office.CustomUI;
 using InspecWeb.Data;
 using InspecWeb.Models;
@@ -370,7 +371,61 @@ namespace InspecWeb.Controllers
 
             return Ok(new { Id = model.Id });
         }
-       
+
+        // <!-- ministry excel -->
+        [HttpGet("excelfiscalyear/{id}")]
+        public IActionResult excelfiscalyear(long id)
+        {
+
+            var data = _context.FiscalYearRelations
+                .Include(m => m.Province)
+                .Include(m => m.Region)
+                .Where(m => m.FiscalYearId == id);
+
+            var name = _context.FiscalYears
+               .Where(m => m.Id == id)
+               .Select(m => m.Year)
+               .FirstOrDefault();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("ข้อมูลการแบ่งเขตตวรจราชการ");
+                //var currentRow = 1;
+                //worksheet.Cell(currentRow, 1).Value = "";
+                //worksheet.Cell(currentRow, 2).Value = "";
+
+                var currentRow = 1;
+                var currentRow2 = 2;
+
+                worksheet.Cell(currentRow, 1).Value = "คำสั่งแบ่งเขตตรวจ : " + name;
+                worksheet.Cell(currentRow, 2).Value = "";
+                worksheet.Cell(currentRow, 3).Value = "";
+                worksheet.Cell(currentRow2, 1).Value = "เขตตรวจ";
+                worksheet.Cell(currentRow2, 2).Value = "จังหวัด";
+
+
+
+                foreach (var item in data)
+                {
+                    currentRow2++;
+                    worksheet.Cell(currentRow2, 1).Value = item.Region.Name;
+                    worksheet.Cell(currentRow2, 2).Value = item.Province.Name;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "ข้อมูลการแบ่งเขตตวรจราชการ.xlsx");
+                }
+            }
+        }
+        // <!-- END ministry excel -->
+
     }
 }
 
