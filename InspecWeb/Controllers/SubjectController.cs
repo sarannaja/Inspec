@@ -798,7 +798,7 @@ namespace InspecWeb.Controllers
                 DatabaseName = "SubjectCentralPolicyProvinces",
                 EventType = "ลบ",
                 EventDate = date,
-                Detail = "ลบแผนการตรวจราชการ"+subjectdata.Name,
+                Detail = "ลบแผนการตรวจราชการ" + subjectdata.Name,
                 Allid = subjectdata.Id,
             };
 
@@ -1619,6 +1619,119 @@ namespace InspecWeb.Controllers
             //        .Where(m => m.Type == "NoMaster").ToList();
 
             //return Ok(subjectgroupsdata);
+        }
+
+        // GET api/values/5
+        [HttpGet("geteventdaterange/{id}/{start_date}/{end_date}")]
+        public IActionResult Get8(string id, DateTime start_date, DateTime end_date)
+        {
+            var userprovince = _context.UserProvinces
+                       .Where(m => m.UserID == id)
+                       .ToList();
+
+            var user = _context.Users
+                           .Where(m => m.Id == id)
+                           .FirstOrDefault();
+
+            if (user.Role_id == 1)
+            {
+                var subjectgroupsdatas = _context.SubjectGroups
+                                      .Include(m => m.Province)
+                                      .Include(m => m.CentralPolicy)
+                                      .ThenInclude(m => m.FiscalYearNew)
+                                      .OrderByDescending(m => m.Id)
+                                      .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
+                                      .Where(m => m.Type == "NoMaster")
+                                      .Where(m => m.StartDate <= start_date && m.EndDate >= end_date)
+                                      .ToList();
+                return Ok(subjectgroupsdatas);
+            }
+
+            if (user.Role_id == 2)
+            {
+                var subjectgroupsdatas = _context.SubjectGroups
+                                      .Include(m => m.Province)
+                                      .Include(m => m.CentralPolicy)
+                                      .ThenInclude(m => m.FiscalYearNew)
+                                      .OrderByDescending(m => m.Id)
+                                      .Where(m => m.Status == "ใช้งานจริง" || m.Status == "รายงานแล้ว")
+                                      .Where(m => m.Type == "NoMaster")
+                                      .Where(m => m.StartDate <= start_date && m.EndDate >= end_date)
+                                      .ToList();
+                return Ok(subjectgroupsdatas);
+            }
+
+            if (user.Role_id == 3)
+            {
+
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        .Where(p => p.RoleCreatedBy == 3)
+                        .Where(m => m.Type == "NoMaster")
+                        .Where(m => m.StartDate <= start_date && m.EndDate >= end_date)
+                        .ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+            else if (user.Role_id == 6)
+            {
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        .Where(p => p.RoleCreatedBy == 6)
+                        .Where(m => m.Type == "NoMaster")
+                        .Where(m => m.StartDate <= start_date && m.EndDate >= end_date)
+                        .ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+            else if (user.Role_id == 10)
+            {
+                var subjectgroupsdatas = _context.SubjectGroups
+                        .Include(m => m.Province)
+                        .Include(m => m.CentralPolicy)
+                        .ThenInclude(m => m.FiscalYearNew)
+                        .OrderByDescending(m => m.Id)
+                        .Where(p => p.RoleCreatedBy == 10)
+                        .Where(m => m.Type == "NoMaster")
+                        .Where(m => m.StartDate <= start_date && m.EndDate >= end_date)
+                        .ToList();
+
+                List<object> termsList = new List<object>();
+                foreach (var inspectionplan in subjectgroupsdatas)
+                {
+                    for (int i = 0; i < userprovince.Count(); i++)
+                    {
+                        if (inspectionplan.ProvinceId == userprovince[i].ProvinceId)
+                            termsList.Add(inspectionplan);
+                    }
+                }
+                return Ok(termsList);
+            }
+            return Ok("nothing");
         }
 
         // GET api/values/5
