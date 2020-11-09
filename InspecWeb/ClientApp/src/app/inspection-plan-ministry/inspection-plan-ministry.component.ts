@@ -81,7 +81,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
   ministryId
   watch
   submitted = false;
-
+  lastpath
   constructor(private modalService: BsModalService,
     private notificationService: NotificationService,
     private userservice: UserService,
@@ -93,8 +93,10 @@ export class InspectionPlanMinistryComponent implements OnInit {
     this.id = activatedRoute.snapshot.paramMap.get('id')
     this.provinceid = activatedRoute.snapshot.paramMap.get('provinceid')
     this.name = activatedRoute.snapshot.paramMap.get('name')
-    this.watch = activatedRoute.snapshot.paramMap.get('watch')
+    const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+    this.watch = getLastItem(this.router.url)
     this.url = baseUrl + 'inspectionplanevent';
+    this.lastpath = window.location.pathname.split('/')[1];
   }
 
   async ngOnInit() {
@@ -277,7 +279,11 @@ export class InspectionPlanMinistryComponent implements OnInit {
       console.log("result123", result);
       this.centralpolicyprovinceid = result
       // this.resultinspectionplan = result[0].centralPolicyEvents //Chose
-      this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/ministry/', result, { planId: this.id, watch: watch }])
+      if (this.lastpath == "noauth") {
+        this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/ministry/noauth', result, { planId: this.id, watch: watch }])
+      } else {
+        this.router.navigate(['/centralpolicy/detailcentralpolicyprovince/ministry/', result, { planId: this.id, watch: watch }])
+      }
     })
     // var id = this.centralpolicyprovinceid
     // this.router.navigate(['/centralpolicy/detailcentralpolicyprovince', id])
@@ -756,7 +762,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
   }
   EditPlanDate() {
     // alert(JSON.stringify(this.startDate))
-    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate).subscribe(response => {
+    this.inspectionplanservice.editplandate(this.id, this.startDate, this.endDate, this.userid).subscribe(response => {
       this.modalRef.hide()
       this.getTimeline();
     })
@@ -770,7 +776,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
     })
   }
   deleteDate() {
-    this.inspectionplanservice.deleteplandate(this.id).subscribe(response => {
+    this.inspectionplanservice.deleteplandate(this.id, this.userid).subscribe(response => {
       this._NotofyService.onSuccess("ลบข้อมูล",)
       this.modalRef.hide()
       this.router.navigate(['inspectionplanevent'])
@@ -779,7 +785,7 @@ export class InspectionPlanMinistryComponent implements OnInit {
 
   DeleteCentralPolicyEvent(value) {
     // alert(value)
-    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid).subscribe(response => {
+    this.inspectionplanservice.deleteCentralPolicyEvent(value, this.userid, this.id).subscribe(response => {
       console.log(value);
       this.modalRef.hide()
       // location.reload();

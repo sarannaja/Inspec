@@ -1,3 +1,89 @@
 .sorting, .sorting_asc, .sorting_desc {
     background : none;
 }
+
+html, body, h1, h2, h3, h4, p, img {
+    margin: 0;
+  }
+  
+  /* margin reset*/
+  
+  @page {
+    size: A4
+  }
+  
+  .frontpage {
+    display: flex;
+    justify-content: space-around;
+    /* ADJUSTED */
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* NEW */
+  }
+  
+  .frontpage::before {
+    /* NEW */
+    content: '';
+  }
+  
+  .frontpage>* {
+    text-align: center;
+  }
+  
+  @media print {
+
+    html,
+    body {
+      width: 210mm;
+      height: 297mm;
+      /* font-family: 'Niramit', sans-serif; */
+    }
+
+    #lineChart2{
+        width: 100% !important;
+    }
+
+    #lineChart{
+        width: 100% !important;
+    }
+  
+    .page {
+      margin: 0;
+      border: initial;
+      border-radius: initial;
+      width: initial;
+      min-height: initial;
+      box-shadow: initial;
+      background: initial;
+      page-break-after: always;
+    }
+  
+    footer {
+      display: none;
+    }
+  
+    button {
+      display: none;
+    }
+  
+    header {
+      display: none;
+    }
+  
+    h1 {
+      display: none;
+    }
+  
+    nav {
+      display: none;
+    }
+  
+    h5 {
+      display: none;
+    }
+  
+    p {
+      display: none;
+    }
+  }

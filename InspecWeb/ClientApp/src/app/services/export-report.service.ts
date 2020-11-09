@@ -224,7 +224,7 @@ export class ExportReportService {
       formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
     }
 
-    formData.append('centralPolicyType', value.centralPolicyType);
+    formData.append('centralPolicyTypeId', value.centralPolicyType);
     formData.append('reportType', value.reportType);
     formData.append('inspectionRound', value.inspectionRound);
     formData.append('fiscalYearId', value.fiscalYear);
@@ -302,10 +302,10 @@ export class ExportReportService {
     console.log("Edit ID: ", reportId);
 
     const formData = new FormData();
-    for (var i = 0; i < value.centralPolicyEvent.length; i++) {
-      formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
-    }
-    formData.append('centralPolicyType', value.centralPolicyType);
+    // for (var i = 0; i < value.centralPolicyEvent.length; i++) {
+    //   formData.append("centralPolicyEventId", value.centralPolicyEvent[i]);
+    // }
+    formData.append('centralPolicyTypeId', value.centralPolicyType);
     formData.append('reportType', value.reportType);
     formData.append('inspectionRound', value.inspectionRound);
     formData.append('fiscalYearId', value.fiscalYear);
@@ -338,6 +338,10 @@ export class ExportReportService {
 
   getZones() {
     return this.http.get<any>(this.url + "/getZones");
+  }
+
+  getPresident() {
+    return this.http.get<any>(this.url + "/getPresident");
   }
 
   getProvinces() {
@@ -399,6 +403,20 @@ export class ExportReportService {
       reportDepartment: department,
     }
     return this.http.post<any>(this.url + "/exportAllDepartmentReport", formData)
+  }
+
+  // getAllReportByPresidentId(value) {
+  //   console.log("President: ", value);
+  //   var presidentId = value.president;
+
+  //   return this.http.get<any>(this.url + "/getAllReportByPresident/" + presidentId);
+  // }
+
+  getAllReportByPresidentId(value) {
+    console.log("Region: ", value);
+    var regionId = value;
+
+    return this.http.get<any>(this.url + "/getAllReportByRegion/" + regionId);
   }
 
   getAllReportByRegionId(value) {
@@ -694,7 +712,10 @@ export class ExportReportService {
     var provinceId2 = provinceId
     var departmentId2 = departmentId
     var peopleId2 = peopleId
-
+    var regionId2 = regionId
+    if (regionId == null) {
+      regionId2 = 0;
+    }
     if (provinceId == null) {
       provinceId2 = 0;
     }
@@ -706,7 +727,7 @@ export class ExportReportService {
     }
     const formData = {
       reportCalendarData: maptest,
-      regionId: regionId,
+      regionId: regionId2,
       provinceId: provinceId2,
       departmentId: departmentId2,
       peopleId: peopleId2,
@@ -728,6 +749,10 @@ export class ExportReportService {
     var provinceId2 = provinceId
     var departmentId2 = departmentId
     var peopleId2 = peopleId
+    var regionId2 = regionId
+    if (regionId == null) {
+      regionId2 = 0;
+    }
     if (provinceId == null) {
       provinceId2 = 0;
     }
@@ -739,13 +764,13 @@ export class ExportReportService {
     }
 
     const formData = {
-      regionId: regionId,
+      regionId: regionId2,
       provinceId: provinceId2,
       departmentId: departmentId2,
       peopleId: peopleId2,
       date: inputdate
     }
-
+    console.log(formData)
     return this.http.post<any>(this.url + "/getCelendarReportById", formData);
   }
 
@@ -759,5 +784,73 @@ export class ExportReportService {
     }
 
     return this.http.post<any>(this.url + "/CreateReportTrainingRegister", formData)
+  }
+
+  changeActive(reportId) {
+    const formData = new FormData();
+    formData.append('reportId', reportId);
+    return this.http.put<any>(this.url + "/changeActive", formData);
+  }
+
+  getAllImportedReportActive() {
+    return this.http.get<any>(this.url + "/getAllActiveImportedReport");
+  }
+
+  reportRateLogin(data, trainingNameJa, gen, trainingYearJa) {
+    console.log('rateData: ', data);
+    console.log('trainingName: ', trainingNameJa);
+    console.log("gen: ", gen);
+    console.log("trainingYear", trainingYearJa);
+
+    var exportData: any = [];
+
+    exportData = data.map((item, index) => {
+      return {
+        name: item.name,
+        position: item.registerdata.position,
+        department: item.registerdata.department,
+        phone: item.registerdata.phone,
+        count: item.count,
+        countCourse: item.countCourse,
+        rateCourse: item.rateCourse,
+      }
+    })
+    console.log("exportRelate: ", exportData);
+
+    const formData = {
+      allReportRateLogin: exportData,
+      trainingName: trainingNameJa,
+      trainingGen: gen,
+      trainingYear: trainingYearJa,
+    }
+    console.log("formRelate: ", formData);
+    return this.http.post<any>(this.url + "/reportRateLogin", formData);
+  }
+
+  reportTrainingList(data) {
+    console.log('rateData: ', data);
+
+    var exportData: any = [];
+
+    exportData = data.map((item, index) => {
+      return {
+        generation: item.trainingdata.generation,
+        year: item.trainingdata.year,
+        name: item.name,
+        detail: item.trainingdata.detail,
+        start: item.start,
+        end: item.end,
+        location: item.trainingdata.location,
+        count: item.count,
+        approveCount: item.approveCount
+      }
+    })
+    console.log("exportRelate: ", exportData);
+
+    const formData = {
+      allReportTrainingRegister: exportData,
+    }
+    console.log("formRelate: ", formData);
+    return this.http.post<any>(this.url + "/reportTrainingRegister", formData);
   }
 }

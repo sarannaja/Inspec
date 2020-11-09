@@ -16,6 +16,8 @@ import { FiscalyearService } from '../services/fiscalyear.service';
 import { NotofyService } from '../services/notofy.service';
 import { SideService } from '../services/side.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { LogService } from '../services/log.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 // import { SecurityContext } from '@angular/compiler/src/core';
 
 @Component({
@@ -126,7 +128,8 @@ export class UserComponent implements OnInit {
   height: number = window.innerHeight;
   mobileWidth: number = 900;
   user9proIndex: any = null
-
+  username:any;
+  userid:any;
   fiscalYearId: any;
   date: any = { date: { year: (new Date()).getFullYear(), month: (new Date()).getMonth() + 1, day: (new Date()).getDate() } };
   title: string = 'รายชิ่อจังหวัด';
@@ -148,6 +151,8 @@ export class UserComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private sideservice: SideService,
     private sanitizer: DomSanitizer,
+    private logService: LogService,
+    private authorize: AuthorizeService,
 
     @Inject('BASE_URL') baseUrl: string
   ) {
@@ -224,9 +229,10 @@ export class UserComponent implements OnInit {
     //<!-- END สิทธิ์การใช้งานจะแสดงในกรณีเปลี่ยนสิทธิ์ -->
   }
 
-  openModal(template: TemplateRef<any>, IDdelete, UserName, Pw) {
+  openModal(template: TemplateRef<any>=null, IDdelete=null, UserName=null, Pw=null) {
     this.addForm.reset()
     this.submitted = false;
+    this.username = UserName;
     this.id = IDdelete;//ID สำหรับลบ
     this.addForm.patchValue({
       Role_id: this.roleId,
@@ -317,6 +323,10 @@ export class UserComponent implements OnInit {
   }
 
   getUser() {
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+    })
     this.userService.getuserdata(this.roleId)
       .subscribe(result => {
         this.resultuser = result;
@@ -474,15 +484,15 @@ export class UserComponent implements OnInit {
 
     this.submitted = true;
     if (this.addForm.invalid) {
-      console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? Object.keys(this.addForm.controls)[index] : false }), Object.keys(this.addForm.controls)[11])
+      //console.log('mmm', Object.values(this.addForm.controls).map((result, index) => { return result.status == "INVALID" ? Object.keys(this.addForm.controls)[index] : false }), Object.keys(this.addForm.controls)[11])
       return;
     }
 
     this.addForm.patchValue({
       Autocreateuser: this.Autocreateuser,
     })
-    this.userService.addUser(this.addForm.value, this.addForm.value.files, this.roleId)
-      .subscribe(response => {
+    this.userService.addUser(this.addForm.value, this.addForm.value.files, this.roleId).subscribe(response => {
+        this.logService.addLog(this.userid,'Users','เพิ่ม',response.title,response.id).subscribe();
         this.addForm.reset()
         this.modalRef.hide()
         this.loading = false
@@ -503,6 +513,7 @@ export class UserComponent implements OnInit {
     })
     this.userService.editprofile(this.addForm.value, this.addForm.value.files, null, this.id)
       .subscribe(response => {
+        this.logService.addLog(this.userid,'Users','แก้ไข',response.title,response.id).subscribe();
         // this.userService.changepassword(this.id)
         // .subscribe(result=>{
         //   console.log('result changepassword' , result);
@@ -520,6 +531,7 @@ export class UserComponent implements OnInit {
   //ลบ user
   deleteuser(value) {
     this.userService.deleteUser(value).subscribe(response => {
+      this.logService.addLog(this.userid,'Users','ลบ',this.username,this.id).subscribe();
       this.modalRef.hide()
       this.loading = false
       this.getUser()

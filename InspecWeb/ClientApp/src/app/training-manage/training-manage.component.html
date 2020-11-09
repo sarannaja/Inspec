@@ -24,6 +24,7 @@
                           <th width="5%">#</th>
                           <th width="45%">เมนูการจัดการ</th>
                           <th width="40%" class="text-center">ใช้งาน</th>
+                          <!-- <th width="10%" class="text-center">การดำเนินการ</th> -->
                           <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
                       </tr>
                   </thead>
@@ -34,6 +35,7 @@
                             อัพโหลดเอกสารเพิ่มเติม
                           </td>
                           <td class="text-center">( ทุกช่วงเวลา )</td>
+                          <td class="text-center"></td>
                           <td>
                               <i class="align-middle mr-2 fas fa-fw fa-search pointer"
                                   (click)="GotoUploadDocument()"></i>
@@ -46,6 +48,12 @@
                             กำหนดคุณสมบัติ
                         </td> 
                         <td class="text-center">( ช่วงการสร้างหลักสูตร )</td>
+                        <!-- <td class="text-center">
+                            <ng-container *ngIf="datacondition > 0;">
+                                <i class="align-middle mr-2 fas fa-fw fa-star" style="color: #cdba32;" title="เรียบร้อย"></i>
+                                
+                            </ng-container>
+                        </td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดคุณสมบัติ"
                             (click)="gotoConditionTraining()"></i>
@@ -58,6 +66,12 @@
                             ตรวจสอบคุณสมบัติผู้สมัคร
                         </td> 
                         <td class="text-center">( หลังสิ้นสุดการสมัครอบรม )</td>
+                        <!-- <td class="text-center">
+                            <ng-container *ngIf="dataconditionregis > 0;">
+                                <i class="align-middle mr-2 fas fa-fw fa-star" style="color: #cdba32;" title="เรียบร้อย"></i>
+                                
+                            </ng-container>
+                        </td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="ตรวจสอบคุณสมบัติผู้สมัคร"
                             (click)="gotoRegisterListTraining()"></i>
@@ -70,6 +84,12 @@
                             กำหนดช่วงเวลาอบรม
                         </td> 
                         <td class="text-center">( ก่อนเริ่มการอบรม )</td>
+                        <!-- <td class="text-center">
+                            <ng-container *ngIf="datatrainingProgramLogin > 0;">
+                                <i class="align-middle mr-2 fas fa-fw fa-star" style="color: #cdba32;" title="เรียบร้อย"></i>
+                                
+                            </ng-container>
+                        </td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="กำหนดช่วงเวลาอบรม"
                             (click)="gotoProgramLoginTraining()"></i>
@@ -82,6 +102,7 @@
                             ออกรหัสเข้าอบรม
                         </td> 
                         <td class="text-center">( ก่อนเริ่มการอบรม )</td>
+                        <!-- <td class="text-center"></td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="ออกรหัสเข้าอบรม"
                             (click)="gotoIDCodeTraining()"></i>
@@ -94,6 +115,7 @@
                             บัตรผู้ร่วมอบรม
                         </td> 
                         <td class="text-center">( หลังออกรหัสเข้าอบรม )</td>
+                        <!-- <td class="text-center"></td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="บัตรผู้ร่วมอบรม"
                             (click)="gotoNamePlateTraining()"></i>
@@ -106,6 +128,7 @@
                             จัดกลุ่มผู้สมัคร
                         </td> 
                         <td class="text-center">( ก่อนเริ่มการอบรม )</td>
+                        <!-- <td class="text-center"></td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="จัดกลุ่มผู้สมัคร"
                             (click)="gotoGroupTraining()"></i>
@@ -118,6 +141,7 @@
                             แบบประเมินหลักสูตรวิทยากร
                         </td> 
                         <td class="text-center">( หลังการอบรมเสร็จสิ้น )</td>
+                        <!-- <td class="text-center"></td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="บัตรผู้ร่วมอบรม"
                             (click)="gotoLecturerListTraining()"></i>
@@ -130,6 +154,7 @@
                             รายชื่อผู้เข้าร่วมอบรม
                         </td> 
                         <td class="text-center">( หลังการอบรมเสร็จสิ้น )</td>
+                        <!-- <td class="text-center"></td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="รายชื่อผู้เข้าร่วมอบรม"
                             (click)="gotogLoginListTraining()"></i>
@@ -142,6 +167,7 @@
                             รายงาน
                         </td> 
                         <td class="text-center">( หลังการอบรมเสร็จสิ้น )</td>
+                        <!-- <td class="text-center"></td> -->
                         <td>
                             <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="รายงาน"
                             (click)="gotogReportTraining()"></i>

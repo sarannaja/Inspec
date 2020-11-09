@@ -10,6 +10,7 @@ import { ExportReportService } from '../services/export-report.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NotificationService } from '../services/notification.service';
 import { NotofyService } from '../services/notofy.service';
+import { TypeexamibationplanService } from '../services/typeexamibationplan.service';
 
 @Component({
   selector: 'app-report-import',
@@ -43,6 +44,7 @@ export class ReportImportComponent implements OnInit {
   form: FormGroup;
   departmentId: any;
   submitted: any;
+  resulttypeexamibationplan: any[] = [];
 
   constructor(
     private router: Router,
@@ -57,6 +59,7 @@ export class ReportImportComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string,
     private _NotofyService: NotofyService,
     private fb: FormBuilder,
+    private typeexamibationplanservice: TypeexamibationplanService,
   ) {
     this.url = baseUrl,
       this.downloadUrl = baseUrl + '/Uploads';
@@ -105,6 +108,7 @@ export class ReportImportComponent implements OnInit {
     this.getImportedReport();
     this.getCentralPolicyEvent();
     this.getImportFiscalYears();
+    this.getTypeexamibationplan();
 
     this.reportForm = this.fb.group({
       centralPolicyEvent: new FormControl(null, [Validators.required]),
@@ -318,6 +322,12 @@ export class ReportImportComponent implements OnInit {
     });
     console.log("fff:", this.form.value.files)
     this.form.get('files').updateValueAndValidity()
+  }
+
+  getTypeexamibationplan() {
+    this.typeexamibationplanservice.getdata().subscribe(result => {
+      this.resulttypeexamibationplan = result
+    })
   }
 
 }

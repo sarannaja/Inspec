@@ -33,7 +33,6 @@ getrequestorderanswereddata(id): Observable<any> {
 
 //สำหรับเพิ่มข้อคำร้อง
 addrequestorder(requestorderData, file: FileList,Commanded_by) {
-  //alert(2);
   const formData = new FormData();
   formData.append('Commanded_date', requestorderData.Commanded_date.date.year + '-' + requestorderData.Commanded_date.date.month + '-' + requestorderData.Commanded_date.date.day);
   formData.append('Commanded_by', Commanded_by);
@@ -78,7 +77,6 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
 
   //สำหรับยกเลิก
   cancelrequestorder(requestorderData,id) {
-    //alert(2);
     const formData = new FormData();
     formData.append('id', id);
     formData.append('Canceldetail', requestorderData.canceldetail);
@@ -87,7 +85,6 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
 
   //สำหรับรับทราบ
   gotitrequestorder(id,RequestOrderAnswerId) {
-      //alert(2);
       const formData = new FormData();
       formData.append('id', id);
       formData.append('RequestOrderAnswerId', RequestOrderAnswerId);
@@ -96,7 +93,6 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
 
       //สำหรับตอบกลับ
     answerrequestorder(requestorderData, file: FileList, idrequestderanswer) {
-   // alert(2);
     const formData = new FormData();
     formData.append('RequestOrderAnswerId', idrequestderanswer);
     formData.append('Answerdetail', requestorderData.Answerdetail);
@@ -113,8 +109,7 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
   }
    
   getrequest1(Id) {
-    console.log('Id in service',Id);
-    // alert(Id);
+    //alert(2);
     var boby ={
       Id 
     }
@@ -122,8 +117,6 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
     
   }
   getrequest3(Id) {
-    console.log('Id in service',Id);
-    // alert(Id);
     var boby ={
       Id 
     }
@@ -131,7 +124,6 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
   }
 
   getrequest2(id,userId){
-    alert(2);
     return this.http.get<any>(this.url + "exportrequest2/" + id + "/" + userId)
   }
 

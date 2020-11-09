@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
 import { SectorService } from '../services/sector.service';
+import { LogService } from '../services/log.service';
+import { UserService } from '../services/user.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 
 @Component({
@@ -18,15 +21,20 @@ export class SectorComponent implements OnInit {
     modalRef:BsModalRef;
     Form : FormGroup
     loading = false;
+    submitted = false;
     dtOptions: DataTables.Settings = {};
-
+    userid :any;
+    role_id :any;
   constructor(
     private modalService: BsModalService, 
     private fb: FormBuilder, 
     private sectorservice: SectorService,
-    private _NotofyService: NotofyService,) { }
+    private _NotofyService: NotofyService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private logService: LogService,
+    ) { }
   ngOnInit() {
-
     this.dtOptions = {
       pagingType: 'full_numbers',
       "language": {
@@ -43,9 +51,7 @@ export class SectorComponent implements OnInit {
         },
       }
     };
-
     this.getdata();
-
     this.Form = this.fb.group({
       Name: new FormControl(null, [Validators.required]),
     })
@@ -53,16 +59,25 @@ export class SectorComponent implements OnInit {
   }
 
   getdata(){
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
+    })
     this.sectorservice.getdata().subscribe(result=>{
       this.data = result
       this.loading = true;
 
     })
   }
-  openModal(template: TemplateRef<any>,id,name) {
-
+  openModal(template: TemplateRef<any>=null,id=null,name=null) {
     this.Form.reset()
+    this.submitted = false; 
     this.delid = id;
+    this.name = name;
     this.Form.patchValue({
       Name: name,
     })
@@ -70,7 +85,12 @@ export class SectorComponent implements OnInit {
   }
 
   store(value) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.sectorservice.store(value).subscribe(response => {
+      this.logService.addLog(this.userid,'Sectors','เพิ่ม',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -80,6 +100,7 @@ export class SectorComponent implements OnInit {
   }
   delete(delid) {
     this.sectorservice.delete(delid).subscribe(response => {
+      this.logService.addLog(this.userid,'Sectors','ลบ',this.name,delid).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -89,7 +110,12 @@ export class SectorComponent implements OnInit {
   }
 
   edit(value,delid) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.sectorservice.update(value,delid).subscribe(response => {
+      this.logService.addLog(this.userid,'Sectors','แก้ไข',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -97,5 +123,5 @@ export class SectorComponent implements OnInit {
       this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
-
+  get f() { return this.Form.controls; }
 }

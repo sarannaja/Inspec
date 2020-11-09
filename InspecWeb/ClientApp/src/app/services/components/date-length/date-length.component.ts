@@ -39,7 +39,7 @@ export class DateLengthComponent implements OnInit, AfterContentInit, AfterConte
     this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
   }
 
-  startdate(event, i) {
+  startdate(event=null, i=null) {
     this.end_date ? this.checkStarttoResetEndDate(i) : null
     this.start_date = event
     this.disableDate_i(event, i)

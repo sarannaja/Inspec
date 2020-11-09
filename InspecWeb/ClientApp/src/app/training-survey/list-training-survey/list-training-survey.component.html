@@ -54,9 +54,9 @@
                           <td class="">{{ item.createdAt | thaidate:'short'}}</td>
                           <td>
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                  (click)="editModal(modaleditTrainingSurvey, item.id, item.name, item.surveytype)"></i>
+                                  (click)="editModal(modaleditTrainingSurvey, item.id, item.name, item.surveyType)"></i>
                               <i class="align-middle mr-2 fas fa-fw fa-trash pointer"
-                                  (click)="openModal(modaldeleteTrainingSurvey, item.id)"></i>
+                                  (click)="editModal(modaldeleteTrainingSurvey, item.id, item.name, item.surveyType)"></i>
                           </td>
                       </tr>
                   </tbody>
@@ -82,10 +82,10 @@
                 <div class="form-group">
                     <label for="test" class="form-label">ประเภทวัดผลประเมิน</label>
                     <select class="form-control" formControlName="surveytype">
-                        <option value="null">--กรุณาเลือกประเภทวัดผลประเมิน--</option>
-                        <option value="1">ความพอใจ</option>
-                        <option value="2">คำถามปลายเปิด</option>
-                        <option value="3">ใช่ หรือ ไม่</option>
+                        <option value=null>--กรุณาเลือกประเภทวัดผลประเมิน--</option>
+                        <option value=1>ความพอใจ</option>
+                        <option value=2>คำถามปลายเปิด</option>
+                        <option value=3>ใช่ หรือ ไม่</option>
                     </select>
                     
                 </div>
@@ -119,7 +119,7 @@
             <p style="font-size: medium; color: #545454;">
                 คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
             </p>
-            <button type="button" class="btn btn-primary btnMargin" (click)="deleteTrainingSurvey(delid)">
+            <button type="button" class="btn btn-primary btnMargin" (click)="deleteTrainingSurvey()">
                 ใช่
             </button>
             <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
@@ -133,7 +133,7 @@
     <!-- BEGIN primary modal -->
     <ng-template #modaleditTrainingSurvey class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="EditForm" (ngSubmit)="editTrainingSurvey(EditForm.value,delid)">
+        <form [formGroup]="EditForm" (ngSubmit)="editTrainingSurvey(EditForm.value)">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">แก้ไขหัวข้อวัดผลประเมิน</h5>
@@ -146,10 +146,10 @@
                     <div class="form-group">
                         <label for="test" class="form-label">ประเภทวัดผลประเมิน</label>
                         <select class="form-control" formControlName="surveytype">
-                            <option value="null">--กรุณาเลือกประเภทวัดผลประเมิน--</option>
-                            <option value="1">ความพอใจ</option>
-                            <option value="2">คำถามปลายเปิด</option>
-                            <option value="3">ใช่ หรือ ไม่</option>
+                            <option value=null>--กรุณาเลือกประเภทวัดผลประเมิน--</option>
+                            <option value=1>ความพอใจ</option>
+                            <option value=2>คำถามปลายเปิด</option>
+                            <option value=3>ใช่ หรือ ไม่</option>
                         </select>
                         
                     </div>

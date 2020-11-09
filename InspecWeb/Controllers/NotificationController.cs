@@ -8,17 +8,22 @@ using InspecWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using InspecWeb.Controllers;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace InspecWeb.Controllers
 {
+
     public class NotificationController : Controller
     {
+        private ExternalOrganizationController _externalOrganizationController;
         private readonly ApplicationDbContext _context;
 
-        public NotificationController(ApplicationDbContext context)
+        public NotificationController(ApplicationDbContext context, ExternalOrganizationController externalOrganizationController)
         {
             _context = context;
+            _externalOrganizationController = externalOrganizationController;
         }
 
         [HttpGet("api/[controller]/[action]/{id}")]
@@ -56,11 +61,14 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("Status : " + Status);
 
+            var CentralPolicyData = _context.CentralPolicies.Where(m => m.Id == CentralPolicyId).FirstOrDefault();
+
             var date = DateTime.Now;
             var notificationdata = new Notification(); //save ลง base แจ้งเตือน
 
             if (Status == 1)
             {
+
                 _context.Notifications.Add(new Notification
                 {
                     UserID = UserId,
@@ -72,6 +80,8 @@ namespace InspecWeb.Controllers
                     xe = xe
                 });
                 _context.SaveChanges();
+
+                _externalOrganizationController.SendNotification(UserId, "มีคำเชิญ" + CentralPolicyData.Title);
 
             }
 
@@ -112,8 +122,8 @@ namespace InspecWeb.Controllers
                         xe = xe
                     });
                     _context.SaveChanges();
+                    _externalOrganizationController.SendNotification(item.UserId, "มีประเด็น/คำถาม(ภาคประชาชน)" + CentralPolicyData.Title);
                 }
-
 
             }
             if (Status == 2 || Status == 6)
@@ -136,6 +146,15 @@ namespace InspecWeb.Controllers
                     xe = xe
                 });
                 _context.SaveChanges();
+
+                if (Status == 2)
+                {
+                    _externalOrganizationController.SendNotification(UserId, "ตอบรับคำเชิญ" + CentralPolicyData.Title);
+                }
+                else if (Status == 6)
+                {
+                    _externalOrganizationController.SendNotification(UserId, "ตอบประเด็นคำถามเรียบร้อย(ผู้ตรวจราชการ)" + CentralPolicyData.Title);
+                }
             }
 
             //if (Status == 3 || Status == 4)
@@ -183,7 +202,9 @@ namespace InspecWeb.Controllers
                         xe = xe
                     });
                     _context.SaveChanges();
+                    _externalOrganizationController.SendNotification(item.UserID, "ผู้ตรวจกำลังจะตรวจ" + CentralPolicyData.Title);
                 }
+
             }
 
             if (Status == 4)
@@ -227,7 +248,9 @@ namespace InspecWeb.Controllers
                                 xe = xe
                             });
                             _context.SaveChanges();
+                            _externalOrganizationController.SendNotification(item.Id, "มีประเด็น/คำถาม(หน่วยรับตรวจ)" + CentralPolicyData.Title);
                         }
+
                     }
 
                 }
@@ -250,6 +273,8 @@ namespace InspecWeb.Controllers
                     xe = xe
                 });
                 _context.SaveChanges();
+
+                _externalOrganizationController.SendNotification(UserId, "สมุดตรวจอีเล็กทรอนิกส์" + CentralPolicyData.Title);
             }
 
             // แจ้งเตือนผู้ตรวจเขต เมื่อผู้ว่าราชการจังหวัดหรือ หัวหน้าส่วนจังหวัด รับทราบรายการสมุดตรวจ
@@ -270,6 +295,7 @@ namespace InspecWeb.Controllers
                     xe = xe
                 });
                 _context.SaveChanges();
+                _externalOrganizationController.SendNotification(UserId, "ผู้ว่าราชการจังหวัดลงลายมือชื่อเรียบร้อย" + CentralPolicyData.Title);
             }
             //<!-- แจ้งข้อสั่งการ -->
             if (Status == 10)
@@ -297,7 +323,7 @@ namespace InspecWeb.Controllers
                     });
 
                     _context.SaveChanges();
-
+                    _externalOrganizationController.SendNotification(item.UserID, "ข้อสั่งการ" + title);
                 }
             }
 
@@ -324,7 +350,7 @@ namespace InspecWeb.Controllers
                 });
 
                 _context.SaveChanges();
-
+                _externalOrganizationController.SendNotification(ExecutiveOrderdata.UserID, "รับทราบข้อสั่งการ" + title);
 
             }
             //<!-- แจ้งเรื่องถึงผู้ตรวจ -->
@@ -351,7 +377,7 @@ namespace InspecWeb.Controllers
                     });
 
                     _context.SaveChanges();
-
+                    _externalOrganizationController.SendNotification(item.UserID, "แจ้งคำร้อง" + title);
                 }
             }
 
@@ -376,7 +402,7 @@ namespace InspecWeb.Controllers
                 });
 
                 _context.SaveChanges();
-
+                _externalOrganizationController.SendNotification(RequestOrderdata.UserID, "รับทราบแจ้งคำร้อง" + title);
             }
 
             if (Status == 14)
@@ -451,6 +477,7 @@ namespace InspecWeb.Controllers
                     });
 
                     _context.SaveChanges();
+                    _externalOrganizationController.SendNotification(item.UserId, "มีคำเชิญ" + CentralPolicyData.Title);
                 }
             }
 
@@ -474,6 +501,7 @@ namespace InspecWeb.Controllers
                     xe = xe
                 });
                 _context.SaveChanges();
+                _externalOrganizationController.SendNotification(UserId, "สมุดตรวจอีเล็กทรอนิกส์" + CentralPolicyData.Title);
 
                 var userProvinceRole5 = _context.Users
                    .Where(x => x.Role_id == 5 && x.UserProvince.Any(x => x.ProvinceId == ProvinceId))
@@ -490,7 +518,7 @@ namespace InspecWeb.Controllers
                     xe = xe
                 });
                 _context.SaveChanges();
-
+                _externalOrganizationController.SendNotification(UserId, "สมุดตรวจอีเล็กทรอนิกส์" + CentralPolicyData.Title);
                 System.Console.WriteLine("Success Noti 17");
             }
 
@@ -535,6 +563,7 @@ namespace InspecWeb.Controllers
                         xe = xe
                     });
                     _context.SaveChanges();
+                    _externalOrganizationController.SendNotification(UserId, "สมุดตรวจอีเล็กทรอนิกส์" + CentralPolicyData.Title);
                     System.Console.WriteLine("Success Noti 18");
                 }
             }
@@ -559,6 +588,8 @@ namespace InspecWeb.Controllers
                 });
 
                 _context.SaveChanges();
+
+                _externalOrganizationController.SendNotification(UserId, "ถูกมอบหมาย" + CentralPolicyData.Title);
             }
 
             if (Status == 20)
@@ -575,7 +606,7 @@ namespace InspecWeb.Controllers
                 });
 
                 _context.SaveChanges();
-
+                _externalOrganizationController.SendNotification(UserId, "รายงานผลการตรวจราชการ" + CentralPolicyData.Title);
             }
 
             if (Status == 9)
@@ -598,6 +629,8 @@ namespace InspecWeb.Controllers
                 });
 
                 _context.SaveChanges();
+
+                _externalOrganizationController.SendNotification(UserId, "ข้อสั่งการในรายงานผลการตรวจราชการ" + CentralPolicyData.Title);
             }
 
 
@@ -642,6 +675,8 @@ namespace InspecWeb.Controllers
                                 xe = xe
                             });
                             _context.SaveChanges();
+
+                            _externalOrganizationController.SendNotification(item.Id, "ข้อเสนอแนะ" + CentralPolicyData.Title);
                         }
                     }
 

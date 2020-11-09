@@ -348,6 +348,7 @@ namespace InspecWeb.Controllers
         public IActionResult CreateReport2([FromBody] ExportReportViewModel model)
         {
             var exportData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Where(x => x.Id == model.reportId)
                 .FirstOrDefault();
 
@@ -389,7 +390,7 @@ namespace InspecWeb.Controllers
 
                         // Add a title
 
-                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType + ")" + " : " + exportData.ReportType);
+                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
                         reportType.FontSize(16d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
@@ -421,8 +422,15 @@ namespace InspecWeb.Controllers
 
                         var region = document.InsertParagraph("เขตตรวจราชการที่: " + model.reportData2[i].region + "(จังหวัด: " + model.reportData2[i].province + ")");
                         region.Alignment = Alignment.center;
-                        region.SpacingAfter(30d);
+                        region.SpacingAfter(10d);
                         region.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingAfter(30d);
+                        printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -587,8 +595,15 @@ namespace InspecWeb.Controllers
 
                         var region = document.InsertParagraph("เขตตรวจราชการที่: " + model.reportData2[i].region + "(จังหวัด: " + model.reportData2[i].province + ")");
                         region.Alignment = Alignment.center;
-                        region.SpacingAfter(30d);
+                        region.SpacingAfter(10d);
                         region.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingAfter(30d);
+                        printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -753,8 +768,15 @@ namespace InspecWeb.Controllers
 
                         var region = document.InsertParagraph("เขตตรวจราชการที่: " + model.reportData2[i].region + "(จังหวัด: " + model.reportData2[i].province + ")");
                         region.Alignment = Alignment.center;
-                        region.SpacingAfter(30d);
+                        region.SpacingAfter(10d);
                         region.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingAfter(30d);
+                        printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -924,8 +946,15 @@ namespace InspecWeb.Controllers
 
                         var year = document.InsertParagraph("รอบการตรวจราชการที่: " + exportData.InspectionRound + " ปีงบประมาณ: พ.ศ. " + model.reportData2[i].fiscalYear);
                         year.Alignment = Alignment.center;
-                        year.SpacingAfter(30d);
+                        year.SpacingAfter(10d);
                         year.FontSize(16d);
+
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingAfter(30d);
+                        printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -1112,6 +1141,13 @@ namespace InspecWeb.Controllers
                         region.SpacingAfter(15d);
                         region.FontSize(16d);
 
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        printReport.Alignment = Alignment.center;
+                        printReport.SpacingBefore(15d);
+                        printReport.FontSize(16d);
+
                         var monitorTopic = document.InsertParagraph("หัวข้อการตรวจติดตาม: " + exportData.MonitoringTopics);
                         monitorTopic.SpacingBefore(15d);
                         monitorTopic.FontSize(16d);
@@ -1240,6 +1276,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetImportedReport(string userId)
         {
             var importData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.InspectionPlanEvent)
@@ -1263,6 +1300,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetImportedReportById(long reportId)
         {
             var importData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
                 .Include(x => x.FiscalYear)
@@ -1315,6 +1353,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("ProvinceId: " + provinceId);
             var commanderReport = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1408,16 +1447,19 @@ namespace InspecWeb.Controllers
         [HttpPost("addImportReport")]
         public async Task<IActionResult> PostElectronicBookToProvince([FromForm] ImportReportViewModel model)
         {
+            System.Console.WriteLine("in1");
             var zoneData = _context.Provinces
                 .Where(x => x.Id == model.provinceId)
                 .FirstOrDefault();
+
+            System.Console.WriteLine("in2");
 
             var importReportData = new ImportReport
             {
                 FiscalYearId = model.fiscalYearId,
                 RegionId = model.regionId,
                 ProvinceId = model.provinceId,
-                CentralPolicyType = model.centralPolicyType,
+                CentralPolicyTypeId = model.centralPolicyTypeId,
                 ReportType = model.reportType,
                 InspectionRound = model.inspectionRound,
                 MonitoringTopics = model.monitoringTopics,
@@ -1429,8 +1471,12 @@ namespace InspecWeb.Controllers
                 Status = "ร่าง",
                 DepartmentId = model.DepartmentId,
                 ZoneId = zoneData.SectorId,
+                Active = 0
             };
+
+            System.Console.WriteLine("in3");
             _context.ImportReports.Add(importReportData);
+            System.Console.WriteLine("in4");
             _context.SaveChanges();
             System.Console.WriteLine("finished.");
 
@@ -1552,8 +1598,8 @@ namespace InspecWeb.Controllers
                 importReport.FiscalYearId = model.fiscalYearId;
                 importReport.RegionId = model.regionId;
                 importReport.ProvinceId = model.provinceId;
-                importReport.CentralPolicyType = model.centralPolicyType;
-                importReport.ReportType = model.reportType;
+                importReport.CentralPolicyTypeId = model.centralPolicyTypeId;
+                importReport.ReportType= model.reportType;
                 importReport.InspectionRound = model.inspectionRound;
                 importReport.MonitoringTopics = model.monitoringTopics;
                 importReport.DetailReport = model.detailReport;
@@ -1654,6 +1700,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllImportedReport()
         {
             var importData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.InspectionPlanEvent)
@@ -1690,6 +1737,18 @@ namespace InspecWeb.Controllers
             return Ok(new { Sectors });
         }
 
+        [HttpGet("getPresident")]
+        public IActionResult GetPresident()
+        {
+            var Presidents = _context.Users
+            .Include(m => m.UserRegion)
+            .Where(m => m.Role_id == 8)
+                .ToList();
+
+            return Ok(new { Presidents });
+        }
+
+
         [HttpGet("getRegions")]
         public IActionResult GetRegions()
         {
@@ -1712,6 +1771,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByDepartment(long departmentId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1734,6 +1794,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByRegion(long regionId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1756,6 +1817,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByZone(long zoneId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1779,6 +1841,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByProvince(long provinceId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -1802,6 +1865,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("StartDate: " + model.startDate.Date);
             var Reports = _context.ImportReports
+                .Include(x => x.CentralPolicyType) 
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
@@ -2175,6 +2239,31 @@ namespace InspecWeb.Controllers
         [HttpPost("getCelendarReportById")]
         public IActionResult GetCelendarReportById([FromBody] ExportCalendarViewModel model)
         {
+            // System.Console.WriteLine("model.provinceId" + (model.provinceId == 1).ToString());
+            // System.Console.WriteLine("model.departmentId" + model.departmentId);
+
+            if (model.provinceId == 0 && model.departmentId == 0 && model.peopleId == "0" && model.regionId == 0) // รายวัน
+            {
+                var calendar = _context.CentralPolicyEvents
+                        .Include(m => m.InspectionPlanEvent)
+                        .ThenInclude(m => m.CentralPolicyUsers)
+                        .ThenInclude(m => m.User)
+                        .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
+                                         .Select(x => new
+                                         {
+                                             centralPolicyId = x.CentralPolicyId,
+                                             startDate = x.StartDate,
+                                             title = x.CentralPolicy.Title,
+                                             status = x.InspectionPlanEvent.Status,
+                                             province = x.InspectionPlanEvent.Province.Name,
+                                             namecreatedby = x.InspectionPlanEvent.User.Prefix + " " + x.InspectionPlanEvent.User.Name,
+                                             phonenumbercreatedby = x.InspectionPlanEvent.User.PhoneNumber,
+                                             nameinvited = x.InspectionPlanEvent.CentralPolicyUsers
+                                         })
+                        .ToList();
+                return Ok(calendar);
+            }
+
             if (model.provinceId == 0) //รายเขต
             {
                 var regiondata = _context.Regions
@@ -2315,6 +2404,7 @@ namespace InspecWeb.Controllers
                         .ThenInclude(m => m.User)
                         //.Include(m => m.InspectionPlanEvent)
                         //.ThenInclude(m => m.Province)
+                        .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
                         .Where(x => x.StartDate <= model.date && x.EndDate >= model.date)
                                          .Select(x => new
@@ -2341,8 +2431,9 @@ namespace InspecWeb.Controllers
                         .Include(m => m.InspectionPlanEvent)
                         .ThenInclude(m => m.CentralPolicyUsers)
                         .ThenInclude(m => m.User)
-                        //.Include(m => m.InspectionPlanEvent)
-                        //.ThenInclude(m => m.Province)
+                                 //.Include(m => m.InspectionPlanEvent)
+                                 //.ThenInclude(m => m.Province)
+                                 .Where(m => m.InspectionPlanEvent.ProvinceId == model.provinceId)
                         .Where(m => m.InspectionPlanEvent.ProvincialDepartmentIdCreatedBy == model.departmentId)
                                          .Select(x => new
                                          {
@@ -2430,6 +2521,72 @@ namespace InspecWeb.Controllers
             var filePath = _environment.WebRootPath + "/Uploads/";
             var filename = "กำหนดการตรวจราชการ " + DateTime.Now.ToString("dd MM yyyy") + ".docx";
             var createfile = filePath + filename;
+
+            if (model.departmentId == 0 && model.provinceId == 0 && model.peopleId == "0" && model.regionId == 0)
+            {
+                using (DocX document = DocX.Create(createfile))
+                {
+                    // Add a title
+                    document.PageLayout.Orientation = Orientation.Landscape;
+                    var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายวัน");
+                    reportType.FontSize(16d);
+                    reportType.SpacingBefore(15d);
+                    reportType.SpacingAfter(15d);
+                    reportType.Bold();
+                    reportType.Alignment = Alignment.center;
+
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy");
+                    var year = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    year.Alignment = Alignment.center;
+
+                    int dataCount = 0;
+                    dataCount = model.reportCalendarData.Count();
+                    dataCount += 1;
+                    System.Console.WriteLine("Data Count: " + dataCount);
+                    // Add a table in a document of 1 row and 3 columns.
+                    var columnWidths = new float[] { 35f, 100f, 100f, 100f, 100f, 100f, 100f, 200f };
+                    var t = document.InsertTable(dataCount, columnWidths.Length);
+
+                    // Set the table's column width and background 
+                    t.SetWidths(columnWidths);
+                    t.AutoFit = AutoFit.Contents;
+
+                    var row = t.Rows.First();
+
+                    // Fill in the columns of the first row in the table.
+
+                    row.Cells[0].Paragraphs.First().Append("ลำดับที่");
+                    row.Cells[1].Paragraphs.First().Append("วัน/เดือน/ปี");
+                    row.Cells[2].Paragraphs.First().Append("จังหวัด");
+                    row.Cells[3].Paragraphs.First().Append("เรื่อง");
+                    row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
+                    row.Cells[5].Paragraphs.First().Append("หน่วยงาน/ผต.นร./ผต.กท.");
+                    row.Cells[6].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    row.Cells[7].Paragraphs.First().Append("ผู้เข้าร่วม");
+                    //row.Cells[8].Paragraphs.First().Append("หมายเลขติดต่อ");
+                    //row.Cells[9].Paragraphs.First().Append("สถานะการเข้าร่วม");
+                    // Add rows in the table.
+                    int j = 0;
+                    for (int k = 0; k < model.reportCalendarData.Count(); k++)
+                    {
+                        j += 1;
+
+                        t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
+                        t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
+                        t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString());
+                        t.Rows[j].Cells[3].Paragraphs[0].Append(model.reportCalendarData[k].title.ToString());
+                        t.Rows[j].Cells[4].Paragraphs[0].Append(model.reportCalendarData[k].status.ToString());
+                        t.Rows[j].Cells[5].Paragraphs[0].Append(model.reportCalendarData[k].namecreatedby.ToString());
+                        t.Rows[j].Cells[6].Paragraphs[0].Append(model.reportCalendarData[k].phonenumbercreatedby.ToString());
+                        t.Rows[j].Cells[7].Paragraphs[0].Append(model.reportCalendarData[k].nameinvited.ToString());
+                    }
+
+                    document.Save();
+                    Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+                    return Ok(new { data = filename });
+                }
+            }
 
             if (model.provinceId == 0)
             {
@@ -3109,6 +3266,269 @@ namespace InspecWeb.Controllers
                  })
                  .ToList();
             return Ok(calendar);
+        }
+
+        [HttpPut("changeActive")]
+        public IActionResult changeActive([FromForm] ExportReportViewModel model)
+        {
+
+
+            var data = _context.ImportReports.Find(model.reportId);
+            if (data.Active == 0)
+            {
+                {
+                    data.Active = 1;
+                };
+            }
+            else
+            {
+                {
+                    data.Active = 0;
+                };
+            }
+
+
+            _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(new { Active = data.Active });
+        }
+
+        [HttpGet("getAllActiveImportedReport")]
+        public IActionResult getAllActiveImportedReport()
+        {
+            var importData = _context.ImportReports
+                .Include(x => x.CentralPolicyType)
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+
+                .Include(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+                .Where(x => x.Status == "ส่งแล้ว" && x.Active == 1)
+                .ToList();
+
+            return Ok(new { importData });
+        }
+
+        [HttpPost("reportRateLogin")]
+        public IActionResult ReportRateLogin([FromBody] ExportReportViewModel model)
+        {
+
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/Uploads/";
+            var filename = "รายชื่อผู้เข้ารับการฝึกอบรม" + ".docx";
+            var createfile = filePath + filename;
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+
+            //if (exportData.ReportType == "รายเขต")
+            //{
+            System.Console.WriteLine("in Relate");
+            using (DocX document = DocX.Create(createfile))
+            {
+                document.PageLayout.Orientation = Orientation.Landscape;
+                System.Console.WriteLine("4");
+
+                var reportType = document.InsertParagraph("รายชื่อผู้เข้ารับการฝึกอบรม\nหลักสูตร" + model.trainingName + " รุ่น/ปี " + model.trainingGen + "/" + model.trainingYear);
+                reportType.FontSize(20d);
+                reportType.SpacingAfter(15d);
+                reportType.Bold();
+                reportType.Alignment = Alignment.center;
+
+                System.Console.WriteLine("7");
+
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var thDate = DateTime.Now.ToString("dd MMMM yyyy");
+
+                var year = document.InsertParagraph("วันที่ออกรายงาน: " + thDate);
+                year.Alignment = Alignment.right;
+                year.SpacingAfter(10d);
+                year.FontSize(16d);
+                System.Console.WriteLine("8");
+
+                int dataCount = 0;
+                dataCount = model.allReportRateLogin.Count();
+                dataCount += 1;
+                System.Console.WriteLine("Data Count: " + dataCount);
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 40f, 140f, 100f, 100f, 80f, 120f };
+                var t = document.InsertTable(dataCount, columnWidths.Length);
+                t.Alignment = Alignment.center;
+
+                System.Console.WriteLine("8.1");
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+                System.Console.WriteLine("9");
+
+                // Fill in the columns of the first row in the table.
+                //for (int i = 0; i < row.Cells.Count; ++i)
+                //{
+
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("ชื่อ-นามสกุล").Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("ตำแหน่ง").Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("หน่วยงาน/สังกัด").Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("หมายเลขติดต่อ").Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("สรุปผลการลงเวลา\n(ประมวลผลจากข้อมูลการลงเวลาและสรุปสถานะ)").Alignment = Alignment.center;
+
+                System.Console.WriteLine("10");
+                //}
+                // Add rows in the table.
+                int j = 0;
+                for (int k = 0; k < model.allReportRateLogin.Length; k++)
+                {
+                    j += 1;
+                    System.Console.WriteLine("10.1");
+                    var pass = "";
+                    if (model.allReportRateLogin[k].rateCourse >= 80)
+                    {
+                        pass = "ผ่าน";
+                    }
+                    else
+                    {
+                        pass = "ไม่ผ่าน";
+                    }
+
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReportRateLogin[k].name);
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReportRateLogin[k].position);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReportRateLogin[k].department);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReportRateLogin[k].phone);
+                    t.Rows[j].Cells[5].Paragraphs[0].Append("เข้าอบรม " + model.allReportRateLogin[k].count + " / " + model.allReportRateLogin[k].countCourse + "\n" + "คิดเป็น " + model.allReportRateLogin[k].rateCourse + "%" + "\n" + "สถานะ " + pass);
+                    System.Console.WriteLine("10");
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                // document.InsertSectionPageBreak();
+                //}
+
+                document.Save();
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+            }
+
+            return Ok(new { data = filename });
+        }
+
+
+        [HttpPost("reportTrainingRegister")]
+        public IActionResult ReportTrainingRegister([FromBody] ExportReportViewModel model)
+        {
+            if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/Uploads/";
+            var filename = "รายชื่อหลักสูตรการฝึกอบรมบุคลากรในระบบการตรวจราชการ" + ".docx";
+            var createfile = filePath + filename;
+            var myImageFullPath = filePath + "logo01.png";
+
+            System.Console.WriteLine("3");
+            System.Console.WriteLine("in create");
+
+            //if (exportData.ReportType == "รายเขต")
+            //{
+            System.Console.WriteLine("in Relate");
+            using (DocX document = DocX.Create(createfile))
+            {
+                document.PageLayout.Orientation = Orientation.Landscape;
+                System.Console.WriteLine("4");
+
+                var reportType = document.InsertParagraph("รายชื่อหลักสูตรการฝึกอบรมบุคลากรในระบบการตรวจราชการ");
+                reportType.FontSize(20d);
+                reportType.SpacingAfter(15d);
+                reportType.Bold();
+                reportType.Alignment = Alignment.center;
+
+                System.Console.WriteLine("7");
+
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                var thDate = DateTime.Now.ToString("dd MMMM yyyy");
+
+                var year = document.InsertParagraph("วันที่ออกรายงาน: " + thDate);
+                year.Alignment = Alignment.right;
+                year.SpacingAfter(10d);
+                year.FontSize(16d);
+                System.Console.WriteLine("8");
+
+                int dataCount = 0;
+                dataCount = model.allReportTrainingRegister.Count();
+                dataCount += 1;
+                System.Console.WriteLine("Data Count: " + dataCount);
+                // Add a table in a document of 1 row and 3 columns.
+                var columnWidths = new float[] { 40f, 55f, 120f, 180f, 80f, 90f, 45f, 45f };
+                var t = document.InsertTable(dataCount, columnWidths.Length);
+                t.Alignment = Alignment.center;
+
+                System.Console.WriteLine("8.1");
+
+                // Set the table's column width and background 
+                t.SetWidths(columnWidths);
+                t.AutoFit = AutoFit.Contents;
+
+                var row = t.Rows.First();
+                System.Console.WriteLine("9");
+
+                // Fill in the columns of the first row in the table.
+                //for (int i = 0; i < row.Cells.Count; ++i)
+                //{
+
+                row.Cells[0].Paragraphs.First().Append("ลำดับที่").Alignment = Alignment.center;
+                row.Cells[1].Paragraphs.First().Append("รุ่น/ปี	").Alignment = Alignment.center;
+                row.Cells[2].Paragraphs.First().Append("หลักสูตร").Alignment = Alignment.center;
+                row.Cells[3].Paragraphs.First().Append("รายละเอียดโครงการ").Alignment = Alignment.center;
+                row.Cells[4].Paragraphs.First().Append("กำหนดการฝึกอบรม").Alignment = Alignment.center;
+                row.Cells[5].Paragraphs.First().Append("สถานที่จัด").Alignment = Alignment.center;
+                row.Cells[6].Paragraphs.First().Append("จำนวนผู้เข้ารับการฝึกอบรม").Alignment = Alignment.center;
+                row.Cells[7].Paragraphs.First().Append("จำนวนผู้ผ่านการฝึกอบรม").Alignment = Alignment.center;
+
+                System.Console.WriteLine("10");
+                //}
+                // Add rows in the table.
+                int j = 0;
+                for (int k = 0; k < model.allReportTrainingRegister.Length; k++)
+                {
+                    j += 1;
+                    System.Console.WriteLine("10.1");
+
+                    t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString()).Alignment = Alignment.center;
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(model.allReportTrainingRegister[k].generation + "/" + model.allReportTrainingRegister[k].year).Alignment = Alignment.center;
+                    t.Rows[j].Cells[2].Paragraphs[0].Append(model.allReportTrainingRegister[k].name);
+                    t.Rows[j].Cells[3].Paragraphs[0].Append(model.allReportTrainingRegister[k].detail);
+                    t.Rows[j].Cells[4].Paragraphs[0].Append(model.allReportTrainingRegister[k].start.ToShortDateString() + " - " + model.allReportTrainingRegister[k].end.ToShortDateString());
+                    t.Rows[j].Cells[5].Paragraphs[0].Append(model.allReportTrainingRegister[k].location);
+                    t.Rows[j].Cells[6].Paragraphs[0].Append(model.allReportTrainingRegister[k].count.ToString()).Alignment = Alignment.center;
+                    t.Rows[j].Cells[7].Paragraphs[0].Append(model.allReportTrainingRegister[k].approveCount.ToString()).Alignment = Alignment.center;
+                    System.Console.WriteLine("10");
+                }
+
+                // Set a blank border for the table's top/bottom borders.
+                var blankBorder = new Border(BorderStyle.Tcbs_none, 0, 0, Color.White);
+                //t.SetBorder(TableBorderType.Bottom, blankBorder);
+                //t.SetBorder(TableBorderType.Top, blankBorder);
+
+                // document.InsertSectionPageBreak();
+                //}
+
+                document.Save();
+                Console.WriteLine("\tCreated: InsertHorizontalLine.docx\n");
+            }
+
+            return Ok(new { data = filename });
         }
 
 

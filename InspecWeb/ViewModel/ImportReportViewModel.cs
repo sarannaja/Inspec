@@ -9,11 +9,14 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "centralPolicyEventId")]
         public long[] centralPolicyEventId { get; set; }
 
-        [JsonProperty(PropertyName = "centralPolicyType")]
-        public string centralPolicyType { get; set; }
+        // [JsonProperty(PropertyName = "centralPolicyType")]
+        // public string centralPolicyType { get; set; }
 
         [JsonProperty(PropertyName = "reportType")]
         public string reportType { get; set; }
+
+        [JsonProperty(PropertyName = "centralPolicyTypeId")]
+        public long centralPolicyTypeId { get; set; }
 
         [JsonProperty(PropertyName = "inspectionRound")]
         public string inspectionRound { get; set; }

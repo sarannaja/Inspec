@@ -52,8 +52,15 @@ export class SubquestionService {
     // for (var i = 0; i < subquestionData.ProvincialDepartmentId.length; i++) {
     //   formData.append('departmentId', subquestionData.ProvincialDepartmentId[i].ProvincialDepartmentId);
     // }
+    // for (var ii = 0; ii < subquestionData.inputanswerclose.length; ii++) {
+    //   formData.append('answerclose', subquestionData.inputanswerclose[ii].answerclose);
+    // }
     for (var ii = 0; ii < subquestionData.inputanswerclose.length; ii++) {
-      formData.append('answerclose', subquestionData.inputanswerclose[ii].answerclose);
+      if (subquestionData.inputanswerclose[ii].answerclose == null || subquestionData.inputanswerclose[ii].answerclose == "" || subquestionData.inputanswerclose[ii].answerclose == "null") {
+        formData.append('answerclose', "โปรดระบุ");
+      } else {
+        formData.append('answerclose', subquestionData.inputanswerclose[ii].answerclose);
+      }
     }
     // console.log('FORMDATA: ' + formData.get("name"));
     return this.http.post(this.url + "addquestioncloseevent", formData);

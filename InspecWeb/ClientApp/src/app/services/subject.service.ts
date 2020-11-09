@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 @Injectable({
   providedIn: 'root'
 })
@@ -348,7 +349,11 @@ export class SubjectService {
     formData.append('Box', subjectData.box);
 
     for (var ii = 0; ii < subjectData.inputanswerclose.length; ii++) {
-      formData.append('answerclose', subjectData.inputanswerclose[ii].answerclose);
+      if (subjectData.inputanswerclose[ii].answerclose == null || subjectData.inputanswerclose[ii].answerclose == "" || subjectData.inputanswerclose[ii].answerclose == "null") {
+        formData.append('answerclose', "โปรดระบุ");
+      } else {
+        formData.append('answerclose', subjectData.inputanswerclose[ii].answerclose);
+      }
     }
 
     for (var ii = 0; ii < subjectData.DepartmentId.length; ii++) {

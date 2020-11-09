@@ -4,6 +4,10 @@ import { TrainingService } from '../services/training.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TrainingRegisterlist } from '../services/toeymodel/trainingregisterlist';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from '../services/notofy.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-training-idcode',
@@ -34,9 +38,15 @@ export class TrainingIDCodeComponent implements OnInit {
     'Episode IX – The Rise of Skywalker'
   ];
   modalRef: any;
+  userid: string;
 
   constructor(
     private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
+    
     private activatedRoute: ActivatedRoute,
     private _trainingservice: TrainingService,
     private router: Router,
@@ -45,6 +55,8 @@ export class TrainingIDCodeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getuserinfo();
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -70,6 +82,16 @@ export class TrainingIDCodeComponent implements OnInit {
     // this.getPeopleRegistered();
     this.getData()
   }
+
+  //start getuser
+  getuserinfo() {
+    this.spinner.show();
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+      })
+  }
+  
   getData() {
     this._trainingservice.getTrainingregisterlist(this.trainingid)
       .subscribe(result => {
@@ -77,6 +99,7 @@ export class TrainingIDCodeComponent implements OnInit {
         console.log(this.trainingRegisterlist);
 
       })
+      this.spinner.hide();
   }
   genCode(index, year, courseCode) {
     return year.toString() + courseCode.toString() + ("00" + (index + 1)).slice(-3)
@@ -111,9 +134,13 @@ export class TrainingIDCodeComponent implements OnInit {
       // this.Form.reset()
       // this.modalRef.hide()
       // this.loading = false
+      console.log("response =>", response);
+      
       this.modalRef.hide()
       this.loading = false;
+      //this.logService.addLog(this.userid,'TrainingRegisters','เพิ่ม',response.name,response.id).subscribe();
       this.getData()
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
       
     })
   }

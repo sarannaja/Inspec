@@ -25,18 +25,19 @@ export class TrainingLecturerListComponent implements OnInit {
   selectdatalecturer: any[] = []
   selectdatasurvey: Array<any>
   lecturerid: any
+  surveytopicid: any;
 
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-      this.downloadUrl = baseUrl + '/Uploads'
-      this.mainUrl = baseUrl
-      this.trainingid = activatedRoute.snapshot.paramMap.get('id')
-    }
+    this.downloadUrl = baseUrl + '/Uploads'
+    this.mainUrl = baseUrl
+    this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+  }
 
   ngOnInit() {
 
@@ -44,17 +45,31 @@ export class TrainingLecturerListComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [4,5],
+          targets: [1,2,3],
           orderable: false
         }
-      ]
+      ],
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "infoFiltered": "ไม่พบข้อมูล",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
-    
+
 
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
-     
+
     })
 
     this.trainingservice.gettraininglecturerlist(this.trainingid)
@@ -63,37 +78,40 @@ export class TrainingLecturerListComponent implements OnInit {
         (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
       );
       this.loading = true;
-      console.log(this.resulttraining);
+      console.log("gettraininglecturerlist =>", this.resulttraining);
     })
 
     this.trainingservice.gettrainingsurveycountdata()
-    .subscribe(result => {
-      this.resultsurveytraining = result
-      //this.loading = true;
-      //console.log("12345:",this.resultsurveytraining);
+      .subscribe(result => {
+        this.resultsurveytraining = result
+        //this.loading = true;
+        //console.log("12345:",this.resultsurveytraining);
 
-      if (this.resultsurveytraining.length > 0){
-        this.selectdatasurvey = this.resultsurveytraining.map((item, index) => {
-          return { value: item.id, label: item.name }
-        })
-      }
-        
+        if (this.resultsurveytraining.length > 0) {
+          this.selectdatasurvey = this.resultsurveytraining.map((item, index) => {
+            return { value: item.id, label: item.name }
+          })
+        }
 
-    })
+
+      })
   }
-  CreateTraining(){
+  CreateTraining() {
     this.router.navigate(['/training/createtraining'])
   }
   openModal(template: TemplateRef<any>, id) {
     this.delid = id;
     console.log(this.delid);
-
+    
+    
     this.modalRef = this.modalService.show(template);
   }
 
-  surveyModal(template: TemplateRef<any>, id) {
+  surveyModal(template: TemplateRef<any>, id, surveytopicid) {
     this.lecturerid = id;
+    this.surveytopicid = surveytopicid;
     console.log(this.lecturerid);
+    console.log("surveytopicid =>", surveytopicid);
 
     this.modalRef = this.modalService.show(template);
   }
@@ -102,20 +120,43 @@ export class TrainingLecturerListComponent implements OnInit {
     //alert(JSON.stringify(value))
     console.log("data:",value);
     console.log("lecturerid:",this.lecturerid);
-
-    this.trainingservice.addTraininglecturerjoinsurvey(value, this.lecturerid, this.trainingid).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false;
-      this.trainingservice.gettraininglecturerlist(this.trainingid)
-      .subscribe(result => {
-        this.resulttraining = result.filter(
-          (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
-        );
-        this.loading = true;
-        console.log(this.resulttraining);
+    if (this.surveytopicid != null){
+      console.log("not null");
+      
+      this.trainingservice.editTraininglecturerjoinsurvey(value, this.surveytopicid).subscribe(response => {
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false;
+        this.trainingservice.gettraininglecturerlist(this.trainingid)
+        .subscribe(result => {
+          this.resulttraining = result.filter(
+            (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
+          );
+          this.loading = true;
+          console.log(this.resulttraining);
+        })
       })
-    })
+      
+    }
+    else{
+      console.log("null");
+
+      this.trainingservice.addTraininglecturerjoinsurvey(value, this.lecturerid, this.trainingid).subscribe(response => {
+        this.Form.reset()
+        this.modalRef.hide()
+        this.loading = false;
+        this.trainingservice.gettraininglecturerlist(this.trainingid)
+        .subscribe(result => {
+          this.resulttraining = result.filter(
+            (thing, i, arr) => arr.findIndex(t => t.trainingLecturerId === thing.trainingLecturerId) === i
+          );
+          this.loading = true;
+          console.log(this.resulttraining);
+        })
+      })
+      
+    }
+    
   }
 
   editModal(template: TemplateRef<any>, id, lecturerName, phone, email, education, workHistory, experience) {
@@ -143,23 +184,23 @@ export class TrainingLecturerListComponent implements OnInit {
     })
   }
 
-  editTraining(value, delid) {
-    // alert(JSON.stringify(value));
-    // console.clear();
-    // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editTraininglecturer(value, delid).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false
+  // editTraining(value, delid) {
+  //   // alert(JSON.stringify(value));
+  //   // console.clear();
+  //   // console.log("kkkk" + JSON.stringify(value));
+  //   this.trainingservice.editTraininglecturer(value, delid).subscribe(response => {
+  //     this.Form.reset()
+  //     this.modalRef.hide()
+  //     this.loading = false
 
-      this.trainingservice.gettraininglecturer()
-      .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true;
-        console.log(this.resulttraining);
-      })
-    })
-  }
+  //     this.trainingservice.gettraininglecturer()
+  //     .subscribe(result => {
+  //       this.resulttraining = result
+  //       this.loading = true;
+  //       console.log(this.resulttraining);
+  //     })
+  //   })
+  // }
 
   deleteTraining(value) {
     this.trainingservice.deleteTrainingLecturer(value).subscribe(response => {
@@ -167,15 +208,15 @@ export class TrainingLecturerListComponent implements OnInit {
       this.modalRef.hide()
       this.loading = false;
       this.trainingservice.gettraininglecturer()
-      .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true;
-        console.log(this.resulttraining);
-      })
+        .subscribe(result => {
+          this.resulttraining = result
+          this.loading = true;
+          console.log(this.resulttraining);
+        })
     })
   }
 
-  gotoProgramTraining(trainingid){
+  gotoProgramTraining(trainingid) {
     this.router.navigate(['/training/program/', trainingid])
   }
 
@@ -187,9 +228,14 @@ export class TrainingLecturerListComponent implements OnInit {
     window.history.back();
   }
 
-  gotoProcessingTraining(trainingLecturerId){
+  gotoProcessingTraining(trainingLecturerId) {
     this.router.navigate(['/training/survey/processing/', trainingLecturerId])
   }
+  reportTrainingLecturer(trainingLecturerId, name, year) {
+    // alert(trainingLecturerId+name+year)
+    this.trainingservice.reportTrainingLecturer(trainingLecturerId, name, year).subscribe(result => {
+      window.open(this.downloadUrl + "/" + result.data);
+    })
+  }
 
-  
 }

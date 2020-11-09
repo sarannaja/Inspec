@@ -22,20 +22,18 @@ export class MinistryService {
     formData.append('NameEN', ministryData.NameEN);
     formData.append('ShortnameEN', ministryData.ShortnameEN);
     formData.append('ShortnameTH', ministryData.ShortnameTH);
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
   deleteMinistry(id) {
     return this.http.delete(this.url + id);
   }
   editMinistry(ministryData, id) {
-    //console.log(ministryData);
-
     const formData = new FormData();
     formData.append('Name', ministryData.Name);
     formData.append('NameEN', ministryData.NameEN);
     formData.append('ShortnameEN', ministryData.ShortnameEN);
     formData.append('ShortnameTH', ministryData.ShortnameTH);
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
 
    //20200720
@@ -48,7 +46,7 @@ export class MinistryService {
   }
 
   getexcelministry():Observable<any>{
-    alert(2);
+    //alert(2);
     return this.http.get<any>(this.url+'excelministry')
   }
 }

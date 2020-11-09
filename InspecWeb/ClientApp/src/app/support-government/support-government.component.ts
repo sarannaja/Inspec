@@ -25,7 +25,7 @@ export class SupportGovernmentComponent implements OnInit {
     {
       id:3,
       name: 'ข้อมูลการแบ่งเขตตรวจราชการ',
-      link:'#',
+      link:'/supportgovernment/governmentinspectionarea',
       forblank:0
     },
     {

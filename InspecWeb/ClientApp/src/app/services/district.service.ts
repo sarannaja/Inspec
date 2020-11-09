@@ -21,7 +21,7 @@ export class DistrictService {
      const formData = new FormData();
      formData.append('ProvincesId', provinceId);
      formData.append('Name', districtData.Name);
-     return this.http.post(this.url, formData);
+     return this.http.post<any>(this.url, formData);
    }
    deletedistrict(id) {
      return this.http.delete(this.url + id);
@@ -30,7 +30,7 @@ export class DistrictService {
      const formData = new FormData();
      formData.append('Name', districtData.Name);
     
-     return this.http.put(this.url+id, formData);
+     return this.http.put<any>(this.url+id, formData);
    }
 
    worddistrict(id):Observable<any>{

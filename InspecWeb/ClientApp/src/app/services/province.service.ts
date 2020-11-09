@@ -41,7 +41,7 @@ export class ProvinceService {
     formData.append('ShortnameEN', provinceData.ShortnameEN);
     formData.append('ShortnameTH', provinceData.ShortnameTH);
 
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
   deleteProvince(id) {
     return this.http.delete(this.url + id);
@@ -56,7 +56,7 @@ export class ProvinceService {
     formData.append('ProvincesGroupId', provinceData.Provincegroup);
     formData.append('ShortnameEN', provinceData.ShortnameEN);
     formData.append('ShortnameTH', provinceData.ShortnameTH);
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
   getRegionMock() {
     return [

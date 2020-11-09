@@ -32,7 +32,7 @@
             </div>
           </div>
 
-          <div class="row" style="margin-top: 10px;">
+          <div *ngIf="resultdetailcentralpolicy.typeexaminationplan" class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               ประเภทแผนการตรวจ : {{resultdetailcentralpolicy.typeexaminationplan.name}}
             </div>
@@ -68,8 +68,8 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญผู้ตรวจราชการกระทรวง</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModalministry(modalInviteMinistryPeople)"
-                class="btn btn-primary">เชิญ</button>
+              <button *ngIf="role_id == 3 && watch == 0" type="button"
+                (click)="openModalministry(modalInviteMinistryPeople)" class="btn btn-primary">เชิญ</button>
             </div>
           </div>
           <div class="row" style="margin-top: 10px;">
@@ -120,8 +120,8 @@
           <div class="row" style="margin-top: 10px;">
             <div class="col-md-6">
               <u>เชิญผู้ตรวจราชการกรม</u> &nbsp;&nbsp;
-              <button *ngIf="role_id == 3 && watch == 0" type="button" (click)="openModaldepartment(modalInviteDepartmentPeople)"
-                class="btn btn-primary">เชิญ</button>
+              <button *ngIf="role_id == 3 && watch == 0" type="button"
+                (click)="openModaldepartment(modalInviteDepartmentPeople)" class="btn btn-primary">เชิญ</button>
             </div>
           </div>
           <div class="row" style="margin-top: 10px;">
@@ -269,7 +269,8 @@
           </div> -->
 
 
-          <div class="row" *ngIf="resultdetailcentralpolicy.centralPolicyFiles.length > 0">
+          <div class="row"
+            *ngIf="resultdetailcentralpolicy.centralPolicyFiles && resultdetailcentralpolicy.centralPolicyFiles.length > 0">
             <div class="col-md-12">
               <u>ไฟล์แนบแผนการตรวจราชการ</u><br>
               <div class="row" *ngFor="let item2 of resultdetailcentralpolicy.centralPolicyFiles; let i = index"
@@ -307,8 +308,8 @@
           <div class="form-group row" *ngFor="let itemTest of s.controls; let i = index">
             <form class="form-group row col-12" [formGroup]="itemTest">
               <div class="col-4">
-                <label style="text-overflow: ellipsis;" formControlName="ebookFile">ไฟล์ที่ {{i + 1}})
-                  {{itemTest.controls.ebookFile.value.name}}</label>
+                <label style="text-overflow: ellipsis;">ไฟล์ที่ {{i + 1}})
+                  {{itemTest.get('ebookFile').value.name}}</label>
               </div>
               <div class="col-8">
                 <input formControlName="fileDescription" class="form-control" type="text" placeholder="ใส่คำอธิบาย">
@@ -316,7 +317,7 @@
             </form>
           </div>
 
-          <div class="row" *ngIf="carlendarFile.length > 0">
+          <div class="row" *ngIf="carlendarFile && carlendarFile.length > 0">
             <div class="col-md-12" style="margin-top: 20px;">
               <u>ไฟล์แนบกำหนดการตรวจ</u><br>
               <div class="row" *ngFor="let item of carlendarFile; let i = index" style="margin-top: 10px;">

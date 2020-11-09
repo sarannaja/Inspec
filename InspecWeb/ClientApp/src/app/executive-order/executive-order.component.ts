@@ -269,7 +269,6 @@ export class ExecutiveOrderComponent implements OnInit {
     {
       this.logService.addLog(this.userid,'ExecutiveOrders','เพิ่ม',result.title,result.id).subscribe();
       if(value.Draft == 1){
-     //  alert("draft 1");
         this.Form.reset();
         this.loading = false;
         this.getuserinfo();
@@ -278,7 +277,6 @@ export class ExecutiveOrderComponent implements OnInit {
       }else{
         this.notificationService.addNotification(1, 1, 1, 10, result.id,result.title)
          .subscribe(result => {
-       //   alert("draft 0");
           this.Form.reset();
           this.loading = false;
           this.getuserinfo();
@@ -295,12 +293,9 @@ export class ExecutiveOrderComponent implements OnInit {
     if (this.Form.invalid) {
         return;
     }
-    // alert(1);
      this.executiveorderService.updateexecutiveorder(value, this.Form.value.files,this.idexecutiveorder).subscribe(result => {
-     // alert(3);
       this.logService.addLog(this.userid,'ExecutiveOrders','แก้ไข',result.title,result.id).subscribe();
         if(value.Draft == 1){
-        //  alert("draft 1");
           this.Form.reset();
           this.getuserinfo();
           this._NotofyService.onSuccess("แก้ไขข้อมูล")
@@ -308,7 +303,6 @@ export class ExecutiveOrderComponent implements OnInit {
         }else{
           this.notificationService.addNotification(1, 1, 1, 10, result.id,result.title)
            .subscribe(result => {
-          //  alert("draft 0");
             this.Form.reset();
             this.getuserinfo();
             this._NotofyService.onSuccess("แก้ไขข้อมูล")
@@ -351,10 +345,8 @@ export class ExecutiveOrderComponent implements OnInit {
     if (this.awnserForm.invalid) {
         return;
     }
-    //alert(1);
     this.executiveorderService.answerexecutiveorder(value, this.awnserForm.value.files, this.idexecutiveorderanswer)
       .subscribe(result => {
-        //alert(3);
         this.awnserForm.reset();
         this.loading = false;
         this.getuserinfo()
@@ -376,7 +368,6 @@ export class ExecutiveOrderComponent implements OnInit {
 
   //<!-- ยกเลิกข้อสั่งการ -->
   cancelexecutiveorder(value){
-    //alert(1);
     this.executiveorderService.cancelexecutiveorder(value,this.idexecutiveorder).subscribe(result => {              
         this.cancelForm.reset()
         this.loading = false;

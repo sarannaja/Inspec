@@ -30,6 +30,7 @@ export class InspectionPlanEventAllComponent implements OnInit {
   userid: string
   role_id
   loading = false;
+  lastpath
 
   selectedProvince: any = "allprovince"
 
@@ -41,6 +42,9 @@ export class InspectionPlanEventAllComponent implements OnInit {
     @Inject('BASE_URL') baseUrl: string) {
     // this.url = baseUrl + 'centralpolicy/detailcentralpolicyprovince/';
     this.url = baseUrl + 'inspectionplan/';
+
+    const getLastItem = thePath => thePath.substring(thePath.lastIndexOf('/') + 1)
+    this.lastpath = getLastItem(this.router.url)
   }
 
   ngOnInit() {
@@ -165,16 +169,29 @@ export class InspectionPlanEventAllComponent implements OnInit {
             $(".fc-center").find("h2").text(newstrDate);
           }, 5);
         },
+
+
         eventClick: function (event) {
           //console.log(event);
           //console.log('this.role_id', self.role_id);
           var watch = 1;
-          if (event.roleCreatedBy == 3) {
-            window.location.href = self.url + event.id + '/' + event.provinceid + '/' + watch;
-          } else if (event.roleCreatedBy == 6) {
-            window.location.href = self.url + 'inspectorministry/' + event.id + '/' + event.provinceid + '/' + watch;
-          } else if (event.roleCreatedBy == 10) {
-            window.location.href = self.url + 'inspectordepartment/' + event.id + '/' + event.provinceid + '/' + watch;
+          if (self.lastpath == "noauth") {
+            if (event.roleCreatedBy == 3) {
+              window.location.href = location.origin + '/noauth/inspectionplan/'  + event.id + '/' + event.provinceid + '/' + watch;
+            } else if (event.roleCreatedBy == 6) {
+              window.location.href = location.origin + '/noauth/inspectionplan/inspectorministry/' + event.id + '/' + event.provinceid + '/' + watch;
+            } else if (event.roleCreatedBy == 10) {
+              window.location.href = location.origin + '/noauth/inspectionplan/inspectordepartment/' + event.id + '/' + event.provinceid + '/' + watch;
+            }
+          }
+          else {
+            if (event.roleCreatedBy == 3) {
+              window.location.href = location.origin + '/inspectionplan/' + event.id + '/' + event.provinceid + '/' + watch;
+            } else if (event.roleCreatedBy == 6) {
+              window.location.href = location.origin + '/inspectionplan/inspectorministry/' + event.id + '/' + event.provinceid + '/' + watch;
+            } else if (event.roleCreatedBy == 10) {
+              window.location.href = location.origin + '/inspectionplan/inspectordepartment/' + event.id + '/' + event.provinceid + '/' + watch;
+            }
           }
         },
         eventRender: function (event, element, view) {

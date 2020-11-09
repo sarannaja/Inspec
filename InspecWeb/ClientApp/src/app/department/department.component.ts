@@ -5,6 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MinistryService } from '../services/ministry.service';
 import { DepartmentService } from '../services/department.service';
 import { NotofyService } from '../services/notofy.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-department',
@@ -20,7 +23,7 @@ export class DepartmentComponent implements OnInit {
   titlesubdistrict: []
 
   ministryname:Ministryname = {}
-
+  name:any;
   departmentId:any;
   ministryid:any;
   Form: FormGroup;
@@ -28,6 +31,9 @@ export class DepartmentComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   modalRef: BsModalRef;
+  submitted = false;
+  userid :any;
+  role_id :any;
 
   constructor(
     private fb: FormBuilder,
@@ -37,6 +43,9 @@ export class DepartmentComponent implements OnInit {
     private ministryservice: MinistryService,
     private departmentService: DepartmentService,
     private _NotofyService: NotofyService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private logService: LogService,
     ) {
     this.id = activatedRoute.snapshot.paramMap.get('id')
    }
@@ -69,7 +78,14 @@ export class DepartmentComponent implements OnInit {
   }
 
   getdata(){
-
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
+    })
     this.ministryservice.getministryfirst(this.id).subscribe(result=>{
       this.ministryname = result
     })
@@ -88,18 +104,20 @@ export class DepartmentComponent implements OnInit {
 
   openModal(template: TemplateRef<any>, ministryid) {
     this.Form.reset()
+    this.submitted = false;
     this.ministryid = ministryid;
-    // alert(this.ministryid);
     this.modalRef = this.modalService.show(template);
   }
 
-  deleteModal(template: TemplateRef<any>, deleteID){
+  deleteModal(template: TemplateRef<any>, deleteID,name){
    this.departmentId =  deleteID
+   this.name = name;
    this.modalRef = this.modalService.show(template);
   }
 
   editModal(template: TemplateRef<any>, id,Name,NameEN,ShortnameEN,ShortnameTH) {
-   // alert(id);
+    this.Form.reset()
+    this.submitted = false;
     this.departmentId = id;
     this.Form.patchValue({
       Name: Name,
@@ -113,9 +131,12 @@ export class DepartmentComponent implements OnInit {
 
 
   storeDepartment(value) {
-    //alert(1);
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.departmentService.addDepartment(value,this.ministryid).subscribe(response => {
-      //alert(3);
+      this.logService.addLog(this.userid,'Departments','เพิ่ม',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
@@ -125,9 +146,12 @@ export class DepartmentComponent implements OnInit {
   }
 
   updateDepartment(value){
-   // alert(1 + ' : '+ this.departmentId);
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.departmentService.editDepartment(value,this.departmentId).subscribe(response => {
-     // alert(3);
+      this.logService.addLog(this.userid,'Departments','แก้ไข',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
@@ -137,9 +161,8 @@ export class DepartmentComponent implements OnInit {
   }
 
   deleteDepartment(value) {
-   // alert(1);
     this.departmentService.deleteDepartment(value).subscribe(response => {
-     // alert(3);
+      this.logService.addLog(this.userid,'Departments','ลบ',this.name,this.departmentId).subscribe();
       this.modalRef.hide()
       this.loading = false
       this.getdata();
@@ -150,7 +173,7 @@ export class DepartmentComponent implements OnInit {
   viewProvincialDepartment(id) {
     this.router.navigate(['/ministry/department/'+id+'/provincialdepartment'])
   }
-
+  get f() { return this.Form.controls; }
 }
 export interface Ministryname{
   id?: number;

@@ -42,7 +42,7 @@ namespace InspecWeb.Controllers
         {
             var fiscalyearData = _context.FiscalYears
                 .Include(m => m.SetinspectionareaFiles)
-                .OrderBy(x => x.CreatedAt)
+                .OrderByDescending(x => x.Id)
                 .ToList();
             return Ok(fiscalyearData);
         }
@@ -160,7 +160,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("testuser : 2");
             }
 
-            return Ok(new { status = "ture" });
+            return Ok(new { id = fiscalyeardata.Id , title = model.Year });
         }
 
         //POST api/values
@@ -190,21 +190,26 @@ namespace InspecWeb.Controllers
         [HttpPost("EditRelation/{id}")]
         public void Put([FromBody] FiscalYearRelationViewModel model,long id)
         {
+            // <!-- กรณีแก้ไขเขตเดิมจะลบออกก่อน -->
             var data = _context.FiscalYearRelations.Where(m => m.FiscalYearId == model.FiscalYearId && m.RegionId == model.RegionId);
-
             _context.FiscalYearRelations.RemoveRange(data);
             _context.SaveChanges();
+            // <!-- END กรณีแก้ไขเขตเดิมจะลบออกก่อน -->
 
             foreach (var item in model.ProvinceId)
             {
-                //System.Console.WriteLine("LOOP: " + item);
+                // <!--  กรณีแก้ไขจังหวัดที่เคยมีเดิมจะลบออกก่อน -->
+                var data2 = _context.FiscalYearRelations.Where(m => m.FiscalYearId == model.FiscalYearId && m.ProvinceId == item);
+                _context.FiscalYearRelations.RemoveRange(data2);
+                // <!-- END กรณีแก้ไขจังหวัดที่เคยมีเดิมจะลบออกก่อน -->
+
                 var fiscalyearrelationdata = new FiscalYearRelation
                 {
                     FiscalYearId = model.FiscalYearId,
                     RegionId = model.RegionId,
                     ProvinceId = item
                 };
-                System.Console.WriteLine("LOOP: " + item);
+                //System.Console.WriteLine("LOOP: " + item);
                 _context.FiscalYearRelations.Add(fiscalyearrelationdata);
             }
             _context.SaveChanges();
@@ -260,7 +265,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("testuser : 2");
             }
 
-            return Ok(new { status = "ture" });
+            return Ok(new { id = id, title = fiscalyear.Year });
 
         }
 

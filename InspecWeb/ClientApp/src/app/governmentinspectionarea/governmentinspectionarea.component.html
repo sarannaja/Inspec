@@ -1,0 +1,67 @@
+<div class="header">
+  
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item active">ข้อมูลสนันสนุน</li>
+      <li class="breadcrumb-item active">ข้อมูลการแบ่งเขตตรวจราชการ</li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card card-eiei">
+      <div class="card-header" style="margin-bottom: -40px;">
+        <h5 class="card-title">ข้อมูลการแบ่งเขตตรวจราชการ</h5>
+      </div>
+      <div class="card-body">
+        <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable
+          [dtOptions]="dtOptions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>คำสั่งกำหนดเขตตรวจราชการ</th>
+              <th>ลงวันที่</th>
+              <th>ระยะเวลา</th>
+              <th>สถานะ</th>
+              <th>ไฟล์</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultfiscalyear; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td class="pointer" style="color:#3b7ddd;" (click)="Detail(item.id)"> 
+                <i class="mr-2 align-middle fas fa-fw fa-map"></i> <span>{{item.year}}</span>
+              </td>
+              <td>{{item.orderdate  ? (item.orderdate | thaidate:'short'):"-"}}</td>
+              <td>
+                <span *ngIf="item.startDate != null">
+                  {{ item.startDate | thaidate:'short'}} - {{ item.endDate | thaidate:'short'}}
+                </span>
+              </td>
+              <td>
+                <button *ngIf="item.active == 1" style="cursor: default;" class="btn btn-success btn-pill btn-sm" title="active" >
+                  Active
+                </button>
+
+                <button *ngIf="item.active == 0" style="cursor: default;" class="btn btn-danger btn-pill btn-sm" title="inactive">
+                    Inactive
+                </button>
+
+              </td>
+              <td> 
+                <span *ngFor="let item2 of item.setinspectionareaFiles;let n = index" >
+                  <a href="{{fileUrl}}/{{item2.name}}" download>{{n +1}}.{{item2.name}}</a><br>
+                </span>
+            </td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
