@@ -10,7 +10,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { InspectionplanService } from '../services/inspectionplan.service';
 import { Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
-import { IMyOptions } from 'mydatepicker-th';
+import { IMyDateModel, IMyOptions } from 'mydatepicker-th';
 import { ReportService } from '../services/report.service';
 import { ExportReportService } from '../services/export-report.service';
 import { FiscalyearService } from '../services/fiscalyear.service';
@@ -25,6 +25,8 @@ export class SubjecteventComponent implements OnInit {
     // other options...
 
     dateFormat: 'dd/mm/yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
     // dateFormat: 'dd/mmm/yyyy', เดือนเป็นไทย
   };
   dtOptions: DataTables.Settings = {};
@@ -113,7 +115,8 @@ export class SubjecteventComponent implements OnInit {
   selectpeopletype6 = []
   selectdatacentralpolicytype6: Array<any>
   role_id
-
+  start_date_search
+  end_date_search
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
@@ -981,4 +984,37 @@ export class SubjecteventComponent implements OnInit {
     })
   }
   ////reporttype6end/////
+
+  Search() {
+    this.loading = false
+    console.log("test: ", this.start_date_search);
+    this.start_date_search = this.start_date_search.date.year + "-" + this.start_date_search.date.month + "-" + this.start_date_search.date.day;
+    this.end_date_search = this.end_date_search.date.year + "-" + this.end_date_search.date.month + "-" + this.end_date_search.date.day;
+    //alert(this.start_date_search.date.year + "-" + this.start_date_search.date.month + "-" + this.start_date_search.date.day)
+    // alert(this.start_date_search)
+    // alert(this.end_date_search)
+    this.subjectservice.geteventdaterange(this.userid, this.start_date_search, this.end_date_search).subscribe(result => {
+      this.resultsubjectevent = result
+
+      this.loading = true;
+    })
+  }
+
+  Refresh() {
+    this.loading = false
+    this.start_date_search = '';
+    this.end_date_search = '';
+    this.getSubjectevent();
+    // location.reload();
+  }
+
+  onDateChangedstart(value: IMyDateModel) {
+    // alert(JSON.stringify(value))
+    this.start_date_search = value.date;
+    // alert(this.start_date_search)
+  }
+
+  onDateChangedend(value: IMyDateModel) {
+    this.end_date_search = value.date;
+  }
 }

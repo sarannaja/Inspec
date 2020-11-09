@@ -432,6 +432,11 @@ export class SubjectService {
   getsubjectevent(id) {
     return this.http.get<any[]>(this.url + "getevent/" + id)
   }
+
+  geteventdaterange(id, start_date, end_date) {
+    return this.http.get<any[]>(this.url + "geteventdaterange/" + id + "/" + start_date + "/" + end_date)
+  }
+
   getsubjecteventprovince(id, provinceid) {
     return this.http.get<any[]>(this.url + "geteventprovice/" + id + "/" + provinceid)
   }

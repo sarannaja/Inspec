@@ -141,11 +141,12 @@ export class CreateInspectionPlanEventComponent implements OnInit {
   storeInspectionPlanEvent(value) {
 
     // alert(JSON.stringify(value))
-    this.submitted = true;
     if (this.Form.invalid) {
+      this.submitted = true;
       console.log("in1");
       return;
     } else {
+      this.submitted = false;
       //console.log("Store : ", value);
       // alert(JSON.stringify(value))
       let start_date_plan_i: any[] = this.start_date_plan_i
@@ -280,6 +281,7 @@ export class CreateInspectionPlanEventComponent implements OnInit {
       console.log("in1");
       return;
     } else {
+      this.submitted = false;
       this.dateChecked(this.start_date_plan_i[i], this.end_date_plan_i[i])
         ? this.inspectionplanservice.inspectionplansprovince(provinceid, this.userid, this.start_date_plan_i[i], this.end_date_plan_i[i])
           .subscribe(result => {
