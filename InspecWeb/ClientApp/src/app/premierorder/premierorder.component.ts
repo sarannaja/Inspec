@@ -3,6 +3,9 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { PremierorderService } from '../services/premierorder.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-premierorder',
@@ -18,10 +21,21 @@ export class PremierorderComponent implements OnInit {
   Form : FormGroup
   files: string[] = []
   loading = false;
+  submitted = false;
   dtOptions: DataTables.Settings = {};
+  userid :any;
+  role_id :any
 
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private premierorderservice: PremierorderService,
-    public share: PremierorderService,private spinner: NgxSpinnerService) { }
+  constructor(
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+    private premierorderservice: PremierorderService,
+    public share: PremierorderService,
+    private spinner: NgxSpinnerService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private logService: LogService,
+    ) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -50,7 +64,14 @@ export class PremierorderComponent implements OnInit {
   }
 
   getdata(){
-    
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
+    })
     this.premierorderservice.getpremierorder().subscribe(result=>{
       this.resultpremierorder = result
       this.loading = true
@@ -74,36 +95,26 @@ export class PremierorderComponent implements OnInit {
   }
 
   storePremierorder(value) {
-    // alert(JSON.stringify(value));
     this.premierorderservice.addPremierorder(value, this.Form.value.files).subscribe(response => {
-      console.log(value);
       this.Form.reset()
       this.modalRef.hide()
-      this.premierorderservice.getpremierorder().subscribe(result => {
-        this.resultpremierorder = result
-        console.log(this.resultpremierorder);
-      })
+      this.loading = false
+      this.getdata()
     })
   }
   deletePremierorder(value) {
     this.premierorderservice.deletePremierorder(value).subscribe(response => {
-      console.log(value);
       this.modalRef.hide()
-      this.premierorderservice.getpremierorder().subscribe(result => {
-        this.resultpremierorder = result
-        console.log(this.resultpremierorder);
-      })
+      this.loading = false
+      this.getdata()
     })
   }
   editPremierorder(value,delid) {
-    console.log(value);
     this.premierorderservice.editPremierorder(value,delid).subscribe(response => {
       this.Form.reset()
       this.modalRef.hide()
-      this.premierorderservice.getpremierorder().subscribe(result => {
-        this.resultpremierorder = result
-       
-      })
+      this.loading = false
+      this.getdata()
     })
   }
 

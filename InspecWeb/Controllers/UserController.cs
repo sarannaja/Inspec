@@ -4,6 +4,7 @@ using System.IO; //excel
 using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel; //excel
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using InspecWeb.Data;
 using InspecWeb.Models;
@@ -194,6 +195,61 @@ namespace InspecWeb.Controllers
             return users;
         }
         //<!-- END ข้อมูลผู้ติดต้อ ผู้ตรวจราชการ -->
+        // <!-- exceข้อมูลผู้ติดต้อ ผู้ตรวจราชการ excel -->
+        [HttpGet("api/[controller]/excelinspector")]
+        public IActionResult excelinspector()
+        {
+
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Where(m => m.Role_id == 3)
+                .Where(m => m.Position == "ผต.นร." || m.Position == "ผต.นร. ")
+                .Where(m => m.Active == 1);
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("ผู้ตรวจราชการ");
+
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "ชื่อ - นามสกุล ";
+                worksheet.Cell(currentRow, 2).Value = "เขต";
+                worksheet.Cell(currentRow, 3).Value = "ตำแหน่ง";
+                worksheet.Cell(currentRow, 4).Value = "มือถือ";
+                
+
+                foreach (var item in users)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = item.Prefix + item.Name;
+                    foreach (var item2 in item.UserRegion)
+                    {
+                        worksheet.Cell(currentRow, 2).Value = item2.Region.Name;
+                    }
+                    worksheet.Cell(currentRow, 3).Value = item.Position;
+                    worksheet.Cell(currentRow, 4).Value = item.PhoneNumber;
+                   
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "ผู้ตรวจราชการ.xlsx");
+                }
+            }
+        }
+        // <!-- END excelข้อมูลผู้ติดต้อ ผู้ตรวจราชการ excel -->
+
 
         //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
         [HttpGet("api/[controller]/[action]")]
@@ -212,7 +268,61 @@ namespace InspecWeb.Controllers
 
             return users;
         }
-        //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+        //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ 
+        // <!-- exceข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
+        [HttpGet("api/[controller]/excelofficerinspection")]
+        public IActionResult excelexcelofficerinspection()
+        {
+
+            var users = _context.Users
+                .Include(s => s.UserRegion)
+                .ThenInclude(r => r.Region)
+                .Include(s => s.UserProvince)
+                .ThenInclude(r => r.Province)
+                .Include(s => s.Province)
+                .Include(s => s.Ministries)
+                .Where(m => m.Role_id == 3)
+                .Where(m => m.Position != "ผต.นร." || m.Position != "ผต.นร. ")
+                .Where(m => m.Active == 1);
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("เจ้าหน้าที่ประจำเขตตรวจราชการ");
+
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "ชื่อ - นามสกุล ";
+                worksheet.Cell(currentRow, 2).Value = "เขต";
+                worksheet.Cell(currentRow, 3).Value = "ตำแหน่ง";
+                worksheet.Cell(currentRow, 4).Value = "มือถือ";
+
+
+                foreach (var item in users)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = item.Prefix + item.Name;
+                    foreach (var item2 in item.UserRegion)
+                    {
+                        worksheet.Cell(currentRow, 2).Value = item2.Region.Name;
+                    }
+                    worksheet.Cell(currentRow, 3).Value = item.Position;
+                    worksheet.Cell(currentRow, 4).Value = item.PhoneNumber.ToString();
+
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "เจ้าหน้าที่ประจำเขตตรวจราชการ.xlsx");
+                }
+            }
+        }
+        // <!-- END excelข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
 
         //<!-- ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
         [HttpGet("api/[controller]/[action]")]
@@ -233,8 +343,65 @@ namespace InspecWeb.Controllers
             return users;
         }
         //<!-- END ข้อมูลผู้ติดต้อ หน่วยงานภูมิภาค หรือ หน่วยรับตรวจ -->
+        // <!-- exceข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
+        [HttpGet("api/[controller]/excelregionalagency")]
+        public IActionResult excelexcelregionalagency()
+        {
 
-        //<!-- ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+            var users = _context.Users
+               .Include(s => s.UserRegion)
+               .ThenInclude(r => r.Region)
+               .Include(s => s.UserProvince)
+               .ThenInclude(r => r.Province)
+               .Include(s => s.Province)
+               .Include(s => s.Ministries)
+               .Include(x => x.Departments)
+               .Include(x => x.ProvincialDepartments)
+               .Where(m => m.Role_id == 9)
+               .Where(m => m.Active == 1);
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("หน่วยงานในส่วนภูมิภาค");
+
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "ชื่อ - นามสกุล ";
+                worksheet.Cell(currentRow, 2).Value = "กระทรวง";
+                worksheet.Cell(currentRow, 3).Value = "กรม";
+                worksheet.Cell(currentRow, 4).Value = "หน่วยงาน";
+                worksheet.Cell(currentRow, 5).Value = "ตำแหน่ง";
+                worksheet.Cell(currentRow, 6).Value = "เบอร์โทร";
+
+
+
+                foreach (var item in users)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = item.Prefix + item.Name;
+                    worksheet.Cell(currentRow, 2).Value = item.Ministries.Name;
+                    worksheet.Cell(currentRow, 3).Value = item.Departments.Name;
+                    worksheet.Cell(currentRow, 4).Value = item.ProvincialDepartments.Name;
+                    worksheet.Cell(currentRow, 5).Value = item.Position;
+                    worksheet.Cell(currentRow, 6).Value = item.PhoneNumber.ToString();
+
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "หน่วยงานในส่วนภูมิภาค.xlsx");
+                }
+            }
+        }
+        // <!-- END excelข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ excel -->
+
+        //<!-- ข้อมูลผู้ติดต้อ ภาคประชาชน -->
         [HttpGet("api/[controller]/[action]")]
         public IEnumerable<ApplicationUser> publicsectoradvisor()
         {
@@ -245,12 +412,66 @@ namespace InspecWeb.Controllers
                 .ThenInclude(r => r.Province)
                 .Include(s => s.Province)
                 .Include(s => s.Ministries)
+                .Include(s => s.Sides)
                 .Where(m => m.Role_id == 7)
                 .Where(m => m.Active == 1);
 
             return users;
         }
-        //<!-- END ข้อมูลผู้ติดต้อ เจ้าหน้าที่ประจำเขตตรวจราชการ -->
+        //<!-- END ข้อมูลผู้ติดต้อ ภาคประชาชน -->
+        // <!-- exceข้อมูลผู้ติดต้อ ภาคประชาชน excel -->
+        [HttpGet("api/[controller]/exceladvisercivilsector")]
+        public IActionResult exceladvisercivilsector()
+        {
+
+            var users = _context.Users
+                 .Include(s => s.UserRegion)
+                 .ThenInclude(r => r.Region)
+                 .Include(s => s.UserProvince)
+                 .ThenInclude(r => r.Province)
+                 .Include(s => s.Province)
+                 .Include(s => s.Ministries)
+                 .Include(s => s.Sides)
+                 .Where(m => m.Role_id == 7)
+                 .Where(m => m.Active == 1);
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("ภาคประชาชน");
+
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "ชื่อ - นามสกุล ";
+                worksheet.Cell(currentRow, 2).Value = "ด้าน";
+                worksheet.Cell(currentRow, 3).Value = "จังหวัด";
+                worksheet.Cell(currentRow, 4).Value = "ตำแหน่ง";
+                worksheet.Cell(currentRow, 5).Value = "เบอร์โทร";
+
+                
+                foreach (var item in users)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = item.Prefix + item.Name;
+                    worksheet.Cell(currentRow, 2).Value = item.Sides.Name;
+                    worksheet.Cell(currentRow, 3).Value = item.Province.Name;
+                    worksheet.Cell(currentRow, 4).Value = item.Position;
+                    worksheet.Cell(currentRow, 5).Value = item.PhoneNumber.ToString();
+
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "ที่ปรึกษาผู้ตรวจราชการภาคประชาชน.xlsx");
+                }
+            }
+        }
+        // <!-- END excelข้อมูลผู้ติดต้อ ภาคประชาชน excel -->
 
         // POST api/values
         [Route("api/[controller]/changepassword/{id}")]

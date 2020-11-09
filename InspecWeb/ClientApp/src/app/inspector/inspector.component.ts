@@ -122,5 +122,7 @@ export class InspectorComponent implements OnInit {
       })
     })
   }
-
+  excel(){
+    window.location.href = '/api/user/excelinspector';
+  }
 }
