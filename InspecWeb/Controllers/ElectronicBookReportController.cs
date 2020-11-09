@@ -88,12 +88,19 @@ namespace InspecWeb.Controllers
 
                 Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
                 var testDate = electronicBook.StartDate.Value.ToString("dddd dd MMMM yyyy");
+                var printDate = DateTime.Now.ToString("dd MMMM yyyy");
                 // Insert a title paragraph.
                 var title = document.InsertParagraph("วันที่ตรวจราชการ: " + testDate);
                 title.Alignment = Alignment.center;
-                title.SpacingAfter(25d);
+                title.SpacingAfter(10d);
                 title.FontSize(16d);
                 title.Bold();
+
+                var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                printReport.Alignment = Alignment.center;
+                printReport.SpacingAfter(25d);
+                printReport.FontSize(16d);
+                printReport.Bold();
 
                 System.Console.WriteLine("7");
 

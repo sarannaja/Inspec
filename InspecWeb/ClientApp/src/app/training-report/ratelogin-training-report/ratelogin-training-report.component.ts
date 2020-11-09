@@ -3,6 +3,7 @@ import { TrainingService } from '../../services/training.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ExportReportService } from 'src/app/services/export-report.service';
 
 @Component({
   selector: 'app-ratelogin-training-report',
@@ -11,7 +12,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class RateloginTrainingReportComponent implements OnInit {
 
-  resulttraining: any[] = []
+  resulttraining: any = [];
   resultsurveytraining: any[] = []
   trainingid: string;
   modalRef: BsModalRef;
@@ -25,16 +26,23 @@ export class RateloginTrainingReportComponent implements OnInit {
   selectdatalecturer: any[] = []
   selectdatasurvey: Array<any>
   lecturerid: any
+  trainingname: any;
+  gen: any;
+  trainingyear: any;
+  relateLoginData: any = [];
+  url: any;
 
-  constructor(private modalService: BsModalService, 
-    private fb: FormBuilder, 
+  constructor(private modalService: BsModalService,
+    private fb: FormBuilder,
     private trainingservice: TrainingService,
-    public share: TrainingService, 
+    public share: TrainingService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private exportService: ExportReportService,
     @Inject('BASE_URL') baseUrl: string) {
       this.mainUrl = baseUrl
       this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+      this.url = baseUrl;
     }
 
   ngOnInit() {
@@ -46,10 +54,30 @@ export class RateloginTrainingReportComponent implements OnInit {
       console.log(this.resulttraining);
     })
 
+
+    this.trainingservice.getdetailtraining(this.trainingid)
+      .subscribe(result => {
+        console.log("res test: ", result);
+        this.relateLoginData = result;
+        if (result.length != 0) {
+          this.trainingname = result[0].name
+          this.gen = result[0].generation
+          this.trainingyear = result[0].year
+        }
+        this.loading = true;
+
+      })
   }
 
   gotoBack() {
     window.history.back();
   }
-  
+
+  printReport() {
+    this.exportService.reportRateLogin(this.resulttraining, this.trainingname, this.gen, this.trainingyear).subscribe(res => {
+      window.open(this.url + "Uploads/" + res.data);
+      console.log(res);
+    })
+  }
+
 }

@@ -58,6 +58,19 @@ namespace InspecWeb.ViewModel
         public string reportZone { get; set; }
 
         public long TrainingId { get; set; }
+
+        public allReportRateLogin[] allReportRateLogin { get; set; }
+
+        [JsonProperty(PropertyName = "trainingName")]
+        public string trainingName { get; set; }
+
+        [JsonProperty(PropertyName = "trainingGen")]
+        public long trainingGen { get; set; }
+
+        [JsonProperty(PropertyName = "trainingYear")]
+        public long trainingYear { get; set; }
+
+        public allReportTrainingRegister[] allReportTrainingRegister { get; set; }
     }
 
     public class reportData
@@ -166,5 +179,59 @@ namespace InspecWeb.ViewModel
 
         [JsonProperty(PropertyName = "provinceReport")]
         public string provinceReport { get; set; }
+    }
+
+    public class allReportRateLogin
+    {
+        [JsonProperty(PropertyName = "name")]
+        public string name { get; set; }
+
+        [JsonProperty(PropertyName = "position")]
+        public string position { get; set; }
+
+        [JsonProperty(PropertyName = "department")]
+        public string department { get; set; }
+
+        [JsonProperty(PropertyName = "phone")]
+        public string phone { get; set; }
+
+        [JsonProperty(PropertyName = "count")]
+        public long count { get; set; }
+
+        [JsonProperty(PropertyName = "countCourse")]
+        public long countCourse { get; set; }
+
+        [JsonProperty(PropertyName = "rateCourse")]
+        public float rateCourse { get; set; }
+    }
+
+    public class allReportTrainingRegister
+    {
+        [JsonProperty(PropertyName = "generation")]
+        public string generation { get; set; }
+
+        [JsonProperty(PropertyName = "year")]
+        public string year { get; set; }
+
+        [JsonProperty(PropertyName = "name")]
+        public string name { get; set; }
+
+        [JsonProperty(PropertyName = "detail")]
+        public string detail { get; set; }
+
+        [JsonProperty(PropertyName = "start")]
+        public DateTime start { get; set; }
+
+        [JsonProperty(PropertyName = "end")]
+        public DateTime end { get; set; }
+
+        [JsonProperty(PropertyName = "location")]
+        public string location { get; set; }
+
+        [JsonProperty(PropertyName = "count")]
+        public long count { get; set; }
+
+        [JsonProperty(PropertyName = "approveCount")]
+        public long approveCount { get; set; }
     }
 }
