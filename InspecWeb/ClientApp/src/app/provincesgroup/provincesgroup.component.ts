@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotofyService } from '../services/notofy.service';
 import { ProvincesGroupService } from '../services/provincesGroup.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
+import { LogService } from '../services/log.service';
 
 
 
@@ -19,13 +22,20 @@ export class ProvincesgroupComponent implements OnInit {
     modalRef:BsModalRef;
     Form : FormGroup
     loading = false;
+    userid :any;
+    role_id :any;
+    submitted = false;
     dtOptions: DataTables.Settings = {};
 
   constructor(
     private modalService: BsModalService, 
     private fb: FormBuilder, 
     private provincesgroupservice: ProvincesGroupService,
-    private _NotofyService: NotofyService,) { }
+    private _NotofyService: NotofyService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private logService: LogService,
+    ) { }
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -53,6 +63,14 @@ export class ProvincesgroupComponent implements OnInit {
   }
 
   getdata(){
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
+    })
     this.provincesgroupservice.getdata().subscribe(result=>{
       this.data = result
       this.loading = true;
@@ -62,7 +80,9 @@ export class ProvincesgroupComponent implements OnInit {
   openModal(template: TemplateRef<any>=null,id=null,name=null) {
 
     this.Form.reset()
+    this.submitted = false; 
     this.delid = id;
+    this.name = name;
     this.Form.patchValue({
       Name: name,
     })
@@ -70,7 +90,12 @@ export class ProvincesgroupComponent implements OnInit {
   }
 
   store(value) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.provincesgroupservice.store(value).subscribe(response => {
+      this.logService.addLog(this.userid,'ProvincesGroups','เพิ่ม',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -80,6 +105,7 @@ export class ProvincesgroupComponent implements OnInit {
   }
   delete(delid) {
     this.provincesgroupservice.delete(delid).subscribe(response => {
+      this.logService.addLog(this.userid,'ProvincesGroups','ลบ',this.name,delid).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -89,7 +115,12 @@ export class ProvincesgroupComponent implements OnInit {
   }
 
   edit(value,delid) {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.provincesgroupservice.update(value,delid).subscribe(response => {
+      this.logService.addLog(this.userid,'ProvincesGroups','แก้ไข',response.name,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -97,5 +128,5 @@ export class ProvincesgroupComponent implements OnInit {
       this._NotofyService.onSuccess("แก้ไขข้อมูล")
     })
   }
-
+  get f() { return this.Form.controls; }
 }

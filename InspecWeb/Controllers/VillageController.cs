@@ -25,9 +25,6 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            //var villagedata = from P in _context.Villages
-
-            //                  select P;
             var villagedata = _context.Villages.ToList();
             return Ok(villagedata);
 
@@ -45,7 +42,49 @@ namespace InspecWeb.Controllers
 
               return Ok(villagedata);
           }
+        [HttpPost]
+        public Village Post([FromForm] VillageRequest request)
+        {
+            var date = DateTime.Now;
+            var data = new Village
+            {
+                SubdistrictId = request.SubdistrictId,
+                Name = request.Name,
+            };
+            _context.Villages.Add(data);
+            _context.SaveChanges();
+            return data;
+        }
 
-        
+        [HttpPut("{id}")]
+        public Village Put([FromForm] VillageRequest request, long id)
+        {
+            var data = _context.Villages.Find(id);
+            data.Name = request.Name;
+
+            _context.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            return data;
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public void Delete(long id)
+        {
+            var data = _context.Villages.Find(id);
+
+            _context.Villages.Remove(data);
+            _context.SaveChanges();
+        }
+
     }
 }
+
+public class VillageRequest
+{
+    public long Id { get; set; }
+    public long SubdistrictId { get; set; }
+    public string Name { get; set; }
+
+}
+

@@ -90,7 +90,7 @@ export class TrainingConditionComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id: any = null) {
      this.delid = id;
     // console.log(this.delid);
 

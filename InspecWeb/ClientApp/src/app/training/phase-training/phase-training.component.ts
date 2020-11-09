@@ -25,7 +25,7 @@ export class PhaseTrainingComponent implements OnInit {
     //dateFormat: 'dd/mm/yyyy',
     showClearDateBtn: false
   };
-  
+
   trainingid: string
   resulttraining: any[] = []
   modalRef: BsModalRef;
@@ -77,20 +77,20 @@ export class PhaseTrainingComponent implements OnInit {
           orderable: false
         }
       ],
-      // "language": {
-      //   "lengthMenu": "แสดง  _MENU_  รายการ",
-      //   "search": "ค้นหา:",
-      //   "infoFiltered": "ไม่พบข้อมูล",
-      //   "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-      //   "infoEmpty": "แสดง 0 ของ 0 รายการ",
-      //   "zeroRecords": "ไม่พบข้อมูล",
-      //   "paginate": {
-      //     "first": "หน้าแรก",
-      //     "last": "หน้าสุดท้าย",
-      //     "next": "ต่อไป",
-      //     "previous": "ย้อนกลับ"
-      //   },
-      // }
+      "language": {
+        "lengthMenu": "แสดง  _MENU_  รายการ",
+        "search": "ค้นหา:",
+        "infoFiltered": "ไม่พบข้อมูล",
+        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+        "infoEmpty": "แสดง 0 ของ 0 รายการ",
+        "zeroRecords": "ไม่พบข้อมูล",
+        "paginate": {
+          "first": "หน้าแรก",
+          "last": "หน้าสุดท้าย",
+          "next": "ต่อไป",
+          "previous": "ย้อนกลับ"
+        },
+      }
 
     };
     this.EditForm = this.fb.group({
@@ -142,8 +142,8 @@ export class PhaseTrainingComponent implements OnInit {
   getTrainingPhase() {
     this.trainingservice.getTrainingPhase(this.trainingid)
       .subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
+        this.resulttraining = result;
+        this.loading = true;
         this.spinner.hide();
         console.log(this.resulttraining);
       })
@@ -151,6 +151,8 @@ export class PhaseTrainingComponent implements OnInit {
 
 
   dateOptionF(start, end) {
+    //console.log("dateOptionF =>", start, end);
+    
     var startDate = new Date(start);
     var endDate = new Date(end);
     var dateDayRemoveStart = new Date()
@@ -226,7 +228,7 @@ export class PhaseTrainingComponent implements OnInit {
 
 
 
-  openModal(template: TemplateRef<any>, id) {
+  openModal(template: TemplateRef<any>, id: any = null) {
     this.submitted = false;
     this.delid = id;
     this.Form.reset();
@@ -237,10 +239,10 @@ export class PhaseTrainingComponent implements OnInit {
   editModal(template: TemplateRef<any>, id, phaseno, startdate, enddate, title, detail, location, group) {
     this.submitted = false;
     this.editid = id;
-    this.EditForm.reset();
+    //this.EditForm.reset();
     //console.log(this.delid);
 
-    console.log(this.Form.value);
+    console.log(this.EditForm.value);
     this.modalRef = this.modalService.show(template);
     this.EditForm.patchValue({
       "phaseno": phaseno,
@@ -260,7 +262,7 @@ export class PhaseTrainingComponent implements OnInit {
       "group": group,
     })
     console.log("Form =>", this.EditForm.value);
-    
+
     //console.log("element: ", element.startDate)
     //const checkTimeStart = <FormArray>this.EditForm.get('inputdate') as FormArray;
     // let sDate: Date = new Date(startdate);
@@ -324,7 +326,7 @@ export class PhaseTrainingComponent implements OnInit {
         console.log("result:", response);
         this.Form.reset();
         this.loading = false;
-        this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)','เพิ่ม', value.name,"").subscribe();
+        this.logService.addLog(this.userid,'TrainingPhases','เพิ่ม', response.title,response.id).subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("เพิ่มข้อมูล");
       })
@@ -342,9 +344,9 @@ export class PhaseTrainingComponent implements OnInit {
       this.trainingservice.editTrainingPhase(value, id).subscribe(response => {
         this.submitted = false;
         this.modalRef.hide();
-        this.EditForm.reset();
+        //this.EditForm.reset();
         this.loading = false;
-        this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)','แก้ไข', value.name,"").subscribe();
+        this.logService.addLog(this.userid,'TrainingPhases','แก้ไข', value.name,"").subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("แก้ไขข้อมูล");
 

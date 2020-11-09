@@ -41,19 +41,24 @@
                             <td>{{ item.email }}</td>
                             <td>{{ item.education }}</td> -->
                             <!-- <td><img src="{{downloadUrl}}/{{item.image}}" width="160" height="130"></td> -->
-                            <!-- <td>
-                                <a *ngIf="item.trainingLecturerJoinSurveysId.length > 0" href="/train/survey/{{trainingid}}/{{item.trainingLecturerJoinSurveysId[0].id}}" target="_blank">
+                            <td>
+                                <a *ngIf="item.trainingLecturerJoinSurveysId.length > 0" href="/train/survey/{{trainingid}}/{{item.trainingLecturerJoinSurveysId[0].id}}/{{item.trainingLecturerJoinSurveysId[0].trainingSurveyTopicId}}" target="_blank">
                                     {{ item.surveyName }}
                                 </a>
                             </td> -->
                             <td>
                                 
-                                <!-- <i class="align-middle mr-2 fas fa-file-medical pointer" title="ผูกแบบสอบถาม"
+                                <i *ngIf="item.trainingLecturerJoinSurveysId.length < 1" class="align-middle mr-2 fas fa-file-medical pointer" title="ผูกแบบสอบถาม"
                                 (click)="surveyModal(modalSurveyTraining, item.trainingLecturerId)"></i>
-                                <i class="align-middle mr-2 fas fa-fw fa-chart-bar pointer" title="ประมวณผลทางสถิติ"
+                                <i *ngIf="item.trainingLecturerJoinSurveysId.length > 0" class="align-middle mr-2 fas fa-file-medical pointer" title="ผูกแบบสอบถาม"
+                                (click)="surveyModal(modalSurveyTraining, item.trainingLecturerId, item.trainingLecturerJoinSurveysId[0].id)"></i>
+
+                                <!-- <i class="align-middle mr-2 fas fa-fw fa-chart-bar pointer" title="ประมวณผลทางสถิติ"
                                 (click)="gotoProcessingTraining(item.trainingLecturerJoinSurveysId[i].id)"></i> -->
-                                <i class="align-middle mr-2 fas fa-fw fa-download pointer" title="รายงานข้อมูลบุคคลของวิทยากร"
-                                (click)="reportTrainingLecturer(item.trainingLecturerId,item.trainingLecturerJoinSurveysId[0].training.name,item.trainingLecturerJoinSurveysId[0].training.year)"></i>
+
+                                <i class="align-middle mr-2 fas fa-fw fa-chart-bar pointer" title="ประมวณผลทางสถิติ"
+                                (click)="gotoProcessingTraining(item.trainingLecturerJoinSurveysId[0].id)"></i>
+                                
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                     (click)="editModal(modaleditProvince, item.id, item.name, item.link)"></i>-->
                                 <!-- <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
@@ -103,7 +108,7 @@
     <!-- BEGIN primary modal -->
     <ng-template #modalTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+        <!-- <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">แบบสอบถามวิทยากร</h5>
@@ -134,7 +139,7 @@
                         data-dismiss="modal">ปิด</button>
                 </div>
             </div>
-        </form>
+        </form> -->
         <!-- </div> -->
     </ng-template>
     <!-- END primary modal -->
@@ -163,7 +168,7 @@
     <!-- BEGIN primary modal -->
     <ng-template #modaleditTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value,delid)">
+        <!-- <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value,delid)">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">จัดการจังหวัด</h5>
@@ -205,7 +210,7 @@
                         data-dismiss="modal">ปิด</button>
                 </div>
             </div>
-        </form>
+        </form> -->
         <!-- </div> -->
     </ng-template>
     <!-- END primary modal -->

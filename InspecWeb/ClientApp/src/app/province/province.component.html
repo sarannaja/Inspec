@@ -3,6 +3,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+      <li class="breadcrumb-item active" >จัดการฐานข้อมูล</li>
       <li class="breadcrumb-item active">จังหวัด</li>
     </ol>
   </nav>
@@ -37,7 +38,7 @@
             <td>{{ i + 1 }}</td>
             <td>{{item.sectors.name}}</td>
             <th>{{item.provincesGroups.name}}</th>
-            <td class="pointer" (click)="District(item.id,item.name)" title="คลิกดูอำเภอ">{{ item.name }}</td>
+            <td class="pointer" style="color:#3b7ddd;" (click)="District(item.id,item.name)" title="คลิกดูอำเภอ">{{ item.name }}</td>
             <td>{{item.nameEN}}</td>
             <td>{{item.shortnameEN}}</td>
             <td><a href="{{ item.link }}" target="_blank">{{ item.link }}</a></td>        
@@ -48,7 +49,7 @@
               <i class="align-middle fas fa-fw fa-pen "></i>
             </button>
             <button class="btn btn-danger btn-pill btn-sm" title="ลบข้ออมูล"
-              (click)="openModal(modaldeleteProvince, item.id)">
+              (click)="openModal(modaldeleteProvince, item.id, item.name)">
               <i class="align-middle fas fa-fw fa-trash-alt pointer"></i>
             </button>
             </td>
@@ -70,32 +71,76 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <div class="form-group">        
+
+        <div class="form-group">
           <label>ภาค*</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกภาค" formControlName="Sector"   
-          [items]="selectdatasector">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกภาค" 
+            formControlName="Sector"  [items]="selectdatasector"
+            [ngClass]="{ 'is-invalid': submitted && f.Sector.errors }">
           </ng-select>
-          <br>
-          <label>กลุ่มจังหวัด*</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกลุ่มจังหวัดจังหวัด" formControlName="Provincegroup"   
-          [items]="selectdataprovincesgroup">
-          </ng-select>
-          <br>
-          <label for="test" class="form-label">ชื่อจังหวัด(TH)</label>
-          <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด">
-          <br>
-          <label for="test" class="form-label">ชื่อย่อจังหวัด(TH)</label>
-          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อจังหวัด(TH)">
-          <br>
-          <label for="xx" class="form-label">ชื่อจังหวัด(EN)</label>
-          <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อจังหวัด(EN)">
-          <br>
-          <label for="test" class="form-label">ชื่อย่อจังหวัด(EN)</label>
-          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อจังหวัด(EN)">
-          <br>
-          <label for="test" class="form-label">ลิ้งค์​</label>
-          <input type="text" formControlName="provincelink" class="form-control" placeholder="กรุณากรอกจังหวัดลิ้ง">
+
+          <div *ngIf="submitted && f.Sector.errors" class="invalid-feedback">
+            <div *ngIf="f.Sector.errors.required">กรุณาเลือกภาค</div>
+          </div>
         </div>
+
+        <div class="form-group">
+          <label>กลุ่มจังหวัด*</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกลุ่มจังหวัดจังหวัด" 
+            formControlName="Provincegroup"  [items]="selectdataprovincesgroup"
+            [ngClass]="{ 'is-invalid': submitted && f.Provincegroup.errors }">
+          </ng-select>
+          <div *ngIf="submitted && f.Provincegroup.errors" class="invalid-feedback">
+            <div *ngIf="f.Provincegroup.errors.required">กรุณาเลือกกลุ่มจังหวัดจังหวัด</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">ชื่อจังหวัด(TH)</label>
+          <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด"
+          [ngClass]="{ 'is-invalid': submitted && f.provincename.errors }">
+          <div *ngIf="submitted && f.provincename.errors" class="invalid-feedback">
+            <div *ngIf="f.provincename.errors.required">กรุณากรอกชื่อจังหวัด</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">ชื่อย่อจังหวัด(TH)</label>
+          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อจังหวัด(TH)"
+          [ngClass]="{ 'is-invalid': submitted && f.ShortnameTH.errors }">
+          <div *ngIf="submitted && f.ShortnameTH.errors" class="invalid-feedback">
+            <div *ngIf="f.ShortnameTH.errors.required">กรุณากรอกชื่อภาค</div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="xx" class="form-label">ชื่อจังหวัด(EN)</label>
+          <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด(EN)"
+          [ngClass]="{ 'is-invalid': submitted && f.NameEN.errors }">
+          <div *ngIf="submitted && f.NameEN.errors" class="invalid-feedback">
+            <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อจังหวัด(EN)</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">ชื่อย่อจังหวัด(EN)</label>
+          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อจังหวัด(EN)"
+          [ngClass]="{ 'is-invalid': submitted && f.ShortnameEN.errors }">
+          <div *ngIf="submitted && f.ShortnameEN.errors" class="invalid-feedback">
+            <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อจังหวัด(EN)</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">ลิ้งค์​</label>
+          <input type="text" formControlName="provincelink" class="form-control" placeholder="กรุณากรอกลิ้งค์"
+            [ngClass]="{ 'is-invalid': submitted && f.provincelink.errors }">
+          <div *ngIf="submitted && f.provincelink.errors" class="invalid-feedback">
+            <div *ngIf="f.provincelink.errors.required">กรุณากรอกลิ้งค์</div>
+          </div>
+        </div>
+
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -130,7 +175,7 @@
 
 <!-- BEGIN primary modal -->
 <ng-template #modaleditProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <form [formGroup]="EditForm" (ngSubmit)="editProvince(EditForm.value,delid)">
+  <form [formGroup]="Form" (ngSubmit)="editProvince(Form.value,delid)">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">จัดการจังหวัด</h5>
@@ -141,34 +186,72 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label>ภาค*</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกภาค" formControlName="Sector"  
-           bindValue="value" 
-          [items]="selectdatasector">
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกภาค" 
+            formControlName="Sector"  [items]="selectdatasector"
+            [ngClass]="{ 'is-invalid': submitted && f.Sector.errors }">
           </ng-select>
-          <br>
-          <label>กลุ่มจังหวัด*</label>
-          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกลุ่มจังหวัดจังหวัด" formControlName="Provincegroup" 
-          bindValue="value"  
-          [items]="selectdataprovincesgroup">
-          </ng-select>
-          <br>
-          <label for="test" class="form-label">ชื่อจังหวัด(TH)</label>
-          <input type="text" formControlName="provincename" class="form-control"
-            placeholder="กรุณากรอกชื่อจังหวัด">
-            <br>
-            <label for="test" class="form-label">ชื่อย่อจังหวัด(TH)</label>
-            <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อจังหวัด(TH)">
-            <br>
-            <label for="xx" class="form-label">ชื่อจังหวัด(EN)</label>
-            <input type="text" formControlName="NameEN" class="form-control" placeholder="ชื่อจังหวัด(EN)">
-            <br>
-            <label for="test" class="form-label">ชื่อย่อจังหวัด(EN)</label>
-            <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อจังหวัด(EN)">
-            <br>
-          <label for="test" class="form-label">ลิ้งค์​</label>
-          <input type="text" formControlName="provincelink" class="form-control"
-            placeholder="กรุณากรอกจังหวัดลิ้ง">
+
+          <div *ngIf="submitted && f.Sector.errors" class="invalid-feedback">
+            <div *ngIf="f.Sector.errors.required">กรุณาเลือกภาค</div>
+          </div>
         </div>
+
+        <div class="form-group">
+          <label>กลุ่มจังหวัด*</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกกลุ่มจังหวัดจังหวัด" 
+            formControlName="Provincegroup"  [items]="selectdataprovincesgroup"
+            [ngClass]="{ 'is-invalid': submitted && f.Provincegroup.errors }">
+            </ng-select>
+          <div *ngIf="submitted && f.Provincegroup.errors" class="invalid-feedback">
+            <div *ngIf="f.Provincegroup.errors.required">กรุณาเลือกกลุ่มจังหวัดจังหวัด</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">ชื่อจังหวัด(TH)</label>
+          <input type="text" formControlName="provincename" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด"
+          [ngClass]="{ 'is-invalid': submitted && f.provincename.errors }">
+          <div *ngIf="submitted && f.provincename.errors" class="invalid-feedback">
+            <div *ngIf="f.provincename.errors.required">กรุณากรอกชื่อจังหวัด</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">ชื่อย่อจังหวัด(TH)</label>
+          <input type="text" formControlName="ShortnameTH" class="form-control" placeholder="กรุณากรอกชื่อย่อจังหวัด(TH)"
+          [ngClass]="{ 'is-invalid': submitted && f.ShortnameTH.errors }">
+          <div *ngIf="submitted && f.ShortnameTH.errors" class="invalid-feedback">
+            <div *ngIf="f.ShortnameTH.errors.required">กรุณากรอกชื่อภาค</div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="xx" class="form-label">ชื่อจังหวัด(EN)</label>
+          <input type="text" formControlName="NameEN" class="form-control" placeholder="กรุณากรอกชื่อจังหวัด(EN)"
+          [ngClass]="{ 'is-invalid': submitted && f.NameEN.errors }">
+          <div *ngIf="submitted && f.NameEN.errors" class="invalid-feedback">
+            <div *ngIf="f.NameEN.errors.required">กรุณากรอกชื่อจังหวัด(EN)</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">ชื่อย่อจังหวัด(EN)</label>
+          <input type="text" formControlName="ShortnameEN" class="form-control" placeholder="กรุณากรอกชื่อย่อจังหวัด(EN)"
+          [ngClass]="{ 'is-invalid': submitted && f.ShortnameEN.errors }">
+          <div *ngIf="submitted && f.ShortnameEN.errors" class="invalid-feedback">
+            <div *ngIf="f.ShortnameEN.errors.required">กรุณากรอกชื่อย่อจังหวัด(EN)</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="test" class="form-label">ลิ้งค์​</label>
+          <input type="text" formControlName="provincelink" class="form-control" placeholder="กรุณากรอกลิ้งค์"
+            [ngClass]="{ 'is-invalid': submitted && f.provincelink.errors }">
+          <div *ngIf="submitted && f.provincelink.errors" class="invalid-feedback">
+            <div *ngIf="f.provincelink.errors.required">กรุณากรอกลิ้งค์</div>
+          </div>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>

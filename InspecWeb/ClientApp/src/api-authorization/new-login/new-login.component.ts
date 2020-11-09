@@ -102,13 +102,15 @@ export class NewLoginComponent implements OnInit {
     this.loading = true;
     this.spinner.show()
 
-    this.authorize.newLogin(this.loginForm.value.username, this.loginForm.value.password)
+    this.authorize.newLogin(this.loginForm.value.username, this.loginForm.value.password, true, this.returnUrl)
       .subscribe(async result => {
         if (result.status) {
           // this.login(this.returnUrl)
           // this.router.navigate([this.returnUrl])
           const state: INavigationState = { returnUrl: this.returnUrl };
-          const result = await this.authorize.signIn(state);
+          const result_login = await this.authorize.signIn(state);
+          console.log(result_login);
+
           this.navigateToReturnUrl(this.returnUrl);
         } else {
           this.spinner.hide()

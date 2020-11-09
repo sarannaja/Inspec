@@ -13,15 +13,14 @@ export class SubdistrictService {
     this.url = baseUrl + 'api/subdistrict/';
   }
   getsubdistrictdata(id) {
-    console.log(id);
-    
+    //console.log(id);
     return this.http.get(this.url+id)
   }
-  addsubdistrict(supdistrictData,provinceId) {
+  addsubdistrict(supdistrictData,DistrictId) {
     const formData = new FormData();
-    formData.append('DistrictId', provinceId);
+    formData.append('DistrictId', DistrictId);
     formData.append('Name', supdistrictData.Name);
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
   deletesupdistrict(id) {
     return this.http.delete(this.url + id);
@@ -30,6 +29,6 @@ export class SubdistrictService {
     const formData = new FormData();
     formData.append('Name', supdistrictData.Name);
    
-    return this.http.put(this.url+id, formData);
+    return this.http.put<any>(this.url+id, formData);
   }
 }

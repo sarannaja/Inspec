@@ -23,8 +23,9 @@
                     <thead>
                         <tr>
                             <th width="5%">#</th>
+                            <th width="20%"></th>
                             <th width="40%">ชื่อ-นามสกุล</th>
-                            <th width="40%">เบอร์โทรศัพท์</th>
+                            <th width="20%">เบอร์โทรศัพท์</th>
                             <!-- <th width="20%">E-mail</th> -->
                             <!-- <th width="20%">ประวัติการศึกษา</th> -->
                             <th width="15%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
@@ -33,16 +34,17 @@
                     <tbody>
                         <tr *ngFor="let item of resulttraining; let i = index">
                             <td>{{ i + 1 }}</td>
+                            <td><img src="{{ downloadUrl }}{{ item.imageProfile }}" width="150px" /></td>
                             <td class="ellipsis">{{ item.lecturerName }}</td>
                             <td>{{ item.phone }}</td>
                             <!-- <td>{{ item.email }}</td> -->
                             <!-- <td>{{ item.education }}</td> -->
                             <td>
                                 <i class="align-middle mr-2 fas fa-fw fa-search pointer" data-toggle="tooltip" title="ดูประวัติวิทยการ"
-                                    (click)="ViewModal(modalTrainingView, item.id, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus, item.ImageProfile)"></i>
+                                    (click)="ViewModal(modalTrainingView, item.id, item.lecturerType, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus, item.imageProfile)"></i>
                                 <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
-                                    (click)="editModal(modaleditTraining, item.id, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus)"></i>
-                                
+                                    (click)="editModal(modaleditTraining, item.id, item.lecturerType, item.lecturerName, item.phone, item.email, item.education, item.workHistory, item.experience, item.detailplus, item.imageProfile)"></i>
+                                {{ item.LecturerType }}
                                 <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                                     (click)="openModal(modaldeleteTraining, item.id)"></i> 
                             </td>
@@ -164,9 +166,9 @@
                         <label for="test" class="form-label">ชื่อ-นามสกุลวิทยากร</label>
                         <input type="text" formControlName="lecturername" class="form-control" readonly>
                         <br>
-                        <label class="form-label w-100">รูปถ่าย</label>
-                        <img src="" />
-                        <br>
+                        <label class="form-label w-100">รูปถ่าย</label><br>
+                        <img src="{{ this.downloadUrl }}{{ this.ImgProfile }}" width="150px" />
+                        <br><br>
                         <label for="test" class="form-label">เบอร์โทรศัพท์</label>
                         <input type="text" formControlName="lecturerphone" class="form-control" readonly>
                         <br>
@@ -221,10 +223,10 @@
     <!-- BEGIN primary modal -->
     <ng-template #modaleditTraining class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value,delid)">
+        <form [formGroup]="EditForm" (ngSubmit)="editTraining(EditForm.value)">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">จัดการจังหวัด</h5>
+                    <h5 class="modal-title">แก้ไขประวัติวิทยากร</h5>
                     <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
                         aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -232,10 +234,24 @@
                 </div>
                 <div class="modal-body m-3">
                     <div class="form-group">
+                        <label for="test" class="form-label">ประเภทวิทยากร</label>
+                        <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกประเภทวิทยากร" [items]="selectdatalecturer"
+                            name="name" formControlName="LecturerType"  >
+                        </ng-select>
+                        <div *ngIf="submitted && f.LecturerType.errors" class="invalid-feedback">
+                            <div *ngIf="f.LecturerType.errors.required">กรุณาเลือกประเภทวิทยากร</div>
+                        </div>
+                        <br>
                         <label for="test" class="form-label">ชื่อวิทยากร</label>
                         <input type="text" formControlName="lecturername" class="form-control"
                             placeholder="กรุณากรอกชื่อวิทยากร">
                         <br>
+                        <label for="test" class="form-label">รูปถ่าย</label><br>
+                        <img src="{{ this.downloadUrl }}{{ this.ImgProfile }}" width="150px" />
+                        <br><br>
+                        <input type="file" (change)="uploadFileEdit($event)" Accept=".jpg, .jpeg, .png">
+                        <small class="form-text text-muted">สำหรับแนบไฟล์ .jpg .png เท่านั้น</small>
+                        <br><br>
                         <label for="test" class="form-label">เบอร์โทรศัพท์</label>
                         <input type="text" formControlName="lecturerphone" class="form-control"
                             placeholder="กรุณากรอกเบอร์โทรศัพท์">

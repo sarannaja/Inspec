@@ -887,7 +887,7 @@ export class SubjecteventComponent implements OnInit {
       if (this.class == "แผนการตรวจประจำปี") {
         this.inspectionplanservice.getCentralPolicyEvent(value).subscribe(response => {
 
-          this.inspectionplanservice.deleteCentralPolicyEvent(response, this.userid).subscribe(response => {
+          this.inspectionplanservice.deleteCentralPolicyEvent(response.centralPolicyEventId, this.userid, response.centralPolicyEvent.inspectionPlanEventId).subscribe(response => {
             this._NotofyService.onSuccess("ลบข้อมูล",)
             // this.spinner.show();
             this.modalRef.hide()

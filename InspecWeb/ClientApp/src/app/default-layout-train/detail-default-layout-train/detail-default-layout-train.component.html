@@ -148,7 +148,14 @@
                 <table *ngIf="loading" class="">
                   <tbody>
                       <tr *ngFor="let item of resulttraining3; let i = index">
-                          <td class=""><a href="{{ downloadUrl }}/{{ item.name }}" target="_blank"> - {{ item.detail }}</a></td>
+                        <td class="">
+                        <ng-container *ngIf="item.name != '';">
+
+                            <a href="{{ downloadUrl }}/{{ item.name }}" target="_blank"> - {{ item.detail }}</a>
+
+                        </ng-container>
+                       
+                        </td>
                       </tr>
                   </tbody>
               </table>
@@ -207,7 +214,7 @@
     <!-- BEGIN primary modal -->
     <ng-template #modalregister class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+        <!-- <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">เข้าสู่ระบบ</h5>
@@ -227,11 +234,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">ต่อไป</button>
-                    <!-- <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
-                        data-dismiss="modal">ปิด</button> -->
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
                 </div>
             </div>
-        </form>
+        </form> -->
         <!-- </div> -->
         </ng-template>
         <!-- END primary modal -->

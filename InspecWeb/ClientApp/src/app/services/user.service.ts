@@ -24,6 +24,9 @@ export class UserService {
   getuserdata(id: any): Observable<any[]> { //role
     return this.http.get<any[]>(this.url + id)
   }
+  getuserdataforrequestorder(): Observable<any[]> { //role
+    return this.http.get<any[]>(this.base +'getuserforrequestorder')
+  }
   getprovincedata(id): Observable<any[]> {
     return this.http.get<any[]>(this.base + 'province/' + id)
   }
@@ -187,7 +190,7 @@ export class UserService {
       formData.append("files", null);
     }
 
-    return this.http.post(this.base, formData);
+    return this.http.post<any>(this.base, formData);
   }
 
   editprofile(userData, file: FileList, file2: FileList, userId) {
@@ -337,7 +340,7 @@ export class UserService {
     }
 
     let path = this.base + userId;
-    return this.http.put(path, formData)
+    return this.http.put<any>(path, formData)
   }
   deleteUser(id) {
     return this.http.delete(this.base + id);

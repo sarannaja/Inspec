@@ -15,8 +15,10 @@
 <div class="row">
   <div class="col-12">
     <div class="card card-eiei">
-      <div class="card-header">
+      <div class="card-header row">
+
         <h5 class="card-title mb-0">รายละเอียด</h5>
+
       </div>
       <div class="card-body">
         <div class="row">
@@ -314,7 +316,10 @@
             </table>
           </div>
         </div>
-        <button type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
+
+        <button *ngIf="printstatus == 0" style="align-self: center;" type="button" class="btn btn-primary" (click)="printPage()">พิมพ์</button>
+        &nbsp;
+        <button *ngIf="printstatus == 0" type="button" class="btn btn-danger" (click)="back()">ย้อนกลับ</button>
         <br>
       </div>
     </div>

@@ -26,7 +26,7 @@ namespace InspecWeb.Controllers
         public IEnumerable<Subdistrict> Get()
         {
             var subdistrictdata = from P in _context.Subdistricts
-                               select P;
+                                  select P;
             return subdistrictdata;
 
             //return 
@@ -49,31 +49,31 @@ namespace InspecWeb.Controllers
         }
 
         [HttpPost]
-        public Subdistrict Post([FromForm] DistrictRequest request)
+        public Subdistrict Post([FromForm] SubdistrictRequest request)
         {
             var date = DateTime.Now;
-            Console.WriteLine("subdistrict 1 :" + request.Name + " : " + request.ProvincesId);
+            //Console.WriteLine("subdistrict 1 :" + request.Name + " : " + request.ProvincesId);
             var subdistrictdata = new Subdistrict
             {
-                DistrictId = request.ProvincesId,
+                DistrictId = request.DistrictId,
                 Name = request.Name,
             };
-            Console.WriteLine("subdistrict 2 :");
+           // Console.WriteLine("subdistrict 2 :");
             _context.Subdistricts.Add(subdistrictdata);
             _context.SaveChanges();
-            Console.WriteLine("subdistrict 3 :");
+           // Console.WriteLine("subdistrict 3 :");
             return subdistrictdata;
         }
 
         [HttpPut("{id}")]
-        public void Put([FromForm] DistrictRequest request, long id)
+        public Subdistrict Put([FromForm] SubdistrictRequest request, long id)
         {
             var subdistrictdata = _context.Subdistricts.Find(id);
             subdistrictdata.Name = request.Name;
 
             _context.Entry(subdistrictdata).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-
+            return subdistrictdata;
         }
 
         // DELETE api/values/5

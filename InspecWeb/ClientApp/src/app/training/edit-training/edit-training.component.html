@@ -15,14 +15,14 @@
                 <h5 class="card-title">แก้ไขหลักสูตรการอบรม</h5>
             </div>
             <div class="card-body">
-                <form [formGroup]="Form" (ngSubmit)="storeTraining(Form.value)">
+                <form [formGroup]="Form" (ngSubmit)="editTraining(Form.value)">
                     <div class="row">
                         <div class="col-12 col-xl-12">
                             <br>
                             <div class="input-group">
                                 <div class="form-group">
                                     <label>รหัสปี</label>
-                                    <input type="number" maxlength="2" formControlName="year" class="form-control"
+                                    <input type="text" maxlength="2" formControlName="year" class="form-control"
                                         placeholder="กรุณากรอกปี" [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
                                         <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
                                         <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
@@ -31,7 +31,7 @@
                                 &nbsp;&nbsp;
                                 <div class="form-group">
                                     <label>รหัสหลักสูตร</label>
-                                    <input type="number" maxlength="2" formControlName="coursecode" class="form-control"
+                                    <input type="text" maxlength="2" formControlName="coursecode" class="form-control"
                                         placeholder="กรุณากรอกรหัสหลักสูตร" [ngClass]="{ 'is-invalid': submitted && f.coursecode.errors }">
                                     <div *ngIf="submitted && f.coursecode.errors" class="invalid-feedback">
                                         <div *ngIf="f.coursecode.errors.required">กรุณากรอกรหัสหลักสูตร</div>
@@ -81,9 +81,12 @@
                         </div>
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
-                                <my-date-picker-th formControlName="regis_start_date"    [options]="myDatePickerOptions"
-                                    required>
+                                <my-date-picker-th [selDate]="fe.value.regis_start_date"
+                                    (dateChanged)="onDateRegisChangedStart($event)" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
+                                <!-- <my-date-picker-th formControlName="regis_start_date"    [options]="myDatePickerOptions"
+                                    required>
+                                </my-date-picker-th> -->
 
                             </div>
                         </div>
@@ -97,8 +100,11 @@
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
 
-                                <my-date-picker-th formControlName="regis_end_date"    [options]="myDatePickerOptions"
+                                <!-- <my-date-picker-th formControlName="regis_end_date"    [options]="myDatePickerOptions"
                                     required>
+                                </my-date-picker-th> -->
+                                <my-date-picker-th [selDate]="fe.value.regis_end_date"
+                                    (dateChanged)="onDateRegisChangedEnd($event)" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
 
                             </div>
@@ -109,8 +115,12 @@
                         </div>
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
-                                <my-date-picker-th formControlName="start_date"    [options]="myDatePickerOptions"
+                                <!-- <my-date-picker-th formControlName="start_date"    [options]="myDatePickerOptions"
                                     required>
+                                </my-date-picker-th> -->
+
+                                <my-date-picker-th [selDate]="fe.value.start_date"
+                                    (dateChanged)="onDateChangedstart($event)" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
 
                             </div>
@@ -125,7 +135,10 @@
                         <div class="col-12 col-xl-3">
                             <div class="form-group">
 
-                                <my-date-picker-th formControlName="end_date"    [options]="myDatePickerOptions" required>
+                                <!-- <my-date-picker-th formControlName="end_date"    [options]="myDatePickerOptions" required>
+                                </my-date-picker-th> -->
+                                <my-date-picker-th [selDate]="fe.value.end_date"
+                                    (dateChanged)="onDateChangedend($event)" [options]="myDatePickerOptions" required>
                                 </my-date-picker-th>
 
                             </div>
@@ -134,8 +147,12 @@
                         <div class="col-12 col-xl-12">
                             <div class="form-group">
                                 <label class="form-label w-100">แนบไฟล์รูปปกหลักสูตร</label>
-                                <input type="file" multiple (change)="uploadFile($event)">
-                                <!-- <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small> -->
+                                <br><br>
+                                <img src="{{ this.downloadUrl }}{{ this.ImgProfile }}" width="150px" />
+                               
+                                <br><br>
+                                <input type="file" (change)="uploadFile($event)" Accept=".jpg, .jpeg, .png">
+                                <small class="form-text text-muted">สำหรับแนบไฟล์ .jpg .png เท่านั้น</small>
                             </div>
                         </div>
 

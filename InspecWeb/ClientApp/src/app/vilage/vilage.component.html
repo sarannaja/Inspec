@@ -1,0 +1,144 @@
+<div class="header">
+    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active" >จัดการฐานข้อมูล</li>
+            <li class="breadcrumb-item"><a [routerLink]="['/province']">จังหวัด</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/district/'+province_id+'/'+provincename]">อำเภอ</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/subdistrict/'+district_id +'/'+provincename+'/'+districtname]">ตำบล/แขวง</a></li>
+            <li class="breadcrumb-item active">หมู่บ้าน</li>
+        </ol>
+    </nav>
+</div>
+
+<form class="row">
+    <div class="col-12">
+        <div class="card card-eiei">
+            <div class="card-header" style="margin-bottom: -40px;">
+                <h4 class="card-title">จังหวัด : {{provincename}}</h4>
+                <h5 class="card-title">อำเภอ/เขต : {{districtname}}</h5>
+                <h5 class="card-title">ตำบล/แขวง : {{subdistrictname}}</h5>
+                <div class="float-right">
+                    <button class="btn btn-primary" (click)="openModal(modaladd)"
+                        style="margin-top: -60px;">เพิ่มหมู่บ้าน</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table *ngIf="loading" id="datatables-basic" class="table table-striped" datatable [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>หมู่บ้าน</th>
+                            <th><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of result; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ item.name }}</td>                        
+                            <td>
+                                <button class="btn btn-primary btn-pill btn-sm" title="แก้ไขข้ออมูล" 
+                                (click)="openModal(modaledit, item.id, item.name)">
+                                <i class="align-middle fas fa-fw fa-pen "></i>
+                                </button>
+
+                                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" 
+                                    (click)="openModal(modaldelete, item.id, item.name)">
+                                <i class="align-middle fas fa-fw fa-trash-alt"></i>
+                                </button>    
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+    <!-- BEGIN primary modal -->
+    <ng-template #modaladd class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <form [formGroup]="Form" (ngSubmit)="storeSubdistrict(Form.value)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">จัดการหมู่บ้าน</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+                        <label class="form-label">ชื่อหมู่บ้าน</label>
+                        <input type="text" formControlName="Name" class="form-control"
+                            placeholder="กรุณากรอกชื่อหมู่บ้าน"
+                            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">                   
+                        <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                            <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อหมู่บ้าน</div>
+                        </div>         
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->
+
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modaldelete class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+            <i class="fa fa-info-circle delete-icon"></i>
+            <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+                ลบข้อมูล
+            </p>
+            <p style="font-size: medium; color: #545454;">
+                คุณต้องการลบข้อมูลนี้ใช่หรือไม่ ?
+            </p>
+            <button type="button" class="btn btn-primary btnMargin" (click)="delete(subdistrict_id)">
+                ใช่
+            </button>
+            <button type="button" class="btn btn-danger btnMargin" (click)="modalRef.hide()">
+                ไม่ใช่
+            </button>
+        </div>
+    </ng-template>
+    <!-- END primary modal -->
+
+    <!-- BEGIN primary modal -->
+    <ng-template #modaledit class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">   
+        <form [formGroup]="Form" (ngSubmit)="updateSubdistrict(Form.value,subdistrict_id)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">จัดการหมู่บ้าน</h5>
+                    <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body m-3">
+                    <div class="form-group">
+                        <label class="form-label">ชื่อหมู่บ้าน</label>
+                        <input type="text" formControlName="Name" class="form-control"
+                            placeholder="กรุณากรอกชื่อหมู่บ้าน"
+                            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">                   
+                        <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                            <div *ngIf="f.Name.errors.required">กรุณากรอกชื่อหมู่บ้าน</div>
+                        </div>         
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                    <button type="button" class="btn btn-danger" (click)="modalRef.hide()"
+                        data-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </form>
+        <!-- </div> -->
+    </ng-template>
+    <!-- END primary modal -->

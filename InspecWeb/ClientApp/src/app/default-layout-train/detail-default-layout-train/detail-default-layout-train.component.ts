@@ -82,9 +82,9 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
         this.resulttrainingphase = result
         this.loading = true
         //console.log(this.resulttraining);
-        if (this.resulttrainingphase.length < 1){
-          this.gotoMain();
-        }
+        // if (this.resulttrainingphase.length < 1){
+        //   this.gotoMain();
+        // }
         
       })
 
@@ -125,7 +125,7 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
     })
 
     //right training
-    this.trainingservice.gettrainingdata()
+    this.trainingservice.gettrainingdataShowPage()
     .subscribe(result => {
       this.resulttraining2 = result
       this.loading = true;
@@ -135,8 +135,13 @@ export class DetailDefaultLayoutTrainComponent implements OnInit {
     //document training
     this.trainingservice.getlisttrainingdocumentdata(this.trainingid)
     .subscribe(result => {
-      this.resulttraining3 = result
-      this.loading = true
+      if (result.length > 0){
+        console.log("in");
+        
+        this.resulttraining3 = result
+        this.loading = true
+      }
+      
       //console.log(this.resulttraining);
     })
     

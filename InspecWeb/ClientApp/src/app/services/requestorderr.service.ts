@@ -109,6 +109,7 @@ addrequestorder(requestorderData, file: FileList,Commanded_by) {
   }
    
   getrequest1(Id) {
+    //alert(2);
     var boby ={
       Id 
     }

@@ -11,14 +11,30 @@
 <div class="row">
     <div class="col-12">
         <div class="card card-eiei">
-            <div class="card-header" style="margin-bottom: -40px;">
+            <div class="card-header">
                 <h5 class="card-title">
                     จัดการหลักสูตรการอบรม / การจัดการ / แบบประเมินหลักสูตรวิทยากร / ประมวลผลทางสถิติ
 
                     <button class="btn btn-light btn-sm" (click)="gotoBack()">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </button>
-                </h5> 
+                </h5>
+                <div class="float-right mt-5">
+                    <div>
+                        <div>
+                            <!-- <button id="btn-export" class="btn btn-primary"
+                          printSectionId="printhod" [useExistingCss]="true" ngxPrint>
+                          <i class="fas fa-print mr-2"></i>พิมพ์รายงาน
+                        </button> -->
+                            <button id="btn-export" class="btn btn-primary" (click)="print()"><i
+                                    class="fas fa-print mr-2"></i>พิมพ์รายงาน
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+
                 <!-- <h1 style="text-align: center;">
                     กำหนดการช่วงที่ {{resulttrainingplan[0].trainingProgram.trainingPhase.phaseNo}}
                 </h1>
@@ -30,57 +46,67 @@
                         style="margin-top: -60px;">พิมพ์</button>
                 </div> -->
             </div>
-            <div class="card-body mt-3">
-                รายการประมวลผลสถิติ(คำถามความพอใจ)
-                <canvas id="lineChart2"></canvas>
 
-                <br><br><br><br><br><br><br><br>
+            <div id="printhod" class="book" style="overflow-x: hidden; overflow-y: hidden;">
+                <div class="page">
 
-                รายการประมวลผลสถิติ(คำถามใช่ หรือ ไม่)
-                <canvas id="lineChart"></canvas>
-
-                <br><br><br><br><br><br><br><br>
+                    <div class="card-body mt-3">
 
 
+                        <div style="page-break-after: always;">
+                            รายการประมวลผลสถิติ(คำถามความพอใจ)
+                            <canvas id="lineChart2" ></canvas>
+                        </div>
+
+                        <br><br><br><br><br><br><br><br>
+                        <div style="page-break-after: always;">
+                            รายการประมวลผลสถิติ(คำถามใช่ หรือ ไม่)
+                            <canvas id="lineChart" ></canvas>
+                        </div>
+                        <br><br><br><br><br><br><br><br>
 
 
 
-                รายการประมวลผลสถิติ(คำถามปลายเปิด)
-                <table *ngIf="loading" class="table table-bordered table-responsive-lg">
-                    <thead>
-                        <tr>
-                            <th class="text-center">หัวข้อคำถามประเมิน</th>
-                            <!-- <th class="text-center">กิจกรรม</th> -->
-                            <!-- <th class="text-center">วิทยากร</th>
-                            <th class="text-center">สถานที่/เตรียมตัว</th> -->
-                            <!-- <th id="par" colspan="1" scope="colgroup">Paris</th> -->
-                        </tr>
-                    </thead>
 
-                    <tbody>
-                        <!-- <caption>Delivery slots:</caption> -->
-                        <ng-container *ngFor="let item1 of chars|sort:'asc':'SurveyTopic'; let n = index">
-                            <tr>
-                                <th id="{{item1.SurveyTopic}}" class="span" colspan="0" scope="colgroup">
-                                    {{ n + 1 }} {{item1.SurveyTopic}}
-                                </th>
-                            </tr>
-                            <tr *ngFor="let item of item1.value |sort:'asc':'answerText'; let i = index">
-                                
-                                <td class="" style="padding-left:3rem;" headers="{{item1.SurveyTopic}}">
-                                    - {{item.answerText}}
-                                </td>
+                        <div style="height: 2000px;">
+                            รายการประมวลผลสถิติ(คำถามปลายเปิด)
+                            <table *ngIf="loading" class="table table-bordered table-responsive-lg">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">หัวข้อคำถามประเมิน</th>
+                                        <!-- <th class="text-center">กิจกรรม</th> -->
+                                        <!-- <th class="text-center">วิทยากร</th>
+                                <th class="text-center">สถานที่/เตรียมตัว</th> -->
+                                        <!-- <th id="par" colspan="1" scope="colgroup">Paris</th> -->
+                                    </tr>
+                                </thead>
 
-                            </tr>
-                        </ng-container>
+                                <tbody>
+                                    <!-- <caption>Delivery slots:</caption> -->
+                                    <ng-container *ngFor="let item1 of chars|sort:'asc':'SurveyTopic'; let n = index">
+                                        <tr>
+                                            <th id="{{item1.SurveyTopic}}" class="span" colspan="0" scope="colgroup" width="800">
+                                                {{ n + 1 }} {{item1.SurveyTopic}}
+                                            </th>
+                                        </tr>
+                                        <tr *ngFor="let item of item1.value |sort:'asc':'answerText'; let i = index">
 
-                        <ng-template>
+                                            <td class="" style="padding-left:3rem;" headers="{{item1.SurveyTopic}}">
+                                                - {{item.answerText}}
+                                            </td>
 
-                        </ng-template>
+                                        </tr>
+                                    </ng-container>
 
-                    </tbody>
-                </table>
+                                </tbody>
+                            </table>
+                        </div>
 
+                    </div>
+                </div>
+                <!-- <div class="page">
+            <div class="subpage">Page 2/2</div>
+            </div> -->
             </div>
         </div>
     </div>
