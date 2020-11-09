@@ -35,7 +35,7 @@
                     <tbody>
                         <tr *ngFor="let item of resultsubdistrict; let i = index">
                             <td>{{ i + 1 }}</td>
-                            <td class="pointer" style="color:#3b7ddd;" (click)="vilage(id,item.id,provincename)">
+                            <td class="pointer" style="color:#3b7ddd;" (click)="vilage(id,item.id,provincename,districtname,item.name)">
                                 {{ item.name }}
                             </td>                        
                             <td>
