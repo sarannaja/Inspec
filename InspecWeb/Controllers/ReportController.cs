@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Hosting;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 using Image = Xceed.Document.NET.Image;
+using System.Threading;
+using System.Globalization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -128,7 +130,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "รายงานแบบประเด็นการตรวจติดตาม" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
+            var filename = "รายงานแบบประเด็นการตรวจติดตาม" + DateTime.Now.ToString("dd MM yyyy", new CultureInfo("th-TH")) + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -175,8 +177,14 @@ namespace InspecWeb.Controllers
                     System.Console.WriteLine("7");
                     var region2 = document.InsertParagraph("เรื่อง : " + subjectdata.name);
                     region2.Alignment = Alignment.center;
-                    region2.SpacingAfter(30d);
+                    region2.SpacingAfter(10d);
                     region2.FontSize(16d);
+
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                    var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    reportdate.SpacingAfter(30d);
+                    reportdate.FontSize(16d);
+                    reportdate.Alignment = Alignment.center;
 
                     var region3 = document.InsertParagraph("ผู้ให้ข้อมูล");
                     //region2.Alignment = Alignment.center;
@@ -285,34 +293,21 @@ namespace InspecWeb.Controllers
         [HttpPost("reportperformance")]
         public IActionResult CreateReport([FromForm] reportperformance model)
         {
-            //var provincedata = _context.Provinces
-            //    .Where(m => m.Id == model.provinceid)
-            //    .FirstOrDefault();
-
-            //System.Console.WriteLine("1" + provincedata.Name);
-            //var centralpolicydata = _context.CentralPolicies
-            //    .Where(m => m.Id == model.centralpolicyid)
-            //    .FirstOrDefault();
-
-            //System.Console.WriteLine("2" + centralpolicydata.Title);
-            //var subjectdata = _context.SubjectCentralPolicyProvinces
-            //    .Where(m => m.Id == model.subjectid)
-            //    .FirstOrDefault();
-            //System.Console.WriteLine("3" + subjectdata.Name);
-
 
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "รายงานผลการดำเนินการของหน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
+            var filename = "รายงานผลการดำเนินการของหน่วยรับตรวจ" + DateTime.Now.ToString("dd MM yyyy", new CultureInfo("th-TH")) + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
             System.Console.WriteLine("in create");
             if (model.reporttype == "1")
             {
                 System.Console.WriteLine("type1");
+                //var test = model.provincialDepartmentId;
+                //int test2 = ;
                 var type = "(รายหน่วยงาน)";
                 var answerdata = _context.AnswerSubquestions
                     .Include(m => m.SubquestionCentralPolicyProvince)
@@ -324,15 +319,18 @@ namespace InspecWeb.Controllers
                     .Where(m => m.User.ProvincialDepartmentId == model.provincialDepartmentId)
                     .Where(m => m.SubquestionCentralPolicyProvince.SubjectCentralPolicyProvince.SubjectGroupId == model.SubjectGroupId)
                     .ToList();
+                System.Console.WriteLine("type2");
 
                 var regiondata = _context.FiscalYearRelations
                     .Include(m => m.Region)
                     .Where(m => m.ProvinceId == model.provinceid)
                     .FirstOrDefault();
+                System.Console.WriteLine("type3");
 
                 var provicedata = _context.Provinces
                     .Where(m => m.Id == model.provinceid)
                     .FirstOrDefault();
+                System.Console.WriteLine("type4");
 
                 using (DocX document = DocX.Create(createfile))
                 {
@@ -365,8 +363,14 @@ namespace InspecWeb.Controllers
 
                         var inspector = document.InsertParagraph("หน่วยงาน : " + answerdata[i].User.ProvincialDepartments.Name + "เขต : " + regiondata.Region.Name + " จังหวัด : " + provicedata.Name);
                         inspector.Alignment = Alignment.center;
-                        inspector.SpacingAfter(30d);
+                        inspector.SpacingAfter(10d);
                         inspector.FontSize(16d);
+
+                        var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                        var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                        reportdate.SpacingAfter(30d);
+                        reportdate.FontSize(16d);
+                        reportdate.Alignment = Alignment.center;
 
                         var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : " + answerdata[i].SubquestionCentralPolicyProvince.SubjectCentralPolicyProvince.Name);
                         //region.Alignment = Alignment.center;
@@ -474,8 +478,14 @@ namespace InspecWeb.Controllers
 
                     var inspector = document.InsertParagraph("เขต : " + regiondata.Region.Name + " จังหวัด : " + answerdata[0].SubjectGroup.Province.Name);
                     inspector.Alignment = Alignment.center;
-                    inspector.SpacingAfter(30d);
+                    inspector.SpacingAfter(10d);
                     inspector.FontSize(16d);
+
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                    var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    reportdate.SpacingAfter(30d);
+                    reportdate.FontSize(16d);
+                    reportdate.Alignment = Alignment.center;
 
                     var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : " + answerdata[0].Name);
                     //region.Alignment = Alignment.center;
@@ -666,8 +676,14 @@ namespace InspecWeb.Controllers
                     // Insert a title paragraph.
                     var year = document.InsertParagraph("รอบการตรวจราชการที่.................... เขต : " + regiondata.Name);
                     year.Alignment = Alignment.center;
-                    year.SpacingAfter(20d);
+                    year.SpacingAfter(15d);
                     year.FontSize(16d);
+
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                    var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    reportdate.SpacingAfter(20d);
+                    reportdate.FontSize(16d);
+                    reportdate.Alignment = Alignment.center;
 
                     for (int i = 0; i < terms.Count(); i++)
                     {
@@ -768,7 +784,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
+            var filename = "รายงานแบบข้อเสนอแนะของผู้ตรวจราชการ" + DateTime.Now.ToString("dd MM yyyy", new CultureInfo("th-TH")) + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -804,6 +820,12 @@ namespace InspecWeb.Controllers
                     year.Alignment = Alignment.center;
                     year.SpacingAfter(10d);
                     year.FontSize(16d);
+
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                    var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    reportdate.SpacingAfter(10d);
+                    reportdate.FontSize(16d);
+                    reportdate.Alignment = Alignment.center;
 
                     var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : " + reportsuggestionsdata.CentralPolicy.Title);
                     //region.Alignment = Alignment.center;
@@ -902,7 +924,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
+            var filename = "รายงานผลการดำเนินการตามข้อเสนอแนะของผู้ตรวจราชการ" + DateTime.Now.ToString("dd MM yyyy", new CultureInfo("th-TH")) + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -973,8 +995,14 @@ namespace InspecWeb.Controllers
                             System.Console.WriteLine("6.1");
                             var inspector = document.InsertParagraph("หน่วยงาน : " + ProvincialDepartmentdata.Name + "จังหวัด : " + Provincedata.Name);
                             inspector.Alignment = Alignment.center;
-                            inspector.SpacingAfter(30d);
+                            inspector.SpacingAfter(10d);
                             inspector.FontSize(16d);
+
+                            var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                            var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                            reportdate.SpacingAfter(30d);
+                            reportdate.FontSize(16d);
+                            reportdate.Alignment = Alignment.center;
 
                             System.Console.WriteLine("6.2");
                             var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : " + testData[i].SubjectGroup.CentralPolicy.Title);
@@ -1093,7 +1121,7 @@ namespace InspecWeb.Controllers
 
                 var testData = data.ToArray();
 
-                System.Console.WriteLine("www"+ testData.Count());
+                System.Console.WriteLine("www" + testData.Count());
                 using (DocX document = DocX.Create(createfile))
                 {
                     System.Console.WriteLine("4");
@@ -1132,8 +1160,14 @@ namespace InspecWeb.Controllers
                             System.Console.WriteLine("6.1");
                             var inspector = document.InsertParagraph("เขต : " + regiondata.Region.Name + "จังหวัด : " + Provincedata.Name);
                             inspector.Alignment = Alignment.center;
-                            inspector.SpacingAfter(30d);
+                            inspector.SpacingAfter(10d);
                             inspector.FontSize(16d);
+
+                            var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                            var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                            reportdate.SpacingAfter(30d);
+                            reportdate.FontSize(16d);
+                            reportdate.Alignment = Alignment.center;
 
                             System.Console.WriteLine("6.2");
                             var region = document.InsertParagraph("หัวข้อการตรวจติดตาม : " + testData[i].SubjectGroup.CentralPolicy.Title);
@@ -1312,8 +1346,14 @@ namespace InspecWeb.Controllers
                     System.Console.WriteLine("6.1");
                     var inspector = document.InsertParagraph("เขต : " + regiondata.Name);
                     inspector.Alignment = Alignment.center;
-                    inspector.SpacingAfter(20d);
+                    inspector.SpacingAfter(10d);
                     inspector.FontSize(16d);
+
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                    var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    reportdate.SpacingAfter(20d);
+                    reportdate.FontSize(16d);
+                    reportdate.Alignment = Alignment.center;
 
                     for (int i = 0; i < terms.Length; i++)
                     {
@@ -1445,7 +1485,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
+            var filename = "รายงานแบบสอบถามความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน" + DateTime.Now.ToString("dd MM yyyy", new CultureInfo("th-TH")) + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -1478,6 +1518,12 @@ namespace InspecWeb.Controllers
                 year.Alignment = Alignment.center;
                 year.SpacingAfter(10d);
                 year.FontSize(16d);
+
+                var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                reportdate.SpacingAfter(10d);
+                reportdate.FontSize(16d);
+                reportdate.Alignment = Alignment.center;
 
                 int dataCount = 0;
                 dataCount = question.Count;
@@ -1568,7 +1614,7 @@ namespace InspecWeb.Controllers
                 Directory.CreateDirectory(_environment.WebRootPath + "//Uploads//"); //สร้าง Folder Upload ใน wwwroot
             }
             var filePath = _environment.WebRootPath + "/Uploads/";
-            var filename = "รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน" + DateTime.Now.ToString("dd MM yyyy") + ".docx";
+            var filename = "รายงานความคิดเห็นของที่ปรึกษาผู้ตรวจราชการภาคประชาชน" + DateTime.Now.ToString("dd MM yyyy", new CultureInfo("th-TH")) + ".docx";
             var createfile = filePath + filename;
             var myImageFullPath = filePath + "logo01.png";
 
@@ -1629,8 +1675,14 @@ namespace InspecWeb.Controllers
 
                     var inspector = document.InsertParagraph("ชื่อที่ปรึกษาฯ : " + answerdata[0].User.Name + " เขต : " + regiondata.Region.Name + " จังหวัด : " + userprovincerdata[0].Province.Name);
                     inspector.Alignment = Alignment.center;
-                    inspector.SpacingAfter(30d);
+                    inspector.SpacingAfter(10d);
                     inspector.FontSize(16d);
+
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                    var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    reportdate.SpacingAfter(30d);
+                    reportdate.FontSize(16d);
+                    reportdate.Alignment = Alignment.center;
 
                     System.Console.WriteLine("7");
                     int dataCount = 0;
@@ -1747,8 +1799,14 @@ namespace InspecWeb.Controllers
 
                     var inspector = document.InsertParagraph("เขต : " + regiondata.Region.Name + "จังหวัด : " + test[0].Province.Name);
                     inspector.Alignment = Alignment.center;
-                    inspector.SpacingAfter(30d);
+                    inspector.SpacingAfter(10d);
                     inspector.FontSize(16d);
+
+                    var testDate = DateTime.Now.ToString("dddd dd MMMM yyyy", new CultureInfo("th-TH"));
+                    var reportdate = document.InsertParagraph("วันที่เรียกรายงาน" + testDate);
+                    reportdate.SpacingAfter(30d);
+                    reportdate.FontSize(16d);
+                    reportdate.Alignment = Alignment.center;
 
                     System.Console.WriteLine("7");
                     int dataCount = 0;
