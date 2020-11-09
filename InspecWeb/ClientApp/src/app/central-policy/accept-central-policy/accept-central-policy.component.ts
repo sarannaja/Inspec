@@ -46,6 +46,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
   role6Count
   role9Count
   role10Count
+  printstatus
   constructor(private fb: FormBuilder,
     private modalService: BsModalService,
     private centralpolicyservice: CentralpolicyService,
@@ -65,6 +66,7 @@ export class AcceptCentralPolicyComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.printstatus = 0;
     this.authorize.getUser()
       .subscribe(result => {
         this.userid = result.sub
@@ -187,6 +189,19 @@ export class AcceptCentralPolicyComponent implements OnInit {
       console.log("calendarFile: ", res);
 
     })
+  }
+
+  printPage() {
+    this.printstatus = 1
+    setTimeout(() => {
+      this.printPage2()
+    }, 1000);
+  }
+  printPage2() {
+    window.print();
+    setTimeout(() => {
+      this.printstatus = 0
+    }, 800);
   }
 
 }
