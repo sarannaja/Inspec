@@ -865,6 +865,7 @@ namespace InspecWeb.Controllers
                         Password = passwordrandom,
                         Host = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}",
                     };
+                    System.Console.WriteLine("testuser : mail");
                     await mailService.SendWelcomeEmailAsync(send);
 
                 }
@@ -1857,6 +1858,24 @@ namespace InspecWeb.Controllers
 
                     _context.Entry(user).State = EntityState.Modified;
                     _context.SaveChanges();
+
+                    //<!-- yochigang20201106 -->
+                    var userscount = _context.Users.Count();
+                    if (userscount == 0)
+                    {
+                        var centralpolicydata = new CentralPolicy
+                        {
+                            Title = "สองเองครับ อีสเตอร์เอ๊ก",
+                            TypeexaminationplanId = 1,
+                            FiscalYearNewId = 1,
+                            Status = "ไอ้สอง",
+                            Class = "สองเอง",
+                            CreatedBy = user.Id,
+                        };
+                        _context.CentralPolicies.Add(centralpolicydata);
+                        _context.SaveChanges();
+                    }
+                    //<!-- END yochigang20201106 -->
                     Console.Write("userrun");
                     foreach (var item2 in item.UserRegion)
                     {

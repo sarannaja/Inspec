@@ -32,10 +32,10 @@ export class FiscalyearnewService {
       }else{
         formData.append('Enddate',null)
       }
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
   delete(id) {
-    return this.http.delete(this.url + id);
+    return this.http.delete<any>(this.url + id);
   }
   update(data, id) {
     const formData = new FormData();
@@ -53,7 +53,7 @@ export class FiscalyearnewService {
         formData.append('Enddate',null)
       }
   
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
 
 }

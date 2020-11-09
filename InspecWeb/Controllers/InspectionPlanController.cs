@@ -425,8 +425,12 @@ namespace InspecWeb.Controllers
         [HttpDelete("deleteplandate/{planid}")]
         public void Deleteplandate(long planid)
         {
-            var InspectionPlanEventsdata = _context.InspectionPlanEvents.Find(planid);
+            var CalendarFiledata = _context.CalendarFiles
+            .Where(m => m.InspectionPlanEventId == planid).ToList();
+            _context.CalendarFiles.RemoveRange(CalendarFiledata);
+            _context.SaveChanges();
 
+            var InspectionPlanEventsdata = _context.InspectionPlanEvents.Find(planid);
             _context.InspectionPlanEvents.Remove(InspectionPlanEventsdata);
             _context.SaveChanges();
         }

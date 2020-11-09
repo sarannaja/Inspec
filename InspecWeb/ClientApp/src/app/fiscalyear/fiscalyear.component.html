@@ -64,7 +64,7 @@
                   (click)="openModal(modaleditFiscalyear, item.id, item.year,item.orderdate,item.startDate,item.endDate,item.setinspectionareaFiles)">
                   <i class="align-middle  fas fa-fw fa-pen "></i>
                 </button>
-                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldeleteFiscalyear, item.id)">
+                <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล" (click)="openModal(modaldeleteFiscalyear, item.id,item.year)">
                   <i class="align-middle  fas fa-fw fa-trash-alt "></i>
                 </button>
               </td>
@@ -108,14 +108,13 @@
               <div class="col-6">
                 <div class="form-group">
 
-              
-
                   <my-date-picker-th formControlName="orderdate" [options]="myDatePickerOptions" required
-                      placeholder="กรุณาเลือกวันที่">
+                      placeholder="กรุณาเลือกวันที่"  [ngClass]="{ 'is-invalid': submitted && f.orderdate.errors }">
                   </my-date-picker-th>
 
-                  <div *ngIf="submitted && f.orderdate.errors" class="invalid-feedback">
-                    <div *ngIf="f.orderdate.errors.required">กรุณาเลือกวันที่</div>
+                  <div class="form-group" *ngIf="submitted &&  f.orderdate.errors"
+                    [ngStyle]="submitted &&  f.orderdate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกเวลา</div>
                   </div>
                 </div>
               </div>
@@ -134,8 +133,14 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่เริ่มต้น">
+                <my-date-picker-th formControlName="startdate" [options]="myDatePickerOptions" 
+                  required placeholder="กรุณาเลือกวันที่เริ่มต้น"
+                  [ngClass]="{ 'is-invalid': submitted && f.startdate.errors }">
                 </my-date-picker-th>
+                <div class="form-group" *ngIf="submitted &&  f.startdate.errors"
+                    [ngStyle]="submitted &&  f.startdate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกวันที่เริ่มต้น</div>
+                </div>
               </div>
             </div>
             <div class="col-12 col-xl-2">
@@ -145,8 +150,14 @@
             </div>
             <div class="col-12 col-xl-5">
               <div class="form-group">
-                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" required placeholder="กรุณาเลือกวันที่สิ้นสุด">
+                <my-date-picker-th formControlName="enddate" [options]="myDatePickerOptions" 
+                  required placeholder="กรุณาเลือกวันที่สิ้นสุด"
+                  [ngClass]="{ 'is-invalid': submitted && f.enddate.errors }">
                 </my-date-picker-th>
+                <div class="form-group" *ngIf="submitted &&  f.enddate.errors"
+                    [ngStyle]="submitted &&  f.enddate.invalid ? {color: '#dc3545'}:{color: ''} ">
+                    <div style="font-size: 80%;">กรุณาเลือกวันที่สิ้นสุด</div>
+                  </div>
               </div>
             </div>
           </div>

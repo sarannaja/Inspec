@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { IMyOptions } from 'mydatepicker-th';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NotofyService } from '../services/notofy.service';
+import { LogService } from '../services/log.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-fiscalyear',
@@ -29,8 +32,9 @@ export class FiscalyearComponent implements OnInit {
   od:any;
   fileUrl :any;
   submitted = false;
+  userid:any;
+  role_id:any;
   dtOptions: DataTables.Settings = {};
-  forbiddenUsernames = ['admin', 'test', 'xxxx'];
   public myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd/mm/yyyy',
@@ -49,6 +53,9 @@ export class FiscalyearComponent implements OnInit {
     public share: FiscalyearService, 
     private router: Router,
     private spinner: NgxSpinnerService,
+    private logService: LogService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
     @Inject('BASE_URL') baseUrl: string,
     private _NotofyService: NotofyService,
     ) { 
@@ -78,18 +85,26 @@ export class FiscalyearComponent implements OnInit {
     };
   }
   getdata(){
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+        this.userService.getuserfirstdata(this.userid)
+          .subscribe(result => {
+            this.role_id = result[0].role_id
+          })
+    })
     this.fiscalyearservice.getfiscalyeardata().subscribe(result => {
       this.resultfiscalyear = result
       this.loading = true;
       this.spinner.hide();
-      console.log(this.resultfiscalyear);
     })
   }
-  openModal(template: TemplateRef<any>, id, year,orderdate,startdate,enddate,setinspectionareaFiles) {
+  openModal(template: TemplateRef<any>=null, id=null, year=null,orderdate=null,startdate=null,enddate=null,setinspectionareaFiles=null) {
     this.Form.reset();
     this.submitted = false;
     
     this.delid = id;
+    this.year = year;
     this.fileset = setinspectionareaFiles;
     if (orderdate == null) {
       this.od = orderdate;
@@ -131,16 +146,11 @@ export class FiscalyearComponent implements OnInit {
 
     this.submitted = true;
     
-    // stop here if form is invalid
     if (this.Form.invalid) {
-     // console.log(this.Form.invalid)
         return;
     }
-
-    // display form values on success
-   // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.Form.value));
-
     this.fiscalyearservice.addFiscalyear(value,this.Form.value.files).subscribe(response => {
+      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','เพิ่ม',response.year,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -150,6 +160,7 @@ export class FiscalyearComponent implements OnInit {
   }
   deleteFiscalyear(value) {
     this.fiscalyearservice.deleteFiscalyear(value).subscribe(response => {
+      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','ลบ',this.year,this.delid).subscribe();
       this.modalRef.hide()
       this.loading = false;
       this._NotofyService.onSuccess("ลบข้อมูล")
@@ -159,6 +170,7 @@ export class FiscalyearComponent implements OnInit {
  
   editFiscalyear(value, delid) {
     this.fiscalyearservice.editFiscalyear(value,this.Form.value.files, delid).subscribe(response => {
+      this.logService.addLog(this.userid,'ข้อสั่งการถึงผู้ตรวจราชการ','แก้ไข',response.year,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false;
@@ -183,7 +195,7 @@ export class FiscalyearComponent implements OnInit {
       startdate: new FormControl(null, [Validators.required]),
       enddate: new FormControl(null, [Validators.required]),
       orderdate: new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      files: new FormControl(null),
     })
   }
   get f() { return this.Form.controls; }
@@ -197,4 +209,5 @@ export class FiscalyearComponent implements OnInit {
   DetailFiscalYear(id: any) {
     this.router.navigate(['/fiscalyear/detailfiscalyear', id])
   }
+ 
 }

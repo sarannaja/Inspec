@@ -39,19 +39,19 @@ export class FiscalyearService {
     } else {
       formData.append("files", null);
     }
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
   deleteFiscalyear(id) {
     return this.http.delete(this.url + id);
   }
   editFiscalyear(data, file: FileList, id) {
-    console.log(data);
+    //console.log(data);
     const formData = new FormData();
     formData.append('Year', data.year);
     formData.append('StartDate', data.startdate.date.year + '-' + data.startdate.date.month + '-' + data.startdate.date.day);
     formData.append('EndDate', data.enddate.date.year + '-' + data.enddate.date.month + '-' + data.enddate.date.day);
     formData.append('Orderdate', data.orderdate.date.year + '-' + data.orderdate.date.month + '-' + data.orderdate.date.day);
-    console.log('FORMDATA: ' + formData);
+    //console.log('FORMDATA: ' + formData);
 
     if (file != null) {
       for (var iii = 0; iii < file.length; iii++) {
@@ -60,7 +60,7 @@ export class FiscalyearService {
     } else {
       formData.append("files", null);
     }
-    return this.http.put(this.url + id, formData);
+    return this.http.put<any>(this.url + id, formData);
   }
 
   getDetailFiscalyear(id): Observable<any[]> {

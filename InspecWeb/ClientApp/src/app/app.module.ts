@@ -246,8 +246,11 @@ import { RegisterTrainingComponent } from './training/register-training/register
 import { MenuComponent } from './menu/menu.component';
 import { ElectronicBookAllComponent } from './electronic-book-all/electronic-book-all.component';
 import { ElectronicBookAllDetailComponent } from './electronic-book-all/electronic-book-all-detail/electronic-book-all-detail.component';
+import { GovernmentinspectionareaComponent } from './governmentinspectionarea/governmentinspectionarea.component'; //yochigang20201106
+import { DetailGovernmentinspectionareaComponent } from './governmentinspectionarea/detail-governmentinspectionarea/detail-governmentinspectionarea.component';//yochigang20201106
 import { AllReportIframeComponent } from './all-report-iframe/all-report-iframe.component';
 import { AllReportIframeDetailComponent } from './all-report-iframe/all-report-iframe-detail/all-report-iframe-detail.component';
+
 
 const ExternalOrganization = [
   GgcOpmComponent, Opm1111Component, OtpsComponent
@@ -455,8 +458,11 @@ const ExternalOrganization = [
     MenuComponent,
     ElectronicBookAllComponent,
     ElectronicBookAllDetailComponent,
+    GovernmentinspectionareaComponent, //yochigang20201106
+    DetailGovernmentinspectionareaComponent, //yochigang20201106
     AllReportIframeComponent,
     AllReportIframeDetailComponent,
+
   ],
 
   imports: [
@@ -487,6 +493,15 @@ const ExternalOrganization = [
       { path: 'ty', component: AnswerOutsideThankComponent },
       { path: 'training/external/register', component: ExternalRegisterComponent },
       { path: 'inspectionplanevent/all/noauth', component: InspectionPlanEventAllComponent },
+
+      { path: 'noauth/inspectionplan/:id/:provinceid/:watch', component: InspectionPlanComponent },
+      { path: 'noauth/inspectionplan/inspectorministry/:id/:provinceid/:watch', component: InspectionPlanMinistryComponent },
+      { path: 'noauth/inspectionplan/inspectordepartment/:id/:provinceid/:watch', component: InspectionPlanDepartmentComponent },
+
+      { path: 'centralpolicy/detailcentralpolicyprovince/noauth/:result', component: DetailCentralPolicyProvinceComponent },
+      { path: 'centralpolicy/detailcentralpolicyprovince/ministry/noauth/:result', component: DetailCentralPolicyProvinceMinistryComponent },
+      { path: 'centralpolicy/detailcentralpolicyprovince/department/noauth/:result', component: DetailCentralPolicyProvinceDepartmentComponent },
+
       {
         path: 'vector', loadChildren: () => import('./external-organization/external-organization.module')
           .then(m => m.ExternalOrganizationModule)
@@ -681,6 +696,8 @@ const ExternalOrganization = [
           { path: 'electronicbookall/detail/:id', component: ElectronicBookAllDetailComponent, canActivate: [AuthorizeGuard] },
           { path: 'iframe', loadChildren: () => import('./iframe/iframe.module').then(m => m.IframeModule), canActivate: [AuthorizeGuard] },
           { path: 'menu', component: MenuComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/governmentinspectionarea', component: GovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
+          { path: 'supportgovernment/governmentinspectionarea/detail/:id', component: DetailGovernmentinspectionareaComponent, canActivate: [AuthorizeGuard] },
         ]
       },
       { path: 'train/detail/:id', component: DetailDefaultLayoutTrainComponent },
