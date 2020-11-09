@@ -78,6 +78,7 @@ export class TrainingLecturerTypeComponent implements OnInit {
     .subscribe(result => {
       this.resulttraining = result
       this.loading = true;
+      this.spinner.hide();
     })
   }
 

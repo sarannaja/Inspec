@@ -40,6 +40,7 @@ export class EditTrainingComponent implements OnInit {
   trainingid: any;
   resulttraining: any;
   ImgProfile: any;
+  userid: string;
 
   constructor(private fb: FormBuilder,
     private authorize: AuthorizeService,
@@ -56,6 +57,7 @@ export class EditTrainingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getuserinfo();
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       detail: new FormControl(null, [Validators.required]),
@@ -118,7 +120,18 @@ export class EditTrainingComponent implements OnInit {
         });
 
       })
+      this.spinner.hide();
   }
+
+  //start getuser
+  getuserinfo() {
+    this.spinner.show();
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+      })
+  }
+  
   editTraining(value) {
     console.log("editTraining =>", value);
     
@@ -133,7 +146,9 @@ export class EditTrainingComponent implements OnInit {
       console.log(reuslt);
       this.Form.reset()
       this.spinner.hide();
+      this.logService.addLog(this.userid,'Trainings','แก้ไข', reuslt.name, reuslt.id).subscribe();
       this.router.navigate(['training'])
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
       //   this.centralpolicyservice = result
       //   console.log(this.resultcentralpolicy);

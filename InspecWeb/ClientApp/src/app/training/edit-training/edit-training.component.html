@@ -22,7 +22,7 @@
                             <div class="input-group">
                                 <div class="form-group">
                                     <label>รหัสปี</label>
-                                    <input type="number" maxlength="2" formControlName="year" class="form-control"
+                                    <input type="text" maxlength="2" formControlName="year" class="form-control"
                                         placeholder="กรุณากรอกปี" [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
                                         <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
                                         <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
@@ -31,7 +31,7 @@
                                 &nbsp;&nbsp;
                                 <div class="form-group">
                                     <label>รหัสหลักสูตร</label>
-                                    <input type="number" maxlength="2" formControlName="coursecode" class="form-control"
+                                    <input type="text" maxlength="2" formControlName="coursecode" class="form-control"
                                         placeholder="กรุณากรอกรหัสหลักสูตร" [ngClass]="{ 'is-invalid': submitted && f.coursecode.errors }">
                                     <div *ngIf="submitted && f.coursecode.errors" class="invalid-feedback">
                                         <div *ngIf="f.coursecode.errors.required">กรุณากรอกรหัสหลักสูตร</div>

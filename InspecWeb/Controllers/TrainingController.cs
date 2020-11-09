@@ -261,6 +261,7 @@ namespace InspecWeb.Controllers
         public async Task<IActionResult> Post([FromForm] TrainingViewModel model)
         {
             var date = DateTime.Now;
+           
             System.Console.WriteLine("Start Uplond");
             if (!Directory.Exists(_environment.WebRootPath + "//Uploads//"))
             {
@@ -309,9 +310,16 @@ namespace InspecWeb.Controllers
                     _context.Trainings.Add(Trainingdata);
                     _context.SaveChanges();
                     System.Console.WriteLine("Start Uplond4.2");
+                    var xxx = _context.Trainings.Where(m => m.Id == Trainingdata.Id).FirstOrDefault();
+                    return Ok(xxx);
+
                 }
+
             }
-            return Ok(new { status = true });
+            return Ok( new { status = true});
+            
+
+
         }
 
         // PUT : api/training/edit/:id
@@ -391,7 +399,7 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
             System.Console.WriteLine("Start Uplond4.4");
 
-            return Ok(new { status = true });
+            return Ok(training);
 
         }
 
@@ -2845,6 +2853,21 @@ namespace InspecWeb.Controllers
             _context.SaveChanges();
 
             return training;
+        }
+
+
+        //GET api/training/check_TrainingProgramLoginQRDate/get
+        [HttpGet("check_TrainingProgramLoginQRDate/get/{trainingid}")]
+        public IActionResult GetCheckTrainingProgramLoginQRDate(long trainingid)
+        {
+
+            var data = _context.TrainingProgramLoginQRCodes
+                .Where(m => m.TrainingId == trainingid)
+                .ToList();
+
+
+            return Ok(data);
+
         }
 
 

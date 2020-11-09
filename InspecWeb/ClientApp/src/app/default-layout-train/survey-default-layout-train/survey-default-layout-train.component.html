@@ -207,11 +207,10 @@
                                     </ng-template>
                                     <ng-template #mthird>
                                         
-                                        <input type="radio" name="answerYesOrNo" (change)="answerYes(i,$event.target.value)"
-                                        value=1>
+                                        <input type="radio" name="answerYesOrNo{{i}}" (change)="answerYes(i,$event.target.value)" value=1>
                                         <label style="margin-left: 10px;">ใช่</label>
 
-                                        <input style="margin-left: 10px;" type="radio" name="answerYesOrNo" (change)="answerNo(i, $event.target.value)" value=0>
+                                        <input style="margin-left: 10px;" type="radio" name="answerYesOrNo{{i}}" (change)="answerNo(i, $event.target.value)" value=0>
                                         <label style="margin-left: 10px;">ไม่</label>
                                             
                                     
@@ -265,11 +264,11 @@
                     <div class="">
                         <div class="text-center">
                             <!-- <label class="btn btn-secondary" (click)="gotoBack()">ย้อนกลับ</label> -->
-                            <button class="btn btn-secondary" (click)="gotoBack()">
+                            <button type="button" class="btn btn-secondary btn-sm" (click)="gotoBack()">
                                 ย้อนกลับ
                             </button>
 
-                            <button type="submit" class="btn btn-primary ml-5">ส่งแบบสอบถาม</button>
+                            <button type="submit" class="btn btn-primary btn-sm ml-5">ส่งแบบสอบถาม</button>
                         </div>
                     </div>
                     <br>

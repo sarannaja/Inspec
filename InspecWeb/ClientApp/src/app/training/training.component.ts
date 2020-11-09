@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from '../services/notofy.service';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-training',
@@ -22,10 +25,13 @@ export class TrainingComponent implements OnInit {
   Form: any;
 
   constructor(private modalService: BsModalService, 
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private fb: FormBuilder, 
     private trainingservice: TrainingService,
     public share: TrainingService, 
-    private spinner: NgxSpinnerService,
     private router: Router,
     @Inject('BASE_URL') baseUrl: string) {
       this.downloadUrl = baseUrl + '/Uploads'

@@ -17,8 +17,10 @@ export class TrainingManageComponent implements OnInit {
   loading = false;
   dtOptions: DataTables.Settings = {};
   mainUrl: string;
-  datacondition: any[];
-  
+  datacondition = 0;
+  dataconditionregis = 0;
+  datatrainingProgramLogin = 0;
+  dataIDCode = 0;
   
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -51,20 +53,54 @@ export class TrainingManageComponent implements OnInit {
       console.log(this.resulttraining);
     })
 
-    this.getcheck_condition();
+    // this.getcheck_condition();
+    // this.getcheck_conditionregis();
+    // this.getcheck_TrainingProgramLogin();
+    // this.getcheck_IDCode();
+
   }
 
-  //ข้อมูลกำหนดคุณสมบัติ
-  getcheck_condition() {
-    this.trainingservice.getTrainingCondition(this.trainingid)
-    .subscribe(result => {
-      this.datacondition = result
-      this.loading = true
-      console.log(this.datacondition);
-    })
-  }
+  // //ข้อมูลกำหนดคุณสมบัติ
+  // getcheck_condition() {
+  //   this.trainingservice.getTrainingCondition(this.trainingid)
+  //   .subscribe(result => {
+  //     this.datacondition = result.length;
+  //     this.loading = true
+  //     console.log("getcheck_condition =>", this.datacondition);
+  //   })
+  // }
 
 
+  // //ข้อมูลตรวจสอบคุณสมบัติ
+  // getcheck_conditionregis() {
+  //   this.trainingservice.getTrainingCondition(this.trainingid)
+  //     .subscribe(result => {
+  //     this.dataconditionregis = result[0].trainingRegisterConditions.length;
+  //     this.loading = true
+  //     console.log("getcheck_conditionregis =>", this.dataconditionregis);
+  //   })
+  // }
+  
+  // //ข้อมูลตรวจสอบคุณสมบัติ
+  // getcheck_TrainingProgramLogin() {
+  //   this.trainingservice.getCheckTrainingProgramLogin(this.trainingid)
+  //     .subscribe(result => {
+  //     this.datatrainingProgramLogin = result.length;
+  //     this.loading = true
+  //     console.log("getcheck_TrainingProgramLogin =>", this.datatrainingProgramLogin);
+  //   })
+  // }
+
+  // getcheck_IDCode() {
+  //   this.trainingservice.getTrainingregisterlist(this.trainingid)
+  //     .subscribe(result => {
+  //       this.dataIDCode = result.length;
+  //       console.log("getcheck_IDCode", this.dataIDCode);
+
+  //     })
+  // }
+
+  
 
 
   GotoUploadDocument(){

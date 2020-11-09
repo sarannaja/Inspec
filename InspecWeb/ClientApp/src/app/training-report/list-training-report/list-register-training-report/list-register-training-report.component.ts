@@ -64,20 +64,20 @@ export class ListRegisterTrainingReportComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  editRegisterList(value, delid) {
-    // alert(JSON.stringify(value));
-    // console.clear();
-    // console.log("kkkk" + JSON.stringify(value));
-    this.trainingservice.editRegisterList(value, delid).subscribe(response => {
-      this.Form.reset()
-      this.modalRef.hide()
-      this.loading = false
-      this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(result => {
-        this.resulttraining = result
-        this.loading = true
-      })
-    })
-  }
+  // editRegisterList(value, delid) {
+  //   // alert(JSON.stringify(value));
+  //   // console.clear();
+  //   // console.log("kkkk" + JSON.stringify(value));
+  //   this.trainingservice.editRegisterList(value, delid).subscribe(response => {
+  //     this.Form.reset()
+  //     this.modalRef.hide()
+  //     this.loading = false
+  //     this.trainingservice.getregistertrainingdata(this.trainingid).subscribe(result => {
+  //       this.resulttraining = result
+  //       this.loading = true
+  //     })
+  //   })
+  // }
 
   //start getuser
 // getuserinfo(){

@@ -49,10 +49,10 @@
               <td class="ellipsis" title="{{ item.detail }}">{{ item.detail }}</td>
               <td>
                 ระยะเวลาสมัคร : <br>
-                {{ item.regisStartDate | thaidate:'year'}} - {{ item.regisEndDate | thaidate:'year'}}
+                {{ item.regisStartDate | thaidate:'short'}} - {{ item.regisEndDate | thaidate:'short'}}
                 <br>
                 ระยะเวลาอบรม : <br>
-                {{ item.startDate | thaidate:'year'}} - {{ item.endDate | thaidate:'year'}}
+                {{ item.startDate | thaidate:'short'}} - {{ item.endDate | thaidate:'short'}}
               </td>
               <td class="text-center">
                 <ng-container *ngIf="item.status == 0;else ansmsecond">

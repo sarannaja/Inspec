@@ -88,7 +88,7 @@ export class TrainingService {
     }
 
     console.log('FORMDATA: ' + formData);
-    return this.http.post(this.url, formData);
+    return this.http.post<any>(this.url, formData);
   }
 
   editTraining(trainingData, id, files: FileList) {
@@ -112,7 +112,7 @@ export class TrainingService {
     }
 
     console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url + 'maintraining/edit/' + id, formData);
+    return this.http.put<any>(this.url + 'maintraining/edit/' + id, formData);
   }
 
   deleteTraining(id) {
@@ -861,6 +861,10 @@ export class TrainingService {
     formData.append('status', trainingData.status);
     console.log('FORMDATA: ' + JSON.stringify(formData));
     return this.http.put(this.url + 'trainingsetting/edit/' + id, formData);
+  }
+
+  getCheckTrainingProgramLogin(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'check_TrainingProgramLoginQRDate/get/' + trainingid);
   }
 
 }

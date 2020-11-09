@@ -4,6 +4,9 @@ import { TrainingService } from 'src/app/services/training.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IMyOptions } from 'mydatepicker-th';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { NotofyService } from 'src/app/services/notofy.service';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-create-training',
@@ -31,17 +34,22 @@ export class CreateTrainingComponent implements OnInit {
     dateFormat: 'dd/mm/yyyy',
     showTodayBtn: true
   };
+  userid: string;
 
   constructor(private fb: FormBuilder,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
+    private spinner: NgxSpinnerService,
+    private logService: LogService,
     private trainingservice: TrainingService,
     public share: TrainingService,
     private router: Router,
-    private spinner: NgxSpinnerService,
     @Inject('BASE_URL') baseUrl: string) {
     this.downloadUrl = baseUrl + '/Uploads'
   }
 
   ngOnInit() {
+    this.getuserinfo();
     this.Form = this.fb.group({
       name: new FormControl(null, [Validators.required]),
       detail: new FormControl(null, [Validators.required]),
@@ -64,7 +72,18 @@ export class CreateTrainingComponent implements OnInit {
     //   start_date: '',
     //   end_date: '',
     // }))
+    this.spinner.hide();
   }
+
+  //start getuser
+  getuserinfo() {
+    this.spinner.show();
+    this.authorize.getUser()
+      .subscribe(result => {
+        this.userid = result.sub
+      })
+  }
+  
   storeTraining(value) {
 
     this.submitted = true;
@@ -78,7 +97,9 @@ export class CreateTrainingComponent implements OnInit {
       console.log(reuslt);
       this.Form.reset()
       this.spinner.hide();
+      this.logService.addLog(this.userid,'Trainings','เพิ่ม', reuslt.name, reuslt.id).subscribe();
       this.router.navigate(['training'])
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
       // this.centralpolicyservice.getcentralpolicydata().subscribe(result => {
       //   this.centralpolicyservice = result
       //   console.log(this.resultcentralpolicy);
