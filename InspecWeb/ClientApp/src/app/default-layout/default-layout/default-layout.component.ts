@@ -95,7 +95,7 @@ export class DefaultLayoutComponent implements OnInit {
       return e.url
     }).concat(this.arraynav.filter(result => result.url == null))
     // this.arraynav = arraynav
-    console.log('this.arraynav', this.arraynav);
+    //console.log('this.arraynav', this.arraynav);
 
   }
   // 0C-54-15-66-C2-D6
@@ -221,13 +221,13 @@ export class DefaultLayoutComponent implements OnInit {
     // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(this.userid)
     //   .subscribe(resultsub => {
 
-    //    console.log('resultsub', resultsub);
+    //    //console.log('resultsub', resultsub);
 
     this.notificationService.getnotificationsdata(this.userid)
       .subscribe(result => {
         this.resultnotifications = result
         //     .map(resultxe => {
-        //       console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
+        //       //console.log('this.getTest(result.xe)', resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject);
 
         //       // this._ExecutiveorderService.getexecutiveorderanswereddatafirst(result.xe)
         //       return { ...resultxe, subject: resultsub.find(res => resultxe.xe == res.executiveOrder.id).executiveOrder.subject }
@@ -365,7 +365,7 @@ export class DefaultLayoutComponent implements OnInit {
             .subscribe(result => {
 
               this.resultuser = result;
-              console.log('dataxx', result);
+              //console.log('dataxx', result);
 
               this.role_id = result[0].role_id
               this.Prefix = result[0].prefix
@@ -402,7 +402,7 @@ export class DefaultLayoutComponent implements OnInit {
                   for (const [key, value] of Object.entries(result)) {
                     let eiei = key
                     if (key != 'createdAt' && key != 'role_id' && key != 'id' && value != 0) {
-                      console.log('key: ' + key, value);
+                      //console.log('key: ' + key, value);
                       // mock_menu_disable.push({ [eiei]: value })
                       mock_menu_disable.push(eiei)
 
@@ -422,7 +422,7 @@ export class DefaultLayoutComponent implements OnInit {
                   });
                   this.nav = _.orderBy(this.nav, ['orderby'], ['asc']);
                   // chars =
-                  console.log('  this.nav', this.nav);
+                  //console.log('  this.nav', this.nav);
 
                 });
 
@@ -471,8 +471,8 @@ export class DefaultLayoutComponent implements OnInit {
 
     // })
     //   })
-    // console.log('await', 'in1');
-    // console.log('await', result);
+    // //console.log('await', 'in1');
+    // //console.log('await', result);
 
 
 

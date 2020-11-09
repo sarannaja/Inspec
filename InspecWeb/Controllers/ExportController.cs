@@ -1431,6 +1431,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetImportReportpeopleFiscalYearRelations(long departmentid, long provinceid)
         {
             var importFiscalYearRelations = _context.Users
+                .Where(x => x.Role_id == 3)
                 .Where(x => x.ProvincialDepartmentId == departmentid)
                 .Where(x => x.UserProvince.Any(x => x.ProvinceId == provinceid))
 
@@ -1599,7 +1600,7 @@ namespace InspecWeb.Controllers
                 importReport.RegionId = model.regionId;
                 importReport.ProvinceId = model.provinceId;
                 importReport.CentralPolicyTypeId = model.centralPolicyTypeId;
-                importReport.ReportType= model.reportType;
+                importReport.ReportType = model.reportType;
                 importReport.InspectionRound = model.inspectionRound;
                 importReport.MonitoringTopics = model.monitoringTopics;
                 importReport.DetailReport = model.detailReport;
@@ -1865,7 +1866,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("StartDate: " + model.startDate.Date);
             var Reports = _context.ImportReports
-                .Include(x => x.CentralPolicyType) 
+                .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
