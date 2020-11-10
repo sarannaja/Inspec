@@ -10,5 +10,6 @@ echo "publish success"
 iisreset /start
 
 
+pause
 
 exit
