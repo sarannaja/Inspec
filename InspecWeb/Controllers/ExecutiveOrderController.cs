@@ -42,6 +42,7 @@ namespace InspecWeb.Controllers {
         [HttpGet]
         public IEnumerable<ExecutiveOrder> Get () {
             var excutiveorderdata = _context.ExecutiveOrders
+                .Include(m => m.User)
                 .Include(m => m.ExecutiveOrderFiles)
                 .Include(m => m.ExecutiveOrderAnswers)
                 .ThenInclude(m => m.User)
@@ -55,7 +56,8 @@ namespace InspecWeb.Controllers {
         //<!-- Get ข้อสั่ง Role คนที่สั่ง-->
         [HttpGet ("commanded/{id}")]
         public IActionResult Commanded (string id) {
-            var excutiveorderdata = _context.ExecutiveOrders     
+            var excutiveorderdata = _context.ExecutiveOrders
+                .Include(m => m.User)
                 .Include (m => m.ExecutiveOrderFiles)
                 .Include(m => m.ExecutiveOrderAnswers)
                 .ThenInclude(m => m.User)              
@@ -70,7 +72,8 @@ namespace InspecWeb.Controllers {
         //<!-- Get ข้อสั่งการของผู้รับ-->
         [HttpGet ("answered/{id}")]
         public IActionResult answered (string id) {
-            var excutiveorderdata = _context.ExecutiveOrders           
+            var excutiveorderdata = _context.ExecutiveOrders  
+                .Include(m => m.User)
                 .Include (m => m.ExecutiveOrderFiles)
                 .Include(m => m.ExecutiveOrderAnswers)
                 .ThenInclude(m => m.User)
@@ -102,6 +105,7 @@ namespace InspecWeb.Controllers {
         public IActionResult excutiveorderdetail(long id)
         {
             var excutiveorderdetaildata = _context.ExecutiveOrders
+              .Include(m => m.User)
               .Include(m => m.ExecutiveOrderFiles)
               .Include(m => m.ExecutiveOrderAnswers)
               .ThenInclude(m => m.User)             

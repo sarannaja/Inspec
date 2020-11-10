@@ -18,25 +18,34 @@ export class PremierorderService {
     const formData = new FormData();
     formData.append('title',premierorderData.title);
     formData.append('year',premierorderData.year);
-    for (var iii = 0; iii < file.length; iii++) {
-      formData.append("files", file[iii]);
+
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
     }
-    return this.http.post(this.url, formData);
+
+    return this.http.post<any>(this.url, formData);
   }
 
   deletePremierorder(id) {
     return this.http.delete(this.url + id);
   }
 
-  editPremierorder(premierorderData,id) {
+  editPremierorder(premierorderData,file: FileList,id) {
    // console.log(premierorderData);
 
     const formData = new FormData();
     // alert(JSON.stringify(governmentinspectionplanData))
-    formData.append('title',premierorderData.title);
-    formData.append('year',premierorderData.year);
-    //console.log('FORMDATA: ' + JSON.stringify(formData));
-    return this.http.put(this.url+id, formData);
+    formData.append('Id',id);
+    formData.append('Title',premierorderData.title);
+    formData.append('Year',premierorderData.year);
+    if(file != null){
+      for (var iii = 0; iii < file.length; iii++) {
+        formData.append("files", file[iii]);
+      }
+    }
+    return this.http.put<any>(this.url, formData);
   }
 }
 

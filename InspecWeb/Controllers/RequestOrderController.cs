@@ -48,7 +48,8 @@ namespace InspecWeb.Controllers
         public IEnumerable<RequestOrder> Get()
         {
             var requestorderdata = _context.RequestOrders
-                  .Include(m => m.RequestOrderFiles)
+                 .Include(m => m.User)
+                 .Include(m => m.RequestOrderFiles)
                  .Include(m => m.RequestOrderAnswers)
                  .ThenInclude(m => m.User)
                  .Where(m => m.publics == 1)
@@ -63,6 +64,7 @@ namespace InspecWeb.Controllers
         public IActionResult Commanded(string id)
         {
             var requestorderdata = _context.RequestOrders
+                .Include(m => m.User)
                 .Include(m => m.RequestOrderFiles)
                 .Include(m => m.RequestOrderAnswers)
                 .ThenInclude(m => m.User)
@@ -79,6 +81,7 @@ namespace InspecWeb.Controllers
         public IActionResult answered(string id)
         {
             var excutiveorderdata = _context.RequestOrders
+                .Include(m => m.User)
                 .Include(m => m.RequestOrderFiles)
                 .Include(m => m.RequestOrderAnswers)
                 .ThenInclude(m => m.User)
@@ -95,6 +98,7 @@ namespace InspecWeb.Controllers
         public IActionResult requestorderdetail(long id)
         {
             var excutiveorderdetaildata = _context.RequestOrders
+              .Include(m => m.User)
               .Include(m => m.RequestOrderFiles)
               .Include(m => m.RequestOrderAnswers)
               .ThenInclude(m => m.User)
