@@ -8,7 +8,7 @@ namespace InspecWeb.ViewModel
 {
     public class PremierorderViewModel
     {
-
+        public long Id { get; set; }
         public string Year { get; set; }
         public string Title { get; set; }
         public List<IFormFile> files { get; set; }

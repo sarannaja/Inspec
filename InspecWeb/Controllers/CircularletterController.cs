@@ -36,7 +36,7 @@ namespace InspecWeb.Controllers
         [HttpGet]
         public IEnumerable<Circularletter> Get()
         {
-            var data = from P in _context.Circularletters
+            var data = from P in _context.Circularletters.OrderByDescending(m => m.Id)
                                select P;
             return data;
         }
@@ -92,7 +92,7 @@ namespace InspecWeb.Controllers
             }
             // <!--END อัพไฟล์  -->
             System.Console.WriteLine("5 : ");
-            return Ok(new { Id = data.Id });
+            return Ok(new { Id = data.Id,title = data.Title });
         }
 
         // PUT api/values/5
@@ -141,7 +141,7 @@ namespace InspecWeb.Controllers
             }
             // <!--END อัพไฟล์  -->
             System.Console.WriteLine("5 : ");
-            return Ok(new { Id = data.Id });
+            return Ok(new { Id = data.Id ,title = data.Title});
 
         }
 

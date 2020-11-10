@@ -6,6 +6,8 @@ import { CircularLetterService } from '../services/circular-letter.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { UserService } from '../services/user.service';
+import { LogService } from '../services/log.service';
+import { NotofyService } from '../services/notofy.service';
 
 
 @Component({
@@ -24,6 +26,9 @@ export class CircularletterComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   fileUrl: any;
   filename:any;
+  submitted = false;
+  title:any;
+  userid:any;
 
   constructor(
     private authorize: AuthorizeService,
@@ -33,6 +38,8 @@ export class CircularletterComponent implements OnInit {
     private circularletterservice: CircularLetterService,
     private userService: UserService,
     private spinner: NgxSpinnerService,
+    private logService: LogService,
+    private _NotofyService: NotofyService,
     @Inject('BASE_URL') baseUrl: string,
     ) { 
       this.fileUrl = baseUrl + '/circularletters';
@@ -64,6 +71,7 @@ export class CircularletterComponent implements OnInit {
     //<!-- เช็ค role  -->
     this.authorize.getUser()
     .subscribe(result => {
+      this.userid = result.sub
       this.userService.getuserfirstdata(result.sub)
           .subscribe(result => {
             this.role_id = result[0].role_id
@@ -83,13 +91,15 @@ export class CircularletterComponent implements OnInit {
   form(){
     this.Form = this.fb.group({ 
       Title: new FormControl(null, [Validators.required]),
-      files: new FormControl(null, [Validators.required]),
+      files: new FormControl(null),
     })
   }
 
   openModal(template: TemplateRef<any>,id,title,filename) {
     this.Form.reset()
+    this.submitted = false;
     this.id = id;
+    this.title = title;
     this.filename = filename;
     this.modalRef = this.modalService.show(template);
     this.Form.patchValue({
@@ -106,21 +116,33 @@ export class CircularletterComponent implements OnInit {
   }
 
   store(value){
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.circularletterservice.store(value, this.Form.value.files)
     .subscribe(result => {
+      this.logService.addLog(this.userid,'Circularletters','เพิ่ม',result.title,result.id).subscribe();
       this.Form.reset();
       this.loading = false;
       this.getdata();
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
       this.modalRef.hide();
     })
   }
 
   update(value,id){
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.circularletterservice.update(value, this.Form.value.files,id)
     .subscribe(result => {
+      this.logService.addLog(this.userid,'Circularletters','แก้ไข',result.title,result.id).subscribe();
       this.Form.reset();
       this.loading = false;
       this.getdata();
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
       this.modalRef.hide();
     })
   }
@@ -128,10 +150,13 @@ export class CircularletterComponent implements OnInit {
   destroy(id){
     this.circularletterservice.destroy(id)
     .subscribe(result => {
+      this.logService.addLog(this.userid,'Circularletters','ลบ',this.title,this.id).subscribe();
       this.Form.reset();
       this.loading = false;
       this.getdata();
+      this._NotofyService.onSuccess("ลบข้อมูล")
       this.modalRef.hide();
     })
   }
+  get f() { return this.Form.controls; }
 }

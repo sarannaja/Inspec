@@ -44,7 +44,7 @@
                   </button>
                   <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล">
                     <i class="align-middle fas fa-fw fa-trash-alt"
-                      (click)="openModal(modaldeletePremierorder, item.id)">
+                      (click)="openModal(modaldeletePremierorder, item.id, item.year, item.title, item.file)">
                     </i>
                   </button>
                 </td>
@@ -69,12 +69,25 @@
           <div class="modal-body m-3">
             <div class="form-group">
               <label for="test" class="form-label">ปี </label>
-              <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
-              <label for="test" class="form-label">หัวเรื่อง</label>
-              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกคำสั่ง"><br>
-              <label for="test" class="form-label">ไฟล์แนบ </label><br>
-              <input type="file"multiple (change)="uploadFile($event)">
+              <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"
+              [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+              <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+                <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
+              </div>  
             </div>
+            <div class="form-group">
+              <label for="test" class="form-label">หัวเรื่อง</label>             
+              <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกหัวเรื่อง"
+              [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+              <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                <div *ngIf="f.title.errors.required">กรุณากรอกหัวเรื่อง</div>
+              </div> 
+            </div>
+            <div class="form-group">
+              <label for="test" class="form-label">ไฟล์แนบ </label><br>
+              <input type="file" (change)="uploadFile($event)">
+            </div>
+            
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -119,14 +132,33 @@
           </button>
         </div>
         <div class="modal-body m-3">
+
           <div class="form-group">
-            <label for="test" class="form-label">ปี</label>
-            <input type="text" value="{{year}}" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"><br>
-              <label for="test" class="form-label">หัวเรื่อง </label>
-              <input type="text" value="{{title}}"formControlName="title" class="form-control" placeholder="กรุณากรอกเรื่อง"><br>
-              <label for="test" class="form-label">ไฟล์แนบ </label><br>
-              <input type="file">
+            <label  class="form-label">ปี</label>
+            <input type="text" formControlName="year" class="form-control" placeholder="กรุณากรอกปี"
+            [ngClass]="{ 'is-invalid': submitted && f.year.errors }">
+            <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+              <div *ngIf="f.year.errors.required">กรุณากรอกปี</div>
+            </div>  
           </div>
+
+          <div class="form-group">
+            <label class="form-label">หัวเรื่อง </label>
+            <input type="text" formControlName="title" class="form-control" placeholder="กรุณากรอกหัวเรื่อง"
+            [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+            <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+              <div *ngIf="f.title.errors.required">กรุณากรอกหัวเรื่อง</div>
+            </div> 
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ไฟล์แนบ </label><br>
+            <a href="assets/PremierorderFile/{{file}}" style="cursor: pointer;" download>
+              <label>{{file}}</label>
+            </a><br>
+            <input type="file" (change)="uploadFile($event)">
+          </div>
+          
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
