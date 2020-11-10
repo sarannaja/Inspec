@@ -2,7 +2,8 @@
     
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="['/main']">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active">ข้อมูลสนันสนุน</li>
             <li class="breadcrumb-item"><a href="javascript:void(0)">ข้อมูลเรื่องร้องเรียนจากระบบศูนย์รับเรื่องราวร้องทุกข์ของรัฐบาล</a></li>
         </ol>
     </nav>
@@ -13,10 +14,11 @@
         <div class="card card-eiei">
             <div class="card-header" style="margin-bottom: -20px;">
                 <h5 class="card-title">ข้อมูลเรื่องร้องเรียนจากระบบศูนย์รับเรื่องราวร้องทุกข์ของรัฐบาล</h5>
-                <!-- <div class="float-right">
-              <button class="btn btn-primary" (click)="CreateCentralPolicy()"
-              style="margin-top: -60px;">เพิ่มแผนตรวจราชการประจำปี</button>
-            </div> -->
+                <div class="float-right"> 
+                    <button class="btn btn-success" (click)="excel()"
+                        style="margin-top: -60px;">Excel
+                    </button> 
+                </div>     
             </div>
             <div class="card-body">
                 <!-- <app-cabinet-table></app-cabinet-table> -->

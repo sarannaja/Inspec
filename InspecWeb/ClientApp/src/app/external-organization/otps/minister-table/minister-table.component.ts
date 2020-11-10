@@ -200,6 +200,9 @@ export class MinisterTableComponent implements OnInit {
   excel() {
     window.location.href = '/api/ExternalOrganization/excelOtpsMinisters/';
   }
+  excel2() {
+    window.location.href = '/api/ExternalOrganization/excelotps/';
+  }
   //<!-- END excel -->
 
   //<!-- Word -->

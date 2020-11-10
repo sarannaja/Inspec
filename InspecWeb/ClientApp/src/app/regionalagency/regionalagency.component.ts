@@ -81,8 +81,10 @@ export class RegionalagencyComponent implements OnInit {
         this.resultuser = result;
         this.loading = true
         this.spinner.hide();
-        console.log(this.resultuser);
+        // console.log(this.resultuser);
       })
   }
-
+  excel(){
+    window.location.href = '/api/user/excelregionalagency';
+  }
 }

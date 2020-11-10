@@ -81,6 +81,7 @@ export class SubdistrictComponent implements OnInit {
     this.spinner.show();
     this.subdistrictservice.getsubdistrictdata(this.id).subscribe(result => {
       this.resultsubdistrict = result
+      //console.log("momo",result);
       // this.titleprovince = result[0].district.province.name
       // this.province_id = result[0].district.province.id
       // this.titledistrict = result[0].district.name
