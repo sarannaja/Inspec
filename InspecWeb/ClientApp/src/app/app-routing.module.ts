@@ -418,7 +418,7 @@ const routes: Routes = [
   { path: 'train/register/:id', component: RegisterDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
   { path: 'train/register-external/:id', component: RegisterDefaultLayoutTrainComponent },
   { path: 'train/list/:id', component: ListDefaultLayoutTrainComponent },
-  { path: 'train/survey/:id/:suveyjoinlecid', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
+  { path: 'train/survey/:id/:suveyjoinlecid/:surveytopicid', component: SurveyDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
   { path: 'train/register-success/:id', component: SuccessDefaultLayoutTrainComponent, canActivate: [AuthorizeGuard] },
   {
     path: 'train', component: DefaultLayoutTrainComponent,
