@@ -262,7 +262,7 @@ export class ListTrainingRegisterComponent implements OnInit {
     // alert(JSON.stringify(value));
     // console.clear();
     // //console.log("kkkk" + JSON.stringify(value));
-    this.spinner.show();
+    this.spinner.show();  
 
     this.trainingservice.editRegisterList2(value, this.people ,this.trainingid).subscribe(response => {
       this.Form.reset()

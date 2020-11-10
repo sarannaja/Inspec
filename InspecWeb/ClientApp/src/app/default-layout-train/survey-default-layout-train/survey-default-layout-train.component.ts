@@ -265,7 +265,7 @@ export class SurveyDefaultLayoutTrainComponent implements OnInit {
     
     this.t.at(index).patchValue({
       answerYesOrNo: value, 
-    })
+    }) 
   }
 
 }
