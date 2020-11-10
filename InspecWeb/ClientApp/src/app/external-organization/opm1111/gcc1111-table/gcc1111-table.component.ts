@@ -14,7 +14,23 @@ import { IMyOptions } from 'mydatepicker-th';
 })
 export class Gcc1111TableComponent implements OnInit {
   results: Array<any>
-  dtOptions: DataTables.Settings = {};
+  // dtOptions: DataTables.Settings = {
+  dtOptions: any = {
+    dom: 'Bfrtip',
+    buttons: [
+      { extend: 'copy', text: 'คัดลอก', className: 'btn btn-primary glyphicon glyphicon-duplicate' },
+      { extend: 'csv', text: 'ส่งออก csv', className: 'btn btn-primary glyphicon glyphicon-save-file' },
+      { extend: 'excel', text: 'ส่งออก excel', className: 'btn btn-primary glyphicon glyphicon-list-alt' },
+      { extend: 'pdf', text: 'ส่งออก pdf', className: 'btn btn-primary glyphicon glyphicon-file' },
+      { extend: 'print', text: 'ส่งออกออกจากเครื่องพิมพ์', className: 'btn btn-primary glyphicon glyphicon-print' },
+      // {
+      //   text: 'My button',
+      //   action: function (e, dt, node, config) {
+      //     alert('Button activated');
+      //   }
+      // }
+    ]
+  };
   loading: boolean = false
   userId
   modalRef: BsModalRef;
@@ -106,9 +122,9 @@ export class Gcc1111TableComponent implements OnInit {
         //console.log((Date.parse(result[0].date_opened) / 1000).toString().length,Date.parse(value.beginJsDate));
 
         this.results = result.filter(result => {
-          return (Date.parse(result.date_opened)) >=Date.parse(value.beginJsDate) && (Date.parse(result.date_opened)) <= Date.parse(value.endJsDate)
+          return (Date.parse(result.date_opened)) >= Date.parse(value.beginJsDate) && (Date.parse(result.date_opened)) <= Date.parse(value.endJsDate)
         })
-      //  this.results.forEach(result=>{ //console.log(Date.parse(result.date_opened))});
+        //  this.results.forEach(result=>{ //console.log(Date.parse(result.date_opened))});
 
         this.loading = true
         this.spinner.hide();
