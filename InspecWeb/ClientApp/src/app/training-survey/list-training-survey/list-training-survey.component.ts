@@ -100,7 +100,7 @@ export class ListTrainingSurveyComponent implements OnInit {
     this.spinner.show();
     this.authorize.getUser()
       .subscribe(result => {
-        this.userid = result.sub
+        this.userid = result.sub 
       })
   }
 
