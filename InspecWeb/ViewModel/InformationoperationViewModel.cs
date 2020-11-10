@@ -8,7 +8,7 @@ namespace InspecWeb.ViewModel
 {
     public class InformationoperationViewModel
     {
-
+        public long Id { get; set; }
         public string Location { get; set; }
         public string Name { get; set; }
         public string Detail { get; set; }

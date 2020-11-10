@@ -187,28 +187,72 @@
           </button>
         </div>
         <div class="modal-body m-3">
+
           <div class="form-group">
             <label for="test" class="form-label"> ประเภทสถานที่ </label><br>
-            <select class="select form-control" value="{{location}}" formControlName="location">
-                      <!-- formControlName="type" -->
-                      <option value=null>--กรุณาเลือกประเภท--</option>
-                      <option value="ที่พัก">ที่พัก</option>
-                      <option value="ร้านอาหาร">ร้านอาหาร</option>
-                    </select><br><br>
-            <label for="test" class="form-label">ชื่อ</label>
-            <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
-            <input type="text" value="{{name}}" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อสถานที่"><br>
-              <label for="test" class="form-label">รายละเอียด </label>
-              <input type="text" value="{{detail}}"formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"><br>
-              <label for="test" class="form-label">เบอร์ </label>
-              <input type="text" value="{{tel}}"formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์ติดต่อ"><br>
-              <label for="test" class="form-label">จังหวัด </label>
-              <input type="text" value="{{province}}"formControlName="province" class="form-control" placeholder="กรุณากรอกจังหวัด"><br>
-              <label for="test" class="form-label">อำเภอ </label>
-              <input type="text" value="{{district}}"formControlName="district" class="form-control" placeholder="กรุณากรอกอำเภอ"><br>
-              <label for="test" class="form-label">ไฟล์แนบ </label><br>
-              <input type="file" >
+              <select class="select form-control" value="{{location}}" formControlName="location"
+              [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                <option value=null>--กรุณาเลือกประเภท--</option>
+                <option value="ที่พัก">ที่พัก</option>
+                <option value="ร้านอาหาร">ร้านอาหาร</option>
+              </select>
+              <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                <div *ngIf="f.location.errors.required">กรุณาเลือกประเภท</div>
+              </div> 
           </div>
+
+            <div class="form-group">
+              <label class="form-label">ชื่อสถานที่ </label>
+              <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อสถานที่"
+              [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">กรุณากรอกชื่อสถานที่</div>
+              </div>  
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">รายละเอียด </label>
+              <input type="text" formControlName="detail" class="form-control" placeholder="กรุณากรอกรายละเอียด"
+              [ngClass]="{ 'is-invalid': submitted && f.detail.errors }">
+              <div *ngIf="submitted && f.detail.errors" class="invalid-feedback">
+                <div *ngIf="f.detail.errors.required">กรุณากรอกรายละเอียด</div>
+              </div>  
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">เบอร์ติดต่อ</label>
+              <input type="text" formControlName="tel" class="form-control" placeholder="กรุณากรอกเบอร์ติดต่อ"
+              [ngClass]="{ 'is-invalid': submitted && f.tel.errors }">
+              <div *ngIf="submitted && f.tel.errors" class="invalid-feedback">
+                <div *ngIf="f.tel.errors.required">กรุณากรอกเบอร์ติดต่อ</div>
+              </div>  
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">จังหวัด </label>
+              <input type="text" formControlName="province" class="form-control" placeholder="กรุณากรอกจังหวัด"
+              [ngClass]="{ 'is-invalid': submitted && f.province.errors }">
+              <div *ngIf="submitted && f.province.errors" class="invalid-feedback">
+                <div *ngIf="f.province.errors.required">กรุณากรอกจังหวัด</div>
+              </div>  
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">อำเภอ </label>
+              <input type="text" formControlName="district" class="form-control" placeholder="กรุณากรอกอำเภอ"
+              [ngClass]="{ 'is-invalid': submitted && f.district.errors }">
+              <div *ngIf="submitted && f.district.errors" class="invalid-feedback">
+                <div *ngIf="f.district.errors.required">กรุณากรอกอำเภอ</div>
+              </div>  
+            </div>
+            <div class="form-group">
+              <label  class="form-label">ไฟล์แนบ </label><br>
+              <a href="assets/InformationoperationFile/{{file}}" style="cursor: pointer;" download>
+                <label>{{file}}</label>
+              </a><br>
+              <input type="file" >
+            </div>
+          
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
