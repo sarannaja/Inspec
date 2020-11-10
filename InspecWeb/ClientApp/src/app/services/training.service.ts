@@ -131,7 +131,7 @@ export class TrainingService {
 
   editRegisterList2(trainingregisterlistData, id, trainingid) {
     console.log(trainingregisterlistData);
-
+ 
     const formData = new FormData();
     formData.append('status', trainingregisterlistData.approve);
 
