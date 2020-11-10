@@ -112,21 +112,71 @@ namespace InspecWeb.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(long id, string location, string name, string detail, string tel, string province, string district, string file)
+        //[HttpPut("{id}")]
+        //public void Put(long id, string location, string name, string detail, string tel, string province, string district, string file)
+        //{
+        //    var informationoperation = _context.Informationoperations.Find(id);
+        //    informationoperation.Location = location;
+        //    informationoperation.Name = name;
+        //    informationoperation.Detail = detail;
+        //    informationoperation.Tel = tel;
+        //    informationoperation.Province = province;
+        //    informationoperation.District = district;
+        //    _context.Entry(informationoperation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //    _context.SaveChanges();
+
+        //}
+        [HttpPut]
+        public async Task<IActionResult> Put([FromForm] InformationoperationViewModel request)
         {
-            var informationoperation = _context.Informationoperations.Find(id);
-            informationoperation.Location = location;
-            informationoperation.Name = name;
-            informationoperation.Detail = detail;
-            informationoperation.Tel = tel;
-            informationoperation.Province = province;
-            informationoperation.District = district;
+
+            var informationoperation = _context.Informationoperations.Find(request.Id);
+            informationoperation.Location = request.Location;
+            informationoperation.Name = request.Name;
+            informationoperation.Detail = request.Detail;
+            informationoperation.Tel = request.Tel;
+            informationoperation.Province = request.Province;
+            informationoperation.District = request.District;
             _context.Entry(informationoperation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
 
-        }
+            System.Console.WriteLine("1 : " );
+            // <!-- อัพไฟล์  -->
+            if (!Directory.Exists(_environment.WebRootPath + "/assets" + "//InformationoperationFile//"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "/assets" + "//InformationoperationFile//"); //สร้าง Folder Upload ใน wwwroot
+            }
+            var filePath = _environment.WebRootPath + "/assets" + "//InformationoperationFile//";
+            System.Console.WriteLine("2 : ");
+            if (request.files != null)
+            {
+                foreach (var formFile in request.files.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    var random = RandomString(10);
+                    string filePath2 = formFile.Value.FileName;
+                    string filename = Path.GetFileName(filePath2);
+                    string ext = Path.GetExtension(filename);
+                    System.Console.WriteLine("3 : ");
+                    if (formFile.Value.Length > 0)
+                    {
+                        using (var stream = System.IO.File.Create(filePath + random + filename))
+                        {
+                            await formFile.Value.CopyToAsync(stream);
+                        }
+                        var data2 = _context.Informationoperations.Find(request.Id);
+                        data2.File = random + filename;
+                        System.Console.WriteLine("4 : ");
+                        _context.Entry(data2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        _context.SaveChanges();
 
+                    }
+                }
+            }
+            // <!--END อัพไฟล์  -->
+            System.Console.WriteLine("5 : ");
+            return Ok(new { Id = informationoperation.Id, title = informationoperation.Name });
+
+        }
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(long id)

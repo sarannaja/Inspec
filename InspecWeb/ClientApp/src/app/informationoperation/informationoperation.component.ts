@@ -28,7 +28,8 @@ export class InformationoperationComponent implements OnInit {
   submitted = false;
   dtOptions: DataTables.Settings = {};
   userid :any;
-  role_id :any
+  role_id :any;
+  file:any;
 
   constructor(private modalService: BsModalService, 
     private fb: FormBuilder, 
@@ -83,7 +84,7 @@ export class InformationoperationComponent implements OnInit {
       this.loading = true
       })
   }
-  openModal(template: TemplateRef<any>=null, id=null, location=null, name=null, detail=null, tel=null, province=null, district=null) {
+  openModal(template: TemplateRef<any>=null, id=null, location=null, name=null, detail=null, tel=null, province=null, district=null,file=null) {
     this.delid = id;
     this.location = location;
     this.name = name;
@@ -91,6 +92,16 @@ export class InformationoperationComponent implements OnInit {
     this.tel = tel;
     this.province = province;
     this.district = district;
+    this.file = file;
+    this.Form.patchValue({
+      location : location,
+      name : name,
+      detail : detail,
+      tel : tel,
+      province : province,
+      district : district,
+    }) 
+
     this.modalRef = this.modalService.show(template);
   }
   uploadFile(event) {
@@ -125,8 +136,12 @@ export class InformationoperationComponent implements OnInit {
     })
   }
   editInformationoperation(value,delid) {
-    this.informationoperationservice.editInformationoperation(value,delid).subscribe(response => {
-      this.logService.addLog(this.userid,'Informationoperations','แก้ไข',response.name,response.id).subscribe();
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+    this.informationoperationservice.editInformationoperation(value,this.Form.value.files,delid).subscribe(response => {
+      this.logService.addLog(this.userid,'Informationoperations','แก้ไข',response.title,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
       this.loading = false
