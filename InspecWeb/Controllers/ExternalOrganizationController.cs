@@ -160,9 +160,81 @@ namespace InspecWeb.Controllers
 
         }
 
-        [HttpGet("otps/cabinets")]
-        public IActionResult OnGetOtpsCabinets()
+        // GET api/values/5
+        //โครงการที่ยังไม่เสร็จ บลา บลา
+        [HttpGet("otps/ministers/yo")]
+        public IActionResult OnGetOtpsMinistersYo()
         {
+            List<OtpsMinisters> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+                .ContinueWith((taskwithresponse) => {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<List<OtpsMinisters>>(jsonString.Result);
+                });
+            task.Wait();
+            return Ok(model);
+
+        }
+        [HttpGet("excelotps")]
+        public IActionResult exceladvisercivilsector()
+        {
+
+            List<OtpsMinisters> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("https://api.otps.go.th/api/Ministers")
+                .ContinueWith((taskwithresponse) => {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<List<OtpsMinisters>>(jsonString.Result);
+                });
+            task.Wait();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("otps");
+
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "ปีงบประมาณ";
+                worksheet.Cell(currentRow, 2).Value = "รัฐมนตรี";
+                worksheet.Cell(currentRow, 3).Value = "โครงการ";
+                worksheet.Cell(currentRow, 4).Value = "เขตตรวจ";
+                worksheet.Cell(currentRow, 5).Value = "จังหวัด";
+
+
+                foreach (var item in model)
+                {
+                    foreach (var item2 in item.FiscalYears[0].ProjectDetails)
+                    {
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = item2.FiscalYear;
+                        worksheet.Cell(currentRow, 2).Value = item2.Minister;
+                        worksheet.Cell(currentRow, 3).Value = item2.Name;
+                        worksheet.Cell(currentRow, 4).Value = item2.Region;
+                        worksheet.Cell(currentRow, 5).Value = item2.Province;
+                    }
+
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "otps.xlsx");
+                }
+            }
+        }
+
+        [HttpGet ("otps/cabinets")]
+        public IActionResult OnGetOtpsCabinets () {
             List<Cabinets> model = null;
             var client = new HttpClient();
             var task = client.GetAsync("https://api.otps.go.th/api/Cabinets")
@@ -196,9 +268,59 @@ namespace InspecWeb.Controllers
 
         }
 
-        [HttpGet("gcc/provinces")]
-        public IActionResult OnGetGccProvice()
+        [HttpGet("excelgccopm/{provinceId}/{representId}")]
+        public IActionResult excelgccopm(int provinceId, int representId)
         {
+
+            List<GgcService> model = null;
+            var client = new HttpClient();
+            var task = client.GetAsync("http://203.113.14.20:3000/ggcservice/withimage/" + provinceId + '/' + representId)
+                .ContinueWith((taskwithresponse) => {
+                    var response = taskwithresponse.Result;
+                    var jsonString = response.Content.ReadAsStringAsync();
+                    jsonString.Wait();
+                    model = JsonConvert.DeserializeObject<List<GgcService>>(jsonString.Result);
+                });
+            task.Wait();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("ธรรมาภิบาล");
+
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "ชื่อ - นามสกุล ";
+                worksheet.Cell(currentRow, 2).Value = "ตำแหน่ง";
+                worksheet.Cell(currentRow, 3).Value = "ที่อยุ่";
+                worksheet.Cell(currentRow, 4).Value = "เบอร์โทร";
+
+            
+
+                foreach (var item in model)
+                {
+                   
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = item.fullname;
+                    worksheet.Cell(currentRow, 2).Value = item.appointment;
+                    worksheet.Cell(currentRow, 3).Value = item.address;
+                    worksheet.Cell(currentRow, 4).Value = item.phonenumber;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "ธรรมาภิบาล.xlsx");
+                }
+            }
+        }
+
+        [HttpGet ("gcc/provinces")]
+        public IActionResult OnGetGccProvice () {
             List<GgcProvince> model = null;
             var client = new HttpClient();
             var task = client.GetAsync("http://203.113.14.20:3000/ggcservice/getprovince")
@@ -249,6 +371,70 @@ namespace InspecWeb.Controllers
             return Ok(model);
 
         }
+        // <!-- excelopm-1111 excel -->
+        [HttpGet("excelopm-1111/{id}")]
+        public IActionResult excelfiscalyear(string id)
+        {
+
+            var user = _userManager.Users.Where(m => m.Id == id)           
+                 .FirstOrDefault();
+
+            var userProvince = _context.UserProvinces
+                .Where(user => user.UserID == id)        
+                .ToList();
+            List<OpmUserProvince> opmUserProvincesAll = new List<OpmUserProvince>();
+            foreach (var item in userProvince)
+            {
+                var Province = _context.Provinces
+                    .Where(w => w.Id == item.ProvinceId)
+                    .First();
+                ProvinceKeyword ProvinceS = SearchProvince(Province.Name);
+                Console.WriteLine(ProvinceS.Id);
+                var prov = new { province = Province.Name };
+                List<OpmUserProvince> opmUserProvinces = OpmOpmUserProvince(ProvinceS.Id);
+                for (int i = 0; i < opmUserProvinces.Count; i++)
+                {
+                    opmUserProvincesAll.Add(opmUserProvinces[i]);
+                }
+            }
+            OpmUserProvince[] terms = opmUserProvincesAll.ToArray();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("opm-1111");
+
+                var currentRow2 = 1;
+
+                worksheet.Cell(currentRow2, 1).Value = "รหัส";
+                worksheet.Cell(currentRow2, 2).Value = "วัตถุประสงค์";
+                worksheet.Cell(currentRow2, 3).Value = "วันที่รับแจ้ง";
+                worksheet.Cell(currentRow2, 4).Value = "ประเภทเรื่อง";
+                worksheet.Cell(currentRow2, 5).Value = "สาระสำคัญ";
+
+
+                foreach (var item in terms)
+                {
+                    currentRow2++;
+                    worksheet.Cell(currentRow2, 1).Value = item.CaseCode;
+                    worksheet.Cell(currentRow2, 2).Value = item.ObjectiveText;
+                    worksheet.Cell(currentRow2, 3).Value = item.DateOpened;
+                    worksheet.Cell(currentRow2, 4).Value = item.TypeText;
+                    worksheet.Cell(currentRow2, 5).Value = item.Summary;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "ข้อมูลเรื่องร้องเรียนจากระบบศูนย์รับเรื่องราวร้องทุกข์ของรัฐบาล.xlsx");
+                }
+            }
+        }
+        // <!-- END excelopm-1111 excel -->
 
         // GET api/values/5
         [HttpGet("otps/region/{id}")]

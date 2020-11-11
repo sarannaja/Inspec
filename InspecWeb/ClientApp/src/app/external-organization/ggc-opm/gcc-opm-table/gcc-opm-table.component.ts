@@ -65,5 +65,7 @@ export class GccOpmTableComponent implements OnInit {
     this.spinner.show();
     this.getData(this.provice, this.wara);
   }
-
+  excel(provice,wara){ 
+    window.location.href = '/api/ExternalOrganization/excelgccopm/'+provice+'/'+wara;
+  }
 }

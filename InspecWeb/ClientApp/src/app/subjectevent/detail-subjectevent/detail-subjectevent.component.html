@@ -237,7 +237,7 @@
                           data-toggle="collapse" type="button" [attr.data-target]="'#graphs' + i" aria-expanded="false"
                           aria-controls="graphs" style="margin-left: 20px; font-size: small;">แสดงกราฟ
                         </button> -->
-                        <button *ngIf="subjectgroupstatus == 'รายงานแล้ว'" class="btn btn-danger" type="button"
+                        <button class="btn btn-danger" type="button"
                           (click)="checkChart(item.id)? closeChart(item.id): showChart.push(item.id)"
                           style="margin-left: 20px; font-size: small;">{{checkChart(item.id)? 'ย่อกราฟ':'แสดงกราฟ'}}
                         </button>
@@ -306,7 +306,7 @@
                           </div>
                         </td>
                       </div>
-                      <div class="col-12" *ngIf="items.answerSubquestions && item.answerSubquestions.length != 0">
+                      <div class="col-12" *ngIf="item.answerSubquestions && item.answerSubquestions.length != 0">
                         <td style="border-top: none; width: 1%;" *ngIf="item.type == 'คำถามปลายปิด'">
                           <!-- <u>ตัวเลือกคำถาม</u> -->
                           <!-- <div *ngFor="let item2 of items.subquestionCentralPolicyProvinces;let ii = index"> -->

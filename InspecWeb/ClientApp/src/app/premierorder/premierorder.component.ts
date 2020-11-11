@@ -3,6 +3,10 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { PremierorderService } from '../services/premierorder.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { UserService } from '../services/user.service';
+import { LogService } from '../services/log.service';
+import { NotofyService } from '../services/notofy.service';
 
 @Component({
   selector: 'app-premierorder',
@@ -18,10 +22,22 @@ export class PremierorderComponent implements OnInit {
   Form : FormGroup
   files: string[] = []
   loading = false;
+  submitted = false;
   dtOptions: DataTables.Settings = {};
-
-  constructor(private modalService: BsModalService, private fb: FormBuilder, private premierorderservice: PremierorderService,
-    public share: PremierorderService,private spinner: NgxSpinnerService) { }
+  userid :any;
+  role_id :any
+  file:any;
+  constructor(
+    private modalService: BsModalService,
+    private fb: FormBuilder,
+    private premierorderservice: PremierorderService,
+    public share: PremierorderService,
+    private spinner: NgxSpinnerService,
+    private authorize: AuthorizeService,
+    private userService: UserService,
+    private logService: LogService,
+    private _NotofyService: NotofyService,
+    ) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -45,12 +61,19 @@ export class PremierorderComponent implements OnInit {
     this.Form = this.fb.group({
       title: new FormControl(null, [Validators.required]),
       year: new FormControl(null, [Validators.required]),
-      files : new FormControl(null, [Validators.required])
+      files : new FormControl(null)
     })
   }
 
   getdata(){
-    
+    this.authorize.getUser()
+    .subscribe(result => {
+      this.userid = result.sub
+      this.userService.getuserfirstdata(this.userid)
+        .subscribe(result => {
+        this.role_id = result[0].role_id
+      })
+    })
     this.premierorderservice.getpremierorder().subscribe(result=>{
       this.resultpremierorder = result
       this.loading = true
@@ -58,10 +81,17 @@ export class PremierorderComponent implements OnInit {
       
       })
   }
-  openModal(template: TemplateRef<any>=null, id=null, year=null,title=null) {
+  openModal(template: TemplateRef<any>=null, id=null, year=null,title=null,file=null) {
+    this.Form.reset()
+    this.submitted = false;
     this.delid = id;
     this.title = title;
-    this.year = year;    
+    this.year = year;
+    this.file = file;
+    this.Form.patchValue({
+      title: title,
+      year :year
+    }) 
     this.modalRef = this.modalService.show(template);
   }
   uploadFile(event) {
@@ -74,38 +104,42 @@ export class PremierorderComponent implements OnInit {
   }
 
   storePremierorder(value) {
-    // alert(JSON.stringify(value));
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
     this.premierorderservice.addPremierorder(value, this.Form.value.files).subscribe(response => {
-      console.log(value);
+      this.logService.addLog(this.userid,'Premierorders','เพิ่ม',response.title,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
-      this.premierorderservice.getpremierorder().subscribe(result => {
-        this.resultpremierorder = result
-        console.log(this.resultpremierorder);
-      })
+      this.loading = false
+      this._NotofyService.onSuccess("เพิ่มข้อมูล")
+      this.getdata()
     })
   }
   deletePremierorder(value) {
     this.premierorderservice.deletePremierorder(value).subscribe(response => {
-      console.log(value);
+      this.logService.addLog(this.userid,'Premierorders','ลบ',this.title,this.delid).subscribe();
       this.modalRef.hide()
-      this.premierorderservice.getpremierorder().subscribe(result => {
-        this.resultpremierorder = result
-        console.log(this.resultpremierorder);
-      })
+      this.loading = false
+      this._NotofyService.onSuccess("ลบข้อมูล")
+      this.getdata()
     })
   }
   editPremierorder(value,delid) {
-    console.log(value);
-    this.premierorderservice.editPremierorder(value,delid).subscribe(response => {
+    this.submitted = true;
+    if (this.Form.invalid) {
+        return;
+    }
+    this.premierorderservice.editPremierorder(value,this.Form.value.files,delid).subscribe(response => {
+      this.logService.addLog(this.userid,'Premierorders','แก้ไข',response.title,response.id).subscribe();
       this.Form.reset()
       this.modalRef.hide()
-      this.premierorderservice.getpremierorder().subscribe(result => {
-        this.resultpremierorder = result
-       
-      })
+      this.loading = false
+      this._NotofyService.onSuccess("แก้ไขข้อมูล")
+      this.getdata()
     })
   }
-
+  get f() { return this.Form.controls; }
 }
 

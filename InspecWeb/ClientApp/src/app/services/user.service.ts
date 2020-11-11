@@ -389,7 +389,7 @@ export class UserService {
 
   }
   changepassword(userData , id) {
-    alert(userData.Password);
+    //alert(userData.Password);
     const formData = new FormData();
     formData.append('id', id);
     formData.append('Password', userData.Password);

@@ -96,5 +96,7 @@ export class GovernmentinspectionareaComponent implements OnInit {
   Detail(id: any) {
     this.router.navigate(['/supportgovernment/governmentinspectionarea/detail', id])
   }
- 
+  excel(id){
+    window.location.href = '/api/fiscalyear/excelfiscalyear/'+ id;
+  }
 }

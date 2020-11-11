@@ -25,6 +25,7 @@
               <th>ระยะเวลา</th>
               <th>สถานะ</th>
               <th>ไฟล์</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +54,9 @@
                 <span *ngFor="let item2 of item.setinspectionareaFiles;let n = index" >
                   <a href="{{fileUrl}}/{{item2.name}}" download>{{n +1}}.{{item2.name}}</a><br>
                 </span>
+            </td>
+            <td>
+              <button class="btn btn-success btn-pill btn-sm" (click)="excel(item.id)">Excel</button>   
             </td>
               
             </tr>
