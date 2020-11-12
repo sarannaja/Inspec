@@ -56,19 +56,19 @@ namespace InspecWeb.Controllers {
         // [Route("Login")]
         public async Task<IActionResult> Login ([FromBody] LoginCredentials credentials) {
 
-            var result1 = await _signInManager.PasswordSignInAsync (credentials.Username, credentials.Password, credentials.Jodjumchan = false, lockoutOnFailure : true);
             if (!ModelState.IsValid || credentials == null) {
                 return Ok (new { Message = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", status = false });
             } else {
-                var identityUser = await userManager.FindByNameAsync (credentials.Username);
-                // var result = userManager.PasswordHasher.VerifyHashedPassword (identityUser, identityUser.PasswordHash, credentials.Password);
-                var test2 = userManager.Options.Lockout.MaxFailedAccessAttempts;
 
+                var result1 = await _signInManager.PasswordSignInAsync (credentials.Username, credentials.Password, credentials.Jodjumchan = false, lockoutOnFailure : true);
+                var identityUser = await userManager.FindByNameAsync (credentials.Username);
                 if (result1.IsLockedOut) {
                     var test = userManager.Options.Lockout.DefaultLockoutTimeSpan.TotalMinutes;
 
-                    return Ok (new { Message = "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 5 นาที", status = false, test2 });
+                    return Ok (new { Message = "คุณทำการเข้าระบบผิดพลาดเกิน 5 ครั้ง กรุณาล็อคอินใหม่ในอีก 5 นาที", status = false });
                 } else if (result1.Succeeded) {
+                    var result = userManager.PasswordHasher.VerifyHashedPassword (identityUser, identityUser.PasswordHash, credentials.Password);
+                    var test2 = userManager.Options.Lockout.MaxFailedAccessAttempts;
                     var claims = new List<Claim> {
                         new Claim (ClaimTypes.Email, identityUser.Email),
                         new Claim (ClaimTypes.Name, identityUser.UserName)
@@ -76,7 +76,7 @@ namespace InspecWeb.Controllers {
 
                     var claimsIdentity = new ClaimsIdentity (
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    // var result1 = await _signInManager.PasswordSignInAsync(credentials.Username, credentials.Password, false, lockoutOnFailure: true);
+                    await _signInManager.PasswordSignInAsync (credentials.Username, credentials.Password, credentials.Jodjumchan, lockoutOnFailure : true);
 
                     await HttpContext.SignInAsync (
                         CookieAuthenticationDefaults.AuthenticationScheme,
@@ -98,7 +98,7 @@ namespace InspecWeb.Controllers {
                 }
             }
 
-            return LocalRedirect (credentials.ReturnUrl != null ? credentials.ReturnUrl : "/inspectionplanevent/all");
+            // return LocalRedirect (credentials.ReturnUrl != null ? credentials.ReturnUrl : "/inspectionplanevent/all");
         }
 
         [HttpPost ("Login2")]
