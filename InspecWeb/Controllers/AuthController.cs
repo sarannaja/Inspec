@@ -77,12 +77,20 @@ namespace InspecWeb.Controllers {
                     var claimsIdentity = new ClaimsIdentity (
                         claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await _signInManager.PasswordSignInAsync (credentials.Username, credentials.Password, credentials.Jodjumchan, lockoutOnFailure : true);
+                    // var UserId = userManager.GetUserIdAsync (identityUser);
+                    var user = _context.Users.Where (us => us.UserName == credentials.Username).First ();
 
+                    // userManager.get (claimsIdentity)
                     await HttpContext.SignInAsync (
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal (claimsIdentity));
 
-                    return Ok (new { Message = "You are logged in", status = true });
+                    if (user.Active == 1) {
+                        return Ok (new { Message = "You are logged in", status = true });
+                    } else {
+                        return Ok (new { Message = "คุณไม่มีสิทธิ์เข้าใช้งานระบบ กรุณาติดต่อผู้ดูแลระบบ", status = false });
+                    }
+
                 } else {
                     if (identityUser != null) {
 
