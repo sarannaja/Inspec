@@ -26,6 +26,7 @@ export class NewLoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   loginfail: any
+  remeberMe: boolean = true
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -42,40 +43,49 @@ export class NewLoginComponent implements OnInit {
     // }
   }
 
-  async ngOnInit() {
+  ngOnInit() {
 
-    this.authorize.isAuthenticated().subscribe(result => {
+    this.authorize.isAuthenticated().subscribe(async result => {
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
       console.log('isAuthenticated', result);
+      if (result) {
+        this.router.navigate([this.returnUrl])
+        this.spinner.hide()
+      } else {
+        const action = this.route.snapshot.url[1];
+        switch (action.path) {
+          case LoginActions.Login:
+            console.log(' LoginActions.Login:');
+            await this.login(this.getReturnUrl());
+            break;
+          case LoginActions.LoginCallback:
+            console.log(' LoginActions.LoginCallback:');
+
+            await this.processLoginCallback();
+            break;
+          case LoginActions.LoginFailed:
+            console.log('LoginActions.LoginFailed:');
+            const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+            this.message.next(message);
+            break;
+          case LoginActions.Profile:
+            console.log('LoginActions.Profile:');
+
+            this.redirectToProfile();
+            break;
+          case LoginActions.Register:
+            console.log('LoginActions.Register:');
+            this.redirectToRegister();
+            break;
+          default:
+            throw new Error(`Invalid action '${action}'`);
+        }
+        this.spinner.hide()
+      }
 
     });
-    const action = this.route.snapshot.url[1];
-    switch (action.path) {
-      case LoginActions.Login:
-        console.log(' LoginActions.Login:');
-        await this.login(this.getReturnUrl());
-        break;
-      case LoginActions.LoginCallback:
-        console.log(' LoginActions.LoginCallback:');
 
-        await this.processLoginCallback();
-        break;
-      case LoginActions.LoginFailed:
-        console.log('LoginActions.LoginFailed:');
-        const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
-        this.message.next(message);
-        break;
-      case LoginActions.Profile:
-        console.log('LoginActions.Profile:');
-
-        this.redirectToProfile();
-        break;
-      case LoginActions.Register:
-        console.log('LoginActions.Register:');
-        this.redirectToRegister();
-        break;
-      default:
-        throw new Error(`Invalid action '${action}'`);
-    }
 
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -83,8 +93,7 @@ export class NewLoginComponent implements OnInit {
     });
 
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    this.spinner.hide()
+
 
   }
 
@@ -102,39 +111,41 @@ export class NewLoginComponent implements OnInit {
     this.loading = true;
     // this.spinner.show()
 
-    this.authorize.newLogin(this.loginForm.value.username, this.loginForm.value.password, true, this.returnUrl)
+    this.authorize.newLogin(this.loginForm.value.username, this.loginForm.value.password, this.remeberMe, this.returnUrl)
       .subscribe(async result => {
         console.log(result.status);
-        if (result) {
+        if (result.status) {
+          window.location.reload()
+          console.log(' this.remeberMe', this.remeberMe);
 
           const action = this.route.snapshot.url[1];
-          switch (action.path) {
-            case LoginActions.Login:
-              console.log(' LoginActions.Login:');
-              await this.login(this.getReturnUrl());
-              break;
-            case LoginActions.LoginCallback:
-              console.log(' LoginActions.LoginCallback:');
+          // switch (action.path) {
+          //   case LoginActions.Login:
+          //     console.log(' LoginActions.Login:');
+          //     await this.login(this.getReturnUrl());
+          //     break;
+          //   case LoginActions.LoginCallback:
+          //     console.log(' LoginActions.LoginCallback:');
+          //     // this.router.navigate([this.returnUrl])
+          //     // await this.processLoginCallback();
+          //     break;
+          //   case LoginActions.LoginFailed:
+          //     console.log('LoginActions.LoginFailed:');
+          //     const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+          //     this.message.next(message);
+          //     break;
+          //   case LoginActions.Profile:
+          //     console.log('LoginActions.Profile:');
 
-              await this.processLoginCallback();
-              break;
-            case LoginActions.LoginFailed:
-              console.log('LoginActions.LoginFailed:');
-              const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
-              this.message.next(message);
-              break;
-            case LoginActions.Profile:
-              console.log('LoginActions.Profile:');
-
-              this.redirectToProfile();
-              break;
-            case LoginActions.Register:
-              console.log('LoginActions.Register:');
-              this.redirectToRegister();
-              break;
-            default:
-              throw new Error(`Invalid action '${action}'`);
-          }
+          //     this.redirectToProfile();
+          //     break;
+          //   case LoginActions.Register:
+          //     console.log('LoginActions.Register:');
+          //     this.redirectToRegister();
+          //     break;
+          //   default:
+          //     throw new Error(`Invalid action '${action}'`);
+          // }
 
           // const state: INavigationState = { returnUrl: this.returnUrl };
           // const result = await this.authorize.signIn(state);

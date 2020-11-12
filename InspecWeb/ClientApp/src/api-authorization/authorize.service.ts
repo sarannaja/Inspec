@@ -94,7 +94,9 @@ export class AuthorizeService {
     try {
 
       user = await this.userManager.signinSilent(this.createArguments());
-      await this.role(user.profile)
+      console.log('user callback', user);
+
+      this.role(user.profile)
       this._CookieService.set('UserIdMobile', user.profile.sub)
       this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
       return this.success(state);
