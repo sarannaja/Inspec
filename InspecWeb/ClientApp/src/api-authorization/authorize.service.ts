@@ -55,6 +55,8 @@ export class AuthorizeService {
 
 
   public isAuthenticated(): Observable<boolean> {
+    console.log('isAuthenticated', this.getUser());
+
     return this.getUser().pipe(map(u => !!u));
   }
 
@@ -88,12 +90,14 @@ export class AuthorizeService {
   //    redirect flow.
   public async signIn(state: any): Promise<IAuthenticationResult> {
     await this.ensureUserManagerInitialized();
-    let user: User;
+    let user: User = null;
     try {
 
       user = await this.userManager.signinSilent(this.createArguments());
-      await this.role(user.profile)
-      this._CookieService.set('UserIdMobile', user.profile && user.profile.sub)
+      console.log('user callback', user);
+
+      this.role(user.profile)
+      this._CookieService.set('UserIdMobile', user.profile.sub)
       this.userSubject.next(Object.assign(user.profile, JSON.parse(localStorage.getItem('data'))));
       return this.success(state);
     } catch (silentError) {

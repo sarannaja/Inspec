@@ -56,9 +56,13 @@ export class ChartComponent implements OnInit {
           let data = this.subjectCenProG.answerSubquestions.filter(op => result.subquestionCentralPolicyProvinceId == op.subquestionCentralPolicyProvinceId)
           // console.log('data', data);
           let value = data
-            .map(or => { return { value: this.subjectCenProGMap.filter(oi => or.user.provincialDepartmentId == oi.id).length.toString() } })
+            .map(or => {
+              console.log('or', or);
 
-          // console.log('data', value);
+              return { value: this.subjectCenProGMap.filter(oi => or.user.provincialDepartmentId == oi.id && result.name == or.answer).length.toString() }
+            })
+
+          console.log('data', value);
 
           return {
             seriesname: result.name, data: value
