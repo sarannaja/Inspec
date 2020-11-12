@@ -49,33 +49,33 @@ export class NewLoginComponent implements OnInit {
 
     });
     const action = this.route.snapshot.url[1];
-    switch (action.path) {
-      case LoginActions.Login:
-        console.log(' LoginActions.Login:');
-        await this.login(this.getReturnUrl());
-        break;
-      case LoginActions.LoginCallback:
-        console.log(' LoginActions.LoginCallback:');
+    // switch (action.path) {
+    //   case LoginActions.Login:
+    //     console.log(' LoginActions.Login:');
+    //     await this.login(this.getReturnUrl());
+    //     break;
+    //   case LoginActions.LoginCallback:
+    //     console.log(' LoginActions.LoginCallback:');
 
-        await this.processLoginCallback();
-        break;
-      case LoginActions.LoginFailed:
-        console.log('LoginActions.LoginFailed:');
-        const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
-        this.message.next(message);
-        break;
-      case LoginActions.Profile:
-        console.log('LoginActions.Profile:');
+    //     await this.processLoginCallback();
+    //     break;
+    //   case LoginActions.LoginFailed:
+    //     console.log('LoginActions.LoginFailed:');
+    //     const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+    //     this.message.next(message);
+    //     break;
+    //   case LoginActions.Profile:
+    //     console.log('LoginActions.Profile:');
 
-        this.redirectToProfile();
-        break;
-      case LoginActions.Register:
-        console.log('LoginActions.Register:');
-        this.redirectToRegister();
-        break;
-      default:
-        throw new Error(`Invalid action '${action}'`);
-    }
+    //     this.redirectToProfile();
+    //     break;
+    //   case LoginActions.Register:
+    //     console.log('LoginActions.Register:');
+    //     this.redirectToRegister();
+    //     break;
+    //   default:
+    //     throw new Error(`Invalid action '${action}'`);
+    // }
 
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -103,15 +103,20 @@ export class NewLoginComponent implements OnInit {
     this.spinner.show()
 
     this.authorize.newLogin(this.loginForm.value.username, this.loginForm.value.password, true, this.returnUrl)
-      .subscribe(result => {
+      .subscribe(async result => {
         if (result.status) {
           // this.login(this.returnUrl)
+          location.href = `${location.origin}${this.returnUrl}`
           // this.router.navigate([this.returnUrl])
-          const state: INavigationState = { returnUrl: this.returnUrl };
-          this.authorize.signIn(state).then(result => {
-            console.log(result);
-            this.navigateToReturnUrl(this.returnUrl);
-          });
+
+          // const state: INavigationState = { returnUrl: this.returnUrl };
+          // let result = await this.authorize.signIn(state)
+          // console.log(result);
+          // this.processLoginCallback();
+          // .then(result => {
+
+          //   // this.navigateToReturnUrl(this.returnUrl);
+          // });
 
 
 
