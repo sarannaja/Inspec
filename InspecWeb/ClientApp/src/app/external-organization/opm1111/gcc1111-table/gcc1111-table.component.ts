@@ -37,8 +37,8 @@ export class Gcc1111TableComponent implements OnInit {
   myDatePickerOptions: IMyOptions = {
     // other options...
     dateFormat: 'dd mmm yyyy',
-    markCurrentDay: true,
-    inline: true,
+    // markCurrentDay: true,
+    // inline: true,
     monthLabels: {
       1: 'ม.ค.',
       2: 'ก.พ.',
@@ -103,6 +103,53 @@ export class Gcc1111TableComponent implements OnInit {
       class: 'modal-dialog-centered modal-lg'
     });
   }
+
+  // myDatePickerOptions: IMyOptions = {
+  //   // other options...
+  //   // dateFormat: 'dd/mm/yyyy',
+
+  // };
+  myDatePickerOptionsEnddate: IMyOptions = {
+    // other options...
+    // dateFormat: 'dd/mm/yyyy',
+
+  };
+  start_date
+  end_date
+  startdate(event = null, i = null) {
+
+    this.end_date ? this.checkStarttoResetEndDate(i) : null
+    this.start_date = event
+    this.disableDate_i(event, i)
+    // this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
+
+    //console.log(this.start_date);
+
+    // alert(JSON.stringify(event))
+  }
+  enddate(event, i) {
+
+    this.end_date = event
+    // this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
+
+  }
+  checkStarttoResetEndDate(index) {
+    this.end_date = void 0;
+    // this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
+  }
+  starttime(event, i) {
+    this.start_date = event
+    // this.value.emit({ start_date: this.setDateTime(this.start_date), end_date: this.setDateTime(this.end_date) })
+
+  }
+  disableDate_i(date: any, i) {
+    this.myDatePickerOptionsEnddate = {
+      disableDateRanges: [{
+        end: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() - 1 },
+        begin: { year: date.getFullYear() - 10, month: date.getMonth() + 1, day: date.getDate() }
+      }]
+    }
+  }
   ngOnInit() {
     this.spinner.show();
     this.authorizeService.getUser()
@@ -114,21 +161,26 @@ export class Gcc1111TableComponent implements OnInit {
   }
   onDateRangeChanged(value) {
     // //console.log(value);
+    if (value.start_date && value.end_date) {
+      this.loading = false
+      this.spinner.show();
+      this.extranalService.getGcc1111UserProvince(this.userId)
+        .subscribe(result => {
+          //console.log((Date.parse(result[0].date_opened) / 1000).toString().length,Date.parse(value.beginJsDate));
+          console.log(value);
 
-    this.loading = false
-    this.spinner.show();
-    this.extranalService.getGcc1111UserProvince(this.userId)
-      .subscribe(result => {
-        //console.log((Date.parse(result[0].date_opened) / 1000).toString().length,Date.parse(value.beginJsDate));
+          this.results = result.filter(result => {
+            return (Date.parse(result.date_opened)) >= Date.parse(value.start_date) && (Date.parse(result.date_opened)) <= Date.parse(value.end_date)
+          })
+          //  this.results.forEach(result=>{ //console.log(Date.parse(result.date_opened))});
 
-        this.results = result.filter(result => {
-          return (Date.parse(result.date_opened)) >= Date.parse(value.beginJsDate) && (Date.parse(result.date_opened)) <= Date.parse(value.endJsDate)
+          this.loading = true
+          this.spinner.hide();
+
         })
-        //  this.results.forEach(result=>{ //console.log(Date.parse(result.date_opened))});
+    } else {
+      return;
+    }
 
-        this.loading = true
-        this.spinner.hide();
-
-      })
   }
 }

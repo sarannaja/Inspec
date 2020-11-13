@@ -31,6 +31,8 @@ import { OpmDetailTitleModalComponent } from './opm1111/modals/title-modal/title
 import { MyDatePickerTHModule } from 'mydatepicker-th';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { VectorMapComponent2 } from './vector-map2/vector-map.component';
+import { DateLengthComponent } from '../services/components/date-length/date-length.component';
+import { SharingModule } from '../sharing/sharing.module';
 
 
 
@@ -42,7 +44,7 @@ import { VectorMapComponent2 } from './vector-map2/vector-map.component';
     MinisterTableComponent,
     CabinetTableComponent,
     MinisterModalComponent,
-    TitleModalComponent,
+    // TitleModalComponent,
     GccOpmTableComponent,
     TestComponent,
     JoaComponent,
@@ -52,7 +54,6 @@ import { VectorMapComponent2 } from './vector-map2/vector-map.component';
     RegionComponent,
     ProvinceOtpsComponent,
     ProvinceOtpsTableComponent,
-    ThaiDatePipe2,
     OpmCaseDetailComponent,
     OpmDetailTitleModalComponent,
     VectorMapComponent2,
@@ -66,12 +67,13 @@ import { VectorMapComponent2 } from './vector-map2/vector-map.component';
     FormsModule,
     ChartsModule,
     MyDatePickerTHModule,
-    MyDateRangePickerModule
+    MyDateRangePickerModule,
+    SharingModule
     // MyDateRangePickerTHModule
   ],
-  exports:[MinisterModalComponent,CustomCurrencyPipe,ThaiDatePipe2,VectorMapComponent2],
-  providers: [ExternalOrganizationService,CurrencyPipe,DatePipe,ThemeService],
-  entryComponents: [MinisterModalComponent,RegionComponent,OpmCaseDetailComponent]
+  exports: [MinisterModalComponent, CustomCurrencyPipe, VectorMapComponent2,],
+  providers: [ExternalOrganizationService, CurrencyPipe, DatePipe, ThemeService],
+  entryComponents: [MinisterModalComponent, RegionComponent, OpmCaseDetailComponent]
   // entryComponents:[GgcOpmComponent,Opm1111Component,OtpsComponent],
   // exports: [GgcOpmComponent, Opm1111Component, OtpsComponent, MinisterTableComponent],
 })

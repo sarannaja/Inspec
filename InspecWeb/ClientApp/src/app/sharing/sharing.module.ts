@@ -9,6 +9,9 @@ import { VideoService } from '../services/video.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TitleModalComponent } from '../external-organization/otps/modals/title-modal/title-modal.component';
 import { MatVideoModule } from 'mat-video';
+import { DateLengthComponent } from '../services/components/date-length/date-length.component';
+import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 const config = {
   apiKey: "AIzaSyAQuvxbuqchibI6XJRVXRdwXvi9sDQAj-g",
@@ -20,7 +23,7 @@ const config = {
   appId: "1:336991440347:web:61f568bcdb790b92046bfe"
 };
 @NgModule({
-  declarations: [ThaiDatePipe2, TitleModalComponent],
+  declarations: [ThaiDatePipe2,DateLengthComponent,TitleModalComponent],
   imports: [
     CommonModule,
     DataTablesModule,
@@ -28,8 +31,10 @@ const config = {
     AngularFireModule.initializeApp(config),
     AngularFireDatabaseModule,
     ModalModule.forRoot(),
-    MatVideoModule
+    MatVideoModule,
+    TimepickerModule.forRoot(),
 
+    MyDatePickerTHModule
   ],
   exports: [
     CommonModule,
@@ -38,8 +43,11 @@ const config = {
     AngularFireModule,
     AngularFireDatabaseModule,
     FormsModule,
+    TimepickerModule,
     TitleModalComponent,
+    MyDatePickerTHModule,
     ModalModule,
+    DateLengthComponent,
     MatVideoModule
   ],
   providers: [VideoService]
