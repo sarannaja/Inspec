@@ -50,8 +50,10 @@ export class NewLoginComponent implements OnInit {
 
       console.log('isAuthenticated', result);
       if (result) {
-        this.router.navigate([this.returnUrl])
-        this.spinner.hide()
+        return;
+        // this.router.navigate([this.returnUrl])
+        // await this.login(this.getReturnUrl());
+        // this.spinner.hide()
       } else {
         const action = this.route.snapshot.url[1];
         switch (action.path) {
@@ -115,37 +117,38 @@ export class NewLoginComponent implements OnInit {
       .subscribe(async result => {
         console.log(result.status);
         if (result.status) {
-          window.location.reload()
-          console.log(' this.remeberMe', this.remeberMe);
 
+          // console.log(' this.remeberMe', this.remeberMe);
+          // await this.login(this.getReturnUrl());
           const action = this.route.snapshot.url[1];
-          // switch (action.path) {
-          //   case LoginActions.Login:
-          //     console.log(' LoginActions.Login:');
-          //     await this.login(this.getReturnUrl());
-          //     break;
-          //   case LoginActions.LoginCallback:
-          //     console.log(' LoginActions.LoginCallback:');
-          //     // this.router.navigate([this.returnUrl])
-          //     // await this.processLoginCallback();
-          //     break;
-          //   case LoginActions.LoginFailed:
-          //     console.log('LoginActions.LoginFailed:');
-          //     const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
-          //     this.message.next(message);
-          //     break;
-          //   case LoginActions.Profile:
-          //     console.log('LoginActions.Profile:');
+          switch (action.path) {
+            case LoginActions.Login:
+              console.log(' LoginActions.Login:');
+              await this.login(this.getReturnUrl());
+              break;
+            case LoginActions.LoginCallback:
+              console.log(' LoginActions.LoginCallback:');
+              // this.router.navigate([this.returnUrl])
+              await this.processLoginCallback();
+              break;
+            case LoginActions.LoginFailed:
+              console.log('LoginActions.LoginFailed:');
+              const message = this.route.snapshot.queryParamMap.get(QueryParameterNames.Message);
+              this.message.next(message);
+              break;
+            case LoginActions.Profile:
+              console.log('LoginActions.Profile:');
 
-          //     this.redirectToProfile();
-          //     break;
-          //   case LoginActions.Register:
-          //     console.log('LoginActions.Register:');
-          //     this.redirectToRegister();
-          //     break;
-          //   default:
-          //     throw new Error(`Invalid action '${action}'`);
-          // }
+              this.redirectToProfile();
+              break;
+            case LoginActions.Register:
+              console.log('LoginActions.Register:');
+              this.redirectToRegister();
+              break;
+            default:
+              throw new Error(`Invalid action '${action}'`);
+          }
+          window.location.reload()
 
           // const state: INavigationState = { returnUrl: this.returnUrl };
           // const result = await this.authorize.signIn(state);
@@ -161,7 +164,7 @@ export class NewLoginComponent implements OnInit {
           this.spinner.hide()
 
           this.submitted = false;
-          this.loading = false
+          this.loading = false;
           this.loginForm.get('password').reset()
           this.loginfail = result.message
           // alert(result.message)
