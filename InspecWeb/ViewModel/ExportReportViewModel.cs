@@ -234,4 +234,15 @@ namespace InspecWeb.ViewModel
         [JsonProperty(PropertyName = "approveCount")]
         public long approveCount { get; set; }
     }
+
+    public class testExport
+    {
+        [JsonProperty(PropertyName = "reportType")]
+        public string reportType { get; set; }
+
+        [JsonProperty(PropertyName = "reportRegion")]
+        public string reportRegion { get; set; }
+
+        public allReport[] allReport { get; set; }
+    }
 }

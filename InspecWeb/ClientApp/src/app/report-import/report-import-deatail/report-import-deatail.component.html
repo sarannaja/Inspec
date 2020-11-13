@@ -48,11 +48,11 @@
       <div class="card-body">
         <div class="form-group col-12">
           <div class="col-10" style="margin-bottom: 20px;" *ngIf="reportData.importData.reportCommanders.length > 0">
-            <h4>ข้อสั่งการ</h4>
+            <h4>ส่งรายงานถึง</h4>
             <div *ngFor="let item of reportData.importData.reportCommanders">
               <label for="" style="margin-left: 5px;">{{item.user.prefix}} {{item.user.name}} -
                 {{item.user.departments.name}}</label>
-              <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="item.command"
+              <textarea *ngIf="item.command != null && item.command != 'null' && item.command != ''" class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="item.command"
                 readonly></textarea>
             </div>
             <br>
@@ -138,7 +138,7 @@
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label">ส่งให้ผู้บังคับบัญชา*</label>
-            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้บังคับบัญชา" [multiple]="false"   [items]="commanderData"
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกผู้บังคับบัญชา" [multiple]="true"   [items]="commanderData"
               name="commander" formControlName="commander"  >
             </ng-select>
           </div>

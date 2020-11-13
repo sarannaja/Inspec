@@ -26,6 +26,8 @@ export class CommanderReportDetailComponent implements OnInit {
   userid: any;
   role_id: any;
   checkCommanded = false;
+  commanderData: any = [];
+  reportId2: any;
 
   constructor(
     private router: Router,
@@ -67,17 +69,12 @@ export class CommanderReportDetailComponent implements OnInit {
   }
 
   getReportImportById() {
-    this.exportReportService.getImportedReportById(this.reportId).subscribe(res => {
-      console.log("detail: ", res);
-      this.reportData = res;
-
-      res.importData.reportCommanders.forEach(element => {
-        if (element.userCommanderId == this.userid) {
-          this.checkCommanded = true;
-          console.log("check: ", this.checkCommanded);
-
-        }
-      });
+    this.exportReportService.getCommanderReportDetailById(this.reportId).subscribe(res => {
+      // console.log("detail: ", res);
+      this.reportData = res.importData.importReport;
+      this.commanderData = res.importData;
+      this.reportId2 = res.importData.importReportId;
+      console.log("detail: ", this.reportData);
     })
   }
 
@@ -105,7 +102,7 @@ export class CommanderReportDetailComponent implements OnInit {
   sendCommand(value) {
     this.exportReportService.sendCommand(this.reportId, value, this.userid).subscribe(res => {
       console.log("commanded: ", res);
-      this.notificationService.addNotification(this.reportData.importData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, this.userid, 9, this.reportId,null)
+      this.notificationService.addNotification(this.reportData.importReportGroups[0].centralPolicyEvent.centralPolicyId, 1, this.userid, 9, this.reportId2, null)
         .subscribe(response => {
           console.log("Noti res: ", response);
         });

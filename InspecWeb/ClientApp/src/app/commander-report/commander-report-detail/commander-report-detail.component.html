@@ -16,73 +16,73 @@
         <h4 class="card-title mb-0">รายละเอียด</h4>
         <div class="form-group col-12" style="margin-top: 20px;">
           <u>แผนการตรวจราชการประจำปี</u>
-          <div *ngFor="let item of reportData.importData.importReportGroups; let i = index">
+          <div *ngFor="let item of reportData.importReportGroups; let i = index">
             <label style="margin-left: 5px;" for="">{{i + 1}}) {{ item.centralPolicyEvent.centralPolicy.title}}</label>
           </div>
           <div>
             <u>ประเภทรายงาน:</u>
-            <label>&nbsp;&nbsp;{{reportData.importData.centralPolicyType.name}}</label>
+            <label>&nbsp;&nbsp;{{reportData.centralPolicyType.name}}</label>
           </div>
           <div>
             <u>ประเภทการออกรายงาน:</u>
-            <label>&nbsp;&nbsp;{{reportData.importData.reportType}}</label>
+            <label>&nbsp;&nbsp;{{reportData.reportType}}</label>
           </div>
           <div>
             <u>รอบการตรวจราชการ:</u>
-            <label>&nbsp;&nbsp;{{reportData.importData.inspectionRound}}</label>
+            <label>&nbsp;&nbsp;{{reportData.inspectionRound}}</label>
           </div>
           <div>
             <u>ปีงบประมาณ:</u>
-            <label>&nbsp;&nbsp;{{reportData.importData.fiscalYear.year}}</label>
+            <label>&nbsp;&nbsp;{{reportData.fiscalYear.year}}</label>
           </div>
           <div>
             <u>เขตตรวจราชการ:</u>
-            <label>&nbsp;&nbsp;{{reportData.importData.region.name}}</label>
+            <label>&nbsp;&nbsp;{{reportData.region.name}}</label>
           </div>
           <div>
             <u>จังหวัด:</u>
-            <label>&nbsp;&nbsp;{{reportData.importData.province.name}}</label>
+            <label>&nbsp;&nbsp;{{reportData.province.name}}</label>
           </div>
           <div>
             <u>ผู้ออกรายงาน:</u>
-            <label>&nbsp;&nbsp;{{reportData.importData.user.prefix}} {{reportData.importData.user.name}} - {{reportData.importData.user.departments.name}}</label>
+            <label>&nbsp;&nbsp;{{reportData.user.prefix}} {{reportData.user.name}} -
+              {{reportData.user.departments.name}}</label>
           </div>
         </div>
       </div>
       <div class="card-body">
         <div class="form-group col-12">
-          <div class="col-10" style="margin-bottom: 20px;" *ngIf="checkCommanded == true">
+          <div *ngIf="commanderData.command != null" class="col-10" style="margin-bottom: 20px;">
             <h4>ข้อสั่งการ</h4>
-            <div *ngFor="let item of reportData.importData.reportCommanders">
-            <textarea *ngIf="item.userCommanderId == userid" class="form-control" name="" id="" cols="30" rows="5"
-              [(ngModel)]="item.command" readonly></textarea>
+            <div>
+              <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="commanderData.command"
+                readonly></textarea>
             </div>
             <br>
             <hr>
           </div>
           <div class="col-10">
             <h4>หัวข้อการตรวจติดตาม</h4>
-            <input class="form-control" type="text" [(ngModel)]="reportData.importData.monitoringTopics" readonly>
+            <input class="form-control" type="text" [(ngModel)]="reportData.monitoringTopics" readonly>
           </div>
           <div class="col-10" style="margin-top: 15px;">
             <h4>สรุปผลการตรวจราชการ</h4>
-            <textarea class="form-control" name="" id="" cols="30" rows="5"
-              [(ngModel)]="reportData.importData.detailReport" readonly></textarea>
+            <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="reportData.detailReport"
+              readonly></textarea>
           </div>
           <div class="col-10" style="margin-top: 15px;">
             <h4>ข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ</h4>
-            <textarea class="form-control" name="" id="" cols="30" rows="5"
-              [(ngModel)]="reportData.importData.suggestion" readonly></textarea>
+            <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="reportData.suggestion"
+              readonly></textarea>
           </div>
           <div class="col-10" style="margin-top: 15px;">
             <h4>ข้อสั่งการของผู้บังคับบัญชา</h4>
-            <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="reportData.importData.command"
+            <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="reportData.command"
               readonly></textarea>
           </div>
           <div class="col-10" style="margin-top: 15px;">
             <label for="">ไฟล์แนบรายงานผลการตรวจ</label>
-            <div class="row" *ngFor="let item of reportData.importData.importReportFiles; let i = index"
-              style="margin-left: 5px;">
+            <div class="row" *ngFor="let item of reportData.importReportFiles; let i = index" style="margin-left: 5px;">
               <a download href="{{downloadUrl}}/{{item.name}}" class="col-6">
                 <span>ไฟล์ที่
                   {{i+1}})
@@ -92,7 +92,7 @@
             </div>
           </div>
           <div class="col-10" style="margin-top: 15px; text-align: center;">
-            <button *ngIf="checkCommanded == false" style="margin-right: 10px;" class="btn btn-primary"
+            <button *ngIf="commanderData.command == null" style="margin-right: 10px;" class="btn btn-primary"
               (click)="openModal(commandModal)">บันทึกข้อสั่งการ</button>
             <button class="btn btn-danger" (click)="back()">กลับ</button>
           </div>

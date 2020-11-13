@@ -216,6 +216,12 @@ export class ExportReportService {
     return this.http.get<any>(this.url + "/getCommanderReport/" + provinceId + "/" + userID);
   }
 
+  getCommanderReportDetailById(reportId) {
+    console.log("reportId: ", reportId);
+
+    return this.http.get<any>(this.url + "/getCommanderReportDetailById/" + reportId);
+  }
+
   postImportReport(value, userId, file: FileList, departmentId) {
     const formData = new FormData();
     console.log("DepartmentReport: ", departmentId);
@@ -281,7 +287,10 @@ export class ExportReportService {
 
     const formData = new FormData();
     formData.append('reportId', reportID);
-    formData.append('Commander', value.commander);
+    // formData.append('Commander', value.commander);
+    for (var i = 0; i < value.commander.length; i++) {
+      formData.append("CommanderAr", value.commander[i]);
+    }
     return this.http.put<any>(this.url + "/sendReportToCommander", formData);
   }
 
@@ -294,7 +303,7 @@ export class ExportReportService {
     formData.append('reportId', reportID);
     formData.append('command', value.command);
     formData.append('UserId', userId);
-    return this.http.post<any>(this.url + "/sendCommand", formData);
+    return this.http.put<any>(this.url + "/sendCommand", formData);
   }
 
   editImportReport(value, reportId) {
@@ -367,24 +376,31 @@ export class ExportReportService {
     department = res.reports[0].department.name;
     exportData = res.reports.map((item, index) => {
       subjectData = [];
+      command = [];
       item.importReportGroups.forEach(element => {
         element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
           element2.subjectCentralPolicyProvinces.forEach(element3 => {
-            if (element3.name == null || element3.name == "null" || element3.name == "") {
-              subjectData = "-"
-            } else {
-              subjectData = subjectData + element3.name + "\n";
+            if (element3.type == "Master") {
+              if (element3.name == null || element3.name == "null" || element3.name == "") {
+                subjectData = "-"
+              } else {
+                subjectData = subjectData + element3.name + "\n";
+              }
             }
           });
         });
       });
       console.log("subJAAA: ", subjectData);
 
-      if (item.reportCommanders.length == 0) {
-        command = "ไม่มี";
-      } else {
-        command = item.reportCommanders[0].command;
-        commandDate = item.reportCommanders[0].createAt;
+      for (let index = 0; index < item.reportCommanders.length; index++) {
+        const element = item.reportCommanders[index];
+        if (element.command == null || element.command == "null" || element.command == "") {
+          command = "ไม่มี";
+          commandDate = null
+        } else {
+          command = command + element.command + "\n"
+          // commandDate = commandDate + element.commandDate
+        }
       }
 
       return {
@@ -393,7 +409,7 @@ export class ExportReportService {
         createBy: item.user.prefix + item.user.name,
         status: item.status,
         command: command,
-        dateCommand: commandDate,
+        // dateCommand: commandDate,
       }
     });
     console.log("ExportDATA: ", exportData);
@@ -464,32 +480,43 @@ export class ExportReportService {
     var provinceData: any = [];
     var region: any;
     var regionId: any;
-    var command: any;
-    var commandDate: any;
+    var command: any = [];
+    var commandDate: any = [];
     region = res.reports[0].region.name;
     regionId = res.reports[0].region.id;
 
     exportData = res.reports.map((item, index) => {
       subjectData = [];
+      command = [];
+      commandDate = [];
       item.importReportGroups.forEach(element => {
         element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
           element2.subjectCentralPolicyProvinces.forEach(element3 => {
-            if (element3.name == null || element3.name == "null" || element3.name == "") {
-              subjectData = "-"
-            } else {
-              subjectData = subjectData + element3.name + "\n";
+            if (element3.type == "Master") {
+              if (element3.name == null || element3.name == "null" || element3.name == "") {
+                subjectData = "-"
+              } else {
+                subjectData = subjectData + element3.name + "\n";
+              }
             }
           });
         });
       });
       console.log("subJAAA: ", subjectData);
 
-      if (item.reportCommanders.length == 0) {
-        command = "ไม่มี";
-      } else {
-        command = item.reportCommanders[0].command;
-        commandDate = item.reportCommanders[0].createAt;
+      for (let index = 0; index < item.reportCommanders.length; index++) {
+        const element = item.reportCommanders[index];
+        if (element.command == null || element.command == "null" || element.command == "") {
+          command = "ไม่มี";
+          commandDate = null
+        } else {
+          command = command + element.command + "\n"
+          // commandDate = commandDate + element.commandDate
+        }
       }
+      // command = item.reportCommanders[0].command;
+      // commandDate = item.reportCommanders[0].createAt;
+
 
       return {
         dateReport: item.createAt,
@@ -497,7 +524,7 @@ export class ExportReportService {
         createBy: item.user.prefix + item.user.name,
         status: item.status,
         command: command,
-        dateCommand: commandDate,
+        // dateCommand: commandDate,
         provinceReport: item.province.name,
       }
     });
@@ -506,8 +533,9 @@ export class ExportReportService {
       allReport: exportData,
       reportType: reportType,
       reportRegion: region,
-      reportRegionId: regionId,
+      // reportRegionId: regionId,
     }
+    console.log("formData: ", formData);
     return this.http.post<any>(this.url + "/exportAllRegionReport", formData)
   }
 
@@ -525,24 +553,31 @@ export class ExportReportService {
 
     exportData = res.reports.map((item, index) => {
       subjectData = [];
+      command = [];
       item.importReportGroups.forEach(element => {
         element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
           element2.subjectCentralPolicyProvinces.forEach(element3 => {
-            if (element3.name == null || element3.name == "null" || element3.name == "") {
-              subjectData = "-"
-            } else {
-              subjectData = subjectData + element3.name + "\n";
+            if (element3.type == "Master") {
+              if (element3.name == null || element3.name == "null" || element3.name == "") {
+                subjectData = "-"
+              } else {
+                subjectData = subjectData + element3.name + "\n";
+              }
             }
           });
         });
       });
       console.log("subJAAA: ", subjectData);
 
-      if (item.reportCommanders.length == 0) {
-        command = "ไม่มี";
-      } else {
-        command = item.reportCommanders[0].command;
-        commandDate = item.reportCommanders[0].createAt;
+      for (let index = 0; index < item.reportCommanders.length; index++) {
+        const element = item.reportCommanders[index];
+        if (element.command == null || element.command == "null" || element.command == "") {
+          command = "ไม่มี";
+          commandDate = null
+        } else {
+          command = command + element.command + "\n"
+          // commandDate = commandDate + element.commandDate
+        }
       }
 
       return {
@@ -551,7 +586,7 @@ export class ExportReportService {
         createBy: item.user.prefix + item.user.name,
         status: item.status,
         command: command,
-        dateCommand: commandDate,
+        // dateCommand: commandDate,
         provinceReport: item.province.name,
       }
     });
@@ -578,24 +613,31 @@ export class ExportReportService {
 
     exportData = res.reports.map((item, index) => {
       subjectData = [];
+      command = [];
       item.importReportGroups.forEach(element => {
         element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
           element2.subjectCentralPolicyProvinces.forEach(element3 => {
-            if (element3.name == null || element3.name == "null" || element3.name == "") {
-              subjectData = "-"
-            } else {
-              subjectData = subjectData + element3.name + "\n";
+            if (element3.type == "Master") {
+              if (element3.name == null || element3.name == "null" || element3.name == "") {
+                subjectData = "-"
+              } else {
+                subjectData = subjectData + element3.name + "\n";
+              }
             }
           });
         });
       });
       console.log("subJAAA: ", subjectData);
 
-      if (item.reportCommanders.length == 0) {
-        command = "ไม่มี";
-      } else {
-        command = item.reportCommanders[0].command;
-        commandDate = item.reportCommanders[0].createAt;
+      for (let index = 0; index < item.reportCommanders.length; index++) {
+        const element = item.reportCommanders[index];
+        if (element.command == null || element.command == "null" || element.command == "") {
+          command = "ไม่มี";
+          commandDate = null
+        } else {
+          command = command + element.command + "\n"
+          // commandDate = commandDate + element.commandDate
+        }
       }
 
       return {
@@ -604,7 +646,7 @@ export class ExportReportService {
         createBy: item.user.prefix + item.user.name,
         status: item.status,
         command: command,
-        dateCommand: commandDate,
+        // dateCommand: commandDate,
         provinceReport: item.province.name,
       }
     });
@@ -631,24 +673,31 @@ export class ExportReportService {
 
     exportData = res.reports.map((item, index) => {
       subjectData = [];
+      command = [];
       item.importReportGroups.forEach(element => {
         element.centralPolicyEvent.centralPolicy.centralPolicyProvinces.forEach(element2 => {
           element2.subjectCentralPolicyProvinces.forEach(element3 => {
-            if (element3.name == null || element3.name == "null" || element3.name == "") {
-              subjectData = "-"
-            } else {
-              subjectData = subjectData + element3.name + "\n";
+            if (element3.type == "Master") {
+              if (element3.name == null || element3.name == "null" || element3.name == "") {
+                subjectData = "-"
+              } else {
+                subjectData = subjectData + element3.name + "\n";
+              }
             }
           });
         });
       });
       console.log("subJAAA: ", subjectData);
 
-      if (item.reportCommanders.length == 0) {
-        command = "ไม่มี";
-      } else {
-        command = item.reportCommanders[0].command;
-        commandDate = item.reportCommanders[0].createAt;
+      for (let index = 0; index < item.reportCommanders.length; index++) {
+        const element = item.reportCommanders[index];
+        if (element.command == null || element.command == "null" || element.command == "") {
+          command = "ไม่มี";
+          commandDate = null
+        } else {
+          command = command + element.command + "\n"
+          // commandDate = commandDate + element.commandDate
+        }
       }
 
       return {
@@ -657,7 +706,7 @@ export class ExportReportService {
         createBy: item.user.prefix + item.user.name,
         status: item.status,
         command: command,
-        dateCommand: commandDate,
+        // dateCommand: commandDate,
         provinceReport: item.province.name,
       }
     });
@@ -803,14 +852,14 @@ export class ExportReportService {
     console.log("trainingYear", trainingYearJa);
     var newrateCoure: any;
     var exportData: any = [];
-   
+
     console.log("newrateCoure=>", newrateCoure);
 
     exportData = data.map((item, index) => {
-      if (item.rateCourse == "" || item.rateCourse == null || item.rateCourse == "null"){
+      if (item.rateCourse == "" || item.rateCourse == null || item.rateCourse == "null") {
         newrateCoure = 0;
       }
-      else{
+      else {
         newrateCoure = item.rateCourse;
       }
       return {

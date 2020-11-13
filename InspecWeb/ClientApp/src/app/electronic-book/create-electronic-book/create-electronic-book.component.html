@@ -2,7 +2,7 @@
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="javascript:void(0)">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)" (click)="goBack()">สมุดตรวจอิเล็กทรอนิกส์</a></li>
       <li class="breadcrumb-item active" aria-current="page">สร้างสมุดตรวจอิเล็กทรอนิกส์</li>
     </ol>
@@ -84,39 +84,39 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ผลการตรวจ</label>
-                <label style="color: red;">*</label>
+                <!-- <label style="color: red;">*</label> -->
                 <textarea cols="30" rows="5" formControlName="checkDetail" class="form-control"
-                  placeholder="กรุณากรอกผลการตรวจ" [ngClass]="{ 'is-invalid': submitted && f.checkDetail.errors }">
+                  placeholder="กรุณากรอกผลการตรวจ">
                 </textarea>
-                <div *ngIf="submitted && f.checkDetail.errors" class="invalid-feedback">
+                <!-- <div *ngIf="submitted && f.checkDetail.errors" class="invalid-feedback">
                   <div *ngIf="f.checkDetail.errors.required">กรุณกรอกผลการตรวจ</div>
-                </div>
+                </div> -->
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ปัญหาและอุปสรรค</label>
-                <label style="color: red;">*</label>
+                <!-- <label style="color: red;">*</label> -->
                 <textarea cols="30" rows="5" formControlName="Problem" class="form-control"
-                  placeholder="กรุณากรอกปัญหาและอุปสรรค" [ngClass]="{ 'is-invalid': submitted && f.Problem.errors }">
+                  placeholder="กรุณากรอกปัญหาและอุปสรรค">
                 </textarea>
-                <div *ngIf="submitted && f.Problem.errors" class="invalid-feedback">
+                <!-- <div *ngIf="submitted && f.Problem.errors" class="invalid-feedback">
                   <div *ngIf="f.Problem.errors.required">กรุณกรอกปัญหาและอุปสรรค</div>
-                </div>
+                </div> -->
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ข้อเสนอแนะ</label>
-                <label style="color: red;">*</label>
+                <!-- <label style="color: red;">*</label> -->
                 <textarea cols="30" rows="5" formControlName="Suggestion" class="form-control"
-                  placeholder="กรุณากรอกข้อเสนอแนะ" [ngClass]="{ 'is-invalid': submitted && f.Suggestion.errors }">
+                  placeholder="กรุณากรอกข้อเสนอแนะ">
                 </textarea>
-                <div *ngIf="submitted && f.Suggestion.errors" class="invalid-feedback">
+                <!-- <div *ngIf="submitted && f.Suggestion.errors" class="invalid-feedback">
                   <div *ngIf="f.Suggestion.errors.required">กรุณกรอกข้อเสนอแนะ</div>
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -324,39 +324,39 @@
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ผลการตรวจ</label>
-                <label style="color: red;">*</label>
+                <!-- <label style="color: red;">*</label> -->
                 <textarea cols="30" rows="5" formControlName="checkDetail" class="form-control"
-                  placeholder="กรุณากรอกผลการตรวจ" [ngClass]="{ 'is-invalid': submitted2 && f2.checkDetail.errors }">
+                  placeholder="กรุณากรอกผลการตรวจ">
                 </textarea>
-                <div *ngIf="submitted2 && f2.checkDetail.errors" class="invalid-feedback">
+                <!-- <div *ngIf="submitted2 && f2.checkDetail.errors" class="invalid-feedback">
                   <div *ngIf="f2.checkDetail.errors.required">กรุณากรอกผลการตรวจ</div>
-                </div>
+                </div> -->
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ปัญหาและอุปสรรค</label>
-                <label style="color: red;">*</label>
+                <!-- <label style="color: red;">*</label> -->
                 <textarea cols="30" rows="5" formControlName="Problem" class="form-control"
-                  placeholder="กรุณากรอกปัญหาและอุปสรรค" [ngClass]="{ 'is-invalid': submitted2 && f2.Problem.errors }">
+                  placeholder="กรุณากรอกปัญหาและอุปสรรค">
                 </textarea>
-                <div *ngIf="submitted2 && f2.Problem.errors" class="invalid-feedback">
+                <!-- <div *ngIf="submitted2 && f2.Problem.errors" class="invalid-feedback">
                   <div *ngIf="f2.Problem.errors.required">กรุณากรอกปัญหาและอุปสรรค</div>
-                </div>
+                </div> -->
               </div>
             </div>
 
             <div class="col-12 col-xl-12">
               <div class="form-group">
                 <label>ข้อเสนอแนะ</label>
-                <label style="color: red;">*</label>
+                <!-- <label style="color: red;">*</label> -->
                 <textarea cols="30" rows="5" formControlName="Suggestion" class="form-control"
-                  placeholder="กรุณากรอกข้อเสนอแนะ" [ngClass]="{ 'is-invalid': submitted2 && f2.Suggestion.errors }">
+                  placeholder="กรุณากรอกข้อเสนอแนะ">
                 </textarea>
-                <div *ngIf="submitted2 && f2.Suggestion.errors" class="invalid-feedback">
+                <!-- <div *ngIf="submitted2 && f2.Suggestion.errors" class="invalid-feedback">
                   <div *ngIf="f2.Suggestion.errors.required">กรุณากรอกข้อเสนอแนะ</div>
-                </div>
+                </div> -->
               </div>
             </div>
 
