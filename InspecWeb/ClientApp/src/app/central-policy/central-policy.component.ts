@@ -24,6 +24,7 @@ export class CentralPolicyComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   loading = false;
   userid
+  userministryId
   role_id
   currentyear
   selectfiscalyearid
@@ -55,6 +56,7 @@ export class CentralPolicyComponent implements OnInit {
           // this.resultuser = result;
           //console.log("test" , this.resultuser);
           this.role_id = result[0].role_id
+          this.userministryId = result[0].ministryId
           if (result[0].role_id == 1) {
             console.log("in1", this.role_id);
             this.dtOptions = {
