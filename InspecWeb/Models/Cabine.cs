@@ -25,7 +25,7 @@ namespace InspecWeb.Models
         public string Prefix { get; set; }
 
         [Required]
-        [Description("ชื่อ")]
+        [Description("ชื่อ-นามสกุล")]
         public string Name { get; set; }
 
         [Required]
@@ -36,9 +36,26 @@ namespace InspecWeb.Models
         [Description("รูปภาพ")]
         public string Image { get; set; }
 
-        [Required]
-        [Description("รายละเอียด")]
+   
+        [Description("ที่อยู่")]
         public string Detail { get; set; }
+
+   
+        [Description("เบอร์โทร")]
+        public string tel { get; set; }
+
+     
+        [Description("คำสั่ง")]
+        public string Commandnumber { get; set; }
+
+       
+        [Description("ครม.")]
+        public string cabinet { get; set; }
+
+        [ForeignKey("Ministry")]
+        [Description("FK: กระทรวง")]
+        public long MinistryId { get; set; }
+        public virtual Ministry Ministries { get; set; }
 
         [Description("วันที่สร้าง")]
         [DataType(DataType.Date)]

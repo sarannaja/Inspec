@@ -19,8 +19,8 @@ export class RegionService {
     return this.http.get<any[]>(this.url)
   }
 
-  getregiondataforuser(id): Observable<any> {
-    return this.http.get<any>(this.url+'regionforuser/'+ id)
+  getregiondataforuser(): Observable<any> {
+    return this.http.get<any>(this.url+'regionforuser')
   }
 
   addRegion(regionData) {

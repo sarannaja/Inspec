@@ -16,9 +16,10 @@ namespace InspecWeb.Models
         [Description("PK")]
         public long Id { get; set; }
 
-        [Required]
-        [Description("Role_id")]
+        //[ForeignKey("Role")]
+        //[Description("Role_id")]
         public long Role_id { get; set; }
+       // public virtual Role Roles { get; set; }
 
         [Required]
         [Description("M")]

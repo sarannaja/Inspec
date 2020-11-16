@@ -43,7 +43,7 @@
                     </p>
                 </a>
               </td>
-              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'year'}}</td>
+              <td *ngIf="item.createdAt != null; else elseBlock">{{ item.createdAt | thaidate:'short'}}</td>
               <ng-template #elseBlock>
                 <td></td>
               </ng-template>
@@ -56,7 +56,7 @@
 
                 <button class="btn btn-danger btn-pill btn-sm" title="ลบข้อมูล">
                     <i class="align-middle fas fa-fw fa-trash-alt"
-                        (click)="openModal(modaldelete, item.id)">
+                        (click)="openModal(modaldelete, item.id,item.title)">
                     </i>
                 </button>
               </td>
@@ -79,12 +79,16 @@
         </button>
       </div>
       <div class="modal-body m-3">
-        <div class="form-group">
+        
           <div class="form-group">
             <label class="form-label">หัวเรื่อง*</label>
-            <input type="text" formControlName="Title" class="form-control" placeholder="กรุณากรอกหัวเรือง">
+            <input type="text" formControlName="Title" class="form-control" placeholder="กรุณากรอกหัวเรือง"
+            [ngClass]="{ 'is-invalid': submitted && f.Title.errors }">
+            <div *ngIf="submitted && f.Title.errors" class="invalid-feedback">
+              <div *ngIf="f.Title.errors.required">กรุณากรอกหัวเรือง</div>
+            </div> 
           </div>
-        </div>
+
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
@@ -117,21 +121,24 @@
       </div>
       <div class="modal-body m-3">
         <div class="form-group">
-          <div class="form-group">
+         
             <label class="form-label">หัวเรื่อง*</label>
-            <input type="text" formControlName="Title" class="form-control" placeholder="กรุณากรอกหัวเรือง">
-          </div>
+            <input type="text" formControlName="Title" class="form-control" placeholder="กรุณากรอกหัวเรือง"
+            [ngClass]="{ 'is-invalid': submitted && f.Title.errors }">
+            <div *ngIf="submitted && f.Title.errors" class="invalid-feedback">
+              <div *ngIf="f.Title.errors.required">กรุณากรอกหัวเรือง</div>
+            </div> 
         </div>
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
             <label class="form-label w-100">แนบไฟล์</label>
-            <p>{{filename}}</p>
+            <p><a href="{{fileUrl}}/{{filename}}" download>{{filename}}</a></p>
             <input type="file" (change)="uploadFile($event)" [multiple]="false">
             <small class="form-text text-muted">สำหรับแนบไฟล์ ฯลฯ.</small>
           </div>
         </div>
-
+        
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">บันทึก</button>
