@@ -348,6 +348,7 @@ namespace InspecWeb.Controllers
         public IActionResult CreateReport2([FromBody] ExportReportViewModel model)
         {
             var exportData = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Where(x => x.Id == model.reportId)
                 .FirstOrDefault();
@@ -374,6 +375,7 @@ namespace InspecWeb.Controllers
                 {
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
 
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
@@ -547,7 +549,7 @@ namespace InspecWeb.Controllers
                 {
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
                     {
@@ -563,7 +565,7 @@ namespace InspecWeb.Controllers
 
                         // Add a title
 
-                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType + ")" + " : " + exportData.ReportType);
+                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
                         reportType.FontSize(16d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
@@ -720,7 +722,7 @@ namespace InspecWeb.Controllers
                 {
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
                     {
@@ -736,7 +738,7 @@ namespace InspecWeb.Controllers
 
                         // Add a title
 
-                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType + ")" + " : " + exportData.ReportType);
+                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
                         reportType.FontSize(16d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
@@ -891,6 +893,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("in รายหน่วยงาน");
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
 
@@ -909,7 +912,7 @@ namespace InspecWeb.Controllers
 
                         // Add a title
 
-                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType + ")" + " : " + exportData.ReportType);
+                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
                         reportType.FontSize(16d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
@@ -1069,6 +1072,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("in รายภาค");
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
 
@@ -1087,7 +1091,7 @@ namespace InspecWeb.Controllers
 
                         // Add a title
 
-                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType + ")" + " : " + exportData.ReportType);
+                        var reportType = document.InsertParagraph("รายงานผลการตรวจราชการ (" + exportData.CentralPolicyType.Name + ")" + " : " + exportData.ReportType);
                         reportType.FontSize(16d);
                         reportType.SpacingBefore(15d);
                         reportType.SpacingAfter(15d);
@@ -1276,6 +1280,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetImportedReport(string userId)
         {
             var importData = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
@@ -1300,6 +1305,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetImportedReportById(long reportId)
         {
             var importData = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
@@ -1352,14 +1358,20 @@ namespace InspecWeb.Controllers
         public IActionResult GetCommanderReport(long provinceId, string userID)
         {
             System.Console.WriteLine("ProvinceId: " + provinceId);
-            var commanderReport = _context.ImportReports
-                .Include(x => x.CentralPolicyType)
-                .Include(x => x.ImportReportGroups)
+
+            var commanderReport = _context.ReportCommanders
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.CentralPolicyType)
+
+                 .Include(x => x.ImportReport)
+                .ThenInclude(x => x.User)
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
                 .ThenInclude(x => x.CentralPolicy)
                 .Include(x => x.User)
-                //.Where(x => x.ProvinceId == provinceId && x.Status == "ส่งแล้ว")
-                .Where(x => x.SendCommander == userID && x.Status == "ส่งแล้ว")
+                .Where(x => x.UserCommanderId == userID)
                 .ToList();
 
             return Ok(new { commanderReport });
@@ -1546,38 +1558,63 @@ namespace InspecWeb.Controllers
         public IActionResult SendReportToCommander(ImportReportViewModel model)
         {
             System.Console.WriteLine("ReportId: " + model.reportId);
-
-            // (from t in _context.CentralPolicyUsers where t.InspectionPlanEventId == id && t.UserId == userid select t).ToList().
-            //   ForEach(x => x.Status = status);
+            List<object> termsList = new List<object>();
 
             var importReport = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Where(x => x.Id == model.reportId)
                 .FirstOrDefault();
             {
                 importReport.Status = "ส่งแล้ว";
-                importReport.SendCommander = model.Commander;
             }
             _context.Entry(importReport).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
-            return Ok(new { status = true });
+
+            System.Console.WriteLine("1");
+
+            foreach (var commanderId in model.CommanderAr)
+            {
+                var commandData = new ReportCommander
+                {
+                    ImportReportId = model.reportId,
+                    UserCommanderId = commanderId,
+                    Status = "รอดำเนินการ",
+                    CreateAt = DateTime.Now,
+                };
+                _context.ReportCommanders.Add(commandData);
+                _context.SaveChanges();
+
+                termsList.Add(new
+                {
+                    commanderReportId = commandData.Id,
+                    commanderId = commanderId
+                });
+            }
+
+            return Ok(new { status = true, data = termsList });
         }
 
-        [HttpPost("sendCommand")]
+        [HttpPut("sendCommand")]
         public IActionResult SendCommand(ImportReportViewModel model)
         {
 
             System.Console.WriteLine("reportID: " + model.reportId);
             System.Console.WriteLine("Command: " + model.command);
             System.Console.WriteLine("userId: " + model.UserId);
-            var commandData = new ReportCommander
+
+            System.Console.WriteLine("0.");
+
+            var commanderReport = _context.ReportCommanders
+                .Where(x => x.Id == model.reportId && x.UserCommanderId == model.UserId)
+                .FirstOrDefault();
+            System.Console.WriteLine("1.");
             {
-                ImportReportId = model.reportId,
-                Command = model.command,
-                UserCommanderId = model.UserId,
-                Status = "บันทึกข้อสั่งการแล้ว",
-                CreateAt = DateTime.Now,
-            };
-            _context.ReportCommanders.Add(commandData);
+                commanderReport.Status = "บันทึกข้อสั่งการแล้ว";
+                commanderReport.CommandDate = DateTime.Now;
+                commanderReport.Command = model.command;
+            }
+            System.Console.WriteLine("2.");
+            _context.Entry(commanderReport).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
             System.Console.WriteLine("finished.");
 
@@ -1593,6 +1630,7 @@ namespace InspecWeb.Controllers
             //   ForEach(x => x.Status = status);
 
             var importReport = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Where(x => x.Id == model.reportId)
                 .FirstOrDefault();
             {
@@ -1701,6 +1739,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllImportedReport()
         {
             var importData = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
@@ -1772,6 +1811,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByDepartment(long departmentId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
@@ -1781,7 +1821,6 @@ namespace InspecWeb.Controllers
                 .Include(x => x.FiscalYear)
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
-                .Include(x => x.Commander)
                 .Include(x => x.Region)
                 .Include(x => x.Province)
                 .Include(x => x.ReportCommanders)
@@ -1795,6 +1834,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByRegion(long regionId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
@@ -1804,7 +1844,6 @@ namespace InspecWeb.Controllers
                 .Include(x => x.FiscalYear)
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
-                .Include(x => x.Commander)
                 .Include(x => x.Region)
                 .Include(x => x.Province)
                 .Include(x => x.ReportCommanders)
@@ -1818,6 +1857,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByZone(long zoneId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
@@ -1827,7 +1867,6 @@ namespace InspecWeb.Controllers
                 .Include(x => x.FiscalYear)
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
-                .Include(x => x.Commander)
                 .Include(x => x.Region)
                 .Include(x => x.Province)
                 .Include(x => x.ReportCommanders)
@@ -1842,6 +1881,7 @@ namespace InspecWeb.Controllers
         public IActionResult GetAllReportByProvince(long provinceId)
         {
             var Reports = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
@@ -1851,7 +1891,6 @@ namespace InspecWeb.Controllers
                 .Include(x => x.FiscalYear)
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
-                .Include(x => x.Commander)
                 .Include(x => x.Region)
                 .Include(x => x.Province)
                 .Include(x => x.ReportCommanders)
@@ -1866,6 +1905,7 @@ namespace InspecWeb.Controllers
         {
             System.Console.WriteLine("StartDate: " + model.startDate.Date);
             var Reports = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
@@ -1875,7 +1915,6 @@ namespace InspecWeb.Controllers
                 .Include(x => x.FiscalYear)
                 .Include(x => x.User)
                 .ThenInclude(x => x.Departments)
-                .Include(x => x.Commander)
                 .Include(x => x.Region)
                 .Include(x => x.Province)
                 .Include(x => x.ReportCommanders)
@@ -2027,6 +2066,7 @@ namespace InspecWeb.Controllers
 
                 document.PageLayout.Orientation = Orientation.Landscape;
                 System.Console.WriteLine("4");
+                System.Console.WriteLine("4444");
 
                 var reportType = document.InsertParagraph("ทะเบียนรายงานผลการตรวจราชการ : " + model.reportType);
                 reportType.FontSize(20d);
@@ -3304,6 +3344,7 @@ namespace InspecWeb.Controllers
         public IActionResult getAllActiveImportedReport()
         {
             var importData = _context.ImportReports
+                .Include(x => x.ReportCommanders)
                 .Include(x => x.CentralPolicyType)
                 .Include(x => x.ImportReportGroups)
                 .ThenInclude(x => x.CentralPolicyEvent)
@@ -3535,6 +3576,70 @@ namespace InspecWeb.Controllers
             }
 
             return Ok(new { data = filename });
+        }
+
+
+        [HttpGet("getCommanderReportDetailById/{reportId}")]
+        public IActionResult GetCommanderReportDetailById(long reportId)
+        {
+
+            
+            var importData = _context.ReportCommanders
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.CentralPolicyType)
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Departments)
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.FiscalYear)
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.Region)
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.Province)
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.InspectionPlanEvent)
+                .ThenInclude(x => x.CentralPolicies)
+                .ThenInclude(x => x.CentralPolicyProvinces)
+                .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.ImportReportGroups)
+                .ThenInclude(x => x.CentralPolicyEvent)
+                .ThenInclude(x => x.CentralPolicy)
+                .ThenInclude(x => x.CentralPolicyProvinces)
+                .ThenInclude(x => x.SubjectCentralPolicyProvinces)
+                .ThenInclude(x => x.SubquestionCentralPolicyProvinces)
+                .ThenInclude(x => x.SubjectCentralPolicyProvinceGroups)
+                .ThenInclude(x => x.ProvincialDepartment)
+                .ThenInclude(x => x.Department)
+
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.ReportCommanders)
+                .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Departments)
+
+                .Include(x => x.ImportReport)
+                .ThenInclude(x => x.ImportReportFiles)
+
+                .Where(x => x.Id == reportId)
+                .FirstOrDefault();
+
+            //var importData = _context.ImportReportGroups
+            //  .Include(x => x.ImportReport)
+            //  .Where(x => x.ImportReport.CreatedBy == userId)
+            //  .ToList();
+
+            return Ok(new { importData });
         }
 
 

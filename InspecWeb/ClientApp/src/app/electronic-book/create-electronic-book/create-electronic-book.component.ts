@@ -108,9 +108,9 @@ export class CreateElectronicBookComponent implements OnInit {
     this.EbookForm = this.fb.group({
       centralPolicyEventId: new FormControl("", [Validators.required]),
       inputdate: new FormArray([]),
-      checkDetail: new FormControl("", [Validators.required]),
-      Problem: new FormControl("", [Validators.required]),
-      Suggestion: new FormControl("", [Validators.required]),
+      checkDetail: new FormControl("",),
+      Problem: new FormControl("",),
+      Suggestion: new FormControl("",),
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       // fileType: new FormControl("เลือกประเภทเอกสารแนบ"),
       // description: new FormControl(null, [Validators.required]),
@@ -126,9 +126,9 @@ export class CreateElectronicBookComponent implements OnInit {
     this.EbookForm2 = this.fb.group({
       // centralPolicyEventId: new FormControl("", [Validators.required]),
       inputdate: new FormArray([]),
-      checkDetail: new FormControl("", [Validators.required]),
-      Problem: new FormControl("", [Validators.required]),
-      Suggestion: new FormControl("", [Validators.required]),
+      checkDetail: new FormControl("",),
+      Problem: new FormControl("",),
+      Suggestion: new FormControl("",),
       Status: new FormControl("ร่างกำหนดการ", [Validators.required]),
       // fileType: new FormControl("เลือกประเภทเอกสารแนบ", [Validators.required]),
       // description: new FormControl(null, [Validators.required]),
@@ -188,7 +188,7 @@ export class CreateElectronicBookComponent implements OnInit {
     // console.log("checkType: ", this.checkTypeCreate);
     this.submitted = true;
     if (this.EbookForm.invalid) {
-      console.log("in1");
+      console.log("validated.");
       return;
     } else {
       // true = สร้างจากแผนการตรวจ

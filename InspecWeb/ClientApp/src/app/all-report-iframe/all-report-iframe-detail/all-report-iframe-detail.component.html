@@ -48,7 +48,7 @@
       <div class="card-body">
         <div class="form-group col-12">
           <div class="col-10" style="margin-bottom: 20px;" *ngIf="reportData.importData.reportCommanders.length > 0">
-            <h4>ข้อสั่งการ</h4>
+            <h4 class="card-title" style="font-size: larger; font-weight: bold;">ข้อสั่งการ</h4>
             <div *ngFor="let item of reportData.importData.reportCommanders">
               <label for="" style="margin-left: 5px;">{{item.user.prefix}} {{item.user.name}} -
                 {{item.user.departments.name}}</label>
@@ -59,21 +59,21 @@
             <hr>
           </div>
           <div class="col-10">
-            <h4>หัวข้อการตรวจติดตาม</h4>
+            <h4 class="card-title" style="font-size: larger; font-weight: bold;">หัวข้อการตรวจติดตาม</h4>
             <input class="form-control" type="text" [(ngModel)]="reportData.importData.monitoringTopics" readonly>
           </div>
           <div class="col-10" style="margin-top: 15px;">
-            <h4>สรุปผลการตรวจราชการ</h4>
+            <h4 class="card-title" style="font-size: larger; font-weight: bold;">สรุปผลการตรวจราชการ</h4>
             <textarea class="form-control" name="" id="" cols="30" rows="5"
               [(ngModel)]="reportData.importData.detailReport" readonly></textarea>
           </div>
           <div class="col-10" style="margin-top: 15px;">
-            <h4>ข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ</h4>
+            <h4 class="card-title" style="font-size: larger; font-weight: bold;">ข้อเสนอแนะเชิงนโยบายของผู้ตรวจราชการ</h4>
             <textarea class="form-control" name="" id="" cols="30" rows="5"
               [(ngModel)]="reportData.importData.suggestion" readonly></textarea>
           </div>
           <div class="col-10" style="margin-top: 15px;">
-            <h4>ข้อสั่งการของผู้บังคับบัญชา</h4>
+            <h4 class="card-title" style="font-size: larger; font-weight: bold;">ข้อสั่งการของผู้บังคับบัญชา</h4>
             <textarea class="form-control" name="" id="" cols="30" rows="5" [(ngModel)]="reportData.importData.command"
               readonly></textarea>
           </div>
@@ -128,7 +128,7 @@
   <form [formGroup]="reportForm" (ngSubmit)="sendToCommander(reportForm.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">ส่งรายงานผลการตรวจ</h5>
+        <h5 class="modal-title card-title">ส่งรายงานผลการตรวจ</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -160,7 +160,7 @@
   <form [formGroup]="reportForm" (ngSubmit)="editReport(reportForm.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">แก้ไขรายงานผลการตรวจ</h5>
+        <h5 class="modal-title card-title">แก้ไขรายงานผลการตรวจ</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

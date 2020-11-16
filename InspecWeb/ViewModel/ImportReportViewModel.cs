@@ -59,6 +59,9 @@ namespace InspecWeb.ViewModel
 
         [JsonProperty(PropertyName = "ZoneId")]
         public long ZoneId { get; set; }
+
+        [JsonProperty(PropertyName = "CommanderAr")]
+        public string[] CommanderAr { get; set; }
     }
 
     public class headData
