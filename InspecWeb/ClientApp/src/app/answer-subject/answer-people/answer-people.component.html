@@ -26,6 +26,7 @@
             <th width="5%">ที่</th>
             <th windth="20%">แผนการตรวจราชการ</th>
             <th width="25%">เรื่องที่ตรวจ</th>
+            <th width="10%">ปี</th>
             <th width="25%">ระยะเวลาการตรวจ</th>
             <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
           </tr>
@@ -35,6 +36,7 @@
             <td>{{ i + 1 }}</td>
             <td>{{item.centralPolicy.typeexaminationplan.name}}</td>
             <td>{{ item.centralPolicy.title }}</td>
+            <td>{{item.centralPolicy.fiscalYearNew.year}}
             <td>
               <div *ngFor="let item2 of item.centralPolicy.centralPolicyDates;">{{ item2.startDate | thaidate: 'short' }} -
                 {{ item2.endDate | thaidate: 'short' }}</div>

@@ -13,8 +13,8 @@
       <div *ngIf="role_id == 1 || role_id == 2;else elseBlock" class="card-header" style="margin-bottom: -40px;">
         <div class="card-title">
           <div class="row" style="margin-left: 1.5px;">
-            <h5>แผนการตรวจราชการ</h5>
-            <div class="col-2">
+            <h5 class="card-title">แผนการตรวจราชการ</h5>
+            <div class="col-4 col-md-2">
               <select (change)="selectfiscalyear($event.target.value)" class="form-control select2"
                 data-toggle="select2">
                 <!-- <option value="currentfiscalyear">ปีปัจจุบัน</option> -->
@@ -79,12 +79,12 @@
             <tr>
               <th width="5%">ที่</th>
               <th windth="15%">แผนการตรวจราชการ</th>
-              <th width="25%">เรื่องที่ตรวจ(จำนวนหัวข้อ)</th>
+              <th style="vertical-align: top;" width="25%">เรื่องที่ตรวจ(จำนวนหัวข้อ)</th>
               <th width="10%">ปี</th>
               <th width="15%">ระยะเวลาการตรวจ</th>
               <th width="10%">ผู้สร้างแผน</th>
               <th width="10%">ปรับปรุงล่าสุด</th>
-              <th *ngIf="role_id == 1">สถานะ</th>
+              <th *ngIf="role_id == 1 || role_id == 2">สถานะ</th>
               <th width="10%"><i class="align-middle mr-2 fas fa-fw fa-cog"></i> </th>
             </tr>
           </thead>
@@ -115,13 +115,15 @@
                 {{item.updateAt | thaidate: 'short'}}</td>
               <td *ngIf="item.status == 'ร่างกำหนดการ'  && role_id == 1"
                 (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ร่าง</td>
-              <td *ngIf="item.status == 'ใช้งานจริง' && role_id == 1  "
+              <td *ngIf="item.status == 'ใช้งานจริง' && role_id == 1"
                 (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ใช้งาน</td>
-              <!-- <td *ngIf="role_id == 1 " (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">
-                {{ item.status }}</td> -->
+                <td *ngIf="item.status == 'ร่างกำหนดการ'  && role_id == 2"
+                (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ร่าง</td>
+              <td *ngIf="item.status == 'ใช้งานจริง' && role_id == 2"
+                (click)="DetailrowCentralPolicy(item.id,item.title)" class="pointer">ใช้งาน</td>
               <td>
                 <div class="row">
-                  <i title="รายละเอียด" style="margin-top: 6px;" class="align-middle mr-2 fas fa-file-medical pointer"
+                  <i title="รายละเอียด" style="margin-top: 6px;" class="align-middle mr-2 fas fa-fw fa-search pointer"
                     (click)="Subject(item.id,item.title)"></i>
                   <!-- <i class="align-middle mr-2 fas fa-fw fa-book pointer" (click)="DetailCentralPolicy(item.id)"></i> -->
                   <div *ngIf="role_id == 1 || role_id == 2 && item.user.ministryId == userministryId">

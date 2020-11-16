@@ -57,7 +57,7 @@ export class CentralPolicyComponent implements OnInit {
           //console.log("test" , this.resultuser);
           this.role_id = result[0].role_id
           this.userministryId = result[0].ministryId
-          if (result[0].role_id == 1) {
+          if (result[0].role_id == 1 ||result[0].role_id == 2) {
             console.log("in1", this.role_id);
             this.dtOptions = {
               pagingType: 'full_numbers',

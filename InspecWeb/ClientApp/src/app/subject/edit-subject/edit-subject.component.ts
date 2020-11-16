@@ -117,7 +117,7 @@ export class EditSubjectComponent implements OnInit {
       name: new FormControl("", [Validators.required]),
       centralPolicyDateId: new FormControl(null, [Validators.required]),
       status: new FormControl("ใช้งานจริง", [Validators.required]),
-      explanation: new FormControl("", [Validators.required]),
+      explanation: new FormControl(""),
       // questionopen: new FormControl(null, [Validators.required]),
       // questionclose: new FormControl(null, [Validators.required]),
       // answerclose: new FormControl(null, [Validators.required]),
@@ -182,7 +182,7 @@ export class EditSubjectComponent implements OnInit {
         });
         this.EditForm.patchValue({
           name: this.resultsubjectdetail.name,
-          explanation: this.resultsubjectdetail.explanation,
+          explanation: this.resultsubjectdetail.explanation ? this.resultsubjectdetail.explanation : "",
           centralPolicyDateId: this.datetime
         })
         this.EditForm.controls.centralPolicyDateId.disable();
@@ -402,7 +402,7 @@ export class EditSubjectComponent implements OnInit {
     this.editname = name
     this.modalRef = this.modalService.show(template);
     this.FormEditChoices = this.fb.group({
-      name: new FormControl("", [Validators.required]),
+      name: new FormControl(""),
     })
     this.FormEditChoices.patchValue({
       name: name
@@ -562,7 +562,7 @@ export class EditSubjectComponent implements OnInit {
     this.subjectservice.addFiles(this.resultdsubjectid, this.Formfile.value).subscribe(result => {
       console.log(result);
       this.Formfile.reset();
-      this.modalRef.hide()
+      // this.modalRef.hide();
       this.getSubjectDetail()
     })
   }
@@ -640,17 +640,20 @@ export class EditSubjectComponent implements OnInit {
   EditChoices(value, editid) {
     console.log(editid);
     console.log(value);
-    this.submitted = true
-    if (this.FormEditChoices.invalid) {
-      console.log("in1");
-      return;
-    } else {
-      this.subjectservice.editChoices(value, editid).subscribe(response => {
-        this.FormEditChoices.reset()
-        this.modalRef.hide()
-        this.getSubjectDetail()
-      })
+    if(value.name == ""){
+      value.name = "โปรดระบุ"
     }
+    // this.submitted = true
+    // if (this.FormEditChoices.invalid) {
+    //   console.log("in1");
+    //   return;
+    // } else {
+    // }
+    this.subjectservice.editChoices(value, editid).subscribe(response => {
+      this.FormEditChoices.reset()
+      this.modalRef.hide()
+      this.getSubjectDetail()
+    })
   }
 
   addX() {
