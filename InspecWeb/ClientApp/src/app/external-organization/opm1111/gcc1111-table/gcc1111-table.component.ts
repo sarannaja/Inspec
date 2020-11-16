@@ -16,7 +16,7 @@ export class Gcc1111TableComponent implements OnInit {
   results: Array<any>
   // dtOptions: DataTables.Settings = {
   dtOptions: any = {
-    // dom: 'Bfrtip',
+    dom: 'Bfrtip',
     buttons: [
       { extend: 'copy', text: 'คัดลอก', className: 'btn btn-primary glyphicon glyphicon-duplicate' },
       { extend: 'csv', text: 'ส่งออก csv', className: 'btn btn-primary glyphicon glyphicon-save-file' },
