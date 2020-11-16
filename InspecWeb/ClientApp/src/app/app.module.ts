@@ -230,6 +230,12 @@ import { PlanTrainingComponent } from './training/plan-training/plan-training.co
 import { ProgramTrainingComponent } from './training/program-training/program-training.component';
 import { RegisterTrainingComponent } from './training/register-training/register-training.component';
 import { TrainingComponent } from './training/training.component';
+import { TrainingSummaryReportComponent } from './training-summary-report/training-summary-report.component';
+import { TrainingSummaryReportPhaseComponent } from './training-summary-report/training-summary-report-phase/training-summary-report-phase.component';
+import { TrainingSummaryReportGroupComponent } from './training-summary-report/training-summary-report-group/training-summary-report-group.component';
+import { TrainingSummaryReportProjectComponent } from './training-summary-report-project/training-summary-report-project.component';
+
+
 import { TypeexamibationplanComponent } from './typeexamibationplan/typeexamibationplan.component';
 import { UserComponent } from './user/user.component';
 
@@ -303,6 +309,10 @@ import { UserComponent } from './user/user.component';
     TrainingProgramTypeComponent,
     ConditionDefaultLayoutTrainComponent,
     TrainingLecturerTypeComponent,
+    TrainingSummaryReportComponent,
+    TrainingSummaryReportPhaseComponent,
+    TrainingSummaryReportGroupComponent,
+    TrainingSummaryReportProjectComponent,
     // TrainingIDCodeComponent,
     //---------------
     ThaiDatePipe,

@@ -15,11 +15,11 @@ import { LogService } from '../../services/log.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
-  selector: 'app-phase-training',
-  templateUrl: './phase-training.component.html',
-  styleUrls: ['./phase-training.component.css']
+  selector: 'app-training-summary-report-phase',
+  templateUrl: './training-summary-report-phase.component.html',
+  styleUrls: ['./training-summary-report-phase.component.css']
 })
-export class PhaseTrainingComponent implements OnInit {
+export class TrainingSummaryReportPhaseComponent implements OnInit {
   myDatePickerOptions: IMyOptions = {
     // other options...
     //dateFormat: 'dd/mm/yyyy',
@@ -50,7 +50,8 @@ export class PhaseTrainingComponent implements OnInit {
   submitted = false;
   editid: any;
   userid: string;
-  ddlphase: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  groupnum: 6;
+  phaseid: string;
 
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -63,89 +64,89 @@ export class PhaseTrainingComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-    this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+    this.trainingid = activatedRoute.snapshot.paramMap.get('trainingid')
+    this.phaseid = activatedRoute.snapshot.paramMap.get('phaseid')
     this.downloadUrl = baseUrl + '/Uploads'
   }
 
   ngOnInit() {
-    this.getuserinfo();
+    //this.getuserinfo();
     this.spinner.show();
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      columnDefs: [
-        {
-          targets: [1, 2, 3, 4, 5],
-          orderable: false
-        }
-      ],
-      "language": {
-        "lengthMenu": "แสดง  _MENU_  รายการ",
-        "search": "ค้นหา:",
-        "infoFiltered": "ไม่พบข้อมูล",
-        "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
-        "infoEmpty": "แสดง 0 ของ 0 รายการ",
-        "zeroRecords": "ไม่พบข้อมูล",
-        "paginate": {
-          "first": "หน้าแรก",
-          "last": "หน้าสุดท้าย",
-          "next": "ต่อไป",
-          "previous": "ย้อนกลับ"
-        },
-      }
+    // this.dtOptions = {
+    //   pagingType: 'full_numbers',
+    //   columnDefs: [
+    //     {
+    //       targets: [0, 1],
+    //       orderable: false
+    //     }
+    //   ],
+    //   "language": {
+    //     "lengthMenu": "แสดง  _MENU_  รายการ",
+    //     "search": "ค้นหา:",
+    //     "infoFiltered": "ไม่พบข้อมูล",
+    //     "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ แถว",
+    //     "infoEmpty": "แสดง 0 ของ 0 รายการ",
+    //     "zeroRecords": "ไม่พบข้อมูล",
+    //     "paginate": {
+    //       "first": "หน้าแรก",
+    //       "last": "หน้าสุดท้าย",
+    //       "next": "ต่อไป",
+    //       "previous": "ย้อนกลับ"
+    //     },
+    //   }
 
-    };
-    this.EditForm = this.fb.group({
-      "phaseno": new FormControl(null, [Validators.required]),
-      "startdate": new FormControl(null, [Validators.required]),
-      "enddate": new FormControl(null, [Validators.required]),
-      "title": new FormControl(null, [Validators.required]),
-      "detail": new FormControl(null, [Validators.required]),
-      "location": new FormControl(null, [Validators.required]),
-      "group": new FormControl(null, [Validators.required]),
-    })
+    // };
+    // this.EditForm = this.fb.group({
+    //   "phaseno": new FormControl(null, [Validators.required]),
+    //   "startdate": new FormControl(null, [Validators.required]),
+    //   "enddate": new FormControl(null, [Validators.required]),
+    //   "title": new FormControl(null, [Validators.required]),
+    //   "detail": new FormControl(null, [Validators.required]),
+    //   "location": new FormControl(null, [Validators.required]),
+    //   "group": new FormControl(null, [Validators.required]),
+    // })
 
-    this.Form = this.fb.group({
-      phaseno: new FormControl(null, [Validators.required]),
-      title: new FormControl(null, [Validators.required]),
-      detail: new FormControl(null, [Validators.required]),
-      startdate: new FormControl(null, [Validators.required]),
-      enddate: new FormControl(null, [Validators.required]),
-      location: new FormControl(null, [Validators.required]),
-      group: new FormControl(null, [Validators.required]),
-    })
+    // this.Form = this.fb.group({
+    //   phaseno: new FormControl(null, [Validators.required]),
+    //   title: new FormControl(null, [Validators.required]),
+    //   detail: new FormControl(null, [Validators.required]),
+    //   startdate: new FormControl(null, [Validators.required]),
+    //   enddate: new FormControl(null, [Validators.required]),
+    //   location: new FormControl(null, [Validators.required]),
+    //   group: new FormControl(null, [Validators.required]),
+    // })
 
-
-
-    //[1, 2, 3, 4, 5];
-
-    this.getTrainingPhase()
+    // this.getTrainingPhase()
 
 
-    this.trainingservice.getdetailtraining(this.trainingid)
-      .subscribe(result => {
-        if (result.length != 0) {
-          this.startdate = result[0].startDate
-          this.enddate = result[0].endDate
-          this.dateOptionF(this.startdate, this.enddate)
-          this.Form.patchValue({
-            'programdate': this.startdate
-          })
-          
+    // this.trainingservice.getdetailtraining(this.trainingid)
+    //   .subscribe(result => {
+    //     if (result.length != 0) {
+    //       this.startdate = result[0].startDate
+    //       this.enddate = result[0].endDate
+    //       this.dateOptionF(this.startdate, this.enddate)
+    //       this.Form.patchValue({
+    //         'programdate': this.startdate
+    //       })
+    //       console.log(this.startdate)
+    //       console.log(this.enddate);
+    //       console.log(this.dateOption);
+    //       // this.dateOption(this.startdate , this.enddate)
+    //     }
+    //     this.resulttrainingdetail = result
+    //     this.loading = true;
+    //     //console.log(JSON.stringify(this.dateOption(this.startdate , this.enddate)));
 
-          console.log(this.startdate)
-          console.log(this.enddate);
-          console.log(this.dateOption);
-          // this.dateOption(this.startdate , this.enddate)
-        }
-        this.resulttrainingdetail = result
-        this.loading = true;
-        //console.log(JSON.stringify(this.dateOption(this.startdate , this.enddate)));
+    //     //console.log(this.resulttraining);
+    //   })
 
-        //console.log(this.resulttraining);
-      })
-
-
+    this.spinner.hide();
   }
+
+  counter(i: number) {
+    return new Array(i);
+  }
+
   getTrainingPhase() {
     this.trainingservice.getTrainingPhase(this.trainingid)
       .subscribe(result => {
@@ -153,19 +154,13 @@ export class PhaseTrainingComponent implements OnInit {
         this.loading = true;
         this.spinner.hide();
         console.log(this.resulttraining);
-
-        this.ddlphase = this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
-        // ddlphase.push();
-        // this.ddlphase =  this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
-        console.log("ddlphase =>", this.ddlphase);
-
       })
   }
 
 
   dateOptionF(start, end) {
     //console.log("dateOptionF =>", start, end);
-
+    
     var startDate = new Date(start);
     var endDate = new Date(end);
     var dateDayRemoveStart = new Date()
@@ -264,7 +259,7 @@ export class PhaseTrainingComponent implements OnInit {
         month: new Date(startdate).getMonth() + 1,
         day: new Date(startdate).getDate()
       },
-      enddate: {
+      enddate:  {
         year: new Date(enddate).getFullYear(),
         month: new Date(enddate).getMonth() + 1,
         day: new Date(enddate).getDate()
@@ -339,7 +334,7 @@ export class PhaseTrainingComponent implements OnInit {
         console.log("result:", response);
         this.Form.reset();
         this.loading = false;
-        this.logService.addLog(this.userid, 'TrainingPhases', 'เพิ่ม', response.title, response.id).subscribe();
+        this.logService.addLog(this.userid,'TrainingPhases','เพิ่ม', response.title,response.id).subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("เพิ่มข้อมูล");
       })
@@ -359,7 +354,7 @@ export class PhaseTrainingComponent implements OnInit {
         this.modalRef.hide();
         //this.EditForm.reset();
         this.loading = false;
-        this.logService.addLog(this.userid, 'TrainingPhases', 'แก้ไข', value.name, "").subscribe();
+        this.logService.addLog(this.userid,'TrainingPhases','แก้ไข', value.name,"").subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("แก้ไขข้อมูล");
 
@@ -386,7 +381,7 @@ export class PhaseTrainingComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
-      this.logService.addLog(this.userid, 'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)', 'ลบ', value.name, "").subscribe();
+      this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)','ลบ', value.name,"").subscribe();
       this.getTrainingPhase()
       this._NotofyService.onSuccess("ลบข้อมูล");
     })
@@ -398,7 +393,13 @@ export class PhaseTrainingComponent implements OnInit {
   gotoProgramTraining(id) {
     this.router.navigate(['/training/phase/program/' + this.trainingid + '/' + id])
   }
+
   gotoPlanTraining(id) {
     this.router.navigate(['/training/phase/plan/' + id])
   }
+
+  gotoSummaryReportGroupTraining(group) {
+    this.router.navigate(['/training/report/summary/phase/group/detail/' + this.trainingid + '/' + this.phaseid + '/' + group])
+  }
+  
 }

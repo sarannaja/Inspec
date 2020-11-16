@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TrainingService } from '../../services/training.service';
+import { TrainingService } from '../services/training.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -9,17 +9,17 @@ import { IMyDateModel, IMyOptions } from 'mydatepicker-th';
 import * as moment from 'moment';
 import { Chart } from 'chart.js';
 
-import { NotofyService } from '../../services/notofy.service';
+import { NotofyService } from '../services/notofy.service';
 import { NgxSpinnerService } from "ngx-spinner";
-import { LogService } from '../../services/log.service';
+import { LogService } from '../services/log.service';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
-  selector: 'app-phase-training',
-  templateUrl: './phase-training.component.html',
-  styleUrls: ['./phase-training.component.css']
+  selector: 'app-training-summary-report',
+  templateUrl: './training-summary-report.component.html',
+  styleUrls: ['./training-summary-report.component.css']
 })
-export class PhaseTrainingComponent implements OnInit {
+export class TrainingSummaryReportComponent implements OnInit {
   myDatePickerOptions: IMyOptions = {
     // other options...
     //dateFormat: 'dd/mm/yyyy',
@@ -50,7 +50,7 @@ export class PhaseTrainingComponent implements OnInit {
   submitted = false;
   editid: any;
   userid: string;
-  ddlphase: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  groupnum = 6;
 
   constructor(private modalService: BsModalService,
     private authorize: AuthorizeService,
@@ -63,7 +63,7 @@ export class PhaseTrainingComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-    this.trainingid = activatedRoute.snapshot.paramMap.get('id')
+    this.trainingid = activatedRoute.snapshot.paramMap.get('trainingid')
     this.downloadUrl = baseUrl + '/Uploads'
   }
 
@@ -74,7 +74,7 @@ export class PhaseTrainingComponent implements OnInit {
       pagingType: 'full_numbers',
       columnDefs: [
         {
-          targets: [1, 2, 3, 4, 5],
+          targets: [0, 1, 2, 3],
           orderable: false
         }
       ],
@@ -114,10 +114,6 @@ export class PhaseTrainingComponent implements OnInit {
       group: new FormControl(null, [Validators.required]),
     })
 
-
-
-    //[1, 2, 3, 4, 5];
-
     this.getTrainingPhase()
 
 
@@ -130,8 +126,6 @@ export class PhaseTrainingComponent implements OnInit {
           this.Form.patchValue({
             'programdate': this.startdate
           })
-          
-
           console.log(this.startdate)
           console.log(this.enddate);
           console.log(this.dateOption);
@@ -153,19 +147,15 @@ export class PhaseTrainingComponent implements OnInit {
         this.loading = true;
         this.spinner.hide();
         console.log(this.resulttraining);
-
-        this.ddlphase = this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
-        // ddlphase.push();
-        // this.ddlphase =  this.ddlphase.filter(x => result.every(y => y.phaseNo != x))
-        console.log("ddlphase =>", this.ddlphase);
-
       })
   }
+
+  
 
 
   dateOptionF(start, end) {
     //console.log("dateOptionF =>", start, end);
-
+    
     var startDate = new Date(start);
     var endDate = new Date(end);
     var dateDayRemoveStart = new Date()
@@ -264,7 +254,7 @@ export class PhaseTrainingComponent implements OnInit {
         month: new Date(startdate).getMonth() + 1,
         day: new Date(startdate).getDate()
       },
-      enddate: {
+      enddate:  {
         year: new Date(enddate).getFullYear(),
         month: new Date(enddate).getMonth() + 1,
         day: new Date(enddate).getDate()
@@ -339,7 +329,7 @@ export class PhaseTrainingComponent implements OnInit {
         console.log("result:", response);
         this.Form.reset();
         this.loading = false;
-        this.logService.addLog(this.userid, 'TrainingPhases', 'เพิ่ม', response.title, response.id).subscribe();
+        this.logService.addLog(this.userid,'TrainingPhases','เพิ่ม', response.title,response.id).subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("เพิ่มข้อมูล");
       })
@@ -359,7 +349,7 @@ export class PhaseTrainingComponent implements OnInit {
         this.modalRef.hide();
         //this.EditForm.reset();
         this.loading = false;
-        this.logService.addLog(this.userid, 'TrainingPhases', 'แก้ไข', value.name, "").subscribe();
+        this.logService.addLog(this.userid,'TrainingPhases','แก้ไข', value.name,"").subscribe();
         this.getTrainingPhase();
         this._NotofyService.onSuccess("แก้ไขข้อมูล");
 
@@ -386,7 +376,7 @@ export class PhaseTrainingComponent implements OnInit {
       //console.log(value);
       this.modalRef.hide()
       this.loading = false;
-      this.logService.addLog(this.userid, 'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)', 'ลบ', value.name, "").subscribe();
+      this.logService.addLog(this.userid,'ตารางกำหนดการหลักสูตรการอบรม(ช่วง)(TrainingPhases)','ลบ', value.name,"").subscribe();
       this.getTrainingPhase()
       this._NotofyService.onSuccess("ลบข้อมูล");
     })
@@ -401,4 +391,9 @@ export class PhaseTrainingComponent implements OnInit {
   gotoPlanTraining(id) {
     this.router.navigate(['/training/phase/plan/' + id])
   }
+
+  gotoSummaryReportGroupTraining(phaseid) {
+    this.router.navigate(['/training/report/summary/phase/group/' + this.trainingid + '/' + phaseid])
+  }
+
 }

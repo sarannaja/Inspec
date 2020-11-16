@@ -42,7 +42,7 @@ export class ListTrainingSurveyComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     @Inject('BASE_URL') baseUrl: string) {
-      this.surveytopicid = activatedRoute.snapshot.paramMap.get('surveytopicid')
+      this.surveytopicid = activatedRoute.snapshot.paramMap.get('id')
     }
 
 

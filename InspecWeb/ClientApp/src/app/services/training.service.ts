@@ -875,6 +875,61 @@ export class TrainingService {
     return this.http.get<any[]>(this.url + 'check_TrainingProgramLoginQRDate/get/' + trainingid);
   }
 
+
+  //เก็บข้อมูลรายงานสรุปผลการฝึกอบรม(กลุ่ม)
+  addTrainingSummaryReportGroup(trainingData, file: FileList, phaseId , group) {
+    //alert('service:' + JSON.stringify(trainingData))
+    const formData = new FormData();
+    formData.append('Detail', trainingData.detail);
+
+    for (var i = 0; i < file.length; i++) {
+      formData.append('files', file[i]);
+    }
+
+    console.log('FORMDATA: ' + formData);
+    //console.log("test", formData.getAll('detail'));
+    //console.log("yyy", formData.getAll('files'));
+    return this.http.post(this.url + 'summaryreport/group/add/' + phaseId + '/' + group, formData);
+  }
+
+  //ดึงข้อมูลรายงานสรุปผลการฝึกอบรมช่วงเป็นกลุ่ม
+  getTrainingSummaryReportGroup(phaseid, group): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'summaryreport/group/get/' + phaseid + '/' + group)
+  }
+
+  //ลบข้อมูลรายงานสรุปผลการฝึกอบรมช่วงเป็นกลุ่ม
+  deleteTrainingSummaryReportGroup(id) {
+    return this.http.delete(this.url + 'summaryreport/group/delete/' + id);
+  }
+
+
+  //เก็บข้อมูลรายงานสรุปผลการฝึกอบรม(ทั้งหลักสูตร)
+  addTrainingSummaryReportProject(trainingData, file: FileList, trainingid) {
+    //alert('service:' + JSON.stringify(trainingData))
+    const formData = new FormData();
+    formData.append('Detail', trainingData.detail);
+
+    for (var i = 0; i < file.length; i++) {
+      formData.append('files', file[i]);
+    }
+
+    console.log('FORMDATA: ' + formData);
+    //console.log("test", formData.getAll('detail'));
+    //console.log("yyy", formData.getAll('files'));
+    return this.http.post(this.url + 'summaryreport/project/add/' + trainingid , formData);
+  }
+
+  //ดึงข้อมูลรายงานสรุปผลการฝึกอบรม(ทั้งหลักสูตร)
+  getTrainingSummaryReportProject(trainingid): Observable<any[]> {
+    return this.http.get<any[]>(this.url + 'summaryreport/project/get/' + trainingid)
+  }
+
+
+  //ลบข้อมูลรายงานสรุปผลการฝึกอบรม(ทั้งหลักสูตร)
+  deleteTrainingSummaryReportProject(id) {
+    return this.http.delete(this.url + 'summaryreport/project/delete/' + id);
+  }
+
 }
 
 

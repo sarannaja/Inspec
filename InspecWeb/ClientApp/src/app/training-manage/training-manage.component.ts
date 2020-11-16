@@ -143,12 +143,20 @@ export class TrainingManageComponent implements OnInit {
     this.router.navigate(['/training/register/program/group/', this.trainingid])
   }
 
-  gotogLoginListTraining(){
+  gotoLoginListTraining(){
     this.router.navigate(['/training/login/list/', this.trainingid])
   }
 
-  gotogReportTraining(){
+  gotoReportTraining(){
     this.router.navigate(['/training/reportmemu/', this.trainingid])
+  }
+
+  gotoReportSummaryTraining(){
+    this.router.navigate(['/training/report/summary/phase/', this.trainingid])
+  }
+
+  gotoReportSummaryProjectTraining(){
+    this.router.navigate(['/training/report/summary/project/', this.trainingid])
   }
 
   gotoBack() {

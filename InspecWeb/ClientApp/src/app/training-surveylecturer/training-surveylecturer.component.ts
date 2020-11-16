@@ -89,7 +89,7 @@ export class TrainingSurveyLecturerComponent implements OnInit {
               this.resulttraining = result
               this.loading = true;
               
-              console.log("resulttraining =>",this.resulttraining);
+              console.log("resultTrainingSurveyLecturer =>",this.resulttraining);
             })
 
           })
