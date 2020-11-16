@@ -63,7 +63,13 @@ export class UserService {
     const formData = new FormData();
     formData.append('Email', userData.Email); //email   
     formData.append('Role_id', roleId); //role
-    formData.append('Prefix', userData.Prefix); //คำนำหน้า
+
+    if(userData.Prefix == "อื่นๆ"){     
+    formData.append('Prefix', userData.Othertext);
+    }else{
+      formData.append('Prefix', userData.Prefix); 
+    }
+
     formData.append('Firstnameth', userData.FName); //ชื่อ
     formData.append('Lastnameth', userData.LName); //ชื่อ
     formData.append('Position', userData.Position);//ตำแหน่ง
@@ -198,7 +204,11 @@ export class UserService {
     //console.log("servicelog: ", userData);
     const formData = new FormData();
     formData.append('Role_id', userData.Role_id); //role
-    formData.append('Prefix', userData.Prefix);
+    if(userData.Prefix == "อื่นๆ"){     
+      formData.append('Prefix', userData.Othertext);
+      }else{
+        formData.append('Prefix', userData.Prefix); 
+      }
     formData.append('Firstnameth', userData.FName); //ชื่อ
     formData.append('Lastnameth', userData.LName); //นามสกุล
     formData.append('Position', userData.Position);

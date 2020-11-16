@@ -102,6 +102,7 @@ namespace InspecWeb.Controllers
                 Position = model.Position,
                 Image = imagename,
                 Prefix = model.Prefix,
+                MinistryId = 1,
                 Detail = model.Detail,
                 CreatedAt = date
             };
@@ -119,6 +120,7 @@ namespace InspecWeb.Controllers
             cabine.Name = name;
             cabine.Position = position;
             //cabine.Image = image;
+            cabine.MinistryId = 1;
             cabine.Prefix = prefix;
             cabine.Detail = detail;
             _context.Entry(cabine).State = Microsoft.EntityFrameworkCore.EntityState.Modified;

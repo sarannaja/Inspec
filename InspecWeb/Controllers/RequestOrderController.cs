@@ -431,7 +431,7 @@ namespace InspecWeb.Controllers
             using (DocX document = DocX.Create(createfile)) //สร้าง
             {
 
-
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                 System.Console.WriteLine("5");
 
                 // Add a title
@@ -553,7 +553,7 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in create");
             using (DocX document = DocX.Create(createfile)) //สร้าง
             {
-
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                 System.Console.WriteLine("5");
 
                 // Add a title
@@ -693,7 +693,7 @@ namespace InspecWeb.Controllers
             using (DocX document = DocX.Create(createfile)) //สร้าง
 
             {
-
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                 System.Console.WriteLine("5");
 
 

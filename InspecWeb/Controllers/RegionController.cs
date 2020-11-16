@@ -79,13 +79,15 @@ namespace InspecWeb.Controllers
         }
 
         //สำหรับใช้ตรง user
-        [HttpGet("regionforuser/{id}")]
-        public IActionResult GetRegionsforuser(long id)
+        [HttpGet("regionforuser")]
+        public IActionResult GetRegionsforuser()
         {
             var importFiscalYearRelations = _context.FiscalYearRelations
               .Include(x => x.Region)
               .Include(x => x.Province)
-              .Where(x => x.FiscalYearId == id)
+              .Include(x => x.FiscalYear)
+              .Where(x => x.FiscalYear.Active == 1)
+              //.Where(x => x.FiscalYearId == id)
               .ToList();
 
             return Ok(new { importFiscalYearRelations });
