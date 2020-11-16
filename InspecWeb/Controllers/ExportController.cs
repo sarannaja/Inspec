@@ -376,6 +376,27 @@ namespace InspecWeb.Controllers
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
                     document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
 
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
@@ -427,12 +448,12 @@ namespace InspecWeb.Controllers
                         region.SpacingAfter(10d);
                         region.FontSize(16d);
 
-                        Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
-                        var printDate = DateTime.Now.ToString("dd MMMM yyyy");
-                        var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
-                        printReport.Alignment = Alignment.center;
-                        printReport.SpacingAfter(30d);
-                        printReport.FontSize(16d);
+                        //Thread.CurrentThread.CurrentCulture = new CultureInfo("th-TH");
+                        //var printDate = DateTime.Now.ToString("dd MMMM yyyy");
+                        //var printReport = document.InsertParagraph("วันที่ออกรายงาน: " + printDate);
+                        //printReport.Alignment = Alignment.center;
+                        //printReport.SpacingAfter(30d);
+                        //printReport.FontSize(16d);
 
                         var statusReport = document.InsertParagraph("สถานะของรายงาน: " + exportData.Status);
                         statusReport.FontSize(16d);
@@ -550,6 +571,27 @@ namespace InspecWeb.Controllers
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
                     document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
                     {
@@ -723,6 +765,27 @@ namespace InspecWeb.Controllers
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
                     document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
                     {
@@ -894,6 +957,27 @@ namespace InspecWeb.Controllers
                 using (DocX document = DocX.Create(createfile))
                 {
                     document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
 
@@ -1073,6 +1157,27 @@ namespace InspecWeb.Controllers
                 using (DocX document = DocX.Create(createfile))
                 {
                     document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
 
@@ -1945,6 +2050,30 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in รายเขต");
             using (DocX document = DocX.Create(createfile))
             {
+
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the even Header.
+                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the odd Header.
+                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                // Add the page number in the first Footer.
+                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the even Footers.
+                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the odd Footers.
+                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                 document.PageLayout.Orientation = Orientation.Landscape;
                 System.Console.WriteLine("4");
 
@@ -2064,6 +2193,30 @@ namespace InspecWeb.Controllers
                 //    .Select(x => x.Province.Name)
                 //    .FirstOrDefault();
 
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the even Header.
+                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the odd Header.
+                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                // Add the page number in the first Footer.
+                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the even Footers.
+                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the odd Footers.
+                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+
                 document.PageLayout.Orientation = Orientation.Landscape;
                 System.Console.WriteLine("4");
                 System.Console.WriteLine("4444");
@@ -2179,7 +2332,29 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in รายเขต");
             using (DocX document = DocX.Create(createfile))
             {
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
 
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the even Header.
+                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the odd Header.
+                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                // Add the page number in the first Footer.
+                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the even Footers.
+                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the odd Footers.
+                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                 //var province = _context.FiscalYearRelations
                 //    .Where(x => x.RegionId == model.reportRegionId)
                 //    .Select(x => x.Province.Name)
@@ -2567,6 +2742,27 @@ namespace InspecWeb.Controllers
             {
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายวัน");
@@ -2637,6 +2833,27 @@ namespace InspecWeb.Controllers
 
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายเขต : " + regiondata.Name);
@@ -2705,6 +2922,27 @@ namespace InspecWeb.Controllers
 
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายจังหวัด : " + regiondata.Name);
@@ -2771,6 +3009,27 @@ namespace InspecWeb.Controllers
 
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายหน่วยงาน : " + regiondata.Name);
@@ -2837,6 +3096,27 @@ namespace InspecWeb.Controllers
 
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.AddHeaders();
+                    document.AddFooters();
+
+                    // Force the first page to have a different Header and Footer.
+                    document.DifferentFirstPage = true;
+                    // Force odd & even pages to have different Headers and Footers.
+                    document.DifferentOddAndEvenPages = true;
+
+                    // Insert a Paragraph into the first Header.
+                    document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the even Header.
+                    document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                    // Insert a Paragraph into the odd Header.
+                    document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                    // Add the page number in the first Footer.
+                    document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the even Footers.
+                    document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                    // Add the page number in the odd Footers.
+                    document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายบุคคล : " + regiondata.Prefix + " " + regiondata.Name);
@@ -2920,6 +3200,29 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in รายเขต");
             using (DocX document = DocX.Create(createfile))
             {
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the even Header.
+                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the odd Header.
+                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                // Add the page number in the first Footer.
+                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the even Footers.
+                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the odd Footers.
+                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
 
                 //var province = _context.FiscalYearRelations
                 //    .Where(x => x.RegionId == model.reportRegionId)
@@ -3042,6 +3345,30 @@ namespace InspecWeb.Controllers
             System.Console.WriteLine("in รายเขต");
             using (DocX document = DocX.Create(createfile))
             {
+
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
+
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the even Header.
+                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the odd Header.
+                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                // Add the page number in the first Footer.
+                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the even Footers.
+                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the odd Footers.
+                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
 
                 //var province = _context.FiscalYearRelations
                 //    .Where(x => x.RegionId == model.reportRegionId)

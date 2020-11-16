@@ -74,6 +74,28 @@ namespace InspecWeb.Controllers
                 logo.AppendPicture(picture).Alignment = Alignment.center;
                 document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
 
+                document.AddHeaders();
+                document.AddFooters();
+
+                // Force the first page to have a different Header and Footer.
+                document.DifferentFirstPage = true;
+                // Force odd & even pages to have different Headers and Footers.
+                document.DifferentOddAndEvenPages = true;
+
+                // Insert a Paragraph into the first Header.
+                document.Headers.First.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the even Header.
+                document.Headers.Even.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+                // Insert a Paragraph into the odd Header.
+                document.Headers.Odd.InsertParagraph("วันที่ออกรายงาน: ").Append(DateTime.Now.ToString("dd MMMM yyyy", new CultureInfo("th-TH")));
+
+                // Add the page number in the first Footer.
+                document.Footers.First.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the even Footers.
+                document.Footers.Even.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+                // Add the page number in the odd Footers.
+                document.Footers.Odd.InsertParagraph("หน้า: ").AppendPageNumber(PageNumberFormat.normal);
+
                 System.Console.WriteLine("5");
 
                 // Add a title
@@ -228,7 +250,7 @@ namespace InspecWeb.Controllers
                     {
                         System.Console.WriteLine("9.3: " + model.printReport[k].inspectorSign);
                         var myImageFullPath2 = filePath2 + model.printReport[k].inspectorSign;
-                       
+
                         Image image2 = document.AddImage(myImageFullPath2);
                         System.Console.WriteLine("JJJJJ: ");
                         Picture picture2 = image2.CreatePicture(30, 30);
