@@ -76,7 +76,8 @@ export class ReportImportComponent implements OnInit {
         this.userService.getuserfirstdata(this.userid)
           .subscribe(result => {
             this.role_id = result[0].role_id
-            this.departmentId = result[0].departmentId;
+            // this.departmentId = result[0].departmentId;
+            this.departmentId = result[0].provincialDepartments;
           })
       })
     this.dtOptions = {

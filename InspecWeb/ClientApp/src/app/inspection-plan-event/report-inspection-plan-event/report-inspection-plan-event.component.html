@@ -10,12 +10,10 @@
 <!-- <form class="row"> -->
 <div class="col-12">
   <div class="card card-eiei">
-    <div class="card-header" style="margin-bottom: -40px;">
-      <h5 class="card-title">รายงานกำหนดการตรวจราชการ</h5>
+    <div class="card-header">
       <div class="float-right">
 
-        <button class="btn btn-primary" title="ออกรายงาน" style="margin-top: -60px;"
-          (click)="openModal(modalReportAll)"> <i class="align-middle fas fa-fw fa-download pointer"></i>
+        <button class="btn btn-primary" (click)="openModal(modalReportAll)">พิมพ์รายงาน
         </button>
 
         <!-- <button class="btn btn-success" (click)="ExportDate()"
@@ -36,6 +34,8 @@
         <button class="btn btn-success" (click)="openModal(modalProvincialDepertment)"
           style="margin-top: -60px;">รายงานกำหนดการตรวจรายหน่วยงาน</button> -->
       </div>
+      <h5 class="card-title">รายงานกำหนดการตรวจราชการ</h5>
+
 
     </div>
     <div class="card-body">
@@ -68,7 +68,7 @@
   <form [formGroup]="reportForm" (ngSubmit)="ExportAll(reportForm.value)">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">รายงานกำหนดการตรวจราชการรายจังหวัด</h5>
+        <h5 class="modal-title">รายงานกำหนดการตรวจราชการ</h5>
         <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -77,7 +77,7 @@
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
-            <label class="form-label">ปีงบประมาณ*</label>
+            <label class="form-label">ปีงบประมาณ</label>
             <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"
               [items]="fiscalYearData" formControlName="fiscalYear" (change)="selectFiscalYear($event)">
             </ng-select>
@@ -86,7 +86,7 @@
 
         <div class="col-12 col-xl-12">
           <div class="form-group">
-            <label class="form-label">เขตตรวจราชการ*</label>
+            <label class="form-label">เขตตรวจราชการ</label>
             <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"
               [items]="regionData" formControlName="region" (change)="selectRegion($event)">
             </ng-select>

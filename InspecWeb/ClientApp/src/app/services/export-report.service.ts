@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Calendar } from 'src/app/services/modelaof/reportInspectionplan';
 import { NgIf } from '@angular/common';
 import { data } from 'jquery';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -803,14 +804,14 @@ export class ExportReportService {
     console.log("trainingYear", trainingYearJa);
     var newrateCoure: any;
     var exportData: any = [];
-   
+
     console.log("newrateCoure=>", newrateCoure);
 
     exportData = data.map((item, index) => {
-      if (item.rateCourse == "" || item.rateCourse == null || item.rateCourse == "null"){
+      if (item.rateCourse == "" || item.rateCourse == null || item.rateCourse == "null") {
         newrateCoure = 0;
       }
-      else{
+      else {
         newrateCoure = item.rateCourse;
       }
       return {

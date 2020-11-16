@@ -2528,6 +2528,7 @@ namespace InspecWeb.Controllers
                 using (DocX document = DocX.Create(createfile))
                 {
                     // Add a title
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายวัน");
                     reportType.FontSize(16d);
@@ -2597,6 +2598,7 @@ namespace InspecWeb.Controllers
 
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายเขต : " + regiondata.Name);
@@ -2665,6 +2667,7 @@ namespace InspecWeb.Controllers
 
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายจังหวัด : " + regiondata.Name);
@@ -2731,6 +2734,7 @@ namespace InspecWeb.Controllers
 
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายหน่วยงาน : " + regiondata.Name);
@@ -2797,6 +2801,7 @@ namespace InspecWeb.Controllers
 
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     // Add a title
                     document.PageLayout.Orientation = Orientation.Landscape;
                     var reportType = document.InsertParagraph("กำหนดการตรวจราชการรายบุคคล : " + regiondata.Prefix + " " + regiondata.Name);

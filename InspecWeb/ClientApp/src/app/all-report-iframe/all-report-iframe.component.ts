@@ -152,7 +152,7 @@ export class AllReportIframeComponent implements OnInit {
   }
 
   gotoDetail(id) {
-    this.router.navigate(['/allreport/detail/' + id])
+    this.router.navigate(['/allreportiframe/detail/' + id])
   }
 
   openModal(template: TemplateRef<any>) {
