@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
@@ -38,15 +38,15 @@
               </div>
               <div class="form-group">
                 <label>คำชี้แจง</label>
-                <label style="color: red;">*</label>
+                <!-- <label style="color: red;">*</label> -->
                 <!-- <input type="text" value="{{resultsubjectdetail.explanation}}" formControlName="explanation"
                   class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบาย"> -->
                 <textarea cols="30" rows="2" type="text" value="{{resultsubjectdetail.explanation}}"
-                  formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง"
-                  [ngClass]="{ 'is-invalid': submitted && fe.explanation.errors }"></textarea>
+                  formControlName="explanation" class="form-control" placeholder="กรุณากรอกคำชี้แจง"></textarea>
+                <!-- [ngClass]="{ 'is-invalid': submitted && fe.explanation.errors }"
                 <div *ngIf="submitted && fe.explanation.errors" class="invalid-feedback">
                   <div *ngIf="fe.explanation.errors.required">กรุณากรอกคำชี้แจง</div>
-                </div>
+                </div> -->
               </div>
               <div class="form-group">
                 <label>ระยะเวลาการตรวจ</label>
@@ -159,7 +159,7 @@
                             <div class="col-3" *ngIf="item.box == i2 && item.type == 'คำถามปลายปิด' ">
                               <i class="align-middle mr-2 fas fa-fw fa-pen pointer"
                                 (click)="openEditmodalChoices(modaleditChoices,items.id,items.name)"></i>
-                              <i class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
+                              <i *ngIf="i != 0" class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                                 (click)="openModalDelete(modaldeleteChoices, items.id)"></i>
                               <!-- <button *ngIf="i == 0" class="btn btn-primary" type="button" title="เพิ่มตัวเลือกคำตอบ"
                                 (click)="openAddModalChoices(modaladdChoices,item.id)">
@@ -451,10 +451,11 @@
         <div class="form-group">
           <label for="test" class="form-label">คำตอบ</label>
           <input type="text" value="{{editname}}" formControlName="name" class="form-control"
-            placeholder="กรุณากรอกคำตอบ" [ngClass]="{ 'is-invalid': submitted && fec.name.errors }">
-          <div *ngIf="submitted && fec.name.errors" class="invalid-feedback">
+            placeholder="กรุณากรอกคำตอบ">
+            <!-- [ngClass]="{ 'is-invalid': submitted && fec.name.errors }" -->
+          <!-- <div *ngIf="submitted && fec.name.errors" class="invalid-feedback">
             <div *ngIf="fec.name.errors.required">กรุณากรอกคำตอบ</div>
-          </div>
+          </div> -->
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">บันทึก</button>
@@ -566,9 +567,9 @@
                       [items]="department" name="departmentId" formControlName="departmentId">
                     </ng-select>
                     <div class="form-group" *ngIf="submitted && tv.at(iv).get('departmentId').invalid"
-                    [ngStyle]="submitted && tv.at(iv).get('departmentId').invalid ? {color: '#dc3545'}:{color: ''} ">
-                    <div style="font-size: 80%;">กรุณาเลือกหน่วยงาน</div>
-                  </div>
+                      [ngStyle]="submitted && tv.at(iv).get('departmentId').invalid ? {color: '#dc3545'}:{color: ''} ">
+                      <div style="font-size: 80%;">กรุณาเลือกหน่วยงาน</div>
+                    </div>
                     <br>
                     <!-- <label>ประเด็นการตรวจติดตาม</label>
                     <br> -->
@@ -607,7 +608,7 @@
                                 placeholder="กรุณากรอกคำถาม"> -->
                               <textarea cols="30" rows="2" type="text" formControlName="questionclose"
                                 class="form-control" placeholder="กรุณากรอกคำถาม"></textarea>
-                                <div class="form-group"
+                              <div class="form-group"
                                 *ngIf="submitted && getinputquestionclose(iv).tvf[ix].get('questionclose').invalid"
                                 [ngStyle]="submitted && getinputquestionclose(iv).tvf[ix].get('questionclose').invalid ? {color: '#dc3545'}:{color: ''} ">
                                 <div style="font-size: 80%;">กรุณากรอกคำถาม</div>

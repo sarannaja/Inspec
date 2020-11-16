@@ -1,5 +1,5 @@
 <div class="header">
-  
+
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
@@ -12,7 +12,9 @@
 
 <div class="col-12">
   <div class="card card-eiei">
-    <div *ngIf="role_id == 1 || role_id == 2;else elseBlock" class="card-header" style="margin-bottom: -40px;">
+    <div
+      *ngIf="role_id == 1 || role_id == 2 && resultcentralpolicy.user && resultcentralpolicy.user.ministryId == userministryId ;else elseBlock"
+      class="card-header" style="margin-bottom: -40px;">
       <h5 class="card-title">เรื่องที่ตรวจ : {{resultcentralpolicy.title}}</h5>
       <div class="float-right">
         <button class="btn btn-primary" title="เพิ่มหัวข้อการตรวจ" (click)="Subquestion()" style="margin-top: -60px;">
@@ -53,13 +55,20 @@
             <td>
               <div class="row">
                 <!-- <i class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i> -->
-                <div *ngIf="role_id == 1 || role_id == 2">
+                <div
+                  *ngIf="role_id == 1 || role_id == 2 && resultcentralpolicy.user && resultcentralpolicy.user.ministryId == userministryId">
                   <i title="แก้ไขหัวข้อการตรวจ" style="padding-bottom: 10px;"
                     class="align-middle mr-2 fas fa-fw fa-pen pointer" (click)="EditSubject(item.id)"></i>
                 </div>
-                <i title="ลบหัวข้อการตรวจ" *ngIf="role_id == 1 || role_id == 2;"
+                <i title="ลบหัวข้อการตรวจ"
+                  *ngIf="role_id == 1 || role_id == 2 && resultcentralpolicy.user && resultcentralpolicy.user.ministryId == userministryId"
                   class="align-middle mr-2 fas fa-fw fa-trash-alt pointer"
                   (click)="openModal(modaldeleteSubject, item.id)"></i>
+                <i title="รายละเอียด"
+                  *ngIf="role_id == 2 && resultcentralpolicy.user && resultcentralpolicy.user.ministryId != userministryId"
+                  class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i>
+                <i title="รายละเอียด" *ngIf="role_id != 1 && role_id != 2"
+                  class="align-middle mr-2 fas fa-fw fa-search pointer" (click)="DetailSubject(item.id)"></i>
               </div>
             </td>
           </tr>
@@ -70,8 +79,7 @@
 </div>
 
 <!-- BEGIN primary modal -->
-<ng-template #modalSubject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+<!-- <ng-template #modalSubject class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="Form" (ngSubmit)="storeSubject(Form.value)">
     <div class="modal-content">
       <div class="modal-header">
@@ -85,23 +93,6 @@
           <label for="test" class="form-label">ชื่อประเด็นนโยบายย่อย</label>
           <input type="text" formControlName="name" class="form-control" placeholder="กรุณากรอกชื่อประเด็นนโยบายย่อย">
         </div>
-        <!-- <div class="col-12 col-xl-5">
-            <div class="form-group">
-              <my-date-picker-th formControlName="start_date"   [items]="myDatePickerOptions" required>
-              </my-date-picker-th>
-            </div>
-          </div> -->
-        <!-- <div class="col-12 col-xl-2">
-            <div class="form-group" align="center">
-              ถึง
-            </div>
-          </div> -->
-        <!-- <div class="col-12 col-xl-5">
-            <div class="form-group">
-              <my-date-picker-th formControlName="end_date"   [items]="myDatePickerOptions" required>
-              </my-date-picker-th>
-            </div>
-          </div> -->
         <div class="form-group">
           <label for="test" class="form-label">กำหนดระยะเวลา</label>
           <ng-select bindLabel="label" bindValue="value" multiple="true" placeholder="กรุณาเลือกระยะเวลา"
@@ -115,8 +106,7 @@
       </div>
     </div>
   </form>
-  <!-- </div> -->
-</ng-template>
+</ng-template> -->
 <!-- END primary modal -->
 
 
@@ -141,8 +131,7 @@
 <!-- END primary modal -->
 
 <!-- BEGIN primary modal -->
-<ng-template #modaleditProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
+<!-- <ng-template #modaleditProvince class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <form [formGroup]="EditForm" (ngSubmit)="editProvince(EditForm.value,delid)">
     <div class="modal-content">
       <div class="modal-header">
@@ -154,7 +143,6 @@
       <div class="modal-body m-3">
         <div class="form-group">
           <label for="test" class="form-label">ชื่อจังหวัด</label>
-          <!-- <input type="text" formControlName="test" class="form-control" placeholder="test"> -->
           <input type="text" value="{{name}}" formControlName="provincename" class="form-control"
             placeholder="กรุณากรอกชื่อจังหวัด">
           <br>
@@ -169,8 +157,7 @@
       </div>
     </div>
   </form>
-  <!-- </div> -->
-</ng-template>
+</ng-template> -->
 <!-- END primary modal -->
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
