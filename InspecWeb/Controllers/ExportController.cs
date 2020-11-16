@@ -3171,7 +3171,7 @@ namespace InspecWeb.Controllers
 
             using (DocX document = DocX.Create(createfile))
             {
-
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                 Image image = document.AddImage(myImageFullPath);
                 Picture picture = image.CreatePicture(85, 85);
                 var logo = document.InsertParagraph();
@@ -3196,7 +3196,7 @@ namespace InspecWeb.Controllers
                 dataCount += 1;
                 System.Console.WriteLine("Data Count: " + data.Count());
                 // Add a table in a document of 1 row and 3 columns.
-                var columnWidths = new float[] { 150f, 850f };
+                var columnWidths = new float[] { 150f, 150f, 850f };
                 var t = document.InsertTable(dataCount, columnWidths.Length);
 
                 // Set the table's column width and background 
@@ -3208,7 +3208,8 @@ namespace InspecWeb.Controllers
                 // Fill in the columns of the first row in the table.
 
                 row.Cells[0].Paragraphs.First().Append("ชื่อ - สกุล");
-                row.Cells[1].Paragraphs.First().Append("คุณสมบัติ");
+                row.Cells[1].Paragraphs.First().Append("หน่วยงาน/สังกัด");
+                row.Cells[2].Paragraphs.First().Append("คุณสมบัติ");
                 //row.Cells[2].Paragraphs.First().Append("จังหวัด");
                 //row.Cells[3].Paragraphs.First().Append("เรื่อง");
                 //row.Cells[4].Paragraphs.First().Append("สถานะเรื่อง");
@@ -3224,6 +3225,7 @@ namespace InspecWeb.Controllers
                     j += 1;
                     //t.Rows[j].Cells[0].Paragraphs[0].Append(j.ToString());
                     t.Rows[j].Cells[0].Paragraphs[0].Append(data[k].Name.ToString());
+                    t.Rows[j].Cells[1].Paragraphs[0].Append(data[k].Department.ToString());
                     //t.Rows[j].Cells[1].Paragraphs[0].Append(data[k].Name.ToString());
                     //t.Rows[j].Cells[1].Paragraphs[0].Append(model.reportCalendarData[k].startDate.ToString());
                     //t.Rows[j].Cells[2].Paragraphs[0].Append(model.reportCalendarData[k].province.ToString());
@@ -3244,22 +3246,22 @@ namespace InspecWeb.Controllers
                         {
                             if (testData[kk].TrainingCondition.Name == "เกณฑ์รับสมัครต้องมีอายุอยู่ระหว่าง")
                             {
-                                t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
+                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
                             }
                             else
                             {
-                                t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
+                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
                             }
                         }
                         else if (testData[kk].Status == 0)
                         {
                             if (testData[kk].TrainingCondition.Name == "เกณฑ์รับสมัครต้องมีอายุอยู่ระหว่าง")
                             {
-                                t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
+                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + " " + testData[kk].TrainingCondition.StartYear.ToString() + " - " + testData[kk].TrainingCondition.EndYear.ToString() + "\t\t" + "ผ่านคุณสมบัติ" + "\n");
                             }
                             else
                             {
-                                t.Rows[j].Cells[1].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ไม่ผ่านคุณสมบัติ" + "\n");
+                                t.Rows[j].Cells[2].Paragraphs[0].Append(testData[kk].TrainingCondition.Name.ToString() + "\t\t" + "ไม่ผ่านคุณสมบัติ" + "\n");
                             }
                         }
 

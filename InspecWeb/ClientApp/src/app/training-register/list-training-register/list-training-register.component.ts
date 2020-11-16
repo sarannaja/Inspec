@@ -8,7 +8,11 @@ import { delay } from 'lodash';
 import * as moment from 'moment';
 import { ExportReportService } from 'src/app/services/export-report.service';
 
+
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LogService } from 'src/app/services/log.service';
+import { NotofyService } from 'src/app/services/notofy.service';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-list-training-register',
@@ -31,7 +35,11 @@ export class ListTrainingRegisterComponent implements OnInit {
   url = ""
 
   constructor(private modalService: BsModalService,
+    private authorize: AuthorizeService,
+    private _NotofyService: NotofyService,
     private spinner: NgxSpinnerService,
+    private logService: LogService,
+    
     private fb: FormBuilder,
     private trainingservice: TrainingService,
     public share: TrainingService,
@@ -46,7 +54,7 @@ export class ListTrainingRegisterComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.spinner.show();
     this.dtOptions = {
       pagingType: 'full_numbers',
       columnDefs: [
@@ -78,8 +86,7 @@ export class ListTrainingRegisterComponent implements OnInit {
 
 
 
-    this.getData()
-
+    this.getData();
 
     // this.trainingservice.gettrainingdata2(id)
     // .subscribe(result => {
@@ -185,10 +192,11 @@ export class ListTrainingRegisterComponent implements OnInit {
             //   //console.log("resultresultresult", arrresulttraining);
             // }, 200)
             // console.log("this.resulttrainingCondition", this.resulttrainingCondition);
-
+            this.spinner.hide();
           })
+          
       })
-      this.spinner.hide();
+      
 
   }
 
