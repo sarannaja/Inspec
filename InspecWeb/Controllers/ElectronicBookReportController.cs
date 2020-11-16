@@ -72,6 +72,7 @@ namespace InspecWeb.Controllers
                 Picture picture = image.CreatePicture(85, 85);
                 var logo = document.InsertParagraph();
                 logo.AppendPicture(picture).Alignment = Alignment.center;
+                document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
 
                 System.Console.WriteLine("5");
 

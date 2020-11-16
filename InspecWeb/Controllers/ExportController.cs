@@ -375,6 +375,7 @@ namespace InspecWeb.Controllers
                 {
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
 
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
@@ -548,7 +549,7 @@ namespace InspecWeb.Controllers
                 {
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
                     {
@@ -721,7 +722,7 @@ namespace InspecWeb.Controllers
                 {
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
-
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     int l = 0;
                     for (int i = 0; i < model.reportData2.Length; i++)
                     {
@@ -892,6 +893,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("in รายหน่วยงาน");
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
 
@@ -1070,6 +1072,7 @@ namespace InspecWeb.Controllers
                 System.Console.WriteLine("in รายภาค");
                 using (DocX document = DocX.Create(createfile))
                 {
+                    document.SetDefaultFont(new Xceed.Document.NET.Font("ThSarabunNew"));
                     // document.DifferentOddAndEvenPages = true;
                     // document.Sections[i].DifferentFirstPage = true;
 

@@ -27,7 +27,7 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <h4>แผนการตรวจ</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">แผนการตรวจ</h4>
           <div *ngIf="electronicBookData.electronicBook.centralPolicy != null">
             <input type="text" class="form-control" value="{{electronicBookData.electronicBook.centralPolicy}}"
               readonly>
@@ -78,7 +78,7 @@
           </div>
         </div>
         <div *ngIf="electronicBookData.electronicBook.centralPolicy == null">
-          <h4>ผู้ตรวจราชการจากกำหนดการตรวจ</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">ผู้ตรวจราชการจากกำหนดการตรวจ</h4>
           <div
             *ngIf="electronicBookData.ebookInvite.length == 0 || electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
             <u>ผู้ตรวจราชการกระทรวง:</u>
@@ -106,7 +106,7 @@
           <br>
           <div
             *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
-            <h4>ผู้ตรวจราชการเพิ่มเติม</h4>
+            <h4 class="card-title" style="font-size: larger; font-weight: bold;">ผู้ตรวจราชการเพิ่มเติม</h4>
             <div
               *ngIf="electronicBookData.ebookInvite.length > 0 && electronicBookData.electronicBook.status == 'ร่างกำหนดการ'">
               <u>ผู้ตรวจราชการกระทรวง:</u>
@@ -145,7 +145,7 @@
               aria-controls="ministryInvites"></i>
             <div class="collapse" id="ministryInvites">
               <div *ngFor="let items of electronicBookData.ebookInvite; let index = index" style="margin-left: 20px;">
-                <div *ngIf="items.user.role_id == 6" class="row" style="margin-left: 5px; margin-top: 5px;">
+                <div *ngIf="items.user.role_id == 6" class="row col-12" style="margin-left: 5px; margin-top: 5px;">
                   <label *ngIf="items.user.role_id == 6" style="font-size: medium;">- {{items.user.prefix}}
                     {{items.user.name}} -
                     {{items.user.ministries.name}}</label>
@@ -169,11 +169,11 @@
                 <div *ngIf="items.status == 'ลงความเห็นแล้ว' && items.user.role_id == 6" class="form-group"
                   style="margin-left: 20px; margin-right: 80px;">
                   <div class="row col-12">
-                    <div class="col-10">
+                    <div class="col-12 col-md-10">
                       <textarea cols="30" rows="5" style="border-radius: 15px;" class="form-control container"
                         ngModel="{{items.description}}" placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
-                    <div class="col-2" style="text-align: center;">
+                    <div class="col-12 col-md-2" style="text-align: center;">
                       <div *ngIf="items.user.signature != null && items.user.signature != 'null' && items.user.signature != ''">
                         <img class="rounded" *ngIf="items.user.role_id == 6"
                           src="{{signUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
@@ -223,11 +223,11 @@
                 <div *ngIf="items.status == 'ลงความเห็นแล้ว' && items.user.role_id == 10" class="form-group"
                   style="margin-left: 20px; margin-right: 80px;">
                   <div class="row col-12">
-                    <div class="col-10">
+                    <div class="col-12 col-md-10">
                       <textarea cols="30" rows="5" style="border-radius: 15px;" class="form-control container"
                         ngModel="{{items.description}}" placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
-                    <div class="col-2" style="text-align: center;">
+                    <div class="col-12 col-md-2" style="text-align: center;">
                       <div *ngIf="items.user.signature != null && items.user.signature != 'null' && items.user.signature != ''">
                         <img class="rounded" *ngIf="items.user.role_id == 10"
                           src="{{signUrl}}/{{items.user.signature}}" alt="" style="width: 100px; height: 100px;">
@@ -263,9 +263,9 @@
 
         <div class="form-group" *ngIf="electronicBookData.electronicBookSuggestion.length > 0"
           style="margin-left: 15px; margin-right: 21px;">
-          <h4>คำแนะนำ</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">คำแนะนำ</h4>
           <div *ngFor="let items of electronicBookData.electronicBookSuggestion">
-            <h5 style="margin-top: 15px;">{{items.centralPolicyEvent.centralPolicy.title}}</h5>
+            <h5 class="card-title" style="margin-top: 15px;">{{items.centralPolicyEvent.centralPolicy.title}}</h5>
             <textarea cols="30" rows="5" class="form-control container" ngModel="{{items.suggestion}}"
               placeholder="ไม่มีข้อมูล" readonly></textarea>
           </div>
@@ -284,7 +284,7 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
                       <textarea cols="30" rows="5" formControlName="detail" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -297,7 +297,7 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค
                       </h4>
                       <textarea cols="30" rows="5" formControlName="problem" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
@@ -310,7 +310,7 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
                       <textarea cols="30" rows="5" formControlName="suggestion" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -385,7 +385,7 @@
           <hr>
           <div class="col-12 ml-2">
             <div class="row">
-              <h4>ลายมือชื่อผู้ว่าราชการจังหวัด</h4>
+              <h4 class="card-title" style="font-size: larger; font-weight: bold;">ลายมือชื่อผู้ว่าราชการจังหวัด</h4>
               <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;" id="Province"
                 data-toggle="collapse" [attr.data-target]="'#Provinces'" aria-expanded="false"
                 aria-controls="Provinces"></i>
@@ -412,14 +412,14 @@
                 <div *ngIf="items2.status == 'ลงนามเอกสารแล้ว'" class="form-group"
                   style="margin-left: 20px; margin-right: 80px;">
                   <div class="row col-12">
-                    <div class="col-10">
+                    <div class="col-12 col-md-10">
                       <!-- <textarea cols="30" rows="5" style="border-radius: 15px;" class="form-control container"
                         [(ngModel)]='items2.description' placeholder="ไม่มีข้อมูล" readonly></textarea> -->
                       <textarea cols="30" rows="5" ngModel="{{items2.description}}" class="form-control container"
                         placeholder="กรุณากรอกผลการตรวจ" readonly>
                       </textarea>
                     </div>
-                    <div class="col-2" style="text-align: center;">
+                    <div class="col-12 col-md-2" style="text-align: center;">
                       <div *ngIf="items2.user.signature != null && items2.user.signature != 'null' && items2.user.signature != ''">
                         <img class="rounded" src="{{signUrl}}/{{items2.user.signature}}" alt=""
                           style="width: 100px; height: 100px;">
@@ -445,7 +445,7 @@
           <hr>
           <div class="col-12 ml-2">
             <div class="row">
-              <h4>หน่วยรับตรวจ</h4>
+              <h4 class="card-title" style="font-size: larger; font-weight: bold;">หน่วยรับตรวจ</h4>
               <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: large; cursor: pointer;"
                 id="Department" data-toggle="collapse" [attr.data-target]="'#Departments'" aria-expanded="false"
                 aria-controls="Departments"></i>
@@ -470,11 +470,11 @@
                 <div *ngIf="items.status == 'ดำเนินการแล้ว'" class="form-group"
                   style="margin-left: 20px; margin-right: 80px;">
                   <div class="row col-12">
-                    <div class="col-10">
+                    <div class="col-12 col-md-10">
                       <textarea cols="30" rows="5" style="border-radius: 15px;" class="form-control container"
                         [(ngModel)]='items.description' placeholder="ไม่มีข้อมูล" readonly></textarea>
                     </div>
-                    <div class="col-2" style="text-align: center;">
+                    <div class="col-12 col-md-2" style="text-align: center;">
                       <div *ngIf="items.userProvincialDepartment.signature != null && items.userProvincialDepartment.signature != 'null' && items.userProvincialDepartment.signature != ''">
                         <img class="rounded" src="{{signUrl}}/{{items.userProvincialDepartment.signature}}" alt=""
                           style="width: 100px; height: 100px;">
@@ -542,7 +542,7 @@
         <form [formGroup]="Form" (ngSubmit)="editSuggestion(Form.value)">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">แก้ไขสมุดตรวจอิเล็กทรอนิกส์</h5>
+              <h5 class="modal-title card-title">แก้ไขสมุดตรวจอิเล็กทรอนิกส์</h5>
               <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -552,7 +552,7 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
                       <textarea cols="30" rows="5" formControlName="detail" class="form-control"
                         placeholder="กรุณากรอกผลการตรวจ">
                       </textarea>
@@ -565,7 +565,7 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
                       <textarea cols="30" rows="5" formControlName="problem" class="form-control"
                         placeholder="กรุณากรอกปัญหาและอุปสรรค">
                       </textarea>
@@ -577,7 +577,7 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
                       <textarea cols="30" rows="5" formControlName="suggestion" class="form-control"
                         placeholder="กรุณากรอกข้อเสนอแนะ">
                       </textarea>
@@ -627,7 +627,7 @@
         <form [formGroup]="Form2" (ngSubmit)="storeMorePeople(Form2.value)">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">เชิญผู้ร่วมตรวจราชการ</h5>
+              <h5 class="modal-title card-title">เชิญผู้ร่วมตรวจราชการ</h5>
               <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

@@ -25,7 +25,7 @@
       </div>
       <div class="card-body">
         <div class="form-group">
-          <h4>แผนการตรวจ</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">แผนการตรวจ</h4>
           <div *ngIf="electronicBookData.electronicBook.centralPolicy != null">
             <input type="text" class="form-control" value="{{electronicBookData.electronicBook.centralPolicy}}"
               readonly>
@@ -188,11 +188,11 @@
 
         <div class="form-group" *ngIf="provincialData.electronicBookOtherAccepts.length > 0"
           style="margin-left: 15px; margin-right: 21px;">
-          <h4>ส่งต่อให้หน่วยรับตรวจ</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">ส่งต่อให้หน่วยรับตรวจ</h4>
           <div *ngFor="let items of provincialData.electronicBookOtherAccepts; let i = index" class="ml-2">
             <div class="row">
-              <h5 style="margin-top: 15px;">{{i + 1}}) {{items.provincialDepartment.name}}</h5>
-              <h5 *ngIf="items.status == 'ดำเนินการแล้ว'"
+              <h5 class="card-title" style="margin-top: 15px;">{{i + 1}}) {{items.provincialDepartment.name}}</h5>
+              <h5 class="card-title" *ngIf="items.status == 'ดำเนินการแล้ว'"
                 style="margin-left: 10px; margin-top: 15px; font-weight: bold; color: green;">รับทราบแล้ว</h5>
             </div>
             <textarea cols="30" rows="5" class="form-control container" ngModel="{{items.description}}"
@@ -224,7 +224,7 @@
         <br>
 
         <div *ngIf="ebookProvincialDepartment.description != null">
-          <h4>ดำเนินการแล้ว</h4>
+          <h4 class="card-title" style="font-size: larger; font-weight: bold;">ดำเนินการแล้ว</h4>
           <textarea cols="30" rows="5" [(ngModel)]="ebookProvincialDepartment.description"
             class="form-control container" placeholder="ไม่มีข้อมูล" readonly></textarea>
           <br>
@@ -237,7 +237,8 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-poll-h" style="margin-right: 5px;"></i> ผลการตรวจ</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i class="fas fa-poll-h"
+                          style="margin-right: 5px;"></i> ผลการตรวจ</h4>
                       <textarea cols="30" rows="5" formControlName="detail" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -250,7 +251,8 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i
+                          class="fas fa-exclamation-triangle" style="margin-right: 5px;"></i> ปัญหาและอุปสรรค</h4>
                       <textarea cols="30" rows="5" formControlName="problem" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -262,7 +264,8 @@
                 <div class="row">
                   <div class="col-12" style="padding-left: 0;">
                     <div class="form-group">
-                      <h4><i class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
+                      <h4 class="card-title" style="font-size: larger; font-weight: bold;"><i
+                          class="fas fa-comment-medical" style="margin-right: 5px;"></i> ข้อเสนอแนะ</h4>
                       <textarea cols="30" rows="5" formControlName="suggestion" class="form-control"
                         placeholder="ไม่มีข้อมูล" readonly>
                       </textarea>
@@ -322,12 +325,13 @@
         </form>
         <div *ngIf="ebookProvincialDepartment.description == null" class="form-group col col-lg-12"
           style="margin-top: 20px; text-align: center;">
+          <button *ngIf="provincialData.electronicBookOtherAccepts.length == 0" class="btn btn-success"
+            style="margin-right: 45px;" (click)="openModal(sendToOtherModal)">ส่งต่อให้หน่วยรับตรวจอื่น</button>
           <button class="btn btn-primary" style="margin-right: 45px;"
             (click)="openModal(addSignature)">รับทราบรายการสมุดตรวจ</button>
           <!-- <button *ngIf="signature == null" class="btn btn-primary" style="margin-right: 45px;"
             (click)="openAlertModal(signatureModal)">รับทราบรายการสมุดตรวจ</button> -->
-          <button *ngIf="provincialData.electronicBookOtherAccepts.length == 0" class="btn btn-success"
-            style="margin-right: 45px;" (click)="openModal(sendToOtherModal)">ส่งต่อให้หน่วยรับตรวจอื่น</button>
+
           <button type="button" class="btn btn-danger" (click)="goBack()">กลับ</button>
         </div>
         <div *ngIf="electronicBookData.electronicBookDepartment.status == 'ดำเนินการแล้ว'"
@@ -340,7 +344,7 @@
         <form [formGroup]="submitForm" (ngSubmit)="postSignature(submitForm.value)">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">รับทราบรายการสมุดตรวจ</h5>
+              <h5 class="modal-title card-title">รับทราบรายการสมุดตรวจ</h5>
               <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -391,7 +395,7 @@
         <form [formGroup]="otherDepartmentForm" (ngSubmit)="sendToOtherProvince(otherDepartmentForm.value)">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">ส่งต่อให้หน่วยรับตรวจอื่น</h5>
+              <h5 class="modal-title card-title">ส่งต่อให้หน่วยรับตรวจอื่น</h5>
               <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
