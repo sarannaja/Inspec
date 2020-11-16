@@ -2,7 +2,7 @@
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard-default.html">หน้าหลัก</a></li>
+      <li class="breadcrumb-item"><a href="/main">หน้าหลัก</a></li>
       <li class="breadcrumb-item"><a href="javascript:void(0)">ทะเบียนรายงานผลการตรวจราชการ</a></li>
     </ol>
   </nav>
@@ -13,9 +13,14 @@
       <div class="card-header">
         <h5 class="card-title">ทะเบียนรายงานผลการตรวจราชการ</h5>
         <div class="float-right">
-          <button class="btn btn-primary" (click)="openModal(modalAllReport)" style="margin-top: -60px;">
+          <!-- <button class="btn btn-primary" (click)="openModal(modalAllReport)" style="margin-top: -60px;">
             <i class="fas fa-file-export mr-1"></i>ออกรายงาน
+          </button> -->
+
+          <button class="btn btn-primary" style="margin-top: -60px;" (click)="openModal(modalReportAll)">พิมพ์รายงาน
           </button>
+
+
         </div>
       </div>
       <!-- <div class="card-header col-12">
@@ -226,3 +231,100 @@
 <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner> -->
+
+<!-- BEGIN primary modal -->
+<ng-template #modalReportAll class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <form [formGroup]="reportForm" (ngSubmit)="ExportAll(reportForm.value)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">รายงานกำหนดการตรวจราช</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-12">
+
+        <div class="col-12 col-xl-12">
+          <div class="form-group">
+            <label class="form-label">ปีงบประมาณ</label>
+            <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกปีงบประมาณ" [multiple]="false"
+              [items]="fiscalYearData" formControlName="fiscalYear" (change)="selectFiscalYear($event)">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="form-group ml-4 mr-4">
+          <label for="test" class="form-label">ภาค</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกภาค" [multiple]="false"
+            (change)="selectZone()" [items]="zoneData" formControlName="zone">
+          </ng-select>
+        </div>
+
+        <div class="form-group ml-4 mr-4">
+          <label for="test" class="form-label">ชื่อ - นามกุล</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกชื่อ - นามกุล" [multiple]="false"
+            (change)="selectPresident()" [items]="presidentData" formControlName="president">
+          </ng-select>
+        </div>
+
+        <div class="form-group ml-4 mr-4">
+          <label for="test" class="form-label">เขตตรวจราชการ</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"
+            (change)="selectRegion($event)" [items]="regionData" formControlName="region">
+          </ng-select>
+        </div>
+
+        <div class="form-group ml-4 mr-4">
+          <label for="test" class="form-label">จังหวัด</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกเขตตรวจราชการ" [multiple]="false"
+            (change)="selectProvince($event)" [items]="provinceData" formControlName="province">
+          </ng-select>
+        </div>
+
+        <div class="form-group ml-4 mr-4">
+          <label for="test" class="form-label">หน่วยงาน</label>
+          <ng-select bindLabel="label" bindValue="value" placeholder="กรุณาเลือกหน่วยงาน" [multiple]="false"
+            [items]="departmentData" formControlName="department">
+          </ng-select>
+        </div>
+
+        <div class="col-12 col-xl-12">
+          <label>วันที่</label>
+        </div>
+        <div class="col-12 ml-3">
+          <div class="form-group row" *ngFor="let item of d.controls; let i = index">
+            <form class="form-group row col-12" [formGroup]="item">
+              <div class="col-12 col-xl-12">
+                <div class="form-group">
+                  <my-date-picker-th formControlName="start_date" [(ngModel)]="item.start_date"
+                    [options]="myDatePickerOptions" onchange="" required (dateChanged)="onStartDateChanged($event)">
+                  </my-date-picker-th>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Export</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide()" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
+</ng-template>
+<!-- END primary modal -->
+
+<ng-template #alertModal class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-body text-center" style="background-color: white; border-radius: 5px;">
+    <i class="fa fa-info-circle delete-icon"></i>
+    <p style="font-size: xx-large; color: #565656; margin-top: 20px;">
+      ขออภัย
+    </p>
+    <p style="font-size: medium; color: #545454;">
+      ไม่มีข้อมูลในระบบ
+    </p>
+  </div>
+</ng-template>

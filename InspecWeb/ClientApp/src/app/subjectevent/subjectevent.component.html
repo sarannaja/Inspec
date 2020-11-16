@@ -10,40 +10,14 @@
 <!-- <form class="row"> -->
 <div class="col-12">
   <div class="card card-eiei">
-    <div class="card-header" style="margin-bottom: -40px;">
+    <div class="card-header">
       <h5 class="card-title">ประเด็นการตรวจติดตาม</h5>
 
-      <div class="row col-8 float-left">
-        <div class="col-5">
-          <div class="form-group">
-            <my-date-picker-th [options]="myDatePickerOptions" [(ngModel)]="start_date_search"
-              (dateChanged)="onDateChangedstart($event)">
-            </my-date-picker-th>
-          </div>
-        </div>
-        <div class="col-2">
-          <div class="form-group" align="center">
-            ถึง
-          </div>
-        </div>
-        <div class="col-5">
-          <div class="form-group">
-            <my-date-picker-th [options]="myDatePickerOptions" [(ngModel)]="end_date_search"
-              (dateChanged)="onDateChangedend($event)">
-            </my-date-picker-th>
-          </div>
-        </div>
-      </div>
-
-      <i class="align-middle fas fa-fw fa-search pointer" title="ค้นหา" (click)="Search()"></i>&nbsp;
-      <i class="align-middle fas fa-fw fa-sync-alt pointer" title="รีโหลด" (click)="Refresh()"></i>
-
-      <div class="float-right">
-        <button class="btn btn-primary" style="margin-top: -60px;"
-          (click)="reportModalReport(modalreport)">รายงาน</button>
+      <div class="float-right mb-2" *ngIf="role_id == 3 || role_id == 6 || role_id == 10">
+        <button class="btn btn-primary" (click)="reportModalReport(modalreport)">พิมพ์รายงาน</button>
         &nbsp;&nbsp;
         <button *ngIf="role_id == 3 || role_id == 6 || role_id == 10" class="btn btn-primary"
-          title="เพิ่มกำหนดการตรวจราชการ" style="margin-top: -60px;" (click)="openModal(modalProvince)">
+          title="เพิ่มเรื่องที่ตรวจติดตาม" (click)="openModal(modalProvince)">
           <i class="align-middle fas fa-fw fa-plus pointer"></i></button>
 
         <!-- <button class="btn btn-primary" (click)="openModal(modalAddSubjectFromCalendar)"
@@ -53,6 +27,36 @@
           style="margin-top: -60px;">เพิ่มประเด็นการตรวจติดตาม</button> -->
 
       </div>
+
+      <div class="row col-12 col-sm-9 mt-2 float-left">
+        <div class="col-12 col-md-3">
+          <div class="form-group">
+            <my-date-picker-th [options]="myDatePickerOptions" [(ngModel)]="start_date_search"
+              (dateChanged)="onDateChangedstart($event)">
+            </my-date-picker-th>
+          </div>
+        </div>
+        <div class="col-12 col-md-1">
+          <div class="form-group" align="center">
+            ถึง
+          </div>
+        </div>
+        <div class="col-12 col-md-3">
+          <div class="form-group">
+            <my-date-picker-th [options]="myDatePickerOptions" [(ngModel)]="end_date_search"
+              (dateChanged)="onDateChangedend($event)">
+            </my-date-picker-th>
+          </div>
+        </div>
+        <div class="col-12 col-md-2">
+          <button (click)="Search()" class="btn btn-primary"><i class="align-middle fas fa-fw fa-search pointer"
+              title="ค้นหา"></i></button>&nbsp;
+          <button (click)="Refresh()" class="btn btn-primary"><i class="align-middle fas fa-fw fa-sync-alt pointer"
+              title="รีโหลด"></i></button>
+        </div>
+      </div>
+
+
     </div>
     <div class="card-body">
       <table *ngIf="loading" class="table table-striped table-hover table-responsive-lg" datatable

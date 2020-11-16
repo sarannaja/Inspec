@@ -169,6 +169,7 @@ export class DetailSubjecteventComponent implements OnInit {
   select = []
   answerpeople: any = []
   answerRecommenDationInspectors: any = []
+  checkname: any[] = []
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
@@ -593,7 +594,19 @@ export class DetailSubjecteventComponent implements OnInit {
     // alert("123")
     this.centralpolicyservice.getSubjecteventdetaildata(this.id, this.subjectgroupid)
       .subscribe(result => {
+
         this.resultdetailcentralpolicyprovince = result.subjectcentralpolicyprovincedata
+
+        for (let i = 0; i < result.subjectcentralpolicyprovincedata.length; i++) {
+          this.checkname[i] = result.subjectcentralpolicyprovincedata[i].name;
+        }
+
+        console.log("this.checkname", this.checkname)
+        // for(){
+
+        // }
+        // this.checkname =
+
         this.subjectgroup = result.subjectgroup
 
         //console.log("this.subjectgroup", this.subjectgroup);

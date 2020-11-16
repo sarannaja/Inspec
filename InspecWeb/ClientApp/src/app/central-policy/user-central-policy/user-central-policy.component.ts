@@ -339,9 +339,9 @@ export class UserCentralPolicyComponent implements OnInit {
 
         var checked = _.filter(this.resultministrypeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
         if (checked > 0) {
-          if (this.ministryId == this.resultministrypeople[i].ministryId) {
+          // if (this.ministryId == this.resultministrypeople[i].ministryId) {
             await this.selectdataministrypeople.push({ value: this.resultministrypeople[i].id, label: this.resultministrypeople[i].ministries.name + " - " + this.resultministrypeople[i].name })
-          }
+          // }
         }
 
       }
@@ -372,9 +372,9 @@ export class UserCentralPolicyComponent implements OnInit {
       for (var i = 0; i < this.resultdepartmentpeople.length; i++) {
         var checked = _.filter(this.resultdepartmentpeople[i].userProvince, (v) => _.includes(this.userProvince.map(result => { return result.provinceId }), v.provinceId)).length
         if (checked > 0) {
-          if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
+          // if (this.ministryId == this.resultdepartmentpeople[i].ministryId) {
             await this.selectdatadepartmentpeople.push({ value: this.resultdepartmentpeople[i].id, label: this.resultdepartmentpeople[i].ministries.name + " - " + this.resultdepartmentpeople[i].name })
-          }
+          // }
         }
       }
 
